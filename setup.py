@@ -29,8 +29,10 @@ setup(
 	test_suite = 'nose.collector',
 	entry_points=\
 	"""
-        [ckan.plugins]
+    [ckan.plugins]
 	# Add plugins here, eg
-	# myplugin=ckanext.qa:QA
+	qa=ckanext.qa:QA
+	[paste.paster_command]
+	package-scores = ckanext.qa.commands.package_score:PackageScore
 	""",
 )

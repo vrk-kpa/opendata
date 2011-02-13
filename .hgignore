@@ -3,3 +3,5 @@ syntax: glob
 *.egg-info
 *.orig
 .coverage
+build
+*.egg
