@@ -103,7 +103,7 @@ class TestCheckURL(BaseCase):
 
     @raises(TemporaryFetchError)
     def test_timeout_raises_temporary_fetch_error(self):
-        with patch('ckan.lib.package_scorer.url_timeout', 0.5):
+        with patch('ckanext.qa.lib.package_scorer.url_timeout', 0.5):
             def test():
                 with MockTimeoutTestServer(2).serve() as serveraddr:
                     response = response_for_url(serveraddr)
@@ -207,15 +207,15 @@ class TestCheckPackageScore(BaseCase):
         mock_datetime = Mock()
         mock_datetime.now.return_value = base_time
 
-        with patch('ckan.lib.package_scorer.datetime', mock_datetime):
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
             update_package_score(package)
         assert next_check_time(package) == base_time + retry_interval
 
-        with patch('ckan.lib.package_scorer.datetime', mock_datetime):
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
             update_package_score(package, force=True)
         assert next_check_time(package) == base_time + 2 * retry_interval
 
-        with patch('ckan.lib.package_scorer.datetime', mock_datetime):
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
             update_package_score(package, force=True)
         assert next_check_time(package) == base_time + 4 * retry_interval
 
@@ -226,6 +226,6 @@ class TestCheckPackageScore(BaseCase):
         mock_datetime = Mock()
         mock_datetime.now.return_value = base_time
 
-        with patch('ckan.lib.package_scorer.datetime', mock_datetime):
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
             update_package_score(package)
         assert next_check_time(package) == base_time + retry_interval, next_check_time(package)

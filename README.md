@@ -13,7 +13,7 @@ To install the plugin, enter your virtualenv and load the source::
 
 You can run the test suite for ckanext-qa:
 
- (ckan)$ python setup.py test
+ (ckan)$ nosetests -x tests/ --ckan --with-pylons=../ckan/test.ini
 
 This will also register a plugin entry point, so you now should be 
 able to add the following to your CKAN .ini file::
