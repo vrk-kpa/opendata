@@ -58,13 +58,16 @@ def with_package_resources(*resource_urls):
                 package.resources.append(r)
 
             repo.commit()
+
             try:
                 return func(*(args + (package,)), **kwargs)
             finally:
                 for r in resources:
                     Session.delete(r)
-                for extra in Session.query(PackageExtra).filter(PackageExtra.package_id == package.id).all():
-                    Session.delete(extra)
+                    
+                package.extras = {}
+                Session.flush()
+                
                 Session.delete(package)
                 repo.commit_and_remove()
         return decorated

@@ -1,1 +1,34 @@
-Quality Assurance
+<html xmlns:py="http://genshi.edgewall.org/"
+  xmlns:i18n="http://genshi.edgewall.org/i18n"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  py:strip="">
+
+  <py:def function="page_title">Quality Assurance</py:def>
+
+  <py:def function="optional_head">
+    <!--[if IE]><script language="javascript" type="text/javascript" src="http://assets.okfn.org/ext/flot/0.6/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="http://assets.okfn.org/ext/flot/0.6/jquery.flot.min.js">//pointless jscript comment</script>
+  </py:def>
+
+  <div py:match="content">
+    <h1>Quality Assurance</h1>
+  
+    <h3>Broken packages</h3>
+    <table>
+      <tr><th>Package name</th><th>Number of broken links</th></tr>
+      <tr py:for="group, num_packages in c.broken_packages">
+        <td>Package name</td><td>Number of broken links</td>
+      </tr>
+    </table>
+
+    <p>
+      Page last updated:
+       <?python 
+          import datetime
+       ?>
+      ${datetime.datetime.now().strftime('%c')}
+    </p>
+  </div>
+
+  <xi:include href="../../layout.html" />
+</html>

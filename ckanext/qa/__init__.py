@@ -9,13 +9,14 @@ except ImportError:
 import os
 from logging import getLogger
 from ckan.plugins import implements, SingletonPlugin
-from ckan.plugins import IRoutes
+from ckan.plugins import IRoutes, IConfigurer
 
 log = getLogger(__name__)
 
 class QA(SingletonPlugin):
     
     implements(IRoutes, inherit=True)
+    implements(IConfigurer, inherit=True)
     
     def after_map(self, map):
         map.connect('qa', '/qa',
