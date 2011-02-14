@@ -11,14 +11,20 @@ To install the plugin, enter your virtualenv and load the source::
 
  (ckan)$ pip install -e hg+https://bitbucket.org/okfn/ckanext-qa#egg=ckanext-qa
 
-You can run the test suite for ckanext-qa:
-
- (ckan)$ nosetests -x tests/ --ckan --with-pylons=../ckan/test.ini
-
 This will also register a plugin entry point, so you now should be 
 able to add the following to your CKAN .ini file::
 
  ckan.plugins = qa <other-plugins>
- 
-After clearing your cache and reloading the web server, comments 
-should now be available on package pages and on the home page.
+  
+After you clear your cache and reload the site, the Quality Assurance plugin
+and openness score interface should be available at http://myckaninstance/qa
+
+You can run the test suite for ckanext-qa:
+
+ (ckan)$ nosetests -x tests/ --ckan --with-pylons=path/to/your/test.ini
+
+You can run the paster entry point to update or clean up package-scores
+using the following command::
+
+ (ckan)$ paster package-scores [update|clean]
+
