@@ -6,8 +6,12 @@ import urllib2
 from nose.tools import raises
 from mock import patch, Mock
 
+from paste.deploy import appconfig
+import paste.fixture
+
+from ckan.config.middleware import make_app
 from ckan.model import Package, PackageResource, PackageExtra
-from ckan.tests import BaseCase
+from ckan.tests import BaseCase, conf_dir, url_for, CreateTestData
 from ckan.lib.base import _
 from ckan.lib.create_test_data import CreateTestData
 from ckanext.qa.lib.package_scorer import \
@@ -109,7 +113,23 @@ class TestCheckURL(BaseCase):
                     response = response_for_url(serveraddr)
             test()
 
+class TestQAController(BaseCase):
+    @classmethod
+    def setup_class(cls):
+        config = appconfig('config:test.ini', relative_to=conf_dir)
+        config.local_conf['ckan.plugins'] = 'qa'
+        wsgiapp = make_app(config.global_conf, **config.local_conf)
+        cls.app = paste.fixture.TestApp(wsgiapp)
+        CreateTestData.create()
+        
+    @classmethod
+    def teardown_class(self):
+        CreateTestData.delete()
 
+    def test_index(self):
+        url = url_for('/qa', action='index')
+        response = self.app.get(url)
+        assert 'Quality Assurance' in response, response
 
 class TestCheckURLScore(BaseCase):
 
