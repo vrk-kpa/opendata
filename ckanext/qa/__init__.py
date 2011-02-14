@@ -9,17 +9,20 @@ except ImportError:
 import os
 from logging import getLogger
 from ckan.plugins import implements, SingletonPlugin
+from ckan.plugins import IRoutes
 
 log = getLogger(__name__)
 
 class QA(SingletonPlugin):
+    
+    implements(IRoutes, inherit=True)
+    
     def after_map(self, map):
-        map.connect('/qa',
-          controller='ckanext.qa:QAController',
-          action='index')
-        map.connect('/qa/:action',
-          controller='ckanext.qa:QAController',
-          )
+        map.connect('qa', '/qa',
+            controller='ckanext.qa.controller:QAController',
+            action='index')
+        map.connect('qa_action', '/qa/{action}',
+            controller='ckanext.qa.controller:QAController')
         return map
 
     def update_config(self, config):
@@ -31,10 +34,4 @@ class QA(SingletonPlugin):
                 config.get('extra_public_paths', '')])
         config['extra_template_paths'] = ','.join([template_dir,
                 config.get('extra_template_paths', '')])
-                
-                        
-from ckan.lib.base import BaseController, c, g, request, response, session, render, config, abort
-import ckan.authz
-class QAController(BaseController):
-    def index(self):
-        render('ckanext/qa/index.html')
+
