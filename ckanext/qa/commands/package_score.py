@@ -1,21 +1,40 @@
-from paste.script.command import Command
+import os
+
+from paste.deploy import loadapp, appconfig
+from paste.script.command import Command, BadCommand
+
+from ckan.config.environment import load_environment
 
 class PackageScore(Command):
     '''Manage the ratings stored in the db
 
     Usage:
-      package-scores update         - update all package scores
-      package-scores clean          - remove all package score information
+      package-scores update [config_file]         - update all package scores
+      package-scores clean [config_file]          - remove all package score information
     '''
 
     summary = __doc__.split('\n')[0]
     usage = __doc__
-    max_args = 1
+    max_args = 2
     min_args = 1
     parser = Command.standard_parser(verbose=False)
 
     def command(self):
-        from ckan import model
+        self.verbose = 3
+        if len(self.args) == 1:
+            # Assume the .ini file is ./development.ini
+            config_file = 'development.ini'
+            if not os.path.isfile(config_file):
+                raise BadCommand('%sError: CONFIG_FILE not found at: .%s%s\n'
+                                 'Please specify a CONFIG_FILE' % \
+                                 (self.parser.get_usage(), os.path.sep,
+                                  config_file))
+        else:
+            config_file = self.args[1]
+            
+        config_name = 'config:%s' % config_file
+        conf = appconfig(config_name, relative_to=".")
+        load_environment(conf.global_conf, conf.local_conf)
 
         cmd = self.args[0]
         if cmd == 'update':
