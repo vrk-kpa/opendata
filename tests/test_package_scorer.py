@@ -64,10 +64,9 @@ def with_package_resources(*resource_urls):
             finally:
                 for r in resources:
                     Session.delete(r)
-                    
+                
                 package.extras = {}
                 Session.flush()
-                
                 Session.delete(package)
                 repo.commit_and_remove()
         return decorated
