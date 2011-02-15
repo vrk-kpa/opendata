@@ -5,3 +5,4 @@ syntax: glob
 .coverage
 build
 *.egg
+.DS_Store
