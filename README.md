@@ -19,9 +19,9 @@ able to add the following to your CKAN .ini file::
 After you clear your cache and reload the site, the Quality Assurance plugin
 and openness score interface should be available at http://myckaninstance/qa
 
-You can run the test suite for ckanext-qa:
-
- (ckan)$ nosetests -x tests/ --ckan --with-pylons=path/to/your/test.ini
+You can run the test suite for ckanext-qa from the ckan directory:
+ (ckan)$ pip install nose mock
+ (ckan)$ nosetests -x path/to/ckanext-qa/tests --ckan
 
 You can run the paster entry point to update or clean up package-scores
 using the following command::

@@ -3,4 +3,5 @@ from ckan.lib.base import BaseController, c, g, request, response, session, rend
 class QAController(BaseController):
     def index(self):
         from pylons import tmpl_context as c
-        render('ckanext/qa/index.html')
+        c.broken_packages = []
+        return render('ckanext/qa/index.html')
