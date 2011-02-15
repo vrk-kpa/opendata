@@ -29,7 +29,12 @@ class QA(SingletonPlugin):
     def update_config(self, config):
         here = os.path.dirname(__file__)
         rootdir = os.path.dirname(os.path.dirname(here))
+
         template_dir = os.path.join(rootdir, 'templates')
+        public_dir = os.path.join(rootdir, 'public')
+        
         config['extra_template_paths'] = ','.join([template_dir,
                 config.get('extra_template_paths', '')])
+        config['extra_public_paths'] = ','.join([public_dir,
+                config.get('extra_public_paths', '')])
 

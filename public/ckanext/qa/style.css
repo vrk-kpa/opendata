@@ -1,0 +1,11 @@
+.qa-content {
+    width: 900px;
+}
+
+.qa-table tr.bad_link td {
+    background-color: pink;
+}
+
+.qa-table tr.good_link td {
+    background-color: lightgreen;
+}

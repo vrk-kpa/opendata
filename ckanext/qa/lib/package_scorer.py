@@ -241,6 +241,31 @@ def mean(values):
         return 0
     return sum(values, 0.0) / len(values)
 
+def resource_score(resource):
+    """
+    Score an individual resource for a packge. Store that information
+    int he extras JsonDictType on the resource. The score is a number in the
+    range 0-5. These scores are aggragted to create an overall package score.
+    """
+    
+    score, reason = url_score(resource.url)
+    if score is None:
+        score = resource.extras.get(PKGEXTRA.openness_score)
+        failure_count = resource.extras.get(PKGEXTRA.openness_score_failure_count, 0) + 1
+        if failure_count > max_retries:
+            score = 0
+            reason = u'%s; too many failures' % reason
+    else:
+        failure_count = 0
+    
+    resource.extras[PKGEXTRA.openness_score] = score
+    resource.extras[PKGEXTRA.openness_score_reason] = reason
+    resource.extras[PKGEXTRA.openness_score_failure_count] = failure_count
+    resource.extras[PKGEXTRA.openness_score_last_checked] = datetime.now().isoformat()
+    resource.extras[PKGEXTRA.openness_score_override] = None
+    
+    return score, reason
+    
 def package_score(package, aggregate_function=mean):
     """
     Attempt to load all resources listed and return a tuple of ``(<score>,
@@ -249,7 +274,7 @@ def package_score(package, aggregate_function=mean):
     breakdown of the reasons.
     """
 
-    scores = [url_score(resource.url) for resource in package.resources]
+    scores = [resource_score(resource) for resource in package.resources]
     if not scores:
         return None, None
     scores, reasons = zip(*scores)

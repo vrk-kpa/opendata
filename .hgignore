@@ -6,3 +6,5 @@ syntax: glob
 build
 *.egg
 .DS_Store
+dist
+development.ini
