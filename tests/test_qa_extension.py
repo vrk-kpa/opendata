@@ -11,11 +11,12 @@ class TestQAController:
         config.local_conf['ckan.plugins'] = 'qa'
         wsgiapp = make_app(config.global_conf, **config.local_conf)
         cls.app = paste.fixture.TestApp(wsgiapp)
-        CreateTestData.create()
+        #CreateTestData.create()
         
     @classmethod
     def teardown_class(self):
-        CreateTestData.delete()
+        #CreateTestData.delete()
+        pass
             
     def test_index(self):
         url = url_for('qa')
