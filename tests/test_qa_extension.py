@@ -21,3 +21,8 @@ class TestQAController:
         url = url_for('qa')
         response = self.app.get(url)
         assert 'Quality Assurance' in response, response
+        
+    def test_broken_packages(self):
+        url = url_for('qa_action', 'broken_packages')
+        response = self.app.get(url)
+        assert 'Broken packages' in response, response
