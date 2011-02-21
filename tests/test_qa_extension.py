@@ -22,7 +22,12 @@ class TestQAController:
         response = self.app.get(url)
         assert 'Quality Assurance' in response, response
         
-    def test_broken_packages(self):
-        url = url_for('qa_action', 'broken_packages')
+    def test_packages_with_broken_resource_links(self):
+        url = url_for('qa_action', 'packages_with_broken_resource_links')
         response = self.app.get(url)
-        assert 'Broken packages' in response, response
+        assert 'broken resource.' in response, response
+        
+    def test_package_openness_scores(self):
+        url = url_for('qa_action', 'package_openness_scores')
+        response = self.app.get(url)
+        assert 'openness scores' in response, response

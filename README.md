@@ -19,7 +19,7 @@ able to add the following to your CKAN .ini file::
 You can run the paster entry point to update or clean up package-scores
 from the plugin directory using the following command::
 
-  (ckan)$ paster package-scores [update|clean] --config=../ckan/development.ini
+ (ckan)$ paster package-scores [update|clean] --config=../ckan/development.ini
     
 After you clear your cache and reload the site, the Quality Assurance plugin
 and openness score interface should be available at http://myckaninstance/qa

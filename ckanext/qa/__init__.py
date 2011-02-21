@@ -18,12 +18,22 @@ class QA(SingletonPlugin):
     implements(IRoutes, inherit=True)
     implements(IConfigurer, inherit=True)
     
-    def after_map(self, map):
+    def before_map(self, map):
         map.connect('qa', '/qa',
-            controller='ckanext.qa.controller:QAController',
+            controller='ckanext.qa.controllers.view:ViewController',
             action='index')
+            
         map.connect('qa_action', '/qa/{action}',
-            controller='ckanext.qa.controller:QAController')
+            controller='ckanext.qa.controllers.view:ViewController')
+            
+        map.connect('qa_api', '/api/2/util/qa/{action}',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.api:ApiController')
+                
+        map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.api:ApiController')
+
         return map
 
     def update_config(self, config):

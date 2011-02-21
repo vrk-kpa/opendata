@@ -14,7 +14,8 @@
 <div py:match="content" class="qa-content">
   <h1>Quality Assurance</h1>
 
-  <h3>${h.link_to("Broken packages", h.url_for(controller='qa', action='broken_packages'))}</h3>
+  <h3>${h.link_to("Package openness score list.", h.url_for(controller='qa', action='package_openness_scores'))}</h3>
+  <h3>${h.link_to("Packages with minimum one (1) broken resource link.", h.url_for(controller='qa', action='packages_with_broken_resource_links'))}</h3>
   
   <p>
     Page last updated:
