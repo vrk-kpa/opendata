@@ -12,7 +12,7 @@ from ckan.tests import BaseCase, conf_dir, url_for, CreateTestData
 from ckan.lib.base import _
 from ckan.lib.create_test_data import CreateTestData
 from ckanext.qa.lib.package_scorer import \
-        PKGEXTRA, response_for_url, url_score, update_package_score, \
+        PKGEXTRA, response_for_url, resource_details, update_package_score, \
         next_check_time, retry_interval, \
         BadURLError, TemporaryFetchError, PermanentFetchError
 from ckan.model import Session, repo
@@ -66,7 +66,7 @@ def with_package_resources(*resource_urls):
                     Session.delete(r)
                 
                 package.extras = {}
-                Session.flush()
+                #Session.flush()
                 Session.delete(package)
                 repo.commit_and_remove()
         return decorated
@@ -116,43 +116,51 @@ class TestCheckURLScore(BaseCase):
 
     @with_mock_url('?status=503')
     def test_url_with_temporary_fetch_error_not_scored(self, url):
-        assert url_score(url) == (None, _('URL temporarily unavailable')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (None, _('URL temporarily unavailable')), \
+                resource_details(url)
 
     @with_mock_url('?status=404')
     def test_url_with_permanent_fetch_error_scores_zero(self, url):
-        assert url_score(url) == (0, _('URL unobtainable')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (0, _('URL unobtainable')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=arfle/barfle-gloop')
     def test_url_with_unknown_content_type_scores_one(self, url):
-        assert url_score(url) == (1, _('unrecognized content type')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (1, _('unrecognized content type')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=text/html')
     def test_url_pointing_to_html_page_scores_one(self, url):
-        assert url_score(url) == (1, _('obtainable via web page')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=text/html%3B+charset=UTF-8')
     def test_content_type_with_charset_still_recognized_as_html(self, url):
-        assert url_score(url) == (1, _('obtainable via web page')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=text/csv')
     def test_machine_readable_formats_score_two(self, url):
-        assert url_score(url) == (2, _('machine readable format')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (2, _('machine readable format')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=application/json')
     def test_open_standard_formats_score_three(self, url):
-        assert url_score(url) == (3, _('open and standardized format')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (3, _('open and standardized format')), \
+                resource_details(url)
 
     @with_mock_url('?content-type=application/rdf%2Bxml')
     def test_ontological_formats_score_four(self, url):
-        assert url_score(url) == (4, _('ontologically represented')), \
-                url_score(url)
+        url_details = resource_details(url)
+        assert (url_details.score, url_details.reason) == (4, _('ontologically represented')), \
+                resource_details(url)
 
 class TestCheckPackageScore(BaseCase):
 
@@ -192,7 +200,6 @@ class TestCheckPackageScore(BaseCase):
     @with_package_resources('')
     def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
         baseurl = package.resources[0].url
-
         package.resources[0].url = baseurl + '?status=200;content-type=application/rdf%2Bxml'
         update_package_score(package)
         assert package.extras[PKGEXTRA.openness_score] == 4.0, package.extras

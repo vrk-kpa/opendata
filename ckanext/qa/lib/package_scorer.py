@@ -13,6 +13,7 @@ import httplib
 import re
 import socket
 import urllib2
+import hashlib
 from datetime import datetime, timedelta
 from logging import getLogger
 from urllib2 import URLError, HTTPError, FileHandler
@@ -41,6 +42,10 @@ retry_interval = timedelta(hours=6)
 # How long to wait for a timeout when fetching a resource
 url_timeout = 30
 
+# how many bytes to read at a time for calculating the hash of the content
+# of a resource 102400 = 1KB
+chunk_size = 102400
+
 class BadURLError(Exception):
     """
     URL is either not well formed or not permitted
@@ -61,6 +66,18 @@ class PermanentFetchError(URLFetchError):
     Can't fetch resource, no point retrying
     """
 
+class UrlDetails(object):
+	"""
+	Holds the details about a specific resource URL.
+	"""
+	def __init__(self):
+		self.score = None
+		self.reason = None
+		self.content_type = None
+		self.content_length = None
+		self.hash = None
+		self.bytes = 0
+		
 # List of status codes together with the error that should be raised.
 # If a status code is returned not in this list a PermanentFetchError will be
 # raised
@@ -201,34 +218,46 @@ def response_for_url(url, method=HEADRequest):
     except ValueError:
         raise BadURLError(e)
 
-def url_score(url):
+def resource_details(url):
     """
-    Return (score, breakdown) for the given URL, where score is a
-    number from 0-5 and breakdown is a textual explanation of the scoring
-    reasons.
+    Return UrlDetails object for the given URL, where score is a number
+    from 0-5 and breakdown is a textual explanation of the scoring reasons.
 
     If the package is unfetchable due to a temporary error, a score of ``None``
     is returned.
     """
+
+    url_details = UrlDetails()
+    
     try:
         response = response_for_url(url)
+        headers = response.info()
+        try:
+            url_details.content_type = headers['Content-Type']
+            # 'text/xml; charset=UTF-8' => 'text/xml'
+            if ';' in url_details.content_type:
+                url_details.content_type = url_details.content_type.split(';')[0]
+        except KeyError:
+            url_details.score = 0
+            url_details.reason = "no content type header"
+
+        url_details.content_length = headers.get('Content-Length', None)
+
+        resource_hash = hashlib.sha1()
+        for chunk in iter(lambda: response.read(chunk_size), ''):
+            url_details.bytes += len(chunk)
+            resource_hash.update(chunk)
+        url_details.hash = resource_hash.hexdigest()
+
+        url_details.score, url_details.reason = mime_types.get(url_details.content_type, (1, "unrecognized content type"))
     except TemporaryFetchError:
-        return None, "URL temporarily unavailable"
+        url_details.score = None
+        url_details.reason = "URL temporarily unavailable"
     except PermanentFetchError:
-        return 0, "URL unobtainable"
+        url_details.score = 0
+        url_details.reason = "URL unobtainable"
 
-    headers = response.info()
-    try:
-        content_type = headers['Content-Type']
-    except KeyError:
-        return 0, "no content type header"
-
-    # 'text/xml; charset=UTF-8' => 'text/xml'
-    if ';' in content_type:
-        content_type = content_type.split(';')[0]
-
-    ct_score, ct_reason = mime_types.get(content_type, (1, "unrecognized content type"))
-    return ct_score, ct_reason
+    return url_details
 
 
 def mean(values):
@@ -248,23 +277,24 @@ def resource_score(resource):
     range 0-5. These scores are aggragted to create an overall package score.
     """
     
-    score, reason = url_score(resource.url)
-    if score is None:
-        score = resource.extras.get(PKGEXTRA.openness_score)
-        failure_count = resource.extras.get(PKGEXTRA.openness_score_failure_count, 0) + 1
-        if failure_count > max_retries:
-            score = 0
-            reason = u'%s; too many failures' % reason
+    url_details = resource_details(resource.url)
+    if url_details.score is None:
+        url_details.score = resource.extras.get(PKGEXTRA.openness_score)
+        url_details.failure_count = resource.extras.get(PKGEXTRA.openness_score_failure_count, 0) + 1
+        if url_details.failure_count > max_retries:
+            url_details.score = 0
+            url_details.reason = u'%s; too many failures' % url_details.reason
     else:
-        failure_count = 0
+        url_details.failure_count = 0
     
-    resource.extras[PKGEXTRA.openness_score] = score
-    resource.extras[PKGEXTRA.openness_score_reason] = reason
-    resource.extras[PKGEXTRA.openness_score_failure_count] = failure_count
+    resource.hash = url_details.hash
+    resource.extras[PKGEXTRA.openness_score] = url_details.score
+    resource.extras[PKGEXTRA.openness_score_reason] = url_details.reason
+    resource.extras[PKGEXTRA.openness_score_failure_count] = url_details.failure_count
     resource.extras[PKGEXTRA.openness_score_last_checked] = datetime.now().isoformat()
     resource.extras[PKGEXTRA.openness_score_override] = None
     
-    return score, reason
+    return url_details.score, url_details.reason
     
 def package_score(package, aggregate_function=mean):
     """
