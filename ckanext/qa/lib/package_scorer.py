@@ -228,10 +228,10 @@ def resource_details(url):
     """
 
     url_details = UrlDetails()
-    
     try:
         response = response_for_url(url)
         headers = response.info()
+            
         try:
             url_details.content_type = headers['Content-Type']
             # 'text/xml; charset=UTF-8' => 'text/xml'

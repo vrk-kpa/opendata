@@ -114,6 +114,12 @@ class TestCheckURL(BaseCase):
 
 class TestCheckURLScore(BaseCase):
 
+    @with_mock_url('?status=200;content=test;content-type=text/plain')
+    def test_url_with_content(self, url):
+        from hashlib import sha1
+        url_details = resource_details(quote_plus(url))
+        assert url_details.hash == sha1('test').hexdigest(), resource_details(url)
+        
     @with_mock_url('?status=503')
     def test_url_with_temporary_fetch_error_not_scored(self, url):
         url_details = resource_details(url)
@@ -162,6 +168,17 @@ class TestCheckURLScore(BaseCase):
         assert (url_details.score, url_details.reason) == (4, _('ontologically represented')), \
                 resource_details(url)
 
+    @with_mock_url('?content=TEST;content-type=application/rdf%2Bxml')
+    def test_resource_hash_and_content_length(self, url):
+        url_details = resource_details(url)
+        import ipdb; ipdb.set_trace()
+        from hashlib import sha1
+        content_hash = sha1('TEST').hexdigest()
+        content_length = len('TEST')
+
+        assert url_details.hash == content_hash, url_details
+        assert url_details.content_length == content_length, url_details
+        
 class TestCheckPackageScore(BaseCase):
 
     @with_package_resources('?status=503')
@@ -196,7 +213,7 @@ class TestCheckPackageScore(BaseCase):
 
         update_package_score(package, force=True)
         assert package.extras[PKGEXTRA.openness_score] == 0
-
+        
     @with_package_resources('')
     def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
         baseurl = package.resources[0].url

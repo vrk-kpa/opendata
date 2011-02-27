@@ -1,8 +1,14 @@
 import os
+from datetime import datetime
+
 from paste.deploy import appconfig
 import paste.fixture
+
 from ckan.config.middleware import make_app
 from ckan.tests import conf_dir, url_for, CreateTestData
+from ckan.model import Session, Package
+
+from ckanext.qa.lib.package_scorer import update_package_score
 
 class TestQAController:
     @classmethod
@@ -12,7 +18,7 @@ class TestQAController:
         wsgiapp = make_app(config.global_conf, **config.local_conf)
         cls.app = paste.fixture.TestApp(wsgiapp)
         CreateTestData.create()
-        
+                    
     @classmethod
     def teardown_class(self):
         CreateTestData.delete()
@@ -23,11 +29,15 @@ class TestQAController:
         assert 'Quality Assurance' in response, response
         
     def test_packages_with_broken_resource_links(self):
-        url = url_for('qa_action', 'packages_with_broken_resource_links')
+        url = url_for('qa_action', action='packages_with_broken_resource_links')
         response = self.app.get(url)
         assert 'broken resource.' in response, response
         
     def test_package_openness_scores(self):
-        url = url_for('qa_action', 'package_openness_scores')
+        # make sure the packages created by CreateTestData
+        # have all the extra attributes we might expecting
+        for p in Session.query(Package):
+            update_package_score(p)
+        url = url_for('qa_action', action='package_openness_scores')
         response = self.app.get(url)
         assert 'openness scores' in response, response
