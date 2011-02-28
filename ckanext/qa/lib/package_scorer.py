@@ -32,6 +32,10 @@ PKGEXTRA = Enum(
     u'openness_score_override',
 )
 
+RESEXTRA = Enum(
+    u'content_length',
+)
+
 # How many times to retry a package with temporary fetch erros before giving up
 # and scoring it at zero
 max_retries = 5
@@ -293,7 +297,7 @@ def resource_score(resource):
     resource.extras[PKGEXTRA.openness_score_failure_count] = url_details.failure_count
     resource.extras[PKGEXTRA.openness_score_last_checked] = datetime.now().isoformat()
     resource.extras[PKGEXTRA.openness_score_override] = None
-    
+    resource.extras[RESEXTRA.content_length] = url_details.bytes
     return url_details.score, url_details.reason
     
 def package_score(package, aggregate_function=mean):

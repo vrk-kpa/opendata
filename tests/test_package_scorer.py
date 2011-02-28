@@ -171,7 +171,6 @@ class TestCheckURLScore(BaseCase):
     @with_mock_url('?content=TEST;content-type=application/rdf%2Bxml')
     def test_resource_hash_and_content_length(self, url):
         url_details = resource_details(url)
-        import ipdb; ipdb.set_trace()
         from hashlib import sha1
         content_hash = sha1('TEST').hexdigest()
         content_length = len('TEST')
