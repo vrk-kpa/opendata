@@ -1,0 +1,1 @@
+ORGANIZATION_LINK = '''<h3>%(link)s</h3>'''

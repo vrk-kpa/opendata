@@ -12,18 +12,18 @@
   </py:def>
 
   <div py:match="content" class="qa-content">
+    <div class="qa-content">
     <h1>Quality Assurance</h1>
   
-    <h3>Package openness scores</h3>
+    <h3>Organisations who have published packages with broken resource links.</h3>
+        
     <table class="qa-table">
       <tr>
-          <th class="qa-table-name">Package name</th>
-          <th class="qa-table-score">Overall Score</th>
+          <th class="qa-table-name">Organization name</th>
           <th class="qa-table-checked">Last checked</th>
       </tr>
       <tr py:for="package in c.packages">
-        <td>${h.link_to(package.get('title') or package.get('name'), h.url_for(controller='package', action='read', id=package.get('name')))}</td>
-        <td>${package.get('openness_score')}</td>
+        <td>${h.link_to(package.get('organization_name'), h.url_for(controller='qa', action='organization_broken_resource_links', id=package.get('organization_id')))}</td>
         <?python
             from datetime import datetime
             timestamp = datetime.strptime(package.get('openness_score_last_checked'),'%Y-%m-%dT%H:%M:%S.%f')
@@ -32,6 +32,7 @@
       </tr>
     </table>
   </div>
+  
   <p>
     Page last updated:
      <?python 
@@ -39,5 +40,6 @@
      ?>
     ${datetime.datetime.now().strftime('%c')}
   </p>
+  </div>
   <xi:include href="../../layout.html" />
 </html>

@@ -14,3 +14,11 @@ class ViewController(BaseController):
     def packages_with_broken_resource_links(self):
         c.packages = packages_with_minimum_one_broken_resource()
         return render('ckanext/qa/packages_with_broken_resource_links.html')
+
+    def index_organizations(self):
+        c.packages = packages_with_minimum_one_broken_resource()
+        return render('ckanext/qa/index_organizations.html')
+        
+    def organization_broken_resource_links(self, id):
+        c.packages = packages_with_minimum_one_broken_resource(organization_id=id)
+        return render('ckanext/qa/organization_broken_resource_links.html')

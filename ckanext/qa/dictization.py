@@ -1,3 +1,5 @@
+import re
+
 from ckan.model import Package, Session
 
 __all__ = ['package_openness_score',
@@ -17,12 +19,31 @@ def package_openness_score(package_id=None):
         ))
     return openness_scores
 
-def packages_with_minimum_one_broken_resource():
+def packages_with_minimum_one_broken_resource(organization_id=None, organization_name=None):
     broken_packages = []
     packages = Session.query(Package)
     for package in packages:
+                    
         if package.extras.get('openness_score') == 0.0:
-            broken_packages.append(dict(
+            
+            organization_extras = dict()
+            exp = re.compile('\s*(.*?)\s*\[(\d+)\]')
+            org_tag = package.extras.get('published_by', package.extras.get('published_via', None))
+            match = re.match(exp, org_tag)
+            if match:
+                groups = match.groups()
+                organization_extras = dict(
+                    organization_name = groups[0],
+                    organization_id = groups[1],
+                    published_via = max(package.extras.get('published_via'), False),
+                    published_by = max(package.extras.get('published_by'), False),
+                )
+
+            if organization_id:
+                if not organization_extras.get('organization_id', None) == organization_id:
+                    continue
+
+            package_data = dict(
                 package_id=package.id,
                 name=package.name,
                 openness_score=package.extras.get('openness_score'),
@@ -35,5 +56,8 @@ def packages_with_minimum_one_broken_resource():
                     url=resource.url,
                     format=resource.format,
                 ) for resource in package.resources]
-            ))
+            )
+            package_data.update(organization_extras)
+            broken_packages.append(package_data)
+            
     return broken_packages

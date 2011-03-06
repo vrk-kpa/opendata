@@ -30,6 +30,17 @@ from the plugin directory using the following command:
 After you clear your cache and reload the site, the Quality Assurance plugin
 and openness score interface should be available at http://myckaninstance/qa
 
+About QA Extension
+------------------
+
+The ckanext-qa extension will check each of your package resources and give
+these resources an openness score based timbl's five stars of openness.
+
+Once you have run the package-scores command with the update option, your
+resources and packages will have a set of openness key's stores in their
+extra properties. This process will also set the hash value and content_length
+for each individual resource.
+
 Developers
 ----------
 You can run the test suite for ckanext-qa from the ckan directory, the tests
