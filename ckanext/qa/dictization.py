@@ -35,8 +35,8 @@ def packages_with_minimum_one_broken_resource(organization_id=None, organization
                 organization_extras = dict(
                     organization_name = groups[0],
                     organization_id = groups[1],
-                    published_via = max(package.extras.get('published_via'), False),
-                    published_by = max(package.extras.get('published_by'), False),
+                    published_via = bool(max(package.extras.get('published_via'), False)),
+                    published_by = bool(max(package.extras.get('published_by'), False)),
                 )
 
             if organization_id:

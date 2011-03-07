@@ -15,19 +15,23 @@
     <div class="qa-content">
     <h1>Quality Assurance</h1>
   
-    <h3>Organisations who have published packages with broken resource links.</h3>
+    <h3>Organizations who have published packages with broken resource links.</h3>
         
     <table class="qa-table">
       <tr>
           <th class="qa-table-name">Organization name</th>
+          <th class="qa-table-published-by">Published By</th>
+          <th class="qa-table-published-via">Published Via</th>
           <th class="qa-table-checked">Last checked</th>
       </tr>
       <tr py:for="package in c.packages">
-        <td>${h.link_to(package.get('organization_name'), h.url_for(controller='qa', action='organization_broken_resource_links', id=package.get('organization_id')))}</td>
+        <td>${h.link_to(package.get('organization_name'), h.url_for(controller='qa', action='organizations_with_broken_resource_links', id=package.get('organization_id')))}</td>
         <?python
             from datetime import datetime
             timestamp = datetime.strptime(package.get('openness_score_last_checked'),'%Y-%m-%dT%H:%M:%S.%f')
         ?>
+        <td>${package.get('published_by')}</td>
+        <td>${package.get('published_via')}</td>
         <td>${timestamp.strftime('%c')}</td>
       </tr>
     </table>

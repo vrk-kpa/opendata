@@ -15,10 +15,10 @@
     <div class="qa-content">
     <h1>Quality Assurance</h1>
   
-    <h3>Packages with minimum one (1) broken resource, by Organization.</h3>
+    <h3>Packages with minimum one (1) broken resource.</h3>
     <h4>Download this report.</h4>
     <ul>
-        <li><a href="#">Report in CSV format</a></li>
+        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='organizations_with_broken_resource_links', id=c.id, format='csv'))}</li>
     </ul>
     
     <table class="qa-table">

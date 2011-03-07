@@ -37,9 +37,9 @@ class QA(SingletonPlugin):
             from pylons import request, tmpl_context as c
             routes = request.environ.get('pylons.routes_dict')
         
-            data = dict(link = h.link_to("Organisations who have published packages with broken resource links.",\
+            data = dict(link = h.link_to("Organizations who have published packages with broken resource links.",\
                 h.url_for(controller='qa',\
-                action='index_organizations')
+                action='organizations_with_broken_resource_links')
             ))
 
             if routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'\
@@ -64,10 +64,15 @@ class QA(SingletonPlugin):
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.api:ApiController')
                 
+        map.connect('qa_api_resource_formatted',
+                    '/api/2/util/qa/{action}/:(id).:(format)',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.api:ApiController')
+                
         map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.api:ApiController')
-
+                
         return map
 
     def update_config(self, config):
