@@ -20,6 +20,14 @@ able to add the following to your CKAN .ini file:
 
     ckan.plugins = qa <other-plugins>
 
+If you have data based on organizations you can enable the option organization
+feature sets with in the QA extension by adding the following to your CKAN .ini
+file:
+
+::
+
+    qa.organizations = True
+
 You can run the paster entry point to update or clean up package-scores
 from the plugin directory using the following command:
 
@@ -40,6 +48,24 @@ Once you have run the package-scores command with the update option, your
 resources and packages will have a set of openness key's stores in their
 extra properties. This process will also set the hash value and content_length
 for each individual resource.
+
+API Access
+----------
+
+::
+    http://localhost:5000/api/2/util/qa/
+
+    package_openness_scores/id
+    JSON formatted dump of the package openness scores.
+
+    packages_with_broken_resource_links/package
+    JSON formatted dump of the packages with broken resource links. Where
+    package is a package ID or package name
+
+    organizations_with_broken_resource_links/id.format
+    format it 'json' by default, also available as 'csv'. Organization based
+    dump of broken resource links. You must enable the organization option
+    for the QA plugin for this to work.
 
 Developers
 ----------
