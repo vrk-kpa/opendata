@@ -28,11 +28,15 @@
         <td>${h.link_to(package.get('organization_name'), h.url_for(controller='qa', action='organizations_with_broken_resource_links', id=package.get('organization_id')))}</td>
         <?python
             from datetime import datetime
-            timestamp = datetime.strptime(package.get('openness_score_last_checked'),'%Y-%m-%dT%H:%M:%S.%f')
+            timestr = package.get('openness_score_last_checked')
+            if timestr:
+                timestamp = datetime.strptime(timestr,'%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                timestamp = None
         ?>
         <td>${package.get('published_by')}</td>
         <td>${package.get('published_via')}</td>
-        <td>${timestamp.strftime('%c')}</td>
+        <td>${timestamp.strftime('%c') if timestamp else 'Never'}</td>
       </tr>
     </table>
   </div>
