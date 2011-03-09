@@ -292,6 +292,8 @@ def resource_score(resource):
         url_details.failure_count = 0
     
     resource.hash = url_details.hash
+    if not resource.extras:
+        resource.extras = dict()
     resource.extras[PKGEXTRA.openness_score] = url_details.score
     resource.extras[PKGEXTRA.openness_score_reason] = url_details.reason
     resource.extras[PKGEXTRA.openness_score_failure_count] = url_details.failure_count
