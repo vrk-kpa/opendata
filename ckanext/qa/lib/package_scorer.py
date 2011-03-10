@@ -197,7 +197,6 @@ def response_for_url(url, method=HEADRequest):
     """
     url = decode_url(url)
     url = check_url(url)
-    #url = urllib.urlencode(url)
     http_request = method(url)
     try:
         return _get_opener().open(http_request, timeout=url_timeout)
