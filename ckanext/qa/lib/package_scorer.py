@@ -13,6 +13,8 @@ import httplib
 import re
 import socket
 import urllib2
+import urllib
+import urlparse
 import hashlib
 from datetime import datetime, timedelta
 from logging import getLogger
@@ -71,17 +73,17 @@ class PermanentFetchError(URLFetchError):
     """
 
 class UrlDetails(object):
-	"""
-	Holds the details about a specific resource URL.
-	"""
-	def __init__(self):
-		self.score = None
-		self.reason = None
-		self.content_type = None
-		self.content_length = None
-		self.hash = None
-		self.bytes = 0
-		
+    """
+    Holds the details about a specific resource URL.
+    """
+    def __init__(self):
+        self.score = None
+        self.reason = None
+        self.content_type = None
+        self.content_length = None
+        self.hash = None
+        self.bytes = 0
+        
 # List of status codes together with the error that should be raised.
 # If a status code is returned not in this list a PermanentFetchError will be
 # raised
@@ -130,7 +132,6 @@ def check_url(url):
     allowed_schemes = ['http', 'https', 'ftp']
     if any(url.startswith(scheme + '://') for scheme in allowed_schemes):
         return url
-
     raise BadURLError("URL %r is not allowed" % (url,))
 
 def _get_opener():
@@ -156,7 +157,6 @@ class HEADRequest(urllib2.Request):
     def get_method(self):
         return "HEAD"
 
-
 def _parse_iso_time(s):
     """
     Parse a subset of iso 8601 formatted date strings into datetime objects.
@@ -164,7 +164,6 @@ def _parse_iso_time(s):
     datetime.isoformat().
     """
     return datetime(*(int(n) for n in re.split('[^\d]', s)[:-1]))
-
 
 def next_check_time(package):
     """
@@ -187,20 +186,18 @@ def next_check_time(package):
         failures = int(package.extras[PKGEXTRA.openness_score_failure_count])
     except KeyError:
         return datetime.min
-
     if failures < 1:
         return last_check_time + retry_interval
-
     return last_check_time + retry_interval * 2 ** (failures - 1)
-
 
 def response_for_url(url, method=HEADRequest):
     """
     Fetch the given URL, returning the urllib2 response object or raising a
     URLFetchError
     """
-    
+    url = decode_url(url)
     url = check_url(url)
+    #url = urllib.urlencode(url)
     http_request = method(url)
     try:
         return _get_opener().open(http_request, timeout=url_timeout)
@@ -208,7 +205,6 @@ def response_for_url(url, method=HEADRequest):
         if e.code in http_error_codes:
             raise http_error_codes[e.code](e.code, e.message)
         raise PermanentFetchError(e)
-
     except URLError, e:
         if isinstance(e.reason, socket.error):
             # Socket errors considered temporary as could stem from a temporary
@@ -218,9 +214,22 @@ def response_for_url(url, method=HEADRequest):
             # Other URLErrors are generally permanent errors, eg unsupported
             # protocol
             raise PermanentFetchError(e)
-
-    except ValueError:
+    except ValueError, e:
         raise BadURLError(e)
+
+def decode_url(url):
+    """
+    Tries to handle the case where a user has entered a URL with a unicode
+    character that isn't properly encoded.
+    """
+    try:
+        url = url.decode('ascii')
+    except:
+        import urllib, urlparse
+        parts = list(urlparse.urlparse(url))
+        parts[2] = urllib.quote(parts[2].encode('utf-8'))
+        url = urlparse.urlunparse(parts)
+    return str(url)
 
 def resource_details(url):
     """
@@ -230,12 +239,10 @@ def resource_details(url):
     If the package is unfetchable due to a temporary error, a score of ``None``
     is returned.
     """
-
     url_details = UrlDetails()
     try:
         response = response_for_url(url)
         headers = response.info()
-            
         try:
             url_details.content_type = headers['Content-Type']
             # 'text/xml; charset=UTF-8' => 'text/xml'
@@ -244,15 +251,12 @@ def resource_details(url):
         except KeyError:
             url_details.score = 0
             url_details.reason = "no content type header"
-
         url_details.content_length = headers.get('Content-Length', None)
-
         resource_hash = hashlib.sha1()
         for chunk in iter(lambda: response.read(chunk_size), ''):
             url_details.bytes += len(chunk)
             resource_hash.update(chunk)
         url_details.hash = resource_hash.hexdigest()
-
         url_details.score, url_details.reason = mime_types.get(url_details.content_type, (1, "unrecognized content type"))
     except TemporaryFetchError:
         url_details.score = None
@@ -260,9 +264,7 @@ def resource_details(url):
     except PermanentFetchError:
         url_details.score = 0
         url_details.reason = "URL unobtainable"
-
     return url_details
-
 
 def mean(values):
     """
@@ -280,17 +282,18 @@ def resource_score(resource):
     int he extras JsonDictType on the resource. The score is a number in the
     range 0-5. These scores are aggragted to create an overall package score.
     """
-    
     url_details = resource_details(resource.url)
     if url_details.score is None:
-        url_details.score = resource.extras.get(PKGEXTRA.openness_score)
+        try:
+            url_details.score = resource.extras.get(PKGEXTRA.openness_score)
+        except:
+            import pdb; pdb.set_trace()
         url_details.failure_count = resource.extras.get(PKGEXTRA.openness_score_failure_count, 0) + 1
         if url_details.failure_count > max_retries:
             url_details.score = 0
             url_details.reason = u'%s; too many failures' % url_details.reason
     else:
         url_details.failure_count = 0
-    
     resource.hash = url_details.hash
     if not resource.extras:
         resource.extras = dict()
@@ -309,7 +312,6 @@ def package_score(package, aggregate_function=mean):
     aggregate score of the package resources, and reasons is a human readable
     breakdown of the reasons.
     """
-
     scores = [resource_score(resource) for resource in package.resources]
     if not scores:
         return None, None
@@ -335,10 +337,8 @@ def update_package_score(package, force=False):
     # Don't update scores that have been manually overridden
     if package.extras.get(PKGEXTRA.openness_score_override):
         return
-
     if not force and datetime.now() < next_check_time(package):
         return
-    
     score, reason = package_score(package)
     if score is None:
         score = package.extras.get(PKGEXTRA.openness_score)
@@ -348,9 +348,9 @@ def update_package_score(package, force=False):
             reason = u'%s; too many failures' % reason
     else:
         failure_count = 0
-
     package.extras[PKGEXTRA.openness_score] = score
     package.extras[PKGEXTRA.openness_score_reason] = reason
     package.extras[PKGEXTRA.openness_score_failure_count] = failure_count
     package.extras[PKGEXTRA.openness_score_last_checked] = datetime.now().isoformat()
     package.extras[PKGEXTRA.openness_score_override] = None
+
