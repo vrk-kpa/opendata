@@ -52,6 +52,11 @@ url_timeout = 30
 # of a resource 102400 = 1KB
 chunk_size = 102400
 
+class UnknownURLError(Exception):
+    """
+    Unknown URL error
+    """
+
 class BadURLError(Exception):
     """
     URL is either not well formed or not permitted
@@ -204,6 +209,8 @@ def response_for_url(url, method=HEADRequest):
         if e.code in http_error_codes:
             raise http_error_codes[e.code](e.code, e.message)
         raise PermanentFetchError(e)
+    except httplib.InvalidURL, e:
+        raise BadURLError(e)
     except URLError, e:
         if isinstance(e.reason, socket.error):
             # Socket errors considered temporary as could stem from a temporary
@@ -215,6 +222,9 @@ def response_for_url(url, method=HEADRequest):
             raise PermanentFetchError(e)
     except ValueError, e:
         raise BadURLError(e)
+    except:
+        raise UnknownURLError()
+
 
 def decode_url(url):
     """
@@ -251,11 +261,14 @@ def resource_details(url):
             url_details.score = 0
             url_details.reason = "no content type header"
         url_details.content_length = headers.get('Content-Length', None)
+        """
+        TODO: limit to 5Mb
         resource_hash = hashlib.sha1()
         for chunk in iter(lambda: response.read(chunk_size), ''):
             url_details.bytes += len(chunk)
             resource_hash.update(chunk)
         url_details.hash = resource_hash.hexdigest()
+        """
         url_details.score, url_details.reason = mime_types.get(url_details.content_type, (1, "unrecognized content type"))
     except TemporaryFetchError:
         url_details.score = None
@@ -263,6 +276,16 @@ def resource_details(url):
     except PermanentFetchError:
         url_details.score = 0
         url_details.reason = "URL unobtainable"
+    except BadURLError:
+        url_details.score = 0
+        url_details.reason = "Bad URL"
+    except UnknownURLError:
+        url_details.score = None
+        url_details.reason = "Unknown error while obtaining the URL"
+    except:
+        url_details.score = None
+        url_details.reason = "Errors during the resource scoring"
+     
     return url_details
 
 def mean(values):
