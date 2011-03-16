@@ -22,8 +22,10 @@ class PackageScore(CkanCommand):
         -s {package-id} Start the process from the specified package.
                         (Ignored if a package id is provided as an argument)
 
-        -l  {int}       Limit the process to a number of packages.
+        -l {int}        Limit the process to a number of packages.
                         (Ignored if a package id is provided as an argument)
+
+        -o              Force the score update even if it already exists.
 
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
@@ -56,6 +58,13 @@ Start the process from the specified package.
         help="""
 Limit the process to a number of packages.
         (Ignored if a package id is provided as an argument)
+        """)
+    CkanCommand.parser.add_option('-o', '--force',
+        action='store_true',
+        dest='force',
+        default=False,
+        help="""
+Force the score update even if it already exists.
         """)
 
     def command(self):
@@ -100,7 +109,7 @@ Limit the process to a number of packages.
                 print "Checking package", package.id, package.name
                 for resource in package.resources:
                     print '\t%s' % (resource.url,)
-            update_package_score(package)
+            update_package_score(package,self.options.force)
             repo.commit()
             
         repo.commit_and_remove()
