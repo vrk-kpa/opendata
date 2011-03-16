@@ -1,3 +1,4 @@
+import sys
 from ckan.lib.cli import CkanCommand
 
 from ckan.model import Session, Package, PackageExtra, repo
@@ -18,12 +19,11 @@ class PackageScore(CkanCommand):
 
     Available options::
 
-        -s  Start the process from the specified index.
-            (Ignored if a package id is provided as an argument)
+        -s {package-id} Start the process from the specified package.
+                        (Ignored if a package id is provided as an argument)
 
-        -e  End the process at the specified index.
-            (Ignored if a package id is provided as an argument or if -s option is 
-             not provided)
+        -l  {int}       Limit the process to a number of packages.
+                        (Ignored if a package id is provided as an argument)
 
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
@@ -46,17 +46,16 @@ class PackageScore(CkanCommand):
         dest='start',
         default=False,
         help="""
-Start the process from the specified index.
+Start the process from the specified package.
         (Ignored if a package id is provided as an argument)
         """)
-    CkanCommand.parser.add_option('-e', '--end',
+    CkanCommand.parser.add_option('-l', '--limit',
         action='store',
-        dest='end',
+        dest='limit',
         default=False,
         help="""
-End the process at the specified index.
-        (Ignored if a package id is provided as an argument or if
-         -s option is not provided)
+Limit the process to a number of packages.
+        (Ignored if a package id is provided as an argument)
         """)
 
     def command(self):
@@ -107,21 +106,31 @@ End the process at the specified index.
         repo.commit_and_remove()
  
     def _get_packages(self):
+
         if len(self.args) > 1:
             packages = Session.query(Package).\
                        filter(Package.id==self.args[1]).all()
         else:
-            start = int(self.options.start) if self.options.start else False
-            end = int(self.options.end) if self.options.end else False
+            start = self.options.start
+            limit = int(self.options.limit) if self.options.limit else False
             
-            if start is not False:
-                if end is not False:
-                    packages = Session.query(Package) \
-                               [start:end]
+            if start:
+                ids = Session.query(Package.id).order_by(Package.id).all()
+                index = [i for i,v in enumerate(ids) if v[0] == start]
+                if not index:
+                    sys.stderr.write('Error: Package not found: %s \n' % start)
+                    sys.exit()
+
+                if limit is not False:
+                    ids = ids[index[0]:index[0] + limit]
                 else:
-                    packages = Session.query(Package) \
-                               [start:]
+                    ids = ids[index[0]:]
+                
+                packages = [Session.query(Package).filter(Package.id == id) for id in ids]
             else:
-                packages =  Session.query(Package).all()
+                if limit:
+                    packages =  Session.query(Package).limit(limit).all()
+                else:
+                    packages =  Session.query(Package).all()
 
         return packages 
