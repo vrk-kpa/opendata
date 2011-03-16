@@ -135,7 +135,7 @@ Force the score update even if it already exists.
                 else:
                     ids = ids[index[0]:]
                 
-                packages = [Session.query(Package).filter(Package.id == id) for id in ids]
+                packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
             else:
                 if limit:
                     packages =  Session.query(Package).limit(limit).all()
