@@ -1,12 +1,29 @@
 from ckan.lib.cli import CkanCommand
 
+from ckan.model import Session, Package, PackageExtra, repo
+from ckanext.qa.lib.package_scorer import update_package_score
+from ckanext.qa.lib.package_scorer import PKGEXTRA
+
+
 class PackageScore(CkanCommand):
     '''Manage the ratings stored in the db
 
     Usage::
 
-        paster package-scores update       - update all package scores
-        paster package-scores clean        - remove all package score information
+        paster package-scores [options] update [{package-id}]
+           - Update all package scores or just one if a package id is provided
+
+        paster package-scores clean        
+            - Remove all package score information
+
+    Available options::
+
+        -s  Start the process from the specified index.
+            (Ignored if a package id is provided as an argument)
+
+        -e  End the process at the specified index.
+            (Ignored if a package id is provided as an argument or if -s option is 
+             not provided)
 
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
@@ -17,13 +34,30 @@ class PackageScore(CkanCommand):
     '''    
     summary = __doc__.split('\n')[0]
     usage = __doc__
-    max_args = 1
+    max_args = 2 
     min_args = 0
 
     pkg_names = []
     tag_names = []
     group_names = set()
     user_names = []
+    CkanCommand.parser.add_option('-s', '--start',
+        action='store',
+        dest='start',
+        default=False,
+        help="""
+Start the process from the specified index.
+        (Ignored if a package id is provided as an argument)
+        """)
+    CkanCommand.parser.add_option('-e', '--end',
+        action='store',
+        dest='end',
+        default=False,
+        help="""
+End the process at the specified index.
+        (Ignored if a package id is provided as an argument or if
+         -s option is not provided)
+        """)
 
     def command(self):
         self.verbose = 3
@@ -41,8 +75,6 @@ class PackageScore(CkanCommand):
                 sys.stderr.write('Command %s not recognized\n' % (cmd,))
 
     def clean(self, user_ratings=True):
-        from ckan.model import Session, PackageExtra, repo
-        from ckanext.qa.lib.package_scorer import PKGEXTRA
 
         revision = repo.new_revision()
         revision.author = u'cli script'
@@ -53,16 +85,18 @@ class PackageScore(CkanCommand):
         repo.commit_and_remove()
 
     def update(self, user_ratings=True):
-        from ckan.model import Session, Package, repo
-        from ckanext.qa.lib.package_scorer import update_package_score
-        from ckanext.qa.lib.package_scorer import PKGEXTRA
-
         revision = repo.new_revision()
         revision.author = u'cli script'
         revision.message = u'Update package scores from cli'
 
         print "Packages..."
-        for package in Session.query(Package).all():
+
+        packages = self._get_packages()
+        
+        if self.verbose:
+            print "Total packages to update: " + str(len(packages))
+
+        for package in packages:
             if self.verbose:
                 print "Checking package", package.id, package.name
                 for resource in package.resources:
@@ -71,4 +105,23 @@ class PackageScore(CkanCommand):
             repo.commit()
             
         repo.commit_and_remove()
+ 
+    def _get_packages(self):
+        if len(self.args) > 1:
+            packages = Session.query(Package).\
+                       filter(Package.id==self.args[1]).all()
+        else:
+            start = int(self.options.start) if self.options.start else False
+            end = int(self.options.end) if self.options.end else False
+            
+            if start is not False:
+                if end is not False:
+                    packages = Session.query(Package) \
+                               [start:end]
+                else:
+                    packages = Session.query(Package) \
+                               [start:]
+            else:
+                packages =  Session.query(Package).all()
 
+        return packages 
