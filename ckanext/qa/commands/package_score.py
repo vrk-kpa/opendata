@@ -4,7 +4,7 @@ from ckan.lib.cli import CkanCommand
 from ckan.model import Session, Package, PackageExtra, repo
 from ckanext.qa.lib.package_scorer import update_package_score
 from ckanext.qa.lib.package_scorer import PKGEXTRA
-
+from ckanext.qa.lib.package_scorer import packages_with_errors
 
 class PackageScore(CkanCommand):
     '''Manage the ratings stored in the db
@@ -111,9 +111,29 @@ Force the score update even if it already exists.
                     print '\t%s' % (resource.url,)
             update_package_score(package,self.options.force)
             repo.commit()
-            
+                
         repo.commit_and_remove()
- 
+
+        if self.verbose:
+            if len(packages_with_errors) > 0:
+                print '\nErrors where found in %i packages:' % len(packages_with_errors)
+                for package in packages_with_errors:
+                    print '%s (%s)' % (package.name,package.id)
+                    reasons = dict()
+                    for resource in package.resources:
+                        if resource.extras.get('openness_score') == 0 or resource.extras.get('openness_score') == None:
+                            reason = resource.extras.get('openness_score_reason')
+                            if reason in reasons:
+                                reasons[reason] = reasons[reason] + 1
+                            else:
+                                reasons[reason] = 1
+                            #print '\t%s - %s' % (resource.url,resource.extras.get('openness_score_reason'))
+                if len(reasons):
+                    for reason in reasons.iterkeys():
+                        print '\t%s: x%i' % (reason,reasons[reason])
+            else:
+                print '\nNo errors found'
+
     def _get_packages(self):
 
         if len(self.args) > 1:

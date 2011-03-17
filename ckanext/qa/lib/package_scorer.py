@@ -52,6 +52,11 @@ url_timeout = 30
 # of a resource 102400 = 1KB
 chunk_size = 102400
 
+# List with all the packages that have resources with errors
+packages_with_errors = []
+
+
+
 class UnknownURLError(Exception):
     """
     Unknown URL error
@@ -326,7 +331,9 @@ def resource_score(resource):
     resource.extras[PKGEXTRA.openness_score_override] = None
     resource.extras[RESEXTRA.content_length] = url_details.bytes
     return url_details.score, url_details.reason
-    
+
+
+
 def package_score(package, aggregate_function=mean):
     """
     Attempt to load all resources listed and return a tuple of ``(<score>,
@@ -336,9 +343,16 @@ def package_score(package, aggregate_function=mean):
     """
     scores = [resource_score(resource) for resource in package.resources]
     if not scores:
+        packages_with_errors.append(package)
         return None, None
     scores, reasons = zip(*scores)
+    for score in scores:
+        if score == 0 or score == None:
+            packages_with_errors.append(package)
+            break
+
     scores = [s for s in scores if s is not None]
+
     score = aggregate_function(scores) if scores else None
     reason = '; '.join(reasons)
     return score, reason
