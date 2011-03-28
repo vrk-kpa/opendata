@@ -2,9 +2,7 @@ import sys
 from ckan.lib.cli import CkanCommand
 
 from ckan.model import Session, Package, PackageExtra, repo
-from ckanext.qa.lib.package_scorer import update_package_score
-from ckanext.qa.lib.package_scorer import PKGEXTRA
-from ckanext.qa.lib.package_scorer import packages_with_errors
+from ckanext.qa.lib.package_scorer import package_score
 
 class PackageScore(CkanCommand):
     '''Manage the ratings stored in the db
@@ -69,7 +67,6 @@ Force the score update even if it already exists.
 
     def command(self):
         self.verbose = 3
-
         if not self.args or self.args[0] in ['--help', '-h', 'help']:
             print PackageScore.__doc__
         else:
@@ -83,11 +80,11 @@ Force the score update even if it already exists.
                 sys.stderr.write('Command %s not recognized\n' % (cmd,))
 
     def clean(self, user_ratings=True):
-
+        print "No longer functional"
+        return
         revision = repo.new_revision()
         revision.author = u'cli script'
         revision.message = u'Update package scores from cli'
-
         for item in Session.query(PackageExtra).filter(PackageExtra.key.in_(PKGEXTRA)).all():
             item.purge()
         repo.commit_and_remove()
@@ -96,70 +93,58 @@ Force the score update even if it already exists.
         revision = repo.new_revision()
         revision.author = u'cli script'
         revision.message = u'Update package scores from cli'
-
         print "Packages..."
-
-        packages = self._get_packages()
-        
-        if self.verbose:
-            print "Total packages to update: " + str(len(packages))
-
-        for package in packages:
-            if self.verbose:
-                print "Checking package", package.id, package.name
-                for resource in package.resources:
-                    print '\t%s' % (resource.url,)
-            update_package_score(package,self.options.force)
-            repo.commit()
-                
-        repo.commit_and_remove()
-
-        if self.verbose:
-            if len(packages_with_errors) > 0:
-                print '\nErrors where found in %i packages:' % len(packages_with_errors)
-                for package in packages_with_errors:
-                    print '%s (%s)' % (package.name,package.id)
-                    reasons = dict()
-                    for resource in package.resources:
-                        if resource.extras.get('openness_score') == 0 or resource.extras.get('openness_score') == None:
-                            reason = resource.extras.get('openness_score_reason')
-                            if reason in reasons:
-                                reasons[reason] = reasons[reason] + 1
-                            else:
-                                reasons[reason] = 1
-                            #print '\t%s - %s' % (resource.url,resource.extras.get('openness_score_reason'))
-                if len(reasons):
-                    for reason in reasons.iterkeys():
-                        print '\t%s: x%i' % (reason,reasons[reason])
-            else:
-                print '\nNo errors found'
-
-    def _get_packages(self):
-
         if len(self.args) > 1:
-            packages = Session.query(Package).\
-                       filter(Package.id==self.args[1]).all()
+            packages = Session.query(Package).filter(
+                Package.id==self.args[1],
+            ).all()
         else:
             start = self.options.start
-            limit = int(self.options.limit) if self.options.limit else False
-            
+            limit = int(self.options.limit or 0)
             if start:
                 ids = Session.query(Package.id).order_by(Package.id).all()
                 index = [i for i,v in enumerate(ids) if v[0] == start]
                 if not index:
                     sys.stderr.write('Error: Package not found: %s \n' % start)
                     sys.exit()
-
                 if limit is not False:
                     ids = ids[index[0]:index[0] + limit]
                 else:
                     ids = ids[index[0]:]
-                
                 packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
             else:
                 if limit:
-                    packages =  Session.query(Package).limit(limit).all()
+                    packages = Session.query(Package).limit(limit).all()
                 else:
-                    packages =  Session.query(Package).all()
+                    packages = Session.query(Package).all()
+        if self.verbose:
+            print "Total packages to update: " + str(len(packages))
+        for package in packages:
+            if self.verbose:
+                print "Checking package", package.id, package.name
+                for resource in package.resources:
+                    print '\t%s' % (resource.url,)
+            package_score(package,self.options.force)
+        repo.commit()
+        repo.commit_and_remove()
+        #if self.verbose:
+        #    if len(packages_with_errors) > 0:
+        #        print '\nErrors where found in %i packages:' % len(packages_with_errors)
+        #        for package in packages_with_errors:
+        #            print '%s (%s)' % (package.name,package.id)
+        #            reasons = dict()
+        #            for resource in package.resources:
+        #                if resource.extras.get('openness_score') == 0 or resource.extras.get('openness_score') == None:
+        #                    reason = resource.extras.get('openness_score_reason')
+        #                    if reason in reasons:
+        #                        reasons[reason] = reasons[reason] + 1
+        #                    else:
+        #                        reasons[reason] = 1
+        #                    #print '\t%s - %s' % (resource.url,resource.extras.get('openness_score_reason'))
+        #        if len(reasons):
+        #            for reason in reasons.iterkeys():
+        #                print '\t%s: x%i' % (reason,reasons[reason])
+        #    else:
+        #        print '\nNo errors found'
 
-        return packages 
+

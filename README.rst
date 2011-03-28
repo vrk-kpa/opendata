@@ -1,8 +1,12 @@
 Quality Assurance Extension
 ===========================
 
+
 The QA plugin crawls resources and scores them for openness. It also provides
 a Dashboard that allows you to view broken links and openness scores.
+
+5 stars of openness:
+* http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/
 
 Installation and Activation
 ---------------------------
