@@ -2,12 +2,15 @@
 Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type
 """
 import datetime
+import hashlib
 import httplib
 import logging
+import os
 import socket
 import urllib
 import urllib2
 import urlparse
+from pylons import config
 
 log = logging.getLogger(__name__)
 
@@ -54,7 +57,6 @@ def get_header(headers, name):
     for k in headers:
         if k.lower() == name:
             return headers[k]
-
 
 class HEADRequest(urllib2.Request):
     """
@@ -137,13 +139,32 @@ def package_score(package, force=False, url_timeout=30):
                     resource.extras[u'content_type'] = None
                     resource.extras[u'openness_score'] = '0'
                 resource.extras[u'openness_score_reason'] = openness_score_reason[resource.extras[u'openness_score']]
-                #TODO: limit to 5Mb
-                #resource_hash = hashlib.sha1()
-                #for chunk in iter(lambda: response.read(102400), ''):
-                #    url_details.bytes += len(chunk)
-                #    resource_hash.update(chunk)
-                #resource.hash = url_details.hash
-                #url_details.hash = resource_hash.hexdigest()
+                if resource.extras[u'content_type'] != None:
+                    if resource.format and resource.format.lower() not in [
+                        resource.extras[u'content_type'].lower().split('/')[-1],
+                        resource.extras[u'content_type'].lower().split('/'),
+                    ]:
+                        resource.extras[u'openness_score_reason'] = 'The format entered for the resource doesn\'t match the description from the web server'
+                        resource.extras[u'openness_score'] = '0'
+                    else:
+                        if resource.extras[u'content_type'].lower() == 'text/csv' and resource.extras[u'content_length'] < '500000':
+                            length, hash = hash_and_save(resource, response, size=1024*16)
+                            if length == 0:
+                                # Assume the head request is behaving correctly and not returning content. Make another request for the content
+                                response = opener.open(urllib2.Request(url), timeout=url_timeout)
+                                length, hash = hash_and_save(resource, response, size=1024*16)
+                            if length:
+                                dst_dir = os.path.join('downloads', package.name)
+                                print dst_dir
+                                if not os.path.exists(dst_dir):
+                                    os.mkdir(dst_dir)
+                                #import pdb; pdb.set_trace()
+                                os.rename(
+                                    os.path.join('downloads', 'download_%s'%os.getpid()),
+                                    os.path.join(dst_dir, hash+'.csv'),
+                                )
+                              
+                            print "Saved %s as %s" % (resource.url, resource.hash)
         # Set the failure count
         if resource.extras[u'openness_score'] == '0':
             # At this point save the pacakge and resource, and maybe try it again
@@ -156,4 +177,23 @@ def package_score(package, force=False, url_timeout=30):
     package.extras[u'openness_score_last_checked'] = datetime.datetime.now().isoformat()
     package.extras[u'openness_score'] = openness_score
 
-
+def hash_and_save(resource, response, size=1024*16):
+    resource_hash = hashlib.sha1()
+    length = 0
+    fp = open(
+        os.path.join(config['ckan.qa_downloads'], 'download_%s'%os.getpid()),
+        'wb',
+    )
+    try:
+        chunk = response.read(size)
+        while chunk: # EOF condition
+            fp.write(chunk)
+            length += len(chunk)
+            resource_hash.update(chunk)
+            chunk = response.read(size)
+    except Exception, e:
+        log.error('Could not generate hash %r. Error was %r', src, e)
+        raise
+    fp.close()
+    resource.hash = resource_hash.hexdigest()
+    return length, resource.hash

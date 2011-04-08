@@ -22,16 +22,16 @@ class QA(SingletonPlugin):
     implements(IConfigurer, inherit=True)
     
     def configure(self, config):
-        self.enable_organizations = config.get('qa.organizations', False)
+        self.enable_organisations = config.get('qa.organisations', True)
 
     def filter(self, stream):
-        if self.enable_organizations:
+        if self.enable_organisations:
             from pylons import request, tmpl_context as c
             routes = request.environ.get('pylons.routes_dict')
         
             data = dict(link = h.link_to("Organizations who have published packages with broken resource links.",\
                 h.url_for(controller='qa',\
-                action='organizations_with_broken_resource_links')
+                action='organisations_with_broken_resource_links')
             ))
 
             if routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'\
@@ -43,27 +43,36 @@ class QA(SingletonPlugin):
         
     def before_map(self, map):
         map.connect('qa', '/qa',
-            controller='ckanext.qa.controllers.view:ViewController',
+            controller='ckanext.qa.controllers.qa_home:QAHomeController',
             action='index')
             
-        map.connect('qa_action', '/qa/{action}',
-            controller='ckanext.qa.controllers.view:ViewController')
+        map.connect('qa_package', '/qa/package/',
+            controller='ckanext.qa.controllers.qa_package:QAPackageController')
 
-        map.connect('qa_action', '/qa/{action}/:id',
-            controller='ckanext.qa.controllers.view:ViewController')
+        map.connect('qa_package_action', '/qa/package/{action}',
+            controller='ckanext.qa.controllers.qa_package:QAPackageController')
+
+        map.connect('qa_organisation', '/qa/organisation/',
+            controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController')
+
+        map.connect('qa_organisation_action', '/qa/organisation/{action}',
+            controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController')
                 
+        map.connect('qa_organisation_action_id', '/qa/organisation/{action}/:id',
+            controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController')
+
         map.connect('qa_api', '/api/2/util/qa/{action}',
             conditions=dict(method=['GET']),
-            controller='ckanext.qa.controllers.api:ApiController')
+            controller='ckanext.qa.controllers.qa_api:ApiController')
                 
         map.connect('qa_api_resource_formatted',
                     '/api/2/util/qa/{action}/:(id).:(format)',
             conditions=dict(method=['GET']),
-            controller='ckanext.qa.controllers.api:ApiController')
+            controller='ckanext.qa.controllers.qa_api:ApiController')
                 
         map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
             conditions=dict(method=['GET']),
-            controller='ckanext.qa.controllers.api:ApiController')
+            controller='ckanext.qa.controllers.qa_api:ApiController')
                 
         return map
 

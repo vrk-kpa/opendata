@@ -24,13 +24,13 @@ able to add the following to your CKAN .ini file:
 
     ckan.plugins = qa <other-plugins>
 
-If you have data based on organizations you can enable the option organization
+If you have data based on organisations you can enable the option organization
 feature sets with in the QA extension by adding the following to your CKAN .ini
 file:
 
 ::
 
-    qa.organizations = True
+    qa.organisations = True
 
 You can run the paster entry point to update or clean up package-scores
 from the plugin directory using the following command:
@@ -66,7 +66,7 @@ API Access
     JSON formatted dump of the packages with broken resource links. Where
     package is a package ID or package name
 
-    organizations_with_broken_resource_links/id.format
+    organisations_with_broken_resource_links/id.format
     format it 'json' by default, also available as 'csv'. Organization based
     dump of broken resource links. You must enable the organization option
     for the QA plugin for this to work.

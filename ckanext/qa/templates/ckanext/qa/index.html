@@ -12,17 +12,12 @@
 <div py:match="content">
   <div class="qa-content">
   <h1>Quality Assurance</h1>
-
-  <h3>${h.link_to("Package openness score list.", h.url_for(controller='qa', action='package_openness_scores'))}</h3>
-  <h3>${h.link_to("Packages with minimum one (1) broken resource link.", h.url_for(controller='qa', action='packages_with_broken_resource_links'))}</h3>
+  <ul>
+      <li>${h.link_to("Package openness scores", h.url_for('qa_package_action', action='five_stars'))}</li>
+      <li>${h.link_to("Packages with broken resource links", h.url_for('qa_package_action', action='broken_resource_links'))}</li>
+      <li>${h.link_to("Organisations whose pacakges contain broken resource links", h.url_for('qa_organisation_action', action='broken_resource_links'))}</li>
+  </ul>
   </div>
-  <p>
-    Page last updated:
-     <?python 
-        import datetime
-     ?>
-    ${datetime.datetime.now().strftime('%c')}
-  </p>
 </div>
 <xi:include href="../../layout.html" />
 </html>

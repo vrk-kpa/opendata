@@ -18,7 +18,7 @@
     <h3>Packages with minimum one (1) broken resource.</h3>
     <h4>Download this report.</h4>
     <ul>
-        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='organizations_with_broken_resource_links', id=c.id, format='csv'))}</li>
+        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='organisations_with_broken_resource_links', id=c.id, format='csv'))}</li>
     </ul>
     
     <table class="qa-table">
@@ -67,13 +67,6 @@
       </tr>
     </table>
   </div>
-  <p>
-    Page last updated:
-     <?python 
-        import datetime
-     ?>
-    ${datetime.datetime.now().strftime('%c')}
-  </p>
   </div>
   <xi:include href="../../layout.html" />
 </html>
