@@ -154,13 +154,13 @@ def package_score(package, force=False, url_timeout=30):
                                 response = opener.open(urllib2.Request(url), timeout=url_timeout)
                                 length, hash = hash_and_save(resource, response, size=1024*16)
                             if length:
-                                dst_dir = os.path.join('downloads', package.name)
+                                dst_dir = os.path.join(config['ckan.qa_downloads'], package.name)
                                 print dst_dir
                                 if not os.path.exists(dst_dir):
                                     os.mkdir(dst_dir)
                                 #import pdb; pdb.set_trace()
                                 os.rename(
-                                    os.path.join('downloads', 'download_%s'%os.getpid()),
+                                    os.path.join(config['ckan.qa_downloads'], 'download_%s'%os.getpid()),
                                     os.path.join(dst_dir, hash+'.csv'),
                                 )
                               

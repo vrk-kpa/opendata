@@ -48,10 +48,13 @@ def broken_resource_links_by_package_for_organisation(organisation_id):
         packages = result.values()[0],
     )
 
-def organisations_with_broken_resource_links():
+def organisations_with_broken_resource_links_by_name():
     result = _get_broken_resource_links().keys()
     result.sort()
     return result
+
+def organisations_with_broken_resource_links():
+    return _get_broken_resource_links()
     
 #
 # Helpers

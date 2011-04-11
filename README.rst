@@ -24,14 +24,6 @@ able to add the following to your CKAN .ini file:
 
     ckan.plugins = qa <other-plugins>
 
-If you have data based on organisations you can enable the option organization
-feature sets with in the QA extension by adding the following to your CKAN .ini
-file:
-
-::
-
-    qa.organisations = True
-
 You can run the paster entry point to update or clean up package-scores
 from the plugin directory using the following command:
 
@@ -59,18 +51,6 @@ API Access
 ::
     http://localhost:5000/api/2/util/qa/
 
-    package_openness_scores/id
-    JSON formatted dump of the package openness scores.
-
-    packages_with_broken_resource_links/package
-    JSON formatted dump of the packages with broken resource links. Where
-    package is a package ID or package name
-
-    organisations_with_broken_resource_links/id.format
-    format it 'json' by default, also available as 'csv'. Organization based
-    dump of broken resource links. You must enable the organization option
-    for the QA plugin for this to work.
-
 Developers
 ----------
 You can run the test suite for ckanext-qa from the ckan directory, the tests
@@ -91,4 +71,28 @@ options in ``test.ini`` so that the PostgreSQL config options in
     #faster_db_test_hacks = True
     #sqlalchemy.url = sqlite:///
 
+
+Deployment
+----------
+
+Create a directory for the downloads:
+
+::
+
+    sudo mkdir -p /var/lib/ckan/dgu/qa/download
+    sudo chown www-data:ckan /var/lib/ckan/dgu/qa/download/
+    sudo chmod g+w /var/lib/ckan/dgu/qa/download
+
+Add a config option:
+
+::
+
+    ckan.qa_downloads = /var/lib/ckan/dgu/qa/download
+
+Then add to the cron job:
+
+::
+
+    # m h  dom mon dow   command
+      0 0  1   *   *     paster --plugin="ckanext-qa" package-scores update --config=/etc/ckan/dgu/dgu.ini
 

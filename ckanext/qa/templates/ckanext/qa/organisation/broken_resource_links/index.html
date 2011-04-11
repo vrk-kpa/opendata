@@ -16,7 +16,9 @@
     <h1>Quality Assurance</h1>
   
     <h3>Organizations who have published packages with broken resource links.</h3>
-        
+    <ul>
+        <li>${h.link_to('Report of all broken links by organisation in CSV format', h.url_for('qa_api_resources_formatted', action='organisations_with_broken_resource_links', format='csv'))}</li>
+    </ul>
     <table class="qa-table">
       <tr>
           <th class="qa-table-name">Organization name</th>

@@ -70,6 +70,11 @@ class QA(SingletonPlugin):
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')
                 
+        map.connect('qa_api_resources_formatted',
+                    '/api/2/util/qa/{action}/all.:(format)',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.qa_api:ApiController')
+
         map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')

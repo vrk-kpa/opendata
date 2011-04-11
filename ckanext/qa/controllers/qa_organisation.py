@@ -1,6 +1,6 @@
 from ckan.lib.base import BaseController, render, c
 from ..dictization import (
-    organisations_with_broken_resource_links, 
+    organisations_with_broken_resource_links_by_name, 
     broken_resource_links_by_package_for_organisation,
 )
 
@@ -11,7 +11,7 @@ class QAOrganisationController(BaseController):
 
     def broken_resource_links(self, id=None):
         if id is None:
-            c.organisations = organisations_with_broken_resource_links()
+            c.organisations = organisations_with_broken_resource_links_by_name()
             return render('ckanext/qa/organisation/broken_resource_links/index.html')
         else:
             c.id = id

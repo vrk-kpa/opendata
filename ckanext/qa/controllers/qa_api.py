@@ -14,13 +14,88 @@ from ..dictization import (
     organisations_with_broken_resource_links,
 )
 
+headers = [
+    'Organisation Name',
+    'organisation ID',
+    'Package Name',
+    'Package ID',
+    'Resource URL',
+    'Resource Score',
+    'Resource Score Reason',
+]
+
+def make_csv(result, headers, rows):
+    csvout = StringIO.StringIO()
+    csvwriter = csv.writer(
+        csvout,
+        dialect='excel',
+        quoting=csv.QUOTE_NONNUMERIC
+    )
+    csvwriter.writerow(headers)
+    for row in rows:
+        csvwriter.writerow(row)
+    csvout.seek(0)
+    return csvout.read()
+
 class ApiController(BaseController):
                 
     def package_five_stars(self):
         return json.dumps(five_stars())
         
-    def broken_resource_links_by_package(self):
-        return json.dumps(broken_resource_links_by_package())
+    def broken_resource_links_by_package(self, format='json'):
+        result = broken_resource_links_by_package()
+        if format == 'csv':
+            filename = '%s.csv' % (id)
+            response.headers['Content-Type'] = 'application/csv'
+            response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+            rows = []
+            for package, resources in result:
+                for resource in resources:
+                    row = [
+                        package[0].encode('utf8'),
+                        package[1].decode('utf8'),
+                        resource.url,
+                        resource.extras.get('openness_score'),
+                        resource.extras.get('openness_score_reason'),
+                    ]
+                    rows.append(row)
+            return make_csv(
+                result,
+                headers[2:],
+                rows,
+            )
+        else:
+            response.headers['Content-Type'] = 'application/json'
+            return json.dumps(result)
+
+    def organisations_with_broken_resource_links(self, id, format='json'):
+        result = organisations_with_broken_resource_links()
+        if format == 'csv':
+            filename = '%s.csv' % (id)
+            response.headers['Content-Type'] = 'application/csv'
+            response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+            rows = []
+            for organisation, packages in result.items():
+                for package, resources in packages.items():
+                    for resource in resources:
+                        row = [
+                            organisation[0],
+                            organisation[1],
+                            package[0].encode('utf8'),
+                            package[1].decode('utf8'),
+                            resource.url,
+                            resource.extras.get('openness_score'),
+                            resource.extras.get('openness_score_reason'),
+                        ]
+                        rows.append(row)
+            return make_csv(
+                result,
+                headers,
+                rows,
+            )
+        else:
+            response.headers['Content-Type'] = 'application/json'
+            return json.dumps(result)
 
     def broken_resource_links_by_package_for_organisation(self, id, format='json'):
         result = broken_resource_links_by_package_for_organisation(id)
@@ -28,23 +103,7 @@ class ApiController(BaseController):
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
-            csvout = StringIO.StringIO()
-            csvwriter = csv.writer(
-                csvout,
-                dialect='excel',
-                quoting=csv.QUOTE_NONNUMERIC
-            )
-            csvwriter.writerow([
-                'organisation_name',
-                'organisation_id',
-                #'published_by',
-                #'published_via',
-                'package_name',
-                'package_id',
-                'resource_url',
-                'resource_score',
-                'resource_score_reason',
-            ])
+            rows = []
             for package, resources in result['packages'].items():
                 for resource in resources:
                     row = [
@@ -58,9 +117,13 @@ class ApiController(BaseController):
                         resource.extras.get('openness_score'),
                         resource.extras.get('openness_score_reason'),
                     ]
-                    csvwriter.writerow(row)
-            csvout.seek(0)
-            return csvout.read()
+                    rows.append(row)
+            return make_csv(
+                result,
+                headers,
+                rows,
+            )
         else:
+            response.headers['Content-Type'] = 'application/json'
             return json.dumps(result)
 
