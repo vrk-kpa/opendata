@@ -59,18 +59,9 @@ for ckanext-qa require nose and mock:
 ::
 
    (ckan)$ pip install nose mock
-   (ckan)$ nosetests -x path/to/ckanext-qa/tests --ckan
+   (ckan)$ nosetests --with-pylons=test-core.ini --ckan  path/to/ckanext-qa/tests
 
-You will need to edit your ``test.ini`` file to use PostgreSQL. The tests do
-not run on SQLite. You can do that by commenting out the two SQLite override
-options in ``test.ini`` so that the PostgreSQL config options in
-``test-core.ini`` are used instead.
-
-::
-
-    #faster_db_test_hacks = True
-    #sqlalchemy.url = sqlite:///
-
+The tests only run in PostgreSQL, hence the need to specify test-core.ini.
 
 Deployment
 ----------
@@ -95,4 +86,3 @@ Then add to the cron job:
 
     # m h  dom mon dow   command
       0 0  1   *   *     paster --plugin="ckanext-qa" package-scores update --config=/etc/ckan/dgu/dgu.ini
-
