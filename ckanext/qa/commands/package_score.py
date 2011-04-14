@@ -1,8 +1,13 @@
 import sys
-from ckan.lib.cli import CkanCommand
 
+from ckan.lib.cli import CkanCommand
 from ckan.model import Session, Package, PackageExtra, repo
+
 from ckanext.qa.lib.package_scorer import package_score
+
+# Use this specific author so that these revisions can be filtered out of
+# normal RSS feeds that cover significant package changes. See DGU#982.
+MAINTENANCE_AUTHOR = u'okfn_maintenance'
 
 class PackageScore(CkanCommand):
     '''Manage the ratings stored in the db
@@ -83,7 +88,7 @@ Force the score update even if it already exists.
         print "No longer functional"
         return
         revision = repo.new_revision()
-        revision.author = u'cli script'
+        revision.author = MAINTENANCE_AUTHOR
         revision.message = u'Update package scores from cli'
         for item in Session.query(PackageExtra).filter(PackageExtra.key.in_(PKGEXTRA)).all():
             item.purge()
@@ -91,7 +96,7 @@ Force the score update even if it already exists.
 
     def update(self, user_ratings=True):
         revision = repo.new_revision()
-        revision.author = u'cli script'
+        revision.author = MAINTENANCE_AUTHOR
         revision.message = u'Update package scores from cli'
         print "Packages..."
         if len(self.args) > 1:
