@@ -16,7 +16,7 @@ from ..dictization import (
 
 headers = [
     'Organisation Name',
-    'organisation ID',
+    'Organisation ID',
     'Package Name',
     'Package ID',
     'Resource URL',
@@ -33,7 +33,13 @@ def make_csv(result, headers, rows):
     )
     csvwriter.writerow(headers)
     for row in rows:
-        csvwriter.writerow(row)
+        items = []
+        for item in row:
+            items.append(item.encode('utf8'))
+        try:
+            csvwriter.writerow(items)
+        except Exception, e:
+            raise Exception("%s: %s, %s"%(e, row, items))
     csvout.seek(0)
     return csvout.read()
 
@@ -47,15 +53,15 @@ class ApiController(BaseController):
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for package, resources in result:
                 for resource in resources:
                     row = [
-                        package[0].encode('utf8'),
-                        package[1].decode('utf8'),
+                        package[0],
+                        package[1],
                         resource.url,
-                        resource.extras.get('openness_score'),
+                        unicode(resource.extras.get('openness_score')),
                         resource.extras.get('openness_score_reason'),
                     ]
                     rows.append(row)
@@ -73,18 +79,18 @@ class ApiController(BaseController):
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for organisation, packages in result.items():
                 for package, resources in packages.items():
                     for resource in resources:
                         row = [
                             organisation[0],
-                            organisation[1],
-                            package[0].encode('utf8'),
-                            package[1].decode('utf8'),
+                            unicode(organisation[1]),
+                            package[0],
+                            package[1],
                             resource.url,
-                            resource.extras.get('openness_score'),
+                            unicode(resource.extras.get('openness_score')),
                             resource.extras.get('openness_score_reason'),
                         ]
                         rows.append(row)
@@ -102,19 +108,17 @@ class ApiController(BaseController):
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for package, resources in result['packages'].items():
                 for resource in resources:
                     row = [
                         result['title'], 
-                        result['id'], 
-                        #package.get('published_by'),
-                        #package.get('published_via'),
-                        package[0].encode('utf8'),
-                        package[1].decode('utf8'),
+                        unicode(result['id']), 
+                        package[0],
+                        package[1],
                         resource.url,
-                        resource.extras.get('openness_score'),
+                        unicode(resource.extras.get('openness_score')),
                         resource.extras.get('openness_score_reason'),
                     ]
                     rows.append(row)
