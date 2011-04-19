@@ -1,10 +1,11 @@
-from ckan.lib.base import BaseController, render, c
+from ckan.lib.base import render, c
 from ..dictization import (
     organisations_with_broken_resource_links_by_name, 
     broken_resource_links_by_package_for_organisation,
 )
+from base import QAController
 
-class QAOrganisationController(BaseController):
+class QAOrganisationController(QAController):
     
     def index(self):                
         return render('ckanext/qa/organisation/index.html')

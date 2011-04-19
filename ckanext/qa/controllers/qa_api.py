@@ -6,13 +6,14 @@ try:
 except ImportError:
     import StringIO
 
-from ckan.lib.base import BaseController, request, response, render
+from ckan.lib.base import request, response, render
 from ..dictization import (
     five_stars,
     broken_resource_links_by_package,
     broken_resource_links_by_package_for_organisation, 
     organisations_with_broken_resource_links,
 )
+from base import QAController
 
 headers = [
     'Organisation Name',
@@ -43,7 +44,7 @@ def make_csv(result, headers, rows):
     csvout.seek(0)
     return csvout.read()
 
-class ApiController(BaseController):
+class ApiController(QAController):
                 
     def package_five_stars(self):
         return json.dumps(five_stars())

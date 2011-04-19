@@ -1,8 +1,9 @@
-from ckan.lib.base import BaseController, render
+from ckan.lib.base import render
+from base import QAController
 
-class QAHomeController(BaseController):
+class QAHomeController(QAController):
     
-    def index(self):                
+    def index(self):
         return render('ckanext/qa/index.html')
 
 

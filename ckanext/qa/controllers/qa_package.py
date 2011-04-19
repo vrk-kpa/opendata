@@ -1,7 +1,8 @@
-from ckan.lib.base import BaseController, render, c
+from ckan.lib.base import render, c
 from ..dictization import five_stars, broken_resource_links_by_package
+from base import QAController
 
-class QAPackageController(BaseController):
+class QAPackageController(QAController):
     
     def index(self):                
         return render('ckanext/qa/package/index.html')
