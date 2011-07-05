@@ -26,16 +26,19 @@ class QA(SingletonPlugin):
 
     def filter(self, stream):
         if self.enable_organisations:
-            from pylons import request, tmpl_context as c
+            from pylons import request
             routes = request.environ.get('pylons.routes_dict')
-        
-            data = dict(link = h.link_to("Organizations who have published packages with broken resource links.",\
-                h.url_for(controller='qa',\
-                action='organisations_with_broken_resource_links')
-            ))
 
             if routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'\
                and routes.get('action') == 'index':
+
+                data = dict(link = h.link_to("Organizations who have published packages with broken resource links.",\
+                    # h.url_for(controller='qa',\
+                    # action='organisations_with_broken_resource_links')
+                    h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',\
+                        action='broken_resource_links')
+                ))
+
                 stream = stream | Transformer('body//div[@class="qa-content"]')\
                     .append(HTML(html.ORGANIZATION_LINK % data))
                         
