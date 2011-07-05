@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 try:
     from ckanext.qa import __version__
 except:
-    __version__ = '0.1a'
+    __version__ = '0.2a'
 
 setup(
     name='ckanext-qa',
@@ -36,5 +36,6 @@ setup(
     qa=ckanext.qa.plugin:QA
     [paste.paster_command]
     package-scores = ckanext.qa.commands.package_score:PackageScore
+    archive = ckanext.qa.commands.archive:Archive
     """,
 )
