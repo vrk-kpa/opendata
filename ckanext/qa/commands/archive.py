@@ -87,4 +87,10 @@ class Archive(CkanCommand):
             db_file = resource.hash + ".sqlite"
             if not db_file in os.listdir(self.archive_folder):
                 print "No archived copy of", resource.url, "found - archiving"
-                
+                # find the copy of the resource that should have already been downloaded
+                # by the package-score command
+                resource_file = os.path.join(self.downloads_folder, package.name)
+                resource_file = os.path.join(resource_file, resource.hash + ".csv")
+                db_file = os.path.join(self.archive_folder, db_file)
+                # convert this resource into an sqlite database
+                resource_to_sqlite(resource.format.lower(), resource_file, db_file)
