@@ -86,7 +86,7 @@ class Archive(CkanCommand):
                 print "No hash found for", resource.url, "- skipping"
                 break
             # save the resource if we don't already have a copy of it
-            db_file = resource.hash + ".sqlite"
+            db_file = resource.hash + ".db"
             if not db_file in os.listdir(self.archive_folder):
                 print "No archived copy of", resource.url, "found - archiving"
                 # find the copy of the resource that should have already been downloaded
