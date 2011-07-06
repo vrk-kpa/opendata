@@ -1,7 +1,6 @@
 """
-Functions for converting data to and from SQLite databases.
+Functions for converting datasets to and from databases.
 """
-import sqlite
 import os
 import transform
 
@@ -22,7 +21,7 @@ class RequestError(ProxyError):
         super(RequestError, self).__init__(title, message)
         self.error = "Request Error"
 
-def resource_to_sqlite(resource_format, resource_file, db_file):
+def resource_to_db(resource_format, resource_file, db_file):
     try:
         transformer = transform.transformer(resource_format)
     except Exception, e:
@@ -31,6 +30,10 @@ def resource_to_sqlite(resource_format, resource_file, db_file):
             % (resource_format, e)
         )
 
+    # convert CSV file to a Python dict
     f = open(resource_file, 'r')
     transformed_file = transformer.transform(f)
     f.close()
+
+    # create a new database from the dict
+    print transformed_file['fields']

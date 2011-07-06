@@ -3,7 +3,7 @@ import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.model import Session, Package
-from ckanext.qa.lib.sqlite import resource_to_sqlite
+from ckanext.qa.lib.db import resource_to_db
 
 # Use this specific author so that these revisions can be filtered out of
 # normal RSS feeds that cover significant package changes. See DGU#982.
@@ -72,6 +72,8 @@ class Archive(CkanCommand):
         # print "Total packages to update:", len(packages)
         # only archive specific packages for now
         if not package_id:
+            print "You can only archive specific packages for now."
+            print "Specify a package name/id"
             return
 
         package = Package.get(package_id)
@@ -93,4 +95,4 @@ class Archive(CkanCommand):
                 resource_file = os.path.join(resource_file, resource.hash + ".csv")
                 db_file = os.path.join(self.archive_folder, db_file)
                 # convert this resource into an sqlite database
-                resource_to_sqlite(resource.format.lower(), resource_file, db_file)
+                resource_to_db(resource.format.lower(), resource_file, db_file)
