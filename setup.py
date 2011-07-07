@@ -37,5 +37,7 @@ setup(
     [paste.paster_command]
     package-scores = ckanext.qa.commands.package_score:PackageScore
     archive = ckanext.qa.commands.archive:Archive
+    process = ckanext.qa.commands.process:Process
+    qa = ckanext.qa.commands.qa:QA
     """,
 )
