@@ -1,9 +1,8 @@
 """
-Functions for converting datasets to and from databases.
+Functions for adding data to a local webstore
 """
 import os
 import sqlalchemy as sa
-from webstore.core import app as ws_app
 from webstore.database import DatabaseHandler
 import transform
 
@@ -25,6 +24,19 @@ class RequestError(ProxyError):
         self.error = "Request Error"
 
 def resource_to_db(resource_format, resource_file, db_file):
+    """
+    Create a database called db_file, create a table called 'resource' and
+    add all data in resource_file to it.
+    """
+    if not resource_format:
+        try:
+            resource_format = os.path.split(resource_file)[1].split('.')[1].lower()
+        except:
+            raise RequestError('Resource format not specified.', 
+                'Transformation of resource is not supported as the ' +\
+                'resource format could not be determined' 
+            )
+
     try:
         transformer = transform.transformer(resource_format)
     except Exception, e:
@@ -34,11 +46,9 @@ def resource_to_db(resource_format, resource_file, db_file):
         )
 
     # convert CSV file to a Python dict
-    f = open(resource_file, 'r')
-    transformed_file = transformer.transform(f)
-    f.close()
+    transformed_file = transformer.transform(resource_file)
 
-    # create a new database from the dict
+    # add to local webstore: create a new database from the dict
     connection_string = 'sqlite:///' + db_file
     db = DatabaseHandler(sa.create_engine(connection_string))
     table = db['resource']
@@ -51,5 +61,3 @@ def resource_to_db(resource_format, resource_file, db_file):
         # add dict to the database
         table.add_row(row_dict)
     table.commit()
-
-    return True
