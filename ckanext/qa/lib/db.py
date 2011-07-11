@@ -81,3 +81,13 @@ def archive_result(db_file, resource_id, message, success=False, content_type=No
     }
     table.add_row(result)
     table.commit()
+
+def get_resource_result(db_file, resource_id):
+    connection_string = 'sqlite:///' + db_file
+    db = DatabaseHandler(sa.create_engine(connection_string))
+    table = db['results']
+    clause = table.args_to_clause({'resource_id': resource_id})
+    statement = table.table.select(clause)
+    results = table.bind.execute(statement)
+    keys = results.keys()
+    return dict(zip(keys, results.fetchone()))
