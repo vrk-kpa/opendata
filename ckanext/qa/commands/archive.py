@@ -3,6 +3,7 @@ import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.model import Package, Session
+from ckanext.qa.lib.archive import archive_resource
 
 class Archive(CkanCommand):
     """
@@ -81,9 +82,6 @@ class Archive(CkanCommand):
         """
         print "clean not implemented yet"
 
-    def _archive_package_resources(self, package):
-        print package
-
     def update(self, package_id=None):
         """
         Archive all resources, or just those belonging to 
@@ -122,4 +120,5 @@ class Archive(CkanCommand):
 
         print "Total packages to update:", len(packages)
         for package in packages:
-            self._archive_package_resources(package)
+            for resource in package.resources:
+                archive_resource(resource, package.name)

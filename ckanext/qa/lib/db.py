@@ -2,6 +2,7 @@
 Functions for adding data to a local webstore
 """
 import os
+import datetime
 import sqlalchemy as sa
 from webstore.database import DatabaseHandler
 import transform
@@ -61,3 +62,10 @@ def resource_to_db(resource_format, resource_file, db_file):
         # add dict to the database
         table.add_row(row_dict)
     table.commit()
+
+def archive_result(resource_id, message, success=False, type=None, length=None):
+    """
+    Save the result of attempting to archive resource_id.
+    """
+    pass
+    # datetime.datetime.now().isoformat()
