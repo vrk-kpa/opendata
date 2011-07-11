@@ -91,6 +91,7 @@ class Archive(CkanCommand):
         if not os.path.exists(self.downloads_folder):
             print "Creating downloads folder:", self.downloads_folder
             os.mkdir(self.downloads_folder)
+        db_file = os.path.join(self.downloads_folder, 'archive.db')
 
         if package_id:
             package = Package.get(package_id)
@@ -121,4 +122,4 @@ class Archive(CkanCommand):
         print "Total packages to update:", len(packages)
         for package in packages:
             for resource in package.resources:
-                archive_resource(resource, package.name)
+                archive_resource(db_file, resource, package.name)

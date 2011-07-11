@@ -63,9 +63,21 @@ def resource_to_db(resource_format, resource_file, db_file):
         table.add_row(row_dict)
     table.commit()
 
-def archive_result(resource_id, message, success=False, type=None, length=None):
+def archive_result(db_file, resource_id, message, success=False, content_type=None, content_length=None):
     """
     Save the result of attempting to archive resource_id.
     """
-    pass
-    # datetime.datetime.now().isoformat()
+    # add result to local webstore
+    connection_string = 'sqlite:///' + db_file
+    db = DatabaseHandler(sa.create_engine(connection_string))
+    table = db['results']
+    result = {
+        u'resource_id': resource_id,
+        u'message': unicode(message),
+        u'success': unicode(success),
+        u'content_type': unicode(content_type),
+        u'content_length': unicode(content_length),
+        u'updated': unicode(datetime.datetime.now().isoformat())
+    }
+    table.add_row(result)
+    table.commit()

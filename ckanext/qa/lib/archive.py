@@ -29,7 +29,7 @@ class HEADRequest(urllib2.Request):
     def get_method(self):
         return "HEAD"
 
-def archive_resource(resource, package_name, force=False, url_timeout=30):
+def archive_resource(db_file, resource, package_name, url_timeout=30):
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     url = resource.url
@@ -43,7 +43,7 @@ def archive_resource(resource, package_name, force=False, url_timeout=30):
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
     if not any(url.startswith(scheme + '://') for scheme in allowed_schemes):
-        archive_result(resource.id, "Invalid scheme")
+        archive_result(db_file, resource.id, "Invalid scheme")
     else:
         # Send a head request
         http_request = HEADRequest(url)
@@ -67,22 +67,22 @@ def archive_resource(resource, package_name, force=False, url_timeout=30):
                 httplib.GATEWAY_TIMEOUT: "Gateway timeout",
             }
             if e.code in http_error_codes:
-                archive_result(resource.id, http_error_codes[e.code])
+                archive_result(db_file, resource.id, http_error_codes[e.code])
             else:
-                archive_result(resource.id, "URL unobtainable")
+                archive_result(db_file, resource.id, "URL unobtainable")
         except httplib.InvalidURL, e:
-            archive_result(resource.id, "Invalid URL")
+            archive_result(db_file, resource.id, "Invalid URL")
         except urllib2.URLError, e:
             if isinstance(e.reason, socket.error):
                 # Socket errors considered temporary as could stem from a temporary
                 # network failure rather
-                archive_result(resource.id, "URL temporarily unavailable")
+                archive_result(db_file, resource.id, "URL temporarily unavailable")
             else:
                 # Other URLErrors are generally permanent errors, eg unsupported
                 # protocol
-                archive_result(resource.id, "URL unobtainable")
+                archive_result(db_file, resource.id, "URL unobtainable")
         except Exception, e:
-            archive_result(resource.id, "Invalid URL")
+            archive_result(db_file, resource.id, "Invalid URL")
             log.error("%s", e)
         else:
             headers = response.info()
@@ -105,6 +105,7 @@ def archive_resource(resource, package_name, force=False, url_timeout=30):
                             os.path.join(config['ckan.qa_downloads'], 'download_%s'%os.getpid()),
                             os.path.join(dst_dir, hash+'.csv'),
                         )
+                    archive_result(db_file, resource.id, 'ok', True, ct, cl)
                     print "Saved %s as %s" % (resource.url, hash)
 
 def hash_and_save(resource, response, size=1024*16):
