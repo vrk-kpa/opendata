@@ -2,15 +2,18 @@ import sys
 import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
-from ckan.model import Package
-from ckanext.qa.lib.db import resource_to_db
+from ckan.model import Package, Session
 
 class Archive(CkanCommand):
     """
-    Create SQLite and JSONP representations of all package resources that
-    are in csv format.
+    Download and save copies of all package resources.
 
-    Usage::
+    If we already have a copy of a resource (tested by checking the hash value),
+    then it is not saved again.
+    The result of each download attempt is saved to a webstore database, so the
+    information can be used later for QA analysis.
+
+    Usage:
 
         paster archive update [{package-id}]
            - Archive all resources or just those belonging to a specific package 
@@ -30,6 +33,27 @@ class Archive(CkanCommand):
     min_args = 0
     max_args = 2 
     pkg_names = []
+
+    CkanCommand.parser.add_option('-s', '--start',
+        action='store',
+        dest='start',
+        default=False,
+        help="""Start the process from the specified package.
+                (Ignored if a package id is provided as an argument)"""
+    )
+    CkanCommand.parser.add_option('-l', '--limit',
+        action='store',
+        dest='limit',
+        default=False,
+        help="""Limit the process to a number of packages.
+                (Ignored if a package id is provided as an argument)"""
+    )
+    CkanCommand.parser.add_option('-o', '--force',
+        action='store_true',
+        dest='force',
+        default=False,
+        help="Force the score update even if it already exists."
+    )
 
     def command(self):
         """
@@ -57,46 +81,18 @@ class Archive(CkanCommand):
         """
         print "clean not implemented yet"
 
-    def _update_package(self, package):
-        """
-        Archive all resources belonging to package
-        """
-        print "Checking package:", package.name, "(" + str(package.id) + ")"
-        # look at each resource in the package
-        for resource in package.resources:
-            # check the resource hash
-            if not resource.hash:
-                print "No hash found for", resource.url, "- skipping"
-                break
-            # save the resource if we don't already have a copy of it
-            db_file = resource.hash + ".db"
-            if not db_file in os.listdir(self.archive_folder):
-                print "No archived copy of", resource.url, "found - archiving"
-                # find the copy of the resource that should have already been downloaded
-                # by the package-score command
-                resource_file = os.path.join(self.downloads_folder, package.name)
-                resource_file = os.path.join(resource_file, resource.hash + ".csv")
-                db_file = os.path.join(self.archive_folder, db_file)
-                # convert this resource into an sqlite database
-                try:
-                    resource_to_db(resource.format.lower(), resource_file, db_file)
-                except Exception as e:
-                    print "Error: Could not archive", resource.url
-                    print e.message
-            else:
-                print "Local copy of", resource.url, "found - skipping"
+    def _archive_package_resources(self, package):
+        print package
 
     def update(self, package_id=None):
         """
         Archive all resources, or just those belonging to 
         package_id if provided.
         """
-        # check that downloads and archive folders exist
+        # check that downloads folder exists
         if not os.path.exists(self.downloads_folder):
-            print "No downloaded resources available to archive"
-            return
-        if not os.path.exists(self.archive_folder):
-            os.mkdir(self.archive_folder)
+            print "Creating downloads folder:", self.downloads_folder
+            os.mkdir(self.downloads_folder)
 
         if package_id:
             package = Package.get(package_id)
@@ -105,16 +101,25 @@ class Archive(CkanCommand):
             else:
                 print "Error: Package not found:", package_id
         else:
-            # All resources that we can archive should be stored
-            # in a folder with the same name as their package in the
-            # ckan.qa_downloads folder. Get a list of package names by
-            # these folders, then use the name to get the package object
-            # from the database.
-            files = os.listdir(self.downloads_folder)
-            package_names = [f for f in files if os.path.isdir(os.path.join(self.downloads_folder, f))]
-            package_names = [unicode(p) for p in package_names]
-            packages = [Package.get(p) for p in package_names]
+            start = self.options.start
+            limit = int(self.options.limit or 0)
+            if start:
+                ids = Session.query(Package.id).order_by(Package.id).all()
+                index = [i for i,v in enumerate(ids) if v[0] == start]
+                if not index:
+                    sys.stderr.write('Error: Package not found: %s \n' % start)
+                    sys.exit()
+                if limit is not False:
+                    ids = ids[index[0]:index[0] + limit]
+                else:
+                    ids = ids[index[0]:]
+                packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
+            else:
+                if limit:
+                    packages = Session.query(Package).limit(limit).all()
+                else:
+                    packages = Session.query(Package).all()
 
         print "Total packages to update:", len(packages)
         for package in packages:
-            self._update_package(package)
+            self._archive_package_resources(package)
