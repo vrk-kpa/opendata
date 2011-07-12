@@ -16,6 +16,8 @@ def find_transformer(extension = None, mime_type = None):
     for trans in transformers:
         if extension and extension in trans["extensions"]:
             info = trans
+        elif extension and extension in trans["mime_types"]:
+            info = trans
         if mime_type and mime_type in trans["mime_types"]:
             info = trans
     if not info:
