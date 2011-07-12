@@ -30,7 +30,9 @@ class CSVDataSource(object):
             self.csv_file.get_dialect()
             self.csv_file.get_headings()
             self.csv_file.parse_headings()
-            self.csv_file.guess_types()
+            # TODO: disable type guessing for now, can be quite slow
+            #       and results are not being used by the webstore
+            # self.csv_file.guess_types()
         except csv.Error as e:
             print "Error parsing CSV file:", e.message
             return
