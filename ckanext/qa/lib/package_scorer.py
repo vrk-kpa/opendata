@@ -49,6 +49,9 @@ def package_score(package, results_file):
     openness_score = '0'
     for resource in package.resources:
         archive_result = get_resource_result(results_file, resource.id)
+        if not archive_result:
+            break
+
         if not bool(archive_result['success']):
             resource.extras[u'openness_score'] = '0'
             resource.extras[u'openness_score_reason'] = archive_result['message']

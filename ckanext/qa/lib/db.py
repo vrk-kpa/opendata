@@ -6,6 +6,9 @@ import datetime
 import sqlalchemy as sa
 from webstore.database import DatabaseHandler
 import transform
+import logging
+
+log = logging.getLogger(__name__)
 
 class ProxyError(StandardError):
     def __init__(self, title, message):
@@ -83,11 +86,15 @@ def archive_result(db_file, resource_id, message, success=False, content_type=No
     table.commit()
 
 def get_resource_result(db_file, resource_id):
-    connection_string = 'sqlite:///' + db_file
-    db = DatabaseHandler(sa.create_engine(connection_string))
-    table = db['results']
-    clause = table.args_to_clause({'resource_id': resource_id})
-    statement = table.table.select(clause)
-    results = table.bind.execute(statement)
-    keys = results.keys()
-    return dict(zip(keys, results.fetchone()))
+    try:
+        connection_string = 'sqlite:///' + db_file
+        db = DatabaseHandler(sa.create_engine(connection_string))
+        table = db['results']
+        clause = table.args_to_clause({'resource_id': resource_id})
+        statement = table.table.select(clause)
+        results = table.bind.execute(statement)
+        keys = results.keys()
+        return dict(zip(keys, results.fetchone()))
+    except Exception as e:
+        log.error("Could not get archive results for " + resource_id)
+        log.error(e.message)
