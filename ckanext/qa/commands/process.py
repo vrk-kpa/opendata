@@ -70,7 +70,7 @@ class Process(CkanCommand):
             # check the resource hash
             if not resource.hash:
                 print "No hash found for", resource.url, "- skipping"
-                break
+                continue
             # save the resource if we don't already have a copy of it
             db_file = resource.hash + ".db"
             if not db_file in os.listdir(self.archive_folder):
