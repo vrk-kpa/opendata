@@ -14,6 +14,7 @@ from db import archive_result
 
 log = logging.getLogger(__name__)
 
+# Max content-length of archived files, larger files will be ignored
 MAX_CONTENT_LENGTH = 500000
 
 def get_header(headers, name):
@@ -126,5 +127,5 @@ def hash_and_save(resource, response, size=1024*16):
         log.error('Could not generate hash. Error was %r', e)
         raise
     fp.close()
-    resource_hash = resource_hash.hexdigest()
-    return length, resource_hash
+    resource.hash = resource_hash.hexdigest()
+    return length, resource.hash

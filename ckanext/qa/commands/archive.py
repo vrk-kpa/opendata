@@ -2,8 +2,13 @@ import sys
 import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
-from ckan.model import Package, Session
+from ckan.model import Package, Session, repo
 from ckanext.qa.lib.archive import archive_resource
+
+# Use this specific author so that these revisions can be filtered out of
+# normal RSS feeds that cover significant package changes. See DGU#982.
+MAINTENANCE_AUTHOR = u'okfn_maintenance'
+
 
 class Archive(CkanCommand):
     """
@@ -124,6 +129,18 @@ class Archive(CkanCommand):
                     packages = Session.query(Package).all()
 
         print "Total packages to update:", len(packages)
+        if not packages:
+            return
+
+        revision = repo.new_revision()
+        revision.author = MAINTENANCE_AUTHOR
+        revision.message = u'Update resource hash values'
+
         for package in packages:
+            print "Checking package:", package.name
             for resource in package.resources:
+                print "Attempting to archive resource:", resource.url
                 archive_resource(db_file, resource, package.name)
+
+        repo.commit()
+        repo.commit_and_remove()
