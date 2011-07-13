@@ -5,6 +5,9 @@ from ckan.lib.cli import CkanCommand
 from ckan.model import Package
 from ckanext.qa.lib.db import resource_to_db
 
+# This is the user name used to access the webstore database
+WEBSTORE_USER = 'okfn'
+
 class Process(CkanCommand):
     """
     Process all archived resources.
@@ -43,8 +46,8 @@ class Process(CkanCommand):
             return
 
         self._load_config()
-        self.downloads_folder = config['ckan.qa_downloads'] 
-        self.archive_folder = config['ckan.qa_archive']
+        self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
+        self.webstore_folder = os.path.join(config['ckan.qa_archive'], WEBSTORE_USER)
         cmd = self.args[0]
 
         if cmd == 'update':
@@ -73,13 +76,12 @@ class Process(CkanCommand):
                 continue
             # save the resource if we don't already have a copy of it
             db_file = resource.hash + ".db"
-            if not db_file in os.listdir(self.archive_folder):
+            if not db_file in os.listdir(self.webstore_folder):
                 print "No archived copy of", resource.url, "found - archiving"
-                # find the copy of the resource that should have already been downloaded
-                # by the package-score command
-                resource_file = os.path.join(self.downloads_folder, package.name)
+                # find the copy of the resource that should have already been archived
+                resource_file = os.path.join(self.archive_folder, package.name)
                 resource_file = os.path.join(resource_file, resource.hash + ".csv")
-                db_file = os.path.join(self.archive_folder, db_file)
+                db_file = os.path.join(self.webstore_folder, db_file)
                 # convert this resource into an sqlite database
                 try:
                     resource_to_db(resource.format.lower(), resource_file, db_file)
@@ -94,12 +96,12 @@ class Process(CkanCommand):
         Process all resources, or just those belonging to 
         package_id if provided.
         """
-        # check that downloads and archive folders exist
-        if not os.path.exists(self.downloads_folder):
+        # check that archive and webstore folders exist
+        if not os.path.exists(self.archive_folder):
             print "No archived resources available to process"
             return
-        if not os.path.exists(self.archive_folder):
-            os.mkdir(self.archive_folder)
+        if not os.path.exists(self.webstore_folder):
+            os.mkdir(self.webstore_folder)
 
         if package_id:
             package = Package.get(package_id)
@@ -110,11 +112,11 @@ class Process(CkanCommand):
         else:
             # All resources that we can process should be stored
             # in a folder with the same name as their package in the
-            # ckan.qa_downloads folder. Get a list of package names by
+            # ckan.qa_archive folder. Get a list of package names by
             # these folders, then use the name to get the package object
             # from the database.
-            files = os.listdir(self.downloads_folder)
-            package_names = [f for f in files if os.path.isdir(os.path.join(self.downloads_folder, f))]
+            files = os.listdir(self.archive_folder)
+            package_names = [f for f in files if os.path.isdir(os.path.join(self.archive_folder, f))]
             package_names = [unicode(p) for p in package_names]
             packages = [Package.get(p) for p in package_names]
 
