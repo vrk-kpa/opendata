@@ -76,8 +76,7 @@ class QA(CkanCommand):
             return
 
         self._load_config()
-        self.downloads_folder = config['ckan.qa_downloads'] 
-        self.archive_folder = config['ckan.qa_archive']
+        self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         cmd = self.args[0]
         if cmd == 'update':
             self.update(unicode(self.args[1]) if len(self.args) > 1 else None)
@@ -99,12 +98,12 @@ class QA(CkanCommand):
         # repo.commit_and_remove()
 
     def update(self, package_id = None):
-        # check that downloads folder exists
-        if not os.path.exists(self.downloads_folder):
-            print "Error: No downloads found."
-            print "       Check that the downloads path is correct and run the archive command"
+        # check that archive folder exists
+        if not os.path.exists(self.archive_folder):
+            print "Error: No archived files found."
+            print "       Check that the archive path is correct and run the archive command"
             return
-        results_file = os.path.join(self.downloads_folder, 'archive.db')
+        results_file = os.path.join(self.archive_folder, 'archive.db')
 
         revision = repo.new_revision()
         revision.author = MAINTENANCE_AUTHOR
