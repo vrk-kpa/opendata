@@ -30,7 +30,7 @@ class HEADRequest(urllib2.Request):
     def get_method(self):
         return "HEAD"
 
-def archive_resource(db_file, resource, package_name, url_timeout=30):
+def archive_resource(archive_folder, db_file, resource, package_name, url_timeout=30):
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     url = resource.url
@@ -91,29 +91,29 @@ def archive_resource(db_file, resource, package_name, url_timeout=30):
             cl = get_header(headers, 'content-length')
             if ct:
                 if ct.lower() == 'text/csv' and cl < str(MAX_CONTENT_LENGTH):
-                    length, hash = hash_and_save(resource, response, size=1024*16)
+                    length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length == 0:
                         # Assume the head request is behaving correctly and not 
                         # returning content. Make another request for the content
                         response = opener.open(urllib2.Request(url), timeout=url_timeout)
-                        length, hash = hash_and_save(resource, response, size=1024*16)
+                        length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length:
-                        dst_dir = os.path.join(config['ckan.qa_downloads'], package_name)
+                        dst_dir = os.path.join(archive_folder, package_name)
                         print dst_dir
                         if not os.path.exists(dst_dir):
                             os.mkdir(dst_dir)
                         os.rename(
-                            os.path.join(config['ckan.qa_downloads'], 'download_%s'%os.getpid()),
+                            os.path.join(archive_folder, 'archive_%s'%os.getpid()),
                             os.path.join(dst_dir, hash+'.csv'),
                         )
                     archive_result(db_file, resource.id, 'ok', True, ct, cl)
                     print "Saved %s as %s" % (resource.url, hash)
 
-def hash_and_save(resource, response, size=1024*16):
+def hash_and_save(archive_folder, resource, response, size=1024*16):
     resource_hash = hashlib.sha1()
     length = 0
     fp = open(
-        os.path.join(config['ckan.qa_downloads'], 'download_%s'%os.getpid()),
+        os.path.join(archive_folder, 'archive_%s'%os.getpid()),
         'wb',
     )
     try:

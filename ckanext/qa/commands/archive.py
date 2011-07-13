@@ -9,7 +9,6 @@ from ckanext.qa.lib.archive import archive_resource
 # normal RSS feeds that cover significant package changes. See DGU#982.
 MAINTENANCE_AUTHOR = u'okfn_maintenance'
 
-
 class Archive(CkanCommand):
     """
     Download and save copies of all package resources.
@@ -74,8 +73,7 @@ class Archive(CkanCommand):
             return
 
         self._load_config()
-        self.downloads_folder = config['ckan.qa_downloads'] 
-        self.archive_folder = config['ckan.qa_archive']
+        self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         cmd = self.args[0]
 
         if cmd == 'update':
@@ -96,11 +94,11 @@ class Archive(CkanCommand):
         Archive all resources, or just those belonging to 
         package_id if provided.
         """
-        # check that downloads folder exists
-        if not os.path.exists(self.downloads_folder):
-            print "Creating downloads folder:", self.downloads_folder
-            os.mkdir(self.downloads_folder)
-        db_file = os.path.join(self.downloads_folder, 'archive.db')
+        # check that archive folder exists
+        if not os.path.exists(self.archive_folder):
+            print "Creating archive folder:", self.archive_folder
+            os.mkdir(self.archive_folder)
+        db_file = os.path.join(self.archive_folder, 'archive.db')
 
         if package_id:
             package = Package.get(package_id)
@@ -140,7 +138,7 @@ class Archive(CkanCommand):
             print "Checking package:", package.name
             for resource in package.resources:
                 print "Attempting to archive resource:", resource.url
-                archive_resource(db_file, resource, package.name)
+                archive_resource(self.archive_folder, db_file, resource, package.name)
 
         repo.commit()
         repo.commit_and_remove()
