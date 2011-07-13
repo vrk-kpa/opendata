@@ -5,6 +5,7 @@ import os
 import datetime
 import sqlalchemy as sa
 from webstore.database import DatabaseHandler
+from webstore.validation import validate_name, NamingException
 import transform
 import logging
 
@@ -52,6 +53,27 @@ def resource_to_db(resource_format, resource_file, db_file):
     # convert CSV file to a Python dict
     transformed_file = transformer.transform(resource_file)
 
+    # make sure column names are valid
+    fields = []
+    for f in transformed_file['fields']:
+        try:
+            validate_name(f)
+            fields.append(f)
+        except NamingException:
+            # TODO: improve renaming
+            try:
+                # replace spaces in column names with underscores, spaces are not
+                # allowed in webstore column names
+                f = f.replace(' ', '_')
+                # make sure name starts with a letter
+                if not f[0].isalpha():
+                    f = "column_" + f
+                validate_name(f)
+                fields.append(f)
+            except:
+                # if failed again, ignore this field
+                print "Warning: Field name", f, "is not valid, ignoring"
+
     # add to local webstore: create a new database from the dict
     connection_string = 'sqlite:///' + db_file
     db = DatabaseHandler(sa.create_engine(connection_string))
@@ -60,7 +82,7 @@ def resource_to_db(resource_format, resource_file, db_file):
     for row in transformed_file['data']:
         # create a dict for each row
         row_dict = {}
-        for i, column_name in enumerate(transformed_file['fields']):
+        for i, column_name in enumerate(fields):
             row_dict[column_name] = row[i]
         # add dict to the database
         table.add_row(row_dict)
