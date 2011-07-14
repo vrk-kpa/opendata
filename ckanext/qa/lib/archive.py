@@ -81,7 +81,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                 archive_result(db_file, resource.id, "URL unobtainable")
         except Exception, e:
             archive_result(db_file, resource.id, "Invalid URL")
-            log.error("%s", e)
+            log.error("%s" % e)
         else:
             headers = response.info()
             ct = get_header(headers, 'content-type')
@@ -121,7 +121,7 @@ def hash_and_save(archive_folder, resource, response, size=1024*16):
             resource_hash.update(chunk)
             chunk = response.read(size)
     except Exception, e:
-        log.error('Could not generate hash. Error was %r', e)
+        log.error('Could not generate hash. Error was %r' % e)
         raise
     fp.close()
     resource.hash = resource_hash.hexdigest()
