@@ -4,6 +4,7 @@ from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.model import Package, Session, repo
 from ckanext.qa.lib.archive import archive_resource
+import logging
 
 # Use this specific author so that these revisions can be filtered out of
 # normal RSS feeds that cover significant package changes. See DGU#982.
@@ -73,6 +74,7 @@ class Archive(CkanCommand):
             return
 
         self._load_config()
+        self.log = logging.getLogger(__name__)
         self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         cmd = self.args[0]
 
@@ -81,13 +83,13 @@ class Archive(CkanCommand):
         elif cmd == 'clean':
             self.clean()
         else:
-            sys.stderr.write('Command %s not recognized\n' % (cmd,))
+            self.log.error('Command %s not recognized' % (cmd,))
 
     def clean(self):
         """
         Remove all archived resources.
         """
-        print "clean not implemented yet"
+        self.log.error("clean not implemented yet")
 
     def update(self, package_id=None):
         """
@@ -96,7 +98,7 @@ class Archive(CkanCommand):
         """
         # check that archive folder exists
         if not os.path.exists(self.archive_folder):
-            print "Creating archive folder:", self.archive_folder
+            self.log.info("Creating archive folder: %s" % self.archive_folder)
             os.mkdir(self.archive_folder)
         db_file = os.path.join(self.archive_folder, 'archive.db')
 
@@ -105,7 +107,7 @@ class Archive(CkanCommand):
             if package:
                 packages = [package]
             else:
-                print "Error: Package not found:", package_id
+                self.log.info("Error: Package not found: %s" % package_id)
         else:
             start = self.options.start
             limit = int(self.options.limit or 0)
@@ -113,7 +115,7 @@ class Archive(CkanCommand):
                 ids = Session.query(Package.id).order_by(Package.id).all()
                 index = [i for i,v in enumerate(ids) if v[0] == start]
                 if not index:
-                    sys.stderr.write('Error: Package not found: %s \n' % start)
+                    self.log.error('Error: Package not found: %s' % start)
                     sys.exit()
                 if limit is not False:
                     ids = ids[index[0]:index[0] + limit]
@@ -126,7 +128,7 @@ class Archive(CkanCommand):
                 else:
                     packages = Session.query(Package).all()
 
-        print "Total packages to update:", len(packages)
+        self.log.info("Total packages to update: %d" % len(packages))
         if not packages:
             return
 
@@ -135,9 +137,9 @@ class Archive(CkanCommand):
         revision.message = u'Update resource hash values'
 
         for package in packages:
-            print "Checking package:", package.name
+            self.log.info("Checking package: %s" % package.name)
             for resource in package.resources:
-                print "Attempting to archive resource:", resource.url
+                self.log.info("Attempting to archive resource: %s" % resource.url)
                 archive_resource(self.archive_folder, db_file, resource, package.name)
 
         repo.commit()

@@ -3,16 +3,13 @@ Archive package resources
 """
 import hashlib
 import httplib
-import logging
 import os
 import socket
 import urllib
 import urllib2
 import urlparse
-from pylons import config
 from db import archive_result
-
-log = logging.getLogger(__name__)
+import logging
 
 # Max content-length of archived files, larger files will be ignored
 MAX_CONTENT_LENGTH = 500000
@@ -31,6 +28,7 @@ class HEADRequest(urllib2.Request):
         return "HEAD"
 
 def archive_resource(archive_folder, db_file, resource, package_name, url_timeout=30):
+    log = logging.getLogger('ckanext.qa.commands.archive')
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     url = resource.url
@@ -99,7 +97,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                         length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length:
                         dst_dir = os.path.join(archive_folder, package_name)
-                        print dst_dir
+                        log.info('archive folder: %s' % dst_dir)
                         if not os.path.exists(dst_dir):
                             os.mkdir(dst_dir)
                         os.rename(
@@ -107,9 +105,10 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                             os.path.join(dst_dir, hash+'.csv'),
                         )
                     archive_result(db_file, resource.id, 'ok', True, ct, cl)
-                    print "Saved %s as %s" % (resource.url, hash)
+                    log.info("Saved %s as %s" % (resource.url, hash))
 
 def hash_and_save(archive_folder, resource, response, size=1024*16):
+    log = logging.getLogger('ckanext.qa.commands.archive')
     resource_hash = hashlib.sha1()
     length = 0
     fp = open(
