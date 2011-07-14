@@ -4,6 +4,7 @@ from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.model import Session, Package, repo
 from ckanext.qa.lib.package_scorer import package_score
+from ckanext.qa.lib.log import log, set_config
 
 # Use this specific author so that these revisions can be filtered out of
 # normal RSS feeds that cover significant package changes. See DGU#982.
@@ -76,6 +77,7 @@ class QA(CkanCommand):
             return
 
         self._load_config()
+        set_config(self.options.config)
         self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         cmd = self.args[0]
         if cmd == 'update':
@@ -89,7 +91,7 @@ class QA(CkanCommand):
         """
         Remove all archived resources.
         """
-        print "QA Clean: No longer functional"
+        log.error("QA Clean: No longer functional")
         # revision = repo.new_revision()
         # revision.author = MAINTENANCE_AUTHOR
         # revision.message = u'Update package scores from cli'
@@ -100,8 +102,8 @@ class QA(CkanCommand):
     def update(self, package_id = None):
         # check that archive folder exists
         if not os.path.exists(self.archive_folder):
-            print "Error: No archived files found."
-            print "       Check that the archive path is correct and run the archive command"
+            log.error("No archived files found.")
+            log.error("Check that the archive path is correct and run the archive command")
             return
         results_file = os.path.join(self.archive_folder, 'archive.db')
 
@@ -114,7 +116,7 @@ class QA(CkanCommand):
             if package:
                 packages = [package]
             else:
-                print "Error: Package not found:", package_id
+                log.error("Package not found: %s" % package_id)
         else:
             start = self.options.start
             limit = int(self.options.limit or 0)
@@ -135,11 +137,11 @@ class QA(CkanCommand):
                 else:
                     packages = Session.query(Package).all()
 
-        print "Total packages to update: " + str(len(packages))
+        log.info("Total packages to update: %d" % len(packages))
         for package in packages:
-            print "Checking package", package.id, package.name
+            log.info("Checking package %s (%s)" %(package.name, package.id))
             for resource in package.resources:
-                print '\t%s' % (resource.url,)
+                log.info('\t%s' % (resource.url,))
             package_score(package, results_file)
         repo.commit()
         repo.commit_and_remove()

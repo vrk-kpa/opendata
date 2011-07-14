@@ -2,10 +2,8 @@
 Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type
 """
 import datetime
-import logging
 from db import get_resource_result
-
-log = logging.getLogger(__name__)
+from ckanext.qa.lib.log import log
 
 openness_score_reason = {
     '-1': 'unscorable content type',
@@ -86,7 +84,7 @@ def package_score(package, results_file):
         if resource.extras[u'openness_score'] > openness_score:
             openness_score = resource.extras[u'openness_score']
 
-        print 'Finished analysing resource:', resource.url
+        log.info('Finished QA analysis of resource: %s' % resource.url)
 
     package.extras[u'openness_score_last_checked'] = datetime.datetime.now().isoformat()
     package.extras[u'openness_score'] = openness_score
