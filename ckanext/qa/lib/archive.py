@@ -9,7 +9,7 @@ import urllib
 import urllib2
 import urlparse
 from db import archive_result
-import logging
+from ckanext.qa.lib.log import log
 
 # Max content-length of archived files, larger files will be ignored
 MAX_CONTENT_LENGTH = 500000
@@ -28,7 +28,6 @@ class HEADRequest(urllib2.Request):
         return "HEAD"
 
 def archive_resource(archive_folder, db_file, resource, package_name, url_timeout=30):
-    log = logging.getLogger('qa')
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     url = resource.url
@@ -108,7 +107,6 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                     log.info("Saved %s as %s" % (resource.url, hash))
 
 def hash_and_save(archive_folder, resource, response, size=1024*16):
-    log = logging.getLogger('qa')
     resource_hash = hashlib.sha1()
     length = 0
     fp = open(
