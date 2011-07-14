@@ -7,9 +7,7 @@ import sqlalchemy as sa
 from webstore.database import DatabaseHandler
 from webstore.validation import validate_name, NamingException
 import transform
-import logging
-
-log = logging.getLogger(__name__)
+from ckanext.qa.lib.log import log
 
 class ProxyError(StandardError):
     def __init__(self, title, message):

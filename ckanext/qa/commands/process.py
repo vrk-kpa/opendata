@@ -4,6 +4,7 @@ from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.model import Package
 from ckanext.qa.lib.db import resource_to_db
+from ckanext.qa.lib.log import log, set_config
 
 # This is the user name used to access the webstore database
 WEBSTORE_USER = 'okfn'
@@ -46,6 +47,7 @@ class Process(CkanCommand):
             return
 
         self._load_config()
+        set_config(self.options.config)
         self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         self.webstore_folder = os.path.join(config['ckan.qa_archive'], WEBSTORE_USER)
         cmd = self.args[0]
@@ -61,23 +63,23 @@ class Process(CkanCommand):
         """
         Remove all data created by the update command.
         """
-        print "clean not implemented yet"
+        log.error("clean not implemented yet")
 
     def _update_package(self, package):
         """
         Process all resources belonging to package
         """
-        print "Checking package:", package.name, "(" + str(package.id) + ")"
+        log.info("Checking package: %s (%s)" % (package.name, package.id))
         # look at each resource in the package
         for resource in package.resources:
             # check the resource hash
             if not resource.hash:
-                print "No hash found for", resource.url, "- skipping"
+                log.info("No hash found for %s: skipping" % resource.url)
                 continue
             # save the resource if we don't already have a copy of it
             db_file = resource.hash + ".db"
             if not db_file in os.listdir(self.webstore_folder):
-                print "No archived copy of", resource.url, "found - archiving"
+                log.info("No archived copy of %s found: archiving" % resource.url)
                 # find the copy of the resource that should have already been archived
                 resource_file = os.path.join(self.archive_folder, package.name)
                 resource_file = os.path.join(resource_file, resource.hash + ".csv")
@@ -86,10 +88,10 @@ class Process(CkanCommand):
                 try:
                     resource_to_db(resource.format.lower(), resource_file, db_file)
                 except Exception as e:
-                    print "Error: Could not process", resource.url
-                    print e.message
+                    log.error("Error: Could not process %s" % resource.url)
+                    log.error(e.message)
             else:
-                print "Local copy of", resource.url, "found - skipping"
+                log.info("Local copy of %s found: skipping" % resource.url)
 
     def update(self, package_id=None):
         """
@@ -98,7 +100,7 @@ class Process(CkanCommand):
         """
         # check that archive and webstore folders exist
         if not os.path.exists(self.archive_folder):
-            print "No archived resources available to process"
+            log.error("No archived resources available to process")
             return
         if not os.path.exists(self.webstore_folder):
             os.mkdir(self.webstore_folder)
@@ -108,7 +110,7 @@ class Process(CkanCommand):
             if package:
                 packages = [package]
             else:
-                print "Error: Package not found:", package_id
+                log.error("Package not found: %s" % package_id)
         else:
             # All resources that we can process should be stored
             # in a folder with the same name as their package in the
@@ -120,6 +122,6 @@ class Process(CkanCommand):
             package_names = [unicode(p) for p in package_names]
             packages = [Package.get(p) for p in package_names]
 
-        print "Total packages to update:", len(packages)
+        log.info("Total packages to update: %d" % len(packages))
         for package in packages:
             self._update_package(package)
