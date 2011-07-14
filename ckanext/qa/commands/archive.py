@@ -74,7 +74,7 @@ class Archive(CkanCommand):
             return
 
         self._load_config()
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger('qa')
         self.archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
         cmd = self.args[0]
 
