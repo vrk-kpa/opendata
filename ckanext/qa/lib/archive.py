@@ -84,10 +84,23 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
             log.error("%s" % e)
         else:
             headers = response.info()
+            resource_format = resource.format.lower()
             ct = get_header(headers, 'content-type')
             cl = get_header(headers, 'content-length')
-            if ct:
-                if ct.lower() == 'text/csv' and cl < str(MAX_CONTENT_LENGTH):
+
+            # make sure resource does not exceed our maximum content size
+            if cl >= str(MAX_CONTENT_LENGTH):
+                # TODO: we should really log this using the archive_result call
+                #       below, but first make sure that this is handled properly
+                #       by the QA command.
+                # archive_result(db_file, resource.id, "Content-length exceeds maximum allowed value")
+                log.info("Could not archive %s: exceeds maximum content-length" % resource.url)
+                return
+
+            # try to archive csv files
+            if(resource_format == 'csv' or resource_format == 'text/csv' or
+               ct.lower() == 'text/csv'):
+                    log.info("Resource identified as CSV file, attempting to archive")
                     length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length == 0:
                         # Assume the head request is behaving correctly and not 
@@ -105,6 +118,8 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                         )
                     archive_result(db_file, resource.id, 'ok', True, ct, cl)
                     log.info("Saved %s as %s" % (resource.url, hash))
+            else:
+                log.info("Can not currently archive this content-type: %s" % ct)
 
 def hash_and_save(archive_folder, resource, response, size=1024*16):
     resource_hash = hashlib.sha1()
