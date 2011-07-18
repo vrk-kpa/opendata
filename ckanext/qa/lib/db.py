@@ -104,6 +104,10 @@ def archive_result(db_file, resource_id, message, success=False, content_type=No
     }
     table.add_row(result)
     table.commit()
+    if success:
+        log.info("Successfully archived resource")
+    else:
+        log.info("Could not archive resource: %s" % message)
 
 def get_resource_result(db_file, resource_id):
     try:
