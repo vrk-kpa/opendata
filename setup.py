@@ -13,7 +13,7 @@ setup(
     """,
     classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='',
-    author='CKAN',
+    author='CKAN Team (Open Knowledge Foundation)',
     author_email='ckan@okfn.org',
     url='http://ckan.org/wiki/Extensions',
     license='mit',
