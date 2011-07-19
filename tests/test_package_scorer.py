@@ -87,6 +87,8 @@ def with_archive_result(result):
                     TEST_ARCHIVE_RESULTS_FILE, r.id, 
                     result['message'], result['success'], result['content-type']
                 )
+            # TODO: remove archive result after running test function
+            #       should not currently cause a problem, but it's untidy
             return func(*args, **kwargs)
         return decorated
     return decorator
@@ -113,60 +115,92 @@ class TestCheckResultScore(BaseCase):
             assert resource.extras[u'openness_score'] == u'0', resource.extras
             assert resource.extras[u'openness_score_reason'] == u'URL temporarily unavailable', \
                 resource.extras
-        
         assert package.extras[u'openness_score'] == u'0', package.extras
 
-#     @with_mock_url('?status=404')
-#     def test_url_with_permanent_fetch_error_scores_zero(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (0, _('URL unobtainable')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': '?status=404', 'message': 'URL unobtainable', 
+        'success': False, 'content-type': 'text/csv'
+    })
+    def test_url_with_permanent_fetch_error_scores_zero(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'0', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'URL unobtainable', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'0', package.extras
 
-#     @with_mock_url('?content-type=arfle/barfle-gloop')
-#     def test_url_with_unknown_content_type_scores_one(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('unrecognized content type')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': '?content-type=arfle/barfle-gloop', 'message': 'unrecognised content type', 
+        'success': False, 'content-type': 'text/csv'
+    })
+    def test_url_with_unknown_content_type_scores_one(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'0', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'unrecognised content type', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'0', package.extras
 
-#     @with_mock_url('?content-type=text/html')
-#     def test_url_pointing_to_html_page_scores_one(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': '?content-type=text/html', 'message': 'obtainable via web page', 
+        'success': True, 'content-type': 'text/html'
+    })
+    def test_url_pointing_to_html_page_scores_one(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'1', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'obtainable via web page', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'1', package.extras
 
-#     @with_mock_url('?content-type=text/html%3B+charset=UTF-8')
-#     def test_content_type_with_charset_still_recognized_as_html(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': '?content-type=text/html%3B+charset=UTF-8', 'message': 'obtainable via web page', 
+        'success': True, 'content-type': 'text/html'
+    })
+    def test_content_type_with_charset_still_recognized_as_html(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'1', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'obtainable via web page', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'1', package.extras
 
-#     @with_mock_url('?content-type=text/csv')
-#     def test_machine_readable_formats_score_two(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (2, _('machine readable format')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': 'application/vnd.ms-excel', 'message': 'machine readable format', 
+        'success': True, 'content-type': 'application/vnd.ms-excel'
+    })
+    def test_machine_readable_formats_score_two(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'2', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'machine readable format', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'2', package.extras
 
-#     @with_mock_url('?content-type=application/json')
-#     def test_open_standard_formats_score_three(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (3, _('open and standardized format')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': 'text/csv', 'message': 'open and standardized format', 
+        'success': True, 'content-type': 'text/csv'
+    })
+    def test_open_standard_formats_score_three(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'3', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'open and standardized format', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'3', package.extras
 
-#     @with_mock_url('?content-type=application/rdf%2Bxml')
-#     def test_ontological_formats_score_four(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (4, _('ontologically represented')), \
-#                 resource_details(url)
+    @with_archive_result({
+        'url': '?content-type=application/rdf+xml', 'message': 'ontologically represented', 
+        'success': True, 'content-type': 'application/rdf+xml'
+    })
+    def test_ontological_formats_score_four(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'4', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'ontologically represented', \
+                resource.extras
+        assert package.extras[u'openness_score'] == u'4', package.extras
 
-#     @with_mock_url('?content=TEST;content-type=application/rdf%2Bxml')
-#     def test_resource_hash_and_content_length(self, url):
-#         url_details = resource_details(url)
-#         from hashlib import sha1
-#         content_hash = sha1('TEST').hexdigest()
-#         content_length = len('TEST')
-
-#         assert url_details.hash == content_hash, url_details
-#         assert url_details.content_length == content_length, url_details
         
 class TestCheckPackageScore(BaseCase):
 
