@@ -119,6 +119,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                     archive_result(db_file, resource.id, 'ok', True, ct, cl)
                     log.info("Saved %s as %s" % (resource.url, hash))
             else:
+                archive_result(db_file, resource.id, 'unrecognised content type', False, ct, cl)
                 log.info("Can not currently archive this content-type: %s" % ct)
 
 def hash_and_save(archive_folder, resource, response, size=1024*16):
