@@ -1,6 +1,3 @@
-import os
-from datetime import datetime
-
 from paste.deploy import appconfig
 import paste.fixture
 
@@ -8,7 +5,11 @@ from ckan.config.middleware import make_app
 from ckan.tests import conf_dir, url_for, CreateTestData
 from ckan.model import Session, Package
 
-from ckanext.qa.lib.package_scorer import update_package_score
+from ckanext.qa.lib.package_scorer import package_score
+from ckanext.qa.lib import log
+log.create_default_logger()
+
+TEST_ARCHIVE_RESULTS_FILE = 'tests/test_archive_results.db'
 
 class TestQAController:
     @classmethod
@@ -29,7 +30,7 @@ class TestQAController:
         assert 'Quality Assurance' in response, response
         
     def test_packages_with_broken_resource_links(self):
-        url = url_for('qa_action', action='packages_with_broken_resource_links')
+        url = url_for('qa_package_action', action='broken_resource_links')
         response = self.app.get(url)
         assert 'broken resource.' in response, response
         
@@ -37,7 +38,7 @@ class TestQAController:
         # make sure the packages created by CreateTestData
         # have all the extra attributes we might expecting
         for p in Session.query(Package):
-            update_package_score(p)
-        url = url_for('qa_action', action='package_openness_scores')
+            package_score(p, TEST_ARCHIVE_RESULTS_FILE)
+        url = url_for('qa_package_action', action='five_stars')
         response = self.app.get(url)
         assert 'openness scores' in response, response
