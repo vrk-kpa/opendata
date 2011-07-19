@@ -53,7 +53,7 @@ def package_score(package, results_file):
             #       so should this just throw an error?
             resource.extras[u'openness_score'] = '0'
             resource.extras[u'openness_score_reason'] = u"URL unobtainable"
-        elif not bool(archive_result['success']):
+        elif archive_result['success'] == 'False':
             resource.extras[u'openness_score'] = '0'
             resource.extras[u'openness_score_reason'] = archive_result['message']
         else:
