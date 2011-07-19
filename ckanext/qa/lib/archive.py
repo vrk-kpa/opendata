@@ -41,7 +41,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
     if not any(url.startswith(scheme + '://') for scheme in allowed_schemes):
-        archive_result(db_file, resource.id, "Invalid scheme")
+        archive_result(db_file, resource.id, "Invalid url scheme")
     else:
         # Send a head request
         http_request = HEADRequest(url)
