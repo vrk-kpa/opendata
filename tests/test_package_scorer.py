@@ -157,59 +157,68 @@ class TestCheckPackageScore(BaseCase):
         for key in extras:
             assert key in package.extras, (key, package.extras)
 
-    # @with_package_resources('?status=200')
-    # def test_update_package_doesnt_update_overridden_package(self, package):
-    #     update_package_score(package)
-    #     package.extras[PKGEXTRA.openness_score_override] = 5
-    #     update_package_score(package)
-    #     assert package.extras[PKGEXTRA.openness_score_override] == 5
+    @with_package_resources('?status=200')
+    def test_update_package_doesnt_update_overridden_package(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        package.extras[u'openness_score_override'] = u'5'
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert package.extras[u'openness_score_override'] == u'5', package.extras
 
-    # @with_package_resources('?status=503')
-    # def test_repeated_temporary_failures_give_permanent_failure(self, package):
-    #     for ix in range(5):
-    #         update_package_score(package, force=True)
-    #         assert package.extras[PKGEXTRA.openness_score] == None
+    @with_package_resources('?status=503')
+    def test_repeated_temporary_failures_give_permanent_failure(self, package):
+        for x in range(5):
+            package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+            assert package.extras[u'openness_score'] == u'0', package.extras
 
-    #     update_package_score(package, force=True)
-    #     assert package.extras[PKGEXTRA.openness_score] == 0
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert package.extras[u'openness_score'] == u'0',  package.extras
         
-    # @with_package_resources('')
-    # def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
-    #     baseurl = package.resources[0].url
-    #     package.resources[0].url = baseurl + '?status=200;content-type=application/rdf%2Bxml'
-    #     update_package_score(package)
-    #     assert package.extras[PKGEXTRA.openness_score] == 4.0, package.extras
+    @with_package_resources('')
+    def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
+        # known fail: package_score will give an openness_score of 0 for the
+        # first url
+        from nose.plugins.skip import SkipTest
+        raise SkipTest
 
-    #     package.resources[0].url = baseurl + '?status=503'
-    #     update_package_score(package, force=True)
-    #     assert package.extras[PKGEXTRA.openness_score] == 4.0, package.extras
+        baseurl = package.resources[0].url
+        package.resources[0].url = baseurl + '?status=200;content-type=application/rdf%2Bxml'
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert package.extras[u'openness_score'] == u'4', package.extras
 
-    # @with_package_resources('?status=503')
-    # def test_package_retry_interval_backs_off(self, package):
+        package.resources[0].url = baseurl + '?status=503'
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert package.extras[u'openness_score'] == u'4', package.extras
 
-    #     base_time = datetime(1970, 1, 1, 0, 0, 0)
-    #     mock_datetime = Mock()
-    #     mock_datetime.now.return_value = base_time
+    @with_package_resources('?status=503')
+    def test_package_retry_interval_backs_off(self, package):
+        # known fail: next_check_time function does not exist
+        from nose.plugins.skip import SkipTest
+        raise SkipTest
+        base_time = datetime(1970, 1, 1, 0, 0, 0)
+        mock_datetime = Mock()
+        mock_datetime.now.return_value = base_time
 
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         update_package_score(package)
-    #     assert next_check_time(package) == base_time + retry_interval
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
+            package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert next_check_time(package) == base_time + retry_interval
 
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         update_package_score(package, force=True)
-    #     assert next_check_time(package) == base_time + 2 * retry_interval
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
+            package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert next_check_time(package) == base_time + 2 * retry_interval
 
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         update_package_score(package, force=True)
-    #     assert next_check_time(package) == base_time + 4 * retry_interval
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
+            package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert next_check_time(package) == base_time + 4 * retry_interval
 
-    # @with_package_resources('?status=200')
-    # def test_package_retry_interval_used_on_successful_scoring(self, package):
+    @with_package_resources('?status=200')
+    def test_package_retry_interval_used_on_successful_scoring(self, package):
+        # known fail: next_check_time function does not exist
+        from nose.plugins.skip import SkipTest
+        raise SkipTest
+        base_time = datetime(1970, 1, 1, 0, 0, 0)
+        mock_datetime = Mock()
+        mock_datetime.now.return_value = base_time
 
-    #     base_time = datetime(1970, 1, 1, 0, 0, 0)
-    #     mock_datetime = Mock()
-    #     mock_datetime.now.return_value = base_time
-
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         update_package_score(package)
-    #     assert next_check_time(package) == base_time + retry_interval, next_check_time(package)
+        with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
+            package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        assert next_check_time(package) == base_time + retry_interval, next_check_time(package)
