@@ -120,5 +120,4 @@ def get_resource_result(db_file, resource_id):
         keys = results.keys()
         return dict(zip(keys, results.fetchone()))
     except Exception as e:
-        log.error("Could not get archive results for " + resource_id)
-        log.error(e.message)
+        log.info("Could not get archive results for " + resource_id)
