@@ -14,10 +14,11 @@ from ckan.lib.create_test_data import CreateTestData
 
 from ckanext.qa.lib import log
 log.create_default_logger()
+from ckanext.qa.lib.db import get_resource_result, archive_result
 from ckanext.qa.lib.package_scorer import package_score
 from tests.lib.mock_remote_server import MockEchoTestServer, MockTimeoutTestServer
 
-TEST_PACKAGE_NAME = u'test_package'
+TEST_PACKAGE_NAME = u'falafel'
 TEST_ARCHIVE_RESULTS_FILE = 'tests/test_archive_results.db'
 
 def with_mock_url(url=''):
@@ -70,20 +71,50 @@ def with_package_resources(*resource_urls):
                 repo.commit_and_remove()
         return decorated
     return decorator
-    
-# class TestCheckURLScore(BaseCase):
 
-#     @with_mock_url('?status=200;content=test;content-type=text/plain')
-#     def test_url_with_content(self, url):
-#         from hashlib import sha1
-#         url_details = resource_details(quote_plus(url))
-#         assert url_details.hash == sha1('test').hexdigest(), resource_details(url)
+def with_archive_result(result):
+    """
+    Create an archive result with the given result dict.
+    Remove archive result when done.
+    """
+    def decorator(func):
+        @with_package_resources(result['url'])
+        @wraps(func)
+        def decorated(*args, **kwargs):
+            package = args[-1]
+            for r in package.resources:
+                archive_result(
+                    TEST_ARCHIVE_RESULTS_FILE, r.id, 
+                    result['message'], result['success'], result['content-type']
+                )
+            return func(*args, **kwargs)
+        return decorated
+    return decorator
+
+class TestCheckResultScore(BaseCase):
+
+    @with_archive_result({
+        'url': '?status=200&content-type="text/csv"&content="test"', 
+        'message': 'ok', 'success': True, 'content-type': 'text/csv'
+    })
+    def test_url_with_content(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'3', resource.extras
+        assert package.extras[u'openness_score'] == u'3', package.extras
+
+    @with_archive_result({
+        'url': '?status=503', 'message': 'URL temporarily unavailable', 
+        'success': False, 'content-type': 'text/csv'
+    })
+    def test_url_with_temporary_fetch_error_not_scored(self, package):
+        package_score(package, TEST_ARCHIVE_RESULTS_FILE)
+        for resource in package.resources:
+            assert resource.extras[u'openness_score'] == u'0', resource.extras
+            assert resource.extras[u'openness_score_reason'] == u'URL temporarily unavailable', \
+                resource.extras
         
-#     @with_mock_url('?status=503')
-#     def test_url_with_temporary_fetch_error_not_scored(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (None, _('URL temporarily unavailable')), \
-#                 resource_details(url)
+        assert package.extras[u'openness_score'] == u'0', package.extras
 
 #     @with_mock_url('?status=404')
 #     def test_url_with_permanent_fetch_error_scores_zero(self, url):
@@ -175,6 +206,7 @@ class TestCheckPackageScore(BaseCase):
         
     @with_package_resources('')
     def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
+        # TODO: fix
         # known fail: package_score will give an openness_score of 0 for the
         # first url
         from nose.plugins.skip import SkipTest
@@ -191,9 +223,11 @@ class TestCheckPackageScore(BaseCase):
 
     @with_package_resources('?status=503')
     def test_package_retry_interval_backs_off(self, package):
+        # TODO: fix
         # known fail: next_check_time function does not exist
         from nose.plugins.skip import SkipTest
         raise SkipTest
+
         base_time = datetime(1970, 1, 1, 0, 0, 0)
         mock_datetime = Mock()
         mock_datetime.now.return_value = base_time
@@ -212,9 +246,11 @@ class TestCheckPackageScore(BaseCase):
 
     @with_package_resources('?status=200')
     def test_package_retry_interval_used_on_successful_scoring(self, package):
+        # TODO: fix
         # known fail: next_check_time function does not exist
         from nose.plugins.skip import SkipTest
         raise SkipTest
+
         base_time = datetime(1970, 1, 1, 0, 0, 0)
         mock_datetime = Mock()
         mock_datetime.now.return_value = base_time
