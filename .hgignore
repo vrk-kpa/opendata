@@ -11,3 +11,4 @@ development.ini
 *.swp
 download
 archive
+tests/test.db
