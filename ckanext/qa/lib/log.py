@@ -5,6 +5,10 @@ import unicodedata
 import logging
 logger = None
 
+def create_default_logger():
+    global logger
+    logger = logging.getLogger('qa')
+
 def set_config(config):
     """
     set the logger used by this module
