@@ -48,9 +48,12 @@ def package_score(package, results_file):
     for resource in package.resources:
         archive_result = get_resource_result(results_file, resource.id)
         if not archive_result:
-            break
-
-        if not bool(archive_result['success']):
+            # set a default message if no archive result for this resource
+            # TODO: Should this happen? We should be archiving GET request failures anyway, 
+            #       so should this just throw an error?
+            resource.extras[u'openness_score'] = '0'
+            resource.extras[u'openness_score_reason'] = u"URL unobtainable"
+        elif not bool(archive_result['success']):
             resource.extras[u'openness_score'] = '0'
             resource.extras[u'openness_score_reason'] = archive_result['message']
         else:
