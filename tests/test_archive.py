@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from functools import partial, wraps
 from urllib import quote_plus
@@ -21,6 +22,10 @@ from tests.lib.mock_remote_server import MockEchoTestServer, MockTimeoutTestServ
 TEST_PACKAGE_NAME = u'falafel'
 TEST_ARCHIVE_RESULTS_FILE = 'tests/test_archive_results.db'
 TEST_ARCHIVE_FOLDER = 'tests/test_archive_folder'
+
+# make sure test archive folder exists
+if not os.path.exists(TEST_ARCHIVE_FOLDER):
+    os.mkdir(TEST_ARCHIVE_FOLDER)
 
 def with_mock_url(url=''):
     """
@@ -83,41 +88,63 @@ class TestCheckURL(BaseCase):
                 TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
             )
             result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
-            assert result['success'] == 'False'
-            assert result['message'] == 'Invalid url scheme'
+            assert result['success'] == 'False', result
+            assert result['message'] == 'Invalid url scheme', result
 
-#     @raises(BadURLError)
-#     def test_bad_url_raises_BadURLError(self):
-#         response_for_url('bad://127.0.0.1/')
+    @with_package_resources('?status=200')
+    def test_bad_url_raises_BadURLError(self, package):
+        for resource in package.resources:
+            resource.url = u'bad://127.0.0.1'
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'False', result
+            assert result['message'] == 'Invalid url scheme', result
 
-#     @raises(BadURLError)
-#     def test_empty_url_raises_BadURLError(self):
-#         response_for_url('')
+    @with_package_resources('?status=200')
+    def test_empty_url_raises_BadURLError(self, package):
+        for resource in package.resources:
+            resource.url = u''
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'False', result
+            assert result['message'] == 'Invalid url scheme', result
 
-#     @raises(TemporaryFetchError)
-#     @with_mock_url('/?status=503')
-#     def test_url_with_503_raises_TemporaryFetchError(self, url):
-#         response_for_url(url)
+    @with_package_resources('?status=503')
+    def test_url_with_503_raises_TemporaryFetchError(self, package):
+        for resource in package.resources:
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'False', result
+            assert result['message'] == 'Service unavailable', result
 
-#     @raises(PermanentFetchError)
-#     @with_mock_url('/?status=404')
-#     def test_url_with_404_raises_PermanentFetchError(self, url):
-#         response_for_url(url)
+    @with_package_resources('?status=404')
+    def test_url_with_404_raises_PermanentFetchError(self, package):
+        for resource in package.resources:
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'False', result
+            assert result['message'] == 'URL unobtainable', result
 
-#     def test_url_with_30x_follows_redirect(self):
-#         with MockEchoTestServer().serve() as serveraddr:
-#             redirecturl = '%s/?status=200;content=test' % (serveraddr,)
-#             response = response_for_url('%s/?status=301;location=%s' % (serveraddr, quote_plus(redirecturl)))
-#             assert response.read() == 'test'
+    @with_package_resources('')
+    def test_url_with_30x_follows_redirect(self, package):
+        for resource in package.resources:
+            redirect_url = resource.url + u'?status=200&content=test&content-type=text/csv'
+            resource.url = resource.url + u'?status=301&location=%s' % quote_plus(redirect_url)
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'True', result
+            assert result['message'] == 'ok', result
 
-
-#     @raises(TemporaryFetchError)
-#     def test_timeout_raises_temporary_fetch_error(self):
-#         with patch('ckanext.qa.lib.package_scorer.url_timeout', 0.5):
-#             def test():
-#                 with MockTimeoutTestServer(2).serve() as serveraddr:
-#                     response = response_for_url(serveraddr)
-#             test()
 
 # class TestCheckURLScore(BaseCase):
 
@@ -184,79 +211,3 @@ class TestCheckURL(BaseCase):
 
 #         assert url_details.hash == content_hash, url_details
 #         assert url_details.content_length == content_length, url_details
-        
-# class TestCheckPackageScore(BaseCase):
-
-#     @with_package_resources('?status=503')
-#     def test_temporary_failure_increments_failure_count(self, package):
-
-#         update_package_score(package)
-#         assert package.extras[PKGEXTRA.openness_score_failure_count] == 1, \
-#             package.extras[PKGEXTRA.openness_score_failure_count]
-
-#         update_package_score(package, force=True)
-#         assert package.extras[PKGEXTRA.openness_score_failure_count] == 2, \
-#             package.extras[PKGEXTRA.openness_score_failure_count]
-
-#     @with_package_resources('?status=200')
-#     def test_update_package_resource_creates_all_extra_records(self, package):
-#         update_package_score(package)
-#         for key in PKGEXTRA:
-#             assert key in package.extras, (key, package.extras)
-
-#     @with_package_resources('?status=200')
-#     def test_update_package_doesnt_update_overridden_package(self, package):
-#         update_package_score(package)
-#         package.extras[PKGEXTRA.openness_score_override] = 5
-#         update_package_score(package)
-#         assert package.extras[PKGEXTRA.openness_score_override] == 5
-
-#     @with_package_resources('?status=503')
-#     def test_repeated_temporary_failures_give_permanent_failure(self, package):
-#         for ix in range(5):
-#             update_package_score(package, force=True)
-#             assert package.extras[PKGEXTRA.openness_score] == None
-
-#         update_package_score(package, force=True)
-#         assert package.extras[PKGEXTRA.openness_score] == 0
-        
-#     @with_package_resources('')
-#     def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
-#         baseurl = package.resources[0].url
-#         package.resources[0].url = baseurl + '?status=200;content-type=application/rdf%2Bxml'
-#         update_package_score(package)
-#         assert package.extras[PKGEXTRA.openness_score] == 4.0, package.extras
-
-#         package.resources[0].url = baseurl + '?status=503'
-#         update_package_score(package, force=True)
-#         assert package.extras[PKGEXTRA.openness_score] == 4.0, package.extras
-
-#     @with_package_resources('?status=503')
-#     def test_package_retry_interval_backs_off(self, package):
-
-#         base_time = datetime(1970, 1, 1, 0, 0, 0)
-#         mock_datetime = Mock()
-#         mock_datetime.now.return_value = base_time
-
-#         with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-#             update_package_score(package)
-#         assert next_check_time(package) == base_time + retry_interval
-
-#         with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-#             update_package_score(package, force=True)
-#         assert next_check_time(package) == base_time + 2 * retry_interval
-
-#         with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-#             update_package_score(package, force=True)
-#         assert next_check_time(package) == base_time + 4 * retry_interval
-
-#     @with_package_resources('?status=200')
-#     def test_package_retry_interval_used_on_successful_scoring(self, package):
-
-#         base_time = datetime(1970, 1, 1, 0, 0, 0)
-#         mock_datetime = Mock()
-#         mock_datetime.now.return_value = base_time
-
-#         with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-#             update_package_score(package)
-#         assert next_check_time(package) == base_time + retry_interval, next_check_time(package)
