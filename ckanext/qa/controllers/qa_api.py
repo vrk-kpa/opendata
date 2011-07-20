@@ -1,3 +1,4 @@
+import os
 import json
 import csv
 
@@ -7,13 +8,18 @@ except ImportError:
     import StringIO
 
 from pylons.decorators import jsonify
-from ckan.lib.base import response
+from pylons.i18n import _
+from pylons import tmpl_context as c, config
+from ckan import model
+from ckan.logic.action import get
+from ckan.lib.base import response, abort
 from ..dictization import (
     five_stars,
     broken_resource_links_by_package,
     broken_resource_links_by_package_for_organisation, 
     organisations_with_broken_resource_links,
 )
+from ckanext.qa.lib.db import get_resource_result
 from base import QAController
 
 headers = [
@@ -135,4 +141,43 @@ class ApiController(QAController):
 
     @jsonify
     def resources_available(self, id):
-        return {'resources': [{'resource_hash': '', 'resource_available': 'false', 'resource_cache': 'http://test.ckan.net'}]}
+        """
+        Looks at the QA results for each resource in the package identified by id.
+        Returns a JSON object of the form:
+            
+            {'resources' : [<list of resource objects>]}
+
+        Each resource object is of the form:
+
+            {'resource_available': 'true|false', 'resource_hash': '<value>',
+             'resource_cache': '<value>'}
+        """
+        context = {'model': model, 'id': id, 'user': c.user or c.author}
+        pkg = get.package_show(context)
+
+        if not pkg:
+            abort(404, _('Package not found'))
+
+        archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
+        archive_results_file = os.path.join(archive_folder, 'archive.db')
+        if not os.path.exists(archive_results_file):
+            return {'error': 'no archive file found, cannot check resource availabilty'}
+
+        resources = []
+        for resource in pkg.get('resources', []):
+            r = {}
+            r['resource_hash'] = resource[u'hash']
+            r['resource_available'] = 'unknown'
+            r['resource_cache'] = ''
+            # look at archive results to see if resource was found
+            archive_result = get_resource_result(archive_results_file, resource[u'id'])
+            if archive_result:
+                if archive_result['success'] == u'True':
+                    r['resource_available'] = 'true'
+                else:
+                    r['resource_available'] = 'false'
+                    # see if we have a saved copy
+                    # create the url to serve this copy
+            # add to resource list
+            resources.append(r)
+        return {'resources': resources}
