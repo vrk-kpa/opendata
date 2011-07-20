@@ -46,9 +46,10 @@ class QA(SingletonPlugin):
                 'package_name': c.pkg.name,
                 'api_endpoint': h.url_for('qa_api_resources_available', id=c.pkg.name)
             }
+            # add CSS
+            stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
             # add qa.js link
-            stream = stream | Transformer('body')\
-                .append(HTML(html.QA_JS_CODE % data))
+            stream = stream | Transformer('body').append(HTML(html.JS_CODE % data))
                         
         return stream
         
