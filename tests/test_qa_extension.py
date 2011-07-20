@@ -48,6 +48,7 @@ class TestQAController:
         url = url_for(controller='package', action='read', id=pkg_id)
         response = self.app.get(url)
         assert 'qa.js' in response, response
+        assert '/ckanext/qa/style.css' in response, response
 
     def test_resource_available_api_exists(self):
         pkg_id = Session.query(Package).first().id
