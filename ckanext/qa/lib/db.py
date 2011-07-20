@@ -86,7 +86,9 @@ def resource_to_db(resource_format, resource_file, db_file):
         table.add_row(row_dict)
     table.commit()
 
-def archive_result(db_file, resource_id, message, success=False, content_type=None, content_length=None):
+def archive_result(db_file, resource_id, message, success=False, 
+                   content_type=None, content_length=None,
+                   hash=None):
     """
     Save the result of attempting to archive resource_id.
     """
@@ -100,6 +102,7 @@ def archive_result(db_file, resource_id, message, success=False, content_type=No
         u'success': unicode(success),
         u'content_type': unicode(content_type),
         u'content_length': unicode(content_length),
+        u'hash': hash,
         u'updated': unicode(datetime.datetime.now().isoformat())
     }
     table.add_row(result)

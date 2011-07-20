@@ -116,7 +116,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                             os.path.join(archive_folder, 'archive_%s'%os.getpid()),
                             os.path.join(dst_dir, hash+'.csv'),
                         )
-                    archive_result(db_file, resource.id, 'ok', True, ct, cl)
+                    archive_result(db_file, resource.id, 'ok', True, ct, cl, hash)
                     log.info("Saved %s as %s" % (resource.url, hash))
             else:
                 archive_result(db_file, resource.id, 'unrecognised content type', False, ct, cl)
