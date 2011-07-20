@@ -51,11 +51,14 @@ class TestQAController:
 
     def test_resource_available_api_exists(self):
         pkg_id = Session.query(Package).first().id
-        url = url_for('qa_api_resource_available', id=pkg_id)
+        url = url_for('qa_api_resources_available', id=pkg_id)
         response = self.app.get(url)
         # make sure that the response content type is JSON
         assert response.header('Content-Type') == "application/json", response
         # make sure that the response contains the expected keys
         response_json = json.loads(response.body)
-        assert 'resource_available' in response_json.keys(), response_json
-        assert 'resource_cache' in response_json.keys(), response_json
+        assert 'resources' in response_json.keys(), response_json
+        for resource in response_json['resources']:
+            assert 'resource_hash' in resource.keys(), resource
+            assert 'resource_available' in resource.keys(), resource
+            assert 'resource_cache' in resource.keys(), resource

@@ -134,5 +134,5 @@ class ApiController(QAController):
             return json.dumps(result)
 
     @jsonify
-    def resource_available(self, id):
-        return {'resource_available': 'unknown', 'resource_cache': ''}
+    def resources_available(self, id):
+        return {'resources': [{'resource_hash': '', 'resource_available': 'false', 'resource_cache': 'http://test.ckan.net'}]}

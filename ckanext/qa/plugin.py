@@ -42,7 +42,10 @@ class QA(SingletonPlugin):
         if(routes.get('controller') == 'package' and
            routes.get('action') == 'read' and 
            c.pkg.id):
-            data = {'package_id': c.pkg.id}
+            data = {
+                'package_name': c.pkg.name,
+                'api_endpoint': h.url_for('qa_api_resources_available', id=c.pkg.name)
+            }
             # add qa.js link
             stream = stream | Transformer('body')\
                 .append(HTML(html.QA_JS_CODE % data))
@@ -87,10 +90,10 @@ class QA(SingletonPlugin):
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')
 
-        map.connect('qa_api_resource_available', '/api/2/util/qa/resource_available/{id}',
+        map.connect('qa_api_resources_available', '/api/2/util/qa/resources_available/{id}',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController',
-            action='resource_available')
+            action='resources_available')
                 
         return map
 
