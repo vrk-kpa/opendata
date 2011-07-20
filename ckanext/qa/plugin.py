@@ -1,21 +1,17 @@
 import os
-from logging import getLogger
-
 from genshi.input import HTML
 from genshi.filters import Transformer
-
+from pylons import tmpl_context as c
 import ckan.lib.helpers as h
-
 from ckan.plugins import implements, SingletonPlugin
 from ckan.plugins import IRoutes, IConfigurer
 from ckan.plugins import IConfigurable, IGenshiStreamFilter
-
 import html
 
+from logging import getLogger
 log = getLogger(__name__)
 
 class QA(SingletonPlugin):
-    
     implements(IConfigurable)
     implements(IGenshiStreamFilter)
     implements(IRoutes, inherit=True)
@@ -25,22 +21,31 @@ class QA(SingletonPlugin):
         self.enable_organisations = config.get('qa.organisations', True)
 
     def filter(self, stream):
+        from pylons import request
+        routes = request.environ.get('pylons.routes_dict')
+
+        # show organization info
         if self.enable_organisations:
-            from pylons import request
-            routes = request.environ.get('pylons.routes_dict')
+            if(routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'
+               and routes.get('action') == 'index'):
 
-            if routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'\
-               and routes.get('action') == 'index':
-
-                data = dict(link = h.link_to("Organizations who have published packages with broken resource links.",\
-                    # h.url_for(controller='qa',\
-                    # action='organisations_with_broken_resource_links')
-                    h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',\
+                link_text = "Organizations who have published packages with broken resource links."
+                data = dict(link = h.link_to(link_text,
+                    h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',
                         action='broken_resource_links')
                 ))
 
                 stream = stream | Transformer('body//div[@class="qa-content"]')\
                     .append(HTML(html.ORGANIZATION_LINK % data))
+
+        # if this is the read action of a package, check for unavailable resources
+        if(routes.get('controller') == 'package' and
+           routes.get('action') == 'read' and 
+           c.pkg.id):
+            data = {'package_id': c.pkg.id}
+            # add qa.js link
+            stream = stream | Transformer('body')\
+                .append(HTML(html.QA_JS_CODE % data))
                         
         return stream
         
@@ -81,6 +86,11 @@ class QA(SingletonPlugin):
         map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')
+
+        map.connect('qa_api_resource_available', '/api/2/util/qa/resource_available/{id}',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.qa_api:ApiController',
+            action='resource_available')
                 
         return map
 

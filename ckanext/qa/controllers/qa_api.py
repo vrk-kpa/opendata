@@ -6,7 +6,8 @@ try:
 except ImportError:
     import StringIO
 
-from ckan.lib.base import request, response, render
+from pylons.decorators import jsonify
+from ckan.lib.base import response
 from ..dictization import (
     five_stars,
     broken_resource_links_by_package,
@@ -132,3 +133,6 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/json'
             return json.dumps(result)
 
+    @jsonify
+    def resource_available(self, id):
+        return {'resource_available': 'unknown', 'resource_cache': ''}
