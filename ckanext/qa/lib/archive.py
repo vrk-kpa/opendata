@@ -99,7 +99,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
 
             # try to archive csv files
             if(resource_format == 'csv' or resource_format == 'text/csv' or
-               ct.lower() == 'text/csv'):
+               (ct and ct.lower() == 'text/csv')):
                     log.info("Resource identified as CSV file, attempting to archive")
                     length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length == 0:
