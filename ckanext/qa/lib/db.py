@@ -63,6 +63,8 @@ def resource_to_db(resource_format, resource_file, db_file):
                 # replace spaces in column names with underscores, spaces are not
                 # allowed in webstore column names
                 f = f.replace(' ', '_')
+                # replace dashes in column names with underscores
+                f = f.replace('-', '_')
                 # make sure name starts with a letter
                 if not f[0].isalpha():
                     f = "column_" + f
