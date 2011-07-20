@@ -78,10 +78,10 @@ def with_package_resources(*resource_urls):
     return decorator
     
 
-class TestCheckURL(BaseCase):
+class TestArchive(BaseCase):
 
     @with_package_resources('?status=200')
-    def test_file_url_error(self, package):
+    def test_file_url(self, package):
         for resource in package.resources:
             resource.url = u'file:///home/root/test.txt'
             archive_resource(
@@ -92,7 +92,7 @@ class TestCheckURL(BaseCase):
             assert result['message'] == 'Invalid url scheme', result
 
     @with_package_resources('?status=200')
-    def test_bad_url_raises_BadURLError(self, package):
+    def test_bad_url(self, package):
         for resource in package.resources:
             resource.url = u'bad://127.0.0.1'
             archive_resource(
@@ -103,7 +103,7 @@ class TestCheckURL(BaseCase):
             assert result['message'] == 'Invalid url scheme', result
 
     @with_package_resources('?status=200')
-    def test_empty_url_raises_BadURLError(self, package):
+    def test_empty_url(self, package):
         for resource in package.resources:
             resource.url = u''
             archive_resource(
@@ -114,7 +114,7 @@ class TestCheckURL(BaseCase):
             assert result['message'] == 'Invalid url scheme', result
 
     @with_package_resources('?status=503')
-    def test_url_with_503_raises_TemporaryFetchError(self, package):
+    def test_url_with_503(self, package):
         for resource in package.resources:
             archive_resource(
                 TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
@@ -124,7 +124,7 @@ class TestCheckURL(BaseCase):
             assert result['message'] == 'Service unavailable', result
 
     @with_package_resources('?status=404')
-    def test_url_with_404_raises_PermanentFetchError(self, package):
+    def test_url_with_404(self, package):
         for resource in package.resources:
             archive_resource(
                 TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
@@ -143,71 +143,26 @@ class TestCheckURL(BaseCase):
             )
             result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
             assert result['success'] == 'True', result
-            assert result['message'] == 'ok', result
 
+    @with_package_resources('?content-type=arfle/barfle-gloop')
+    def test_url_with_unknown_content_type(self, package):
+        for resource in package.resources:
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'False', result
+            assert result['message'] == 'unrecognised content type', result
 
-# class TestCheckURLScore(BaseCase):
+    @with_package_resources('?status=200;content=test;content-type=text/csv')
+    def test_resource_hash_and_content_length(self, package):
+        for resource in package.resources:
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package.name
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource.id)
+            assert result['success'] == 'True', result
+            assert result['content_length'] == unicode(len('test'))
+            from hashlib import sha1
+            assert result['hash'] == sha1('test').hexdigest(), result
 
-#     @with_mock_url('?status=200;content=test;content-type=text/plain')
-#     def test_url_with_content(self, url):
-#         from hashlib import sha1
-#         url_details = resource_details(quote_plus(url))
-#         assert url_details.hash == sha1('test').hexdigest(), resource_details(url)
-        
-#     @with_mock_url('?status=503')
-#     def test_url_with_temporary_fetch_error_not_scored(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (None, _('URL temporarily unavailable')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?status=404')
-#     def test_url_with_permanent_fetch_error_scores_zero(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (0, _('URL unobtainable')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=arfle/barfle-gloop')
-#     def test_url_with_unknown_content_type_scores_one(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('unrecognized content type')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=text/html')
-#     def test_url_pointing_to_html_page_scores_one(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=text/html%3B+charset=UTF-8')
-#     def test_content_type_with_charset_still_recognized_as_html(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (1, _('obtainable via web page')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=text/csv')
-#     def test_machine_readable_formats_score_two(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (2, _('machine readable format')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=application/json')
-#     def test_open_standard_formats_score_three(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (3, _('open and standardized format')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content-type=application/rdf%2Bxml')
-#     def test_ontological_formats_score_four(self, url):
-#         url_details = resource_details(url)
-#         assert (url_details.score, url_details.reason) == (4, _('ontologically represented')), \
-#                 resource_details(url)
-
-#     @with_mock_url('?content=TEST;content-type=application/rdf%2Bxml')
-#     def test_resource_hash_and_content_length(self, url):
-#         url_details = resource_details(url)
-#         from hashlib import sha1
-#         content_hash = sha1('TEST').hexdigest()
-#         content_length = len('TEST')
-
-#         assert url_details.hash == content_hash, url_details
-#         assert url_details.content_length == content_length, url_details
