@@ -104,14 +104,12 @@ def archive_result(db_file, resource_id, message, success=False,
         u'success': unicode(success),
         u'content_type': unicode(content_type),
         u'content_length': unicode(content_length),
-        u'hash': hash,
+        u'hash': unicode(hash),
         u'updated': unicode(datetime.datetime.now().isoformat())
     }
     table.add_row(result)
     table.commit()
-    if success:
-        log.info("Successfully archived resource")
-    else:
+    if not success:
         log.info("Could not archive resource: %s" % message)
 
 def get_resource_result(db_file, resource_id):

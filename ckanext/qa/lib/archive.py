@@ -87,6 +87,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
             resource_format = resource.format.lower()
             ct = get_header(headers, 'content-type')
             cl = get_header(headers, 'content-length')
+            dst_dir = os.path.join(archive_folder, package_name)
 
             # make sure resource does not exceed our maximum content size
             if cl >= str(MAX_CONTENT_LENGTH):
@@ -108,8 +109,6 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                         response = opener.open(urllib2.Request(url), timeout=url_timeout)
                         length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length:
-                        dst_dir = os.path.join(archive_folder, package_name)
-                        log.info('archive folder: %s' % dst_dir)
                         if not os.path.exists(dst_dir):
                             os.mkdir(dst_dir)
                         os.rename(
@@ -117,7 +116,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                             os.path.join(dst_dir, hash+'.csv'),
                         )
                     archive_result(db_file, resource.id, 'ok', True, ct, cl, hash)
-                    log.info("Saved %s as %s" % (resource.url, hash))
+                    log.info("Archive success. Saved %s to %s with hash %s" % (resource.url, dst_dir, hash))
             else:
                 archive_result(db_file, resource.id, 'unrecognised content type', False, ct, cl)
                 log.info("Can not currently archive this content-type: %s" % ct)

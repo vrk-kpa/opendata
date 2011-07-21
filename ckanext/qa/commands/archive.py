@@ -137,10 +137,15 @@ class Archive(CkanCommand):
         revision.message = u'Update resource hash values'
 
         for package in packages:
-            log.info("Checking package: %s" % package.name)
-            for resource in package.resources:
-                log.info("Attempting to archive resource: %s" % resource.url)
-                archive_resource(self.archive_folder, db_file, resource, package.name)
+            if not len(package.resources):
+                log.info("Package %s has no resources - skipping" % package.name)
+            else:
+                log.info("Checking package: %s (%d resources)" % 
+                    (package.name, len(package.resources))
+                )
+                for resource in package.resources:
+                    log.info("Attempting to archive resource: %s" % resource.url)
+                    archive_resource(self.archive_folder, db_file, resource, package.name)
 
         repo.commit()
         repo.commit_and_remove()
