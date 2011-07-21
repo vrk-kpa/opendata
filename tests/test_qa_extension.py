@@ -43,7 +43,7 @@ class TestQAController:
         response = self.app.get(url)
         assert 'openness scores' in response, response
 
-    def test_qa_js_in_package_read(self):
+    def test_qa_in_package_read(self):
         pkg_id = Session.query(Package).first().id
         url = url_for(controller='package', action='read', id=pkg_id)
         response = self.app.get(url)
