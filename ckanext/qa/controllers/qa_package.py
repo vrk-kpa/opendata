@@ -14,4 +14,3 @@ class QAPackageController(QAController):
     def broken_resource_links(self):
         c.packages = broken_resource_links_by_package()
         return render('ckanext/qa/package/broken_resource_links/index.html')
-        
