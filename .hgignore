@@ -11,5 +11,6 @@ development.ini
 *.swp
 download
 archive
+test_*.db
 tests/*.db
 tests/test_archive_folder
