@@ -159,8 +159,8 @@ class ApiController(QAController):
             abort(404, _('Package not found'))
 
         archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
-        archive_results_file = os.path.join(archive_folder, 'archive.db')
-        if not os.path.exists(archive_results_file):
+        archive_file = os.path.join(archive_folder, 'archive.db')
+        if not os.path.exists(archive_file):
             return {'error': 'no archive file found, cannot check resource availabilty'}
 
         resources = []
@@ -170,14 +170,22 @@ class ApiController(QAController):
             r['resource_available'] = 'unknown'
             r['resource_cache'] = ''
             # look at archive results to see if resource was found
-            archive_result = get_resource_result(archive_results_file, resource[u'id'])
+            archive_result = get_resource_result(archive_file, resource[u'id'])
             if archive_result:
                 if archive_result['success'] == u'True':
                     r['resource_available'] = 'true'
                 else:
                     r['resource_available'] = 'false'
                     # see if we have a saved copy
-                    # create the url to serve this copy
+                    cache = os.path.join(archive_folder, pkg[u'name'])
+                    # TODO: update this to handle other formats
+                    #       save extension info in archive file
+                    cache = os.path.join(cache, resource[u'hash'] + '.csv')
+                    if os.path.exists(cache):
+                        # create the url to serve this copy
+                        webstore = config.get('ckan.webstore_url', 'http://test-webstore.ckan.net')
+                        r['resource_cache'] = webstore + '/downloads/' + \
+                            pkg[u'name'] + '/' + resource[u'hash'] + '.csv'
             # add to resource list
             resources.append(r)
         return {'resources': resources}
