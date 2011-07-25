@@ -58,33 +58,32 @@ def package_score(package, results_file):
         archive_result = get_resource_result(results_file, resource['id'])
 
         openness_score = u'0'
-        reason = archive_result['message']
         openness_score_failure_count = int(
             resource.get('openness_score_failure_count', 0)
         )
-        ct = archive_result['content_type']
-        cl = archive_result['content_length']
 
         if not archive_result:
             # set a default message if no archive result for this resource
-            # TODO: Should this happen? We should be archiving GET request failures anyway, 
-            #       so should this just throw an error?
             reason = u"URL unobtainable"
-        elif archive_result['success'] == 'True':
-            openness_score = score_by_mime_type.get(ct, '-1')
-            reason = openness_score_reason[openness_score]
+        else:
+            reason = archive_result['message']
+            ct = archive_result['content_type']
+            cl = archive_result['content_length']
 
-            if ct:
-                if resource['format'] and resource['format'].lower() not in [
-                    ct.lower().split('/')[-1], ct.lower().split('/'),
-                ]:
-                    reason = u'The format entered for the resource doesn\'t ' + \
-                        u'match the description from the web server'
-                    openness_score = u'0'
+            if archive_result['success'] == 'True':
+                openness_score = score_by_mime_type.get(ct, '-1')
+                reason = openness_score_reason[openness_score]
+
+                if ct:
+                    if resource['format'] and resource['format'].lower() not in [
+                        ct.lower().split('/')[-1], ct.lower().split('/'),
+                    ]:
+                        reason = u'The format entered for the resource doesn\'t ' + \
+                            u'match the description from the web server'
+                        openness_score = u'0'
 
         # Set the failure count
         if openness_score == '0':
-            # At this point save the pacakge and resource, and maybe try it again
             openness_score_failure_count += 1
         # update package openness score
         if openness_score > package_openness_score:
@@ -100,7 +99,6 @@ def package_score(package, results_file):
         resource[u'openness_score_failure_count'] = unicode(openness_score_failure_count)
         update.resource_update(resource, context)
         log.info('Score for resource: %s (%s)' % (openness_score, reason))
-
 
     # package openness score
     if not 'openness_score' in [e['key'] for e in package_extras]:

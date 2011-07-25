@@ -4,7 +4,8 @@ import json
 
 from ckan.config.middleware import make_app
 from ckan.tests import conf_dir, url_for, CreateTestData
-from ckan.model import Session, Package
+from ckan import model
+from ckan.lib.dictization.model_dictize import package_dictize
 from ckanext.qa.lib.package_scorer import package_score
 from ckanext.qa.lib import log
 log.create_default_logger()
@@ -35,23 +36,24 @@ class TestQAController:
         assert 'broken resource.' in response, response
         
     def test_package_openness_scores(self):
-        # make sure the packages created by CreateTestData
-        # have all the extra attributes we might expecting
-        for p in Session.query(Package):
+        context = {'model': model, 'session': model.Session}
+        for p in model.Session.query(model.Package):
+            context['id'] = p.id
+            p = package_dictize(p, context)
             package_score(p, TEST_ARCHIVE_RESULTS_FILE)
         url = url_for('qa_package_action', action='five_stars')
         response = self.app.get(url)
         assert 'openness scores' in response, response
 
     def test_qa_in_package_read(self):
-        pkg_id = Session.query(Package).first().id
+        pkg_id = model.Session.query(model.Package).first().id
         url = url_for(controller='package', action='read', id=pkg_id)
         response = self.app.get(url)
         assert 'qa.js' in response, response
         assert '/ckanext/qa/style.css' in response, response
 
     def test_resource_available_api_exists(self):
-        pkg_id = Session.query(Package).first().id
+        pkg_id = model.Session.query(model.Package).first().id
         url = url_for('qa_api_resources_available', id=pkg_id)
         response = self.app.get(url)
         # make sure that the response content type is JSON
