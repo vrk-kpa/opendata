@@ -107,7 +107,10 @@ def archive_result(db_file, resource_id, message, success=False,
         u'hash': unicode(hash),
         u'updated': unicode(datetime.datetime.now().isoformat())
     }
-    table.add_row(result)
+    if get_resource_result(db_file, resource_id):
+        table.update_row([u'resource_id'], result)
+    else:
+        table.add_row(result)
     table.commit()
     if not success:
         log.info("Could not archive resource: %s" % message)
