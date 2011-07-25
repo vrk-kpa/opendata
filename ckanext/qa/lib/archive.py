@@ -8,8 +8,14 @@ import socket
 import urllib
 import urllib2
 import urlparse
+from ckan.logic.action import update
+from ckan import model
 from db import archive_result
 from ckanext.qa.lib.log import log
+
+# Use this specific author so that these revisions can be filtered out of
+# normal RSS feeds that cover significant package changes. See DGU#982.
+MAINTENANCE_AUTHOR = u'okfn_maintenance'
 
 # Max content-length of archived files, larger files will be ignored
 MAX_CONTENT_LENGTH = 500000
@@ -30,7 +36,7 @@ class HEADRequest(urllib2.Request):
 def archive_resource(archive_folder, db_file, resource, package_name, url_timeout=30):
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
-    url = resource.url
+    url = resource['url']
     try:
         url = url.decode('ascii')
     except:
@@ -41,7 +47,7 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
     if not any(url.startswith(scheme + '://') for scheme in allowed_schemes):
-        archive_result(db_file, resource.id, "Invalid url scheme")
+        archive_result(db_file, resource['id'], "Invalid url scheme")
     else:
         # Send a head request
         http_request = HEADRequest(url)
@@ -65,26 +71,26 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                 httplib.GATEWAY_TIMEOUT: "Gateway timeout",
             }
             if e.code in http_error_codes:
-                archive_result(db_file, resource.id, http_error_codes[e.code])
+                archive_result(db_file, resource['id'], http_error_codes[e.code])
             else:
-                archive_result(db_file, resource.id, "URL unobtainable")
+                archive_result(db_file, resource['id'], "URL unobtainable")
         except httplib.InvalidURL, e:
-            archive_result(db_file, resource.id, "Invalid URL")
+            archive_result(db_file, resource['id'], "Invalid URL")
         except urllib2.URLError, e:
             if isinstance(e.reason, socket.error):
                 # Socket errors considered temporary as could stem from a temporary
                 # network failure rather
-                archive_result(db_file, resource.id, "URL temporarily unavailable")
+                archive_result(db_file, resource['id'], "URL temporarily unavailable")
             else:
                 # Other URLErrors are generally permanent errors, eg unsupported
                 # protocol
-                archive_result(db_file, resource.id, "URL unobtainable")
+                archive_result(db_file, resource['id'], "URL unobtainable")
         except Exception, e:
-            archive_result(db_file, resource.id, "Invalid URL")
+            archive_result(db_file, resource['id'], "Invalid URL")
             log.error("%s" % e)
         else:
             headers = response.info()
-            resource_format = resource.format.lower()
+            resource_format = resource['format'].lower()
             ct = get_header(headers, 'content-type')
             cl = get_header(headers, 'content-length')
             dst_dir = os.path.join(archive_folder, package_name)
@@ -94,20 +100,21 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                 # TODO: we should really log this using the archive_result call
                 #       below, but first make sure that this is handled properly
                 #       by the QA command.
-                # archive_result(db_file, resource.id, "Content-length exceeds maximum allowed value")
-                log.info("Could not archive %s: exceeds maximum content-length" % resource.url)
+                # archive_result(db_file, resource['id'], "Content-length exceeds maximum allowed value")
+                log.info("Could not archive %s: exceeds maximum content-length" % resource['url'])
                 return
 
             # try to archive csv files
             if(resource_format == 'csv' or resource_format == 'text/csv' or
                (ct and ct.lower() == 'text/csv')):
                     log.info("Resource identified as CSV file, attempting to archive")
+                    # length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
+                    # if length == 0:
+
+                    # Assume the head request is behaving correctly and not 
+                    # returning content. Make another request for the content
+                    response = opener.open(urllib2.Request(url), timeout=url_timeout)
                     length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
-                    if length == 0:
-                        # Assume the head request is behaving correctly and not 
-                        # returning content. Make another request for the content
-                        response = opener.open(urllib2.Request(url), timeout=url_timeout)
-                        length, hash = hash_and_save(archive_folder, resource, response, size=1024*16)
                     if length:
                         if not os.path.exists(dst_dir):
                             os.mkdir(dst_dir)
@@ -115,10 +122,10 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
                             os.path.join(archive_folder, 'archive_%s'%os.getpid()),
                             os.path.join(dst_dir, hash+'.csv'),
                         )
-                    archive_result(db_file, resource.id, 'ok', True, ct, cl, hash)
-                    log.info("Archive success. Saved %s to %s with hash %s" % (resource.url, dst_dir, hash))
+                    archive_result(db_file, resource['id'], 'ok', True, ct, cl, hash)
+                    log.info("Archive success. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
             else:
-                archive_result(db_file, resource.id, 'unrecognised content type', False, ct, cl)
+                archive_result(db_file, resource['id'], 'unrecognised content type', False, ct, cl)
                 log.info("Can not currently archive this content-type: %s" % ct)
 
 def hash_and_save(archive_folder, resource, response, size=1024*16):
@@ -139,5 +146,10 @@ def hash_and_save(archive_folder, resource, response, size=1024*16):
         log.error('Could not generate hash. Error was %r' % e)
         raise
     fp.close()
-    resource.hash = resource_hash.hexdigest()
-    return length, resource.hash
+    resource['hash'] = unicode(resource_hash.hexdigest())
+    context = {
+        'id': resource['id'], 'model': model, 'session': model.Session, 
+        'user': MAINTENANCE_AUTHOR
+    }
+    update.resource_update(resource, context)
+    return length, resource['hash']

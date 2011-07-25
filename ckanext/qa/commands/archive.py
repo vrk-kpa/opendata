@@ -2,7 +2,9 @@ import sys
 import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
-from ckan.model import Package, Session, repo
+from ckan.logic.action import get
+from ckan import model
+from ckan.model import Package, Session
 from ckanext.qa.lib.archive import archive_resource
 from ckanext.qa.lib.log import log, set_config
 
@@ -101,9 +103,12 @@ class Archive(CkanCommand):
             log.info("Creating archive folder: %s" % self.archive_folder)
             os.mkdir(self.archive_folder)
         db_file = os.path.join(self.archive_folder, 'archive.db')
+        # logic layer context dict
+        context = {'model': model, 'user': MAINTENANCE_AUTHOR}
 
         if package_id:
-            package = Package.get(package_id)
+            context['id'] = package_id
+            package = get.package_show(context)
             if package:
                 packages = [package]
             else:
@@ -132,20 +137,14 @@ class Archive(CkanCommand):
         if not packages:
             return
 
-        revision = repo.new_revision()
-        revision.author = MAINTENANCE_AUTHOR
-        revision.message = u'Update resource hash values'
-
         for package in packages:
-            if not len(package.resources):
-                log.info("Package %s has no resources - skipping" % package.name)
+            resources = package.get('resources', [])
+            if not len(resources):
+                log.info("Package %s has no resources - skipping" % package['name'])
             else:
-                log.info("Checking package: %s (%d resources)" % 
-                    (package.name, len(package.resources))
+                log.info("Checking package: %s (%d resource(s))" % 
+                    (package['name'], len(resources))
                 )
-                for resource in package.resources:
-                    log.info("Attempting to archive resource: %s" % resource.url)
-                    archive_resource(self.archive_folder, db_file, resource, package.name)
-
-        repo.commit()
-        repo.commit_and_remove()
+                for resource in resources:
+                    log.info("Attempting to archive resource: %s" % resource['url'])
+                    archive_resource(self.archive_folder, db_file, resource, package['name'])
