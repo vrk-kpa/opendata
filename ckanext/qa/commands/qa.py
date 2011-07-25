@@ -2,6 +2,8 @@ import sys
 import os
 from pylons import config
 from ckan.lib.cli import CkanCommand
+from ckan.logic.action import get
+from ckan import model
 from ckan.model import Session, Package, repo
 from ckanext.qa.lib.package_scorer import package_score
 from ckanext.qa.lib.log import log, set_config
@@ -106,17 +108,15 @@ class QA(CkanCommand):
             log.error("Check that the archive path is correct and run the archive command")
             return
         results_file = os.path.join(self.archive_folder, 'archive.db')
-
-        revision = repo.new_revision()
-        revision.author = MAINTENANCE_AUTHOR
-        revision.message = u'Update package scores from cli'
+        context = {'model': model, 'user': MAINTENANCE_AUTHOR}
 
         if package_id:
-            package = Package.get(package_id)
+            context['id'] = package_id
+            package = get.package_show(context)
             if package:
                 packages = [package]
             else:
-                log.error("Package not found: %s" % package_id)
+                log.info("Error: Package not found: %s" % package_id)
         else:
             start = self.options.start
             limit = int(self.options.limit or 0)
@@ -138,10 +138,15 @@ class QA(CkanCommand):
                     packages = Session.query(Package).all()
 
         log.info("Total packages to update: %d" % len(packages))
+        if not packages:
+            return
+
         for package in packages:
-            log.info("Checking package %s (%s)" %(package.name, package.id))
-            for resource in package.resources:
-                log.info('\t%s' % (resource.url,))
-            package_score(package, results_file)
-        repo.commit()
-        repo.commit_and_remove()
+            resources = package.get('resources', [])
+            if not len(resources):
+                log.info("Package %s has no resources - skipping" % package['name'])
+            else:
+                log.info("Checking package: %s (%d resource(s))" % 
+                    (package['name'], len(resources))
+                )
+                package_score(package, results_file) 

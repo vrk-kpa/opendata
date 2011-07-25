@@ -3,7 +3,13 @@ Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type
 """
 import datetime
 from db import get_resource_result
+from ckan.logic.action import update
+from ckan import model
 from ckanext.qa.lib.log import log
+
+# Use this specific author so that these revisions can be filtered out of
+# normal RSS feeds that cover significant package changes. See DGU#982.
+MAINTENANCE_AUTHOR = u'okfn_maintenance'
 
 openness_score_reason = {
     '-1': 'unscorable content type',
@@ -44,50 +50,85 @@ for score, mime_types in mime_types_scores.items():
         score_by_mime_type[mime_type] = score
 
 def package_score(package, results_file):
-    openness_score = '0'
-    for resource in package.resources:
-        archive_result = get_resource_result(results_file, resource.id)
+    package_extras = package.get('extras', [])
+    package_openness_score = '0'
+
+    for resource in package.get('resources'):
+        log.info("Checking resource: %s" % resource['url'])
+        archive_result = get_resource_result(results_file, resource['id'])
+
+        openness_score = u'0'
+        reason = archive_result['message']
+        openness_score_failure_count = int(
+            resource.get('openness_score_failure_count', 0)
+        )
+        ct = archive_result['content_type']
+        cl = archive_result['content_length']
+
         if not archive_result:
             # set a default message if no archive result for this resource
             # TODO: Should this happen? We should be archiving GET request failures anyway, 
             #       so should this just throw an error?
-            resource.extras[u'openness_score'] = '0'
-            resource.extras[u'openness_score_reason'] = u"URL unobtainable"
-        elif archive_result['success'] == 'False':
-            resource.extras[u'openness_score'] = '0'
-            resource.extras[u'openness_score_reason'] = archive_result['message']
-        else:
-            ct = archive_result['content_type']
-            resource.extras[u'content_length'] = archive_result['content_length']
-            if ct:
-                resource.extras[u'content_type'] = ct.split(';')[0]
-                resource.extras[u'openness_score'] = score_by_mime_type.get(resource.extras[u'content_type'], '-1')
-            else:
-                resource.extras[u'content_type'] = None
-                resource.extras[u'openness_score'] = '0'
-            resource.extras[u'openness_score_reason'] = openness_score_reason[resource.extras[u'openness_score']]
+            reason = u"URL unobtainable"
+        elif archive_result['success'] == 'True':
+            openness_score = score_by_mime_type.get(ct, '-1')
+            reason = openness_score_reason[openness_score]
 
             if ct:
-                if resource.format and resource.format.lower() not in [
-                    resource.extras[u'content_type'].lower().split('/')[-1],
-                    resource.extras[u'content_type'].lower().split('/'),
+                if resource['format'] and resource['format'].lower() not in [
+                    ct.lower().split('/')[-1], ct.lower().split('/'),
                 ]:
-                    resource.extras[u'openness_score_reason'] = \
-                        'The format entered for the resource doesn\'t match the description from the web server'
-                    resource.extras[u'openness_score'] = '0'
+                    reason = u'The format entered for the resource doesn\'t ' + \
+                        u'match the description from the web server'
+                    openness_score = u'0'
 
         # Set the failure count
-        if resource.extras[u'openness_score'] == '0':
+        if openness_score == '0':
             # At this point save the pacakge and resource, and maybe try it again
-            resource.extras['openness_score_failure_count'] = \
-                resource.extras.get('openness_score_failure_count', 0) + 1
-        else:
-            resource.extras['openness_score_failure_count'] = 0
-        # String comparison
-        if resource.extras[u'openness_score'] > openness_score:
-            openness_score = resource.extras[u'openness_score']
+            openness_score_failure_count += 1
+        # update package openness score
+        if openness_score > package_openness_score:
+            package_openness_score = openness_score
 
-        log.info('Finished QA analysis of resource: %s' % resource.url)
+        # update the resource
+        context = {
+            'id': resource['id'], 'model': model, 'session': model.Session, 
+            'user': MAINTENANCE_AUTHOR, 'extras_as_string': True
+        }
+        resource[u'openness_score'] = openness_score
+        resource[u'openness_score_reason'] = reason
+        resource[u'openness_score_failure_count'] = unicode(openness_score_failure_count)
+        update.resource_update(resource, context)
+        log.info('Score for resource: %s (%s)' % (openness_score, reason))
 
-    package.extras[u'openness_score_last_checked'] = datetime.datetime.now().isoformat()
-    package.extras[u'openness_score'] = openness_score
+
+    # package openness score
+    if not 'openness_score' in [e['key'] for e in package_extras]:
+        package_extras.append({
+            'key': u'openness_score',
+            'value': package_openness_score
+        })
+    else:
+        for e in package_extras:
+            if e['key'] == 'openness_score':
+                e['value'] = package_openness_score
+
+    # package openness score last checked
+    if not 'openness_score' in [e['key'] for e in package_extras]:
+        package_extras.append({
+            'key': u'openness_score_last_checked',
+            'value': datetime.datetime.now().isoformat()
+        })
+    else:
+        for e in package_extras:
+            if e['key'] == 'openness_score_last_checked':
+                e['value'] = datetime.datetime.now().isoformat()
+    
+    context = {
+        'id': package['id'], 'model': model, 'session': model.Session, 
+        'user': MAINTENANCE_AUTHOR, 'extras_as_string': True
+    }
+    package['extras'] = package_extras
+    update.package_update(package, context)
+    log.info('Finished QA analysis of package: %s (score = %s)' 
+        % (package['name'], package_openness_score))
