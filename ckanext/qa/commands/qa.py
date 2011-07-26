@@ -135,6 +135,7 @@ class QA(CkanCommand):
             else:
                 if limit:
                     context['limit'] = limit
+                    log.info("Limiting results to %d packages" % limit)
                 packages = get.current_package_list_with_resources(context)
 
         log.info("Total packages to update: %d" % len(packages))
