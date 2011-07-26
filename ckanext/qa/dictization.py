@@ -1,14 +1,16 @@
-import re
-
+from collections import namedtuple
+from ckan import model
 from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup
+from ckan.lib.dictization.model_dictize import resource_dictize
 from sqlalchemy import or_, and_
 
-#
-# Public API
-#
-
 def five_stars():
-    results = []
+    """
+    Return a list of dicts: 1 for each package that has an 'openness_score' extra 
+    
+    Each dict is of the form:
+        {'name': <Package Name>, 'title': <Package Title>, 'openness_score': <Score>} 
+    """
     query = Session.query(
         Package.name,
         Package.title,
@@ -19,26 +21,40 @@ def five_stars():
         PackageExtra.key=='openness_score',
     ).distinct(
     ).order_by(Package.title)
+
+    results = []
     for row in query:
-        results.append(
-            {
-                'name': row[0],
-                'title': row[1],
-                'openness_score': row[3],
-            }
-        )
+        results.append({
+            'name': row[0],
+            'title': row[1],
+            'openness_score': row[3],
+        })
     return results
 
-# These three could be written from scratch in future rather than using the
-# _get_broken_resource_links() helper
-
 def broken_resource_links_by_package():
-    result = []
-    for org_details, packages in _get_broken_resource_links().items():
-        for name, resources in packages.items():
-            result.append((name, resources))
-    result.sort()
-    return result
+    query = Session.query(
+        Package,
+        Resource
+    ).join(PackageExtra
+    ).join(ResourceGroup
+    ).join(Resource
+    ).filter(PackageExtra.key == 'openness_score'
+    ).distinct(
+    ).order_by(Package.title)
+
+    context = {'model': model, 'session': model.Session}
+    results = {}
+    query = [q for q in query if q[1].extras.get('openness_score') == u'0']
+    for package, resource in query:
+        resource = resource_dictize(resource, context)
+        if package.name in results:
+            results[package.name].resources.append(resource)
+        else:
+            PackageTuple = namedtuple('PackageTuple', ['name', 'title', 'resources'])
+            results[package.name] = PackageTuple(
+                package.name, package.title or package.name, [resource]
+            )
+    return results.values()
 
 def broken_resource_links_by_package_for_organisation(organisation_id):
     result = _get_broken_resource_links(organisation_id)
@@ -67,20 +83,21 @@ def _get_broken_resource_links(organisation_id=None):
             PackageExtra.value, 
             Package.name,
             Resource,
-        ).join(PackageExtra
-        ).join(ResourceGroup
-        ).join(Resource
-        ).filter(
-            Resource.extras.like('%"openness_score": 0%'),
-        ).filter(
+        )
+        .join(PackageExtra)
+        .join(ResourceGroup)
+        .join(Resource)
+        .filter(Resource.extras.like('%"openness_score": 0%'),)
+        .filter(
             or_(
                 and_(PackageExtra.key=='published_by', PackageExtra.value.like('%%[%s]'%(organisation_id is None and '%' or organisation_id))),
                 and_(PackageExtra.key=='published_via', PackageExtra.value.like('%%[%s]'%(organisation_id is None and '%' or organisation_id))),
             )
-        ).distinct(), 
+        )
+        .distinct(), 
         [
-             _extract_publisher,
-             _extract_package,
+            _extract_publisher,
+            _extract_package,
         ]
     )
     return organisations_by_id 
@@ -114,10 +131,9 @@ def _extract_publisher(row):
     try:
         pub_parts = (parts[0].strip(), parts[1][:-1])
     except:
-        raise Exception('Could not get the ID from %r'%publisher)
+        raise Exception('Could not get the ID from %r' % publisher)
     else:
         return [pub_parts] + [row[0]] + list(row[2:])
 
 def _extract_package(row):
     return [(row[0], row[1])] + list(row[2:])
-

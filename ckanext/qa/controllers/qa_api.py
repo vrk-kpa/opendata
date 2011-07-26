@@ -63,14 +63,14 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for package, resources in result:
-                for resource in resources:
+            for package in result:
+                for resource in package.resources:
                     row = [
-                        package[0],
-                        package[1],
-                        resource.url,
-                        unicode(resource.extras.get('openness_score')),
-                        resource.extras.get('openness_score_reason'),
+                        package.name,
+                        package.title,
+                        resource.get('url', ''),
+                        unicode(resource.get('openness_score', '')),
+                        resource.get('openness_score_reason', ''),
                     ]
                     rows.append(row)
             return make_csv(

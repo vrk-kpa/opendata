@@ -7,6 +7,12 @@ from ckan.tests import conf_dir, url_for, CreateTestData
 from ckan import model
 from ckan.lib.dictization.model_dictize import package_dictize
 from ckanext.qa.lib.package_scorer import package_score
+from ckanext.qa.dictization import (
+    five_stars, broken_resource_links_by_package, 
+    broken_resource_links_by_package_for_organisation,
+    organisations_with_broken_resource_links,
+    organisations_with_broken_resource_links_by_name
+)
 from ckanext.qa.lib import log
 log.create_default_logger()
 
@@ -65,3 +71,6 @@ class TestQAController:
             assert 'resource_hash' in resource.keys(), resource
             assert 'resource_available' in resource.keys(), resource
             assert 'resource_cache' in resource.keys(), resource
+
+    def test_broken_resource_links_by_package(self):
+        pass
