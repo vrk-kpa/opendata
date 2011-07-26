@@ -117,21 +117,21 @@ class Archive(CkanCommand):
             start = self.options.start
             limit = int(self.options.limit or 0)
             if start:
-                ids = Session.query(Package.id).order_by(Package.id).all()
-                index = [i for i,v in enumerate(ids) if v[0] == start]
-                if not index:
-                    log.error('Error: Package not found: %s' % start)
-                    sys.exit()
-                if limit is not False:
-                    ids = ids[index[0]:index[0] + limit]
-                else:
-                    ids = ids[index[0]:]
-                packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
+                # ids = Session.query(Package.id).order_by(Package.id).all()
+                # index = [i for i,v in enumerate(ids) if v[0] == start]
+                # if not index:
+                #     log.error('Error: Package not found: %s' % start)
+                #     sys.exit()
+                # if limit is not False:
+                #     ids = ids[index[0]:index[0] + limit]
+                # else:
+                #     ids = ids[index[0]:]
+                # packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
+                log.error("Start parameter is not currently implemented")
             else:
                 if limit:
-                    packages = Session.query(Package).limit(limit).all()
-                else:
-                    packages = Session.query(Package).all()
+                    context['limit'] = limit
+                packages = get.current_package_list_with_resources(context)
 
         log.info("Total packages to update: %d" % len(packages))
         if not packages:
