@@ -1,21 +1,29 @@
-Quality Assurance Extension
-===========================
+CKAN Quality Assurance Extension
+================================
 
 
-The QA plugin crawls resources and scores them for openness. It also provides
-a Dashboard that allows you to view broken links and openness scores.
 
-5 stars of openness:
-* http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/
+The ckanext-qa extension will check each of your package resources and give
+these resources an openness score based Tim Berners-Lee's five stars of openness
+(http://lab.linkeddata.deri.ie/2010/star-scheme-by-example)
+
+It also provides a Dashboard that allows you to view broken links and openness scores.
+
+Once you have run the qa commands (see 'The QA Process' below),
+resources and packages will have a set of openness key's stores in their
+extra properties. 
+This process will also set the hash value and content_length for each 
+individual resource.
+
 
 Installation and Activation
 ---------------------------
 
-To install the plugin, enter your virtualenv and load the source:
+To install the plugin, load the source:
 
 ::
 
-    (ckan)$ pip install -e hg+https://bitbucket.org/okfn/ckanext-qa#egg=ckanext-qa
+    $ pip install -e hg+https://bitbucket.org/okfn/ckanext-qa#egg=ckanext-qa
 
 This will also register a plugin entry point, so you now should be 
 able to add the following to your CKAN .ini file:
@@ -27,29 +35,41 @@ able to add the following to your CKAN .ini file:
 You can run the paster entry point to update or clean up package-scores
 from the plugin directory using the following command:
 
+
+The QA Process
+--------------
+
+The QA process is currently broken down into two main steps:
+
+1) **Archive**: Attempt to download and save all resources.
+2) **QA**: analyze the results of the archiving step and calculating resource/package
+   openness ratings.
+
+Additionally, a useful third step can be performed:
+
+3) **Process** archived data, parsing content and making it available
+   online using a REST API. This allows archived data to be easily viewed
+   and manipulated by users, and in particular this is required
+   if using the ckan datapreview extension.
+
 ::
 
-    (ckan)$ paster package-scores [update|clean] --config=../ckan/development.ini
+    $ paster archive [update|clean] --config=../ckan/development.ini
+
+    $ paster qa [update|clean] --config=../ckan/development.ini
+
+    $ paster process [update|clean] --config=../ckan/development.ini
     
-After you clear your cache and reload the site, the Quality Assurance plugin
-and openness score interface should be available at http://myckaninstance/qa
+After you reload the site, the Quality Assurance plugin
+and openness score interface should be available at http://ckan-instance/qa
 
-About QA Extension
-------------------
-
-The ckanext-qa extension will check each of your package resources and give
-these resources an openness score based timbl's five stars of openness.
-
-Once you have run the package-scores command with the update option, your
-resources and packages will have a set of openness key's stores in their
-extra properties. This process will also set the hash value and content_length
-for each individual resource.
 
 API Access
 ----------
 
 ::
-    http://localhost:5000/api/2/util/qa/
+    http://ckan-instance/api/2/util/qa/
+
 
 Developers
 ----------
@@ -62,6 +82,7 @@ for ckanext-qa require nose and mock:
    (ckan)$ nosetests --with-pylons=test-core.ini --ckan  path/to/ckanext-qa/tests
 
 The tests only run in PostgreSQL, hence the need to specify test-core.ini.
+
 
 Deployment
 ----------
