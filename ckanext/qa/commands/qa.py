@@ -108,7 +108,7 @@ class QA(CkanCommand):
             log.error("Check that the archive path is correct and run the archive command")
             return
         results_file = os.path.join(self.archive_folder, 'archive.db')
-        context = {'model': model, 'user': MAINTENANCE_AUTHOR}
+        context = {'model': model, 'session': model.Session,  'user': MAINTENANCE_AUTHOR}
 
         if package_id:
             context['id'] = package_id

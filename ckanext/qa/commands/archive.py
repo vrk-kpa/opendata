@@ -104,7 +104,7 @@ class Archive(CkanCommand):
             os.mkdir(self.archive_folder)
         db_file = os.path.join(self.archive_folder, 'archive.db')
         # logic layer context dict
-        context = {'model': model, 'user': MAINTENANCE_AUTHOR}
+        context = {'model': model, 'session': model.Session,  'user': MAINTENANCE_AUTHOR}
 
         if package_id:
             context['id'] = package_id
