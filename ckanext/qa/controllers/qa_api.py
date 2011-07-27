@@ -152,8 +152,9 @@ class ApiController(QAController):
             {'resource_available': 'true|false', 'resource_hash': '<value>',
              'resource_cache': '<value>'}
         """
-        context = {'model': model, 'id': id, 'user': c.user or c.author}
-        pkg = get.package_show(context)
+        context = {'model': model, 'user': c.user or c.author}
+        data_dict = {'id': id}
+        pkg = get.package_show(context, data_dict)
 
         if not pkg:
             abort(404, _('Package not found'))

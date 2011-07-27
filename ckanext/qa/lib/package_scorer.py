@@ -97,7 +97,7 @@ def package_score(package, results_file):
         resource[u'openness_score'] = openness_score
         resource[u'openness_score_reason'] = reason
         resource[u'openness_score_failure_count'] = unicode(openness_score_failure_count)
-        update.resource_update(resource, context)
+        update.resource_update(context, resource)
         log.info('Score for resource: %s (%s)' % (openness_score, reason))
 
     # package openness score
@@ -127,6 +127,6 @@ def package_score(package, results_file):
         'user': MAINTENANCE_AUTHOR, 'extras_as_string': True
     }
     package['extras'] = package_extras
-    update.package_update(package, context)
+    update.package_update(context, package)
     log.info('Finished QA analysis of package: %s (score = %s)' 
         % (package['name'], package_openness_score))

@@ -52,6 +52,8 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
         archive_result(db_file, resource['id'], "Invalid url scheme")
     # check that query string is valid
     # see: http://trac.ckan.org/ticket/318
+    # TODO: check urls with a better validator? 
+    #       eg: ll.url (http://www.livinglogic.de/Python/url/Howto.html)?
     elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
         archive_result(db_file, resource['id'], "Invalid URL")
     else:
@@ -157,5 +159,5 @@ def hash_and_save(archive_folder, resource, response, size=1024*16):
         'id': resource['id'], 'model': model, 'session': model.Session, 
         'user': MAINTENANCE_AUTHOR
     }
-    update.resource_update(resource, context)
+    update.resource_update(context, resource)
     return length, resource['hash']

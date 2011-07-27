@@ -105,10 +105,11 @@ class Archive(CkanCommand):
         db_file = os.path.join(self.archive_folder, 'archive.db')
         # logic layer context dict
         context = {'model': model, 'session': model.Session,  'user': MAINTENANCE_AUTHOR}
+        data = {}
 
         if package_id:
-            context['id'] = package_id
-            package = get.package_show(context)
+            data['id'] = package_id
+            package = get.package_show(context, data)
             if package:
                 packages = [package]
             else:
@@ -129,9 +130,9 @@ class Archive(CkanCommand):
             #     packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
             # else:
             if limit:
-                context['limit'] = limit
+                data['limit'] = limit
                 log.info("Limiting results to %d packages" % limit)
-            packages = get.current_package_list_with_resources(context)
+            packages = get.current_package_list_with_resources(context, data)
 
         log.info("Total packages to update: %d" % len(packages))
         if not packages:
