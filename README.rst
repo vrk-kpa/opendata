@@ -39,6 +39,9 @@ to the ``[app:main]`` section of your CKAN .ini file:
 
     ckan.plugins = qa <other-plugins>
 
+After you reload the site, the Quality Assurance plugin
+and openness score interface should be available at http://your-ckan-instance/qa
+
 
 Configuration
 -------------
@@ -60,8 +63,8 @@ Add this a config option containing the path to this directory to your CKAN .ini
 If you plan to use a local webstore to make processed resources available online,
 then you must also set the webstore url in the CKAN .ini file.
 
-(eg: if using the datapreview plugin. See the section 'Using The QA Extension'
-for more information).
+(eg: if using the datapreview plugin. See the sections 'Using The QA Extension'
+and 'Webstore Integration' for more information).
 
 ::
 
@@ -93,16 +96,40 @@ Additionally, a useful third step can be performed:
    and manipulated by users, and in particular this is required
    if using the ckan datapreview extension.
 
+Each of these three steps can be performed by running the associated ``paster`` command
+from the ckanext-qa directory.
+
 ::
 
-    $ paster archive [update|clean] --config=../ckan/development.ini
+    $ paster archive update|clean [package name/id] [--limit=N] --config=../ckan/development.ini
 
-    $ paster qa [update|clean] --config=../ckan/development.ini
+    $ paster qa update|clean [package name/id] [--limit=N] --config=../ckan/development.ini
 
-    $ paster process [update|clean] --config=../ckan/development.ini
+    $ paster process update|clean [package name/id] --config=../ckan/development.ini
     
-After you reload the site, the Quality Assurance plugin
-and openness score interface should be available at http://your-ckan-instance/qa
+For each command you must specify either ``update`` or ``clean`` as subcommand, which will either
+download/update/process the package resources or remove everything changed by the QA Extension
+respectively.
+
+Each command can be run on just a single package by giving the package ``name`` or ``ID`` after the
+``update/clean`` subcommand. If no package name is given, the database is scanned
+for a list of all packages and the command is run on each one.
+
+An additional ``limit`` parameter can specified for the ``archive`` and ``qa`` commands, which
+will stop the command after it has processed ``N`` packages.
+
+After you run the ``archive`` and ``qa`` commands, the QA results can be viewed
+at 
+
+::
+
+    http://your-ckan-instance/qa
+
+
+Webstore Integration
+--------------------
+
+
 
 
 API Access
