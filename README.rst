@@ -68,7 +68,7 @@ and 'Webstore Integration' for more information).
 
 ::
 
-    ckan.webstore_url = http://127.0.0.1:8080
+    ckan.webstore_url = http://test-webstore.ckan.net
 
 You can create cron jobs for each of the QA commands:
 
@@ -85,13 +85,13 @@ Using The QA Extension
 
 The QA process is currently broken down into two main steps:
 
-1) **Archive**: Attempt to download and save all resources.
-2) **QA**: analyze the results of the archiving step and calculating resource/package
+1. **Archive**: Attempt to download and save all resources.
+2. **QA**: analyze the results of the archiving step and calculating resource/package
    openness ratings.
 
 Additionally, a useful third step can be performed:
 
-3) **Process** archived data, parsing content and making it available
+3. **Process** archived data, parsing content and making it available
    online using a REST API. This allows archived data to be easily viewed
    and manipulated by users, and in particular this is required
    if using the ckan datapreview extension.
@@ -129,11 +129,44 @@ at
 Webstore Integration
 --------------------
 
+**Webstore Overview**
 
+The webstore is a RESTful data store for tabular and table-like data. 
+It can be used as a dynamic storage for table data, allowing filtered, 
+partial or full retrieval and format conversion.
+For more information see http://github.com/okfn/webstore
+
+
+**Use With QA**
+
+By using the webstore, it is possible to make archived resources accessible
+using a RESTful API. This is done by using the ``process`` paster command.
+When ``process`` is run, it goes through each resource that has been downloaded
+and attempts to parse it and put it in the webstore database.
+This data can then be used by other applications, such as the ckanext-datapreview extension.
+
+**Configuring A Webstore For Use With The QA Extension**
+
+It is recommended that you use the same directory for the webstore that you
+use for QA archiving.  To do this, make sure that the ``SQLITE_DIR`` config 
+value in the webstore application is set to the same value as the 
+``ckan.qa_archive`` config value. For example, you could hardcode this value into 
+the webstore configuration options, or add the following to the webstore WSGI file:
+
+::
+
+    from webstore.web import app as application
+    application.config['SQLITE_DIR'] = '/path/to/qa_archive'
+
+It is possible to use other directories but this would
+currently require reconfiguring paths in the ``commands/process.py`` file
+and making sure that the web server has read/write access to the directories.
 
 
 API Access
 ----------
+
+The QA Extension exposes the following API endpoints:
 
 ::
 
