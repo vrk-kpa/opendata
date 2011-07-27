@@ -170,7 +170,15 @@ The QA Extension exposes the following API endpoints:
 
 ::
 
-    http://your-ckan-instance/api/2/util/qa/
+    http://your-ckan-instance/api/2/util/qa/package_five_stars
+
+    http://your-ckan-instance/api/2/util/qa/broken_resource_links_by_package
+
+    http://your-ckan-instance/api/2/util/qa/organisations_with_broken_resource_links
+
+    http://your-ckan-instance/api/2/util/qa/broken_resource_links_by_package_for_organisation
+
+    http://your-ckan-instance/api/2/util/qa/resources_available/{package}
 
 
 Developers
