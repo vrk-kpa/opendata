@@ -35,8 +35,8 @@
                       <th class="qa-table-resources">Reason</th>
                   </tr>
                   <tr class="bad_link" py:for="resource in package.resources">
-                      <td><a href="${resource.url}">${resource.url}</a></td>
-                      <td>${resource.extras['openness_score_reason']}</td>
+                      <td><a href="${resource.get('url', '')}">${resource.get('url', '')}</a></td>
+                      <td>${resource.get('openness_score_reason', '')}</td>
                   </tr>
               </table>
            </td>

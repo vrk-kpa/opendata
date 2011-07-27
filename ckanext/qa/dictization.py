@@ -32,27 +32,38 @@ def five_stars():
     return results
 
 def broken_resource_links_by_package():
+    """
+    Return a list of named tuples, one for each package that contains
+    broken resource links (defined as resources with an openness score of 0).
+
+    The named tuple is of the form:
+        (name (str), title (str), resources (list of dicts))
+    """
     query = Session.query(
-        Package,
+        Package.name,
+        Package.title,
         Resource
     ).join(PackageExtra
     ).join(ResourceGroup
     ).join(Resource
     ).filter(PackageExtra.key == 'openness_score'
-    ).distinct(
-    ).order_by(Package.title)
+    ).filter(
+        or_(
+            Resource.extras.like('%"openness_score": 0%'),
+            Resource.extras.like('%"openness_score": "0"%')
+        )
+    ).distinct()
 
     context = {'model': model, 'session': model.Session}
     results = {}
-    query = [q for q in query if q[1].extras.get('openness_score') == u'0']
-    for package, resource in query:
+    for name, title, resource in query:
         resource = resource_dictize(resource, context)
-        if package.name in results:
-            results[package.name].resources.append(resource)
+        if name in results:
+            results[name].resources.append(resource)
         else:
             PackageTuple = namedtuple('PackageTuple', ['name', 'title', 'resources'])
-            results[package.name] = PackageTuple(
-                package.name, package.title or package.name, [resource]
+            results[name] = PackageTuple(
+                name, title or name, [resource]
             )
     return results.values()
 
@@ -72,9 +83,6 @@ def organisations_with_broken_resource_links_by_name():
 def organisations_with_broken_resource_links():
     return _get_broken_resource_links()
     
-#
-# Helpers
-#
 
 def _get_broken_resource_links(organisation_id=None):
     organisations_by_id = _collapse(
@@ -87,7 +95,13 @@ def _get_broken_resource_links(organisation_id=None):
         .join(PackageExtra)
         .join(ResourceGroup)
         .join(Resource)
-        .filter(Resource.extras.like('%"openness_score": 0%'),)
+        .filter(Resource.extras.like('%"openness_score": 0%'))
+        .filter(
+            or_(
+                Resource.extras.like('%"openness_score": 0%'),
+                Resource.extras.like('%"openness_score": "0"%')
+            )
+        )
         .filter(
             or_(
                 and_(PackageExtra.key=='published_by', PackageExtra.value.like('%%[%s]'%(organisation_id is None and '%' or organisation_id))),
