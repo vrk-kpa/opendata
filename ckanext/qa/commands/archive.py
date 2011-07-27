@@ -43,14 +43,14 @@ class Archive(CkanCommand):
     pkg_names = []
 
     existing_dests = [o.dest for o in CkanCommand.parser.option_list]
-    if not 'start' in existing_dests:
-        CkanCommand.parser.add_option('-s', '--start',
-            action='store',
-            dest='start',
-            default=False,
-            help="""Start the process from the specified package.
-                    (Ignored if a package id is provided as an argument)"""
-        )
+    # if not 'start' in existing_dests:
+    #     CkanCommand.parser.add_option('-s', '--start',
+    #         action='store',
+    #         dest='start',
+    #         default=False,
+    #         help="""Start the process from the specified package.
+    #                 (Ignored if a package id is provided as an argument)"""
+    #     )
     if not 'limit' in existing_dests:
         CkanCommand.parser.add_option('-l', '--limit',
             action='store',
@@ -114,25 +114,24 @@ class Archive(CkanCommand):
             else:
                 log.info("Error: Package not found: %s" % package_id)
         else:
-            start = self.options.start
             limit = int(self.options.limit or 0)
-            if start:
-                # ids = Session.query(Package.id).order_by(Package.id).all()
-                # index = [i for i,v in enumerate(ids) if v[0] == start]
-                # if not index:
-                #     log.error('Error: Package not found: %s' % start)
-                #     sys.exit()
-                # if limit is not False:
-                #     ids = ids[index[0]:index[0] + limit]
-                # else:
-                #     ids = ids[index[0]:]
-                # packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
-                log.error("Start parameter is not currently implemented")
-            else:
-                if limit:
-                    context['limit'] = limit
-                    log.info("Limiting results to %d packages" % limit)
-                packages = get.current_package_list_with_resources(context)
+            # start = self.options.start
+            # if start:
+            #     ids = Session.query(Package.id).order_by(Package.id).all()
+            #     index = [i for i,v in enumerate(ids) if v[0] == start]
+            #     if not index:
+            #         log.error('Error: Package not found: %s' % start)
+            #         sys.exit()
+            #     if limit is not False:
+            #         ids = ids[index[0]:index[0] + limit]
+            #     else:
+            #         ids = ids[index[0]:]
+            #     packages = [Session.query(Package).filter(Package.id == id[0]).first() for id in ids]
+            # else:
+            if limit:
+                context['limit'] = limit
+                log.info("Limiting results to %d packages" % limit)
+            packages = get.current_package_list_with_resources(context)
 
         log.info("Total packages to update: %d" % len(packages))
         if not packages:
