@@ -85,13 +85,13 @@ Using The QA Extension
 
 The QA process is currently broken down into two main steps:
 
-1. **Archive**: Attempt to download and save all resources.
-2. **QA**: analyze the results of the archiving step and calculating resource/package
+* **Archive**: Attempt to download and save all resources.
+* **QA**: analyze the results of the archiving step and calculating resource/package
    openness ratings.
 
 Additionally, a useful third step can be performed:
 
-3. **Process** archived data, parsing content and making it available
+* **Process** archived data, parsing content and making it available
    online using a REST API. This allows archived data to be easily viewed
    and manipulated by users, and in particular this is required
    if using the ckan datapreview extension.
