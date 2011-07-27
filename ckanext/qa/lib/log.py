@@ -24,8 +24,10 @@ class Logger(object):
             norm = unicodedata.normalize('NFKD', unicode(message))
             # log as ascii
             logger.info(norm.encode('ascii', 'replace'))
-        except Exception as e:
-            print "Logging error:", e.message
+        except Exception:
+            # ignore for now
+            # TODO: tidy this up
+            pass
 
     def error(self, message):
         try:
@@ -33,7 +35,9 @@ class Logger(object):
             norm = unicodedata.normalize('NFKD', unicode(message))
             # log as ascii
             logger.error(norm.encode('ascii', 'replace'))
-        except Exception as e:
-            print "Logging error:", e.message
+        except Exception:
+            # ignore for now
+            # TODO: tidy this up
+            pass
 
 log = Logger()
