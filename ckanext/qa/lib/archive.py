@@ -44,10 +44,16 @@ def archive_resource(archive_folder, db_file, resource, package_name, url_timeou
         parts[2] = urllib.quote(parts[2].encode('utf-8'))
         url = urlparse.urlunparse(parts)
     url = str(url)
+    # parse url
+    parsed_url = urlparse.urlparse(url)
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
-    if not any(url.startswith(scheme + '://') for scheme in allowed_schemes):
+    if not parsed_url.scheme in allowed_schemes:
         archive_result(db_file, resource['id'], "Invalid url scheme")
+    # check that query string is valid
+    # see: http://trac.ckan.org/ticket/318
+    elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
+        archive_result(db_file, resource['id'], "Invalid URL")
     else:
         # Send a head request
         http_request = HEADRequest(url)

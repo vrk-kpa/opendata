@@ -109,6 +109,19 @@ class TestArchive(BaseCase):
             assert result['message'] == 'Invalid url scheme', result
 
     @with_package_resources('?status=200')
+    def test_bad_query_string(self, package):
+        for resource in package['resources']:
+            resource['url'] = u'http://uk.sitestat.com/homeoffice/rds/s?' \
+                + u'rds.hosb0509tabsxls&ns_type=pdf&ns_url=' \
+                + u'[http://www.homeoffice.gov.uk/rds/pdfs09/hosb0509tabs.xls'
+            archive_resource(
+                TEST_ARCHIVE_FOLDER, TEST_ARCHIVE_RESULTS_FILE, resource, package['name']
+            )
+            result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource['id'])
+            assert result['success'] == 'False', result
+            assert result['message'] == 'Invalid URL', result
+
+    @with_package_resources('?status=200')
     def test_empty_url(self, package):
         for resource in package['resources']:
             resource['url'] = u''
@@ -153,7 +166,7 @@ class TestArchive(BaseCase):
             result = get_resource_result(TEST_ARCHIVE_RESULTS_FILE, resource['id'])
             assert result['success'] == 'True', result
 
-    @with_package_resources('?content-type=arfle/barfle-gloop')
+    @with_package_resources('?content-type=arfle-barfle-gloop')
     def test_url_with_unknown_content_type(self, package):
         for resource in package['resources']:
             archive_resource(
