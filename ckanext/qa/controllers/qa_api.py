@@ -167,7 +167,8 @@ class ApiController(QAController):
         resources = []
         for resource in pkg.get('resources', []):
             r = {}
-            r['resource_hash'] = resource[u'hash']
+            hash = resource.get('hash', '')
+            r['resource_hash'] = hash
             r['resource_available'] = 'unknown'
             r['resource_cache'] = ''
             # look at archive results to see if resource was found
@@ -176,17 +177,19 @@ class ApiController(QAController):
                 if archive_result['success'] == u'True':
                     r['resource_available'] = 'true'
                 else:
-                    r['resource_available'] = 'false'
-                    # see if we have a saved copy
-                    cache = os.path.join(archive_folder, pkg[u'name'])
-                    # TODO: update this to handle other formats
-                    #       save extension info in archive file
-                    cache = os.path.join(cache, resource[u'hash'] + '.csv')
-                    if os.path.exists(cache):
-                        # create the url to serve this copy
-                        webstore = config.get('ckan.webstore_url', 'http://test-webstore.ckan.net')
-                        r['resource_cache'] = webstore + '/downloads/' + \
-                            pkg[u'name'] + '/' + resource[u'hash'] + '.csv'
+                    # if no hash value set then we don't have an archive file either
+                    if hash:
+                        r['resource_available'] = 'false'
+                        # see if we have a saved copy
+                        cache = os.path.join(archive_folder, pkg[u'name'])
+                        # TODO: update this to handle other formats
+                        #       save extension info in archive file
+                        cache = os.path.join(cache, hash + '.csv')
+                        if os.path.exists(cache):
+                            # create the url to serve this copy
+                            webstore = config.get('ckan.webstore_url', 'http://test-webstore.ckan.net')
+                            r['resource_cache'] = webstore + '/downloads/' + \
+                                pkg[u'name'] + '/' + hash + '.csv'
             # add to resource list
             resources.append(r)
         return {'resources': resources}
