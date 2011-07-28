@@ -84,11 +84,11 @@ def package_score(package, results_file):
                 format = resource.get('format', '').lower()
                 file_type = mimetypes.guess_type(resource.get('url'))[0] 
 
-                # content-type takes priority for scoring
-                if ct:
-                    openness_score = score_by_mime_type.get(ct, '-1')
-                elif file_type:
+                # file type takes priority for scoring
+                if file_type:
                     openness_score = score_by_mime_type.get(file_type, '-1')
+                elif ct:
+                    openness_score = score_by_mime_type.get(ct, '-1')
                 elif format:
                     openness_score = score_by_mime_type.get(format, '-1')
                 
