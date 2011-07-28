@@ -70,6 +70,18 @@ and 'Webstore Integration' for more information).
 
     ckan.webstore_url = http://test-webstore.ckan.net
 
+The paster ``archive`` and ``qa`` commands (see 'Using The QA Extension below) make
+some changes to both packages and resources. All changes will be performed as a
+user called ``okfn_maintenance``, so this user must have permission to edit all
+packages and resources. The easiest way to do this is to make the user a system administrator
+for your ckan instance.
+
+To do this, from your ckan directory run:
+
+::
+
+    paster sysadmin -c <path/to/your.ini> add okfn_maintenance
+
 You can create cron jobs for each of the QA commands:
 
 ::
