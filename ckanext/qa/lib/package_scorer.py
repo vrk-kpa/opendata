@@ -2,6 +2,7 @@
 Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type
 """
 import datetime
+import mimetypes
 from db import get_resource_result
 from ckan.logic.action import update
 from ckan import model
@@ -25,21 +26,29 @@ mime_types_scores = {
     '1': [
         'text/html',
         'text/plain',
+        'text',
+        'html',
     ],
     '2': [
         'application/vnd.ms-excel',
         'application/vnd.ms-excel.sheet.binary.macroenabled.12',
         'application/vnd.ms-excel.sheet.macroenabled.12',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'xls',
     ],
     '3': [
         'text/csv',
         'application/json',
         'text/xml',
+        'csv',
+        'xml',
+        'json',
     ],
     '4': [
         'application/rdf+xml',
         'application/xml',
+        'xml',
+        'rdf',
     ],
     '5': [],
 }
@@ -67,20 +76,38 @@ def package_score(package, results_file):
             reason = u"URL unobtainable"
         else:
             reason = archive_result['message']
-            ct = archive_result['content_type']
             cl = archive_result['content_length']
+            ct = archive_result['content_type']
 
             if archive_result['success'] == 'True':
-                openness_score = score_by_mime_type.get(ct, '-1')
+                # also get format from resource and by guessing from file extension
+                format = resource.get('format', '').lower()
+                file_type = mimetypes.guess_type(resource.get('url'))[0] 
+
+                # content-type takes priority for scoring
+                if ct:
+                    openness_score = score_by_mime_type.get(ct, '-1')
+                elif file_type:
+                    openness_score = score_by_mime_type.get(file_type, '-1')
+                elif format:
+                    openness_score = score_by_mime_type.get(format, '-1')
+                
                 reason = openness_score_reason[openness_score]
 
-                if ct:
-                    if resource['format'] and resource['format'].lower() not in [
-                        ct.lower().split('/')[-1], ct.lower().split('/'),
-                    ]:
-                        reason = u'The format entered for the resource doesn\'t ' + \
-                            u'match the description from the web server'
-                        openness_score = u'0'
+                # check for mismatches between content-type, file_type and format
+                # ideally they should all agree
+                if not ct:
+                    # TODO: use the todo extension to flag this issue
+                    pass
+                else:
+                    allowed_formats = [ct.lower().split('/')[-1], ct.lower().split('/')]
+                    allowed_formats.append(ct.lower())
+                    if format not in allowed_formats:
+                        # TODO: use the todo extension to flag this issue
+                        pass
+                    if file_type != ct:
+                        # TODO: use the todo extension to flag this issue
+                        pass
 
         # Set the failure count
         if openness_score == '0':
@@ -112,7 +139,7 @@ def package_score(package, results_file):
                 e['value'] = package_openness_score
 
     # package openness score last checked
-    if not 'openness_score' in [e['key'] for e in package_extras]:
+    if not 'openness_score_last_checked' in [e['key'] for e in package_extras]:
         package_extras.append({
             'key': u'openness_score_last_checked',
             'value': datetime.datetime.now().isoformat()
