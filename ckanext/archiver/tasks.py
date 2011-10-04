@@ -6,7 +6,9 @@ import urllib
 import urllib2
 import urlparse
 from celery.task import task
+from paste.registry import Registry
 from ckan.logic.action import get
+from ckan.logic.action import update as ckan_update
 from ckan import model
 
 try:
@@ -26,6 +28,18 @@ class HEADRequest(urllib2.Request):
     """
     def get_method(self):
         return "HEAD"
+
+class MockTranslator(object): 
+    def gettext(self, value): 
+        return value 
+
+    def ugettext(self, value): 
+        return value 
+
+    def ungettext(self, singular, plural, n):
+        if n > 1:
+            return plural
+        return singular
 
 
 @task(name = "archiver.clean")
@@ -172,7 +186,7 @@ def archive_resource(resource, package_name, url_timeout=30):
                     # Assume the head request is behaving correctly and not 
                     # returning content. Make another request for the content
                     response = opener.open(urllib2.Request(url), timeout=url_timeout)
-                    length, hash = hash_and_save(settings.ARCHIVE_DIR, resource, response, size = 1024*16)
+                    length, hash = _hash_and_save(resource, response, size = 1024*16)
                     if length:
                         if not os.path.exists(dst_dir):
                             os.mkdir(dst_dir)
@@ -187,8 +201,40 @@ def archive_resource(resource, package_name, url_timeout=30):
                 logger.info("Can not archive this content-type: %s" % ct)
 
 
-def hash_and_save(archive_folder, resource, response, size=1024*16):
-    return 0, 0
+def _hash_and_save(resource, response, size=1024*16):
+    resource_hash = hashlib.sha1()
+    length = 0
+    fp = open(
+        os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid()),
+        'wb',
+    )
+    chunk = response.read(size)
+    while chunk: # EOF condition
+        fp.write(chunk)
+        length += len(chunk)
+        resource_hash.update(chunk)
+        chunk = response.read(size)
+    fp.close()
+    resource['hash'] = unicode(resource_hash.hexdigest())
+
+    # update ckan resource
+    context = {
+        'model': model, 'session': model.Session, 
+        'user': settings.ARCHIVE_USER
+    }
+    from paste.deploy import appconfig
+    from ckan.config.environment import load_environment
+    import pylons
+    conf = appconfig('config:%s' % settings.CKAN_CONFIG)
+    load_environment(conf.global_conf, conf.local_conf)
+    registry = Registry()
+    registry.prepare()
+    translator_obj = MockTranslator()
+    registry.register(pylons.translator, translator_obj)
+
+    ckan_update.resource_update(context, resource)
+
+    return length, resource['hash']
 
 
 @task(name = "archiver.update_task_status")
