@@ -136,10 +136,13 @@ def archive_resource(resource, package_name, url_timeout = 30):
 
                 res = requests.get(url, timeout = url_timeout)
                 length, hash = _save_resource(resource, res, dst_dir)
-                _set_resource_hash(resource, hash)
+
+                hash_updated, error_msg = _set_resource_hash(resource, hash)
+                if not hash_updated:
+                    logger.error("Could not update resource hash: %s" % error_msg)
 
                 update_task_status.delay(resource['id'], 'ok', True, ct, cl, hash)
-                logger.info("Archive success. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
+                logger.info("Archive finished. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
         else:
             update_task_status.delay(resource['id'], 'unrecognised content type', False, ct, cl)
             logger.info("Can not archive this content-type: %s" % ct)
@@ -172,7 +175,18 @@ def _save_resource(resource, response, dir, size=1024*16):
     return length, content_hash
 
 def _set_resource_hash(resource, hash):
-    pass
+    """
+    Use CKAN API to change the hash value of the given resource.
+    Returns a tuple: (True if update was successful, response from server)
+    """
+    api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
+    resource['hash'] = hash
+    post_data = json.dumps(resource)
+    res = requests.post(
+        api_url + '/resource_update', post_data,
+        headers = {'Authorization': settings.API_KEY}
+    )
+    return res.status_code == 200, res.content
 
 @task(name = "archiver.update_task_status")
 def update_task_status(*args):
