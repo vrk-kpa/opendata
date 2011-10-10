@@ -1,45 +1,26 @@
 import os
 import hashlib
 import httplib
-import socket
+import requests
+import json
 import urllib
-import urllib2
 import urlparse
+import StringIO
 from celery.task import task
-from paste.registry import Registry
-from ckan.logic.action import get
-from ckan.logic.action import update as ckan_update
-from ckan import model
 
 try:
     from ckanext.archiver import settings
 except ImportError:
     from ckanext.archiver import default_settings as settings
 
-def get_header(headers, name):
-    name = name.lower()
-    for k in headers:
-        if k.lower() == name:
-            return headers[k]
-
-class HEADRequest(urllib2.Request):
-    """
-    Create a HEAD request for a URL
-    """
-    def get_method(self):
-        return "HEAD"
-
-class MockTranslator(object): 
-    def gettext(self, value): 
-        return value 
-
-    def ugettext(self, value): 
-        return value 
-
-    def ungettext(self, singular, plural, n):
-        if n > 1:
-            return plural
-        return singular
+HTTP_ERROR_CODES = {
+    httplib.MULTIPLE_CHOICES: "300 Multiple Choices not implemented",
+    httplib.USE_PROXY: "305 Use Proxy not implemented",
+    httplib.INTERNAL_SERVER_ERROR: "Internal server error on the remote server",
+    httplib.BAD_GATEWAY: "Bad gateway",
+    httplib.SERVICE_UNAVAILABLE: "Service unavailable",
+    httplib.GATEWAY_TIMEOUT: "Gateway timeout"
+}
 
 
 @task(name = "archiver.clean")
@@ -54,33 +35,30 @@ def clean():
 @task(name = "archiver.update")
 def update(package_id = None, limit = None):
     logger = update.get_logger()
-
-    # load pylons
-    from paste.deploy import appconfig
-    from ckan.config.environment import load_environment
-    conf = appconfig('config:%s' % settings.CKAN_CONFIG)
-    load_environment(conf.global_conf, conf.local_conf)
+    api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
         logger.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
-    context = {'model': model, 'session': model.Session,  'user': settings.ARCHIVE_USER}
-    data = {}
-
     if package_id:
-        data['id'] = package_id
-        package = get.package_show(context, data)
+        post_data = json.dumps({'id': package_id})
+        res = requests.post(api_url + '/package_show', post_data)
+        package = json.loads(res.content).get('result')
+
         if package:
             packages = [package]
         else:
             logger.error("Error: Package not found: %s" % package_id)
     else:
+        post_data = {}
         if limit:
-            data['limit'] = limit
+            post_data['limit'] = limit
             logger.info("Limiting results to %d packages" % limit)
-        packages = get.current_package_list_with_resources(context, data)
+        post_data = json.dumps(post_data)
+        res = requests.post(api_url + '/current_package_list_with_resources', post_data)
+        packages = json.loads(res.content).get('result')
 
     logger.info("Total packages to update: %d" % len(packages))
     if not packages:
@@ -100,7 +78,7 @@ def update(package_id = None, limit = None):
 
 
 @task(name = "archiver.archive_resource")
-def archive_resource(resource, package_name, url_timeout=30):
+def archive_resource(resource, package_name, url_timeout = 30):
     logger = archive_resource.get_logger()
 
     # Find out if it has unicode characters, and if it does, quote them 
@@ -127,115 +105,74 @@ def archive_resource(resource, package_name, url_timeout=30):
         update_task_status.delay(resource['id'], "Invalid URL")
     else:
         # Send a head request
-        http_request = HEADRequest(url)
         try:
-            redirect_handler = urllib2.HTTPRedirectHandler()
-            opener = urllib2.build_opener(redirect_handler)
-            # Remove the file handler to make sure people can't supply 'file:///...' in
-            # package resources.
-            opener.handlers = [h for h in opener.handlers if not isinstance(h, urllib2.FileHandler)]
-            response = opener.open(http_request, timeout=url_timeout)
-        except urllib2.HTTPError, e:
-            # List of status codes together with the error that should be raised.
-            # If a status code is returned not in this list a PermanentFetchError will be
-            # raised
-            http_error_codes = {
-                httplib.MULTIPLE_CHOICES: "300 Multiple Choices not implemented",
-                httplib.USE_PROXY: "305 Use Proxy not implemented",
-                httplib.INTERNAL_SERVER_ERROR: "Internal server error on the remote server",
-                httplib.BAD_GATEWAY: "Bad gateway",
-                httplib.SERVICE_UNAVAILABLE: "Service unavailable",
-                httplib.GATEWAY_TIMEOUT: "Gateway timeout",
-            }
-            if e.code in http_error_codes:
-                update_task_status.delay(resource['id'], http_error_codes[e.code])
+            res = requests.head(url, timeout = url_timeout)
+        except ValueError, ve:
+            update_task_status.delay(resource['id'], "Invalid URL")
+            return
+
+        if res.error:
+            if res.status_code in HTTP_ERROR_CODES:
+                update_task_status.delay(resource['id'], HTTP_ERROR_CODES[res.status_code])
             else:
                 update_task_status.delay(resource['id'], "URL unobtainable")
-        except httplib.InvalidURL, e:
-            update_task_status.delay(resource['id'], "Invalid URL")
-        except urllib2.URLError, e:
-            if isinstance(e.reason, socket.error):
-                # Socket errors considered temporary as could stem from a temporary
-                # network failure rather
-                update_task_status.delay(resource['id'], "URL temporarily unavailable")
-            else:
-                # Other URLErrors are generally permanent errors, eg unsupported
-                # protocol
-                update_task_status.delay(resource['id'], "URL unobtainable")
-        except Exception, e:
-            update_task_status.delay(resource['id'], "Invalid URL")
-            logger.error("%s" % e)
+            return
+
+        resource_format = resource['format'].lower()
+        ct = res.headers.get('content-type', '').lower()
+        cl = res.headers.get('content-length')
+        dst_dir = os.path.join(settings.ARCHIVE_DIR, package_name)
+
+        # make sure resource does not exceed our maximum content size
+        if cl >= str(settings.MAX_CONTENT_LENGTH):
+            update_task_status.delay(resource['id'], "Content-length exceeds maximum allowed value")
+            logger.info("Could not archive %s: exceeds maximum content-length" % resource['url'])
+            return
+
+        # try to archive csv files
+        if(resource_format == 'csv' or resource_format == 'text/csv' or
+           (ct and ct.lower() == 'text/csv')):
+                logger.info("Resource identified as CSV file, attempting to archive")
+
+                res = requests.get(url, timeout = url_timeout)
+                length, hash = _save_resource(resource, res, dst_dir)
+                _set_resource_hash(resource, hash)
+
+                update_task_status.delay(resource['id'], 'ok', True, ct, cl, hash)
+                logger.info("Archive success. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
         else:
-            headers = response.info()
-            resource_format = resource['format'].lower()
-            ct = get_header(headers, 'content-type')
-            cl = get_header(headers, 'content-length')
-            dst_dir = os.path.join(settings.ARCHIVE_DIR, package_name)
-
-            # make sure resource does not exceed our maximum content size
-            if cl >= str(settings.MAX_CONTENT_LENGTH):
-                # TODO: make sure that this is handled properly by the QA command.
-                update_task_status.delay(resource['id'], "Content-length exceeds maximum allowed value")
-                logger.info("Could not archive %s: exceeds maximum content-length" % resource['url'])
-                return
-
-            # try to archive csv files
-            if(resource_format == 'csv' or resource_format == 'text/csv' or
-               (ct and ct.lower() == 'text/csv')):
-                    logger.info("Resource identified as CSV file, attempting to archive")
-                    # Assume the head request is behaving correctly and not 
-                    # returning content. Make another request for the content
-                    response = opener.open(urllib2.Request(url), timeout=url_timeout)
-                    length, hash = _hash_and_save(resource, response, size = 1024*16)
-                    if length:
-                        if not os.path.exists(dst_dir):
-                            os.mkdir(dst_dir)
-                        os.rename(
-                            os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid()),
-                            os.path.join(dst_dir, hash + '.csv'),
-                        )
-                    update_task_status.delay(resource['id'], 'ok', True, ct, cl, hash)
-                    logger.info("Archive success. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
-            else:
-                update_task_status.delay(resource['id'], 'unrecognised content type', False, ct, cl)
-                logger.info("Can not archive this content-type: %s" % ct)
+            update_task_status.delay(resource['id'], 'unrecognised content type', False, ct, cl)
+            logger.info("Can not archive this content-type: %s" % ct)
 
 
-def _hash_and_save(resource, response, size=1024*16):
+def _save_resource(resource, response, dir, size=1024*16):
     resource_hash = hashlib.sha1()
     length = 0
-    fp = open(
-        os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid()),
-        'wb',
-    )
-    chunk = response.read(size)
-    while chunk: # EOF condition
+
+    tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
+    fp = open(tmp_resource_file, 'wb')
+
+    content = StringIO.StringIO(response.content)
+    chunk = content.read(size)
+    while chunk: 
         fp.write(chunk)
         length += len(chunk)
         resource_hash.update(chunk)
-        chunk = response.read(size)
+        chunk = content.read(size)
     fp.close()
-    resource['hash'] = unicode(resource_hash.hexdigest())
 
-    # update ckan resource
-    context = {
-        'model': model, 'session': model.Session, 
-        'user': settings.ARCHIVE_USER
-    }
-    from paste.deploy import appconfig
-    from ckan.config.environment import load_environment
-    import pylons
-    conf = appconfig('config:%s' % settings.CKAN_CONFIG)
-    load_environment(conf.global_conf, conf.local_conf)
-    registry = Registry()
-    registry.prepare()
-    translator_obj = MockTranslator()
-    registry.register(pylons.translator, translator_obj)
+    content_hash = unicode(resource_hash.hexdigest())
+    # if some data was successfully written to the temp resource file, rename it and
+    # add it to the target directory
+    if length:
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+        os.rename(tmp_resource_file, os.path.join(dir, content_hash + '.csv'))
 
-    ckan_update.resource_update(context, resource)
+    return length, content_hash
 
-    return length, resource['hash']
-
+def _set_resource_hash(resource, hash):
+    pass
 
 @task(name = "archiver.update_task_status")
 def update_task_status(*args):
