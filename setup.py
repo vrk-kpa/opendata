@@ -29,6 +29,6 @@ setup(
     ],
     entry_points = '''
     [paste.paster_command]
-    archive = ckanext.archiver.commands:Archive
+    archiver = ckanext.archiver.commands:Archiver
     '''
 )
