@@ -5,7 +5,6 @@ import requests
 import json
 import urllib
 import urlparse
-import StringIO
 import copy
 from celery.task import task
 
@@ -149,22 +148,19 @@ def archive_resource(resource, package_name, logger, url_timeout = 30):
             return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
 
-def _save_resource(resource, response, dir, size=1024*16):
+def _save_resource(resource, response, dir, size = 1024*16):
     resource_hash = hashlib.sha1()
     length = 0
 
     tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fp = open(tmp_resource_file, 'wb')
 
-    content = StringIO.StringIO(response.content)
-    chunk = content.read(size)
-    while chunk: 
+    for chunk in response.iter_content(chunk_size = size):
         fp.write(chunk)
         length += len(chunk)
         resource_hash.update(chunk)
-        chunk = content.read(size)
-    fp.close()
 
+    fp.close()
     content_hash = unicode(resource_hash.hexdigest())
 
     # if some data was successfully written to the temp resource file, rename it and

@@ -8,7 +8,7 @@ setup(
         'celery>=2.3.3',
         'kombu-sqlalchemy>=1.1.0',
         'SQLAlchemy>=0.6.6',
-        'requests==0.6.1'
+        'requests==0.6.4'
     ],
     # metadata for upload to PyPI
     author = 'Open Knowledge Foundation',
