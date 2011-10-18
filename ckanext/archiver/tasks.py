@@ -6,6 +6,7 @@ import json
 import urllib
 import urlparse
 import copy
+from datetime import datetime
 from celery.task import task
 
 try:
@@ -87,10 +88,28 @@ def update(resource_json):
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
 
-def archive_resource(resource, logger, url_timeout = 30):
+
+@task(name = "archiver.link_checker")
+def link_checker(url, url_timeout = 30):
+    """
+    Check that the resource's url is valid, and accepts a HEAD request.
+
+    Returns a json dict:
+
+        {   
+            'success': True/False,
+            'error_message': string containing any error message (empty if no error),
+            'content_type': content-type header returned by HEAD request if any
+            'content_length': content-length header returned by HEAD request if any
+        }
+    """
+    success = True
+    error_message = ''
+    content_type = ''
+    content_length = ''
+
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
-    url = resource['url']
     try:
         url = url.decode('ascii')
     except:
@@ -104,51 +123,71 @@ def archive_resource(resource, logger, url_timeout = 30):
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
     if not parsed_url.scheme in allowed_schemes:
-        return _make_status_messages(resource, "Invalid url scheme")
+        success = False
+        error_message = "Invalid url scheme"
     # check that query string is valid
     # see: http://trac.ckan.org/ticket/318
     # TODO: check urls with a better validator? 
     #       eg: ll.url (http://www.livinglogic.de/Python/url/Howto.html)?
     elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
-        return _make_status_messages(resource, "Invalid URL")
+        success = False
+        error_message = "Invalid URL"
     else:
         # Send a head request
         try:
             res = requests.head(url, timeout = url_timeout)
         except ValueError, ve:
-            return _make_status_messages(resource, "Invalid URL")
+            success = False
+            error_message = "Invalid URL"
 
         if res.error:
+            success = False
             if res.status_code in HTTP_ERROR_CODES:
-                return _make_status_messages(resource, HTTP_ERROR_CODES[res.status_code])
+                error_message = HTTP_ERROR_CODES[res.status_code]
             else:
-                return _make_status_messages(resource, "URL unobtainable")
-            return
+                error_message = "URL unobtainable"
 
-        resource_format = resource['format'].lower()
-        ct = res.headers.get('content-type', '').lower()
-        cl = res.headers.get('content-length')
-        dst_dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
+        content_type = res.headers.get('content-type')
+        content_length = res.headers.get('content-length')
 
-        # make sure resource does not exceed our maximum content size
-        if cl >= str(settings.MAX_CONTENT_LENGTH):
-            return _make_status_messages(resource, "Content-length exceeds maximum allowed value")
+    return json.dumps({
+        'success': success,
+        'error_message': error_message,
+        'content_type': content_type,
+        'content_length': content_length
+    })
 
-        # try to archive csv files
-        if(resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
-                logger.info("Resource identified as CSV file, attempting to archive")
 
-                res = requests.get(url, timeout = url_timeout)
-                length, hash = _save_resource(resource, res, dst_dir)
+def archive_resource(resource, logger, url_timeout = 30):
+    link_status = json.loads(link_checker(resource['url'], url_timeout))
+    if not link_status['success']:
+        return _make_status_messages(resource, link_status['error_message'])
 
-                hash_updated, error_msg = _set_resource_hash(resource, hash)
-                if not hash_updated:
-                    logger.error("Could not update resource hash: %s" % error_msg)
+    resource_format = resource['format'].lower()
+    ct = link_status.get('content_type', '').lower()
+    cl = link_status.get('content_length')
+    dst_dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
 
-                logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
-                return _make_status_messages(resource, 'ok', True, ct, cl)
-        else:
-            return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
+    # make sure resource does not exceed our maximum content size
+    if cl >= str(settings.MAX_CONTENT_LENGTH):
+        error_msg = "Content-length exceeds maximum allowed value"
+        return _make_status_messages(resource, error_msg, False, ct, cl)
+
+    # try to archive data files
+    if(resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
+            logger.info("Resource identified as CSV file, attempting to archive")
+
+            res = requests.get(resource['url'], timeout = url_timeout)
+            length, hash = _save_resource(resource, res, dst_dir)
+
+            hash_updated, error_msg = _set_resource_hash(resource, hash)
+            if not hash_updated:
+                logger.error("Could not update resource hash: %s" % error_msg)
+
+            logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
+            return _make_status_messages(resource, 'ok', True, ct, cl)
+    else:
+        return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
 
 def _save_resource(resource, response, dir, size = 1024*16):
@@ -211,7 +250,8 @@ def _make_status_messages(resource, message, success=False,
         'task_type': task_type,
         'key': u'result',
         'value': message,
-        'state': task_state
+        'state': task_state,
+        'last_updated': datetime.now().isoformat()
     }
     messages.append(status)
 
