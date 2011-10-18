@@ -67,8 +67,17 @@ def update(resource_json):
 
     if not resource:
         logger.error("Error: Resource not found: %s" % resource['id'])
-        # TODO: Can't update task_status table here because resource_id does not exist. 
-        #       Maybe this field should not be required?
+        task_status = {
+            'entity_id': resource['id'],
+            'entity_type': u'resource',
+            'task_type': u'archiver',
+            'key': u'result',
+            'value': u'resource not found',
+            'state': u'fail'
+        }
+        update_success, error_msg = _update_task_status([task_status])
+        if not update_success:
+            logger.error("Could not update task status: %s" % error_msg)
         return
 
     logger.info("Attempting to archive resource: %s" % resource['url'])
