@@ -170,17 +170,17 @@ def archive_resource(resource, logger, url_timeout = 30):
 
     # try to archive data files
     if(resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
-            logger.info("Resource identified as CSV file, attempting to archive")
+        logger.info("Resource identified as CSV file, attempting to archive")
 
-            res = requests.get(resource['url'], timeout = url_timeout)
-            length, hash = _save_resource(resource, res, dst_dir)
+        res = requests.get(resource['url'], timeout = url_timeout)
+        length, hash = _save_resource(resource, res, dst_dir)
 
-            hash_updated, error_msg = _set_resource_hash(resource, hash)
-            if not hash_updated:
-                logger.error("Could not update resource hash: %s" % error_msg)
+        hash_updated, error_msg = _set_resource_hash(resource, hash)
+        if not hash_updated:
+            logger.error("Could not update resource hash: %s" % error_msg)
 
-            logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
-            return _make_status_messages(resource, 'ok', True, ct, cl)
+        logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
+        return _make_status_messages(resource, 'ok', True, ct, cl)
     else:
         return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
