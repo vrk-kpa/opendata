@@ -31,5 +31,9 @@ setup(
     entry_points = '''
     [paste.paster_command]
     archiver = ckanext.archiver.commands:Archiver
+
+    [ckan.plugins]
+    archiver = ckanext.archiver.plugin:ArchiverPlugin
     '''
 )
+

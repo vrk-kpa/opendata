@@ -33,7 +33,7 @@ def clean():
 
 
 @task(name = "archiver.update")
-def update(package_id = None, limit = None):
+def update(resource_id):
     logger = update.get_logger()
     api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
 
@@ -42,48 +42,24 @@ def update(package_id = None, limit = None):
         logger.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
-    if package_id:
-        post_data = json.dumps({'id': package_id})
-        res = requests.post(api_url + '/package_show', post_data)
-        package = json.loads(res.content).get('result')
+    post_data = json.dumps({'id': resource_id})
+    res = requests.post(api_url + '/resource_show', post_data)
+    resource = json.loads(res.content).get('result')
 
-        if package:
-            packages = [package]
-        else:
-            logger.error("Error: Package not found: %s" % package_id)
-    else:
-        post_data = {}
-        if limit:
-            post_data['limit'] = limit
-            logger.info("Limiting results to %d packages" % limit)
-        post_data = json.dumps(post_data)
-        res = requests.post(api_url + '/current_package_list_with_resources', post_data)
-        packages = json.loads(res.content).get('result')
-
-    logger.info("Total packages to update: %d" % len(packages))
-    if not packages:
+    if not resource:
+        logger.error("Error: Resource not found: %s" % resource_id)
+        # TODO: Can't update task_status table here because resource_id does not exist. 
+        #       Maybe this field should not be required?
         return
 
-    task_results = []
-
-    for package in packages:
-        resources = package.get('resources', [])
-        if not len(resources):
-            logger.info("Package %s has no resources - skipping" % package['name'])
-        else:
-            logger.info("Checking package: %s (%d resource(s))" % 
-                (package['name'], len(resources))
-            )
-            for resource in resources:
-                logger.info("Attempting to archive resource: %s" % resource['url'])
-                task_results.extend(archive_resource(resource, package['name'], logger))
+    logger.info("Attempting to archive resource: %s" % resource['url'])
+    task_results = archive_resource(resource, logger)
 
     update_success, error_msg = _update_task_status(task_results)
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
 
-
-def archive_resource(resource, package_name, logger, url_timeout = 30):
+def archive_resource(resource, logger, url_timeout = 30):
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     url = resource['url']
@@ -124,7 +100,7 @@ def archive_resource(resource, package_name, logger, url_timeout = 30):
         resource_format = resource['format'].lower()
         ct = res.headers.get('content-type', '').lower()
         cl = res.headers.get('content-length')
-        dst_dir = os.path.join(settings.ARCHIVE_DIR, package_name)
+        dst_dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
 
         # make sure resource does not exceed our maximum content size
         if cl >= str(settings.MAX_CONTENT_LENGTH):
@@ -168,7 +144,13 @@ def _save_resource(resource, response, dir, size = 1024*16):
     if length:
         if not os.path.exists(dir):
             os.mkdir(dir)
-        os.rename(tmp_resource_file, os.path.join(dir, content_hash + '.csv'))
+        # try to get a file name from the url
+        parsed_url = urlparse.urlparse(resource.get('url'))
+        try:
+            file_name = parsed_url.path.split('/')[-1]
+        except:
+            file_name = "resource"
+        os.rename(tmp_resource_file, os.path.join(dir, file_name))
 
     return length, content_hash
 
