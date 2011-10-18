@@ -99,14 +99,12 @@ def link_checker(url, url_timeout = 30):
         {   
             'success': True/False,
             'error_message': string containing any error message (empty if no error),
-            'content_type': content-type header returned by HEAD request if any
-            'content_length': content-length header returned by HEAD request if any
+            'headers': dict containing HEAD request headers
         }
     """
     success = True
     error_message = ''
-    content_type = ''
-    content_length = ''
+    headers = {}
 
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
@@ -136,6 +134,7 @@ def link_checker(url, url_timeout = 30):
         # Send a head request
         try:
             res = requests.head(url, timeout = url_timeout)
+            headers = res.headers
         except ValueError, ve:
             success = False
             error_message = "Invalid URL"
@@ -147,14 +146,10 @@ def link_checker(url, url_timeout = 30):
             else:
                 error_message = "URL unobtainable"
 
-        content_type = res.headers.get('content-type')
-        content_length = res.headers.get('content-length')
-
     return json.dumps({
         'success': success,
         'error_message': error_message,
-        'content_type': content_type,
-        'content_length': content_length
+        'headers': headers
     })
 
 
@@ -164,8 +159,8 @@ def archive_resource(resource, logger, url_timeout = 30):
         return _make_status_messages(resource, link_status['error_message'])
 
     resource_format = resource['format'].lower()
-    ct = link_status.get('content_type', '').lower()
-    cl = link_status.get('content_length')
+    ct = link_status['headers'].get('content-type', '').lower()
+    cl = link_status['headers'].get('content-length')
     dst_dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
 
     # make sure resource does not exceed our maximum content size
