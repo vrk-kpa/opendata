@@ -1,5 +1,7 @@
+import json
 from ckan import model
 from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification, IResourceUrlChange
+from ckan.lib.dictization.model_dictize import resource_dictize
 from celery.execute import send_task
 
 class ArchiverPlugin(SingletonPlugin):
@@ -13,12 +15,14 @@ class ArchiverPlugin(SingletonPlugin):
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
-
+        
         if operation:
             if operation == model.DomainObjectOperation.new:
-                send_task("archiver.update", [entity.id])
+                resource = json.dumps(resource_dictize(entity, {'model': model}))
+                send_task("archiver.update", [resource])
         else:
             # if operation is None, resource URL has been changed, as the
             # notify function in IResourceUrlChange only takes 1 parameter
-            send_task("archiver.update", [entity.id])
+            resource = json.dumps(resource_dictize(entity, {'model': model}))
+            send_task("archiver.update", [resource])
 

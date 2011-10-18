@@ -22,6 +22,24 @@ HTTP_ERROR_CODES = {
     httplib.GATEWAY_TIMEOUT: "Gateway timeout"
 }
 
+DATA_FORMATS = [ 
+    'csv',
+    'text/csv',
+    'txt',
+    'text/plain'
+    'rdf',
+    'text/rdf',
+    'xml',
+    'text/xml',
+    'tar',
+    'application/x-tar',
+    'zip',
+    'application/zip'
+    'gz',
+    'application/gzip',
+    'application/x-gzip'
+]
+
 
 @task(name = "archiver.clean")
 def clean():
@@ -33,21 +51,19 @@ def clean():
 
 
 @task(name = "archiver.update")
-def update(resource_id):
+def update(resource_json):
     logger = update.get_logger()
     api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
+    resource = json.loads(resource_json)
+    resource.pop('revision_id')
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
         logger.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
-    post_data = json.dumps({'id': resource_id})
-    res = requests.post(api_url + '/resource_show', post_data)
-    resource = json.loads(res.content).get('result')
-
     if not resource:
-        logger.error("Error: Resource not found: %s" % resource_id)
+        logger.error("Error: Resource not found: %s" % resource['id'])
         # TODO: Can't update task_status table here because resource_id does not exist. 
         #       Maybe this field should not be required?
         return
@@ -107,8 +123,7 @@ def archive_resource(resource, logger, url_timeout = 30):
             return _make_status_messages(resource, "Content-length exceeds maximum allowed value")
 
         # try to archive csv files
-        if(resource_format == 'csv' or resource_format == 'text/csv' or
-           (ct and ct.lower() == 'text/csv')):
+        if(resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
                 logger.info("Resource identified as CSV file, attempting to archive")
 
                 res = requests.get(url, timeout = url_timeout)
@@ -118,7 +133,7 @@ def archive_resource(resource, logger, url_timeout = 30):
                 if not hash_updated:
                     logger.error("Could not update resource hash: %s" % error_msg)
 
-                logger.info("Archive finished. Saved %s to %s with hash %s" % (resource['url'], dst_dir, hash))
+                logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
                 return _make_status_messages(resource, 'ok', True, ct, cl)
         else:
             return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
