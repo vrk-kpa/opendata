@@ -9,4 +9,4 @@ API_KEY = ''
 ARCHIVE_DIR = '/tmp/archive'
 
 # Max content-length of archived files, larger files will be ignored
-MAX_CONTENT_LENGTH = 500000
+MAX_CONTENT_LENGTH = 50000000
