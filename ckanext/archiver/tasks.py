@@ -55,14 +55,15 @@ def clean():
 
 
 @task(name = "archiver.update")
-def update(resource_json):
+def update(context, data):
     """
     Link check and archive the given resource.
     """
     logger = update.get_logger()
-    api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
-    resource = json.loads(resource_json)
+    context = json.loads(context)
+    resource = json.loads(data)
     resource.pop('revision_id')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action')
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
@@ -79,15 +80,15 @@ def update(resource_json):
             'value': u'resource not found',
             'state': u'fail'
         }
-        update_success, error_msg = _update_task_status([task_status])
+        update_success, error_msg = _update_task_status(context, [task_status])
         if not update_success:
             logger.error("Could not update task status: %s" % error_msg)
         return
 
     logger.info("Attempting to archive resource: %s" % resource['url'])
-    task_results = archive_resource(resource, logger)
+    task_results = archive_resource(context, resource, logger)
 
-    update_success, error_msg = _update_task_status(task_results)
+    update_success, error_msg = _update_task_status(context, task_results)
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
 
@@ -156,7 +157,7 @@ def link_checker(url, url_timeout = 30):
     })
 
 
-def archive_resource(resource, logger, url_timeout = 30):
+def archive_resource(context, resource, logger, url_timeout = 30):
     link_status = json.loads(link_checker(resource['url'], url_timeout))
     if not link_status['success']:
         return _make_status_messages(resource, link_status['error_message'])
@@ -174,7 +175,7 @@ def archive_resource(resource, logger, url_timeout = 30):
     # make sure resource does not exceed our maximum content size
     if cl >= str(settings.MAX_CONTENT_LENGTH):
         if resource_changed: 
-            _update_resource(resource) 
+            _update_resource(context, resource) 
         # record fact that resource is too large to archive
         error_msg = "Content-length exceeds maximum allowed value"
         return _make_status_messages(resource, error_msg, False, ct, cl)
@@ -187,7 +188,7 @@ def archive_resource(resource, logger, url_timeout = 30):
         length, hash = _save_resource(resource, res, dst_dir)
 
         resource['hash'] = hash
-        resource_updated, error_msg = _update_resource(resource)
+        resource_updated, error_msg = _update_resource(context, resource)
         if not resource_updated:
             logger.error("Could not update resource hash: %s" % error_msg)
 
@@ -195,7 +196,7 @@ def archive_resource(resource, logger, url_timeout = 30):
         return _make_status_messages(resource, 'ok', True, ct, cl)
     else:
         if resource_changed: 
-            _update_resource(resource) 
+            _update_resource(context, resource) 
         return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
 
@@ -229,25 +230,25 @@ def _save_resource(resource, response, dir, size = 1024*16):
 
     return length, content_hash
 
-def _update_resource(resource):
+def _update_resource(context, resource):
     """
     Use CKAN API to update the given resource.
     If cannot update, records this fact in the task_status table.
 
     Returns a tuple: (bool:was update successful, requests.Response:response from server)
     """
-    api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action')
     resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
     res = requests.post(
         api_url + '/resource_update', post_data,
-        headers = {'Authorization': settings.API_KEY}
+        headers = {'Authorization': context['apikey']}
     )
 
     if res.status_code == 200:
         return True, res.content
     else:
-        _update_task_status(_make_status_messages(
+        _update_task_status(context, _make_status_messages(
             resource, "Could not update resource: %s" % res.content, False
         ))
         return False, res.content
@@ -287,15 +288,15 @@ def _make_status_messages(resource, message, success=False,
 
     return messages
 
-def _update_task_status(data):
-    api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
+def _update_task_status(context, data):
+    api_url = urlparse.urljoin(context['site_url'], 'api/action')
 
     # data must be in a json encoded dict 
     post_data = json.dumps({'data': data})
 
     res = requests.post(
         api_url + '/task_status_update_many', post_data,
-        headers = {'Authorization': settings.API_KEY}
+        headers = {'Authorization': context['apikey']}
     )
     return res.status_code == 200, res.content
 
