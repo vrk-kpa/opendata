@@ -86,9 +86,9 @@ def update(context, data):
         return
 
     logger.info("Attempting to archive resource: %s" % resource['url'])
-    task_results = archive_resource(context, resource, logger)
+    task_result = archive_resource(context, resource, logger)
 
-    update_success, error_msg = _update_task_status(context, task_results)
+    update_success, error_msg = _update_task_status(context, task_result)
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
 
@@ -168,7 +168,7 @@ def archive_resource(context, resource, logger, url_timeout = 30):
     })
     link_status = json.loads(link_checker(link_context, link_data))
     if not link_status['success']:
-        return _make_status_messages(resource, link_status['error_message'])
+        return _task_status(resource, link_status['error_message'])
 
     resource_format = resource['format'].lower()
     ct = link_status['headers'].get('content-type', '').lower()
@@ -186,26 +186,27 @@ def archive_resource(context, resource, logger, url_timeout = 30):
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
         error_msg = "Content-length exceeds maximum allowed value"
-        return _make_status_messages(resource, error_msg, False, ct, cl)
+        return _task_status(resource, error_msg, False, ct, cl)
 
-    # try to archive data files
-    if(resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
-        logger.info("Resource identified as CSV file, attempting to archive")
-
-        res = requests.get(resource['url'], timeout = url_timeout)
-        length, hash = _save_resource(resource, res, dst_dir)
-
-        resource['hash'] = hash
-        resource_updated, error_msg = _update_resource(context, resource)
-        if not resource_updated:
-            logger.error("Could not update resource hash: %s" % error_msg)
-
-        logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
-        return _make_status_messages(resource, 'ok', True, ct, cl)
-    else:
+    # check that resource is a data file
+    if not (resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
         if resource_changed: 
             _update_resource(context, resource) 
-        return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
+        return _task_status(resource, 'unrecognised content type', False, ct, cl)
+
+    # get the resource and archive it
+    logger.info("Resource identified as data file, attempting to archive")
+    res = requests.get(resource['url'], timeout = url_timeout)
+    length, hash = _save_resource(resource, res, dst_dir)
+
+    # update the resource metadata in CKAN
+    resource['hash'] = hash
+    resource_updated, error_msg = _update_resource(context, resource)
+    if not resource_updated:
+        logger.error("Could not update resource hash: %s" % error_msg)
+
+    logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
+    return _task_status(resource, 'ok', True, ct, cl)
 
 
 def _save_resource(resource, response, dir, size = 1024*16):
@@ -256,54 +257,29 @@ def _update_resource(context, resource):
     if res.status_code == 200:
         return True, res.content
     else:
-        _update_task_status(context, _make_status_messages(
+        _update_task_status(context, _task_status(
             resource, "Could not update resource: %s" % res.content, False
         ))
         return False, res.content
 
-def _make_status_messages(resource, message, success=False, 
-                          content_type=None, content_length=None):
+def _task_status(resource, message, success=False, content_type=None, content_length=None):
     """
-    Return a list of dicts, where each dict is a row in the task_status table.
+    Return a dict representing a row in the task_status table.
     """
-    messages = []
-    entity_type = u'resource'
-    task_type = u'archiver'
-    task_state = u'success' if success else u'fail'
-
-    status = {
+    return {
         'entity_id': resource['id'],
-        'entity_type': entity_type,
-        'task_type': task_type,
+        'entity_type': u'resource',
+        'task_type': u'archiver',
         'key': u'result',
         'value': message,
-        'state': task_state,
+        'state': u'success' if success else u'fail',
         'last_updated': datetime.now().isoformat()
     }
-    messages.append(status)
-
-    if content_type:
-        ct = copy.deepcopy(status)
-        ct['key'] = u'content_type'
-        ct['value'] = unicode(content_type)
-        messages.append(ct)
-
-    if content_length:
-        cl = copy.deepcopy(status)
-        cl['key'] = u'content_length'
-        cl['value'] = unicode(content_length)
-        messages.append(cl)
-
-    return messages
 
 def _update_task_status(context, data):
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
-
-    # data must be in a json encoded dict 
-    post_data = json.dumps({'data': data})
-
     res = requests.post(
-        api_url + '/task_status_update_many', post_data,
+        api_url + '/task_status_update', json.dumps(data),
         headers = {'Authorization': context['apikey']}
     )
     return res.status_code == 200, res.content
