@@ -56,6 +56,9 @@ def clean():
 
 @task(name = "archiver.update")
 def update(resource_json):
+    """
+    Link check and archive the given resource.
+    """
     logger = update.get_logger()
     api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
     resource = json.loads(resource_json)
@@ -165,6 +168,12 @@ def archive_resource(resource, logger, url_timeout = 30):
 
     # make sure resource does not exceed our maximum content size
     if cl >= str(settings.MAX_CONTENT_LENGTH):
+        # check if we have to update the resource
+        if (resource.get('mimetype') != ct) or (resource.get('size') != cl):
+            resource['mimetype'] = ct
+            resource['size'] = cl
+            _update_resource(resource)
+        # record fact that resource is too large to archive
         error_msg = "Content-length exceeds maximum allowed value"
         return _make_status_messages(resource, error_msg, False, ct, cl)
 
@@ -175,13 +184,21 @@ def archive_resource(resource, logger, url_timeout = 30):
         res = requests.get(resource['url'], timeout = url_timeout)
         length, hash = _save_resource(resource, res, dst_dir)
 
-        hash_updated, error_msg = _set_resource_hash(resource, hash)
-        if not hash_updated:
+        resource['hash'] = hash
+        resource['mimetype'] = ct
+        resource['size'] = cl
+        resource_updated, error_msg = _update_resource(resource)
+        if not resource_updated:
             logger.error("Could not update resource hash: %s" % error_msg)
 
-        logger.info("Archiver task finished. Saved %s to %s" % (resource['id'], dst_dir))
+        logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
         return _make_status_messages(resource, 'ok', True, ct, cl)
     else:
+        # check if we have to update the resource
+        if (resource.get('mimetype') != ct) or (resource.get('size') != cl):
+            resource['mimetype'] = ct
+            resource['size'] = cl
+            _update_resource(resource)
         return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
 
@@ -215,19 +232,28 @@ def _save_resource(resource, response, dir, size = 1024*16):
 
     return length, content_hash
 
-def _set_resource_hash(resource, hash):
+def _update_resource(resource):
     """
-    Use CKAN API to change the hash value of the given resource.
-    Returns a tuple: (True if update was successful, response from server)
+    Use CKAN API to update the given resource.
+    If cannot update, records this fact in the task_status table.
+
+    Returns a tuple: (bool:was update successful, requests.Response:response from server)
     """
     api_url = urlparse.urljoin(settings.CKAN_URL, 'api/action')
-    resource['hash'] = hash
+    resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
     res = requests.post(
         api_url + '/resource_update', post_data,
         headers = {'Authorization': settings.API_KEY}
     )
-    return res.status_code == 200, res.content
+
+    if res.status_code == 200:
+        return True, res.content
+    else:
+        _update_task_status(_make_status_messages(
+            resource, "Could not update resource: %s" % res.content, False
+        ))
+        return False, res.content
 
 def _make_status_messages(resource, message, success=False, 
                           content_type=None, content_length=None):
@@ -275,3 +301,4 @@ def _update_task_status(data):
         headers = {'Authorization': settings.API_KEY}
     )
     return res.status_code == 200, res.content
+
