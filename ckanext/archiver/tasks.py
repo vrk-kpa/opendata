@@ -107,6 +107,7 @@ def link_checker(context, data):
         }
     """
     data = json.loads(data)
+    url_timeout = data.get('url_timeout', 30)
 
     success = True
     error_message = ''
@@ -139,7 +140,7 @@ def link_checker(context, data):
     else:
         # Send a head request
         try:
-            res = requests.head(url, timeout = data['url_timeout'])
+            res = requests.head(url, timeout = url_timeout)
             headers = res.headers
         except ValueError, ve:
             success = False
