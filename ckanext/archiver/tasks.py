@@ -166,13 +166,15 @@ def archive_resource(resource, logger, url_timeout = 30):
     cl = link_status['headers'].get('content-length')
     dst_dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
 
+    resource_changed = (resource.get('mimetype') != ct) or (resource.get('size') != cl)
+    if resource_changed:
+        resource['mimetype'] = ct
+        resource['size'] = cl
+
     # make sure resource does not exceed our maximum content size
     if cl >= str(settings.MAX_CONTENT_LENGTH):
-        # check if we have to update the resource
-        if (resource.get('mimetype') != ct) or (resource.get('size') != cl):
-            resource['mimetype'] = ct
-            resource['size'] = cl
-            _update_resource(resource)
+        if resource_changed: 
+            _update_resource(resource) 
         # record fact that resource is too large to archive
         error_msg = "Content-length exceeds maximum allowed value"
         return _make_status_messages(resource, error_msg, False, ct, cl)
@@ -185,8 +187,6 @@ def archive_resource(resource, logger, url_timeout = 30):
         length, hash = _save_resource(resource, res, dst_dir)
 
         resource['hash'] = hash
-        resource['mimetype'] = ct
-        resource['size'] = cl
         resource_updated, error_msg = _update_resource(resource)
         if not resource_updated:
             logger.error("Could not update resource hash: %s" % error_msg)
@@ -194,11 +194,8 @@ def archive_resource(resource, logger, url_timeout = 30):
         logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
         return _make_status_messages(resource, 'ok', True, ct, cl)
     else:
-        # check if we have to update the resource
-        if (resource.get('mimetype') != ct) or (resource.get('size') != cl):
-            resource['mimetype'] = ct
-            resource['size'] = cl
-            _update_resource(resource)
+        if resource_changed: 
+            _update_resource(resource) 
         return _make_status_messages(resource, 'unrecognised content type', False, ct, cl)
 
 
