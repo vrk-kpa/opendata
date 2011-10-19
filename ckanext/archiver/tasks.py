@@ -94,7 +94,7 @@ def update(context, data):
 
 
 @task(name = "archiver.link_checker")
-def link_checker(url, url_timeout = 30):
+def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
 
@@ -106,6 +106,8 @@ def link_checker(url, url_timeout = 30):
             'headers': dict containing HEAD request headers
         }
     """
+    data = json.loads(data)
+
     success = True
     error_message = ''
     headers = {}
@@ -113,7 +115,7 @@ def link_checker(url, url_timeout = 30):
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
     try:
-        url = url.decode('ascii')
+        url = data['url'].decode('ascii')
     except:
         parts = list(urlparse.urlparse(url))
         parts[2] = urllib.quote(parts[2].encode('utf-8'))
@@ -137,7 +139,7 @@ def link_checker(url, url_timeout = 30):
     else:
         # Send a head request
         try:
-            res = requests.head(url, timeout = url_timeout)
+            res = requests.head(url, timeout = data['url_timeout'])
             headers = res.headers
         except ValueError, ve:
             success = False
@@ -158,7 +160,12 @@ def link_checker(url, url_timeout = 30):
 
 
 def archive_resource(context, resource, logger, url_timeout = 30):
-    link_status = json.loads(link_checker(resource['url'], url_timeout))
+    link_context = "{}"
+    link_data = json.dumps({
+        'url': resource['url'],
+        'url_timeout': url_timeout
+    })
+    link_status = json.loads(link_checker(link_context, link_data))
     if not link_status['success']:
         return _make_status_messages(resource, link_status['error_message'])
 
