@@ -58,6 +58,14 @@ def clean():
 def update(context, data):
     """
     Link check and archive the given resource.
+
+    Returns a JSON dict:
+
+        {
+            'task_status': dict representing a row in the CKAN task status table,
+            'resource': the updated resource dict,
+            'file_path': path to archived file (if archive successful), or None
+        }
     """
     logger = update.get_logger()
     context = json.loads(context)
@@ -86,11 +94,17 @@ def update(context, data):
         return
 
     logger.info("Attempting to archive resource: %s" % resource['url'])
-    task_result = archive_resource(context, resource, logger)
+    task_result, file_path = archive_resource(context, resource, logger)
 
     update_success, error_msg = _update_task_status(context, task_result)
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
+
+    return json.dumps({
+        'task_status': task_result,
+        'resource': resource,
+        'file_path': file_path
+    })
 
 
 @task(name = "archiver.link_checker")
@@ -161,6 +175,13 @@ def link_checker(context, data):
 
 
 def archive_resource(context, resource, logger, url_timeout = 30):
+    """
+    Archive the given resource.
+
+    Returns a tuple:
+
+        (task status: dict, path to saved file: string or None)
+    """
     link_context = "{}"
     link_data = json.dumps({
         'url': resource['url'],
@@ -168,7 +189,7 @@ def archive_resource(context, resource, logger, url_timeout = 30):
     })
     link_status = json.loads(link_checker(link_context, link_data))
     if not link_status['success']:
-        return _task_status(resource, link_status['error_message'])
+        return _task_status(resource, link_status['error_message']), None
 
     resource_format = resource['format'].lower()
     ct = link_status['headers'].get('content-type', '').lower()
@@ -186,32 +207,40 @@ def archive_resource(context, resource, logger, url_timeout = 30):
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
         error_msg = "Content-length exceeds maximum allowed value"
-        return _task_status(resource, error_msg, False, ct, cl)
+        return _task_status(resource, error_msg, False, ct, cl), None
 
     # check that resource is a data file
     if not (resource_format in DATA_FORMATS or ct.lower() in DATA_FORMATS):
         if resource_changed: 
             _update_resource(context, resource) 
-        return _task_status(resource, 'unrecognised content type', False, ct, cl)
+        return _task_status(resource, 'unrecognised content type', False, ct, cl), None
 
     # get the resource and archive it
     logger.info("Resource identified as data file, attempting to archive")
     res = requests.get(resource['url'], timeout = url_timeout)
-    length, hash = _save_resource(resource, res, dst_dir)
+    length, hash, file = _save_resource(resource, res, dst_dir)
 
     # update the resource metadata in CKAN
     resource['hash'] = hash
     resource_updated, error_msg = _update_resource(context, resource)
     if not resource_updated:
-        logger.error("Could not update resource hash: %s" % error_msg)
+        logger.error("Could not update resource: %s" % error_msg)
 
     logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
-    return _task_status(resource, 'ok', True, ct, cl)
+    return _task_status(resource, 'ok', True, ct, cl), file
 
 
 def _save_resource(resource, response, dir, size = 1024*16):
+    """
+    Write the response content to disk.
+
+    Returns a tuple:
+
+        (file length: int, content hash: string, saved file path: string)
+    """
     resource_hash = hashlib.sha1()
     length = 0
+    saved_file = None
 
     tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fp = open(tmp_resource_file, 'wb')
@@ -232,12 +261,13 @@ def _save_resource(resource, response, dir, size = 1024*16):
         # try to get a file name from the url
         parsed_url = urlparse.urlparse(resource.get('url'))
         try:
-            file_name = parsed_url.path.split('/')[-1]
+            file_name = parsed_url.path.split('/')[-1] or 'resource'
         except:
             file_name = "resource"
-        os.rename(tmp_resource_file, os.path.join(dir, file_name))
+        saved_file = os.path.join(dir, file_name)
+        os.rename(tmp_resource_file, saved_file)
 
-    return length, content_hash
+    return length, content_hash, saved_file
 
 def _update_resource(context, resource):
     """
