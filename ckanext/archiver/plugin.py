@@ -17,6 +17,7 @@ class ArchiverPlugin(SingletonPlugin):
 
     def configure(self, config):
         self.site_url = config.get('ckan.site_url')
+        self.webstore_url = config.get('ckan.webstore_url')
 
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
@@ -34,7 +35,9 @@ class ArchiverPlugin(SingletonPlugin):
         user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
         context = json.dumps({
             'site_url': self.site_url,
-            'apikey': user.get('apikey')
+            'apikey': user.get('apikey'),
+            'username': user.get('name'),
+            'webstore_url': self.webstore_url
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
         send_task("archiver.update", [context, data])

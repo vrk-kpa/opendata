@@ -8,6 +8,7 @@ import urlparse
 import copy
 from datetime import datetime
 from celery.task import task
+from celery.execute import send_task
 
 try:
     from ckanext.archiver import settings
@@ -69,8 +70,8 @@ def update(context, data):
     """
     logger = update.get_logger()
     context = json.loads(context)
-    resource = json.loads(data)
-    resource.pop('revision_id')
+    data = json.loads(data)
+    data.pop('revision_id')
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
 
     # check that archive directory exists
@@ -78,10 +79,10 @@ def update(context, data):
         logger.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
-    if not resource:
-        logger.error("Error: Resource not found: %s" % resource['id'])
+    if not data:
+        logger.error("Error: Resource not found: %s" % data['id'])
         task_status = {
-            'entity_id': resource['id'],
+            'entity_id': data['id'],
             'entity_type': u'resource',
             'task_type': u'archiver',
             'key': u'result',
@@ -93,16 +94,21 @@ def update(context, data):
             logger.error("Could not update task status: %s" % error_msg)
         return
 
-    logger.info("Attempting to archive resource: %s" % resource['url'])
-    task_result, file_path = archive_resource(context, resource, logger)
+    logger.info("Attempting to archive resource: %s" % data['url'])
+    task_result, file_path = archive_resource(context, data, logger)
 
     update_success, error_msg = _update_task_status(context, task_result)
     if not update_success:
         logger.error("Could not update task status: %s" % error_msg)
 
+    # call the webstorer if archiving was successful and a webstore url is given
+    if file_path and context.get('webstore_url'):   
+        data['file_path'] = file_path
+        send_task('webstorer.upload', [json.dumps(context), json.dumps(data)])
+
     return json.dumps({
         'task_status': task_result,
-        'resource': resource,
+        'resource': data,
         'file_path': file_path
     })
 
@@ -201,7 +207,7 @@ def archive_resource(context, resource, logger, url_timeout = 30):
         resource['mimetype'] = ct
         resource['size'] = cl
 
-    # make sure resource does not exceed our maximum content size
+    # make sure resource content-length does not exceed our maximum
     if cl >= str(settings.MAX_CONTENT_LENGTH):
         if resource_changed: 
             _update_resource(context, resource) 
@@ -218,7 +224,21 @@ def archive_resource(context, resource, logger, url_timeout = 30):
     # get the resource and archive it
     logger.info("Resource identified as data file, attempting to archive")
     res = requests.get(resource['url'], timeout = url_timeout)
-    length, hash, file = _save_resource(resource, res, dst_dir)
+    length, hash, saved_file = _save_resource(resource, res, dst_dir, settings.MAX_CONTENT_LENGTH)
+
+    # check that resource did not exceed maximum size when being saved
+    # (content-length header could have been invalid/corrupted, or not accurate
+    # if resource was streamed)
+    #
+    # TODO: remove partially archived file in this case
+    if length >= settings.MAX_CONTENT_LENGTH:
+        if resource_changed: 
+            _update_resource(context, resource) 
+        # record fact that resource is too large to archive
+        error_msg = "Content-length exceeds maximum allowed value"
+        return _task_status(resource, error_msg, False, ct, cl), None
+
+    # TODO: check length != 0 and that saved_file != None
 
     # update the resource metadata in CKAN
     resource['hash'] = hash
@@ -227,10 +247,10 @@ def archive_resource(context, resource, logger, url_timeout = 30):
         logger.error("Could not update resource: %s" % error_msg)
 
     logger.info("Archiver finished. Saved %s to %s" % (resource['id'], dst_dir))
-    return _task_status(resource, 'ok', True, ct, cl), file
+    return _task_status(resource, 'ok', True, ct, cl), saved_file
 
 
-def _save_resource(resource, response, dir, size = 1024*16):
+def _save_resource(resource, response, dir, max_file_size, chunk_size = 1024*16):
     """
     Write the response content to disk.
 
@@ -245,10 +265,13 @@ def _save_resource(resource, response, dir, size = 1024*16):
     tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fp = open(tmp_resource_file, 'wb')
 
-    for chunk in response.iter_content(chunk_size = size):
+    for chunk in response.iter_content(chunk_size = chunk_size):
         fp.write(chunk)
         length += len(chunk)
         resource_hash.update(chunk)
+
+        if length >= max_file_size:
+            break
 
     fp.close()
     content_hash = unicode(resource_hash.hexdigest())
