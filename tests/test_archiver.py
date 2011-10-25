@@ -1,4 +1,9 @@
 import os
+import shutil
+import tempfile
+import subprocess
+import time
+import requests
 from datetime import datetime, timedelta
 from nose.tools import raises
 from functools import wraps
@@ -10,14 +15,9 @@ from ckan import plugins
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.tests import BaseCase, url_for, CreateTestData
 
-from ckanext.archiver.tasks import link_checker
+from ckanext.archiver.tasks import link_checker, update
 from mock_remote_server import MockEchoTestServer
 
-# TEST_ARCHIVE_FOLDER = 'tests/test_archive_folder'
-
-# make sure test archive folder exists
-# if not os.path.exists(TEST_ARCHIVE_FOLDER):
-#     os.mkdir(TEST_ARCHIVE_FOLDER)
 
 def with_mock_url(url=''):
     """
@@ -119,26 +119,90 @@ class TestLinkChecker(BaseCase):
 
 class TestArchiver(BaseCase):
     """
-    Tests for link checker task
+    Tests for Archiver task
     """
 
-    pass
+    @classmethod
+    def setup_class(cls):
+        cls.temp_dir = tempfile.mkdtemp()
 
-    # @with_mock_url('?status=200;content=test;content-type=text/csv')
-    # def test_resource_hash_and_content_length(self, url):
-    #     context = json.dumps({})
-    #     data = json.dumps({'url': url})
-    #     result = json.loads(link_checker(context, data))
-    #     assert result['success'] == True, result
-    #     assert result['content_length'] == unicode(len('test'))
-    #     from hashlib import sha1
-    #     assert result['hash'] == sha1('test').hexdigest(), result
+        fake_ckan_path = os.path.join(os.path.dirname(__file__), "fake_ckan.py")
+        cls.fake_ckan = subprocess.Popen(['python', fake_ckan_path])
+        cls.fake_ckan_url = 'http://0.0.0.0:50001'
 
-    # @with_mock_url('?content-type=arfle-barfle-gloop')
-    # def test_url_with_unknown_content_type(self, url):
-    #     context = json.dumps({})
-    #     data = json.dumps({'url': url})
-    #     result = json.loads(link_checker(context, data))
-    #     assert result['success'] == False, result
-    #     assert result['error_message'] == 'unrecognised content type', result
+        #make sure services are running
+        for i in range(0, 12):
+            time.sleep(0.1)
+            response = requests.get(cls.fake_ckan_url)
+            if response:
+                break
+        else:
+            raise Exception('services did not start!')
+
+        cls.fake_context = {
+            'site_url': cls.fake_ckan_url,
+            'apikey': u'fake_api_key'
+        }
+        cls.fake_resource = {
+            'id': u'fake_resource_id',
+            'revision_id': u'fake_revision_id',
+            'url': cls.fake_ckan_url,
+            'format': 'csv'
+        }
+
+    @classmethod
+    def teardown_class(cls):
+        os.removedirs(cls.temp_dir)
+        cls.fake_ckan.kill()
+
+    def _remove_archived_file(self, file_path):
+        if file_path:
+            if os.path.exists(file_path):
+                resource_folder = os.path.split(file_path)[0]
+                if 'fake_resource_id' in resource_folder:
+                    shutil.rmtree(resource_folder)
+
+    @with_mock_url('?status=200&content=test&content-type=csv')
+    def test_resource_hash_and_content_length(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = json.loads(update(context, data))
+
+        assert result['task_status']['state'] == 'success', result
+        assert result['resource']['size'] == unicode(len('test'))
+        from hashlib import sha1
+        assert result['resource']['hash'] == sha1('test').hexdigest(), result
+        self._remove_archived_file(result.get('file_path'))
+
+    @with_mock_url('?status=200&content=test&content-type=csv')
+    def test_archived_file(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = json.loads(update(context, data))
+
+        assert result['file_path']
+        assert os.path.exists(result['file_path'])
+
+        with open(result['file_path']) as f:
+            content = f.readlines()
+            assert len(content) == 1
+            assert content[0] == "test"
+
+        self._remove_archived_file(result.get('file_path'))
+
+    @with_mock_url('?content-type=arfle-barfle-gloop')
+    def test_url_with_unknown_content_type(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['format'] = 'arfle-barfle-gloop'
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = json.loads(update(context, data))
+
+        assert result['task_status']['state'] == 'fail', result
+        assert result['task_status']['value'] == 'unrecognised content type', result
 
