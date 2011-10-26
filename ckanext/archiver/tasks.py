@@ -103,6 +103,8 @@ def update(context, data):
 
     # call the webstorer if archiving was successful and a webstore url is given
     if file_path and context.get('webstore_url'):   
+        # TODO: update task status table to say that webstorer is being called here
+        data['resource_id'] = data['id']
         data['file_path'] = file_path
         send_task('webstorer.upload', [json.dumps(context), json.dumps(data)])
 
