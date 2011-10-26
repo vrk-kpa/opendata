@@ -103,10 +103,22 @@ def update(context, data):
 
     # call the webstorer if archiving was successful and a webstore url is given
     if file_path and context.get('webstore_url'):   
-        # TODO: update task status table to say that webstorer is being called here
         data['resource_id'] = data['id']
         data['file_path'] = file_path
-        send_task('webstorer.upload', [json.dumps(context), json.dumps(data)])
+        webstorer_task = send_task('webstorer.upload', [json.dumps(context), json.dumps(data)])
+
+        # update task status table with task ID of webstorer task
+        webstorer_task_status = {
+            'entity_id': data['id'],
+            'entity_type': u'resource',
+            'task_type': u'archiver',
+            'key': u'celery_task_id',
+            'value': webstorer_task.task_id,
+            'last_updated': datetime.now().isoformat()
+        }
+        update_success, error_msg = _update_task_status(context, webstorer_task_status)
+        if not update_success:
+            logger.error("Could not update task status: %s" % error_msg)
 
     return json.dumps({
         'task_status': task_result,
@@ -299,7 +311,9 @@ def _update_resource(context, resource):
     Use CKAN API to update the given resource.
     If cannot update, records this fact in the task_status table.
 
-    Returns a tuple: (bool:was update successful, requests.Response:response from server)
+    Returns a tuple: 
+    
+        (was update successful?: bool, response from server: requests.Response)
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     resource['last_modified'] = datetime.now().isoformat()
@@ -332,6 +346,14 @@ def _task_status(resource, message, success=False, content_type=None, content_le
     }
 
 def _update_task_status(context, data):
+    """
+    Use CKAN API to update the task status. The data parameter
+    should be a dict representing one row in the task_status table.
+    
+    Returns a tuple:
+        
+        (response status code: int, response content)
+    """
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     res = requests.post(
         api_url + '/task_status_update', json.dumps(data),
