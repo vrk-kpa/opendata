@@ -44,7 +44,9 @@ class Archiver(CkanCommand):
         user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
         context = json.dumps({
             'site_url': config['ckan.site_url'],
-            'apikey': user.get('apikey')
+            'apikey': user.get('apikey'),
+            'username': user.get('name'),
+            'webstore_url': config.get('ckan.webstore_url')
         })
         api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
 
