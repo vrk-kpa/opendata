@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from ckan import model
 from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification, \
@@ -40,5 +41,21 @@ class ArchiverPlugin(SingletonPlugin):
             'webstore_url': self.webstore_url
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
-        send_task("archiver.update", [context, data])
+        archiver_task = send_task("archiver.update", [context, data])
+
+        # update the task_status table
+        archiver_task_status = {
+            'entity_id': resource.id,
+            'entity_type': u'resource',
+            'task_type': u'archiver',
+            'key': u'celery_task_id',
+            'value': archiver_task.task_id,
+            'last_updated': datetime.now().isoformat()
+        }
+        archiver_task_context = {
+            'model': model, 
+            'session': model.Session, 
+            'user': user.get('name')
+        }
+        get_action('task_status_update')(archiver_task_context, archiver_task_status)
 

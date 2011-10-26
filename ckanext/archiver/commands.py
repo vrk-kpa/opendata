@@ -1,4 +1,4 @@
-import tasks
+from datetime import datetime
 import json
 import requests
 import urlparse
@@ -6,6 +6,7 @@ from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action
 from ckan import model
+import tasks
 import logging
 logger = logging.getLogger()
 
@@ -65,7 +66,23 @@ class Archiver(CkanCommand):
                 logger.info("Archiving dataset: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
                     data = json.dumps(resource, {'model': model})
-                    tasks.update.delay(context, data) 
+                    archiver_task = tasks.update.delay(context, data) 
+
+                    # update the task_status table
+                    archiver_task_status = {
+                        'entity_id': resource['id'],
+                        'entity_type': u'resource',
+                        'task_type': u'archiver',
+                        'key': u'celery_task_id',
+                        'value': archiver_task.task_id,
+                        'last_updated': datetime.now().isoformat()
+                    }
+                    archiver_task_context = {
+                        'model': model, 
+                        'session': model.Session, 
+                        'user': user.get('name')
+                    }
+                    get_action('task_status_update')(archiver_task_context, archiver_task_status)
 
         elif cmd == 'clean':
             tasks.clean.delay()
