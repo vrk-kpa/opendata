@@ -57,5 +57,6 @@ class ArchiverPlugin(SingletonPlugin):
             'session': model.Session, 
             'user': user.get('name')
         }
-        get_action('task_status_update')(archiver_task_context, archiver_task_status)
+        # TODO: this raises an exception, fix it
+        # get_action('task_status_update')(archiver_task_context, archiver_task_status)
 
