@@ -5,7 +5,6 @@ import requests
 import json
 import urllib
 import urlparse
-import copy
 from datetime import datetime
 from celery.task import task
 from celery.execute import send_task
@@ -111,7 +110,7 @@ def update(context, data):
         webstorer_task_status = {
             'entity_id': data['id'],
             'entity_type': u'resource',
-            'task_type': u'archiver',
+            'task_type': u'webstorer',
             'key': u'celery_task_id',
             'value': webstorer_task.task_id,
             'last_updated': datetime.now().isoformat()
