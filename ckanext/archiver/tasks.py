@@ -221,11 +221,13 @@ def archive_resource(context, resource, logger, url_timeout = 30):
         resource['size'] = cl
 
     # make sure resource content-length does not exceed our maximum
-    if cl >= str(settings.MAX_CONTENT_LENGTH):
+    if int(cl) >= settings.MAX_CONTENT_LENGTH:
         if resource_changed: 
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
-        error_msg = "Content-length exceeds maximum allowed value"
+        error_msg = "Content-length %s exceeds maximum allowed value %s" % (
+            cl, settings.MAX_CONTENT_LENGTH)
+        #TODO: neet to report back on content length to resource.
         return _task_status(resource, error_msg, False, ct, cl), None
 
     # check that resource is a data file
@@ -248,7 +250,8 @@ def archive_resource(context, resource, logger, url_timeout = 30):
         if resource_changed: 
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
-        error_msg = "Content-length exceeds maximum allowed value"
+        error_msg = "Content-length after streaming reached maximum allowed value of %s" % (
+            settings.MAX_CONTENT_LENGTH)
         return _task_status(resource, error_msg, False, ct, cl), None
 
     # TODO: check length != 0 and that saved_file != None

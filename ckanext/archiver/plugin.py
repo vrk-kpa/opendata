@@ -33,7 +33,9 @@ class ArchiverPlugin(SingletonPlugin):
             self._create_archiver_task(entity)
 
     def _create_archiver_task(self, resource):
-        user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
+        user = get_action('get_site_user')({'model': model,
+                                            'ignore_auth': True,
+                                            'defer_commit': True}, {})
         context = json.dumps({
             'site_url': self.site_url,
             'apikey': user.get('apikey'),
@@ -52,11 +54,13 @@ class ArchiverPlugin(SingletonPlugin):
             'value': archiver_task.task_id,
             'last_updated': datetime.now().isoformat()
         }
+        
         archiver_task_context = {
             'model': model, 
             'session': model.Session, 
-            'user': user.get('name')
+            'user': user.get('name'),
+            'defer_commit': True
         }
-        # TODO: this raises an exception, fix it
-        # get_action('task_status_update')(archiver_task_context, archiver_task_status)
+        
+        get_action('task_status_update')(archiver_task_context, archiver_task_status)
 
