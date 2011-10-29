@@ -19,6 +19,8 @@ class ArchiverPlugin(SingletonPlugin):
     def configure(self, config):
         self.site_url = config.get('ckan.site_url')
         self.webstore_url = config.get('ckan.webstore_url')
+        if not self.webstore_url:
+            raise Exception('No "ckan.webstore_url in config" with ckanext-webstorer loaded')
 
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):

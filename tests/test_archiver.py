@@ -14,8 +14,16 @@ from ckan import model
 from ckan import plugins
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.tests import BaseCase, url_for, CreateTestData
+from nose.tools import assert_raises
 
-from ckanext.archiver.tasks import link_checker, update
+from ckanext.archiver.tasks import (link_checker, 
+                                    update,
+                                    ArchiverError,
+                                    DownloadError,
+                                    LinkCheckerError, 
+                                    CkanError,
+                                   )
+
 from mock_remote_server import MockEchoTestServer
 
 
@@ -54,17 +62,13 @@ class TestLinkChecker(BaseCase):
         url = u'file:///home/root/test.txt'
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'Invalid url scheme', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     def test_bad_url(self):
         url = u'file:///home/root/test.txt'
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'Invalid url scheme', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     def test_bad_query_string(self):
         url = u'http://uk.sitestat.com/homeoffice/rds/s?' \
@@ -72,33 +76,25 @@ class TestLinkChecker(BaseCase):
             + u'[http://www.homeoffice.gov.uk/rds/pdfs09/hosb0509tabs.xls'
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'Invalid URL', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     def test_empty_url(self):
         url =  u''
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'Invalid url scheme', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     @with_mock_url('?status=503')
     def test_url_with_503(self, url):
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'Service unavailable', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     @with_mock_url('?status=404')
     def test_url_with_404(self, url):
         context = json.dumps({})
         data = json.dumps({'url': url})
-        result = json.loads(link_checker(context, data))
-        assert result['success'] == False, result
-        assert result['error_message'] == 'URL unobtainable', result
+        assert_raises(LinkCheckerError, link_checker, context, data)
 
     @with_mock_url('')
     def test_url_with_30x_follows_redirect(self, url):
@@ -107,14 +103,14 @@ class TestLinkChecker(BaseCase):
         context = json.dumps({})
         data = json.dumps({'url': url})
         result = json.loads(link_checker(context, data))
-        assert result['success'] == True, result
+        assert result
 
     @with_mock_url('?status=200')
     def test_good_url(self, url):
         context = json.dumps({})
         data = json.dumps({'url': url})
         result = json.loads(link_checker(context, data))
-        assert result['success'] == True, result
+        assert result
 
 
 class TestArchiver(BaseCase):
@@ -170,7 +166,6 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = json.loads(update(context, data))
 
-        assert result['task_status']['state'] == 'success', result
         assert result['resource']['size'] == unicode(len('test'))
         from hashlib import sha1
         assert result['resource']['hash'] == sha1('test').hexdigest(), result
@@ -201,8 +196,7 @@ class TestArchiver(BaseCase):
         resource['format'] = 'arfle-barfle-gloop'
         resource['url'] = url
         data = json.dumps(resource)
-        result = json.loads(update(context, data))
+        assert_raises(DownloadError, update, context, data)
 
-        assert result['task_status']['state'] == 'fail', result
-        assert result['task_status']['value'] == 'unrecognised content type', result
+
 
