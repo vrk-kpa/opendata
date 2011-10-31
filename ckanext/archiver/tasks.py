@@ -252,7 +252,7 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     tmp_resource_file = tempfile.mkstemp()[1]
     fp = open(tmp_resource_file, 'wb')
 
-    for chunk in response.iter_content(chunk_size = chunk_size):
+    for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
         fp.write(chunk)
         length += len(chunk)
         resource_hash.update(chunk)
