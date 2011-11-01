@@ -20,7 +20,8 @@ HTTP_ERROR_CODES = {
     httplib.INTERNAL_SERVER_ERROR: "Internal server error on the remote server",
     httplib.BAD_GATEWAY: "Bad gateway",
     httplib.SERVICE_UNAVAILABLE: "Service unavailable",
-    httplib.GATEWAY_TIMEOUT: "Gateway timeout"
+    httplib.GATEWAY_TIMEOUT: "Gateway timeout",
+    httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
 
 DATA_FORMATS = [ 
