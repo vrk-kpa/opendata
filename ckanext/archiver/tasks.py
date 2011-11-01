@@ -8,7 +8,6 @@ import urlparse
 import tempfile
 from datetime import datetime
 from celery.task import task
-from celery.execute import send_task
 
 try:
     from ckanext.archiver import settings
@@ -28,7 +27,7 @@ DATA_FORMATS = [
     'csv',
     'text/csv',
     'txt',
-    'text/plain'
+    'text/plain',
     'rdf',
     'text/rdf',
     'xml',
@@ -83,7 +82,6 @@ def download(context, resource, url_timeout=30,
         raise DownloadError("Content-length %s exceeds maximum allowed value %s" %
             (cl, max_content_length))                                                      
 
-
     # check that resource is a data file
     if not (resource_format in data_formats or ct.lower() in data_formats):
         if resource_changed: 
@@ -106,7 +104,6 @@ def download(context, resource, url_timeout=30,
         # record fact that resource is too large to archive
         raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length) 
-    # TODO: check length != 0 and that saved_file != None
 
     # update the resource metadata in CKAN
     resource['hash'] = hash
@@ -116,7 +113,6 @@ def download(context, resource, url_timeout=30,
             'hash' :hash,
             'headers': headers,
             'saved_file': saved_file}
-
 
 
 @task(name = "archiver.clean")
@@ -233,6 +229,15 @@ def archive_resource(context, resource, logger, url_timeout = 30):
             file_name = "resource"
         saved_file = os.path.join(dir, file_name)
         os.rename(result['saved_file'], saved_file)
+
+        # update the resource object: set cache_url and cache_last_updated
+        if context.get('cache_url_root'):
+            resource['cache_url'] = urlparse.urljoin(
+                context['cache_url_root'], '%s/%s' % (resource['id'], file_name)
+            )
+            resource['cache_last_updated'] = datetime.now().isoformat()
+            _update_resource(context, resource)
+
     return saved_file
 
 
@@ -263,9 +268,6 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     fp.close()
     content_hash = unicode(resource_hash.hexdigest())
     return length, content_hash, tmp_resource_file
-
-    # if some data was successfully written to the temp resource file, rename it and
-    # add it to the target directory
 
 
 def _update_resource(context, resource):

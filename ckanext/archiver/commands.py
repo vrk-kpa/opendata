@@ -47,6 +47,7 @@ class Archiver(CkanCommand):
             'site_url': config['ckan.site_url'],
             'apikey': user.get('apikey'),
             'username': user.get('name'),
+            'cache_url_root': config.get('ckan.cache_url_root')
         })
         api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
 
