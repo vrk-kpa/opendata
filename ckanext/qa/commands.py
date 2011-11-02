@@ -51,12 +51,41 @@ class QACommand(CkanCommand):
         api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
 
         if cmd == 'update':
-            # self.update(unicode(self.args[1]) if len(self.args) > 1 else None)
-            pass
+            if len(self.args) > 1:
+                data = json.dumps({'id': unicode(self.args[1])})
+                response = requests.post(api_url + '/package_show', data)
+                packages =  [json.loads(response.content).get('result')]
+            else:
+                response = requests.post(api_url + '/current_package_list_with_resources', "{}")
+                packages = json.loads(response.content).get('result')
+
+            logger.info("Number of datasets to check QA on: %d" % len(packages))
+
+            for package in packages:
+                logger.info("Updating QA on dataset: %s (%d resources)" % 
+                            (package.get('name'), len(package.get('resources', []))))
+                data = json.dumps(package)
+
+                task = tasks.update.delay(context, data) 
+
+                task_status = {
+                    'entity_id': package['id'],
+                    'entity_type': u'package',
+                    'task_type': u'qa',
+                    'key': u'celery_task_id',
+                    'value': task.task_id,
+                    'last_updated': datetime.now().isoformat()
+                }
+                task_context = {
+                    'model': model, 
+                    'session': model.Session, 
+                    'user': user.get('name')
+                }
+                get_action('task_status_update')(task_context, task_status)
         elif cmd == 'clean':
-            pass
+            logger.error('Command "%s" not implemented' % (cmd,))
         else:
-            logger.error('Command %s not recognized' % (cmd,))
+            logger.error('Command "%s" not recognized' % (cmd,))
 
     def update(self, package_id = None):
         pass

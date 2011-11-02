@@ -1,18 +1,20 @@
 """
-Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type
+Score packages on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
 """
 import datetime
 import mimetypes
-from db import get_resource_result
-from ckan.logic.action import update
-from ckan import model
-from ckanext.qa.lib.log import log
+import json
+import requests
+import urlparse
+from celery.task import task
 
-# Use this specific author so that these revisions can be filtered out of
-# normal RSS feeds that cover significant package changes. See DGU#982.
-MAINTENANCE_AUTHOR = u'okfn_maintenance'
+class QAError(Exception):
+    pass
 
-openness_score_reason = {
+class CkanError(Exception):
+    pass
+
+OPENNESS_SCORE_REASON = {
     '-1': 'unscorable content type',
     '0': 'not obtainable',
     '1': 'obtainable via web page',
@@ -22,48 +24,74 @@ openness_score_reason = {
     '5': 'fully Linked Open Data as appropriate',
 }
 
-mime_types_scores = {
-    '1': [
-        'text/html',
-        'text/plain',
-        'text',
-        'html',
-    ],
-    '2': [
-        'application/vnd.ms-excel',
-        'application/vnd.ms-excel.sheet.binary.macroenabled.12',
-        'application/vnd.ms-excel.sheet.macroenabled.12',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'xls',
-    ],
-    '3': [
-        'text/csv',
-        'application/json',
-        'text/xml',
-        'csv',
-        'xml',
-        'json',
-    ],
-    '4': [
-        'application/rdf+xml',
-        'application/xml',
-        'xml',
-        'rdf',
-    ],
-    '5': [],
+MIME_TYPE_SCORE = {
+    'text/html': 1,
+    'text/plain': 1,
+    'text': 1,
+    'html': 1,
+    'application/vnd.ms-excel': 2,
+    'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
+    'application/vnd.ms-excel.sheet.macroenabled.12': 2,
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
+    'xls': 2,
+    'text/csv': 3,
+    'application/json': 3,
+    'text/xml': 3,
+    'csv': 3,
+    'xml': 3,
+    'json': 3,
+    'application/rdf+xml': 4,
+    'application/xml': 4,
+    'xml': 4,
+    'rdf': 4
 }
 
-score_by_mime_type = {}
-for score, mime_types in mime_types_scores.items():
-    for mime_type in mime_types:
-        score_by_mime_type[mime_type] = score
+def _update_task_status(context, data):
+    """
+    Use CKAN API to update the task status. The data parameter
+    should be a dict representing one row in the task_status table.
+    
+    Returns the content of the response. 
+    """
+    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    res = requests.post(
+        api_url + '/task_status_update', json.dumps(data),
+        headers = {'Authorization': context['apikey'],
+                   'Content-Type': 'application/json'}
+    )
+    if res.status_code == 200:
+        return res.content
+    else:
+        raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
+                        % (res.status_code, res.content))
 
-def package_score(package, results_file):
+@task(name = "qa.update")
+def update(context, data):
+    try:
+        data = json.loads(data)
+        context = json.loads(context)
+        result = dataset_score(context, data)
+        return json.dumps(result)
+    except Exception, e:
+        _update_task_status(context, {
+            'entity_id': data['id'],
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'celery_task_id',
+            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
+            'last_updated': datetime.now().isoformat()
+        })
+        raise
+
+
+def dataset_score(package, results_file):
+    """
+    """
     package_extras = package.get('extras', [])
     package_openness_score = '0'
+    return "{}"
 
     for resource in package.get('resources'):
-        log.info("Checking resource: %s" % resource['url'])
         archive_result = get_resource_result(results_file, resource['id'])
 
         openness_score = u'0'
@@ -86,13 +114,13 @@ def package_score(package, results_file):
 
                 # file type takes priority for scoring
                 if file_type:
-                    openness_score = score_by_mime_type.get(file_type, '-1')
+                    openness_score = MIME_TYPE_SCORE.get(file_type, '-1')
                 elif ct:
-                    openness_score = score_by_mime_type.get(ct, '-1')
+                    openness_score = MIME_TYPE_SCORE.get(ct, '-1')
                 elif format:
-                    openness_score = score_by_mime_type.get(format, '-1')
+                    openness_score = MIME_TYPE_SCORE.get(format, '-1')
                 
-                reason = openness_score_reason[openness_score]
+                reason = OPENNESS_SCORE_REASON[openness_score]
 
                 # check for mismatches between content-type, file_type and format
                 # ideally they should all agree
@@ -157,3 +185,4 @@ def package_score(package, results_file):
     update.package_update(context, package)
     log.info('Finished QA analysis of package: %s (score = %s)' 
         % (package['name'], package_openness_score))
+
