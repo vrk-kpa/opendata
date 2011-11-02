@@ -8,10 +8,7 @@ from ckan.plugins import IRoutes, IConfigurer
 from ckan.plugins import IConfigurable, IGenshiStreamFilter
 import html
 
-from logging import getLogger
-log = getLogger(__name__)
-
-class QA(SingletonPlugin):
+class QAPlugin(SingletonPlugin):
     implements(IConfigurable)
     implements(IGenshiStreamFilter)
     implements(IRoutes, inherit=True)

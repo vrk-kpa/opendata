@@ -27,11 +27,10 @@ setup(
     entry_points=\
     """
     [paste.paster_command]
-    package-scores = ckanext.qa.commands.package_score:PackageScore
-    qa = ckanext.qa.commands.qa:QA
+    qa=ckanext.qa.commands:QACommand
 
     [ckan.plugins]
-    qa=ckanext.qa.plugin:QA
+    qa=ckanext.qa.plugin:QAPlugin
     """,
 )
 
