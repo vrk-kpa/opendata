@@ -124,9 +124,24 @@ def clean():
     logger = clean.get_logger()
     logger.error("clean task not implemented yet")
 
-
 @task(name = "archiver.update")
 def update(context, data):
+    try:
+        data = json.loads(data)
+        context = json.loads(context)
+        return _update(context, data)
+    except Exception, e:
+        update_task_status(context, {
+            'entity_id': data['id'],
+            'entity_type': u'resource',
+            'task_type': 'archiver',
+            'key': u'celery_task_id',
+            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
+            'last_updated': datetime.now().isoformat()
+        })
+        raise
+
+def _update(context, data):
     """
     Link check and archive the given resource.
 
@@ -138,8 +153,6 @@ def update(context, data):
         }
     """
     logger = update.get_logger()
-    context = json.loads(context)
-    data = json.loads(data)
     data.pop('revision_id')
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
 
@@ -295,7 +308,7 @@ def _update_resource(context, resource):
                         % res.status_code)
 
 
-def _update_task_status(context, data):
+def update_task_status(context, data):
     """
     Use CKAN API to update the task status. The data parameter
     should be a dict representing one row in the task_status table.
@@ -311,6 +324,7 @@ def _update_task_status(context, data):
     if res.status_code == 200:
         return res.content
     else:
-        raise CkanError('ckan failed to update resource, status_code (%s)' 
-                        % res.status_code)
+        raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
+                        % (res.status_code, res.content))
+
 
