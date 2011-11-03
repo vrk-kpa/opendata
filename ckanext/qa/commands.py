@@ -87,6 +87,3 @@ class QACommand(CkanCommand):
         else:
             logger.error('Command "%s" not recognized' % (cmd,))
 
-    def update(self, package_id = None):
-        pass
-
