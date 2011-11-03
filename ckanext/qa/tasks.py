@@ -1,7 +1,7 @@
 """
 Score datasets on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
 """
-import datetime
+from datetime import datetime
 import mimetypes
 import json
 import requests
@@ -47,6 +47,7 @@ MIME_TYPE_SCORE = {
     'rdf': 4
 }
 
+
 def _update_task_status(context, data):
     """
     Use CKAN API to update the task status. The data parameter
@@ -67,6 +68,45 @@ def _update_task_status(context, data):
                         % (res.status_code, res.content))
 
 
+def _task_status_data(dataset_id, dataset_score_result):
+    data = [{
+        'entity_id': dataset_id,
+        'entity_type': u'package',
+        'task_type': 'qa',
+        'key': u'openness_score',
+        'value': dataset_score_result['openness_score'],
+        'last_updated': datetime.now().isoformat()
+    }]
+    for resource_score in dataset_score_result.get('resource_scores'):
+        data.extend([
+            {
+                'entity_id': resource_score['resource_id'],
+                'entity_type': u'resource',
+                'task_type': 'qa',
+                'key': u'openness_score',
+                'value': resource_score['openness_score'],
+                'last_updated': datetime.now().isoformat()
+            },
+            {
+                'entity_id': resource_score['resource_id'],
+                'entity_type': u'resource',
+                'task_type': 'qa',
+                'key': u'openness_score_reason',
+                'value': resource_score['openness_score_reason'],
+                'last_updated': datetime.now().isoformat()
+            },
+            {
+                'entity_id': resource_score['resource_id'],
+                'entity_type': u'resource',
+                'task_type': 'qa',
+                'key': u'openness_score_failure_count',
+                'value': resource_score['openness_score_failure_count'],
+                'last_updated': datetime.now().isoformat()
+            },
+        ])
+    return data
+
+
 @task(name = "qa.update")
 def update(context, data):
     """
@@ -82,13 +122,24 @@ def update(context, data):
         context = json.loads(context)
         result = dataset_score(context, data)
 
-        # TODO: write results to task status table
+        task_status_data = _task_status_data(data['id'], result)
+
+        api_url = urlparse.urljoin(context['site_url'], 'api/action')
+        response = requests.post(
+            api_url + '/task_status_update_many', 
+            json.dumps({'data': task_status_data}),
+            headers = {'Authorization': context['apikey'],
+                       'Content-Type': 'application/json'}
+        )
+        if response.status_code != 200:
+            raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
+                            % (response.status_code, response.content))
 
         return json.dumps(result)
     except Exception, e:
         _update_task_status(context, {
             'entity_id': data['id'],
-            'entity_type': u'resource',
+            'entity_type': u'package',
             'task_type': 'qa',
             'key': u'celery_task_id',
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
