@@ -102,7 +102,7 @@ def _task_status_data(dataset_id, dataset_score_result):
                 'key': u'openness_score_failure_count',
                 'value': resource_score['openness_score_failure_count'],
                 'last_updated': datetime.now().isoformat()
-            },
+            }
         ])
     return data
 
@@ -120,8 +120,8 @@ def update(context, data):
     try:
         data = json.loads(data)
         context = json.loads(context)
-        result = dataset_score(context, data)
 
+        result = dataset_score(context, data)
         task_status_data = _task_status_data(data['id'], result)
 
         api_url = urlparse.urljoin(context['site_url'], 'api/action')
@@ -164,9 +164,17 @@ def resource_score(context, data):
     """
     score = 0
     score_reason = ""
-    score_failure_count = 0
 
-    # TODO: get failure count from task status table if exists
+    # get openness score failure count for task status table if exists
+    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    response = requests.post(
+        api_url + '/task_status_show', 
+        json.dumps({'entity_id': data['id'], 'task_type': 'qa', 
+                    'key': 'openness_score_failure_count'}),
+        headers = {'Authorization': context['apikey'],
+                   'Content-Type': 'application/json'}
+    )
+    score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
 
     try:
         headers = json.loads(link_checker("{}", json.dumps(data)))
@@ -208,6 +216,8 @@ def resource_score(context, data):
 
     if score == 0:
         score_failure_count += 1
+    else:
+        score_failure_count = 0
 
     return {
         'resource_id': data['id'],
