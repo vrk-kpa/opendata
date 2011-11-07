@@ -52,6 +52,7 @@ class ArchiverPlugin(SingletonPlugin):
             'task_type': u'archiver',
             'key': u'celery_task_id',
             'value': archiver_task.task_id,
+            'error': u'',
             'last_updated': datetime.now().isoformat()
         }
         
