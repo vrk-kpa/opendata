@@ -64,24 +64,26 @@ class QACommand(CkanCommand):
             for package in packages:
                 logger.info("Updating QA on dataset: %s (%d resources)" % 
                             (package.get('name'), len(package.get('resources', []))))
-                data = json.dumps(package)
 
-                task = tasks.update.delay(context, data) 
+                for resource in package.get('resources', []):
+                    data = json.dumps(resource) 
 
-                task_status = {
-                    'entity_id': package['id'],
-                    'entity_type': u'package',
-                    'task_type': u'qa',
-                    'key': u'celery_task_id',
-                    'value': task.task_id,
-                    'last_updated': datetime.now().isoformat()
-                }
-                task_context = {
-                    'model': model, 
-                    'session': model.Session, 
-                    'user': user.get('name')
-                }
-                get_action('task_status_update')(task_context, task_status)
+                    task = tasks.update.delay(context, data) 
+
+                    task_status = {
+                        'entity_id': resource['id'],
+                        'entity_type': u'resource',
+                        'task_type': u'qa',
+                        'key': u'celery_task_id',
+                        'value': task.task_id,
+                        'last_updated': datetime.now().isoformat()
+                    }
+                    task_context = {
+                        'model': model, 
+                        'session': model.Session, 
+                        'user': user.get('name')
+                    }
+                    get_action('task_status_update')(task_context, task_status)
         elif cmd == 'clean':
             logger.error('Command "%s" not implemented' % (cmd,))
         else:

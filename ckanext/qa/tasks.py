@@ -68,60 +68,51 @@ def _update_task_status(context, data):
                         % (res.status_code, res.content))
 
 
-def _task_status_data(dataset_id, dataset_score_result):
-    data = [{
-        'entity_id': dataset_id,
-        'entity_type': u'package',
-        'task_type': 'qa',
-        'key': u'openness_score',
-        'value': dataset_score_result['openness_score'],
-        'last_updated': datetime.now().isoformat()
-    }]
-    for resource_score in dataset_score_result.get('resource_scores'):
-        data.extend([
-            {
-                'entity_id': resource_score['resource_id'],
-                'entity_type': u'resource',
-                'task_type': 'qa',
-                'key': u'openness_score',
-                'value': resource_score['openness_score'],
-                'last_updated': datetime.now().isoformat()
-            },
-            {
-                'entity_id': resource_score['resource_id'],
-                'entity_type': u'resource',
-                'task_type': 'qa',
-                'key': u'openness_score_reason',
-                'value': resource_score['openness_score_reason'],
-                'last_updated': datetime.now().isoformat()
-            },
-            {
-                'entity_id': resource_score['resource_id'],
-                'entity_type': u'resource',
-                'task_type': 'qa',
-                'key': u'openness_score_failure_count',
-                'value': resource_score['openness_score_failure_count'],
-                'last_updated': datetime.now().isoformat()
-            }
-        ])
-    return data
+def _task_status_data(id, result):
+    return [
+        {
+            'entity_id': id,
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'openness_score',
+            'value': result['openness_score'],
+            'last_updated': datetime.now().isoformat()
+        },
+        {
+            'entity_id': id,
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'openness_score_reason',
+            'value': result['openness_score_reason'],
+            'last_updated': datetime.now().isoformat()
+        },
+        {
+            'entity_id': id,
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'openness_score_failure_count',
+            'value': result['openness_score_failure_count'],
+            'last_updated': datetime.now().isoformat()
+        }
+    ]
 
 
 @task(name = "qa.update")
 def update(context, data):
     """
-    Score datasets on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
+    Score resources on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
     
     Returns a JSON dict with keys:
 
-        'openness_score': score for dataset (int)
-        'resource_scores': resource score dict for each resource in dataset (list)
+        'openness_score': score (int)
+        'openness_score_reason': the reason for the score (string)
+        'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
     """
     try:
         data = json.loads(data)
         context = json.loads(context)
 
-        result = dataset_score(context, data)
+        result = resource_score(context, data)
         task_status_data = _task_status_data(data['id'], result)
 
         api_url = urlparse.urljoin(context['site_url'], 'api/action')
@@ -154,7 +145,6 @@ def resource_score(context, data):
 
     returns a dict with keys:
 
-        'resource_id': id (int) 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
         'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
@@ -220,30 +210,8 @@ def resource_score(context, data):
         score_failure_count = 0
 
     return {
-        'resource_id': data['id'],
         'openness_score': score,
         'openness_score_reason': score_reason,
         'openness_score_failure_count': score_failure_count
     }
-
-
-def dataset_score(context, data):
-    """
-    Score datasets on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
-    
-    Returns a dict with keys:
-
-        'openness_score': score for dataset (int)
-        'resource_scores': resource score dict for each resource in dataset (list)
-    """
-    score = 0
-    resource_scores = []
-
-    for resource in data.get('resources'):
-        r = resource_score(context, resource)
-        if r['openness_score'] > score:
-            score = r['openness_score']
-        resource_scores.append(r)
-
-    return {'openness_score': score, 'resource_scores': resource_scores}
 
