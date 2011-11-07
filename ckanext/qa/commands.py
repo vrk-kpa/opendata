@@ -76,6 +76,7 @@ class QACommand(CkanCommand):
                         'task_type': u'qa',
                         'key': u'celery_task_id',
                         'value': task.task_id,
+                        'error': u'',
                         'last_updated': datetime.now().isoformat()
                     }
                     task_context = {
