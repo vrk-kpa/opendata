@@ -6,10 +6,10 @@ from sqlalchemy import or_, and_
 
 def five_stars():
     """
-    Return a list of dicts: 1 for each package that has an 'openness_score' extra 
+    Return a list of dicts: 1 for each dataset that has an 'openness_score' extra 
     
     Each dict is of the form:
-        {'name': <Package Name>, 'title': <Package Title>, 'openness_score': <Score>} 
+        {'name': <Dataset Name>, 'title': <Dataset Title>, 'openness_score': <Score>} 
     """
     query = Session.query(
         Package.name,
@@ -31,9 +31,9 @@ def five_stars():
         })
     return results
 
-def broken_resource_links_by_package():
+def broken_resource_links_by_dataset():
     """
-    Return a list of named tuples, one for each package that contains
+    Return a list of named tuples, one for each dataset that contains
     broken resource links (defined as resources with an openness score of 0).
 
     The named tuple is of the form:
@@ -67,7 +67,7 @@ def broken_resource_links_by_package():
             )
     return results.values()
 
-def broken_resource_links_by_package_for_organisation(organisation_id):
+def broken_resource_links_by_dataset_for_organisation(organisation_id):
     result = _get_broken_resource_links(organisation_id)
     return dict(
         id = result.keys()[0][1],

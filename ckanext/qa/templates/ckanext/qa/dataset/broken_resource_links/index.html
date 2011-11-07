@@ -16,14 +16,14 @@
     <div class="qa-content">
     <h1>Quality Assurance</h1>
   
-    <p>Packages with at least one broken resource.</p>
+    <p>Datasets with at least one broken resource.</p>
     <ul>
-        <li>${h.link_to('Report of all broken links by package in CSV format', h.url_for('qa_api_resources_formatted', action='broken_resource_links_by_package', format='csv'))}</li>
+        <li>${h.link_to('Report of all broken links by dataset in CSV format', h.url_for('qa_api_resources_formatted', action='broken_resource_links_by_dataset', format='csv'))}</li>
     </ul>
 
     <table class="qa-table">
       <tr>
-          <th class="qa-table-name">Package</th>
+          <th class="qa-table-name">Dataset</th>
           <th class="qa-table-resources">Resources</th>
       </tr>
       <tr py:for="package in c.packages">
@@ -42,6 +42,10 @@
            </td>
       </tr>
     </table>
+
+    <py:if test="not c.packages">
+    <p>No QA results found.</p>
+    </py:if>
     </div>
   </div>
   <xi:include href="../../../../layout.html" />

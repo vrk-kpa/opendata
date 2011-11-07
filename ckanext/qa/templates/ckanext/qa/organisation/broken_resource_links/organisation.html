@@ -18,11 +18,11 @@
     <h1>${c.organisation.title}</h1>
     <h4>Download this report.</h4>
     <ul>
-        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='broken_resource_links_by_package_for_organisation', id=c.id, format='csv'))}</li>
+        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='broken_resource_links_by_dataset_for_organisation', id=c.id, format='csv'))}</li>
     </ul>
     <table class="qa-table">
       <tr>
-          <th class="qa-table-name">Package</th>
+          <th class="qa-table-name">Dataset</th>
           <th class="qa-table-resources">Resources</th>
       </tr>
       <tr py:for="package, resources in c.organisation.packages.items()">
@@ -41,6 +41,11 @@
            </td>
       </tr>
     </table>
+
+    <py:if test="not c.organisation.packages.items()">
+    <p>No QA results found.</p>
+    </py:if>
+
     </div>
   </div>
   <xi:include href="../../../../layout.html" />

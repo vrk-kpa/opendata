@@ -1,7 +1,7 @@
 from ckan.lib.base import render, c
 from ..dictization import (
     organisations_with_broken_resource_links_by_name, 
-    broken_resource_links_by_package_for_organisation,
+    broken_resource_links_by_dataset_for_organisation,
 )
 from base import QAController
 
@@ -16,6 +16,6 @@ class QAOrganisationController(QAController):
             return render('ckanext/qa/organisation/broken_resource_links/index.html')
         else:
             c.id = id
-            c.organisation = broken_resource_links_by_package_for_organisation(organisation_id=id)
+            c.organisation = broken_resource_links_by_dataset_for_organisation(organisation_id=id)
             return render('ckanext/qa/organisation/broken_resource_links/organisation.html')
 

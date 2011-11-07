@@ -50,7 +50,7 @@ class QAPlugin(SingletonPlugin):
             if(routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'
                and routes.get('action') == 'index'):
 
-                link_text = "Organizations who have published packages with broken resource links."
+                link_text = "Organizations who have published datasets with broken resource links."
                 data = dict(link = h.link_to(link_text,
                     h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',
                         action='broken_resource_links')
@@ -59,7 +59,7 @@ class QAPlugin(SingletonPlugin):
                 stream = stream | Transformer('body//div[@class="qa-content"]')\
                     .append(HTML(html.ORGANIZATION_LINK % data))
 
-        # if this is the read action of a package, check for unavailable resources
+        # if this is the read action of a dataset, check for unavailable resources
         if(routes.get('controller') == 'package' and
            routes.get('action') == 'read' and 
            c.pkg.id):
@@ -79,10 +79,10 @@ class QAPlugin(SingletonPlugin):
             controller='ckanext.qa.controllers.qa_home:QAHomeController',
             action='index')
             
-        map.connect('qa_package', '/qa/package/',
+        map.connect('qa_dataset', '/qa/dataset/',
             controller='ckanext.qa.controllers.qa_package:QAPackageController')
 
-        map.connect('qa_package_action', '/qa/package/{action}',
+        map.connect('qa_dataset_action', '/qa/dataset/{action}',
             controller='ckanext.qa.controllers.qa_package:QAPackageController')
 
         map.connect('qa_organisation', '/qa/organisation/',
