@@ -1,5 +1,5 @@
 from ckan.lib.base import render, c
-from ..dictization import five_stars, broken_resource_links_by_dataset
+from ckanext.qa.reports import five_stars, broken_resource_links_by_dataset
 from base import QAController
 
 class QAPackageController(QAController):

@@ -1,5 +1,5 @@
 from ckan.lib.base import render, c
-from ..dictization import (
+from ckanext.qa.reports import (
     organisations_with_broken_resource_links_by_name, 
     broken_resource_links_by_dataset_for_organisation,
 )

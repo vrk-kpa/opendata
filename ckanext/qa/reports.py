@@ -6,7 +6,7 @@ from sqlalchemy import or_, and_
 
 def five_stars():
     """
-    Return a list of dicts: 1 for each dataset that has an 'openness_score' extra 
+    Return a list of dicts: 1 for each dataset that has an openness score.
     
     Each dict is of the form:
         {'name': <Dataset Name>, 'title': <Dataset Title>, 'openness_score': <Score>} 
