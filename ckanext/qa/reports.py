@@ -2,6 +2,7 @@ from collections import namedtuple
 from ckan import model
 from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup, TaskStatus
 from ckan.lib.dictization.model_dictize import resource_dictize
+from ckan.logic import get_action
 from sqlalchemy import or_, and_, func
 
 def five_stars():
@@ -40,32 +41,29 @@ def broken_resource_links_by_dataset():
     The named tuple is of the form:
         (name (str), title (str), resources (list of dicts))
     """
-    query = Session.query(
-        Package.name,
-        Package.title,
-        Resource
-    ).join(PackageExtra
-    ).join(ResourceGroup
-    ).join(Resource
-    ).filter(PackageExtra.key == 'openness_score'
-    ).filter(
-        or_(
-            Resource.extras.like('%"openness_score": 0%'),
-            Resource.extras.like('%"openness_score": "0"%')
-        )
-    ).distinct()
+    query = Session.query(Package.name, Package.title, Resource)\
+        .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
+        .join(Resource)\
+        .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
+        .filter(TaskStatus.key==u'openness_score')\
+        .filter(TaskStatus.value==u'0')\
+        .distinct()
 
     context = {'model': model, 'session': model.Session}
     results = {}
     for name, title, resource in query:
         resource = resource_dictize(resource, context)
+
+        data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
+        status = get_action('task_status_show')(context, data)
+        resource['openness_score_reason'] = status.get('value')
+
         if name in results:
             results[name].resources.append(resource)
         else:
-            PackageTuple = namedtuple('PackageTuple', ['name', 'title', 'resources'])
-            results[name] = PackageTuple(
-                name, title or name, [resource]
-            )
+            DatasetTuple = namedtuple('DatasetTuple', ['name', 'title', 'resources'])
+            results[name] = DatasetTuple(name, title or name, [resource])
+
     return results.values()
 
 def broken_resource_links_by_dataset_for_organisation(organisation_id):
