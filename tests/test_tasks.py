@@ -46,65 +46,43 @@ class TestCheckResultScore(BaseCase):
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
-            'url': cls.fake_ckan_url,
-            'format': 'csv'
+            'url': cls.fake_ckan_url
         }
 
     @classmethod
     def teardown_class(cls):
         cls.fake_ckan.kill()
 
-    @with_mock_url('?status=200&content-type="csv"&content="test"')
+    @with_mock_url('?status=200&content-type=csv&content=test')
     def test_url_with_content(self, url):
         data = self.fake_resource
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 3, result
 
-#     @with_archive_result({
-#         'url': '?status=503', 'message': 'URL temporarily unavailable', 
-#         'success': False, 'content-type': 'text/csv'
-#     })
-#     def test_url_with_temporary_fetch_error_not_scored(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '0', resource
-#             assert resource.get('openness_score_reason') == 'URL temporarily unavailable', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '0', package
+    @with_mock_url('?status=503')
+    def test_url_with_temporary_fetch_error_not_scored(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 0, result
+        assert result['openness_score_reason'] == 'Service unavailable', result
 
-#     @with_archive_result({
-#         'url': '?status=404', 'message': 'URL unobtainable', 
-#         'success': False, 'content-type': 'text/csv'
-#     })
-#     def test_url_with_permanent_fetch_error_scores_zero(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '0', resource
-#             assert resource.get('openness_score_reason') == 'URL unobtainable', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '0', package
+    @with_mock_url('?status=404')
+    def test_url_with_permanent_fetch_error_scores_zero(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 0, result
+        assert result['openness_score_reason'] == 'URL unobtainable', result
 
-#     @with_archive_result({
-#         'url': '?content-type=arfle/barfle-gloop', 'message': 'unrecognised content type', 
-#         'success': False, 'content-type': 'text/csv'
-#     })
-#     def test_url_with_unknown_content_type_scores_one(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '0', resource
-#             assert resource.get('openness_score_reason') == 'unrecognised content type', \
-#                 resource.extras
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '0', package
+    @with_mock_url('?content-type=arfle-barfle-gloop')
+    def test_url_with_unknown_content_type_scores_one(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 0, result
+        assert result['openness_score_reason'] == 'unrecognised content type', result
 
 #     @with_archive_result({
 #         'url': '?content-type=text/html', 'message': 'obtainable via web page', 

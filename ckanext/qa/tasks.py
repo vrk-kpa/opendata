@@ -16,7 +16,7 @@ class CkanError(Exception):
     pass
 
 OPENNESS_SCORE_REASON = {
-    -1: 'unscorable content type',
+    -1: 'unrecognised content type',
     0: 'not obtainable',
     1: 'obtainable via web page',
     2: 'machine readable format',
@@ -185,6 +185,11 @@ def resource_score(context, data):
             score = MIME_TYPE_SCORE.get(format, -1)
         
         score_reason = OPENNESS_SCORE_REASON[score]
+
+        # negative scores are only useful for getting the reason message, set it back
+        # to 0 if it's still <0 at this point
+        if score < 0:
+            score = 0
 
         # check for mismatches between content-type, file_type and format
         # ideally they should all agree
