@@ -26,9 +26,10 @@ OPENNESS_SCORE_REASON = {
 }
 
 MIME_TYPE_SCORE = {
-    'text/html': 1,
     'text/plain': 1,
     'text': 1,
+    'txt': 1,
+    'text/html': 1,
     'html': 1,
     'application/vnd.ms-excel': 2,
     'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
@@ -171,6 +172,10 @@ def resource_score(context, data):
 
         cl = headers.get('content-length')
         ct = headers.get('content-type')
+
+        # ignore charset if exists (just take everything before the ';')
+        if ct and ';' in ct:
+            ct = ct.split(';')[0]
 
         # also get format from resource and by guessing from file extension
         format = data.get('format', '').lower()

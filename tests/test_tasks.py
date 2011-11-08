@@ -84,35 +84,21 @@ class TestCheckResultScore(BaseCase):
         assert result['openness_score'] == 0, result
         assert result['openness_score_reason'] == 'unrecognised content type', result
 
-#     @with_archive_result({
-#         'url': '?content-type=text/html', 'message': 'obtainable via web page', 
-#         'success': True, 'content-type': 'text/html'
-#     })
-#     def test_url_pointing_to_html_page_scores_one(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '1', resource
-#             assert resource.get('openness_score_reason') == 'obtainable via web page', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '1', package
+    @with_mock_url('?content-type=txt')
+    def test_url_pointing_to_html_page_scores_one(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 1, result
+        assert result['openness_score_reason'] == 'obtainable via web page', result
 
-#     @with_archive_result({
-#         'url': '?content-type=text/html%3B+charset=UTF-8', 'message': 'obtainable via web page', 
-#         'success': True, 'content-type': 'text/html'
-#     })
-#     def test_content_type_with_charset_still_recognized_as_html(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == u'1', resource
-#             assert resource.get('openness_score_reason') == u'obtainable via web page', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '1', package
+    @with_mock_url('?content-type=html%3B+charset=UTF-8')
+    def test_content_type_with_charset_still_recognized_as_html(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 1, result
+        assert result['openness_score_reason'] == 'obtainable via web page', result
 
 #     @with_archive_result({
 #         'url': 'application/vnd.ms-excel', 'message': 'machine readable format', 
