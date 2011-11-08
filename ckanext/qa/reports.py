@@ -1,8 +1,8 @@
 from collections import namedtuple
 from ckan import model
-from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup
+from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup, TaskStatus
 from ckan.lib.dictization.model_dictize import resource_dictize
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 
 def five_stars():
     """
@@ -11,24 +11,25 @@ def five_stars():
     Each dict is of the form:
         {'name': <Dataset Name>, 'title': <Dataset Title>, 'openness_score': <Score>} 
     """
-    query = Session.query(
-        Package.name,
-        Package.title,
-        PackageExtra.key, 
-        PackageExtra.value, 
-    ).join(PackageExtra
-    ).filter(
-        PackageExtra.key=='openness_score',
-    ).distinct(
-    ).order_by(Package.title)
+    # take the maximum openness score among dataset resources to be the
+    # overall dataset openness core
+    query = Session.query(Package.name, Package.title, 
+                          func.max(TaskStatus.value).label('value'))\
+        .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
+        .join(Resource)\
+        .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
+        .filter(TaskStatus.key==u'openness_score')\
+        .group_by(Package.name, Package.title)\
+        .distinct()
 
     results = []
     for row in query:
         results.append({
-            'name': row[0],
-            'title': row[1],
-            'openness_score': row[3],
+            'name': row.name,
+            'title': row.title,
+            'openness_score': row.value
         })
+
     return results
 
 def broken_resource_links_by_dataset():
