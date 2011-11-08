@@ -82,37 +82,26 @@ def organisations_with_broken_resource_links_by_name():
 def organisations_with_broken_resource_links():
     return _get_broken_resource_links()
     
-
 def _get_broken_resource_links(organisation_id=None):
-    organisations_by_id = _collapse(
-        Session.query(
-            Package.title,
-            PackageExtra.value, 
-            Package.name,
-            Resource,
-        )
-        .join(PackageExtra)
-        .join(ResourceGroup)
-        .join(Resource)
-        .filter(Resource.extras.like('%"openness_score": 0%'))
-        .filter(
-            or_(
-                Resource.extras.like('%"openness_score": 0%'),
-                Resource.extras.like('%"openness_score": "0"%')
-            )
-        )
-        .filter(
-            or_(
-                and_(PackageExtra.key=='published_by', PackageExtra.value.like('%%[%s]'%(organisation_id is None and '%' or organisation_id))),
-                and_(PackageExtra.key=='published_via', PackageExtra.value.like('%%[%s]'%(organisation_id is None and '%' or organisation_id))),
-            )
-        )
-        .distinct(), 
-        [
-            _extract_publisher,
-            _extract_package,
-        ]
-    )
+    organisation_id = None
+
+    query = Session.query(Package.name, Package.title, Resource)\
+            .join(PackageExtra)\
+            .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
+            .join(Resource)\
+            .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
+            .filter(TaskStatus.key==u'openness_score')\
+            .filter(TaskStatus.value==u'0')\
+            .filter(or_(
+                and_(PackageExtra.key=='published_by', 
+                     PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
+                and_(PackageExtra.key=='published_via', 
+                     PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
+                )\
+            )\
+            .distinct()
+
+    organisations_by_id = _collapse(query, [_extract_publisher, _extract_package])
     return organisations_by_id 
 
 def _collapser(data, key_func=None):
@@ -150,3 +139,4 @@ def _extract_publisher(row):
 
 def _extract_package(row):
     return [(row[0], row[1])] + list(row[2:])
+
