@@ -2,13 +2,14 @@ import os
 import subprocess
 import time
 import requests
+import json
 from functools import wraps
 from mock import patch, Mock
 from nose.tools import raises
 from ckan import model
 from ckan.tests import BaseCase
 
-from ckanext.qa.tasks import resource_score
+from ckanext.qa.tasks import resource_score, update
 from mock_remote_server import MockEchoTestServer, MockTimeoutTestServer
 
 def with_mock_url(url=''):
@@ -22,6 +23,7 @@ def with_mock_url(url=''):
                 return func(*(args + ('%s/%s' % (serveraddr, url),)), **kwargs)
         return decorated
     return decorator
+
 
 class TestResultScore(BaseCase):
 
@@ -123,130 +125,80 @@ class TestResultScore(BaseCase):
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 4, result
         assert result['openness_score_reason'] == 'ontologically represented', result
+
+    @with_mock_url('?status=503')
+    def test_temporary_failure_increments_failure_count(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score_failure_count'] == 1, result
         
-# class TestTask(BaseCase):
-#     users = []
 
-#     @classmethod
-#     def setup_class(cls):
-#         testsysadmin = model.User(name=u'testsysadmin', password=u'testsysadmin')
-#         cls.users.append(u'testsysadmin')
-#         model.Session.add(testsysadmin)
-#         model.add_user_to_role(testsysadmin, model.Role.ADMIN, model.System())
-#         model.repo.commit_and_remove()
+class TestTask(BaseCase):
+    @classmethod
+    def setup_class(cls):
+        fake_ckan_path = os.path.join(os.path.dirname(__file__), "fake_ckan.py")
+        cls.fake_ckan = subprocess.Popen(['python', fake_ckan_path])
+        cls.fake_ckan_url = 'http://0.0.0.0:50001'
 
-#     @classmethod
-#     def teardown_class(cls):
-#         for user_name in cls.users:
-#             user = model.User.get(user_name)
-#             if user:
-#                 user.purge()
+        #make sure services are running
+        for i in range(0, 12):
+            time.sleep(0.1)
+            response = requests.get(cls.fake_ckan_url)
+            if response:
+                break
+        else:
+            raise Exception('services did not start!')
 
-#     @with_package_resources('?status=503')
-#     def test_temporary_failure_increments_failure_count(self, package):
-#         # TODO: fix
-#         # known fail: call to resource_update in the second package_score
-#         # call is causing sqlalchemy to throw an integrity error
-#         from nose.plugins.skip import SkipTest
-#         raise SkipTest
+        cls.fake_context = {
+            'site_url': cls.fake_ckan_url,
+            'apikey': u'fake_api_key'
+        }
+        cls.fake_resource = {
+            'id': u'fake_resource_id',
+            'url': cls.fake_ckan_url
+        }
 
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score_failure_count') == '1', \
-#                 resource
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score_failure_count') == '2', \
-#                 resource
+    @classmethod
+    def teardown_class(cls):
+        cls.fake_ckan.kill()
 
-#     @with_package_resources('?status=200')
-#     def test_update_package_resource_creates_all_extra_records(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         extras = [u'openness_score', u'openness_score_last_checked']
-#         package_extra_keys = [e.get('key') for e in package.get('extras')]
-#         for key in extras:
-#             assert key in package_extra_keys, (key, package_extra_keys)
+    @with_mock_url('?status=200&content=test&content-type=text%2Fcsv')
+    def test_task_updates_task_status_table(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        context = json.dumps(self.fake_context)
+        data = json.dumps(data)
+        result = json.loads(update(context, data))
 
-#     @with_package_resources('?status=200')
-#     def test_update_package_doesnt_update_overridden_package(self, package):
-#         # TODO: fix
-#         # known fail: need to set the extra value using a call to package_update
-#         # in the logic layer
-#         from nose.plugins.skip import SkipTest
-#         raise SkipTest
+        response = requests.get(self.fake_ckan_url + '/last_request')
+        headers = json.loads(response.content)['headers']
+        
+        assert headers['Content-Type'] == 'application/json', headers
+        assert headers['Authorization'] == 'fake_api_key', headers
 
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         package.extras['openness_score_override'] = u'5'
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         assert package.extras['openness_score_override'] == '5', package.extras
+        task_data = json.loads(response.content)['data']['data']
 
-#     @with_package_resources('?status=503')
-#     def test_repeated_temporary_failures_give_permanent_failure(self, package):
-#         # TODO: fix
-#         # known fail: call to resource_update in the second package_score
-#         # call is causing sqlalchemy to throw an integrity error
-#         from nose.plugins.skip import SkipTest
-#         raise SkipTest
+        score = False
+        score_reason = False
+        score_failure_count = False
 
-#         for x in range(5):
-#             package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#             assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#             for extra in package.get('extras'):
-#                 if extra.get('key') == 'openness_score':
-#                     assert extra.get('value') == '0', package
+        for d in task_data:
+            assert d['entity_id'] == 'fake_resource_id', d
+            assert d['entity_type'] == 'resource', d
+            assert d['task_type'] == 'qa', d
 
-#     @with_package_resources('')
-#     def test_repeated_temporary_failure_doesnt_cause_previous_score_to_be_reset(self, package):
-#         # TODO: fix
-#         # known fail: package_score will give an openness_score of 0 for the
-#         # first url
-#         from nose.plugins.skip import SkipTest
-#         raise SkipTest
+            if d['key'] == 'openness_score':
+                score = True
+                assert d['value'] == 3, d
+            elif d['key'] == 'openness_score_reason':
+                score_reason = True
+                assert d['value'] == 'open and standardized format', d
+            elif d['key'] == 'openness_score_failure_count':
+                score_failure_count = True
+                assert d['value'] == 0, d
 
-#         baseurl = package.resources[0].url
-#         package.resources[0].url = baseurl + '?status=200;content-type=application/rdf%2Bxml'
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         assert package.extras[u'openness_score'] == u'4', package.extras
-
-#         package.resources[0].url = baseurl + '?status=503'
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         assert package.extras[u'openness_score'] == u'4', package.extras
-
-    # @with_package_resources('?status=503')
-    # def test_package_retry_interval_backs_off(self, package):
-    #     # TODO: fix
-    #     # known fail: next_check_time function does not exist
-    #     from nose.plugins.skip import SkipTest
-    #     raise SkipTest
-
-    #     base_time = datetime(1970, 1, 1, 0, 0, 0)
-    #     mock_datetime = Mock()
-    #     mock_datetime.now.return_value = base_time
-
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-    #     assert next_check_time(package) == base_time + retry_interval
-
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-    #     assert next_check_time(package) == base_time + 2 * retry_interval
-
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-    #     assert next_check_time(package) == base_time + 4 * retry_interval
-
-    # @with_package_resources('?status=200')
-    # def test_package_retry_interval_used_on_successful_scoring(self, package):
-    #     # TODO: fix
-    #     # known fail: next_check_time function does not exist
-    #     from nose.plugins.skip import SkipTest
-    #     raise SkipTest
-
-    #     base_time = datetime(1970, 1, 1, 0, 0, 0)
-    #     mock_datetime = Mock()
-    #     mock_datetime.now.return_value = base_time
-
-    #     with patch('ckanext.qa.lib.package_scorer.datetime', mock_datetime):
-    #         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-    #     assert next_check_time(package) == base_time + retry_interval, next_check_time(package)
+        assert score
+        assert score_reason
+        assert score_failure_count
 
