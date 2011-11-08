@@ -1,17 +1,10 @@
 from paste.deploy import appconfig
 import paste.fixture
-import json
 
 from ckan.config.middleware import make_app
 from ckan.tests import conf_dir, url_for, CreateTestData
 from ckan import model
 from ckan.lib.dictization.model_dictize import package_dictize
-from ckanext.qa.reports import (
-    five_stars, broken_resource_links_by_dataset, 
-    broken_resource_links_by_dataset_for_organisation,
-    organisations_with_broken_resource_links,
-    organisations_with_broken_resource_links_by_name
-)
 
 class TestQAController:
     @classmethod
