@@ -13,20 +13,20 @@ from pylons import tmpl_context as c, config
 from ckan import model
 from ckan.logic.action import get
 from ckan.lib.base import response, abort
-from ..dictization import (
+
+from ckanext.qa.reports import (
     five_stars,
-    broken_resource_links_by_package,
-    broken_resource_links_by_package_for_organisation, 
+    broken_resource_links_by_dataset,
+    broken_resource_links_by_dataset_for_organisation, 
     organisations_with_broken_resource_links,
 )
-from ckanext.qa.lib.db import get_resource_result
 from base import QAController
 
 headers = [
     'Organisation Name',
     'Organisation ID',
-    'Package Name',
-    'Package ID',
+    'Dataset Name',
+    'Dataset ID',
     'Resource URL',
     'Resource Score',
     'Resource Score Reason',
@@ -53,21 +53,21 @@ def make_csv(result, headers, rows):
 
 class ApiController(QAController):
                 
-    def package_five_stars(self):
+    def dataset_five_stars(self):
         return json.dumps(five_stars())
         
-    def broken_resource_links_by_package(self, format='json'):
-        result = broken_resource_links_by_package()
+    def broken_resource_links_by_dataset(self, format='json'):
+        result = broken_resource_links_by_dataset()
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for package in result:
-                for resource in package.resources:
+            for dataset in result:
+                for resource in dataset.resources:
                     row = [
-                        package.name,
-                        package.title,
+                        dataset.name,
+                        dataset.title,
                         resource.get('url', ''),
                         unicode(resource.get('openness_score', '')),
                         resource.get('openness_score_reason', ''),
@@ -89,14 +89,14 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for organisation, packages in result.items():
-                for package, resources in packages.items():
+            for organisation, datasets in result.items():
+                for dataset, resources in datasets.items():
                     for resource in resources:
                         row = [
                             organisation[0],
                             unicode(organisation[1]),
-                            package[0],
-                            package[1],
+                            dataset[0],
+                            dataset[1],
                             resource.url,
                             unicode(resource.extras.get('openness_score')),
                             resource.extras.get('openness_score_reason'),
@@ -111,20 +111,20 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/json'
             return json.dumps(result)
 
-    def broken_resource_links_by_package_for_organisation(self, id, format='json'):
-        result = broken_resource_links_by_package_for_organisation(id)
+    def broken_resource_links_by_dataset_for_organisation(self, id, format='json'):
+        result = broken_resource_links_by_dataset_for_organisation(id)
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for package, resources in result['packages'].items():
+            for dataset, resources in result['datasets'].items():
                 for resource in resources:
                     row = [
                         result['title'], 
                         unicode(result['id']), 
-                        package[0],
-                        package[1],
+                        dataset[0],
+                        dataset[1],
                         resource.url,
                         unicode(resource.extras.get('openness_score')),
                         resource.extras.get('openness_score_reason'),
@@ -139,57 +139,3 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/json'
             return json.dumps(result)
 
-    @jsonify
-    def resources_available(self, id):
-        """
-        Looks at the QA results for each resource in the package identified by id.
-        Returns a JSON object of the form:
-            
-            {'resources' : [<list of resource objects>]}
-
-        Each resource object is of the form:
-
-            {'resource_available': 'true|false', 'resource_hash': '<value>',
-             'resource_cache': '<value>'}
-        """
-        context = {'model': model, 'user': c.user or c.author}
-        data_dict = {'id': id}
-        pkg = get.package_show(context, data_dict)
-
-        if not pkg:
-            abort(404, _('Package not found'))
-
-        archive_folder = os.path.join(config['ckan.qa_archive'], 'downloads')
-        archive_file = os.path.join(archive_folder, 'archive.db')
-        if not os.path.exists(archive_file):
-            return {'error': 'no archive file found, cannot check resource availabilty'}
-
-        resources = []
-        for resource in pkg.get('resources', []):
-            r = {}
-            hash = resource.get('hash', '')
-            r['resource_hash'] = hash
-            r['resource_available'] = 'unknown'
-            r['resource_cache'] = ''
-            # look at archive results to see if resource was found
-            archive_result = get_resource_result(archive_file, resource[u'id'])
-            if archive_result:
-                if archive_result['success'] == u'True':
-                    r['resource_available'] = 'true'
-                else:
-                    # if no hash value set then we don't have an archive file either
-                    if hash:
-                        r['resource_available'] = 'false'
-                        # see if we have a saved copy
-                        cache = os.path.join(archive_folder, pkg[u'name'])
-                        # TODO: update this to handle other formats
-                        #       save extension info in archive file
-                        cache = os.path.join(cache, hash + '.csv')
-                        if os.path.exists(cache):
-                            # create the url to serve this copy
-                            webstore = config.get('ckan.webstore_url', 'http://test-webstore.ckan.net')
-                            r['resource_cache'] = webstore + '/downloads/' + \
-                                pkg[u'name'] + '/' + hash + '.csv'
-            # add to resource list
-            resources.append(r)
-        return {'resources': resources}

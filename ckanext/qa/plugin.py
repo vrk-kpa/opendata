@@ -3,7 +3,6 @@ import json
 from datetime import datetime
 from genshi.input import HTML
 from genshi.filters import Transformer
-from pylons import tmpl_context as c
 from ckan import model
 import ckan.lib.helpers as h
 from ckan.lib.dictization.model_dictize import resource_dictize
@@ -59,19 +58,6 @@ class QAPlugin(SingletonPlugin):
                 stream = stream | Transformer('body//div[@class="qa-content"]')\
                     .append(HTML(html.ORGANIZATION_LINK % data))
 
-        # if this is the read action of a dataset, check for unavailable resources
-        if(routes.get('controller') == 'package' and
-           routes.get('action') == 'read' and 
-           c.pkg.id):
-            data = {
-                'package_name': c.pkg.name,
-                'api_endpoint': h.url_for('qa_api_resources_available', id=c.pkg.name)
-            }
-            # add CSS
-            stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
-            # add qa.js link
-            stream = stream | Transformer('body').append(HTML(html.JS_CODE % data))
-                        
         return stream
         
     def before_map(self, map):
