@@ -23,7 +23,7 @@ def with_mock_url(url=''):
         return decorated
     return decorator
 
-class TestCheckResultScore(BaseCase):
+class TestResultScore(BaseCase):
 
     @classmethod
     def setup_class(cls):
@@ -53,7 +53,7 @@ class TestCheckResultScore(BaseCase):
     def teardown_class(cls):
         cls.fake_ckan.kill()
 
-    @with_mock_url('?status=200&content-type=csv&content=test')
+    @with_mock_url('?status=200&content-type=text%2Fcsv&content=test')
     def test_url_with_content(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -76,7 +76,7 @@ class TestCheckResultScore(BaseCase):
         assert result['openness_score'] == 0, result
         assert result['openness_score_reason'] == 'URL unobtainable', result
 
-    @with_mock_url('?content-type=arfle-barfle-gloop')
+    @with_mock_url('?content-type=arfle%2Fbarfle-gloop')
     def test_url_with_unknown_content_type_scores_one(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -84,7 +84,7 @@ class TestCheckResultScore(BaseCase):
         assert result['openness_score'] == 0, result
         assert result['openness_score_reason'] == 'unrecognised content type', result
 
-    @with_mock_url('?content-type=txt')
+    @with_mock_url('?content-type=text%2Fplain')
     def test_url_pointing_to_html_page_scores_one(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -92,7 +92,7 @@ class TestCheckResultScore(BaseCase):
         assert result['openness_score'] == 1, result
         assert result['openness_score_reason'] == 'obtainable via web page', result
 
-    @with_mock_url('?content-type=html%3B+charset=UTF-8')
+    @with_mock_url('?content-type=text%2Fhtml%3B+charset=UTF-8')
     def test_content_type_with_charset_still_recognized_as_html(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -100,52 +100,31 @@ class TestCheckResultScore(BaseCase):
         assert result['openness_score'] == 1, result
         assert result['openness_score_reason'] == 'obtainable via web page', result
 
-#     @with_archive_result({
-#         'url': 'application/vnd.ms-excel', 'message': 'machine readable format', 
-#         'success': True, 'content-type': 'application/vnd.ms-excel'
-#     })
-#     def test_machine_readable_formats_score_two(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '2', resource
-#             assert resource.get('openness_score_reason') == 'machine readable format', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '2', package
+    @with_mock_url('?content-type=application%2Fvnd.ms-excel')
+    def test_machine_readable_formats_score_two(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 2, result
+        assert result['openness_score_reason'] == 'machine readable format', result
 
-#     @with_archive_result({
-#         'url': 'text/csv', 'message': 'open and standardized format', 
-#         'success': True, 'content-type': 'text/csv'
-#     })
-#     def test_open_standard_formats_score_three(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '3', resource
-#             assert resource.get('openness_score_reason') == 'open and standardized format', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '3', package
+    @with_mock_url('?content-type=text%2Fcsv')
+    def test_open_standard_formats_score_three(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 3, result
+        assert result['openness_score_reason'] == 'open and standardized format', result
 
-#     @with_archive_result({
-#         'url': '?content-type=application/rdf+xml', 'message': 'ontologically represented', 
-#         'success': True, 'content-type': 'application/rdf+xml'
-#     })
-#     def test_ontological_formats_score_four(self, package):
-#         package_score(package, TEST_ARCHIVE_RESULTS_FILE)
-#         for resource in package.get('resources'):
-#             assert resource.get('openness_score') == '4', resource
-#             assert resource.get('openness_score_reason') == 'ontologically represented', \
-#                 resource
-#         assert 'openness_score' in [e.get('key') for e in package.get('extras')], package
-#         for extra in package.get('extras'):
-#             if extra.get('key') == 'openness_score':
-#                 assert extra.get('value') == '4', package
+    @with_mock_url('?content-type=application%2Fxml')
+    def test_ontological_formats_score_four(self, url):
+        data = self.fake_resource
+        data['url'] = url
+        result = resource_score(self.fake_context, data)
+        assert result['openness_score'] == 4, result
+        assert result['openness_score_reason'] == 'ontologically represented', result
         
-# class TestCheckPackageScore(BaseCase):
+# class TestTask(BaseCase):
 #     users = []
 
 #     @classmethod
