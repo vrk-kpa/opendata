@@ -169,8 +169,8 @@ def resource_score(context, data):
     try:
         headers = json.loads(link_checker("{}", json.dumps(data)))
 
-        cl = headers.get('content_length')
-        ct = headers.get('content_type')
+        cl = headers.get('content-length')
+        ct = headers.get('content-type')
 
         # also get format from resource and by guessing from file extension
         format = data.get('format', '').lower()
