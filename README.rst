@@ -82,8 +82,6 @@ The QA Extension exposes the following API endpoints:
 
     http://your-ckan-instance/api/2/util/qa/broken_resource_links_by_package_for_organisation
 
-    http://your-ckan-instance/api/2/util/qa/resources_available/{package}
-
 
 Developers
 ----------
