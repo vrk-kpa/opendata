@@ -29,6 +29,8 @@ DATA_FORMATS = [
     'text/csv',
     'txt',
     'text/plain',
+    'text/html',
+    'html',
     'rdf',
     'text/rdf',
     'xml',
