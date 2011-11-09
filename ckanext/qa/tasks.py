@@ -29,8 +29,10 @@ MIME_TYPE_SCORE = {
     'text/plain': 1,
     'text': 1,
     'txt': 1,
-    'text/html': 1,
-    'html': 1,
+    # TODO: should we accept HTML as a scored type or not?
+    #       causes problems if a web site redirects on error instead of returning a 404
+    # 'text/html': 1,
+    # 'html': 1,
     'application/vnd.ms-excel': 2,
     'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
     'application/vnd.ms-excel.sheet.macroenabled.12': 2,
