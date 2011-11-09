@@ -23,7 +23,7 @@ def task_status_update():
 def task_status_show():
     # resource_score in task.py is just checking for a 'openness_score_failure_count'
     # key, but will default to 0 if it doesn't exist
-    return jsonify({'result': {}})
+    return jsonify({'success': False})
 
 @app.route("/api/action/resource_update", methods=['GET', 'POST'])
 def resource_update():
