@@ -153,6 +153,7 @@ def resource_score(context, data):
     """
     score = 0
     score_reason = ""
+    score_failure_count = 0
 
     # get openness score failure count for task status table if exists
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
