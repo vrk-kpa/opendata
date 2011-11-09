@@ -1,19 +1,11 @@
-import os
-import json
-import csv
-
 try:
     import cStringIO as StringIO
 except ImportError:
     import StringIO
 
-from pylons.decorators import jsonify
-from pylons.i18n import _
-from pylons import tmpl_context as c, config
-from ckan import model
-from ckan.logic.action import get
-from ckan.lib.base import response, abort
-
+import json
+import csv
+from ckan.lib.base import response
 from ckanext.qa.reports import (
     five_stars,
     broken_resource_links_by_dataset,
@@ -97,9 +89,9 @@ class ApiController(QAController):
                             unicode(organisation[1]),
                             dataset[0],
                             dataset[1],
-                            resource.url,
-                            unicode(resource.extras.get('openness_score')),
-                            resource.extras.get('openness_score_reason'),
+                            resource.get('url'),
+                            unicode(resource.get('openness_score')),
+                            resource.get('openness_score_reason'),
                         ]
                         rows.append(row)
             return make_csv(
@@ -125,9 +117,9 @@ class ApiController(QAController):
                         unicode(result['id']), 
                         dataset[0],
                         dataset[1],
-                        resource.url,
-                        unicode(resource.extras.get('openness_score')),
-                        resource.extras.get('openness_score_reason'),
+                        resource.get('url'),
+                        unicode(resource.get('openness_score')),
+                        resource.get('openness_score_reason'),
                     ]
                     rows.append(row)
             return make_csv(

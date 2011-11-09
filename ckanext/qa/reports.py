@@ -107,6 +107,7 @@ def _get_broken_resource_links(organisation_id=None):
         resource = resource_dictize(row.Resource, context)
         task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
         status = get_action('task_status_show')(context, task_data)
+        resource['openness_score'] = u'0'
         resource['openness_score_reason'] = status.get('value')
 
         data.append([row.name, row.title, row.value, resource])
