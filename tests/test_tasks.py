@@ -94,8 +94,8 @@ class TestResultScore(BaseCase):
         assert result['openness_score'] == 1, result
         assert result['openness_score_reason'] == 'obtainable via web page', result
 
-    @with_mock_url('?content-type=text%2Fhtml%3B+charset=UTF-8')
-    def test_content_type_with_charset_still_recognized_as_html(self, url):
+    @with_mock_url('?content-type=text%2Fplain%3B+charset=UTF-8')
+    def test_content_type_with_charset_still_recognized(self, url):
         data = self.fake_resource
         data['url'] = url
         result = resource_score(self.fake_context, data)
