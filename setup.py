@@ -35,6 +35,9 @@ setup(
 
     [ckan.plugins]
     archiver = ckanext.archiver.plugin:ArchiverPlugin
+
+    [ckan.celery_task]
+    tasks = ckanext.archiver.celery_import:task_imports
     '''
 )
 

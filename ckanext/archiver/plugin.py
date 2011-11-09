@@ -5,7 +5,7 @@ from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification,
     IResourceUrlChange, IConfigurable
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.logic import get_action
-from celery.execute import send_task
+from ckan.lib.celery_app import celery
 
 class ArchiverPlugin(SingletonPlugin):
     """
@@ -43,7 +43,7 @@ class ArchiverPlugin(SingletonPlugin):
             'cache_url_root': self.cache_url_root
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
-        archiver_task = send_task("archiver.update", [context, data])
+        archiver_task = celery.send_task("archiver.update", [context, data])
 
         # update the task_status table
         archiver_task_status = {

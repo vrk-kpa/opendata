@@ -7,7 +7,7 @@ import urllib
 import urlparse
 import tempfile
 from datetime import datetime
-from celery.task import task
+from ckan.lib.celery_app import celery
 
 try:
     from ckanext.archiver import settings
@@ -118,7 +118,7 @@ def download(context, resource, url_timeout=30,
             'saved_file': saved_file}
 
 
-@task(name = "archiver.clean")
+@celery.task(name = "archiver.clean")
 def clean():
     """
     Remove all archived resources.
@@ -126,7 +126,7 @@ def clean():
     logger = clean.get_logger()
     logger.error("clean task not implemented yet")
 
-@task(name = "archiver.update")
+@celery.task(name = "archiver.update")
 def update(context, data):
     try:
         data = json.loads(data)
@@ -175,7 +175,7 @@ def _update(context, data):
     })
 
 
-@task(name = "archiver.link_checker")
+@celery.task(name = "archiver.link_checker")
 def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
