@@ -36,8 +36,13 @@ and openness score interface should be available at http://your-ckan-instance/qa
 Configuration
 -------------
 
-The QA extension now depends on the CKAN Archiver extension and CKAN 1.5 (with Celery), but no additional
-configuration is needed.
+The QA extension now depends on the CKAN Archiver extension and CKAN 1.5 (with Celery). 
+
+You must also make sure that the following is set in your CKAN config:
+
+::
+
+    ckan.site_url = <URL to your CKAN instance>
 
 
 Using The QA Extension
