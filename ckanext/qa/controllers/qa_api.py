@@ -110,7 +110,7 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for dataset, resources in result['datasets'].items():
+            for dataset, resources in result['packages'].items():
                 for resource in resources:
                     row = [
                         result['title'], 
