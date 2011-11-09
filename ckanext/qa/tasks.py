@@ -167,7 +167,8 @@ def resource_score(context, data):
         headers = {'Authorization': context['apikey'],
                    'Content-Type': 'application/json'}
     )
-    score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
+    if json.loads(response.content)['success']:
+        score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
 
     try:
         headers = json.loads(link_checker("{}", json.dumps(data)))
