@@ -68,11 +68,11 @@ def broken_resource_links_by_dataset():
 
 def broken_resource_links_by_dataset_for_organisation(organisation_id):
     result = _get_broken_resource_links(organisation_id)
-    return dict(
-        id = result.keys()[0][1],
-        title = result.keys()[0][0],
-        packages = result.values()[0],
-    )
+    return {
+        'id': result.keys()[0][1],
+        'title': result.keys()[0][0],
+        'packages': result.values()[0]
+    }
 
 def organisations_with_broken_resource_links_by_name():
     result = _get_broken_resource_links().keys()
@@ -85,7 +85,7 @@ def organisations_with_broken_resource_links():
 def _get_broken_resource_links(organisation_id=None):
     organisation_id = None
 
-    query = Session.query(Package.name, Package.title, Resource)\
+    query = Session.query(Package.name, Package.title, PackageExtra.value, Resource)\
             .join(PackageExtra)\
             .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
             .join(Resource)\
@@ -101,8 +101,17 @@ def _get_broken_resource_links(organisation_id=None):
             )\
             .distinct()
 
-    organisations_by_id = _collapse(query, [_extract_publisher, _extract_package])
-    return organisations_by_id 
+    context = {'model': model, 'session': model.Session}
+    data = []
+    for row in query:
+        resource = resource_dictize(row.Resource, context)
+        task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
+        status = get_action('task_status_show')(context, task_data)
+        resource['openness_score_reason'] = status.get('value')
+
+        data.append([row.name, row.title, row.value, resource])
+
+    return _collapse(data, [_extract_publisher, _extract_dataset])
 
 def _collapser(data, key_func=None):
     result = {}
@@ -120,23 +129,39 @@ def _collapser(data, key_func=None):
             result[key] = [row]
     return result
 
-def _collapse(query, fn):
-    first = _collapser(query.all(), fn[0])
+def _collapse(data, fn):
+    first = _collapser(data, fn[0])
     result = {}
     for k, v in first.items():
         result[k] = _collapser(v, fn[1])
     return result
 
 def _extract_publisher(row):
-    publisher = row[1]
+    """
+    Extract publisher info from a query result row.
+    Each row should be a list of the form [name, title, value, Resource]
+
+    Returns a list of the form:
+
+        [<publisher tuple>, <other elements in row tuple>]
+    """
+    publisher = row[2]
     parts = publisher.split('[')
     try:
         pub_parts = (parts[0].strip(), parts[1][:-1])
     except:
         raise Exception('Could not get the ID from %r' % publisher)
     else:
-        return [pub_parts] + [row[0]] + list(row[2:])
+        return [pub_parts] + [row[0], row[1], row[3]]
 
-def _extract_package(row):
-    return [(row[0], row[1])] + list(row[2:])
+def _extract_dataset(row):
+    """
+    Extract dataset info form a query result row.
+    Each row should be a list of the form [name, title, Resource]
+
+    Returns a list of the form:
+
+        [(name, title), Resource]
+    """
+    return [(row[0], row[1]), row[2]]
 

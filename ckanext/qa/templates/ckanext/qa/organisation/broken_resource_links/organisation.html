@@ -35,7 +35,7 @@
                   </tr>
                   <tr class="bad_link" py:for="resource in resources">
                       <td><a href="${resource.url}">${resource.url}</a></td>
-                      <td>${resource.extras['openness_score_reason']}</td>
+                      <td>${resource.get('openness_score_reason', '')}</td>
                   </tr>
               </table>
            </td>
@@ -50,3 +50,4 @@
   </div>
   <xi:include href="../../../../layout.html" />
 </html>
+
