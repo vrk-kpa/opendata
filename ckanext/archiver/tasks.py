@@ -92,7 +92,6 @@ def download(context, resource, url_timeout=30,
         raise DownloadError("Of content type %s, not downloading" % ct) 
 
     # get the resource and archive it
-    #logger.info("Resource identified as data file, attempting to archive")
     res = requests.get(resource['url'], timeout = url_timeout)
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
@@ -108,12 +107,16 @@ def download(context, resource, url_timeout=30,
         raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length) 
 
-    # update the resource metadata in CKAN
-    resource['hash'] = hash
-    _update_resource(context, resource)
+    # update the resource metadata in CKAN if the resource has changed
+    if resource.get('hash') != hash:
+        resource['hash'] = hash
+        resource_changed = True
+
+    if resource_changed:
+        _update_resource(context, resource)
 
     return {'length': length,
-            'hash' :hash,
+            'hash' : hash,
             'headers': headers,
             'saved_file': saved_file}
 
@@ -248,11 +251,13 @@ def archive_resource(context, resource, logger, url_timeout = 30):
 
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
-            resource['cache_url'] = urlparse.urljoin(
+            cache_url = urlparse.urljoin(
                 context['cache_url_root'], '%s/%s' % (resource['id'], file_name)
             )
-            resource['cache_last_updated'] = datetime.now().isoformat()
-            _update_resource(context, resource)
+            if resource.get('cache_url') != cache_url:
+                resource['cache_url'] = cache_url
+                resource['cache_last_updated'] = datetime.now().isoformat()
+                _update_resource(context, resource)
 
     return saved_file
 
