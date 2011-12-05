@@ -6,7 +6,6 @@ from pylons import config
 from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action
 from ckan import model
-import tasks
 import logging
 logger = logging.getLogger()
 
@@ -42,6 +41,10 @@ class QACommand(CkanCommand):
 
         cmd = self.args[0]
         self._load_config()
+
+        #import tasks after load config so CKAN_CONFIG evironment variable can be set
+        import tasks
+        
         user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
         context = json.dumps({
             'site_url': config['ckan.site_url'],

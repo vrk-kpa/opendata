@@ -9,7 +9,7 @@ from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.plugins import implements, SingletonPlugin, IRoutes, IConfigurer, \
     IConfigurable, IGenshiStreamFilter, IResourceUrlChange, IDomainObjectModification
 from ckan.logic import get_action
-from celery.execute import send_task
+from ckan.lib.celery_app import celery
 
 import html
 
@@ -126,7 +126,7 @@ class QAPlugin(SingletonPlugin):
             'apikey': user.get('apikey')
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
-        task = send_task("qa.update", [context, data])
+        task = celery.send_task("qa.update", [context, data])
 
         # update the task_status table
         task_status = {

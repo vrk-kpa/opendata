@@ -6,7 +6,7 @@ import mimetypes
 import json
 import requests
 import urlparse
-from celery.task import task
+from ckan.lib.celery_app import celery
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
 class QAError(Exception):
@@ -96,7 +96,7 @@ def _task_status_data(id, result):
     ]
 
 
-@task(name = "qa.update")
+@celery.task(name = "qa.update")
 def update(context, data):
     """
     Score resources on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
