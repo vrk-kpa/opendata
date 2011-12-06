@@ -4,6 +4,7 @@ from datetime import datetime
 from genshi.input import HTML
 from genshi.filters import Transformer
 from ckan import model
+from ckan.model.types import make_uuid
 import ckan.lib.helpers as h
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.plugins import implements, SingletonPlugin, IRoutes, IConfigurer, \
@@ -126,7 +127,9 @@ class QAPlugin(SingletonPlugin):
             'apikey': user.get('apikey')
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
-        task = celery.send_task("qa.update", [context, data])
+        task_id = make_uuid()
+
+        task = celery.send_task("qa.update", args=[context, data], task_id=task_id)
 
         # update the task_status table
         task_status = {
@@ -134,7 +137,7 @@ class QAPlugin(SingletonPlugin):
             'entity_type': u'resource',
             'task_type': u'qa',
             'key': u'celery_task_id',
-            'value': task.task_id,
+            'value': task_id,
             'error': u'',
             'last_updated': datetime.now().isoformat()
         }

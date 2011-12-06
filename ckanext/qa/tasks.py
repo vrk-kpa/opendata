@@ -129,9 +129,10 @@ def update(context, data):
     except Exception, e:
         _update_task_status(context, {
             'entity_id': data['id'],
-            'entity_type': u'package',
+            'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'celery_task_id',
+            'value': unicode(update.request.id),
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
             'last_updated': datetime.now().isoformat()
         })
