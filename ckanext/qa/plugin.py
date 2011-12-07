@@ -127,11 +127,8 @@ class QAPlugin(SingletonPlugin):
             'apikey': user.get('apikey')
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
+
         task_id = make_uuid()
-
-        task = celery.send_task("qa.update", args=[context, data], task_id=task_id)
-
-        # update the task_status table
         task_status = {
             'entity_id': resource.id,
             'entity_type': u'resource',
@@ -141,13 +138,11 @@ class QAPlugin(SingletonPlugin):
             'error': u'',
             'last_updated': datetime.now().isoformat()
         }
-        
         task_context = {
             'model': model, 
-            'session': model.Session, 
             'user': user.get('name'),
-            'defer_commit': True
         }
         
         get_action('task_status_update')(task_context, task_status)
+        celery.send_task("qa.update", args=[context, data], task_id=task_id)
 

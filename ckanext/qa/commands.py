@@ -72,9 +72,6 @@ class QACommand(CkanCommand):
                 for resource in package.get('resources', []):
                     data = json.dumps(resource) 
                     task_id = make_uuid()
-
-                    task = tasks.update.apply_async(args=[context, data], task_id=task_id)
-
                     task_status = {
                         'entity_id': resource['id'],
                         'entity_type': u'resource',
@@ -86,12 +83,15 @@ class QACommand(CkanCommand):
                     }
                     task_context = {
                         'model': model, 
-                        'session': model.Session, 
                         'user': user.get('name')
                     }
+
                     get_action('task_status_update')(task_context, task_status)
+                    tasks.update.apply_async(args=[context, data], task_id=task_id)
+
         elif cmd == 'clean':
             logger.error('Command "%s" not implemented' % (cmd,))
+
         else:
             logger.error('Command "%s" not recognized' % (cmd,))
 
