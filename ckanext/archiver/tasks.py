@@ -276,20 +276,21 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     saved_file = None
 
     #tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
-    tmp_resource_file = tempfile.mkstemp()[1]
-    fp = open(tmp_resource_file, 'wb')
+    fd, tmp_resource_file_path = tempfile.mkstemp()
+ 
+    with open(tmp_resource_file_path, 'wb') as fp:
+        for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
+            fp.write(chunk)
+            length += len(chunk)
+            resource_hash.update(chunk)
 
-    for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
-        fp.write(chunk)
-        length += len(chunk)
-        resource_hash.update(chunk)
+            if length >= max_file_size:
+                break
 
-        if length >= max_file_size:
-            break
+    os.close(fd)
 
-    fp.close()
     content_hash = unicode(resource_hash.hexdigest())
-    return length, content_hash, tmp_resource_file
+    return length, content_hash, tmp_resource_file_path
 
 
 def _update_resource(context, resource):
