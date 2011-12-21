@@ -11,12 +11,13 @@ import logging
 logger = logging.getLogger()
 
 class QACommand(CkanCommand):
-    """Manage the ratings stored in the db
+    """QA analysis of CKAN resources
 
     Usage::
 
-        paster qa [options] update [{package-id}]
-           - Update all package scores or just one if a package id is provided
+        paster qa [options] update [{dataset id}]
+           - QA analysis on all resources in a given dataset, or on all datasets if no
+           dataset id given
 
         paster qa clean        
             - Remove all package score information
