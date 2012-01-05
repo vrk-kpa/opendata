@@ -1,7 +1,7 @@
 import json
 import messytables
 from messytables import CSVTableSet, XLSTableSet, types_processor, headers_guess, headers_processor, \
-  offset_processor
+  offset_processor 
 from ckan.lib.celery_app import celery
 import requests
 import datetime
@@ -59,7 +59,7 @@ def upload_content(context, resource, result):
     offset, headers = headers_guess(row_set.sample)
     row_set.register_processor(headers_processor(headers))
     row_set.register_processor(offset_processor(offset + 1))
-    row_set.register_processor(datetime_procesor())
+#    row_set.register_processor(datetime_processor())
 
     types = guess_types(list(row_set.dicts(sample=True)))
     row_set.register_processor(offset_processor(offset + 1))
@@ -82,7 +82,9 @@ def upload_content(context, resource, result):
                                          )
     #check if resource is already there.
     webstore_response = requests.get(webstore_request_url+'.json')
-    check_response_and_retry(webstore_response, webstore_request_url+'.json')
+    if not webstore_response.status_code:
+        raise WebstorerError('Failed to connect to Webstore')        
+#    check_response_and_retry(webstore_response, webstore_request_url+'.json')
 
     #should be an empty list as no tables should be there.
     if json.loads(webstore_response.content)['data']:
@@ -93,7 +95,7 @@ def upload_content(context, resource, result):
                              headers = {'Content-Type': 'application/json',
                                         'Authorization': context['apikey']},
                              )
-    check_response_and_retry(response, webstore_request_url+'.json')
+#    check_response_and_retry(response, webstore_request_url+'.json')
     if response.status_code != 201:
         raise WebstorerError('Websore bad response code (%s). Response was %s'%
                              (response.status_code, response.content)

@@ -189,7 +189,7 @@ def _update(context, data):
         if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
             context['webstore_url'] = settings.WEBSTORE_URL            
             logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])        
-            upload_content( context, resource, result )
+            upload_content( context, data, result )
 
     logger.info("Attempting to archive resource: %s" % data['url'])
     file_path = archive_resource(context, data, logger, result)
@@ -324,12 +324,15 @@ def _update_resource(context, resource):
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
+    print api_url + '/resource_update'
     res = requests.post(
         api_url + '/resource_update', post_data,
         headers = {'Authorization': context['apikey'],
                    'Content-Type': 'application/json'}
     )
-
+    print context
+    print res
+    
     if res.status_code == 200:
         return res.content
     else:
