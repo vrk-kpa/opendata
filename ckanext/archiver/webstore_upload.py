@@ -75,6 +75,7 @@ def upload_content(context, resource, result):
 
     webstore_url = context.get('webstore_url').rstrip('/')
     
+    #TODO: Check we want username (as opposed to user id) here
     webstore_request_url = '%s/%s/%s' % (webstore_url,
                                          context['username'],
                                          resource['id']

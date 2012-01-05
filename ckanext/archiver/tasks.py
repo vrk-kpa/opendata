@@ -184,11 +184,11 @@ def _update(context, data):
 
     # Check here whether we want to upload this content to webstore before 
     # archiving
-    if settings.UPLOAD_TO_WEBSTORE:
+    if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
         content_type = result['headers'].get('content-type', '')
         if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
-            print 'Attempting to write to webstore'
-            logger.info("Attempting to upload content to webstore: %s" % data['url'])        
+            context['webstore_url'] = settings.WEBSTORE_URL            
+            logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])        
             upload_content( context, resource, result )
 
     logger.info("Attempting to archive resource: %s" % data['url'])
