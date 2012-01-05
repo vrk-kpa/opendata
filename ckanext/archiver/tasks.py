@@ -8,6 +8,8 @@ import urlparse
 import tempfile
 from datetime import datetime
 from ckan.lib.celery_app import celery
+from webstore_upload import upload_content
+from webstore_upload import DATA_FORMATS as WEBSTORE_DATA_FORMATS
 
 try:
     from ckanext.archiver import settings
@@ -23,6 +25,14 @@ HTTP_ERROR_CODES = {
     httplib.GATEWAY_TIMEOUT: "Gateway timeout",
     httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
+
+WEBSTORE_FORMATS = [
+    'csv',
+    'text/csv',
+    'xls',
+    'application/ms-excel',
+    'application/xls'
+]
 
 DATA_FORMATS = [ 
     'csv',
@@ -170,8 +180,19 @@ def _update(context, data):
     if not data:
         raise ArchiverError('Resource not found')
 
+    result = download(context, data)
+
+    # Check here whether we want to upload this content to webstore before 
+    # archiving
+    if settings.UPLOAD_TO_WEBSTORE:
+        content_type = result['headers'].get('content-type', '')
+        if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
+            print 'Attempting to write to webstore'
+            logger.info("Attempting to upload content to webstore: %s" % data['url'])        
+            upload_content( context, resource, result )
+
     logger.info("Attempting to archive resource: %s" % data['url'])
-    file_path = archive_resource(context, data, logger)
+    file_path = archive_resource(context, data, logger, result)
 
     return json.dumps({
         'resource': data,
@@ -232,11 +253,10 @@ def link_checker(context, data):
     return json.dumps(headers)
 
 
-def archive_resource(context, resource, logger, url_timeout = 30):
+def archive_resource(context, resource, logger, result=None, url_timeout = 30):
     """
     Archive the given resource.
     """
-    result = download(context, resource)
     if result['length']:
         dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
         if not os.path.exists(dir):
@@ -333,7 +353,6 @@ def update_task_status(context, data):
     if res.status_code == 200:
         return res.content
     else:
-        raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
-                        % (res.status_code, res.content))
+        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, res.content))
 
 
