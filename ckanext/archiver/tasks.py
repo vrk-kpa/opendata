@@ -187,9 +187,15 @@ def _update(context, data):
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
         content_type = result['headers'].get('content-type', '')
         if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
-            context['webstore_url'] = settings.WEBSTORE_URL            
             logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])        
-            upload_content( context, data, result )
+
+            # If this fails, for instance if webstore is down, then we should force the task
+            # to retry in 3 minutes (default value for countdown in retry(...)).
+            try:
+                context['webstore_url'] = settings.WEBSTORE_URL            
+                upload_content( context, data, result )
+            except Exception, e:
+                return update.retry(args=(json.dumps(context), json.dumps(data)), exc=exc)
 
     logger.info("Attempting to archive resource: %s" % data['url'])
     file_path = archive_resource(context, data, logger, result)
@@ -330,8 +336,6 @@ def _update_resource(context, resource):
         headers = {'Authorization': context['apikey'],
                    'Content-Type': 'application/json'}
     )
-    print context
-    print res
     
     if res.status_code == 200:
         return res.content

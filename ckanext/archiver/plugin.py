@@ -34,13 +34,15 @@ class ArchiverPlugin(SingletonPlugin):
             self._create_archiver_task(entity)
 
     def _create_archiver_task(self, resource):
-        user = get_action('get_site_user')({'model': model,
-                                            'ignore_auth': True,
-                                            'defer_commit': True}, {})
+        from ckan.lib.base import c
+        #user = get_action('get_site_user')({'model': model,
+        #                                    'ignore_auth': True,
+        #                                    'defer_commit': True}, {}
+        user = model.User.by_name(c.user)
         context = json.dumps({
             'site_url': self.site_url,
-            'apikey': user.get('apikey'),
-            'username': user.get('name'),
+            'apikey': user.apikey,
+            'username': user.name,
             'cache_url_root': self.cache_url_root
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
@@ -57,9 +59,11 @@ class ArchiverPlugin(SingletonPlugin):
         }
         archiver_task_context = {
             'model': model, 
-            'user': user.get('name'),
+            'user': user.name,
+            'ignore_auth': True
         }
         
+        # c.user does not have permission (as a none sysadmin) to do this. 
         get_action('task_status_update')(archiver_task_context, archiver_task_status)
         celery.send_task("archiver.update", args=[context, data], task_id=task_id)
 
