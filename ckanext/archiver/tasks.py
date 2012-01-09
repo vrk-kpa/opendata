@@ -26,14 +26,6 @@ HTTP_ERROR_CODES = {
     httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
 
-WEBSTORE_FORMATS = [
-    'csv',
-    'text/csv',
-    'xls',
-    'application/ms-excel',
-    'application/xls'
-]
-
 DATA_FORMATS = [ 
     'csv',
     'text/csv',
@@ -180,7 +172,10 @@ def _update(context, data):
     if not data:
         raise ArchiverError('Resource not found')
 
-    result = download(context, data)
+    try:
+        result = download(context, data)
+    except Exception, downloaderr:
+        update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
 
     # Check here whether we want to upload this content to webstore before 
     # archiving
@@ -195,7 +190,7 @@ def _update(context, data):
                 context['webstore_url'] = settings.WEBSTORE_URL            
                 upload_content( context, data, result )
             except Exception, e:
-                return update.retry(args=(json.dumps(context), json.dumps(data)), exc=exc)
+                update.retry(args=(json.dumps(context), json.dumps(data)), exc=exc)
 
     logger.info("Attempting to archive resource: %s" % data['url'])
     file_path = archive_resource(context, data, logger, result)

@@ -2,10 +2,8 @@ import json
 import messytables
 from messytables import CSVTableSet, XLSTableSet, types_processor, headers_guess, headers_processor, \
   offset_processor 
-from ckan.lib.celery_app import celery
 import requests
 import datetime
-
 
 DATA_FORMATS = [ 
     'csv',
