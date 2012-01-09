@@ -38,6 +38,7 @@ DATA_FORMATS = [
     'xml',
     'xls',
     'application/ms-excel',
+    'application/vnd.ms-excel',    
     'application/xls',
     'text/xml',
     'tar',
@@ -161,7 +162,7 @@ def _update(context, data):
         }
     """
     logger = update.get_logger()
-    data.pop('revision_id')
+    rid = data.pop(u'revision_id')
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
 
     # check that archive directory exists
@@ -175,22 +176,24 @@ def _update(context, data):
     try:
         result = download(context, data)
     except Exception, downloaderr:
-        update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
+        if hasattr(settings, 'RETRIES') and settings.RETRIES:
+            update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
 
     # Check here whether we want to upload this content to webstore before 
     # archiving
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
         content_type = result['headers'].get('content-type', '')
         if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
-            logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])        
-
             # If this fails, for instance if webstore is down, then we should force the task
             # to retry in 3 minutes (default value for countdown in retry(...)).
             try:
                 context['webstore_url'] = settings.WEBSTORE_URL            
+                logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])                        
                 upload_content( context, data, result )
             except Exception, e:
-                update.retry(args=(json.dumps(context), json.dumps(data)), exc=exc)
+                if hasattr(settings, 'RETRIES') and settings.RETRIES:                
+                    data[u'revision_id'] = rid # put this back....
+                    update.retry(args=(json.dumps(context), json.dumps(data)), exc=e)
 
     logger.info("Attempting to archive resource: %s" % data['url'])
     file_path = archive_resource(context, data, logger, result)
