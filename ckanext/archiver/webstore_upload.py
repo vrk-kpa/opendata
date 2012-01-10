@@ -1,3 +1,4 @@
+import sys
 import json
 import messytables
 from messytables import CSVTableSet, XLSTableSet, types_processor, headers_guess, headers_processor, \
@@ -44,8 +45,8 @@ def guess_types(rows):
                 
                 
 def upload_content(context, resource, result):
-    excel_types = ['xls', 'application/ms-excel', 'application/xls']
-    content_type = result['headers'].get('content-type', '')
+    excel_types = ['xls', 'application/ms-excel', 'application/xls','application/vnd.ms-excel',]
+    content_type = result['headers'].get('content-type', '')        
     f = open(result['saved_file'], 'rb')
 
     if content_type in excel_types or resource['format'] in excel_types:
@@ -53,8 +54,12 @@ def upload_content(context, resource, result):
     else:
         table_sets = CSVTableSet.from_fileobj(f)
 
-    ##only first sheet in xls for time being
+    # To implement for each sheet we would need to change the webstore url
+    # returned to the front end - for preview (or at least default to the 
+    # first sheet). We'd also need to name each sheet
+    
     row_set = table_sets.tables[0]
+    table_name = 'data'
     offset, headers = headers_guess(row_set.sample)
     row_set.register_processor(headers_processor(headers))
     row_set.register_processor(offset_processor(offset + 1))
@@ -63,7 +68,7 @@ def upload_content(context, resource, result):
     types = guess_types(list(row_set.dicts(sample=True)))
     row_set.register_processor(offset_processor(offset + 1))
     row_set.register_processor(types_processor(types))
-
+    
     rows = []
     
     for row in row_set.dicts():
@@ -73,51 +78,52 @@ def upload_content(context, resource, result):
         raise WebstorerError('Configuration error: "ckan.webstore_url" is not defined.')
 
     webstore_url = context.get('webstore_url').rstrip('/')
-    
-    #TODO: Check we want username (as opposed to user id) here
+    print 'Making request', webstore_url    
     webstore_request_url = '%s/%s/%s' % (webstore_url,
                                          context['username'],
                                          resource['id']
                                          )
+                                         
     #check if resource is already there.
     webstore_response = requests.get(webstore_request_url+'.json')
+    print 'Checking for existing',webstore_response
     if not webstore_response.status_code:
         raise WebstorerError('Failed to connect to Webstore')        
-#    check_response_and_retry(webstore_response, webstore_request_url+'.json')
 
     #should be an empty list as no tables should be there.
-    if json.loads(webstore_response.content)['data']:
+    if json.loads(webstore_response.content)[table_name]:
         raise WebstorerError('Webstore already has this resource')
 
-    response = requests.post(webstore_request_url+'/data',
+    response = requests.post(webstore_request_url+'/' + table_name,
                              data = json.dumps(rows),
                              headers = {'Content-Type': 'application/json',
                                         'Authorization': context['apikey']},
                              )
-#    check_response_and_retry(response, webstore_request_url+'.json')
     if response.status_code != 201:
         raise WebstorerError('Websore bad response code (%s). Response was %s'%
                              (response.status_code, response.content)
                             )
 
-    ckan_url = context['site_url'].rstrip('/')
-    ckan_request_url =  ckan_url + '/api/action/resource_update'
+    try:
+        ckan_url = context['site_url'].rstrip('/')
+        ckan_request_url =  ckan_url + '/api/action/resource_update'
 
-    ckan_resource_data = {
-        'id': resource["id"],
-        'webstore_url': webstore_request_url+'/data',
-        'webstore_last_updated': datetime.datetime.now().isoformat()
-    }
+        ckan_resource_data = {
+            'id': resource["id"],
+            'webstore_url': webstore_request_url+'/' + table_name,
+            'webstore_last_updated': datetime.datetime.now().isoformat()
+        }
 
-    response = requests.post(
-        ckan_request_url,
-        data=json.dumps(ckan_resource_data),
-        headers = {'Content-Type': 'application/json',
-                   'Authorization': context['apikey']},
-        )
+        response = requests.post(
+            ckan_request_url,
+            data=json.dumps(ckan_resource_data),
+            headers = {'Content-Type': 'application/json',
+                       'Authorization': context['apikey']},
+            )
 
-    if response.status_code not in (201, 200):
-        raise WebstorerError('Ckan bad response code (%s). Response was %s'%
-                             (response.status_code, response.content)
-                            )
-                
+        if response.status_code not in (201, 200):
+            raise WebstorerError('Ckan bad response code (%s). Response was %s'%
+                                 (response.status_code, response.content)
+                                )
+    except Exception, eckan:
+        print ecka

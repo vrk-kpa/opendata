@@ -7,4 +7,4 @@ MAX_CONTENT_LENGTH = 50000000
 UPLOAD_TO_WEBSTORE = True
 WEBSTORE_URL = "http://localhost:50002" # The http(s) and host part of the url
 
-RETRIES = True
+RETRIES = False

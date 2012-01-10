@@ -146,6 +146,7 @@ def update(context, data):
             'key': u'celery_task_id',
             'value': unicode(update.request.id),
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
+            'stack': traceback.format_exc(),
             'last_updated': datetime.now().isoformat()
         })
         raise
@@ -173,17 +174,24 @@ def _update(context, data):
     if not data:
         raise ArchiverError('Resource not found')
 
+    result = None
     try:
         result = download(context, data)
+        if result is None:
+            raise Exception("Download failed")
     except Exception, downloaderr:
         if hasattr(settings, 'RETRIES') and settings.RETRIES:
             update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
+        else:
+            print downloaderr
+            return
 
     # Check here whether we want to upload this content to webstore before 
     # archiving
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
+        print result
         content_type = result['headers'].get('content-type', '')
-        if content_type in WEBSTORE_DATA_FORMATS or resource['format'] in WEBSTORE_DATA_FORMATS:    
+        if content_type in WEBSTORE_DATA_FORMATS or context['format'] in WEBSTORE_DATA_FORMATS:
             # If this fails, for instance if webstore is down, then we should force the task
             # to retry in 3 minutes (default value for countdown in retry(...)).
             try:
@@ -191,6 +199,7 @@ def _update(context, data):
                 logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])                        
                 upload_content( context, data, result )
             except Exception, e:
+                print e
                 if hasattr(settings, 'RETRIES') and settings.RETRIES:                
                     data[u'revision_id'] = rid # put this back....
                     update.retry(args=(json.dumps(context), json.dumps(data)), exc=e)
@@ -358,6 +367,7 @@ def update_task_status(context, data):
     if res.status_code == 200:
         return res.content
     else:
+        print context, data
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, res.content))
 
 
