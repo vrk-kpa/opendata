@@ -63,7 +63,6 @@ class ArchiverPlugin(SingletonPlugin):
             'ignore_auth': True
         }
         
-        # c.user does not have permission (as a none sysadmin) to do this. 
         get_action('task_status_update')(archiver_task_context, archiver_task_status)
         celery.send_task("archiver.update", args=[context, data], task_id=task_id)
 

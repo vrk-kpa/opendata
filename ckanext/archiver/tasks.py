@@ -113,10 +113,13 @@ def download(context, resource, url_timeout=30,
     # update the resource metadata in CKAN if the resource has changed
     if resource.get('hash') != hash:
         resource['hash'] = hash
-        resource_changed = True
-
-    if resource_changed:
-        _update_resource(context, resource)
+        try:
+            # This may fail for archiver.update() as a result of the resource
+            # not yet existing.
+            _update_resource(context, resource)
+        except:
+            pass
+        
 
     return {'length': length,
             'hash' : hash,
@@ -367,7 +370,6 @@ def update_task_status(context, data):
     if res.status_code == 200:
         return res.content
     else:
-        print context, data
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, res.content))
 
 

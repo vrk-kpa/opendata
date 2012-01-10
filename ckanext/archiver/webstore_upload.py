@@ -51,8 +51,12 @@ def upload_content(context, resource, result):
 
     if content_type in excel_types or resource['format'] in excel_types:
         table_sets = XLSTableSet.from_fileobj(f)
+        if not resource.get('mimetype'):
+            resource['mimetype'] = 'application/ms-excel'
     else:
         table_sets = CSVTableSet.from_fileobj(f)
+        if not resource.get('mimetype'):
+            resource['mimetype'] = 'text/csv'
 
     # To implement for each sheet we would need to change the webstore url
     # returned to the front end - for preview (or at least default to the 
@@ -78,7 +82,6 @@ def upload_content(context, resource, result):
         raise WebstorerError('Configuration error: "ckan.webstore_url" is not defined.')
 
     webstore_url = context.get('webstore_url').rstrip('/')
-    print 'Making request', webstore_url    
     webstore_request_url = '%s/%s/%s' % (webstore_url,
                                          context['username'],
                                          resource['id']
@@ -126,4 +129,6 @@ def upload_content(context, resource, result):
                                  (response.status_code, response.content)
                                 )
     except Exception, eckan:
-        print ecka
+        print eckan
+        
+        
