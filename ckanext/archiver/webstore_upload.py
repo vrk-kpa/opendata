@@ -1,8 +1,8 @@
 import sys
 import json
 import messytables
-from messytables import CSVTableSet, XLSTableSet, types_processor, headers_guess, headers_processor, \
-  offset_processor 
+from messytables import CSVTableSet, XLSTableSet, types_processor, \
+headers_guess, headers_processor, offset_processor 
 import requests
 import datetime
 

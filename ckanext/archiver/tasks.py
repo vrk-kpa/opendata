@@ -47,7 +47,8 @@ DATA_FORMATS = [
     'application/zip'
     'gz',
     'application/gzip',
-    'application/x-gzip'
+    'application/x-gzip',
+    'application/octet-stream'
 ]
 
 class ArchiverError(Exception):
