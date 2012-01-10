@@ -140,7 +140,9 @@ def update(context, data):
     try:
         data = json.loads(data)
         context = json.loads(context)
-        return _update(context, data)
+        result = _update(context, data) 
+        # Decide whether to trigger the upload task here in response to the update
+        return result
     except Exception, e:
         update_task_status(context, {
             'entity_id': data['id'],
@@ -192,7 +194,6 @@ def _update(context, data):
     # Check here whether we want to upload this content to webstore before 
     # archiving
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
-        print result
         content_type = result['headers'].get('content-type', '')
         if content_type in WEBSTORE_DATA_FORMATS or context['format'] in WEBSTORE_DATA_FORMATS:
             # If this fails, for instance if webstore is down, then we should force the task
@@ -201,10 +202,10 @@ def _update(context, data):
                 context['webstore_url'] = settings.WEBSTORE_URL            
                 logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])                        
                 upload_content( context, data, result )
-            except Exception, e:
-                print e
+            except Exception, eUpload:
+                logger.error( eUpload )
                 if hasattr(settings, 'RETRIES') and settings.RETRIES:                
-                    data[u'revision_id'] = rid # put this back....
+                    data[u'revision_id'] = rid # put this back as we'll need it next time
                     update.retry(args=(json.dumps(context), json.dumps(data)), exc=e)
 
     logger.info("Attempting to archive resource: %s" % data['url'])

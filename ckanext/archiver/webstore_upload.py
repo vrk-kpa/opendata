@@ -9,8 +9,6 @@ import datetime
 DATA_FORMATS = [ 
     'csv',
     'text/csv',
-    'txt',
-    'text/plain',
     'xls',
     'application/ms-excel',
     'application/vnd.ms-excel',
@@ -20,7 +18,6 @@ DATA_FORMATS = [
 
 def guess_types(rows):
     ''' Simple guess types of fields, only allowed are int, float and string'''
-
     headers = rows[0].keys()
     guessed_types = [] 
     for header in headers:
@@ -103,7 +100,7 @@ def upload_content(context, resource, result):
                                         'Authorization': context['apikey']},
                              )
     if response.status_code != 201:
-        raise WebstorerError('Websore bad response code (%s). Response was %s'%
+        raise WebstorerError('Webstore bad response code (%s). Response was %s'%
                              (response.status_code, response.content)
                             )
 
