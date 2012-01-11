@@ -76,7 +76,7 @@ def download(context, resource, url_timeout=30,
     ct = headers.get('content-type', '').lower()
     cl = headers.get('content-length')
 
-    resource_changed = (resource.get('mimetype') != ct) or (resource.get('size') != cl)
+    resource_changed = (resource.get('mimetype', '').lower() != ct) or (resource.get('size') != cl)
     if resource_changed:
         resource['mimetype'] = ct
         resource['size'] = cl
@@ -142,7 +142,6 @@ def update(context, data):
         data = json.loads(data)
         context = json.loads(context)
         result = _update(context, data) 
-        # Decide whether to trigger the upload task here in response to the update
         return result
     except Exception, e:
         update_task_status(context, {
