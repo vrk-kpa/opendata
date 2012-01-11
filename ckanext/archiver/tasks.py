@@ -204,6 +204,7 @@ def _update(context, data):
                 upload_content( context, data, result )
             except Exception, eUpload:
                 logger.error( eUpload )
+                print eUpload
                 if hasattr(settings, 'RETRIES') and settings.RETRIES:                
                     data[u'revision_id'] = rid # put this back as we'll need it next time
                     update.retry(args=(json.dumps(context), json.dumps(data)), exc=e)
