@@ -5,6 +5,8 @@ from messytables import CSVTableSet, XLSTableSet, types_processor, \
 headers_guess, headers_processor, offset_processor 
 import requests
 import datetime
+from unicodedata import normalize
+from re import sub
 
 DATA_FORMATS = [ 
     'csv',
@@ -39,9 +41,23 @@ def guess_types(rows):
         else:
             guessed_types.append(messytables.StringType())
     return guessed_types
+
+
+def _clean_name(name):
+    if not name:
+        return 'data'
+
+    # Looks like a path
+    if '/' in name:
+        name = name[name.index('/')+1:]
+
+    res = normalize('NFKD', name).encode('ascii', 'ignore').replace(' ', '-').lower()
+    res = sub('[^a-zA-Z0-9_-]', '', res)
+    res = sub('-+', '-', res)
+    return res
                 
                 
-def upload_content(context, resource, result):
+def upload_content(context, resource, result):    
     excel_types = ['xls', 'application/ms-excel', 'application/xls','application/vnd.ms-excel',]
     content_type = result['headers'].get('content-type', '')        
     f = open(result['saved_file'], 'rb')
@@ -57,10 +73,12 @@ def upload_content(context, resource, result):
 
     # To implement for each sheet we would need to change the webstore url
     # returned to the front end - for preview (or at least default to the 
-    # first sheet). We'd also need to name each sheet
+    # first sheet). We'd also need to name each sheet which is currently problematic
+    # as webstore seems to want 'data'. Maybe we should overwrite the resource id with
+    # the name of the resource instead.
     
+    table_name = 'data'  # _clean_name(resource['name'])    
     row_set = table_sets.tables[0]
-    table_name = 'data'
     offset, headers = headers_guess(row_set.sample)
     row_set.register_processor(headers_processor(headers))
     row_set.register_processor(offset_processor(offset + 1))
