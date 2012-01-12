@@ -35,15 +35,17 @@ class ArchiverPlugin(SingletonPlugin):
 
     def _create_archiver_task(self, resource):
         from ckan.lib.base import c
-        #user = get_action('get_site_user')({'model': model,
-        #                                    'ignore_auth': True,
-        #                                    'defer_commit': True}, {}
+        site_user = get_action('get_site_user')({'model': model,
+                                            'ignore_auth': True,
+                                            'defer_commit': True}, {})
+
         user = model.User.by_name(c.user)
         context = json.dumps({
             'site_url': self.site_url,
             'apikey': user.apikey,
             'username': user.name,
-            'cache_url_root': self.cache_url_root
+            'cache_url_root': self.cache_url_root,
+            'site_user_apikey': site_user['apikey']
         })
         data = json.dumps(resource_dictize(resource, {'model': model}))
 
@@ -59,7 +61,7 @@ class ArchiverPlugin(SingletonPlugin):
         }
         archiver_task_context = {
             'model': model, 
-            'user': user.name,
+            'user': site_user['name'],
             'ignore_auth': True
         }
         

@@ -6,6 +6,7 @@ import json
 import urllib
 import urlparse
 import tempfile
+import traceback
 from datetime import datetime
 from ckan.lib.celery_app import celery
 from webstore_upload import upload_content
@@ -60,6 +61,12 @@ class LinkCheckerError(Exception):
 class CkanError(Exception):
     pass
 
+def _clean_content_type(ct):
+    # For now we should remove the charset from the content type and 
+    # handle it better, differently, later on.
+    if 'charset' in ct:
+        return ct[:ct.index(';')]
+    return ct
 
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
@@ -73,8 +80,8 @@ def download(context, resource, url_timeout=30,
     headers = json.loads(link_checker(link_context, link_data))
 
     resource_format = resource['format'].lower()
-    ct = headers.get('content-type', '').lower()
-    cl = headers.get('content-length')
+    ct = _clean_content_type( headers.get('content-type', '').lower() )
+    cl = headers.get('content-length') 
 
     resource_changed = (resource.get('mimetype', '').lower() != ct) or (resource.get('size') != cl)
     if resource_changed:
@@ -92,7 +99,7 @@ def download(context, resource, url_timeout=30,
     # check that resource is a data file
     if not (resource_format in data_formats or ct.lower() in data_formats):
         if resource_changed: 
-            _update_resource(context, resource) 
+            _update_resource(context, resource)             
         raise DownloadError("Of content type %s, not downloading" % ct) 
 
     # get the resource and archive it
@@ -116,7 +123,7 @@ def download(context, resource, url_timeout=30,
         resource['hash'] = hash
         try:
             # This may fail for archiver.update() as a result of the resource
-            # not yet existing.
+            # not yet existing. This still needs resolving somehow.
             _update_resource(context, resource)
         except:
             pass
@@ -188,23 +195,23 @@ def _update(context, data):
         if hasattr(settings, 'RETRIES') and settings.RETRIES:
             update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
         else:
-            print downloaderr
             return
 
     # Check here whether we want to upload this content to webstore before 
     # archiving
+    # TODO: Possibly run this as a sub-task
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
-        content_type = result['headers'].get('content-type', '')
-        if content_type in WEBSTORE_DATA_FORMATS or context['format'] in WEBSTORE_DATA_FORMATS:
-            # If this fails, for instance if webstore is down, then we should force the task
-            # to retry in 3 minutes (default value for countdown in retry(...)).
+        content_type = _clean_content_type( result['headers'].get('content-type', '') )
+        if content_type in WEBSTORE_DATA_FORMATS or \
+           ('format' in context and context['format'] in WEBSTORE_DATA_FORMATS):
+           
             try:
                 context['webstore_url'] = settings.WEBSTORE_URL            
                 logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])                        
                 upload_content( context, data, result )
             except Exception, eUpload:
                 logger.error( eUpload )
-                print eUpload
+                
                 if hasattr(settings, 'RETRIES') and settings.RETRIES:                
                     data[u'revision_id'] = rid # put this back as we'll need it next time
                     update.retry(args=(json.dumps(context), json.dumps(data)), exc=e)
@@ -366,7 +373,7 @@ def update_task_status(context, data):
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     res = requests.post(
         api_url + '/task_status_update', json.dumps(data),
-        headers = {'Authorization': context['apikey'],
+        headers = {'Authorization': context['site_user_apikey'],
                    'Content-Type': 'application/json'}
     )
     if res.status_code == 200:
