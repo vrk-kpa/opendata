@@ -41,8 +41,6 @@ MIME_TYPE_SCORE = {
     'xml': 3,
     'json': 3,
     'application/rdf+xml': 4,
-    'application/xml': 4,
-    'xml': 4,
     'rdf': 4
 }
 
