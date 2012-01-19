@@ -203,9 +203,7 @@ def _update(context, data):
     # TODO: Possibly run this as a sub-task
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
         content_type = _clean_content_type( result['headers'].get('content-type', '') )
-        if content_type in WEBSTORE_DATA_FORMATS or \
-           ('format' in context and context['format'] in WEBSTORE_DATA_FORMATS):
-           
+        if content_type in WEBSTORE_DATA_FORMATS or context.get('format', '') in WEBSTORE_DATA_FORMATS:
             try:
                 context['webstore_url'] = settings.WEBSTORE_URL            
                 logger.info("Attempting to upload content to webstore: %s" % context['webstore_url'])                        
@@ -350,7 +348,6 @@ def _update_resource(context, resource):
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
-    print api_url + '/resource_update'
     res = requests.post(
         api_url + '/resource_update', post_data,
         headers = {'Authorization': context['apikey'],

@@ -136,34 +136,31 @@ def upload_content(context, resource, result):
                                  (response.status_code, response.content)
                                 )
 
-    try:
-        if first_ws_url:
-            # If we have at least uploaded one item
-            ckan_url = context['site_url'].rstrip('/')
-            ckan_request_url =  ckan_url + '/api/action/resource_update'
+    if first_ws_url:
+        # If we have at least uploaded one item
+        ckan_url = context['site_url'].rstrip('/')
+        ckan_request_url =  ckan_url + '/api/action/resource_update'
 
-            ckan_resource_data = {
-                'id': resource["id"],
-                'webstore_url': first_ws_url,
-                'webstore_last_updated': datetime.datetime.now().isoformat()
-            }
-            
-            # If we have determined mimetype ....
-            if 'mimetype' in resource and resource['mimetype']:
-                ckan_resource_data['mimetype'] = resource['mimetype']
+        ckan_resource_data = {
+            'id': resource["id"],
+            'webstore_url': first_ws_url,
+            'webstore_last_updated': datetime.datetime.now().isoformat()
+        }
+        
+        # If we have determined mimetype ....
+        if 'mimetype' in resource and resource['mimetype']:
+            ckan_resource_data['mimetype'] = resource['mimetype']
 
-            response = requests.post(
-                ckan_request_url,
-                data=json.dumps(ckan_resource_data),
-                headers = {'Content-Type': 'application/json',
-                           'Authorization': context['apikey']},
-                )
+        response = requests.post(
+            ckan_request_url,
+            data=json.dumps(ckan_resource_data),
+            headers = {'Content-Type': 'application/json',
+                       'Authorization': context['apikey']},
+            )
 
-            if response.status_code not in (201, 200):
-                raise WebstorerError('Ckan bad response code (%s). Response was %s'%
-                                     (response.status_code, response.content)
-                                    )
-    except Exception, eckan:
-        print eckan
+        if response.status_code not in (201, 200):
+            raise WebstorerError('Ckan bad response code (%s). Response was %s'%
+                                 (response.status_code, response.content)
+                                )
         
         

@@ -37,7 +37,6 @@ class Archiver(CkanCommand):
         Parse command line arguments and call appropriate method.
         """
         if not self.args or self.args[0] in ['--help', '-h', 'help']:
-            print Archiver.__doc__
             return
 
         cmd = self.args[0]
