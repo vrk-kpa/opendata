@@ -106,7 +106,6 @@ def upload_content(context, resource, result):
             rows.append(row)
             
         if len(rows) == 0:
-            print 'No rows to upload'
             continue
         
         webstore_request_url = '%s/%s/%s' % (webstore_url,
@@ -116,7 +115,6 @@ def upload_content(context, resource, result):
                                          
         #check if resource is already there.
         webstore_response = requests.get(webstore_request_url+'.json')
-        print 'Checking for existing',webstore_response
         if not webstore_response.status_code:
             raise WebstorerError('Failed to connect to Webstore')        
 
@@ -128,7 +126,6 @@ def upload_content(context, resource, result):
         if not first_ws_url:
             first_ws_url = webstore_request_url + '/' + table_name
             
-        print 'Saving ' + table_name
         response = requests.post(webstore_request_url+'/' + table_name,
                                  data = json.dumps(rows),
                                  headers = {'Content-Type': 'application/json',
