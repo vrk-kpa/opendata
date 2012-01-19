@@ -84,8 +84,15 @@ def download(context, resource, url_timeout=30,
     cl = headers.get('content-length') 
 
     resource_changed = (resource.get('mimetype', '').lower() != ct) or (resource.get('size') != cl)
-    if resource_changed:
+
+    if resource.get('mimetype') != ct:
+        resource_changed = True
         resource['mimetype'] = ct
+
+    # this is to store the size in case there is an error, but the real size check
+    # is done after dowloading the data file, with its real length
+    if cl is not None and (resource.get('size') != cl):
+        resource_changed = True
         resource['size'] = cl
 
     # make sure resource content-length does not exceed our maximum
@@ -105,6 +112,11 @@ def download(context, resource, url_timeout=30,
     # get the resource and archive it
     res = requests.get(resource['url'], timeout = url_timeout)
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
+
+    # check if resource size changed
+    if length != resource.get('size'):
+        resource_changed = True
+        resource['size'] = length
 
     # check that resource did not exceed maximum size when being saved
     # (content-length header could have been invalid/corrupted, or not accurate
