@@ -128,18 +128,7 @@ def download(context, resource, url_timeout=30,
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
         raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
-            max_content_length) 
-
-    # update the resource metadata in CKAN if the resource has changed
-    if resource.get('hash') != hash:
-        resource['hash'] = hash
-        try:
-            # This may fail for archiver.update() as a result of the resource
-            # not yet existing. This still needs resolving somehow.
-            _update_resource(context, resource)
-        except:
-            pass
-        
+            max_content_length)         
 
     return {'length': length,
             'hash' : hash,
