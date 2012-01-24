@@ -2,7 +2,7 @@ from collections import namedtuple
 from ckan import model
 from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup, TaskStatus
 from ckan.lib.dictization.model_dictize import resource_dictize
-from ckan.logic import get_action
+from ckan.logic import get_action, NotFound
 from sqlalchemy import or_, and_, func
 
 def five_stars(id=None):
@@ -10,7 +10,7 @@ def five_stars(id=None):
     Return a list of dicts: 1 for each dataset that has an openness score.
     
     Each dict is of the form:
-        {'name': <Dataset Name>, 'title': <Dataset Title>, 'openness_score': <Score>} 
+        {'name': <string>, 'title': <string>, 'openness_score': <int>} 
     """
     if id:
         pkg = model.Package.get(id)
@@ -40,6 +40,45 @@ def five_stars(id=None):
         })
 
     return results
+
+def resource_five_stars(id):
+    """
+    Return a dict containing the QA results for a given resource
+    
+    Each dict is of the form:
+        {'openness_score': <int>, 'openness_score_reason': <string>, 'failure_count': <int>} 
+    """
+    if id:
+        r = model.Resource.get(id)
+        if not r:
+            return "Not found"
+
+    context = {'model': model, 'session': model.Session}
+    data = {'entity_id': r.id, 'task_type': 'qa'} 
+
+    try:
+        data['key'] =  'openness_score'
+        status = get_action('task_status_show')(context, data)
+        openness_score = int(status.get('value'))
+
+        data['key'] = 'openness_score_reason'
+        status = get_action('task_status_show')(context, data)
+        openness_score_reason = status.get('value')
+
+        data['key'] = 'openness_score_failure_count'
+        status = get_action('task_status_show')(context, data)
+        openness_score_failure_count = int(status.get('value'))
+        
+        result = {
+            'openness_score': openness_score,
+            'openness_score_reason': openness_score_reason,
+            'openness_score_failure_count': openness_score_failure_count
+        }
+    except NotFound:
+        result = {}
+
+    return result
+
 
 def broken_resource_links_by_dataset():
     """

@@ -8,6 +8,7 @@ import csv
 from ckan.lib.base import response
 from ckanext.qa.reports import (
     five_stars,
+    resource_five_stars,
     broken_resource_links_by_dataset,
     broken_resource_links_by_dataset_for_organisation, 
     organisations_with_broken_resource_links,
@@ -44,6 +45,9 @@ def make_csv(result, headers, rows):
     return csvout.read()
 
 class ApiController(QAController):
+
+    def resource_five_stars(self, id):
+        return json.dumps(resource_five_stars(id))
                 
     def dataset_five_stars(self, id=None):
         return json.dumps(five_stars(id))
