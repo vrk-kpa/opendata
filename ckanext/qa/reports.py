@@ -5,13 +5,18 @@ from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.logic import get_action
 from sqlalchemy import or_, and_, func
 
-def five_stars():
+def five_stars(id=None):
     """
     Return a list of dicts: 1 for each dataset that has an openness score.
     
     Each dict is of the form:
         {'name': <Dataset Name>, 'title': <Dataset Title>, 'openness_score': <Score>} 
     """
+    if id:
+        pkg = model.Package.get(id)
+        if not pkg:
+            return "Not found"
+
     # take the maximum openness score among dataset resources to be the
     # overall dataset openness core
     query = Session.query(Package.name, Package.title, 
@@ -22,6 +27,9 @@ def five_stars():
         .filter(TaskStatus.key==u'openness_score')\
         .group_by(Package.name, Package.title)\
         .distinct()
+
+    if id:
+        query = query.filter(Package.id==pkg.id)
 
     results = []
     for row in query:

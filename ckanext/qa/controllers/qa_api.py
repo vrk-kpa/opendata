@@ -45,8 +45,8 @@ def make_csv(result, headers, rows):
 
 class ApiController(QAController):
                 
-    def dataset_five_stars(self):
-        return json.dumps(five_stars())
+    def dataset_five_stars(self, id=None):
+        return json.dumps(five_stars(id))
         
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
