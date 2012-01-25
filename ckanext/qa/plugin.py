@@ -146,3 +146,39 @@ class QAPlugin(SingletonPlugin):
         get_action('task_status_update')(task_context, task_status)
         celery.send_task("qa.update", args=[context, data], task_id=task_id)
 
+    def filter(self, stream):
+        from pylons import request, tmpl_context as c 
+
+        routes = request.environ.get('pylons.routes_dict')
+        
+        if routes.get('controller') == 'package' \
+            and routes.get('action') == 'resource_read':
+            stream = stream | Transformer('head').append(HTML(html.EXTRA_STYLE))
+
+            star_html = self.get_star_html(c.resource.get('id'))
+            if star_html:
+                stream = stream | Transformer('body//div[@class="quick-info"]//dl')\
+                    .append(HTML(html.DL_HTML % star_html))
+
+        if routes.get('controller') == 'package' \
+            and routes.get('action') == 'read' \
+            and c.pkg.id:
+            stream = stream | Transformer('head').append(HTML(html.EXTRA_STYLE))
+
+            for resource in c.pkg_dict.get('resources',[]):
+                resource_id = resource.get('id')
+                star_html = self.get_star_html(resource_id)
+                if star_html:
+                    stream = stream | Transformer('body//div[@id="%s"]//p[@class="extra-links"]' % resource_id)\
+                        .append(HTML(star_html))
+        return stream
+
+    def get_star_html(self, resource_id):
+        from ckanext.qa import reports
+
+        report = reports.resource_five_stars(resource_id)
+        stars = report.get('openness_score')
+        if stars:
+            return html.get_star_html(stars)
+        return None
+
