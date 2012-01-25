@@ -9,3 +9,23 @@
 #content td.cached-resource {
     padding-bottom: 2em;
 }
+
+.bad_link td:first-child {
+  max-width: 600px;
+  width: 600px;
+  word-wrap: break-word;
+}
+
+.qa-table-resources {
+  width: 200px;
+  max-width: 200px;
+}
+
+.search-result .star-rating {
+  display: block;
+  padding-top: 5px;
+  text-align: right;
+}
+.search-result .hover-for-help {
+  font-size: 11px;
+}

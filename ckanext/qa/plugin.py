@@ -153,7 +153,6 @@ class QAPlugin(SingletonPlugin):
         
         if routes.get('controller') == 'package' \
             and routes.get('action') == 'resource_read':
-            stream = stream | Transformer('head').append(HTML(html.EXTRA_STYLE))
 
             star_html = self.get_star_html(c.resource.get('id'))
             if star_html:
@@ -163,7 +162,6 @@ class QAPlugin(SingletonPlugin):
         if routes.get('controller') == 'package' \
             and routes.get('action') == 'read' \
             and c.pkg.id:
-            stream = stream | Transformer('head').append(HTML(html.EXTRA_STYLE))
 
             for resource in c.pkg_dict.get('resources',[]):
                 resource_id = resource.get('id')

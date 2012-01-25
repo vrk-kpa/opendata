@@ -21,19 +21,6 @@ DL_HTML = """
   <dd>%s</dd>
 """
 
-EXTRA_STYLE = """
-<style type="text/css">
-  .search-result .star-rating {
-    display: block;
-    padding-top: 5px;
-    text-align: right;
-  }
-  .search-result .hover-for-help {
-    font-size: 11px;
-  }
-</style>
-"""
-
 def get_star_html(stars):
     if stars==0: 
         message = _('When we last checked, this resource was not available.'),
