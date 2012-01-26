@@ -26,6 +26,7 @@
   padding-top: 5px;
   text-align: right;
 }
-.search-result .hover-for-help {
+.search-result .no-stars {
+  color: #aaa;
   font-size: 11px;
 }

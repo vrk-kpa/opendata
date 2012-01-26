@@ -12,19 +12,14 @@ def _(x):
     # TODO Need to link this to i18n._ but I can't seem to import it?
     return x
 
-TEST_CODE = """
-  <h3>Data = %s</h3>
-"""
-
 DL_HTML = """
   <dt>Quality</dt>
   <dd>%s</dd>
 """
 
-def get_star_html(stars):
+def get_star_html(stars, reason):
     if stars==0: 
-        message = _('When we last checked, this resource was not available.'),
-        return literal('<span class="star-rating hover-for-help semi-link"><span class="help-text">%s</span>404?</span>' % message)
+        return literal('<span class="star-rating no-stars">[%s]</span>' % reason)
 
     captions = [
         _('Available under an open license.'),
@@ -41,6 +36,6 @@ def get_star_html(stars):
         caption += literal('<span class="%s">%s&nbsp; "%s"</span>' % (fail, text_stars, captions[i-1]))
 
     star_icons = stars * icon('star')
-    return literal('<span class="star-rating hover-for-help"><span class="help-text">%s</span><a href="http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/" target="_blank">%s</a></span>' % (caption, star_icons))
+    return literal('<span class="star-rating hover-for-help"><span class="help-text">[%s] %s</span><a href="http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/" target="_blank">%s</a></span>' % (reason, caption, star_icons))
 
 

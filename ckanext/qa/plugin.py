@@ -147,6 +147,9 @@ class QAPlugin(SingletonPlugin):
         celery.send_task("qa.update", args=[context, data], task_id=task_id)
 
     def filter(self, stream):
+        # Include stylesheet
+        stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
+
         from pylons import request, tmpl_context as c 
 
         routes = request.environ.get('pylons.routes_dict')
@@ -175,8 +178,10 @@ class QAPlugin(SingletonPlugin):
         from ckanext.qa import reports
 
         report = reports.resource_five_stars(resource_id)
-        stars = report.get('openness_score')
-        if stars:
-            return html.get_star_html(stars)
+
+        stars = report.get('openness_score', -1)
+        if stars >= 0:
+            reason = report.get('openness_score_reason')
+            return html.get_star_html(stars, reason)
         return None
 
