@@ -18,6 +18,7 @@ from nose.tools import assert_raises
 
 from ckanext.archiver.tasks import (link_checker, 
                                     update,
+                                    download,
                                     ArchiverError,
                                     DownloadError,
                                     LinkCheckerError, 
@@ -198,5 +199,23 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         assert_raises(DownloadError, update, context, data)
 
+    @with_mock_url('?status=200&content=test&content-type=csv')
+    def test_download_file(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+
+        result = download(self.fake_context, resource)
+
+        assert result['saved_file']
+        assert os.path.exists(result['saved_file'])
+        self._remove_archived_file(result.get('saved_file'))
+
+        # Modify the resource and check that the resource size gets updated
+        resource['url'] = url.replace('content=test','content=test2')
+        result = download(self.fake_context, resource)
+        assert resource['size'] == unicode(len('test2')), resource['size']
+
+        self._remove_archived_file(result.get('saved_file'))
 
 

@@ -114,9 +114,9 @@ def download(context, resource, url_timeout=30,
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
     # check if resource size changed
-    if length != resource.get('size'):
+    if unicode(length) != resource.get('size'):
         resource_changed = True
-        resource['size'] = length
+        resource['size'] = unicode(length)
 
     # check that resource did not exceed maximum size when being saved
     # (content-length header could have been invalid/corrupted, or not accurate
