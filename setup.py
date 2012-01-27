@@ -9,6 +9,7 @@ setup(
         'kombu-sqlalchemy>=1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests==0.6.4',
+        'messytables>=0.1.4',
         'flask==0.8' # flask needed for tests
     ],
     # metadata for upload to PyPI
