@@ -209,6 +209,9 @@ def _update(context, data):
     # Check here whether we want to upload this content to webstore before 
     # archiving
     # TODO: Possibly run this as a sub-task
+    # Ticket #1684 suggests we should receive this config rather than having it in the 
+    # archiver configuration. In this case the URL would be passed through in the context
+    # and this should be enough to decide to archive the data there.
     if settings.UPLOAD_TO_WEBSTORE and settings.WEBSTORE_URL:
         content_type = _clean_content_type( result['headers'].get('content-type', '') )
         if content_type in WEBSTORE_DATA_FORMATS or context.get('format', '') in WEBSTORE_DATA_FORMATS:
