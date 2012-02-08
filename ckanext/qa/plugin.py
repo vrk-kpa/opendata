@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from genshi.input import HTML
 from genshi.filters import Transformer
+from pylons import request, tmpl_context as c
 from ckan import model
 from ckan.model.types import make_uuid
 import ckan.lib.helpers as h
@@ -40,26 +41,6 @@ class QAPlugin(SingletonPlugin):
             config['extra_public_paths'] += ','+public_dir
         else:
             config['extra_public_paths'] = public_dir
-
-    def filter(self, stream):
-        from pylons import request
-        routes = request.environ.get('pylons.routes_dict')
-
-        # show organization info
-        if self.enable_organisations:
-            if(routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'
-               and routes.get('action') == 'index'):
-
-                link_text = "Organizations who have published datasets with broken resource links."
-                data = dict(link = h.link_to(link_text,
-                    h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',
-                        action='broken_resource_links')
-                ))
-
-                stream = stream | Transformer('body//div[@class="qa-content"]')\
-                    .append(HTML(html.ORGANIZATION_LINK % data))
-
-        return stream
         
     def before_map(self, map):
         map.connect('qa', '/qa',
@@ -147,12 +128,9 @@ class QAPlugin(SingletonPlugin):
         celery.send_task("qa.update", args=[context, data], task_id=task_id)
 
     def filter(self, stream):
-        # Include stylesheet
-        stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
-
-        from pylons import request, tmpl_context as c 
-
         routes = request.environ.get('pylons.routes_dict')
+
+        stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
         
         if routes.get('controller') == 'package' \
             and routes.get('action') == 'resource_read':
@@ -172,6 +150,21 @@ class QAPlugin(SingletonPlugin):
                 if star_html:
                     stream = stream | Transformer('body//div[@id="%s"]//p[@class="extra-links"]' % resource_id)\
                         .append(HTML(star_html))
+
+        # show organization info
+        if self.enable_organisations:
+            if(routes.get('controller') == 'ckanext.qa.controllers.view:ViewController'
+               and routes.get('action') == 'index'):
+
+                link_text = "Organizations who have published datasets with broken resource links."
+                data = dict(link = h.link_to(link_text,
+                    h.url_for(controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController',
+                        action='broken_resource_links')
+                ))
+
+                stream = stream | Transformer('body//div[@class="qa-content"]')\
+                    .append(HTML(html.ORGANIZATION_LINK % data))
+
         return stream
 
     def get_star_html(self, resource_id):
