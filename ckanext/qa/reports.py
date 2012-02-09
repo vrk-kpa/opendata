@@ -51,7 +51,7 @@ def resource_five_stars(id):
     if id:
         r = model.Resource.get(id)
         if not r:
-            return "Not found"
+            return {} # Not found
 
     context = {'model': model, 'session': model.Session}
     data = {'entity_id': r.id, 'task_type': 'qa'} 
