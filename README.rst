@@ -13,6 +13,15 @@ resources and packages will have a set of openness key's stores in their
 extra properties. 
 
 
+Requirements
+------------
+
+Before installing ckanext-qa, make sure that you have installed the following:
+
+* CKAN 1.5.1+
+* ckanext-archiver (http://github.com/okfn/ckanext-archiver)
+
+
 Installation
 ------------
 
