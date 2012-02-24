@@ -36,6 +36,7 @@ MIME_TYPE_SCORE = {
     'xls': 2,
     'text/csv': 3,
     'application/json': 3,
+    'application/xml': 3,
     'text/xml': 3,
     'csv': 3,
     'xml': 3,
