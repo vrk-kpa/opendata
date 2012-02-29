@@ -24,7 +24,7 @@ class ArchiverPlugin(SingletonPlugin):
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
-        
+
         if operation:
             if operation == model.DomainObjectOperation.new:
                 self._create_archiver_task(entity)
@@ -35,9 +35,9 @@ class ArchiverPlugin(SingletonPlugin):
 
     def _create_archiver_task(self, resource):
         from ckan.lib.base import c
-        site_user = get_action('get_site_user')({'model': model,
-                                            'ignore_auth': True,
-                                            'defer_commit': True}, {})
+        site_user = get_action('get_site_user')(
+            {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
+        )
 
         user = model.User.by_name(c.user)
         context = json.dumps({
@@ -60,11 +60,10 @@ class ArchiverPlugin(SingletonPlugin):
             'last_updated': datetime.now().isoformat()
         }
         archiver_task_context = {
-            'model': model, 
+            'model': model,
             'user': site_user['name'],
             'ignore_auth': True
         }
-        
+
         get_action('task_status_update')(archiver_task_context, archiver_task_status)
         celery.send_task("archiver.update", args=[context, data], task_id=task_id)
-
