@@ -212,6 +212,8 @@ def resource_score(context, data):
 
     except LinkCheckerError, e:
         score_reason = str(e)
+    except Exception, e:
+        score_reason = "Unknown error: %s" % str(e)
 
     if score == 0:
         score_failure_count += 1
