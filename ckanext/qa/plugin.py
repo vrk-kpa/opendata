@@ -68,11 +68,6 @@ class QAPlugin(SingletonPlugin):
             controller='ckanext.qa.controllers.qa_resource:QAResourceController',
             action='check_link')
             
-        map.connect('qa_resource_checklink', '/qa/link_checker/form',
-            conditions=dict(method=['GET']),
-            controller='ckanext.qa.controllers.qa_resource:QAResourceController',
-            action='check_link_form')
-            
         map.connect('qa_api', '/api/2/util/qa/{action}',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')

@@ -152,32 +152,3 @@ class QAResourceController(QAController):
         dt = parse_rfc_2822_date(date_string)
         return dt.isoformat() if dt else ''
 
-    def check_link_form(self):
-        """
-        Just a throw-away page with a form for testing interaction with the check_link action.
-        """
-        return """
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-                                "http://www.w3.org/TR/html4/strict.dtd">
-        <html>
-          <head>
-
-          </head>
-
-          <body>
-            <form action="/qa/link_checker" method="GET">
-
-                <label for="url-1">URL: </label>
-                <input type="text" id="url-1" name="url" size="100"/></br>
-
-                <label for="url-2">URL: </label>
-                <input type="text" id="url-2" name="url" size="100"/></br>
-
-                <label for="url-3">URL: </label>
-                <input type="text" id="url-3" name="url" size="100"/></br>
-
-                <input value="Check Links" type="submit"/>
-            </form>
-          </body>
-        </html>
-        """
