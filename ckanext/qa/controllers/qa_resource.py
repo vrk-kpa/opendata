@@ -138,8 +138,9 @@ class QAResourceController(QAController):
             return formats
 
         # No file extension found, attempt to extract format using the mimetype
-        extension = mimetypes.guess_extension(headers.get('content-type', ''))
-        return [extension] if extension else []
+        stripped_mimetype = self._extract_mimetype(headers) # stripped of charset
+        extension = mimetypes.guess_extension(stripped_mimetype)
+        return [extension[1:]] if extension else []
 
     def _extract_mimetype(self, headers):
         """
