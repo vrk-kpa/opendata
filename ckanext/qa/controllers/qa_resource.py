@@ -9,7 +9,7 @@ import posixpath
 import urllib
 import urlparse
 
-from ckan.lib.base import render, c, request
+from ckan.lib.base import request
 from ckan.lib.helpers import parse_rfc_2822_date
 
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
@@ -28,7 +28,6 @@ class QAResourceController(QAController):
         Each dict in the returned list has the form: ::
 
         {
-          'errors' : [ List of any errors encountered executing the check ],
           'url_errors': [ list of error messages that indicate the url is bad ],
           'inner_format': "A guess at the inner-most format",
           'format': "A guess at nested formats",
@@ -38,10 +37,6 @@ class QAResourceController(QAController):
         }
 
         where:
-
-        error : list of Strings.  If this list is non-empty, then something
-                went wrong in making the check.  In which case, the results
-                won't contain anything useful.
 
         url_errors : list of Strings corresponding to the following possible errors:
             * Invalid URL scheme (must be "http", "https" or "ftp")
