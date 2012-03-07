@@ -43,6 +43,7 @@ class QAPlugin(SingletonPlugin):
             config['extra_public_paths'] = public_dir
         
     def before_map(self, map):
+
         map.connect('qa', '/qa',
             controller='ckanext.qa.controllers.qa_home:QAHomeController',
             action='index')
@@ -62,6 +63,16 @@ class QAPlugin(SingletonPlugin):
         map.connect('qa_organisation_action_id', '/qa/organisation/{action}/:id',
             controller='ckanext.qa.controllers.qa_organisation:QAOrganisationController')
 
+        map.connect('qa_resource_checklink', '/qa/link_checker',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.qa_resource:QAResourceController',
+            action='check_link')
+            
+        map.connect('qa_resource_checklink', '/qa/link_checker/form',
+            conditions=dict(method=['GET']),
+            controller='ckanext.qa.controllers.qa_resource:QAResourceController',
+            action='check_link_form')
+            
         map.connect('qa_api', '/api/2/util/qa/{action}',
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController')
@@ -84,7 +95,7 @@ class QAPlugin(SingletonPlugin):
             conditions=dict(method=['GET']),
             controller='ckanext.qa.controllers.qa_api:ApiController',
             action='resources_available')
-                
+
         return map
 
     def notify(self, entity, operation=None):
