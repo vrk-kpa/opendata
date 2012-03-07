@@ -10,6 +10,7 @@ import urllib
 import urlparse
 
 from ckan.lib.base import render, c, request
+from ckan.lib.helpers import parse_rfc_2822_date
 
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
@@ -106,7 +107,7 @@ class QAResourceController(QAController):
             result['inner_format'] = result['format'].split(':')[-1]
             result['mimetype'] = self._extract_mimetype(headers)
             result['size'] = headers.get('content-length', '')
-            result['last_modified'] = headers.get('last-modified', '')
+            result['last_modified'] = self._parse_and_format_date(headers.get('last-modified', ''))
         except LinkCheckerError, e:
             result['url_errors'].append(str(e))
         return result
@@ -145,6 +146,15 @@ class QAResourceController(QAController):
         The Content-Type in headers, stripped of character encoding parameters.
         """
         return headers.get('content-type', '').split(';')[0].strip()
+
+    def _parse_and_format_date(self, date_string):
+        """
+        Parse date string in form specified in RFC 2822, and reformat to iso format.
+
+        Returns the empty string if the date_string cannot be parsed
+        """
+        dt = parse_rfc_2822_date(date_string)
+        return dt.isoformat() if dt else ''
 
     def check_link_form(self):
         """
