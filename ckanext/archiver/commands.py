@@ -8,7 +8,6 @@ from ckan.logic import get_action
 from ckan import model
 from ckan.model.types import make_uuid
 import logging
-logger = logging.getLogger()
 
 class Archiver(CkanCommand):
     """
@@ -42,6 +41,10 @@ class Archiver(CkanCommand):
 
         cmd = self.args[0]
         self._load_config()
+
+        # Initialise logger after the config is loaded, so it is not disabled.
+        self.log = logging.getLogger(__name__)
+
         #import after load config so CKAN_CONFIG evironment variable can be set
         import tasks
         user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
@@ -62,10 +65,10 @@ class Archiver(CkanCommand):
                 response = requests.post(api_url + '/current_package_list_with_resources', "{}")
                 packages = json.loads(response.content).get('result')
 
-            logger.info("Number of datasets to archive: %d" % len(packages))
+            self.log.info("Number of datasets to archive: %d" % len(packages))
 
             for package in packages:
-                logger.info("Archiving dataset: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
+                self.log.info("Archiving dataset: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
                     data = json.dumps(resource, {'model': model})
                     task_id = make_uuid()
@@ -90,5 +93,5 @@ class Archiver(CkanCommand):
             tasks.clean.delay()
 
         else:
-            logger.error('Command %s not recognized' % (cmd,))
+            self.log.error('Command %s not recognized' % (cmd,))
 
