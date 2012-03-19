@@ -67,8 +67,6 @@ Configuration
 
     * ARCHIVE_DIR: path to the directory that archived files will be saved to
     * MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive
-    * UPLOAD_TO_WEBSTORE: whether or not to add the archived file to a CKAN webstore
-    * WEBSTORE_URL: URL of the CKAN webstore
     * RETRIES: whether or not to retry on failure
 
 
