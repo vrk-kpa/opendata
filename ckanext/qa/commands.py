@@ -61,8 +61,16 @@ class QACommand(CkanCommand):
                 response = requests.post(api_url + '/package_show', data)
                 packages =  [json.loads(response.content).get('result')]
             else:
-                response = requests.post(api_url + '/current_package_list_with_resources', "{}")
-                packages = json.loads(response.content).get('result')
+                packages = []
+                page, limit = 1, 100
+                response = requests.post(api_url + 'current_package_list_with_resources',
+                                         json.dumps({'page': page, 'limit': limit}))
+                chunk = json.loads(response.content).get('result')
+                while(chunk):
+                    page += 1
+                    packages.extend(chunk)
+                    response = requests.post(api_url + 'current_package_list_with_resources',
+                                             json.dumps({'page': page, 'limit': limit}))
 
             logger.info("Number of datasets to check QA on: %d" % len(packages))
 
