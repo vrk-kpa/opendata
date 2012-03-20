@@ -53,28 +53,10 @@ class QACommand(CkanCommand):
             'apikey': user.get('apikey'),
             'username': user.get('name'),
         })
-        api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
 
         if cmd == 'update':
-            if len(self.args) > 1:
-                data = json.dumps({'id': unicode(self.args[1])})
-                response = requests.post(api_url + '/package_show', data)
-                packages =  [json.loads(response.content).get('result')]
-            else:
-                packages = []
-                page, limit = 1, 100
-                response = requests.post(api_url + 'current_package_list_with_resources',
-                                         json.dumps({'page': page, 'limit': limit}))
-                chunk = json.loads(response.content).get('result')
-                while(chunk):
-                    page += 1
-                    packages.extend(chunk)
-                    response = requests.post(api_url + 'current_package_list_with_resources',
-                                             json.dumps({'page': page, 'limit': limit}))
 
-            logger.info("Number of datasets to check QA on: %d" % len(packages))
-
-            for package in packages:
+            for package in self._package_list():
                 logger.info("Updating QA on dataset: %s (%d resources)" % 
                             (package.get('name'), len(package.get('resources', []))))
 
@@ -103,4 +85,33 @@ class QACommand(CkanCommand):
 
         else:
             logger.error('Command "%s" not recognized' % (cmd,))
+
+    def _package_list(self):
+        """
+        Generate the package dicts as declared in self.args.
+
+        Make API calls for the packages declared in self.args, and generate
+        the package dicts.
+
+        If no packages are declared in self.args, then retrieve all the
+        packages from the catalogue.
+        """
+        api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
+        if len(self.args) > 1:
+            for id in self.args[1:]:
+                data = json.dumps({'id': unicode(id)})
+                response = requests.post(api_url + '/package_show', data)
+                yield json.loads(response.content).get('result')
+        else:
+            page, limit = 1, 100
+            response = requests.post(api_url + '/current_package_list_with_resources',
+                                     json.dumps({'page': page, 'limit': limit}))
+            chunk = json.loads(response.content).get('result')
+            while(chunk):
+                page += 1
+                for p in chunk:
+                    yield p
+                response = requests.post(api_url + '/current_package_list_with_resources',
+                                         json.dumps({'page': page, 'limit': limit}))
+                chunk = json.loads(response.content).get('result')
 
