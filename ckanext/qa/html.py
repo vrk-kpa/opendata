@@ -4,7 +4,7 @@ from ckan.lib.helpers import icon
 ORGANIZATION_LINK = '''<h3>%(link)s</h3>'''
 
 HEAD_CODE = """
-<link rel="stylesheet" href="/ckanext/qa/style.css" 
+<link rel="stylesheet" href="/css/ckanext-qa.css" 
       type="text/css" media="screen" /> 
 """
 
