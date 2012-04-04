@@ -11,11 +11,17 @@
   
 <div py:match="content">
   <div class="qa-content">
-  <h1>Package Quality Assurance</h1>
-  <ul>
-      <li>${h.link_to("5 stars of openness scores", h.url_for(controller='qa/package', action='five_stars'))}</li>
-      <li>${h.link_to("Broken resource links", h.url_for(controller='qa/package', action='broken_resource_links'))}</li>
-  </ul>
+    <h1>Package Quality Assurance</h1>
+    <ul>
+      <li>${h.link_to("5 stars of openness scores",
+                      h.url_for(controller='ckanext.qa.controllers.qa_package:QAPackageController',
+                                action='five_stars'))}
+      </li>
+      <li>${h.link_to("Broken resource links",
+                      h.url_for(controller='ckanext.qa.controllers.qa_package:QAPackageController',
+                                action='broken_resource_links'))}
+      </li>
+    </ul>
   </div>
 </div>
 <xi:include href="../../../layout.html" />

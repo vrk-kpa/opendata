@@ -49,7 +49,8 @@ class QAPlugin(SingletonPlugin):
             action='index')
             
         map.connect('qa_dataset', '/qa/dataset/',
-            controller='ckanext.qa.controllers.qa_package:QAPackageController')
+            controller='ckanext.qa.controllers.qa_package:QAPackageController',
+            action='index')
 
         map.connect('qa_dataset_action', '/qa/dataset/{action}',
             controller='ckanext.qa.controllers.qa_package:QAPackageController')
