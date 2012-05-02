@@ -70,11 +70,18 @@ def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
              data_formats=DATA_FORMATS):
 
+    url = resource['url']
+
+    if (resource.get('resource_type') == 'file.upload' and
+        not url.startswith('http')):
+        url = context['site_url'].rstrip('/') + url
+
     link_context = "{}"
     link_data = json.dumps({
-        'url': resource['url'],
+        'url': url,
         'url_timeout': url_timeout
     })
+
     headers = json.loads(link_checker(link_context, link_data))
 
     resource_format = resource['format'].lower()
@@ -106,7 +113,7 @@ def download(context, resource, url_timeout=30,
         raise DownloadError("Of content type %s, not downloading" % ct) 
 
     # get the resource and archive it
-    res = requests.get(resource['url'], timeout = url_timeout)
+    res = requests.get(url, timeout = url_timeout)
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
     # check if resource size changed
