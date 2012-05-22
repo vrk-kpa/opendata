@@ -150,5 +150,9 @@ class QAResourceController(QAController):
         Returns the empty string if the date_string cannot be parsed
         """
         dt = parse_rfc_2822_date(date_string)
+
+        # Remove timezone information, adjusting as necessary.
+        if dt and dt.tzinfo:
+            dt = (dt - dt.utcoffset()).replace(tzinfo=None)
         return dt.isoformat() if dt else ''
 
