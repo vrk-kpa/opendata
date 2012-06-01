@@ -88,6 +88,8 @@ def download(context, resource, url_timeout=30,
     ct = _clean_content_type( headers.get('content-type', '').lower() )
     cl = headers.get('content-length') 
 
+    resource_changed = False
+
     if resource.get('mimetype') != ct:
         resource_changed = True
         resource['mimetype'] = ct
