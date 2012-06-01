@@ -191,8 +191,7 @@ def _update(context, data):
         }
     """
     logger = update.get_logger()
-    rid = data.pop(u'revision_id')
-    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    data.pop(u'revision_id', None)
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
