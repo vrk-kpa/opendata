@@ -8,6 +8,7 @@ import urlparse
 import tempfile
 import traceback
 from datetime import datetime
+
 from ckan.lib.celery_app import celery
 
 try:
@@ -69,7 +70,8 @@ def _clean_content_type(ct):
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
              data_formats=DATA_FORMATS):
-
+    log = download.get_logger()
+    
     url = resource['url']
 
     if (resource.get('resource_type') == 'file.upload' and
@@ -105,6 +107,8 @@ def download(context, resource, url_timeout=30,
         if resource_changed: 
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
+        log.warn('Resource too large to download: %s > max (%s). Resource: %s %r',
+                 cl, max_content_length, resource['id'], url)
         raise DownloadError("Content-length %s exceeds maximum allowed value %s" %
             (cl, max_content_length))                                                      
 
@@ -112,6 +116,8 @@ def download(context, resource, url_timeout=30,
     if not (resource_format in data_formats or ct.lower() in data_formats):
         if resource_changed: 
             _update_resource(context, resource)             
+        log.info('Resource wrong type to download: %s / %s. Resource: %s %r',
+                 resource_format, ct.lower(), resource['id'], url)
         raise DownloadError("Of content type %s, not downloading" % ct) 
 
     # get the resource and archive it
@@ -132,6 +138,8 @@ def download(context, resource, url_timeout=30,
         if resource_changed: 
             _update_resource(context, resource) 
         # record fact that resource is too large to archive
+        log.warn('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
+                 length, max_content_length, resource['id'], url)
         raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length)         
 
@@ -145,6 +153,9 @@ def download(context, resource, url_timeout=30,
         except:
             pass
 
+    log.info('Resource downloaded: id=%s url=%r cache_filename=%s length=%s hash=%s',
+             resource['id'], url, saved_file, length, hash)
+
     return {'length': length,
             'hash' : hash,
             'headers': headers,
@@ -156,8 +167,8 @@ def clean():
     """
     Remove all archived resources.
     """
-    logger = clean.get_logger()
-    logger.error("clean task not implemented yet")
+    log = clean.get_logger()
+    log.error("clean task not implemented yet")
 
 @celery.task(name = "archiver.update")
 def update(context, data):
@@ -190,12 +201,12 @@ def _update(context, data):
             'file_path': path to archived file (if archive successful), or None
         }
     """
-    logger = update.get_logger()
+    log = update.get_logger()
     data.pop(u'revision_id', None)
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
-        logger.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
+        log.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
     if not data:
@@ -212,8 +223,8 @@ def _update(context, data):
         else:
             return
 
-    logger.info("Attempting to archive resource: %s" % data['url'])
-    file_path = archive_resource(context, data, logger, result)
+    log.info("Attempting to archive resource: %s" % data['url'])
+    file_path = archive_resource(context, data, log, result)
 
     return json.dumps({
         'resource': data,

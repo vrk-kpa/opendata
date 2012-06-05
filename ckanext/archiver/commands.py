@@ -3,7 +3,13 @@ import json
 import requests
 import urlparse
 from pylons import config
+from pylons.test import pylonsapp
+from paste.deploy import loadapp
+import paste.fixture
 import logging
+import os
+import paste
+import pkg_resources
 
 from ckan.lib.cli import CkanCommand
 
@@ -58,14 +64,30 @@ class Archiver(CkanCommand):
         })
         api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
 
+        # Setup a WSGI interface to CKAN to make requests to
+        # to find the resource urls.
+        # NB Before this was done using http requests, but that was
+        # problematic for DGU - the request for the list of packages
+        # took so long that Varnish returned 503. Best to do it in this process
+        # and you save relying on site_url too.
+        path = os.getcwd()
+        pylonsapp = loadapp('config:' + self.filename,
+                                       relative_to=path)
+        wsgiapp = pylonsapp
+        assert wsgiapp, 'Pylons load failed'
+        app = paste.fixture.TestApp(wsgiapp)
+
         if cmd == 'update':
             if len(self.args) > 1:
                 data = json.dumps({'id': unicode(self.args[1])})
-                response = requests.post(api_url + '/package_show', data)
+                response = app.post(api_url + '/package_show', data)
                 packages =  [json.loads(response.content).get('result')]
             else:
-                response = requests.post(api_url + '/current_package_list_with_resources', "{}")
-                packages = json.loads(response.content).get('result')
+                url = api_url + '/current_package_list_with_resources'
+                self.log.info('Requesting list of packages from %r', url)
+                response = app.post(url, "{}")
+                self.log.info('List of packages (status %s): %r...', response.status, response.body[:100])
+                packages = json.loads(response.body).get('result')
 
             self.log.info("Number of datasets to archive: %d" % len(packages))
 
