@@ -62,7 +62,7 @@ class Archiver(CkanCommand):
             'username': user.get('name'),
             'cache_url_root': config.get('ckan.cache_url_root')
         })
-        api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
+        api_url = '/api/action'
 
         # Setup a WSGI interface to CKAN to make requests to
         # to find the resource urls.
@@ -79,20 +79,25 @@ class Archiver(CkanCommand):
 
         if cmd == 'update':
             if len(self.args) > 1:
-                data = json.dumps({'id': unicode(self.args[1])})
-                response = app.post(api_url + '/package_show', data)
-                packages =  [json.loads(response.content).get('result')]
+                package_names = [self.args[1]]
             else:
-                url = api_url + '/current_package_list_with_resources'
-                self.log.info('Requesting list of packages from %r', url)
+                url = api_url + '/package_list'
+                self.log.info('Requesting list of datasets from %r', url)
                 response = app.post(url, "{}")
-                self.log.info('List of packages (status %s): %r...', response.status, response.body[:100])
-                packages = json.loads(response.body).get('result')
+                self.log.info('List of datasets (status %s): %r...', response.status, response.body[:100])
+                package_names = json.loads(response.body).get('result')
 
-            self.log.info("Number of datasets to archive: %d" % len(packages))
+            self.log.info("Number of datasets to archive: %d" % len(package_names))
 
-            for package in packages:
-                self.log.info("Archiving dataset: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
+            for package_name in package_names:
+                self.log.info('Getting dataset metadata: %s', package_name)
+
+                # Get the dataset's resource urls
+                data = json.dumps({'id': unicode(package_name)})
+                response = app.post(api_url + '/package_show', data)
+                package =  json.loads(response.body).get('result')
+
+                self.log.info("Archival of dataset resource data added to celery queue: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
                     data = json.dumps(resource, {'model': model})
                     task_id = make_uuid()
