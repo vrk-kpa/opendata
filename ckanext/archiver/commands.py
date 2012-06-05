@@ -3,11 +3,9 @@ import json
 import requests
 import urlparse
 from pylons import config
-from ckan.lib.cli import CkanCommand
-from ckan.logic import get_action
-from ckan import model
-from ckan.model.types import make_uuid
 import logging
+
+from ckan.lib.cli import CkanCommand
 
 class Archiver(CkanCommand):
     """
@@ -41,6 +39,10 @@ class Archiver(CkanCommand):
 
         cmd = self.args[0]
         self._load_config()
+
+        from ckan.logic import get_action
+        from ckan import model
+        from ckan.model.types import make_uuid
 
         # Initialise logger after the config is loaded, so it is not disabled.
         self.log = logging.getLogger(__name__)
