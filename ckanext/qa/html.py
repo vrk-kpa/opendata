@@ -1,24 +1,25 @@
 from webhelpers.html import literal
 from ckan.lib.helpers import icon
 
-ORGANIZATION_LINK = '''<h3>%(link)s</h3>'''
 
-HEAD_CODE = """
-<link rel="stylesheet" href="/css/ckanext-qa.css" 
-      type="text/css" media="screen" /> 
-"""
+HEAD_CODE = '''
+<link rel="stylesheet" href="/css/ckanext-qa.css"
+      type="text/css" media="screen" />
+'''
+
+DL_HTML = '''
+  <dt>Quality</dt>
+  <dd>%s</dd>
+'''
+
 
 def _(x):
     # TODO Need to link this to i18n._ but I can't seem to import it?
     return x
 
-DL_HTML = """
-  <dt>Quality</dt>
-  <dd>%s</dd>
-"""
 
 def get_star_html(stars, reason):
-    if stars==0: 
+    if stars == 0:
         return literal('<span class="star-rating no-stars">[%s]</span>' % reason)
 
     captions = [
@@ -30,12 +31,10 @@ def get_star_html(stars, reason):
         ]
 
     caption = ""
-    for i in range(5,0,-1):
+    for i in range(5, 0, -1):
         fail = 'fail' if (i > stars) else ''
         text_stars = i * '&#9733'
         caption += literal('<span class="%s">%s&nbsp; "%s"</span>' % (fail, text_stars, captions[i-1]))
 
     star_icons = stars * icon('star')
     return literal('<span class="star-rating hover-for-help"><span class="help-text">[%s] %s</span><a href="http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/" target="_blank">%s</a></span>' % (reason, caption, star_icons))
-
-
