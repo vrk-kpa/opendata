@@ -1,27 +1,27 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'ckanext-archiver',
-    version = '0.1',
-    packages = find_packages(),
-    install_requires = [
-        'celery>=2.3.3',
-        'kombu-sqlalchemy>=1.1.0',
+    name='ckanext-archiver',
+    version='0.1',
+    packages=find_packages(),
+    install_requires=[
+        'celery==2.4.5',
+        'kombu==1.5.1',
+        'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests==0.6.4',
         'messytables>=0.1.4',
-        'flask==0.8' # flask needed for tests
+        'flask==0.8'  # flask needed for tests
     ],
-    # metadata for upload to PyPI
-    author = 'Open Knowledge Foundation',
-    author_email = 'info@okfn.org',
-    description = 'Archive ckan resources',
-    long_description = 'Archive ckan resources',
-    license = 'MIT',
+    author='Open Knowledge Foundation',
+    author_email='info@okfn.org',
+    description='Archive ckan resources',
+    long_description='Archive ckan resources',
+    license='MIT',
     url='http://ckan.org/wiki/Extensions',
-    download_url = '',
-    include_package_data = True,
-    classifiers = [
+    download_url='',
+    include_package_data=True,
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
@@ -30,7 +30,7 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    entry_points = '''
+    entry_points='''
     [paste.paster_command]
     archiver = ckanext.archiver.commands:Archiver
 
@@ -41,4 +41,3 @@ setup(
     tasks = ckanext.archiver.celery_import:task_imports
     '''
 )
-
