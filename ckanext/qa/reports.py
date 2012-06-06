@@ -1,16 +1,18 @@
 from collections import namedtuple
-from ckan import model
-from ckan.model import Package, Session, Resource, PackageExtra, ResourceGroup, TaskStatus
-from ckan.lib.dictization.model_dictize import resource_dictize
-from ckan.logic import get_action, NotFound
 from sqlalchemy import or_, and_, func
+import ckan.model as model
+import ckan.plugins as p
+import ckan.lib.dictization.model_dictize as model_dictize
+
+resource_dictize = model_dictize.resource_dictize
+
 
 def five_stars(id=None):
     """
     Return a list of dicts: 1 for each dataset that has an openness score.
-    
+
     Each dict is of the form:
-        {'name': <string>, 'title': <string>, 'openness_score': <int>} 
+        {'name': <string>, 'title': <string>, 'openness_score': <int>}
     """
     if id:
         pkg = model.Package.get(id)
@@ -19,17 +21,17 @@ def five_stars(id=None):
 
     # take the maximum openness score among dataset resources to be the
     # overall dataset openness core
-    query = Session.query(Package.name, Package.title, 
-                          func.max(TaskStatus.value).label('value'))\
-        .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
-        .join(Resource)\
-        .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
-        .filter(TaskStatus.key==u'openness_score')\
-        .group_by(Package.name, Package.title)\
+    query = model.Session.query(model.Package.name, model.Package.title,
+                                func.max(model.TaskStatus.value).label('value'))\
+        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+        .join(model.Resource)\
+        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+        .filter(model.TaskStatus.key==u'openness_score')\
+        .group_by(model.Package.name, model.Package.title)\
         .distinct()
 
     if id:
-        query = query.filter(Package.id==pkg.id)
+        query = query.filter(model.Package.id == pkg.id)
 
     results = []
     for row in query:
@@ -41,40 +43,41 @@ def five_stars(id=None):
 
     return results
 
+
 def resource_five_stars(id):
     """
     Return a dict containing the QA results for a given resource
-    
+
     Each dict is of the form:
-        {'openness_score': <int>, 'openness_score_reason': <string>, 'failure_count': <int>} 
+        {'openness_score': <int>, 'openness_score_reason': <string>, 'failure_count': <int>}
     """
     if id:
         r = model.Resource.get(id)
         if not r:
-            return {} # Not found
+            return {}  # Not found
 
     context = {'model': model, 'session': model.Session}
-    data = {'entity_id': r.id, 'task_type': 'qa'} 
+    data = {'entity_id': r.id, 'task_type': 'qa'}
 
     try:
-        data['key'] =  'openness_score'
-        status = get_action('task_status_show')(context, data)
+        data['key'] = 'openness_score'
+        status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score = int(status.get('value'))
 
         data['key'] = 'openness_score_reason'
-        status = get_action('task_status_show')(context, data)
+        status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score_reason = status.get('value')
 
         data['key'] = 'openness_score_failure_count'
-        status = get_action('task_status_show')(context, data)
+        status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score_failure_count = int(status.get('value'))
-        
+
         result = {
             'openness_score': openness_score,
             'openness_score_reason': openness_score_reason,
             'openness_score_failure_count': openness_score_failure_count
         }
-    except NotFound:
+    except p.toolkit.ObjectNotFound:
         result = {}
 
     return result
@@ -88,12 +91,12 @@ def broken_resource_links_by_dataset():
     The named tuple is of the form:
         (name (str), title (str), resources (list of dicts))
     """
-    query = Session.query(Package.name, Package.title, Resource)\
-        .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
-        .join(Resource)\
-        .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
-        .filter(TaskStatus.key==u'openness_score')\
-        .filter(TaskStatus.value==u'0')\
+    query = model.Session.query(model.Package.name, model.Package.title, model.Resource)\
+        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+        .join(model.Resource)\
+        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+        .filter(model.TaskStatus.key == u'openness_score')\
+        .filter(model.TaskStatus.value == u'0')\
         .distinct()
 
     context = {'model': model, 'session': model.Session}
@@ -102,7 +105,7 @@ def broken_resource_links_by_dataset():
         resource = resource_dictize(resource, context)
 
         data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
-        status = get_action('task_status_show')(context, data)
+        status = p.toolkit.get_action('task_status_show')(context, data)
         resource['openness_score_reason'] = status.get('value')
 
         if name in results:
@@ -113,6 +116,7 @@ def broken_resource_links_by_dataset():
 
     return results.values()
 
+
 def broken_resource_links_by_dataset_for_organisation(organisation_id):
     result = _get_broken_resource_links(organisation_id)
     return {
@@ -121,45 +125,50 @@ def broken_resource_links_by_dataset_for_organisation(organisation_id):
         'packages': result.values()[0]
     }
 
+
 def organisations_with_broken_resource_links_by_name():
     result = _get_broken_resource_links().keys()
     result.sort()
     return result
 
+
 def organisations_with_broken_resource_links():
     return _get_broken_resource_links()
-    
+
+
 def _get_broken_resource_links(organisation_id=None):
     organisation_id = None
 
-    query = Session.query(Package.name, Package.title, PackageExtra.value, Resource)\
-            .join(PackageExtra)\
-            .join(ResourceGroup, Package.id==ResourceGroup.package_id)\
-            .join(Resource)\
-            .join(TaskStatus, TaskStatus.entity_id==Resource.id)\
-            .filter(TaskStatus.key==u'openness_score')\
-            .filter(TaskStatus.value==u'0')\
-            .filter(or_(
-                and_(PackageExtra.key=='published_by', 
-                     PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-                and_(PackageExtra.key=='published_via', 
-                     PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-                )\
+    query = model.Session.query(model.Package.name, model.Package.title,
+                                model.PackageExtra.value, model.Resource)\
+        .join(model.PackageExtra)\
+        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+        .join(model.Resource)\
+        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+        .filter(model.TaskStatus.key == u'openness_score')\
+        .filter(model.TaskStatus.value == u'0')\
+        .filter(or_(
+            and_(model.PackageExtra.key=='published_by',
+                 model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
+            and_(model.PackageExtra.key=='published_via',
+                 model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
             )\
-            .distinct()
+        )\
+        .distinct()
 
     context = {'model': model, 'session': model.Session}
     data = []
     for row in query:
         resource = resource_dictize(row.Resource, context)
         task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
-        status = get_action('task_status_show')(context, task_data)
+        status = p.toolkit.get_action('task_status_show')(context, task_data)
         resource['openness_score'] = u'0'
         resource['openness_score_reason'] = status.get('value')
 
         data.append([row.name, row.title, row.value, resource])
 
     return _collapse(data, [_extract_publisher, _extract_dataset])
+
 
 def _collapser(data, key_func=None):
     result = {}
@@ -177,12 +186,14 @@ def _collapser(data, key_func=None):
             result[key] = [row]
     return result
 
+
 def _collapse(data, fn):
     first = _collapser(data, fn[0])
     result = {}
     for k, v in first.items():
         result[k] = _collapser(v, fn[1])
     return result
+
 
 def _extract_publisher(row):
     """
@@ -202,6 +213,7 @@ def _extract_publisher(row):
     else:
         return [pub_parts] + [row[0], row[1], row[3]]
 
+
 def _extract_dataset(row):
     """
     Extract dataset info form a query result row.
@@ -212,4 +224,3 @@ def _extract_dataset(row):
         [(name, title), Resource]
     """
     return [(row[0], row[1]), row[2]]
-
