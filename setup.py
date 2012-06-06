@@ -4,10 +4,9 @@ from ckanext.qa import __version__
 setup(
     name='ckanext-qa',
     version=__version__,
-    description="Quality Assurance plugin for CKAN",
-    long_description="""
-    """,
-    classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    description='Quality Assurance plugin for CKAN',
+    long_description='',
+    classifiers=[],
     keywords='',
     author='Open Knowledge Foundation',
     author_email='info@okfn.org',
@@ -18,8 +17,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'celery>=2.3.3',
-        'kombu-sqlalchemy>=1.1.0',
+        'celery==2.4.5',
+        'kombu==1.5.1',
+        'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests==0.6.4',
     ],
@@ -27,8 +27,7 @@ setup(
         'nose',
         'mock',
     ],
-    entry_points=\
-    """
+    entry_points='''
     [paste.paster_command]
     qa=ckanext.qa.commands:QACommand
 
@@ -37,6 +36,5 @@ setup(
 
     [ckan.celery_task]
     tasks=ckanext.qa.celery_import:task_imports
-    """,
+    ''',
 )
-
