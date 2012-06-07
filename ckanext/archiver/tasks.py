@@ -212,12 +212,14 @@ def _update(context, data):
     if not data:
         raise ArchiverError('Resource not found')
 
+    log.info("Attempting to download resource: %s" % data['url'])
     result = None
     try:
         result = download(context, data)
         if result is None:
             raise Exception("Download failed")
     except Exception, downloaderr:
+        log.info('Download failed: %r, %r', downloaderr, downloaderr.args)
         if hasattr(settings, 'RETRIES') and settings.RETRIES:
             update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
         else:
