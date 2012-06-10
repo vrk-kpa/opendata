@@ -70,7 +70,7 @@ def _clean_content_type(ct):
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
              data_formats=DATA_FORMATS):
-    log = download.get_logger()
+    log = update.get_logger()
     
     url = resource['url']
 
@@ -172,6 +172,8 @@ def clean():
 
 @celery.task(name = "archiver.update")
 def update(context, data):
+    log = update.get_logger()
+    log.info('Starting update task: %r', data)
     try:
         data = json.loads(data)
         context = json.loads(context)

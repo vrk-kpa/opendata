@@ -191,13 +191,21 @@ class TestArchiver(BaseCase):
         self._remove_archived_file(result.get('file_path'))
 
     @with_mock_url('?content-type=arfle-barfle-gloop')
-    def test_url_with_unknown_content_type(self, url):
+    def test_download_url_with_unknown_content_type(self, url):
+        resource = self.fake_resource
+        resource['format'] = 'arfle-barfle-gloop'
+        resource['url'] = url
+        assert_raises(DownloadError, download, self.fake_context, resource)
+
+    @with_mock_url('?content-type=arfle-barfle-gloop')
+    def test_update_url_with_unknown_content_type(self, url):
         context = json.dumps(self.fake_context)
         resource = self.fake_resource
         resource['format'] = 'arfle-barfle-gloop'
         resource['url'] = url
         data = json.dumps(resource)
-        assert_raises(DownloadError, update, context, data)
+        result = update(context, data)
+        assert not result, result
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):
