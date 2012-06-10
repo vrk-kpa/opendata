@@ -26,7 +26,7 @@ HTTP_ERROR_CODES = {
     httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
 
-DATA_FORMATS = [ 
+DEFAULT_DATA_FORMATS = [ 
     'csv',
     'text/csv',
     'txt',
@@ -69,7 +69,7 @@ def _clean_content_type(ct):
 
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
-             data_formats=DATA_FORMATS):
+             data_formats=DEFAULT_DATA_FORMATS):
     log = update.get_logger()
     
     url = resource['url']
@@ -113,7 +113,7 @@ def download(context, resource, url_timeout=30,
             (cl, max_content_length))                                                      
 
     # check that resource is a data file
-    if not (resource_format in data_formats or ct.lower() in data_formats):
+    if data_formats != 'all' and not (resource_format in data_formats or ct.lower() in data_formats):
         if resource_changed: 
             _update_resource(context, resource)             
         log.info('Resource wrong type to download: %s / %s. Resource: %s %r',
@@ -142,6 +142,15 @@ def download(context, resource, url_timeout=30,
                  length, max_content_length, resource['id'], url)
         raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length)         
+
+    # zero length usually indicates a problem too
+    if length == 0:
+        if resource_changed: 
+            _update_resource(context, resource) 
+        # record fact that resource is zero length
+        log.warn('Resource found was zero length - not archiving. Resource: %s %r',
+                 resource['id'], url)
+        raise DownloadError("Content-length after streaming was zero")
 
     # update the resource metadata in CKAN if the resource has changed
     if resource.get('hash') != hash:
@@ -214,10 +223,15 @@ def _update(context, data):
     if not data:
         raise ArchiverError('Resource not found')
 
+    if hasattr(settings, 'DATA_FORMATS') and settings.DATA_FORMATS:
+        data_formats = settings.DATA_FORMATS
+    else:
+        data_formats = DEFAULT_DATA_FORMATS
+
     log.info("Attempting to download resource: %s" % data['url'])
     result = None
     try:
-        result = download(context, data)
+        result = download(context, data, data_formats=data_formats)
         if result is None:
             raise Exception("Download failed")
     except Exception, downloaderr:

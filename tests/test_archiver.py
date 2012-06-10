@@ -138,7 +138,8 @@ class TestArchiver(BaseCase):
 
         cls.fake_context = {
             'site_url': cls.fake_ckan_url,
-            'apikey': u'fake_api_key'
+            'apikey': u'fake_api_key',
+            'site_user_apikey': u'fake_site_user_api_key',
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
@@ -199,6 +200,32 @@ class TestArchiver(BaseCase):
 
     @with_mock_url('?content-type=arfle-barfle-gloop')
     def test_update_url_with_unknown_content_type(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['format'] = 'arfle-barfle-gloop'
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+
+    @with_mock_url('?content=test&content-type=arfle-barfle-gloop')
+    def test_update_all_content_types(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['format'] = 'arfle-barfle-gloop'
+        resource['url'] = url
+        data = json.dumps(resource)
+        from ckanext.archiver import default_settings
+        tmp = default_settings.DATA_FORMATS
+        default_settings.DATA_FORMATS = 'all'
+        try:
+            result = update(context, data)
+        finally:
+            default_settings.DATA_FORMATS = tmp
+
+    @with_mock_url('?status=200&content-type=csv')
+    def test_update_with_zero_length(self, url):
+        # i.e. no content
         context = json.dumps(self.fake_context)
         resource = self.fake_resource
         resource['format'] = 'arfle-barfle-gloop'
