@@ -7,6 +7,7 @@ import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.celery_app as celery_app
+from ckan.model.types import make_uuid
 import html
 import reports
 
@@ -98,9 +99,14 @@ class QAPlugin(p.SingletonPlugin):
             'site_url': self.site_url,
             'apikey': user.get('apikey')
         })
-        data = json.dumps(resource_dictize(resource, {'model': model}))
 
-        task_id = model.types.make_uuid()
+        resource_dict = resource_dictize(resource, {'model': model})
+        package = resource.related_packages()[0]
+        resource_dict['is_open'] = package.isopen()
+
+        data = json.dumps(resource_dict)
+
+        task_id = make_uuid()
         task_status = {
             'entity_id': resource.id,
             'entity_type': u'resource',

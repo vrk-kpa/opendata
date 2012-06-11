@@ -2,16 +2,16 @@ import datetime
 import json
 import requests
 import urlparse
-from pylons import config
-from ckan.lib.cli import CkanCommand
-from ckan.logic import get_action
-from ckan import model
-from ckan.model.types import make_uuid
 import logging
+from pylons import config
+import ckan.model as model
+import ckan.plugins as p
+from ckan.model.types import make_uuid
+
 logger = logging.getLogger()
 
 
-class QACommand(CkanCommand):
+class QACommand(p.toolkit.CkanCommand):
     """
     QA analysis of CKAN resources
 
@@ -50,7 +50,7 @@ class QACommand(CkanCommand):
         # can be set
         import tasks
 
-        user = get_action('get_site_user')(
+        user = p.toolkit.get_action('get_site_user')(
             {'model': model, 'ignore_auth': True}, {}
         )
         context = json.dumps({
@@ -65,7 +65,11 @@ class QACommand(CkanCommand):
                             (package.get('name'), len(package.get('resources', []))))
 
                 for resource in package.get('resources', []):
+                    pkg = model.Package.get(package['id'])
+                    resource['is_open'] = pkg.isopen()
+
                     data = json.dumps(resource)
+
                     task_id = make_uuid()
                     task_status = {
                         'entity_id': resource['id'],
@@ -81,7 +85,7 @@ class QACommand(CkanCommand):
                         'user': user.get('name')
                     }
 
-                    get_action('task_status_update')(task_context, task_status)
+                    p.toolkit.get_action('task_status_update')(task_context, task_status)
                     tasks.update.apply_async(args=[context, data], task_id=task_id)
 
         elif cmd == 'clean':
