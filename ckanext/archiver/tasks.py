@@ -7,6 +7,7 @@ import urllib
 import urlparse
 import tempfile
 import traceback
+import shutil
 from datetime import datetime
 
 from ckan.lib.celery_app import celery
@@ -318,7 +319,7 @@ def archive_resource(context, resource, logger, result=None, url_timeout = 30):
         except:
             file_name = "resource"
         saved_file = os.path.join(dir, file_name)
-        os.rename(result['saved_file'], saved_file)
+        shutil.move(result['saved_file'], saved_file)
 
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
