@@ -6,7 +6,6 @@ from pylons import request, tmpl_context as c
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
-import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
 import html
 import reports
@@ -92,9 +91,9 @@ class QAPlugin(p.SingletonPlugin):
             self._create_task(entity)
 
     def _create_task(self, resource):
-        user = p.toolkit.get_action('get_site_user')({'model': model,
-                                            'ignore_auth': True,
-                                            'defer_commit': True}, {})
+        user = p.toolkit.get_action('get_site_user')(
+            {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
+        )
         context = json.dumps({
             'site_url': self.site_url,
             'apikey': user.get('apikey')
