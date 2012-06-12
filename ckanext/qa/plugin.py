@@ -101,8 +101,10 @@ class QAPlugin(p.SingletonPlugin):
         })
 
         resource_dict = resource_dictize(resource, {'model': model})
-        package = resource.related_packages()[0]
-        resource_dict['is_open'] = package.isopen()
+
+        related_packages = resource.related_packages()
+        if related_packages:
+            resource_dict['is_open'] = related_packages[0].isopen()
 
         data = json.dumps(resource_dict)
 
