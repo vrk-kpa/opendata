@@ -17,8 +17,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'celery==2.4.5',
-        'kombu==1.5.1',
+        'celery==2.4.2',
+        'kombu==2.1.3',
         'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests==0.6.4',
