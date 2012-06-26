@@ -63,19 +63,31 @@ def resource_five_stars(id):
         data['key'] = 'openness_score'
         status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score = int(status.get('value'))
+        openness_score_updated = status.get('last_updated')
 
         data['key'] = 'openness_score_reason'
         status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score_reason = status.get('value')
+        openness_score_reason_updated = status.get('last_updated')
 
         data['key'] = 'openness_score_failure_count'
         status = p.toolkit.get_action('task_status_show')(context, data)
         openness_score_failure_count = int(status.get('value'))
+        openness_score_failure_count_updated = status.get('last_updated')
+
+        last_updated = max( 
+            openness_score_updated,
+            openness_score_reason_updated,
+            openness_score_failure_count_updated )
 
         result = {
             'openness_score': openness_score,
             'openness_score_reason': openness_score_reason,
-            'openness_score_failure_count': openness_score_failure_count
+            'openness_score_failure_count': openness_score_failure_count,
+            'openness_score_updated': openness_score_updated,
+            'openness_score_reason_updated': openness_score_reason_updated,
+            'openness_score_failure_count_updated': openness_score_failure_count_updated,
+            'openness_updated': last_updated
         }
     except p.toolkit.ObjectNotFound:
         result = {}
