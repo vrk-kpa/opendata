@@ -6,6 +6,7 @@ from pylons import request, tmpl_context as c
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
+import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
 from ckan.model.types import make_uuid
 import html
@@ -128,7 +129,11 @@ class QAPlugin(p.SingletonPlugin):
 
     def filter(self, stream):
         routes = request.environ.get('pylons.routes_dict')
-        stream = stream | Transformer('head').append(HTML(html.HEAD_CODE))
+
+        site_url = h.url('/', locale='default')
+        stream = stream | Transformer('head').append(
+            HTML(html.HEAD_CODE % site_url)
+        )
 
         if (routes.get('controller') == 'package' and
             routes.get('action') == 'resource_read'):

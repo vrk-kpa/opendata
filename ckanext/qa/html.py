@@ -3,7 +3,7 @@ from ckan.lib.helpers import icon
 
 
 HEAD_CODE = '''
-<link rel="stylesheet" href="/css/ckanext-qa.css"
+<link rel="stylesheet" href="%scss/ckanext-qa.css"
       type="text/css" media="screen" />
 '''
 
