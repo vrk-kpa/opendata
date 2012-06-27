@@ -6,8 +6,6 @@ import logging
 from pylons import config
 import ckan.plugins as p
 
-logger = logging.getLogger()
-
 from ckan.lib.cli import CkanCommand
 
 import logging
@@ -53,7 +51,7 @@ class QACommand(p.toolkit.CkanCommand):
 
         # Now we can import ckan and create logger, knowing that loggers
         # won't get disabled
-        self.log = logging.getLogger('qa')
+        self.log = logging.getLogger('ckanext.qa')
 
         from ckan.logic import get_action
         from ckan import model
