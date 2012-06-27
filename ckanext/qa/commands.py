@@ -4,11 +4,16 @@ import requests
 import urlparse
 import logging
 from pylons import config
-import ckan.model as model
 import ckan.plugins as p
-from ckan.model.types import make_uuid
 
 logger = logging.getLogger()
+
+from ckan.lib.cli import CkanCommand
+
+import logging
+
+class CkanApiError(Exception):
+    pass
 
 
 class QACommand(p.toolkit.CkanCommand):
@@ -46,6 +51,14 @@ class QACommand(p.toolkit.CkanCommand):
         cmd = self.args[0]
         self._load_config()
 
+        # Now we can import ckan and create logger, knowing that loggers
+        # won't get disabled
+        self.log = logging.getLogger('qa')
+
+        from ckan.logic import get_action
+        from ckan import model
+        from ckan.model.types import make_uuid
+
         # import tasks after load config so CKAN_CONFIG evironment variable
         # can be set
         import tasks
@@ -61,15 +74,14 @@ class QACommand(p.toolkit.CkanCommand):
 
         if cmd == 'update':
             for package in self._package_list():
-                logger.info("Updating QA on dataset: %s (%d resources)" %
+                self.log.info("QA on dataset being added to Celery queue: %s (%d resources)" % 
                             (package.get('name'), len(package.get('resources', []))))
 
                 for resource in package.get('resources', []):
+                    resource['package'] = package['name']
                     pkg = model.Package.get(package['id'])
                     resource['is_open'] = pkg.isopen()
-
-                    data = json.dumps(resource)
-
+                    data = json.dumps(resource) 
                     task_id = make_uuid()
                     task_status = {
                         'entity_id': resource['id'],
@@ -89,10 +101,10 @@ class QACommand(p.toolkit.CkanCommand):
                     tasks.update.apply_async(args=[context, data], task_id=task_id)
 
         elif cmd == 'clean':
-            logger.error('Command "%s" not implemented' % (cmd,))
+            self.log.error('Command "%s" not implemented' % (cmd,))
 
         else:
-            logger.error('Command "%s" not recognized' % (cmd,))
+            self.log.error('Command "%s" not recognized' % (cmd,))
 
     def _package_list(self):
         """
@@ -108,17 +120,35 @@ class QACommand(p.toolkit.CkanCommand):
         if len(self.args) > 1:
             for id in self.args[1:]:
                 data = json.dumps({'id': unicode(id)})
-                response = requests.post(api_url + '/package_show', data)
+                url = api_url + '/package_show'
+                response = requests.post(url, data)
+                if not response.ok:
+                    err = ('Failed to get package %s from url %r: %s' %
+                           (id, url, response.error))
+                    self.log.error(err)
+                    raise CkanApiError(err)
                 yield json.loads(response.content).get('result')
         else:
             page, limit = 1, 100
-            response = requests.post(api_url + '/current_package_list_with_resources',
+            url = api_url + '/current_package_list_with_resources'
+            response = requests.post(url,
                                      json.dumps({'page': page, 'limit': limit}))
+            if not response.ok:
+                err = ('Failed to get package list with resources from url %r: %s' %
+                       (url, response.error))
+                self.log.error(err)
+                raise CkanApiError(err)
             chunk = json.loads(response.content).get('result')
             while(chunk):
                 page += 1
                 for p in chunk:
                     yield p
-                response = requests.post(api_url + '/current_package_list_with_resources',
+                url = api_url + '/current_package_list_with_resources'
+                response = requests.post(url,
                                          json.dumps({'page': page, 'limit': limit}))
+                if not response.ok:
+                    err = ('Failed to get package list with resources from url %r: %s' %
+                           (url, response.error))
+                    self.log.error(err)
+                    raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
