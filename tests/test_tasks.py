@@ -48,7 +48,10 @@ class TestResultScore(BaseCase):
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
-            'url': cls.fake_ckan_url
+            'url': cls.fake_ckan_url,
+            'package': u'fake_package_id',
+            'is_open': True,
+            'position': 2,
         }
 
     @classmethod
@@ -118,7 +121,7 @@ class TestResultScore(BaseCase):
         assert result['openness_score'] == 3, result
         assert result['openness_score_reason'] == 'open and standardized format', result
 
-    @with_mock_url('?content-type=application%2Fxml')
+    @with_mock_url('?content-type=application%2Frdf%2Bxml')
     def test_ontological_formats_score_four(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -156,7 +159,10 @@ class TestTask(BaseCase):
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
-            'url': cls.fake_ckan_url
+            'url': cls.fake_ckan_url,
+            'package': u'fake_package_id',
+            'is_open': True,
+            'position': 2,
         }
 
     @classmethod

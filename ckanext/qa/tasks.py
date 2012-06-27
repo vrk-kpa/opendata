@@ -1,5 +1,5 @@
 '''
-Score datasets on Sir Tim Berners-Lee's five stars of openness
+Score datasets on Sir Tim Berners-Lee\'s five stars of openness
 based on mime-type.
 '''
 import datetime
@@ -102,7 +102,7 @@ def _task_status_data(id, result):
 @celery_app.celery.task(name="qa.update")
 def update(context, data):
     """
-    Score resources on Sir Tim Berners-Lee's five stars of openness
+    Score resources on Sir Tim Berners-Lee\'s five stars of openness
     based on mime-type.
     
     Returns a JSON dict with keys:
@@ -159,7 +159,7 @@ def update(context, data):
 
 def resource_score(context, data):
     """
-    Score resources on Sir Tim Berners-Lee's five stars of openness
+    Score resources on Sir Tim Berners-Lee\'s five stars of openness
     based on mime-type.
 
     returns a dict with keys:
