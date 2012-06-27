@@ -1,7 +1,7 @@
 """
-Score datasets on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
+Score datasets on Sir Tim Berners-Lee's five stars of openness based on mime-type.
 """
-from datetime import datetime
+import datetime
 import mimetypes
 import json
 import requests
@@ -74,7 +74,7 @@ def _task_status_data(id, result):
             'task_type': 'qa',
             'key': u'openness_score',
             'value': result['openness_score'],
-            'last_updated': datetime.now().isoformat()
+            'last_updated': datetime.datetime.now().isoformat()
         },
         {
             'entity_id': id,
@@ -82,7 +82,7 @@ def _task_status_data(id, result):
             'task_type': 'qa',
             'key': u'openness_score_reason',
             'value': result['openness_score_reason'],
-            'last_updated': datetime.now().isoformat()
+            'last_updated': datetime.datetime.now().isoformat()
         },
         {
             'entity_id': id,
@@ -90,15 +90,15 @@ def _task_status_data(id, result):
             'task_type': 'qa',
             'key': u'openness_score_failure_count',
             'value': result['openness_score_failure_count'],
-            'last_updated': datetime.now().isoformat()
-        }
+            'last_updated': datetime.datetime.now().isoformat()
+        },
     ]
 
 
 @celery.task(name = "qa.update")
 def update(context, data):
     """
-    Score resources on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
+    Score resources on Sir Tim Berners-Lee's five stars of openness based on mime-type.
     
     Returns a JSON dict with keys:
 
@@ -106,11 +106,16 @@ def update(context, data):
         'openness_score_reason': the reason for the score (string)
         'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
     """
+    log = update.get_logger()
     try:
         data = json.loads(data)
         context = json.loads(context)
 
         result = resource_score(context, data)
+        log.info('Openness score for dataset %s (res#%s): %r (%s)',
+                 data['package'], data['position'],
+                 result['openness_score'], result['openness_score_reason'])
+        
         task_status_data = _task_status_data(data['id'], result)
 
         api_url = urlparse.urljoin(context['site_url'], 'api/action')
@@ -120,12 +125,20 @@ def update(context, data):
             headers = {'Authorization': context['apikey'],
                        'Content-Type': 'application/json'}
         )
-        if response.status_code != 200:
-            raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
-                            % (response.status_code, response.content))
+        if not response.ok:
+            err = 'ckan failed to update task_status, error %s' \
+                  % response.error
+            log.error(err)
+            raise CkanError(err)
+        elif response.status_code != 200:
+            err = 'ckan failed to update task_status, status_code (%s), error %s' \
+                  % (response.status_code, response.content)
+            log.error(err)
+            raise CkanError(err)
 
         return json.dumps(result)
     except Exception, e:
+        log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         _update_task_status(context, {
             'entity_id': data['id'],
             'entity_type': u'resource',
@@ -133,24 +146,26 @@ def update(context, data):
             'key': u'celery_task_id',
             'value': unicode(update.request.id),
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
-            'last_updated': datetime.now().isoformat()
+            'last_updated': datetime.datetime.now().isoformat()
         })
         raise
 
 
 def resource_score(context, data):
     """
-    Score resources on Sir Tim Bernes-Lee's five stars of openness based on mime-type.
+    Score resources on Sir Tim Berners-Lee's five stars of openness based on mime-type.
 
     returns a dict with keys:
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
         'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
-
+        
     Raises the following exceptions:
 
     """
+    log = update.get_logger()
+
     score = 0
     score_reason = ""
     score_failure_count = 0
@@ -214,6 +229,7 @@ def resource_score(context, data):
     except LinkCheckerError, e:
         score_reason = str(e)
     except Exception, e:
+        log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
         score_reason = "Unknown error: %s" % str(e)
 
     if score == 0:
@@ -224,6 +240,6 @@ def resource_score(context, data):
     return {
         'openness_score': score,
         'openness_score_reason': score_reason,
-        'openness_score_failure_count': score_failure_count
+        'openness_score_failure_count': score_failure_count,
     }
 
