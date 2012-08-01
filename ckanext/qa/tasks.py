@@ -1,19 +1,23 @@
-"""
-Score datasets on Sir Tim Berners-Lee's five stars of openness based on mime-type.
-"""
+'''
+Score datasets on Sir Tim Berners-Lee\'s five stars of openness
+based on mime-type.
+'''
 import datetime
 import mimetypes
 import json
 import requests
 import urlparse
-from ckan.lib.celery_app import celery
+import ckan.lib.celery_app as celery_app
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
+
 
 class QAError(Exception):
     pass
 
+
 class CkanError(Exception):
     pass
+
 
 OPENNESS_SCORE_REASON = {
     -1: 'unrecognised content type',
@@ -50,19 +54,19 @@ def _update_task_status(context, data):
     """
     Use CKAN API to update the task status. The data parameter
     should be a dict representing one row in the task_status table.
-    
-    Returns the content of the response. 
+
+    Returns the content of the response.
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     res = requests.post(
         api_url + '/task_status_update', json.dumps(data),
-        headers = {'Authorization': context['apikey'],
-                   'Content-Type': 'application/json'}
+        headers={'Authorization': context['apikey'],
+                 'Content-Type': 'application/json'}
     )
     if res.status_code == 200:
         return res.content
     else:
-        raise CkanError('ckan failed to update task_status, status_code (%s), error %s' 
+        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
                         % (res.status_code, res.content))
 
 
@@ -95,16 +99,18 @@ def _task_status_data(id, result):
     ]
 
 
-@celery.task(name = "qa.update")
+@celery_app.celery.task(name="qa.update")
 def update(context, data):
     """
-    Score resources on Sir Tim Berners-Lee's five stars of openness based on mime-type.
+    Score resources on Sir Tim Berners-Lee\'s five stars of openness
+    based on mime-type.
     
     Returns a JSON dict with keys:
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
-        'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
+        'openness_score_failure_count': the number of consecutive times that
+                                        this resource has returned a score of 0
     """
     log = update.get_logger()
     try:
@@ -120,10 +126,10 @@ def update(context, data):
 
         api_url = urlparse.urljoin(context['site_url'], 'api/action')
         response = requests.post(
-            api_url + '/task_status_update_many', 
+            api_url + '/task_status_update_many',
             json.dumps({'data': task_status_data}),
-            headers = {'Authorization': context['apikey'],
-                       'Content-Type': 'application/json'}
+            headers={'Authorization': context['apikey'],
+                     'Content-Type': 'application/json'}
         )
         if not response.ok:
             err = 'ckan failed to update task_status, error %s' \
@@ -153,76 +159,68 @@ def update(context, data):
 
 def resource_score(context, data):
     """
-    Score resources on Sir Tim Berners-Lee's five stars of openness based on mime-type.
+    Score resources on Sir Tim Berners-Lee\'s five stars of openness
+    based on mime-type.
 
     returns a dict with keys:
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
-        'openness_score_failure_count': the number of consecutive times this resource has returned a score of 0
-        
-    Raises the following exceptions:
-
+        'openness_score_failure_count': the number of consecutive times that
+                                        this resource has returned a score of 0
     """
     log = update.get_logger()
 
     score = 0
-    score_reason = ""
+    score_reason = ''
     score_failure_count = 0
 
     # get openness score failure count for task status table if exists
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
     response = requests.post(
-        api_url + '/task_status_show', 
-        json.dumps({'entity_id': data['id'], 'task_type': 'qa', 
+        api_url + '/task_status_show',
+        json.dumps({'entity_id': data['id'], 'task_type': 'qa',
                     'key': 'openness_score_failure_count'}),
-        headers = {'Authorization': context['apikey'],
-                   'Content-Type': 'application/json'}
+        headers={'Authorization': context['apikey'],
+                 'Content-Type': 'application/json'}
     )
     if json.loads(response.content)['success']:
         score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
 
-    try:
-        headers = json.loads(link_checker("{}", json.dumps(data)))
+    # no score for resources that don't have an open license
+    if not data.get('is_open'):
+        score_reason = 'License not open'
+    else:
+        try:
+            headers = json.loads(link_checker("{}", json.dumps(data)))
+            ct = headers.get('content-type')
 
-        cl = headers.get('content-length')
-        ct = headers.get('content-type')
+            # ignore charset if exists (just take everything before the ';')
+            if ct and ';' in ct:
+                ct = ct.split(';')[0]
 
-        # ignore charset if exists (just take everything before the ';')
-        if ct and ';' in ct:
-            ct = ct.split(';')[0]
+            # also get format from resource and by guessing from file extension
+            format = data.get('format', '').lower()
+            file_type = mimetypes.guess_type(data['url'])[0]
 
-        # also get format from resource and by guessing from file extension
-        format = data.get('format', '').lower()
-        file_type = mimetypes.guess_type(data['url'])[0] 
+            # file type takes priority for scoring
+            if file_type:
+                score = MIME_TYPE_SCORE.get(file_type, -1)
+            elif ct:
+                score = MIME_TYPE_SCORE.get(ct, -1)
+            elif format:
+                score = MIME_TYPE_SCORE.get(format, -1)
 
-        # file type takes priority for scoring
-        if file_type:
-            score = MIME_TYPE_SCORE.get(file_type, -1)
-        elif ct:
-            score = MIME_TYPE_SCORE.get(ct, -1)
-        elif format:
-            score = MIME_TYPE_SCORE.get(format, -1)
-        
-        score_reason = OPENNESS_SCORE_REASON[score]
+            score_reason = OPENNESS_SCORE_REASON[score]
 
-        # negative scores are only useful for getting the reason message, set it back
-        # to 0 if it's still <0 at this point
-        if score < 0:
-            score = 0
+            # negative scores are only useful for getting the reason message,
+            # set it back to 0 if it's still <0 at this point
+            if score < 0:
+                score = 0
 
-        # check for mismatches between content-type, file_type and format
-        # ideally they should all agree
-        if not ct:
-            # TODO: use the todo extension to flag this issue
-            pass
-        else:
-            allowed_formats = [ct.lower().split('/')[-1], ct.lower().split('/')]
-            allowed_formats.append(ct.lower())
-            if format not in allowed_formats:
-                # TODO: use the todo extension to flag this issue
-                pass
-            if file_type != ct:
+            # check for mismatches between content-type, file_type and format
+            # ideally they should all agree
+            if not ct:
                 # TODO: use the todo extension to flag this issue
                 pass
 
@@ -242,4 +240,3 @@ def resource_score(context, data):
         'openness_score_reason': score_reason,
         'openness_score_failure_count': score_failure_count,
     }
-

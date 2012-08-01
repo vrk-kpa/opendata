@@ -1,25 +1,31 @@
-from datetime import datetime
+import datetime
 import json
 import requests
 import urlparse
+import logging
 from pylons import config
+import ckan.plugins as p
+
 from ckan.lib.cli import CkanCommand
 
 import logging
 
+
 class CkanApiError(Exception):
     pass
 
-class QACommand(CkanCommand):
-    """QA analysis of CKAN resources
+
+class QACommand(p.toolkit.CkanCommand):
+    """
+    QA analysis of CKAN resources
 
     Usage::
 
-        paster qa [options] update [{dataset id}]
-           - QA analysis on all resources in a given dataset, or on all datasets if no
-           dataset id given
+        paster qa [options] update [dataset name/id]
+           - QA analysis on all resources in a given dataset, or on all
+           datasets if no dataset given
 
-        paster qa clean        
+        paster qa clean
             - Remove all package score information
 
     The commands should be run from the ckanext-qa directory and expect
@@ -27,10 +33,10 @@ class QACommand(CkanCommand):
     specify the config explicitly though::
 
         paster qa update --config=<path to CKAN config file>
-    """    
+    """
     summary = __doc__.split('\n')[0]
     usage = __doc__
-    max_args = 2 
+    max_args = 2
     min_args = 0
 
     def command(self):
@@ -46,16 +52,19 @@ class QACommand(CkanCommand):
 
         # Now we can import ckan and create logger, knowing that loggers
         # won't get disabled
-        self.log = logging.getLogger('qa')
+        self.log = logging.getLogger('ckanext.qa')
 
         from ckan.logic import get_action
         from ckan import model
         from ckan.model.types import make_uuid
 
-        #import tasks after load config so CKAN_CONFIG evironment variable can be set
+        # import tasks after load config so CKAN_CONFIG evironment variable
+        # can be set
         import tasks
-        
-        user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
+
+        user = p.toolkit.get_action('get_site_user')(
+            {'model': model, 'ignore_auth': True}, {}
+        )
         context = json.dumps({
             'site_url': config['ckan.site_url'],
             'apikey': user.get('apikey'),
@@ -63,13 +72,14 @@ class QACommand(CkanCommand):
         })
 
         if cmd == 'update':
-
             for package in self._package_list():
                 self.log.info("QA on dataset being added to Celery queue: %s (%d resources)" % 
                             (package.get('name'), len(package.get('resources', []))))
 
                 for resource in package.get('resources', []):
                     resource['package'] = package['name']
+                    pkg = model.Package.get(package['id'])
+                    resource['is_open'] = pkg.isopen()
                     data = json.dumps(resource) 
                     task_id = make_uuid()
                     task_status = {
@@ -79,14 +89,14 @@ class QACommand(CkanCommand):
                         'key': u'celery_task_id',
                         'value': task_id,
                         'error': u'',
-                        'last_updated': datetime.now().isoformat()
+                        'last_updated': datetime.datetime.now().isoformat()
                     }
                     task_context = {
-                        'model': model, 
+                        'model': model,
                         'user': user.get('name')
                     }
 
-                    get_action('task_status_update')(task_context, task_status)
+                    p.toolkit.get_action('task_status_update')(task_context, task_status)
                     tasks.update.apply_async(args=[context, data], task_id=task_id)
 
         elif cmd == 'clean':
@@ -141,4 +151,3 @@ class QACommand(CkanCommand):
                     self.log.error(err)
                     raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
-
