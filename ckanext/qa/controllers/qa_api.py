@@ -55,7 +55,7 @@ class ApiController(QAController):
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
         if format == 'csv':
-            filename = '%s.csv' % (id)
+            filename = 'all_broken_links.csv'
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
@@ -79,13 +79,15 @@ class ApiController(QAController):
             return json.dumps(result)
 
     def organisations_with_broken_resource_links(self, id, format='json'):
-        result = organisations_with_broken_resource_links()
+        result = organisations_with_broken_resource_links(include_resources=True)
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'
             response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
-            for organisation, datasets in result.items():
+            d = result.items()
+            d.sort()
+            for organisation, datasets in d:
                 for dataset, resources in datasets.items():
                     for resource in resources:
                         row = [

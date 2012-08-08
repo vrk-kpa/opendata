@@ -16,22 +16,21 @@
   <div py:match="content" class="qa-content">
     <div class="qa-content">
     <h1>Quality Assurance</h1>
-  
-    <h3>Organizations who have published datasets with broken resource links.</h3>
-    <ul>
-        <li>${h.link_to('Report of all broken links by organisation in CSV format', h.url_for('qa_api_resources_formatted', action='organisations_with_broken_resource_links', format='csv'))}</li>
-    </ul>
-    <table class="qa-table">
-      <tr>
-          <th class="qa-table-name">Organization name</th>
-      </tr>
-      <tr py:for="organisation_title, organisation_id in c.organisations">
-        <td>${h.link_to(organisation_title, h.url_for('qa_organisation_action_id', action='broken_resource_links', id=organisation_id))}</td>
-      </tr>
-    </table>
 
     <py:if test="not c.organisations">
-    <p>No organizations that have published datasets with broken resource links found.</p>
+      <p>No organizations that have published datasets with broken resource links found.</p>
+    </py:if>
+  
+    <py:if test="c.organisations">
+      <ul>
+          <li>${h.link_to('Report of all broken links by organisation in CSV format', h.url_for('qa_api_resources_formatted', action='organisations_with_broken_resource_links', format='csv'))}</li>
+      </ul>
+
+      <h3>Organizations who have published datasets with broken resource links.</h3>
+
+      <py:for each="organisation_title, organisation_id in c.organisations">
+        ${h.link_to(organisation_title, h.url_for('qa_organisation_action_id', action='broken_resource_links', id=organisation_id))}<br />
+      </py:for>
     </py:if>
 
   </div>

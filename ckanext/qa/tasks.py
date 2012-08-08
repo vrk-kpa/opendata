@@ -20,13 +20,13 @@ class CkanError(Exception):
 
 
 OPENNESS_SCORE_REASON = {
-    -1: 'unrecognised content type',
-    0: 'not obtainable',
-    1: 'obtainable via web page',
-    2: 'machine readable format',
-    3: 'open and standardized format',
-    4: 'ontologically represented',
-    5: 'fully Linked Open Data as appropriate',
+    -1: 'Unrecognised content type',
+    0: 'Not obtainable',
+    1: 'Obtainable via web page',
+    2: 'Machine readable format',
+    3: 'Open and standardized format',
+    4: 'Ontologically represented',
+    5: 'Fully Linked Open Data as appropriate',
 }
 
 MIME_TYPE_SCORE = {
@@ -66,6 +66,13 @@ def _update_task_status(context, data):
     if res.status_code == 200:
         return res.content
     else:
+        try:
+            content = res.content
+        except:
+            content = '<could not read request content to discover error>'
+        log = update.get_logger()
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r'
+                        % (res.status_code, content, context, data, res))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
                         % (res.status_code, res.content))
 
@@ -118,7 +125,9 @@ def update(context, data):
         context = json.loads(context)
 
         result = resource_score(context, data)
-        log.info('Openness score for dataset %s (res#%s): %r (%s)',
+        log.info('\n%r\n%r\n%r\n\n', result, data, context)
+        if data.has_key('package') and data.has_key('position') and result.has_key('openness_score') and result.has_key('openness_score_reason'):
+            log.info('Openness score for dataset %s (res#%s): %r (%s)',
                  data['package'], data['position'],
                  result['openness_score'], result['openness_score_reason'])
         
@@ -188,57 +197,63 @@ def resource_score(context, data):
     if json.loads(response.content)['success']:
         score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
 
-    # no score for resources that don't have an open license
-    if not data.get('is_open'):
-        score_reason = 'License not open'
-    else:
-        try:
-            headers = json.loads(link_checker("{}", json.dumps(data)))
-            ct = headers.get('content-type')
+    try:
+        headers = json.loads(link_checker("{}", json.dumps(data)))
+        ct = headers.get('content-type')
 
-            # ignore charset if exists (just take everything before the ';')
-            if ct and ';' in ct:
-                ct = ct.split(';')[0]
+        # ignore charset if exists (just take everything before the ';')
+        if ct and ';' in ct:
+            ct = ct.split(';')[0]
 
-            # also get format from resource and by guessing from file extension
-            format = data.get('format', '').lower()
-            file_type = mimetypes.guess_type(data['url'])[0]
+        # also get format from resource and by guessing from file extension
+        format = data.get('format', '').lower()
+        file_type = mimetypes.guess_type(data['url'])[0]
 
-            # file type takes priority for scoring
-            if file_type:
-                score = MIME_TYPE_SCORE.get(file_type, -1)
-            elif ct:
-                score = MIME_TYPE_SCORE.get(ct, -1)
-            elif format:
-                score = MIME_TYPE_SCORE.get(format, -1)
+        # file type takes priority for scoring
+        if file_type:
+            score = MIME_TYPE_SCORE.get(file_type, -1)
+        elif ct:
+            score = MIME_TYPE_SCORE.get(ct, -1)
+        elif format:
+            score = MIME_TYPE_SCORE.get(format, -1)
 
-            score_reason = OPENNESS_SCORE_REASON[score]
+        score_reason = OPENNESS_SCORE_REASON[score]
 
-            # negative scores are only useful for getting the reason message,
-            # set it back to 0 if it's still <0 at this point
-            if score < 0:
-                score = 0
+        # negative scores are only useful for getting the reason message,
+        # set it back to 0 if it's still <0 at this point
+        if score < 0:
+            score = 0
 
-            # check for mismatches between content-type, file_type and format
-            # ideally they should all agree
-            if not ct:
+        # check for mismatches between content-type, file_type and format
+        # ideally they should all agree
+        if not ct:
+            # TODO: use the todo extension to flag this issue
+            pass
+        else:
+            allowed_formats = [ct.lower().split('/')[-1], ct.lower().split('/')]
+            allowed_formats.append(ct.lower())
+            if format not in allowed_formats:
                 # TODO: use the todo extension to flag this issue
                 pass
-            else:
-                allowed_formats = [ct.lower().split('/')[-1], ct.lower().split('/')]
-                allowed_formats.append(ct.lower())
-                if format not in allowed_formats:
-                    # TODO: use the todo extension to flag this issue
-                    pass
-                if file_type != ct:
-                    # TODO: use the todo extension to flag this issue
-                    pass
+            if file_type != ct:
+                # TODO: use the todo extension to flag this issue
+                pass
 
-        except LinkCheckerError, e:
-            score_reason = str(e)
-        except Exception, e:
-            log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
-            score_reason = "Unknown error: %s" % str(e)
+    except LinkCheckerError, e:
+        score_reason = str(e)
+    except Exception, e:
+        log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
+        score_reason = "Unknown error: %s" % str(e)
+
+    # Even if we can get the link, we should still treat the resource
+    # as having a score of 0 if the license isn't open.
+    #
+    # It is important we do this check after the link check, otherwise
+    # the link checker won't get the chance to see if the resource
+    # is broken.
+    if score > 1 and not data.get('is_open'):
+        score_reason = 'License not open'
+        score = 0
 
     if score == 0:
         score_failure_count += 1

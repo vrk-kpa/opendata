@@ -87,7 +87,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'unrecognised content type', result
+        assert result['openness_score_reason'] == 'Unrecognised content type', result
 
     @with_mock_url('?content-type=text%2Fplain')
     def test_url_pointing_to_html_page_scores_one(self, url):
@@ -95,7 +95,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == 'obtainable via web page', result
+        assert result['openness_score_reason'] == 'Obtainable via web page', result
 
     @with_mock_url('?content-type=text%2Fplain%3B+charset=UTF-8')
     def test_content_type_with_charset_still_recognized(self, url):
@@ -103,7 +103,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == 'obtainable via web page', result
+        assert result['openness_score_reason'] == 'Obtainable via web page', result
 
     @with_mock_url('?content-type=application%2Fvnd.ms-excel')
     def test_machine_readable_formats_score_two(self, url):
@@ -111,7 +111,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 2, result
-        assert result['openness_score_reason'] == 'machine readable format', result
+        assert result['openness_score_reason'] == 'Machine readable format', result
 
     @with_mock_url('?content-type=text%2Fcsv')
     def test_open_standard_formats_score_three(self, url):
@@ -119,7 +119,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 3, result
-        assert result['openness_score_reason'] == 'open and standardized format', result
+        assert result['openness_score_reason'] == 'Open and standardized format', result
 
     @with_mock_url('?content-type=application%2Frdf%2Bxml')
     def test_ontological_formats_score_four(self, url):
@@ -127,7 +127,7 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 4, result
-        assert result['openness_score_reason'] == 'ontologically represented', result
+        assert result['openness_score_reason'] == 'Ontologically represented', result
 
     @with_mock_url('?status=503')
     def test_temporary_failure_increments_failure_count(self, url):

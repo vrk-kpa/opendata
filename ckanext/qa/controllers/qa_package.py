@@ -1,4 +1,4 @@
-from ckan.lib.base import render, c
+from ckan.lib.base import render, c, request
 from ckanext.qa.reports import five_stars, broken_resource_links_by_dataset
 from base import QAController
 
