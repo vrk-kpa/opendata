@@ -38,12 +38,28 @@ class ArchiverPlugin(SingletonPlugin):
         site_user = get_action('get_site_user')(
             {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
         )
-
-        user = model.User.by_name(c.user)
+        # If the code that triggers this is run from the command line, the c 
+        # stacked object proxy variable will not have been set up by the paste
+        # registry so will give an error saying no object has been registered
+        # for this thread. The easiest thing to do is to catch this, but it 
+        # would be nice to have a config option so that the behaviour can be 
+        # specified.
+        try:
+            c.user
+        except TypeError:
+            # This is no different from running the archvier from the command line:
+            # See https://github.com/okfn/ckanext-archiver/blob/master/ckanext/archiver/commands.py
+            user = site_user
+            username = site_user['name']
+            userapikey = site_user['apikey']
+        else:
+            user = model.User.by_name(c.user)
+            username = user.name
+            userapikey = user.apikey
         context = json.dumps({
             'site_url': self.site_url,
-            'apikey': user.apikey,
-            'username': user.name,
+            'apikey': userapikey,
+            'username': username,
             'cache_url_root': self.cache_url_root,
             'site_user_apikey': site_user['apikey']
         })

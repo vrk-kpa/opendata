@@ -258,6 +258,7 @@ def link_checker(context, data):
 
     Returns a json dict of the headers of the request
     """
+    log = update.get_logger()
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
 
@@ -267,8 +268,9 @@ def link_checker(context, data):
 
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
+    url = data['url']
     try:
-        url = data['url'].decode('ascii')
+        url = url.decode('ascii')
     except:
         parts = list(urlparse.urlparse(url))
         parts[2] = urllib.quote(parts[2].encode('utf-8'))
@@ -292,17 +294,20 @@ def link_checker(context, data):
         try:
             res = requests.head(url, timeout = url_timeout)
             headers = res.headers
+        except httplib.InvalidURL, ve:
+            log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect.", url, ve, data.get('package'))
+            raise LinkCheckerError("Invalid URL or Redirect Link")
         except ValueError, ve:
-            raise LinkCheckerError("Invalid URL")
-        if res.error:
-            if res.status_code in HTTP_ERROR_CODES:
-                error_message = HTTP_ERROR_CODES[res.status_code]
-            else:
-                error_message = "URL unobtainable"
-            raise LinkCheckerError(error_message)
-
+            log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
+            raise LinkCheckerError("Could not make HEAD request")
+        else:
+            if res.error:
+                if res.status_code in HTTP_ERROR_CODES:
+                    error_message = HTTP_ERROR_CODES[res.status_code]
+                else:
+                    error_message = "URL unobtainable"
+                raise LinkCheckerError(error_message)
     return json.dumps(headers)
-
 
 def archive_resource(context, resource, logger, result=None, url_timeout = 30):
     """
@@ -384,9 +389,14 @@ def _update_resource(context, resource):
     if res.status_code == 200:
         return res.content
     else:
-        raise CkanError('ckan failed to update resource, status_code (%s)' 
-                        % res.status_code)
-
+        try:
+            content = res.content
+        except:
+            content = '<could not read request content to discover error>'
+        log = update.get_logger()
+        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r'
+                        % (res.status_code, content, context, resource, res, post_data))
+        raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
 
 def update_task_status(context, data):
     """
@@ -396,14 +406,20 @@ def update_task_status(context, data):
     Returns the content of the response. 
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    post_data = json.dumps(data)
     res = requests.post(
-        api_url + '/task_status_update', json.dumps(data),
+        api_url + '/task_status_update', post_data,
         headers = {'Authorization': context['site_user_apikey'],
                    'Content-Type': 'application/json'}
     )
     if res.status_code == 200:
         return res.content
     else:
-        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, res.content))
-
+        try:
+            content = res.content
+        except:
+            content = '<could not read request content to discover error>'
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r'
+                        % (res.status_code, content, context, resource, res, post_data))
+        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
 
