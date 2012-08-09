@@ -224,11 +224,11 @@ def resource_score(context, data):
                 # TODO: use the todo extension to flag this issue
                 pass
 
-    except LinkCheckerError, e:
-        score_reason = str(e)
-    except Exception, e:
-        log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
-        score_reason = "Unknown error: %s" % str(e)
+        except LinkCheckerError, e:
+            score_reason = str(e)
+        except Exception, e:
+            log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
+            score_reason = "Unknown error: %s" % str(e)
 
     if score == 0:
         score_failure_count += 1
