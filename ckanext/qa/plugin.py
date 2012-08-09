@@ -23,6 +23,7 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
+    p.implements(p.ITemplateHelpers)
 
     def configure(self, config):
         self.site_url = config.get('ckan.site_url')
@@ -161,10 +162,14 @@ class QAPlugin(p.SingletonPlugin):
 
         return stream
 
-    def get_star_html(self, resource_id):
+    @classmethod
+    def get_star_html(cls, resource_id):
         report = reports.resource_five_stars(resource_id)
         stars = report.get('openness_score', -1)
         if stars >= 0:
             reason = report.get('openness_score_reason')
             return html.get_star_html(stars, reason)
         return None
+
+    def get_helpers(self):
+        return {'qa_stars': self.get_star_html}
