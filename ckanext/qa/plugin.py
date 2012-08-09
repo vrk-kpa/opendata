@@ -38,13 +38,13 @@ class QAPlugin(p.SingletonPlugin):
         p.toolkit.add_public_directory(config, 'public')
 
     def before_map(self, map):
-        home = 'ckanext.qa.controllers.qa_home:QAHomeController'
+        qa_controller = 'ckanext.qa.controller:QAController'
         pkg = 'ckanext.qa.controllers.qa_package:QAPackageController'
         org = 'ckanext.qa.controllers.qa_organisation:QAOrganisationController'
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
         api = 'ckanext.qa.controllers.qa_api:ApiController'
 
-        map.connect('qa', '/qa', controller=home, action='index')
+        map.connect('qa', '/qa', controller=qa_controller, action='index')
 
         map.connect('qa_dataset', '/qa/dataset/',
                     controller=pkg, action='index')
