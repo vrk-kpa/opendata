@@ -39,8 +39,6 @@ class QAPlugin(p.SingletonPlugin):
 
     def before_map(self, map):
         qa_controller = 'ckanext.qa.controller:QAController'
-        pkg = 'ckanext.qa.controllers.qa_package:QAPackageController'
-        org = 'ckanext.qa.controllers.qa_organisation:QAOrganisationController'
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
         api = 'ckanext.qa.controllers.qa_api:ApiController'
 
@@ -52,12 +50,12 @@ class QAPlugin(p.SingletonPlugin):
                     controller=qa_controller)
 
         map.connect('qa_organisation', '/qa/organisation/',
-                    controller=org)
+                    controller=qa_controller, action='organisation_index')
         map.connect('qa_organisation_action', '/qa/organisation/{action}',
-                    controller=org)
+                    controller=qa_controller)
         map.connect('qa_organisation_action_id',
                     '/qa/organisation/{action}/:id',
-                    controller=org)
+                    controller=qa_controller)
 
         map.connect('qa_resource_checklink', '/qa/link_checker',
                     conditions=dict(method=['GET']),
