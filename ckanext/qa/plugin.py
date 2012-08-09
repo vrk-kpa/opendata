@@ -28,7 +28,12 @@ class QAPlugin(p.SingletonPlugin):
         self.site_url = config.get('ckan.site_url')
 
     def update_config(self, config):
-        p.toolkit.add_template_directory(config, 'templates')
+        # check if new templates
+        templates = 'templates'
+        if p.toolkit.check_ckan_version(min_version='2.0'):
+            if not p.toolkit.asbool(config.get('ckan.legacy_templates', False)):
+                templates = 'templates_new'
+        p.toolkit.add_template_directory(config, templates)
         p.toolkit.add_public_directory(config, 'public')
 
     def before_map(self, map):
