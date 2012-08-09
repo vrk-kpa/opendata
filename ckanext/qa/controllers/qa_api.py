@@ -25,7 +25,7 @@ headers = [
     'Resource Score Reason',
 ]
 
-def make_csv(result, headers, rows):
+def make_csv(headers, rows):
     csvout = StringIO.StringIO()
     csvwriter = csv.writer(
         csvout,
@@ -57,9 +57,6 @@ class ApiController(QAController):
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
         if format == 'csv':
-            filename = '%s.csv' % (id)
-            response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for dataset in result:
                 for resource in dataset.resources:
@@ -71,20 +68,14 @@ class ApiController(QAController):
                         resource.get('openness_score_reason', ''),
                     ]
                     rows.append(row)
-            return make_csv(
-                result,
-                headers[2:],
-                rows,
-            )
+            filename = 'broken_links_by_dataset'
+            return  self._output_csv_file(headers[2:], rows, filename)
         else:
             return self._output_json(result)
 
     def organisations_with_broken_resource_links(self, id, format='json'):
         result = organisations_with_broken_resource_links()
         if format == 'csv':
-            filename = '%s.csv' % (id)
-            response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for organisation, datasets in result.items():
                 for dataset, resources in datasets.items():
@@ -99,20 +90,13 @@ class ApiController(QAController):
                             resource.get('openness_score_reason'),
                         ]
                         rows.append(row)
-            return make_csv(
-                result,
-                headers,
-                rows,
-            )
+            return  self._output_csv_file(headers, rows, id)
         else:
             return self._output_json(result)
 
     def broken_resource_links_by_dataset_for_organisation(self, id, format='json'):
         result = broken_resource_links_by_dataset_for_organisation(id)
         if format == 'csv':
-            filename = '%s.csv' % (id)
-            response.headers['Content-Type'] = 'application/csv'
-            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
             rows = []
             for dataset, resources in result['packages'].items():
                 for resource in resources:
@@ -126,14 +110,16 @@ class ApiController(QAController):
                         resource.get('openness_score_reason'),
                     ]
                     rows.append(row)
-            return make_csv(
-                result,
-                headers,
-                rows,
-            )
+            return  self._output_csv_file(headers, rows, id)
         else:
             return self._output_json(result)
 
     def _output_json(self, data):
         response.headers['Content-Type'] = 'application/json'
         return json.dumps(data)
+
+    def _output_csv_file(self, headers, data, filename):
+        filename = '%s.csv' % filename
+        response.headers['Content-Type'] = 'application/csv'
+        response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
+        return make_csv(headers, data)
