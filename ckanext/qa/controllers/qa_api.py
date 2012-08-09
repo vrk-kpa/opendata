@@ -47,11 +47,13 @@ def make_csv(result, headers, rows):
 class ApiController(QAController):
 
     def resource_five_stars(self, id):
-        return json.dumps(resource_five_stars(id))
-                
+        result = resource_five_stars(id)
+        return self._output_jsrn(result)
+
     def dataset_five_stars(self, id=None):
-        return json.dumps(five_stars(id))
-        
+        result = five_stars(id)
+        return self._output_jsrn(result)
+
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
         if format == 'csv':
@@ -75,8 +77,7 @@ class ApiController(QAController):
                 rows,
             )
         else:
-            response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return self._output_json(result)
 
     def organisations_with_broken_resource_links(self, id, format='json'):
         result = organisations_with_broken_resource_links()
@@ -104,8 +105,7 @@ class ApiController(QAController):
                 rows,
             )
         else:
-            response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return self._output_json(result)
 
     def broken_resource_links_by_dataset_for_organisation(self, id, format='json'):
         result = broken_resource_links_by_dataset_for_organisation(id)
@@ -132,6 +132,8 @@ class ApiController(QAController):
                 rows,
             )
         else:
-            response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return self._output_json(result)
 
+    def _output_json(self, data):
+        response.headers['Content-Type'] = 'application/json'
+        return json.dumps(data)
