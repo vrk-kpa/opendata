@@ -25,24 +25,6 @@ headers = [
     'Resource Score Reason',
 ]
 
-def make_csv(headers, rows):
-    csvout = StringIO.StringIO()
-    csvwriter = csv.writer(
-        csvout,
-        dialect='excel',
-        quoting=csv.QUOTE_NONNUMERIC
-    )
-    csvwriter.writerow(headers)
-    for row in rows:
-        items = []
-        for item in row:
-            items.append(item.encode('utf8'))
-        try:
-            csvwriter.writerow(items)
-        except Exception, e:
-            raise Exception("%s: %s, %s"%(e, row, items))
-    csvout.seek(0)
-    return csvout.read()
 
 class ApiController(QAController):
 
@@ -118,8 +100,24 @@ class ApiController(QAController):
         response.headers['Content-Type'] = 'application/json'
         return json.dumps(data)
 
-    def _output_csv_file(self, headers, data, filename):
+    def _output_csv_file(self, headers, rows, filename):
         filename = '%s.csv' % filename
         response.headers['Content-Type'] = 'application/csv'
         response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
-        return make_csv(headers, data)
+        csvout = StringIO.StringIO()
+        csvwriter = csv.writer(
+            csvout,
+            dialect='excel',
+            quoting=csv.QUOTE_NONNUMERIC
+        )
+        csvwriter.writerow(headers)
+        for row in rows:
+            items = []
+            for item in row:
+                items.append(item.encode('utf8'))
+            try:
+                csvwriter.writerow(items)
+            except Exception, e:
+                raise Exception("%s: %s, %s"%(e, row, items))
+        csvout.seek(0)
+        return csvout.read()
