@@ -1,0 +1,6 @@
+{% ckan_extends %}
+
+{% block resource_read_title %}
+  {{ super() }}
+  {{ h.qa_stars(c.resource.id) }}
+{% endblock %}
