@@ -10,7 +10,7 @@ from ckanext.qa.reports import (
     five_stars,
     resource_five_stars,
     broken_resource_links_by_dataset,
-    broken_resource_links_by_dataset_for_organisation, 
+    broken_resource_links_by_dataset_for_organisation,
     organisations_with_broken_resource_links,
 )
 from base import QAController
@@ -101,8 +101,8 @@ class ApiController(QAController):
             for dataset, resources in result['packages'].items():
                 for resource in resources:
                     row = [
-                        result['title'], 
-                        unicode(result['id']), 
+                        result['title'],
+                        unicode(result['id']),
                         dataset[0],
                         dataset[1],
                         resource.get('url'),
