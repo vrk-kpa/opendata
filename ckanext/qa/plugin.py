@@ -40,7 +40,6 @@ class QAPlugin(p.SingletonPlugin):
     def before_map(self, map):
         qa_controller = 'ckanext.qa.controller:QAController'
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
-        api = 'ckanext.qa.controllers.qa_api:ApiController'
 
         map.connect('qa', '/qa', controller=qa_controller, action='index')
 
@@ -64,23 +63,24 @@ class QAPlugin(p.SingletonPlugin):
 
         map.connect('qa_api', '/api/2/util/qa/{action}',
                     conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resource_formatted',
-                    '/api/2/util/qa/{action}/:(id).:(format)',
+                    requirements=dict(action='|'.join([
+                        'dataset_five_stars',
+                        'broken_resource_links_by_dataset',
+                    ])),
+                    controller=qa_controller)
+        map.connect('/api/2/util/qa/{action}.:(format)',
                     conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resources_formatted',
-                    '/api/2/util/qa/{action}/all.:(format)',
+                    requirements=dict(action='|'.join([
+                        'broken_resource_links_by_dataset',
+                    ])),
+                    controller=qa_controller)
+        map.connect('/api/2/util/qa/{action}/:(id).:(format)',
                     conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
-                    conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resources_available',
-                    '/api/2/util/qa/resources_available/{id}',
-                    conditions=dict(method=['GET']),
-                    controller=api,
-                    action='resources_available')
+                    requirements=dict(action='|'.join([
+                        'organisations_with_broken_resource_links',
+                        'broken_resource_links_by_dataset_for_organisation',
+                    ])),
+                    controller=qa_controller)
 
         return map
 
