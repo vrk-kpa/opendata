@@ -47,9 +47,9 @@ class QAPlugin(p.SingletonPlugin):
         map.connect('qa', '/qa', controller=qa_controller, action='index')
 
         map.connect('qa_dataset', '/qa/dataset/',
-                    controller=pkg, action='index')
+                    controller=qa_controller, action='package_index')
         map.connect('qa_dataset_action', '/qa/dataset/{action}',
-                    controller=pkg)
+                    controller=qa_controller)
 
         map.connect('qa_organisation', '/qa/organisation/',
                     controller=org)
