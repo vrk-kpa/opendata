@@ -14,9 +14,9 @@ from ckan.lib.helpers import parse_rfc_2822_date
 
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
-from ckanext.qa.controllers.base import QAController
+from ckan.lib.base import BaseController
 
-class QAResourceController(QAController):
+class QAResourceController(BaseController):
 
     def check_link(self):
         """
