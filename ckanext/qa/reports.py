@@ -146,6 +146,7 @@ def broken_resource_links_by_dataset():
         and package.state = 'active' 
         and resource.state='active'
         and resource_group.state='active'
+        and task_status.value!='License not open'
         order by package.title
         """
     )
@@ -191,6 +192,7 @@ def _get_broken_resource_links(organisation_id=None, include_resources=False):
         and resource.state='active'
         and resource_group.state='active'
         and package_extra.key in ('published_by', 'published_via')
+        and task_status.value!='License not open'
         """
     if organisation_id:
         organisation_id = int(organisation_id)
