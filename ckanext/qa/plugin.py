@@ -180,5 +180,30 @@ class QAPlugin(p.SingletonPlugin):
             return html.get_star_html(stars, reason)
         return None
 
+    @classmethod
+    def new_get_star_html(cls, resource_id):
+        report = reports.resource_five_stars(resource_id)
+        stars  = report.get('openness_score', -1)
+        reason = p.toolkit._('Not Rated')
+        if stars >= 0:
+            reason = report.get('openness_score_reason')
+        extra_vars = {'stars': stars, 'reason': reason}
+        return p.toolkit.literal(p.toolkit.render('qa/snippets/stars_module.html',
+                                 extra_vars=extra_vars))
+
+    @classmethod
+    def get_star_info_html(cls, stars):
+        extra_vars = {'stars': stars}
+        return p.toolkit.literal(p.toolkit.render('qa/snippets/stars_info.html',
+                                 extra_vars=extra_vars))
+
+    @classmethod
+    def get_star_rating_html(cls, stars, reason):
+        extra_vars = {'stars': stars, 'reason': reason}
+        return p.toolkit.literal(p.toolkit.render('qa/snippets/stars.html',
+                                 extra_vars=extra_vars))
+
     def get_helpers(self):
-        return {'qa_stars': self.get_star_html}
+        return {'qa_stars': self.new_get_star_html,
+                'qa_stars_rating': self.get_star_rating_html,
+                'qa_stars_info': self.get_star_info_html}
