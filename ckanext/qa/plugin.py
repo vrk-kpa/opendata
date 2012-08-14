@@ -34,6 +34,8 @@ class QAPlugin(p.SingletonPlugin):
         if p.toolkit.check_ckan_version(min_version='2.0'):
             if not p.toolkit.asbool(config.get('ckan.legacy_templates', False)):
                 templates = 'templates_new'
+                # add the extend templates
+                p.toolkit.add_template_directory(config, 'templates_extend')
         p.toolkit.add_template_directory(config, templates)
         p.toolkit.add_public_directory(config, 'public')
 

@@ -1,0 +1,24 @@
+{% ckan_extends %}
+
+{% block resource_read_title %}
+  {{ super() }}
+  <style>
+      .hover-for-help .help-text{
+          display:none;
+      }
+      .hover-for-help:hover .help-text{
+          display:block;
+          position:absolute;
+          border: 1px solid #666;
+          background-color:#CCC;
+          padding:3px;
+      }
+      .star-rating .help-text span{
+        display:block;
+      }
+      .star-rating .help-text span.fail{
+        color:#F00;
+      }
+  </style>
+  {{ h.qa_stars(c.resource.id) }}
+{% endblock %}

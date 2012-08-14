@@ -37,4 +37,5 @@ def get_star_html(stars, reason):
         caption += literal('<span class="%s">%s&nbsp; "%s"</span>' % (fail, text_stars, captions[i-1]))
 
     star_icons = stars * icon('star')
+    return literal('<span class="star-rating hover-for-help"><a href="http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/" target="_blank">%s</a><div class="help-text">[%s] %s</div></span>' % (star_icons, reason, caption))
     return literal('<span class="star-rating hover-for-help"><span class="help-text">[%s] %s</span><a href="http://lab.linkeddata.deri.ie/2010/star-scheme-by-example/" target="_blank">%s</a></span>' % (reason, caption, star_icons))
