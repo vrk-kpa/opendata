@@ -14,10 +14,11 @@
 
   <div py:match="content">
     <div class="qa-content">
+    <py:if test='c.organisation.packages'>
     <h1>${c.organisation.title}</h1>
     <h4>Download this report.</h4>
     <ul>
-        <li>${h.link_to('Report in CSV format', h.url_for('qa_api_resource_formatted', action='broken_resource_links_by_dataset_for_organisation', id=c.id, format='csv'))}</li>
+        <li>${h.link_to('Report in CSV format', h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links_by_dataset_for_organisation', id=c.id, format='csv'))}</li>
     </ul>
     <table class="qa-table">
       <tr>
@@ -41,12 +42,13 @@
       </tr>
     </table>
 
-    <py:if test="not c.organisation.packages.items()">
+    </py:if>
+    <py:if test="not (c.organisation.packages and c.organisation.packages.items())">
     <p>No results found for this organization.</p>
     </py:if>
 
     </div>
   </div>
-  <xi:include href="../../../../layout.html" />
+  <xi:include href="../layout.html" />
 </html>
 

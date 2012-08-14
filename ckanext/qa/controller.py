@@ -26,30 +26,30 @@ class QAController(BaseController):
 
     def index(self):
         c.organisations = p.toolkit.asbool(config.get('qa.organisations', True))
-        return render('ckanext/qa/index.html')
+        return render('qa/index.html')
 
     def package_index(self):
-        return render('ckanext/qa/dataset/index.html')
+        return render('qa/datasets.html')
 
     def five_stars(self):
         c.packages = five_stars()
-        return p.toolkit.render('ckanext/qa/dataset/five_stars/index.html')
+        return p.toolkit.render('qa/five_stars.html')
 
-    def broken_resource_links(self):
+    def dataset_broken_resource_links(self):
         c.packages = broken_resource_links_by_dataset()
-        return render('ckanext/qa/dataset/broken_resource_links/index.html')
+        return render('qa/dataset_broken_resource_links.html')
 
     def organisation_index(self):
-        return render('ckanext/qa/organisation/index.html')
+        return render('qa/organisations.html')
 
     def broken_resource_links(self, id=None):
         if id is None:
             c.organisations = organisations_with_broken_resource_links_by_name()
-            return render('ckanext/qa/organisation/broken_resource_links/index.html')
+            return render('qa/organisation_broken_resource_links.html')
         else:
             c.id = id
             c.organisation = broken_resource_links_by_dataset_for_organisation(organisation_id=id)
-            return render('ckanext/qa/organisation/broken_resource_links/organisation.html')
+            return render('qa/broken_resource_links_for_organisation.html')
 
     headers = [
         'Organisation Name',
@@ -63,11 +63,11 @@ class QAController(BaseController):
 
     def resource_five_stars(self, id):
         result = resource_five_stars(id)
-        return self._output_jsrn(result)
+        return self._output_json(result)
 
     def dataset_five_stars(self, id=None):
         result = five_stars(id)
-        return self._output_jsrn(result)
+        return self._output_json(result)
 
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()

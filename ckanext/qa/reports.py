@@ -131,11 +131,18 @@ def broken_resource_links_by_dataset():
 
 def broken_resource_links_by_dataset_for_organisation(organisation_id):
     result = _get_broken_resource_links(organisation_id)
-    return {
-        'id': result.keys()[0][1],
-        'title': result.keys()[0][0],
-        'packages': result.values()[0]
-    }
+    if result:
+        return {
+            'id': result.keys()[0][1],
+            'title': result.keys()[0][0],
+            'packages': result.values()[0]
+        }
+    else:
+        return {
+            'id': None,
+            'title': None,
+            'packages': []
+        }
 
 
 def organisations_with_broken_resource_links_by_name():

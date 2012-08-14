@@ -43,19 +43,28 @@ class QAPlugin(p.SingletonPlugin):
         qa_controller = 'ckanext.qa.controller:QAController'
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
 
-        map.connect('qa', '/qa', controller=qa_controller, action='index')
+        map.connect('/qa', controller=qa_controller, action='index')
 
-        map.connect('qa_dataset', '/qa/dataset/',
+        map.connect('/qa/dataset',
                     controller=qa_controller, action='package_index')
-        map.connect('qa_dataset_action', '/qa/dataset/{action}',
+        map.connect('/qa/dataset/five_stars',
+                    action='five_stars',
                     controller=qa_controller)
 
-        map.connect('qa_organisation', '/qa/organisation/',
-                    controller=qa_controller, action='organisation_index')
-        map.connect('qa_organisation_action', '/qa/organisation/{action}',
+        map.connect('/qa/dataset/broken_resource_links',
+                    action='dataset_broken_resource_links',
                     controller=qa_controller)
-        map.connect('qa_organisation_action_id',
-                    '/qa/organisation/{action}/:id',
+
+        map.connect('/qa/organisation/',
+                    controller=qa_controller, action='organisation_index')
+
+        map.connect('/qa/organisation/broken_resource_links',
+                    action='broken_resource_links',
+                    controller=qa_controller)
+    #    map.connect('qa_organisation_action', '/qa/organisation/{action}',
+     #               controller=qa_controller)
+        map.connect('/qa/organisation/broken_resource_links/:id',
+                    action='broken_resource_links',
                     controller=qa_controller)
 
         map.connect('qa_resource_checklink', '/qa/link_checker',
