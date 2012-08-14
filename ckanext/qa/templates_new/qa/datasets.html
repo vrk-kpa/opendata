@@ -1,0 +1,32 @@
+
+{% extends "page.html" %}
+
+{% block title %}{{ _('Quality Assurance') }} - {{ super() }}{% endblock %}
+
+{% block breadcrumb_content %}
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <div class="qa-content">
+
+
+    <h1>Package Quality Assurance</h1>
+    <ul>
+      <li>{{ h.link_to("5 stars of openness scores",
+                      h.url_for(controller='ckanext.qa.controller:QAController',
+                      action='five_stars')) }}
+      </li>
+      <li>{{ h.link_to("Broken resource links",
+                      h.url_for(controller='ckanext.qa.controller:QAController',
+                      action='dataset_broken_resource_links')) }}
+      </li>
+    </ul>
+
+      </div>
+    </div>
+  </article>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
