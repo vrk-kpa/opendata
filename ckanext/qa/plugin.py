@@ -30,13 +30,18 @@ class QAPlugin(p.SingletonPlugin):
 
     def update_config(self, config):
         # check if new templates
-        templates = 'templates'
         if p.toolkit.check_ckan_version(min_version='2.0'):
             if not p.toolkit.asbool(config.get('ckan.legacy_templates', False)):
-                templates = 'templates_new'
                 # add the extend templates
                 p.toolkit.add_template_directory(config, 'templates_extend')
-        p.toolkit.add_template_directory(config, templates)
+            else:
+                # legacy templates
+                p.toolkit.add_template_directory(config, 'templates')
+            # templates for helper functions
+            p.toolkit.add_template_directory(config, 'templates_new')
+        else:
+            # FIXME we don't support ckan < 2.0
+            p.toolkit.add_template_directory(config, 'templates')
         p.toolkit.add_public_directory(config, 'public')
 
     def before_map(self, map):
