@@ -61,8 +61,7 @@ class QAPlugin(p.SingletonPlugin):
         map.connect('/qa/organisation/broken_resource_links',
                     action='broken_resource_links',
                     controller=qa_controller)
-    #    map.connect('qa_organisation_action', '/qa/organisation/{action}',
-     #               controller=qa_controller)
+
         map.connect('/qa/organisation/broken_resource_links/:id',
                     action='broken_resource_links',
                     controller=qa_controller)
