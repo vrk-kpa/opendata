@@ -305,7 +305,7 @@ def link_checker(context, data):
                 if res.status_code in HTTP_ERROR_CODES:
                     error_message = HTTP_ERROR_CODES[res.status_code]
                 else:
-                    error_message = "URL unobtainable"
+                    error_message = "URL unobtainable: HTTP %s on %r" % (res.status_code, url)
                 raise LinkCheckerError(error_message)
     return json.dumps(headers)
 
