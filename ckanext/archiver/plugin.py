@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 import json
 from ckan import model
@@ -7,6 +8,8 @@ from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification,
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.logic import get_action
 from ckan.lib.celery_app import celery
+
+log = logging.getLogger(__name__)
 
 class ArchiverPlugin(SingletonPlugin):
     """
@@ -24,6 +27,8 @@ class ArchiverPlugin(SingletonPlugin):
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
+
+        log.debug('Notified of resource change: %s', entity.id)
 
         if operation:
             if operation == model.DomainObjectOperation.new:
@@ -63,7 +68,8 @@ class ArchiverPlugin(SingletonPlugin):
             'cache_url_root': self.cache_url_root,
             'site_user_apikey': site_user['apikey']
         })
-        data = json.dumps(resource_dictize(resource, {'model': model}))
+        res_dict = resource_dictize(resource, {'model': model})
+        data = json.dumps(res_dict)
 
         task_id = make_uuid()
         archiver_task_status = {
@@ -83,3 +89,4 @@ class ArchiverPlugin(SingletonPlugin):
 
         get_action('task_status_update')(archiver_task_context, archiver_task_status)
         celery.send_task("archiver.update", args=[context, data], task_id=task_id)
+        log.debug('Archival of resource put into celery queue: %s url=%r', resource.id, res_dict.get('url'))
