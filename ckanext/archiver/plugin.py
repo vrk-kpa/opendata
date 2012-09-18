@@ -52,9 +52,8 @@ class ArchiverPlugin(SingletonPlugin):
         try:
             c.user
         except TypeError:
-            # This is no different from running the archvier from the command line:
+            # This is no different from running the archiver from the command line:
             # See https://github.com/okfn/ckanext-archiver/blob/master/ckanext/archiver/commands.py
-            user = site_user
             username = site_user['name']
             userapikey = site_user['apikey']
         else:
@@ -89,4 +88,4 @@ class ArchiverPlugin(SingletonPlugin):
 
         get_action('task_status_update')(archiver_task_context, archiver_task_status)
         celery.send_task("archiver.update", args=[context, data], task_id=task_id)
-        log.debug('Archival of resource put into celery queue: %s url=%r', resource.id, res_dict.get('url'))
+        log.debug('Archival of resource put into celery queue: %s url=%r user=%s site_user=%s site_url=%s', resource.id, res_dict.get('url'), username, site_user['name'], self.site_url)
