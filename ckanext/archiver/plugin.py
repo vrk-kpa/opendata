@@ -31,7 +31,8 @@ class ArchiverPlugin(SingletonPlugin):
         log.debug('Notified of resource change: %s', entity.id)
 
         if operation:
-            if operation == model.DomainObjectOperation.new:
+            if operation in (model.DomainObjectOperation.new,
+                             model.DomainObjectOperation.changed):
                 self._create_archiver_task(entity)
         else:
             # if operation is None, resource URL has been changed, as the

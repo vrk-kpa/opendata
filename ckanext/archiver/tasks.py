@@ -199,7 +199,7 @@ def update(context, data):
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
             'stack': traceback.format_exc(),
             'last_updated': datetime.now().isoformat()
-        })
+        }, log)
         raise
 
 def _update(context, data):
@@ -309,9 +309,10 @@ def link_checker(context, data):
                 raise LinkCheckerError(error_message)
     return json.dumps(headers)
 
-def archive_resource(context, resource, logger, result=None, url_timeout = 30):
+def archive_resource(context, resource, log, result=None, url_timeout = 30):
     """
-    Archive the given resource.
+    Archive the given resource. Downloads the file and updates the
+    resource with the link to it.
     """
     if result['length']:
         dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
@@ -326,7 +327,7 @@ def archive_resource(context, resource, logger, result=None, url_timeout = 30):
         saved_file = os.path.join(dir, file_name)
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
-        logger.info('Saved resource as: %s', saved_file)
+        log.info('Archived resource as: %s', saved_file)
             
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
@@ -336,7 +337,7 @@ def archive_resource(context, resource, logger, result=None, url_timeout = 30):
             if resource.get('cache_url') != cache_url:
                 resource['cache_url'] = cache_url
                 resource['cache_last_updated'] = datetime.now().isoformat()
-                _update_resource(context, resource)
+                _update_resource(context, resource, log)
 
     return saved_file
 
@@ -371,7 +372,7 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     return length, content_hash, tmp_resource_file_path
 
 
-def _update_resource(context, resource):
+def _update_resource(context, resource, log):
     """
     Use CKAN API to update the given resource.
     If cannot update, records this fact in the task_status table.
@@ -395,12 +396,11 @@ def _update_resource(context, resource):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log = update.get_logger()
         log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r'
                         % (res.status_code, content, context, resource, res, post_data))
         raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
 
-def update_task_status(context, data):
+def update_task_status(context, data, log):
     """
     Use CKAN API to update the task status. The data parameter
     should be a dict representing one row in the task_status table.
