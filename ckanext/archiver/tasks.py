@@ -326,6 +326,7 @@ def archive_resource(context, resource, logger, result=None, url_timeout = 30):
         saved_file = os.path.join(dir, file_name)
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
+        logger.info('Saved resource as: %s', saved_file)
             
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
