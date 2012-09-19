@@ -50,16 +50,16 @@ MIME_TYPE_SCORE = {
 }
 
 
-def _update_task_status(context, data):
+def _update_task_status(context, data, log):
     """
     Use CKAN API to update the task status. The data parameter
     should be a dict representing one row in the task_status table.
 
     Returns the content of the response.
     """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
     res = requests.post(
-        api_url + '/task_status_update', json.dumps(data),
+        api_url, json.dumps(data),
         headers={'Authorization': context['apikey'],
                  'Content-Type': 'application/json'}
     )
@@ -70,11 +70,11 @@ def _update_task_status(context, data):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log = update.get_logger()
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r'
-                        % (res.status_code, content, context, data, res))
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, res.error, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
                         % (res.status_code, res.content))
+    log.info('Task status updated ok')
 
 
 def _task_status_data(id, result):
@@ -124,7 +124,7 @@ def update(context, data):
         data = json.loads(data)
         context = json.loads(context)
 
-        result = resource_score(context, data)
+        result = resource_score(context, data, log)
         log.info('\n%r\n%r\n%r\n\n', result, data, context)
         if data.has_key('package') and data.has_key('position') and result.has_key('openness_score') and result.has_key('openness_score_reason'):
             log.info('Openness score for dataset %s (res#%s): %r (%s)',
@@ -133,24 +133,24 @@ def update(context, data):
         
         task_status_data = _task_status_data(data['id'], result)
 
-        api_url = urlparse.urljoin(context['site_url'], 'api/action')
+        api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update_many'
         response = requests.post(
-            api_url + '/task_status_update_many',
+            api_url,
             json.dumps({'data': task_status_data}),
             headers={'Authorization': context['apikey'],
                      'Content-Type': 'application/json'}
         )
         if not response.ok:
-            err = 'ckan failed to update task_status, error %s' \
-                  % response.error
+            err = 'ckan failed to update task_status, error %s\nurl=%r' \
+                  % (response.error, api_url)
             log.error(err)
             raise CkanError(err)
         elif response.status_code != 200:
-            err = 'ckan failed to update task_status, status_code (%s), error %s' \
-                  % (response.status_code, response.content)
+            err = 'ckan failed to update task_status, status_code (%s), error %s\nurl=%s' \
+                  % (response.status_code, response.content, api_url)
             log.error(err)
             raise CkanError(err)
-
+        log.info('CKAN updated with openness score')
         return json.dumps(result)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
@@ -162,11 +162,11 @@ def update(context, data):
             'value': unicode(update.request.id),
             'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
             'last_updated': datetime.datetime.now().isoformat()
-        })
+        }, log)
         raise
 
 
-def resource_score(context, data):
+def resource_score(context, data, log):
     """
     Score resources on Sir Tim Berners-Lee\'s five stars of openness
     based on mime-type.
@@ -179,23 +179,29 @@ def resource_score(context, data):
                                         this resource has returned a score of 0
         
     """
-    log = update.get_logger()
-
     score = 0
     score_reason = ''
     score_failure_count = 0
 
     # get openness score failure count for task status table if exists
-    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
     response = requests.post(
-        api_url + '/task_status_show',
+        api_url,
         json.dumps({'entity_id': data['id'], 'task_type': 'qa',
                     'key': 'openness_score_failure_count'}),
         headers={'Authorization': context['apikey'],
                  'Content-Type': 'application/json'}
     )
+    if response.error:
+        log.error('Could not get openness score failure count. Error=%r\napi_url=%r',
+                  response.error, api_url)
+        raise QAError('Could not get openness score failure count')
     if json.loads(response.content)['success']:
         score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
+    else:
+        log.error('Could not get openness score failure count. Status=%r Error=%r\napi_url=%r',
+                  response.status_code, response.content, api_url)
+        raise QAError('Error getting openness score failure count')
 
     try:
         headers = json.loads(link_checker("{}", json.dumps(data)))

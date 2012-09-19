@@ -8,6 +8,7 @@ import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
+import ckan.plugins.toolkit as t
 from ckan.model.types import make_uuid
 import html
 import reports
@@ -25,7 +26,8 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.IResourceUrlChange)
 
     def configure(self, config):
-        self.site_url = config.get('ckan.site_url')
+        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
+        self.alter_resource_page_template = t.asbool(config.get('qa.alter_resource_page_template', True))
 
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
@@ -128,6 +130,9 @@ class QAPlugin(p.SingletonPlugin):
         send_task('qa.update', args=[context, data], task_id=task_id)
 
     def filter(self, stream):
+	if not self.alter_resource_page_template:
+            return stream
+
         routes = request.environ.get('pylons.routes_dict')
 
         site_url = h.url('/', locale='default')

@@ -64,6 +64,12 @@ setting the following config option:
 
     qa.organisations = false
 
+By default, the resource page will be altered to include the 5 stars value.
+If you don't want this due to a custom theme, then disable it by setting this
+config option::
+
+    qa.alter_resource_page_template = false
+
 
 Using The QA Extension
 ----------------------
