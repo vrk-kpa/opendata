@@ -55,6 +55,8 @@ Configuration
 
     * ckan.site_url: URL to your CKAN instance
 
+    This is the URL that the archive process (in Celery) will use to access the CKAN API to update it about the cached URLs. If your internal network names your CKAN server differently, then specify this internal name in config option: ckan.site_url_internally
+
     Optionally, the following config variables can also be set:
 
     * ckan.cache_url_root: URL that will be prepended to the file path and saved against the CKAN resource,

@@ -21,19 +21,25 @@ class ArchiverPlugin(SingletonPlugin):
     implements(IConfigurable)
 
     def configure(self, config):
-        self.site_url = config.get('ckan.site_url')
+        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
         self.cache_url_root = config.get('ckan.cache_url_root')
 
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
 
-        log.debug('Notified of resource change: %s', entity.id)
+        log.debug('Notified of resource event: %s', entity.id)
 
         if operation:
-            if operation in (model.DomainObjectOperation.new,
-                             model.DomainObjectOperation.changed):
+            # Only interested in 'new resource' events, since that's what you
+            # get when you change the URL field. Note that once this occurs, in tasks.py
+            # it will update the resource with the new cache_url, that will cause a 
+            # 'change resource' notification, which we need to ignore here.
+            if operation == model.DomainObjectOperation.new:
                 self._create_archiver_task(entity)
+            else:
+                log.debug('Ignoring resource event because operation is: %s',
+                          operation)
         else:
             # if operation is None, resource URL has been changed, as the
             # notify function in IResourceUrlChange only takes 1 parameter

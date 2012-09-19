@@ -189,7 +189,12 @@ def update(context, data):
         context = json.loads(context)
         result = _update(context, data) 
         return result
+    except ArchiverError, e:
+        log.error('Archive error during update: %s\nResource: %s',
+                  e, data)
     except Exception, e:
+        log.error('Error occurred during archiving resource: %s\nResource: %r',
+                  e, data)
         update_task_status(context, {
             'entity_id': data['id'],
             'entity_type': u'resource',
@@ -234,7 +239,7 @@ def _update(context, data):
     try:
         result = download(context, data, data_formats=data_formats)
         if result is None:
-            raise Exception("Download failed")
+            raise ArchiverError("Download failed")
     except Exception, downloaderr:
         log.info('Download failed: %r, %r', downloaderr, downloaderr.args)
         if hasattr(settings, 'RETRIES') and settings.RETRIES:
@@ -328,7 +333,7 @@ def archive_resource(context, resource, log, result=None, url_timeout = 30):
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
         log.info('Archived resource as: %s', saved_file)
-            
+        
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
             cache_url = urlparse.urljoin(
@@ -337,9 +342,15 @@ def archive_resource(context, resource, log, result=None, url_timeout = 30):
             if resource.get('cache_url') != cache_url:
                 resource['cache_url'] = cache_url
                 resource['cache_last_updated'] = datetime.now().isoformat()
+                log.info('Updating resource with cache_url=%s', cache_url)
                 _update_resource(context, resource, log)
+            else:
+                log.info('Not updating resource since cache_url is unchanged: %s',
+                          cache_url)
+        else:
+            log.warn('Not updated resource because no value for cache_url_root')
 
-    return saved_file
+        return saved_file
 
 
 def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
@@ -380,24 +391,25 @@ def _update_resource(context, resource, log):
     Returns the content of the response. 
     
     """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/resource_update'
     resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
     res = requests.post(
-        api_url + '/resource_update', post_data,
+        api_url, post_data,
         headers = {'Authorization': context['apikey'],
                    'Content-Type': 'application/json'}
     )
     
     if res.status_code == 200:
+        log.info('Resource updated OK: %s', resource['id'])
         return res.content
     else:
         try:
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r'
-                        % (res.status_code, content, context, resource, res, post_data))
+        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
+                        % (res.status_code, content, context, resource, res, res.error, post_data, api_url))
         raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
 
 def update_task_status(context, data, log):
@@ -407,21 +419,22 @@ def update_task_status(context, data, log):
     
     Returns the content of the response. 
     """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action')
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
     post_data = json.dumps(data)
     res = requests.post(
-        api_url + '/task_status_update', post_data,
+        api_url, post_data,
         headers = {'Authorization': context['site_user_apikey'],
                    'Content-Type': 'application/json'}
     )
     if res.status_code == 200:
+        log.info('Task status updated OK')
         return res.content
     else:
         try:
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r'
-                        % (res.status_code, content, context, resource, res, post_data))
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, res.error, post_data, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
 
