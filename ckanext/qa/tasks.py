@@ -192,14 +192,16 @@ def resource_score(context, data, log):
         headers={'Authorization': context['apikey'],
                  'Content-Type': 'application/json'}
     )
-    if response.error:
-        log.error('Could not get openness score failure count. Error=%r\napi_url=%r',
-                  response.error, api_url)
-        raise QAError('Could not get openness score failure count')
-    if json.loads(response.content)['success']:
+    if response.status_code == 404 and json.loads(response.content)['success'] == False:
+        log.info('Could not get openness score failure count - must be a new resource.')
+    elif response.error:
+        log.error('Error getting openness score failure count. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
+                  response.error, api_url, response.status_code, response.content)
+        raise QAError('Error getting openness score failure count')
+    elif json.loads(response.content)['success']:
         score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
     else:
-        log.error('Could not get openness score failure count. Status=%r Error=%r\napi_url=%r',
+        log.error('Error getting openness score failure count. Status=%r Error=%r\napi_url=%r',
                   response.status_code, response.content, api_url)
         raise QAError('Error getting openness score failure count')
 
