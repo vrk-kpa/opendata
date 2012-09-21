@@ -1,5 +1,7 @@
 import json
 import datetime
+import logging
+
 from genshi.input import HTML
 from genshi.filters import Transformer
 from pylons import request, tmpl_context as c
@@ -16,6 +18,7 @@ import reports
 resource_dictize = model_dictize.resource_dictize
 send_task = celery_app.celery.send_task
 
+log = logging.getLogger(__name__)
 
 class QAPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
@@ -128,6 +131,8 @@ class QAPlugin(p.SingletonPlugin):
 
         p.toolkit.get_action('task_status_update')(task_context, task_status)
         send_task('qa.update', args=[context, data], task_id=task_id)
+
+        log.debug('QA check for resource put into celery queue: %s url=%r', resource.id, resource_dict.get('url'))
 
     def filter(self, stream):
 	if not self.alter_resource_page_template:

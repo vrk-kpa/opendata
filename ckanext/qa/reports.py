@@ -11,14 +11,14 @@ log = logging.getLogger(__name__)
 
 resource_dictize = model_dictize.resource_dictize
 
-class obj(dict):
+class DictObj(dict):
     """\
     Like a normal Python dictionary, but allows keys to be accessed as
     attributes. For example:
 
     ::
 
-        >>> person = obj(firstname='James')
+        >>> person = DictObj(firstname='James')
         >>> person.firstname
         'James'
         >>> person['surname'] = 'Jones'
@@ -34,7 +34,7 @@ class obj(dict):
 
     def __setattr__(self, name, value):
         raise AttributeError(
-            'You cannot set attributes of this object directly'
+            'You cannot set attributes of this DictObject directly'
         )
 
 def five_stars(id=None):
@@ -61,6 +61,7 @@ def five_stars(id=None):
         .filter(model.Resource.state==u'active')\
         .filter(model.ResourceGroup.state==u'active')\
         .group_by(model.Package.name, model.Package.title)\
+        .order_by(model.Package.title)\
         .distinct()
 
     if id:
@@ -120,7 +121,7 @@ def resource_five_stars(id):
             'openness_score_failure_count_updated': openness_score_failure_count_updated,
             'openness_updated': last_updated
         }
-    except p.toolkit.ObjectNotFound:
+    except p.toolkit.DictObjectNotFound:
         result = {}
 
     return result
@@ -153,21 +154,25 @@ def broken_resource_links_by_dataset():
     results = OrderedDict()
     for row in rows:
         if results.has_key(row.package_id):
-            results[row.package_id]['resources'].append(obj(url=row.url, openness_score_reason=row.reason))
+            results[row.package_id]['resources'].append(DictObj(url=row.url, openness_score_reason=row.reason))
         else:
-            results[row.package_id] = obj(name=row.name, title=row.title, resources=[obj(url=row.url, openness_score_reason=row.reason)])
+            results[row.package_id] = DictObj(name=row.name, title=row.title, resources=[DictObj(url=row.url, openness_score_reason=row.reason)])
     return results.values()
 
 def broken_resource_links_by_dataset_for_organisation(organisation_id):
-    result = _get_broken_resource_links(organisation_id)
-    if len(result):
-        return {
-            'id': result.keys()[0][1],
-            'title': result.keys()[0][0],
-            'packages': result.values()[0]
-        }
+    results = _get_broken_resource_links(organisation_id)
+    if not results:
+        id_ = title = ''
+        packages = {}
     else:
-        return None
+        organisation_tuple, package_resource_dict = results.items()[0]
+        title, id_ = organisation_tuple
+        packages = package_resource_dict
+    return {
+            'id': id_,
+            'title': title,
+            'packages': packages,
+        }
 
 def organisations_with_broken_resource_links_by_name():
     result = _get_broken_resource_links().keys()
@@ -177,50 +182,73 @@ def organisations_with_broken_resource_links_by_name():
 def organisations_with_broken_resource_links(include_resources=False):
     return _get_broken_resource_links(include_resources=include_resources)
 
-def _get_broken_resource_links(organisation_id=None, include_resources=False):
+def _get_broken_resource_links(organisation_name=None, include_resources=False):
+    '''
+    Returns a dictionary detailing broken resource links, categorised
+    by package and organisation (group).
+
+    i.e.:
+        {(organisation_title, organisation_name):
+         {(package_name, package_title): list_of_broken_resource_dicts}
+
+    Returns all organisations unless you supply a particular organisation_name
+    '''
+    # Find all the resources that have openness_score=0
+    query = model.Session.query(model.Package.name, model.Package.title, \
+                                model.Group, model.Resource)\
+
+
+
     values = {}
     main_sql =    """
             from task_status 
         left join resource on task_status.entity_id = resource.id
         left join resource_group on resource.resource_group_id = resource_group.id
         left join package on resource_group.package_id = package.id
-        left join package_extra on package.id = package_extra.package_id 
+        left join member on member.table_id = package.id
+        left join "group" on member.group_id = "group".id
         where 
-            entity_id in (select entity_id from task_status where task_status.key='openness_score' and value='0')
+           entity_id in (select entity_id from task_status where task_status.key='openness_score' and value='0')
         and task_status.key='openness_score_reason'
         and package.state = 'active'
         and resource.state='active'
         and resource_group.state='active'
-        and package_extra.key in ('published_by', 'published_via')
+        and "group".state='active'
         and task_status.value!='License not open'
         """
-    if organisation_id:
-        organisation_id = int(organisation_id)
-        values['oid'] = organisation_id
+    if organisation_name:
+        values['org_name'] = organisation_name
         sql = """
-        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, package_extra.value as publisher, package_extra.key
+        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
         """
-        sql += main_sql + " and (package_extra.value like '%[:oid]%' or package_extra.value = ':oid') order by package.title"
+        sql += main_sql + ' and "group".name = :org_name'
+        sql += ' order by package.title'
+        print 'SQL', sql
     elif include_resources:
         sql = """
-        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, package_extra.value as publisher, package_extra.key
+        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
         """
-        sql += main_sql + " order by publisher"
+        sql += main_sql + " order by publisher_title"
     else:
-        sql = "select distinct package_extra.value as publisher" + main_sql + " order by publisher "
-    rows = model.Session.execute(sql, values)
-    if organisation_id or include_resources:
-        data = []
+        sql = 'select distinct "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title' + main_sql + " order by publisher_title "
+    rows = model.Session.execute(sql, values).fetchall()
+    if organisation_name or include_resources:
+        data = [] # list of resource dicts with the addition of openness score info
         for row in rows:
-            resource = obj(url=row.url, openness_score='0', openness_score_reason=row.reason)
-            data.append([row.name, row.title, row.publisher, resource])
+            resource = DictObj(url=row.url, openness_score='0',
+                               openness_score_reason=row.reason)
+            #Would be good to add in openness_score_failure_count too, maybe like this:
+            # task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'openness_score_failure_count': key}
+            # status = p.toolkit.get_action('task_status_show')(context, task_data)
+            # resource[key] = status.get('value')
+            data.append([row.name, row.title, row.publisher_name, row.publisher_title, resource])
         # This is a dictionary with the keys being the (organisation_name, id) pairs)
         return _collapse(data, [_extract_publisher, _extract_dataset])
     else:
         result = {}
         for row in rows:
-            name, id = _extract_publisher_name(row.publisher)
-            result[(name, id)] = None
+            pub_title, pub_name = row.publisher_title, row.publisher_name
+            result[(pub_title, pub_name)] = None
         return result
 
 def _collapser(data, key_func=None):
@@ -251,41 +279,18 @@ def _collapse(data, fn):
 def _extract_publisher(row):
     """
     Extract publisher info from a query result row.
-    Each row should be a list of the form [name, title, value, Resource]
+    Each row should be a list of the form [name, title, publisher_name, publisher_title, Resource]
 
     Returns a list of the form:
 
-        [<publisher tuple>, <other elements in row tuple>]
+        [(publisher.title, publisher.name), row[0], row[1], row[4]]
     """
-    publisher = row[2]
-    pub_parts = _extract_publisher_name(publisher)
-    return [pub_parts] + [row[0], row[1], row[3]]
-
-def _extract_publisher_name(publisher):
-    if publisher.startswith('"'):
-        publisher = publisher[1:]
-    if publisher.endswith('"'):
-        publisher = publisher[:-1]
-    parts = publisher.split('[')
-    try:
-        pub_parts = (parts[0].strip(), parts[1][:-1])
-    except:
-        try:
-            pub_id = int(publisher)
-        except:
-            log.error('Could not get the publisher ID from the publisher %r' % publisher)
-            # Let's create a publisher for "No publisher"
-            pub_parts = ('None', 0)
-        else:
-            pub_parts = ('', pub_id)
-    if not pub_parts[0]:
-        pub_parts = ('Unknown', pub_parts[1])
-    return pub_parts
-
+    name, title, publisher_name, publisher_title, resource = row
+    return [(publisher_title, publisher_name), name, title, resource]
 
 def _extract_dataset(row):
     """
-    Extract dataset info form a query result row.
+    Extract dataset info from a query result row.
     Each row should be a list of the form [name, title, Resource]
 
     Returns a list of the form:
