@@ -129,5 +129,5 @@ Then, run nosetests from the ckan directory
 
 ::
 
-   $ nosetests --ckan <path to ckanext-qa>/tests
+   $ nosetests --ckan <path to ckanext-qa>/tests --with-pylons=test-core.ini
 

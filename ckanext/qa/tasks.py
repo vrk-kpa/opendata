@@ -18,9 +18,8 @@ class QAError(Exception):
 class CkanError(Exception):
     pass
 
-
+# Description of each score, used elsewhere
 OPENNESS_SCORE_REASON = {
-    -1: 'Unrecognised content type',
     0: 'Not obtainable',
     1: 'Obtainable via web page',
     2: 'Machine readable format',
@@ -33,20 +32,53 @@ MIME_TYPE_SCORE = {
     'text/plain': 1,
     'text': 1,
     'txt': 1,
+    'text/html': 1,
+    'application/pdf': 1,
+    'pdf': 1,
+    'zip': 1,
+    'application/x-compressed': 1,
+    'application/x-zip-compressed': 1,
+    'application/zip': 1,
+    'multipart/x-zip': 1,
+    'doc': 1,
+    'docx': 1,
+    'application/msword': 1,
+    'ppt': 1,
+    'pptx': 1,
+    'application/mspowerpoint': 1,
+    'application/powerpoint': 1,
+    'application/vnd.ms-powerpoint': 1,
+    'application/x-mspowerpoint': 1,
+    'application/excel': 2,
+    'application/x-excel': 2,
+    'application/x-msexcel': 2,
     'application/vnd.ms-excel': 2,
     'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
     'application/vnd.ms-excel.sheet.macroenabled.12': 2,
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
     'xls': 2,
+    'xlsx': 2,
+    'shp': 2,
     'text/csv': 3,
     'application/json': 3,
+    'text/x-json': 3,
     'application/xml': 3,
     'text/xml': 3,
+    'rss': 3,
+    'text/rss+xml': 3,
     'csv': 3,
+    'csv / zip': 3,
+    'ods': 3,
+    'application/vnd.oasis.opendocument.spreadsheet': 3,
     'xml': 3,
     'json': 3,
+    'wms': 3,
+    'kml': 3,
+    'application/vnd.google-earth.kml+xml': 3,
+    'cdf': 3,
+    'application/netcdf': 3,
     'application/rdf+xml': 4,
-    'rdf': 4
+    'rdf': 4,
 }
 
 
@@ -73,19 +105,20 @@ def _update_task_status(context, data, log):
         log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\napi_url: %r'
                         % (res.status_code, content, context, data, res, res.error, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
-                        % (res.status_code, res.content))
+                        % (res.status_code, content))
     log.info('Task status updated ok')
 
 
 def _task_status_data(id, result):
-    return [
+    now = datetime.datetime.now().isoformat()
+    data = [
         {
             'entity_id': id,
             'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'openness_score',
             'value': result['openness_score'],
-            'last_updated': datetime.datetime.now().isoformat()
+            'last_updated': now
         },
         {
             'entity_id': id,
@@ -93,7 +126,7 @@ def _task_status_data(id, result):
             'task_type': 'qa',
             'key': u'openness_score_reason',
             'value': result['openness_score_reason'],
-            'last_updated': datetime.datetime.now().isoformat()
+            'last_updated': now
         },
         {
             'entity_id': id,
@@ -101,16 +134,30 @@ def _task_status_data(id, result):
             'task_type': 'qa',
             'key': u'openness_score_failure_count',
             'value': result['openness_score_failure_count'],
-            'last_updated': datetime.datetime.now().isoformat()
+            'last_updated': now
         },
     ]
-
-
+    if 'openness_score_last_success' in result:
+        data.append(
+        {
+            'entity_id': id,
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'openness_score_last_success',
+            'value': result['openness_score_last_success'],
+            'last_updated': now
+        })
+    return data
+        
 @celery_app.celery.task(name="qa.update")
 def update(context, data):
     """
-    Score resources on Sir Tim Berners-Lee\'s five stars of openness
-    based on mime-type.
+    Given a resource, calculates an openness score.
+
+    context - how this plugin can call the CKAN API with the results
+              is JSON dict with keys: 'site_url', 'apikey'
+    data - details of the resource that is to be scored
+           is JSON dict with keys: 'package', 'position', 'id', 'format', 'url', 'is_open'
     
     Returns a JSON dict with keys:
 
@@ -125,11 +172,7 @@ def update(context, data):
         context = json.loads(context)
 
         result = resource_score(context, data, log)
-        log.info('\n%r\n%r\n%r\n\n', result, data, context)
-        if data.has_key('package') and data.has_key('position') and result.has_key('openness_score') and result.has_key('openness_score_reason'):
-            log.info('Openness score for dataset %s (res#%s): %r (%s)',
-                 data['package'], data['position'],
-                 result['openness_score'], result['openness_score_reason'])
+        log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, data, context)
         
         task_status_data = _task_status_data(data['id'], result)
 
@@ -165,6 +208,34 @@ def update(context, data):
         }, log)
         raise
 
+def get_existing_openness_info(key, context, data, log):
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
+    response = requests.post(
+        api_url,
+        json.dumps({'entity_id': data['id'], 'task_type': 'qa',
+                    'key': key}),
+        headers={'Authorization': context['apikey'],
+                 'Content-Type': 'application/json'}
+    )
+    if response.status_code == 404 and json.loads(response.content)['success'] == False:
+        log.info('Could not get %s - must be a new resource.' % key)
+        value = 0
+    elif response.error:
+        log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
+                  key, response.error, api_url, response.status_code, response.content)
+        raise QAError('Error getting %s' % key)
+    elif json.loads(response.content)['success']:
+        result = json.loads(response.content)['result'].get('value', '0')
+        try:
+            value = int(result)
+        except ValueError, e:
+            log.warning('Non integer value for %s: %r', key, result)
+            value = 0
+    else:
+        log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
+                  key, response.status_code, response.content, api_url)
+        raise QAError('Error getting %s' % key)
+    return value
 
 def resource_score(context, data, log):
     """
@@ -181,32 +252,14 @@ def resource_score(context, data, log):
     """
     score = 0
     score_reason = ''
-    score_failure_count = 0
 
-    # get openness score failure count for task status table if exists
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
-    response = requests.post(
-        api_url,
-        json.dumps({'entity_id': data['id'], 'task_type': 'qa',
-                    'key': 'openness_score_failure_count'}),
-        headers={'Authorization': context['apikey'],
-                 'Content-Type': 'application/json'}
-    )
-    if response.status_code == 404 and json.loads(response.content)['success'] == False:
-        log.info('Could not get openness score failure count - must be a new resource.')
-    elif response.error:
-        log.error('Error getting openness score failure count. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
-                  response.error, api_url, response.status_code, response.content)
-        raise QAError('Error getting openness score failure count')
-    elif json.loads(response.content)['success']:
-        score_failure_count = int(json.loads(response.content)['result'].get('value', '0'))
-    else:
-        log.error('Error getting openness score failure count. Status=%r Error=%r\napi_url=%r',
-                  response.status_code, response.content, api_url)
-        raise QAError('Error getting openness score failure count')
+    # get info about previous scorings from the task status table if they exist
+    score_failure_count = get_existing_openness_info('openness_score_failure_count',
+                                                     context, data, log)
 
     try:
         headers = json.loads(link_checker("{}", json.dumps(data)))
+        score_reason = 'Request succeeded.'
         ct = headers.get('content-type')
 
         # ignore charset if exists (just take everything before the ';')
@@ -219,17 +272,19 @@ def resource_score(context, data, log):
 
         # file type takes priority for scoring
         if file_type:
-            score = MIME_TYPE_SCORE.get(file_type, -1)
+            score = MIME_TYPE_SCORE.get(file_type)
+            score_reason += ' URL extension "%s".' % file_type
         elif ct:
-            score = MIME_TYPE_SCORE.get(ct, -1)
+            score = MIME_TYPE_SCORE.get(ct)
+            score_reason += ' Content-Type header "%s".' % ct
         elif format:
-            score = MIME_TYPE_SCORE.get(format, -1)
+            score = MIME_TYPE_SCORE.get(format.lower())
+            score_reason += ' Format field "%s".' % format
 
-        score_reason = OPENNESS_SCORE_REASON[score]
-
-        # negative scores are only useful for getting the reason message,
-        # set it back to 0 if it's still <0 at this point
-        if score < 0:
+        if score == None:
+            log.warning('Could not score format type: "%s"',
+                     file_type or ct or format)
+            score_reason += ' No corresponding score is available for this format.'
             score = 0
 
         # check for mismatches between content-type, file_type and format
@@ -268,8 +323,14 @@ def resource_score(context, data, log):
     else:
         score_failure_count = 0
 
-    return {
+    result = {
         'openness_score': score,
         'openness_score_reason': score_reason,
         'openness_score_failure_count': score_failure_count,
     }
+
+    # If success, record the date of that
+    if score > 0:
+        result['openness_score_last_success'] = datetime.datetime.now().isoformat()
+
+    return result

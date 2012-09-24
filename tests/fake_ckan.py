@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
+import json
 app = Flask(__name__)
 
 request_store = []
@@ -23,7 +24,9 @@ def task_status_update():
 def task_status_show():
     # resource_score in task.py is just checking for a 'openness_score_failure_count'
     # key, but will default to 0 if it doesn't exist
-    return jsonify({'success': False})
+    js = json.dumps({'success': False})
+    resp = Response(js, status=404, mimetype='application/json')
+    return resp
 
 @app.route("/api/action/resource_update", methods=['GET', 'POST'])
 def resource_update():

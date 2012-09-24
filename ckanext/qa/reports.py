@@ -193,12 +193,6 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
 
     Returns all organisations unless you supply a particular organisation_name
     '''
-    # Find all the resources that have openness_score=0
-    query = model.Session.query(model.Package.name, model.Package.title, \
-                                model.Group, model.Resource)\
-
-
-
     values = {}
     main_sql =    """
             from task_status 
@@ -214,8 +208,11 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
         and resource.state='active'
         and resource_group.state='active'
         and "group".state='active'
-        and task_status.value!='License not open'
         """
+    for reason in not_broken_but_0_stars:
+        main_sql += """
+        and task_status.value!='%s'
+        """ % reason
     if organisation_name:
         values['org_name'] = organisation_name
         sql = """
@@ -223,7 +220,6 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
         """
         sql += main_sql + ' and "group".name = :org_name'
         sql += ' order by package.title'
-        print 'SQL', sql
     elif include_resources:
         sql = """
         select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
@@ -250,6 +246,80 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
             pub_title, pub_name = row.publisher_title, row.publisher_name
             result[(pub_title, pub_name)] = None
         return result
+
+not_broken_but_0_stars = set(('Unrecognised content type', 'License not open'))
+
+def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name):
+    '''
+    Returns a dictionary detailing broken resource links for the organisation
+
+    i.e.:
+    {'publisher_name': 'cabinet-office',
+     'publisher_title:': 'Cabinet Office',
+     'broken_resources': [
+       {'package_name', 'package_title', 'resource_url', 'reason', 'count', 'first_broken'}
+      ...]
+
+    '''
+    values = {}
+    sql = """
+        select package.id as package_id,
+               task_status.key as task_status_key,
+               task_status.value as task_status_value,
+               task_status.last_updated as task_status_last_updated,
+               resource.id as resource_id,
+               resource.url as resource_url,
+               resource.position,
+               package.title as package_title,
+               package.name as package_name,
+               "group".id as publisher_id,
+               "group".name as publisher_name,
+               "group".title as publisher_title
+        from task_status 
+            left join resource on task_status.entity_id = resource.id
+            left join resource_group on resource.resource_group_id = resource_group.id
+            left join package on resource_group.package_id = package.id
+            left join member on member.table_id = package.id
+            left join "group" on member.group_id = "group".id
+        where 
+            entity_id in (select entity_id from task_status where task_status.key='openness_score' and value='0')
+            and package.state = 'active'
+            and resource.state='active'
+            and resource_group.state='active'
+            and "group".state='active'
+            and "group".name = :org_name
+        order by package.title, package.name, resource.position
+        """
+    values['org_name'] = organisation_name
+    rows = model.Session.execute(sql, values)
+
+    data = [] # list of resource dicts with the addition of openness score info
+    res_id = None
+    res_data = {}
+    # each resource has a few rows of task_status properties, so collate these
+    def save_res_data(row, res_data, data):
+        if res_data['openness_score_reason'] in not_broken_but_0_stars:
+            # ignore row
+            return
+        res_data['package_name'] = row.package_name
+        res_data['package_title'] = row.package_title
+        res_data['resource_id'] = row.resource_id
+        res_data['resource_url'] = row.resource_url
+        res_data['resource_position'] = row.position
+        data.append(res_data)
+    for row in rows:
+        if row.resource_id != res_id and res_data:
+            save_res_data(row, res_data, data)
+            res_data = {}
+        res_id = row.resource_id
+        res_data[row.task_status_key] = row.task_status_value
+        res_data['openness_score_updated'] = row.task_status_last_updated
+    if res_data:
+        save_res_data(row, res_data, data)    
+
+    return {'publisher_name': row.publisher_name if data else organisation_name,
+            'publisher_title': row.publisher_title if data else '',
+            'broken_resources': data}
 
 def _collapser(data, key_func=None):
     result = {}

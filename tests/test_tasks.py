@@ -3,6 +3,8 @@ import subprocess
 import time
 import requests
 import json
+import logging
+import datetime
 from functools import wraps
 from mock import patch, Mock
 from nose.tools import raises
@@ -11,6 +13,8 @@ from ckan.tests import BaseCase
 
 from ckanext.qa.tasks import resource_score, update
 from mock_remote_server import MockEchoTestServer, MockTimeoutTestServer
+
+log = logging.getLogger(__name__)
 
 def with_mock_url(url=''):
     """
@@ -62,78 +66,78 @@ class TestResultScore(BaseCase):
     def test_url_with_content(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 3, result
 
     @with_mock_url('?status=503')
     def test_url_with_temporary_fetch_error_not_scored(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'Service unavailable', result
+        assert result['openness_score_reason'] == 'Server returned error: Service unavailable', result
 
     @with_mock_url('?status=404')
     def test_url_with_permanent_fetch_error_scores_zero(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'URL unobtainable', result
+        assert result['openness_score_reason'] == 'URL unobtainable: Server returned HTTP 404', result
 
     @with_mock_url('?content-type=arfle%2Fbarfle-gloop')
     def test_url_with_unknown_content_type_scores_one(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'Unrecognised content type', result
+        assert result['openness_score_reason'] == 'Request succeeded. Content-Type header "arfle/barfle-gloop". No corresponding score is available for this format.', result
 
     @with_mock_url('?content-type=text%2Fplain')
     def test_url_pointing_to_html_page_scores_one(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == 'Obtainable via web page', result
+        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/plain".', result
 
     @with_mock_url('?content-type=text%2Fplain%3B+charset=UTF-8')
     def test_content_type_with_charset_still_recognized(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == 'Obtainable via web page', result
+        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/plain".', result
 
     @with_mock_url('?content-type=application%2Fvnd.ms-excel')
     def test_machine_readable_formats_score_two(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
-        assert result['openness_score_reason'] == 'Machine readable format', result
+        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "application/vnd.ms-excel".', result
 
     @with_mock_url('?content-type=text%2Fcsv')
     def test_open_standard_formats_score_three(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 3, result
-        assert result['openness_score_reason'] == 'Open and standardized format', result
+        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/csv".', result
 
     @with_mock_url('?content-type=application%2Frdf%2Bxml')
     def test_ontological_formats_score_four(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 4, result
-        assert result['openness_score_reason'] == 'Ontologically represented', result
+        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "application/rdf+xml".', result
 
     @with_mock_url('?status=503')
     def test_temporary_failure_increments_failure_count(self, url):
         data = self.fake_resource
         data['url'] = url
-        result = resource_score(self.fake_context, data)
+        result = resource_score(self.fake_context, data, log)
         assert result['openness_score_failure_count'] == 1, result
         
 
@@ -188,6 +192,7 @@ class TestTask(BaseCase):
         score = False
         score_reason = False
         score_failure_count = False
+        score_last_success = False
 
         for d in task_data:
             assert d['entity_id'] == 'fake_resource_id', d
@@ -199,12 +204,17 @@ class TestTask(BaseCase):
                 assert d['value'] == 3, d
             elif d['key'] == 'openness_score_reason':
                 score_reason = True
-                assert d['value'] == 'open and standardized format', d
+                assert d['value'] == 'Request succeeded. Content-Type header "text/csv".', d
             elif d['key'] == 'openness_score_failure_count':
                 score_failure_count = True
                 assert d['value'] == 0, d
+            elif d['key'] == 'openness_score_last_success':
+                score_last_success = True
+                todays_date = datetime.datetime.now().isoformat()[:10]
+                assert d['value'].startswith(todays_date), d
 
         assert score
         assert score_reason
         assert score_failure_count
+        assert score_last_success
 
