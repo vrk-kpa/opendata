@@ -58,6 +58,10 @@ class DownloadError(Exception):
     pass
 class LinkCheckerError(Exception):
     pass
+class LinkInvalidError(LinkCheckerError):
+    pass
+class LinkHeadRequestError(LinkCheckerError):
+    pass
 class CkanError(Exception):
     pass
 
@@ -261,6 +265,9 @@ def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
 
+    Raises LinkInvalidError if the URL is invalid
+    Raises LinkHeadRequestError if HEAD request fails
+
     Returns a json dict of the headers of the request
     """
     log = update.get_logger()
@@ -287,13 +294,13 @@ def link_checker(context, data):
     # Check we aren't using any schemes we shouldn't be
     allowed_schemes = ['http', 'https', 'ftp']
     if not parsed_url.scheme in allowed_schemes:
-        raise LinkCheckerError("Invalid url scheme")
+        raise LinkInvalidError("Invalid url scheme")
     # check that query string is valid
     # see: http://trac.ckan.org/ticket/318
     # TODO: check urls with a better validator? 
     #       eg: ll.url (http://www.livinglogic.de/Python/url/Howto.html)?
     elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
-        raise LinkCheckerError("Invalid URL")
+        raise LinkInvalidError("Invalid URL")
     else:
         # Send a head request
         try:
@@ -301,17 +308,17 @@ def link_checker(context, data):
             headers = res.headers
         except httplib.InvalidURL, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect.", url, ve, data.get('package'))
-            raise LinkCheckerError("Invalid URL or Redirect Link")
+            raise LinkHeadRequestError("Invalid URL or Redirect Link")
         except ValueError, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
-            raise LinkCheckerError("Could not make HEAD request")
+            raise LinkHeadRequestError("Could not make HEAD request")
         else:
             if res.error:
                 if res.status_code in HTTP_ERROR_CODES:
-                    error_message = HTTP_ERROR_CODES[res.status_code]
+                    error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
                 else:
-                    error_message = "URL unobtainable: HTTP %s on %r" % (res.status_code, url)
-                raise LinkCheckerError(error_message)
+                    error_message = "URL unobtainable: Server returned HTTP %s" % res.status_code
+                raise LinkHeadRequestError(error_message)
     return json.dumps(headers)
 
 def archive_resource(context, resource, log, result=None, url_timeout = 30):
