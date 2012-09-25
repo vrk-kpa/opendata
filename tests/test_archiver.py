@@ -80,6 +80,13 @@ class TestLinkChecker(BaseCase):
         data = json.dumps({'url': url})
         assert_raises(LinkCheckerError, link_checker, context, data)
 
+    @with_mock_url('+/http://www.homeoffice.gov.uk/publications/science-research-statistics/research-statistics/drugs-alcohol-research/hosb1310/hosb1310-ann2tabs?view=Binary')
+    def test_non_escaped_url(self, url):
+        context = json.dumps({})
+        data = json.dumps({'url': url})
+        res = link_checker(context, data)
+        assert res
+
     def test_empty_url(self):
         url =  u''
         context = json.dumps({})
