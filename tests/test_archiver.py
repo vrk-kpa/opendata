@@ -21,6 +21,7 @@ from ckanext.archiver.tasks import (link_checker,
                                     download,
                                     ArchiverError,
                                     DownloadError,
+                                    ChooseNotToDownload,
                                     LinkCheckerError, 
                                     CkanError,
                                    )
@@ -196,7 +197,7 @@ class TestArchiver(BaseCase):
         resource = self.fake_resource
         resource['format'] = 'arfle-barfle-gloop'
         resource['url'] = url
-        assert_raises(DownloadError, download, self.fake_context, resource)
+        assert_raises(ChooseNotToDownload, download, self.fake_context, resource)
 
     @with_mock_url('?content-type=arfle-barfle-gloop')
     def test_update_url_with_unknown_content_type(self, url):

@@ -70,7 +70,6 @@ Configuration
     * ARCHIVE_DIR: path to the directory that archived files will be saved to
     * MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive
     * DATA_FORMATS: the data formats that are archived
-    * RETRIES: whether or not to retry on failure
 
    Alternatively, if you are running CKAN with this patch: 
    https://github.com/datagovuk/ckan/commit/83dcaf3d875d622ee0cd7f3c1f65ec27a970cd10
@@ -79,7 +78,6 @@ Configuration
     * ckanext-archiver.archive_dir
     * ckanext-archiver.max_content_length
     * ckanext-archiver.data_formats  (space separated)
-    * ckanext-archiver.retries  (True or False)
 
 
 Using Archiver

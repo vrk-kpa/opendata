@@ -56,6 +56,8 @@ class ArchiverError(Exception):
     pass
 class DownloadError(Exception):
     pass
+class ChooseNotToDownload(Exception):
+    pass
 class LinkCheckerError(Exception):
     pass
 class LinkInvalidError(LinkCheckerError):
@@ -75,6 +77,15 @@ def _clean_content_type(ct):
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
              data_formats=DEFAULT_DATA_FORMATS):
+    '''Given a resource, tries to download it.
+
+    If the size or format is not acceptable for download then
+    ChooseNotToDownload is raised.
+
+    If there is an error performing the download then
+    DownloadError is raised.
+    '''
+    
     log = update.get_logger()
     
     url = resource['url']
@@ -110,23 +121,37 @@ def download(context, resource, url_timeout=30,
     # make sure resource content-length does not exceed our maximum
     if cl and int(cl) >= max_content_length:
         if resource_changed: 
-            _update_resource(context, resource) 
+            _update_resource(context, resource, log)
         # record fact that resource is too large to archive
-        log.warn('Resource too large to download: %s > max (%s). Resource: %s %r',
+        log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
                  cl, max_content_length, resource['id'], url)
-        raise DownloadError("Content-length %s exceeds maximum allowed value %s" %
+        raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
             (cl, max_content_length))                                                      
 
     # check that resource is a data file
     if data_formats != 'all' and not (resource_format in data_formats or ct.lower() in data_formats):
         if resource_changed: 
-            _update_resource(context, resource)             
+            _update_resource(context, resource, log)
         log.info('Resource wrong type to download: %s / %s. Resource: %s %r',
                  resource_format, ct.lower(), resource['id'], url)
-        raise DownloadError("Of content type %s, not downloading" % ct) 
+        raise ChooseNotToDownload('Of content type "%s" which is not a recognised data file for download' % ct) 
 
     # get the resource and archive it
-    res = requests.get(url, timeout = url_timeout)
+    try:
+        res = requests.get(url, timeout = url_timeout)
+    except requests.exceptions.ConnectionError, e:
+        raise DownloadError('Connection error: %s', e)
+    except requests.exceptions.HTTPError, e:
+        raise DownloadError('Invalid HTTP response: %s', e)
+    except requests.exceptions.Timeout, e:
+        raise DownloadError('Connection timed out')
+    except requests.exceptions.TooManyRedirects, e:
+        raise DownloadError('Too many redirects')
+    except requests.exceptions.RequestException, e:
+        raise DownloadError('Error downloading: %s', e)
+    except Exception, e:
+        raise DownloadError('Error with the download: %s', e)
+
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
     # check if resource size changed
@@ -141,19 +166,19 @@ def download(context, resource, url_timeout=30,
     # TODO: remove partially archived file in this case
     if length >= max_content_length:
         if resource_changed: 
-            _update_resource(context, resource) 
+            _update_resource(context, resource, log)
         # record fact that resource is too large to archive
-        log.warn('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
+        log.warning('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
                  length, max_content_length, resource['id'], url)
-        raise DownloadError("Content-length after streaming reached maximum allowed value of %s" % 
+        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length)         
 
     # zero length usually indicates a problem too
     if length == 0:
         if resource_changed: 
-            _update_resource(context, resource) 
+            _update_resource(context, resource, log)
         # record fact that resource is zero length
-        log.warn('Resource found was zero length - not archiving. Resource: %s %r',
+        log.warning('Resource found was zero length - not archiving. Resource: %s %r',
                  resource['id'], url)
         raise DownloadError("Content-length after streaming was zero")
 
@@ -163,7 +188,7 @@ def download(context, resource, url_timeout=30,
         try:
             # This may fail for archiver.update() as a result of the resource
             # not yet existing, but is necessary for dependant extensions.
-            _update_resource(context, resource)
+            _update_resource(context, resource, log)
         except:
             pass
 
@@ -244,12 +269,15 @@ def _update(context, data):
         result = download(context, data, data_formats=data_formats)
         if result is None:
             raise ArchiverError("Download failed")
-    except Exception, downloaderr:
+    except DownloadError, downloaderr:
         log.info('Download failed: %r, %r', downloaderr, downloaderr.args)
-        if hasattr(settings, 'RETRIES') and settings.RETRIES:
-            update.retry(args=(json.dumps(context), json.dumps(data)), exc=downloaderr)
-        else:
-            return
+        return
+    except ChooseNotToDownload, e:
+        log.info('Download not carried out: %r, %r', e, e.args)
+        return
+    except Exception, downloaderr:
+        log.info('Download failure: %r, %r', downloaderr, downloaderr.args)
+        return
 
     log.info("Attempting to archive resource: %s" % data['url'])
     file_path = archive_resource(context, data, log, result)
@@ -307,7 +335,7 @@ def link_checker(context, data):
             res = requests.head(url, timeout = url_timeout)
             headers = res.headers
         except httplib.InvalidURL, ve:
-            log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect.", url, ve, data.get('package'))
+            log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
             raise LinkHeadRequestError("Invalid URL or Redirect Link")
         except ValueError, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
@@ -355,7 +383,7 @@ def archive_resource(context, resource, log, result=None, url_timeout = 30):
                 log.info('Not updating resource since cache_url is unchanged: %s',
                           cache_url)
         else:
-            log.warn('Not updated resource because no value for cache_url_root')
+            log.warning('Not updated resource because no value for cache_url_root')
 
         return saved_file
 

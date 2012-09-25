@@ -35,5 +35,3 @@ DEFAULT_DATA_FORMATS = [
     'application/octet-stream'
 ]
 DATA_FORMATS = config.get['ckanext-archiver.data_formats'].split() if 'ckan-archiver.data_formats' in config else DEFAULT_DATA_FORMATS
-
-RETRIES = t.asbool(config.get('ckanext-archiver.retries', False))
