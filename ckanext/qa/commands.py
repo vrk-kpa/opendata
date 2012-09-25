@@ -10,6 +10,8 @@ from ckan.lib.cli import CkanCommand
 
 import logging
 
+REQUESTS_HEADER = {'content-type': 'application/json'}
+
 class CkanApiError(Exception):
     pass
 
@@ -119,7 +121,7 @@ class QACommand(p.toolkit.CkanCommand):
             for id in self.args[1:]:
                 data = json.dumps({'id': unicode(id)})
                 url = api_url + '/package_show'
-                response = requests.post(url, data)
+                response = requests.post(url, data, headers=REQUESTS_HEADER)
                 if not response.ok:
                     err = ('Failed to get package %s from url %r: %s' %
                            (id, url, response.error))
@@ -130,7 +132,8 @@ class QACommand(p.toolkit.CkanCommand):
             page, limit = 1, 100
             url = api_url + '/current_package_list_with_resources'
             response = requests.post(url,
-                                     json.dumps({'page': page, 'limit': limit}))
+                                     json.dumps({'page': page, 'limit': limit}),
+                                     headers=REQUESTS_HEADER)
             if not response.ok:
                 err = ('Failed to get package list with resources from url %r: %s' %
                        (url, response.error))
@@ -143,7 +146,8 @@ class QACommand(p.toolkit.CkanCommand):
                     yield p
                 url = api_url + '/current_package_list_with_resources'
                 response = requests.post(url,
-                                         json.dumps({'page': page, 'limit': limit}))
+                                         json.dumps({'page': page, 'limit': limit}),
+                                         headers=REQUESTS_HEADER)
                 if not response.ok:
                     err = ('Failed to get package list with resources from url %r: %s' %
                            (url, response.error))
