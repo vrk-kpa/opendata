@@ -295,22 +295,26 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
 
     data = [] # list of resource dicts with the addition of openness score info
     last_row = None
-    res_data = {}
     # each resource has a few rows of task_status properties, so collate these
     def save_res_data(row, res_data, data):
         if res_data['openness_score_reason'] in not_broken_but_0_stars:
             # ignore row
             return
+        data.append(res_data)
+    def init_res_data(row):
+        res_data = OrderedDict()
         res_data['package_name'] = row.package_name
         res_data['package_title'] = row.package_title
         res_data['resource_id'] = row.resource_id
         res_data['resource_url'] = row.resource_url
         res_data['resource_position'] = row.position
-        data.append(res_data)
+        return res_data
     for row in rows:
-        if last_row and row.resource_id != last_row.resource_id and res_data:
+        if not last_row:            
+            res_data = init_res_data(row)
+        elif row.resource_id != last_row.resource_id and res_data:
             save_res_data(last_row, res_data, data)
-            res_data = {}
+            res_data = init_res_data(row)
         res_data[row.task_status_key] = row.task_status_value
         if 'openness_score_updated' in res_data:
             res_data['openness_score_updated'] = max(row.task_status_last_updated,

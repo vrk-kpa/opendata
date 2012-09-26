@@ -17,5 +17,6 @@ class QAOrganisationController(QAController):
         else:
             c.org_name = id
             c.data = broken_resource_links_by_dataset_for_organisation_detailed(organisation_name=id)
+            c.query = broken_resource_links_by_dataset_for_organisation_detailed
             return render('ckanext/qa/organisation/broken_resource_links/organisation.html')
 
