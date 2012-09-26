@@ -3,7 +3,6 @@ Score datasets on Sir Tim Berners-Lee\'s five stars of openness
 based on mime-type.
 '''
 import datetime
-import mimetypes
 import json
 import requests
 import urlparse
@@ -28,6 +27,8 @@ OPENNESS_SCORE_REASON = {
     5: 'Fully Linked Open Data as appropriate',
 }
 
+# mime types, file extensions and what you'd put in the 'format' field
+# along with their score
 MIME_TYPE_SCORE = {
     'text/plain': 1,
     'text': 1,
@@ -40,6 +41,7 @@ MIME_TYPE_SCORE = {
     'application/x-zip-compressed': 1,
     'application/zip': 1,
     'multipart/x-zip': 1,
+    'word': 1,
     'doc': 1,
     'docx': 1,
     'application/msword': 1,
@@ -58,6 +60,7 @@ MIME_TYPE_SCORE = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
     'xls': 2,
     'xlsx': 2,
+    'excel': 2,
     'shp': 2,
     'text/csv': 3,
     'application/json': 3,
@@ -68,6 +71,7 @@ MIME_TYPE_SCORE = {
     'text/rss+xml': 3,
     'csv': 3,
     'csv / zip': 3,
+    'csv.zip': 3,
     'ods': 3,
     'application/vnd.oasis.opendocument.spreadsheet': 3,
     'xml': 3,
@@ -75,12 +79,16 @@ MIME_TYPE_SCORE = {
     'wms': 3,
     'kml': 3,
     'application/vnd.google-earth.kml+xml': 3,
+    'netcdf': 3,
     'cdf': 3,
     'application/netcdf': 3,
     'application/rdf+xml': 4,
     'rdf': 4,
 }
 
+# These content-types are ambiguous, so don't infer what
+# type the file is.
+GENERAL_PURPOSE_CONTENT_TYPES = set(('application/octet-stream',))
 
 def _update_task_status(context, data, log):
     """
@@ -267,40 +275,31 @@ def resource_score(context, data, log):
             ct = ct.split(';')[0]
 
         # also get format from resource and by guessing from file extension
-        format = data.get('format', '').lower()
-        file_type = mimetypes.guess_type(data['url'])[0]
+        extension = None
+        for try_extension in extension_variants(data['url']):
+            if try_extension.lower() in MIME_TYPE_SCORE:
+                extension = try_extension
 
-        # file type takes priority for scoring
-        if file_type:
-            score = MIME_TYPE_SCORE.get(file_type)
-            score_reason += ' URL extension "%s".' % file_type
-        elif ct:
+        # format field gives the best clue
+        format = data.get('format', '').lower()
+
+        # we don't want to take the publisher's word for it, in case the link
+        # is only to a landing page, so highest priority is the content-type
+        if ct and ct not in GENERAL_PURPOSE_CONTENT_TYPES:
             score = MIME_TYPE_SCORE.get(ct)
             score_reason += ' Content-Type header "%s".' % ct
+        elif extension:
+            score = MIME_TYPE_SCORE.get(extension)
+            score_reason += ' URL extension "%s".' % extension
         elif format:
             score = MIME_TYPE_SCORE.get(format.lower())
             score_reason += ' Format field "%s".' % format
 
         if score == None:
             log.warning('Could not score format type: "%s"',
-                     file_type or ct or format)
+                     ct or extension or format)
             score_reason += ' No corresponding score is available for this format.'
             score = 0
-
-        # check for mismatches between content-type, file_type and format
-        # ideally they should all agree
-        if not ct:
-            # TODO: use the todo extension to flag this issue
-            pass
-        else:
-            allowed_formats = [ct.lower().split('/')[-1], ct.lower().split('/')]
-            allowed_formats.append(ct.lower())
-            if format not in allowed_formats:
-                # TODO: use the todo extension to flag this issue
-                pass
-            if file_type != ct:
-                # TODO: use the todo extension to flag this issue
-                pass
 
     except LinkCheckerError, e:
         score_reason = str(e)
@@ -334,3 +333,18 @@ def resource_score(context, data, log):
         result['openness_score_last_success'] = datetime.datetime.now().isoformat()
 
     return result
+
+def extension_variants(url):
+    '''
+    Returns a list of extensions, in order of which would more
+    significant.
+    
+    >>> extension_variants('http://dept.gov.uk/coins.data.1996.csv.zip')
+    ['csv.zip', 'zip']
+    '''
+    split_url = url.split('.')
+    results = []
+    for number_of_sections in [2, 1]:
+        if len(split_url) > number_of_sections:
+            results.append('.'.join(split_url[-number_of_sections]))
+    return results

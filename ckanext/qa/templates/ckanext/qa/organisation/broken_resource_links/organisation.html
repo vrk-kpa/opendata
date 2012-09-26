@@ -42,18 +42,18 @@
             </tr>
             <tr py:for="row_dict in c.data['broken_resources']">
               <td><a href="${h.url_for(controller='package', action='read', id=row_dict['package_name'])}">${row_dict['package_title']}</a></td>
-              <td><a href="${h.url_for(controller='resource', action='read', id=row_dict['resource_id'])}">${row_dict['resource_position']}</a></td>
+              <td><a href="/dataset/${row_dict['package_name']}/resource/${row_dict['resource_id']}">${row_dict['resource_position']}</a></td>
               <td><a href="${row_dict['resource_url']}" style="word-wrap:break-word;">${row_dict['resource_url']}</a></td>
               <td>${row_dict.get('openness_score_reason', 'not recorded')}</td>
               <td>${row_dict.get('openness_score_failure_count', 'not recorded')}</td>
-              <td>${row_dict.get('openness_score_updated').strftime('%d/%m/%Y  %M:%H') if row_dict.get('openness_score_updated') else 'not recorded'}</td>
+              <td>${row_dict.get('openness_score_updated').strftime('%d/%m/%Y  %H:%M') if row_dict.get('openness_score_updated') else 'not recorded'}</td>
 <?python
 last_success = row_dict.get('openness_score_last_success')
 if last_success:
     import datetime, re
     # convert to datetime
     last_success = datetime.datetime(*map(int, re.split('[^\d]', last_success)[:-1]))
-    last_success = last_success.strftime('%d/%m/%Y %M:%H')
+    last_success = last_success.strftime('%d/%m/%Y %H:%M') + ' ' + last_success
 ?>
               <td>${last_success or 'not recorded'}</td>
             </tr>

@@ -294,7 +294,7 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
     rows = model.Session.execute(sql, values)
 
     data = [] # list of resource dicts with the addition of openness score info
-    res_id = None
+    last_row = None
     res_data = {}
     # each resource has a few rows of task_status properties, so collate these
     def save_res_data(row, res_data, data):
@@ -308,12 +308,16 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
         res_data['resource_position'] = row.position
         data.append(res_data)
     for row in rows:
-        if row.resource_id != res_id and res_data:
-            save_res_data(row, res_data, data)
+        if last_row and row.resource_id != last_row.resource_id and res_data:
+            save_res_data(last_row, res_data, data)
             res_data = {}
-        res_id = row.resource_id
         res_data[row.task_status_key] = row.task_status_value
-        res_data['openness_score_updated'] = row.task_status_last_updated
+        if 'openness_score_updated' in res_data:
+            res_data['openness_score_updated'] = max(row.task_status_last_updated,
+                                                     res_data['openness_score_updated'])
+        else:
+            res_data['openness_score_updated'] = row.task_status_last_updated
+        last_row = row
     if res_data:
         save_res_data(row, res_data, data)    
 
