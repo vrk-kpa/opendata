@@ -138,19 +138,19 @@ def download(context, resource, url_timeout=30,
 
     # get the resource and archive it
     try:
-        res = requests.get(url, timeout = url_timeout)
+        res = requests.get(url, timeout=url_timeout)
     except requests.exceptions.ConnectionError, e:
-        raise DownloadError('Connection error: %s', e)
+        raise DownloadError('Connection error: %s' % e)
     except requests.exceptions.HTTPError, e:
-        raise DownloadError('Invalid HTTP response: %s', e)
+        raise DownloadError('Invalid HTTP response: %s' % e)
     except requests.exceptions.Timeout, e:
-        raise DownloadError('Connection timed out')
+        raise DownloadError('Connection timed out after %ss' % url_timeout)
     except requests.exceptions.TooManyRedirects, e:
         raise DownloadError('Too many redirects')
     except requests.exceptions.RequestException, e:
-        raise DownloadError('Error downloading: %s', e)
+        raise DownloadError('Error downloading: %s' % e)
     except Exception, e:
-        raise DownloadError('Error with the download: %s', e)
+        raise DownloadError('Error with the download: %s' % e)
 
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
@@ -332,7 +332,7 @@ def link_checker(context, data):
     else:
         # Send a head request
         try:
-            res = requests.head(url, timeout = url_timeout)
+            res = requests.head(url, timeout=url_timeout)
             headers = res.headers
         except httplib.InvalidURL, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
@@ -340,6 +340,18 @@ def link_checker(context, data):
         except ValueError, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
             raise LinkHeadRequestError("Could not make HEAD request")
+        except requests.exceptions.ConnectionError, e:
+            raise LinkHeadRequestError('Connection error: %s' % e)
+        except requests.exceptions.HTTPError, e:
+            raise LinkHeadRequestError('Invalid HTTP response: %s' % e)
+        except requests.exceptions.Timeout, e:
+            raise LinkHeadRequestError('Connection timed out after %ss' % url_timeout)
+        except requests.exceptions.TooManyRedirects, e:
+            raise LinkHeadRequestError('Too many redirects')
+        except requests.exceptions.RequestException, e:
+            raise LinkHeadRequestError('Error during request: %s' % e)
+        except Exception, e:
+            raise LinkHeadRequestError('Error with the request: %s' % e)
         else:
             if res.error or res.status_code >= 400:
                 if res.status_code in HTTP_ERROR_CODES:
