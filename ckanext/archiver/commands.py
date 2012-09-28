@@ -35,6 +35,12 @@ class Archiver(CkanCommand):
     max_args = 2 
     pkg_names = []
 
+    CkanCommand.parser.add_option('-q', '--queue',
+        action='store',
+        dest='queue',
+        default='celery',
+        help="Send to a particular queue")
+
     def command(self):
         """
         Parse command line arguments and call appropriate method.
@@ -98,7 +104,7 @@ class Archiver(CkanCommand):
                 response = app.post(api_url + '/package_show', data)
                 package =  json.loads(response.body).get('result')
 
-                self.log.info("Archival of dataset resource data added to celery queue: %s (%d resources)" % (package.get('name'), len(package.get('resources', []))))
+                self.log.info("Archival of dataset resource data added to celery queue "%s": %s (%d resources)" % (self.options.queue, package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
                     data = json.dumps(resource, {'model': model})
                     task_id = make_uuid()
@@ -117,7 +123,7 @@ class Archiver(CkanCommand):
                     }
 
                     get_action('task_status_update')(archiver_task_context, archiver_task_status)
-                    tasks.update.apply_async(args=[context, data], task_id=task_id)
+                    tasks.update.apply_async(args=[context, data], task_id=task_id, queue=self.options.queue)
 
         elif cmd == 'clean':
             tasks.clean.delay()

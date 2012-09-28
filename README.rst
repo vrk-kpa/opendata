@@ -3,18 +3,24 @@ CKAN Archiver Extension
 
 **Status:** Production
 
-**CKAN Version:** 1.5.1+
+**CKAN Version:** release-1.7.1-dgu
 
 
 Overview
 --------
-The CKAN Archiver Extension provides a set of Celery tasks for downloading
-and saving CKAN resources.
-It can be configured to run automatically, saving any new resources that are added
-to a CKAN instance (and saving any resources when their URL is changed).
-It can also be run manually from the command line in order to archive resources
-for specific datasets, or to archive all resources in a CKAN instance.
+The CKAN Archiver Extension will download CKAN resources. It runs as a Celery
+process, and takes instructions from a queue to download each resource. These
+instructions can come from:
+1. CKAN every time a resources that are added
+2. the command line
+Many Archiver processes can be started to run in parallel, all using the same
+queue.
 
+By default, two queues are used:
+1. 'bulk' for a regular archival of all the resources
+2. 'priority' for when a user edits one-off resource
+
+This means that the 'bulk' queue can happily run slowly, chugging through the downloads, say once a week. And meanwhile, if a new resource is put into CKAN then it can be downloaded straight away on the 'priority' queue.
 
 Installation
 ------------
@@ -35,7 +41,7 @@ Or (primarily for developers) download the source, then from the ckanext-archive
 Configuration
 -------------
 
-1.  Enabling Archiver
+1.  Enabling Archiver to listen to resource changes
    
     If you want the archiver to run automatically when a new CKAN resource is added, or the url of a resource is changed,
     then edit your CKAN config file (eg: development.ini) to enable the extension:
@@ -56,8 +62,6 @@ Configuration
     * ckan.site_url: URL to your CKAN instance
 
     This is the URL that the archive process (in Celery) will use to access the CKAN API to update it about the cached URLs. If your internal network names your CKAN server differently, then specify this internal name in config option: ckan.site_url_internally
-
-    Optionally, the following config variables can also be set:
 
     * ckan.cache_url_root: URL that will be prepended to the file path and saved against the CKAN resource,
       providing a full URL to the archived file.
@@ -83,12 +87,14 @@ Configuration
 Using Archiver
 --------------
 
-First, make sure that Celery is running.
-For test/local use, you can do this by going to the CKAN root directory and typing:
+First, make sure that Celery is running for each queue
+For test/local use, you can do this by going to the CKAN root directory and typing::
 
-::
+    paster celeryd --queue=priority -c <path to CKAN config>
 
-    paster celeryd -c <path to CKAN config>
+and in a separate terminal::
+
+    paster celeryd --queue=bulk -c <path to CKAN config>
 
 For production use, we recommend setting up Celery to run with supervisord.
 For more information see:

@@ -211,6 +211,9 @@ def clean():
 
 @celery.task(name = "archiver.update")
 def update(context, data):
+    '''
+    Archive a resource. The resource_dict is in the data.
+    '''
     log = update.get_logger()
     log.info('Starting update task: %r', data)
     try:
@@ -248,15 +251,15 @@ def _update(context, data):
         }
     """
     log = update.get_logger()
+
     data.pop(u'revision_id', None)
+    if not data:
+        raise ArchiverError('Resource not found')
 
     # check that archive directory exists
     if not os.path.exists(settings.ARCHIVE_DIR):
         log.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
-
-    if not data:
-        raise ArchiverError('Resource not found')
 
     if hasattr(settings, 'DATA_FORMATS') and settings.DATA_FORMATS:
         data_formats = settings.DATA_FORMATS
@@ -292,6 +295,10 @@ def _update(context, data):
 def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
+
+    data is a JSON dict describing the link:
+        { 'url': url,
+          'url_timeout': url_timeout }
 
     Raises LinkInvalidError if the URL is invalid
     Raises LinkHeadRequestError if HEAD request fails
@@ -361,7 +368,7 @@ def link_checker(context, data):
                 raise LinkHeadRequestError(error_message)
     return json.dumps(headers)
 
-def archive_resource(context, resource, log, result=None, url_timeout = 30):
+def archive_resource(context, resource, log, result=None, url_timeout=30):
     """
     Archive the given resource. Downloads the file and updates the
     resource with the link to it.
