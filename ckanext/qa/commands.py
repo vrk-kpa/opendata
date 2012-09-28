@@ -40,6 +40,13 @@ class QACommand(p.toolkit.CkanCommand):
     max_args = 2
     min_args = 0
 
+    def __init__(self, name):
+        super(QACommand, self).__init__(name)
+        self.parser.add_option('-q', '--queue',
+                               action='store',
+                               dest='queue',
+                               help='Send to a particular queue')
+
     def command(self):
         """
         Parse command line arguments and call appropriate method.
@@ -73,9 +80,14 @@ class QACommand(p.toolkit.CkanCommand):
         })
 
         if cmd == 'update':
+            if not self.options.queue:
+                self.options.queue = 'priority' if len(self.args) > 1 \
+                                     else 'bulk'
+
             for package in self._package_list():
-                self.log.info("QA on dataset being added to Celery queue: %s (%d resources)" % 
-                            (package.get('name'), len(package.get('resources', []))))
+                self.log.info('QA on dataset being added to Celery queue "%s": %s (%d resources)' % \
+                            (self.options.queue, package.get('name'),
+                             len(package.get('resources', []))))
 
                 for resource in package.get('resources', []):
                     resource['package'] = package['name']
@@ -98,7 +110,9 @@ class QACommand(p.toolkit.CkanCommand):
                     }
 
                     p.toolkit.get_action('task_status_update')(task_context, task_status)
-                    tasks.update.apply_async(args=[context, data], task_id=task_id)
+                    tasks.update.apply_async(args=[context, data],
+                                             task_id=task_id,
+                                             queue=self.options.queue)
 
         elif cmd == 'clean':
             self.log.error('Command "%s" not implemented' % (cmd,))

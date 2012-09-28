@@ -7,7 +7,7 @@ import logging
 import datetime
 from functools import wraps
 from mock import patch, Mock
-from nose.tools import raises
+from nose.tools import raises, assert_equal
 from ckan import model
 from ckan.tests import BaseCase
 

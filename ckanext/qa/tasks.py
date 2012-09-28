@@ -6,9 +6,11 @@ import datetime
 import json
 import requests
 import urlparse
+
 import ckan.lib.celery_app as celery_app
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
-
+from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
+from ckanext.qa.sniff_format import sniff_file_format
 
 class QAError(Exception):
     pass
@@ -85,10 +87,6 @@ MIME_TYPE_SCORE = {
     'application/rdf+xml': 4,
     'rdf': 4,
 }
-
-# These content-types are ambiguous, so don't infer what
-# type the file is.
-GENERAL_PURPOSE_CONTENT_TYPES = set(('application/octet-stream',))
 
 def _update_task_status(context, data, log):
     """
@@ -216,7 +214,9 @@ def update(context, data):
         }, log)
         raise
 
-def get_existing_openness_info(key, context, data, log):
+def get_task_status_value(key, default, context, data, log):
+    '''Gets a value from the task_status table. If the key isn\'t there,
+    it returns the "default" value.'''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
     response = requests.post(
         api_url,
@@ -227,18 +227,13 @@ def get_existing_openness_info(key, context, data, log):
     )
     if response.status_code == 404 and json.loads(response.content)['success'] == False:
         log.info('Could not get %s - must be a new resource.' % key)
-        value = 0
+        return default
     elif response.error:
         log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
                   key, response.error, api_url, response.status_code, response.content)
         raise QAError('Error getting %s' % key)
     elif json.loads(response.content)['success']:
-        result = json.loads(response.content)['result'].get('value', '0')
-        try:
-            value = int(result)
-        except ValueError, e:
-            log.warning('Non integer value for %s: %r', key, result)
-            value = 0
+        return json.loads(response.content)['result'].get('value')
     else:
         log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
                   key, response.status_code, response.content, api_url)
@@ -247,7 +242,7 @@ def get_existing_openness_info(key, context, data, log):
 
 def resource_score(context, data, log):
     """
-    Score resources on Sir Tim Berners-Lee\'s five stars of openness
+    Score resource on Sir Tim Berners-Lee\'s five stars of openness
     based on mime-type.
 
     returns a dict with keys:
@@ -262,13 +257,25 @@ def resource_score(context, data, log):
     score_reason = ''
 
     # get info about previous scorings from the task status table if they exist
-    score_failure_count = get_existing_openness_info('openness_score_failure_count',
-                                                     context, data, log)
+    # = get_task_status_value('openness_score_failure_count',
+    #                         context, data, log) or '0'
+    score_failure_count = get_task_status_value('openness_score_failure_count',
+                                                context, data, log) or '0'
+    try:
+        score_failure_count = int(score_failure_count)
+    except ValueError, e:
+        log.warning('Non integer value for score_failure_count: %r',
+                    score_failure_count)
+        score_failure_count = 0
 
     try:
-        headers = json.loads(link_checker("{}", json.dumps(data)))
-        score_reason = 'Request succeeded.'
-        ct = headers.get('content-type')
+        # We used to download the file - now we use the cached one
+        #headers = json.loads(link_checker("{}", json.dumps(data)))
+        #score_reason = 'Request succeeded.'
+        #ct = headers.get('content-type')
+
+        filepath = get_cached_resource_filepath(data)
+        sniffed_format = sniff_file_format(filepath)
 
         # ignore charset if exists (just take everything before the ';')
         if ct and ';' in ct:
@@ -276,28 +283,34 @@ def resource_score(context, data, log):
 
         # also get format from resource and by guessing from file extension
         extension = None
+        formats_by_extension = Formats.by_extension()
         for try_extension in extension_variants(data['url']):
-            if try_extension.lower() in MIME_TYPE_SCORE:
+            if try_extension.lower() in formats_by_extension:
                 extension = try_extension
 
         # format field gives the best clue
-        format = data.get('format', '').lower()
+        format_field = data.get('format', '').lower()
 
         # we don't want to take the publisher's word for it, in case the link
-        # is only to a landing page, so highest priority is the content-type
-        if ct and ct not in GENERAL_PURPOSE_CONTENT_TYPES:
-            score = MIME_TYPE_SCORE.get(ct)
+        # is only to a landing page, so highest priority is the sniffed type,
+        # followed by content-type (which is often wrong).
+        if sniffed_format:
+            score = sniffed_format['openness']
+            score_reason += ' Content of file appears to be format "%s".' % sniffed_format
+        elif ct and ct not in VAGUE_MIME_TYPES:
+            score = Format.by_mime_type().get(ct)
             score_reason += ' Content-Type header "%s".' % ct
         elif extension:
-            score = MIME_TYPE_SCORE.get(extension)
+            score = Format.by_extension().get(extension)
             score_reason += ' URL extension "%s".' % extension
-        elif format:
-            score = MIME_TYPE_SCORE.get(format.lower())
-            score_reason += ' Format field "%s".' % format
+        elif format_field:
+            score = Format.by_display_name().get(format_field) or \
+                    Format.by_extension().get(format_field.lower()) 
+            score_reason += ' Format field "%s".' % format_field
 
         if score == None:
             log.warning('Could not score format type: "%s"',
-                     ct or extension or format)
+                        sniffed_format or ct or extension or format_field)
             score_reason += ' No corresponding score is available for this format.'
             score = 0
 
@@ -334,6 +347,24 @@ def resource_score(context, data, log):
 
     return result
 
+def get_cached_resource_filepath(data):
+    '''Returns the filepath of the cached resource data file, calculated
+    from its cache_url.
+
+    May raise QAError for fatal errors.
+    '''
+    cache_url = data.get('cache_url')
+    if not cache_url:
+        raise QAError('Resource has no cache_url. url=%s' % data['url'])
+    if not cache_url.startswith(config['ckan.cache_url_root']):
+        raise QAError('Resource cache_url (%s) doesn\'t match the cache_url_root (%s)' % \
+                      (cache_url, config['ckan.cache_url_root']))
+    filepath = cache.url.replace(config['ckan.cache_url_root'],
+                                 config['ckanext-archiver.archive_dir'])
+    if not os.exists(filepath):
+        raise QAError('Local cache file does not exist: %s' % filepath)
+    return filepath
+    
 def extension_variants(url):
     '''
     Returns a list of extensions, in order of which would more
@@ -348,3 +379,4 @@ def extension_variants(url):
         if len(split_url) > number_of_sections:
             results.append('.'.join(split_url[-number_of_sections]))
     return results
+
