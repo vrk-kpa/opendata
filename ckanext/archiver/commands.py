@@ -1,15 +1,17 @@
+import pkg_resources
+import logging
+import os
+import sys
 from datetime import datetime
 import json
-import requests
 import urlparse
+
+import requests
 from pylons import config
 from pylons.test import pylonsapp
 from paste.deploy import loadapp
 import paste.fixture
-import logging
-import os
 import paste
-import pkg_resources
 
 from ckan.lib.cli import CkanCommand
 
@@ -35,11 +37,13 @@ class Archiver(CkanCommand):
     max_args = 2 
     pkg_names = []
 
-    CkanCommand.parser.add_option('-q', '--queue',
-        action='store',
-        dest='queue',
-        default='celery',
-        help="Send to a particular queue")
+    def __init__(self, name):
+        super(Archiver,self).__init__(name)
+        self.parser.add_option('-q', '--queue',
+                               action='store',
+                               dest='queue',
+                               default='bulk',
+                               help="Send to a particular queue")
 
     def command(self):
         """
@@ -47,7 +51,7 @@ class Archiver(CkanCommand):
         """
         if not self.args or self.args[0] in ['--help', '-h', 'help']:
             print self.usage
-            return
+            sys.exit(1)
 
         cmd = self.args[0]
         self._load_config()
@@ -87,12 +91,16 @@ class Archiver(CkanCommand):
         if cmd == 'update':
             if len(self.args) > 1:
                 package_names = [self.args[1]]
+                if not self.options.queue:
+                    self.options.queue = 'priority'
             else:
                 url = api_url + '/package_list'
                 self.log.info('Requesting list of datasets from %r', url)
                 response = app.post(url, "{}")
                 self.log.info('List of datasets (status %s): %r...', response.status, response.body[:100])
                 package_names = json.loads(response.body).get('result')
+                if not self.options.queue:
+                    self.options.queue = 'bulk'
 
             self.log.info("Number of datasets to archive: %d" % len(package_names))
 
@@ -104,7 +112,7 @@ class Archiver(CkanCommand):
                 response = app.post(api_url + '/package_show', data)
                 package =  json.loads(response.body).get('result')
 
-                self.log.info("Archival of dataset resource data added to celery queue "%s": %s (%d resources)" % (self.options.queue, package.get('name'), len(package.get('resources', []))))
+                self.log.info('Archival of dataset resource data added to celery queue "%s": %s (%d resources)' % (self.options.queue, package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
                     data = json.dumps(resource, {'model': model})
                     task_id = make_uuid()

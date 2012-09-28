@@ -116,7 +116,7 @@ The Archiver can be used in two ways:
 
     ::
 
-        paster archiver update [dataset] -c <path to CKAN config>
+        paster archiver update [dataset] --queue=priority -c <path to CKAN config>
 
     Here ``dataset`` is an optional CKAN dataset name or ID. 
     If given, all resources for that dataset will be archived.
