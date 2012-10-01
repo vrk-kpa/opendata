@@ -6,7 +6,7 @@ from nose.tools import raises, assert_equal
 from ckanext.qa import tasks
 from ckanext.qa.sniff_format import is_json
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('ckan.tests')
 
 class TestSniffFormat:
     @classmethod
@@ -23,7 +23,8 @@ class TestSniffFormat:
         for format_, filepath in self.fixture_files:
             sniffed_format = tasks.sniff_file_format(filepath, log)
             assert sniffed_format, format_
-            assert_equal(sniffed_format['extension'], format_)
+            assert_equal(sniffed_format['extension'] or \
+                         sniffed_format['display_name'].lower(), format_)
 
     @classmethod
     def check_format(cls, format):
@@ -34,7 +35,8 @@ class TestSniffFormat:
             assert 0, format #Could not find fixture for format
         sniffed_format = tasks.sniff_file_format(filepath, log)
         assert sniffed_format, format_
-        assert_equal(sniffed_format['extension'], format_)
+        assert_equal(sniffed_format['extension'] or \
+                     sniffed_format['display_name'].lower(), format_)
 
     def test_xls(self):
         self.check_format('xls')
@@ -52,8 +54,6 @@ class TestSniffFormat:
         self.check_format('json')
     def test_ods(self):
         self.check_format('ods')
-    def test_zip(self):
-        self.check_format('zip')
     def test_ppt(self):
         self.check_format('ppt')
     def test_csv(self):
@@ -68,8 +68,6 @@ class TestSniffFormat:
         self.check_format('rss')
     def test_txt(self):
         self.check_format('txt')
-    def test_xls_zip(self):
-        self.check_format('xls.zip')
     def test_csv_zip(self):
         self.check_format('csv.zip')
 
