@@ -15,6 +15,8 @@ import paste
 
 from ckan.lib.cli import CkanCommand
 
+REQUESTS_HEADER = {'content-type': 'application/json'}
+
 class Archiver(CkanCommand):
     """
     Download and save copies of all package resources.
@@ -38,12 +40,11 @@ class Archiver(CkanCommand):
     pkg_names = []
 
     def __init__(self, name):
-        super(Archiver,self).__init__(name)
+        super(Archiver, self).__init__(name)
         self.parser.add_option('-q', '--queue',
                                action='store',
                                dest='queue',
-                               default='bulk',
-                               help="Send to a particular queue")
+                               help='Send to a particular queue')
 
     def command(self):
         """
@@ -73,32 +74,34 @@ class Archiver(CkanCommand):
             'username': user.get('name'),
             'cache_url_root': config.get('ckan.cache_url_root')
         })
-        api_url = '/api/action'
-
-        # Setup a WSGI interface to CKAN to make requests to
-        # to find the resource urls.
-        # NB Before this was done using http requests, but that was
-        # problematic for DGU - the request for the list of packages
-        # took so long that Varnish returned 503. Best to do it in this process
-        # and you save relying on site_url too.
-        path = os.getcwd()
-        pylonsapp = loadapp('config:' + self.filename,
-                                       relative_to=path)
-        wsgiapp = pylonsapp
-        assert wsgiapp, 'Pylons load failed'
-        app = paste.fixture.TestApp(wsgiapp)
+        api_url = urlparse.urljoin(config.get('ckan.site_url_internally') or config['ckan.site_url'], 'api/action')
 
         if cmd == 'update':
             if len(self.args) > 1:
-                package_names = [self.args[1]]
-                if not self.options.queue:
-                    self.options.queue = 'priority'
+                # try arg as a group name
+                url = api_url + '/member_list'
+                self.log.info('Requesting list of datasets from %r', url)
+                data = {'id': self.args[1],
+                        'object_type': 'package',
+                        'capacity': 'public'}
+                response = requests.post(url, data=json.dumps(data), headers=REQUESTS_HEADER)
+                self.log.info('List of datasets (status %s): %r...', response.status_code, response.text[:100])
+                if response.status_code == 200:
+                    package_tuples = json.loads(response.text).get('result')
+                    package_names = [pt[0] for pt in package_tuples]
+                    if not self.options.queue:
+                        self.options.queue = 'bulk'
+                else:
+                    # must be a package id
+                    package_names = [self.args[1]]
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
             else:
                 url = api_url + '/package_list'
                 self.log.info('Requesting list of datasets from %r', url)
-                response = app.post(url, "{}")
-                self.log.info('List of datasets (status %s): %r...', response.status, response.body[:100])
-                package_names = json.loads(response.body).get('result')
+                response = requests.post(url, data="{}", headers=REQUESTS_HEADER)
+                self.log.info('List of datasets (status %s): %r...', response.status_code, response.text[:100])
+                package_names = json.loads(response.text).get('result')
                 if not self.options.queue:
                     self.options.queue = 'bulk'
 
@@ -109,8 +112,13 @@ class Archiver(CkanCommand):
 
                 # Get the dataset's resource urls
                 data = json.dumps({'id': unicode(package_name)})
-                response = app.post(api_url + '/package_show', data)
-                package =  json.loads(response.body).get('result')
+                response = requests.post(api_url + '/package_show', data=data,
+                                         headers=REQUESTS_HEADER)
+                if response.status_code == 403:
+                    self.log.warn('Dataset %s gave 403 - ignoring' % package_name)
+                    continue
+                assert response.status_code == 200, response.status_code
+                package = json.loads(response.text).get('result')
 
                 self.log.info('Archival of dataset resource data added to celery queue "%s": %s (%d resources)' % (self.options.queue, package.get('name'), len(package.get('resources', []))))
                 for resource in package.get('resources', []):
