@@ -6,6 +6,9 @@ import datetime
 import json
 import requests
 import urlparse
+import os
+
+from pylons import config
 
 import ckan.lib.celery_app as celery_app
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
@@ -260,7 +263,7 @@ def resource_score(context, data, log):
     # = get_task_status_value('openness_score_failure_count',
     #                         context, data, log) or '0'
     score_failure_count = get_task_status_value('openness_score_failure_count',
-                                                context, data, log) or '0'
+                                                '0', context, data, log) or '0'
     try:
         score_failure_count = int(score_failure_count)
     except ValueError, e:
@@ -272,14 +275,14 @@ def resource_score(context, data, log):
         # We used to download the file - now we use the cached one
         #headers = json.loads(link_checker("{}", json.dumps(data)))
         #score_reason = 'Request succeeded.'
-        #ct = headers.get('content-type')
 
         filepath = get_cached_resource_filepath(data)
-        sniffed_format = sniff_file_format(filepath)
+        sniffed_format = sniff_file_format(filepath, log)
 
         # ignore charset if exists (just take everything before the ';')
-        if ct and ';' in ct:
-            ct = ct.split(';')[0]
+        ## ct = headers.get('content-type')
+        ## if ct and ';' in ct:
+        ##     ct = ct.split(';')[0]
 
         # also get format from resource and by guessing from file extension
         extension = None
@@ -296,21 +299,23 @@ def resource_score(context, data, log):
         # followed by content-type (which is often wrong).
         if sniffed_format:
             score = sniffed_format['openness']
-            score_reason += ' Content of file appears to be format "%s".' % sniffed_format
-        elif ct and ct not in VAGUE_MIME_TYPES:
-            score = Format.by_mime_type().get(ct)
-            score_reason += ' Content-Type header "%s".' % ct
+            score_reason = 'Content of file appears to be format "%s".' % sniffed_format['display_name']
+        ## elif ct and ct not in VAGUE_MIME_TYPES:
+        ##     score = Format.by_mime_type().get(ct)
+        ##     score_reason = 'Content-Type header "%s".' % ct
         elif extension:
             score = Format.by_extension().get(extension)
-            score_reason += ' URL extension "%s".' % extension
+            score_reason = 'URL extension "%s".' % extension
         elif format_field:
             score = Format.by_display_name().get(format_field) or \
                     Format.by_extension().get(format_field.lower()) 
-            score_reason += ' Format field "%s".' % format_field
+            score_reason = 'Format field "%s".' % format_field
+        else:
+            score_reason = ''
 
         if score == None:
             log.warning('Could not score format type: "%s"',
-                        sniffed_format or ct or extension or format_field)
+                        sniffed_format  or extension or format_field)
             score_reason += ' No corresponding score is available for this format.'
             score = 0
 
@@ -319,6 +324,8 @@ def resource_score(context, data, log):
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
         score_reason = "Unknown error: %s" % str(e)
+
+    log.info('Score: %s Reason: %s', score, score_reason)
 
     # Even if we can get the link, we should still treat the resource
     # as having a score of 0 if the license isn't open.
@@ -359,9 +366,12 @@ def get_cached_resource_filepath(data):
     if not cache_url.startswith(config['ckan.cache_url_root']):
         raise QAError('Resource cache_url (%s) doesn\'t match the cache_url_root (%s)' % \
                       (cache_url, config['ckan.cache_url_root']))
-    filepath = cache.url.replace(config['ckan.cache_url_root'],
-                                 config['ckanext-archiver.archive_dir'])
-    if not os.exists(filepath):
+    archive_dir = config['ckanext-archiver.archive_dir']
+    if config['ckan.cache_url_root'].endswith('/') and not archive_dir.endswith('/'):
+        archive_dir += '/'
+    filepath = cache_url.replace(config['ckan.cache_url_root'],
+                                 archive_dir)
+    if not os.path.exists(filepath):
         raise QAError('Local cache file does not exist: %s' % filepath)
     return filepath
     

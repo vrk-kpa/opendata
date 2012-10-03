@@ -4,9 +4,11 @@ import zipfile
 import os
 from collections import defaultdict
 import subprocess
+import StringIO
 
 import xlrd
 import magic
+import messytables
 
 from ckanext.dgu.lib.formats import Formats
 
@@ -15,45 +17,76 @@ def sniff_file_format(filepath, log):
     Returns extension e.g. 'csv'.
     '''
     format_ = None
+    log.info('Sniffing file format of: %s', filepath)
     mime_type = magic.from_file(filepath, mime=True)
     log.info('Magic detects file as: %s', mime_type)
     if mime_type:
         if mime_type == 'application/xml':
             with open(filepath) as f:
-                buf = f.read(100)
+                buf = f.read(500)
             format_ = get_xml_variant(buf, log)
         elif mime_type == 'application/zip':
             format_ = get_zipped_format(filepath, log)
         elif mime_type == 'application/msword':
             # Magic gives this mime-type for other MS Office files too
             format_ = run_bsd_file(filepath, log)
+            if not format_ and is_excel(filepath, log):
+                format_ = Formats.by_display_name()['XLS']
         elif mime_type == 'application/octet-stream':
-            # Shapefile
-            format_ = run_bsd_file(filepath, log)
+            # Excel files sometimes come up as this
+            if is_excel(filepath, log):
+                format_ = Formats.by_display_name()['XLS']
+            else:
+                # e.g. Shapefile
+                format_ = run_bsd_file(filepath, log)
+            if not format_:
+                with open(filepath) as f:
+                    buf = f.read(500)
+                format_ = is_html(buf, log)
+                
         if format_:
             return format_
                 
         format_ = Formats.by_mime_type().get(mime_type)
-        log.info('Mimetype translates to filetype: %s', format_)
 
         if not format_:
+            if mime_type.startswith('text/'):
+                # is it JSON?
+                with open(filepath, 'rU') as f:
+                    buf = f.read(10000)
+                if is_json(buf, log):
+                    format_ = Formats.by_extension()['json']
+                # is it CSV?
+                elif is_csv(buf, log):
+                    format_ = Formats.by_extension()['csv']
+                elif is_psv(buf, log):
+                    format_ = Formats.by_extension()['psv']
+                    
+                
+        if not format_:
             log.warning('Mimetype not recognised by CKAN as a data format: %s', mime_type)
-        elif format_['display_name'] == 'TXT':
-            # is it JSON?
-            with open(filepath) as f:
-                buf = f.read(1000)
-            if is_json(buf):
-                format_ = Formats.by_extension()['json']
-            # is it CSV?
-            if is_csv(buf):
-                format_ = Formats.by_extension()['csv']
             
-        elif format_['display_name'] == 'HTML':
-            # maybe it has RDFa in it
-            with open(filepath) as f:
-                buf = f.read(100000)
-            if has_rdfa(buf):
-                format_ = Formats.by_display_name()['RDFa']
+        if format_:
+            log.info('Mimetype translates to filetype: %s', format_['display_name'])
+
+            if format_['display_name'] == 'TXT':
+                # is it JSON?
+                with open(filepath, 'rU') as f:
+                    buf = f.read(10000)
+                if is_json(buf, log):
+                    format_ = Formats.by_extension()['json']
+                # is it CSV?
+                elif is_csv(buf, log):
+                    format_ = Formats.by_extension()['csv']
+                elif is_psv(buf, log):
+                    format_ = Formats.by_extension()['psv']
+
+            elif format_['display_name'] == 'HTML':
+                # maybe it has RDFa in it
+                with open(filepath) as f:
+                    buf = f.read(100000)
+                if has_rdfa(buf):
+                    format_ = Formats.by_display_name()['RDFa']
 
     else:
         # Excel files sometimes not picked up by magic, so try alternative
@@ -63,13 +96,12 @@ def sniff_file_format(filepath, log):
         # e.g. some MS Word files
         if not format_:
             format_ = run_bsd_file(filepath, log)
-
                 
     if not format_:
         log.warning('Could not detect format of file: %s', filepath)
     return format_
 
-def is_json(buf):
+def is_json(buf, log):
     '''Returns whether this text buffer (potentially truncated) is in
     JSON format.'''
     string = '"[^"]*"'
@@ -115,44 +147,89 @@ def is_json(buf):
                         state = state_stack.pop()
                     except IndexError:
                         # nothing to pop
+                        log.info('JSON detect failed: %i matches', number_of_matches)
                         return False
                 break
         else:
             # no match
+            log.info('JSON detect failed: %i matches', number_of_matches)
             return False
         match_length = matcher.match(part_of_buf).end()
         #print "MATCHED %r %r %s" % (matcher.match(part_of_buf).string[:match_length], matcher.pattern, state_stack)
         pos += match_length
         number_of_matches += 1
         if number_of_matches > 5:
+            log.info('JSON detected: %i matches', number_of_matches)
             return True
                                  
+    log.info('JSON detected: %i matches', number_of_matches)
     return True
 
-def is_csv(buf):
+def is_csv(buf, log):
     '''If the buffer is a CSV file then return True.'''
+    buf_rows = StringIO.StringIO(buf)
+    table_set = messytables.CSVTableSet.from_fileobj(buf_rows)
+    return _is_spreadsheet(table_set, 'CSV', log)
+
+def is_psv(buf, log):
+    '''If the buffer is a PSV file then return True.'''
+    buf_rows = StringIO.StringIO(buf)
+    table_set = messytables.CSVTableSet.from_fileobj(buf_rows, delimiter='|')
+    return _is_spreadsheet(table_set, 'PSV', log)
+
+def _is_spreadsheet(table_set, format, log):
+    def get_cells_per_row(num_cells, num_rows):
+        if not num_rows:
+            return 0
+        return float(num_cells) / float(num_rows)
+    num_cells = num_rows = 0
     try:
-        dialect = csv.Sniffer().sniff(buf)
-    except csv.Error, e:
-        # e.g. "Could not determine delimiter"
-        return False
-    try:
-        rows = csv.reader(buf.replace('\r\n', '\n').split('\n'), dialect)
-        num_valid_rows = 0
-        for row in rows:
+        table = table_set.tables[0]
+        for row in table:
             if row:
-                num_valid_rows += 1
-                if num_valid_rows > 3:
-                    return True
-    except csv.Error, w:
-        return False        
+                # Must have enough cells
+                num_cells += len(row)
+                num_rows += 1
+                if num_cells > 20 or num_rows > 10:
+                    cells_per_row = get_cells_per_row(num_cells, num_rows)
+                    # over the long term, 2 columns is the minimum
+                    if cells_per_row > 1.9:
+                        log.info('Is %s because %.1f cells per row (%i cells, %i rows)', \
+                                 format,
+                                 get_cells_per_row(num_cells, num_rows),
+                                 num_cells, num_rows)
+                        return True
+    finally:
+        pass
+    # if file is short then be more lenient
+    if num_cells > 3 or num_rows > 1:
+        cells_per_row = get_cells_per_row(num_cells, num_rows)
+        if cells_per_row > 1.5:
+            log.info('Is %s because %.1f cells per row (%i cells, %i rows)', \
+                     format,
+                     get_cells_per_row(num_cells, num_rows),
+                     num_cells, num_rows)
+            return True
+    log.info('Not %s - not enough valid cells per row '
+             '(%i cells, %i rows, %.1f cells per row)', \
+             format, num_cells, num_rows, get_cells_per_row(num_cells, num_rows))
+    return False
+    
+def is_html(buf, log):
+    '''If this buffer is in a format based on XML, return the format type.'''
+    xml_re = '.{0,3}\s*(<\?xml[^>]*>\s*)?(<!doctype[^>]*>\s*)?<html[^>]*>'
+    match = re.match(xml_re, buf, re.IGNORECASE)
+    if match:
+        log.info('HTML tag detected')
+        return Formats.by_extension()['html']
+    log.warning('html not detected %s', buf)    
 
 def get_xml_variant(buf, log):
     '''If this buffer is in a format based on XML, return the format type.'''
-    xml_re = '\s*<\?xml[^>]*>\s*<([^>\s]*)'
-    match = re.match(xml_re, buf)
+    xml_re = '.{0,3}\s*<\?xml[^>]*>\s*(<!doctype[^>]*>\s*)?<([^>\s]*)'
+    match = re.match(xml_re, buf, re.IGNORECASE)
     if match:
-        top_level_tag_name = match.groups()[0].lower()
+        top_level_tag_name = match.groups()[-1].lower()
         top_level_tag_name = top_level_tag_name.replace('rdf:rdf', 'rdf')
         if top_level_tag_name in Formats.by_extension():
             return Formats.by_extension()[top_level_tag_name]
@@ -198,14 +275,17 @@ def get_zipped_format(filepath, log):
     for filename in filenames:
         extension = os.path.splitext(filename)[-1][1:].lower()
         if extension in Formats.by_extension():
-            format_ = Formats.by_extension()[extension]
-            if format_['openness'] > top_score:
-                top_score = format_['openness']
-                top_scoring_extension_counts = defaultdict(int)
-            if format_['openness'] == top_score:
-                top_scoring_extension_counts[extension] += 1
+            if (extension + '.zip') in Formats.by_extension():
+                format_ = Formats.by_extension()[extension]
+                if format_['openness'] > top_score:
+                    top_score = format_['openness']
+                    top_scoring_extension_counts = defaultdict(int)
+                if format_['openness'] == top_score:
+                    top_scoring_extension_counts[extension] += 1
+            else:
+                log.warning('Zipped file extension not a known format combination: "%s" (%s)', extension, filepath)
         else:
-            log.warning('Zipped file of unknown extension: %s (%s)', extension, filepath)
+            log.warning('Zipped file of unknown extension: "%s" (%s)', extension, filepath)
     if not top_scoring_extension_counts:
         log.warning('Zip has no known extensions: %s', filepath)
         return Formats.by_display_name()['Zip']
@@ -213,6 +293,8 @@ def get_zipped_format(filepath, log):
     top_scoring_extension_counts = sorted(top_scoring_extension_counts.items(),
                                           lambda x: x[1])
     top_extension = top_scoring_extension_counts[-1][0]
+    log.info('Zip file\'s most popular extension is "%s" (All extensions: %r)',
+             top_extension, top_scoring_extension_counts)
     zipped_extension = top_extension + '.zip'
     if zipped_extension not in Formats.by_extension():
         log.warning('Zipped %s not a registered format', top_extension)
@@ -250,8 +332,11 @@ def run_bsd_file(filepath, log):
     if match:
         app_name = match.groups()[0]
         format_map = {'Microsoft Office PowerPoint': 'ppt',
+                      'Microsoft PowerPoint': 'ppt',
                       'Microsoft Excel': 'xls',
                       'Microsoft Office Word': 'doc',
+                      'Microsoft Word 10.0': 'doc',
+                      'Microsoft Macintosh Word': 'doc',
                       }
         if app_name in format_map:
             extension = format_map[app_name]

@@ -51,7 +51,7 @@ if last_success:
     import datetime, re
     # convert to datetime
     last_success = datetime.datetime(*map(int, re.split('[^\d]', last_success)[:-1]))
-    last_success = last_success.strftime('%d/%m/%Y %H:%M') + ' ' + last_success
+    last_success = last_success.strftime('%d/%m/%Y %H:%M') + ' '
 ?>
               <td>${last_success or 'not recorded'}</td>
             </tr>

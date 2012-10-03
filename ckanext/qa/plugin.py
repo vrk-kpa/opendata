@@ -129,10 +129,12 @@ class QAPlugin(p.SingletonPlugin):
             'user': user.get('name'),
         }
 
+        queue = 'priority'
         p.toolkit.get_action('task_status_update')(task_context, task_status)
-        send_task('qa.update', args=[context, data], task_id=task_id)
+        send_task('qa.update', args=[context, data], task_id=task_id, queue=queue)
 
-        log.debug('QA check for resource put into celery queue: %s url=%r', resource.id, resource_dict.get('url'))
+        log.debug('QA check for resource put into celery queue %s: %s url=%r',
+                  queue, resource.id, resource_dict.get('url'))
 
     def filter(self, stream):
 	if not self.alter_resource_page_template:
