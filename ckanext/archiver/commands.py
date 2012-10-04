@@ -26,13 +26,14 @@ class Archiver(CkanCommand):
 
     Usage:
 
-        paster archiver update [{package-id}]
-           - Archive all resources or just those belonging to a specific package 
-             if a package id is provided
-
-        paster archiver clean
-            - Remove all archived resources
-    """    
+        paster archiver update [{package-name/id}|{group-name/id}]
+           - Archive all resources or just those belonging to a specific
+             package or group, if specified
+    """
+    #  TODO:
+    #    paster archiver clean
+    #        - Remove all archived resources
+    
     summary = __doc__.split('\n')[0]
     usage = __doc__
     min_args = 0

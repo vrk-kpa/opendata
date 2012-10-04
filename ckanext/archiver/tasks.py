@@ -173,14 +173,14 @@ def download(context, resource, url_timeout=30,
         raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" % 
             max_content_length)         
 
-    # zero length usually indicates a problem too
-    if length == 0:
+    # zero length (or just one byte) indicates a problem too
+    if length < 2:
         if resource_changed: 
             _update_resource(context, resource, log)
         # record fact that resource is zero length
-        log.warning('Resource found was zero length - not archiving. Resource: %s %r',
-                 resource['id'], url)
-        raise DownloadError("Content-length after streaming was zero")
+        log.warning('Resource found was length %i - not archiving. Resource: %s %r',
+                 length, resource['id'], url)
+        raise DownloadError("Content-length after streaming was %i" % length)
 
     # update the resource metadata in CKAN if the resource has changed
     if resource.get('hash') != hash:
