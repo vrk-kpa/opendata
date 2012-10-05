@@ -195,19 +195,20 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
     '''
     values = {}
     main_sql =    """
-            from task_status 
-        left join resource on task_status.entity_id = resource.id
-        left join resource_group on resource.resource_group_id = resource_group.id
-        left join package on resource_group.package_id = package.id
-        left join member on member.table_id = package.id
-        left join "group" on member.group_id = "group".id
+        from task_status 
+           left join resource on task_status.entity_id = resource.id
+           left join resource_group on resource.resource_group_id = resource_group.id
+           left join package on resource_group.package_id = package.id
+           left join member on member.table_id = package.id
+           left join "group" on member.group_id = "group".id
         where 
-           entity_id in (select entity_id from task_status where task_status.key='openness_score' and value='0')
-        and task_status.key='openness_score_reason'
-        and package.state = 'active'
-        and resource.state='active'
-        and resource_group.state='active'
-        and "group".state='active'
+           task_status.task_type='archiver'
+           and task_status.key='status'
+           and task_status.value!='Archived successfully'
+           and package.state = 'active'
+           and resource.state='active'
+           and resource_group.state='active'
+           and "group".state='active'
         """
     for reason in not_broken_but_0_stars:
         main_sql += """
@@ -216,13 +217,13 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
     if organisation_name:
         values['org_name'] = organisation_name
         sql = """
-        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
+        select package.id as package_id, task_status.value as reason, task_status.error as error_json, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
         """
         sql += main_sql + ' and "group".name = :org_name'
         sql += ' order by package.title'
     elif include_resources:
         sql = """
-        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
+        select package.id as package_id, task_status.value as reason, task_status.error as error_json, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
         """
         sql += main_sql + " order by publisher_title"
     else:
@@ -247,7 +248,7 @@ def _get_broken_resource_links(organisation_name=None, include_resources=False):
             result[(pub_title, pub_name)] = None
         return result
 
-not_broken_but_0_stars = set(('Unrecognised content type', 'License not open'))
+not_broken_but_0_stars = set(('Chose not to download'))
 
 def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name):
     '''

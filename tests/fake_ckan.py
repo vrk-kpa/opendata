@@ -22,11 +22,19 @@ def task_status_update():
 
 @app.route("/api/action/task_status_show", methods=['GET', 'POST'])
 def task_status_show():
-    # resource_score in task.py is just checking for a 'openness_score_failure_count'
-    # key, but will default to 0 if it doesn't exist
-    js = json.dumps({'success': False})
-    resp = Response(js, status=404, mimetype='application/json')
-    return resp
+    request_store.append({
+        "data": request.json,
+        "headers": dict(request.headers)
+    })
+    return jsonify({'success': True,
+                     'result': {'value': 'URL request failed',
+                                'error': json.dumps({
+                                    'reason': 'Server returned 500 error.',
+                                    'last_success': '',
+                                    'first_failure': '2008-10-01',
+                                    'failure_count': 16,
+                                    }),
+                                'stack': ''}})
 
 @app.route("/api/action/resource_update", methods=['GET', 'POST'])
 def resource_update():

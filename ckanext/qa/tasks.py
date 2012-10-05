@@ -13,6 +13,7 @@ from pylons import config
 import ckan.lib.celery_app as celery_app
 from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
 from ckanext.qa.sniff_format import sniff_file_format
+from ckanext.archiver.tasks import get_status as get_archiver_status
 
 class QAError(Exception):
     pass
@@ -79,25 +80,7 @@ def _task_status_data(id, result):
             'value': result['openness_score_reason'],
             'last_updated': now
         },
-        {
-            'entity_id': id,
-            'entity_type': u'resource',
-            'task_type': 'qa',
-            'key': u'openness_score_failure_count',
-            'value': result['openness_score_failure_count'],
-            'last_updated': now
-        },
     ]
-    if 'openness_score_last_success' in result:
-        data.append(
-        {
-            'entity_id': id,
-            'entity_type': u'resource',
-            'task_type': 'qa',
-            'key': u'openness_score_last_success',
-            'value': result['openness_score_last_success'],
-            'last_updated': now
-        })
     return data
         
 @celery_app.celery.task(name="qa.update")
@@ -115,8 +98,6 @@ def update(context, data):
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
-        'openness_score_failure_count': the number of consecutive times that
-                                        this resource has returned a score of 0
     """
     log = update.get_logger()
     try:
@@ -200,31 +181,17 @@ def resource_score(context, data, log):
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
-        'openness_score_failure_count': the number of consecutive times that
-                                        this resource has returned a score of 0
-        
+
     """
     score = 0
     score_reason = ''
-
-    # get info about previous scorings from the task status table if they exist
-    # = get_task_status_value('openness_score_failure_count',
-    #                         context, data, log) or '0'
-    score_failure_count = get_task_status_value('openness_score_failure_count',
-                                                '0', context, data, log) or '0'
-    try:
-        score_failure_count = int(score_failure_count)
-    except ValueError, e:
-        log.warning('Non integer value for score_failure_count: %r',
-                    score_failure_count)
-        score_failure_count = 0
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
         
         # we don't want to take the publisher's word for it, in case the link
         # is only to a landing page, so highest priority is the sniffed type
-        score = score_by_sniffing_data(data, score_reasons, log)
+        score = score_by_sniffing_data(context, data, score_reasons, log)
         if score == None:
             # Fall-backs are user-given data
             score = score_by_url_extension(data, score_reasons, log)
@@ -233,8 +200,8 @@ def resource_score(context, data, log):
                 if score == None:
                     log.warning('Could not score resource: "%s" with url: "%s"',
                                 data.get('id'), data.get('url'))
-                    score_reasons.append('No openness can be determined, therefore score is 0.')
-                    score = 0
+                    score_reasons.append('Could not understand the file format, therefore score is 1.')
+                    score = 1
         score_reason = ' '.join(score_reasons)
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
@@ -253,24 +220,14 @@ def resource_score(context, data, log):
         score_reason = 'License not open'
         score = 0
 
-    if score == 0:
-        score_failure_count += 1
-    else:
-        score_failure_count = 0
-
     result = {
         'openness_score': score,
         'openness_score_reason': score_reason,
-        'openness_score_failure_count': score_failure_count,
     }
-
-    # If success, record the date of that
-    if score > 0:
-        result['openness_score_last_success'] = datetime.datetime.now().isoformat()
 
     return result
 
-def score_by_sniffing_data(data, score_reasons, log):
+def score_by_sniffing_data(context, data, score_reasons, log):
     try:
         filepath = get_cached_resource_filepath(data)
     except QAOperationError, e:
@@ -288,8 +245,28 @@ def score_by_sniffing_data(data, score_reasons, log):
                 score_reasons.append('The format of the file was not recognised from its contents.')
                 return None
         else:
-            score_reasons.append('Cached copy of the data not currently available so cannot determine format from the contents.')
-            return None
+            # No cache_url
+            archiver_status = get_archiver_status(context, data['id'], log)
+            if archiver_status['value'] in ('URL invalid', 'URL request failed', 'Download error'):
+                score_reasons.append('File could not be downloaded. Reason: %s. Tried %s times since %s. Error details: %s' % (\
+                    archiver_status['value'],
+                    archiver_status['failure_count'],
+                    archiver_status['first_failure'],
+                    archiver_status['reason']))
+                return 0
+            elif archiver_status['value'] == 'Chose not to download':
+                score_reasons.append('File was not downloaded deliberately. Reason: %s. Using other methods to determine file openness.' % \
+                                     archiver_status['reason'])
+                return None
+            elif archiver_status['value'] in ('Download failure', 'System error during archival'):
+                score_reasons.append('A system error occurred during downloading this file. Reason: %s. Using other methods to determine file openness.' % \
+                                     archiver_status['reason'])
+                return None
+            else:
+                score_reasons.append('Downloading this file failed. A system error occurred determining the reason for the error: %s Using other methods to determine file openness.' % \
+                                     archiver_status['value'])
+                return None
+                
     
 def score_by_url_extension(data, score_reasons, log):
     formats_by_extension = Formats.by_extension()
@@ -314,7 +291,7 @@ def score_by_format_field(data, score_reasons, log):
     format_ = Formats.by_display_name().get(format_field) or \
               Formats.by_extension().get(format_field.lower())
     if not format_:
-        score_reasons.append('Format field "%s" does not correspond to a known format.')
+        score_reasons.append('Format field "%s" does not correspond to a known format.' % format_field)
         return None
     score = format_['openness']
     score_reasons.append('Format field "%s" receives score: %s.' % \
