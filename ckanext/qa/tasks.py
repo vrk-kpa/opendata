@@ -11,84 +11,26 @@ import os
 from pylons import config
 
 import ckan.lib.celery_app as celery_app
-from ckanext.archiver.tasks import link_checker, LinkCheckerError
 from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
 from ckanext.qa.sniff_format import sniff_file_format
 
 class QAError(Exception):
     pass
 
+class QAOperationError(Exception):
+    pass
 
 class CkanError(Exception):
     pass
 
 # Description of each score, used elsewhere
 OPENNESS_SCORE_REASON = {
-    0: 'Not obtainable',
+    0: 'Not obtainable or license is not open',
     1: 'Obtainable via web page',
     2: 'Machine readable format',
     3: 'Open and standardized format',
     4: 'Ontologically represented',
     5: 'Fully Linked Open Data as appropriate',
-}
-
-# mime types, file extensions and what you'd put in the 'format' field
-# along with their score
-MIME_TYPE_SCORE = {
-    'text/plain': 1,
-    'text': 1,
-    'txt': 1,
-    'text/html': 1,
-    'application/pdf': 1,
-    'pdf': 1,
-    'zip': 1,
-    'application/x-compressed': 1,
-    'application/x-zip-compressed': 1,
-    'application/zip': 1,
-    'multipart/x-zip': 1,
-    'word': 1,
-    'doc': 1,
-    'docx': 1,
-    'application/msword': 1,
-    'ppt': 1,
-    'pptx': 1,
-    'application/mspowerpoint': 1,
-    'application/powerpoint': 1,
-    'application/vnd.ms-powerpoint': 1,
-    'application/x-mspowerpoint': 1,
-    'application/excel': 2,
-    'application/x-excel': 2,
-    'application/x-msexcel': 2,
-    'application/vnd.ms-excel': 2,
-    'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
-    'application/vnd.ms-excel.sheet.macroenabled.12': 2,
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
-    'xls': 2,
-    'xlsx': 2,
-    'excel': 2,
-    'shp': 2,
-    'text/csv': 3,
-    'application/json': 3,
-    'text/x-json': 3,
-    'application/xml': 3,
-    'text/xml': 3,
-    'rss': 3,
-    'text/rss+xml': 3,
-    'csv': 3,
-    'csv / zip': 3,
-    'csv.zip': 3,
-    'ods': 3,
-    'application/vnd.oasis.opendocument.spreadsheet': 3,
-    'xml': 3,
-    'json': 3,
-    'wms': 3,
-    'kml': 3,
-    'application/vnd.google-earth.kml+xml': 3,
-    'netcdf': 3,
-    'cdf': 3,
-    'application/netcdf': 3,
-    'application/rdf+xml': 4,
-    'rdf': 4,
 }
 
 def _update_task_status(context, data, log):
@@ -163,8 +105,9 @@ def update(context, data):
     """
     Given a resource, calculates an openness score.
 
-    context - how this plugin can call the CKAN API with the results
-              is JSON dict with keys: 'site_url', 'apikey'
+    context - how this plugin can call the CKAN API to get more info and
+              save the results.
+              is a JSON dict with keys: 'site_url', 'apikey'
     data - details of the resource that is to be scored
            is JSON dict with keys: 'package', 'position', 'id', 'format', 'url', 'is_open'
     
@@ -245,10 +188,15 @@ def get_task_status_value(key, default, context, data, log):
 
 def resource_score(context, data, log):
     """
-    Score resource on Sir Tim Berners-Lee\'s five stars of openness
-    based on mime-type.
+    Score resource on Sir Tim Berners-Lee\'s five stars of openness.
 
-    returns a dict with keys:
+    context - how this plugin can call the CKAN API to get more info and
+              save the results.
+              is a JSON dict with keys: 'site_url', 'apikey'
+    data - details of the resource that is to be scored
+           is JSON dict with keys: 'package', 'position', 'id', 'format', 'url', 'is_open'
+
+    Returns a dict with keys:
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
@@ -272,58 +220,26 @@ def resource_score(context, data, log):
         score_failure_count = 0
 
     try:
-        # We used to download the file - now we use the cached one
-        #headers = json.loads(link_checker("{}", json.dumps(data)))
-        #score_reason = 'Request succeeded.'
-
-        filepath = get_cached_resource_filepath(data)
-        sniffed_format = sniff_file_format(filepath, log)
-
-        # ignore charset if exists (just take everything before the ';')
-        ## ct = headers.get('content-type')
-        ## if ct and ';' in ct:
-        ##     ct = ct.split(';')[0]
-
-        # also get format from resource and by guessing from file extension
-        extension = None
-        formats_by_extension = Formats.by_extension()
-        for try_extension in extension_variants(data['url']):
-            if try_extension.lower() in formats_by_extension:
-                extension = try_extension
-
-        # format field gives the best clue
-        format_field = data.get('format', '').lower()
-
+        score_reasons = [] # a list of strings detailing how we scored it
+        
         # we don't want to take the publisher's word for it, in case the link
-        # is only to a landing page, so highest priority is the sniffed type,
-        # followed by content-type (which is often wrong).
-        if sniffed_format:
-            score = sniffed_format['openness']
-            score_reason = 'Content of file appears to be format "%s".' % sniffed_format['display_name']
-        ## elif ct and ct not in VAGUE_MIME_TYPES:
-        ##     score = Format.by_mime_type().get(ct)
-        ##     score_reason = 'Content-Type header "%s".' % ct
-        elif extension:
-            score = Format.by_extension().get(extension)
-            score_reason = 'URL extension "%s".' % extension
-        elif format_field:
-            score = Format.by_display_name().get(format_field) or \
-                    Format.by_extension().get(format_field.lower()) 
-            score_reason = 'Format field "%s".' % format_field
-        else:
-            score_reason = ''
-
+        # is only to a landing page, so highest priority is the sniffed type
+        score = score_by_sniffing_data(data, score_reasons, log)
         if score == None:
-            log.warning('Could not score format type: "%s"',
-                        sniffed_format  or extension or format_field)
-            score_reason += ' No corresponding score is available for this format.'
-            score = 0
-
-    except LinkCheckerError, e:
-        score_reason = str(e)
+            # Fall-backs are user-given data
+            score = score_by_url_extension(data, score_reasons, log)
+            if score == None:
+                score = score_by_format_field(data, score_reasons, log)
+                if score == None:
+                    log.warning('Could not score resource: "%s" with url: "%s"',
+                                data.get('id'), data.get('url'))
+                    score_reasons.append('No openness can be determined, therefore score is 0.')
+                    score = 0
+        score_reason = ' '.join(score_reasons)
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
         score_reason = "Unknown error: %s" % str(e)
+        #raise #JUST FOR TEST
 
     log.info('Score: %s Reason: %s', score, score_reason)
 
@@ -354,17 +270,71 @@ def resource_score(context, data, log):
 
     return result
 
+def score_by_sniffing_data(data, score_reasons, log):
+    try:
+        filepath = get_cached_resource_filepath(data)
+    except QAOperationError, e:
+        log.error(e)
+        sniffed_format = None
+        score_reasons.append('Operational error occurred when accessing cached copy of the data, so cannot determine format from the contents.')
+        return None
+    else:
+        if filepath:
+            sniffed_format = sniff_file_format(filepath, log)
+            if sniffed_format:
+                score_reasons.append('Content of file appeared to be format "%s" which receives openness score: %s.' % (sniffed_format['display_name'], sniffed_format['openness']))
+                return sniffed_format['openness']
+            else:
+                score_reasons.append('The format of the file was not recognised from its contents.')
+                return None
+        else:
+            score_reasons.append('Cached copy of the data not currently available so cannot determine format from the contents.')
+            return None
+    
+def score_by_url_extension(data, score_reasons, log):
+    formats_by_extension = Formats.by_extension()
+    extension_variants_ = extension_variants(data['url'])
+    if not extension_variants_:
+        score_reasons.append('Could not determine a file extension in the URL.')
+        return None
+    for extension in extension_variants_:
+        if extension.lower() in formats_by_extension:
+            format_ = Formats.by_extension().get(extension.lower())
+            score = format_['openness']
+            score_reasons.append('URL extension "%s" relates to format "%s" and receives score: %s.' % (extension, format_['display_name'], score))
+            return score
+        score_reasons.append('URL extension "%s" is an unknown format.' % extension)
+    return None
+
+def score_by_format_field(data, score_reasons, log):
+    format_field = data.get('format', '')
+    if not format_field:
+        score_reasons.append('Format field is blank.')
+        return None
+    format_ = Formats.by_display_name().get(format_field) or \
+              Formats.by_extension().get(format_field.lower())
+    if not format_:
+        score_reasons.append('Format field "%s" does not correspond to a known format.')
+        return None
+    score = format_['openness']
+    score_reasons.append('Format field "%s" receives score: %s.' % \
+                         (format_field, score))
+    return score
+    
+    
 def get_cached_resource_filepath(data):
     '''Returns the filepath of the cached resource data file, calculated
     from its cache_url.
 
-    May raise QAError for fatal errors.
+    Returns None if the resource has no cache.
+    
+    May raise QAOperationError for fatal errors.
     '''
     cache_url = data.get('cache_url')
     if not cache_url:
-        raise QAError('Resource has no cache_url. url=%s' % data['url'])
+        return None
     if not cache_url.startswith(config['ckan.cache_url_root']):
-        raise QAError('Resource cache_url (%s) doesn\'t match the cache_url_root (%s)' % \
+        raise QAOperationError('Resource cache_url (%s) doesn\'t match the cache_url_root (%s)' % \
                       (cache_url, config['ckan.cache_url_root']))
     archive_dir = config['ckanext-archiver.archive_dir']
     if config['ckan.cache_url_root'].endswith('/') and not archive_dir.endswith('/'):
@@ -372,7 +342,7 @@ def get_cached_resource_filepath(data):
     filepath = cache_url.replace(config['ckan.cache_url_root'],
                                  archive_dir)
     if not os.path.exists(filepath):
-        raise QAError('Local cache file does not exist: %s' % filepath)
+        raise QAOperationError('Local cache file does not exist: %s' % filepath)
     return filepath
     
 def extension_variants(url):
@@ -382,11 +352,15 @@ def extension_variants(url):
     
     >>> extension_variants('http://dept.gov.uk/coins.data.1996.csv.zip')
     ['csv.zip', 'zip']
+    >>> extension_variants('http://dept.gov.uk/data.csv?callback=1')
+    ['csv']
     '''
+    url = url.split('?')[0] # get rid of params
+    url = url.split('/')[-1] # get rid of path - leaves filename
     split_url = url.split('.')
     results = []
     for number_of_sections in [2, 1]:
         if len(split_url) > number_of_sections:
-            results.append('.'.join(split_url[-number_of_sections]))
+            results.append('.'.join(split_url[-number_of_sections:]))
     return results
 

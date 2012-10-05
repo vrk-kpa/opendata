@@ -309,8 +309,9 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
         res_data['resource_url'] = row.resource_url
         res_data['resource_position'] = row.position
         return res_data
+    res_data = None
     for row in rows:
-        if not last_row:            
+        if not last_row:
             res_data = init_res_data(row)
         elif row.resource_id != last_row.resource_id and res_data:
             save_res_data(last_row, res_data, data)

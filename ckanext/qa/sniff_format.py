@@ -14,11 +14,17 @@ from ckanext.dgu.lib.formats import Formats
 
 def sniff_file_format(filepath, log):
     '''For a given filepath, work out what file format it is.
-    Returns extension e.g. 'csv'.
+    Returns Format dict e.g. {'display_name': 'CSV', ...}
+    or None if it can\'t tell what it is.
+
+    Note, log is a logger, either a Celery one or a standard
+    Python logging one.
     '''
     format_ = None
     log.info('Sniffing file format of: %s', filepath)
-    mime_type = magic.from_file(filepath, mime=True)
+    filepath_utf8 = filepath.encode('utf8') if isinstance(filepath, unicode) \
+                    else filepath
+    mime_type = magic.from_file(filepath_utf8, mime=True)
     log.info('Magic detects file as: %s', mime_type)
     if mime_type:
         if mime_type == 'application/xml':
@@ -232,7 +238,9 @@ def get_xml_variant(buf, log):
         top_level_tag_name = match.groups()[-1].lower()
         top_level_tag_name = top_level_tag_name.replace('rdf:rdf', 'rdf')
         if top_level_tag_name in Formats.by_extension():
-            return Formats.by_extension()[top_level_tag_name]
+            format_ = Formats.by_extension()[top_level_tag_name]
+            log.info('XML variant detected: %s', format_['display_name'])
+            return format_
         log.warning('Did not recognise XML format: %s', top_level_tag_name)
         return Formats.by_extension()['xml']
     log.warning('XML format didn\'t conform to expected format: %s', buf)
@@ -252,6 +260,7 @@ def has_rdfa(buf):
         return False
     if not re.search(property_re, buf):
         return False
+    log.info('RDFA tags found in HTML')
     return True
 
 def get_zipped_format(filepath, log):
@@ -299,7 +308,9 @@ def get_zipped_format(filepath, log):
     if zipped_extension not in Formats.by_extension():
         log.warning('Zipped %s not a registered format', top_extension)
         return Formats.by_display_name()['Zip']
-    return Formats.by_extension()[zipped_extension]
+    format_ = Formats.by_extension()[zipped_extension]
+    log.info('Zipped file format detected: %s', format_['display_name'])
+    return format_
     
 def is_excel(filepath, log):
     try:
@@ -308,6 +319,7 @@ def is_excel(filepath, log):
         log.info('Failed to load as Excel: %s %s', e, e.args)
         return False
     else:
+        log.info('Excel file opened successfully')
         return True
 
 # same as the python 2.7 subprocess.check_output
@@ -326,7 +338,7 @@ def check_output(*popenargs, **kwargs):
 
 def run_bsd_file(filepath, log):
     '''Run the BSD command-line tool "file" to determine file type. Returns
-    a Format.'''
+    a Format or None if it fails.'''
     result = check_output(['file', filepath])
     match = re.search('Name of Creating Application: ([^,]*),', result)
     if match:
@@ -340,10 +352,16 @@ def run_bsd_file(filepath, log):
                       }
         if app_name in format_map:
             extension = format_map[app_name]
-            return Formats.by_extension()[extension]
+            format_ = Formats.by_extension()[extension]
+            log.info('"file" detected file format: %s',
+                     format_['display_name'])
+            return format_
     match = re.search(': ESRI Shapefile', result)
     if match:
-        return Formats.by_extension()['shp']
-    log.warn('"file" could not determine file format of "%s": %s',
+        format_ = Formats.by_extension()['shp']
+        log.info('"file" detected file format: %s',
+                 format_['display_name'])
+        return format_
+    log.info('"file" could not determine file format of "%s": %s',
              filepath, result)
                       

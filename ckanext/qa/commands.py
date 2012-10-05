@@ -95,10 +95,6 @@ class QACommand(p.toolkit.CkanCommand):
         # can be set
         import tasks
 
-        if not self.options.queue:
-            self.options.queue = 'priority' if len(self.args) > 1 \
-                                 else 'bulk'
-
         for package in self._package_list():
             self.log.info('QA on dataset being added to Celery queue "%s": %s (%d resources)' % \
                         (self.options.queue, package.get('name'),
@@ -145,7 +141,7 @@ class QACommand(p.toolkit.CkanCommand):
             for id in self.args[1:]:
                 # try arg as a group name
                 url = api_url + '/member_list'
-                self.log.info('Requesting list of datasets from %r', url)
+                self.log.info('Trying as a group "%s" at URL: %r', id, url)
                 data = {'id': id,
                         'object_type': 'package',
                         'capacity': 'public'}
@@ -164,9 +160,14 @@ class QACommand(p.toolkit.CkanCommand):
                     data = json.dumps({'id': unicode(package_name)})
                     url = api_url + '/package_show'
                     response = requests.post(url, data, headers=REQUESTS_HEADER)
+                    if response.status_code == 403:
+                        self.log.warning('Package "%s" is in the group but '
+                                         'returned %i error, so skipping.' % \
+                                         (package_name, response.status_code))
+                        continue
                     if not response.ok:
-                        err = ('Failed to get package %s from url %r: %s' %
-                               (id, url, response.error))
+                        err = ('Failed to get package %s from url %r: %s %s' %
+                               (package_name, url, response.status_code, response.error))
                         self.log.error(err)
                         raise CkanApiError(err)
                     yield json.loads(response.content).get('result')

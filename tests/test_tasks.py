@@ -6,30 +6,39 @@ import json
 import logging
 import datetime
 from functools import wraps
-from mock import patch, Mock
+
 from nose.tools import raises, assert_equal
 from ckan import model
 from ckan.tests import BaseCase
 
-from ckanext.qa.tasks import resource_score, update
-from mock_remote_server import MockEchoTestServer, MockTimeoutTestServer
+import ckanext.qa.tasks
+from ckanext.qa.tasks import resource_score, update, extension_variants
+from ckanext.dgu.lib.formats import Formats
 
 log = logging.getLogger(__name__)
 
-def with_mock_url(url=''):
-    """
-    Start a MockEchoTestServer call the decorated function with the server's address prepended to ``url``.
-    """
-    def decorator(func):
-        @wraps(func)
-        def decorated(*args, **kwargs):
-            with MockEchoTestServer().serve() as serveraddr:
-                return func(*(args + ('%s/%s' % (serveraddr, url),)), **kwargs)
-        return decorated
-    return decorator
+# Monkey patch get_cached_resource_filepath so that it doesn't barf when
+# it can't find the file
+def mock_get_cached_resource_filepath(data):
+    if not data.get('cache_url'):
+        return None
+    return data.get('cache_url').replace('http://remotesite.com/', '/resources')
+ckanext.qa.tasks.get_cached_resource_filepath = mock_get_cached_resource_filepath
 
-
-class TestResultScore(BaseCase):
+# Monkey patch sniff_file_format. This isolates the testing of tasks from
+# actual sniffing
+sniffed_format = None
+def mock_sniff_file_format(filepath, log):
+    return sniffed_format
+ckanext.qa.tasks.sniff_file_format = mock_sniff_file_format
+def set_sniffed_format(format_display_name):
+    global sniffed_format
+    if format_display_name:
+        sniffed_format = Formats.by_display_name()[format_display_name]
+    else:
+        sniffed_format = None
+    
+class TestResourceScore(BaseCase):
 
     @classmethod
     def setup_class(cls):
@@ -52,7 +61,8 @@ class TestResultScore(BaseCase):
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
-            'url': cls.fake_ckan_url,
+            'url': 'http://remotesite.com/filename.csv',
+            'cache_url': '/resources/filename.csv',
             'package': u'fake_package_id',
             'is_open': True,
             'position': 2,
@@ -62,84 +72,61 @@ class TestResultScore(BaseCase):
     def teardown_class(cls):
         cls.fake_ckan.kill()
 
-    @with_mock_url('?status=200&content-type=text%2Fcsv&content=test')
-    def test_url_with_content(self, url):
+    def test_by_sniff_csv(self):
+        set_sniffed_format('CSV')
         data = self.fake_resource
-        data['url'] = url
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 3, result
+        assert 'Content of file appeared to be format "CSV"' in result['openness_score_reason'], result
 
-    @with_mock_url('?status=503')
-    def test_url_with_temporary_fetch_error_not_scored(self, url):
+    def test_by_sniff_xls(self):
+        set_sniffed_format('XLS')
         data = self.fake_resource
-        data['url'] = url
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'Server returned error: Service unavailable', result
-
-    @with_mock_url('?status=404')
-    def test_url_with_permanent_fetch_error_scores_zero(self, url):
-        data = self.fake_resource
-        data['url'] = url
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'URL unobtainable: Server returned HTTP 404', result
-
-    @with_mock_url('?content-type=arfle%2Fbarfle-gloop')
-    def test_url_with_unknown_content_type_scores_one(self, url):
-        data = self.fake_resource
-        data['url'] = url
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'Request succeeded. Content-Type header "arfle/barfle-gloop". No corresponding score is available for this format.', result
-
-    @with_mock_url('?content-type=text%2Fplain')
-    def test_url_pointing_to_html_page_scores_one(self, url):
-        data = self.fake_resource
-        data['url'] = url
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/plain".', result
-
-    @with_mock_url('?content-type=text%2Fplain%3B+charset=UTF-8')
-    def test_content_type_with_charset_still_recognized(self, url):
-        data = self.fake_resource
-        data['url'] = url
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 1, result
-        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/plain".', result
-
-    @with_mock_url('?content-type=application%2Fvnd.ms-excel')
-    def test_machine_readable_formats_score_two(self, url):
-        data = self.fake_resource
-        data['url'] = url
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
-        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "application/vnd.ms-excel".', result
+        assert 'Content of file appeared to be format "XLS"' in result['openness_score_reason'], result
 
-    @with_mock_url('?content-type=text%2Fcsv')
-    def test_open_standard_formats_score_three(self, url):
+    def test_not_cached(self):
         data = self.fake_resource
-        data['url'] = url
+        data['cache_url'] = None
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 3, result
-        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "text/csv".', result
+        assert 'Cached copy of the data not currently available' in result['openness_score_reason'], result
+        # recognised by extension
 
-    @with_mock_url('?content-type=application%2Frdf%2Bxml')
-    def test_ontological_formats_score_four(self, url):
+    def test_by_extension(self):
+        set_sniffed_format(None)
         data = self.fake_resource
-        data['url'] = url
+        data['url'] = data['url'].replace('csv', 'xls')
         result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 4, result
-        assert result['openness_score_reason'] == u'Request succeeded. Content-Type header "application/rdf+xml".', result
+        assert result['openness_score'] == 2, result
+        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'extension "xls" relates to format "XLS"' in result['openness_score_reason'], result
 
-    @with_mock_url('?status=503')
-    def test_temporary_failure_increments_failure_count(self, url):
+    def test_by_format_field(self):
+        set_sniffed_format(None)
         data = self.fake_resource
-        data['url'] = url
+        data['url'] = data['url'].replace('.csv', '')
+        data['format'] = 'CSV'
         result = resource_score(self.fake_context, data, log)
-        assert result['openness_score_failure_count'] == 1, result
-        
+        assert result['openness_score'] == 3, result
+        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
+        assert 'Format field "CSV"' in result['openness_score_reason'], result
+
+    def test_no_format_clues(self):
+        set_sniffed_format(None)
+        data = self.fake_resource
+        data['url'] = data['url'].replace('.csv', '')
+        data['format'] = ''
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 0, result
+        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
+        assert 'Format field is blank' in result['openness_score_reason'], result
+
+    # if it downloads but we don't recognise the format it should get 1 star,
+    # but that hasn't been implemented yet.
 
 class TestTask(BaseCase):
     @classmethod
@@ -173,7 +160,6 @@ class TestTask(BaseCase):
     def teardown_class(cls):
         cls.fake_ckan.kill()
 
-    @with_mock_url('?status=200&content=test&content-type=text%2Fcsv')
     def test_task_updates_task_status_table(self, url):
         data = self.fake_resource
         data['url'] = url
@@ -218,3 +204,19 @@ class TestTask(BaseCase):
         assert score_failure_count
         assert score_last_success
 
+class TestExtensionVariants:
+    def test_0_normal(self):
+        assert_equal(extension_variants('http://dept.gov.uk/coins-data-1996.csv'),
+                     ['csv'])
+
+    def test_1_multiple(self):
+        assert_equal(extension_variants('http://dept.gov.uk/coins.data.1996.csv.zip'),
+                     ['csv.zip', 'zip'])
+            
+    def test_2_parameter(self):
+        assert_equal(extension_variants('http://dept.gov.uk/coins-data-1996.csv?callback=1'),
+                     ['csv'])
+
+    def test_3_none(self):
+        assert_equal(extension_variants('http://dept.gov.uk/coins-data-1996'),
+                     [])
