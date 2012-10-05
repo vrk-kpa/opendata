@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 import tempfile
@@ -28,6 +29,11 @@ from ckanext.archiver.tasks import (link_checker,
 
 from mock_remote_server import MockEchoTestServer
 
+# enable celery logging for when you run nosetests -s
+log = logging.getLogger('ckanext.archiver.tasks')
+def get_logger():
+    return log
+update.get_logger = get_logger
 
 def with_mock_url(url=''):
     """
@@ -148,6 +154,7 @@ class TestArchiver(BaseCase):
             'site_url': cls.fake_ckan_url,
             'apikey': u'fake_api_key',
             'site_user_apikey': u'fake_site_user_api_key',
+            'cache_url_root': 'http://localhost:50001/resources/',
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',

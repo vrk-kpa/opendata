@@ -73,7 +73,6 @@ Configuration
 
     * ARCHIVE_DIR: path to the directory that archived files will be saved to
     * MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive
-    * DATA_FORMATS: the data formats that are archived
 
    Alternatively, if you are running CKAN with this patch: 
    https://github.com/datagovuk/ckan/commit/83dcaf3d875d622ee0cd7f3c1f65ec27a970cd10
@@ -81,7 +80,6 @@ Configuration
 
     * ckanext-archiver.archive_dir
     * ckanext-archiver.max_content_length
-    * ckanext-archiver.data_formats  (space separated)
 
 
 Using Archiver
@@ -137,4 +135,4 @@ Tests should be run from the CKAN root directory (not the extension root).
 
 ::
 
-    (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-archiver/tests/
+    (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-archiver/tests/ --with-pylons=../ckanext-archiver/test.ini
