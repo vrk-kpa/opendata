@@ -7,6 +7,7 @@ import sys
 import logging
 
 from pylons import config
+from sqlalchemy import func, distinct
 
 import ckan.plugins as p
 from ckan.lib.cli import CkanCommand
@@ -30,15 +31,18 @@ class QACommand(p.toolkit.CkanCommand):
         paster qa sniff {filepath}
            - Opens the file and determines its type by the contents
 
+        paster qa view [dataset name/id]
+           - See package score information
+
+        paster qa clean
+           - Remove all package score information
+
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
     specify the config explicitly though::
 
         paster qa update --config=<path to CKAN config file>
     """
-    # TODO
-    #    paster qa clean
-    #        - Remove all package score information
     
     summary = __doc__.split('\n')[0]
     usage = __doc__
@@ -82,8 +86,13 @@ class QACommand(p.toolkit.CkanCommand):
             self.update(user, context)
         elif cmd == 'sniff':
             self.sniff()
+        elif cmd == 'view':
+            if len(self.args) == 2:
+                self.view(self.args[1])
+            else:
+                self.view()                
         elif cmd == 'clean':
-            self.log.error('Command "%s" not implemented' % (cmd,))
+            self.clean()
         else:
             self.log.error('Command "%s" not recognized' % (cmd,))
 
@@ -212,3 +221,31 @@ class QACommand(p.toolkit.CkanCommand):
                 print 'Detected as: %s' % format_['display_name']
             else:
                 print 'ERROR: Could not recognise format of: %s' % filepath
+
+    def view(self, package_ref=None):
+        from ckan import model
+        
+        q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
+        print 'QA records - %i TaskStatus rows' % q.count()
+        print '      across %i Resources' % q.distinct('entity_id').count()
+
+        if package_ref:
+            pkg = model.Package.get(package_ref)
+            print 'Package %s %s' % (pkg.name, pkg.id)
+            for res in pkg.resources:
+                print 'Resource %s' % res.id
+                for row in q.filter_by(entity_id=res.id):
+                    print '* TS %s = %r error=%r' % (row.key, row.value, row.error) 
+
+    def clean(self):
+        from ckan import model
+
+        print 'Before:'
+        self.view()
+
+        q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
+        q.delete()
+        model.Session.commit()
+
+        print 'After:'
+        self.view()        

@@ -7,16 +7,15 @@ import json
 import csv
 import datetime
 
-from ckan.lib.base import response
+from ckan.lib.base import response, BaseController, request
 from ckanext.qa.reports import (
     five_stars,
     resource_five_stars,
     broken_resource_links_by_dataset,
-    broken_resource_links_by_dataset_for_organisation,
-    broken_resource_links_by_dataset_for_organisation_detailed,
+    broken_resource_links_for_organisation,
     organisations_with_broken_resource_links,
 )
-from base import QAController
+import ckan.plugins.toolkit as t
 
 headers = [
     'Organisation Name',
@@ -77,8 +76,10 @@ def make_csv_from_dicts(rows):
             item = row.get(header, 'no record')
             if isinstance(item, datetime.datetime):
                 item = item.strftime('%Y-%m-%d %H:%M')
-            elif isinstance(item, int):
+            elif isinstance(item, (int, long)):
                 item = unicode(item)
+            elif item is None:
+                item = ''
             else:
                 item = item.encode('utf8')
             items.append(item)
@@ -89,7 +90,7 @@ def make_csv_from_dicts(rows):
     csvout.seek(0)
     return csvout.read()
 
-class ApiController(QAController):
+class ApiController(BaseController):
 
     def resource_five_stars(self, id):
         return json.dumps(resource_five_stars(id))
@@ -179,8 +180,21 @@ class ApiController(QAController):
             response.headers['Content-Type'] = 'application/json'
             return json.dumps(result)
 
-    def broken_resource_links_by_dataset_for_organisation_detailed(self, id, format='json'):
-        result = broken_resource_links_by_dataset_for_organisation_detailed(id)['broken_resources']
+    def organisations_with_broken_resource_links(self, id=None, format='json'):
+        include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
+        result = organisations_with_broken_resource_links(include_sub_organisations=include_sub_publishers)
+        if format == 'csv':
+            filename = '%s.csv' % (id)
+            response.headers['Content-Type'] = 'application/csv'
+            response.headers['Content-Disposition'] = str('attachment; filename=%s' % (filename))
+            return make_csv_from_dicts(result)
+        else:
+            response.headers['Content-Type'] = 'application/json'
+            return json.dumps(result)        
+
+    def broken_resource_links_for_organisation(self, id, format='json'):
+        include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
+        result = broken_resource_links_for_organisation(id, include_sub_organisations=include_sub_publishers)['data']
         if format == 'csv':
             filename = '%s.csv' % (id)
             response.headers['Content-Type'] = 'application/csv'

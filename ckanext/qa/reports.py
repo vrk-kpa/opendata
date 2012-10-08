@@ -1,9 +1,15 @@
-from collections import namedtuple
+import datetime
+import re
+from collections import namedtuple, defaultdict
+
 from sqlalchemy.util import OrderedDict
 from sqlalchemy import or_, and_, func
+
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.dictization.model_dictize as model_dictize
+from ckan.lib.helpers import json
+from ckanext.dgu.lib.publisher import go_down_tree, go_up_tree
 
 import logging
 
@@ -182,77 +188,13 @@ def organisations_with_broken_resource_links_by_name():
 def organisations_with_broken_resource_links(include_resources=False):
     return _get_broken_resource_links(include_resources=include_resources)
 
-def _get_broken_resource_links(organisation_name=None, include_resources=False):
+
+not_broken_but_0_stars = set(('Chose not to download',))
+archiver_status__not_broken_link = set(('Chose not to download', 'Archived successfully'))
+
+def scores_by_dataset_for_organisation(organisation_name):
     '''
-    Returns a dictionary detailing broken resource links, categorised
-    by package and organisation (group).
-
-    i.e.:
-        {(organisation_title, organisation_name):
-         {(package_name, package_title): list_of_broken_resource_dicts}
-
-    Returns all organisations unless you supply a particular organisation_name
-    '''
-    values = {}
-    main_sql =    """
-        from task_status 
-           left join resource on task_status.entity_id = resource.id
-           left join resource_group on resource.resource_group_id = resource_group.id
-           left join package on resource_group.package_id = package.id
-           left join member on member.table_id = package.id
-           left join "group" on member.group_id = "group".id
-        where 
-           task_status.task_type='archiver'
-           and task_status.key='status'
-           and task_status.value!='Archived successfully'
-           and package.state = 'active'
-           and resource.state='active'
-           and resource_group.state='active'
-           and "group".state='active'
-        """
-    for reason in not_broken_but_0_stars:
-        main_sql += """
-        and task_status.value!='%s'
-        """ % reason
-    if organisation_name:
-        values['org_name'] = organisation_name
-        sql = """
-        select package.id as package_id, task_status.value as reason, task_status.error as error_json, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
-        """
-        sql += main_sql + ' and "group".name = :org_name'
-        sql += ' order by package.title'
-    elif include_resources:
-        sql = """
-        select package.id as package_id, task_status.value as reason, task_status.error as error_json, resource.url as url, package.title as title, package.name as name, "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title
-        """
-        sql += main_sql + " order by publisher_title"
-    else:
-        sql = 'select distinct "group".id as publisher_id, "group".name as publisher_name, "group".title as publisher_title' + main_sql + " order by publisher_title "
-    rows = model.Session.execute(sql, values).fetchall()
-    if organisation_name or include_resources:
-        data = [] # list of resource dicts with the addition of openness score info
-        for row in rows:
-            resource = DictObj(url=row.url, openness_score='0',
-                               openness_score_reason=row.reason)
-            #Would be good to add in openness_score_failure_count too, maybe like this:
-            # task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'openness_score_failure_count': key}
-            # status = p.toolkit.get_action('task_status_show')(context, task_data)
-            # resource[key] = status.get('value')
-            data.append([row.name, row.title, row.publisher_name, row.publisher_title, resource])
-        # This is a dictionary with the keys being the (organisation_name, id) pairs)
-        return _collapse(data, [_extract_publisher, _extract_dataset])
-    else:
-        result = {}
-        for row in rows:
-            pub_title, pub_name = row.publisher_title, row.publisher_name
-            result[(pub_title, pub_name)] = None
-        return result
-
-not_broken_but_0_stars = set(('Chose not to download'))
-
-def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name):
-    '''
-    Returns a dictionary detailing broken resource links for the organisation
+    Returns a dictionary detailing openness scores for the organisation
 
     i.e.:
     {'publisher_name': 'cabinet-office',
@@ -283,7 +225,7 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
         where 
-            entity_id in (select entity_id from task_status where task_status.key='openness_score' and value='0')
+            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and value='0')
             and package.state = 'active'
             and resource.state='active'
             and resource_group.state='active'
@@ -331,51 +273,139 @@ def broken_resource_links_by_dataset_for_organisation_detailed(organisation_name
             'publisher_title': row.publisher_title if data else '',
             'broken_resources': data}
 
-def _collapser(data, key_func=None):
-    result = {}
-    for row in data:
-        if key_func:
-            row = key_func(row)
-        if row is None:
-            raise Exception(key_func)
-        key = row[0]
-        if len(row) == 2:
-            row = row[1]
-        else:
-            row = row[1:]
-        if key in result:
-            result[key].append(row)
-        else:
-            result[key] = [row]
-    return result
+def organisations_with_broken_resource_links(include_sub_organisations=False):
+    # get list of orgs that themselves have broken links
+    sql = """
+        select count(package.id) as broken_package_count,
+               "group".name as publisher_name,
+               "group".title as publisher_title
+        from task_status 
+            left join resource on task_status.entity_id = resource.id
+            left join resource_group on resource.resource_group_id = resource_group.id
+            left join package on resource_group.package_id = package.id
+            left join member on member.table_id = package.id
+            left join "group" on member.group_id = "group".id
+        where 
+            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
+            and task_status.key='status'
+            and package.state = 'active'
+            and resource.state='active'
+            and resource_group.state='active'
+            and "group".state='active'
+        group by "group".name, "group".title
+        order by "group".title;
+        """ % {
+        'status_filter': ' and '.join(["task_status.value!='%s'" % status for status in archiver_status__not_broken_link]),
+        }
+    rows = model.Session.execute(sql)
+    if not include_sub_organisations:
+        # need to convert to dict, since the sql results will disappear on return
+        data = []
+        for row in rows:
+            row_data = OrderedDict((
+                ('publisher_title', row.publisher_title),
+                ('publisher_name', row.publisher_name),
+                ('broken_package_count', row.broken_package_count),
+                ))
+            data.append(row_data)
+    else:
+        counts_by_publisher = defaultdict(int)
+        for row in rows:
+            for publisher in go_up_tree(model.Group.by_name(row.publisher_name)):
+                counts_by_publisher[publisher] += row.broken_package_count
+            
+        data = []
+        for row in sorted(counts_by_publisher.items(), key=lambda x: x[0].title):
+            row_data = OrderedDict((
+                ('publisher_title', row[0].title),
+                ('publisher_name', row[0].name),
+                ('broken_package_count', row[1]),
+                ))
+            data.append(row_data)
+    return data
 
-def _collapse(data, fn):
-    first = _collapser(data, fn[0])
-    result = {}
-    for k, v in first.items():
-        result[k] = _collapser(v, fn[1])
-    return result
+def broken_resource_links_for_organisation(organisation_name,
+                                           include_sub_organisations=False):
+    '''
+    Returns a dictionary detailing broken resource links for the organisation
 
-def _extract_publisher(row):
-    """
-    Extract publisher info from a query result row.
-    Each row should be a list of the form [name, title, publisher_name, publisher_title, Resource]
+    i.e.:
+    {'publisher_name': 'cabinet-office',
+     'publisher_title:': 'Cabinet Office',
+     'data': [
+       {'package_name', 'package_title', 'resource_url', 'status', 'reason', 'last_success', 'first_failure', 'failure_count', 'last_updated'}
+      ...]
 
-    Returns a list of the form:
+    '''
+    values = {}
+    sql = """
+        select package.id as package_id,
+               task_status.key as task_status_key,
+               task_status.value as task_status_value,
+               task_status.error as task_status_error,
+               task_status.last_updated as task_status_last_updated,
+               resource.id as resource_id,
+               resource.url as resource_url,
+               resource.position,
+               package.title as package_title,
+               package.name as package_name,
+               "group".id as publisher_id,
+               "group".name as publisher_name,
+               "group".title as publisher_title
+        from task_status 
+            left join resource on task_status.entity_id = resource.id
+            left join resource_group on resource.resource_group_id = resource_group.id
+            left join package on resource_group.package_id = package.id
+            left join member on member.table_id = package.id
+            left join "group" on member.group_id = "group".id
+        where 
+            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
+            and task_status.key='status'
+            and package.state = 'active'
+            and resource.state='active'
+            and resource_group.state='active'
+            and "group".state='active'
+            %(org_filter)s
+        order by package.title, package.name, resource.position
+        """
+    sql_options = {
+        'status_filter': ' and '.join(["task_status.value!='%s'" % status for status in archiver_status__not_broken_link]),
+        }
+    if not include_sub_organisations:
+        sql_options['org_filter'] = 'and "group".name = :org_name'
+        values['org_name'] = organisation_name
+    else:
+        org = model.Group.by_name(organisation_name)
+        sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
+        sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
-        [(publisher.title, publisher.name), row[0], row[1], row[4]]
-    """
-    name, title, publisher_name, publisher_title, resource = row
-    return [(publisher_title, publisher_name), name, title, resource]
+    archival_properties_as_dates = set(('first_failure', 'last_success'))
+    rows = model.Session.execute(sql % sql_options, values)
+    data = []
+    for row in rows:
+        row_data = OrderedDict((
+            ('dataset_title', row.package_title),
+            ('dataset_name', row.package_name),
+            ('publisher_title', row.publisher_title),
+            ('publisher_name', row.publisher_name),
+            ('resource_position', row.position),
+            ('resource_id', row.resource_id),
+            ('resource_url', row.resource_url),
+            ('status', row.task_status_value),
+            ))
+        if row.task_status_error:
+            archival_properties = json.loads(row.task_status_error)
+            for key, value in archival_properties.items():
+                if key in archival_properties_as_dates:
+                    row_data[key] = datetime.datetime(*map(int, re.split('[^\d]', value)[:-1])) \
+                                    if value else None
+                else:
+                    row_data[key] = value
+        row_data['last_updated'] = row.task_status_last_updated
+        data.append(row_data)
 
-def _extract_dataset(row):
-    """
-    Extract dataset info from a query result row.
-    Each row should be a list of the form [name, title, Resource]
+    organisation_title = model.Group.by_name(organisation_name).title
 
-    Returns a list of the form:
-
-        [(name, title), Resource]
-    """
-    return [(row[0], row[1]), row[2]]
-
+    return {'publisher_name': organisation_name,
+            'publisher_title': organisation_title,
+            'data': data}
