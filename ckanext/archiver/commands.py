@@ -88,7 +88,7 @@ class Archiver(CkanCommand):
         import tasks
         user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
         context = json.dumps({
-            'site_url': config['ckan.site_url'],
+            'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
             'apikey': user.get('apikey'),
             'site_user_apikey': user.get('apikey'),
             'username': user.get('name'),
