@@ -272,6 +272,8 @@ def _update(context, resource):
     # Get current task_status
     status = get_status(context, resource['id'], log)
     def _save_status(has_passed, status_txt, exception, status, resource_id):
+        # NB the values of status_txt are used in ckanext-qa tasks.py,
+        #    so if you change them here, change them there too.
         last_success = status.get('last_success', '')
         first_failure = status.get('first_failure', '')
         failure_count = status.get('failure_count', 0)
@@ -284,7 +286,7 @@ def _update(context, resource):
             if not first_failure:
                 first_failure = datetime.datetime.now().isoformat()
             failure_count += 1
-            reason = '%s %s' % (exception, exception.args)
+            reason = '%s' % exception
         save_status(context, resource_id, status_txt,
                     reason,
                     last_success, first_failure,
@@ -301,7 +303,7 @@ def _update(context, resource):
         _save_status(False, 'URL invalid', e, status, resource['id'])
         return
     except LinkHeadRequestError, e:
-        log.info('Link head request error: %r, %r', e, e.args)
+        log.info('Link head request error: %s', e.args)
         _save_status(False, 'URL request failed', e, status, resource['id'])
         return
     except DownloadError, e:
@@ -622,7 +624,7 @@ def save_status(context, resource_id, status, reason,
             'key': u'status',
             'value': status,
             'error': json.dumps({
-                'reason': status,
+                'reason': reason,
                 'last_success': last_success,
                 'first_failure': first_failure,
                 'failure_count': failure_count,
