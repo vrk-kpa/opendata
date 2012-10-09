@@ -126,7 +126,6 @@ class TestLinkChecker(BaseCase):
     def test_trailing_whitespace(self, url):
         # accept, because browsers accept this
         context = json.dumps({})
-        import pdb; pdb.set_trace()
         data = json.dumps({'url': url})
         result = json.loads(link_checker(context, data))
         assert result        
