@@ -78,14 +78,6 @@ class TestLinkChecker(BaseCase):
         data = json.dumps({'url': url})
         assert_raises(LinkCheckerError, link_checker, context, data)
 
-    def test_bad_query_string(self):
-        url = u'http://uk.sitestat.com/homeoffice/rds/s?' \
-            + u'rds.hosb0509tabsxls&ns_type=pdf&ns_url=' \
-            + u'[http://www.homeoffice.gov.uk/rds/pdfs09/hosb0509tabs.xls'
-        context = json.dumps({})
-        data = json.dumps({'url': url})
-        assert_raises(LinkCheckerError, link_checker, context, data)
-
     @with_mock_url('+/http://www.homeoffice.gov.uk/publications/science-research-statistics/research-statistics/drugs-alcohol-research/hosb1310/hosb1310-ann2tabs?view=Binary')
     def test_non_escaped_url(self, url):
         context = json.dumps({})
@@ -119,6 +111,25 @@ class TestLinkChecker(BaseCase):
         data = json.dumps({'url': url})
         result = json.loads(link_checker(context, data))
         assert result
+
+    # e.g. "http://www.dasa.mod.uk/applications/newWeb/www/index.php?page=48&thiscontent=180&date=2011-05-26&pubType=1&PublishTime=09:30:00&from=home&tabOption=1"
+    @with_mock_url('?time=09:30&status=200')
+    def test_colon_in_query_string(self, url):
+        # accept, because browsers accept this
+        # see discussion: http://trac.ckan.org/ticket/318
+        context = json.dumps({})
+        data = json.dumps({'url': url})
+        result = json.loads(link_checker(context, data))
+        assert result        
+
+    @with_mock_url('?status=200 ')
+    def test_trailing_whitespace(self, url):
+        # accept, because browsers accept this
+        context = json.dumps({})
+        import pdb; pdb.set_trace()
+        data = json.dumps({'url': url})
+        result = json.loads(link_checker(context, data))
+        assert result        
 
     @with_mock_url('?status=200')
     def test_good_url(self, url):

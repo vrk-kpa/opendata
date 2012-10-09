@@ -27,6 +27,8 @@ HTTP_ERROR_CODES = {
     httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
 
+ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
+
 class ArchiverError(Exception):
     pass
 class DownloadError(ArchiverError):
@@ -79,6 +81,9 @@ def download(context, resource, url_timeout=30,
     log = update.get_logger()
     
     url = resource['url']
+
+    # browsers remove trailing whitespace
+    url = url.strip()
 
     if (resource.get('resource_type') == 'file.upload' and
         not url.startswith('http')):
@@ -368,18 +373,16 @@ def link_checker(context, data):
         url = urlparse.urlunparse(parts)
     url = str(url)
 
+    # strip whitespace from url
+    # (browsers appear to do this)
+    url = url.strip()
+
     # parse url
     parsed_url = urlparse.urlparse(url)
     # Check we aren't using any schemes we shouldn't be
-    allowed_schemes = ['http', 'https', 'ftp']
-    if not parsed_url.scheme in allowed_schemes:
-        raise LinkInvalidError("Invalid url scheme")
-    # check that query string is valid
-    # see: http://trac.ckan.org/ticket/318
-    # TODO: check urls with a better validator? 
-    #       eg: ll.url (http://www.livinglogic.de/Python/url/Howto.html)?
-    elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
-        raise LinkInvalidError("Invalid URL")
+    if not parsed_url.scheme in ALLOWED_SCHEMES:
+        raise LinkInvalidError('Invalid url scheme. Please use one of: %s' % \
+                               ' '.join(ALLOWED_SCHEMES))
     else:
         # Send a head request
         try:
