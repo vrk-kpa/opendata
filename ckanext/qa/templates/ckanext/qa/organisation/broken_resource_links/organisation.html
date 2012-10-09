@@ -14,6 +14,11 @@
   <div py:match="content">
     <div class="qa-content">
       <h1>Quality Assurance</h1>
+      <h2><a href="/qa/organisation/broken_resource_links">Broken Links</a> -
+          <a href="/publisher/${c.data['publisher_name']}">
+            ${c.data['publisher_title']}
+          </a>
+      </h2>
       <py:if test="(not c.data) or (not c.data['data'])">
         <p>No results found for this publisher.</p>
       </py:if>
@@ -22,11 +27,6 @@
         <div class="pull-right">
             <a class="btn" href="${h.url_for('qa_api_resource_formatted', action=c.query.__name__, id=c.org_name, format='csv', include_sub_publishers='1' if c.include_sub_publishers else '0')}">Download report in CSV format</a>
         </div>
-        <h2><a href="/qa/organisation/broken_resource_links">Broken Links</a> -
-          <a href="/publisher/${c.data['publisher_name']}">
-            ${c.data['publisher_title']}
-          </a>
-</h2>
         <div>
           <form action="">
             <label class="checkbox">
@@ -39,12 +39,12 @@
          <thead>
             <tr class="js-tooltip">
               <th style="width: 100px">Dataset</th>
-              <th py:if="c.include_sub_publishers">Publisher</th>
+              <th py:if="c.include_sub_publishers" style="width: 45px">Publisher</th>
               <th style="width: 20px" title="Index/position of the resource in the dataset">Index</th>
-              <th style="width: 200px">URL</th>
+              <th style="width: 190px">URL</th>
               <th style="">Status</th>
               <th style="width: 120px">Reason</th>
-              <th style="width: 25px" title="Failed download attempts">No. fails</th>
+              <th style="width: 25px" title="Failed download attempts">No. of fails</th>
               <th title="First failed attempt">First fail</th>
               <th title="Most recent failed attempt">Latest fail</th>
               <th title="The last time it was successfully obtained">Last success</th>

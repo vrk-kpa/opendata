@@ -235,7 +235,7 @@ class QACommand(p.toolkit.CkanCommand):
             for res in pkg.resources:
                 print 'Resource %s' % res.id
                 for row in q.filter_by(entity_id=res.id):
-                    print '* TS %s = %r error=%r' % (row.key, row.value, row.error) 
+                    print '* %s = %r error=%r' % (row.key, row.value, row.error) 
 
     def clean(self):
         from ckan import model

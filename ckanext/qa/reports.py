@@ -1,6 +1,6 @@
 import datetime
 import re
-from collections import namedtuple, defaultdict
+from collections import namedtuple
 
 from sqlalchemy.util import OrderedDict
 from sqlalchemy import or_, and_, func
@@ -276,7 +276,8 @@ def scores_by_dataset_for_organisation(organisation_name):
 def organisations_with_broken_resource_links(include_sub_organisations=False):
     # get list of orgs that themselves have broken links
     sql = """
-        select count(package.id) as broken_package_count,
+        select count(distinct(package.id)) as broken_package_count,
+               count(resource.id) as broken_resource_count,
                "group".name as publisher_name,
                "group".title as publisher_title
         from task_status 
@@ -306,20 +307,25 @@ def organisations_with_broken_resource_links(include_sub_organisations=False):
                 ('publisher_title', row.publisher_title),
                 ('publisher_name', row.publisher_name),
                 ('broken_package_count', row.broken_package_count),
+                ('broken_resource_count', row.broken_resource_count),
                 ))
             data.append(row_data)
     else:
-        counts_by_publisher = defaultdict(int)
+        counts_by_publisher = {}
         for row in rows:
             for publisher in go_up_tree(model.Group.by_name(row.publisher_name)):
-                counts_by_publisher[publisher] += row.broken_package_count
+                if publisher not in counts_by_publisher:
+                    counts_by_publisher[publisher] = [0, 0]
+                counts_by_publisher[publisher][0] += row.broken_package_count
+                counts_by_publisher[publisher][1] += row.broken_resource_count
             
         data = []
         for row in sorted(counts_by_publisher.items(), key=lambda x: x[0].title):
             row_data = OrderedDict((
                 ('publisher_title', row[0].title),
                 ('publisher_name', row[0].name),
-                ('broken_package_count', row[1]),
+                ('broken_package_count', row[1][0]),
+                ('broken_resource_count', row[1][1]),
                 ))
             data.append(row_data)
     return data

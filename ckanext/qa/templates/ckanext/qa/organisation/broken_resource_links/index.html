@@ -42,12 +42,14 @@
         <tr>
           <th>Publisher</th>
           <th>Number of datasets with broken links</th>
+          <th>Total broken links</th>
         </tr>
        </thead>
        <tbody>
         <tr py:for="row in c.organisations">
-          <td>${h.link_to(row['publisher_title'], h.url_for('qa_organisation_action_id', action='broken_resource_links', id=row['publisher_name']))}</td>
+          <td>${h.link_to(row['publisher_title'], h.url_for('qa_organisation_action_id', action='broken_resource_links', id=row['publisher_name'], include_sub_publishers='1' if c.include_sub_publishers else '0'))}</td>
           <td>${row['broken_package_count']}</td>
+          <td>${row['broken_resource_count']}</td>
         </tr>
        </tbody>
       </table>
