@@ -127,7 +127,7 @@ def resource_five_stars(id):
             'openness_score_failure_count_updated': openness_score_failure_count_updated,
             'openness_updated': last_updated
         }
-    except p.toolkit.DictObjectNotFound:
+    except p.toolkit.ObjectNotFound:
         result = {}
 
     return result
