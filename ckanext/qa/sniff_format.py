@@ -237,6 +237,7 @@ def get_xml_variant(buf, log):
     if match:
         top_level_tag_name = match.groups()[-1].lower()
         top_level_tag_name = top_level_tag_name.replace('rdf:rdf', 'rdf')
+        top_level_tag_name = top_level_tag_name.replace('wms_capabilities', 'wms')
         if top_level_tag_name in Formats.by_extension():
             format_ = Formats.by_extension()[top_level_tag_name]
             log.info('XML variant detected: %s', format_['display_name'])

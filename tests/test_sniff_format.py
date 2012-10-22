@@ -112,6 +112,8 @@ class TestSniffFormat:
         self.check_format('torrent')
     def test_psv(self):
         self.check_format('psv')
+    def test_wms(self):
+        self.check_format('wms')
 
 def test_is_json():
     assert is_json('5')
