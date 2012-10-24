@@ -15,6 +15,11 @@ from ckan.lib.helpers import parse_rfc_2822_date
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
 from ckanext.qa.controllers.base import QAController
+try:
+    # optional
+    from ckanext.dgu.lib import formats as formats_lib
+except ImportError:
+    formats_lib = None
 
 class QAResourceController(QAController):
 
@@ -74,6 +79,7 @@ class QAResourceController(QAController):
     def _check_link(self, url):
         """
         Synchronously check the given link, and return dict representing results.
+        Does not handle 30x redirects.
         """
 
         # If a user enters "www.example.com" then we assume they meant "http://www.example.com"
@@ -89,7 +95,6 @@ class QAResourceController(QAController):
         result = {
             'errors': [],
             'url_errors': [],
-            'inner_format': '',
             'format': '',
             'mimetype': '',
             'size': '',
@@ -98,8 +103,7 @@ class QAResourceController(QAController):
 
         try:
             headers = json.loads(link_checker(json.dumps(context), json.dumps(data)))
-            result['format'] = ':'.join(self._extract_file_format(url, headers))
-            result['inner_format'] = result['format'].split(':')[-1]
+            result['format'] = self._extract_file_format(url, headers)
             result['mimetype'] = self._extract_mimetype(headers)
             result['size'] = headers.get('content-length', '')
             result['last_modified'] = self._parse_and_format_date(headers.get('last-modified', ''))
@@ -111,31 +115,38 @@ class QAResourceController(QAController):
         """
         Makes a best guess at the file format.
 
-        Returns a list of strings, with formats[0] being the outermost format.
-        If no format can be found, then returns an empty list.
-
-        /path/to/a_file.csv has format "csv"
-        /path/to/a_file.csv.gz.torrent has format "torrent:gz:csv" (and inner-form "csv")
+        /path/to/a_file.csv has format "CSV"
+        /path/to/a_file.csv.zip has format "CSV / Zip"
 
         First this function tries to extract the file-extensions from the url,
         and deduce the format from there.  If no file-extension is found, then
         the mimetype from the headers is passed to `mimetypes.guess_extension()`.
         """
-        # Try to extract format from the file extension(s)
         formats = []
         parsed_url = urlparse.urlparse(url)
         path = parsed_url.path
         base, extension = posixpath.splitext(path)
         while extension:
-            formats.append(extension[1:]) # strip leading '.' from extension
+            formats.append(extension[1:].upper()) # strip leading '.' from extension
             base, extension = posixpath.splitext(base)
         if formats:
-            return formats
+            if formats_lib:
+                extension = '.'.join(formats[::-1]).lower()
+                format_ = formats_lib.Formats.by_extension().get(extension)
+                if format_:
+                    return format_['display_name']
+            return ' / '.join(formats[::-1])
 
         # No file extension found, attempt to extract format using the mimetype
         stripped_mimetype = self._extract_mimetype(headers) # stripped of charset
+        if formats_lib:
+            format_ = formats_lib.Formats.by_mime_type().get(stripped_mimetype)
+            if format_:
+                return format_['display_name']
+
         extension = mimetypes.guess_extension(stripped_mimetype)
-        return [extension[1:]] if extension else []
+        if extension:
+            return extension[1:].upper()
 
     def _extract_mimetype(self, headers):
         """
