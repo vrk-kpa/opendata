@@ -115,7 +115,7 @@ def download(context, resource, url_timeout=30,
 
     # make sure resource content-length does not exceed our maximum
     if cl and int(cl) >= max_content_length:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is too large to archive
         log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
@@ -345,6 +345,8 @@ def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
 
+    Redirects are not followed - they simple return 'location' in the headers.
+
     data is a JSON dict describing the link:
         { 'url': url,
           'url_timeout': url_timeout }
@@ -429,9 +431,9 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     Returns
     """
     if result['length']:
-        dir = os.path.join(settings.ARCHIVE_DIR, resource['id'])
+        dir = os.path.join(settings.ARCHIVE_DIR, resource['id'][:2], resource['id'])
         if not os.path.exists(dir):
-            os.mkdir(dir)
+            os.makedirs(dir)
         # try to get a file name from the url
         parsed_url = urlparse.urlparse(resource.get('url'))
         try:

@@ -217,13 +217,6 @@ class TestArchiver(BaseCase):
         self._remove_archived_file(result.get('file_path'))
 
     @with_mock_url('?content-type=arfle-barfle-gloop')
-    def test_download_url_with_unknown_content_type(self, url):
-        resource = self.fake_resource
-        resource['format'] = 'arfle-barfle-gloop'
-        resource['url'] = url
-        assert_raises(ChooseNotToDownload, download, self.fake_context, resource)
-
-    @with_mock_url('?content-type=arfle-barfle-gloop')
     def test_update_url_with_unknown_content_type(self, url):
         context = json.dumps(self.fake_context)
         resource = self.fake_resource
@@ -232,21 +225,6 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
-
-    @with_mock_url('?content=test&content-type=arfle-barfle-gloop')
-    def test_update_all_content_types(self, url):
-        context = json.dumps(self.fake_context)
-        resource = self.fake_resource
-        resource['format'] = 'arfle-barfle-gloop'
-        resource['url'] = url
-        data = json.dumps(resource)
-        from ckanext.archiver import default_settings
-        tmp = default_settings.DATA_FORMATS
-        default_settings.DATA_FORMATS = 'all'
-        try:
-            result = update(context, data)
-        finally:
-            default_settings.DATA_FORMATS = tmp
 
     @with_mock_url('?status=200&content-type=csv')
     def test_update_with_zero_length(self, url):
