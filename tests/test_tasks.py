@@ -116,6 +116,17 @@ class TestResourceScore(BaseCase):
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field "XLS"' in result['openness_score_reason'], result
 
+    def test_by_format_field_excel(self):
+        set_sniffed_format(None)
+        data = self.fake_resource
+        data['url'] = 'http://remotesite.com/filename'
+        data['format'] = 'Excel'
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 2, result
+        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
+        assert 'Format field "Excel"' in result['openness_score_reason'], result
+
     def test_extension_not_recognised(self):
         set_sniffed_format(None)
         data = self.fake_resource
