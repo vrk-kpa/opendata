@@ -431,7 +431,8 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     Returns
     """
     if result['length']:
-        dir = os.path.join(settings.ARCHIVE_DIR, resource['id'][:2], resource['id'])
+        relative_archive_filepath = os.path.join(resource['id'][:2], resource['id'])
+        dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_filepath)
         if not os.path.exists(dir):
             os.makedirs(dir)
         # try to get a file name from the url
@@ -449,7 +450,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
             cache_url = urlparse.urljoin(
-                context['cache_url_root'], '%s/%s' % (resource['id'], file_name)
+                context['cache_url_root'], relative_archive_filepath
             )
             if resource.get('cache_url') != cache_url:
                 resource['cache_url'] = cache_url
