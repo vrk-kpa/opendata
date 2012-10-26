@@ -5,6 +5,8 @@ import sys
 from datetime import datetime
 import json
 import urlparse
+import re
+import shutil
 
 import requests
 from pylons import config
@@ -38,6 +40,14 @@ class Archiver(CkanCommand):
         paster archiver view [{dataset name/id}]
            - Views info archival info, in general and if you specify one, about
              a particular dataset\'s resources.
+
+        paster archiver migrate-archive-dirs
+           - Migrate the layout of the archived resource directories.
+             Previous versions of ckanext-archiver stored resources on disk
+             at: {resource-id}/filename.csv and this version puts them at:
+             {2-chars-of-resource-id}/{resource-id}/filename.csv
+             Running this moves them to the new locations and updates the
+             cache_url on each resource to reflect the new location.
     '''
     # TODO
     #    paster archiver clean-files
@@ -77,7 +87,9 @@ class Archiver(CkanCommand):
             if len(self.args) == 2:
                 self.view(self.args[1])
             else:
-                self.view()                
+                self.view()
+        elif cmd == 'migrate-archive-dirs':
+            self.migrate_archive_dirs()
         else:
             self.log.error('Command %s not recognized' % (cmd,))
 
@@ -195,3 +207,49 @@ class Archiver(CkanCommand):
 
         print 'After:'
         self.view()        
+
+    def migrate_archive_dirs(self):
+        from ckan import model
+        from ckanext.archiver.tasks import get_status as ArchiverError
+        from ckanext.archiver.lib import get_cached_resource_filepath
+
+        site_url_base = config['ckan.cache_url_root'].rstrip('/')
+        old_dir_regex = re.compile(r'(.*)/([a-f0-9\-]+)/([^/]*)$')
+        new_dir_regex = re.compile(r'(.*)/[a-f0-9]{2}/[a-f0-9\-]{36}/[^/]*$')
+        for resource in model.Session.query(model.Resource).\
+            filter(model.Resource.state != model.State.DELETED):
+            if not resource.cache_url or resource.cache_url == 'None':
+                continue
+            if new_dir_regex.match(resource.cache_url):
+                print 'Resource with new url already: %s' % resource.cache_url
+                continue
+            match = old_dir_regex.match(resource.cache_url)
+            if not match:
+                print 'ERROR Could not match url: %s' % resource.cache_url
+                continue
+            url_base, res_id, filename = match.groups()
+
+            if url_base != site_url_base:
+                print 'ERROR Base URL is incorrect: %r != %r' % (url_base, site_url_base)
+                continue
+
+            # move the file
+            filepath_base = config['ckanext-archiver.archive_dir']
+            old_path = os.path.join(filepath_base, resource.id)
+            new_dir = os.path.join(filepath_base, resource.id[:2])
+            new_path = os.path.join(filepath_base, resource.id[:2], resource.id)
+            if not os.path.exists(new_dir):
+                os.mkdir(new_dir)
+            if os.path.exists(new_path) and not os.path.exists(old_path):
+                print 'File already moved: %s' % new_path
+            else:
+                print 'File: "%s" -> "%s"' % (old_path, new_path)
+                shutil.move(old_path, new_path)
+
+            # change the cache_url
+            new_cache_url = '/'.join((url_base, res_id[:2], res_id, filename))
+            rev = model.repo.new_revision()
+            rev.message = 'Migrating cache urls to new location'
+            print 'Cache_url: "%s" -> "%s"' % (resource.cache_url, new_cache_url)
+            resource.cache_url = new_cache_url
+            model.repo.commit_and_remove()
