@@ -13,16 +13,17 @@ from ckan.tests import BaseCase
 
 import ckanext.qa.tasks
 from ckanext.qa.tasks import resource_score, update, extension_variants
+import ckanext.archiver
 from ckanext.dgu.lib.formats import Formats
 
 log = logging.getLogger(__name__)
 
 # Monkey patch get_cached_resource_filepath so that it doesn't barf when
 # it can't find the file
-def mock_get_cached_resource_filepath(data):
-    if not data.get('cache_url'):
+def mock_get_cached_resource_filepath(cache_url):
+    if not cache_url:
         return None
-    return data.get('cache_url').replace('http://remotesite.com/', '/resources')
+    return cache_url.replace('http://remotesite.com/', '/resources')
 ckanext.qa.tasks.get_cached_resource_filepath = mock_get_cached_resource_filepath
 
 # Monkey patch sniff_file_format. This isolates the testing of tasks from
@@ -49,7 +50,10 @@ class TestResourceScore(BaseCase):
         #make sure services are running
         for i in range(0, 12):
             time.sleep(0.1)
-            response = requests.get(cls.fake_ckan_url)
+            try:
+                response = requests.get(cls.fake_ckan_url)
+            except requests.ConnectionError:
+                continue
             if response:
                 break
         else:

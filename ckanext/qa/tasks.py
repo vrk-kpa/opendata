@@ -13,7 +13,8 @@ from pylons import config
 import ckan.lib.celery_app as celery_app
 from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
 from ckanext.qa.sniff_format import sniff_file_format
-from ckanext.archiver.tasks import get_status as get_archiver_status
+from ckanext.archiver.tasks import get_status as get_archiver_status, ArchiverError
+from ckanext.archiver.lib import get_cached_resource_filepath
 
 class QAError(Exception):
     pass
@@ -206,7 +207,8 @@ def resource_score(context, data, log):
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
         score_reason = "Unknown error: %s" % str(e)
-        #raise #JUST FOR TEST
+        if os.environ.get('DEBUG'):
+            raise
 
     log.info('Score: %s Reason: %s', score, score_reason)
 
@@ -229,8 +231,8 @@ def resource_score(context, data, log):
 
 def score_by_sniffing_data(context, data, score_reasons, log):
     try:
-        filepath = get_cached_resource_filepath(data)
-    except QAOperationError, e:
+        filepath = get_cached_resource_filepath(data.get('cache_url'))
+    except ArchiverError, e:
         log.error(e)
         sniffed_format = None
         score_reasons.append('Operational error occurred when accessing cached copy of the data, so cannot determine format from the contents.')
@@ -298,31 +300,7 @@ def score_by_format_field(data, score_reasons, log):
     score_reasons.append('Format field "%s" receives score: %s.' % \
                          (format_field, score))
     return score
-    
-    
-def get_cached_resource_filepath(data):
-    '''Returns the filepath of the cached resource data file, calculated
-    from its cache_url.
 
-    Returns None if the resource has no cache.
-    
-    May raise QAOperationError for fatal errors.
-    '''
-    cache_url = data.get('cache_url')
-    if not cache_url:
-        return None
-    if not cache_url.startswith(config['ckan.cache_url_root']):
-        raise QAOperationError('Resource cache_url (%s) doesn\'t match the cache_url_root (%s)' % \
-                      (cache_url, config['ckan.cache_url_root']))
-    archive_dir = config['ckanext-archiver.archive_dir']
-    if config['ckan.cache_url_root'].endswith('/') and not archive_dir.endswith('/'):
-        archive_dir += '/'
-    filepath = cache_url.replace(config['ckan.cache_url_root'],
-                                 archive_dir)
-    if not os.path.exists(filepath):
-        raise QAOperationError('Local cache file does not exist: %s' % filepath)
-    return filepath
-    
 def extension_variants(url):
     '''
     Returns a list of extensions, in order of which would more

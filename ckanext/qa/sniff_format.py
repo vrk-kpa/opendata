@@ -91,7 +91,7 @@ def sniff_file_format(filepath, log):
                 # maybe it has RDFa in it
                 with open(filepath) as f:
                     buf = f.read(100000)
-                if has_rdfa(buf):
+                if has_rdfa(buf, log):
                     format_ = Formats.by_display_name()['RDFa']
 
     else:
@@ -246,7 +246,7 @@ def get_xml_variant(buf, log):
         return Formats.by_extension()['xml']
     log.warning('XML format didn\'t conform to expected format: %s', buf)
 
-def has_rdfa(buf):
+def has_rdfa(buf, log):
     '''If the buffer HTML contains RDFa then this returns True'''
     # quick check for the key words
     if 'about=' not in buf or 'property=' not in buf:
