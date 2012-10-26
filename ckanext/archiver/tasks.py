@@ -431,17 +431,17 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     Returns
     """
     if result['length']:
-        relative_archive_filepath = os.path.join(resource['id'][:2], resource['id'])
-        dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_filepath)
-        if not os.path.exists(dir):
-            os.makedirs(dir)
+        relative_archive_path = os.path.join(resource['id'][:2], resource['id'])
+        archive_dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_path)
+        if not os.path.exists(archive_dir):
+            os.makedirs(archive_dir)
         # try to get a file name from the url
         parsed_url = urlparse.urlparse(resource.get('url'))
         try:
             file_name = parsed_url.path.split('/')[-1] or 'resource'
         except:
             file_name = "resource"
-        saved_file = os.path.join(dir, file_name)
+        saved_file = os.path.join(archive_dir, file_name)
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
         log.info('Archived resource as: %s', saved_file)
@@ -450,7 +450,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
             cache_url = urlparse.urljoin(
-                context['cache_url_root'], relative_archive_filepath
+                context['cache_url_root'], '%s/%s' % (relative_archive_path, file_name)
             )
             if resource.get('cache_url') != cache_url:
                 resource['cache_url'] = cache_url
