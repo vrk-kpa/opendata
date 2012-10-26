@@ -212,6 +212,11 @@ class Archiver(CkanCommand):
         from ckan import model
         from ckanext.archiver.tasks import get_status as ArchiverError
         from ckanext.archiver.lib import get_cached_resource_filepath
+        from ckan.logic import get_action
+
+        site_user = get_action('get_site_user')(
+            {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
+        )
 
         site_url_base = config['ckan.cache_url_root'].rstrip('/')
         old_dir_regex = re.compile(r'(.*)/([a-f0-9\-]+)/([^/]*)$')
@@ -238,6 +243,7 @@ class Archiver(CkanCommand):
             old_path = os.path.join(filepath_base, resource.id)
             new_dir = os.path.join(filepath_base, resource.id[:2])
             new_path = os.path.join(filepath_base, resource.id[:2], resource.id)
+            new_filepath = os.path.join(new_path, filename)
             if not os.path.exists(new_dir):
                 os.mkdir(new_dir)
             if os.path.exists(new_path) and not os.path.exists(old_path):
@@ -246,10 +252,13 @@ class Archiver(CkanCommand):
                 print 'File: "%s" -> "%s"' % (old_path, new_path)
                 shutil.move(old_path, new_path)
 
-            # change the cache_url
+            # change the cache_url and cache_filepath
             new_cache_url = '/'.join((url_base, res_id[:2], res_id, filename))
-            rev = model.repo.new_revision()
-            rev.message = 'Migrating cache urls to new location'
-            print 'Cache_url: "%s" -> "%s"' % (resource.cache_url, new_cache_url)
-            resource.cache_url = new_cache_url
-            model.repo.commit_and_remove()
+            print 'cache_filepath: "%s" -> "%s"' % (resource.extras.get('cache_filepath'), new_filepath)
+            print 'cache_url: "%s" -> "%s"' % (resource.cache_url, new_cache_url)
+            context = {'model': model, 'user': site_user['name'], 'ignore_auth': True, 'session': model.Session}
+            data_dict = {'id': resource.id}
+            res_dict = get_action('resource_show')(context, data_dict)
+            res_dict['cache_filepath'] = new_filepath
+            res_dict['cache_url'] = new_cache_url
+            get_action('resource_update')(context, data_dict)
