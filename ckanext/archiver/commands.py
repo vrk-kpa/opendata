@@ -261,4 +261,8 @@ class Archiver(CkanCommand):
             res_dict = get_action('resource_show')(context, data_dict)
             res_dict['cache_filepath'] = new_filepath
             res_dict['cache_url'] = new_cache_url
-            get_action('resource_update')(context, data_dict)
+            result = get_action('resource_update')(context, data_dict)
+            if result['success']:
+                print 'Successfully updated resource'
+            else:
+                print 'ERROR updating resource: %r' % result
