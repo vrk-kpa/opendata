@@ -270,8 +270,13 @@ def get_zipped_format(filepath, log):
     popular extension.'''
     # just check filename extension of each file inside
     try:
-        with zipfile.ZipFile(filepath, 'r') as zip:
+        # note: Cannot use "with" with a zipfile before python 2.7
+        #       so we have to close it manually.
+        zip = zipfile.ZipFile(filepath, 'r')
+        try:
             filenames = zip.namelist()
+        finally:
+            zip.close()
     except zipfile.BadZipfile, e:
         log.warning('Zip file open raised error %s: %s',
                     e, e.args)
