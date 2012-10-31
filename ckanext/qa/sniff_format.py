@@ -222,7 +222,7 @@ def _is_spreadsheet(table_set, format, log):
     return False
     
 def is_html(buf, log):
-    '''If this buffer is in a format based on XML, return the format type.'''
+    '''If this buffer is HTML, return that format type, else None.'''
     xml_re = '.{0,3}\s*(<\?xml[^>]*>\s*)?(<!doctype[^>]*>\s*)?<html[^>]*>'
     match = re.match(xml_re, buf, re.IGNORECASE)
     if match:

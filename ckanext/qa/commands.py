@@ -115,21 +115,6 @@ class QACommand(p.toolkit.CkanCommand):
                 resource['is_open'] = pkg.isopen()
                 data = json.dumps(resource) 
                 task_id = make_uuid()
-                task_status = {
-                    'entity_id': resource['id'],
-                    'entity_type': u'resource',
-                    'task_type': u'qa',
-                    'key': u'celery_task_id',
-                    'value': task_id,
-                    'error': u'',
-                    'last_updated': datetime.datetime.now().isoformat()
-                }
-                task_context = {
-                    'model': model,
-                    'user': user.get('name')
-                }
-
-                p.toolkit.get_action('task_status_update')(task_context, task_status)
                 tasks.update.apply_async(args=[context, data],
                                          task_id=task_id,
                                          queue=self.options.queue)
