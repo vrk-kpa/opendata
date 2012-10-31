@@ -113,6 +113,10 @@ class MockEchoTestServer(MockHTTPServer):
             content = self.get_content(content)
         else:
             content = request.str_params.get('content', '')
+        if 'method' in request.str_params \
+               and request.method.lower() != request.str_params['method'].lower():
+            content = ''
+            status = 405
 
         if isinstance(content, unicode):
             raise TypeError("Expected raw byte string for content")

@@ -43,6 +43,8 @@ class LinkInvalidError(LinkCheckerError):
     pass
 class LinkHeadRequestError(LinkCheckerError):
     pass
+class LinkHeadMethodNotSupported(LinkCheckerError):
+    pass
 class CkanError(ArchiverError):
     pass
 
@@ -95,10 +97,15 @@ def download(context, resource, url_timeout=30,
         'url_timeout': url_timeout
     })
 
-    headers = json.loads(link_checker(link_context, link_data))
+    try:
+        headers = json.loads(link_checker(link_context, link_data))
+    except LinkHeadMethodNotSupported:
+        # Server does not rule out a GET working, so carry on
+        headers = {}
+    # Other link_checker exceptions are simply propagated
 
     resource_format = resource['format'].lower()
-    ct = _clean_content_type( headers.get('content-type', '').lower() )
+    ct = _clean_content_type(headers.get('content-type', '').lower())
     cl = headers.get('content-length') 
 
     resource_changed = False
@@ -121,7 +128,7 @@ def download(context, resource, url_timeout=30,
         log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
                  cl, max_content_length, resource['id'], url)
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-            (cl, max_content_length))                                                      
+            (cl, max_content_length))
 
     # get the resource and archive it
     try:
@@ -353,6 +360,7 @@ def link_checker(context, data):
 
     Raises LinkInvalidError if the URL is invalid
     Raises LinkHeadRequestError if HEAD request fails
+    Raises LinkHeadMethodNotSupported if server says HEAD is not supported
 
     Returns a json dict of the headers of the request
     """
@@ -409,6 +417,10 @@ def link_checker(context, data):
         except Exception, e:
             raise LinkHeadRequestError('Error with the request: %s' % e)
         else:
+            if res.status_code == 405:
+                # this suggests a GET request may be ok, so proceed to that
+                # in the download
+                raise LinkHeadMethodNotSupported()
             if res.error or res.status_code >= 400:
                 if res.status_code in HTTP_ERROR_CODES:
                     error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]

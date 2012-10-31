@@ -103,6 +103,12 @@ class TestLinkChecker(BaseCase):
         data = json.dumps({'url': url})
         assert_raises(LinkCheckerError, link_checker, context, data)
 
+    @with_mock_url('?status=404')
+    def test_url_with_405(self, url): # 405: method (HEAD) not allowed
+        context = json.dumps({})
+        data = json.dumps({'url': url})
+        assert_raises(LinkCheckerError, link_checker, context, data)
+
     @with_mock_url('')
     def test_url_with_30x_follows_redirect(self, url):
         redirect_url = url + u'?status=200&content=test&content-type=text/csv'
@@ -236,6 +242,18 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
+
+    @with_mock_url('?status=200&method=get&content=test&content-type=csv')
+    def test_head_unsupported(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+
+        # HEAD request will return a 405 error, but it will persevere
+        # and do a GET request which will work.
+        result = download(self.fake_context, resource)
+
+        assert result['saved_file']
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):
