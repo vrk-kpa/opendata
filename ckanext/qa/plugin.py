@@ -5,6 +5,7 @@ import logging
 from genshi.input import HTML
 from genshi.filters import Transformer
 from pylons import request, tmpl_context as c
+
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
@@ -12,8 +13,10 @@ import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
 import ckan.plugins.toolkit as t
 from ckan.model.types import make_uuid
+
 import html
 import reports
+import logic
 
 resource_dictize = model_dictize.resource_dictize
 send_task = celery_app.celery.send_task
@@ -27,6 +30,7 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
+    p.implements(p.IActions)
 
     def configure(self, config):
         self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
@@ -175,3 +179,8 @@ class QAPlugin(p.SingletonPlugin):
             reason = report.get('openness_score_reason')
             return html.get_star_html(stars, reason)
         return None
+
+    def get_actions(self):
+        return {
+            'search_index_update': logic.search_index_update,
+            }

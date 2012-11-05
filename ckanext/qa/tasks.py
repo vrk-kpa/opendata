@@ -38,13 +38,20 @@ OPENNESS_SCORE_REASON = {
 def _update_task_status(context, data, log):
     """
     Use CKAN API to update the task status. The data parameter
-    should be a dict representing one row in the task_status table.
+    should be a dict representing one row in the task_status table, or a list
+    of such dicts.
 
     Returns the content of the response.
     """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
+    if isinstance(data, list):
+        func = '/task_status_update_many'
+        payload = {'data': data}
+    elif isinstance(data, dict):
+        func = '/task_status_update'
+        payload = data
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + func
     res = requests.post(
-        api_url, json.dumps(data),
+        api_url, json.dumps(payload),
         headers={'Authorization': context['apikey'],
                  'Content-Type': 'application/json'}
     )
@@ -83,7 +90,47 @@ def _task_status_data(id, result):
         },
     ]
     return data
-        
+
+@celery_app.celery.task(name="qa.package")
+def update_package(context, data):
+    """
+    Given a package, calculates an openness score for each of its resources.
+    It is more efficient to call this than 'update' for each resource.
+
+    context - how this plugin can call the CKAN API to get more info and
+              save the results.
+              is a JSON dict with keys: 'site_url', 'apikey'
+    data - package dict (includes its resources)
+
+    Returns None
+    """
+    log = update_package.get_logger()
+    try:
+        package = json.loads(data)
+        context = json.loads(context)
+
+        log.info('Openness scoring package %s (%i resources)', package['name'], len(package['resources']))
+        for resource in package['resources']:
+            resource['is_open'] = package['isopen']
+            resource['package'] = package['name']
+            result = resource_score(context, resource, log)
+            log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
+            _update_task_status(context, _task_status_data(resource['id'], result), log)
+            log.info('CKAN updated with openness score')
+        update_search_index(context, package['id'], log)
+    except Exception, e:
+        log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
+        _update_task_status(context, {
+            'entity_id': data['id'],
+            'entity_type': u'resource',
+            'task_type': 'qa',
+            'key': u'celery_task_id',
+            'value': unicode(update.request.id),
+            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
+            'last_updated': datetime.datetime.now().isoformat()
+        }, log)
+        raise
+
 @celery_app.celery.task(name="qa.update")
 def update(context, data):
     """
@@ -102,37 +149,19 @@ def update(context, data):
     """
     log = update.get_logger()
     try:
-        data = json.loads(data)
+        resource = json.loads(data)
         context = json.loads(context)
 
-        result = resource_score(context, data, log)
-        log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, data, context)
-        
-        task_status_data = _task_status_data(data['id'], result)
-
-        api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update_many'
-        response = requests.post(
-            api_url,
-            json.dumps({'data': task_status_data}),
-            headers={'Authorization': context['apikey'],
-                     'Content-Type': 'application/json'}
-        )
-        if not response.ok:
-            err = 'ckan failed to update task_status, error %s\nurl=%r' \
-                  % (response.error, api_url)
-            log.error(err)
-            raise CkanError(err)
-        elif response.status_code != 200:
-            err = 'ckan failed to update task_status, status_code (%s), error %s\nurl=%s' \
-                  % (response.status_code, response.content, api_url)
-            log.error(err)
-            raise CkanError(err)
+        result = resource_score(context, resource, log)
+        log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
+        _update_task_status(context, _task_status_data(resource['id'], result), log)
         log.info('CKAN updated with openness score')
+        update_search_index(context, resource['package'], log)
         return json.dumps(result)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         _update_task_status(context, {
-            'entity_id': data['id'],
+            'entity_id': resource['id'],
             'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'celery_task_id',
@@ -320,3 +349,26 @@ def extension_variants(url):
             results.append('.'.join(split_url[-number_of_sections:]))
     return results
 
+def update_search_index(context, package_id, log):
+    '''
+    Tells CKAN to update its search index for a given package dict.
+    '''
+    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/search_index_update'
+    data = {'id': package_id}
+    res = requests.post(
+        api_url, json.dumps(data),
+        headers={'Authorization': context['apikey'],
+                 'Content-Type': 'application/json'}
+    )
+    if res.status_code == 200:
+        return res.content
+    else:
+        try:
+            content = res.content
+        except:
+            content = '<could not read request content to discover error>'
+        log.error('ckan failed to update search index, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, res.error, api_url))
+        raise CkanError('ckan failed to update search index, status_code (%s), error %s'
+                        % (res.status_code, content))
+    log.info('Task status updated ok')

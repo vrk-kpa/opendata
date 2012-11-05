@@ -109,15 +109,11 @@ class QACommand(p.toolkit.CkanCommand):
                         (self.options.queue, package.get('name'),
                          len(package.get('resources', []))))
 
-            for resource in package.get('resources', []):
-                resource['package'] = package['name']
-                pkg = model.Package.get(package['id'])
-                resource['is_open'] = pkg.isopen()
-                data = json.dumps(resource) 
-                task_id = make_uuid()
-                tasks.update.apply_async(args=[context, data],
-                                         task_id=task_id,
-                                         queue=self.options.queue)
+            data = json.dumps(package)
+            task_id = make_uuid()
+            tasks.update_package.apply_async(args=[context, data],
+                                             task_id=task_id,
+                                             queue=self.options.queue)
 
 
     def _package_list(self):
