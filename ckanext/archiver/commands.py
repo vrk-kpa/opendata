@@ -137,7 +137,7 @@ class Archiver(CkanCommand):
 
         self.log.info("Number of datasets to archive: %d" % len(package_names))
 
-        for package_name in package_names:
+        for package_name in sorted(package_names):
             self.log.info('Getting dataset metadata: %s', package_name)
 
             # Get the dataset's resource urls
@@ -154,21 +154,6 @@ class Archiver(CkanCommand):
             for resource in package.get('resources', []):
                 data = json.dumps(resource, {'model': model})
                 task_id = make_uuid()
-                archiver_task_status = {
-                    'entity_id': resource['id'],
-                    'entity_type': u'resource',
-                    'task_type': u'archiver',
-                    'key': u'celery_task_id',
-                    'value': task_id,
-                    'error': u'',
-                    'last_updated': datetime.now().isoformat()
-                }
-                archiver_task_context = {
-                    'model': model, 
-                    'user': user.get('name')
-                }
-
-                get_action('task_status_update')(archiver_task_context, archiver_task_status)
                 tasks.update.apply_async(args=[context, data], task_id=task_id, queue=self.options.queue)
 
     def view(self, package_ref=None):
