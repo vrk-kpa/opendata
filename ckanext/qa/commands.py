@@ -146,7 +146,7 @@ class QACommand(p.toolkit.CkanCommand):
                     package_names = [id]
                     if not self.options.queue:
                         self.options.queue = 'priority'
-                for package_name in package_names:
+                for package_name in sorted(package_names):
                     data = json.dumps({'id': unicode(package_name)})
                     url = api_url + '/package_show'
                     response = requests.post(url, data, headers=REQUESTS_HEADER)
@@ -165,31 +165,25 @@ class QACommand(p.toolkit.CkanCommand):
             if not self.options.queue:
                 self.options.queue = 'bulk'
             page, limit = 1, 100
-            url = api_url + '/current_package_list_with_resources'
-            response = requests.post(url,
-                                     json.dumps({'page': page, 'limit': limit}),
-                                     headers=REQUESTS_HEADER)
-            if not response.ok:
-                err = ('Failed to get package list with resources from url %r: %s' %
-                       (url, response.error))
-                self.log.error(err)
-                raise CkanApiError(err)
-            chunk = json.loads(response.content).get('result')
-            while(chunk):
-                page += 1
-                for p in chunk:
-                    yield p
+            while True:
                 url = api_url + '/current_package_list_with_resources'
                 response = requests.post(url,
-                                         json.dumps({'page': page, 'limit': limit}),
+                                         json.dumps({'page': page,
+                                                     'limit': limit,
+                                                     'order_by': 'name'}),
                                          headers=REQUESTS_HEADER)
                 if not response.ok:
-                    err = ('Failed to get package list with resources from url %r: %s' %
-                           (url, response.error))
+                    err = ('Failed to get package list with resources from url %r: %s %s' %
+                           (url, response.status_code, response.error))
                     self.log.error(err)
                     raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
-
+                if not chunk:
+                    break
+                for package in chunk:
+                    yield package
+                page += 1
+                    
     def sniff(self):
         from ckanext.qa.sniff_format import sniff_file_format
         
