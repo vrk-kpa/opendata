@@ -218,6 +218,13 @@ class Archiver(CkanCommand):
                 print 'ERROR Could not match url: %s' % resource.cache_url
                 continue
             url_base, res_id, filename = match.groups()
+            # check the package isn't deleted
+            # Need to refresh the resource's session
+            resource = model.Session.query(model.Resource).get(resource.id)
+            if resource.resource_group and resource.resource_group.package:
+                if resource.resource_group.package.state == model.State.DELETED:
+                    print 'Package is deleted'
+                    continue
 
             if url_base != site_url_base:
                 print 'ERROR Base URL is incorrect: %r != %r' % (url_base, site_url_base)
@@ -235,7 +242,11 @@ class Archiver(CkanCommand):
                 print 'File already moved: %s' % new_path
             else:
                 print 'File: "%s" -> "%s"' % (old_path, new_path)
-                shutil.move(old_path, new_path)
+                try:
+                    shutil.move(old_path, new_path)
+                except IOError, e:
+                    print 'ERROR moving resource: %s' % e
+                    continue
 
             # change the cache_url and cache_filepath
             new_cache_url = '/'.join((url_base, res_id[:2], res_id, filename))
@@ -248,7 +259,7 @@ class Archiver(CkanCommand):
             res_dict['cache_url'] = new_cache_url
             data_dict = res_dict
             result = get_action('resource_update')(context, data_dict)
-            if result['success']:
+            if result.get('id') == res_id:
                 print 'Successfully updated resource'
             else:
                 print 'ERROR updating resource: %r' % result
