@@ -239,8 +239,6 @@ def resource_score(context, data, log):
         if os.environ.get('DEBUG'):
             raise
 
-    log.info('Score: %s Reason: %s', score, score_reason)
-
     # Even if we can get the link, we should still treat the resource
     # as having a score of 0 if the license isn't open.
     #
@@ -250,6 +248,8 @@ def resource_score(context, data, log):
     if score > 1 and not data.get('is_open'):
         score_reason = 'License not open'
         score = 0
+
+    log.info('Score: %s Reason: %s', score, score_reason)
 
     result = {
         'openness_score': score,

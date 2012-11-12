@@ -6,6 +6,7 @@ import json
 import logging
 import datetime
 from functools import wraps
+import copy
 
 from nose.tools import raises, assert_equal
 from ckan import model
@@ -91,7 +92,7 @@ class TestResourceScore(BaseCase):
         assert 'Content of file appeared to be format "XLS"' in result['openness_score_reason'], result
 
     def test_not_cached(self):
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['cache_url'] = None
         result = resource_score(self.fake_context, data, log)
         # falls back on fake_ckan task status data detailing failed attempts
@@ -102,7 +103,7 @@ class TestResourceScore(BaseCase):
 
     def test_by_extension(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename.xls'
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
@@ -111,7 +112,7 @@ class TestResourceScore(BaseCase):
 
     def test_by_format_field(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename'
         data['format'] = 'XLS'
         result = resource_score(self.fake_context, data, log)
@@ -122,7 +123,7 @@ class TestResourceScore(BaseCase):
 
     def test_by_format_field_excel(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename'
         data['format'] = 'Excel'
         result = resource_score(self.fake_context, data, log)
@@ -133,7 +134,7 @@ class TestResourceScore(BaseCase):
 
     def test_extension_not_recognised(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename.zar' # unknown format
         data['format'] = ''
         result = resource_score(self.fake_context, data, log)
@@ -143,7 +144,7 @@ class TestResourceScore(BaseCase):
 
     def test_format_field_not_recognised(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename'
         data['format'] = 'ZAR'
         result = resource_score(self.fake_context, data, log)
@@ -154,7 +155,7 @@ class TestResourceScore(BaseCase):
 
     def test_no_format_clues(self):
         set_sniffed_format(None)
-        data = self.fake_resource
+        data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename'
         data['format'] = ''
         result = resource_score(self.fake_context, data, log)
@@ -163,6 +164,23 @@ class TestResourceScore(BaseCase):
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field is blank' in result['openness_score_reason'], result
 
+    def test_available_but_not_open(self):
+        set_sniffed_format('CSV')
+        data = copy.deepcopy(self.fake_resource)
+        data['is_open'] = False
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 0, result
+        assert 'License not open' in result['openness_score_reason'], result
+
+    def test_not_available_and_not_open(self):
+        set_sniffed_format('CSV')
+        data = copy.deepcopy(self.fake_resource)
+        data['is_open'] = False
+        data['cache_url'] = None
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 0, result
+        # in preference it should report that it is not available
+        assert 'File could not be downloaded. Reason: URL request failed. Tried 16 times since 2008-10-01. Error details: Server returned 500 error.' in result['openness_score_reason'], result
 
 
 class TestExtensionVariants:
