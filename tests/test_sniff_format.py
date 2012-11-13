@@ -68,6 +68,10 @@ class TestSniffFormat:
         self.check_format('json')
     def test_ods(self):
         self.check_format('ods')
+    def test_odt(self):
+        self.check_format('odt')
+    def test_odp(self):
+        self.check_format('odp')
     def test_ppt(self):
         self.check_format('ppt')
     def test_csv(self):
