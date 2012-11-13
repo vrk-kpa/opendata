@@ -126,7 +126,10 @@ class MockEchoTestServer(MockHTTPServer):
             for item in request.str_params.items()
             if item[0] not in ('content', 'status')
         ]
-        if content:
+        if 'length' in request.str_params:
+            cl = request.str_params.get('length')
+            headers += [('Content-Length', cl)]
+        elif content and not 'no-content-length' in request.str_params:
             headers += [('Content-Length', str(len(content)))]
         start_response(
             '%d %s' % (status, responses[status]),

@@ -17,6 +17,9 @@ from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.tests import BaseCase, url_for, CreateTestData
 from nose.tools import assert_raises
 
+from ckanext.archiver import default_settings as settings
+settings.MAX_CONTENT_LENGTH = 15
+
 from ckanext.archiver.tasks import (link_checker, 
                                     update,
                                     download,
@@ -103,7 +106,7 @@ class TestLinkChecker(BaseCase):
         data = json.dumps({'url': url})
         assert_raises(LinkCheckerError, link_checker, context, data)
 
-    @with_mock_url('?status=404')
+    @with_mock_url('?status=405')
     def test_url_with_405(self, url): # 405: method (HEAD) not allowed
         context = json.dumps({})
         data = json.dumps({'url': url})
@@ -254,6 +257,26 @@ class TestArchiver(BaseCase):
         result = download(self.fake_context, resource)
 
         assert result['saved_file']
+
+    @with_mock_url('?status=200&content=short&length=100&content-type=csv')
+    def test_file_too_large_1(self, url):
+        # will stop after receiving the header
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+
+    @with_mock_url('?status=200&content=test_contents_greater_than_the_max_length&no-content-length&content-type=csv')
+    def test_file_too_large_2(self, url):
+        # no size info in headers - it stops only after downloading the content
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):

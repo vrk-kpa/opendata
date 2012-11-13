@@ -91,61 +91,44 @@ def download(context, resource, url_timeout=30,
         not url.startswith('http')):
         url = context['site_url'].rstrip('/') + url
 
-    link_context = "{}"
-    link_data = json.dumps({
-        'url': url,
-        'url_timeout': url_timeout
-    })
-
-    try:
-        headers = json.loads(link_checker(link_context, link_data))
-    except LinkHeadMethodNotSupported:
-        # Server does not rule out a GET working, so carry on
-        headers = {}
-    # Other link_checker exceptions are simply propagated
-
     resource_format = resource['format'].lower()
-    ct = _clean_content_type(headers.get('content-type', '').lower())
-    cl = headers.get('content-length') 
 
+    # start the download - just get the headers
+    res = convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    log.info('GET succeeded. Content headers: %r', res.headers)
+
+    # record headers
+    content_type = _clean_content_type(res.headers.get('content-type', '').lower())
+    content_length = res.headers.get('content-length')
     resource_changed = False
-
-    if resource.get('mimetype') != ct:
+    if resource.get('mimetype') != content_type:
         resource_changed = True
-        resource['mimetype'] = ct
+        resource['mimetype'] = content_type
 
     # this is to store the size in case there is an error, but the real size check
-    # is done after dowloading the data file, with its real length
-    if cl is not None and (resource.get('size') != cl):
+    # is done after downloading the data file, with its real length
+    if content_length is not None and (resource.get('size') != content_length):
         resource_changed = True
-        resource['size'] = cl
+        resource['size'] = content_length
 
     # make sure resource content-length does not exceed our maximum
-    if cl and int(cl) >= max_content_length:
+    if content_length and int(content_length) >= max_content_length:
         if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is too large to archive
         log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
-                 cl, max_content_length, resource['id'], url)
+                 content_length, max_content_length, resource['id'], url)
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-            (cl, max_content_length))
+            (content_length, max_content_length))
 
-    # get the resource and archive it
-    try:
-        res = requests.get(url, timeout=url_timeout)
-    except requests.exceptions.ConnectionError, e:
-        raise DownloadError('Connection error: %s' % e)
-    except requests.exceptions.HTTPError, e:
-        raise DownloadError('Invalid HTTP response: %s' % e)
-    except requests.exceptions.Timeout, e:
-        raise DownloadError('Connection timed out after %ss' % url_timeout)
-    except requests.exceptions.TooManyRedirects, e:
-        raise DownloadError('Too many redirects')
-    except requests.exceptions.RequestException, e:
-        raise DownloadError('Error downloading: %s' % e)
-    except Exception, e:
-        raise DownloadError('Error with the download: %s' % e)
-    log.info('GET succeeded. Content starts: %r', res.content[:10])
+    # continue the download - the response body
+    def get_content():
+        return res.content
+    content = convert_requests_exceptions(get_content)
+
+    if len(content) > max_content_length:
+        raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
+            (content_length, max_content_length))
 
     length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
     log.info('Resource saved. Length: %s File: %s', length, saved_file_path)
@@ -193,7 +176,7 @@ def download(context, resource, url_timeout=30,
 
     return {'length': length,
             'hash' : hash,
-            'headers': headers,
+            'headers': res.headers,
             'saved_file': saved_file_path}
 
 
@@ -326,8 +309,8 @@ def _update(context, resource):
         log.info('Download not carried out: %r, %r', e, e.args)
         _save_status(False, 'Chose not to download', e, status, resource['id'])
         return
-    except Exception, downloaderr:
-        log.error('Uncaught download failure: %r, %r', downloaderr, downloaderr.args)
+    except Exception, e:
+        log.error('Uncaught download failure: %r, %r', e, e.args)
         _save_status(False, 'Download failure', e, status, resource['id'])
         return
 
@@ -501,7 +484,9 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
             resource_hash.update(chunk)
 
             if length >= max_file_size:
-                break
+                raise ChooseNotToDownload(
+                    "Content length %s exceeds maximum allowed value %s" %
+                    (length, max_file_size))
 
     os.close(fd)
 
@@ -653,3 +638,28 @@ def save_status(context, resource_id, status, reason,
     update_task_status(context, data, log)
     log.info('Saved status: %r reason=%r last_success=%r first_failure=%r failure_count=%r',
              status, reason, last_success, first_failure, failure_count)
+
+def convert_requests_exceptions(func, *args, **kwargs):
+    '''
+    Run a requests command, catching the errors and reraising them as
+    DownloadError.
+    e.g.
+    >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    runs:
+        res = requests.get(url, timeout=url_timeout, prefetch=False)
+    '''
+    try:
+        response = func(*args, **kwargs)
+    except requests.exceptions.ConnectionError, e:
+        raise DownloadError('Connection error: %s' % e)
+    except requests.exceptions.HTTPError, e:
+        raise DownloadError('Invalid HTTP response: %s' % e)
+    except requests.exceptions.Timeout, e:
+        raise DownloadError('Connection timed out after %ss' % url_timeout)
+    except requests.exceptions.TooManyRedirects, e:
+        raise DownloadError('Too many redirects')
+    except requests.exceptions.RequestException, e:
+        raise DownloadError('Error downloading: %s' % e)
+    except Exception, e:
+        raise DownloadError('Error with the download: %s' % e)
+    return response
