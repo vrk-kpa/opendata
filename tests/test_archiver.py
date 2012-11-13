@@ -287,6 +287,17 @@ class TestArchiver(BaseCase):
         result = update(context, data)
         assert result, result
 
+    @with_mock_url('?status=200&content=content&repeat-length&content-type=csv')
+    def test_content_length_repeated(self, url):
+        # listing the Content-Length header twice causes requests to
+        # store the value as a comma-separated list
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert result, result
+
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):
         context = json.dumps(self.fake_context)

@@ -115,9 +115,15 @@ def download(context, resource, url_timeout=30,
     try:
         content_length = int(content_length)
     except ValueError:
-        pass
-    else:
-        if content_length and int(content_length) >= max_content_length:
+        # if there are multiple Content-Length headers, requests
+        # will return all the values, comma separated
+        if ',' in content_length:
+            try:
+                content_length = int(content_length.split(',')[0])
+            except ValueError:
+                pass
+    if isinstance(content_length, int) and \
+       int(content_length) >= max_content_length:
             if resource_changed:
                 _update_resource(context, resource, log)
             # record fact that resource is too large to archive
