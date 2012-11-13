@@ -49,6 +49,12 @@ def sniff_file_format(filepath, log):
                 with open(filepath) as f:
                     buf = f.read(500)
                 format_ = is_html(buf, log)
+        elif mime_type == 'text/html':
+            # Magic can mistake IATI for HTML
+            with open(filepath) as f:
+                buf = f.read(100)
+            if is_iati(buf, log):
+                format_ = Formats.by_display_name()['IATI']
                 
         if format_:
             return format_
@@ -229,6 +235,15 @@ def is_html(buf, log):
         log.info('HTML tag detected')
         return Formats.by_extension()['html']
     log.warning('html not detected %s', buf)    
+
+def is_iati(buf, log):
+    '''If this buffer is IATI format, return that format type, else None.'''
+    xml_re = '.{0,3}\s*(<\?xml[^>]*>\s*)?(<!doctype[^>]*>\s*)?<iati-(activities|organisations)[^>]*>'
+    match = re.match(xml_re, buf, re.IGNORECASE)
+    if match:
+        log.info('IATI tag detected')
+        return Formats.by_extension()['iati']
+    log.warning('IATI not detected %s', buf)
 
 def get_xml_variant(buf, log):
     '''If this buffer is in a format based on XML, return the format type.'''

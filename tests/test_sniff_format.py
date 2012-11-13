@@ -96,6 +96,8 @@ class TestSniffFormat:
         self.check_format('xml', 'jobs.xml')
     def test_xml1(self):
         self.check_format('xml', '082010CreditorInvoicesover500.xml')
+    def test_iati(self):
+        self.check_format('iati')
     def test_rss(self):
         self.check_format('rss')
     def test_txt(self):
