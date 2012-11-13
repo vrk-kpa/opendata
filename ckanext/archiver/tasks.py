@@ -112,14 +112,19 @@ def download(context, resource, url_timeout=30,
         resource['size'] = content_length
 
     # make sure resource content-length does not exceed our maximum
-    if content_length and int(content_length) >= max_content_length:
-        if resource_changed:
-            _update_resource(context, resource, log)
-        # record fact that resource is too large to archive
-        log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
-                 content_length, max_content_length, resource['id'], url)
-        raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-            (content_length, max_content_length))
+    try:
+        content_length = int(content_length)
+    except ValueError:
+        pass
+    else:
+        if content_length and int(content_length) >= max_content_length:
+            if resource_changed:
+                _update_resource(context, resource, log)
+            # record fact that resource is too large to archive
+            log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
+                     content_length, max_content_length, resource['id'], url)
+            raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
+                (content_length, max_content_length))
 
     # continue the download - the response body
     def get_content():

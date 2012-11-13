@@ -278,6 +278,15 @@ class TestArchiver(BaseCase):
         result = update(context, data)
         assert not result, result
 
+    @with_mock_url('?status=200&content=content&length=abc&content-type=csv')
+    def test_content_length_not_integer(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert result, result
+
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):
         context = json.dumps(self.fake_context)
