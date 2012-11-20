@@ -52,6 +52,8 @@ class TestSniffFormat:
         self.check_format('xls', 'August-2010.xls')
     def test_xls2(self):
         self.check_format('xls', 'ukti-admin-spend-nov-2011.xls')
+    def test_xls3(self):
+        self.check_format('xls', 'decc_local_authority_data_xlsx.xls')
     def test_xls_zip(self):
         self.check_format('xls.zip')
     def test_rdf(self):
@@ -100,6 +102,8 @@ class TestSniffFormat:
         self.check_format('xml', 'jobs.xml')
     def test_xml1(self):
         self.check_format('xml', '082010CreditorInvoicesover500.xml')
+    def test_xml2(self):
+        self.check_format('xml', 'DfidProjects-trunc.xml')
     def test_iati(self):
         self.check_format('iati')
     def test_rss(self):

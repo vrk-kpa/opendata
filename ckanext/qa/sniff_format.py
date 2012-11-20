@@ -73,8 +73,7 @@ def sniff_file_format(filepath, log):
                     format_ = Formats.by_extension()['csv']
                 elif is_psv(buf, log):
                     format_ = Formats.by_extension()['psv']
-                    
-                
+
         if not format_:
             log.warning('Mimetype not recognised by CKAN as a data format: %s', mime_type)
             
@@ -92,6 +91,9 @@ def sniff_file_format(filepath, log):
                     format_ = Formats.by_extension()['csv']
                 elif is_psv(buf, log):
                     format_ = Formats.by_extension()['psv']
+                # XML files without the "<?xml ... ?>" tag end up here
+                elif is_xml_but_without_declaration(buf, log):
+                    format_ = Formats.by_extension()['xml']
 
             elif format_['display_name'] == 'HTML':
                 # maybe it has RDFa in it
@@ -244,6 +246,22 @@ def is_iati(buf, log):
         log.info('IATI tag detected')
         return Formats.by_extension()['iati']
     log.warning('IATI not detected %s', buf)
+
+def is_xml_but_without_declaration(buf, log):
+    '''Decides if this is a buffer of XML, but missing the usual <?xml ...?>
+    tag.'''
+    xml_re = '.{0,3}\s*(<\?xml[^>]*>\s*)?(<!doctype[^>]*>\s*)?<([^>\s]*)([^>]*)>'
+    match = re.match(xml_re, buf, re.IGNORECASE)
+    if match:
+        top_level_tag_name, top_level_tag_attributes = match.groups()[-2:]
+        if len(top_level_tag_name) > 20 or len(top_level_tag_attributes) > 200:
+            log.warning('XML not detected - unlikely length first tag: <%s %s>',
+                        top_level_tag_name, top_level_tag_attributes)
+            return False
+        log.info('XML detected - first tag name: <%s>', top_level_tag_name)
+        return True
+    log.warning('XML tag not detected')
+    return False
 
 def get_xml_variant(buf, log):
     '''If this buffer is in a format based on XML, return the format type.'''
