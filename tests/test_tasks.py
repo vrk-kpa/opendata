@@ -172,6 +172,14 @@ class TestResourceScore(BaseCase):
         assert result['openness_score'] == 0, result
         assert 'License not open' in result['openness_score_reason'], result
 
+    def test_available_but_not_open_pdf(self):
+        set_sniffed_format('PDF')
+        data = copy.deepcopy(self.fake_resource)
+        data['is_open'] = False
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 0, result
+        assert 'License not open' in result['openness_score_reason'], result
+
     def test_not_available_and_not_open(self):
         set_sniffed_format('CSV')
         data = copy.deepcopy(self.fake_resource)

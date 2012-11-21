@@ -245,7 +245,7 @@ def resource_score(context, data, log):
     # It is important we do this check after the link check, otherwise
     # the link checker won't get the chance to see if the resource
     # is broken.
-    if score > 1 and not data.get('is_open'):
+    if score > 0 and not data.get('is_open'):
         score_reason = 'License not open'
         score = 0
 
