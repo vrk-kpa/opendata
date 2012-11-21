@@ -1,6 +1,6 @@
 import datetime
 import re
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 
 from sqlalchemy.util import OrderedDict
 from sqlalchemy import or_, and_, func
@@ -108,23 +108,13 @@ def resource_five_stars(id):
         openness_score_reason = status.get('value')
         openness_score_reason_updated = status.get('last_updated')
 
-        data['key'] = 'openness_score_failure_count'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score_failure_count = int(status.get('value'))
-        openness_score_failure_count_updated = status.get('last_updated')
-
         last_updated = max( 
             openness_score_updated,
-            openness_score_reason_updated,
-            openness_score_failure_count_updated )
+            openness_score_reason_updated)
 
         result = {
             'openness_score': openness_score,
             'openness_score_reason': openness_score_reason,
-            'openness_score_failure_count': openness_score_failure_count,
-            'openness_score_updated': openness_score_updated,
-            'openness_score_reason_updated': openness_score_reason_updated,
-            'openness_score_failure_count_updated': openness_score_failure_count_updated,
             'openness_updated': last_updated
         }
     except p.toolkit.ObjectNotFound:
@@ -147,7 +137,7 @@ def broken_resource_links_by_dataset():
         left join resource on task_status.entity_id = resource.id
         left join resource_group on resource.resource_group_id = resource_group.id
         left join package on resource_group.package_id = package.id
-        where 
+        where
             entity_id in (select entity_id from task_status where key='openness_score' and value='0')
         and key='openness_score_reason' 
         and package.state = 'active' 
@@ -400,9 +390,9 @@ def broken_resource_links_for_organisation(organisation_name,
             ('status', row.task_status_value),
             ))
         if row.task_status_error:
-            archival_properties = json.loads(row.task_status_error)
-            for key, value in archival_properties.items():
-                if key in archival_properties_as_dates:
+            item_properties = json.loads(row.task_status_error)
+            for key, value in item_properties.items():
+                if key in item_properties_as_dates:
                     row_data[key] = datetime.datetime(*map(int, re.split('[^\d]', value)[:-1])) \
                                     if value else None
                 else:
@@ -415,3 +405,93 @@ def broken_resource_links_for_organisation(organisation_name,
     return {'publisher_name': organisation_name,
             'publisher_title': organisation_title,
             'data': data}
+
+def organisation_dataset_scores(organisation_name,
+                                include_sub_organisations=False):
+    '''
+    Returns a dictionary detailing dataset openness scores for the organisation
+
+    i.e.:
+    {'publisher_name': 'cabinet-office',
+     'publisher_title:': 'Cabinet Office',
+     'data': [
+       {'package_name', 'package_title', 'resource_url', 'score', 'reason', 'last_updated'}
+      ...]
+
+    '''
+    values = {}
+    sql = """
+        select package.id as package_id,
+               task_status.key as task_status_key,
+               task_status.value as task_status_value,
+               task_status.last_updated as task_status_last_updated,
+               resource.id as resource_id,
+               resource.url as resource_url,
+               resource.position,
+               package.title as package_title,
+               package.name as package_name,
+               "group".id as publisher_id,
+               "group".name as publisher_name,
+               "group".title as publisher_title
+        from resource
+            left join task_status on task_status.entity_id = resource.id
+            left join resource_group on resource.resource_group_id = resource_group.id
+            left join package on resource_group.package_id = package.id
+            left join member on member.table_id = package.id
+            left join "group" on member.group_id = "group".id
+        where 
+            entity_id in (select entity_id from task_status where task_status.task_type='qa')
+            and package.state = 'active'
+            and resource.state='active'
+            and resource_group.state='active'
+            and "group".state='active'
+            %(org_filter)s
+        order by package.title, package.name, resource.position, task_status.key
+        """
+    sql_options = {}
+    if not include_sub_organisations:
+        sql_options['org_filter'] = 'and "group".name = :org_name'
+        values['org_name'] = organisation_name
+    else:
+        org = model.Group.by_name(organisation_name)
+        sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
+        sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
+
+    rows = model.Session.execute(sql % sql_options, values)
+    data = {} # dataset_name: {properties}
+    for row in rows:
+        package_data = data.get(row.package_name)
+        if not package_data:
+            package_data = OrderedDict((
+                ('dataset_title', row.package_title),
+                ('dataset_name', row.package_name),
+                ('publisher_title', row.publisher_title),
+                ('publisher_name', row.publisher_name),
+                # the rest are placeholders to hold the details
+                # of the highest scoring resource
+                ('resource_position', None),
+                ('resource_id', None),
+                ('resource_url', None),
+                ('openness_score', None),
+                ('openness_score_reason', None),
+                ('last_updated', None),
+                ))
+        if row.task_status_key == 'openness_score' and \
+           (not package_data['openness_score'] or \
+            row.task_status_value > package_data['openness_score']):
+            package_data['resource_position'] = row.position
+            package_data['resource_id'] = row.resource_id
+            package_data['resource_url'] = row.resource_url
+            package_data['openness_score'] = row.task_status_value
+            package_data['openness_score_reason'] = None # filled in next row
+            package_data['last_updated'] = row.task_status_last_updated
+        elif row.task_status_key == 'openness_score_reason' and \
+             package_data['resource_id'] == row.resource_id:
+            package_data['openness_score_reason'] = row.task_status_value
+        data[row.package_name] = package_data
+
+    organisation_title = model.Group.by_name(organisation_name).title
+
+    return {'publisher_name': organisation_name,
+            'publisher_title': organisation_title,
+            'data': data.values()}
