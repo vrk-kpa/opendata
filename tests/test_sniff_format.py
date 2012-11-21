@@ -124,6 +124,8 @@ class TestSniffFormat:
         self.check_format('psv')
     def test_wms(self):
         self.check_format('wms')
+    def test_ics(self):
+        self.check_format('ics')
 
 def test_is_json():
     assert is_json('5', log)
