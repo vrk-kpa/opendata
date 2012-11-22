@@ -445,6 +445,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         parsed_url = urlparse.urlparse(resource.get('url'))
         try:
             file_name = parsed_url.path.split('/')[-1] or 'resource'
+            file_name = file_name.strip() # trailing spaces cause problems
         except:
             file_name = "resource"
         saved_file = os.path.join(archive_dir, file_name)
