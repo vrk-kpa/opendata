@@ -301,7 +301,7 @@ def score_by_sniffing_data(context, data, score_reasons, log):
     
 def score_by_url_extension(data, score_reasons, log):
     formats_by_extension = Formats.by_extension()
-    extension_variants_ = extension_variants(data['url'])
+    extension_variants_ = extension_variants(data['url'].strip())
     if not extension_variants_:
         score_reasons.append('Could not determine a file extension in the URL.')
         return None
