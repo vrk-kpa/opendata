@@ -156,7 +156,11 @@ def update(context, data):
         log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
         _update_task_status(context, _task_status_data(resource['id'], result), log)
         log.info('CKAN updated with openness score')
-        update_search_index(context, resource['package'], log)
+        package = resource.get('package')
+        if package:
+            update_search_index(context, resource['package'], log)
+        else:
+            log.warning('Resource not connected to a package. Res: %r', resource)
         return json.dumps(result)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
