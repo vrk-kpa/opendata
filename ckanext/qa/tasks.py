@@ -121,7 +121,7 @@ def update_package(context, data):
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         _update_task_status(context, {
-            'entity_id': data['id'],
+            'entity_id': package['id'],
             'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'celery_task_id',
@@ -263,12 +263,9 @@ def resource_score(context, data, log):
     return result
 
 def score_by_sniffing_data(context, data, score_reasons, log):
-    try:
-        filepath = get_cached_resource_filepath(data.get('cache_url'))
-    except ArchiverError, e:
-        log.error(e)
-        sniffed_format = None
-        score_reasons.append('Operational error occurred when accessing cached copy of the data, so cannot determine format from the contents.')
+    filepath = data.get('cache_filepath')
+    if filepath and not os.path.exists(filepath):
+        score_reasons.append('Cache filepath does not exist: "%s".' % filepath)
         return None
     else:
         if filepath:
@@ -297,9 +294,12 @@ def score_by_sniffing_data(context, data, score_reasons, log):
                 score_reasons.append('A system error occurred during downloading this file. Reason: %s. Using other methods to determine file openness.' % \
                                      archiver_status['reason'])
                 return None
-            else:
+            elif archiver_status['value']:
                 score_reasons.append('Downloading this file failed. A system error occurred determining the reason for the error: %s Using other methods to determine file openness.' % \
                                      archiver_status['value'])
+                return None
+            else:
+                score_reasons.append('This file had not been downloaded at the time of scoring it.')
                 return None
                 
     

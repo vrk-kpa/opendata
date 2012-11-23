@@ -25,12 +25,3 @@ class TestQAController(TestController):
         response = self.app.get(url)
         assert 'broken resource' in response, response
         
-    def test_package_openness_scores(self):
-        context = {'model': model, 'session': model.Session}
-        for p in model.Session.query(model.Package):
-            context['id'] = p.id
-            p = package_dictize(p, context)
-        url = url_for('qa_dataset_action', action='five_stars')
-        response = self.app.get(url)
-        assert 'Openness Scores' in response, response
-

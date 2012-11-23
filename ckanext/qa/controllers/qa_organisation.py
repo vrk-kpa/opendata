@@ -4,6 +4,8 @@ from ckan.lib.base import render, c, BaseController, request
 from ckanext.qa.reports import (
     broken_resource_links_for_organisation,
     organisations_with_broken_resource_links,
+    organisation_score_summaries,
+    organisation_dataset_scores,
 )
 
 class QAOrganisationController(BaseController):
@@ -24,12 +26,12 @@ class QAOrganisationController(BaseController):
 
     def scores(self, id=None):
         c.include_sub_publishers = t.asbool(request.params.get('include_sub_publishers', False))
-        #TODO
         if id is None:
-            c.organisations = organisations_with_broken_resource_links_by_name()
-            return render('ckanext/qa/organisation/broken_resource_links/index.html')
+            c.query = organisation_score_summaries
+            c.organisations = c.query(include_sub_organisations=c.include_sub_publishers)
+            return render('ckanext/qa/organisation/scores/index.html')
         else:
             c.org_name = id
-            c.data = broken_resource_links_by_dataset_for_organisation_detailed(organisation_name=id)
-            c.query = broken_resource_links_by_dataset_for_organisation_detailed
-            return render('ckanext/qa/organisation/broken_resource_links/organisation.html')
+            c.query = organisation_dataset_scores
+            c.data = c.query(organisation_name=id, include_sub_organisations=c.include_sub_publishers)
+            return render('ckanext/qa/organisation/scores/organisation.html')

@@ -9,6 +9,7 @@ import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.dictization.model_dictize as model_dictize
 from ckan.lib.helpers import json
+from ckan.lib.search.query import PackageSearchQuery
 from ckanext.dgu.lib.publisher import go_down_tree, go_up_tree
 
 import logging
@@ -16,6 +17,9 @@ import logging
 log = logging.getLogger(__name__)
 
 resource_dictize = model_dictize.resource_dictize
+
+def convert_sqlalchemy_result_to_DictObj(result):
+    return DictObj(zip(result.keys(), result))
 
 class DictObj(dict):
     """\
@@ -43,51 +47,62 @@ class DictObj(dict):
             'You cannot set attributes of this DictObject directly'
         )
 
-def five_stars(id=None):
-    """
-    Return a list of dicts: 1 for each dataset that has an openness score.
+def dataset_five_stars(dataset_id):
+    '''For a dataset, return an overall five star score plus textual details of
+    why it merits that.
+    Of the resources, it returns details of the one with the highest QA score.
+    Returns a dict of {'name': <package name>,
+                       'title': <package title>,
+                       'id': <resource id>,
+                       'last_updated': <date of last update of openness score
+                                        (datetime)>,
+                       'value': <openness score (int)>,
+                       'reason': <text describing score reasoning>}
+    '''
 
-    Each dict is of the form:
-        {'name': <string>, 'title': <string>, 'openness_score': <int>}
-    """
-    if id:
-        pkg = model.Package.get(id)
-        if not pkg:
-            return "Not found"
-
-    # take the maximum openness score among dataset resources to be the
-    # overall dataset openness core
-    query = model.Session.query(model.Package.name, model.Package.title,
-                                func.max(model.TaskStatus.value).label('value'))\
+    from sqlalchemy.sql.expression import desc
+    import ckan.model as model
+    # Run a query to choose the most recent, highest qa score of all resources in this dataset.
+    query = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'),)\
         .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key==u'openness_score')\
-        .filter(model.Package.state==u'active')\
+        .filter(model.Package.id == dataset_id)\
         .filter(model.Resource.state==u'active')\
-        .filter(model.ResourceGroup.state==u'active')\
-        .group_by(model.Package.name, model.Package.title)\
-        .order_by(model.Package.title)\
-        .distinct()
+        .order_by(desc(model.TaskStatus.value))\
+        .order_by(desc(model.TaskStatus.last_updated))\
 
-    if id:
-        query = query.filter(model.Package.id == pkg.id)
+    report = query.first()
+    if not report:
+        return None
 
-    results = []
-    for row in query:
-        results.append({
-            'name': row.name,
-            'title': row.title,
-            'openness_score': row.value
-        })
-    return results
+    # Transfer to a DictObj - I don't trust the SqlAlchemy result to
+    # exist for the remainder of the request, although it's not disappeared
+    # in practice.
+    result = convert_sqlalchemy_result_to_DictObj(report)
+    result['value'] = int(report.value)
+
+    # Get openness_reason for the score on that resource on that date
+    query = model.Session.query(model.Resource.id, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'),)\
+        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+        .filter(model.TaskStatus.key == u'openness_score_reason')\
+        .filter(model.Resource.id == report.id)\
+        .order_by(desc(model.TaskStatus.last_updated))
+    reason_result = query.first()
+    openness_score_reason = query.first().value if reason_result else 'Not yet available'
+    result['reason'] = openness_score_reason
+
+    return result
 
 def resource_five_stars(id):
     """
     Return a dict containing the QA results for a given resource
 
     Each dict is of the form:
-        {'openness_score': <int>, 'openness_score_reason': <string>, 'failure_count': <int>}
+        {'openness_score': <int>,
+         'openness_score_reason': <string>,
+         'openness_update': <datetime>}
     """
     if id:
         r = model.Resource.get(id)
@@ -108,9 +123,10 @@ def resource_five_stars(id):
         openness_score_reason = status.get('value')
         openness_score_reason_updated = status.get('last_updated')
 
-        last_updated = max( 
+        last_updated_datestamp = max(
             openness_score_updated,
             openness_score_reason_updated)
+        last_updated = datetime.datetime(*map(int, re.split('[^\d]', last_updated_datestamp)[:-1]))
 
         result = {
             'openness_score': openness_score,
@@ -155,21 +171,6 @@ def broken_resource_links_by_dataset():
             results[row.package_id] = DictObj(name=row.name, title=row.title, resources=[DictObj(url=row.url, openness_score_reason=row.reason)])
     return results.values()
 
-def broken_resource_links_by_dataset_for_organisation(organisation_id):
-    results = _get_broken_resource_links(organisation_id)
-    if not results:
-        id_ = title = ''
-        packages = {}
-    else:
-        organisation_tuple, package_resource_dict = results.items()[0]
-        title, id_ = organisation_tuple
-        packages = package_resource_dict
-    return {
-            'id': id_,
-            'title': title,
-            'packages': packages,
-        }
-
 def organisations_with_broken_resource_links_by_name():
     result = _get_broken_resource_links().keys()
     result.sort()
@@ -181,6 +182,44 @@ def organisations_with_broken_resource_links(include_resources=False):
 
 not_broken_but_0_stars = set(('Chose not to download',))
 archiver_status__not_broken_link = set(('Chose not to download', 'Archived successfully'))
+
+def organisation_score_summaries(include_sub_organisations=False):
+    '''Returns a list of all organisations with a summary of scores.
+    Does SOLR query to be quicker.
+    '''
+    publisher_scores = []
+    for publisher in model.Group.all(group_type='publisher'):
+        if include_sub_organisations:
+            q = 'parent_publishers:%s' % publisher.name
+        else:
+            q = 'publisher:%s' % publisher.name
+        query = {
+            'q': q,
+            'facet': 'true',
+            'facet.mincount': 1,
+            'facet.limit': 10,
+            'facet.field': ['openness_score'],
+            'rows': 0,
+            }
+        solr_searcher = PackageSearchQuery()
+        dataset_result = solr_searcher.run(query)
+        score = solr_searcher.facets['openness_score']
+        publisher_score = OrderedDict((
+            ('publisher_title', publisher.title),
+            ('publisher_name', publisher.name),
+            ('dataset_count', dataset_result['count']),
+            ('TBC', score.get('-1', 0)),
+            (0, score.get('0', 0)),
+            (1, score.get('1', 0)),
+            (2, score.get('2', 0)),
+            (3, score.get('3', 0)),
+            (4, score.get('4', 0)),
+            (5, score.get('5', 0)),
+            ))
+        publisher_score['total_stars'] = sum([(score.get(str(i), 0) * i) for i in range(6)])
+        publisher_score['average_stars'] = float(publisher_score['total_stars']) / publisher_score['dataset_count'] if publisher_score['dataset_count'] else 0
+        publisher_scores.append(publisher_score)
+    return sorted(publisher_scores, key=lambda x: -x['total_stars'])
 
 def scores_by_dataset_for_organisation(organisation_name):
     '''
@@ -375,7 +414,7 @@ def broken_resource_links_for_organisation(organisation_name,
         sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
         sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
-    archival_properties_as_dates = set(('first_failure', 'last_success'))
+    item_properties_as_dates = set(('first_failure', 'last_success'))
     rows = model.Session.execute(sql % sql_options, values)
     data = []
     for row in rows:
@@ -454,6 +493,7 @@ def organisation_dataset_scores(organisation_name,
         values['org_name'] = organisation_name
     else:
         org = model.Group.by_name(organisation_name)
+        assert org, 'Could not find organisation'
         sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
         sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
@@ -488,6 +528,7 @@ def organisation_dataset_scores(organisation_name,
         elif row.task_status_key == 'openness_score_reason' and \
              package_data['resource_id'] == row.resource_id:
             package_data['openness_score_reason'] = row.task_status_value
+
         data[row.package_name] = package_data
 
     organisation_title = model.Group.by_name(organisation_name).title

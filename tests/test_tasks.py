@@ -62,12 +62,14 @@ class TestResourceScore(BaseCase):
 
         cls.fake_context = {
             'site_url': cls.fake_ckan_url,
-            'apikey': u'fake_api_key'
+            'apikey': u'fake_api_key',
+            'site_user_apikey': u'fake_api_key',
         }
         cls.fake_resource = {
             'id': u'fake_resource_id',
             'url': 'http://remotesite.com/filename.csv',
-            'cache_url': '/resources/filename.csv',
+            'cache_url': 'http://remotesite.com/resources/filename.csv',
+            'cache_filepath': __file__, # must exist
             'package': u'fake_package_id',
             'is_open': True,
             'position': 2,
@@ -93,7 +95,9 @@ class TestResourceScore(BaseCase):
 
     def test_not_cached(self):
         data = copy.deepcopy(self.fake_resource)
+        data['url'] = 'http://remotesite.com/filename'
         data['cache_url'] = None
+        data['cache_filepath'] = None
         result = resource_score(self.fake_context, data, log)
         # falls back on fake_ckan task status data detailing failed attempts
         assert result['openness_score'] == 0, result
@@ -185,6 +189,7 @@ class TestResourceScore(BaseCase):
         data = copy.deepcopy(self.fake_resource)
         data['is_open'] = False
         data['cache_url'] = None
+        data['cache_filepath'] = None
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
         # in preference it should report that it is not available
