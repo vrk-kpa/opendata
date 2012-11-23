@@ -112,16 +112,17 @@ def download(context, resource, url_timeout=30,
         resource['size'] = content_length
 
     # make sure resource content-length does not exceed our maximum
-    try:
-        content_length = int(content_length)
-    except ValueError:
-        # if there are multiple Content-Length headers, requests
-        # will return all the values, comma separated
-        if ',' in content_length:
-            try:
-                content_length = int(content_length.split(',')[0])
-            except ValueError:
-                pass
+    if content_length:
+        try:
+            content_length = int(content_length)
+        except ValueError:
+            # if there are multiple Content-Length headers, requests
+            # will return all the values, comma separated
+            if ',' in content_length:
+                try:
+                    content_length = int(content_length.split(',')[0])
+                except ValueError:
+                    pass
     if isinstance(content_length, int) and \
        int(content_length) >= max_content_length:
             if resource_changed:
@@ -512,7 +513,7 @@ def _update_resource(context, resource, log):
     If cannot update, records this fact in the task_status table.
 
     Params:
-      context - dict containing 'apikey' and 'site_url'
+      context - dict containing 'site_user_apikey' and 'site_url'
       resource - dict of the resource containing
 
     Returns the content of the response. 
@@ -523,7 +524,7 @@ def _update_resource(context, resource, log):
     post_data = json.dumps(resource)
     res = requests.post(
         api_url, post_data,
-        headers = {'Authorization': context['apikey'],
+        headers = {'Authorization': context['site_user_apikey'],
                    'Content-Type': 'application/json'}
     )
     
@@ -582,7 +583,7 @@ def get_task_status(key, context, resource_id, log):
         api_url,
         json.dumps({'entity_id': resource_id, 'task_type': 'archiver',
                     'key': key}),
-        headers={'Authorization': context['apikey'],
+        headers={'Authorization': context['site_user_apikey'],
                  'Content-Type': 'application/json'}
     )
     if response.content:
@@ -667,7 +668,7 @@ def convert_requests_exceptions(func, *args, **kwargs):
     except requests.exceptions.HTTPError, e:
         raise DownloadError('Invalid HTTP response: %s' % e)
     except requests.exceptions.Timeout, e:
-        raise DownloadError('Connection timed out after %ss' % url_timeout)
+        raise DownloadError('Connection timed out after %ss' % kwargs.get('timeout', '?'))
     except requests.exceptions.TooManyRedirects, e:
         raise DownloadError('Too many redirects')
     except requests.exceptions.RequestException, e:
