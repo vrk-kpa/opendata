@@ -26,7 +26,8 @@ from ckanext.archiver.tasks import (link_checker,
                                     ArchiverError,
                                     DownloadError,
                                     ChooseNotToDownload,
-                                    LinkCheckerError, 
+                                    LinkCheckerError,
+                                    LinkInvalidError,
                                     CkanError,
                                    )
 
@@ -70,16 +71,16 @@ class TestLinkChecker(BaseCase):
         plugins.load_all(config)
 
     def test_file_url(self):
-        url = u'file:///home/root/test.txt'
+        url = u'file:///home/root/test.txt' # schema not allowed
         context = json.dumps({})
         data = json.dumps({'url': url})
-        assert_raises(LinkCheckerError, link_checker, context, data)
+        assert_raises(LinkInvalidError, link_checker, context, data)
 
     def test_bad_url(self):
-        url = u'file:///home/root/test.txt'
+        url = u'http:www.buckshealthcare.nhs.uk/freedom-of-information.htm'
         context = json.dumps({})
         data = json.dumps({'url': url})
-        assert_raises(LinkCheckerError, link_checker, context, data)
+        assert_raises(LinkInvalidError, link_checker, context, data)
 
     @with_mock_url('+/http://www.homeoffice.gov.uk/publications/science-research-statistics/research-statistics/drugs-alcohol-research/hosb1310/hosb1310-ann2tabs?view=Binary')
     def test_non_escaped_url(self, url):
@@ -194,6 +195,40 @@ class TestArchiver(BaseCase):
                 if 'fake_resource_id' in resource_folder:
                     shutil.rmtree(resource_folder)
 
+    def assert_in_task_status_error(self, error_message_fragment):
+        err = self._task_status_error()
+        if error_message_fragment not in err:
+            print 'ERROR: %s' % err
+            raise AssertionError(err)
+
+    def _task_status_error(self):
+        res = requests.get(self.fake_ckan_url + '/last_request')
+        try:
+            error = json.loads(res.content)['data']['error']
+        except KeyError, e:
+            print repr(res)
+            print res.content
+            raise
+        return json.loads(error)['reason']
+
+    def test_file_url(self):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = u'file:///home/root/test.txt' # schema not allowed
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+        self.assert_in_task_status_error('Invalid url scheme')
+
+    def test_bad_url(self):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = 'http:host.com/' # no slashes
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+        self.assert_in_task_status_error('Failed to parse')
+
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_resource_hash_and_content_length(self, url):
         context = json.dumps(self.fake_context)
@@ -225,7 +260,7 @@ class TestArchiver(BaseCase):
 
         self._remove_archived_file(result.get('file_path'))
 
-    @with_mock_url('?content-type=arfle-barfle-gloop')
+    @with_mock_url('?content-type=arfle-barfle-gloop&content=test')
     def test_update_url_with_unknown_content_type(self, url):
         context = json.dumps(self.fake_context)
         resource = self.fake_resource
@@ -233,7 +268,7 @@ class TestArchiver(BaseCase):
         resource['url'] = url
         data = json.dumps(resource)
         result = update(context, data)
-        assert not result, result
+        assert result, result
 
     @with_mock_url('?status=200&content-type=csv')
     def test_update_with_zero_length(self, url):
@@ -245,9 +280,12 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
+        self.assert_in_task_status_error('Content-length after streaming was 0')
 
     @with_mock_url('?status=200&method=get&content=test&content-type=csv')
     def test_head_unsupported(self, url):
+        # This test was more relevant when we did HEAD requests. Now servers
+        # which respond badly to HEAD requests are not an issue.
         context = json.dumps(self.fake_context)
         resource = self.fake_resource
         resource['url'] = url
@@ -267,6 +305,7 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
+        self.assert_in_task_status_error('Content-length 100 exceeds maximum allowed value 15')
 
     @with_mock_url('?status=200&content=test_contents_greater_than_the_max_length&no-content-length&content-type=csv')
     def test_file_too_large_2(self, url):
@@ -277,6 +316,7 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
+        self.assert_in_task_status_error('Content-length 41 exceeds maximum allowed value 15')
 
     @with_mock_url('?status=200&content=content&length=abc&content-type=csv')
     def test_content_length_not_integer(self, url):

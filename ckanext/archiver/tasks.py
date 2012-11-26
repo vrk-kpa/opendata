@@ -4,6 +4,7 @@ import httplib
 import requests
 import json
 import urllib
+import urllib3
 import urlparse
 import tempfile
 import traceback
@@ -84,8 +85,7 @@ def download(context, resource, url_timeout=30,
     
     url = resource['url']
 
-    # browsers remove trailing whitespace
-    url = url.strip()
+    url = tidy_url(url)
 
     if (resource.get('resource_type') == 'file.upload' and
         not url.startswith('http')):
@@ -229,6 +229,8 @@ def update(context, data):
         result = _update(context, data) 
         return result
     except Exception, e:
+        if os.environ.get('DEBUG'):
+            raise
         # Any problem at all is recorded in task_status and then reraised
         log.error('Error occurred during archiving resource: %s\nResource: %r',
                   e, data)
@@ -322,6 +324,8 @@ def _update(context, resource):
         _save_status(False, 'Chose not to download', e, status, resource['id'])
         return
     except Exception, e:
+        if os.environ.get('DEBUG'):
+            raise
         log.error('Uncaught download failure: %r, %r', e, e.args)
         _save_status(False, 'Download failure', e, status, resource['id'])
         return
@@ -367,9 +371,53 @@ def link_checker(context, data):
     error_message = ''
     headers = {}
 
+    url = tidy_url(data['url'])
+
+    # Send a head request
+    try:
+        res = requests.head(url, timeout=url_timeout)
+        headers = res.headers
+    except httplib.InvalidURL, ve:
+        log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
+        raise LinkHeadRequestError("Invalid URL or Redirect Link")
+    except ValueError, ve:
+        log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
+        raise LinkHeadRequestError("Could not make HEAD request")
+    except requests.exceptions.ConnectionError, e:
+        raise LinkHeadRequestError('Connection error: %s' % e)
+    except requests.exceptions.HTTPError, e:
+        raise LinkHeadRequestError('Invalid HTTP response: %s' % e)
+    except requests.exceptions.Timeout, e:
+        raise LinkHeadRequestError('Connection timed out after %ss' % url_timeout)
+    except requests.exceptions.TooManyRedirects, e:
+        raise LinkHeadRequestError('Too many redirects')
+    except requests.exceptions.RequestException, e:
+        raise LinkHeadRequestError('Error during request: %s' % e)
+    except Exception, e:
+        raise LinkHeadRequestError('Error with the request: %s' % e)
+    else:
+        if res.status_code == 405:
+            # this suggests a GET request may be ok, so proceed to that
+            # in the download
+            raise LinkHeadMethodNotSupported()
+        if res.error or res.status_code >= 400:
+            if res.status_code in HTTP_ERROR_CODES:
+                error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
+            else:
+                error_message = "URL unobtainable: Server returned HTTP %s" % res.status_code
+            raise LinkHeadRequestError(error_message)
+    return json.dumps(headers)
+
+def tidy_url(url):
+    '''
+    Given a URL it does various checks before returning a tidied version
+    suitable for calling.
+
+    It may raise LinkInvalidError if the URL has a problem.
+    '''
+
     # Find out if it has unicode characters, and if it does, quote them 
     # so we are left with an ascii string
-    url = data['url']
     try:
         url = url.decode('ascii')
     except:
@@ -382,47 +430,23 @@ def link_checker(context, data):
     # (browsers appear to do this)
     url = url.strip()
 
-    # parse url
-    parsed_url = urlparse.urlparse(url)
+    # Use urllib3 to parse the url ahead of time, since that is what
+    # requests uses, but when it does it during a GET, errors are not
+    # caught well
+    try:
+        parsed_url = urllib3.util.parse_url(url)
+    except urllib3.exceptions.LocationParseError, e:
+        raise LinkInvalidError('URL parsing failure: %s' % e)
+
     # Check we aren't using any schemes we shouldn't be
     if not parsed_url.scheme in ALLOWED_SCHEMES:
         raise LinkInvalidError('Invalid url scheme. Please use one of: %s' % \
                                ' '.join(ALLOWED_SCHEMES))
-    else:
-        # Send a head request
-        try:
-            res = requests.head(url, timeout=url_timeout)
-            headers = res.headers
-        except httplib.InvalidURL, ve:
-            log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
-            raise LinkHeadRequestError("Invalid URL or Redirect Link")
-        except ValueError, ve:
-            log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
-            raise LinkHeadRequestError("Could not make HEAD request")
-        except requests.exceptions.ConnectionError, e:
-            raise LinkHeadRequestError('Connection error: %s' % e)
-        except requests.exceptions.HTTPError, e:
-            raise LinkHeadRequestError('Invalid HTTP response: %s' % e)
-        except requests.exceptions.Timeout, e:
-            raise LinkHeadRequestError('Connection timed out after %ss' % url_timeout)
-        except requests.exceptions.TooManyRedirects, e:
-            raise LinkHeadRequestError('Too many redirects')
-        except requests.exceptions.RequestException, e:
-            raise LinkHeadRequestError('Error during request: %s' % e)
-        except Exception, e:
-            raise LinkHeadRequestError('Error with the request: %s' % e)
-        else:
-            if res.status_code == 405:
-                # this suggests a GET request may be ok, so proceed to that
-                # in the download
-                raise LinkHeadMethodNotSupported()
-            if res.error or res.status_code >= 400:
-                if res.status_code in HTTP_ERROR_CODES:
-                    error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
-                else:
-                    error_message = "URL unobtainable: Server returned HTTP %s" % res.status_code
-                raise LinkHeadRequestError(error_message)
-    return json.dumps(headers)
+
+    if not parsed_url.host:
+        raise LinkInvalidError('URL parsing failure - did not find a host name')
+
+    return url
 
 def archive_resource(context, resource, log, result=None, url_timeout=30):
     """
@@ -453,6 +477,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
         log.info('Archived resource as: %s', saved_file)
+        previous_cache_filepath = resource.get('cache_filepath')
         resource['cache_filepath'] = saved_file
         
         # update the resource object: set cache_url and cache_last_updated
@@ -464,6 +489,9 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
                 resource['cache_url'] = cache_url
                 resource['cache_last_updated'] = datetime.datetime.now().isoformat()
                 log.info('Updating resource with cache_url=%s', cache_url)
+                _update_resource(context, resource, log)
+            elif resource.get('cache_filepath') != previous_cache_filepath:
+                log.info('Updating just cache_filepath for resource with cache_url=%s', cache_url)
                 _update_resource(context, resource, log)
             else:
                 log.info('Not updating resource since cache_url is unchanged: %s',
@@ -647,7 +675,7 @@ def save_status(context, resource_id, status, reason,
                 }),
             'last_updated': now
         }
-    
+
     update_task_status(context, data, log)
     log.info('Saved status: %r reason=%r last_success=%r first_failure=%r failure_count=%r',
              status, reason, last_success, first_failure, failure_count)
@@ -674,5 +702,7 @@ def convert_requests_exceptions(func, *args, **kwargs):
     except requests.exceptions.RequestException, e:
         raise DownloadError('Error downloading: %s' % e)
     except Exception, e:
+        if os.environ.get('DEBUG'):
+            raise
         raise DownloadError('Error with the download: %s' % e)
     return response
