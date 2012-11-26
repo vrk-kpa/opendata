@@ -98,7 +98,7 @@ class TestLinkChecker(ControllerTestCase):
     def test_empty_url(self):
         url =  u''
         result = self.check_link(url)
-        assert_in("Error with the request: 'NoneType' object has no attribute 'encode'", result['url_errors'])
+        assert_in("URL parsing failure - did not find a host name", result['url_errors'])
 
     @with_mock_url('?status=503')
     def test_url_with_503(self, url):

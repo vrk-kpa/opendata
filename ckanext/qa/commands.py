@@ -79,6 +79,7 @@ class QACommand(p.toolkit.CkanCommand):
         context = json.dumps({
             'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
             'apikey': user.get('apikey'),
+            'site_user_apikey': user.get('apikey'),
             'username': user.get('name'),
         })
 
