@@ -24,6 +24,7 @@ setup(
         'requests==0.14',
         'python-magic==0.4.3',
         'xlrd==0.8.0',
+        'messytables',
     ],
     tests_require=[
         'nose',

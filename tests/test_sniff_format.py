@@ -3,8 +3,7 @@ import logging
 
 from nose.tools import raises, assert_equal
 
-from ckanext.qa import tasks
-from ckanext.qa.sniff_format import is_json
+from ckanext.qa.sniff_format import sniff_file_format, is_json
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('sniff')
@@ -22,7 +21,7 @@ class TestSniffFormat:
 
     def test_all(self):
         for format_, filepath in self.fixture_files:
-            sniffed_format = tasks.sniff_file_format(filepath, log)
+            sniffed_format = sniff_file_format(filepath, log)
             print 'Testing %s %s' % (format_, filepath)
             assert sniffed_format, format_
             assert_equal(sniffed_format['extension'] or \
@@ -41,7 +40,7 @@ class TestSniffFormat:
                     break
         else:
             assert 0, format #Could not find fixture for format
-        sniffed_format = tasks.sniff_file_format(filepath, log)
+        sniffed_format = sniff_file_format(filepath, log)
         assert sniffed_format, format_
         assert_equal(sniffed_format['extension'] or \
                      sniffed_format['display_name'].lower(), format_)
