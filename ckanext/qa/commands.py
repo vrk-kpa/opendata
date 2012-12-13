@@ -194,7 +194,7 @@ class QACommand(p.toolkit.CkanCommand):
         for filepath in self.args[1:]:
             format_ = sniff_file_format(filepath, logging.getLogger('ckanext.qa.sniffer'))
             if format_:
-                print 'Detected as: %s' % format_['display_name']
+                print 'Detected as: %s - %s' % (format_['display_name'], filepath)
             else:
                 print 'ERROR: Could not recognise format of: %s' % filepath
 
