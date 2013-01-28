@@ -7,6 +7,7 @@ import json
 import requests
 import urlparse
 import os
+import re
 
 from pylons import config
 
@@ -222,7 +223,7 @@ def resource_score(context, data, log):
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
-        
+
         # we don't want to take the publisher's word for it, in case the link
         # is only to a landing page, so highest priority is the sniffed type
         score = score_by_sniffing_data(context, data, score_reasons, log)
@@ -262,7 +263,45 @@ def resource_score(context, data, log):
 
     return result
 
+def broken_link_error_message(archiver_status):
+    '''Given an archiver_status for a broken link, it returns a helpful
+    error message (string) describing the attempts.'''
+    messages = ['File could not be downloaded.',
+                'Reason: %s.' % archiver_status['value']]
+    def format_date(iso_date):
+        if iso_date:
+            return datetime.datetime(*map(int, re.split('[^\d]', iso_date)[:-1])).\
+                   strftime('%d/%m/%Y')
+        else:
+            return ''
+    if 'last_updated' in archiver_status:
+        # (older versions of archiver don't return this one)
+        messages.append('Attempted on %s.' % format_date(archiver_status['last_updated']))
+    last_success = format_date(archiver_status['last_success'])
+    if archiver_status['failure_count'] in (1, '1'):
+        if last_success:
+            messages.append('This URL worked the previous time: %s.' % last_success)
+        else:
+            messages.append('This was the first attempt.')
+    else:
+        messages.append('Tried %s times since %s.' % \
+                        (archiver_status['failure_count'],
+                         format_date(archiver_status['first_failure'])))
+        if last_success:
+            messages.append('This URL last worked on: %s.' % last_success)
+        else:
+            messages.append('This URL has not worked in the history of this tool.')
+    messages.append('Error details: %s' % archiver_status['reason'])
+    return ' '.join(messages)
+
 def score_by_sniffing_data(context, data, score_reasons, log):
+    archiver_status = get_archiver_status(context, data['id'], log)
+    if archiver_status['value'] in ('URL invalid', 'URL request failed', 'Download error'):
+        # Score 0 since we are sure the link is currently broken
+        score_reasons.append(broken_link_error_message(archiver_status))
+        return 0
+
+    # Link is not broken so analyse the cached file
     filepath = data.get('cache_filepath')
     if filepath and not os.path.exists(filepath):
         score_reasons.append('Cache filepath does not exist: "%s".' % filepath)
@@ -278,15 +317,7 @@ def score_by_sniffing_data(context, data, score_reasons, log):
                 return None
         else:
             # No cache_url
-            archiver_status = get_archiver_status(context, data['id'], log)
-            if archiver_status['value'] in ('URL invalid', 'URL request failed', 'Download error'):
-                score_reasons.append('File could not be downloaded. Reason: %s. Tried %s times since %s. Error details: %s' % (\
-                    archiver_status['value'],
-                    archiver_status['failure_count'],
-                    archiver_status['first_failure'],
-                    archiver_status['reason']))
-                return 0
-            elif archiver_status['value'] == 'Chose not to download':
+            if archiver_status['value'] == 'Chose not to download':
                 score_reasons.append('File was not downloaded deliberately. Reason: %s. Using other methods to determine file openness.' % \
                                      archiver_status['reason'])
                 return None

@@ -7,6 +7,7 @@ import logging
 import datetime
 from functools import wraps
 import copy
+import urllib
 
 from nose.tools import raises, assert_equal
 from ckan import model
@@ -39,7 +40,37 @@ def set_sniffed_format(format_display_name):
         sniffed_format = Formats.by_display_name()[format_display_name]
     else:
         sniffed_format = None
-    
+
+TASK_STATUS_FAILED_16_TIMES = json.dumps(
+    {'success': True, #meaningless
+     'result': {'value': 'Download error',
+                'error': json.dumps({
+                    'reason': 'Server returned 500 error.',
+                    'last_success': '',
+                    'first_failure': '2008-10-01T19:30:37.536836',
+                    'failure_count': 16,
+                    }),
+                'stack': '',
+                'last_updated': '2008-10-10T19:30:37.536836',
+                }
+     }
+    )
+TASK_STATUS_404 = json.dumps(
+    {'success': True, #meaningless
+     'result': {'value': 'Download error',
+                'error': json.dumps({
+                    'reason': 'Server reported status error: 404 Not Found',
+                    'last_success': '2012-09-01T19:30:37.536836',
+                    'first_failure': '2012-10-01T19:30:37.536836',
+                    'failure_count': 1,
+                    }),
+                'stack': '',
+                'last_updated': '2008-10-01T19:30:37.536836',
+                }
+     }
+    )
+
+
 class TestResourceScore(BaseCase):
 
     @classmethod
@@ -79,6 +110,22 @@ class TestResourceScore(BaseCase):
     def teardown_class(cls):
         cls.fake_ckan.kill()
 
+    def setup(self):
+        self.set_task_status_ok()
+
+    @classmethod
+    def set_task_status(cls, task_status_str):
+        url = '%s/set_task_status/%s' % (cls.fake_ckan_url,
+                                         urllib.quote(task_status_str))
+        res = requests.get(url)
+        assert res.status_code == 200
+    
+    @classmethod
+    def set_task_status_ok(cls):
+        url = '%s/set_task_status_ok' % cls.fake_ckan_url
+        res = requests.get(url)
+        assert res.status_code == 200
+
     def test_by_sniff_csv(self):
         set_sniffed_format('CSV')
         data = self.fake_resource
@@ -98,11 +145,12 @@ class TestResourceScore(BaseCase):
         data['url'] = 'http://remotesite.com/filename'
         data['cache_url'] = None
         data['cache_filepath'] = None
+        self.set_task_status(TASK_STATUS_FAILED_16_TIMES)
         result = resource_score(self.fake_context, data, log)
         # falls back on fake_ckan task status data detailing failed attempts
         assert result['openness_score'] == 0, result
         assert 'File could not be downloaded' in result['openness_score_reason'], result
-        assert 'Tried 16 times since 2008-10-01' in result['openness_score_reason'], result
+        assert 'Tried 16 times since 01/10/2008' in result['openness_score_reason'], result
         assert 'Error details: Server returned 500 error' in result['openness_score_reason'], result
 
     def test_by_extension(self):
@@ -190,10 +238,22 @@ class TestResourceScore(BaseCase):
         data['is_open'] = False
         data['cache_url'] = None
         data['cache_filepath'] = None
+        self.set_task_status(TASK_STATUS_FAILED_16_TIMES)
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
         # in preference it should report that it is not available
-        assert 'File could not be downloaded. Reason: URL request failed. Tried 16 times since 2008-10-01. Error details: Server returned 500 error.' in result['openness_score_reason'], result
+        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Attempted on 10/10/2008. Tried 16 times since 01/10/2008. This URL has not worked in the history of this tool. Error details: Server returned 500 error.')
+
+    def test_not_available_any_more(self):
+        set_sniffed_format('CSV')
+        data = copy.deepcopy(self.fake_resource)
+        # cache still exists from the previous run, but this time, the archiver
+        # found the file gave a 404.
+        self.set_task_status(TASK_STATUS_404)
+        result = resource_score(self.fake_context, data, log)
+        assert result['openness_score'] == 0, result
+        # in preference it should report that it is not available
+        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Attempted on 01/10/2008. This URL worked the previous time: 01/09/2012. Error details: Server reported status error: 404 Not Found')
 
 
 class TestExtensionVariants:
