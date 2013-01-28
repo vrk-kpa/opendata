@@ -267,7 +267,8 @@ def broken_link_error_message(archiver_status):
     '''Given an archiver_status for a broken link, it returns a helpful
     error message (string) describing the attempts.'''
     messages = ['File could not be downloaded.',
-                'Reason: %s.' % archiver_status['value']]
+                'Reason: %s.' % archiver_status['value'],
+                'Error details: %s.' % archiver_status['reason']]
     def format_date(iso_date):
         if iso_date:
             return datetime.datetime(*map(int, re.split('[^\d]', iso_date)[:-1])).\
@@ -291,7 +292,6 @@ def broken_link_error_message(archiver_status):
             messages.append('This URL last worked on: %s.' % last_success)
         else:
             messages.append('This URL has not worked in the history of this tool.')
-    messages.append('Error details: %s' % archiver_status['reason'])
     return ' '.join(messages)
 
 def score_by_sniffing_data(context, data, score_reasons, log):

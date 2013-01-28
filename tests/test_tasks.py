@@ -45,7 +45,7 @@ TASK_STATUS_FAILED_16_TIMES = json.dumps(
     {'success': True, #meaningless
      'result': {'value': 'Download error',
                 'error': json.dumps({
-                    'reason': 'Server returned 500 error.',
+                    'reason': 'Server returned 500 error',
                     'last_success': '',
                     'first_failure': '2008-10-01T19:30:37.536836',
                     'failure_count': 16,
@@ -242,7 +242,7 @@ class TestResourceScore(BaseCase):
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
         # in preference it should report that it is not available
-        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Attempted on 10/10/2008. Tried 16 times since 01/10/2008. This URL has not worked in the history of this tool. Error details: Server returned 500 error.')
+        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server returned 500 error. Attempted on 10/10/2008. Tried 16 times since 01/10/2008. This URL has not worked in the history of this tool.')
 
     def test_not_available_any_more(self):
         set_sniffed_format('CSV')
@@ -253,7 +253,7 @@ class TestResourceScore(BaseCase):
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
         # in preference it should report that it is not available
-        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Attempted on 01/10/2008. This URL worked the previous time: 01/09/2012. Error details: Server reported status error: 404 Not Found')
+        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server reported status error: 404 Not Found. Attempted on 01/10/2008. This URL worked the previous time: 01/09/2012.')
 
 
 class TestExtensionVariants:
