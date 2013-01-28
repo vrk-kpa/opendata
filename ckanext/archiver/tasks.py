@@ -94,7 +94,11 @@ def download(context, resource, url_timeout=30,
     resource_format = resource['format'].lower()
 
     # start the download - just get the headers
+    # May raise DownloadError
     res = convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    if not res.ok: # i.e. 404 or something
+        raise DownloadError('Server reported status error: %s %s' % \
+                            (res.status_code, res.reason))
     log.info('GET succeeded. Content headers: %r', res.headers)
 
     # record headers
@@ -604,7 +608,7 @@ def update_task_status(context, data, log):
 
 def get_task_status(key, context, resource_id, log):
     '''Gets a row from the task_status table as a dict including keys:
-       'value', 'error', 'stack'
+       'value', 'error', 'stack', 'last_updated'
     If the key isn\'t there, returns None.'''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
     response = requests.post(
@@ -639,6 +643,9 @@ def get_status(context, resource_id, log):
     '''Returns a dict of the current archiver 'status'.
     (task status value where key='status')
 
+    Result is dict with keys: value, reason, last_success, first_failure,
+    failure_count, last_updated
+
     May propagate CkanError if the request fails.
     '''
     task_status = get_task_status('status', context, resource_id, log)
@@ -646,10 +653,12 @@ def get_status(context, resource_id, log):
         status = json.loads(task_status['error']) \
                  if task_status['error'] else {}
         status['value'] = task_status['value']
+        status['last_updated'] = task_status['last_updated']
         log.info('Previous status checked ok: %s', status)
     else:
         status = {'value': '', 'reason': '',
-                 'last_success': '', 'first_failure': '', 'failure_count': 0}
+                  'last_success': '', 'first_failure': '', 'failure_count': 0,
+                  'last_updated': ''}
         log.info('Previous status blank - using default: %s', status)
     return status
 

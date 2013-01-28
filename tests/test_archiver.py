@@ -296,6 +296,26 @@ class TestArchiver(BaseCase):
 
         assert result['saved_file']
 
+    @with_mock_url('?status=404&content=test&content-type=csv')
+    def test_file_not_found(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+        self.assert_in_task_status_error('Server reported status error: 404 Not Found')
+
+    @with_mock_url('?status=500&content=test&content-type=csv')
+    def test_server_error(self, url):
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = update(context, data)
+        assert not result, result
+        self.assert_in_task_status_error('Server reported status error: 500 Internal Server Error')
+
     @with_mock_url('?status=200&content=short&length=100&content-type=csv')
     def test_file_too_large_1(self, url):
         # will stop after receiving the header
