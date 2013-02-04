@@ -11,6 +11,7 @@ import ckan.lib.dictization.model_dictize as model_dictize
 from ckan.lib.helpers import json
 from ckan.lib.search.query import PackageSearchQuery
 from ckanext.dgu.lib.publisher import go_down_tree, go_up_tree
+from ckan.lib.base import abort
 
 import logging
 
@@ -406,11 +407,13 @@ def broken_resource_links_for_organisation(organisation_name,
     sql_options = {
         'status_filter': ' and '.join(["task_status.value!='%s'" % status for status in archiver_status__not_broken_link]),
         }
+    org = model.Group.by_name(organisation_name)
+    if not org:
+        abort(404, 'Publisher not found')
     if not include_sub_organisations:
         sql_options['org_filter'] = 'and "group".name = :org_name'
         values['org_name'] = organisation_name
     else:
-        org = model.Group.by_name(organisation_name)
         sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
         sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
@@ -439,7 +442,7 @@ def broken_resource_links_for_organisation(organisation_name,
         row_data['last_updated'] = row.task_status_last_updated
         data.append(row_data)
 
-    organisation_title = model.Group.by_name(organisation_name).title
+    organisation_title = org.title
 
     return {'publisher_name': organisation_name,
             'publisher_title': organisation_title,
@@ -488,12 +491,14 @@ def organisation_dataset_scores(organisation_name,
         order by package.title, package.name, resource.position, task_status.key
         """
     sql_options = {}
+    org = model.Group.by_name(organisation_name)
+    if not org:
+        abort(404, 'Publisher not found')
+
     if not include_sub_organisations:
         sql_options['org_filter'] = 'and "group".name = :org_name'
         values['org_name'] = organisation_name
     else:
-        org = model.Group.by_name(organisation_name)
-        assert org, 'Could not find organisation'
         sub_org_filters = ['"group".name=\'%s\'' % org.name for org in go_down_tree(org)]
         sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
@@ -531,7 +536,7 @@ def organisation_dataset_scores(organisation_name,
 
         data[row.package_name] = package_data
 
-    organisation_title = model.Group.by_name(organisation_name).title
+    organisation_title = org.title
 
     return {'publisher_name': organisation_name,
             'publisher_title': organisation_title,
