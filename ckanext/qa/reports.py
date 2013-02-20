@@ -22,12 +22,13 @@ def five_stars(id=None):
     # take the maximum openness score among dataset resources to be the
     # overall dataset openness core
     query = model.Session.query(model.Package.name, model.Package.title,
-                                func.max(model.TaskStatus.value).label('value'))\
+                                model.Resource.id,
+                                model.TaskStatus.value.label('value'))\
         .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key==u'openness_score')\
-        .group_by(model.Package.name, model.Package.title)\
+        .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value)\
         .distinct()
 
     if id:
@@ -37,7 +38,7 @@ def five_stars(id=None):
     for row in query:
         results.append({
             'name': row.name,
-            'title': row.title,
+            'title': row.title + u' ' + row.id,
             'openness_score': row.value
         })
 

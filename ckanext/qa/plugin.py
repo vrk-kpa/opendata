@@ -1,25 +1,21 @@
 import json
 import datetime
-from genshi.input import HTML
-from genshi.filters import Transformer
-from pylons import request, tmpl_context as c
+import html
+import reports
+
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
-import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
-from ckan.model.types import make_uuid
-import html
-import reports
 
 resource_dictize = model_dictize.resource_dictize
 send_task = celery_app.celery.send_task
 
 
 class QAPlugin(p.SingletonPlugin):
+
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IConfigurable)
-    p.implements(p.IGenshiStreamFilter)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
@@ -128,7 +124,7 @@ class QAPlugin(p.SingletonPlugin):
 
         data = json.dumps(resource_dict)
 
-        task_id = make_uuid()
+        task_id = model.types.make_uuid()
         task_status = {
             'entity_id': resource.id,
             'entity_type': u'resource',
@@ -145,35 +141,6 @@ class QAPlugin(p.SingletonPlugin):
 
         p.toolkit.get_action('task_status_update')(task_context, task_status)
         send_task('qa.update', args=[context, data], task_id=task_id)
-
-    def filter(self, stream):
-        routes = request.environ.get('pylons.routes_dict')
-
-        site_url = h.url('/', locale='default')
-        stream = stream | Transformer('head').append(
-            HTML(html.HEAD_CODE % site_url)
-        )
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'resource_read'):
-
-            star_html = self.get_star_html(c.resource.get('id'))
-            if star_html:
-                stream = stream | Transformer('body//div[@class="quick-info"]//dl')\
-                    .append(HTML(html.DL_HTML % star_html))
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'read' and
-            c.pkg.id):
-
-            for resource in c.pkg_dict.get('resources', []):
-                resource_id = resource.get('id')
-                star_html = self.get_star_html(resource_id)
-                if star_html:
-                    stream = stream | Transformer('body//div[@id="%s"]//p[@class="extra-links"]' % resource_id)\
-                        .append(HTML(star_html))
-
-        return stream
 
     @classmethod
     def get_star_html(cls, resource_id):
