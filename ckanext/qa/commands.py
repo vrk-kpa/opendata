@@ -4,11 +4,8 @@ import requests
 import urlparse
 import logging
 from pylons import config
+
 import ckan.plugins as p
-
-from ckan.lib.cli import CkanCommand
-
-import logging
 
 
 class CkanApiError(Exception):
@@ -54,7 +51,6 @@ class QACommand(p.toolkit.CkanCommand):
         # won't get disabled
         self.log = logging.getLogger('ckanext.qa')
 
-        from ckan.logic import get_action
         from ckan import model
         from ckan.model.types import make_uuid
 
@@ -105,6 +101,11 @@ class QACommand(p.toolkit.CkanCommand):
         else:
             self.log.error('Command "%s" not recognized' % (cmd,))
 
+    def make_post(self, url, data):
+            headers = {'Content-type': 'application/json',
+                       'Accept': 'text/plain'}
+            return requests.post(url, data=json.dumps(data), headers=headers)
+
     def _package_list(self):
         """
         Generate the package dicts as declared in self.args.
@@ -118,9 +119,9 @@ class QACommand(p.toolkit.CkanCommand):
         api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
         if len(self.args) > 1:
             for id in self.args[1:]:
-                data = json.dumps({'id': unicode(id)})
+                data = {'id': unicode(id)}
                 url = api_url + '/package_show'
-                response = requests.post(url, data)
+                response = self.make_post(url, data)
                 if not response.ok:
                     err = ('Failed to get package %s from url %r: %s' %
                            (id, url, response.error))
@@ -130,8 +131,7 @@ class QACommand(p.toolkit.CkanCommand):
         else:
             page, limit = 1, 100
             url = api_url + '/current_package_list_with_resources'
-            response = requests.post(url,
-                                     json.dumps({'page': page, 'limit': limit}))
+            response = self.make_post(url, {'page': page, 'limit': limit})
             if not response.ok:
                 err = ('Failed to get package list with resources from url %r: %s' %
                        (url, response.error))
@@ -143,8 +143,7 @@ class QACommand(p.toolkit.CkanCommand):
                 for p in chunk:
                     yield p
                 url = api_url + '/current_package_list_with_resources'
-                response = requests.post(url,
-                                         json.dumps({'page': page, 'limit': limit}))
+                response = self.make_post(url, {'page': page, 'limit': limit})
                 if not response.ok:
                     err = ('Failed to get package list with resources from url %r: %s' %
                            (url, response.error))
