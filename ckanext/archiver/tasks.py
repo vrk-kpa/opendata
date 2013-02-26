@@ -353,7 +353,7 @@ def link_checker(context, data):
         except Exception, e:
             raise LinkHeadRequestError('Error with the request: %s' % e)
         else:
-            if res.error or res.status_code >= 400:
+            if not res.ok or res.status_code >= 400:
                 if res.status_code in HTTP_ERROR_CODES:
                     error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
                 else:
