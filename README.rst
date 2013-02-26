@@ -25,11 +25,11 @@ Install the extension as usual, e.g. (from an activated virtualenv):
 
     $ pip install -e git+http://github.com/okfn/ckanext-archiver.git#egg=ckanext-archiver
 
-Or (primarily for developers) download the source, then from the ckanext-archiver directory run:
+Install the required libraries:
 
 ::
 
-    $ pip install -e ./
+    $ pip install -r pip-requirements.txt
 
 
 Configuration
