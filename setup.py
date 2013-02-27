@@ -21,7 +21,7 @@ setup(
         'kombu==2.1.3',
         'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
-        'requests==0.14',
+        'requests==1.1.0',
     ],
     tests_require=[
         'nose',
