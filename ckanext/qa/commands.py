@@ -144,9 +144,12 @@ class QACommand(p.toolkit.CkanCommand):
                     yield p
                 url = api_url + '/current_package_list_with_resources'
                 response = self.make_post(url, {'page': page, 'limit': limit})
-                if not response.ok:
+
+                try:
+                    response.raise_for_status()
+                except requests.exceptions.RequestException, e:
                     err = ('Failed to get package list with resources from url %r: %s' %
-                           (url, response.error))
+                       (url, str(e)))
                     self.log.error(err)
                     raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
