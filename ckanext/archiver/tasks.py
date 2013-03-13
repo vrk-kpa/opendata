@@ -152,6 +152,9 @@ def download(context, resource, url_timeout=30,
     except Exception, e:
         raise DownloadError('Error with the download: %s' % e)
 
+    if not res.ok:
+        raise DownloadError('Download failed with status code: %s' % res.status_code)
+
     length, hash, saved_file = _save_resource(resource, res, max_content_length)
 
     # check if resource size changed
