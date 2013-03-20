@@ -14,7 +14,7 @@ from pylons import config
 import ckan.lib.celery_app as celery_app
 from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
 from ckanext.qa.sniff_format import sniff_file_format
-from ckanext.archiver.tasks import get_status as get_archiver_status, ArchiverError
+from ckanext.archiver.tasks import get_status as get_archiver_status, ArchiverError, LINK_STATUSES__BROKEN
 from ckanext.archiver.lib import get_cached_resource_filepath
 
 class QAError(Exception):
@@ -70,26 +70,21 @@ def _update_task_status(context, data, log):
     log.info('Task status updated ok')
 
 
-def _task_status_data(id, result):
+def _task_status_data(resource_id, result):
     now = datetime.datetime.now().isoformat()
-    data = [
-        {
-            'entity_id': id,
+    data = {
+            'entity_id': resource_id,
             'entity_type': u'resource',
             'task_type': 'qa',
-            'key': u'openness_score',
+            'key': u'status',
             'value': result['openness_score'],
+            'error': json.dumps({
+                'reason': result['openness_score_reason'],
+                'format': result['format'],
+                'is_broken': result['is_broken'],
+                }),
             'last_updated': now
-        },
-        {
-            'entity_id': id,
-            'entity_type': u'resource',
-            'task_type': 'qa',
-            'key': u'openness_score_reason',
-            'value': result['openness_score_reason'],
-            'last_updated': now
-        },
-    ]
+        }
     return data
 
 @celery_app.celery.task(name="qa.package")
@@ -115,9 +110,9 @@ def update_package(context, data):
             resource['is_open'] = package['isopen']
             resource['package'] = package['name']
             result = resource_score(context, resource, log)
-            log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
+            log.info('Res score: %s format:%s broken:%s url:"%s"', result.get('openness_score'), result.get('format'), result.get('is_broken'), resource['url'])
             _update_task_status(context, _task_status_data(resource['id'], result), log)
-            log.info('CKAN updated with openness score')
+            #log.info('CKAN updated with openness score')
         update_search_index(context, package['id'], log)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
@@ -156,7 +151,7 @@ def update(context, data):
         result = resource_score(context, resource, log)
         log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
         _update_task_status(context, _task_status_data(resource['id'], result), log)
-        log.info('CKAN updated with openness score')
+        #log.info('CKAN updated with openness score')
         package = resource.get('package')
         if package:
             update_search_index(context, resource['package'], log)
@@ -176,31 +171,65 @@ def update(context, data):
         }, log)
         raise
 
-def get_task_status_value(key, default, context, data, log):
-    '''Gets a value from the task_status table. If the key isn\'t there,
-    it returns the "default" value.'''
+def get_status(context, resource_id, log):
+    '''Returns a dict of the current QA 'status'.
+    (task status value where key='status')
+
+    Result is dict with keys: openness_score, reason, format, is_broken,
+                              last_updated
+
+    May propagate CkanError if the request fails.
+    '''
+    task_status = get_task_status('status', context, resource_id, log)
+    if task_status:
+        status = json.loads(task_status['error']) \
+                 if task_status['error'] else {}
+        status['openness_score'] = task_status['value']
+        status['last_updated'] = task_status['last_updated']
+        if 'format' not in status:
+            status['format'] = None
+        if 'is_broken' not in status:
+            status['is_broken'] = None
+        log.info('Previous QA status checked ok: %s', status)
+    else:
+        status = {'openness_score': '', 'reason': '',
+                  'format': '', 'is_broken': None,
+                  'last_updated': ''}
+        log.info('Previous QA status blank - using default: %s', status)
+    return status
+
+def get_task_status(key, context, resource_id, log):
+    '''Gets a row from the task_status table as a dict including keys:
+       'value', 'error', 'stack', 'last_updated'
+    If the key isn\'t there, returns None.'''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
     response = requests.post(
         api_url,
-        json.dumps({'entity_id': data['id'], 'task_type': 'qa',
+        json.dumps({'entity_id': resource_id, 'task_type': 'qa',
                     'key': key}),
-        headers={'Authorization': context['apikey'],
+        headers={'Authorization': context['site_user_apikey'],
                  'Content-Type': 'application/json'}
     )
-    if response.status_code == 404 and json.loads(response.content)['success'] == False:
-        log.info('Could not get %s - must be a new resource.' % key)
-        return default
+    if response.content:
+        try:
+            res_dict = json.loads(response.content)
+        except ValueError, e:
+            raise CkanError('CKAN response not JSON: %s', response.content)
+    else:
+        res_dict = {}
+    if response.status_code == 404 and res_dict['success'] == False:
+        return None
     elif response.error:
         log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
                   key, response.error, api_url, response.status_code, response.content)
-        raise QAError('Error getting %s' % key)
-    elif json.loads(response.content)['success']:
-        return json.loads(response.content)['result'].get('value')
+        raise CkanError('Error getting %s' % key)
+    elif res_dict['success']:
+        result = res_dict['result']
     else:
         log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
                   key, response.status_code, response.content, api_url)
-        raise QAError('Error getting %s' % key)
-    return value
+        raise CkanError('Error getting %s' % key)
+    return result
 
 def resource_score(context, data, log):
     """
@@ -216,28 +245,40 @@ def resource_score(context, data, log):
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
+        'format': format of the data (display_name string)
+        'is_broken': whether the link is considered broken or not (bool)
 
     """
     score = 0
     score_reason = ''
+    format_ = None
+    is_broken = False
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
+        archiver_status = get_archiver_status(context, data['id'], log)
 
-        # we don't want to take the publisher's word for it, in case the link
-        # is only to a landing page, so highest priority is the sniffed type
-        score = score_by_sniffing_data(context, data, score_reasons, log)
+        score, format_, is_broken = score_if_link_broken(context, archiver_status, data, score_reasons, log)
         if score == None:
-            # Fall-backs are user-given data
-            score = score_by_url_extension(data, score_reasons, log)
+            # we don't want to take the publisher's word for it, in case the link
+            # is only to a landing page, so highest priority is the sniffed type
+            score, format_ = score_by_sniffing_data(context, archiver_status, data,
+                                         score_reasons, log)
             if score == None:
-                score = score_by_format_field(data, score_reasons, log)
+                # Fall-backs are user-given data
+                score, format_ = score_by_url_extension(data, score_reasons, log)
                 if score == None:
-                    log.warning('Could not score resource: "%s" with url: "%s"',
-                                data.get('id'), data.get('url'))
-                    score_reasons.append('Could not understand the file format, therefore score is 1.')
-                    score = 1
+                    score, format_ = score_by_format_field(data, score_reasons, log)
+                    if score == None:
+                        log.warning('Could not score resource: "%s" with url: "%s"',
+                                    data.get('id'), data.get('url'))
+                        score_reasons.append('Could not understand the file format, therefore score is 1.')
+                        score = 1
+                        if format_ == None:
+                            # use any previously stored format value for this resource
+                            format_ = get_status(context, data['id'], log)['format']
         score_reason = ' '.join(score_reasons)
+        format_ = format_ or None
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
         score_reason = "Unknown error: %s" % str(e)
@@ -259,6 +300,8 @@ def resource_score(context, data, log):
     result = {
         'openness_score': score,
         'openness_score_reason': score_reason,
+        'format': format_,
+        'is_broken': is_broken,
     }
 
     return result
@@ -294,76 +337,121 @@ def broken_link_error_message(archiver_status):
             messages.append('This URL has not worked in the history of this tool.')
     return ' '.join(messages)
 
-def score_by_sniffing_data(context, data, score_reasons, log):
-    archiver_status = get_archiver_status(context, data['id'], log)
-    if archiver_status['value'] in ('URL invalid', 'URL request failed', 'Download error'):
+def score_if_link_broken(context, archiver_status, data, score_reasons, log):
+    '''
+    Looks to see if the archiver said it was broken, and if so, writes to
+    the score_reasons and returns a score.
+
+    data - resource dict
+
+    Return values:
+      * Returns a tuple: (score, format_, is_broken)
+      * score is an integer or None if it cannot be determined
+      * format_ is the display_name or None
+      * is_broken is a boolean
+    '''
+    if archiver_status['value'] in LINK_STATUSES__BROKEN:
         # Score 0 since we are sure the link is currently broken
         score_reasons.append(broken_link_error_message(archiver_status))
-        return 0
+        format_ = get_status(context, data['id'], log)['format']
+        log.info('Archiver says link is broken. Previous format: %r' % format_)
+        return (0, format_, True)
+    return (None, None, False)
 
-    # Link is not broken so analyse the cached file
+def score_by_sniffing_data(context, archiver_status, data, score_reasons, log):
+    '''
+    Looks inside a data file\'s contents to determine its format and score.
+
+    It adds strings to score_reasons list about how it came to the conclusion.
+
+    Return values:
+      * It returns a tuple: (score, format_display_name)
+      * If it cannot work out the format then format_display_name is None
+      * If it cannot score it, then score is None
+    '''
+    # Analyse the cached file
     filepath = data.get('cache_filepath')
     if filepath and not os.path.exists(filepath):
         score_reasons.append('Cache filepath does not exist: "%s".' % filepath)
-        return None
+        return (None, None)
     else:
         if filepath:
             sniffed_format = sniff_file_format(filepath, log)
             if sniffed_format:
                 score_reasons.append('Content of file appeared to be format "%s" which receives openness score: %s.' % (sniffed_format['display_name'], sniffed_format['openness']))
-                return sniffed_format['openness']
+                return sniffed_format['openness'], sniffed_format['display_name']
             else:
                 score_reasons.append('The format of the file was not recognised from its contents.')
-                return None
+                return (None, None)
         else:
             # No cache_url
             if archiver_status['value'] == 'Chose not to download':
                 score_reasons.append('File was not downloaded deliberately. Reason: %s. Using other methods to determine file openness.' % \
                                      archiver_status['reason'])
-                return None
+                return (None, None)
             elif archiver_status['value'] in ('Download failure', 'System error during archival'):
                 score_reasons.append('A system error occurred during downloading this file. Reason: %s. Using other methods to determine file openness.' % \
                                      archiver_status['reason'])
-                return None
+                return (None, None)
             elif archiver_status['value']:
                 score_reasons.append('Downloading this file failed. A system error occurred determining the reason for the error: %s Using other methods to determine file openness.' % \
                                      archiver_status['value'])
-                return None
+                return (None, None)
             else:
                 score_reasons.append('This file had not been downloaded at the time of scoring it.')
-                return None
+                return (None, None)
                 
     
 def score_by_url_extension(data, score_reasons, log):
+    '''
+    Looks at the URL for a resource to determine its format and score.
+
+    It adds strings to score_reasons list about how it came to the conclusion.
+
+    Return values:
+      * It returns a tuple: (score, format_display_name)
+      * If it cannot work out the format then format_display_name is None
+      * If it cannot score it, then score is None
+    '''
     formats_by_extension = Formats.by_extension()
     extension_variants_ = extension_variants(data['url'].strip())
     if not extension_variants_:
         score_reasons.append('Could not determine a file extension in the URL.')
-        return None
+        return (None, None)
     for extension in extension_variants_:
         if extension.lower() in formats_by_extension:
             format_ = Formats.by_extension().get(extension.lower())
             score = format_['openness']
             score_reasons.append('URL extension "%s" relates to format "%s" and receives score: %s.' % (extension, format_['display_name'], score))
-            return score
+            return score, format_['display_name']
         score_reasons.append('URL extension "%s" is an unknown format.' % extension)
-    return None
+    return (None, None)
 
 def score_by_format_field(data, score_reasons, log):
+    '''
+    Looks at the format field of a resource to determine its format and score.
+
+    It adds strings to score_reasons list about how it came to the conclusion.
+
+    Return values:
+      * It returns a tuple: (score, format_display_name)
+      * If it cannot work out the format then format_display_name is None
+      * If it cannot score it, then score is None
+    '''
     format_field = data.get('format', '')
     if not format_field:
         score_reasons.append('Format field is blank.')
-        return None
+        return (None, None)
     format_ = Formats.by_display_name().get(format_field) or \
               Formats.by_extension().get(format_field.lower()) or \
               Formats.by_reduced_name().get(Formats.reduce(format_field))
     if not format_:
         score_reasons.append('Format field "%s" does not correspond to a known format.' % format_field)
-        return None
+        return (None, None)
     score = format_['openness']
     score_reasons.append('Format field "%s" receives score: %s.' % \
                          (format_field, score))
-    return score
+    return (score, format_['display_name'])
 
 def extension_variants(url):
     '''

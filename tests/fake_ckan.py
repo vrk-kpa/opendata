@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, make_response
 import json
 app = Flask(__name__)
 
-TASK_STATUS_OK = json.dumps(
+TASK_STATUS_ARCHIVER_OK = json.dumps(
     {'success': True,
      'result': {'value': 'Archived successfully',
                 'error': json.dumps({
@@ -18,7 +18,8 @@ TASK_STATUS_OK = json.dumps(
     )
 
 request_store = []
-task_status = TASK_STATUS_OK
+task_status = {'archiver': TASK_STATUS_ARCHIVER_OK,
+               'qa': None}
 
 # These methods work like CKAN's ones:
 
@@ -44,7 +45,14 @@ def task_status_show():
         "data": request.json,
         "headers": dict(request.headers)
     })
-    return task_status
+    try:
+        status = task_status[request.json['task_type']]
+        if status:
+            return status
+    except KeyError:
+        pass
+    resp = make_response('{"success": false}', 404) # JSON
+    return resp
 
 @app.route("/api/action/resource_update", methods=['GET', 'POST'])
 def resource_update():
@@ -60,16 +68,19 @@ def resource_update():
 def last_request():
     return jsonify(request_store.pop())
 
-@app.route("/set_task_status/<task_status_str>", methods=['GET'])
-def set_task_status(task_status_str):
-    global task_status
-    task_status = task_status_str
+@app.route("/set_task_status/<task_type>/<task_status_str>", methods=['GET'])
+def set_task_status(task_type, task_status_str):
+    task_status[task_type] = task_status_str
     return 'ok'
 
-@app.route("/set_task_status_ok", methods=['GET'])
-def set_task_status_ok():
-    global task_status
-    task_status = TASK_STATUS_OK
+@app.route("/set_archiver_task_status_ok", methods=['GET'])
+def set_archiver_task_status_ok():
+    task_status['archiver'] = TASK_STATUS_ARCHIVER_OK
+    return 'ok'
+
+@app.route("/unset_task_status/<task_type>", methods=['GET'])
+def unset_task_status(task_type):
+    task_status[task_type] = None
     return 'ok'
 
 @app.route("/", methods=['GET', 'POST'])

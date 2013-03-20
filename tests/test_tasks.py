@@ -41,7 +41,7 @@ def set_sniffed_format(format_display_name):
     else:
         sniffed_format = None
 
-TASK_STATUS_FAILED_16_TIMES = json.dumps(
+ARCHIVER_TASK_STATUS_FAILED_16_TIMES = json.dumps(
     {'success': True, #meaningless
      'result': {'value': 'Download error',
                 'error': json.dumps({
@@ -55,7 +55,7 @@ TASK_STATUS_FAILED_16_TIMES = json.dumps(
                 }
      }
     )
-TASK_STATUS_404 = json.dumps(
+ARCHIVER_TASK_STATUS_404 = json.dumps(
     {'success': True, #meaningless
      'result': {'value': 'Download error',
                 'error': json.dumps({
@@ -69,7 +69,17 @@ TASK_STATUS_404 = json.dumps(
                 }
      }
     )
-
+QA_TASK_STATUS_CSW = json.dumps(
+    {'success': True,
+     'result': {'value': 3,
+                'error': json.dumps({
+                    'reason': 'It looked like a CSV',
+                    'format': 'CSV',
+                    'is_broken': False,
+                    }),
+                'last_updated': '2008-10-01T19:30:37.536836',
+                }
+     })
 
 class TestResourceScore(BaseCase):
 
@@ -111,18 +121,26 @@ class TestResourceScore(BaseCase):
         cls.fake_ckan.kill()
 
     def setup(self):
-        self.set_task_status_ok()
-
+        self.set_archiver_task_status_ok()
+        self.unset_task_status('qa')
+        
     @classmethod
-    def set_task_status(cls, task_status_str):
-        url = '%s/set_task_status/%s' % (cls.fake_ckan_url,
-                                         urllib.quote(task_status_str))
+    def set_task_status(cls, task_type, task_status_str):
+        url = '%s/set_task_status/%s/%s' % (cls.fake_ckan_url,
+                                            task_type,
+                                            urllib.quote(task_status_str))
         res = requests.get(url)
         assert res.status_code == 200
     
     @classmethod
-    def set_task_status_ok(cls):
-        url = '%s/set_task_status_ok' % cls.fake_ckan_url
+    def set_archiver_task_status_ok(cls):
+        url = '%s/set_archiver_task_status_ok' % cls.fake_ckan_url
+        res = requests.get(url)
+        assert res.status_code == 200
+
+    @classmethod
+    def unset_task_status(cls, task_type):
+        url = '%s/unset_task_status/%s' % (cls.fake_ckan_url, task_type)
         res = requests.get(url)
         assert res.status_code == 200
 
@@ -132,6 +150,8 @@ class TestResourceScore(BaseCase):
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 3, result
         assert 'Content of file appeared to be format "CSV"' in result['openness_score_reason'], result
+        assert result['format'] == 'CSV', result
+        assert result['is_broken'] == False, result
 
     def test_by_sniff_xls(self):
         set_sniffed_format('XLS')
@@ -139,19 +159,24 @@ class TestResourceScore(BaseCase):
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
         assert 'Content of file appeared to be format "XLS"' in result['openness_score_reason'], result
+        assert result['format'] == 'XLS', result
+        assert result['is_broken'] == False, result
 
     def test_not_cached(self):
         data = copy.deepcopy(self.fake_resource)
         data['url'] = 'http://remotesite.com/filename'
         data['cache_url'] = None
         data['cache_filepath'] = None
-        self.set_task_status(TASK_STATUS_FAILED_16_TIMES)
+        self.unset_task_status('archiver')
         result = resource_score(self.fake_context, data, log)
         # falls back on fake_ckan task status data detailing failed attempts
-        assert result['openness_score'] == 0, result
-        assert 'File could not be downloaded' in result['openness_score_reason'], result
-        assert 'Tried 16 times since 01/10/2008' in result['openness_score_reason'], result
-        assert 'Error details: Server returned 500 error' in result['openness_score_reason'], result
+        assert result['openness_score'] == 1, result
+        assert result['format'] == None, result
+        assert result['is_broken'] == False, result
+        assert 'This file had not been downloaded at the time of scoring it.' in result['openness_score_reason'], result
+        assert 'Could not determine a file extension in the URL.' in result['openness_score_reason'], result
+        assert 'Format field is blank.' in result['openness_score_reason'], result
+        assert 'Could not understand the file format, therefore score is 1.' in result['openness_score_reason'], result
 
     def test_by_extension(self):
         set_sniffed_format(None)
@@ -159,6 +184,8 @@ class TestResourceScore(BaseCase):
         data['url'] = 'http://remotesite.com/filename.xls'
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
+        assert_equal(result['format'], 'XLS')
+        assert_equal(result['is_broken'], False)
         assert 'not recognised from its contents' in result['openness_score_reason'], result
         assert 'extension "xls" relates to format "XLS"' in result['openness_score_reason'], result
 
@@ -169,6 +196,8 @@ class TestResourceScore(BaseCase):
         data['format'] = 'XLS'
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
+        assert_equal(result['format'], 'XLS')
+        assert_equal(result['is_broken'], False)
         assert 'not recognised from its contents' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field "XLS"' in result['openness_score_reason'], result
@@ -180,6 +209,8 @@ class TestResourceScore(BaseCase):
         data['format'] = 'Excel'
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 2, result
+        assert_equal(result['format'], 'XLS')
+        assert_equal(result['is_broken'], False)
         assert 'not recognised from its contents' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field "Excel"' in result['openness_score_reason'], result
@@ -222,6 +253,8 @@ class TestResourceScore(BaseCase):
         data['is_open'] = False
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
+        assert_equal(result['format'], 'CSV')
+        assert_equal(result['is_broken'], False)
         assert 'License not open' in result['openness_score_reason'], result
 
     def test_available_but_not_open_pdf(self):
@@ -233,14 +266,15 @@ class TestResourceScore(BaseCase):
         assert 'License not open' in result['openness_score_reason'], result
 
     def test_not_available_and_not_open(self):
-        set_sniffed_format('CSV')
         data = copy.deepcopy(self.fake_resource)
         data['is_open'] = False
         data['cache_url'] = None
         data['cache_filepath'] = None
-        self.set_task_status(TASK_STATUS_FAILED_16_TIMES)
+        self.set_task_status('archiver', ARCHIVER_TASK_STATUS_FAILED_16_TIMES)
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
+        assert_equal(result['format'], None)
+        assert_equal(result['is_broken'], True)
         # in preference it should report that it is not available
         assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server returned 500 error. Attempted on 10/10/2008. Tried 16 times since 01/10/2008. This URL has not worked in the history of this tool.')
 
@@ -249,9 +283,12 @@ class TestResourceScore(BaseCase):
         data = copy.deepcopy(self.fake_resource)
         # cache still exists from the previous run, but this time, the archiver
         # found the file gave a 404.
-        self.set_task_status(TASK_STATUS_404)
+        self.set_task_status('archiver', ARCHIVER_TASK_STATUS_404)
+        self.set_task_status('qa', QA_TASK_STATUS_CSW)
         result = resource_score(self.fake_context, data, log)
         assert result['openness_score'] == 0, result
+        assert_equal(result['format'], 'CSV')
+        assert_equal(result['is_broken'], True)
         # in preference it should report that it is not available
         assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server reported status error: 404 Not Found. Attempted on 01/10/2008. This URL worked the previous time: 01/09/2012.')
 
