@@ -30,6 +30,15 @@ HTTP_ERROR_CODES = {
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
+# NB Be very careful changing these status strings. They are also used in
+# ckanext-qa tasks.py.
+LINK_STATUSES__BROKEN = ('URL invalid', 'URL request failed', 'Download error')
+LINK_STATUSES__NOT_SURE = ('Chose not to download', 'Download failure',
+                           'System error during archival')
+LINK_STATUSES__OK = ('Archived successfully',)
+LINK_STATUSES__ALL = LINK_STATUSES__BROKEN + LINK_STATUSES__NOT_SURE + \
+                     LINK_STATUSES__OK
+
 class ArchiverError(Exception):
     pass
 class DownloadError(ArchiverError):
@@ -285,8 +294,7 @@ def _update(context, resource):
     # Get current task_status
     status = get_status(context, resource['id'], log)
     def _save_status(has_passed, status_txt, exception, status, resource_id):
-        # NB the values of status_txt are used in ckanext-qa tasks.py,
-        #    so if you change them here, change them there too.
+        assert status_txt in LINK_STATUSES__ALL, status_txt
         last_success = status.get('last_success', '')
         first_failure = status.get('first_failure', '')
         failure_count = status.get('failure_count', 0)
@@ -653,18 +661,18 @@ def get_status(context, resource_id, log):
         status = json.loads(task_status['error']) \
                  if task_status['error'] else {}
         status['value'] = task_status['value']
-        status['last_updated'] = task_status['last_updated']
-        log.info('Previous status checked ok: %s', status)
+        status['last_updated'] = task_status.get('last_updated')
+        log.info('Previous Archiver status checked ok: %s', status)
     else:
         status = {'value': '', 'reason': '',
                   'last_success': '', 'first_failure': '', 'failure_count': 0,
                   'last_updated': ''}
-        log.info('Previous status blank - using default: %s', status)
+        log.info('Previous Archiver status blank - using default: %s', status)
     return status
 
 def save_status(context, resource_id, status, reason,
                 last_success, first_failure, failure_count, log):
-    '''Writes to the task status table the result of a an attempt to download
+    '''Writes to the task status table the result of an attempt to download
     the resource.
 
     May propagate a CkanError.
