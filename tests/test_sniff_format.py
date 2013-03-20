@@ -125,6 +125,10 @@ class TestSniffFormat:
         self.check_format('wms')
     def test_ics(self):
         self.check_format('ics')
+    def test_ttl1(self):
+        self.check_format('rdf', 'turtle.rdf')
+    def test_ttl2(self):
+        self.check_format('rdf', 'turtle-imd-education-score-2010.rdf')
 
 def test_is_json():
     assert is_json('5', log)

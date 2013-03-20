@@ -94,6 +94,8 @@ def sniff_file_format(filepath, log):
                 # XML files without the "<?xml ... ?>" tag end up here
                 elif is_xml_but_without_declaration(buf, log):
                     format_ = Formats.by_extension()['xml']
+                elif is_ttl(buf, log):
+                    format_ = Formats.by_extension()['ttl']
 
             elif format_['display_name'] == 'HTML':
                 # maybe it has RDFa in it
@@ -404,3 +406,16 @@ def run_bsd_file(filepath, log):
     log.info('"file" could not determine file format of "%s": %s',
              filepath, result)
                       
+def is_ttl(buf, log):
+    '''If the buffer is a Turtle RDF file then return True.'''
+    # Turtle spec: "Turtle documents may have the strings '@prefix' or '@base' (case dependent) near the beginning of the document."
+    at_re = '^@(prefix|base) '
+    match = re.search(at_re, buf, re.MULTILINE)
+    if match:
+        return True
+
+    # Alternatively the full URI is specified
+    at_re = '<[^>]+>\s*(<[^>]+>\s*;?\s*)*.'
+    match = re.search(at_re, buf, re.MULTILINE)
+    if match:
+        return True
