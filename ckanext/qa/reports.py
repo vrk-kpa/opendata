@@ -76,6 +76,22 @@ def dataset_five_stars(dataset_id):
 
     report = query.first()
     if not report:
+        pkg = model.Package.get(dataset_id)
+        if pkg:
+            num_resources = model.Session.query(model.ResourceGroup)\
+                            .join(model.Resource)\
+                            .filter(model.ResourceGroup.package_id == dataset_id)\
+                            .filter(model.Resource.state==u'active')\
+                            .count()
+            if num_resources == 0:
+                # Package has no resources, so gets 0 stars
+                return {'name': pkg.name,
+                        'title': pkg.title,
+                        'id': None,
+                        'last_updated': None,
+                        'value': 0,
+                        'reason': 'No data resources, so scores 0.'}
+        # Package hasn't been rated yet
         return None
 
     # Transfer to a DictObj - I don't trust the SqlAlchemy result to
