@@ -29,8 +29,8 @@ def sniff_file_format(filepath, log):
     if mime_type:
         if mime_type == 'application/xml':
             with open(filepath) as f:
-                buf = f.read(500)
-            format_ = get_xml_variant(buf, log)
+                buf = f.read(5000)
+            format_ = get_xml_variant_including_xml_declaration(buf, log)
         elif mime_type == 'application/zip':
             format_ = get_zipped_format(filepath, log)
         elif mime_type == 'application/msword':
@@ -93,7 +93,7 @@ def sniff_file_format(filepath, log):
                     format_ = Formats.by_extension()['psv']
                 # XML files without the "<?xml ... ?>" tag end up here
                 elif is_xml_but_without_declaration(buf, log):
-                    format_ = Formats.by_extension()['xml']
+                    format_ = get_xml_variant_without_xml_declaration(buf, log)
                 elif is_ttl(buf, log):
                     format_ = Formats.by_extension()['ttl']
 
@@ -256,7 +256,9 @@ def is_xml_but_without_declaration(buf, log):
     match = re.match(xml_re, buf, re.IGNORECASE)
     if match:
         top_level_tag_name, top_level_tag_attributes = match.groups()[-2:]
-        if len(top_level_tag_name) > 20 or len(top_level_tag_attributes) > 200:
+        if 'xmlns:' not in top_level_tag_attributes and \
+               (len(top_level_tag_name) > 20 or \
+                len(top_level_tag_attributes) > 200):
             log.warning('XML not detected - unlikely length first tag: <%s %s>',
                         top_level_tag_name, top_level_tag_attributes)
             return False
@@ -265,10 +267,21 @@ def is_xml_but_without_declaration(buf, log):
     log.warning('XML tag not detected')
     return False
 
-def get_xml_variant(buf, log):
-    '''If this buffer is in a format based on XML, return the format type.'''
-    xml_re = '.{0,3}\s*<\?xml[^>]*>\s*(<!doctype[^>]*>\s*)?<([^>\s]*)'
+def get_xml_variant_including_xml_declaration(buf, log):
+    '''If this buffer is in a format based on XML and has the <xml>
+    declaration, return the format type.'''
+    xml_re = '.{0,3}\s*<\?xml[^>]*>\s*(<!doctype[^>]*>\s*)?(<[^>]+>)'
     match = re.match(xml_re, buf, re.IGNORECASE)
+    if match:
+        top_level_tag_name = match.groups()[-1].lower()
+        return get_xml_variant_without_xml_declaration(match.groups()[-1], log)
+    log.warning('XML declaration not found: %s', buf)
+
+def get_xml_variant_without_xml_declaration(buf, log):
+    '''If this buffer is in a format based on XML, without any XML declaration
+    or other boilerplate, return the format type.'''
+    xml_re = '.{0,3}\s*<([^>\s]*)'
+    match = re.match(xml_re, buf)
     if match:
         top_level_tag_name = match.groups()[-1].lower()
         top_level_tag_name = top_level_tag_name.replace('rdf:rdf', 'rdf')
@@ -279,7 +292,7 @@ def get_xml_variant(buf, log):
             return format_
         log.warning('Did not recognise XML format: %s', top_level_tag_name)
         return Formats.by_extension()['xml']
-    log.warning('XML format didn\'t conform to expected format: %s', buf)
+    log.warning('XML tags not found: %s', buf)
 
 def has_rdfa(buf, log):
     '''If the buffer HTML contains RDFa then this returns True'''
@@ -414,8 +427,37 @@ def is_ttl(buf, log):
     if match:
         return True
 
-    # Alternatively the full URI is specified
-    at_re = '<[^>]+>\s*(<[^>]+>\s*;?\s*)*.'
-    match = re.search(at_re, buf, re.MULTILINE)
-    if match:
+    # Alternatively look for several triples
+    num_required_triples = 5
+    ignore, num_replacements = turtle_regex().subn('', buf, num_required_triples)
+    if num_replacements >= num_required_triples:
         return True
+
+turtle_regex_ = None
+def turtle_regex():
+    '''Return a compiled regex that matches a turtle triple.
+
+    Each RDF term may be in these forms:
+         <url>
+         "a literal"
+         "translation"@ru
+         "literal typed"^^<http://www.w3.org/2001/XMLSchema#string>
+         "literal typed with prefix"^^xsd:string
+         'single quotes'
+         -4.2E-9
+         false
+         _:blank_node
+     No need to worry about prefixed terms, since there would have been a
+     @prefix already detected for them to be used.
+         prefix:term  :blank_prefix
+     does not support nested blank nodes, collection, sameas ('a' token)
+    '''
+    if not turtle_regex_:
+         global turtle_regex_
+         rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
+
+         # simple case is: triple_re = '^T T T \.$'.replace('T', rdf_term)
+         # but extend to deal with multiple predicate-objects:
+         triple = '^T T T\s*(;\s*T T\s*)*\.\s*$'.replace('T', rdf_term).replace(' ', '\s+')
+         turtle_regex_ = re.compile(triple, re.MULTILINE)
+    return turtle_regex_

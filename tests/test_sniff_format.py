@@ -3,7 +3,7 @@ import logging
 
 from nose.tools import raises, assert_equal
 
-from ckanext.qa.sniff_format import sniff_file_format, is_json
+from ckanext.qa.sniff_format import sniff_file_format, is_json, is_ttl, turtle_regex
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('sniff')
@@ -57,6 +57,8 @@ class TestSniffFormat:
         self.check_format('xls.zip')
     def test_rdf(self):
         self.check_format('rdf')
+    def test_rdf2(self):
+        self.check_format('rdf', 'ukk1202-36000.rdf')
     def test_pdf(self):
         self.check_format('pdf')
     def test_kml(self):
@@ -155,4 +157,31 @@ def test_is_json():
 
     # false positives of the algorithm:
     #assert not is_json('[{"cat": [1]}2, 2]', log)
+
+def test_turtle_regex():
+    template = '<subject> <predicate> %s .'
+    assert turtle_regex().search(template % '<url>')
+    assert turtle_regex().search(template % '"a literal"')
+    assert turtle_regex().search(template % '"translation"@ru')
+    assert turtle_regex().search(template % '"literal type"^^<http://www.w3.org/2001/XMLSchema#string>')
+    assert turtle_regex().search(template % '"literal typed with prefix"^^xsd:string')
+    assert turtle_regex().search(template % "'single quotes'")
+    assert turtle_regex().search(template % '12')
+    assert turtle_regex().search(template % '1.12')
+    assert turtle_regex().search(template % '.12')
+    assert turtle_regex().search(template % '12E12')
+    assert turtle_regex().search(template % '-4.2E-9')
+    assert turtle_regex().search(template % 'false')
+    assert turtle_regex().search(template % '_:blank_node')
+    assert turtle_regex().search('<s> <p> <o> ;\n <p> <o> .')
+    assert turtle_regex().search('<s> <p> <o>;<p> <o>.')
+    assert not turtle_regex().search('<s> <p> <o>;<p> <o>. rubbish')
+    assert not turtle_regex().search(template % 'word')
+    assert not turtle_regex().search(template % 'prefix:node')
+
+
+def test_is_ttl():
+    triple = '<subject> <predicate> <object>; <predicate> <object>.'
+    assert not is_ttl('\n'.join([triple]*2), log)
+    assert is_ttl('\n'.join([triple]*5), log)
 
