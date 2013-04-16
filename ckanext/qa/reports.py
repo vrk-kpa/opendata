@@ -1,5 +1,6 @@
 import datetime
 import re
+import collections
 from collections import namedtuple, defaultdict
 
 from sqlalchemy.util import OrderedDict
@@ -166,14 +167,14 @@ def broken_resource_links_by_dataset():
     rows = model.Session.execute(
         """
         select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name
-            from task_status 
+            from task_status
         left join resource on task_status.entity_id = resource.id
         left join resource_group on resource.resource_group_id = resource_group.id
         left join package on resource_group.package_id = package.id
         where
             entity_id in (select entity_id from task_status where key='openness_score' and value='0')
-        and key='openness_score_reason' 
-        and package.state = 'active' 
+        and key='openness_score_reason'
+        and package.state = 'active'
         and resource.state='active'
         and resource_group.state='active'
         and task_status.value!='License not open'
@@ -264,13 +265,13 @@ def scores_by_dataset_for_organisation(organisation_name):
                "group".id as publisher_id,
                "group".name as publisher_name,
                "group".title as publisher_title
-        from task_status 
+        from task_status
             left join resource on task_status.entity_id = resource.id
             left join resource_group on resource.resource_group_id = resource_group.id
             left join package on resource_group.package_id = package.id
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
-        where 
+        where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and value='0')
             and package.state = 'active'
             and resource.state='active'
@@ -313,7 +314,7 @@ def scores_by_dataset_for_organisation(organisation_name):
             res_data['openness_score_updated'] = row.task_status_last_updated
         last_row = row
     if res_data:
-        save_res_data(row, res_data, data)    
+        save_res_data(row, res_data, data)
 
     return {'publisher_name': row.publisher_name if data else organisation_name,
             'publisher_title': row.publisher_title if data else '',
@@ -326,13 +327,13 @@ def organisations_with_broken_resource_links(include_sub_organisations=False):
                count(resource.id) as broken_resource_count,
                "group".name as publisher_name,
                "group".title as publisher_title
-        from task_status 
+        from task_status
             left join resource on task_status.entity_id = resource.id
             left join resource_group on resource.resource_group_id = resource_group.id
             left join package on resource_group.package_id = package.id
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
-        where 
+        where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
             and task_status.key='status'
             and package.state = 'active'
@@ -364,7 +365,7 @@ def organisations_with_broken_resource_links(include_sub_organisations=False):
                     counts_by_publisher[publisher] = [0, 0]
                 counts_by_publisher[publisher][0] += row.broken_package_count
                 counts_by_publisher[publisher][1] += row.broken_resource_count
-            
+
         data = []
         for row in sorted(counts_by_publisher.items(), key=lambda x: x[0].title):
             row_data = OrderedDict((
@@ -404,13 +405,13 @@ def broken_resource_links_for_organisation(organisation_name,
                "group".id as publisher_id,
                "group".name as publisher_name,
                "group".title as publisher_title
-        from task_status 
+        from task_status
             left join resource on task_status.entity_id = resource.id
             left join resource_group on resource.resource_group_id = resource_group.id
             left join package on resource_group.package_id = package.id
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
-        where 
+        where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
             and task_status.key='status'
             and package.state = 'active'
@@ -497,7 +498,7 @@ def organisation_dataset_scores(organisation_name,
             left join package on resource_group.package_id = package.id
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
-        where 
+        where
             entity_id in (select entity_id from task_status where task_status.task_type='qa')
             and package.state = 'active'
             and resource.state='active'
@@ -519,7 +520,7 @@ def organisation_dataset_scores(organisation_name,
         sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
 
     rows = model.Session.execute(sql % sql_options, values)
-    data = {} # dataset_name: {properties}
+    data = dict() # dataset_name: {properties}
     for row in rows:
         package_data = data.get(row.package_name)
         if not package_data:
@@ -553,6 +554,11 @@ def organisation_dataset_scores(organisation_name,
         data[row.package_name] = package_data
 
     organisation_title = org.title
+
+    # Sort the results by openness_score asc so we can see the worst
+    # results first
+    data = collections.OrderedDict(sorted(data.iteritems(),
+        key=lambda x: x[1]['openness_score']))
 
     return {'publisher_name': organisation_name,
             'publisher_title': organisation_title,
