@@ -557,7 +557,7 @@ def organisation_dataset_scores(organisation_name,
 
     # Sort the results by openness_score asc so we can see the worst
     # results first
-    data = collections.OrderedDict(sorted(data.iteritems(),
+    data = OrderedDict(sorted(data.iteritems(),
         key=lambda x: x[1]['openness_score']))
 
     return {'publisher_name': organisation_name,

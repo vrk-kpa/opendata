@@ -425,13 +425,17 @@ def is_ttl(buf, log):
     at_re = '^@(prefix|base) '
     match = re.search(at_re, buf, re.MULTILINE)
     if match:
+        log.info('Turtle RDF detected - @prefix or @base')
         return True
 
     # Alternatively look for several triples
     num_required_triples = 5
     ignore, num_replacements = turtle_regex().subn('', buf, num_required_triples)
     if num_replacements >= num_required_triples:
+        log.info('Turtle RDF detected - %s triples' % num_replacements)
         return True
+
+    log.warning('Turtle RDF not detected (%i)' % num_replacements)
 
 turtle_regex_ = None
 def turtle_regex():
