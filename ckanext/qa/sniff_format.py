@@ -238,7 +238,7 @@ def is_html(buf, log):
     if match:
         log.info('HTML tag detected')
         return Formats.by_extension()['html']
-    log.warning('html not detected %s', buf)    
+    log.debug('HTML not detected %s', buf)
 
 def is_iati(buf, log):
     '''If this buffer is IATI format, return that format type, else None.'''
@@ -247,7 +247,7 @@ def is_iati(buf, log):
     if match:
         log.info('IATI tag detected')
         return Formats.by_extension()['iati']
-    log.warning('IATI not detected %s', buf)
+    log.debug('IATI not detected %s', buf)
 
 def is_xml_but_without_declaration(buf, log):
     '''Decides if this is a buffer of XML, but missing the usual <?xml ...?>
@@ -259,12 +259,12 @@ def is_xml_but_without_declaration(buf, log):
         if 'xmlns:' not in top_level_tag_attributes and \
                (len(top_level_tag_name) > 20 or \
                 len(top_level_tag_attributes) > 200):
-            log.warning('XML not detected - unlikely length first tag: <%s %s>',
+            log.debug('XML not detected - unlikely length first tag: <%s %s>',
                         top_level_tag_name, top_level_tag_attributes)
             return False
         log.info('XML detected - first tag name: <%s>', top_level_tag_name)
         return True
-    log.warning('XML tag not detected')
+    log.debug('XML tag not detected')
     return False
 
 def get_xml_variant_including_xml_declaration(buf, log):
@@ -275,7 +275,7 @@ def get_xml_variant_including_xml_declaration(buf, log):
     if match:
         top_level_tag_name = match.groups()[-1].lower()
         return get_xml_variant_without_xml_declaration(match.groups()[-1], log)
-    log.warning('XML declaration not found: %s', buf)
+    log.debug('XML declaration not found: %s', buf)
 
 def get_xml_variant_without_xml_declaration(buf, log):
     '''If this buffer is in a format based on XML, without any XML declaration
@@ -292,7 +292,7 @@ def get_xml_variant_without_xml_declaration(buf, log):
             return format_
         log.warning('Did not recognise XML format: %s', top_level_tag_name)
         return Formats.by_extension()['xml']
-    log.warning('XML tags not found: %s', buf)
+    log.debug('XML tags not found: %s', buf)
 
 def has_rdfa(buf, log):
     '''If the buffer HTML contains RDFa then this returns True'''
@@ -326,7 +326,7 @@ def get_zipped_format(filepath, log):
         finally:
             zip.close()
     except zipfile.BadZipfile, e:
-        log.warning('Zip file open raised error %s: %s',
+        log.info('Zip file open raised error %s: %s',
                     e, e.args)
         return
     except Exception, e:
@@ -346,11 +346,11 @@ def get_zipped_format(filepath, log):
                 if format_['openness'] == top_score:
                     top_scoring_extension_counts[extension] += 1
             else:
-                log.warning('Zipped file extension not a known format combination: "%s" (%s)', extension, filepath)
+                log.info('Zipped file extension not a known format combination: "%s" (%s)', extension, filepath)
         else:
-            log.warning('Zipped file of unknown extension: "%s" (%s)', extension, filepath)
+            log.info('Zipped file of unknown extension: "%s" (%s)', extension, filepath)
     if not top_scoring_extension_counts:
-        log.warning('Zip has no known extensions: %s', filepath)
+        log.info('Zip has no known extensions: %s', filepath)
         return Formats.by_display_name()['Zip']
         
     top_scoring_extension_counts = sorted(top_scoring_extension_counts.items(),
@@ -360,7 +360,7 @@ def get_zipped_format(filepath, log):
              top_extension, top_scoring_extension_counts)
     zipped_extension = top_extension + '.zip'
     if zipped_extension not in Formats.by_extension():
-        log.warning('Zipped %s not a registered format', top_extension)
+        log.info('Zipped %s not a registered format', top_extension)
         return Formats.by_display_name()['Zip']
     format_ = Formats.by_extension()[zipped_extension]
     log.info('Zipped file format detected: %s', format_['display_name'])
@@ -435,7 +435,7 @@ def is_ttl(buf, log):
         log.info('Turtle RDF detected - %s triples' % num_replacements)
         return True
 
-    log.warning('Turtle RDF not detected (%i)' % num_replacements)
+    log.debug('Turtle RDF not detected (%i)' % num_replacements)
 
 turtle_regex_ = None
 def turtle_regex():
