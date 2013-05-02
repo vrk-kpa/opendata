@@ -5,6 +5,7 @@ from collections import namedtuple, defaultdict
 
 from sqlalchemy.util import OrderedDict
 from sqlalchemy import or_, and_, func
+from sqlalchemy.sql.expression import desc
 
 import ckan.model as model
 import ckan.plugins as p
@@ -59,17 +60,21 @@ def dataset_five_stars(dataset_id):
                        'last_updated': <date of last update of openness score
                                         (datetime)>,
                        'value': <openness score (int)>,
-                       'reason': <text describing score reasoning>}
+                       'reason': <text describing score reasoning>,
+                       'is_broken': <whether the link is broken (bool)>,
+                       'format': <the detected file format>,
+                       }
     '''
 
-    from sqlalchemy.sql.expression import desc
+
     import ckan.model as model
     # Run a query to choose the most recent, highest qa score of all resources in this dataset.
-    query = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'),)\
+    query = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'), model.TaskStatus.error.label('error'))\
         .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-        .filter(model.TaskStatus.key==u'openness_score')\
+        .filter(model.TaskStatus.task_type==u'qa')\
+        .filter(model.TaskStatus.key==u'status')\
         .filter(model.Package.id == dataset_id)\
         .filter(model.Resource.state==u'active')\
         .order_by(desc(model.TaskStatus.value))\
@@ -100,16 +105,12 @@ def dataset_five_stars(dataset_id):
     # in practice.
     result = convert_sqlalchemy_result_to_DictObj(report)
     result['value'] = int(report.value)
-
-    # Get openness_reason for the score on that resource on that date
-    query = model.Session.query(model.Resource.id, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'),)\
-        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-        .filter(model.TaskStatus.key == u'openness_score_reason')\
-        .filter(model.Resource.id == report.id)\
-        .order_by(desc(model.TaskStatus.last_updated))
-    reason_result = query.first()
-    openness_score_reason = query.first().value if reason_result else 'Not yet available'
-    result['reason'] = openness_score_reason
+    try:
+        result.update(json.loads(result['error']))
+    except ValueError, e:
+        log.error('QA status "error" should have been in JSON format, but found: "%s" %s', result['error'], e)
+        result['reason'] = 'Could not display reason due to a system error'
+    del result['error']
 
     return result
 
@@ -118,6 +119,18 @@ def resource_five_stars(id):
     Return a dict containing the QA results for a given resource
 
     Each dict is of the form:
+    Returns a dict of {'name': <package name>,
+                       'title': <package title>,
+                       'id': <resource id>,
+                       'last_updated': <date of last update of openness score
+                                        (datetime)>,
+                       'value': <openness score (int)>,
+                       'reason': <text describing score reasoning>,
+                       'is_broken': <whether the link is broken (bool)>,
+                       'format': <the detected file format>,
+                       }
+
+      And for the time being it also keeps these deprecated keys:
         {'openness_score': <int>,
          'openness_score_reason': <string>,
          'openness_update': <datetime>}
@@ -131,26 +144,23 @@ def resource_five_stars(id):
     data = {'entity_id': r.id, 'task_type': 'qa'}
 
     try:
-        data['key'] = 'openness_score'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score = int(status.get('value'))
-        openness_score_updated = status.get('last_updated')
+        data['key'] = 'status'
+        result = p.toolkit.get_action('task_status_show')(context, data)
+        result['value'] = int(result['value'])
+        result['last_updated'] = datetime.datetime(*map(int, re.split('[^\d]', result['last_updated'])[:-1]))
 
-        data['key'] = 'openness_score_reason'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score_reason = status.get('value')
-        openness_score_reason_updated = status.get('last_updated')
+        try:
+            result.update(json.loads(result['error']))
+        except ValueError, e:
+            log.error('QA status "error" should have been in JSON format, but found: "%s" %s', result['error'], e)
+            result['reason'] = 'Could not display reason due to a system error'
+        del result['error']
 
-        last_updated_datestamp = max(
-            openness_score_updated,
-            openness_score_reason_updated)
-        last_updated = datetime.datetime(*map(int, re.split('[^\d]', last_updated_datestamp)[:-1]))
+        # deprecated keys
+        result['openness_score'] = result['value']
+        result['openness_score_reason'] = result['reason']
+        result['openness_updated'] = result['last_updated']
 
-        result = {
-            'openness_score': openness_score,
-            'openness_score_reason': openness_score_reason,
-            'openness_updated': last_updated
-        }
     except p.toolkit.ObjectNotFound:
         result = {}
 
@@ -159,43 +169,47 @@ def resource_five_stars(id):
 def broken_resource_links_by_dataset():
     """
     Return a list of named tuples, one for each dataset that contains
-    broken resource links (defined as resources with an openness score of 0).
+    broken resource links (defined as resources with an openness score of 0
+    and the reason is an invalid URL, 404, timeout or similar, as opposed
+    to it being too big to archive or system errors during archival).
 
-    The named tuple is of the form:
+    The named tuple (for each dataset) is of the form:
         (name (str), title (str), resources (list of dicts))
     """
-    rows = model.Session.execute(
-        """
-        select package.id as package_id, task_status.value as reason, resource.url as url, package.title as title, package.name as name
-            from task_status
-        left join resource on task_status.entity_id = resource.id
-        left join resource_group on resource.resource_group_id = resource_group.id
-        left join package on resource_group.package_id = package.id
-        where
-            entity_id in (select entity_id from task_status where key='openness_score' and value='0')
-        and key='openness_score_reason'
-        and package.state = 'active'
-        and resource.state='active'
-        and resource_group.state='active'
-        and task_status.value!='License not open'
-        order by package.title
-        """
-    )
-    results = OrderedDict()
+    q = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.Resource.url, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'), model.TaskStatus.error.label('error'))\
+        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+        .join(model.Resource)\
+        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+        .filter(model.TaskStatus.task_type==u'qa')\
+        .filter(model.TaskStatus.key==u'status')\
+        .filter(model.TaskStatus.error.like('%"is_broken": true%'))\
+        .filter(model.Resource.state==u'active')\
+        .filter(model.Package.state==u'active')\
+        .order_by(desc(model.TaskStatus.value))\
+        .order_by(desc(model.TaskStatus.last_updated))
+    rows = q.all()
+    # One row per resource, therefore need to collate them by dataset
+    datasets = OrderedDict()
     for row in rows:
-        if results.has_key(row.package_id):
-            results[row.package_id]['resources'].append(DictObj(url=row.url, openness_score_reason=row.reason))
+        openness_details = json.loads(row.error)
+        res = DictObj(url=row.url,
+                      openness_score_reason=openness_details.get('reason'))
+        if row.name in datasets:
+            datasets[row.name].resources.append(res)
         else:
-            results[row.package_id] = DictObj(name=row.name, title=row.title, resources=[DictObj(url=row.url, openness_score_reason=row.reason)])
-    return results.values()
+            datasets[row.name] = DictObj(name=row.name,
+                                         title=row.title,
+                                         resources=[res])
+    return datasets.values()
 
+
+# NOT USED in this branch, but is used in release-v2.0
 def organisations_with_broken_resource_links_by_name():
-    result = _get_broken_resource_links().keys()
-    result.sort()
-    return result
+    raise NotImplementedError
 
+# NOT USED in this branch, but is used in release-v2.0
 def organisations_with_broken_resource_links(include_resources=False):
-    return _get_broken_resource_links(include_resources=include_resources)
+    raise NotImplementedError
 
 
 not_broken_but_0_stars = set(('Chose not to download',))
@@ -239,86 +253,6 @@ def organisation_score_summaries(include_sub_organisations=False):
         publisher_scores.append(publisher_score)
     return sorted(publisher_scores, key=lambda x: -x['total_stars'])
 
-def scores_by_dataset_for_organisation(organisation_name):
-    '''
-    Returns a dictionary detailing openness scores for the organisation
-
-    i.e.:
-    {'publisher_name': 'cabinet-office',
-     'publisher_title:': 'Cabinet Office',
-     'broken_resources': [
-       {'package_name', 'package_title', 'resource_url', 'reason', 'count', 'first_broken'}
-      ...]
-
-    '''
-    values = {}
-    sql = """
-        select package.id as package_id,
-               task_status.key as task_status_key,
-               task_status.value as task_status_value,
-               task_status.last_updated as task_status_last_updated,
-               resource.id as resource_id,
-               resource.url as resource_url,
-               resource.position,
-               package.title as package_title,
-               package.name as package_name,
-               "group".id as publisher_id,
-               "group".name as publisher_name,
-               "group".title as publisher_title
-        from task_status
-            left join resource on task_status.entity_id = resource.id
-            left join resource_group on resource.resource_group_id = resource_group.id
-            left join package on resource_group.package_id = package.id
-            left join member on member.table_id = package.id
-            left join "group" on member.group_id = "group".id
-        where
-            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and value='0')
-            and package.state = 'active'
-            and resource.state='active'
-            and resource_group.state='active'
-            and "group".state='active'
-            and "group".name = :org_name
-        order by package.title, package.name, resource.position
-        """
-    values['org_name'] = organisation_name
-    rows = model.Session.execute(sql, values)
-
-    data = [] # list of resource dicts with the addition of openness score info
-    last_row = None
-    # each resource has a few rows of task_status properties, so collate these
-    def save_res_data(row, res_data, data):
-        if res_data['openness_score_reason'] in not_broken_but_0_stars:
-            # ignore row
-            return
-        data.append(res_data)
-    def init_res_data(row):
-        res_data = OrderedDict()
-        res_data['package_name'] = row.package_name
-        res_data['package_title'] = row.package_title
-        res_data['resource_id'] = row.resource_id
-        res_data['resource_url'] = row.resource_url
-        res_data['resource_position'] = row.position
-        return res_data
-    res_data = None
-    for row in rows:
-        if not last_row:
-            res_data = init_res_data(row)
-        elif row.resource_id != last_row.resource_id and res_data:
-            save_res_data(last_row, res_data, data)
-            res_data = init_res_data(row)
-        res_data[row.task_status_key] = row.task_status_value
-        if 'openness_score_updated' in res_data:
-            res_data['openness_score_updated'] = max(row.task_status_last_updated,
-                                                     res_data['openness_score_updated'])
-        else:
-            res_data['openness_score_updated'] = row.task_status_last_updated
-        last_row = row
-    if res_data:
-        save_res_data(row, res_data, data)
-
-    return {'publisher_name': row.publisher_name if data else organisation_name,
-            'publisher_title': row.publisher_title if data else '',
-            'broken_resources': data}
 
 def organisations_with_broken_resource_links(include_sub_organisations=False):
     # get list of orgs that themselves have broken links
@@ -335,6 +269,7 @@ def organisations_with_broken_resource_links(include_sub_organisations=False):
             left join "group" on member.group_id = "group".id
         where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
+            and task_status.task_type='qa'
             and task_status.key='status'
             and package.state = 'active'
             and resource.state='active'
@@ -390,6 +325,33 @@ def broken_resource_links_for_organisation(organisation_name,
       ...]
 
     '''
+    ## This was the start of a trial - left in case it was useful
+    ## q = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.Resource.url, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'), model.TaskStatus.error.label('error'), model.Group.id.label('publisher_id'), model.Group.name.label('publisher_name'), model.Group.title.label('publisher_title'))\
+    ##     .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+    ##     .join(model.Resource)\
+    ##     .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
+    ##     .join(model.Member, model.Member.table_id == model.Package.id)\
+    ##     .join(model.Group)\
+    ##     .filter(model.TaskStatus.task_type==u'qa')\
+    ##     .filter(model.TaskStatus.key==u'status')\
+    ##     .filter(model.TaskStatus.error.like('%"is_broken": true%'))\
+    ##     .filter(model.Resource.state==u'active')\
+    ##     .filter(model.Package.state==u'active')\
+    ##     .filter(model.Group.name==organisation_name)\
+    ##     .filter(model.Group.state==u'active')\
+    ##     .order_by(desc(model.TaskStatus.value))\
+    ##     .order_by(desc(model.TaskStatus.last_updated))
+    ## rows = q.all()
+    ## print rows[:1]
+
+    ## data = {}
+    ## for row in rows:
+    ##     pass
+
+    ## return {'publisher_name': row.publisher_name if data else organisation_name,
+    ##         'publisher_title': row.publisher_title if data else '',
+    ##         'data': data}
+
     values = {}
     sql = """
         select package.id as package_id,
@@ -413,6 +375,7 @@ def broken_resource_links_for_organisation(organisation_name,
             left join "group" on member.group_id = "group".id
         where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
+            and task_status.task_type='qa'
             and task_status.key='status'
             and package.state = 'active'
             and resource.state='active'
@@ -468,14 +431,18 @@ def broken_resource_links_for_organisation(organisation_name,
 def organisation_dataset_scores(organisation_name,
                                 include_sub_organisations=False):
     '''
-    Returns a dictionary detailing dataset openness scores for the organisation
+    Returns a dictionary detailing openness scores for the organisation
+    for each dataset.
 
     i.e.:
     {'publisher_name': 'cabinet-office',
      'publisher_title:': 'Cabinet Office',
      'data': [
-       {'package_name', 'package_title', 'resource_url', 'score', 'reason', 'last_updated'}
+       {'package_name', 'package_title', 'resource_url', 'openness_score', 'reason', 'last_updated', 'is_broken', 'format'}
       ...]
+
+    NB the list does not contain datasets that have 0 resources and therefore
+       score 0
 
     '''
     values = {}
@@ -483,6 +450,7 @@ def organisation_dataset_scores(organisation_name,
         select package.id as package_id,
                task_status.key as task_status_key,
                task_status.value as task_status_value,
+               task_status.error as task_status_error,
                task_status.last_updated as task_status_last_updated,
                resource.id as resource_id,
                resource.url as resource_url,
@@ -504,13 +472,16 @@ def organisation_dataset_scores(organisation_name,
             and resource.state='active'
             and resource_group.state='active'
             and "group".state='active'
+            and task_status.task_type='qa'
+            and task_status.key='status'
             %(org_filter)s
-        order by package.title, package.name, resource.position, task_status.key
+        order by package.title, package.name, resource.position
         """
     sql_options = {}
     org = model.Group.by_name(organisation_name)
     if not org:
         abort(404, 'Publisher not found')
+    organisation_title = org.title
 
     if not include_sub_organisations:
         sql_options['org_filter'] = 'and "group".name = :org_name'
@@ -538,22 +509,22 @@ def organisation_dataset_scores(organisation_name,
                 ('openness_score_reason', None),
                 ('last_updated', None),
                 ))
-        if row.task_status_key == 'openness_score' and \
-           (not package_data['openness_score'] or \
-            row.task_status_value > package_data['openness_score']):
+        if row.task_status_value > package_data['openness_score']:
             package_data['resource_position'] = row.position
             package_data['resource_id'] = row.resource_id
             package_data['resource_url'] = row.resource_url
+
+            try:
+                package_data.update(json.loads(row.task_status_error))
+            except ValueError, e:
+                log.error('QA status "error" should have been in JSON format, but found: "%s" %s', task_status_error, e)
+                package_data['reason'] = 'Could not display reason due to a system error'
+
             package_data['openness_score'] = row.task_status_value
-            package_data['openness_score_reason'] = None # filled in next row
+            package_data['openness_score_reason'] = package_data['reason'] # deprecated
             package_data['last_updated'] = row.task_status_last_updated
-        elif row.task_status_key == 'openness_score_reason' and \
-             package_data['resource_id'] == row.resource_id:
-            package_data['openness_score_reason'] = row.task_status_value
 
         data[row.package_name] = package_data
-
-    organisation_title = org.title
 
     # Sort the results by openness_score asc so we can see the worst
     # results first

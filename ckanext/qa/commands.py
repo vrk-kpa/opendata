@@ -1,5 +1,4 @@
 import datetime
-import json
 import requests
 import urlparse
 import logging
@@ -37,6 +36,12 @@ class QACommand(p.toolkit.CkanCommand):
         paster qa clean
            - Remove all package score information
 
+        paster qa migrate1
+           - Migrates the way results are stored in task_status,
+             with commit 6f63ab9e 20th March 2013
+             (from key='openness_score'/'openness_score_failure_count' to
+              key='status')
+
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
     specify the config explicitly though::
@@ -72,6 +77,7 @@ class QACommand(p.toolkit.CkanCommand):
 
         from ckan.logic import get_action
         from ckan import model
+        from ckan.lib.helpers import json
 
         user = p.toolkit.get_action('get_site_user')(
             {'model': model, 'ignore_auth': True}, {}
@@ -94,6 +100,8 @@ class QACommand(p.toolkit.CkanCommand):
                 self.view()                
         elif cmd == 'clean':
             self.clean()
+        elif cmd == 'migrate1':
+            self.migrate1()
         else:
             self.log.error('Command "%s" not recognized' % (cmd,))
 
@@ -101,6 +109,7 @@ class QACommand(p.toolkit.CkanCommand):
         from ckan.model.types import make_uuid
         from ckan.logic import get_action
         from ckan import model
+        from ckan.lib.helpers import json
         # import tasks after load config so CKAN_CONFIG evironment variable
         # can be set
         import tasks
@@ -127,6 +136,7 @@ class QACommand(p.toolkit.CkanCommand):
         If no packages are declared in self.args, then retrieve all the
         packages from the catalogue.
         """
+        from ckan.lib.helpers import json
         api_url = urlparse.urljoin(config.get('ckan.site_url_internally') or config['ckan.site_url'], 'api/action')
         if len(self.args) > 1:
             for id in self.args[1:]:
@@ -225,3 +235,62 @@ class QACommand(p.toolkit.CkanCommand):
 
         print 'After:'
         self.view()        
+
+    def migrate1(self):
+        from ckan import model
+        from ckan.lib.helpers import json
+        q_status = model.Session.query(model.TaskStatus) \
+                   .filter_by(task_type='qa') \
+                   .filter_by(key='status')
+        print '* %s with "status" will be deleted e.g. %s' % (q_status.count(),
+                                                              q_status.first())
+        q_failures = model.Session.query(model.TaskStatus) \
+                     .filter_by(task_type='qa') \
+                     .filter_by(key='openness_score_failure_count')
+        print '* %s with openness_score_failure_count to be deleted e.g.\n%s' % \
+              (q_failures.count(), q_failures.first())
+        q_score = model.Session.query(model.TaskStatus) \
+                  .filter_by(task_type='qa') \
+                  .filter_by(key='openness_score')
+        print '* %s with openness_score to migrate e.g.\n%s' % (q_score.count(),
+                                                                q_score.first())
+        q_reason = model.Session.query(model.TaskStatus) \
+                  .filter_by(task_type='qa') \
+                  .filter_by(key='openness_score_reason')
+        print '* %s with openness_score_reason to migrate e.g.\n%s' % (q_reason.count(),
+                                                                       q_reason.first())
+        raw_input('Press Enter to continue')
+
+        q_status.delete()
+        model.Session.commit()
+        print '..."status" deleted'
+
+        q_failures.delete()
+        model.Session.commit()
+        print '..."openness_score_failure_count" deleted'
+
+        for task_status in q_score:
+            reason_task_status = q_reason.filter_by(entity_id=task_status.entity_id).first()
+            if reason_task_status:
+                reason = reason_task_status.value
+                reason_task_status.delete()
+            else:
+                reason = None
+
+            task_status.key = 'status'
+            task_status.error = json.dumps({
+                'reason': reason,
+                'format': None,
+                'is_broken': None,
+                })
+            model.Session.commit()
+        print '..."openness_score" and "openness_score_reason" migrated'
+
+        count = q_reason.count()
+        q_reason.delete()
+        model.Session.commit()
+        print '... %i remaining "openness_score_reason" deleted' % count
+
+        model.Session.flush()
+        model.Session.remove()
+        print 'Migration succeeded'
