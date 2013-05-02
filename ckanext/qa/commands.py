@@ -175,7 +175,7 @@ class QACommand(p.toolkit.CkanCommand):
         else:
             if not self.options.queue:
                 self.options.queue = 'bulk'
-            page, limit = 1, 100
+            page, limit = 1, 10
             while True:
                 url = api_url + '/current_package_list_with_resources'
                 response = requests.post(url,
