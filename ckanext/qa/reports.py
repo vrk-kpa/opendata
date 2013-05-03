@@ -128,6 +128,7 @@ def resource_five_stars(id):
                        'reason': <text describing score reasoning>,
                        'is_broken': <whether the link is broken (bool)>,
                        'format': <the detected file format>,
+                       'url_redirected_to': <url (str or null)>
                        }
 
       And for the time being it also keeps these deprecated keys:
