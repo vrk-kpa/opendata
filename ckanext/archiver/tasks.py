@@ -41,11 +41,19 @@ LINK_STATUSES__ALL = LINK_STATUSES__BROKEN + LINK_STATUSES__NOT_SURE + \
 
 class ArchiverError(Exception):
     pass
-class DownloadError(ArchiverError):
+class ArchiverErrorBeforeDownloadStarted(ArchiverError):
     pass
-class ArchiveError(ArchiverError):
+class DownloadException(ArchiverError):
     pass
-class ChooseNotToDownload(ArchiverError):
+class ArchiverErrorAfterDownloadStarted(ArchiverError):
+    def __init__(self, msg, url_redirected_to=None):
+        super(ArchiverError, self).__init__(msg)
+        self.url_redirected_to=url_redirected_to
+class DownloadError(ArchiverErrorAfterDownloadStarted):
+    pass
+class ArchiveError(ArchiverErrorAfterDownloadStarted):
+    pass
+class ChooseNotToDownload(ArchiverErrorAfterDownloadStarted):
     pass
 class LinkCheckerError(ArchiverError):
     pass
@@ -80,13 +88,14 @@ def download(context, resource, url_timeout=30,
        LinkHeadRequestError if HEAD request fails
 
     If there is an error performing the download, raises:
-       DownloadError
+       DownloadException - connection problems etc.
+       DownloadError - HTTP status code is an error
 
     If download is not suitable (e.g. too large), raises:
        ChooseNotToDownload
     
     Returns a dict of results of a successful download:
-      length, hash, headers, saved_file
+      length, hash, headers, saved_file, url_redirected_to
     Updates the resource values for: mimetype, size, hash
     '''
     
@@ -103,11 +112,13 @@ def download(context, resource, url_timeout=30,
     resource_format = resource['format'].lower()
 
     # start the download - just get the headers
-    # May raise DownloadError
+    # May raise DownloadException
     res = convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    url_redirected_to = res.url if url != res.url else None
     if not res.ok: # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' % \
-                            (res.status_code, res.reason))
+                            (res.status_code, res.reason),
+                            url_redirected_to)
     log.info('GET succeeded. Content headers: %r', res.headers)
 
     # record headers
@@ -144,7 +155,8 @@ def download(context, resource, url_timeout=30,
             log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
                      content_length, max_content_length, resource['id'], url)
             raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-                (content_length, max_content_length))
+                                      (content_length, max_content_length),
+                                      url_redirected_to)
 
     # continue the download - the response body
     def get_content():
@@ -153,9 +165,13 @@ def download(context, resource, url_timeout=30,
 
     if len(content) > max_content_length:
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-            (content_length, max_content_length))
+                                  (content_length, max_content_length),
+                                  url_redirected_to)
 
-    length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
+    try:
+        length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
+    except ChooseNotToDownload, e:
+        raise ChooseNotToDownload(str(e), url_redirected_to)
     log.info('Resource saved. Length: %s File: %s', length, saved_file_path)
 
     # check if resource size changed
@@ -175,7 +191,8 @@ def download(context, resource, url_timeout=30,
         log.warning('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
                  length, max_content_length, resource['id'], url)
         raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" % 
-            max_content_length)         
+                                  max_content_length,
+                                  url_redirected_to)
 
     # zero length (or just one byte) indicates a problem too
     if length < 2:
@@ -184,7 +201,8 @@ def download(context, resource, url_timeout=30,
         # record fact that resource is zero length
         log.warning('Resource found was length %i - not archiving. Resource: %s %r',
                  length, resource['id'], url)
-        raise DownloadError("Content-length after streaming was %i" % length)
+        raise DownloadError("Content-length after streaming was %i" % length,
+                            url_redirected_to)
 
     # update the resource metadata in CKAN if the resource has changed
     if resource.get('hash') != hash:
@@ -202,7 +220,8 @@ def download(context, resource, url_timeout=30,
     return {'length': length,
             'hash' : hash,
             'headers': res.headers,
-            'saved_file': saved_file_path}
+            'saved_file': saved_file_path,
+            'url_redirected_to': url_redirected_to}
 
 
 @celery.task(name = "archiver.clean")
@@ -293,7 +312,7 @@ def _update(context, resource):
 
     # Get current task_status
     status = get_status(context, resource['id'], log)
-    def _save_status(has_passed, status_txt, exception, status, resource_id):
+    def _save_status(has_passed, status_txt, exception, status, resource_id, url_redirected_to=None):
         assert status_txt in LINK_STATUSES__ALL, status_txt
         last_success = status.get('last_success', '')
         first_failure = status.get('first_failure', '')
@@ -309,9 +328,9 @@ def _update(context, resource):
             failure_count += 1
             reason = '%s' % exception
         save_status(context, resource_id, status_txt,
-                    reason,
+                    reason, url_redirected_to,
                     last_success, first_failure,
-                    failure_count, log)        
+                    failure_count, log)
 
     log.info("Attempting to download resource: %s" % resource['url'])
     result = None
@@ -327,13 +346,19 @@ def _update(context, resource):
         log.info('Link head request error: %s', e.args)
         _save_status(False, 'URL request failed', e, status, resource['id'])
         return
+    except DownloadException, e:
+        log.info('Server communication error: %r, %r', e, e.args)
+        _save_status(False, 'Download error', e, status, resource['id'])
+        return
     except DownloadError, e:
         log.info('Download failed: %r, %r', e, e.args)
-        _save_status(False, 'Download error', e, status, resource['id'])
+        _save_status(False, 'Download error', e, status, resource['id'],
+                     e.url_redirected_to)
         return
     except ChooseNotToDownload, e:
         log.info('Download not carried out: %r, %r', e, e.args)
-        _save_status(False, 'Chose not to download', e, status, resource['id'])
+        _save_status(False, 'Chose not to download', e, status, resource['id'],
+                     e.url_redirected_to)
         return
     except Exception, e:
         if os.environ.get('DEBUG'):
@@ -347,11 +372,12 @@ def _update(context, resource):
         file_path = archive_resource(context, resource, log, result)
     except ArchiveError, e:
         log.error('System error during archival: %r, %r', e, e.args)
-        _save_status(False, 'System error during archival', e, status, resource['id'])
+        _save_status(False, 'System error during archival', e, status, resource['id'], result['url_redirected_to'])
         return
 
     # Success
-    _save_status(True, 'Archived successfully', '', status, resource['id'])
+    _save_status(True, 'Archived successfully', '', status, resource['id'],
+                 result['url_redirected_to'])
     return json.dumps({
         'resource': resource,
         'file_path': file_path
@@ -670,7 +696,7 @@ def get_status(context, resource_id, log):
         log.info('Previous Archiver status blank - using default: %s', status)
     return status
 
-def save_status(context, resource_id, status, reason,
+def save_status(context, resource_id, status, reason, url_redirected_to,
                 last_success, first_failure, failure_count, log):
     '''Writes to the task status table the result of an attempt to download
     the resource.
@@ -689,6 +715,7 @@ def save_status(context, resource_id, status, reason,
                 'last_success': last_success,
                 'first_failure': first_failure,
                 'failure_count': failure_count,
+                'url_redirected_to': url_redirected_to,
                 }),
             'last_updated': now
         }
@@ -699,8 +726,9 @@ def save_status(context, resource_id, status, reason,
 
 def convert_requests_exceptions(func, *args, **kwargs):
     '''
-    Run a requests command, catching the errors and reraising them as
-    DownloadError.
+    Run a requests command, catching exceptions and reraising them as
+    DownloadException. Status errors, such as 404 or 500 do not cause
+    exceptions, instead exposed as response.error.
     e.g.
     >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
     runs:
@@ -709,17 +737,17 @@ def convert_requests_exceptions(func, *args, **kwargs):
     try:
         response = func(*args, **kwargs)
     except requests.exceptions.ConnectionError, e:
-        raise DownloadError('Connection error: %s' % e)
+        raise DownloadException('Connection error: %s' % e)
     except requests.exceptions.HTTPError, e:
-        raise DownloadError('Invalid HTTP response: %s' % e)
+        raise DownloadException('Invalid HTTP response: %s' % e)
     except requests.exceptions.Timeout, e:
-        raise DownloadError('Connection timed out after %ss' % kwargs.get('timeout', '?'))
+        raise DownloadException('Connection timed out after %ss' % kwargs.get('timeout', '?'))
     except requests.exceptions.TooManyRedirects, e:
-        raise DownloadError('Too many redirects')
+        raise DownloadException('Too many redirects')
     except requests.exceptions.RequestException, e:
-        raise DownloadError('Error downloading: %s' % e)
+        raise DownloadException('Error downloading: %s' % e)
     except Exception, e:
         if os.environ.get('DEBUG'):
             raise
-        raise DownloadError('Error with the download: %s' % e)
+        raise DownloadException('Error with the download: %s' % e)
     return response

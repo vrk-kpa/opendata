@@ -4,20 +4,22 @@ import shutil
 import tempfile
 import subprocess
 import time
-import requests
 from datetime import datetime, timedelta
-from nose.tools import raises
 from functools import wraps
 import json
+
 from urllib import quote_plus
 from pylons import config
+from nose.tools import raises, assert_raises, assert_equal
+import requests
+
 from ckan import model
 from ckan import plugins
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.tests import BaseCase, url_for, CreateTestData
-from nose.tools import assert_raises
 
 from ckanext.archiver import default_settings as settings
+
 settings.MAX_CONTENT_LENGTH = 15
 
 from ckanext.archiver.tasks import (link_checker, 
@@ -196,7 +198,7 @@ class TestArchiver(BaseCase):
                     shutil.rmtree(resource_folder)
 
     def assert_in_task_status_error(self, error_message_fragment):
-        err = self._task_status_error()
+        err = self._task_status_error()['reason']
         if error_message_fragment not in err:
             print 'ERROR: %s' % err
             raise AssertionError(err)
@@ -209,7 +211,7 @@ class TestArchiver(BaseCase):
             print repr(res)
             print res.content
             raise
-        return json.loads(error)['reason']
+        return json.loads(error)
 
     def test_file_url(self):
         context = json.dumps(self.fake_context)
@@ -357,6 +359,18 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert result, result
+
+    @with_mock_url('')
+    def test_url_with_30x_follows_and_records_redirect(self, url):
+        redirect_url = url + u'?status=200&content=test&content-type=text/csv'
+        url += u'?status=301&location=%s' % quote_plus(redirect_url)
+        context = json.dumps(self.fake_context)
+        resource = self.fake_resource
+        resource['url'] = url
+        data = json.dumps(resource)
+        result = json.loads(update(context, data))
+        assert result
+        assert_equal(self._task_status_error()['url_redirected_to'], redirect_url)
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):

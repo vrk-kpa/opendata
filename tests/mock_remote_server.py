@@ -108,6 +108,14 @@ class MockEchoTestServer(MockHTTPServer):
         from webob import Request
         request = Request(environ)
         status = int(request.str_params.get('status', '200'))
+        ## if 'redirect' in redirect.str_params:
+        ##     params = dict([(key, value) for param in request.str_params \
+        ##                    if key != 'redirect'])
+        ##     redirect_status = int(request.str_params['redirect'])
+        ##     status = int(request.str_params.get('status', '200'))
+        ##     resp = make_response(render_template('error.html'), redirect_status)
+        ##     resp.headers['Location'] = url_for(request.path, params)
+        ##     return resp
         if 'content_var' in request.str_params:
             content = request.str_params.get('content_var')
             content = self.get_content(content)
