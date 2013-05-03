@@ -375,7 +375,7 @@ def broken_resource_links_for_organisation(organisation_name,
             left join "group" on member.group_id = "group".id
         where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
-            and task_status.task_type='qa'
+            and task_status.task_type='archiver'
             and task_status.key='status'
             and package.state = 'active'
             and resource.state='active'
