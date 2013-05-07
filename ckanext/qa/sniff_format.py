@@ -163,12 +163,12 @@ def is_json(buf, log):
                         state = state_stack.pop()
                     except IndexError:
                         # nothing to pop
-                        log.info('JSON detect failed: %i matches', number_of_matches)
+                        log.info('Not JSON - %i matches', number_of_matches)
                         return False
                 break
         else:
             # no match
-            log.info('JSON detect failed: %i matches', number_of_matches)
+            log.info('Not JSON - %i matches', number_of_matches)
             return False
         match_length = matcher.match(part_of_buf).end()
         #print "MATCHED %r %r %s" % (matcher.match(part_of_buf).string[:match_length], matcher.pattern, state_stack)
@@ -238,7 +238,7 @@ def is_html(buf, log):
     if match:
         log.info('HTML tag detected')
         return Formats.by_extension()['html']
-    log.debug('HTML not detected %s', buf)
+    log.debug('Not HTML')
 
 def is_iati(buf, log):
     '''If this buffer is IATI format, return that format type, else None.'''
@@ -247,7 +247,7 @@ def is_iati(buf, log):
     if match:
         log.info('IATI tag detected')
         return Formats.by_extension()['iati']
-    log.debug('IATI not detected %s', buf)
+    log.debug('Not IATI', buf)
 
 def is_xml_but_without_declaration(buf, log):
     '''Decides if this is a buffer of XML, but missing the usual <?xml ...?>
@@ -259,12 +259,12 @@ def is_xml_but_without_declaration(buf, log):
         if 'xmlns:' not in top_level_tag_attributes and \
                (len(top_level_tag_name) > 20 or \
                 len(top_level_tag_attributes) > 200):
-            log.debug('XML not detected - unlikely length first tag: <%s %s>',
+            log.debug('Not XML (without declaration) - unlikely length first tag: <%s %s>',
                         top_level_tag_name, top_level_tag_attributes)
             return False
         log.info('XML detected - first tag name: <%s>', top_level_tag_name)
         return True
-    log.debug('XML tag not detected')
+    log.debug('Not XML (without declaration) - tag not detected')
     return False
 
 def get_xml_variant_including_xml_declaration(buf, log):
@@ -298,6 +298,7 @@ def has_rdfa(buf, log):
     '''If the buffer HTML contains RDFa then this returns True'''
     # quick check for the key words
     if 'about=' not in buf or 'property=' not in buf:
+        log.debug('Not RDFA')
         return False
 
     # more rigorous check for them as tag attributes
@@ -306,8 +307,10 @@ def has_rdfa(buf, log):
     # remove CR to catch tags spanning more than one line
     #buf = re.sub('\r\n', ' ', buf)
     if not re.search(about_re, buf):
+        log.debug('Not RDFA')
         return False
     if not re.search(property_re, buf):
+        log.debug('Not RDFA')
         return False
     log.info('RDFA tags found in HTML')
     return True
@@ -370,7 +373,7 @@ def is_excel(filepath, log):
     try:
         book = xlrd.open_workbook(filepath)
     except Exception, e:
-        log.info('Failed to load as Excel: %s %s', e, e.args)
+        log.info('Not Excel - failed to load: %s %s', e, e.args)
         return False
     else:
         log.info('Excel file opened successfully')
@@ -435,7 +438,7 @@ def is_ttl(buf, log):
         log.info('Turtle RDF detected - %s triples' % num_replacements)
         return True
 
-    log.debug('Turtle RDF not detected (%i)' % num_replacements)
+    log.debug('Not Turtle RDF - triples not detected (%i)' % num_replacements)
 
 turtle_regex_ = None
 def turtle_regex():
@@ -448,6 +451,7 @@ def turtle_regex():
          "literal typed"^^<http://www.w3.org/2001/XMLSchema#string>
          "literal typed with prefix"^^xsd:string
          'single quotes'
+         """triple \n quotes"""
          -4.2E-9
          false
          _:blank_node
@@ -458,10 +462,11 @@ def turtle_regex():
     '''
     if not turtle_regex_:
          global turtle_regex_
-         rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
+         rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|""".+?"""(@\w+)?(\^\^\S+)?|\'\'\'.+?\'\'\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
 
          # simple case is: triple_re = '^T T T \.$'.replace('T', rdf_term)
          # but extend to deal with multiple predicate-objects:
-         triple = '^T T T\s*(;\s*T T\s*)*\.\s*$'.replace('T', rdf_term).replace(' ', '\s+')
+         #triple = '^T T T\s*(;\s*T T\s*)*\.\s*$'.replace('T', rdf_term).replace(' ', '\s+')
+         triple = '(^T|;)\s*T T\s*(;|\.\s*$)'.replace('T', rdf_term).replace(' ', '\s+')
          turtle_regex_ = re.compile(triple, re.MULTILINE)
     return turtle_regex_

@@ -131,6 +131,8 @@ class TestSniffFormat:
         self.check_format('rdf', 'turtle.rdf')
     def test_ttl2(self):
         self.check_format('rdf', 'turtle-imd-education-score-2010.rdf')
+    def test_ttl3(self):
+        self.check_format('rdf', 'turtle-homelessness-acceptances-per-1000.rdf')
 
 def test_is_json():
     assert is_json('5', log)
@@ -166,6 +168,8 @@ def test_turtle_regex():
     assert turtle_regex().search(template % '"literal type"^^<http://www.w3.org/2001/XMLSchema#string>')
     assert turtle_regex().search(template % '"literal typed with prefix"^^xsd:string')
     assert turtle_regex().search(template % "'single quotes'")
+    assert turtle_regex().search(template % '"""triple quotes but not multiline"""')
+    assert turtle_regex().search(template % "'''triple quotes but not multiline'''")
     assert turtle_regex().search(template % '12')
     assert turtle_regex().search(template % '1.12')
     assert turtle_regex().search(template % '.12')
@@ -175,12 +179,18 @@ def test_turtle_regex():
     assert turtle_regex().search(template % '_:blank_node')
     assert turtle_regex().search('<s> <p> <o> ;\n <p> <o> .')
     assert turtle_regex().search('<s> <p> <o>;<p> <o>.')
-    assert not turtle_regex().search('<s> <p> <o>;<p> <o>. rubbish')
+    # Include triples which are part of a nest:
+    assert turtle_regex().search('<s> <p> <o> ;')
+    assert turtle_regex().search('<s> <p> <o>;')
+    assert turtle_regex().search(' ;<p> <o>.')
+    assert turtle_regex().search(';\n<p> <o>.')
+    assert turtle_regex().search(';\n<p> <o>;')
+    assert not turtle_regex().search('<s> <p> <o>. rubbish')
     assert not turtle_regex().search(template % 'word')
     assert not turtle_regex().search(template % 'prefix:node')
 
 
-def test_is_ttl():
+def test_is_ttl__num_triples():
     triple = '<subject> <predicate> <object>; <predicate> <object>.'
     assert not is_ttl('\n'.join([triple]*2), log)
     assert is_ttl('\n'.join([triple]*5), log)
