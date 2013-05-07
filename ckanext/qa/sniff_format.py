@@ -184,13 +184,13 @@ def is_json(buf, log):
 def is_csv(buf, log):
     '''If the buffer is a CSV file then return True.'''
     buf_rows = StringIO.StringIO(buf)
-    table_set = messytables.CSVTableSet.from_fileobj(buf_rows)
+    table_set = messytables.CSVTableSet(buf_rows)
     return _is_spreadsheet(table_set, 'CSV', log)
 
 def is_psv(buf, log):
     '''If the buffer is a PSV file then return True.'''
     buf_rows = StringIO.StringIO(buf)
-    table_set = messytables.CSVTableSet.from_fileobj(buf_rows, delimiter='|')
+    table_set = messytables.CSVTableSet(buf_rows, delimiter='|')
     return _is_spreadsheet(table_set, 'PSV', log)
 
 def _is_spreadsheet(table_set, format, log):
