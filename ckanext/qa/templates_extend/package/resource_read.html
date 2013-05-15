@@ -1,0 +1,17 @@
+{% ckan_extends %}
+
+{% block resource_information %}
+  {{ super() }}
+
+  {{ h.qa_stars(c.resource.id) }}
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{% url_for_static '/css/ckanext-qa.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{% url_for_static '/scripts/qa.js' %}"></script>
+{% endblock %}

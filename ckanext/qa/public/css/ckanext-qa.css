@@ -30,3 +30,23 @@
   color: #aaa;
   font-size: 11px;
 }
+
+// New styles for QA
+
+.module-ratings .rating-info li {
+  line-height: 18px;
+}
+
+.module-ratings .rating-info li span {
+  font-size: 12px;
+  margin-right: 2px;
+}
+
+.module-ratings .rating-info .fail {
+  color: #afafaf;
+}
+
+.module-ratings .rating-info-toggle {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}

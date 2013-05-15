@@ -1,0 +1,25 @@
+{#
+Renders a list explaining each level of the rating system. Applies a class to
+all items that the current dataset does not meet so they can be styled
+accordingly.
+
+stars - The number of stars assigned to the current dataset.
+
+Example:
+
+    {% snippet "qa/snippets/stars_info.html", stars=3 %}
+
+#}
+{% set captions = [
+  _('Available under an open license.'),
+  _('Available as structured data (eg. Excel instead of a scanned table).'),
+  _('Uses non-proprietary formats (e.g., CSV instead of Excel).'),
+  _('Uses URIs to identify things, so that people can link to it.'),
+  _('Linked to other data to provide context.')
+] %}
+
+<ul class="simple-list rating-info unstyled">
+  {% for caption in captions %}
+  <li{% if stars < loop.index %} class="fail"{% endif %}><span>{{ ('&#9733;' * loop.index) | safe }}</span> {{ caption }}</li>
+  {% endfor %}
+</ul>

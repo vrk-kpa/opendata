@@ -1,0 +1,22 @@
+{#
+Renders a module for display in the site sidebar containing the rating for the
+provided dataset and some info about how the stars work.
+
+stars  - The number of stars assigned to the current dataset.
+reason - A reason, if any, why the dataset has no rating.
+
+Example:
+
+    {% snippet "qa/snippets/stars_module.html", stars=3 %}
+
+#}
+<section class="module-ratings module module-narrow module-shallow">
+  <h2 class="module-heading">{{ _('Resource Quality') }}</h2>
+  <p class="module-content">
+    {{ _('Rating') }}: {{ h.qa_stars_rating(stars, reason) }}
+  </p>
+  <p class="rating-info-toggle module-content module-border-top"><a href="#" data-toggle="ratings" data-target=".rating-info-wrapper" data-hide-text="{{ _('Hide rating info') }}">{{ _('About these ratings…') }}</a></p>
+  <div class="rating-info-wrapper js-hide module-border-top">
+    {{ h.qa_stars_info(stars) }}
+  </div>
+</section>

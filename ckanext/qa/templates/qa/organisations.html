@@ -13,9 +13,9 @@
   <div class="qa-content">
   <h1>Organisation Quality Assurance</h1>
   <ul>
-      <li>${h.link_to("Broken resource links", h.url_for('qa_organisation_action', action='broken_resource_links'))}</li>
+      <li>${h.link_to("Broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links'))}</li>
   </ul>
   </div>
 </div>
-<xi:include href="../../../layout.html" />
+<xi:include href="../layout.html" />
 </html>

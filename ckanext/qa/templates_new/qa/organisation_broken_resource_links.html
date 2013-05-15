@@ -1,0 +1,38 @@
+
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Quality Assurance') }}{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <div class="qa-content">
+
+
+    <h1>Quality Assurance</h1>
+
+    <h3>Organizations who have published datasets with broken resource links.</h3>
+    <ul>
+      <li>{{ h.link_to('Report of all broken links by organisation in CSV format', h.url_for(controller='ckanext.qa.controller:QAController', action='organisations_with_broken_resource_links', format='csv', id='all')) }}</li>
+    </ul>
+    <table class="qa-table">
+      <tr>
+          <th class="qa-table-name">Organization name</th>
+      </tr>
+      {% for organisation_title, organisation_id in c.organisations %}
+      <tr>
+        <td>{{ h.link_to(organisation_title, h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links', id=organisation_id)) }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    {% if not c.organisations %}
+    <p>No organizations that have published datasets with broken resource links found.</p>
+    {% endif %}
+
+      </div>
+    </div>
+  </article>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

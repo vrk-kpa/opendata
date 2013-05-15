@@ -54,6 +54,17 @@ You must also make sure that the following is set in your CKAN config:
     ckan.site_url = <URL to your CKAN instance>
 
 
+**Optional:**
+
+By default, the report for organisations will be listed in the QA reports
+page (/qa). If you do not want to show this report, you can disable it by 
+setting the following config option:
+
+::
+
+    qa.organisations = false
+
+
 Using The QA Extension
 ----------------------
 

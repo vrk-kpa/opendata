@@ -1,0 +1,20 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Quality Assurance') }}{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <div class="qa-content">
+      <h1>Quality Assurance</h1>
+      <ul>
+        <li>{{h.link_to("Dataset openness scores", h.url_for(controller='ckanext.qa.controller:QAController', action='five_stars'))}}</li>
+          <li>{{h.link_to("Datasets with broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='dataset_broken_resource_links'))}}</li>
+          <li>{{h.link_to("Organisations whose datasets contain broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links'))}}</li>
+      </ul>
+      </div>
+    </div>
+  </article>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
