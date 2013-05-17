@@ -4,19 +4,18 @@
   py:strip="">
 
   <py:def function="page_title">Organisation scores - QA</py:def>
-
   <py:def function="body_class">no-sidebar</py:def>
+  <py:def function="page_heading">
+    <a href="/qa">Quality Assurance</a>
+    <span class="subheading"><img src="/images/arrow-down-right.png"/> Publisher Openness Scores</span>
+  </py:def>
 
   <py:def function="optional_head">
     <link type="text/css" rel="stylesheet" media="all" href="/css/ckanext-qa.css" />
   </py:def>
 
   <div py:match="content">
-    <div class="qa-content">
-      <h1>Quality Assurance</h1>
-      <h2><a href="/qa/organisation/scores">Openness Scores</a> -
-          Publisher summaries
-      </h2>
+    <div class="qa-content boxed">
       <py:if test="(not c.organisations)">
         <p>No results found.</p>
       </py:if>

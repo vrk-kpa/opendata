@@ -6,19 +6,22 @@
   <py:def function="page_title">Quality Assurance</py:def>
 
   <py:def function="body_class">no-sidebar</py:def>
+  <py:def function="page_heading">
+    <a href="/qa">Quality Assurance</a>
+    <span class="subheading">
+      <img src="/images/arrow-down-right.png"/> <a href="/qa/organisation/broken_resource_links">Publishers with broken resource links</a>
+      <span class="subheading">
+        <img src="/images/arrow-down-right.png"/> ${c.data['publisher_title']}
+      </span>
+    </span>
+  </py:def>
 
   <py:def function="optional_head">
     <link type="text/css" rel="stylesheet" media="all" href="/css/ckanext-qa.css" />
   </py:def>
 
   <div py:match="content">
-    <div class="qa-content">
-      <h1>Quality Assurance</h1>
-      <h2><a href="/qa/organisation/broken_resource_links">Broken Links</a> -
-          <a href="/publisher/${c.data['publisher_name']}">
-            ${c.data['publisher_title']}
-          </a>
-      </h2>
+    <div class="qa-content boxed">
       <py:if test="(not c.data) or (not c.data['data'])">
         <p>No results found for this publisher.</p>
       </py:if>
