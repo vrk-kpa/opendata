@@ -201,7 +201,9 @@ def _is_spreadsheet(table_set, format, log):
     num_cells = num_rows = 0
     try:
         table = table_set.tables[0]
-        for row in table:
+        # Iterate through the table.sample (sample because otherwise
+        # it will barf if there is an unclosed string at the end)
+        for row in table.sample:
             if row:
                 # Must have enough cells
                 num_cells += len(row)

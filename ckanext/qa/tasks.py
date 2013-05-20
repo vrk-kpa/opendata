@@ -8,6 +8,7 @@ import requests
 import urlparse
 import os
 import re
+import traceback
 
 from pylons import config
 
@@ -77,7 +78,7 @@ def _task_status_data(resource_id, result):
             'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'status',
-            'value': result['openness_score'],
+            'value': result['openness_score'] or '',
             'error': json.dumps({
                 'reason': result['openness_score_reason'],
                 'format': result['format'],
@@ -280,7 +281,7 @@ def resource_score(context, data, log):
         score_reason = ' '.join(score_reasons)
         format_ = format_ or None
     except Exception, e:
-        log.error('Unexpected error while calculating openness score %s: %s', e.__class__.__name__,  unicode(e))
+        log.error('Unexpected error while calculating openness score %s: %s\nException: %s', e.__class__.__name__,  unicode(e), traceback.format_exc())
         score_reason = "Unknown error: %s" % str(e)
         if os.environ.get('DEBUG'):
             raise

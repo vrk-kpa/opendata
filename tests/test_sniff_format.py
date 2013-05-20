@@ -111,6 +111,8 @@ class TestSniffFormat:
         self.check_format('rss')
     def test_txt(self):
         self.check_format('txt')
+    def test_txt_2(self):
+        self.check_format('txt', 'terrible_csv.txt')
     def test_csv_zip(self):
         self.check_format('csv.zip', 'written_complains.csv.zip')
     def test_csv_zip1(self):
