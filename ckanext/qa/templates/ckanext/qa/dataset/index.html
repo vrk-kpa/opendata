@@ -4,14 +4,15 @@
   py:strip="">
 
   <py:def function="page_title">Quality Assurance</py:def>
+  <py:def function="page_heading">Package Quality Assurance</py:def>
+  <py:def function="body_class">no-sidebar</py:def>
 
   <py:def function="optional_head">
     <link type="text/css" rel="stylesheet" media="all" href="/css/ckanext-qa.css" />
   </py:def>
   
 <div py:match="content">
-  <div class="qa-content">
-    <h1>Package Quality Assurance</h1>
+  <div class="qa-content boxed">
     <ul>
       <li>${h.link_to("Broken resource links",
                       h.url_for(controller='ckanext.qa.controllers.qa_package:QAPackageController',
