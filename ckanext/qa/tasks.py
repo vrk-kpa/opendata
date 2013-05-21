@@ -1,6 +1,5 @@
 '''
 Score datasets on Sir Tim Berners-Lee\'s five stars of openness
-based on mime-type.
 '''
 import datetime
 import json
@@ -78,11 +77,12 @@ def _task_status_data(resource_id, result):
             'entity_type': u'resource',
             'task_type': 'qa',
             'key': u'status',
-            'value': result['openness_score'] or '',
+            'value': result['openness_score'],
             'error': json.dumps({
                 'reason': result['openness_score_reason'],
                 'format': result['format'],
                 'is_broken': result['is_broken'],
+                'archiver_status': result['archiver_status'],
                 }),
             'last_updated': now
         }
@@ -248,6 +248,7 @@ def resource_score(context, data, log):
         'openness_score_reason': the reason for the score (string)
         'format': format of the data (display_name string)
         'is_broken': whether the link is considered broken or not (bool)
+        'archiver_status': the raw error message from the archiver (string)
 
     """
     score = 0
@@ -303,6 +304,7 @@ def resource_score(context, data, log):
         'openness_score_reason': score_reason,
         'format': format_,
         'is_broken': is_broken,
+        'archiver_status': archiver_status['value'],
     }
 
     return result
