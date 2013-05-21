@@ -113,19 +113,10 @@ def update_package(context, data):
             result = resource_score(context, resource, log)
             log.info('Res score: %s format:%s broken:%s url:"%s"', result.get('openness_score'), result.get('format'), result.get('is_broken'), resource['url'])
             _update_task_status(context, _task_status_data(resource['id'], result), log)
-            #log.info('CKAN updated with openness score')
+            log.info('CKAN updated with openness score')
         update_search_index(context, package['id'], log)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
-        _update_task_status(context, {
-            'entity_id': package['id'],
-            'entity_type': u'resource',
-            'task_type': 'qa',
-            'key': u'celery_task_id',
-            'value': unicode(update.request.id),
-            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
-            'last_updated': datetime.datetime.now().isoformat()
-        }, log)
         raise
 
 @celery_app.celery.task(name="qa.update")
@@ -152,7 +143,7 @@ def update(context, data):
         result = resource_score(context, resource, log)
         log.info('Openness scoring: \n%r\n%r\n%r\n\n', result, resource, context)
         _update_task_status(context, _task_status_data(resource['id'], result), log)
-        #log.info('CKAN updated with openness score')
+        log.info('CKAN updated with openness score')
         package = resource.get('package')
         if package:
             update_search_index(context, resource['package'], log)
@@ -161,15 +152,6 @@ def update(context, data):
         return json.dumps(result)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
-        _update_task_status(context, {
-            'entity_id': resource['id'],
-            'entity_type': u'resource',
-            'task_type': 'qa',
-            'key': u'celery_task_id',
-            'value': unicode(update.request.id),
-            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
-            'last_updated': datetime.datetime.now().isoformat()
-        }, log)
         raise
 
 def get_status(context, resource_id, log):
