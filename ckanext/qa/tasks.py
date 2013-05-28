@@ -461,6 +461,7 @@ def update_search_index(context, package_id, log):
     '''
     Tells CKAN to update its search index for a given package dict.
     '''
+    log.info('Updating Search Index..')
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/search_index_update'
     data = {'id': package_id}
     res = requests.post(
@@ -479,4 +480,4 @@ def update_search_index(context, package_id, log):
                         % (res.status_code, content, context, data, res, res.error, api_url))
         raise CkanError('ckan failed to update search index, status_code (%s), error %s'
                         % (res.status_code, content))
-    log.info('Task status updated ok')
+    log.info('..Search Index updated')
