@@ -220,7 +220,7 @@ def resource_score(context, data, log):
 
     context - how this plugin can call the CKAN API to get more info and
               save the results.
-              is a JSON dict with keys: 'site_url', 'apikey'
+              is a dict with keys: 'site_url', 'site_user_apikey'
     data - details of the resource that is to be scored
            is JSON dict with keys: 'package', 'position', 'id', 'format', 'url', 'is_open'
 
@@ -236,11 +236,15 @@ def resource_score(context, data, log):
     score = 0
     score_reason = ''
     format_ = None
-    is_broken = False
+    is_broken = None
+    archiver_status = {}
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
-        archiver_status = get_archiver_status(context, data['id'], log)
+        assert set(context.keys()) >= set(('site_url', 'site_user_apikey')), context
+        archiver_status = get_archiver_status(context=context,
+                                              resource_id=data['id'],
+                                              log=log)
 
         score, format_, is_broken = score_if_link_broken(context, archiver_status, data, score_reasons, log)
         if score == None:
@@ -286,7 +290,7 @@ def resource_score(context, data, log):
         'openness_score_reason': score_reason,
         'format': format_,
         'is_broken': is_broken,
-        'archiver_status': archiver_status['value'],
+        'archiver_status': archiver_status.get('value', '')
     }
 
     return result
@@ -470,6 +474,7 @@ def update_search_index(context, package_id, log):
                  'Content-Type': 'application/json'}
     )
     if res.status_code == 200:
+        log.info('..Search Index updated')
         return res.content
     else:
         try:
@@ -480,4 +485,3 @@ def update_search_index(context, package_id, log):
                         % (res.status_code, content, context, data, res, res.error, api_url))
         raise CkanError('ckan failed to update search index, status_code (%s), error %s'
                         % (res.status_code, content))
-    log.info('..Search Index updated')
