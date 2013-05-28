@@ -688,12 +688,12 @@ def get_status(context, resource_id, log):
                  if task_status['error'] else {}
         status['value'] = task_status['value']
         status['last_updated'] = task_status.get('last_updated')
-        log.info('Previous Archiver status checked ok: %s', status)
+        log.info('Archiver status (currently stored value): %s', status)
     else:
         status = {'value': '', 'reason': '',
                   'last_success': '', 'first_failure': '', 'failure_count': 0,
                   'last_updated': ''}
-        log.info('Previous Archiver status blank - using default: %s', status)
+        log.info('Archiver status blank - using default: %s', status)
     return status
 
 def save_status(context, resource_id, status, reason, url_redirected_to,
