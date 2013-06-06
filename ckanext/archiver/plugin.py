@@ -37,6 +37,8 @@ class ArchiverPlugin(SingletonPlugin):
             # 'change resource' notification, which we need to ignore here.
             if operation == model.DomainObjectOperation.new:
                 self._create_archiver_task(entity)
+            elif operation == model.DomainObjectOperation.changed:
+                self._create_archiver_task(entity)
             else:
                 log.debug('Ignoring resource event because operation is: %s',
                           operation)

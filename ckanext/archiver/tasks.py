@@ -643,7 +643,10 @@ def update_task_status(context, data, log):
 def get_task_status(key, context, resource_id, log):
     '''Gets a row from the task_status table as a dict including keys:
        'value', 'error', 'stack', 'last_updated'
-    If the key isn\'t there, returns None.'''
+    If the key is not there, returns None.
+
+    :param context: Dict including: site_url, site_user_apikey
+    '''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
     response = requests.post(
         api_url,
@@ -681,6 +684,8 @@ def get_status(context, resource_id, log):
     failure_count, last_updated
 
     May propagate CkanError if the request fails.
+
+    :param context: Dict including: site_url, site_user_apikey
     '''
     task_status = get_task_status('status', context, resource_id, log)
     if task_status:
