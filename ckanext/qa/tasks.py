@@ -241,7 +241,8 @@ def resource_score(context, data, log):
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
-        assert set(context.keys()) >= set(('site_url', 'site_user_apikey')), context
+        assert set(context.keys()) >= set(('site_url', 'site_user_apikey')), \
+               'Context missing keys. Has: %s' % context.keys()
         archiver_status = get_archiver_status(context=context,
                                               resource_id=data['id'],
                                               log=log)

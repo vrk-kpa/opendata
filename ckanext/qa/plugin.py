@@ -13,6 +13,7 @@ import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
 import ckan.plugins.toolkit as t
 from ckan.model.types import make_uuid
+from ckanext.qa.lib import get_site_url, get_user_and_context
 
 import html
 import reports
@@ -33,7 +34,7 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.IActions)
 
     def configure(self, config):
-        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
+        self.site_url = get_site_url(config)
         self.alter_resource_page_template = t.asbool(config.get('qa.alter_resource_page_template', True))
 
     def update_config(self, config):
@@ -96,21 +97,20 @@ class QAPlugin(p.SingletonPlugin):
         if operation:
             if operation == model.DomainObjectOperation.new:
                 self._create_task(entity)
+            if operation == model.DomainObjectOperation.changed:
+                # URL changed
+                self._create_task(entity)
         else:
             # if operation is None, resource URL has been changed, as the
             # notify function in IResourceUrlChange only takes 1 parameter
             self._create_task(entity)
 
     def _create_task(self, resource):
-        user = p.toolkit.get_action('get_site_user')(
-            {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
-        )
-        context = json.dumps({
-            'site_url': self.site_url,
-            'apikey': user.get('apikey')
-        })
+        user, context = get_user_and_context(self.site_url)
 
         resource_dict = resource_dictize(resource, {'model': model})
+        pkg_id = resource.resource_group.package.id if resource.resource_group else None
+        resource_dict['package'] = pkg_id
 
         related_packages = resource.related_packages()
         if related_packages:

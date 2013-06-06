@@ -75,19 +75,8 @@ class QACommand(p.toolkit.CkanCommand):
         # won't get disabled
         self.log = logging.getLogger('ckanext.qa')
 
-        from ckan.logic import get_action
-        from ckan import model
-        from ckan.lib.helpers import json
-
-        user = p.toolkit.get_action('get_site_user')(
-            {'model': model, 'ignore_auth': True}, {}
-        )
-        context = json.dumps({
-            'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
-            'apikey': user.get('apikey'),
-            'site_user_apikey': user.get('apikey'),
-            'username': user.get('name'),
-        })
+        from ckanext.qa.lib import get_site_url, get_user_and_context
+        user, context = get_user_and_context(get_site_url(config))
 
         if cmd == 'update':
             self.update(user, context)

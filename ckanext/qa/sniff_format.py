@@ -5,6 +5,7 @@ import os
 from collections import defaultdict
 import subprocess
 import StringIO
+import copy
 
 import xlrd
 import magic
@@ -14,7 +15,11 @@ from ckanext.dgu.lib.formats import Formats
 
 def sniff_file_format(filepath, log):
     '''For a given filepath, work out what file format it is.
-    Returns Format dict e.g. {'display_name': 'CSV', ...}
+    Returns Format dict with a key to say if it is contained
+    in a zip or something.
+    e.g. {'display_name': 'CSV',
+          'container': 'zip',
+           ...}
     or None if it can\'t tell what it is.
 
     Note, log is a logger, either a Celery one or a standard
@@ -343,31 +348,28 @@ def get_zipped_format(filepath, log):
     for filename in filenames:
         extension = os.path.splitext(filename)[-1][1:].lower()
         if extension in Formats.by_extension():
-            if (extension + '.zip') in Formats.by_extension():
-                format_ = Formats.by_extension()[extension]
-                if format_['openness'] > top_score:
-                    top_score = format_['openness']
-                    top_scoring_extension_counts = defaultdict(int)
-                if format_['openness'] == top_score:
-                    top_scoring_extension_counts[extension] += 1
-            else:
-                log.info('Zipped file extension not a known format combination: "%s" (%s)', extension, filepath)
+            format_ = Formats.by_extension()[extension]
+            if format_['openness'] > top_score:
+                top_score = format_['openness']
+                top_scoring_extension_counts = defaultdict(int)
+            if format_['openness'] == top_score:
+                top_scoring_extension_counts[extension] += 1
         else:
             log.info('Zipped file of unknown extension: "%s" (%s)', extension, filepath)
     if not top_scoring_extension_counts:
         log.info('Zip has no known extensions: %s', filepath)
         return Formats.by_display_name()['Zip']
-        
+
+    print top_scoring_extension_counts.items()
     top_scoring_extension_counts = sorted(top_scoring_extension_counts.items(),
-                                          lambda x: x[1])
+                                          key=lambda x: x[1])
     top_extension = top_scoring_extension_counts[-1][0]
     log.info('Zip file\'s most popular extension is "%s" (All extensions: %r)',
              top_extension, top_scoring_extension_counts)
-    zipped_extension = top_extension + '.zip'
-    if zipped_extension not in Formats.by_extension():
-        log.info('Zipped %s not a registered format', top_extension)
-        return Formats.by_display_name()['Zip']
-    format_ = Formats.by_extension()[zipped_extension]
+    format_ = Formats.by_extension()[top_extension]
+    # take a copy of the format_ dict to avoid altering the copy held in Formats
+    format_ = copy.deepcopy(format_)
+    format_['container'] = Formats.by_display_name()['Zip']['display_name']
     log.info('Zipped file format detected: %s', format_['display_name'])
     return format_
     
