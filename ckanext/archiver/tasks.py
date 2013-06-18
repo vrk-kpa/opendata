@@ -497,7 +497,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     If there is a failure, raises ArchiveError.
     
     Updates resource keys: cache_url, cache_last_updated, cache_filepath
-    Returns
+    Returns: cache_filepath
     """
     if result['length']:
         relative_archive_path = os.path.join(resource['id'][:2], resource['id'])

@@ -37,6 +37,9 @@ class Archiver(CkanCommand):
              archived resource, whether it was successful or not, with errors.
              It does not change the cache_url etc. in the Resource
 
+        paster archiver clean-cached-resources
+           - Removes all cache_urls and other references to resource files on disk.
+
         paster archiver view [{dataset name/id}]
            - Views info archival info, in general and if you specify one, about
              a particular dataset\'s resources.
@@ -83,6 +86,8 @@ class Archiver(CkanCommand):
             self.update()
         elif cmd == 'clean-status':
             self.clean_status()
+        elif cmd == 'clean-cached-resources':
+            self.clean_cached_resources()
         elif cmd == 'view':
             if len(self.args) == 2:
                 self.view(self.args[1])
@@ -163,8 +168,8 @@ class Archiver(CkanCommand):
         print 'Resources: %i total' % r_q.count()
         r_q = r_q.filter(model.Resource.cache_url!='')
         print '           %i with cache_url' % r_q.count()
-        print '           %s latest update' % r_q.order_by(model.Resource.cache_last_updated.desc()).first().last_modified
-        
+        last_updated_res = r_q.order_by(model.Resource.cache_last_updated.desc()).first()
+        print '           %s latest update' % (last_updated_res.last_modified if last_updated_res else '(no)')
         ts_q = model.Session.query(model.TaskStatus).filter_by(task_type='archiver')
         print 'Archive status records - %i TaskStatus rows' % ts_q.count()
         print '                  across %i Resources' % ts_q.distinct('entity_id').count()
@@ -192,6 +197,37 @@ class Archiver(CkanCommand):
 
         print 'After:'
         self.view()        
+
+    def clean_cached_resources(self):
+        from ckan import model
+
+        print 'Before:'
+        self.view()
+
+        def new_revision():
+            rev = model.repo.new_revision()
+            rev.message = 'Refresh cached resources'
+
+        q = model.Session.query(model.Resource).filter(model.Resource.cache_url!='')
+        resources = q.all()
+        num_resources = len(resources)
+        progress = 0
+        rev = new_revision()
+        for res in resources:
+            res.cache_url = ''
+            res.cache_last_updated = None
+            if 'cache_filepath' in res.extras:
+                del res.extras['cache_filepath']
+            progress += 1
+            if progress % 1000 == 0:
+                print 'Done %i/%i' % (progress, num_resources)
+                model.Session.commit()
+                rev = new_revision()
+        model.Session.commit()
+        model.Session.remove()
+
+        print 'After:'
+        self.view()
 
     def migrate_archive_dirs(self):
         from ckan import model
