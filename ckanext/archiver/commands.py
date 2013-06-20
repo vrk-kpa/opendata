@@ -232,7 +232,6 @@ class Archiver(CkanCommand):
     def migrate_archive_dirs(self):
         from ckan import model
         from ckanext.archiver.tasks import get_status as ArchiverError
-        from ckanext.archiver.lib import get_cached_resource_filepath
         from ckan.logic import get_action
 
         site_user = get_action('get_site_user')(
