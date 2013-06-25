@@ -28,16 +28,14 @@ class ArchiverPlugin(SingletonPlugin):
         if not isinstance(entity, model.Resource):
             return
 
-        log.debug('Notified of resource event: %s', entity.id)
+        log.debug('Notified of resource event: %s %s', entity.id, operation)
 
         if operation:
-            # Only interested in 'new resource' events, since that's what you
-            # get when you change the URL field. Note that once this occurs, in tasks.py
-            # it will update the resource with the new cache_url, that will cause a 
-            # 'change resource' notification, which we need to ignore here.
+            # Only interested in 'new resource' events. Note that once this occurs,
+            # in tasks.py it will update the resource with the new cache_url,
+            # that will cause a 'change resource' notification, which we nee
+            # to ignore here.
             if operation == model.DomainObjectOperation.new:
-                self._create_archiver_task(entity)
-            elif operation == model.DomainObjectOperation.changed:
                 self._create_archiver_task(entity)
             else:
                 log.debug('Ignoring resource event because operation is: %s',
