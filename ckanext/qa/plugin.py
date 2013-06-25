@@ -96,12 +96,11 @@ class QAPlugin(p.SingletonPlugin):
 
         if operation:
             if operation == model.DomainObjectOperation.new:
-                self._create_task(entity)
-            if operation == model.DomainObjectOperation.changed:
-                # URL changed
+                # Resource created
                 self._create_task(entity)
         else:
-            # if operation is None, resource URL has been changed, as the
+            # Resource URL has changed.
+            # If operation is None, resource URL has been changed because the
             # notify function in IResourceUrlChange only takes 1 parameter
             self._create_task(entity)
 

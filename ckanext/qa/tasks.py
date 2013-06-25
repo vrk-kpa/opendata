@@ -15,7 +15,6 @@ import ckan.lib.celery_app as celery_app
 from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
 from ckanext.qa.sniff_format import sniff_file_format
 from ckanext.archiver.tasks import get_status as get_archiver_status, ArchiverError, LINK_STATUSES__BROKEN
-from ckanext.archiver.lib import get_cached_resource_filepath
 
 class QAError(Exception):
     pass
