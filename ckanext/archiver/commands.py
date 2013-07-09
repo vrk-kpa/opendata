@@ -278,13 +278,13 @@ class Archiver(CkanCommand):
                 fp = resource.extras.get('cache_filepath')
                 if fp is None:
                     if not delete:
-                        writer.writerow([resource.id, str(resource.extras), "Resource not cached"])
+                        writer.writerow([resource.id, str(resource.extras), "Resource not cached: {0}".format(resource.state)])
                     continue
 
                 # Check that the cached file is there and readable
                 if not os.path.exists(fp):
                     if not delete:
-                        writer.writerow([resource.id, fp.encode('utf-8'), "File not found"])
+                        writer.writerow([resource.id, fp.encode('utf-8'), "File not found: {0}".format(resource.state)])
                     continue
 
                 try:
