@@ -266,6 +266,12 @@ class Archiver(CkanCommand):
         # We'll use this to match the UUID part of the path
         uuid_re = re.compile(".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*")
 
+        not_cached_active = 0
+        not_cached_deleted = 0
+        file_not_found_active = 0
+        file_not_found_deleted = 0
+        perm_error = 0
+        file_no_resource = 0
 
         with open(output_file, "w") as f:
             writer = csv.writer(f)
@@ -278,12 +284,21 @@ class Archiver(CkanCommand):
                 fp = resource.extras.get('cache_filepath')
                 if fp is None:
                     if not delete:
+                        if resource.state == 'active':
+                            not_cached_active += 1
+                        else:
+                            not_cached_deleted += 1
                         writer.writerow([resource.id, str(resource.extras), "Resource not cached: {0}".format(resource.state)])
                     continue
 
                 # Check that the cached file is there and readable
                 if not os.path.exists(fp):
                     if not delete:
+                        if resource.state == 'active':
+                            file_not_found_active += 1
+                        else:
+                            file_not_found_deleted += 1
+
                         writer.writerow([resource.id, fp.encode('utf-8'), "File not found: {0}".format(resource.state)])
                     continue
 
@@ -291,6 +306,7 @@ class Archiver(CkanCommand):
                     s = os.stat(fp)
                 except OSError:
                     if not delete:
+                        perm_error += 1
                         writer.writerow([resource.id, fp.encode('utf-8'), "File not readable"])
                     continue
 
@@ -307,6 +323,7 @@ class Archiver(CkanCommand):
                     if not resources.get(m.groups(0)[0].strip(), False):
                         if delete:
                             try:
+                                file_no_resource += 1
                                 os.unlink(archived_path)
                                 self.log.info("Unlinked {0}".format(archived_path))
                                 os.rmdir(root)
@@ -319,8 +336,16 @@ class Archiver(CkanCommand):
 
                         continue
 
-
-
+        print "General info:"
+        print "  Permission error reading file: {0}".format(perm_error)
+        print "  file on disk but no resource: {0}".format(file_no_resource)
+        print "  Total resources: {0}".format(model.Session.query(model.Resource).count())
+        print "Active resource info:"
+        print "  No cache_filepath: {0}".format(not_cached_active)
+        print "  cache_filepath not on disk: {0}".format(file_not_found_active)
+        print "Deleted resource info:"
+        print "  No cache_filepath: {0}".format(not_cached_deleted)
+        print "  cache_filepath not on disk: {0}".format(file_not_found_deleted)
 
     def migrate_archive_dirs(self):
         from ckan import model
