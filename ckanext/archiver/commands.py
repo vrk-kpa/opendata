@@ -44,6 +44,17 @@ class Archiver(CkanCommand):
            - Views info archival info, in general and if you specify one, about
              a particular dataset\'s resources.
 
+        paster archiver report [outputfile]
+           - Generates a report on orphans, either resources where the path
+             does not exist, or files on disk that don't have a corresponding
+             orphan. The outputfile parameter is the name of the CSV output
+             from running the report
+
+        paster archiver delete-orphans [outputfile]
+           - Deletes orphans that are files on disk with no corresponding
+             resource. This uses the report command and will write out a
+             report to [outputfile]
+
         paster archiver migrate-archive-dirs
            - Migrate the layout of the archived resource directories.
              Previous versions of ckanext-archiver stored resources on disk
@@ -55,7 +66,7 @@ class Archiver(CkanCommand):
     # TODO
     #    paster archiver clean-files
     #       - Remove all archived resources
-    
+
     summary = __doc__.split('\n')[0]
     usage = __doc__
     min_args = 0
@@ -93,6 +104,16 @@ class Archiver(CkanCommand):
                 self.view(self.args[1])
             else:
                 self.view()
+        elif cmd == 'report':
+            if len(self.args) != 2:
+                self.log.error('Command requires a parameter, the name of the output')
+                return
+            self.report(self.args[1], delete=False)
+        elif cmd == 'delete-orphans':
+            if len(self.args) != 2:
+                self.log.error('Command requires a parameter, the name of the output')
+                return
+            self.report(self.args[1], delete=True)
         elif cmd == 'migrate-archive-dirs':
             self.migrate_archive_dirs()
         else:
@@ -180,7 +201,7 @@ class Archiver(CkanCommand):
             for res in pkg.resources:
                 print 'Resource %s' % res.id
                 for row in ts_q.filter_by(entity_id=res.id):
-                    print '* TS %s = %r error=%r' % (row.key, row.value, row.error) 
+                    print '* TS %s = %r error=%r' % (row.key, row.value, row.error)
                 for row in r_q.filter_by(id=res.id):
                     print '* cache_url=%r size=%s mimetype=%s cache_last_updated=%r' % \
                           (row.cache_url, row.size, row.mimetype, row.cache_last_updated)
@@ -196,7 +217,7 @@ class Archiver(CkanCommand):
         model.Session.commit()
 
         print 'After:'
-        self.view()        
+        self.view()
 
     def clean_cached_resources(self):
         from ckan import model
@@ -228,6 +249,78 @@ class Archiver(CkanCommand):
 
         print 'After:'
         self.view()
+
+    def report(self, output_file, delete=False):
+        """
+        Generates a report containing orphans (either files or resources)
+        """
+        import re
+        import csv
+        from ckan import model
+
+        archive_root = config.get('ckanext-archiver.archive_dir')
+        if not archive_root:
+            log.error("Could not find archiver root")
+            return
+
+        # We'll use this to match the UUID part of the path
+        uuid_re = re.compile(".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*")
+
+
+        with open(output_file, "w") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Resource ID", "Filepath", "Problem"])
+            resources = {}
+            for resource in model.Session.query(model.Resource).all():
+                resources[resource.id] = True
+
+                # Check the resource's cached_filepath
+                fp = resource.extras.get('cache_filepath')
+                if fp is None:
+                    if not delete:
+                        writer.writerow([resource.id, str(resource.extras), "Resource not cached"])
+                    continue
+
+                # Check that the cached file is there and readable
+                if not os.path.exists(fp):
+                    if not delete:
+                        writer.writerow([resource.id, fp.encode('utf-8'), "File not found"])
+                    continue
+
+                try:
+                    s = os.stat(fp)
+                except OSError:
+                    if not delete:
+                        writer.writerow([resource.id, fp.encode('utf-8'), "File not readable"])
+                    continue
+
+            # Iterate over the archive root and check each file by matching the
+            # resource_id part of the path to the resources dict
+            for root, _, files in os.walk(archive_root):
+                for filename in files:
+                    archived_path = os.path.join(root, filename)
+                    m = uuid_re.match(archived_path)
+                    if not m:
+                        writer.writerow([resource.id, archived_path, "Malformed path (no UUID)"])
+                        continue
+
+                    if not resources.get(m.groups(0)[0].strip(), False):
+                        if delete:
+                            try:
+                                os.unlink(archived_path)
+                                self.log.info("Unlinked {0}".format(archived_path))
+                                os.rmdir(root)
+                                self.log.info("Unlinked {0}".format(root))
+                                writer.writerow([m.groups(0)[0], archived_path, "Resource not found, file deleted"])
+                            except Exception, e:
+                                self.log.error("Failed to unlink {0}: {1}".format(archived_path,e))
+                        else:
+                            writer.writerow([m.groups(0)[0], archived_path, "Resource not found"])
+
+                        continue
+
+
+
 
     def migrate_archive_dirs(self):
         from ckan import model
