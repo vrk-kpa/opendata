@@ -1,0 +1,7 @@
+{% extends "organization/index.html" %}
+
+{% block organizations_list %}
+  <div id="publisher-tree">
+     {% snippet 'snippets/organization_tree.html', orgs=c.all_organizations %}
+  </div>
+{% endblock %}
