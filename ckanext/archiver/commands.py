@@ -283,31 +283,28 @@ class Archiver(CkanCommand):
                 # Check the resource's cached_filepath
                 fp = resource.extras.get('cache_filepath')
                 if fp is None:
-                    if not delete:
-                        if resource.state == 'active':
-                            not_cached_active += 1
-                        else:
-                            not_cached_deleted += 1
-                        writer.writerow([resource.id, str(resource.extras), "Resource not cached: {0}".format(resource.state)])
+                    if resource.state == 'active':
+                        not_cached_active += 1
+                    else:
+                        not_cached_deleted += 1
+                    writer.writerow([resource.id, str(resource.extras), "Resource not cached: {0}".format(resource.state)])
                     continue
 
                 # Check that the cached file is there and readable
                 if not os.path.exists(fp):
-                    if not delete:
-                        if resource.state == 'active':
-                            file_not_found_active += 1
-                        else:
-                            file_not_found_deleted += 1
+                    if resource.state == 'active':
+                        file_not_found_active += 1
+                    else:
+                        file_not_found_deleted += 1
 
-                        writer.writerow([resource.id, fp.encode('utf-8'), "File not found: {0}".format(resource.state)])
+                    writer.writerow([resource.id, fp.encode('utf-8'), "File not found: {0}".format(resource.state)])
                     continue
 
                 try:
                     s = os.stat(fp)
                 except OSError:
-                    if not delete:
-                        perm_error += 1
-                        writer.writerow([resource.id, fp.encode('utf-8'), "File not readable"])
+                    perm_error += 1
+                    writer.writerow([resource.id, fp.encode('utf-8'), "File not readable"])
                     continue
 
             # Iterate over the archive root and check each file by matching the
@@ -321,9 +318,10 @@ class Archiver(CkanCommand):
                         continue
 
                     if not resources.get(m.groups(0)[0].strip(), False):
+                        file_no_resource += 1
+
                         if delete:
                             try:
-                                file_no_resource += 1
                                 os.unlink(archived_path)
                                 self.log.info("Unlinked {0}".format(archived_path))
                                 os.rmdir(root)
