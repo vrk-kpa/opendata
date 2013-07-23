@@ -1,7 +1,14 @@
 {% extends "organization/index.html" %}
 
+<!-- JSTree is included, but so far does nothing. Need to encapsulate it in a
+     'javascript module' -->
+{% block scripts %}
+  {{ super() }}
+  {% resource 'jstree/jquery.jstree.js' %}
+{% endblock %}
+
 {% block organizations_list %}
   <div id="publisher-tree">
-     {% snippet 'snippets/organization_tree.html', orgs=c.all_organizations %}
+     {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.group_tree(type='organization') %}
   </div>
 {% endblock %}

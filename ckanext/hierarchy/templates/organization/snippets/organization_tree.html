@@ -5,16 +5,17 @@ orgs    - List of organizations
 
 Example:
 
-  {% snippet "organization/snippets/organization_tree.html", orgs=orgs %}
+  {% snippet "organization/snippets/organization_tree.html", top_nodes=h.group_tree(type='organization') %}
 
 #}
-{% if organization and h.check_access('organization_update', {'id':organization.id }) %}
-  <section class="module module-narrow package-info">
-    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Organization") }}</h2>
-    <ul class="unstyled nav nav-simple">
-      <li class="nav-item{% if action == 'edit' %} active{% endif %}">
-        {% link_for _("Edit Organization"), controller='organization', action='edit', id=organization.name %}
-      </li>
-    </ul>
-  </section>
-{% endif %}
+<ul>
+  {% for node in top_nodes recursive %}
+    <li id="node_{{ node.group.name }}">
+      {% link_for node.group.title, controller=node.group.type, action='read', id=node.group.name %}
+
+      {% if node.children %}
+        <ul> {{ loop(node.children) }} </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
