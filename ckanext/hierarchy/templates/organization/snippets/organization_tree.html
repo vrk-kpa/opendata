@@ -5,13 +5,19 @@ orgs    - List of organizations
 
 Example:
 
-  {% snippet "organization/snippets/organization_tree.html", top_nodes=h.group_tree(type='organization') %}
+  {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
 
 #}
 <ul>
   {% for node in top_nodes recursive %}
-    <li id="node_{{ node.group.name }}">
-      {% link_for node.group.title, controller=node.group.type, action='read', id=node.group.name %}
+    <li id="node_{{ node.name }}">
+      {% if node.highlighted %}
+        <strong>
+      {% endif %}
+      {% link_for node.title, controller=node.type, action='read', id=node.name %}
+      {% if node.highlighted %}
+        </strong>
+      {% endif %}
 
       {% if node.children %}
         <ul> {{ loop(node.children) }} </ul>

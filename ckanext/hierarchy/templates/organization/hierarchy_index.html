@@ -9,6 +9,6 @@
 
 {% block organizations_list %}
   <div id="publisher-tree">
-     {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.group_tree(type='organization') %}
+     {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
   </div>
 {% endblock %}
