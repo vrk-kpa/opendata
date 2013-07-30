@@ -32,6 +32,7 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
     p.implements(p.IActions)
+    p.implements(p.ICachedReport)
 
     def configure(self, config):
         self.site_url = get_site_url(config)
@@ -56,7 +57,7 @@ class QAPlugin(p.SingletonPlugin):
                     controller=pkg)
 
         map.connect('qa_organisation', '/qa/organisation/',
-                    controller=org)
+                    controller=org, action='index')
         map.connect('qa_organisation_action', '/qa/organisation/{action}',
                     controller=org)
         map.connect('qa_organisation_action_id',
@@ -183,3 +184,26 @@ class QAPlugin(p.SingletonPlugin):
         return {
             'search_index_update': logic.search_index_update,
             }
+
+    def register_reports(self):
+        """
+        This method will be called so that the plugin can register the
+        reports it wants run.  The reports will then be executed on a
+        24 hour schedule and the appropriate tasks called.
+
+        This call should return a dictionary, where the key is a description
+        and the value should be the function to run. This function should
+        take no parameters and return nothing.
+        """
+        from ckanext.qa.reports import cached_reports
+        return { 'Cached QA Reports': cached_reports }
+
+    def list_report_keys(self):
+        """
+        Returns a list of the reports that the plugin can generate by
+        returning each key name as an item in a list.
+        """
+        return ['broken-link-report', 'broken-link-report-withsub',
+                'openness-report', 'openness-report-withsub',
+                'organisation_score_summaries',
+                'organisations_with_broken_resource_links']

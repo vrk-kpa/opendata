@@ -54,12 +54,12 @@
               <td>${h.link_to(row_dict['publisher_title'], h.url_for('qa_organisation_action_id', action='scores', id=row_dict['publisher_name'], include_sub_publishers='1' if c.include_sub_publishers else '0'))}</td>
               <td>${row_dict['dataset_count']}</td>
               <td>${row_dict['TBC']}</td>
-              <td>${row_dict[0]}</td>
-              <td>${row_dict[1]}</td>
-              <td>${row_dict[2]}</td>
-              <td>${row_dict[3]}</td>
-              <td>${row_dict[4]}</td>
-              <td>${row_dict[5]}</td>
+              <td>${row_dict['0']}</td>
+              <td>${row_dict['1']}</td>
+              <td>${row_dict['2']}</td>
+              <td>${row_dict['3']}</td>
+              <td>${row_dict['4']}</td>
+              <td>${row_dict['5']}</td>
               <td>${row_dict['total_stars']}</td>
               <td>${'%.1f' % row_dict['average_stars']}</td>
             </tr>
@@ -70,16 +70,16 @@
   </div>
 
   <py:def function="optional_footer">
-    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script> 
+    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script>
     <script type="text/javascript">
-      //<![CDATA[ 
-      $(document).ready(function() 
-        { 
+      //<![CDATA[
+      $(document).ready(function()
+        {
           $("#report-table").tablesorter({
               dateFormat: "uk",
-          }); 
-        } 
-      ); 
+          });
+        }
+      );
     // ]]>
     </script>
   </py:def>
