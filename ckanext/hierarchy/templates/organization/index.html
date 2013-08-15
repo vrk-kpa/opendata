@@ -1,0 +1,8 @@
+{% ckan_extends %}
+
+<!-- JSTree is included, but so far does nothing. Need to encapsulate it in a
+     'javascript module' -->
+{% block scripts %}
+  {{ super() }}
+  {% resource 'jstree/jquery.jstree.js' %}
+{% endblock %}
