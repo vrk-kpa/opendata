@@ -78,6 +78,14 @@ class TestLinkChecker(ControllerTestCase):
         result = self.check_link(url)
         assert_equal(result['format'], 'F1 / F2')
 
+    def test_encoded_url(self):
+        # This is not actually a URL, and the encoded letters get
+        # interpreted as being in the hostname. But should not cause
+        # an exception.
+        url = 'Over+\xc2\xa325,000+expenditure+report+April-13'
+        result = self.check_link(url)
+        assert_equal(result['format'], '')
+
     @with_mock_url('?status=200;content-type=text/plain')
     def test_format_by_mimetype_txt(self, url):
         result = self.check_link(url)
