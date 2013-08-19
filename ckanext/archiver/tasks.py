@@ -513,7 +513,12 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
             file_name = "resource"
         saved_file = os.path.join(archive_dir, file_name)
         shutil.move(result['saved_file'], saved_file)
-        os.chmod(saved_file, 0644) # allow other users to read it
+        log.debug('Going to do chmod: %s', saved_file)
+        try:
+            os.chmod(saved_file, 0644) # allow other users to read it
+        except Exception, e:
+            log.error('chmod failed %s: %s', saved_file, e)
+            raise
         log.info('Archived resource as: %s', saved_file)
         previous_cache_filepath = resource.get('cache_filepath')
         resource['cache_filepath'] = saved_file
