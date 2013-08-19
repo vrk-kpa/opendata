@@ -461,6 +461,7 @@ def tidy_url(url):
     except:
         parts = list(urlparse.urlparse(url))
         parts[2] = urllib.quote(parts[2].encode('utf-8'))
+        parts[1] = urllib.quote(parts[1].encode('utf-8'))
         url = urlparse.urlunparse(parts)
     url = str(url)
 
