@@ -3,7 +3,7 @@ import logging
 from ckan.plugins import PluginImplementations
 from ckan.model import Package
 from ckan.logic import NotFound, check_access, get_action
-from ckan.authz import Authorizer
+import ckan.new_authz
 from ckan.lib.search import index_for
 
 log = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ def search_index_update(context, data_dict):
     session = context['session']
     user = context.get('user')
 
-    if not Authorizer().is_sysadmin(user):
+    if not new_authz.is_sysadmin(user):
         return {'success': False, 'msg': _('User %s not authorized to update harvest sources') % str(user)}
     #check_access('search_index_update', context, data_dict)
 
