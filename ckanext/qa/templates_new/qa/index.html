@@ -9,8 +9,10 @@
       <h1>Quality Assurance</h1>
       <ul>
         <li>{{h.link_to("Dataset openness scores", h.url_for(controller='ckanext.qa.controller:QAController', action='five_stars'))}}</li>
-          <li>{{h.link_to("Datasets with broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='dataset_broken_resource_links'))}}</li>
+        <li>{{h.link_to("Datasets with broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='dataset_broken_resource_links'))}}</li>
+        {% if c.organisations %}
           <li>{{h.link_to("Organisations whose datasets contain broken resource links", h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links'))}}</li>
+        {% endif %}
       </ul>
       </div>
     </div>
