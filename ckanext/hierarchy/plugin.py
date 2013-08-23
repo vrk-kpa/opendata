@@ -1,5 +1,4 @@
 import ckan.plugins as p
-import ckanext.hierarchy.lib.helpers as helpers
 import ckanext.hierarchy.logic.action as action
 
 # This plugin is designed to work only these versions of CKAN
