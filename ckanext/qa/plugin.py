@@ -35,6 +35,7 @@ class QAPlugin(p.SingletonPlugin):
                 p.toolkit.add_template_directory(config, 'templates')
             # templates for helper functions
             p.toolkit.add_template_directory(config, 'templates_new')
+            p.toolkit.add_resource('fanstatic_library', 'ckanext-qa')
         else:
             # FIXME we don't support ckan < 2.0
             p.toolkit.add_template_directory(config, 'templates')
