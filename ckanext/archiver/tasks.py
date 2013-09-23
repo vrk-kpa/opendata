@@ -113,7 +113,7 @@ def download(context, resource, url_timeout=30,
 
     # start the download - just get the headers
     # May raise DownloadException
-    res = convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    res = convert_requests_exceptions(requests.get, url, timeout=url_timeout)
     url_redirected_to = res.url if url != res.url else None
     if not res.ok: # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' % \
@@ -608,8 +608,8 @@ def _update_resource(context, resource, log):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, resource, res, res.error, post_data, api_url))
+        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r\napi_url: %r'
+                        % (res.status_code, content, context, resource, res, post_data, api_url))
         raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
 
 def update_task_status(context, data, log):
@@ -641,8 +641,8 @@ def update_task_status(context, data, log):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, res.error, post_data, api_url))
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\npost_data: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, post_data, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
     log.info('Task status updated ok: %s=%s', key, value)
 
@@ -741,9 +741,9 @@ def convert_requests_exceptions(func, *args, **kwargs):
     DownloadException. Status errors, such as 404 or 500 do not cause
     exceptions, instead exposed as response.error.
     e.g.
-    >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout, prefetch=False)
+    >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout)
     runs:
-        res = requests.get(url, timeout=url_timeout, prefetch=False)
+        res = requests.get(url, timeout=url_timeout)
     '''
     try:
         response = func(*args, **kwargs)
