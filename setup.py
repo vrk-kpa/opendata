@@ -25,8 +25,7 @@ setup(
 	entry_points=\
 	"""
         [ckan.plugins]
-	# Add plugins here, eg
-	# myplugin=ckanext.hierarchy:PluginClass
-        organization_hierarchy=ckanext.hierarchy.plugin:OrganizationHierarchy
+        hierarchy_display=ckanext.hierarchy.plugin:HierarchyDisplay
+        hierarchy_form=ckanext.hierarchy.plugin:HierarchyForm
 	""",
 )
