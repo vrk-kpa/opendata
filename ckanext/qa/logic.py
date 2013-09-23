@@ -13,15 +13,15 @@ def search_index_update(context, data_dict):
     session = context['session']
     user = context.get('user')
 
-    if not new_authz.is_sysadmin(user):
+    if not ckan.new_authz.is_sysadmin(user):
         return {'success': False, 'msg': _('User %s not authorized to update harvest sources') % str(user)}
     #check_access('search_index_update', context, data_dict)
 
     pkg_dict = get_action('package_show')(
         {'model': model, 'ignore_auth': True, 'validate': False},
         data_dict)
-    
+
     indexer = index_for('package')
     indexer.update_dict(pkg_dict)
-    
+
     log.info('Search index updated for: %s', pkg_dict['name'])
