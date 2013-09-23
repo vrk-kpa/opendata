@@ -67,7 +67,7 @@ class CkanError(ArchiverError):
     pass
 
 def _clean_content_type(ct):
-    # For now we should remove the charset from the content type and 
+    # For now we should remove the charset from the content type and
     # handle it better, differently, later on.
     if 'charset' in ct:
         return ct[:ct.index(';')]
@@ -93,14 +93,14 @@ def download(context, resource, url_timeout=30,
 
     If download is not suitable (e.g. too large), raises:
        ChooseNotToDownload
-    
+
     Returns a dict of results of a successful download:
       length, hash, headers, saved_file, url_redirected_to
     Updates the resource values for: mimetype, size, hash
     '''
-    
+
     log = update.get_logger()
-    
+
     url = resource['url']
 
     url = tidy_url(url)
@@ -185,18 +185,18 @@ def download(context, resource, url_timeout=30,
     #
     # TODO: remove partially archived file in this case
     if length >= max_content_length:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is too large to archive
         log.warning('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
                  length, max_content_length, resource['id'], url)
-        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" % 
+        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" %
                                   max_content_length,
                                   url_redirected_to)
 
     # zero length (or just one byte) indicates a problem too
     if length < 2:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is zero length
         log.warning('Resource found was length %i - not archiving. Resource: %s %r',
@@ -258,7 +258,7 @@ def update(context, data):
     try:
         data = json.loads(data)
         context = json.loads(context)
-        result = _update(context, data) 
+        result = _update(context, data)
         return result
     except Exception, e:
         if os.environ.get('DEBUG'):
@@ -438,7 +438,7 @@ def link_checker(context, data):
             # this suggests a GET request may be ok, so proceed to that
             # in the download
             raise LinkHeadMethodNotSupported()
-        if res.error or res.status_code >= 400:
+        if res.status_code >= 400:
             if res.status_code in HTTP_ERROR_CODES:
                 error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
             else:
@@ -454,7 +454,7 @@ def tidy_url(url):
     It may raise LinkInvalidError if the URL has a problem.
     '''
 
-    # Find out if it has unicode characters, and if it does, quote them 
+    # Find out if it has unicode characters, and if it does, quote them
     # so we are left with an ascii string
     try:
         url = url.decode('ascii')
@@ -496,7 +496,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
        result - result of the download(), containing keys: length, saved_file
 
     If there is a failure, raises ArchiveError.
-    
+
     Updates resource keys: cache_url, cache_last_updated, cache_filepath
     Returns: cache_filepath
     """
@@ -523,7 +523,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         log.info('Archived resource as: %s', saved_file)
         previous_cache_filepath = resource.get('cache_filepath')
         resource['cache_filepath'] = saved_file
-        
+
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
             cache_url = urlparse.urljoin(
@@ -561,7 +561,7 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
 
     #tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fd, tmp_resource_file_path = tempfile.mkstemp()
- 
+
     with open(tmp_resource_file_path, 'wb') as fp:
         for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
             fp.write(chunk)
@@ -588,8 +588,8 @@ def _update_resource(context, resource, log):
       context - dict containing 'site_user_apikey' and 'site_url'
       resource - dict of the resource containing
 
-    Returns the content of the response. 
-    
+    Returns the content of the response.
+
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/resource_update'
     resource['last_modified'] = datetime.datetime.now().isoformat()
@@ -599,7 +599,7 @@ def _update_resource(context, resource, log):
         headers = {'Authorization': context['site_user_apikey'],
                    'Content-Type': 'application/json'}
     )
-    
+
     if res.status_code == 200:
         log.info('Resource updated OK: %s', resource['id'])
         return res.content
@@ -623,7 +623,7 @@ def update_task_status(context, data, log):
                error, stack, last_updated
 
     May raise CkanError if the request fails.
-    
+
     Returns the content of the response.
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
