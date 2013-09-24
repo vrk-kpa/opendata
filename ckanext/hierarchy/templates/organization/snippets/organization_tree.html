@@ -14,7 +14,7 @@ Example:
       {% if node.highlighted %}
         <strong>
       {% endif %}
-      {% link_for node.title, controller=node.type, action='read', id=node.name %}
+      {% link_for node.title, controller='organization', action='read', id=node.name %}
       {% if node.highlighted %}
         </strong>
       {% endif %}

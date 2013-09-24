@@ -2,7 +2,7 @@ import logging
 
 import ckan.plugins as p
 import ckan.logic as logic
-from ckanext.hierarchy.model import GroupTreeNode, group_dictize
+from ckanext.hierarchy.model import GroupTreeNode
 
 log = logging.getLogger(__name__)
 _get_or_bust = logic.get_or_bust
@@ -41,27 +41,32 @@ def group_tree_section(context, data_dict):
             'Group type is "%s" not "%s" that %s' %
             (group.type, group_type, how_type_was_set))
     root_group = (group.get_parent_group_hierarchy(type=group_type) or [group])[0]
-    return _group_tree_branch(root_group, highlight_group=group,
+    return _group_tree_branch(root_group, highlight_group_name=group.name,
                               type=group_type)
 
 
-def _group_tree_branch(root_group, highlight_group=None, type='group'):
+def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
     '''Returns a branch of the group tree hierarchy, rooted in the given group.
 
-    :param root_group: group object at the top of the part of the tree
-    :param highlight_group: group object that is to be flagged 'highlighted'
+    :param root_group_id: group object at the top of the part of the tree
+    :param highlight_group_name: group name that is to be flagged 'highlighted'
     :returns: the top GroupTreeNode of the tree
     '''
     nodes = {}  # group_id: GroupTreeNode()
-    root_node = nodes[root_group.id] = GroupTreeNode(group_dictize(root_group))
-    if root_group == highlight_group:
+    root_node = nodes[root_group.id] = GroupTreeNode(
+        {'id': root_group.id,
+         'name': root_group.name,
+         'title': root_group.title})
+    if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
-        highlight_group = None
-    elif highlight_group:
-        highlight_group_id = highlight_group.id
-    for group, parent_id in root_group.get_children_group_hierarchy(type=type):
-        nodes[group.id] = GroupTreeNode(group_dictize(group))
-        nodes[parent_id].add_child_node(nodes[group.id])
-        if highlight_group and group.id == highlight_group_id:
-            nodes[group.id].highlight()
+        highlight_group_name = None
+    for group_id, group_name, group_title, parent_id in \
+            root_group.get_children_group_hierarchy(type=type):
+        node = GroupTreeNode({'id': group_id,
+                              'name': group_name,
+                              'title': group_title})
+        nodes[parent_id].add_child_node(node)
+        if highlight_group_name and group_name == highlight_group_name:
+            node.highlight()
+        nodes[group_id] = node
     return root_node
