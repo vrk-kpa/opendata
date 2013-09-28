@@ -654,13 +654,18 @@ def get_task_status(key, context, resource_id, log):
     :param context: Dict including: site_url, site_user_apikey
     '''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
-    response = requests.post(
-        api_url,
-        json.dumps({'entity_id': resource_id, 'task_type': 'archiver',
-                    'key': key}),
-        headers={'Authorization': context['site_user_apikey'],
-                 'Content-Type': 'application/json'}
-    )
+    try:
+        response = requests.post(
+            api_url,
+            json.dumps({'entity_id': resource_id, 'task_type': 'archiver',
+                        'key': key}),
+            headers={'Authorization': context['site_user_apikey'],
+                     'Content-Type': 'application/json'}
+        )
+        response.error = None
+    except Exception, e:
+        response.error = e
+
     if response.content:
         try:
             res_dict = json.loads(response.content)
