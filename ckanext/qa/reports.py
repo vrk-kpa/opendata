@@ -241,7 +241,7 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
             return val
 
     publisher_scores = []
-    for publisher in model.Group.all(group_type='publisher'):
+    for publisher in model.Group.all(group_type='organization'):
         if include_sub_organisations:
             q = 'parent_publishers:%s' % publisher.name
         else:
@@ -591,7 +591,7 @@ def cached_reports(reports_to_run=None):
         return
 
     publishers = model.Session.query(model.Group).\
-       filter(model.Group.type=='publisher').\
+       filter(model.Group.type=='organization').\
        filter(model.Group.state=='active')
 
     if "organisations_with_broken_resource_links" in local_reports:

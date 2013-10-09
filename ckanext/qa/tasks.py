@@ -62,8 +62,8 @@ def _update_task_status(context, data, log):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, res.error, api_url))
+        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
                         % (res.status_code, content))
     log.info('Task status updated ok')
@@ -128,7 +128,7 @@ def update(context, data):
               is a JSON dict with keys: 'site_url', 'apikey'
     data - details of the resource that is to be scored
            is JSON dict with keys: 'package', 'position', 'id', 'format', 'url', 'is_open'
-    
+
     Returns a JSON dict with keys:
 
         'openness_score': score (int)
@@ -389,8 +389,8 @@ def score_by_sniffing_data(context, archiver_status, data, score_reasons, log):
             else:
                 score_reasons.append('This file had not been downloaded at the time of scoring it.')
                 return (None, None)
-                
-    
+
+
 def score_by_url_extension(data, score_reasons, log):
     '''
     Looks at the URL for a resource to determine its format and score.
@@ -446,7 +446,7 @@ def extension_variants(url):
     '''
     Returns a list of extensions, in order of which would more
     significant.
-    
+
     >>> extension_variants('http://dept.gov.uk/coins.data.1996.csv.zip')
     ['csv.zip', 'zip']
     >>> extension_variants('http://dept.gov.uk/data.csv?callback=1')
@@ -481,7 +481,7 @@ def update_search_index(context, package_id, log):
             content = res.content
         except:
             content = '<could not read request content to discover error>'
-        log.error('ckan failed to update search index, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, res.error, api_url))
+        log.error('ckan failed to update search index, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
+                        % (res.status_code, content, context, data, res, api_url))
         raise CkanError('ckan failed to update search index, status_code (%s), error %s'
                         % (res.status_code, content))
