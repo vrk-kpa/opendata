@@ -10,7 +10,7 @@ It also provides a Dashboard that allows you to view broken links and openness s
 
 Once you have run the qa commands (see 'Using The QA Extension' below),
 resources and packages will have a set of openness key's stores in their
-extra properties. 
+extra properties. Alter your templates to display the score for each resource/dataset.
 
 
 Requirements
@@ -63,12 +63,6 @@ setting the following config option:
 ::
 
     qa.organisations = false
-
-By default, the resource page will be altered to include the 5 stars value.
-If you don't want this due to a custom theme, then disable it by setting this
-config option::
-
-    qa.alter_resource_page_template = false
 
 
 Using The QA Extension

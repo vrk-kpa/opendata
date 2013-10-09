@@ -27,7 +27,6 @@ log = logging.getLogger(__name__)
 class QAPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IConfigurable)
-    p.implements(p.IGenshiStreamFilter)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
@@ -36,7 +35,6 @@ class QAPlugin(p.SingletonPlugin):
 
     def configure(self, config):
         self.site_url = get_site_url(config)
-        self.alter_resource_page_template = t.asbool(config.get('qa.alter_resource_page_template', True))
 
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
@@ -139,38 +137,6 @@ class QAPlugin(p.SingletonPlugin):
 
         log.debug('QA check for resource put into celery queue %s: %s url=%r',
                   queue, resource.id, resource_dict.get('url'))
-
-    def filter(self, stream):
-	if not self.alter_resource_page_template:
-            return stream
-
-        routes = request.environ.get('pylons.routes_dict')
-
-        site_url = h.url('/', locale='default')
-        stream = stream | Transformer('head').append(
-            HTML(html.HEAD_CODE % site_url)
-        )
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'resource_read'):
-
-            star_html = self.get_star_html(c.resource.get('id'))
-            if star_html:
-                stream = stream | Transformer('body//div[@class="quick-info"]//dl')\
-                    .append(HTML(html.DL_HTML % star_html))
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'read' and
-            c.pkg.id):
-
-            for resource in c.pkg_dict.get('resources', []):
-                resource_id = resource.get('id')
-                star_html = self.get_star_html(resource_id)
-                if star_html:
-                    stream = stream | Transformer('body//div[@id="%s"]//p[@class="extra-links"]' % resource_id)\
-                        .append(HTML(star_html))
-
-        return stream
 
     def get_star_html(self, resource_id):
         report = reports.resource_five_stars(resource_id)
