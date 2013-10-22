@@ -7,7 +7,8 @@
 
   <py:def function="body_class">no-sidebar</py:def>
   <py:def function="page_heading">
-    <a href="/qa">Quality Assurance</a>
+
+    <a href="${h.url_for('qa')}">Quality Assurance</a>
     <span class="subheading"><img src="/images/arrow-down-right.png"/> Publishers with broken resource links</span>
   </py:def>
 
@@ -23,7 +24,7 @@
     <py:if test="not c.organisations">
       <p>No organizations that have published datasets with broken resource links found.</p>
     </py:if>
-  
+
     <py:if test="c.organisations">
       <div class="pull-right">
         <a class="btn" href="${h.url_for('qa_api_resource_formatted', action=c.query.__name__, id='report', format='csv', include_sub_publishers='1' if c.include_sub_publishers else '0')}">Download report in CSV format</a>
@@ -60,16 +61,16 @@
   </div>
 
   <py:def function="optional_footer">
-    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script> 
+    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script>
     <script type="text/javascript">
-      //<![CDATA[ 
-      $(document).ready(function() 
-        { 
+      //<![CDATA[
+      $(document).ready(function()
+        {
           $("#report-table").tablesorter({
               dateFormat: "uk",
-          }); 
-        } 
-      ); 
+          });
+        }
+      );
     // ]]>
     </script>
   </py:def>

@@ -6,8 +6,13 @@
   <py:def function="page_title">Organisation scores - QA</py:def>
   <py:def function="body_class">no-sidebar</py:def>
   <py:def function="page_heading">
-    <a href="/qa">Quality Assurance</a>
-    <span class="subheading"><img src="/images/arrow-down-right.png"/> Publisher Openness Scores</span>
+    <py:if test="c.report_base">
+      <a href="${h.url_for('reports')}" class="btn pull-right">&lt;&lt; Back to reports</a>
+    </py:if>
+
+      <a href="${h.url_for('qa')}">Quality Assurance</a>
+      <span class="subheading"><img src="/images/arrow-down-right.png"/> Publisher Openness Scores</span>
+
   </py:def>
 
   <py:def function="optional_head">

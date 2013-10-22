@@ -6,7 +6,8 @@
   <py:def function="page_title">${c.data['publisher_title']} scores - QA</py:def>
   <py:def function="body_class">no-sidebar</py:def>
   <py:def function="page_heading">
-    <a href="/qa">Quality Assurance</a>
+
+    <a href="${h.url_for('qa')}">Quality Assurance</a>
     <span class="subheading">
       <img src="/images/arrow-down-right.png"/> <a href="/qa/organisation/scores">Publisher Openness Scores</a>
       <span class="subheading">
@@ -72,16 +73,16 @@
   </div>
 
   <py:def function="optional_footer">
-    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script> 
+    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.js"></script>
     <script type="text/javascript">
-      //<![CDATA[ 
-      $(document).ready(function() 
-        { 
+      //<![CDATA[
+      $(document).ready(function()
+        {
           $("#report-table").tablesorter({
               dateFormat: "uk",
-          }); 
-        } 
-      ); 
+          });
+        }
+      );
     // ]]>
     </script>
   </py:def>

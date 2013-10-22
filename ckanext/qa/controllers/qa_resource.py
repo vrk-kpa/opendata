@@ -48,7 +48,7 @@ class QAResourceController(QAController):
             * Invalid URL (if the string doesn't seem to be a valid URL)
             * HTTP Error
             * Timeout
-      
+
         format/inner_format: A best guess at the format of the file
             * a_file.csv has format "csv" and inner-format "csv"
             * a_file.csv.gz.torrent has inner-format "csv" and format "torrent:gz:csv"

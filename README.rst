@@ -10,7 +10,7 @@ It also provides a Dashboard that allows you to view broken links and openness s
 
 Once you have run the qa commands (see 'Using The QA Extension' below),
 resources and packages will have a set of openness key's stores in their
-extra properties. 
+extra properties.
 
 
 Requirements
@@ -31,7 +31,7 @@ Install the plugin using pip. Download it, then from the ckanext-qa directory, r
 
     $ pip install -e ./
 
-This will register a plugin entry point, so you can now add the following 
+This will register a plugin entry point, so you can now add the following
 to the ``[app:main]`` section of your CKAN .ini file:
 
 ::
@@ -45,7 +45,7 @@ and openness score interface should be available at http://your-ckan-instance/qa
 Configuration
 -------------
 
-The QA extension now depends on the CKAN Archiver extension and CKAN 1.5 (with Celery). 
+The QA extension now depends on the CKAN Archiver extension and CKAN 1.5 (with Celery).
 
 You must also make sure that the following is set in your CKAN config:
 
@@ -57,7 +57,7 @@ You must also make sure that the following is set in your CKAN config:
 **Optional:**
 
 By default, the report for organisations will be listed in the QA reports
-page (/qa). If you do not want to show this report, you can disable it by 
+page (/qa). If you do not want to show this report, you can disable it by
 setting the following config option:
 
 ::
@@ -69,6 +69,11 @@ If you don't want this due to a custom theme, then disable it by setting this
 config option::
 
     qa.alter_resource_page_template = false
+
+By defaults all QA links (except /api) are routed via /qa as a URL. If you wish
+to provide the URLs at /somewhere/qa you can provide the following config option:
+
+    qa.url_root = /somewhere
 
 
 Using The QA Extension
@@ -82,8 +87,8 @@ from the ckanext-qa directory.
 ::
 
     $ paster qa update|clean [package name/id] --config=<path to ckan config file>
-    
-``update`` or ``clean`` will either update the package resources or remove everything changed by 
+
+``update`` or ``clean`` will either update the package resources or remove everything changed by
 the QA Extension respectively.
 
 The command can be run on just a single package by giving the package ``name`` or ``ID`` after the
@@ -91,7 +96,7 @@ The command can be run on just a single package by giving the package ``name`` o
 for a list of all packages and the command is run on each one.
 
 After you run the ``archive`` and ``qa`` commands, the QA results can be viewed
-at 
+at
 
 ::
 

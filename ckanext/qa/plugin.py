@@ -41,6 +41,8 @@ class QAPlugin(p.SingletonPlugin):
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
         p.toolkit.add_public_directory(config, 'public')
+        # Update config gets called before the IRoutes methods
+        self.root_dir = config.get('ckanext.qa.url_root', '')
 
     def before_map(self, map):
         home = 'ckanext.qa.controllers.qa_home:QAHomeController'
@@ -49,19 +51,19 @@ class QAPlugin(p.SingletonPlugin):
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
         api = 'ckanext.qa.controllers.qa_api:ApiController'
 
-        map.connect('qa', '/qa', controller=home, action='index')
+        map.connect('qa', '%s/qa' % self.root_dir, controller=home, action='index')
 
-        map.connect('qa_dataset', '/qa/dataset/',
+        map.connect('qa_dataset', '%s/qa/dataset/' % self.root_dir,
                     controller=pkg, action='index')
-        map.connect('qa_dataset_action', '/qa/dataset/{action}',
+        map.connect('qa_dataset_action', '%s/qa/dataset/{action}'  % self.root_dir,
                     controller=pkg)
 
-        map.connect('qa_organisation', '/qa/organisation/',
+        map.connect('qa_organisation', '%s/qa/organisation/'  % self.root_dir,
                     controller=org, action='index')
-        map.connect('qa_organisation_action', '/qa/organisation/{action}',
+        map.connect('qa_organisation_action', '%s/qa/organisation/{action}'  % self.root_dir,
                     controller=org)
         map.connect('qa_organisation_action_id',
-                    '/qa/organisation/{action}/:id',
+                    '%s/qa/organisation/{action}/:id'  % self.root_dir,
                     controller=org)
 
         map.connect('qa_resource_checklink', '/qa/link_checker',

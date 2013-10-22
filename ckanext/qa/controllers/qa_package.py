@@ -1,10 +1,11 @@
 from ckan.lib.base import render, c, request
 from ckanext.qa.reports import broken_resource_links_by_dataset
 from base import QAController
+from pylons import config
 
 class QAPackageController(QAController):
-    
-    def index(self):                
+
+    def index(self):
         return render('ckanext/qa/dataset/index.html')
 
     # openness by dataset is removed since it was unmanageable with 8000

@@ -1,5 +1,6 @@
 ﻿import ckan.plugins.toolkit as t
 
+from pylons import config
 from ckan.lib.base import render, c, BaseController, request, abort
 from ckanext.qa.reports import (
     broken_resource_links_for_organisation,
