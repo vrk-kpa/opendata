@@ -14,7 +14,6 @@ Forms (hierachy_form plugin):
 Templates (hierarchy_display plugin):
 * /organization - now shows the organization hierarchy instead of list
 * /organization/about/{id} - now also shows the relevant part of the hierarchy
-You can use this extension with CKAN as it is, enabling both plugins. Or if you use an extension to customise the form already with an IGroupForm, then you will want to only use the hierarchy_display plugin, and copy bits of the hierarchy_form into your own. If you have your own templates then you can use the snippets (or logic functions) that this extension provides to display the trees.
 
 You can use this extension with CKAN as it is, enabling both plugins. Or if you
 use an extension to customise the form already with an IGroupForm, then you
@@ -22,6 +21,9 @@ will want to only use the hierarchy_display plugin, and copy bits of the
 hierarchy_form into your own. If you have your own templates then you can use
 the snippets (or logic functions) that this extension provides to display the
 trees.
+
+NB:
+This extension relies on a particular feature branch of CKAN: https://github.com/datagovuk/ckan/tree/1038-organization-hierarchy which at the time of writing is not yet merged into master yet. It should be released in CKAN 2.2 (late 2013).
 
 TODO:
 * make the trees prettier with JSTree
