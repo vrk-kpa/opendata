@@ -18,7 +18,8 @@ def search_index_update(context, data_dict):
     #check_access('search_index_update', context, data_dict)
 
     pkg_dict = get_action('package_show')(
-        {'model': model, 'ignore_auth': True, 'validate': False},
+        {'model': model, 'ignore_auth': True, 'validate': False,
+         'use_cache': False},
         data_dict)
 
     indexer = index_for('package')
