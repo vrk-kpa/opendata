@@ -15,10 +15,10 @@ fi
 
 echo "test: $TEST_VARIABLE"
 
-if [ ! -d "$PLUGINS_ROOT" ]; then
-	echo "Plugins root directory not found. Check working directory."
-	exit 1
-fi
+#if [ ! -d "$PLUGINS_ROOT" ]; then
+#	echo "Plugins root directory not found. Check working directory."
+#	exit 1
+#fi
 
 if $UPGRADE_PACKAGES; then
 	sudo apt-get -y update
