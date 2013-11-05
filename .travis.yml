@@ -1,0 +1,21 @@
+language: python
+notifications: 
+  flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
+python: 
+  - "2.7"
+env: 
+  global: 
+    secure: FCN+LWlPQfsZJ3KvSWAX3FDUsVOxQpVGvDOlCH50sZEwtj5R0ZFnQIsv6I6fK/rzzhKrRphs/6vX8kElLURsE/diTMQIybwxwTrMs2Hhj9ObX0OtHUWDuN7VnVIlyyOViCXNyPMjzu2DmoGBXtn1Viz+2vQIpOC84EV0bcWGhsA=
+install:
+  - pip install flake8 --download-cache=$HOME/cache
+script:
+  - ./scripts/test.sh
+  - flake8 --max-line-length=120 .
+cache:
+  apt: true
+  directories:
+  - /usr/lib/ckan/default/src/
+  - $HOME/cache
+branches:
+  only:
+    - master
