@@ -205,13 +205,13 @@ def download(context, resource, url_timeout=30,
              resource['id'], url, saved_file_path, length, hash)
 
     return {'length': length,
-            'hash' : hash,
+            'hash': hash,
             'headers': res.headers,
             'saved_file': saved_file_path,
             'url_redirected_to': url_redirected_to}
 
 
-@celery.task(name = "archiver.clean")
+@celery.task(name="archiver.clean")
 def clean():
     """
     Remove all archived resources.
@@ -219,7 +219,7 @@ def clean():
     log = clean.get_logger()
     log.error("clean task not implemented yet")
 
-@celery.task(name = "archiver.update")
+@celery.task(name="archiver.update")
 def update(context, data):
     '''
     Archive a resource.
@@ -371,7 +371,7 @@ def _update(context, resource):
     })
 
 
-@celery.task(name = "archiver.link_checker")
+@celery.task(name="archiver.link_checker")
 def link_checker(context, data):
     """
     Check that the resource's url is valid, and accepts a HEAD request.
@@ -531,7 +531,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
         return saved_file
 
 
-def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
+def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
     """
     Write the response content to disk.
 
@@ -546,7 +546,7 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     fd, tmp_resource_file_path = tempfile.mkstemp()
 
     with open(tmp_resource_file_path, 'wb') as fp:
-        for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
+        for chunk in response.iter_content(chunk_size=chunk_size, decode_unicode=False):
             fp.write(chunk)
             length += len(chunk)
             resource_hash.update(chunk)
@@ -579,8 +579,8 @@ def _update_resource(context, resource, log):
     post_data = json.dumps(resource)
     res = requests.post(
         api_url, post_data,
-        headers = {'Authorization': context['site_user_apikey'],
-                   'Content-Type': 'application/json'}
+        headers={'Authorization': context['site_user_apikey'],
+                 'Content-Type': 'application/json'}
     )
 
     if res.status_code == 200:
@@ -645,7 +645,6 @@ def get_task_status(key, context, resource_id, log):
             headers={'Authorization': context['site_user_apikey'],
                      'Content-Type': 'application/json'}
         )
-        response.error = None
     except requests.exceptions.RequestException, e:
         log.error('Error getting %s. Error=%r\napi_url=%r',
                   key, e.args, api_url)
@@ -658,7 +657,7 @@ def get_task_status(key, context, resource_id, log):
             raise CkanError('CKAN response not JSON: %s', response.content)
     else:
         res_dict = {}
-    if response.status_code == 404 and res_dict['success'] == False:
+    if response.status_code == 404 and res_dict['success'] is False:
         return None
     elif res_dict['success']:
         result = res_dict['result']
@@ -725,7 +724,7 @@ def convert_requests_exceptions(func, *args, **kwargs):
     '''
     Run a requests command, catching exceptions and reraising them as
     DownloadException. Status errors, such as 404 or 500 do not cause
-    exceptions, instead exposed as response.error.
+    exceptions, instead exposed as not response.ok.
     e.g.
     >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout)
     runs:
