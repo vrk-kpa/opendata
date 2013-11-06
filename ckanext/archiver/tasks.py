@@ -4,12 +4,13 @@ import httplib
 import requests
 import json
 import urllib
-import urllib3
 import urlparse
 import tempfile
 import traceback
 import shutil
 import datetime
+
+from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
 
@@ -76,9 +77,6 @@ def _clean_content_type(ct):
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH):
     '''Given a resource, tries to download it.
-
-    If the size or format is not acceptable for download then
-    ChooseNotToDownload is raised.
 
     Params:
       resource - dict of the resource
