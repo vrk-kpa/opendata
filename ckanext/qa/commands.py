@@ -1,6 +1,5 @@
 import datetime
 import requests
-from requests.exceptions import RequestException
 import urlparse
 import logging
 import sys
@@ -150,16 +149,15 @@ class QACommand(p.toolkit.CkanCommand):
                 for package_name in sorted(package_names):
                     data = json.dumps({'id': unicode(package_name)})
                     url = api_url + '/package_show'
-                    try:
-                        response = requests.post(url, data, headers=REQUESTS_HEADER)
-                        if response.status_code == 403:
-                            self.log.warning('Package "%s" is in the group but '
-                                             'returned %i error, so skipping.' % \
-                                             (package_name, response.status_code))
-                            continue
-                    except RequestException, exc:
+                    response = requests.post(url, data, headers=REQUESTS_HEADER)
+                    if response.status_code == 403:
+                        self.log.warning('Package "%s" is in the group but '
+                                         'returned %i error, so skipping.' % \
+                                         (package_name, response.status_code))
+                        continue
+                    elif not response.ok:
                         err = ('Failed to get package %s from url %r: %s %s' %
-                               (package_name, url, response.status_code, exc))
+                               (package_name, url, response.status_code, response.reason))
                         self.log.error(err)
                         raise CkanApiError(err)
                     yield json.loads(response.content).get('result')
@@ -169,15 +167,14 @@ class QACommand(p.toolkit.CkanCommand):
             page, limit = 1, 10
             while True:
                 url = api_url + '/current_package_list_with_resources'
-                try:
-                    response = requests.post(url,
-                                             json.dumps({'page': page,
-                                                         'limit': limit,
-                                                         'order_by': 'name'}),
-                                             headers=REQUESTS_HEADER)
-                except RequestException, exc:
+                response = requests.post(url,
+                                         json.dumps({'page': page,
+                                                     'limit': limit,
+                                                     'order_by': 'name'}),
+                                         headers=REQUESTS_HEADER)
+                if not response.ok:
                     err = ('Failed to get package list with resources from url %r: %s %s' %
-                           (url, response.status_code, exc))
+                           (url, response.status_code, response.reason))
                     self.log.error(err)
                     raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
