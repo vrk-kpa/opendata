@@ -185,13 +185,18 @@ def get_task_status(key, context, resource_id, log):
        'value', 'error', 'stack', 'last_updated'
     If the key isn\'t there, returns None.'''
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
-    response = requests.post(
-        api_url,
-        json.dumps({'entity_id': resource_id, 'task_type': 'qa',
-                    'key': key}),
-        headers={'Authorization': context['site_user_apikey'],
-                 'Content-Type': 'application/json'}
-    )
+    try:
+        response = requests.post(
+            api_url,
+            json.dumps({'entity_id': resource_id, 'task_type': 'qa',
+                        'key': key}),
+            headers={'Authorization': context['site_user_apikey'],
+                     'Content-Type': 'application/json'}
+        )
+    except requests.exceptions.RequestException, e:
+        log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
+                  key, e.args, api_url)
+        raise CkanError('Error getting %s' % key)
     if response.content:
         try:
             res_dict = json.loads(response.content)
@@ -201,10 +206,6 @@ def get_task_status(key, context, resource_id, log):
         res_dict = {}
     if response.status_code == 404 and res_dict['success'] == False:
         return None
-    elif response.error:
-        log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
-                  key, response.error, api_url, response.status_code, response.content)
-        raise CkanError('Error getting %s' % key)
     elif res_dict['success']:
         result = res_dict['result']
     else:
