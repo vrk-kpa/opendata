@@ -33,9 +33,9 @@ class TestSniffFormat:
 
         expected_container = None
         if expected_format.endswith('.zip'):
-            expected_container = 'zip'
+            expected_container = 'Zip' # Display name of a Zip
         elif expected_format.endswith('.gzip'):
-            expected_container = 'gzip'
+            expected_container = 'Zip' # lumped together with zip for simplicity now
         assert_equal(sniffed_format.get('container'), expected_container)
 
     def test_all(self):

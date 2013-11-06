@@ -63,18 +63,18 @@ class TestLinkChecker(ControllerTestCase):
         result = self.check_link(url)
         assert_equal(result['format'], None)
 
-    def test_format_by_url_extension(self):
-        url = 'http://site.com/data.csv'
+    @with_mock_url('file.csv')
+    def test_format_by_url_extension(self, url):
         result = self.check_link(url)
         assert_equal(result['format'], 'CSV')
 
-    def test_format_by_url_extension_zipped(self):
-        url = 'http://site.com/data.csv.zip'
+    @with_mock_url('file.csv.zip')
+    def test_format_by_url_extension_zipped(self, url):
         result = self.check_link(url)
         assert_equal(result['format'], 'CSV / Zip')
 
-    def test_format_by_url_extension_unknown(self):
-        url = 'http://site.com/data.f1.f2'
+    @with_mock_url('file.f1.f2')
+    def test_format_by_url_extension_unknown(self, url):
         result = self.check_link(url)
         assert_equal(result['format'], 'F1 / F2')
 
@@ -123,8 +123,8 @@ class TestLinkChecker(ControllerTestCase):
         redirect_url = url + u'?status=200&content=test&content-type=text/csv'
         url += u'?status=301&location=%s' % quote_plus(redirect_url)
         result = self.check_link(url)
-        # i.e. this doesn't pick up the CSV as one might hope
-        assert_equal(result['format'], None)
+        # The redirect works and the CSV is picked up
+        assert_equal(result['format'], 'CSV')
 
     # e.g. "http://www.dasa.mod.uk/applications/newWeb/www/index.php?page=48&thiscontent=180&date=2011-05-26&pubType=1&PublishTime=09:30:00&from=home&tabOption=1"
     @with_mock_url('?time=09:30&status=200')
