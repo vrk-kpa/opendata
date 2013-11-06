@@ -9,12 +9,10 @@ import os
 import re
 import traceback
 
-from pylons import config
-
 import ckan.lib.celery_app as celery_app
-from ckanext.dgu.lib.formats import Formats, VAGUE_MIME_TYPES
+from ckanext.dgu.lib.formats import Formats
 from ckanext.qa.sniff_format import sniff_file_format
-from ckanext.archiver.tasks import get_status as get_archiver_status, ArchiverError, LINK_STATUSES__BROKEN
+from ckanext.archiver.tasks import get_status as get_archiver_status, LINK_STATUSES__BROKEN
 
 class QAError(Exception):
     pass
@@ -50,11 +48,17 @@ def _update_task_status(context, data, log):
         func = '/task_status_update'
         payload = data
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + func
-    res = requests.post(
-        api_url, json.dumps(payload),
-        headers={'Authorization': context['apikey'],
-                 'Content-Type': 'application/json'}
-    )
+    try:
+        res = requests.post(
+            api_url, json.dumps(payload),
+            headers={'Authorization': context['apikey'],
+                     'Content-Type': 'application/json'}
+        )
+    except requests.exceptions.RequestException, e:
+        log.error('ckan failed to update task_status, error %r.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
+                        % (e.args, context, data, res, api_url))
+        raise CkanError('ckan failed to update task_status, error %s'
+                        % e)
     if res.status_code == 200:
         return res.content
     else:
@@ -205,9 +209,9 @@ def get_task_status(key, context, resource_id, log):
             raise CkanError('CKAN response not JSON: %s', response.content)
     else:
         res_dict = {}
-    if response.status_code == 404 and res_dict['success'] == False:
+    if response.status_code == 404 and res_dict.get('success') is False:
         return None
-    elif res_dict['success']:
+    elif res_dict.get('success'):
         result = res_dict['result']
     else:
         log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
@@ -470,11 +474,18 @@ def update_search_index(context, package_id, log):
     log.info('Updating Search Index..')
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/search_index_update'
     data = {'id': package_id}
-    res = requests.post(
-        api_url, json.dumps(data),
-        headers={'Authorization': context['apikey'],
-                 'Content-Type': 'application/json'}
-    )
+    try:
+        res = requests.post(
+            api_url, json.dumps(data),
+            headers={'Authorization': context['apikey'],
+                     'Content-Type': 'application/json'}
+        )
+    except requests.exceptions.RequestException, e:
+        log.error('ckan failed to get the search index updated, error %r.\ncontext: %r\ndataset: %r\napi_url: %r'
+                        % (e.args, context, package_id, api_url))
+        raise CkanError('ckan failed to get the search index updated, error %s'
+                        % e)
+
     if res.status_code == 200:
         log.info('..Search Index updated')
         return res.content

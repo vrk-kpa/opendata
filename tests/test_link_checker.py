@@ -111,12 +111,12 @@ class TestLinkChecker(ControllerTestCase):
     @with_mock_url('?status=503')
     def test_url_with_503(self, url):
         result = self.check_link(url)
-        assert_in('Server returned error: Service unavailable', result['url_errors'])
+        assert_in('Server returned HTTP error status: 503 Service Unavailable', result['url_errors'])
 
     @with_mock_url('?status=404')
     def test_url_with_404(self, url):
         result = self.check_link(url)
-        assert_in('URL unobtainable: Server returned HTTP 404', result['url_errors'])
+        assert_in('Server returned HTTP error status: 404 Not Found', result['url_errors'])
 
     @with_mock_url('')
     def test_url_with_30x_follows_redirect(self, url):
