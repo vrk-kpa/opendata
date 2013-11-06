@@ -19,15 +19,6 @@ try:
 except ImportError:
     from ckanext.archiver import default_settings as settings
 
-HTTP_ERROR_CODES = {
-    httplib.MULTIPLE_CHOICES: "300 Multiple Choices not implemented",
-    httplib.USE_PROXY: "305 Use Proxy not implemented",
-    httplib.INTERNAL_SERVER_ERROR: "Internal server error on the remote server",
-    httplib.BAD_GATEWAY: "Bad gateway",
-    httplib.SERVICE_UNAVAILABLE: "Service unavailable",
-    httplib.GATEWAY_TIMEOUT: "Gateway timeout",
-    httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
-}
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
@@ -106,8 +97,6 @@ def download(context, resource, url_timeout=30,
     if (resource.get('resource_type') == 'file.upload' and
         not url.startswith('http')):
         url = context['site_url'].rstrip('/') + url
-
-    resource_format = resource['format'].lower()
 
     # start the download - just get the headers
     # May raise DownloadException
@@ -403,7 +392,6 @@ def link_checker(context, data):
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
 
-    success = True
     error_message = ''
     headers = {}
 
@@ -436,11 +424,9 @@ def link_checker(context, data):
             # this suggests a GET request may be ok, so proceed to that
             # in the download
             raise LinkHeadMethodNotSupported()
-        if res.status_code >= 400:
-            if res.status_code in HTTP_ERROR_CODES:
-                error_message = 'Server returned error: %s' % HTTP_ERROR_CODES[res.status_code]
-            else:
-                error_message = "URL unobtainable: Server returned HTTP %s" % res.status_code
+        if not res.ok or res.status_code >= 400:
+            error_message = 'Server returned HTTP error status: %s %s' % \
+                (res.status_code, res.reason)
             raise LinkHeadRequestError(error_message)
     return json.dumps(headers)
 
@@ -555,7 +541,6 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
     """
     resource_hash = hashlib.sha1()
     length = 0
-    saved_file = None
 
     #tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fd, tmp_resource_file_path = tempfile.mkstemp()
@@ -642,7 +627,7 @@ def update_task_status(context, data, log):
         log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\npost_data: %r\napi_url: %r'
                         % (res.status_code, content, context, data, res, post_data, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
-    log.info('Task status updated ok: %s=%s', key, value)
+    log.info('Task status updated ok: %r', data)
 
 def get_task_status(key, context, resource_id, log):
     '''Gets a row from the task_status table as a dict including keys:
@@ -661,8 +646,10 @@ def get_task_status(key, context, resource_id, log):
                      'Content-Type': 'application/json'}
         )
         response.error = None
-    except Exception, e:
-        response.error = e
+    except requests.exceptions.RequestException, e:
+        log.error('Error getting %s. Error=%r\napi_url=%r',
+                  key, e.args, api_url)
+        raise CkanError('Error getting %s' % key)
 
     if response.content:
         try:
@@ -673,10 +660,6 @@ def get_task_status(key, context, resource_id, log):
         res_dict = {}
     if response.status_code == 404 and res_dict['success'] == False:
         return None
-    elif response.error:
-        log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
-                  key, response.error, api_url, response.status_code, response.content)
-        raise CkanError('Error getting %s' % key)
     elif res_dict['success']:
         result = res_dict['result']
     else:
