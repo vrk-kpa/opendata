@@ -1,5 +1,6 @@
 import datetime
 import requests
+from requests.exceptions import RequestException
 import urlparse
 import logging
 import sys
@@ -48,7 +49,7 @@ class QACommand(p.toolkit.CkanCommand):
 
         paster qa update --config=<path to CKAN config file>
     """
-    
+
     summary = __doc__.split('\n')[0]
     usage = __doc__
     min_args = 0
@@ -86,7 +87,7 @@ class QACommand(p.toolkit.CkanCommand):
             if len(self.args) == 2:
                 self.view(self.args[1])
             else:
-                self.view()                
+                self.view()
         elif cmd == 'clean':
             self.clean()
         elif cmd == 'migrate1':
@@ -149,15 +150,16 @@ class QACommand(p.toolkit.CkanCommand):
                 for package_name in sorted(package_names):
                     data = json.dumps({'id': unicode(package_name)})
                     url = api_url + '/package_show'
-                    response = requests.post(url, data, headers=REQUESTS_HEADER)
-                    if response.status_code == 403:
-                        self.log.warning('Package "%s" is in the group but '
-                                         'returned %i error, so skipping.' % \
-                                         (package_name, response.status_code))
-                        continue
-                    if not response.ok:
+                    try:
+                        response = requests.post(url, data, headers=REQUESTS_HEADER)
+                        if response.status_code == 403:
+                            self.log.warning('Package "%s" is in the group but '
+                                             'returned %i error, so skipping.' % \
+                                             (package_name, response.status_code))
+                            continue
+                    except RequestException, exc:
                         err = ('Failed to get package %s from url %r: %s %s' %
-                               (package_name, url, response.status_code, response.error))
+                               (package_name, url, response.status_code, exc))
                         self.log.error(err)
                         raise CkanApiError(err)
                     yield json.loads(response.content).get('result')
@@ -167,14 +169,15 @@ class QACommand(p.toolkit.CkanCommand):
             page, limit = 1, 10
             while True:
                 url = api_url + '/current_package_list_with_resources'
-                response = requests.post(url,
-                                         json.dumps({'page': page,
-                                                     'limit': limit,
-                                                     'order_by': 'name'}),
-                                         headers=REQUESTS_HEADER)
-                if not response.ok:
+                try:
+                    response = requests.post(url,
+                                             json.dumps({'page': page,
+                                                         'limit': limit,
+                                                         'order_by': 'name'}),
+                                             headers=REQUESTS_HEADER)
+                except RequestException, exc:
                     err = ('Failed to get package list with resources from url %r: %s %s' %
-                           (url, response.status_code, response.error))
+                           (url, response.status_code, exc))
                     self.log.error(err)
                     raise CkanApiError(err)
                 chunk = json.loads(response.content).get('result')
@@ -183,10 +186,10 @@ class QACommand(p.toolkit.CkanCommand):
                 for package in chunk:
                     yield package
                 page += 1
-                    
+
     def sniff(self):
         from ckanext.qa.sniff_format import sniff_file_format
-        
+
         if len(self.args) < 2:
             print 'Not enough arguments', self.args
             sys.exit(1)
@@ -199,7 +202,7 @@ class QACommand(p.toolkit.CkanCommand):
 
     def view(self, package_ref=None):
         from ckan import model
-        
+
         q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
         print 'QA records - %i TaskStatus rows' % q.count()
         print '      across %i Resources' % q.distinct('entity_id').count()
@@ -210,7 +213,7 @@ class QACommand(p.toolkit.CkanCommand):
             for res in pkg.resources:
                 print 'Resource %s' % res.id
                 for row in q.filter_by(entity_id=res.id):
-                    print '* %s = %r error=%r' % (row.key, row.value, row.error) 
+                    print '* %s = %r error=%r' % (row.key, row.value, row.error)
 
     def clean(self):
         from ckan import model
@@ -223,7 +226,7 @@ class QACommand(p.toolkit.CkanCommand):
         model.Session.commit()
 
         print 'After:'
-        self.view()        
+        self.view()
 
     def migrate1(self):
         from ckan import model

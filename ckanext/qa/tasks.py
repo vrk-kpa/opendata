@@ -194,9 +194,10 @@ def get_task_status(key, context, resource_id, log):
                      'Content-Type': 'application/json'}
         )
     except requests.exceptions.RequestException, e:
-        log.error('Error getting %s. Error=%r\napi_url=%r\ncode=%r\ncontent=%r',
+        log.error('Error getting %s. Error=%r\napi_url=%r',
                   key, e.args, api_url)
         raise CkanError('Error getting %s' % key)
+
     if response.content:
         try:
             res_dict = json.loads(response.content)
