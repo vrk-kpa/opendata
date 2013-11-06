@@ -11,7 +11,6 @@ setup(
         'SQLAlchemy>=0.6.6',
         'requests==1.1.0',
         'messytables>=0.1.4',
-	'urllib3==1.7',
         'flask==0.8'  # flask needed for tests
     ],
     author='Open Knowledge Foundation',
