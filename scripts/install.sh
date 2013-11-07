@@ -99,6 +99,8 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='cka
 fi
 
 sudo sed -i "s/^sqlalchemy.url.*/sqlalchemy.url = postgres:\/\/ckan_default:$DATABASE_PASSWORD@localhost\/ckan_default/" $CKAN_INI
+sudo sed -i "s/^ckan.locale_default.*/ckan.locale_default = fi/" $CKAN_INI
+sudo sed -i "s/^ckan.locales_offered.*/ckan.locales_offered = fi sv en/" $CKAN_INI
 
 # Initialize tables
 if $FROM_SOURCE; then
