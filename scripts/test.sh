@@ -67,16 +67,14 @@ for database in ckan_test datastore_test; do
 	sudo -u postgres psql -c "CREATE DATABASE $database WITH OWNER ckan_default;"
 done
 
-for plugin in ckan-plugins/*; do
-	cd $plugin
-	python setup.py develop
-	cd -
-done
-
 cd /usr/lib/ckan/default/src/ckan/
 paster db init -c $TEST_INI
 cd -
 EXIT_STATUS=0
+
+ls
+ls $PLUGINS_ROOT
+
 for plugin in $PLUGINS_ROOT/*; do
 	nosetests --ckan --with-pylons=$plugin/test.ini $plugin/ckanext `find -iname tests -type d`
 	NOSE_EXIT=$?
