@@ -10,7 +10,7 @@ TEST_INI="/usr/lib/ckan/default/src/ckan/test-core.ini"
 PLUGINS_ROOT="ckan/plugins"
 
 if [ -f "config.sh" ]; then
-	. config.sh
+	. config.sh    
 fi
 
 if [ ! -d "$PLUGINS_ROOT" ]; then
@@ -53,14 +53,14 @@ sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr
 sudo service jetty restart
 
 # Initialize postgres database
-for username in ckan_default datastore_default ckan_test datastore_test; do
+for username in ckan_default ckan_test; do
 	if [ ! `sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='$username'"`  ]; then
 		sudo -u postgres psql -c "CREATE USER $username WITH PASSWORD '$DATABASE_PASSWORD';"	
 	fi
 	sudo -u postgres psql -U postgres -d postgres -c "ALTER USER $username WITH PASSWORD '$DATABASE_PASSWORD';"
 done
 
-for database in ckan_test datastore_test; do
+for database in ckan_test; do
 	if [ `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$database'"` ]; then
 		sudo -u postgres psql -c "DROP DATABASE $database;"
 	fi
@@ -72,17 +72,16 @@ paster db init -c $TEST_INI
 cd -
 EXIT_STATUS=0
 
-ls
-ls $PLUGINS_ROOT
-
 for plugin in $PLUGINS_ROOT/*; do
-	nosetests --ckan --with-pylons=$plugin/test.ini $plugin/ckanext `find -iname tests -type d`
+	cd $plugin
+	python setup.py develop
+	nosetests --ckan --with-pylons=test.ini `find -iname tests -type d`
 	NOSE_EXIT=$?
 	if [ "$NOSE_EXIT" != "0" ]; then
 		EXIT_STATUS=$NOSE_EXIT
 	fi
+	cd -
 done
 deactivate
 
 exit $EXIT_STATUS
-
