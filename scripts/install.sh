@@ -11,7 +11,7 @@ UPGRADE_PACKAGES=false
 DATABASE_PASSWORD="pass"
 DATE=`date --iso-8601=seconds`
 BACKUP_DIRECTORY=/etc/solr/conf/backup
-WORK_DIRECTORY="/tmp"
+WORK_DIRECTORY="/tmp/ytp"
 CKAN_PACKAGE="python-ckan_2.1_amd64.deb"
 SOURCE_DIRECTORY="$HOME/ckan"
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
@@ -33,6 +33,8 @@ if [ "$DATABASE_PASSWORD" = "" ]; then
 	echo "DATABASE_PASSWORD must be set"
 	exit 1
 fi
+
+mkdir -p $WORK_DIRECTORY
 
 if $UPGRADE_PACKAGES; then
 	sudo apt-get -y update
@@ -62,12 +64,12 @@ if $FROM_SOURCE; then
 	pip install -r $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt
 
 	mkdir -p /etc/ckan/default
-	cd /usr/lib/ckan/default/src/ckan
+	cd $VIRTUAL_ENVIRONMENT/src/ckan
 	paster make-config --no-interactive ckan $CKAN_INI
 
 	deactivate
 
-	ln -sf /usr/lib/ckan/default/src/ckan/who.ini /etc/ckan/default/who.ini
+	ln -sf $VIRTUAL_ENVIRONMENT/src/ckan/who.ini /etc/ckan/default/who.ini
 
 else
 	if [ ! -f $WORK_DIRECTORY/$CKAN_PACKAGE ]; then
@@ -83,7 +85,7 @@ sudo sh -c 'echo "JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> /etc/default/j
 
 sudo mkdir -p $BACKUP_DIRECTORY
 sudo mv /etc/solr/conf/schema.xml $BACKUP_DIRECTORY/schema.xml.bak-$DATE
-sudo ln -sf /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
+sudo ln -sf $VIRTUAL_ENVIRONMENT/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
 
 sudo service jetty restart
 
@@ -102,15 +104,31 @@ sudo sed -i "s/^sqlalchemy.url.*/sqlalchemy.url = postgres:\/\/ckan_default:$DAT
 sudo sed -i "s/^ckan.locale_default.*/ckan.locale_default = fi/" $CKAN_INI
 sudo sed -i "s/^ckan.locales_offered.*/ckan.locales_offered = fi sv en/" $CKAN_INI
 
+. $VIRTUAL_ENVIRONMENT/bin/activate
+
+cd $WORK_DIRECTORY
+git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
+git pull
+cd -
+cd $WORK_DIRECTORY/paster-ini
+sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
+cd -
+
+
+cd ckan/plugins/ckanext-ytp-groups
+sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
+cd -
+sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ytp_groups"
+
+
 # Initialize tables
 if $FROM_SOURCE; then
-	. /usr/lib/ckan/default/bin/activate
-	cd /usr/lib/ckan/default/src/ckan
+	cd $VIRTUAL_ENVIRONMENT/src/ckan
 	paster db init -c $CKAN_INI
-	deactivate
 else
 	sudo ckan db init
 	sudo service apache2 restart
 	sudo service nginx restart
 fi
+deactivate
 

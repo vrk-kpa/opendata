@@ -7,18 +7,16 @@ SOURCE_DIRECTORY="$HOME/ckan"
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 RUN_TESTS=true
 TEST_INI="/usr/lib/ckan/default/src/ckan/test-core.ini"
-PLUGINS_ROOT="ckan-plugins"
+PLUGINS_ROOT="ckan/plugins"
 
 if [ -f "config.sh" ]; then
 	. config.sh
 fi
 
-echo "test: $TEST_VARIABLE"
-
-#if [ ! -d "$PLUGINS_ROOT" ]; then
-#	echo "Plugins root directory not found. Check working directory."
-#	exit 1
-#fi
+if [ ! -d "$PLUGINS_ROOT" ]; then
+	echo "Plugins root directory not found. Check working directory."
+	exit 1
+fi
 
 if $UPGRADE_PACKAGES; then
 	sudo apt-get -y update
@@ -79,13 +77,13 @@ cd /usr/lib/ckan/default/src/ckan/
 paster db init -c $TEST_INI
 cd -
 EXIT_STATUS=0
-#for plugin in ckan-plugins/*; do
-#	nosetests --ckan --with-pylons=$plugin/test.ini $plugin/ckanext
-#	NOSE_EXIT=$?
-#	if [ "$NOSE_EXIT" != "0" ]; then
-#		EXIT_STATUS=$NOSE_EXIT
-#	fi
-#done
+for plugin in $PLUGINS_ROOT/*; do
+	nosetests --ckan --with-pylons=$plugin/test.ini $plugin/ckanext `find -iname tests -type d`
+	NOSE_EXIT=$?
+	if [ "$NOSE_EXIT" != "0" ]; then
+		EXIT_STATUS=$NOSE_EXIT
+	fi
+done
 deactivate
 
 exit $EXIT_STATUS
