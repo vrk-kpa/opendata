@@ -42,7 +42,7 @@ virtualenv --no-site-packages $VIRTUAL_ENVIRONMENT
 export PIP_USE_MIRRORS=true
 pip install -qe 'git+https://github.com/okfn/ckan.git@ckan-2.1#egg=ckan'
 pip install -qr $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt --download-cache=$HOME/cache
-
+pip install -qr test_requirements.txt --download-cache=$HOME/cache
 mkdir -p /etc/ckan/default
 
 # Configure Solr (and Jetty)
