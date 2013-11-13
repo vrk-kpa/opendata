@@ -75,7 +75,7 @@ EXIT_STATUS=0
 for plugin in $PLUGINS_ROOT/*; do
 	cd $plugin
 	python setup.py develop
-	nosetests --ckan --with-pylons=test.ini `find -iname tests -type d`
+	nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
 	NOSE_EXIT=$?
 	if [ "$NOSE_EXIT" != "0" ]; then
 		EXIT_STATUS=$NOSE_EXIT
