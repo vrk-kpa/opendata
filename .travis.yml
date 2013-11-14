@@ -1,20 +1,28 @@
 language: python
-notifications: 
+python:
+- "2.7"
+branches:
+  only:
+  - master
+notifications:
   flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
-python: 
-  - "2.7"
-before_install:
-  - git submodule update --init --recursive
-install:
-  - pip install flake8 --download-cache=$HOME/cache
-script:
-  - ./scripts/test.sh
-  - flake8 --max-line-length=120 .
 cache:
-  apt: true
   directories:
   - /usr/lib/ckan/default/src/
   - $HOME/cache
-branches:
-  only:
-    - master
+  apt: true
+env:
+  global:
+  - secure: dDrOLI+aYjtdYVtS/JE++czaSyQVR3Ab9dnYlHWE9e87nHlgG701VnqgRsNKIFpDFsfp0rRCY1zMYwxY088JwaIQeFpSiz2Vr61tTF9Xv6dsEHAAnDohAq1YtGcbLfXur26/eW603Lxb2rl943gTd21Z9MucICR93eaIULgGoYE=
+  - secure: YQ4X+uP/Aczq78o1FAvS/ilv1r0280MlBYqpUlh6usOJt3mT5SYSI/DNSOrfB4rSV2DULFTEuf/3+XNUMd2BH//yh4i8Kv1gyXYqlBhVzK7WypI8f4WCLLklIe9czc+VaxtXCcgndHNF0IGdiABhDbIuWjGFIr1GbRzc0dno81g=
+  - secure: IbPq0ZCEh0e5bkfD855zzi1BmUb6vAcgsyyFDJQn5pkQVZJ/aE+661f3UQx9L8PfzsJlwEo5MMbPGseUm8A7LeX6sEaQjOCSopev57xxk2DceH07e+0QjudwL43bu1GA7qWL+72uIF38+0U+sfZlM/peUbbvLdamWw0tQyHpuWY=
+before_install:
+- git submodule update --init --recursive
+install:
+- pip install flake8 --download-cache=$HOME/cache
+- apt-get -qy install sshpass
+script:
+- ./scripts/test.sh
+- flake8 --max-line-length=120 .
+after_success:
+- sshpass -e scp script/install.sh "$USERNAME@$HOST:/home/$USERNAME"
