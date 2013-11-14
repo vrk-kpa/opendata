@@ -4,6 +4,7 @@ python:
 branches:
   only:
   - master
+  - ci-testing
 notifications:
   flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
 cache:
@@ -25,4 +26,4 @@ script:
 - ./scripts/test.sh
 - flake8 --max-line-length=120 .
 after_success:
-- sshpass -e scp script/install.sh "$USERNAME@$HOST:/home/$USERNAME"
+- sshpass -e scp script/install.sh "$USERNAME@$SSHHOST:/home/$USERNAME/"
