@@ -51,6 +51,7 @@ sudo sh -c 'echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nVERBOSE=yes
 sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
 
 sudo service jetty restart
+sudo service jetty status
 
 # Initialize postgres database
 for username in ckan_default ckan_test; do
