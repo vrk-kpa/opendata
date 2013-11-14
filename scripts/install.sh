@@ -16,6 +16,7 @@ CKAN_PACKAGE="python-ckan_2.1_amd64.deb"
 SOURCE_DIRECTORY="$HOME/ckan"
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 CKAN_INI=""
+SOURCE_DIRECTORY=`pwd`
 
 if [ -f "/etc/ytp/config" ]; then
 	. /etc/ytp/config
@@ -107,17 +108,17 @@ sudo sed -i "s/^ckan.locales_offered.*/ckan.locales_offered = fi sv en/" $CKAN_I
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
 cd $WORK_DIRECTORY
-git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
-git pull
-cd -
+
+if [ ! -d "$WORK_DIRECTORY/paster-ini" ]; then
+	git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
+fi
 cd $WORK_DIRECTORY/paster-ini
+git pull
 sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
-cd -
 
-
-cd ckan/plugins/ckanext-ytp-groups
+cd $SOURCE_DIRECTORY/ckan/plugins/ckanext-ytp-groups
 sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
-cd -
+cd $SOURCE_DIRECTORY
 sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ytp_groups"
 
 
