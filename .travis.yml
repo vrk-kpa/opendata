@@ -20,7 +20,7 @@ before_install:
 - git submodule update --init --recursive
 install:
 - pip install flake8 --download-cache=$HOME/cache
-- apt-get -qy install sshpass
+- sudo apt-get -qy install sshpass
 script:
 - ./scripts/test.sh
 - flake8 --max-line-length=120 .
