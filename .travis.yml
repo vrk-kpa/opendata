@@ -19,11 +19,6 @@ env:
   - secure: T5w1iO++xJ0h2LsR6kuZ7Jn3/CmtIyo6/KS/C4jptdQanScCbwslf5GmDVwqiRGweqT4yOpKm5+80Rg7ruT+qNa6C6dxnSifInrCghN79h1CPLz65uRik/5j/oLtxuL3yX4AZLX/ETN1VEvYZpl3ItaygW6yj1UfdbCzIXfTaSU=
 before_install:
 - git submodule update --init --recursive
-install:
-- pip install flake8 --download-cache=$HOME/cache
-- sudo apt-get -qy install sshpass
-script:
-- ./scripts/test.sh
-- flake8 --max-line-length=120 .
-after_success:
-- sshpass -e scp script/install.sh "$USERNAME@$SSHHOST:/home/$USERNAME/"
+install: ./scripts/travis-install.sh
+script: ./scripts/travis-test.sh
+after_success: ./travis-package.sh
