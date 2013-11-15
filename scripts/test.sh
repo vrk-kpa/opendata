@@ -17,14 +17,14 @@ if [ ! -d "$PLUGINS_ROOT" ]; then
 	echo "Plugins root directory not found. Check working directory."
 	exit 1
 fi
+sudo apt-get -qq -y update
 
 if $UPGRADE_PACKAGES; then
-	sudo apt-get -y update
 	sudo apt-get -y upgrade
 fi
 
 # install requirements
-sudo apt-get -qq update
+sudo apt-get -qq -y --force-yes install libcommons-fileupload-java:amd64=1.2.2-1
 sudo apt-get -qq -y install solr-jetty python-virtualenv
 
 sudo service postgresql reload
