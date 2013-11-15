@@ -13,6 +13,7 @@ CKAN_PACKAGE="python-ckan_2.1_amd64.deb"
 SOURCE_DIRECTORY="$HOME/ckan"
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 CKAN_INI=""
+LOG_DIRECTORY="/var/log/ckan"
 
 if [ -f "/etc/ytp/config" ]; then
 	. /etc/ytp/config
@@ -144,6 +145,30 @@ fi
 deactivate
 
 
+SUPERVISOR_CONF="
+[program:ckan_gather_consumer]
+
+command=$VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config=$CKAN_INI
+user=`whoami`
+numprocs=1
+stdout_logfile=$LOG_DIRECTORY/gather_consumer.log
+stderr_logfile=$LOG_DIRECTORY/gather_consumer.log
+autostart=true
+autorestart=true
+startsecs=10
+
+[program:ckan_fetch_consumer]
+
+command=$VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config=$CKAN_INI
+user=`whoami`
+numprocs=1
+stdout_logfile=$LOG_DIRECTORY/fetch_consumer.log
+stderr_logfile=$LOG_DIRECTORY/fetch_consumer.log
+autostart=true
+autorestart=true
+startsecs=10
+"
+
 if $FROM_SOURCE; then
 	echo 'Installing CKAN Harvest extension'
 	# Install prerequisites for CKAN harvest extension
@@ -157,16 +182,36 @@ if $FROM_SOURCE; then
 	pip install -r $VIRTUAL_ENVIRONMENT/src/ckanext-harvest/pip-requirements.txt
 	pip install redis
 
-	echo "ckan.harvest.mq.type=redis" >> $CKAN_INI
+	sed -e '/\[app:main\]/{:a;n;/^$/!ba;i\ckan.harvest.mq.type=redis' -e '}' -i $CKAN_INI
 	paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "harvest"
 	paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ckan_harvester"
 	paster --plugin=ckanext-harvest harvester initdb --config=$CKAN_INI
 
-	paster serve $CKAN_INI
-	deactivate
+	
+	# Run harvest processes in the background
+	# https://github.com/okfn/ckanext-harvest#setting-up-the-harvesters-on-a-production-server
+	sudo apt-get install supervisor
+	sudo echo "${SUPERVISOR_CONF}" > /etc/supervisor/conf.d/ckan_harvesting.conf
+	sudo mkdir -p $LOG_DIRECTORY
+	
+	# start supervisor tasks
+	sudo supervisorctl reread
+	sudo supervisorctl add ckan_gather_consumer
+	sudo supervisorctl add ckan_fetch_consumer
+	sudo supervisorctl start ckan_gather_consumer
+	sudo supervisorctl start ckan_fetch_consumer	
+	sudo supervisorctl status
+	
+	harvest_minutes='5'
+	# cron the harvest run
+	( crontab -l 2>/dev/null | grep -Fv harvester ; printf -- "*/$harvest_minutes * * * * $VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckanext-harvest harvester run --config=$CKAN_INI\n" ) | crontab
+	crontab -l
 
-	# TODO https://github.com/okfn/ckanext-harvest#setting-up-the-harvesters-on-a-production-server
-	# sudo apt-get install supervisord
+
+	# Start CKAN web server
+	#paster serve $CKAN_INI
+	
+	deactivate
 fi
 
 
