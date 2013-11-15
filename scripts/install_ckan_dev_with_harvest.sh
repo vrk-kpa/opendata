@@ -1,7 +1,10 @@
 #! /bin/sh
 
-# Installs CKAN and harvest extension from sources
-# Temporary script until ckan-harvest can be combined with a production version of CKAN
+# CKAN installation script
+# Not fully tested.
+# By default installs to home folder: use config.sh to modify values
+# Requires Ubuntu 12.04 (13.04 fails) using package. 
+# http://docs.ckan.org/en/latest/installing.html
 
 FROM_SOURCE=true
 UPGRADE_PACKAGES=false
@@ -13,6 +16,7 @@ CKAN_PACKAGE="python-ckan_2.1_amd64.deb"
 SOURCE_DIRECTORY="$HOME/ckan"
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 CKAN_INI=""
+SOURCE_DIRECTORY=`pwd`
 LOG_DIRECTORY="/var/log/ckan"
 
 if [ -f "/etc/ytp/config" ]; then
@@ -54,11 +58,11 @@ if $FROM_SOURCE; then
 	sudo ln -sf $SOURCE_DIRECTORY/etc /etc/ckan
 
 	mkdir -p $VIRTUAL_ENVIRONMENT
-	sudo chown `whoami` $VIRTUAL_ENVIRONMENT
+	#sudo chown `whoami` $VIRTUAL_ENVIRONMENT
 	virtualenv --no-site-packages $VIRTUAL_ENVIRONMENT
 	. $VIRTUAL_ENVIRONMENT/bin/activate
 
-	echo "Installing CKAN from sources"
+	echo "Installing CKAN from sources: might take some time to download from git"
 	pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.1#egg=ckan'
 	pip install -r $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt
 
@@ -119,19 +123,19 @@ sudo sed -i "s/^ckan.locales_offered.*/ckan.locales_offered = fi sv en/" $CKAN_I
 # Install paster-ini tool
 echo "Installing paster-ini tool"
 cd $WORK_DIRECTORY
-git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
-git pull
-cd -
+
+if [ ! -d "$WORK_DIRECTORY/paster-ini" ]; then
+	git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
+fi
 cd $WORK_DIRECTORY/paster-ini
-$VIRTUAL_ENVIRONMENT/bin/python setup.py install
-cd -
+git pull
+sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
 
-
-#cd ckan/plugins/ckanext-ytp-groups
+# Install CKAN groups extension
+#cd $SOURCE_DIRECTORY/ckan/plugins/ckanext-ytp-groups
 #sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
-#cd -
+#cd $SOURCE_DIRECTORY
 #sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ytp_groups"
-
 
 # Initialize tables
 if $FROM_SOURCE; then
@@ -169,6 +173,7 @@ autorestart=true
 startsecs=10
 "
 
+# Not supporting harvest with CKAN package installation yet
 if $FROM_SOURCE; then
 	echo 'Installing CKAN Harvest extension'
 	# Install prerequisites for CKAN harvest extension
@@ -186,12 +191,11 @@ if $FROM_SOURCE; then
 	paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "harvest"
 	paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ckan_harvester"
 	paster --plugin=ckanext-harvest harvester initdb --config=$CKAN_INI
-
 	
 	# Run harvest processes in the background
 	# https://github.com/okfn/ckanext-harvest#setting-up-the-harvesters-on-a-production-server
-	sudo apt-get install supervisor
-	sudo echo "${SUPERVISOR_CONF}" > /etc/supervisor/conf.d/ckan_harvesting.conf
+	sudo apt-get -y install supervisor
+	sudo sh -c "echo '${SUPERVISOR_CONF}' > inserted_config.conf"
 	sudo mkdir -p $LOG_DIRECTORY
 	
 	# start supervisor tasks
