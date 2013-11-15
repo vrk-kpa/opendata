@@ -21,4 +21,4 @@ before_install:
 - git submodule update --init --recursive
 install: ./scripts/travis-install.sh
 script: ./scripts/travis-test.sh
-after_success: ./travis-package.sh
+after_success: ./scripts/travis-package.sh
