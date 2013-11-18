@@ -44,6 +44,7 @@ if $UPGRADE_PACKAGES; then
 fi
 
 # install requirements
+sudo apt-get -y --force-yes install libcommons-fileupload-java:amd64=1.2.2-1
 sudo apt-get -y install nginx apache2 libapache2-mod-wsgi libpq5 postgresql solr-jetty openjdk-7-jdk
 
 # Source install does not include Apache and Nginx configuration
