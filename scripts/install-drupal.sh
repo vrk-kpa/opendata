@@ -59,7 +59,7 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$DR
 		sudo chmod 600 $BACKUP
 	fi
 	sudo drush dl drupal --drupal-project-rename=$DRUPAL_NAME --destination=$WWW_ROOT --cache
-
+	sudo chown `whoami`:`whoami` -R $HOME/.drush
 	sudo mkdir -p $DRUPAL_ROOT/sites/default/files
 	sudo chown $WWW_USER:$WWW_GROUP $DRUPAL_ROOT/sites/default/files
 
@@ -74,4 +74,10 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$DR
 	cd $BASE_DIRECTORY
 fi
 sudo -u postgres psql -U postgres -d postgres -c "ALTER USER $DRUPAL_DATABASE_USERNAME NOCREATEDB;"
+
+# Email is not required and anyone can make accouts:
+cd $DRUPAL_ROOT
+drush variable-set user_email_verification 0
+drush variable-set user_register 1
+cd $BASE_DIRECTORY
 

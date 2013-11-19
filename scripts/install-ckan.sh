@@ -91,8 +91,7 @@ sudo sh -c 'echo "host ckan_default ckan_default 127.0.0.1/32 md5" >> /etc/postg
 
 sudo service postgresql restart
 # Configure Solr (and Jetty)
-sudo sh -c 'echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nVERBOSE=yes" > /etc/default/jetty'
-sudo sh -c 'echo "JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> /etc/default/jetty'
+sudo cp $CONFIG_DIRECTORY/jetty.conf /etc/default/jetty
 
 sudo mkdir -p $BACKUP_DIRECTORY
 sudo mv /etc/solr/conf/schema.xml $BACKUP_DIRECTORY/schema.xml.bak-$DATE
@@ -112,24 +111,12 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='cka
 fi
 
 sudo sed -i "s/^sqlalchemy.url.*/sqlalchemy.url = postgres:\/\/ckan_default:$DATABASE_PASSWORD@localhost\/ckan_default/" $CKAN_INI
-sudo sed -i "s/^ckan.locale_default.*/ckan.locale_default = fi/" $CKAN_INI
-sudo sed -i "s/^ckan.locales_offered.*/ckan.locales_offered = fi sv en/" $CKAN_INI
 
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
-cd $WORK_DIRECTORY
-
-if [ ! -d "$WORK_DIRECTORY/paster-ini" ]; then
-	git clone https://github.com/yhteentoimivuuspalvelut/paster-ini.git
-fi
-cd $WORK_DIRECTORY/paster-ini
-git pull
-sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
-
-cd $BASE_DIRECTORY/ckan/plugins/ckanext-ytp-groups
-sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py install
-cd $BASE_DIRECTORY
-sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ytp_groups"
+sudo $VIRTUAL_ENVIRONMENT/bin/pip install -r requirements.txt
+sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-merge "$CONFIG_DIRECTOR/ckan.ini" "$CKAN_INI"
+sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ytp_groups" "harvest" "ckan_harvester"
 
 # Initialize tables
 if $FROM_SOURCE; then
@@ -165,19 +152,16 @@ autorestart=true
 startsecs=10
 "
 
-
 echo 'Installing CKAN Harvest extension'
 # Install CKAN harvest extension
 cd $VIRTUAL_ENVIRONMENT
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
-sudo $VIRTUAL_ENVIRONMENT/bin/pip install -e 'git+https://github.com/okfn/ckanext-harvest.git@stable#egg=ckanext-harvest'
-sudo $VIRTUAL_ENVIRONMENT/bin/pip install -r $VIRTUAL_ENVIRONMENT/src/ckanext-harvest/pip-requirements.txt
-sudo $VIRTUAL_ENVIRONMENT/bin/pip install redis
+
+# sudo $VIRTUAL_ENVIRONMENT/bin/pip install -r $VIRTUAL_ENVIRONMENT/src/ckanext-harvest/pip-requirements.txt
+# sudo $VIRTUAL_ENVIRONMENT/bin/pip install redis
 
 sudo sed -e '/\[app:main\]/{:a;n;/^$/!ba;i\ckan.harvest.mq.type=redis' -e '}' -i $CKAN_INI
-sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "harvest"
-sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=paster-ini ini-add "$CKAN_INI" "app:main" "ckan.plugins" "ckan_harvester"
 sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckanext-harvest harvester initdb --config=$CKAN_INI
 
 # Run harvest processes in the background

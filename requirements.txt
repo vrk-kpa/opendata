@@ -1,0 +1,5 @@
+git+https://github.com/yhteentoimivuuspalvelut/paster-ini.git
+git+https://github.com/okfn/ckanext-drupal7.git
+git+https://github.com/okfn/ckanext-harvest.git@stable#egg=ckanext-harvest
+git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git
+redis
