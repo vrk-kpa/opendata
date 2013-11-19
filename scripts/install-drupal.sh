@@ -18,11 +18,11 @@ ADMIN_PASSWORD="admin"
 DATE=`date --iso-8601=seconds`
 BACKUP_DIRECTORY=$WWW_ROOT
 
-if [ -f "config.sh" ]; then
-	. config.sh
+if [ -f "/etc/ytp/config" ]; then
+    . /etc/ytp/config
 fi
 
-sudo apt-get -y install php5-pgsql nginx php5-gd php5-fpm #drush 
+sudo apt-get -y install php5-pgsql nginx php5-gd php5-fpm php-pear
 
 # Drush version 5 or greater provides "drush make"
 sudo pear channel-discover pear.drush.org
@@ -70,8 +70,7 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$DR
 	sudo -u postgres createdb -O $DRUPAL_DATABASE_USERNAME $DRUPAL_DATABASE -E utf-8
 	cd $DRUPAL_ROOT
 	yes | sudo drush site-install standard  --account-name=$ADMIN_USERNAME --account-pass=$ADMIN_PASSWORD \
-		--db-url=pgsql://$DRUPAL_DATABASE_USERNAME:$DRUPAL_DATABASE_PASSWORD@localhost/$DRUPAL_DATABASE --site-name=$SITE_NAME \
-		--db-su=postgres --db-su-pw=$DRUPAL_DATABASE_PASSWORD
+		--db-url=pgsql://$DRUPAL_DATABASE_USERNAME:$DRUPAL_DATABASE_PASSWORD@localhost/$DRUPAL_DATABASE --site-name=$SITE_NAME
 	cd $BASE_DIRECTORY
 fi
 sudo -u postgres psql -U postgres -d postgres -c "ALTER USER $DRUPAL_DATABASE_USERNAME NOCREATEDB;"
