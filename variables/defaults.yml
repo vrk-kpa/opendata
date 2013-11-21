@@ -1,0 +1,37 @@
+---
+ckan_ini: /etc/ckan/default/production.ini
+ckan_package: python-ckan_2.1_amd64.deb
+
+ckan_database_name: ckan_default
+ckan_database_username: ckan_default
+ckan_database_password: pass
+
+drupal_database_name: drupal
+drupal_database_username: drupal
+drupal_database_password: drupal
+
+database_ip_range: 127.0.0.1/32
+database_host: localhost
+database_port: 5432
+
+virtual_environment: /usr/lib/ckan/default
+harvester_user: root
+log_path: /var/log/ckan
+
+cache_path: /tmp/ytp
+backup_directory: /var/backups/ytp
+ansible_flags: /root/ansible/flags
+
+www_root: /var/www
+drupal_name: ytp
+drupal_site_name: YTP
+drupal_root: ${www_root}/${drupal_name}
+
+drupal_admin_username: admin
+drupal_admin_password: admin
+
+ckan_plugins_default: stats text_preview recline_preview
+ckan_plugins: ytp_groups harvest ckan_harvester drupal7
+
+drupal_hostname: localhost
+

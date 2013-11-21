@@ -1,0 +1,21 @@
+[program:ckan_gather_consumer]
+
+command={{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
+user={{ harvester_user }}
+numprocs=1
+stdout_logfile={{ log_path }}/gather_consumer.log
+stderr_logfile={{ log_path }}/gather_consumer.log
+autostart=true
+autorestart=true
+startsecs=10
+
+[program:ckan_fetch_consumer]
+
+command={{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
+user={{ harvester_user }}
+numprocs=1
+stdout_logfile={{ log_path }}/fetch_consumer.log
+stderr_logfile={{ log_path }}/fetch_consumer.log
+autostart=true
+autorestart=true
+startsecs=10

@@ -35,6 +35,14 @@ server {
         return 403;
     }
 
+    location /data/user/login {
+        rewrite ^/.* /user/login permanent;
+    }
+
+    location /data/user/register {
+        rewrite ^/.* /user/register permanent;
+    }
+
     location /data {
         proxy_pass http://127.0.0.1:8080/data;
         proxy_set_header Host $host;
