@@ -24,6 +24,7 @@
     action: apt pkg=$item state=latest
     with_items:
       - python-psycopg2
+      - python-virtualenv
 
   - name: Ensure common packages
     action: apt pkg=$item state=latest
@@ -146,9 +147,11 @@
 
   - name: Create Harvester user
     shell: ${virtual_environment}/bin/paster --plugin=ckan user add ${harvest_username} password=${harvest_password} email=${harvest_email} --config=${ckan_ini}
+    ignore_errors: True
 
   - name: Add Harvester user to sysadmins
     shell: ${virtual_environment}/bin/paster --plugin=ckan  sysadmin add ${harvest_username} --config=${ckan_ini}
+    ignore_errors: True
 
   - name: Copy supervisor configuration
     template: src=templates/supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf

@@ -43,6 +43,10 @@ server {
         rewrite ^/.* /user/register permanent;
     }
 
+    location /data/user/_logout {
+        rewrite ^/.* /user/logout permanent;
+    }
+
     location /data {
         proxy_pass http://127.0.0.1:8080/data;
         proxy_set_header Host $host;
