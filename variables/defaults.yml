@@ -35,3 +35,6 @@ ckan_plugins: ytp_groups harvest ckan_harvester drupal7
 
 drupal_hostname: localhost
 
+harvest_username: harvest
+harvest_password: harvest
+harvest_email: harvest@none.fake

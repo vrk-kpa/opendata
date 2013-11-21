@@ -36,4 +36,4 @@ nosetests.xml
 .pydevproject
 
 *~
-variables/private
+variables/private/*.yml
