@@ -1,0 +1,244 @@
+- hosts: ytp
+  sudo: yes
+
+  vars_files:
+    - variables/defaults.yml
+    - variables/private/variables.yml
+
+  tasks:
+  - name: Create flags path
+    file: path=${ansible_flags} state=directory
+  - name: Create cache path
+    file: path=${cache_path} state=directory
+  - name: Create backup path
+    file: path=${backup_directory} state=directory
+  - name: Create log path
+    file: path=${log_path} state=directory
+
+  ### Requirements ###
+
+  - name: Ensure libcommons-fileupload-java version
+    apt: pkg=libcommons-fileupload-java=1.2.2-1 force=yes
+
+  - name: Ensure ansible requirements
+    action: apt pkg=$item state=latest
+    with_items:
+      - python-psycopg2
+
+  - name: Ensure common packages
+    action: apt pkg=$item state=latest
+    with_items:
+      - nginx
+      - libpq5
+      - postgresql
+      - git-core
+
+  - name: Ensure CKAN common packages
+    action: apt pkg=$item state=latest
+    with_items:
+      - solr-jetty
+      - openjdk-7-jdk
+      - redis-server
+      - python-pip
+      - supervisor
+
+  - name: Ensure Drupal packages
+    action: apt pkg=$item state=latest
+    with_items:
+      - php5-pgsql
+      - php5-gd
+      - php5-fpm
+      - php-pear
+
+  - name: Ensure CKAN deb packages
+    action: apt pkg=$item state=latest
+    with_items:
+      - apache2
+      - libapache2-mod-wsgi
+
+  ### Databases ####
+
+  - name: Copy Postgresql configuration
+    action: template src=templates/pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf owner=postgres group=postgres mode=0640
+
+  - name: Reload postgres
+    service: name=postgresql state=reloaded
+
+  - name: Setup Postgresql databases
+    sudo_user: postgres
+    postgresql_db: name=${ckan_database_name}
+
+  - name: Setup CKAN Postgresql user
+    sudo_user: postgres
+    postgresql_user: user=${ckan_database_username} password=${ckan_database_password} db=${ckan_database_name}
+
+  - name: Setup Drupal Postgresql user
+    sudo_user: postgres
+    postgresql_user: user=${drupal_database_username} password=${drupal_database_password} role_attr_flags=CREATEDB
+
+  - name: Create root pgpass # required by drush
+    template: src=templates/pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
+
+  ### CKAN ###
+
+  - name: Download CKAN package
+    get_url: url=http://packaging.ckan.org/${ckan_package} dest=${cache_path}
+
+  - name: Install CKAN package
+    command: dpkg -i ${cache_path}/${ckan_package} creates=/usr/lib/ckan/default/
+
+  - name: Disable Apache default site
+    file: path=/etc/apache2/sites-enabled/default state=absent
+  - name: Disable Apache default-ssl site
+    file: path=/etc/apache2/sites-enabled/default-ssl state=absent
+  - name: Disable Apache ckan_default site
+    file: path=/etc/apache2/sites-enabled/ckan_default state=absent
+
+  - name: Copy Apache configuration
+    template: src=templates/apache2.j2 dest=/etc/apache2/sites-available/ytp
+  
+  - name: Enable Apache configuration
+    file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link
+    notify: Restart Apache
+
+  - name: Remove old schema
+    file: path=/etc/solr/conf/schema.xml state=absent
+
+  - name: Setup Solr schema
+    copy: src=${virtual_environment}/src/ckan/ckan/config/solr/schema-2.0.xml dest=/etc/solr/conf/schema.xml
+  
+  - name: Setup Jetty
+    template: src=templates/jetty.j2 dest=/etc/default/jetty
+    notify: Restart Jetty
+
+  - name: Ensure Jetty is running
+    service: name=jetty state=restarted
+
+  - name: Set CKAN database URL
+    ini_file: dest=${ckan_ini} section="app:main" option=sqlalchemy.url value=postgres://${ckan_database_username}:${ckan_database_password}@${database_host}/${ckan_database_name}
+  - name: Set CKAN default locale
+    ini_file: dest=${ckan_ini} section="app:main" option=ckan.locale_default value=fi
+  - name: Set CKAN offered locales
+    ini_file: dest=${ckan_ini} section="app:main" option=ckan.locales_offered value="fi sv en"
+
+  - name: Copy requirements file
+    template: src=requirements.txt dest=${cache_path}/requirements.txt
+
+  - name: Install requirements
+    pip: requirements=${cache_path}/requirements.txt virtualenv=${virtual_environment}
+
+  - name: Set CKAN harvest type
+    ini_file: dest=${ckan_ini} section="app:main" option=ckan.harvest.mq.type value=redis
+  - name: Set CKAN plugins
+    ini_file: dest=${ckan_ini} section="app:main" option=ckan.plugins value="${ckan_plugins_default} ${ckan_plugins}"
+  - name: Set CKAN Drupal domain
+    ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.domain value=${drupal_hostname}
+  - name: Set CKAN Drupal admin
+    ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.sysadmin_role value=${drupal_admin_username}
+  - name: Set CKAN Drupal connection
+    ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.connection value="postgresql://${drupal_database_username}:${drupal_database_password}@${database_host}/${drupal_database_name}"
+
+  - name: Initialize CKAN database
+    shell: ckan db init
+
+  - name: Initialize Harvester database
+    shell: ${virtual_environment}/bin/paster --plugin=ckanext-harvest harvester initdb --config=${ckan_ini}
+
+  - name: Create Harvester user
+    shell: ${virtual_environment}/bin/paster --plugin=ckan user add ${harvest_username} password=${harvest_password} email=${harvest_email} --config=${ckan_ini}
+
+  - name: Add Harvester user to sysadmins
+    shell: ${virtual_environment}/bin/paster --plugin=ckan  sysadmin add ${harvest_username} --config=${ckan_ini}
+
+  - name: Copy supervisor configuration
+    template: src=templates/supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf
+    register: supervisor_configuration
+    notify:
+    - Restart Gather
+    - Restart Fetch
+
+  - name: Reread supervisor
+    shell: supervisorctl reread
+
+  - name: Ensure Gather is present
+    shell: supervisorctl add ckan_gather_consumer
+
+  - name: Ensure Fetch is present
+    shell: supervisorctl add ckan_fetch_consumer
+
+  - name: Ensure Gather is running
+    supervisorctl: name=ckan_gather_consumer state=restarted
+
+  - name: Ensure Fetch is running
+    supervisorctl: name=ckan_fetch_consumer state=restarted
+
+  - name: Ensure harvester cron job
+    cron: name="harvest" minute="*/5" job="${virtual_environment}/bin/paster --plugin=ckanext-harvest harvester run --config=${ckan_ini}"
+
+  - name: Ensure Apache restart
+    service: name=apache2 state=restarted
+
+  ### Drupal ###
+
+  - name: Set Drush channel for Pear
+    command: pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+  - name: Instal Drush via pear
+    command: pear install drush/drush creates=/usr/share/php/.registry/.channel.pear.drush.org/drush.reg
+
+  - name: Set PHP pathinfo
+    ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+  - name: Set PHP socket (listen) 
+    ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+
+  - name: Disable Nginx sites
+    file: path=/etc/nginx/sites-enabled/ckan state=absent
+
+  - name: Copy Nginx configuration
+    template: src=templates/nginx.j2 dest=/etc/nginx/sites-available/ytp
+  
+  - name: Enable Nginx site
+    file: src=/etc/nginx/sites-available/ytp dest=/etc/nginx/sites-enabled/ytp state=link
+
+  - name: Create Drupal install script
+    template: src=templates/install-drupal.sh.j2 dest=${cache_path}/install-drupal.sh mode=0700 owner=root group=root
+
+  - name: Install drupal
+    command: ${cache_path}/install-drupal.sh creates=${ansible_flags}/drupal-installed
+
+  - name: Disable Drupal email verification
+    command: drush variable-set user_email_verification 0 chdir=${drupal_root}
+
+  - name: Disable Drupal admin verification
+    command: drush variable-set user_register 1 chdir=${drupal_root}
+    notify:
+    - Restart PHP-FPM
+    - Restart Nginx
+
+  - name: Ensure PHP-FPM is restarted
+    service: name=php5-fpm state=restarted
+
+  - name: Ensure Nginx is restarted
+    service: name=nginx state=restarted
+
+  handlers:
+    - name: Restart Apache
+      service: name=apache2 state=restarted
+
+    - name: Restart Postgres
+      service: name=postgresql state=restarted
+
+    - name: Restart Jetty
+      service: name=jetty state=restarted
+
+    - name: Restart Gather
+      supervisorctl: name=ckan_gather_consumer state=restarted
+
+    - name: Restart Fetch
+      supervisorctl: name=ckan_fetch_consumer state=restarted
+
+    - name: Restart PHP-FPM
+      service: name=php5-fpm state=restarted
+
+    - name: Restart Nginx
+      service: name=nginx state=restarted
+
