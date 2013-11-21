@@ -9,6 +9,7 @@
 FROM_SOURCE=false
 UPGRADE_PACKAGES=false
 DATABASE_PASSWORD="pass"
+HARVEST_PASSWORD="SrqWzc4HyaEb"
 DATE=`date --iso-8601=seconds`
 BACKUP_DIRECTORY=/etc/solr/conf/backup
 WORK_DIRECTORY="/tmp/ytp"
@@ -163,6 +164,9 @@ cd $VIRTUAL_ENVIRONMENT
 
 sudo sed -e '/\[app:main\]/{:a;n;/^$/!ba;i\ckan.harvest.mq.type=redis' -e '}' -i $CKAN_INI
 sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckanext-harvest harvester initdb --config=$CKAN_INI
+
+sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckan user add harvest password=$HARVEST_PASSWORD email=invalid@invalid.mail --config=$CKAN_INI
+sudo $VIRTUAL_ENVIRONMENT/bin/paster --plugin=ckan sysadmin add harvest --config=$CKAN_INI
 
 # Run harvest processes in the background
 # https://github.com/okfn/ckanext-harvest#setting-up-the-harvesters-on-a-production-server
