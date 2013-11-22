@@ -215,7 +215,7 @@
     command: drush variable-set user_register 1 chdir=${drupal_root}
     
   - name: Download custom_user_validation module
-    command: drush dl custom_username_validation chdir=${drupal_root} creates=/var/www/vk/sites/all/modules/custom_username_validation/
+    command: drush dl custom_username_validation chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/custom_username_validation/
     
   - name: Enable custom_user_validation module
     command: drush en custom_username_validation -y chdir=${drupal_root}
