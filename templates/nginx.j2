@@ -7,6 +7,18 @@ server {
     client_max_body_size 100M;
     gzip_static on;
 
+    if (-f /var/www/maintenance) {
+        return 503;
+    }
+
+    error_page 503 @maintenance;
+
+    location @maintenance {
+        if ($uri !~ ^/maintenance/) {
+            rewrite ^(.*)$ /maintenance.html break;
+        }
+    }
+
     location = /favicon.ico {
         log_not_found off;
         access_log off;

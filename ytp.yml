@@ -228,6 +228,9 @@
   
   - name: Set username validation hint
     command: drush variable-set custom_username_validation_hint "" chdir=${drupal_root}
+
+  - name: Copy maintenance page
+    template: src=templates/maintenance.html.j2 dest=/var/www/ytp/maintenance.html owner=root group=root
     notify:
     - Restart PHP-FPM
     - Restart Nginx
