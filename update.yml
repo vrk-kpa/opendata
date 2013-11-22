@@ -1,0 +1,16 @@
+- hosts: ytp
+  sudo: yes
+
+  vars_files:
+    - variables/defaults.yml
+    - ['variables/private/variables.yml', 'variables/none.yml']
+
+  tasks:
+  - name: Copy requirements file
+    template: src=requirements.txt dest=${cache_path}/requirements.txt
+
+  - name: Install requirements
+    pip: requirements=${cache_path}/requirements.txt virtualenv=${virtual_environment} state=latest
+
+  - name: Restart Apache
+    service: name=apache2 state=restarted

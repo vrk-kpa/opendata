@@ -3,7 +3,7 @@
 
   vars_files:
     - variables/defaults.yml
-    - variables/private/variables.yml
+    - ['variables/private/variables.yml', 'variables/none.yml']
 
   tasks:
   - name: Create flags path
@@ -213,6 +213,21 @@
 
   - name: Disable Drupal admin verification
     command: drush variable-set user_register 1 chdir=${drupal_root}
+    
+  - name: Download custom_user_validation module
+    command: drush dl custom_username_validation chdir=${drupal_root} creates=/var/www/vk/sites/all/modules/custom_username_validation/
+    
+  - name: Enable custom_user_validation module
+    command: drush en custom_username_validation -y chdir=${drupal_root}
+    
+  - name: Set username validation pattern
+    command: drush variable-set custom_username_validation_pattern '/^[\w]+$/' chdir=${drupal_root}
+ 
+  - name: Set username validation error message
+    command: drush variable-set custom_username_validation_errormsg 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' chdir=${drupal_root}
+  
+  - name: Set username validation hint
+    command: drush variable-set custom_username_validation_hint "" chdir=${drupal_root}
     notify:
     - Restart PHP-FPM
     - Restart Nginx
