@@ -17,6 +17,9 @@
 
   ### Requirements ###
 
+  - name: Update package cache
+    apt: update_cache=yes
+
   - name: Ensure libcommons-fileupload-java version
     apt: pkg=libcommons-fileupload-java=1.2.2-1 force=yes
 
