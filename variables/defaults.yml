@@ -23,6 +23,8 @@ backup_directory: /var/backups/ytp
 ansible_flags: /root/ansible/flags
 
 www_root: /var/www
+www_user: www-data
+www_group: www-data
 drupal_name: ytp
 drupal_site_name: YTP
 drupal_root: ${www_root}/${drupal_name}
