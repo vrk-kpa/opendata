@@ -106,7 +106,7 @@
     file: path=/etc/solr/conf/schema.xml state=absent
 
   - name: Setup Solr schema
-    copy: src=${virtual_environment}/src/ckan/ckan/config/solr/schema-2.0.xml dest=/etc/solr/conf/schema.xml
+    file: src=${virtual_environment}/src/ckan/ckan/config/solr/schema-2.0.xml dest=/etc/solr/conf/schema.xml state=link
   
   - name: Setup Jetty
     template: src=templates/jetty.j2 dest=/etc/default/jetty
