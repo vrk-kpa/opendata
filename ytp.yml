@@ -6,14 +6,15 @@
     - ['variables/private/variables.yml', 'variables/none.yml']
 
   tasks:
-  - name: Create flags path
-    file: path=${ansible_flags} state=directory
-  - name: Create cache path
-    file: path=${cache_path} state=directory
-  - name: Create backup path
-    file: path=${backup_directory} state=directory
-  - name: Create log path
-    file: path=${log_path} state=directory
+  - name: Create paths
+    file: path=${item} state=directory
+    with_items:
+    - ${server_path}
+    - ${features_path}
+    - ${cache_path}
+    - ${backup_path}
+    - ${ansible_flags}
+    - ${log_path}
 
   ### Requirements ###
 
@@ -97,7 +98,7 @@
 
   - name: Copy Apache configuration
     template: src=templates/apache2.j2 dest=/etc/apache2/sites-available/ytp
-  
+
   - name: Enable Apache configuration
     file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link
     notify: Restart Apache
@@ -190,7 +191,7 @@
 
   - name: Set PHP pathinfo
     ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
-  - name: Set PHP socket (listen) 
+  - name: Set PHP socket (listen)
     ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
 
   - name: Disable Nginx sites
@@ -198,7 +199,7 @@
 
   - name: Copy Nginx configuration
     template: src=templates/nginx.j2 dest=/etc/nginx/sites-available/ytp
-  
+
   - name: Enable Nginx site
     file: src=/etc/nginx/sites-available/ytp dest=/etc/nginx/sites-enabled/ytp state=link
 
@@ -213,21 +214,51 @@
 
   - name: Disable Drupal admin verification
     command: drush variable-set user_register 1 chdir=${drupal_root}
-    
-  - name: Download custom_user_validation module
-    command: drush dl custom_username_validation chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/custom_username_validation/
-    
-  - name: Enable custom_user_validation module
-    command: drush en custom_username_validation -y chdir=${drupal_root}
-    
+
+  - name: Download Drupal modules
+    command: drush dl -y ${item} chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/${item}/
+    with_items:
+      - custom_username_validation
+      - views
+      - features
+      - drush_extras
+
+  - name: Enable Drupal modules
+    command: drush en -y ${item} chdir=${drupal_root}
+    with_items:
+      - custom_username_validation
+      - views
+      - features
+
   - name: Set username validation pattern
     command: drush variable-set custom_username_validation_pattern '/^[\w]+$/' chdir=${drupal_root}
- 
+
   - name: Set username validation error message
     command: drush variable-set custom_username_validation_errormsg 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' chdir=${drupal_root}
-  
+
   - name: Set username validation hint
     command: drush variable-set custom_username_validation_hint "" chdir=${drupal_root}
+
+  - name: Copy Drupal features
+    copy: src=features/${item} dest=${features_path}/${item}
+    with_items:
+      - service_alert_feature.tar
+
+  - name: Prepare features install
+    file: path=${features_module_path} state=directory
+
+  - name: Install features
+    command: tar xf ${features_path}/${item}.tar --directory=${features_module_path} creates=${features_module_path}/${item}
+    with_items:
+      - service_alert_feature
+
+  - name: Enable features
+    command: drush en -y ${item} chdir=${drupal_root}
+    with_items:
+      - service_alert_feature
+
+  - name: Move service alerts to correct block
+    command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted
 
   - name: Copy maintenance page
     template: src=templates/maintenance.html.j2 dest=/var/www/ytp/maintenance.html owner=root group=root
@@ -262,4 +293,3 @@
 
     - name: Restart Nginx
       service: name=nginx state=restarted
-

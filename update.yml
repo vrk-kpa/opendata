@@ -13,7 +13,7 @@
     pip: requirements=${cache_path}/requirements.txt virtualenv=${virtual_environment} state=latest
 
   - name: Update Drupal
-    command: drush -y --backup-dir=${backup_directory} up chdir=${drupal_root}
+    command: drush -y --backup-dir=${backup_path} up chdir=${drupal_root}
 
   - name: Restart Apache
     service: name=apache2 state=restarted

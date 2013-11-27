@@ -18,9 +18,11 @@ virtual_environment: /usr/lib/ckan/default
 harvester_user: root
 log_path: /var/log/ckan
 
-cache_path: /tmp/ytp
-backup_directory: /var/backups/ytp
-ansible_flags: /root/ansible/flags
+server_path: /srv/ytp
+features_path: ${server_path}/features
+cache_path: ${server_path}/cache
+backup_path: ${server_path}/backup
+ansible_flags: ${server_path}/ansible
 
 www_root: /var/www
 www_user: www-data
@@ -40,3 +42,5 @@ drupal_hostname: localhost
 harvest_username: harvest
 harvest_password: harvest
 harvest_email: harvest@none.fake
+
+features_module_path: ${drupal_root}/sites/all/modules/ytp_features
