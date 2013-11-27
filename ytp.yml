@@ -261,7 +261,7 @@
       - service_alert_feature
 
   - name: Move service alerts to correct block
-    command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted
+    command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted chdir=${drupal_root}
 
   - name: Copy maintenance page
     template: src=templates/maintenance.html.j2 dest=/var/www/ytp/maintenance.html owner=root group=root
