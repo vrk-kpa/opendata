@@ -125,6 +125,8 @@
     ini_file: dest=${ckan_ini} section="app:main" option=ckan.locale_default value=fi
   - name: Set CKAN offered locales
     ini_file: dest=${ckan_ini} section="app:main" option=ckan.locales_offered value="fi sv en"
+  - name: Set drupal database
+    ini_file: dest=${ckan_ini} section="app:main" option=ckanext.ytp.drupal.connection value="postgres://${drupal_database_username}:${drupal_database_password}@${database_host}/${drupal_database_name}"
 
   - name: Copy requirements file
     template: src=requirements.txt dest=${cache_path}/requirements.txt

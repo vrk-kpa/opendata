@@ -35,7 +35,7 @@ drupal_admin_username: admin
 drupal_admin_password: admin
 
 ckan_plugins_default: stats text_preview recline_preview
-ckan_plugins: ytp_groups harvest ckan_harvester drupal7
+ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal
 
 drupal_hostname: localhost
 
