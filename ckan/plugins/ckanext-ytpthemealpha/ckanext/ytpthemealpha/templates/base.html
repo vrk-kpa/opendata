@@ -1,0 +1,19 @@
+
+{% ckan_extends %}
+      {% block scripts %}
+        {{ super() }}
+        <script src="
+        {% resource 'ytp_js/ytp.js' %},
+        "></script>
+      {% endblock %}
+      {% block styles %}
+       {{ super() }}
+        <link rel="stylesheet" href="
+{% resource 'ytp_css/dgu.css' %},
+{% resource 'ytp_css/ytp_alpha.css' %}
+        " />
+      {% endblock %}
+
+{% block title %}Yhteentoimivuuspalvelut{% endblock %}
+
+
