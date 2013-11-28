@@ -234,7 +234,7 @@
       - features
 
   - name: Set username validation pattern
-    command: drush variable-set custom_username_validation_pattern '/^[\w]+$/' chdir=${drupal_root}
+    command: drush variable-set custom_username_validation_pattern '/^[a-z0-9_]+$/' chdir=${drupal_root}
 
   - name: Set username validation error message
     command: drush variable-set custom_username_validation_errormsg 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' chdir=${drupal_root}
