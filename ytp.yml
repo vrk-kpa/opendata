@@ -278,11 +278,11 @@
     service: name=nginx state=restarted
     
   - name: Add editor role
-    command: drush role-create "{{drupal_editor_rolename}}" chdir={{drupal_root}}
+    command: drush role-create "${drupal_editor_rolename}" chdir=${drupal_root}
     ignore_errors: True
   
   - name: Add permissions to role
-    command: drush role-add-perm "{{drupal_editor_rolename}}" "{{item}}" chdir={{drupal_root}}
+    command: drush role-add-perm "${drupal_editor_rolename}" "${item}" chdir=${drupal_root}
     with_items:
       - create article content
       - edit own article content
@@ -296,13 +296,18 @@
       - view revisions
       - revert revisions
       - delete revisions
+      - create service_alert content
+      - edit own service_alert content
+      - edit any service_alert content
+      - delete own service_alert content
+      - delete any service_alert content
 
   - name: Add default editor user
-    command: drush user-create {{drupal_default_editor_username}} --mail="{{drupal_default_editor_email}}" --password="{{drupal_default_editor_password}}" chdir={{drupal_root}}
+    command: drush user-create ${drupal_default_editor_username} --mail="${drupal_default_editor_email}" --password="${drupal_default_editor_password}" chdir=${drupal_root}
     ignore_errors: True
 
   - name: Set editor role to default editor user
-    command: drush user-add-role "{{drupal_editor_rolename}}" --name={{drupal_default_editor_username}} chdir={{drupal_root}}
+    command: drush user-add-role "${drupal_editor_rolename}" --name=${drupal_default_editor_username} chdir=${drupal_root}
 
   - name: Fix permission for Drupal image directory
     shell: chown -R {{www_user}}:{{www_group}} {{drupal_root}}/sites/default/files/styles
