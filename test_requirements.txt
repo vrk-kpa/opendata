@@ -1,5 +1,5 @@
 coverage
--e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git
--e git+https://github.com/yhteentoimivuuspalvelut/ckanext-drupal7.git
--e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-drupal.git
--e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-theme.git
+-e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git#egg=ckanext-ytp-groups
+-e git+https://github.com/yhteentoimivuuspalvelut/ckanext-drupal7.git#egg=ckanext-drupal7
+-e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-drupal.git#egg=ckanext-ytp-drupal
+-e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-theme.git#egg=ckanext-ytp-theme
