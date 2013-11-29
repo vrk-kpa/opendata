@@ -1,3 +1,0 @@
-[submodule "ckan/plugins/ckanext-ytp-groups"]
-	path = ckan/plugins/ckanext-ytp-groups
-	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git
