@@ -289,6 +289,13 @@
       - edit any article content
       - delete own article content
       - delete any article content
+      - administer comments
+      - access comments
+      - post comments
+      - edit own comments
+      - view revisions
+      - revert revisions
+      - delete revisions
 
   - name: Add default editor user
     command: drush user-create {{drupal_default_editor_username}} --mail="{{drupal_default_editor_email}}" --password="{{drupal_default_editor_password}}" chdir={{drupal_root}}
