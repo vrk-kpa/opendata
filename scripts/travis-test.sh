@@ -1,6 +1,6 @@
 #! /bin/sh
 
-PLUGINS="ckanext-ytp-groups ckanext-ytp-theme ckanext-drupal7 ckanext-ytp-drupal"
+PLUGINS="ckanext-ytp-groups ckanext-ytp-theme ckanext-ytp-drupal"
 
 SOURCE_DIRECTORY=`pwd`
 
