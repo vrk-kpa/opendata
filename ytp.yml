@@ -304,6 +304,9 @@
   - name: Set editor role to default editor user
     command: drush user-add-role "{{drupal_editor_rolename}}" --name={{drupal_default_editor_username}} chdir={{drupal_root}}
 
+  - name: Fix permission for Drupal image directory
+    shell: chown -R {{www_user}}:{{www_group}} {{drupal_root}}/sites/default/files/styles
+
   handlers:
     - name: Restart Apache
       service: name=apache2 state=restarted
