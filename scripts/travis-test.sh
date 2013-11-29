@@ -12,16 +12,16 @@ echo "## nosetests ##"
 
 cd /usr/lib/ckan/default/src/
 for plugin in $PLUGINS; do
-	if [ -f $plugin/test.ini ]; then
-		cd $plugin
-		#python setup.py develop
-		nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
-		NOSE_EXIT=$?
-		if [ "$NOSE_EXIT" != "0" ]; then
-			EXIT_STATUS=$NOSE_EXIT
-		fi
-		cd -
-	fi
+    if [ -f $plugin/test.ini ]; then
+        echo "Running nosetest for $plugin"
+        cd $plugin
+        nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
+        NOSE_EXIT=$?
+        if [ "$NOSE_EXIT" != "0" ]; then
+        	EXIT_STATUS=$NOSE_EXIT
+        fi
+        cd /usr/lib/ckan/default/src/
+    fi
 done
 
 #cd $SOURCE_DIRECTORY
