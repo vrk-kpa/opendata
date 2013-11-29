@@ -44,3 +44,9 @@ harvest_password: harvest
 harvest_email: harvest@none.fake
 
 features_module_path: ${drupal_root}/sites/all/modules/ytp_features
+
+drupal_editor_rolename: editor
+drupal_default_editor_username: test-editor
+drupal_default_editor_email: editor@none.fake
+drupal_default_editor_password: test-editor-password
+
