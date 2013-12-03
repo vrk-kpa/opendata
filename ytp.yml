@@ -15,6 +15,10 @@
     - ${backup_path}
     - ${ansible_flags}
     - ${log_path}
+    - ${scripts_path}
+    
+  - name: Copy backup script
+    template: src=templates/backup.sh.j2 dest=${scripts_path}/backup.sh mode=0750 owner=root group=root
 
   ### Requirements ###
 
@@ -37,6 +41,7 @@
       - libpq5
       - postgresql
       - git-core
+      - unzip
 
   - name: Ensure CKAN common packages
     action: apt pkg=$item state=latest
@@ -226,6 +231,8 @@
       - custom_username_validation
       - views
       - features
+      - jquery_update
+      - bootstrap
       - drush_extras
 
   - name: Enable Drupal modules
@@ -234,15 +241,39 @@
       - custom_username_validation
       - views
       - features
+      - jquery_update
+      - bootstrap
 
-  - name: Set username validation pattern
-    command: drush variable-set custom_username_validation_pattern '/^[a-z0-9_]+$/' chdir=${drupal_root}
+  - name: Set Drupal username validation
+    command: drush variable-set ${item.variable} ${item.value} chdir=${drupal_root}
+    with_items:
+      - { variable: 'custom_username_validation_pattern', value: '/^[a-z0-9_]+$/' }
+      - { variable: 'custom_username_validation_errormsg', value: 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' }
 
-  - name: Set username validation error message
-    command: drush variable-set custom_username_validation_errormsg 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' chdir=${drupal_root}
+  - name: Set Drupal jquery version 
+    command: drush variable-set ${item.variable} ${item.value} chdir=${drupal_root}
+    with_items:
+      - { variable: 'jquery_update_jquery_version', value: "1.7" }
+      - { variable: 'jquery_update_compression_type', value: "min" }
+      - { variable: 'jquery_update_jquery_cdn', value: "none" }
 
-  - name: Set username validation hint
-    command: drush variable-set custom_username_validation_hint "" chdir=${drupal_root}
+  - name: Fetch YTP Drupal theme
+    git: repo=https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git dest=${drupal_theme_path}/ytp_theme
+
+  - name: Fetch Bootstrap sources
+    get_url: url=https://github.com/twbs/bootstrap/archive/v${bootstrap_version}.zip dest=${cache_path}
+
+  - name: Extract Bootstrap source to theme
+    command: unzip ${cache_path}/v${bootstrap_version}.zip chdir=${drupal_theme_path}/ytp_theme creates=${drupal_theme_path}/ytp_theme/bootstrap-${bootstrap_version}
+    
+  - name: Symlink Boostrap version
+    command: ln -sf bootstrap-${bootstrap_version} bootstrap chdir=${drupal_theme_path}/ytp_theme
+
+  - name: Enable YTP theme
+    command: drush en -y ytp_theme chdir=${drupal_root}
+    
+  - name: Set default theme
+    command: drush variable-set theme_default ytp_theme chdir=${drupal_root}
 
   - name: Copy Drupal features
     copy: src=features/${item} dest=${features_path}/${item}
