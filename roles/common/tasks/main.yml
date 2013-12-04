@@ -265,7 +265,7 @@
   git: repo=https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git dest=${drupal_theme_path}/ytp_theme
 
 - name: Fetch Bootstrap sources
-  get_url: url=https://github.com/twbs/bootstrap/archive/v${bootstrap_version}.zip dest=${cache_path}
+  get_url: url=https://github.com/twbs/bootstrap/archive/v${bootstrap_version}.zip dest=${cache_path}/v${bootstrap_version}.zip
 
 - name: Extract Bootstrap source to theme
   command: unzip ${cache_path}/v${bootstrap_version}.zip chdir=${drupal_theme_path}/ytp_theme creates=${drupal_theme_path}/ytp_theme/bootstrap-${bootstrap_version}
