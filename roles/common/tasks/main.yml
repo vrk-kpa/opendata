@@ -1,0 +1,321 @@
+---
+# Tasks
+
+# Should avoid these relative paths in the future
+# https://github.com/ansible/ansible/issues/5108
+# https://groups.google.com/forum/#!topic/ansible-project/UQ_ArPEofFU
+- name: Set private variables if available
+  include_vars: "{{ item }}"
+  with_first_found:
+   - "../vars/private/variables.yml"
+   - "../vars/none.yml"
+
+- name: Create paths
+  file: path=${item} state=directory
+  with_items:
+  - ${server_path}
+  - ${features_path}
+  - ${cache_path}
+  - ${backup_path}
+  - ${ansible_flags}
+  - ${log_path}
+
+### Requirements ###
+
+- name: Update package cache
+  apt: update_cache=yes
+
+- name: Ensure libcommons-fileupload-java version
+  apt: pkg=libcommons-fileupload-java=1.2.2-1 force=yes
+
+- name: Ensure ansible requirements
+  action: apt pkg=$item state=latest
+  with_items:
+    - python-psycopg2
+    - python-virtualenv
+
+- name: Ensure common packages
+  action: apt pkg=$item state=latest
+  with_items:
+    - nginx
+    - libpq5
+    - postgresql
+    - git-core
+
+- name: Ensure CKAN common packages
+  action: apt pkg=$item state=latest
+  with_items:
+    - solr-jetty
+    - openjdk-7-jdk
+    - redis-server
+    - python-pip
+    - supervisor
+
+- name: Ensure Drupal packages
+  action: apt pkg=$item state=latest
+  with_items:
+    - php5-pgsql
+    - php5-gd
+    - php5-fpm
+    - php-pear
+
+- name: Ensure CKAN deb packages
+  action: apt pkg=$item state=latest
+  with_items:
+    - apache2
+    - libapache2-mod-wsgi
+
+### Databases ####
+
+- name: Copy Postgresql configuration
+  action: template src=pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf owner=postgres group=postgres mode=0640
+
+- name: Reload postgres
+  service: name=postgresql state=reloaded
+
+- name: Setup Postgresql databases
+  sudo_user: postgres
+  postgresql_db: name=${ckan_database_name}
+
+- name: Setup CKAN Postgresql user
+  sudo_user: postgres
+  postgresql_user: user=${ckan_database_username} password=${ckan_database_password} db=${ckan_database_name}
+
+- name: Setup Drupal Postgresql user
+  sudo_user: postgres
+  postgresql_user: user=${drupal_database_username} password=${drupal_database_password} role_attr_flags=CREATEDB
+
+- name: Create root pgpass # required by drush
+  template: src=pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
+
+### CKAN ###
+
+- name: Download CKAN package
+  get_url: url=http://packaging.ckan.org/${ckan_package} dest=${cache_path}
+
+- name: Install CKAN package
+  command: dpkg -i ${cache_path}/${ckan_package} creates=/usr/lib/ckan/default/
+
+- name: Disable Apache default site
+  file: path=/etc/apache2/sites-enabled/default state=absent
+- name: Disable Apache default-ssl site
+  file: path=/etc/apache2/sites-enabled/default-ssl state=absent
+- name: Disable Apache ckan_default site
+  file: path=/etc/apache2/sites-enabled/ckan_default state=absent
+
+- name: Copy Apache configuration
+  template: src=apache2.j2 dest=/etc/apache2/sites-available/ytp
+
+- name: Enable Apache configuration
+  file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link
+  notify: Restart Apache
+
+- name: Remove old schema
+  file: path=/etc/solr/conf/schema.xml state=absent
+
+- name: Setup Solr schema
+  file: src=${virtual_environment}/src/ckan/ckan/config/solr/schema-2.0.xml dest=/etc/solr/conf/schema.xml state=link
+
+- name: Setup Jetty
+  template: src=jetty.j2 dest=/etc/default/jetty
+  notify: Restart Jetty
+
+- name: Ensure Jetty is running
+  service: name=jetty state=restarted
+
+- name: Set CKAN database URL
+  ini_file: dest=${ckan_ini} section="app:main" option=sqlalchemy.url value=postgres://${ckan_database_username}:${ckan_database_password}@${database_host}/${ckan_database_name}
+- name: Set CKAN default locale
+  ini_file: dest=${ckan_ini} section="app:main" option=ckan.locale_default value=fi
+- name: Set CKAN offered locales
+  ini_file: dest=${ckan_ini} section="app:main" option=ckan.locales_offered value="fi sv en"
+- name: Set drupal database
+  ini_file: dest=${ckan_ini} section="app:main" option=ckanext.ytp.drupal.connection value="postgres://${drupal_database_username}:${drupal_database_password}@${database_host}/${drupal_database_name}"
+
+- name: Copy requirements file
+  template: src=requirements.txt.j2 dest=${cache_path}/requirements.txt
+
+- name: Install requirements
+  pip: requirements=${cache_path}/requirements.txt virtualenv=${virtual_environment} state=latest
+
+- name: Set CKAN harvest type
+  ini_file: dest=${ckan_ini} section="app:main" option=ckan.harvest.mq.type value=redis
+- name: Set CKAN plugins
+  ini_file: dest=${ckan_ini} section="app:main" option=ckan.plugins value="${ckan_plugins_default} ${ckan_plugins}"
+- name: Set CKAN Drupal domain
+  ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.domain value=${drupal_hostname}
+- name: Set CKAN Drupal admin
+  ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.sysadmin_role value=${drupal_admin_username}
+- name: Set CKAN Drupal connection
+  ini_file: dest=${ckan_ini} section="app:main" option=ckanext.drupal7.connection value="postgresql://${drupal_database_username}:${drupal_database_password}@${database_host}/${drupal_database_name}"
+
+- name: Initialize CKAN database
+  shell: ckan db init
+
+- name: Initialize Harvester database
+  shell: ${virtual_environment}/bin/paster --plugin=ckanext-harvest harvester initdb --config=${ckan_ini}
+
+- name: Create Harvester user
+  shell: ${virtual_environment}/bin/paster --plugin=ckan user add ${harvest_username} password=${harvest_password} email=${harvest_email} --config=${ckan_ini}
+  ignore_errors: True
+
+- name: Add Harvester user to sysadmins
+  shell: ${virtual_environment}/bin/paster --plugin=ckan  sysadmin add ${harvest_username} --config=${ckan_ini}
+  ignore_errors: True
+
+- name: Copy supervisor configuration
+  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf
+  register: supervisor_configuration
+  notify:
+  - Restart Gather
+  - Restart Fetch
+
+- name: Reread supervisor
+  shell: supervisorctl reread
+
+- name: Ensure Gather is present
+  shell: supervisorctl add ckan_gather_consumer
+
+- name: Ensure Fetch is present
+  shell: supervisorctl add ckan_fetch_consumer
+
+- name: Ensure Gather is running
+  supervisorctl: name=ckan_gather_consumer state=restarted
+
+- name: Ensure Fetch is running
+  supervisorctl: name=ckan_fetch_consumer state=restarted
+
+- name: Ensure harvester cron job
+  cron: name="harvest" minute="*/5" job="${virtual_environment}/bin/paster --plugin=ckanext-harvest harvester run --config=${ckan_ini}"
+
+- name: Ensure Apache restart
+  service: name=apache2 state=restarted
+
+### Drupal ###
+
+- name: Set Drush channel for Pear
+  command: pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+- name: Instal Drush via pear
+  command: pear install drush/drush creates=/usr/share/php/.registry/.channel.pear.drush.org/drush.reg
+
+- name: Set PHP pathinfo
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+- name: Set PHP socket (listen)
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+
+- name: Disable Nginx sites
+  file: path=/etc/nginx/sites-enabled/ckan state=absent
+
+- name: Copy Nginx configuration
+  template: src=nginx.j2 dest=/etc/nginx/sites-available/ytp
+
+- name: Enable Nginx site
+  file: src=/etc/nginx/sites-available/ytp dest=/etc/nginx/sites-enabled/ytp state=link
+
+- name: Create Drupal install script
+  template: src=install-drupal.sh.j2 dest=${cache_path}/install-drupal.sh mode=0700 owner=root group=root
+
+- name: Install drupal
+  command: ${cache_path}/install-drupal.sh creates=${ansible_flags}/drupal-installed
+
+- name: Disable Drupal email verification
+  command: drush variable-set user_email_verification 0 chdir=${drupal_root}
+
+- name: Disable Drupal admin verification
+  command: drush variable-set user_register 1 chdir=${drupal_root}
+
+- name: Download Drupal modules
+  command: drush dl -y ${item} chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/${item}/
+  with_items:
+    - custom_username_validation
+    - views
+    - features
+    - drush_extras
+
+- name: Enable Drupal modules
+  command: drush en -y ${item} chdir=${drupal_root}
+  with_items:
+    - custom_username_validation
+    - views
+    - features
+
+- name: Set username validation pattern
+  command: drush variable-set custom_username_validation_pattern '/^[a-z0-9_]+$/' chdir=${drupal_root}
+
+- name: Set username validation error message
+  command: drush variable-set custom_username_validation_errormsg 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' chdir=${drupal_root}
+
+- name: Set username validation hint
+  command: drush variable-set custom_username_validation_hint "" chdir=${drupal_root}
+
+- name: Copy Drupal features
+  copy: src=${item} dest=${features_path}/${item}
+  with_items:
+    - service_alert_feature.tar
+
+- name: Prepare features install
+  file: path=${features_module_path} state=directory
+
+- name: Install features
+  command: tar xf ${features_path}/${item}.tar --directory=${features_module_path} creates=${features_module_path}/${item}
+  with_items:
+    - service_alert_feature
+
+- name: Enable features
+  command: drush en -y ${item} chdir=${drupal_root}
+  with_items:
+    - service_alert_feature
+
+- name: Move service alerts to correct block
+  command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted chdir=${drupal_root}
+
+- name: Copy maintenance page
+  template: src=maintenance.html.j2 dest=/var/www/ytp/maintenance.html owner=root group=root
+  notify:
+  - Restart PHP-FPM
+  - Restart Nginx
+
+- name: Ensure PHP-FPM is restarted
+  service: name=php5-fpm state=restarted
+
+- name: Ensure Nginx is restarted
+  service: name=nginx state=restarted
+  
+- name: Add editor role
+  command: drush role-create "${drupal_editor_rolename}" chdir=${drupal_root}
+  ignore_errors: True
+
+- name: Add permissions to role
+  command: drush role-add-perm "${drupal_editor_rolename}" "${item}" chdir=${drupal_root}
+  with_items:
+    - create article content
+    - edit own article content
+    - edit any article content
+    - delete own article content
+    - delete any article content
+    - administer comments
+    - access comments
+    - post comments
+    - edit own comments
+    - view revisions
+    - revert revisions
+    - delete revisions
+    - create service_alert content
+    - edit own service_alert content
+    - edit any service_alert content
+    - delete own service_alert content
+    - delete any service_alert content
+
+- name: Add default editor user
+  command: drush user-create ${drupal_default_editor_username} --mail="${drupal_default_editor_email}" --password="${drupal_default_editor_password}" chdir=${drupal_root}
+  ignore_errors: True
+
+- name: Set editor role to default editor user
+  command: drush user-add-role "${drupal_editor_rolename}" --name=${drupal_default_editor_username} chdir=${drupal_root}
+
+- name: Fix permission for Drupal image directory
+  shell: chown -R ${www_user}:${www_group} ${drupal_root}/sites/default/files/styles
+
+- name: Update Drupal
+  command: drush -y --backup-dir=${backup_path} up chdir=${drupal_root}
+

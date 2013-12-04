@@ -36,4 +36,6 @@ nosetests.xml
 .pydevproject
 
 *~
-variables/private/*.yml
+
+inventory-localdev
+
