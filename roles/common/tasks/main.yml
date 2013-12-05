@@ -12,14 +12,7 @@
 
 - name: Create paths
   file: path=${item} state=directory
-  with_items:
-  - ${server_path}
-  - ${features_path}
-  - ${cache_path}
-  - ${backup_path}
-  - ${ansible_flags}
-  - ${log_path}
-  - ${scripts_path}
+  with_items: $all_paths
   
 - name: Copy backup script
   template: src=backup.sh.j2 dest=${scripts_path}/backup.sh mode=0750 owner=root group=root
@@ -96,7 +89,7 @@
 ### CKAN ###
 
 - name: Download CKAN package
-  get_url: url=http://packaging.ckan.org/${ckan_package} dest=${cache_path}
+  get_url: url=http://packaging.ckan.org/${ckan_package} dest=${cache_path}/${ckan_package}
 
 - name: Install CKAN package
   command: dpkg -i ${cache_path}/${ckan_package} creates=/usr/lib/ckan/default/
@@ -232,12 +225,16 @@
 - name: Download Drupal modules
   command: drush dl -y ${item} chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/${item}/
   with_items:
+    - drush_extras
+    - drush_language
     - custom_username_validation
     - views
     - features
     - jquery_update
     - bootstrap
-    - drush_extras
+    - l10n_update
+    - i18n
+    - admin_language
 
 - name: Enable Drupal modules
   command: drush en -y ${item} chdir=${drupal_root}
@@ -247,6 +244,10 @@
     - features
     - jquery_update
     - bootstrap
+    - locale
+    - l10n_update
+    - i18n
+    - admin_language
 
 - name: Set Drupal username validation
   command: drush variable-set ${item.variable} ${item.value} chdir=${drupal_root}
@@ -280,25 +281,44 @@
   command: drush variable-set theme_default ytp_theme chdir=${drupal_root}
 
 - name: Copy Drupal features
-  copy: src=${item} dest=${features_path}/${item}
-  with_items:
-    - service_alert_feature.tar
+  copy: src=${item}.tar dest=${cache_path}/${item}.tar
+  with_items: $all_features
 
 - name: Prepare features install
   file: path=${features_module_path} state=directory
 
 - name: Install features
-  command: tar xf ${features_path}/${item}.tar --directory=${features_module_path} creates=${features_module_path}/${item}
-  with_items:
-    - service_alert_feature
+  command: tar xf ${cache_path}/${item}.tar --directory=${features_module_path} creates=${features_module_path}/${item}
+  with_items: $all_features
 
 - name: Enable features
   command: drush en -y ${item} chdir=${drupal_root}
-  with_items:
-    - service_alert_feature
+  with_items: $all_features
 
 - name: Move service alerts to correct block
   command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted chdir=${drupal_root}
+
+- name: Move language selector to correct block
+  command: drush block-configure --module=locale --delta=language --region=sidebar_second chdir=${drupal_root}
+
+- name: Set default Drupal language
+  command: drush language-default fi chdir=${drupal_root}
+
+- name: Copy drupal variable templates
+  template: src=drupal-variables/${item}.json.j2 dest=${cache_path}/${item}.json
+  with_items:
+  - language_negotiation_language
+
+- name: Set complex Drupal variables
+  shell: cat ${cache_path}/${item}.json | drush variable-set --format=json ${item} - chdir=${drupal_root}
+  with_items:
+  - language_negotiation_language
+
+- name: Refresh Drupal translations
+  command: drush l10n-update-refresh chdir=${drupal_root}
+  
+- name: Update Drupal translations
+  command: drush -y l10n-update chdir=${drupal_root}
 
 - name: Copy maintenance page
   template: src=maintenance.html.j2 dest=/var/www/ytp/maintenance.html owner=root group=root
@@ -350,3 +370,5 @@
 - name: Update Drupal
   command: drush -y --backup-dir=${backup_path} up chdir=${drupal_root}
 
+- name: Clear Drupal cache
+  command: drush cache-clear all -y chdir=${drupal_root}

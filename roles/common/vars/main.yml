@@ -19,7 +19,6 @@ harvester_user: root
 log_path: /var/log/ckan
 
 server_path: /srv/ytp
-features_path: ${server_path}/features
 cache_path: ${server_path}/cache
 backup_path: ${server_path}/backup
 ansible_flags: ${server_path}/ansible
@@ -53,3 +52,15 @@ drupal_default_editor_email: editor@none.fake
 drupal_default_editor_password: test-editor-password
 
 bootstrap_version: "3.0.0"
+
+all_paths:
+  - ${server_path}
+  - ${cache_path}
+  - ${backup_path}
+  - ${ansible_flags}
+  - ${scripts_path}
+  - ${log_path}
+
+all_features:
+  - service_alert_feature
+  - language_feature
