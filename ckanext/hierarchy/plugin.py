@@ -1,6 +1,6 @@
 import ckan.plugins as p
 import ckanext.hierarchy.logic.action as action
-from ckan.lib.plugins import DefaultGroupForm
+from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.logic.validators import no_loops_in_hierarchy
 
 # This plugin is designed to work only these versions of CKAN
@@ -27,7 +27,7 @@ class HierarchyDisplay(p.SingletonPlugin):
                 }
 
 
-class HierarchyForm(p.SingletonPlugin, DefaultGroupForm):
+class HierarchyForm(p.SingletonPlugin, DefaultOrganizationForm):
 
     p.implements(p.IGroupForm, inherit=True)
         
