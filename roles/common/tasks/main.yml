@@ -95,7 +95,7 @@
   command: dpkg -i ${cache_path}/${ckan_package} creates=/usr/lib/ckan/default/
 
 - name: Overwrite ckan language file
-  template: src=ckan.po.j2 dest=/usr/lib/ckan/default/src/ckan/ckan/i18n/fi/
+  template: src=ckan.po.j2 dest=/usr/lib/ckan/default/src/ckan/ckan/i18n/fi/LC_MESSAGES/
 - name: Generate translated binaries
   shell: python setup.py compile_catalog
 
