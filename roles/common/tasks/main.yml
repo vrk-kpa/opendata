@@ -98,8 +98,8 @@
   template: src=ckan.po.j2 dest=/usr/lib/ckan/default/src/ckan/ckan/i18n/fi/LC_MESSAGES/
 - name:  install translation tools
   shell: easy_install Babel lingua
-- name: Generate translated binaries
-  shell: python /usr/lib/ckan/default/src/ckan/setup.py compile_catalog
+#- name: Generate translated binaries
+#  shell: python /usr/lib/ckan/default/src/ckan/setup.py compile_catalog
 
 
 - name: Disable Apache default site
