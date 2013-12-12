@@ -97,7 +97,7 @@
 - name: Overwrite ckan language file
   template: src=ckan.po.j2 dest=/usr/lib/ckan/default/src/ckan/ckan/i18n/fi/LC_MESSAGES/
 - name: Generate translated binaries
-  shell: python setup.py compile_catalog
+  shell: python /usr/lib/ckan/default/src/ckan/setup.py compile_catalog
 
 - name: Disable Apache default site
   file: path=/etc/apache2/sites-enabled/default state=absent
