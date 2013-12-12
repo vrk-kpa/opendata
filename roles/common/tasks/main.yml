@@ -94,6 +94,11 @@
 - name: Install CKAN package
   command: dpkg -i ${cache_path}/${ckan_package} creates=/usr/lib/ckan/default/
 
+- name: Overwrite ckan language file
+  template: src=ckan.po.j2 dest=/usr/lib/ckan/default/src/ckan/ckan/i18n/fi/
+- name: Generate translated binaries
+  shell: python setup.py compile_catalog
+
 - name: Disable Apache default site
   file: path=/etc/apache2/sites-enabled/default state=absent
 - name: Disable Apache default-ssl site
