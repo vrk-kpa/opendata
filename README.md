@@ -1,8 +1,7 @@
 YTP - Yhteentoimivuuspalvelut
 =============================
 
-Yhteentoimivuuspalvelut
-
+Build (Ansible) and CI (Travis) project for Yhteentoimivuuspalvelut.
 
 Copying and License
 -------------------
