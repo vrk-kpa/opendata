@@ -1,0 +1,25 @@
+#!/usr/bin/env drush
+
+# Drush script to set multiple variables from single json file
+
+$self = drush_sitealias_get_record('@self');
+if (empty($self)) {
+	drush_die("No bootstrap at current directory.", 1);
+}
+
+drush_op('chdir', $self['root']);
+
+$arguments = drush_get_arguments();
+if (count($arguments) != 3) {
+	drush_die("Requires only file argument", 1);
+}
+
+$json = json_decode(file_get_contents($arguments[2]), true);
+
+if ($json === NULL) {
+    drush_die("Invalid JSON format", 1);
+}
+
+foreach ($json as $key => &$value) {
+    drush_invoke('variable-set', array($key, $value));
+}

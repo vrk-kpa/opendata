@@ -224,25 +224,28 @@
 - name: Install drupal
   command: ${cache_path}/install-drupal.sh creates=${ansible_flags}/drupal-installed
 
-- name: Disable Drupal email verification
-  command: drush variable-set user_email_verification 0 chdir=${drupal_root}
-
-- name: Disable Drupal admin verification
-  command: drush variable-set user_register 1 chdir=${drupal_root}
-
 - name: Download Drupal modules
   command: drush dl -y ${item} chdir=${drupal_root} creates=${drupal_root}/sites/all/modules/${item}/
   with_items:
     - drush_extras
     - drush_language
+
     - custom_username_validation
     - views
     - features
     - jquery_update
     - bootstrap
-    - l10n_update
+
     - i18n
+    - pathauto
+    - token
+    - transliteration
+    - variable
+    - ctools
+    - i18nviews
+    - l10n_update
     - admin_language
+
 
 - name: Enable Drupal modules
   command: drush en -y ${item} chdir=${drupal_root}
@@ -252,23 +255,19 @@
     - features
     - jquery_update
     - bootstrap
+
     - locale
-    - l10n_update
+    - i18n_node
+
     - i18n
+    - pathauto
+    - tokenvariables 
+    - transliteration
+    - variable
+    - ctools
+    - i18nviews
+    - l10n_update
     - admin_language
-
-- name: Set Drupal username validation
-  command: drush variable-set ${item.variable} ${item.value} chdir=${drupal_root}
-  with_items:
-    - { variable: 'custom_username_validation_pattern', value: '/^[a-z0-9_]+$/' }
-    - { variable: 'custom_username_validation_errormsg', value: 'Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _' }
-
-- name: Set Drupal jquery version 
-  command: drush variable-set ${item.variable} ${item.value} chdir=${drupal_root}
-  with_items:
-    - { variable: 'jquery_update_jquery_version', value: "1.7" }
-    - { variable: 'jquery_update_compression_type', value: "min" }
-    - { variable: 'jquery_update_jquery_cdn', value: "none" }
 
 - name: Fetch YTP Drupal theme
   git: repo=https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git dest=${drupal_theme_path}/ytp_theme
@@ -285,9 +284,6 @@
 - name: Enable YTP theme
   command: drush en -y ytp_theme chdir=${drupal_root}
   
-- name: Set default theme
-  command: drush variable-set theme_default ytp_theme chdir=${drupal_root}
-
 - name: Copy Drupal features
   copy: src=${item}.tar dest=${cache_path}/${item}.tar
   with_items: $all_features
@@ -296,31 +292,30 @@
   file: path=${features_module_path} state=directory
 
 - name: Install features
-  command: tar xf ${cache_path}/${item}.tar --directory=${features_module_path} creates=${features_module_path}/${item}
+  command: tar xf ${cache_path}/${item}.tar --directory=${features_module_path} # creates=${features_module_path}/${item}
   with_items: $all_features
 
 - name: Enable features
   command: drush en -y ${item} chdir=${drupal_root}
   with_items: $all_features
 
+- name: Set default Drupal language
+  command: drush language-default fi chdir=${drupal_root}
+
+- name: Copy drush variable import script
+  copy: src=multiple-variables.drush dest=${scripts_path}/multiple-variables.drush owner=root group=root mode=0750
+
+- name: Copy drush variables
+  copy: src=drupal.json dest=${cache_path}/drupal.json owner=root group=root mode=0600
+
+- name: Set Drupal variables from file
+  command: ${scripts_path}/multiple-variables.drush ${cache_path}/drupal.json chdir=${drupal_root}
+
 - name: Move service alerts to correct block
   command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted chdir=${drupal_root}
 
 - name: Move language selector to correct block
   command: drush block-configure --module=locale --delta=language --region=sidebar_second chdir=${drupal_root}
-
-- name: Set default Drupal language
-  command: drush language-default fi chdir=${drupal_root}
-
-- name: Copy drupal variable templates
-  template: src=drupal-variables/${item}.json.j2 dest=${cache_path}/${item}.json
-  with_items:
-  - language_negotiation_language
-
-- name: Set complex Drupal variables
-  shell: cat ${cache_path}/${item}.json | drush variable-set --format=json ${item} - chdir=${drupal_root}
-  with_items:
-  - language_negotiation_language
 
 - name: Refresh Drupal translations
   command: drush l10n-update-refresh chdir=${drupal_root}
@@ -364,6 +359,9 @@
     - edit any service_alert content
     - delete own service_alert content
     - delete any service_alert content
+    - translate interface                     
+    - translate user-defined strings          
+    - translate content
 
 - name: Add default editor user
   command: drush user-create ${drupal_default_editor_username} --mail="${drupal_default_editor_email}" --password="${drupal_default_editor_password}" chdir=${drupal_root}

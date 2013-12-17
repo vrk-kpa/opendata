@@ -1,0 +1,58 @@
+{
+    "user_email_verification": "0",
+    "user_register": "1",
+
+    "custom_username_validation_pattern": "/^[a-z0-9_]+$/",
+    "custom_username_validation_errormsg": "Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _",
+    
+    "theme_default": "ytp_theme",
+
+    "language_negotiation_language" : {
+        "locale-url": {
+            "callbacks": {
+                "language": "locale_language_from_url",
+                "switcher": "locale_language_switcher_url",
+                "url_rewrite": "locale_language_url_rewrite_url"
+            },
+            "file": "includes\/locale.inc"
+        },
+        "language-default": {
+            "callbacks": {
+                "language": "language_from_default"
+            }
+        }
+    },
+
+    "jquery_update_jquery_version": "1.7",
+    "jquery_update_compression_type": "min",
+    "jquery_update_jquery_cdn": "none",
+
+    "i18n_node_options_article": ["required"],
+    "i18n_node_options_page": ["required"],
+    "i18n_node_options_service_alert": ["required"],
+
+    "node_options_article": ["status", "promote"],
+    "node_options_service_alert": ["status", "promote"],
+    "node_options_page": ["status", "promote"],
+    
+    "site_frontpage": "articles",
+
+    "language_content_type_article": "2",
+    "language_content_type_page": "2",
+    "language_content_type_service_alert": "2",
+
+    "i18n_node_extended_article": "1",
+    "i18n_node_extended_page": "1",
+    "i18n_node_extended_service_alert": "1",
+
+    "drupal_http_request_fails": "false",
+
+    "node_preview_article": "1",
+    "node_preview_service_alert": "1",
+    "node_preview_page": "1",
+
+    "node_submitted_article": "1",
+    "node_submitted_service_alert": "1",
+    "node_submitted_page": "1"
+    
+}

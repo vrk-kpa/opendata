@@ -62,5 +62,7 @@ all_paths:
   - ${log_path}
 
 all_features:
-  - service_alert_feature
   - language_feature
+  - article_feature
+  - service_alert_feature
+  - article_view_feature
