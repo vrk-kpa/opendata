@@ -1,6 +1,5 @@
 ---
 - hosts: webservers
-  sudo: yes
+  accelerate: true
   roles:
     - common
-

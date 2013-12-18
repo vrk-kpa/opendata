@@ -33,6 +33,9 @@ drupal_root: ${www_root}/${drupal_name}
 
 drupal_admin_username: admin
 drupal_admin_password: admin
+drupal_admin_email: drupal@none.fake
+
+drupal_admin_roles: administrator
 
 ckan_plugins_default: stats text_preview recline_preview
 ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal
@@ -52,6 +55,8 @@ drupal_default_editor_email: editor@none.fake
 drupal_default_editor_password: test-editor-password
 
 bootstrap_version: "3.0.0"
+
+apt_source_url: "http://us.archive.ubuntu.com"
 
 all_paths:
   - ${server_path}
