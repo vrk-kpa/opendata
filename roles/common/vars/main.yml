@@ -1,6 +1,7 @@
 ---
 ckan_ini: /etc/ckan/default/production.ini
-ckan_package: python-ckan_2.1_amd64.deb
+ckan_version: "2.1"
+ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
 
 ckan_database_name: ckan_default
 ckan_database_username: ckan_default
