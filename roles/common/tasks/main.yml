@@ -1,14 +1,11 @@
 ---
-# Tasks
+### Tasks ###
 
-# Should avoid these relative paths in the future
-# https://github.com/ansible/ansible/issues/5108
-# https://groups.google.com/forum/#!topic/ansible-project/UQ_ArPEofFU
-- name: Set private variables if available
-  include_vars: "{{ item }}"
-  with_first_found:
-   - "../vars/private/variables.yml"
-   - "../vars/none.yml"
+- name: Set sever to maintenance
+  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
+  register: maintenance
+  tags:
+  - maintenance
 
 - name: Create paths
   file: path="{{ item }}" state=directory
@@ -19,24 +16,34 @@
 
 - name: Copy environment
   template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
+  tags:
+  - system
 
 - name: Set hostname
   template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
+  tags:
+  - system
 
 ### Requirements ###
 
 - name: Copy apt sources.list
   template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
+  tags:
+  - packages
 
 - name: Update package cache
   apt: update_cache=yes
+  tags:
+  - packages
 
 - name: Ensure ansible requirements
   action: apt pkg="{{ item }}" state=latest
   with_items:
     - python-psycopg2
     - python-virtualenv
-
+  tags:
+  - packages
+  
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -45,7 +52,9 @@
     - postgresql
     - git-core
     - unzip
-
+  tags:
+  - packages
+  
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -54,6 +63,8 @@
     - redis-server
     - python-pip
     - supervisor
+  tags:
+  - packages
 
 - name: Ensure Drupal packages
   action: apt pkg="{{ item }}" state=latest
@@ -62,12 +73,17 @@
     - php5-gd
     - php5-fpm
     - php-pear
+  tags:
+  - packages
 
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
     - apache2
     - libapache2-mod-wsgi
+  tags:
+  - apache
+  - packages
 
 ### Databases ####
 
@@ -108,17 +124,29 @@
 
 - name: Disable Apache default site
   file: path=/etc/apache2/sites-enabled/default state=absent
+  tags:
+  - apache
+
 - name: Disable Apache default-ssl site
   file: path=/etc/apache2/sites-enabled/default-ssl state=absent
+  tags:
+  - apache
+
 - name: Disable Apache ckan_default site
   file: path=/etc/apache2/sites-enabled/ckan_default state=absent
+  tags:
+  - apache
 
 - name: Copy Apache configuration
   template: src=apache2.j2 dest=/etc/apache2/sites-available/ytp mode=0644 owner=root group=root
+  tags:
+  - apache
 
 - name: Enable Apache configuration
   file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
   notify: Restart Apache
+  tags:
+  - apache
 
 - name: Remove old schema
   file: path=/etc/solr/conf/schema.xml state=absent
@@ -135,29 +163,54 @@
 
 - name: Set CKAN database URL
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=sqlalchemy.url value="postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ database_host }}/{{ ckan_database_name }}"
+  tags:
+  - ckan-configuration
+
 - name: Set CKAN default locale
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locale_default value=fi
+  tags:
+  - ckan-configuration
+
 - name: Set CKAN offered locales
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locales_offered value="fi sv en"
+  tags:
+  - ckan-configuration
+
 - name: Set drupal database
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.ytp.drupal.connection value="postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
+  tags:
+  - ckan-configuration
+
+- name: Set CKAN harvest type
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.harvest.mq.type value=redis
+  tags:
+  - ckan-configuration
+
+- name: Set CKAN plugins
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.plugins value="{{ ckan_plugins_default }} {{ ckan_plugins }}"
+  tags:
+  - ckan-configuration
+
+- name: Set CKAN Drupal domain
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }}"
+  tags:
+  - ckan-configuration
+
+- name: Set CKAN Drupal admin role
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.sysadmin_role value="{{ drupal_ckan_admin_rolename }}"
+  tags:
+  - ckan-configuration
+
+- name: Set CKAN Drupal connection
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.connection value="postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
+  tags:
+  - ckan-configuration
 
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
 
 - name: Install requirements
   pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest
-
-- name: Set CKAN harvest type
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.harvest.mq.type value=redis
-- name: Set CKAN plugins
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.plugins value="{{ ckan_plugins_default }} {{ ckan_plugins }}"
-- name: Set CKAN Drupal domain
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }}"
-- name: Set CKAN Drupal admin
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.sysadmin_role value="{{ drupal_admin_roles }}"
-- name: Set CKAN Drupal connection
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.connection value="postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
 
 - name: Initialize CKAN database
   shell: ckan db init
@@ -171,6 +224,9 @@
   with_items:
   - { username: "{{ harvest_username }}", password: "{{ harvest_password }}", email: "{{ harvest_email }}" }
   - { username: "{{ drupal_admin_username }}", password: "{{ drupal_admin_password }}", email: "{{ drupal_admin_email }}" }
+  - { username: "{{ drupal_default_editor_username }}", password: "{{ drupal_default_editor_password }}", email: "{{ drupal_default_editor_email }}" }
+  tags:
+  - users
 
 - name: Add CKAN sysadmins
   shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}"
@@ -178,6 +234,9 @@
   with_items:
   - "{{ harvest_username }}"
   - "{{ drupal_admin_username }}"
+  - "{{ drupal_default_editor_username }}"
+  tags:
+  - users
 
 - name: Copy supervisor configuration
   template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf mode=0644 owner=root group=root
@@ -206,6 +265,9 @@
 
 - name: Ensure Apache restart
   service: name=apache2 state=restarted
+  tags:
+  - apache
+  - ckan
 
 ### Drupal ###
 
@@ -344,11 +406,17 @@
 - name: Ensure Nginx is restarted
   service: name=nginx state=restarted
 
-- name: Add editor role
-  command: drush role-create "{{ drupal_editor_rolename }}" chdir="{{ drupal_root }}"
+- name: Add Drupal roles
+  command: drush role-create "{{ item }}" chdir="{{ drupal_root }}"
   ignore_errors: True
+  with_items:
+  - "{{ drupal_editor_rolename }}"
+  - "{{ drupal_ckan_admin_rolename }}"
+  tags:
+  - users
+  - roles
 
-- name: Add permissions to role
+- name: Add permissions to editor role
   command: drush role-add-perm "{{ drupal_editor_rolename }}" "{{ item }}" chdir="{{ drupal_root }}"
   with_items:
     - create article content
@@ -371,13 +439,24 @@
     - translate interface
     - translate user-defined strings
     - translate content
+  tags:
+  - users
+  - roles
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
   ignore_errors: True
+  tags:
+  - users
 
-- name: Set editor role to default editor user
-  command: drush user-add-role "{{ drupal_editor_rolename }}" --name="{{ drupal_default_editor_username }}" chdir="{{ drupal_root }}"
+- name: Set user roles
+  command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
+  with_items:
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  tags:
+  - users
 
 - name: Fix permission for Drupal image directory
   shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_root }}/sites/default/files/styles"
@@ -387,3 +466,11 @@
 
 - name: Clear Drupal cache
   command: drush cache-clear all -y chdir="{{ drupal_root }}"
+
+- name: Leave maintenance mode
+  file: path="/var/www/maintenance" state=absent
+  when: maintenance|success
+  tags:
+  - maintenance
+
+

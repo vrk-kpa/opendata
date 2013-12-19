@@ -8,10 +8,10 @@ sudo mkdir -p "$BACKUP_PATH"
 sudo chown postgres:root "$BACKUP_PATH"
 sudo chmod 770 "$BACKUP_PATH"
 
-sudo -u postgres /bin/sh -c "pg_dump {{ ckan_database_name }} | gzip -c > '$BACKUP_PATH/backup-db-ckan.sql.gz'"
+sudo -u postgres /bin/sh -c "pg_dump {{ ckan_database_name }} | gzip -c > '$BACKUP_PATH/backup-db-ckan.sql.gz'"
 sudo -u postgres /bin/sh -c "pg_dump {{ drupal_database_name }} | gzip -c > '$BACKUP_PATH/backup-db-drupal.sql.gz'"
 
-sudo tar czf "$BACKUP_PATH/backup-site-drupal.tgz" -C "{{ www_root }}" "{{ drupal_name }}"
+sudo tar czf "$BACKUP_PATH/backup-site-drupal.tgz" -C "{{ www_root }}" "{{ drupal_name }}"
 
 sudo chown -R root:adm "$BACKUP_PATH"
 sudo chmod -R 0640 "$BACKUP_PATH"

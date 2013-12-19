@@ -10,10 +10,10 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ 
     fi
     drush dl drupal --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
     mkdir -p {{ drupal_root }}/sites/default/files
-    chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/files
+    chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/files
 
     cp {{ drupal_root }}/sites/default/default.settings.php {{ drupal_root }}/sites/default/settings.php
-    chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/settings.php
+    chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/settings.php
 
     sudo -u postgres psql -U postgres -d postgres -c "ALTER USER {{ drupal_database_username }} CREATEDB;"
     sudo -u postgres createdb -O {{ drupal_database_username }} {{ drupal_database_name }} -E utf-8

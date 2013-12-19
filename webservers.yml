@@ -1,5 +1,8 @@
 ---
 - hosts: webservers
   accelerate: true
+  sudo: true
+  vars_files:
+    - ["vars/private/variables.yml", "vars/none.yml"]
   roles:
     - common

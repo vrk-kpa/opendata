@@ -19,52 +19,52 @@ harvester_user: root
 log_path: /var/log/ckan
 
 server_path: /srv/ytp
-cache_path: ${server_path}/cache
-backup_path: ${server_path}/backup
-ansible_flags: ${server_path}/ansible
-scripts_path: ${server_path}/scripts
+cache_path: "{{ server_path }}/cache"
+backup_path: "{{ server_path }}/backup"
+ansible_flags: "{{ server_path }}/ansible"
+scripts_path: "{{ server_path }}/scripts"
 
 www_root: /var/www
 www_user: www-data
 www_group: www-data
 drupal_name: ytp
 drupal_site_name: YTP
-drupal_root: ${www_root}/${drupal_name}
+drupal_root: "{{ www_root }}/{{ drupal_name }}"
 
 drupal_admin_username: admin
 drupal_admin_password: admin
 drupal_admin_email: drupal@none.fake
 
-drupal_admin_roles: administrator
-
 ckan_plugins_default: stats text_preview recline_preview
 ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal
 
-drupal_hostname: ${inventory_hostname}
+drupal_hostname: "{{ inventory_hostname }}"
 
 harvest_username: harvest
 harvest_password: harvest
 harvest_email: harvest@none.fake
 
-drupal_theme_path: ${drupal_root}/sites/all/themes
-features_module_path: ${drupal_root}/sites/all/modules/ytp_features
+drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
+features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
 
 drupal_editor_rolename: editor
 drupal_default_editor_username: test-editor
 drupal_default_editor_email: editor@none.fake
 drupal_default_editor_password: test-editor-password
 
+drupal_ckan_admin_rolename: ckan_admin
+
 bootstrap_version: "3.0.0"
 
 apt_source_url: "http://us.archive.ubuntu.com"
 
 all_paths:
-  - ${server_path}
-  - ${cache_path}
-  - ${backup_path}
-  - ${ansible_flags}
-  - ${scripts_path}
-  - ${log_path}
+  - "{{ server_path }}"
+  - "{{ cache_path }}"
+  - "{{ backup_path }}"
+  - "{{ ansible_flags }}"
+  - "{{ scripts_path }}"
+  - "{{ log_path }}"
 
 all_features:
   - language_feature
