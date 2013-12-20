@@ -21,5 +21,16 @@ if ($json === NULL) {
 }
 
 foreach ($json as $key => &$value) {
-    drush_invoke('variable-set', array($key, $value));
+    if (is_array($value) && array_key_exists('_merge', $value) && $value['_merge'] === true) {
+        unset($value['_merge']);
+        $current = variable_get($key, array());
+        if (is_array($current)) {
+            $value = array_merge($current, $value);
+        } elseif (is_object($current)) {
+            $value = (object) array_merge((array) $current, $value);
+        } else {
+            drush_die("Trying merge non array/object variable: '$key'!", 1);
+        }
+    }
+    variable_set($key, $value);
 }

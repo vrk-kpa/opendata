@@ -4,7 +4,7 @@
 
     "custom_username_validation_pattern": "/^[a-z0-9_]+$/",
     "custom_username_validation_errormsg": "Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _",
-    
+
     "theme_default": "ytp_theme",
 
     "language_negotiation_language" : {
@@ -34,7 +34,7 @@
     "node_options_article": ["status", "promote"],
     "node_options_service_alert": ["status", "promote"],
     "node_options_page": ["status", "promote"],
-    
+
     "site_frontpage": "articles",
 
     "language_content_type_article": "2",
@@ -54,5 +54,4 @@
     "node_submitted_article": "1",
     "node_submitted_service_alert": "1",
     "node_submitted_page": "1"
-    
 }
