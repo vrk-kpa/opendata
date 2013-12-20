@@ -1,11 +1,12 @@
 ---
 ### Tasks ###
 
-- name: Set sever to maintenance
-  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
-  register: maintenance
-  tags:
-  - maintenance
+# TODO: Maintenance mode should not block installation tasks that use CKAN API
+#- name: Set server to maintenance
+#  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
+#  register: maintenance
+#  tags:
+#  - maintenance
 
 - name: Create paths
   file: path="{{ item }}" state=directory
@@ -269,6 +270,16 @@
   tags:
   - translations
 
+- name: Download ontology file
+  get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
+  tags:
+  - ontology
+    
+- name: Import dataset tags from JUHO ontology
+  script: parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl
+  tags:
+  - ontology
+
 - name: Copy supervisor configuration
   template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf mode=0644 owner=root group=root
   register: supervisor_configuration
@@ -498,10 +509,10 @@
 - name: Clear Drupal cache
   command: drush cache-clear all -y chdir="{{ drupal_root }}"
 
-- name: Leave maintenance mode
-  file: path="/var/www/maintenance" state=absent
-  when: maintenance|success
-  tags:
-  - maintenance
+#- name: Leave maintenance mode
+#  file: path="/var/www/maintenance" state=absent
+#  when: maintenance|success
+#  tags:
+#  - maintenance
 
 
