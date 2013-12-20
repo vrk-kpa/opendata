@@ -274,9 +274,14 @@
   get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
   tags:
   - ontology
-    
+
+- name: Copy ontology script
+  copy: src="parse-tags-from-ontology.py" dest="{{ cache_path }}/parse-tags-from-ontology.py"
+  tags:
+  - ontology
+
 - name: Import dataset tags from JUHO ontology
-  script: parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl
+  command: ./bin/python {{ cache_path }}/parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl chdir="{{ virtual_environment }}"
   tags:
   - ontology
 
