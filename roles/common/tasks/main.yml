@@ -43,7 +43,7 @@
     - python-virtualenv
   tags:
   - packages
-  
+
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -54,7 +54,7 @@
     - unzip
   tags:
   - packages
-  
+
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -252,7 +252,7 @@
 
 - name: Join translation source files
   command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
-  with_items: 
+  with_items:
   - fi
   - sv
   when: translations|changed
@@ -262,7 +262,7 @@
 
 - name: Compile translation files
   command: msgfmt {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo
-  with_items: 
+  with_items:
   - fi
   - sv
   when: translations_join|changed

@@ -1,4 +1,11 @@
 ---
+
+- hosts: webservers
+  accelerate: false
+  sudo: true
+  roles:
+    - ansible
+
 - hosts: webservers
   accelerate: true
   sudo: true

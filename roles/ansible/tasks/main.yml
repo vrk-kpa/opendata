@@ -1,0 +1,18 @@
+---
+
+- name: Ensure keyczar is installed
+  apt: pkg=python-keyczar state=latest
+  tags:
+  - ansible
+
+- name: Ensure administrator group is present
+  group: name="{{ sudo_group }}" system=yes state=present
+  tags:
+  - ansible
+  - sudoers
+
+- name: Add NOPASSWD to sudoers
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ sudo_group }}' line='%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'"
+  tags:
+  - ansible
+  - sudoers
