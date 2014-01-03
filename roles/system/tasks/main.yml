@@ -216,13 +216,27 @@
   tags:
   - translations
 
-- name: Join translation source files
-  command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
+- name: Fetch resources (translations)
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common"
+  register: translations_resources
+  tags:
+  - translations
+
+- name: Join translation source files (assets)
+  command: msgcat {{ cache_path }}/ytp-assets-common/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
   with_items:
   - fi
   - sv
-  when: translations|changed
-  register: translations_join
+  when: translations|changed or translations_resources|changed
+  tags:
+  - translations
+
+- name: Join translation source files (custom)
+  command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
+  with_items:
+  - fi
+  - sv
+  when: translations|changed or translations_resources|changed
   tags:
   - translations
 
@@ -231,9 +245,10 @@
   with_items:
   - fi
   - sv
-  when: translations_join|changed
+  when: translations|changed or translations_resources|changed
   tags:
   - translations
+  notify: Restart Apache
 
 - name: Download ontology file
   get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
