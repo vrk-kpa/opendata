@@ -1,0 +1,20 @@
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} main restricted
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} main restricted
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates main restricted
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates main restricted
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} universe
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} universe
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates universe
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates universe
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} multiverse
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }} multiverse
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates multiverse
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-updates multiverse
+deb {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-backports main restricted universe multiverse
+deb-src {{ apt_source_url }}/ubuntu/ {{ ubuntu_codename }}-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security main restricted
+deb-src http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security main restricted
+deb http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security universe
+deb-src http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security universe
+deb http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security multiverse
+deb-src http://security.ubuntu.com/ubuntu {{ ubuntu_codename }}-security multiverse

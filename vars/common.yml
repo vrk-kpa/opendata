@@ -1,0 +1,33 @@
+---
+
+ckan_database_name: ckan_default
+ckan_database_username: ckan_default
+ckan_database_password: pass
+
+drupal_database_name: drupal
+drupal_database_username: drupal
+drupal_database_password: drupal  
+
+www_root: /var/www
+www_user: www-data
+www_group: www-data
+
+drupal_name: ytp
+
+server_path: /srv/ytp
+cache_path: "{{ server_path }}/cache"
+backup_path: "{{ server_path }}/backup"
+ansible_flags: "{{ server_path }}/ansible"
+scripts_path: "{{ server_path }}/scripts"
+log_path: /var/log/ckan
+
+all_paths:
+  - "{{ server_path }}"
+  - "{{ cache_path }}"
+  - "{{ backup_path }}"
+  - "{{ ansible_flags }}"
+  - "{{ scripts_path }}"
+  - "{{ log_path }}"
+
+# Ubuntu 12.04
+ubuntu_codename: precise

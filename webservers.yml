@@ -5,11 +5,17 @@
   sudo: true
   roles:
     - ansible
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/private/variables.yml", "vars/none.yml"]
 
 - hosts: webservers
   accelerate: true
   sudo: true
   vars_files:
+    - "vars/common.yml"
     - ["vars/private/variables.yml", "vars/none.yml"]
   roles:
+    - resources
     - common
+    - system

@@ -1,0 +1,61 @@
+---
+
+- name: Ensure add-apt-repository is installed
+  apt: pkg="python-software-properties" state=present
+  tags:
+  - packages
+  - resources
+
+- name: Setup node.js repository
+  command: add-apt-repository -y ppa:chris-lea/node.js creates="/etc/apt/sources.list.d/chris-lea-node_js-{{ ubuntu_codename }}.list"
+  tags:
+  - packages
+  - resources
+
+- name: Ensure resource requirements
+  apt: pkg="{{ item }}" state=latest update_cache=yes
+  register: nodejs_install
+  with_items:
+    - nodejs
+  tags:
+  - packages
+  - resources
+
+- name: Set npm registry
+  command: npm config set registry http://registry.npmjs.org/
+  when: nodejs_install|changed
+  tags:
+  - packages
+  - resources
+
+- name: Install grunt and bower
+  command: npm install -g yo grunt-cli bower creates="/usr/lib/node_modules/grunt-cli"
+  tags:
+  - resources
+  - packages
+
+- name: Fetch resources
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common"
+  tags:
+  - resources
+
+- name: Install assets bower requirements
+  command: bower install -d --allow-root chdir="{{ cache_path }}/ytp-assets-common"
+  tags:
+  - resources
+
+- name: Install assets npm requirements
+  command: npm install -d --allow-root chdir="{{ cache_path }}/ytp-assets-common"
+  tags:
+  - resources
+
+- name: Build resources
+  command: grunt build chdir="{{ cache_path }}/ytp-assets-common"
+  tags:
+  - resources
+
+- name: Clean resources
+  file: path=/var/www/shared state=absent
+
+- name: Copy resources
+  shell: cp -R {{ cache_path }}/ytp-assets-common/distribution /var/www/shared

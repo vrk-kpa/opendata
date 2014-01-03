@@ -1,0 +1,46 @@
+---
+
+ckan_ini: /etc/ckan/default/production.ini
+ckan_version: "2.1"
+ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
+
+database_ip_range: 127.0.0.1/32
+database_host: localhost
+database_port: 5432
+
+virtual_environment: /usr/lib/ckan/default
+harvester_user: root
+
+drupal_site_name: YTP
+drupal_root: "{{ www_root }}/{{ drupal_name }}"
+
+drupal_admin_username: admin
+drupal_admin_password: admin
+drupal_admin_email: drupal@none.fake
+
+ckan_plugins_default: stats text_preview recline_preview
+ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal
+
+drupal_hostname: "{{ inventory_hostname }}"
+
+harvest_username: harvest
+harvest_password: harvest
+harvest_email: harvest@none.fake
+
+drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
+features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
+
+drupal_editor_rolename: editor
+drupal_default_editor_username: test-editor
+drupal_default_editor_email: editor@none.fake
+drupal_default_editor_password: test-editor-password
+
+drupal_ckan_admin_rolename: ckan_admin
+
+bootstrap_version: "3.0.0"
+
+all_features:
+  - language_feature
+  - article_feature
+  - service_alert_feature
+  - article_view_feature

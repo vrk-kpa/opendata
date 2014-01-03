@@ -64,6 +64,13 @@ server {
         rewrite ^/.* /user/logout permanent;
     }
 
+    location /resources {
+        root /var/www/shared;
+        autoindex off;
+        expires max;
+        log_not_found off;
+    }
+
     location /data {
         proxy_pass http://127.0.0.1:8080/data;
         proxy_set_header Host $host;
@@ -96,7 +103,7 @@ server {
         try_files $uri @rewrite;
     }
 
-    location ~* ^(?!/data).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
+    location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
         expires max;
         log_not_found off;
     }
