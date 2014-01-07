@@ -16,8 +16,9 @@
     - "vars/common.yml"
     - ["vars/private/variables.yml", "vars/none.yml"]
   roles:
-    - resources
     - common
-    - system
+    - resources
+    - database
+    - ckan
     - nginx
     - drupal

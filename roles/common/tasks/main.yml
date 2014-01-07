@@ -25,9 +25,9 @@
   action: apt pkg="{{ item }}" state=latest
   with_items:
     - libpq5
-    - postgresql
     - git-core
     - unzip
+    - gettext
   tags:
   - packages
   - common

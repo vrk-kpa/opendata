@@ -19,3 +19,8 @@
     - nginx
   notify:
   - Restart Nginx
+
+- name: Ensure Nginx is restarted
+  service: name=nginx state=restarted
+  tags:
+    - nginx

@@ -1,0 +1,30 @@
+---
+- name: Install postgresql
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - postgresql
+  tags:
+  - packages
+  - database
+
+- name: Copy Postgresql configuration
+  action: template src=pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf owner=postgres group=postgres mode=0640
+  tags:
+  - database
+
+- name: Reload postgres
+  service: name=postgresql state=reloaded
+  tags:
+  - database
+
+- name: Setup Postgresql databases
+  sudo_user: postgres
+  postgresql_db: name="{{ ckan_database_name }}"
+  tags:
+  - database
+
+- name: Setup CKAN Postgresql user
+  sudo_user: postgres
+  postgresql_user: user="{{ ckan_database_username }}" password="{{ ckan_database_password }}" db="{{ ckan_database_name }}"
+  tags:
+  - database

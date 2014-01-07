@@ -1,19 +1,24 @@
 ---
 
-- name: Fetch resources
-  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common"
-  register: fetch_resources
+- name: Ensure www path is present
+  file: path=/var/www state=directory mode=0755 owner=root group=root
+  tags:
+  - resources
+
+- name: Fetch assets (Resources)
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common-resources"
+  register: assets_resources
   tags:
   - resources
 
 - name: Clean resources
   file: path=/var/www/shared state=absent
-  when: fetch_resources|changed
+  when: assets_resources|changed
   tags:
   - resources
 
 - name: Copy resources
-  shell: cp -R {{ cache_path }}/ytp-assets-common/distribution /var/www/shared
-  when: fetch_resources|changed
+  shell: cp -R {{ cache_path }}/ytp-assets-common-resources/distribution /var/www/shared
+  when: assets_resources|changed
   tags:
   - resources

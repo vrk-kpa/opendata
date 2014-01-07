@@ -41,11 +41,20 @@
 
 - name: Create Drupal install script
   template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode=0700 owner=root group=root
+  register: drupal_script
+  tags:
+  - drupal
+
+- name: Setup Drupal Postgresql user
+  sudo_user: postgres
+  postgresql_user: user="{{ drupal_database_username }}" password="{{ drupal_database_password }}" role_attr_flags=CREATEDB
+  when: drupal_script|changed
   tags:
   - drupal
 
 - name: Install drupal
   command: ./install-drupal.sh creates="{{ ansible_flags }}/drupal-installed" chdir="{{ cache_path }}"
+  when: drupal_script|changed
   tags:
   - drupal
 
@@ -72,6 +81,7 @@
     - admin_language
   tags:
   - drupal
+
 - name: Enable Drupal modules
   command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
   with_items:
@@ -186,19 +196,33 @@
   command: drush l10n-update-refresh chdir="{{ drupal_root }}"
   tags:
   - drupal
+  - drupal-translations
 
 - name: Update Drupal translations
   command: drush -y l10n-update chdir="{{ drupal_root }}"
   tags:
   - drupal
+  - drupal-translations
+
+- name: Fetch assets (Drupal)
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common-drupal"
+  register: assets_drupal
+  tags:
+  - durpal
+  - drupal-translations
+
+- name: Install extra translations
+  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common-drupal/i18n/{{ item }}.po --replace chdir="{{ drupal_root }}"
+  with_items:
+  - "fi"
+  - "sv"
+  when: assets_drupal|changed
+  tags:
+  - durpal
+  - drupal-translations
 
 - name: Ensure PHP-FPM is restarted
   service: name=php5-fpm state=restarted
-  tags:
-  - drupal
-
-- name: Ensure Nginx is restarted
-  service: name=nginx state=restarted
   tags:
   - drupal
 

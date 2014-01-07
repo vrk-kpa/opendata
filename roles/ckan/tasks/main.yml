@@ -18,9 +18,9 @@
     - redis-server
     - python-pip
     - supervisor
-    - gettext
   tags:
   - packages
+  - ckan
 
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
@@ -30,130 +30,147 @@
   tags:
   - apache
   - packages
-
-### Databases ####
-
-- name: Copy Postgresql configuration
-  action: template src=pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf owner=postgres group=postgres mode=0640
-
-- name: Reload postgres
-  service: name=postgresql state=reloaded
-
-- name: Setup Postgresql databases
-  sudo_user: postgres
-  postgresql_db: name="{{ ckan_database_name }}"
-
-- name: Setup CKAN Postgresql user
-  sudo_user: postgres
-  postgresql_user: user="{{ ckan_database_username }}" password="{{ ckan_database_password }}" db="{{ ckan_database_name }}"
-
-- name: Setup Drupal Postgresql user
-  sudo_user: postgres
-  postgresql_user: user="{{ drupal_database_username }}" password="{{ drupal_database_password }}" role_attr_flags=CREATEDB
+  - ckan
 
 ### CKAN ###
 
 - name: Download CKAN package
   get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
+  tags:
+  - ckan
 
 - name: Install CKAN package
   command: dpkg -i "{{ cache_path }}/{{ ckan_package }}" creates=/usr/lib/ckan/default/
+  tags:
+  - ckan
 
 - name: Disable Apache default site
   file: path=/etc/apache2/sites-enabled/default state=absent
   tags:
   - apache
+  - ckan
 
 - name: Disable Apache default-ssl site
   file: path=/etc/apache2/sites-enabled/default-ssl state=absent
   tags:
   - apache
+  - ckan
 
 - name: Disable Apache ckan_default site
   file: path=/etc/apache2/sites-enabled/ckan_default state=absent
   tags:
   - apache
+  - ckan
 
 - name: Copy Apache configuration
   template: src=apache2.j2 dest=/etc/apache2/sites-available/ytp mode=0644 owner=root group=root
   tags:
   - apache
+  - ckan
 
 - name: Enable Apache configuration
   file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
   notify: Restart Apache
   tags:
   - apache
+  - ckan
 
 - name: Remove old schema
   file: path=/etc/solr/conf/schema.xml state=absent
+  tags:
+  - ckan
 
 - name: Setup Solr schema
   file: src="{{ virtual_environment }}/src/ckan/ckan/config/solr/schema-2.0.xml" dest=/etc/solr/conf/schema.xml state=link
+  tags:
+  - ckan
 
 - name: Setup Jetty
   template: src=jetty.j2 dest=/etc/default/jetty mode=0644 owner=root group=root
   notify: Restart Jetty
+  tags:
+  - ckan
 
 - name: Ensure Jetty is running
   service: name=jetty state=restarted
+  tags:
+  - ckan
 
 - name: Set CKAN database URL
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=sqlalchemy.url value="postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ database_host }}/{{ ckan_database_name }}"
   tags:
   - ckan-configuration
+  - ckan
+
 
 - name: Set CKAN default locale
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locale_default value=fi
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN offered locales
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locales_offered value="fi sv en"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set drupal database
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.ytp.drupal.connection value="postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN harvest type
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.harvest.mq.type value=redis
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN plugins
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.plugins value="{{ ckan_plugins_default }} {{ ckan_plugins }}"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN Drupal domain
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }}"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN Drupal admin role
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.sysadmin_role value="{{ drupal_ckan_admin_rolename }}"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Set CKAN Drupal connection
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.connection value="postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
   tags:
   - ckan-configuration
+  - ckan
 
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
+  tags:
+  - ckan
+
 
 - name: Install requirements
   pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest
+  tags:
+  - ckan
 
 - name: Initialize CKAN database
   shell: ckan db init
+  tags:
+  - ckan
 
 - name: Initialize Harvester database
   shell: ./bin/paster --plugin=ckanext-harvest harvester initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
 
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
@@ -164,6 +181,7 @@
   - { username: "{{ drupal_default_editor_username }}", password: "{{ drupal_default_editor_password }}", email: "{{ drupal_default_editor_email }}" }
   tags:
   - users
+  - ckan
 
 - name: Add CKAN sysadmins
   shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}"
@@ -174,6 +192,7 @@
   - "{{ drupal_default_editor_username }}"
   tags:
   - users
+  - ckan
 
 - name: Copy translation files
   copy: src="i18n/{{ item }}.po" dest="{{ cache_path }}/{{ item }}.po"
@@ -183,6 +202,7 @@
   register: translations
   tags:
   - translations
+  - ckan
 
 - name: Fetch CKAN translations
   get_url: url="https://raw.github.com/okfn/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ cache_path }}/ckan.{{ item }}.po"
@@ -191,39 +211,44 @@
   - sv
   tags:
   - translations
+  - ckan
 
-- name: Fetch resources (translations)
-  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common"
-  register: translations_resources
+- name: Fetch assets (CKAN)
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common-ckan"
+  register: assets_ckan
   tags:
   - translations
+  - ckan
 
 - name: Join translation source files (assets)
-  command: msgcat {{ cache_path }}/ytp-assets-common/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  command: msgcat {{ cache_path }}/ytp-assets-common-ckan/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
   with_items:
   - fi
   - sv
-  when: translations|changed or translations_resources|changed
+  when: translations|changed or assets_ckan|changed
   tags:
   - translations
+  - ckan
 
 - name: Join translation source files (custom)
   command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
   with_items:
   - fi
   - sv
-  when: translations|changed or translations_resources|changed
+  when: translations|changed or assets_ckan|changed
   tags:
   - translations
+  - ckan
 
 - name: Compile translation files
   command: msgfmt {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo
   with_items:
   - fi
   - sv
-  when: translations|changed or translations_resources|changed
+  when: translations|changed or assets_ckan|changed
   tags:
   - translations
+  - ckan
   notify: Restart Apache
 
 - name: Ensure Apache restart
@@ -236,16 +261,19 @@
   get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
   tags:
   - ontology
+  - ckan
 
 - name: Copy ontology script
   copy: src="parse-tags-from-ontology.py" dest="{{ cache_path }}/parse-tags-from-ontology.py"
   tags:
   - ontology
+  - ckan
 
 - name: Import dataset tags from JUHO ontology
   command: ./bin/python {{ cache_path }}/parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl chdir="{{ virtual_environment }}"
   tags:
   - ontology
+  - ckan
 
 - name: Copy supervisor configuration
   template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf mode=0644 owner=root group=root
@@ -253,25 +281,38 @@
   notify:
   - Restart Gather
   - Restart Fetch
+  tags:
+  - ckan
 
 - name: Reread supervisor
   shell: supervisorctl reread
+  tags:
+  - ckan
 
 - name: Ensure Gather is present
   shell: supervisorctl add ckan_gather_consumer
+  tags:
+  - ckan
 
 - name: Ensure Fetch is present
   shell: supervisorctl add ckan_fetch_consumer
+  tags:
+  - ckan
 
 - name: Ensure Gather is running
   supervisorctl: name=ckan_gather_consumer state=restarted
+  tags:
+  - ckan
 
 - name: Ensure Fetch is running
   supervisorctl: name=ckan_fetch_consumer state=restarted
+  tags:
+  - ckan
 
 - name: Ensure harvester cron job
   cron: name="harvest" minute="*/5" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
-
+  tags:
+  - ckan
 
 #- name: Leave maintenance mode
 #  file: path="/var/www/maintenance" state=absent
