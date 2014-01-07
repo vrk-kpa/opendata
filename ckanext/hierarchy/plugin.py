@@ -1,5 +1,6 @@
 import ckan.plugins as p
 import ckanext.hierarchy.logic.action as action
+from ckan.lib.plugins import DefaultGroupForm
 from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.logic.validators import no_loops_in_hierarchy
 
