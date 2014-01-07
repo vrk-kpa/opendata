@@ -8,7 +8,7 @@ def get_site_url(config):
 
 def get_user_and_context(site_url):
     user = p.toolkit.get_action('get_site_user')(
-        {'model': model, 'ignore_auth': True}, {}
+        {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
         )
     context = json.dumps({
         'site_url': site_url,
