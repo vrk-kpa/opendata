@@ -3,16 +3,31 @@
 - name: Create paths
   file: path="{{ item }}" state=directory
   with_items: all_paths
+  tags:
+  - common
 
 - name: Copy backup script
   template: src=backup.sh.j2 dest="{{ scripts_path }}/backup.sh" mode=0750 owner=root group=root
+  tags:
+  - common
 
 - name: Copy environment
   template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
   tags:
-  - system
+  - common
 
 - name: Set hostname
   template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
   tags:
-  - system
+  - common
+
+- name: Ensure common packages
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - libpq5
+    - postgresql
+    - git-core
+    - unzip
+  tags:
+  - packages
+  - common

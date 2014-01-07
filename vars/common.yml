@@ -31,3 +31,21 @@ all_paths:
 
 # Ubuntu 12.04
 ubuntu_codename: precise
+
+database_ip_range: 127.0.0.1/32
+database_host: localhost
+database_port: 5432
+
+drupal_admin_username: admin
+drupal_admin_password: admin
+drupal_admin_email: drupal@none.fake
+
+drupal_hostname: "{{ inventory_hostname }}"
+
+drupal_editor_rolename: editor
+drupal_default_editor_username: test-editor
+drupal_default_editor_email: editor@none.fake
+drupal_default_editor_password: test-editor-password
+
+drupal_ckan_admin_rolename: ckan_admin
+

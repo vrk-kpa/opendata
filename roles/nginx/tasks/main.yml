@@ -1,0 +1,21 @@
+---
+
+- name: Ensure nginx is installed
+  action: apt pkg="nginx" state=latest
+
+- name: Disable Nginx sites
+  file: path=/etc/nginx/sites-enabled/ckan state=absent
+  tags:
+    - nginx
+
+- name: Copy Nginx configuration
+  template: src=nginx.j2 dest=/etc/nginx/sites-available/ytp mode=0644 owner=root group=root
+  tags:
+    - nginx
+
+- name: Enable Nginx site
+  file: src=/etc/nginx/sites-available/ytp dest=/etc/nginx/sites-enabled/ytp state=link
+  tags:
+    - nginx
+  notify:
+  - Restart Nginx

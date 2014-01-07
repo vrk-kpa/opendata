@@ -1,0 +1,274 @@
+---
+
+### Drupal ###
+
+- name: Ensure Drupal packages
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - php5-pgsql
+    - php5-gd
+    - php5-fpm
+    - php-pear
+  tags:
+  - packages
+  - drupal
+
+- name: Set Drush channel for Pear
+  command: pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+  tags:
+  - drupal
+
+- name: Instal Drush via pear
+  command: pear install drush/drush creates=/usr/share/php/.registry/.channel.pear.drush.org/drush.reg
+  tags:
+  - drupal
+
+- name: Set PHP pathinfo
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+  tags:
+  - drupal
+
+- name: Set PHP socket (listen)
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+  tags:
+  - drupal
+
+# required by drush
+- name: Create root pgpass
+  template: src=pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
+  tags:
+  - drupal
+
+- name: Create Drupal install script
+  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode=0700 owner=root group=root
+  tags:
+  - drupal
+
+- name: Install drupal
+  command: ./install-drupal.sh creates="{{ ansible_flags }}/drupal-installed" chdir="{{ cache_path }}"
+  tags:
+  - drupal
+
+- name: Download Drupal modules
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/modules/{{ item }}/"
+  with_items:
+    - drush_extras
+    - drush_language
+
+    - custom_username_validation
+    - views
+    - features
+    - jquery_update
+    - bootstrap
+
+    - i18n
+    - pathauto
+    - token
+    - transliteration
+    - variable
+    - ctools
+    - i18nviews
+    - l10n_update
+    - admin_language
+  tags:
+  - drupal
+- name: Enable Drupal modules
+  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  with_items:
+    - custom_username_validation
+    - views
+    - features
+    - jquery_update
+    - bootstrap
+
+    - locale
+    - i18n_node
+
+    - i18n
+    - pathauto
+    - tokenvariables
+    - transliteration
+    - variable
+    - ctools
+    - i18nviews
+    - l10n_update
+    - admin_language
+  tags:
+  - drupal
+
+- name: Fetch YTP Drupal theme
+  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git" dest="{{ drupal_theme_path }}/ytp_theme"
+  tags:
+  - drupal
+
+- name: Fetch Bootstrap sources
+  get_url: url="https://github.com/twbs/bootstrap/archive/v{{ bootstrap_version }}.zip" dest="{{ cache_path }}/v{{ bootstrap_version }}.zip"
+  tags:
+  - drupal
+
+- name: Extract Bootstrap source to theme
+  command: unzip "{{ cache_path }}/v{{ bootstrap_version }}.zip" chdir="{{ drupal_theme_path }}/ytp_theme" creates="{{ drupal_theme_path }}/ytp_theme/bootstrap-{{ bootstrap_version }}"
+  tags:
+  - drupal
+
+- name: Symlink Boostrap version
+  command: ln -sf "bootstrap-{{ bootstrap_version }}" bootstrap chdir="{{ drupal_theme_path }}/ytp_theme"
+  tags:
+  - drupal
+
+- name: Enable YTP theme
+  command: drush en -y ytp_theme chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+
+- name: Copy Drupal features
+  copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
+  with_items: all_features
+  tags:
+  - drupal
+
+- name: Prepare features install
+  file: path="{{ features_module_path }}" state=directory
+  tags:
+  - drupal
+
+- name: Install features
+  command: tar xf "{{ cache_path }}/{{ item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
+  with_items: all_features
+  tags:
+  - drupal
+
+- name: Enable features
+  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  with_items: all_features
+  tags:
+  - drupal
+
+- name: Set default Drupal language
+  command: drush language-default fi chdir="{{ drupal_root }}"
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Copy drush variable import script
+  copy: src=multiple-variables.drush dest="{{ scripts_path }}/multiple-variables.drush" owner=root group=root mode=0750
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Copy drush variables
+  copy: src=drupal.json dest="{{ cache_path }}/drupal.json" owner=root group=root mode=0600
+  register: drush_variables
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Set Drupal variables from file
+  command: "'{{ scripts_path }}/multiple-variables.drush' '{{ cache_path }}/drupal.json' chdir='{{ drupal_root }}'"
+  when: drush_variables|changed
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Move service alerts to correct block
+  command: drush block-configure --module=views --delta=service_alerts_view-block --region=highlighted chdir="{{ drupal_root }}"
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Move language selector to correct block
+  command: drush block-configure --module=locale --delta=language --region=top_navigation chdir="{{ drupal_root }}"
+  tags:
+  - drupal-configuration
+  - drupal
+
+- name: Refresh Drupal translations
+  command: drush l10n-update-refresh chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+
+- name: Update Drupal translations
+  command: drush -y l10n-update chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+
+- name: Ensure PHP-FPM is restarted
+  service: name=php5-fpm state=restarted
+  tags:
+  - drupal
+
+- name: Ensure Nginx is restarted
+  service: name=nginx state=restarted
+  tags:
+  - drupal
+
+- name: Add Drupal roles
+  command: drush role-create "{{ item }}" chdir="{{ drupal_root }}"
+  ignore_errors: True
+  with_items:
+  - "{{ drupal_editor_rolename }}"
+  - "{{ drupal_ckan_admin_rolename }}"
+  tags:
+  - drupal
+  - users
+  - roles
+
+- name: Add permissions to editor role
+  command: drush role-add-perm "{{ drupal_editor_rolename }}" "{{ item }}" chdir="{{ drupal_root }}"
+  with_items:
+    - create article content
+    - edit own article content
+    - edit any article content
+    - delete own article content
+    - delete any article content
+    - administer comments
+    - access comments
+    - post comments
+    - edit own comments
+    - view revisions
+    - revert revisions
+    - delete revisions
+    - create service_alert content
+    - edit own service_alert content
+    - edit any service_alert content
+    - delete own service_alert content
+    - delete any service_alert content
+    - translate interface
+    - translate user-defined strings
+    - translate content
+  tags:
+  - drupal
+  - users
+  - roles
+
+- name: Add default editor user
+  command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
+  ignore_errors: True
+  tags:
+  - drupal
+  - users
+
+- name: Set user roles
+  command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
+  with_items:
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  tags:
+  - drupal
+  - users
+
+- name: Fix permission for Drupal image directory
+  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_root }}/sites/default/files/styles"
+  tags:
+  - drupal
+
+- name: Update Drupal
+  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+
+- name: Clear Drupal cache
+  command: drush cache-clear all -y chdir="{{ drupal_root }}"
+  tags:
+  - drupal

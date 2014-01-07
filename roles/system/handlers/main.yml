@@ -16,9 +16,4 @@
 - name: Restart Fetch
   supervisorctl: name=ckan_fetch_consumer state=restarted
 
-- name: Restart PHP-FPM
-  service: name=php5-fpm state=restarted
 
-- name: Restart Nginx
-  service: name=nginx state=restarted
-  
