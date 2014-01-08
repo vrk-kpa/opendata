@@ -2,7 +2,7 @@ ckanext-hierarchy - Organization hierarchy for CKAN
 ===================================================
 
 Provides a new field on the organization edit form to select a parent
-organization. This new hierarchical arrangement of organizations is display
+organization. This new hierarchical arrangement of organizations is displayed
 using templates in this extension, instead of the usual list. An organization
 page also displays the section of the tree that it is part of, under the
 'About' tab.
@@ -23,7 +23,7 @@ the snippets (or logic functions) that this extension provides to display the
 trees.
 
 NB:
-This extension relies on a particular feature branch of CKAN: https://github.com/datagovuk/ckan/tree/1038-organization-hierarchy which at the time of writing is not yet merged into master yet. It should be released in CKAN 2.2 (late 2013).
+This extension relies on a particular feature of CKAN: https://github.com/datagovuk/ckan/tree/1038-organization-hierarchy which at the time of writing is merged into branch release-v2.2 (i.e. CKAN 2.2 beta, which is quite usable) and will be released in CKAN 2.2 (early 2014).
 
 TODO:
 * make the trees prettier with JSTree
