@@ -5,18 +5,6 @@
   tags:
   - ansible
 
-- name: Ensure administrator group is present
-  group: name="{{ sudo_group }}" system=yes state=present
-  tags:
-  - ansible
-  - sudoers
-
-- name: Add NOPASSWD to sudoers
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ sudo_group }}' line='%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'"
-  tags:
-  - ansible
-  - sudoers
-
 - name: Copy apt sources.list
   template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
   tags:

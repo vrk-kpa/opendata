@@ -180,7 +180,6 @@
   - { username: "{{ drupal_admin_username }}", password: "{{ drupal_admin_password }}", email: "{{ drupal_admin_email }}" }
   - { username: "{{ drupal_default_editor_username }}", password: "{{ drupal_default_editor_password }}", email: "{{ drupal_default_editor_email }}" }
   tags:
-  - users
   - ckan
 
 - name: Add CKAN sysadmins
@@ -191,7 +190,6 @@
   - "{{ drupal_admin_username }}"
   - "{{ drupal_default_editor_username }}"
   tags:
-  - users
   - ckan
 
 - name: Copy translation files

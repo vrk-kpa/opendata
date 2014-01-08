@@ -1,0 +1,9 @@
+---
+
+users:
+  admins:
+    - name: 'ilja'
+    - name: 'villes'
+    - name: 'salum'
+
+sudo_group: sudo

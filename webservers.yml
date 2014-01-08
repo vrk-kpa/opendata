@@ -5,6 +5,7 @@
   sudo: true
   roles:
     - ansible
+    - users
   vars_files:
     - "vars/common.yml"
     - ["vars/private/variables.yml", "vars/none.yml"]

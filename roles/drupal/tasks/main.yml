@@ -234,7 +234,6 @@
   - "{{ drupal_ckan_admin_rolename }}"
   tags:
   - drupal
-  - users
   - roles
 
 - name: Add permissions to editor role
@@ -262,7 +261,6 @@
     - translate content
   tags:
   - drupal
-  - users
   - roles
 
 - name: Add default editor user
@@ -270,7 +268,6 @@
   ignore_errors: True
   tags:
   - drupal
-  - users
 
 - name: Set user roles
   command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
@@ -280,7 +277,6 @@
   - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
   tags:
   - drupal
-  - users
 
 - name: Fix permission for Drupal image directory
   shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_root }}/sites/default/files/styles"

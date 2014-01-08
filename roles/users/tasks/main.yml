@@ -1,0 +1,37 @@
+---
+
+- name: Ensure administrator group is present
+  group: name="{{ sudo_group }}" system=yes state=present
+  tags:
+  - users
+  - sudoers
+
+- name: Add users
+  user: name={{ item.name }} group=adm state=present shell=/bin/bash
+  with_flattened:
+     - users.admins
+  tags:
+  - users
+
+- name: Install SSH keys
+  authorized_key:
+          user={{ item.name }}
+          key="{{ lookup('file', '../keys/' + item.name + '.pub') }}"
+          state=present
+  with_flattened:
+     - users.admins
+  tags:
+  - users
+  register: install_keys
+
+- name: Ensure key access
+  command: chmod -R go-w /home/*/.ssh
+  when: install_keys|changed
+  tags:
+  - users
+
+- name: Add NOPASSWD to sudoers
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ sudo_group }}' line='%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'"
+  tags:
+  - users
+  - sudoers  
