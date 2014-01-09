@@ -24,7 +24,6 @@ for plugin in $PLUGINS; do
     fi
 done
 
-#cd $SOURCE_DIRECTORY
 cd /usr/lib/ckan/default/src/
 echo "## flake8 ##"
 flake8 --max-line-length=120 $PLUGINS
@@ -35,4 +34,6 @@ if [ "$FLAKE8_EXIT" != "0" ]; then
 fi
 
 deactivate
+
+cd $SOURCE_DIRECTORY
 exit $EXIT_STATUS
