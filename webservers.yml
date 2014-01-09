@@ -5,6 +5,7 @@
   sudo: true
   roles:
     - ansible
+    - firewall
     - users
   vars_files:
     - "vars/common.yml"
@@ -23,3 +24,4 @@
     - nginx
     - ckan
     - drupal
+    

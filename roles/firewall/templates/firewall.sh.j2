@@ -1,0 +1,9 @@
+#! /bin/sh -e
+
+UFW=/usr/sbin/ufw
+
+$UFW --force reset
+$UFW --force enable
+$UFW allow 22
+$UFW allow 80
+$UFW allow 5099
