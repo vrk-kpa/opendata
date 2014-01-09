@@ -6,11 +6,10 @@ echo "## upload ##"
 echo "Host $SSHHOST" >> ~/.ssh/config
 echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
-echo "[webservers]" > inventory-alpha
-echo "$SSHHOST" >> inventory-alpha
-
-sshpass -e ansible-playbook --inventory-file=inventory-alpha site.yml --user=deploy --ask-pass > ansible.output 2>&1
-sshpass -e scp ansible.output "$USERNAME@$SSHHOST:/home/$USERNAME/ansible_$DATE.output" > /dev/null 2>&1
-rm ansible.output
+# echo "[webservers]" > inventory-alpha
+# echo "$SSHHOST" >> inventory-alpha
+# sshpass -e ansible-playbook --inventory-file=inventory-alpha site.yml --user=deploy --ask-pass > ansible.output 2>&1
+# sshpass -e scp ansible.output "$USERNAME@$SSHHOST:/home/$USERNAME/ansible_$DATE.output" > /dev/null 2>&1
+# rm ansible.output
 
 exit 0
