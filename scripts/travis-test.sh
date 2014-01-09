@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 PLUGINS="ckanext-ytp-groups ckanext-ytp-theme ckanext-ytp-drupal"
 
@@ -36,4 +36,3 @@ fi
 
 deactivate
 exit $EXIT_STATUS
-

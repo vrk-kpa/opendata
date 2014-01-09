@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 DATABASE_PASSWORD="pass"
 DATE=`date --iso-8601=seconds`
@@ -59,4 +59,3 @@ done
 cd /usr/lib/ckan/default/src/ckan/
 paster db init -c $TEST_INI
 cd $SOURCE_DIRECTORY
-exit 0
