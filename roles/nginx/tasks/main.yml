@@ -2,6 +2,9 @@
 
 - name: Ensure nginx is installed
   action: apt pkg="nginx" state=latest
+  tags:
+    - nginx
+    - packages
 
 - name: Disable Nginx sites
   file: path=/etc/nginx/sites-enabled/ckan state=absent
