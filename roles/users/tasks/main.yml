@@ -7,7 +7,7 @@
   - sudoers
 
 - name: Add users
-  user: name={{ item.name }} group=adm state=present shell=/bin/bash
+  user: name={{ item.name }} group=adm groups={{ sudo_group }} state=present shell=/bin/bash
   with_flattened:
      - users.admins
   tags:
@@ -25,7 +25,7 @@
   register: install_keys
 
 - name: Ensure key access
-  command: chmod -R go-w /home/*/.ssh
+  shell: chmod -R go-w /home/*/.ssh
   when: install_keys|changed
   tags:
   - users

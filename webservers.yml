@@ -20,6 +20,6 @@
     - common
     - resources
     - database
-    - ckan
     - nginx
+    - ckan
     - drupal

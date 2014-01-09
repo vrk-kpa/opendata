@@ -10,6 +10,19 @@
   tags:
   - packages
   - ansible
+  - non-local
+  
+- name: Copy environment
+  template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
+  tags:
+  - ansible
+  - non-local
+
+- name: Set hostname
+  template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
+  tags:
+  - ansible
+  - non-local
 
 - name: Update package cache
   apt: update_cache=yes

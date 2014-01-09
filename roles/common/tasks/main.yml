@@ -11,16 +11,6 @@
   tags:
   - common
 
-- name: Copy environment
-  template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
-  tags:
-  - common
-
-- name: Set hostname
-  template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
-  tags:
-  - common
-
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
