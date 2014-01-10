@@ -11,10 +11,9 @@ SOURCE_DIRECTORY=`pwd`
 sudo apt-get -qq -y update
 # Fix invalud ubuntu update by downgrading
 sudo apt-get -qq -y --force-yes install libcommons-fileupload-java:amd64=1.2.2-1
-sudo apt-get -qq -y install solr-jetty python-virtualenv sshpass
+sudo apt-get -qq -y install solr-jetty python-virtualenv sshpass python-keyczar
 
-pip install ansible
-pip install python-keyczar
+pip install --use-mirrors --download-cache=$HOME/cache ansible
 
 sudo service postgresql reload
 
