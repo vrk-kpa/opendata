@@ -21,3 +21,38 @@
   tags:
   - packages
   - common
+
+- name: Package modules
+  local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ inventory_dir }}/{{ modules_path }}"
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
+
+- name: Copy modules
+  copy: src="{{ inventory_dir }}/{{ modules_path }}/{{ item }}.tgz" dest="{{ cache_path }}"
+  register: modules_copy
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
+
+- name: Extract modules
+  shell: rm -Rf "{{ item }}" && tar xzf "{{ item }}.tgz" chdir="{{ cache_path }}"
+  when: modules_copy|changed
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
