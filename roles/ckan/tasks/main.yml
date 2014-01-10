@@ -156,11 +156,42 @@
   tags:
   - ckan
 
-
 - name: Install requirements
   pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest
   tags:
   - ckan
+
+- name: Package modules
+  local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ inventory_dir }}/{{ modules_path }}"
+  with_flattened:
+    - ckan_extensions
+  tags:
+  - ckan
+  - modules
+
+- name: Copy modules
+  copy: src="{{ inventory_dir }}/{{ modules_path }}/{{ item }}.tgz" dest="{{ cache_path }}"
+  with_flattened:
+    - ckan_extensions
+  tags:
+  - ckan
+  - modules
+
+- name: Extract modules
+  shell: rm -Rf {{ item }}; tar xzf {{ item }}.tgz chdir="{{ cache_path }}"
+  with_flattened:
+    - ckan_extensions
+  tags:
+  - ckan
+  - modules
+
+- name: Install modules
+  pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
+  with_flattened:
+    - ckan_extensions
+  tags:
+  - ckan
+  - modules
 
 - name: Initialize CKAN database
   shell: ckan db init
