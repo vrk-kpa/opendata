@@ -12,11 +12,13 @@
     - ["vars/private/variables.yml", "vars/none.yml"]
 
 - hosts: webservers
-  accelerate: true
+  accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:
     - "vars/common.yml"
     - ["vars/private/variables.yml", "vars/none.yml"]
+  vars:
+    accelerate: true
   roles:
     - common
     - resources

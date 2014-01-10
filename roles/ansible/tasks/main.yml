@@ -1,10 +1,5 @@
 ---
 
-- name: Ensure keyczar is installed
-  apt: pkg=python-keyczar state=latest
-  tags:
-  - ansible
-
 - name: Copy apt sources.list
   template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
   tags:
@@ -28,6 +23,11 @@
   apt: update_cache=yes
   tags:
   - packages
+  - ansible
+
+- name: Ensure keyczar is installed
+  apt: pkg=python-keyczar state=latest
+  tags:
   - ansible
 
 - name: Ensure ansible requirements
