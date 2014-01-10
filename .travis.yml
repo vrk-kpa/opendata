@@ -17,6 +17,7 @@ env:
   - secure: "gduISJbsAP+84Rwt3OEivMxK0pPDNLeU7Q6R0EtSbHhLelU9bSDPiyN/G7qDZ74ZdhjGi+AQ/HMGlYRRLYlu4j8rs8ZNJva+jMZDkMSpKCKXJT12h4faSUoG3t7ZFAc3SY+W9Lf21VsqTjfyEFZOsXJQZ6pBqzX+FmnJN+yo2z4="
   - secure: "NdD/jfVObv7ZD4cvw6NMsRqACm68r3BMV7OKJbni3QRxFT/qxe58/6XGxi3LPaVNfV7sJHE4/TIitUP7wzcu+NhUilrK4EwWdHwTFLjzFRq7PwLhEEBd2JTiawMkavnc5nnYkvLbLw/co4Zh9fpOATipW8XxOFw4slQBNptKuno="
   - secure: "R7+vap9ebJT9wM8hGW6FlamIxImXEQlf4r9fysCv0UOSGhTYlxybfTqIedkPN8e6plAgbLCv95q2i50BoSkDTVzCnW+0x7M4BiZ3B31X59jqgrIwPkLRq0tJ3HIdg58WaOzzYljQzz3JIyx0inZelJsIQmGHX2mnpBBR3q1cx9c="
+  - secure: "JPobEqxfg/M+t1F4vFUUNiLiZosj22Kja8t240v6JYlI+rATQQud6MoAvy8cYdq2MnPn/s3LffS0oA7eWoFrrcg3Ih/lYGpg8SjmlZBmWdLDjR2v2rHov9XEU0k6+3+3SIzsbuAm2q2afwHYoeVsZw2ynXJun09caGAUD/x77eI="
 before_install:
 - git submodule update --init --recursive
 install: ./scripts/travis-install.sh
