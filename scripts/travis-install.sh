@@ -13,6 +13,9 @@ sudo apt-get -qq -y update
 sudo apt-get -qq -y --force-yes install libcommons-fileupload-java:amd64=1.2.2-1
 sudo apt-get -qq -y install solr-jetty python-virtualenv sshpass
 
+pip install ansible
+pip install python-keyczar
+
 sudo service postgresql reload
 
 pip install flake8 --download-cache=$HOME/cache
