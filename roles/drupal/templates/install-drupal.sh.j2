@@ -20,7 +20,6 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ 
     cd {{ drupal_root }}
     drush site-install -y standard --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} \
         --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@localhost/{{ drupal_database_name }} --site-name={{ drupal_site_name }}
-    touch {{ ansible_flags }}/drupal-installed
 
     cd -
 fi

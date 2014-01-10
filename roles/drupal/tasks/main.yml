@@ -53,7 +53,7 @@
   - drupal
 
 - name: Install drupal
-  command: ./install-drupal.sh creates="{{ ansible_flags }}/drupal-installed" chdir="{{ cache_path }}"
+  command: ./install-drupal.sh chdir="{{ cache_path }}"
   when: drupal_script|changed
   tags:
   - drupal
