@@ -1,5 +1,14 @@
 #! /bin/sh
 
+echo "pwd:"
+ls -lah
+
+echo "python:"
+python -c "import sys; print sys.path"
+
+echo "path:"
+echo $PATH
+
 DATE=`date +%Y-%m-%d_%H_%M_%S`
 
 echo "## upload ##"
