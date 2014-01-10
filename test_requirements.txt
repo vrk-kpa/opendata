@@ -1,4 +1,6 @@
 coverage
+ansible
+python-keyczar
 -e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git#egg=ckanext-ytp-groups
 -e git+https://github.com/yhteentoimivuuspalvelut/ckanext-drupal7.git#egg=ckanext-drupal7
 -e git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-drupal.git#egg=ckanext-ytp-drupal
