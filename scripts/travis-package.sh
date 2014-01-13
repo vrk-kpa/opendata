@@ -1,6 +1,14 @@
 #! /bin/sh
 
-echo "## upload ##"
+if [ "$TRAVIS_BRANCH" != "ci-testing" ]; then
+    echo "## Not updating ##"
+    exit 0
+fi
+
+echo "## update ##"
+
+DATE=`date +%Y-%m-%d_%H_%M_%S`
+
 echo "Host $SSHHOST" >> ~/.ssh/config
 echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
