@@ -1,5 +1,6 @@
 import ckan.plugins as p
 import ckanext.hierarchy.logic.action as action
+from ckan.lib.plugins import DefaultGroupForm
 from ckan.lib.plugins import DefaultOrganizationForm
 
 # This plugin is designed to work only these versions of CKAN
