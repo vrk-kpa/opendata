@@ -135,7 +135,7 @@
   - ckan
 
 - name: Set CKAN Drupal domain
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }}"
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }},{{ secondary_hostname }}"
   tags:
   - ckan-configuration
   - ckan
