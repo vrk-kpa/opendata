@@ -25,7 +25,7 @@ for tag in ansible firewall users common resources database nginx ckan drupal; d
     EXIT_STATUS=$?
     if [ "$EXIT_STATUS" != "0" ]; then
         echo "$tag failed"
-        exit $EXIT_STATUS
+        break
     fi
 done
 
