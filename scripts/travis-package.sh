@@ -2,7 +2,7 @@
 
 cd ansible
 
-if [ "$TRAVIS_BRANCH" != "ci-testing" ]; then
+if [ "$TRAVIS_BRANCH" != "deploy" ]; then
     echo "## Not updating ##"
     exit 0
 fi
