@@ -23,7 +23,7 @@
   - common
 
 - name: Package modules
-  local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ inventory_dir }}/{{ modules_path }}"
+  local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
   with_flattened:
     - modules
   tags:
@@ -34,7 +34,7 @@
   - modules
 
 - name: Copy modules
-  copy: src="{{ inventory_dir }}/{{ modules_path }}/{{ item }}.tgz" dest="{{ cache_path }}"
+  copy: src="{{ modules_path }}/{{ item }}.tgz" dest="{{ cache_path }}"
   register: modules_copy
   with_flattened:
     - modules
