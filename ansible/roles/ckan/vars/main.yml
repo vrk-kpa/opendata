@@ -19,5 +19,3 @@ ckan_extensions:
   - ckanext-ytp-groups
   - ckanext-ytp-drupal
   - ckanext-ytp-theme
-
-modules_path: modules

@@ -12,4 +12,5 @@
 - name: Restart Fetch
   supervisorctl: name=ckan_fetch_consumer state=restarted
 
-
+- name: Restart Nginx
+  service: name=nginx state=restarted

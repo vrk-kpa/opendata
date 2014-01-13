@@ -8,4 +8,4 @@ modules:
   - ckanext-ytp-theme
   - ytp-theme-drupal
 
-modules_path: modules
+modules_path: ../modules

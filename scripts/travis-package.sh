@@ -1,5 +1,7 @@
 #! /bin/sh
 
+cd ansible
+
 if [ "$TRAVIS_BRANCH" != "ci-testing" ]; then
     echo "## Not updating ##"
     exit 0

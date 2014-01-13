@@ -44,25 +44,22 @@
   tags:
   - ckan
 
-- name: Disable Apache default site
-  file: path=/etc/apache2/sites-enabled/default state=absent
-  tags:
-  - apache
-  - ckan
-
 - name: Disable Nginx sites
-  file: path=/etc/nginx/sites-enabled/ckan state=absent
+  file: path="/etc/nginx/sites-enabled/{{ item }}" state=absent
+  with_items:
+    - ckan
+    - default
   tags:
   - nginx
-
-- name: Disable Apache default-ssl site
-  file: path=/etc/apache2/sites-enabled/default-ssl state=absent
-  tags:
-  - apache
   - ckan
+  notify: Restart Nginx
 
-- name: Disable Apache ckan_default site
-  file: path=/etc/apache2/sites-enabled/ckan_default state=absent
+- name: Disable Apache sites
+  file: path="/etc/apache2/sites-enabled/{{ item }}" state=absent
+  with_items:
+    - default
+    - default-ssl
+    - ckan_default
   tags:
   - apache
   - ckan
@@ -106,7 +103,6 @@
   tags:
   - ckan-configuration
   - ckan
-
 
 - name: Set CKAN default locale
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locale_default value=fi
@@ -259,6 +255,11 @@
   tags:
   - apache
   - ckan
+  
+- name: Ensure Nginx is restarted
+  service: name=nginx state=restarted
+  tags:
+  - ckan
 
 - name: Download ontology file
   get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
@@ -325,5 +326,3 @@
 #  when: maintenance|success
 #  tags:
 #  - maintenance
-
-
