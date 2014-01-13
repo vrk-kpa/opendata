@@ -16,7 +16,8 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ 
     chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/settings.php
 
     sudo -u postgres psql -U postgres -d postgres -c "ALTER USER {{ drupal_database_username }} CREATEDB;"
-    sudo -u postgres createdb -O {{ drupal_database_username }} {{ drupal_database_name }} -E utf-8
+    sudo -u postgres createdb -O {{ drupal_database_username }} {{ drupal_database_name }} --encoding=utf-8 --locale=en_US.UTF-8 --template=template0
+
     cd {{ drupal_root }}
     drush site-install -y standard --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} \
         --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@localhost/{{ drupal_database_name }} --site-name={{ drupal_site_name }}

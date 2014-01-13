@@ -50,6 +50,11 @@
   - apache
   - ckan
 
+- name: Disable Nginx sites
+  file: path=/etc/nginx/sites-enabled/ckan state=absent
+  tags:
+  - nginx
+
 - name: Disable Apache default-ssl site
   file: path=/etc/apache2/sites-enabled/default-ssl state=absent
   tags:
