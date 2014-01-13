@@ -7,7 +7,7 @@ map $http_cookie $no_cache {
 }
 
 server {
-    server_name ytp.local;
+    server_name {{ inventory_hostname }} {{ secondary_hostname }};
     root /var/www/ytp;
     client_max_body_size 100M;
     gzip_static on;

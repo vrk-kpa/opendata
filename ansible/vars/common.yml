@@ -49,3 +49,4 @@ drupal_default_editor_password: test-editor-password
 
 drupal_ckan_admin_rolename: ckan_admin
 
+secondary_hostname: 127.0.0.1
