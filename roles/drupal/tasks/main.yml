@@ -211,7 +211,7 @@
   - "sv"
   when: modules_copy|changed
   tags:
-  - durpal
+  - drupal
   - drupal-translations
 
 - name: Ensure PHP-FPM is restarted
