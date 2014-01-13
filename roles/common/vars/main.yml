@@ -1,3 +1,11 @@
 ---
 
-# See common.yml
+modules:
+  - ytp-assets-common
+  - ckanext-drupal7
+  - ckanext-ytp-drupal
+  - ckanext-ytp-groups
+  - ckanext-ytp-theme
+  - ytp-theme-drupal
+
+modules_path: modules

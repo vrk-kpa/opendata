@@ -156,11 +156,18 @@
   tags:
   - ckan
 
-
 - name: Install requirements
   pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest
   tags:
   - ckan
+
+- name: Install modules
+  pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
+  with_flattened:
+    - ckan_extensions
+  tags:
+  - ckan
+  - modules
 
 - name: Initialize CKAN database
   shell: ckan db init
@@ -211,19 +218,12 @@
   - translations
   - ckan
 
-- name: Fetch assets (CKAN)
-  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common-ckan"
-  register: assets_ckan
-  tags:
-  - translations
-  - ckan
-
 - name: Join translation source files (assets)
-  command: msgcat {{ cache_path }}/ytp-assets-common-ckan/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  command: msgcat {{ cache_path }}/ytp-assets-common/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
   with_items:
   - fi
   - sv
-  when: translations|changed or assets_ckan|changed
+  when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
@@ -233,7 +233,7 @@
   with_items:
   - fi
   - sv
-  when: translations|changed or assets_ckan|changed
+  when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
@@ -243,7 +243,7 @@
   with_items:
   - fi
   - sv
-  when: translations|changed or assets_ckan|changed
+  when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan

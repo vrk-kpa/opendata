@@ -1,0 +1,18 @@
+[submodule "modules/ckanext-ytp-theme"]
+	path = modules/ckanext-ytp-theme
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-theme.git
+[submodule "modules/ytp-assets-common"]
+	path = modules/ytp-assets-common
+	url = https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git
+[submodule "modules/ytp-theme-drupal"]
+	path = modules/ytp-theme-drupal
+	url = https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git
+[submodule "modules/ckanext-ytp-drupal"]
+	path = modules/ckanext-ytp-drupal
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-drupal.git
+[submodule "modules/ckanext-ytp-groups"]
+	path = modules/ckanext-ytp-groups
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-groups.git
+[submodule "modules/ckanext-drupal7"]
+	path = modules/ckanext-drupal7
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-drupal7.git

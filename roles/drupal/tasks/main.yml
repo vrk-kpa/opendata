@@ -106,8 +106,8 @@
   tags:
   - drupal
 
-- name: Fetch YTP Drupal theme
-  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-theme-drupal.git" dest="{{ drupal_theme_path }}/ytp_theme"
+- name: Install YTP Drupal theme
+  shell: rm -rf {{ drupal_theme_path }}/ytp_theme && cp -r {{ cache_path }}/ytp-theme-drupal {{ drupal_theme_path }}/ytp_theme
   tags:
   - drupal
 
@@ -204,19 +204,12 @@
   - drupal
   - drupal-translations
 
-- name: Fetch assets (Drupal)
-  git: repo="https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git" dest="{{ cache_path }}/ytp-assets-common-drupal"
-  register: assets_drupal
-  tags:
-  - durpal
-  - drupal-translations
-
 - name: Install extra translations
-  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common-drupal/i18n/{{ item }}.po --replace chdir="{{ drupal_root }}"
+  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/i18n/{{ item }}.po --replace chdir="{{ drupal_root }}"
   with_items:
   - "fi"
   - "sv"
-  when: assets_drupal|changed
+  when: modules_copy|changed
   tags:
   - durpal
   - drupal-translations

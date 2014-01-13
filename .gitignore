@@ -40,3 +40,5 @@ nosetests.xml
 inventory-*
 .settings
 
+modules/*.tgz
+
