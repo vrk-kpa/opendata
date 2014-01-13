@@ -6,11 +6,9 @@
   <div class="control-group">
     <label class="control-label" for="field-parent">{{ _("Parent") }}</label>
     <div class="controls">   
-      <select id="field-parent" name="parent" data-module="autocomplete">
-        {# Parent comes initially from data['groups'] and on validation error
-           it comes from data['parent']. #} 
-        {% set selected_parent = (data.get('groups') or [{'name': data.get('parent') or 'notspecified'}])[0]['name'] %} {{ selected_parent }}f
-      <option value="" {% if selected_parent == 'notspecified' %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
+      <select id="field-parent" name="groups__0__name" data-module="autocomplete">
+        {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %} {{ selected_parent }}
+      <option value="" {% if not selected_parent %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
       {% for group in c.allowable_parent_groups %}
         <option value="{{ group.name }}" {% if group.name == selected_parent %}selected="selected"{% endif %}>{{ group.title }}</option>
       {% endfor %}
