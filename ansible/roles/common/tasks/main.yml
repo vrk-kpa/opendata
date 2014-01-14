@@ -24,6 +24,7 @@
 
 - name: Package modules
   local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
+  sudo: false
   with_flattened:
     - modules
   tags:
