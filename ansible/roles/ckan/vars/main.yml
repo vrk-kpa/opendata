@@ -6,9 +6,10 @@ ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
 
 virtual_environment: /usr/lib/ckan/default
 harvester_user: root
+ckan_user: root
 
 ckan_plugins_default: stats text_preview recline_preview
-ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal
+ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal ytp_tools
 
 harvest_username: harvest
 harvest_password: harvest
@@ -19,3 +20,14 @@ ckan_extensions:
   - ckanext-ytp-groups
   - ckanext-ytp-drupal
   - ckanext-ytp-theme
+  - ckanext-ytp-tools
+
+redis_hostname: localhost
+redis_port: 6379
+redis_harvest_database: 0
+redis_celery_database: 1
+
+supervisor_services:
+  - ckan_gather_consumer
+  - ckan_fetch_consumer
+  - celeryd

@@ -8,7 +8,7 @@
 #  tags:
 #  - maintenance
 
-### Requirements ###
+# TODO: Redis, Supervisor and Jetty should be separated
 
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
@@ -31,8 +31,6 @@
   - apache
   - packages
   - ckan
-
-### CKAN ###
 
 - name: Download CKAN package
   get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
@@ -123,7 +121,25 @@
   - ckan
 
 - name: Set CKAN harvest type
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.harvest.mq.type value=redis
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option="ckan.harvest.mq.type" value="redis"
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Set CKAN harvest redis hostname
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.hostname' value="{{ redis_hostname }}"
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Set CKAN harvest redis port
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.port' value="{{ redis_port }}"
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Set CKAN harvest redis database
+  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.redis_db' value="{{ redis_harvest_database }}"
   tags:
   - ckan-configuration
   - ckan
@@ -148,6 +164,36 @@
 
 - name: Set CKAN Drupal connection
   ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.connection value="postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Set CKAN Clery broker
+  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_URL" value='redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}'
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Set CKAN Clery results
+  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="CELERY_RESULT_BACKEND" value='redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}'
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Unset CKAN Clery backend
+  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_BACKEND" value=''
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Unset CKAN Clery host
+  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_HOST" value=''
+  tags:
+  - ckan-configuration
+  - ckan
+
+- name: Unset CKAN Clery host
+  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="CELERY_RESULT_DBURI" value=''
   tags:
   - ckan-configuration
   - ckan
@@ -296,25 +342,17 @@
   tags:
   - ckan
 
-- name: Ensure Gather is present
-  shell: supervisorctl add ckan_gather_consumer
+- name: Ensure supervisor services
+  shell: supervisorctl add {{ item }}
+  with_flattened:
+    - supervisor_services
   tags:
   - ckan
 
-- name: Ensure Fetch is present
-  shell: supervisorctl add ckan_fetch_consumer
-  tags:
-  - ckan
-
-- name: Ensure Gather is running
-  supervisorctl: name=ckan_gather_consumer state=restarted
-  tags:
-  - ckan
-
-- name: Ensure Fetch is running
-  supervisorctl: name=ckan_fetch_consumer state=restarted
-  tags:
-  - ckan
+- name: Ensure supervisor services are started
+  supervisorctl: name={{ item }} state=restarted
+  with_flattened:
+    - supervisor_services
 
 - name: Ensure harvester cron job
   cron: name="harvest" minute="*/5" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"

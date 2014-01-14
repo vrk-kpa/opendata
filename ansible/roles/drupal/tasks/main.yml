@@ -47,7 +47,7 @@
 
 - name: Setup Drupal Postgresql user
   sudo_user: postgres
-  postgresql_user: user="{{ drupal_database_username }}" password="{{ drupal_database_password }}" role_attr_flags=CREATEDB
+  postgresql_user: user="{{ drupal_database_username }}" password="{{ drupal_database_password }}"
   when: drupal_script|changed
   tags:
   - drupal
