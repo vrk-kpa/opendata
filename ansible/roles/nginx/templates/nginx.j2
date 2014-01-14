@@ -16,6 +16,10 @@ server {
         return 503;
     }
 
+    if ($host = '{{ secondary_hostname }}') {
+        rewrite ^/$ /{{ secondary_hostname_language }} permanent;
+    }
+
     error_page 503 @maintenance;
 
     location @maintenance {
