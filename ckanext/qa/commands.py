@@ -1,17 +1,14 @@
-import datetime
 import requests
 import urlparse
 import logging
 import sys
-import logging
 
 from pylons import config
-from sqlalchemy import func, distinct
 
 import ckan.plugins as p
-from ckan.lib.cli import CkanCommand
 
-REQUESTS_HEADER = {'content-type': 'application/json'}
+REQUESTS_HEADER = {'content-type': 'application/json',
+                   'User-Agent': 'ckanext-qa commands'}
 
 class CkanApiError(Exception):
     pass
@@ -96,8 +93,6 @@ class QACommand(p.toolkit.CkanCommand):
 
     def update(self, user, context):
         from ckan.model.types import make_uuid
-        from ckan.logic import get_action
-        from ckan import model
         from ckan.lib.helpers import json
         # import tasks after load config so CKAN_CONFIG evironment variable
         # can be set

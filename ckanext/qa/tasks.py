@@ -33,6 +33,8 @@ OPENNESS_SCORE_REASON = {
     5: 'Fully Linked Open Data as appropriate',
 }
 
+USER_AGENT = 'ckanext-archiver'
+
 def _update_task_status(context, data, log):
     """
     Use CKAN API to update the task status. The data parameter
@@ -52,7 +54,8 @@ def _update_task_status(context, data, log):
         res = requests.post(
             api_url, json.dumps(payload),
             headers={'Authorization': context['apikey'],
-                     'Content-Type': 'application/json'}
+                     'Content-Type': 'application/json',
+                     'User-Agent': USER_AGENT}
         )
     except requests.exceptions.RequestException, e:
         log.error('ckan failed to update task_status, error %r.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
@@ -195,7 +198,8 @@ def get_task_status(key, context, resource_id, log):
             json.dumps({'entity_id': resource_id, 'task_type': 'qa',
                         'key': key}),
             headers={'Authorization': context['site_user_apikey'],
-                     'Content-Type': 'application/json'}
+                     'Content-Type': 'application/json',
+                     'User-Agent': USER_AGENT}
         )
     except requests.exceptions.RequestException, e:
         log.error('Error getting %s. Error=%r\napi_url=%r',
@@ -478,7 +482,8 @@ def update_search_index(context, package_id, log):
         res = requests.post(
             api_url, json.dumps(data),
             headers={'Authorization': context['apikey'],
-                     'Content-Type': 'application/json'}
+                     'Content-Type': 'application/json',
+                     'User-Agent': USER_AGENT}
         )
     except requests.exceptions.RequestException, e:
         log.error('ckan failed to get the search index updated, error %r.\ncontext: %r\ndataset: %r\napi_url: %r'
