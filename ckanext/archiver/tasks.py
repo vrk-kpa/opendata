@@ -31,6 +31,8 @@ LINK_STATUSES__OK = ('Archived successfully',)
 LINK_STATUSES__ALL = LINK_STATUSES__BROKEN + LINK_STATUSES__NOT_SURE + \
                      LINK_STATUSES__OK
 
+USER_AGENT = 'ckanext-archiver'
+
 class ArchiverError(Exception):
     pass
 class ArchiverErrorBeforeDownloadStarted(ArchiverError):
@@ -393,7 +395,7 @@ def link_checker(context, data):
     url_timeout = data.get('url_timeout', 30)
 
     error_message = ''
-    headers = {}
+    headers = {'User-Agent': USER_AGENT}
 
     url = tidy_url(data['url'])
 
@@ -580,7 +582,8 @@ def _update_resource(context, resource, log):
     res = requests.post(
         api_url, post_data,
         headers={'Authorization': context['site_user_apikey'],
-                 'Content-Type': 'application/json'}
+                 'Content-Type': 'application/json',
+                 'User-Agent': USER_AGENT}
     )
 
     if res.status_code == 200:
@@ -614,7 +617,8 @@ def update_task_status(context, data, log):
     res = requests.post(
         api_url, post_data,
         headers = {'Authorization': context['site_user_apikey'],
-                   'Content-Type': 'application/json'}
+                   'Content-Type': 'application/json',
+                   'User-Agent': USER_AGENT}
     )
     if res.status_code == 200:
         log.info('Task status updated OK')
@@ -643,7 +647,8 @@ def get_task_status(key, context, resource_id, log):
             json.dumps({'entity_id': resource_id, 'task_type': 'archiver',
                         'key': key}),
             headers={'Authorization': context['site_user_apikey'],
-                     'Content-Type': 'application/json'}
+                     'Content-Type': 'application/json',
+                     'User-Agent': USER_AGENT}
         )
     except requests.exceptions.RequestException, e:
         log.error('Error getting %s. Error=%r\napi_url=%r',
