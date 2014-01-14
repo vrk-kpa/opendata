@@ -10,10 +10,16 @@ SOURCE_DIRECTORY=`pwd`
 # install requirements
 sudo apt-get -qq -y update
 # Fix invalud ubuntu update by downgrading
-sudo apt-get -qq -y --force-yes install libcommons-fileupload-java:amd64=1.2.2-1
-sudo apt-get -qq -y install solr-jetty python-virtualenv sshpass python-keyczar
+sudo apt-get -qq -y install python-virtualenv sshpass python-keyczar
 
 pip install --use-mirrors --download-cache=$HOME/cache ansible
+
+if [ "$TRAVIS_BRANCH" == "deploy" ]; then
+    echo "## Minimal install ##"
+    exit 0
+fi
+
+sudo apt-get -qq -y install solr-jetty 
 
 sudo service postgresql reload
 

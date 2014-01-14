@@ -1,5 +1,10 @@
 #! /bin/sh -e
 
+if [ "$TRAVIS_BRANCH" == "deploy" ]; then
+    echo "## Skipping test ##"
+    exit 0
+fi
+
 PLUGINS="ckanext-ytp-groups ckanext-ytp-theme ckanext-ytp-drupal"
 
 SOURCE_DIRECTORY=`pwd`
