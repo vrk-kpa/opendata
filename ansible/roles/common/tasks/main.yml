@@ -23,7 +23,7 @@
   - common
 
 - name: Package modules
-  local_action: command tar czf {{ item }}.tgz {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
+  local_action: command tar cf {{ item }}.tar {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
   sudo: false
   with_flattened:
     - modules
@@ -35,7 +35,7 @@
   - modules
 
 - name: Copy modules
-  copy: src="{{ modules_path }}/{{ item }}.tgz" dest="{{ cache_path }}"
+  copy: src="{{ modules_path }}/{{ item }}.tar" dest="{{ cache_path }}"
   register: modules_copy
   with_flattened:
     - modules
@@ -47,7 +47,7 @@
   - modules
 
 - name: Extract modules
-  shell: rm -Rf "{{ item }}" && tar xzf "{{ item }}.tgz" chdir="{{ cache_path }}"
+  shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
   when: modules_copy|changed
   with_flattened:
     - modules

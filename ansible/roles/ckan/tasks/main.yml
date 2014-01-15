@@ -21,6 +21,7 @@
   tags:
   - packages
   - ckan
+  - jetty
 
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
@@ -30,6 +31,16 @@
   tags:
   - apache
   - packages
+  - ckan
+
+- name: Create ckan group
+  group: name={{ ckan_group }} state=present system=yes
+  tags:
+  - ckan
+
+- name: Create ckan user
+  user: name="{{ ckan_user }}" state=present group="{{ ckan_group }}" groups="{{ www_group }}" system=yes shell=/usr/sbin/nologin home="{{ server_path }}"
+  tags:
   - ckan
 
 - name: Download CKAN package
@@ -88,114 +99,27 @@
 - name: Setup Jetty
   template: src=jetty.j2 dest=/etc/default/jetty mode=0644 owner=root group=root
   notify: Restart Jetty
+  register: jetty_setup
   tags:
   - ckan
+  - jetty
+
+- name: Ensure Jetty is restarted
+  service: name=jetty state=restarted
+  when: jetty_setup|changed
+  tags:
+  - ckan
+  - jetty
 
 - name: Ensure Jetty is running
-  service: name=jetty state=restarted
+  service: name=jetty state=started
   tags:
   - ckan
-
-- name: Set CKAN database URL
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=sqlalchemy.url value="postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ database_host }}/{{ ckan_database_name }}"
+  - jetty
+ 
+- name: Setup CKAN configuration
+  template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode=0640 owner=root group="{{ www_group }}"
   tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN default locale
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locale_default value=fi
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN offered locales
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.locales_offered value="fi sv en"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set drupal database
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.ytp.drupal.connection value="postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN harvest type
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option="ckan.harvest.mq.type" value="redis"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN harvest redis hostname
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.hostname' value="{{ redis_hostname }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN harvest redis port
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.port' value="{{ redis_port }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN harvest redis database
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option='ckan.harvest.mq.redis_db' value="{{ redis_harvest_database }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN plugins
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckan.plugins value="{{ ckan_plugins_default }} {{ ckan_plugins }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN Drupal domain
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.domain value="{{ drupal_hostname }},{{ secondary_hostname }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN Drupal admin role
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.sysadmin_role value="{{ drupal_ckan_admin_rolename }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN Drupal connection
-  ini_file: dest="{{ ckan_ini }}" section="app:main" option=ckanext.drupal7.connection value="postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}"
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN Clery broker
-  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_URL" value='redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}'
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Set CKAN Clery results
-  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="CELERY_RESULT_BACKEND" value='redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}'
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Unset CKAN Clery backend
-  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_BACKEND" value=''
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Unset CKAN Clery host
-  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="BROKER_HOST" value=''
-  tags:
-  - ckan-configuration
-  - ckan
-
-- name: Unset CKAN Clery host
-  ini_file: dest="{{ ckan_ini }}" section="app:ckan" option="CELERY_RESULT_DBURI" value=''
-  tags:
-  - ckan-configuration
   - ckan
 
 - name: Copy requirements file
@@ -210,6 +134,7 @@
 
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
+  when: modules_copy|changed
   with_flattened:
     - ckan_extensions
   tags:
@@ -329,7 +254,7 @@
   - ckan
 
 - name: Copy supervisor configuration
-  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/ytp.conf mode=0644 owner=root group=root
+  template: src="supervisor.conf.j2" dest="/etc/supervisor/conf.d/ytp.conf" mode=0644 owner=root group=root
   register: supervisor_configuration
   notify:
   - Restart Gather
@@ -339,18 +264,26 @@
 
 - name: Reread supervisor
   shell: supervisorctl reread
+  when: supervisor_configuration|changed
   tags:
   - ckan
 
 - name: Ensure supervisor services
   shell: supervisorctl add {{ item }}
+  when: supervisor_configuration|changed
   with_flattened:
     - supervisor_services
   tags:
   - ckan
 
-- name: Ensure supervisor services are started
+- name: Ensure supervisor services are restarted
   supervisorctl: name={{ item }} state=restarted
+  when: supervisor_configuration|changed
+  with_flattened:
+    - supervisor_services
+
+- name: Ensure supervisor services are started
+  supervisorctl: name={{ item }} state=started
   with_flattened:
     - supervisor_services
 

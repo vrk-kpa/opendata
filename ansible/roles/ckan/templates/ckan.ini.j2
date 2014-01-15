@@ -1,0 +1,101 @@
+[DEFAULT]
+debug = false
+
+[server:main]
+use = egg:Paste#http
+host = 0.0.0.0
+port = 5000
+
+[app:main]
+use = egg:ckan
+full_stack = true
+cache_dir = /tmp/%(ckan.site_id)s/
+beaker.session.key = ckan
+beaker.session.secret = {{ baker_session_secret }}
+
+app_instance_uuid = {{ app_instance_uuid }}
+
+who.config_file = %(here)s/who.ini
+who.log_level = warning
+who.log_file = %(cache_dir)s/who_log.ini
+
+sqlalchemy.url = postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ ckan_database_host }}/{{ ckan_database_name }}
+ckan.site_url = 
+ckan.auth.anon_create_dataset = false
+ckan.auth.create_unowned_dataset = true
+ckan.auth.create_dataset_if_not_in_organization = true
+ckan.auth.user_create_groups = true
+ckan.auth.user_create_organizations = true
+ckan.auth.user_delete_groups = true
+ckan.auth.user_delete_organizations = true
+ckan.auth.create_user_via_api = false
+ckan.site_id = default
+ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }}
+ckan.site_title = CKAN
+ckan.site_logo = /base/images/ckan-logo.png
+ckan.site_description = 
+ckan.favicon = /images/icons/ckan.ico
+ckan.gravatar_default = identicon
+ckan.preview.direct = png jpg gif
+ckan.preview.loadable = html htm rdf+xml owl+xml xml n3 n-triples turtle plain atom csv tsv rss txt json
+ckan.locale_default = fi
+ckan.locale_order = en pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
+ckan.locales_offered = fi sv en
+ckan.locales_filtered_out = en_GB
+ckan.feeds.authority_name = 
+ckan.feeds.date = 
+ckan.feeds.author_name = 
+ckan.feeds.author_link = 
+email_to = you@yourdomain.com
+error_email_from = paste@localhost
+smtp.server = localhost
+smtp.starttls = False
+ckanext.ytp.drupal.connection = postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+ckan.harvest.mq.type = redis
+ckan.harvest.mq.hostname = {{ redis_hostname }}
+ckan.harvest.mq.port = {{ redis_port }}
+ckan.harvest.mq.redis_db = {{ redis_harvest_database }}
+ckanext.drupal7.domain = {{ drupal_hostname }},{{ secondary_hostname }}
+ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
+ckanext.drupal7.connection = postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+
+[loggers]
+keys = root, ckan, ckanext
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARNING
+handlers = console
+
+[logger_ckan]
+level = INFO
+handlers = console
+qualname = ckan
+propagate = 0
+
+[logger_ckanext]
+level = DEBUG
+handlers = console
+qualname = ckanext
+propagate = 0
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
+
+[app:celery]
+BROKER_URL = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}
+CELERY_RESULT_BACKEND = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}
+BROKER_BACKEND = 
+BROKER_HOST = 
+CELERY_RESULT_DBURI = 

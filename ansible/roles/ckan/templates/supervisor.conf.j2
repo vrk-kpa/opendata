@@ -25,7 +25,7 @@ startsecs=10
 [program:celery]
 
 command={{ virtual_environment }}/bin/paster --plugin=ckan celeryd --config={{ ckan_ini }}
-user={{ ckan_user }}
+user={{ celery_user }}
 
 numprocs=1
 stdout_logfile={{ log_path }}/celeryd.log

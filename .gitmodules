@@ -22,3 +22,6 @@
 [submodule "modules/ytp-tools"]
 	path = modules/ytp-tools
 	url = https://github.com/yhteentoimivuuspalvelut/ytp-tools.git
+[submodule "modules/ckanext-ytp-tasks"]
+	path = modules/ckanext-ytp-tasks
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-tasks.git

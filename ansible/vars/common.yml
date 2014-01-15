@@ -1,8 +1,13 @@
 ---
 
+database_ip_range: 127.0.0.1/32
+database_host: localhost
+database_port: 5432
+
 ckan_database_name: ckan_default
 ckan_database_username: ckan_default
 ckan_database_password: pass
+ckan_database_host: "{{ database_host }}"
 
 drupal_database_name: drupal
 drupal_database_username: drupal
@@ -29,10 +34,6 @@ all_paths:
 
 # Ubuntu 12.04
 ubuntu_codename: precise
-
-database_ip_range: 127.0.0.1/32
-database_host: localhost
-database_port: 5432
 
 drupal_admin_username: admin
 drupal_admin_password: admin

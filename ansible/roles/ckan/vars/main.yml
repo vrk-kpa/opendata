@@ -5,8 +5,12 @@ ckan_version: "2.1"
 ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
 
 virtual_environment: /usr/lib/ckan/default
+
+ckan_user: ckan
+ckan_group: ckan
+
 harvester_user: root
-ckan_user: root
+celery_user: "{{ ckan_user }}"
 
 ckan_plugins_default: stats text_preview recline_preview
 ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal ytp_tools
@@ -21,6 +25,7 @@ ckan_extensions:
   - ckanext-ytp-drupal
   - ckanext-ytp-theme
   - ckanext-ytp-tools
+  - ckanext-ytp-tasks
 
 redis_hostname: localhost
 redis_port: 6379
@@ -30,4 +35,8 @@ redis_celery_database: 1
 supervisor_services:
   - ckan_gather_consumer
   - ckan_fetch_consumer
-  - celeryd
+  - celery
+
+# Override these on servers! 
+baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
+app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
