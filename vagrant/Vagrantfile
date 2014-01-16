@@ -26,6 +26,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # ansible.tags = "drupal"
       # start_at_task = "
     end
+
+    ytp.vm.provider "virtualbox" do |vbox|
+      vbox.memory = 1024
+    end
   end
 
   # http://docs.vagrantup.com/v2/multi-machine/index.html
