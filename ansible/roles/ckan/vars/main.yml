@@ -1,10 +1,7 @@
 ---
 
-ckan_ini: /etc/ckan/default/production.ini
 ckan_version: "2.1"
 ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
-
-virtual_environment: /usr/lib/ckan/default
 
 ckan_user: ckan
 ckan_group: ckan
@@ -13,7 +10,7 @@ harvester_user: root
 celery_user: "{{ ckan_user }}"
 
 ckan_plugins_default: stats text_preview recline_preview
-ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal ytp_tools
+ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal ytp_tools ytp_tasks
 
 harvest_username: harvest
 harvest_password: harvest
@@ -36,6 +33,7 @@ supervisor_services:
   - ckan_gather_consumer
   - ckan_fetch_consumer
   - celery
+  - celerybeat
 
 # Override these on servers! 
 baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"

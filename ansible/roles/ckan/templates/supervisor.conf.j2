@@ -41,3 +41,18 @@ stopwaitsecs = 600
 ; if rabbitmq is supervised, set its priority higher
 ; so it starts first
 priority=998
+
+
+[program:celerybeat]
+
+command={{ virtual_environment }}/bin/celery beat --config=ytp_celery --workdir=/etc/ckan/default/ --pidfile=/tmp/celerybeat_pid --schedule=/tmp/celerybeat_schedule
+user={{ celery_user }}
+
+numprocs=1
+stdout_logfile={{ log_path }}/celerybeat.log
+stderr_logfile={{ log_path }}/celerybeat.log
+autostart=true
+autorestart=true
+startsecs=10
+
+priority=999

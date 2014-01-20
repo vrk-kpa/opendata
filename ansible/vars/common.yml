@@ -50,3 +50,6 @@ drupal_ckan_admin_rolename: ckan_admin
 
 secondary_hostname: 127.0.0.1
 secondary_hostname_language: en
+
+ckan_ini: /etc/ckan/default/production.ini
+virtual_environment: /usr/lib/ckan/default

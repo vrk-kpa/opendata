@@ -19,7 +19,7 @@ echo "$SSHHOST" >> inventory-alpha
 echo $PASS | gpg --batch --passphrase-fd 0 --output=vars/private/variables.yml vars/private/variables-alpha.yml.gpg > /dev/null 2>&1
 echo "$DATE" > ansible.output 
 
-for tag in ansible firewall users common resources database nginx ckan drupal; do 
+for tag in ansible firewall users common resources database nginx ckan drupal data; do 
     echo "## $tag ##"
     sshpass -e ansible-playbook --inventory-file=inventory-alpha --user=deploy --ask-pass --extra-vars='accelerate=false' --tags=$tag site.yml >> ansible.output 2>&1
     EXIT_STATUS=$?

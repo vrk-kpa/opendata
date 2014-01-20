@@ -128,13 +128,14 @@
   - ckan
 
 - name: Install requirements
-  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest
+  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=present
   tags:
   - ckan
 
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
   when: modules_copy|changed
+  register: modules_install
   with_flattened:
     - ckan_extensions
   tags:
@@ -148,6 +149,11 @@
 
 - name: Initialize Harvester database
   shell: ./bin/paster --plugin=ckanext-harvest harvester initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
+- name: Initialize task database
+  shell: ./bin/paster --plugin=ckanext-ytp-tasks ytp-tasks-initialize-database "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
 
@@ -231,27 +237,12 @@
   service: name=nginx state=restarted
   tags:
   - ckan
-
-- name: Download ontology file
-  get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
-  register: ontology
+  
+- name: Copy celery configuration
+  template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode=0640 owner=root group=ckan
   tags:
-  - ontology
   - ckan
-
-- name: Copy ontology script
-  copy: src="parse-tags-from-ontology.py" dest="{{ cache_path }}/parse-tags-from-ontology.py"
-  register: ontology_script
-  tags:
-  - ontology
-  - ckan
-
-- name: Import dataset tags from JUHO ontology
-  command: ./bin/python {{ cache_path }}/parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl chdir="{{ virtual_environment }}"
-  when: ontology|changed or ontology_script|changed
-  tags:
-  - ontology
-  - ckan
+  - temp
 
 - name: Copy supervisor configuration
   template: src="supervisor.conf.j2" dest="/etc/supervisor/conf.d/ytp.conf" mode=0644 owner=root group=root
@@ -278,7 +269,7 @@
 
 - name: Ensure supervisor services are restarted
   supervisorctl: name={{ item }} state=restarted
-  when: supervisor_configuration|changed
+  when: supervisor_configuration|changed or modules_install|changed
   with_flattened:
     - supervisor_services
 

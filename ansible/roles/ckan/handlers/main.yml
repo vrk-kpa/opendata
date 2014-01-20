@@ -12,5 +12,11 @@
 - name: Restart Fetch
   supervisorctl: name=ckan_fetch_consumer state=restarted
 
+- name: Restart Celery
+  supervisorctl: name=celery state=restarted
+
+- name: Restart Celerybeat
+  supervisorctl: name=celerybeat state=restarted
+
 - name: Restart Nginx
   service: name=nginx state=restarted

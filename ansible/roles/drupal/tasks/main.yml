@@ -58,18 +58,22 @@
   tags:
   - drupal
 
-- name: Download Drupal modules
-  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/modules/{{ item }}/"
+- name: Download Drupal drush tools
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ ansible_env.HOME }}/.drush/{{ item }}/"
   with_items:
     - drush_extras
     - drush_language
+  tags:
+  - drupal
 
+- name: Download Drupal modules
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/modules/{{ item }}/"
+  register: download_modules
+  with_items:
     - custom_username_validation
     - views
     - features
     - jquery_update
-    - bootstrap
-
     - i18n
     - pathauto
     - token
@@ -84,16 +88,14 @@
 
 - name: Enable Drupal modules
   command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  when: download_modules|changed
   with_items:
     - custom_username_validation
     - views
     - features
     - jquery_update
-    - bootstrap
-
     - locale
     - i18n_node
-
     - i18n
     - pathauto
     - tokenvariables
@@ -103,6 +105,22 @@
     - i18nviews
     - l10n_update
     - admin_language
+  tags:
+  - drupal
+
+- name: Download Drupal themes
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
+  register: download_themes
+  with_items:
+    - bootstrap
+  tags:
+  - drupal
+
+- name: Enable Drupal themes
+  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  when: download_themes|changed
+  with_items:
+    - bootstrap
   tags:
   - drupal
 
@@ -133,23 +151,27 @@
 
 - name: Copy Drupal features
   copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
+  register: features_copy
   with_items: all_features
   tags:
   - drupal
 
 - name: Prepare features install
   file: path="{{ features_module_path }}" state=directory
+  when: features_copy|changed
   tags:
   - drupal
 
 - name: Install features
   command: tar xf "{{ cache_path }}/{{ item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
+  when: features_copy|changed
   with_items: all_features
   tags:
   - drupal
 
 - name: Enable features
   command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  when: features_copy|changed
   with_items: all_features
   tags:
   - drupal
