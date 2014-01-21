@@ -5,7 +5,6 @@ python:
 branches:
   only:
   - master
-  - deploy
   - ci-testing
 notifications:
   flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
@@ -14,15 +13,7 @@ cache:
     - /usr/lib/ckan/default/src/
     - $HOME/cache
   apt: true
-env:
-  global:
-    - secure: "gduISJbsAP+84Rwt3OEivMxK0pPDNLeU7Q6R0EtSbHhLelU9bSDPiyN/G7qDZ74ZdhjGi+AQ/HMGlYRRLYlu4j8rs8ZNJva+jMZDkMSpKCKXJT12h4faSUoG3t7ZFAc3SY+W9Lf21VsqTjfyEFZOsXJQZ6pBqzX+FmnJN+yo2z4="
-    - secure: "NdD/jfVObv7ZD4cvw6NMsRqACm68r3BMV7OKJbni3QRxFT/qxe58/6XGxi3LPaVNfV7sJHE4/TIitUP7wzcu+NhUilrK4EwWdHwTFLjzFRq7PwLhEEBd2JTiawMkavnc5nnYkvLbLw/co4Zh9fpOATipW8XxOFw4slQBNptKuno="
-    - secure: "h82IOc9DO8HX7KfeJLgZUmUoUlz+pzg8GjYL5WdhtzFVIl77szVsX9upQopnN37O8hZhWuRnZ7XlRfZCVMGuGwU6CRsCPuPaXGGuNHMQSQ0qyB2xZmdPyjXt32xu0DG18AUKhoSh2JX4wkZ0U2M6LJ5IGhwvnf2SKpofNEciZZI="
-    - secure: "JPobEqxfg/M+t1F4vFUUNiLiZosj22Kja8t240v6JYlI+rATQQud6MoAvy8cYdq2MnPn/s3LffS0oA7eWoFrrcg3Ih/lYGpg8SjmlZBmWdLDjR2v2rHov9XEU0k6+3+3SIzsbuAm2q2afwHYoeVsZw2ynXJun09caGAUD/x77eI="
-
 before_install:
   - git submodule update --init --recursive
 install: ./scripts/travis-install.sh
 script: ./scripts/travis-test.sh
-after_success: ./scripts/travis-package.sh

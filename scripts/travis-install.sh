@@ -9,17 +9,7 @@ SOURCE_DIRECTORY=`pwd`
 
 # install requirements
 sudo apt-get -qq -y update
-# Fix invalud ubuntu update by downgrading
-sudo apt-get -qq -y install python-virtualenv sshpass python-keyczar
-
-pip install --use-mirrors --download-cache=$HOME/cache ansible
-
-if [ "$TRAVIS_BRANCH" == "deploy" ]; then
-    echo "## Minimal install ##"
-    exit 0
-fi
-
-sudo apt-get -qq -y install solr-jetty 
+sudo apt-get -qq -y install python-virtualenv solr-jetty 
 
 sudo service postgresql reload
 
@@ -47,7 +37,6 @@ sudo sh -c 'echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nVERBOSE=yes
 sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
 
 sudo service jetty restart
-sudo service jetty status
 
 # Initialize postgres database
 for username in ckan_default ckan_test; do
