@@ -12,10 +12,6 @@ celery_user: "{{ ckan_user }}"
 ckan_plugins_default: stats text_preview recline_preview
 ckan_plugins: ytp_groups harvest ckan_harvester drupal7 ytp_theme ytp_drupal ytp_tools ytp_tasks
 
-harvest_username: harvest
-harvest_password: harvest
-harvest_email: harvest@none.fake
-
 ckan_extensions:
   - ckanext-drupal7
   - ckanext-ytp-groups

@@ -1,7 +1,7 @@
 ---
 
-- name: Import base organization
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c /etc/ckan/default/production.ini import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"
+- name: Import base organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"
   tags:
   - data
 
@@ -26,7 +26,16 @@
   - ontology
   - data
 
-- name: Execute tasks
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-execute-all -c /etc/ckan/default/production.ini"
+- name: Import harvest organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
   tags:
   - data
+
+- name: Set harvest sources
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{\"read_only\": true, \"api_key\": \"{{ item.api_key }}\", \"api_version\": 2}'"
+  with_items: harvest_sources
+  when: harvest_sources != False
+  ignore_errors: True
+  tags:
+  - data
+  - non-local

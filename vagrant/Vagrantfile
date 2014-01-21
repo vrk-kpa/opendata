@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "../ansible/site.yml"
       ansible.verbose = "v"
       ansible.inventory_path = "vagrant-ansible-inventory"
-      ansible.skip_tags = "has-hostname"
+      ansible.skip_tags = "has-hostname,non-local"
       # ansible.tags = "drupal"
       # start_at_task = "
     end

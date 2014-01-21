@@ -53,3 +53,9 @@ secondary_hostname_language: en
 
 ckan_ini: /etc/ckan/default/production.ini
 virtual_environment: /usr/lib/ckan/default
+
+harvest_username: harvest
+harvest_password: harvest
+harvest_email: harvest@none.fake
+
+harvest_sources: false
