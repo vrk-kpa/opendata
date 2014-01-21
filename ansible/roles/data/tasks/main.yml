@@ -1,5 +1,11 @@
 ---
 
+- name: Import harvest organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
+  when: harvest_sources != False
+  tags:
+  - data
+
 - name: Import base organizations
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"
   tags:
@@ -24,11 +30,6 @@
   when: ontology|changed or ontology_script|changed
   tags:
   - ontology
-  - data
-
-- name: Import harvest organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
-  tags:
   - data
 
 - name: Set harvest sources
