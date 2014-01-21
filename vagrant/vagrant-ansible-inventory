@@ -1,2 +1,5 @@
 [webservers]
 10.10.10.10
+
+[webservers:vars]
+private_variables=variables.yml

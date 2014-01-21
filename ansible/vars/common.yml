@@ -32,9 +32,6 @@ all_paths:
   - "{{ scripts_path }}"
   - "{{ log_path }}"
 
-# Ubuntu 12.04
-ubuntu_codename: precise
-
 drupal_admin_username: admin
 drupal_admin_password: admin
 drupal_admin_email: drupal@none.fake

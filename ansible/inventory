@@ -1,0 +1,15 @@
+[beta]
+beta.avoidata.fi
+
+[alpha]
+alpha.avoindata.fi
+
+[beta:vars]
+private_variables=variables.yml
+
+[alpha:vars]
+private_variables=variables-alpha.yml
+
+[webservers:children]
+beta
+alpha

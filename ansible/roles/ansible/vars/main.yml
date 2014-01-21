@@ -1,3 +1,5 @@
 ---
 
 apt_source_url: "http://us.archive.ubuntu.com"
+# Ubuntu 12.04
+ubuntu_codename: precise
