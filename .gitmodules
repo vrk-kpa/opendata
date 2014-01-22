@@ -28,3 +28,6 @@
 [submodule "modules/ytp-drupal-wysiwyg"]
 	path = modules/ytp-drupal-wysiwyg
 	url = https://github.com/yhteentoimivuuspalvelut/ytp-drupal-wysiwyg.git
+[submodule "modules/ckanext-ytp-dataset"]
+	path = modules/ckanext-ytp-dataset
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-dataset.git
