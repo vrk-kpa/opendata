@@ -56,3 +56,5 @@ harvest_password: harvest
 harvest_email: harvest@none.fake
 
 harvest_sources: false
+
+ckan_version: "2.1"

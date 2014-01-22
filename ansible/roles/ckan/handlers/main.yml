@@ -3,9 +3,6 @@
 - name: Restart Apache
   service: name=apache2 state=restarted
 
-- name: Restart Jetty
-  service: name=jetty state=restarted
-
 - name: Restart Gather
   supervisorctl: name=ckan_gather_consumer state=restarted
 

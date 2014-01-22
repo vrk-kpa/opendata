@@ -1,0 +1,44 @@
+---
+
+- name: Ensure jetty is installed
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - openjdk-7-jdk
+    - solr-jetty
+  tags:
+  - jetty
+
+- name: Fetch CKAN Solr schema
+  get_url: url="https://raw2.github.com/okfn/ckan/release-v{{ ckan_version }}/ckan/config/solr/schema-2.0.xml" dest="{{ server_path }}/schema-2.0.xml" mode=0644 owner=root group=root
+  register: fetch_schema
+  tags:
+  - jetty
+
+- name: Remove old schema
+  file: path=/etc/solr/conf/schema.xml state=absent
+  when: fetch_schema|changed
+  tags:
+  - jetty
+
+- name: Setup Solr schema
+  file: src="{{ server_path }}/schema-2.0.xml" dest=/etc/solr/conf/schema.xml state=link
+  when: fetch_schema|changed
+  tags:
+  - jetty
+
+- name: Setup Jetty
+  template: src=jetty.j2 dest=/etc/default/jetty mode=0644 owner=root group=root
+  register: jetty_setup
+  tags:
+  - jetty
+
+- name: Ensure Jetty is restarted
+  service: name=jetty state=restarted
+  when: jetty_setup|changed or fetch_schema|changed
+  tags:
+  - jetty
+
+- name: Ensure Jetty is running
+  service: name=jetty state=started
+  tags:
+  - jetty

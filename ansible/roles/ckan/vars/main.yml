@@ -1,6 +1,5 @@
 ---
 
-ckan_version: "2.1"
 ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
 
 ckan_user: ckan

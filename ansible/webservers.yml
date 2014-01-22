@@ -25,6 +25,7 @@
     - resources
     - database
     - nginx
+    - jetty
     - ckan
     - drupal
     - data

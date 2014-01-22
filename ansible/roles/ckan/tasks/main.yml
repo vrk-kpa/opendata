@@ -8,20 +8,17 @@
 #  tags:
 #  - maintenance
 
-# TODO: Redis, Supervisor and Jetty should be separated
+# TODO: Redis and Supervisor should be separated
 
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - solr-jetty
-    - openjdk-7-jdk
     - redis-server
     - python-pip
     - supervisor
   tags:
   - packages
   - ckan
-  - jetty
 
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
@@ -86,37 +83,6 @@
   - apache
   - ckan
 
-- name: Remove old schema
-  file: path=/etc/solr/conf/schema.xml state=absent
-  tags:
-  - ckan
-
-- name: Setup Solr schema
-  file: src="{{ virtual_environment }}/src/ckan/ckan/config/solr/schema-2.0.xml" dest=/etc/solr/conf/schema.xml state=link
-  tags:
-  - ckan
-
-- name: Setup Jetty
-  template: src=jetty.j2 dest=/etc/default/jetty mode=0644 owner=root group=root
-  notify: Restart Jetty
-  register: jetty_setup
-  tags:
-  - ckan
-  - jetty
-
-- name: Ensure Jetty is restarted
-  service: name=jetty state=restarted
-  when: jetty_setup|changed
-  tags:
-  - ckan
-  - jetty
-
-- name: Ensure Jetty is running
-  service: name=jetty state=started
-  tags:
-  - ckan
-  - jetty
- 
 - name: Setup CKAN configuration
   template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode=0640 owner=root group="{{ www_group }}"
   tags:
