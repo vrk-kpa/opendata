@@ -1,16 +1,5 @@
 ---
 
-- name: Import harvest organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
-  when: harvest_sources != False
-  tags:
-  - data
-
-- name: Import base organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"
-  tags:
-  - data
-
 - name: Download ontology file
   get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
   register: ontology
@@ -32,11 +21,22 @@
   - ontology
   - data
 
+- name: Import harvest organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
+  when: harvest_sources != False
+  tags:
+  - data
+
 - name: Set harvest sources
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{\"read_only\": true, \"api_key\": \"{{ item.api_key }}\", \"api_version\": 2}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
   with_items: harvest_sources
   when: harvest_sources != False
   ignore_errors: True
   tags:
   - data
   - non-local
+
+- name: Import base organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.tasks.organization_import daily '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"
+  tags:
+  - data
