@@ -9,5 +9,6 @@ modules:
   - ckanext-ytp-tools
   - ckanext-ytp-tasks
   - ytp-theme-drupal
+  - ytp-drupal-wysiwyg
 
 modules_path: ../modules

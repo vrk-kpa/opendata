@@ -83,6 +83,8 @@
     - i18nviews
     - l10n_update
     - admin_language
+    - wysiwyg
+    - drush_editor
   tags:
   - drupal
 
@@ -105,6 +107,27 @@
     - i18nviews
     - l10n_update
     - admin_language
+    - wysiwyg
+    - drush_editor
+  tags:
+  - drupal
+
+- name: Download ckeditor
+  command: drush editor-download {{ item }} chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/libraries/{{ item }}"
+  with_items:
+    - ckeditor
+  tags:
+  - drupal
+
+- name: Install wysiwyg module
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg" && cp -r "{{ cache_path }}/ytp-drupal-wysiwyg" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
+  register: install_wysiwyg
+  tags:
+  - drupal
+
+- name: Enable wysiwyg module
+  command: drush en -y ytp_wysiwyg chdir="{{ drupal_root }}"
+  when: install_wysiwyg|changed
   tags:
   - drupal
 
@@ -125,7 +148,7 @@
   - drupal
 
 - name: Install YTP Drupal theme
-  shell: rm -rf {{ drupal_theme_path }}/ytp_theme && cp -r {{ cache_path }}/ytp-theme-drupal {{ drupal_theme_path }}/ytp_theme
+  shell: rm -rf "{{ drupal_theme_path }}/ytp_theme" && cp -r "{{ cache_path }}/ytp-theme-drupal" "{{ drupal_theme_path }}/ytp_theme"
   tags:
   - drupal
 

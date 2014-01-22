@@ -25,3 +25,6 @@
 [submodule "modules/ckanext-ytp-tasks"]
 	path = modules/ckanext-ytp-tasks
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-tasks.git
+[submodule "modules/ytp-drupal-wysiwyg"]
+	path = modules/ytp-drupal-wysiwyg
+	url = https://github.com/yhteentoimivuuspalvelut/ytp-drupal-wysiwyg.git
