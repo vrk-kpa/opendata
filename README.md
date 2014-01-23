@@ -80,8 +80,8 @@ You can develop in full installation by replacing the sources in machine. You ca
 For python packages
 
     cd /src/<python-package>
-    sudo pip uninstall <python-package>
-    sudo python setup.py develop
+    sudo /usr/lib/ckan/default/bin/pip uninstall <python-package>
+    sudo /usr/lib/ckan/default/bin/python setup.py develop
 
 For other packages you need to replace the directory on machine with link.
 
