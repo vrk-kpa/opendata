@@ -322,6 +322,7 @@
     - access content overview
     - administer url aliases
     - create url aliases
+    - access toolbar
   tags:
   - drupal
   - roles
