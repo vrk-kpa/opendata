@@ -323,6 +323,7 @@
     - administer url aliases
     - create url aliases
     - access toolbar
+    - customize shortcut links
   tags:
   - drupal
   - roles
