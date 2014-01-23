@@ -44,3 +44,4 @@ modules/*.tgz
 modules/*.tar
 
 
+vars/private/variables.yml

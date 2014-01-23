@@ -18,6 +18,7 @@ ckan_extensions:
   - ckanext-ytp-theme
   - ckanext-ytp-tools
   - ckanext-ytp-tasks
+  - ckanext-ytp-dataset
 
 redis_hostname: localhost
 redis_port: 6379
