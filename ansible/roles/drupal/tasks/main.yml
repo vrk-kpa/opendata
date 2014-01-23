@@ -320,6 +320,8 @@
     - delete any page content
     - administer nodes
     - access content overview
+    - administer url aliases
+    - create url aliases
   tags:
   - drupal
   - roles
