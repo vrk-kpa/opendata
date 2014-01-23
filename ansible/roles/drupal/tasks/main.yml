@@ -318,6 +318,8 @@
     - edit any page content
     - delete own page content
     - delete any page content
+    - administer nodes
+    - access content overview
   tags:
   - drupal
   - roles
