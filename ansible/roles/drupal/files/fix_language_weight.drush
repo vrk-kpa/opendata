@@ -1,0 +1,16 @@
+#!/usr/bin/env drush
+
+// Fix default language weight
+
+$weight = -5;
+
+$language = variable_get('language_default');
+
+$updated = db_update('languages')
+  ->fields(array('weight' => $weight))
+  ->condition('language', $language->language)
+  ->execute();
+
+$language->weight = $weight;
+
+variable_set('language_default', $language);

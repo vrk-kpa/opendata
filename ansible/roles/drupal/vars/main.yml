@@ -13,3 +13,4 @@ all_features:
   - article_feature
   - service_alert_feature
   - article_view_feature
+  - blocks_feature
