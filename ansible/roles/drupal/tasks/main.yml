@@ -86,6 +86,8 @@
     - wysiwyg
     - drush_editor
     - features_extra
+    - imce
+    - imce_wysiwyg
   tags:
   - drupal
 
@@ -111,6 +113,8 @@
     - wysiwyg
     - drush_editor
     - fe_block
+    - imce
+    - imce_wysiwyg
   tags:
   - drupal
 
@@ -343,8 +347,32 @@
   tags:
   - drupal
 
-- name: Fix permission for Drupal image directory
-  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_root }}/sites/default/files/styles"
+- name: Copy imce scripts
+  copy: src="../modules/ytp-drupal-wysiwyg/imce_set_for_roles.drush" dest="{{ scripts_path }}/imce_set_for_roles.drush" owner=root group=root mode=750
+  register: copy_imce_scripts
+  tags:
+  - drupal
+
+- name: Apply imce scripts
+  command: "'{{ scripts_path }}/imce_set_for_roles.drush' '{{ drupal_editor_rolename }}' chdir='{{ drupal_root }}'"
+  when: copy_imce_scripts|changed
+  tags:
+  - drupal
+
+- name: Create upload paths
+  file: path={{ drupal_upload_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775
+  register: create_upload_paths
+  with_items:
+    - ""
+    - styles
+    - images
+    - documents
+  tags:
+    - drupal
+
+- name: Ensure correct permission for Drupal upload directory
+  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_upload_path }}"
+  when: create_upload_paths|changed
   tags:
   - drupal
 

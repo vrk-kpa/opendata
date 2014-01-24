@@ -8,6 +8,8 @@ features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
 
 bootstrap_version: "3.0.0"
 
+drupal_upload_path: "{{ drupal_root }}/sites/default/files"
+
 all_features:
   - language_feature
   - article_feature
