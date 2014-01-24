@@ -58,7 +58,7 @@ Re-run provision, if Ansible fails to ssh.
 
     vagrant provision
 
-To re-run process use `provision`. If you remove the machine (`vagrant destroy`) you need to use `up` again.
+To re-run process use `provision`. If you remove the virtual machine (`vagrant destroy`) you need to use `up` again.
 
 
 #### Access to service
@@ -68,14 +68,14 @@ Access to service at [http://10.10.10.10/](http://10.10.10.10/) when installatio
 
 #### Notes
 
-- Access to machine via ssh use: `vagrant ssh`
-- The modules are mapped to `/src` path on machine
-- Use `vagrant halt` when you are done working on machine and `vagrant destroy` to remove machine.
+- Access to virtual machine via ssh use: `vagrant ssh`
+- The modules are mapped to `/src` path on virtual machine
+- Use `vagrant halt` when you are done working on virtual machine and `vagrant destroy` to remove virtual machine.
 - Ansible and Vagrant options are at `Vagrantfile`
 
 ### Development in Vagrant
 
-You can develop in full installation by replacing the sources in machine. You can edit the files on local machine because the /src/ is mapped to ../modules
+You can develop in full installation by replacing the sources in the virtualbox. You can edit the files on local machine because the /src/ is mapped to ../modules
 
 For python packages
 
@@ -83,7 +83,7 @@ For python packages
     sudo /usr/lib/ckan/default/bin/pip uninstall <python-package>
     sudo /usr/lib/ckan/default/bin/python setup.py develop
 
-For other packages you need to replace the directory on machine with link.
+For other packages you need to replace the directory on the virtual machine with the link.
 
 Drupal theme
 
@@ -97,7 +97,7 @@ Assets
     sudo mv shared /var/www/backup_shared
     sudo ln -s /src/ytp-assets-common/distribution/ shared
 
-Look individual instructions for each project at Github project page.
+Look at individual instructions for each project at Github project page.
 
 
 ## Known issues
