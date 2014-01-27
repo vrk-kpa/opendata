@@ -48,7 +48,7 @@ msgstr ""
 msgid "Content type"
 msgstr "Sisältötyyppi"
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Open data"
+msgid "Open Data"
 msgstr "Avoin data"
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Tools for Interoperability"
