@@ -18,7 +18,7 @@
   tags:
   - drupal
 
-- name: Instal Drush via pear
+- name: Install Drush via Pear
   command: pear install drush/drush creates=/usr/share/php/.registry/.channel.pear.drush.org/drush.reg
   tags:
   - drupal
@@ -74,6 +74,11 @@
     - views
     - features
     - jquery_update
+    
+    - node_export
+    - menu_block
+    - menu_import
+
     - i18n
     - pathauto
     - token
@@ -99,9 +104,18 @@
     - views
     - features
     - jquery_update
+
+    - node_export
+    - menu_block
+    - menu_block_export
+    - menu_import
+
     - locale
-    - i18n_node
     - i18n
+    - i18n_node
+    - i18n_block
+    - i18n_menu
+
     - pathauto
     - tokenvariables
     - transliteration
@@ -249,11 +263,33 @@
   - drupal-configuration
   - drupal
 
+- name: Create empty Drupal menus
+  command: drush menu-create {{ item.id }} "{{ item.name }}" "{{ item.description }}" chdir="{{ drupal_root }}"
+  ignore_errors: True
+  with_items:
+  - { id: ytp-menu-fi, name: "Main menu (fi)", description: "YTP Main menu tree - Finnish"}
+  - { id: ytp-menu-en, name: "Main menu (en)", description: "YTP Main menu tree - English"}
+  - { id: ytp-menu-sv, name: "Main menu (sv)", description: "YTP Main menu tree - Swedish"}
+  tags:
+  - drupal-configuration
+  - drupal
+
 - name: Move blocks
   command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} chdir="{{ drupal_root }}"
   with_items:
     - { module: views, delta: service_alerts_view-block, region: highlighted }
     - { module: locale, delta: language, region: top_navigation }
+
+- name: Disable blocks
+  command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
+  with_items:
+    - { module: menu, delta: ytp-menu-fi }
+    - { module: menu, delta: ytp-menu-en }
+    - { module: menu, delta: ytp-menu-sv }
+    - { module: user, delta: login }
+  tags:
+  - drupal-configuration
+  - drupal
 
 - name: Refresh Drupal translations
   command: drush l10n-update-refresh chdir="{{ drupal_root }}"
