@@ -396,7 +396,7 @@
   - drupal
 
 - name: Create upload paths
-  file: path={{ drupal_upload_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775
+  file: path={{ drupal_upload_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775 state="directory"
   register: create_upload_paths
   with_items:
     - ""
@@ -404,7 +404,7 @@
     - images
     - documents
   tags:
-    - drupal
+  - drupal
 
 - name: Ensure correct permission for Drupal upload directory
   shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_upload_path }}"
