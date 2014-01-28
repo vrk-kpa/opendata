@@ -1,8 +1,9 @@
 #! /bin/sh -e
 
 SOURCE_DIRECTORY=`pwd`
+VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 
-. /usr/lib/ckan/default/bin/activate
+. $VIRTUAL_ENVIRONMENT/bin/activate
 
 EXIT_STATUS=0
 
@@ -12,6 +13,7 @@ for plugin in modules/*; do
     if [ -f $plugin/test.ini ]; then
         echo "Running nosetest for $plugin"
         cd $plugin
+        sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py develop
         nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
         NOSE_EXIT=$?
         if [ "$NOSE_EXIT" != "0" ]; then
