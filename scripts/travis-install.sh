@@ -29,6 +29,16 @@ export PIP_USE_MIRRORS=true
 pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.1#egg=ckan'
 pip install --use-mirrors -r $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt --download-cache=$HOME/cache
 pip install --use-mirrors -r test_requirements.txt --download-cache=$HOME/cache
+
+for plugin in modules/*; do
+    if [ -f $plugin/requirements.txt ]; then
+        echo "Installing requirements for $plugin"
+        cd $plugin
+        pip install --use-mirrors -r requirements.txt --download-cache=$HOME/cache
+        cd $SOURCE_DIRECTORY
+    fi
+done
+
 mkdir -p /etc/ckan/default
 
 # Configure Solr (and Jetty)
