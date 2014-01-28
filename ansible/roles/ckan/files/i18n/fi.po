@@ -23,6 +23,7 @@ msgstr ""
 #: ckan/templates/package/snippets/package_basic_fields.html:13
 #: ckan/templates/related/snippets/related_form.html:19
 #: ckan/templates_legacy/related/add-related.html:38
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:23
 msgid "URL"
 msgstr "Suora osoite"
 
@@ -41,9 +42,8 @@ msgstr "Otsikko"
 #: ckan/templates/organization/snippets/organization_form.html:22
 #: ckan/templates/related/snippets/related_form.html:20
 #: ckan/templates_legacy/related/add-related.html:42
-#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:15
 msgid "Image URL"
-msgstr ""
+msgstr "Kuvan lyhyosoite"
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Content type"
 msgstr "Sisältötyyppi"
