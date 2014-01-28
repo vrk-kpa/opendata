@@ -24,11 +24,22 @@ Fetch source codes
     git submodule update 
 
 Note that if submodules are updated, you need to `init` and `update` those after `pull`.
- 
+
+
+### Ansible
+
+Ansible 1.4 is required
+
+    sudo add-apt-repository ppa:rquillo/ansible
+    sudo apt-get update
+    sudo apt-get install ansible
+    sudo apt-get install python-keyczar
+
 
 ### Vagrant
 
 Vagrant is used to test and develop the service.
+
 
 #### Install Virtualbox
 
@@ -41,6 +52,7 @@ Vagrant is used to test and develop the service.
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update
     sudo apt-get install virtualbox-4.3
+
 
 #### Install Vagrant from package
 
@@ -73,31 +85,51 @@ Access to service at [http://10.10.10.10/](http://10.10.10.10/) when installatio
 - Use `vagrant halt` when you are done working on virtual machine and `vagrant destroy` to remove virtual machine.
 - Ansible and Vagrant options are at `Vagrantfile`
 
+
 ### Development in Vagrant
 
-You can develop in full installation by replacing the sources in the virtualbox. You can edit the files on local machine because the /src/ is mapped to ../modules
+You can develop in full installation by replacing the sources in the virtualbox. Then you can edit the files on local machine because the /src/ is mapped to ../modules
 
-For python packages
+Look at individual instructions for each project at Github project page.
 
+
+#### Python packages (ckanext-*)
+
+    vagrant ssh
     cd /src/<python-package>
     sudo /usr/lib/ckan/default/bin/pip uninstall <python-package>
     sudo /usr/lib/ckan/default/bin/python setup.py develop
 
-For other packages you need to replace the directory on the virtual machine with the link.
+- You must restart Apache after modifications to sources *sudo service apache2 restart*. 
+- If you modify *setup.py* re-run *setup.py develop*. 
 
-Drupal theme
 
+##### Running CKAN via PasteScript
+
+As modifications to Python packages require Apace restart, you can use *paster* for development. 
+
+    vagrant ssh
+    sudo ufw allow 5000
+    . /usr/lib/ckan/default/bin/activate # or /usr/lib/ckan/default/bin/paster ...
+    paster serve /etc/ckan/default/production.ini
+
+Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
+
+
+#### Drupal theme (ytp-theme-drupal)
+
+    vagrant ssh
     cd /var/www/ytp/sites/all/themes
     sudo mv ytp_theme /var/www/backup_ytp_theme
     sudo ln -s /src/ytp-theme-drupal ytp_theme
 
-Assets
 
+#### Assets (ytp-theme-drupal)
+
+    vagrant ssh
     cd /var/www/
     sudo mv shared /var/www/backup_shared
     sudo ln -s /src/ytp-assets-common/distribution/ shared
-
-Look at individual instructions for each project at Github project page.
 
 
 ## Known issues
@@ -116,6 +148,7 @@ Kill acceleration process on machine and re-run the provision
     exit
     vagrant provision # re-run
 
+
 ## Contact
 
 Please file [issue at Github](https://github.com/yhteentoimivuuspalvelut/ytp/issues) or join to discussion at [avoindata.net](http://avoindata.net/)
@@ -129,4 +162,3 @@ It is open and licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at:
 
 http://www.fsf.org/licensing/licenses/agpl-3.0.html
-
