@@ -24,11 +24,22 @@ Fetch source codes
     git submodule update 
 
 Note that if submodules are updated, you need to `init` and `update` those after `pull`.
- 
+
+
+### Ansible
+
+Ansible 1.4 is required
+
+    sudo add-apt-repository ppa:rquillo/ansible
+    sudo apt-get update
+    sudo apt-get install ansible
+    sudo apt-get install python-keyczar
+
 
 ### Vagrant
 
 Vagrant is used to test and develop the service.
+
 
 #### Install Virtualbox
 
@@ -41,6 +52,7 @@ Vagrant is used to test and develop the service.
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update
     sudo apt-get install virtualbox-4.3
+
 
 #### Install Vagrant from package
 
@@ -72,6 +84,7 @@ Access to service at [http://10.10.10.10/](http://10.10.10.10/) when installatio
 - The modules are mapped to `/src` path on virtual machine
 - Use `vagrant halt` when you are done working on virtual machine and `vagrant destroy` to remove virtual machine.
 - Ansible and Vagrant options are at `Vagrantfile`
+
 
 ### Development in Vagrant
 
@@ -116,6 +129,7 @@ Kill acceleration process on machine and re-run the provision
     exit
     vagrant provision # re-run
 
+
 ## Contact
 
 Please file [issue at Github](https://github.com/yhteentoimivuuspalvelut/ytp/issues) or join to discussion at [avoindata.net](http://avoindata.net/)
@@ -129,4 +143,3 @@ It is open and licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at:
 
 http://www.fsf.org/licensing/licenses/agpl-3.0.html
-
