@@ -38,36 +38,52 @@ msgstr "Suora osoite"
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:6
 msgid "Title"
 msgstr "Otsikko"
+
 #: ckan/templates/group/snippets/group_form.html:22
 #: ckan/templates/organization/snippets/organization_form.html:22
 #: ckan/templates/related/snippets/related_form.html:20
 #: ckan/templates_legacy/related/add-related.html:42
 msgid "Image URL"
 msgstr "Kuvan lyhyosoite"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Content type"
 msgstr "Sisältötyyppi"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Open Data"
 msgstr "Avoin data"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Tools for Interoperability"
 msgstr "Työkalut ja ohjeet"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Public Services"
 msgstr "Julkinen palvelu"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:20
 msgid "Tags"
-msgstr "Aihe"	
+msgstr "Aihe"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:45
 msgid "Material type"
 msgstr "Aineistotyyppi"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
 msgid "Period of validity"
 msgstr "Voimassaolo"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:63
 msgid "Extra information"
 msgstr "Lisätietoja"
+
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:73
 msgid "Image"
 msgstr "Logo tai kuvituskuva"
+
+msgid "Valid from"
+msgstr "Voimassa alkaen"
+
+msgid "Valid till"
+msgstr "Voimassa päättyen"

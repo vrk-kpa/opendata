@@ -45,3 +45,46 @@ msgstr "Namn"
 #: ckan/templates_legacy/related/add-related.html:42
 msgid "Image URL"
 msgstr "Emblem"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
+msgid "Content type"
+msgstr "Innehållstyp"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
+msgid "Open Data"
+msgstr "Open Data"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
+msgid "Tools for Interoperability"
+msgstr "Verktyg för driftskompatibilitet"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
+msgid "Public Services"
+msgstr "Statstjänst"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:20
+msgid "Tags"
+msgstr "Ämne"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:45
+msgid "Material type"
+msgstr "Materialtyp"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
+msgid "Period of validity"
+msgstr "Giltighet"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:63
+msgid "Extra information"
+msgstr "Kommentarer"
+
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:73
+msgid "Image"
+msgstr "Logotypen eller lager"
+
+msgid "Valid from"
+msgstr "Gäller från"
+
+msgid "Valid till"
+msgstr "Giltigt till"
+
