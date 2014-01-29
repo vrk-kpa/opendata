@@ -50,6 +50,11 @@
   tags:
   - ckan
 
+- name: Create CKAN files path
+  file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ ckan_group }}"
+  tags:
+  - ckan
+
 - name: Disable Nginx sites
   file: path="/etc/nginx/sites-enabled/{{ item }}" state=absent
   with_items:
