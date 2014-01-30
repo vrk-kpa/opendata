@@ -87,3 +87,6 @@ msgstr "Voimassa alkaen"
 
 msgid "Valid till"
 msgstr "Voimassa päättyen"
+
+msgid "YYYY-MM-DD"
+msgstr "VVVV-KK-PP"

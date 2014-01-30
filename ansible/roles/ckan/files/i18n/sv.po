@@ -88,3 +88,5 @@ msgstr "Gäller från"
 msgid "Valid till"
 msgstr "Giltigt till"
 
+msgid "YYYY-MM-DD"
+msgstr "ÅÅÅÅ-MM-DD"
