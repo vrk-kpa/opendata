@@ -159,7 +159,7 @@
   - ckan
 
 - name: Fetch CKAN translations
-  get_url: url="https://raw.github.com/okfn/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ cache_path }}/ckan.{{ item }}.po"
+  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ cache_path }}/ckan.{{ item }}.po"
   with_items:
   - fi
   - sv
