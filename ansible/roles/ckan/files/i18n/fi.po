@@ -91,3 +91,6 @@ msgstr "Tiedostomuodot"
 #: ckan/templates/package/snippets/package_basic_fields.html:69
 msgid "Organization"
 msgstr "Tiedon tuottaja"
+
+msgid "YYYY-MM-DD"
+msgstr "VVVV-KK-PP"
