@@ -72,11 +72,11 @@ msgid "Material type"
 msgstr "Sisältötyyppi"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
-msgid "Period of Validity"
+msgid "Period of validity"
 msgstr "Voimassaolo"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:63
-msgid "Extra Information"
+msgid "Extra information"
 msgstr "Lisätietoja"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:73
