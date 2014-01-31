@@ -69,7 +69,7 @@ msgstr "Aihe"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:45
 msgid "Material Type"
-msgstr "Aineistotyyppi"
+msgstr "Sisältötyyppi"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
 msgid "Period of Validity"
