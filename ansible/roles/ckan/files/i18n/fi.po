@@ -46,9 +46,10 @@ msgstr "Otsikko"
 msgid "Image URL"
 msgstr "Kuvan lyhyosoite"
 
-#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Content type"
-msgstr "Sisältötyyppi"
+#: ckan/templates/package/search.html:71
+#: ckan/templates/package/snippets/package_basic_fields.html:69
+msgid "Content Type"
+msgstr "Tietovaranto"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Open Data"
