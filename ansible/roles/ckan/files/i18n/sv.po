@@ -47,12 +47,12 @@ msgid "Image URL"
 msgstr "Emblem"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Content type"
+msgid "Content Type"
 msgstr "Innehållstyp"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Open Data"
-msgstr "Open Data"
+msgid "Open data"
+msgstr "Open data"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
 msgid "Tools for Interoperability"
@@ -71,11 +71,11 @@ msgid "Material type"
 msgstr "Materialtyp"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
-msgid "Period of validity"
+msgid "Period of Validity"
 msgstr "Giltighet"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:63
-msgid "Extra information"
+msgid "Extra Information"
 msgstr "Kommentarer"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:73
