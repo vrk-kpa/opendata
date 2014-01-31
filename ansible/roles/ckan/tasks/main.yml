@@ -99,7 +99,7 @@
   - ckan
 
 - name: Install requirements
-  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=present
+  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
   tags:
   - ckan
 
