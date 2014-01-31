@@ -52,7 +52,7 @@ msgid "Content Type"
 msgstr "Tietovaranto"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Open Data"
+msgid "Open data"
 msgstr "Avoin data"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
@@ -68,7 +68,7 @@ msgid "Tags"
 msgstr "Aihe"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:45
-msgid "Material Type"
+msgid "Material type"
 msgstr "Sisältötyyppi"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:53
@@ -92,6 +92,12 @@ msgstr "Tiedostomuodot"
 #: ckan/templates/package/snippets/package_basic_fields.html:69
 msgid "Organization"
 msgstr "Tiedon tuottaja"
+
+msgid "Valid from"
+msgstr "Voimassa alkaen"
+
+msgid "Valid till"
+msgstr "Voimassa päättyen"
 
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
