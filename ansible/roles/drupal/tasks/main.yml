@@ -263,17 +263,6 @@
   - drupal-configuration
   - drupal
 
-- name: Create empty Drupal menus
-  command: drush menu-create {{ item.id }} "{{ item.name }}" "{{ item.description }}" chdir="{{ drupal_root }}"
-  ignore_errors: True
-  with_items:
-  - { id: ytp-menu-fi, name: "Main menu (fi)", description: "YTP Main menu tree - Finnish"}
-  - { id: ytp-menu-en, name: "Main menu (en)", description: "YTP Main menu tree - English"}
-  - { id: ytp-menu-sv, name: "Main menu (sv)", description: "YTP Main menu tree - Swedish"}
-  tags:
-  - drupal-configuration
-  - drupal
-
 - name: Move blocks
   command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} chdir="{{ drupal_root }}"
   with_items:
@@ -283,9 +272,6 @@
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
   with_items:
-    - { module: menu, delta: ytp-menu-fi }
-    - { module: menu, delta: ytp-menu-en }
-    - { module: menu, delta: ytp-menu-sv }
     - { module: user, delta: login }
   tags:
   - drupal-configuration
