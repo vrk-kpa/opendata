@@ -28,6 +28,8 @@ server {
         }
     }
 
+    rewrite ^/data/data/(.*)$ /data/$1 permanent;
+
     location = /favicon.ico {
         log_not_found off;
         access_log off;
