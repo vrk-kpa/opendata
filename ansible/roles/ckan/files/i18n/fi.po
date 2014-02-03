@@ -51,16 +51,19 @@ msgstr "Kuvan lyhyosoite"
 msgid "Content Type"
 msgstr "Tietovaranto"
 
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/snippets/facet_list.html:64
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Open data"
+msgid "Open Data"
 msgstr "Avoin data"
 
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/snippets/facet_list.html:64
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Tools for Interoperability"
+msgid "Interoperability Tools"
 msgstr "Työkalut ja ohjeet"
 
+#: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/snippets/facet_list.html:64
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Public Services"
+msgid "Public Service"
 msgstr "Julkinen palvelu"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:20

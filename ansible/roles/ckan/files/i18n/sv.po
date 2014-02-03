@@ -51,11 +51,11 @@ msgid "Content Type"
 msgstr "Innehållstyp"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Open data"
+msgid "Open Data"
 msgstr "Open data"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Tools for Interoperability"
+msgid "Interoperability Tools"
 msgstr "Verktyg för driftskompatibilitet"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
