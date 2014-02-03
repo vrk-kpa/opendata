@@ -63,7 +63,7 @@ msgstr "Työkalut ja ohjeet"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/snippets/facet_list.html:64
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
-msgid "Public Service"
+msgid "Public Services"
 msgstr "Julkinen palvelu"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:20
