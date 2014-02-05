@@ -47,7 +47,16 @@ msgid "Image URL"
 msgstr "Emblem"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
+msgid "Collection Type"
+msgstr "Information reserv"
+
+msgid "Collection type"
+msgstr "Information reserv"
+
 msgid "Content Type"
+msgstr "Innehållstyp"
+
+msgid "Content type"
 msgstr "Innehållstyp"
 
 #: ckanext-ytp-dataset/ckanext/ytp/dataset/templates/package/snippets/ytp_data_fields.html:4
