@@ -168,7 +168,7 @@
   - ckan
 
 - name: Join translation source files (assets)
-  command: msgcat {{ cache_path }}/ytp-assets-common/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  command: msgcat {{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
   with_items:
   - fi
   - sv
