@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.verbose = "v"
       ansible.inventory_path = "vagrant-ansible-inventory"
       ansible.skip_tags = "has-hostname,non-local"
-      # ansible.tags = "drupal"
+      # ansible.tags = "translations"
       # ansible.start_at_task = ""
     end
 
