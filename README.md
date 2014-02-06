@@ -92,8 +92,22 @@ You can develop in full installation by replacing the sources in the virtualbox.
 
 Look at individual instructions for each project at Github project page.
 
+#### Automatic project switch
 
-#### Python packages (ckanext-*)
+The ytp-develop.py -script is created to automated project switching on Vagrant.
+
+    /src/ytp-tools/scripts/ytp-develop.py # help
+    /src/ytp-tools/scripts/ytp-develop.py --list # list available projects
+    /src/ytp-tools/scripts/ytp-develop.py --serve # serve CKAN via paster and access at http://10.10.10.10:5000/
+    /src/ytp-tools/scripts/ytp-develop.py <project-name> # switch project sources
+
+Example: /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-dataset
+
+Notes.
+- Serve command cannot reload all modification and need to restarted on some changes.
+- For ckanext project if setup.py is changed or if some files are inserted you need to re-execute ytp-develop.py
+
+#### Manually switch Python packages (ckanext-*)
 
     vagrant ssh
     cd /src/<python-package>
@@ -104,7 +118,7 @@ Look at individual instructions for each project at Github project page.
 - If you modify *setup.py* re-run *setup.py develop*. 
 
 
-##### Running CKAN via PasteScript
+##### Manually switch running CKAN via PasteScript
 
 As modifications to Python packages require Apace restart, you can use *paster* for development. 
 
@@ -116,7 +130,7 @@ As modifications to Python packages require Apace restart, you can use *paster* 
 Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
 
 
-#### Drupal theme (ytp-theme-drupal)
+#### Manually switch Drupal theme (ytp-theme-drupal)
 
     vagrant ssh
     cd /var/www/ytp/sites/all/themes
@@ -124,12 +138,12 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     sudo ln -s /src/ytp-theme-drupal ytp_theme
 
 
-#### Assets (ytp-theme-drupal)
+#### Manually switch Assets (ytp-theme-drupal)
 
     vagrant ssh
     cd /var/www/
-    sudo mv shared /var/www/backup_shared
-    sudo ln -s /src/ytp-assets-common/distribution/ shared
+    sudo mv resources /var/www/backup_resources
+    sudo ln -s /src/ytp-assets-common/resources/ resources
 
 
 ## Known issues
