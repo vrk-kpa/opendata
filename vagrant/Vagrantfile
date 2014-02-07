@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ytp.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
     ytp.vm.network :private_network, ip: "10.10.10.10"
-    ytp.vm.synced_folder "../", "/src"
+    ytp.vm.synced_folder "../modules/", "/src"
 
     ytp.vm.provision "ansible" do |ansible|
       # http://docs.vagrantup.com/v2/provisioning/ansible.html
