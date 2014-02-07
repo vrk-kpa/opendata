@@ -78,6 +78,7 @@
     - node_export
     - menu_block
     - menu_import
+    - contentapi
 
     - i18n
     - pathauto
@@ -109,6 +110,7 @@
     - menu_block
     - menu_block_export
     - menu_import
+    - contentapi
 
     - locale
     - i18n
