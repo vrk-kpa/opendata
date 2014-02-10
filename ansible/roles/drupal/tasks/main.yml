@@ -247,6 +247,14 @@
   - drupal-configuration
   - drupal
 
+- name: Set Drupal template variables
+  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+  with_items:
+    - { variable: "site_mail", value: "{{ email_from }}" }
+  tags:
+  - drupal-configuration
+  - drupal
+
 - name: Copy fix scripts
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
