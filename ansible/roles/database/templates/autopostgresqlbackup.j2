@@ -1,0 +1,27 @@
+SU_USERNAME=postgres
+USERNAME=postgres
+DBHOST=localhost
+DBNAMES="all"
+BACKUPDIR="{{ backup_path }}/postgresql"
+
+# - log   : send only log file
+# - files : send log file and sql files as attachments (see docs)
+# - stdout : will simply output the log to the screen if run manually.
+# - quiet : Only send logs if an error occurs to the MAILADDR.
+MAILCONTENT="log"
+MAXATTSIZE="4000"
+
+MAILADDR="{{ admin_email }}"
+
+MDBNAMES="template1 $DBNAMES"
+
+DBEXCLUDE=""
+CREATE_DATABASE=yes
+SEPDIR=yes
+DOWEEKLY=6
+COMP=gzip
+COMMCOMP=0
+LATEST=no
+
+PREBACKUP="{{ scripts_path }}/pre-backup.bash"
+#POSTBACKUP="/etc/postgresql-backup-post"

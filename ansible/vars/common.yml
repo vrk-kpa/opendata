@@ -36,13 +36,13 @@ all_paths:
 
 drupal_admin_username: admin
 drupal_admin_password: admin
-drupal_admin_email: drupal@none.fake
+drupal_admin_email: vagrant@localhost
 
 drupal_hostname: "{{ inventory_hostname }}"
 
 drupal_editor_rolename: editor
 drupal_default_editor_username: test-editor
-drupal_default_editor_email: editor@none.fake
+drupal_default_editor_email: editor@localhost
 drupal_default_editor_password: test-editor-password
 
 drupal_ckan_admin_rolename: ckan_admin
@@ -55,7 +55,7 @@ virtual_environment: /usr/lib/ckan/default
 
 harvest_username: harvest
 harvest_password: harvest
-harvest_email: harvest@none.fake
+harvest_email: harvest@localhost
 
 harvest_sources: false
 
@@ -63,6 +63,8 @@ ckan_version: "2.1"
 
 email_domain: "localhost"
 email_domain_access: "localhost"
-error_email_to: vagrant@localhost
 email_from: "no-reply@{{ email_domain }}"
-error_email_from: "{{ email_from }}"
+error_email_from: "error@{{ email_domain }}"
+
+admin_email: vagrant@localhost
+error_email: {{ admin_email }}
