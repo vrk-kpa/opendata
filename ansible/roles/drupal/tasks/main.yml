@@ -78,7 +78,8 @@
     - node_export
     - menu_block
     - menu_import
-    - contentapi
+    - services
+    - services_menu
 
     - i18n
     - pathauto
@@ -110,8 +111,9 @@
     - menu_block
     - menu_block_export
     - menu_import
-    - contentapi
-
+    - services
+    - services_menu
+    
     - locale
     - i18n
     - i18n_node
@@ -357,6 +359,11 @@
   tags:
   - drupal
   - roles
+
+- name: Add permissions to anonymous role
+  command: drush role-add-perm "1" "{{ item }}" chdir="{{ drupal_root }}"
+  with_items:
+    - services menu retrieve menu
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
