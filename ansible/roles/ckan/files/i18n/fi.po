@@ -98,7 +98,7 @@ msgstr "Logo tai kuvituskuva"
 #: ckan/templates/package/snippets/package_basic_fields.html:
 #: ckan/templates/package/search.html:71
 msgid "Formats"
-msgstr "Tiedostomuodot"
+msgstr "Tiedostomuoto"
 
 #: ckan/templates/package/search.html:71
 #: ckan/templates/package/snippets/package_basic_fields.html:69

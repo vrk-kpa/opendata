@@ -61,4 +61,8 @@ harvest_sources: false
 
 ckan_version: "2.1"
 
-
+email_domain: "localhost"
+email_domain_access: "localhost"
+error_email_to: vagrant@localhost
+email_from: "no-reply@{{ email_domain }}"
+error_email_from: "{{ email_from }}"
