@@ -78,7 +78,8 @@
     - node_export
     - menu_block
     - menu_import
-    - contentapi
+    - services
+    - services_menu
 
     - i18n
     - pathauto
@@ -110,8 +111,9 @@
     - menu_block
     - menu_block_export
     - menu_import
-    - contentapi
-
+    - services
+    - services_menu
+    
     - locale
     - i18n
     - i18n_node
@@ -247,6 +249,14 @@
   - drupal-configuration
   - drupal
 
+- name: Set Drupal template variables
+  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+  with_items:
+    - { variable: "site_mail", value: "{{ email_from }}" }
+  tags:
+  - drupal-configuration
+  - drupal
+
 - name: Copy fix scripts
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
@@ -357,6 +367,11 @@
   tags:
   - drupal
   - roles
+
+- name: Add permissions to anonymous role
+  command: drush role-add-perm "1" "{{ item }}" chdir="{{ drupal_root }}"
+  with_items:
+    - services menu retrieve menu
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
