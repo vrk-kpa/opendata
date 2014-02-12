@@ -45,3 +45,5 @@ modules/*.tar
 
 
 vars/private/variables.yml
+
+.idea/
