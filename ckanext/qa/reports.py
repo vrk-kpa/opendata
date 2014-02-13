@@ -398,13 +398,15 @@ def broken_resource_links_for_organisation(organisation_name,
                package.name as package_name,
                "group".id as publisher_id,
                "group".name as publisher_name,
-               "group".title as publisher_title
+               "group".title as publisher_title,
+               package_extra.value as external_reference
         from task_status
             left join resource on task_status.entity_id = resource.id
             left join resource_group on resource.resource_group_id = resource_group.id
             left join package on resource_group.package_id = package.id
             left join member on member.table_id = package.id
             left join "group" on member.group_id = "group".id
+            left join package_extra on package_extra.package_id = package.id
         where
             entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
             and task_status.task_type='archiver'
@@ -412,6 +414,7 @@ def broken_resource_links_for_organisation(organisation_name,
             and package.state = 'active'
             and resource.state='active'
             and resource_group.state='active'
+            and "package_extra".key='external_reference'
             and "group".state='active'
             %(org_filter)s
         order by package.title, package.name, resource.position
@@ -435,6 +438,11 @@ def broken_resource_links_for_organisation(organisation_name,
     rows = model.Session.execute(sql % sql_options, values)
     data = []
     for row in rows:
+        via = ''
+        if row.external_reference == 'ONSHUB':
+            via = "Stats Hub"
+        elif row.external_reference.startswith("DATA4NR"):
+            via = "Data4nr"
         row_data = OrderedDict((
             ('dataset_title', row.package_title),
             ('dataset_name', row.package_name),
@@ -444,7 +452,9 @@ def broken_resource_links_for_organisation(organisation_name,
             ('resource_id', row.resource_id),
             ('resource_url', row.resource_url),
             ('status', row.task_status_value),
+            ('via', via)
             ))
+
         if row.task_status_error:
             item_properties = json.loads(row.task_status_error)
             for key, value in item_properties.items():
