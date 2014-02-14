@@ -67,4 +67,4 @@ email_from: "no-reply@{{ email_domain }}"
 error_email_from: "error@{{ email_domain }}"
 
 admin_email: vagrant@localhost
-error_email: {{ admin_email }}
+error_email: "{{ admin_email }}"
