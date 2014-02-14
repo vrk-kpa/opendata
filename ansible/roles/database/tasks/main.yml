@@ -32,3 +32,34 @@
   postgresql_user: user="{{ ckan_database_username }}" password="{{ ckan_database_password }}" db="{{ ckan_database_name }}"
   tags:
   - database
+
+- name: Install database backup tools
+  action: apt pkg="{{ item }}" state="present"
+  with_items:
+  - autopostgresqlbackup
+  - mailutils
+  tags:
+  - database
+  - backup
+  - non-local
+
+- name: Setup pre backup script
+  copy: src=pre-backup.bash dest="{{ scripts_path }}/pre-backup.bash" mode=0755 owner=root group=root
+  tags:
+  - database
+  - backup
+  - non-local
+
+- name: Setup database backup
+  template: src=autopostgresqlbackup.j2 dest=/etc/default/autopostgresqlbackup mode=0755 owner=root group=root
+  tags:
+  - database
+  - backup
+  - non-local
+
+- name: Run backup now
+  command: /usr/sbin/autopostgresqlbackup
+  tags:
+  - database
+  - backup
+  - non-local

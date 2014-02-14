@@ -177,6 +177,17 @@
   - translations
   - ckan
 
+- name: Join translation source files (group)
+  command: msgcat {{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  with_items:
+  - fi
+  - sv
+  when: translations|changed or modules_copy|changed
+  tags:
+  - translations
+  - ckan
+
+
 - name: Join translation source files (custom)
   command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
   with_items:

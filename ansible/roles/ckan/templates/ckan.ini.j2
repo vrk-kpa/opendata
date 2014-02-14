@@ -15,9 +15,9 @@ full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
-beaker.session.secret = {{ baker_session_secret }}
+beaker.session.secret = {{ baker_session_secret }}
 
-app_instance_uuid = {{ app_instance_uuid }}
+app_instance_uuid = {{ app_instance_uuid }}
 
 who.config_file = %(here)s/who.ini
 who.log_level = warning
@@ -28,8 +28,8 @@ sqlalchemy.url = postgres://{{ ckan_database_username }}:{{ ckan_database_passwo
 ckan.site_url = http://{{ inventory_hostname }} 
 
 ckan.auth.anon_create_dataset = false
-ckan.auth.create_unowned_dataset = true
-ckan.auth.create_dataset_if_not_in_organization = true
+ckan.auth.create_unowned_dataset = false
+ckan.auth.create_dataset_if_not_in_organization = false
 ckan.auth.user_create_groups = true
 ckan.auth.user_create_organizations = true
 ckan.auth.user_delete_groups = true
@@ -59,7 +59,7 @@ ckan.feeds.date =
 ckan.feeds.author_name = 
 ckan.feeds.author_link = 
 
-email_to = {{ error_email_to }}
+email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
 smtp.server = {{ email_domain_access }}
@@ -75,6 +75,9 @@ ckan.harvest.mq.redis_db = {{ redis_harvest_database }}
 ckanext.drupal7.domain = {{ drupal_hostname }},{{ secondary_hostname }}
 ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
 ckanext.drupal7.connection = postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+
+ckanext.ytp.drupal.default_organization_name = yksityishenkilo
+ckanext.ytp.drupal.default_organization_title = Yksityishenkil\u00f6
 
 # 2.1 filestore:
 ofs.impl = pairtree

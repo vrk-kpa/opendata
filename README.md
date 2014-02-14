@@ -146,6 +146,14 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     sudo ln -s /src/ytp-assets-common/resources/ resources
 
 
+## Manually running ckanext tests
+
+    . /usr/lib/ckan/default/bin/activate
+    cd modules/ckanext-ytp-<name>
+    nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
+    # or
+    nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --nocapture
+
 ## Known issues
 
 Sometimes the Accelerate in Ansible breaks the SSH connection.  

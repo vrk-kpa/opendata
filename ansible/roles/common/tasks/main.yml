@@ -6,16 +6,6 @@
   tags:
   - common
 
-- name: Create files path
-  file: path="{{ files_root }}" state=directory mode=0755 owner="{{ www_user }}" group="{{ www_group }}"
-  tags:
-  - common
-
-- name: Copy backup script
-  template: src=backup.sh.j2 dest="{{ scripts_path }}/backup.sh" mode=0750 owner=root group=root
-  tags:
-  - common
-
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
