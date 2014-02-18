@@ -99,3 +99,6 @@ msgstr "Giltigt till"
 
 msgid "YYYY-MM-DD"
 msgstr "ÅÅÅÅ-MM-DD"
+
+msgid "Files"
+msgstr "Filer"

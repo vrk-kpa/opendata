@@ -113,3 +113,6 @@ msgstr "Voimassa päättyen"
 
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
+
+msgid "Files"
+msgstr "Tiedostot"
