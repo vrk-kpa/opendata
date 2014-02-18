@@ -12,6 +12,7 @@ server {
     client_max_body_size 100M;
     gzip_static on;
 
+
     if (-f /var/www/maintenance) {
         return 503;
     }
@@ -23,9 +24,34 @@ server {
     error_page 503 @maintenance;
 
     location @maintenance {
-        if ($uri !~ ^/maintenance/) {
-            rewrite ^(.*)$ /maintenance.html break;
+        set $maintenance /../static/maintenance.fi.html;
+        if ( $request_uri ~* "/(fi|en|sv)/" ){
+            set $maintenance /../static/maintenance.$1.html;
         }
+
+        rewrite ^(.*)$ $maintenance break;
+    }
+
+    error_page 404 @not_found;
+
+    location @not_found {
+        set $not_found /../static/404.fi.html;
+        if ( $request_uri ~* "/(fi|en|sv)/" ){
+            set $not_found /../static/404.$1.html;
+        }
+
+        rewrite ^(.*)$ $not_found break;
+    }
+
+    error_page 500 @internal_error;
+
+    location @internal_error {
+        set $internal_error /../static/500.fi.html;
+        if ( $request_uri ~* "/(fi|en|sv)/" ){
+            set $internal_error /../static/500.$1.html;
+        }
+
+        rewrite ^(.*)$ $internal_error break;
     }
 
     rewrite ^/data/data/(.*)$ /data/$1 permanent;
@@ -85,6 +111,7 @@ server {
         proxy_no_cache $no_cache;
         proxy_cache_valid 30m;
         proxy_cache_key $host$scheme$proxy_host$request_uri;
+        proxy_intercept_errors on;
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
     }
