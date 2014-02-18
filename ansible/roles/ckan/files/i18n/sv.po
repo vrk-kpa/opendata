@@ -105,3 +105,9 @@ msgstr "Filer"
 
 msgid "Change log"
 msgstr "Versionshistorik"
+
+msgid "Show hange log"
+msgstr "Visa versionshistorik"
+
+msgid "Add related"
+msgstr "Lägg in relaterad"

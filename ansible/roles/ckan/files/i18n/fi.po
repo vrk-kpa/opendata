@@ -119,3 +119,9 @@ msgstr "Tiedostot"
 
 msgid "Change log"
 msgstr "Muutoshistoria"
+
+msgid "Show hange log"
+msgstr "Näyät muutoshistoria"
+
+msgid "Add related"
+msgstr "Lisää liittyvä"
