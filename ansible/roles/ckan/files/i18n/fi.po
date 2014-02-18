@@ -120,7 +120,7 @@ msgstr "Tiedostot"
 msgid "Change log"
 msgstr "Muutoshistoria"
 
-msgid "Show hange log"
+msgid "Show change log"
 msgstr "Näyät muutoshistoria"
 
 msgid "Add related"

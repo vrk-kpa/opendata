@@ -106,7 +106,7 @@ msgstr "Filer"
 msgid "Change log"
 msgstr "Versionshistorik"
 
-msgid "Show hange log"
+msgid "Show change log"
 msgstr "Visa versionshistorik"
 
 msgid "Add related"
