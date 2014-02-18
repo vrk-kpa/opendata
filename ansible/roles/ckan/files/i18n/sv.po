@@ -99,3 +99,15 @@ msgstr "Giltigt till"
 
 msgid "YYYY-MM-DD"
 msgstr "ÅÅÅÅ-MM-DD"
+
+msgid "Files"
+msgstr "Filer"
+
+msgid "Change log"
+msgstr "Versionshistorik"
+
+msgid "Show change log"
+msgstr "Visa versionshistorik"
+
+msgid "Add related"
+msgstr "Lägg in relaterad"
