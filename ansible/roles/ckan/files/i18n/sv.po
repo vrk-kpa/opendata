@@ -102,3 +102,6 @@ msgstr "ÅÅÅÅ-MM-DD"
 
 msgid "Files"
 msgstr "Filer"
+
+msgid "Change log"
+msgstr "Versionshistorik"

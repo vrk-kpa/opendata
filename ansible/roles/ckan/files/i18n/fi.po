@@ -116,3 +116,6 @@ msgstr "VVVV-KK-PP"
 
 msgid "Files"
 msgstr "Tiedostot"
+
+msgid "Change log"
+msgstr "Muutoshistoria"
