@@ -1,0 +1,12 @@
+---
+
+# Changes that are required already installed system
+
+# Drush is not installable via drush anymore.
+- name: Remove old drush installation
+  command: pear uninstall drush/drush removes="/usr/share/php/.registry/.channel.pear.drush.org/drush.reg"
+  ignore_errors: True
+  tags:
+  - clean
+
+
