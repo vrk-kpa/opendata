@@ -148,8 +148,13 @@
   tags:
   - ckan
 
+- name: Create translation cache path
+  file: path="{{ translation_cache_path }}" state=directory
+  tags:
+  - common
+
 - name: Copy translation files
-  copy: src="i18n/{{ item }}.po" dest="{{ cache_path }}/{{ item }}.po"
+  copy: src="i18n/{{ item }}.po" dest="{{ translation_cache_path }}/{{ item }}.po"
   with_items:
   - fi
   - sv
@@ -159,7 +164,7 @@
   - ckan
 
 - name: Fetch CKAN translations
-  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ cache_path }}/ckan.{{ item }}.po"
+  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan.{{ item }}.po"
   with_items:
   - fi
   - sv
@@ -168,7 +173,7 @@
   - ckan
 
 - name: Join translation source files (assets)
-  command: msgcat {{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  command: msgcat "{{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items:
   - fi
   - sv
@@ -178,7 +183,7 @@
   - ckan
 
 - name: Join translation source files (group)
-  command: msgcat {{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
+  command: msgcat "{{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items:
   - fi
   - sv
@@ -189,7 +194,7 @@
 
 
 - name: Join translation source files (custom)
-  command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
+  command: msgcat "{{ translation_cache_path }}/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po"
   with_items:
   - fi
   - sv
@@ -199,7 +204,7 @@
   - ckan
 
 - name: Compile translation files
-  command: msgfmt {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo
+  command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
   with_items:
   - fi
   - sv
