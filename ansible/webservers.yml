@@ -21,6 +21,7 @@
   vars:
     accelerate: true
   roles:
+    - clean
     - common
     - resources
     - database
