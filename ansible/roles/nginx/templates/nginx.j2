@@ -24,9 +24,10 @@ server {
     error_page 503 @maintenance;
 
     location @maintenance {
-        set $maintenance /../static/maintenance.fi.html;
+        root /var/www/resources;
+        set $maintenance /static/maintenance.fi.html;
         if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $maintenance /../static/maintenance.$1.html;
+            set $maintenance /static/maintenance.$1.html;
         }
 
         rewrite ^(.*)$ $maintenance break;
@@ -35,9 +36,10 @@ server {
     error_page 404 @not_found;
 
     location @not_found {
-        set $not_found /../static/404.fi.html;
+        root /var/www/resources;
+        set $not_found /static/404.fi.html;
         if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $not_found /../static/404.$1.html;
+            set $not_found /static/404.$1.html;
         }
 
         rewrite ^(.*)$ $not_found break;
@@ -46,9 +48,10 @@ server {
     error_page 500 @internal_error;
 
     location @internal_error {
-        set $internal_error /../static/500.fi.html;
+        root /var/www/resources;
+        set $internal_error /static/500.fi.html;
         if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $internal_error /../static/500.$1.html;
+            set $internal_error /static/500.$1.html;
         }
 
         rewrite ^(.*)$ $internal_error break;
