@@ -4,10 +4,11 @@ except ImportError:
     import StringIO
 
 import json
+from ckan.lib.json import DateTimeJsonEncoder
 import csv
 import datetime
 
-from ckan.lib.base import response, BaseController, request
+from ckan.lib.base import response, BaseController, request, abort
 from ckanext.qa.reports import (
     dataset_five_stars,
     resource_five_stars,
@@ -94,11 +95,15 @@ def make_csv_from_dicts(rows):
 
 class ApiController(BaseController):
 
-    def dataset_five_stars(self, id):
-        return json.dumps(dataset_five_stars(id))
+    def dataset_five_stars(self, id=None):
+        if not id:
+            abort(404)
+        return json.dumps(dataset_five_stars(id), cls=DateTimeJsonEncoder)
 
-    def resource_five_stars(self, id):
-        return json.dumps(resource_five_stars(id))
+    def resource_five_stars(self, id=None):
+        if not id:
+            abort(404)
+        return json.dumps(resource_five_stars(id), cls=DateTimeJsonEncoder)
 
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
@@ -123,7 +128,7 @@ class ApiController(BaseController):
             )
         else:
             response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return json.dumps(result, cls=DateTimeJsonEncoder)
 
     def organisations_with_broken_resource_links(self, id=None, format='json'):
         include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
@@ -135,9 +140,11 @@ class ApiController(BaseController):
             return make_csv_from_dicts(result)
         else:
             response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return json.dumps(result, cls=DateTimeJsonEncoder)
 
     def broken_resource_links_for_organisation(self, id, format='json'):
+        if not id:
+            abort(404)
         include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
         result = broken_resource_links_for_organisation(id, include_sub_organisations=include_sub_publishers)['data']
         if format == 'csv':
@@ -147,7 +154,7 @@ class ApiController(BaseController):
             return make_csv_from_dicts(result)
         else:
             response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return json.dumps(result, cls=DateTimeJsonEncoder)
 
     def organisation_score_summaries(self, format='json'):
         include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
@@ -159,9 +166,11 @@ class ApiController(BaseController):
             return make_csv_from_dicts(result)
         else:
             response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return json.dumps(result, cls=DateTimeJsonEncoder)
 
-    def organisation_dataset_scores(self, id, format='json'):
+    def organisation_dataset_scores(self, id=None, format='json'):
+        if not id:
+            abort(404)
         include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
         result = organisation_dataset_scores(id, include_sub_organisations=include_sub_publishers)['data']
         if format == 'csv':
@@ -171,4 +180,4 @@ class ApiController(BaseController):
             return make_csv_from_dicts(result)
         else:
             response.headers['Content-Type'] = 'application/json'
-            return json.dumps(result)
+            return json.dumps(result, cls=DateTimeJsonEncoder)
