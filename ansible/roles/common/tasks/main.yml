@@ -53,10 +53,8 @@
   - resources
   - modules
 
-
-
 - name: Copy static html-pages
-  copy: src="static_html/{{ item }}.html" dest="{{ www_root }}/static/{{ item }}.html" mode=444 owner="{{ www_user }}" group="{{ ckan_group }}"
+  copy: src="static_html/{{ item }}.html" dest="{{ www_root }}/static/{{ item }}.html" mode=444 owner="{{ www_user }}" group="{{ www_user }}"
   with_items:
     - 404.fi
     - 404.sv
@@ -69,8 +67,5 @@
     - maintenance.sv
   tags:
   - common
-  - ckan
-  - drupal
-  - resources
-  - modules
+  - maintenance
 

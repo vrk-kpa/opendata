@@ -8,20 +8,24 @@
     - php5-pgsql
     - php5-gd
     - php5-fpm
-    - php-pear
   tags:
   - packages
   - drupal
 
-- name: Set Drush channel for Pear
-  command: pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+- name: Fetch drush package
+  get_url: url="https://github.com/drush-ops/drush/archive/6.x.zip" dest="{{ cache_path }}/drush-6.x.zip"
   tags:
   - drupal
 
-- name: Install Drush via Pear
-  command: pear install drush/drush creates=/usr/share/php/.registry/.channel.pear.drush.org/drush.reg
+- name: Unpack drush
+  command: unzip "{{ cache_path }}/drush-6.x.zip" chdir="{{ server_path }}" creates="{{ server_path }}/drush-6.x"
   tags:
   - drupal
+
+- name: Setup drush binary link
+  file: path="/usr/local/bin/drush" src="{{ server_path }}/drush-6.x/drush" state=link
+  tags:
+  - drupal 
 
 - name: Set PHP pathinfo
   ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
