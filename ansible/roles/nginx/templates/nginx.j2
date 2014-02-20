@@ -58,6 +58,7 @@ server {
     }
 
     rewrite ^/data/data/(.*)$ /data/$1 permanent;
+    rewrite ^/data/(fi|en|sv)/$ /$1 permanent;
 
     location = /favicon.ico {
         log_not_found off;
