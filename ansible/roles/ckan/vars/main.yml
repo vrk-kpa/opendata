@@ -42,4 +42,6 @@ translation_languages:
   - "fi"
   - "sv"
 translation_projects:
+  - "ckanext-drupal7"
+  - "ckanext-ytp-request"
   - "ckanext-ytp-theme"
