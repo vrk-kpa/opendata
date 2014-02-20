@@ -96,16 +96,23 @@ Look at individual instructions for each project at Github project page.
 
 The ytp-develop.py -script is created to automated project switching on Vagrant.
 
-    /src/ytp-tools/scripts/ytp-develop.py # help
-    /src/ytp-tools/scripts/ytp-develop.py --list # list available projects
-    /src/ytp-tools/scripts/ytp-develop.py --serve # serve CKAN via paster and access at http://10.10.10.10:5000/
-    /src/ytp-tools/scripts/ytp-develop.py <project-name> # switch project sources
+    sudo /src/ytp-tools/scripts/ytp-develop.py # help
+    sudo /src/ytp-tools/scripts/ytp-develop.py --list # list available projects
+    sudo /src/ytp-tools/scripts/ytp-develop.py --serve # serve CKAN via paster and access at http://10.10.10.10:5000/
+    sudo /src/ytp-tools/scripts/ytp-develop.py <project-name>... # switch project sources
 
-Example: /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-dataset
+This script is executed under Vargant (`vagrant ssh`).
 
-Notes.
+##### Examples
+
+- sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-dataset # replace ckanext-ytp-dataset project
+- sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-theme ytp-assets-common # replace both ckanext-ytp-theme and ytp-assets-common projects 
+
+##### Notes
+
 - Serve command cannot reload all modification and need to restarted on some changes.
-- For ckanext project if setup.py is changed or if some files are inserted you need to re-execute ytp-develop.py
+- Serve cannot access asset files currently so layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`. 
+- For ckanext project if setup.py is changed or if some files are inserted you need to re-execute `ytp-develop.py` (executes correct python setup.py develop).
 
 #### Manually switch Python packages (ckanext-*)
 
