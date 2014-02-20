@@ -6,6 +6,13 @@
   tags:
   - common
 
+- name: Set server to maintenance
+  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
+  notify: Maintenance end
+  tags:
+  - maintenance
+  - common
+
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:

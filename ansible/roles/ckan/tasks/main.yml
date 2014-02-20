@@ -1,12 +1,4 @@
 ---
-### System tasks ###
-
-# TODO: Maintenance mode should not block installation tasks that use CKAN API
-#- name: Set server to maintenance
-#  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
-#  register: maintenance
-#  tags:
-#  - maintenance
 
 # TODO: Redis and Supervisor should be separated
 
@@ -268,9 +260,3 @@
   cron: name="harvest" minute="*/5" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
   tags:
   - ckan
-
-#- name: Leave maintenance mode
-#  file: path="/var/www/maintenance" state=absent
-#  when: maintenance|success
-#  tags:
-#  - maintenance
