@@ -20,20 +20,23 @@ from ckan.tests import BaseCase, url_for, CreateTestData
 
 from ckanext.archiver import default_settings as settings
 
-settings.MAX_CONTENT_LENGTH = 15
+settings.MAX_CONTENT_LENGTH = 1000000
 
 from ckanext.archiver.tasks import (link_checker, 
                                     update,
                                     download,
+                                    api_request,
                                     ArchiverError,
                                     DownloadError,
                                     ChooseNotToDownload,
                                     LinkCheckerError,
                                     LinkInvalidError,
                                     CkanError,
+                                    response_is_an_api_error
                                    )
 
-from mock_remote_server import MockEchoTestServer
+from mock_remote_server import MockEchoTestServer, MockWmsServer, MockWfsServer
+
 
 # enable celery logging for when you run nosetests -s
 log = logging.getLogger('ckanext.archiver.tasks')
@@ -152,7 +155,7 @@ class TestLinkChecker(BaseCase):
 
 class TestArchiver(BaseCase):
     """
-    Tests for Archiver task
+    Tests for Archiver 'update' task
     """
 
     @classmethod
@@ -163,12 +166,16 @@ class TestArchiver(BaseCase):
         cls.fake_ckan = subprocess.Popen(['python', fake_ckan_path])
         cls.fake_ckan_url = 'http://0.0.0.0:50001'
 
-        #make sure services are running
-        for i in range(0, 12):
-            time.sleep(0.1)
-            response = requests.get(cls.fake_ckan_url)
-            if response:
-                break
+        #make sure Fake CKAN is running
+        for i in range(0, 10):
+            time.sleep(0.2)
+            try:
+                response = requests.get(cls.fake_ckan_url)
+            except requests.exceptions.ConnectionError:
+                pass
+            else:
+                if response:
+                    break
         else:
             raise Exception('services did not start!')
 
@@ -189,13 +196,6 @@ class TestArchiver(BaseCase):
     def teardown_class(cls):
         os.removedirs(cls.temp_dir)
         cls.fake_ckan.kill()
-
-    def _remove_archived_file(self, file_path):
-        if file_path:
-            if os.path.exists(file_path):
-                resource_folder = os.path.split(file_path)[0]
-                if 'fake_resource_id' in resource_folder:
-                    shutil.rmtree(resource_folder)
 
     def assert_in_task_status_error(self, error_message_fragment):
         err = self._task_status_error()['reason']
@@ -242,7 +242,7 @@ class TestArchiver(BaseCase):
         assert result['resource']['size'] == unicode(len('test'))
         from hashlib import sha1
         assert result['resource']['hash'] == sha1('test').hexdigest(), result
-        self._remove_archived_file(result.get('file_path'))
+        _remove_archived_file(result.get('file_path'))
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_archived_file(self, url):
@@ -260,7 +260,7 @@ class TestArchiver(BaseCase):
             assert len(content) == 1
             assert content[0] == "test"
 
-        self._remove_archived_file(result.get('file_path'))
+        _remove_archived_file(result.get('file_path'))
 
     @with_mock_url('?content-type=arfle-barfle-gloop&content=test')
     def test_update_url_with_unknown_content_type(self, url):
@@ -271,6 +271,15 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert result, result
+
+    def test_wms_1_3(self):
+        with MockWmsServer(wms_version='1.3').serve() as url:
+            context = json.dumps(self.fake_context)
+            resource = self.fake_resource
+            resource['url'] = url
+            data = json.dumps(resource)
+            result = update(context, data)
+            assert result, result
 
     @with_mock_url('?status=200&content-type=csv')
     def test_update_with_zero_length(self, url):
@@ -283,20 +292,6 @@ class TestArchiver(BaseCase):
         result = update(context, data)
         assert not result, result
         self.assert_in_task_status_error('Content-length after streaming was 0')
-
-    @with_mock_url('?status=200&method=get&content=test&content-type=csv')
-    def test_head_unsupported(self, url):
-        # This test was more relevant when we did HEAD requests. Now servers
-        # which respond badly to HEAD requests are not an issue.
-        context = json.dumps(self.fake_context)
-        resource = self.fake_resource
-        resource['url'] = url
-
-        # HEAD request will return a 405 error, but it will persevere
-        # and do a GET request which will work.
-        result = download(self.fake_context, resource)
-
-        assert result['saved_file']
 
     @with_mock_url('?status=404&content=test&content-type=csv')
     def test_file_not_found(self, url):
@@ -318,7 +313,7 @@ class TestArchiver(BaseCase):
         assert not result, result
         self.assert_in_task_status_error('Server reported status error: 500 Internal Server Error')
 
-    @with_mock_url('?status=200&content=short&length=100&content-type=csv')
+    @with_mock_url('?status=200&content=short&length=1000001&content-type=csv')
     def test_file_too_large_1(self, url):
         # will stop after receiving the header
         context = json.dumps(self.fake_context)
@@ -327,9 +322,9 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
-        self.assert_in_task_status_error('Content-length 100 exceeds maximum allowed value 15')
+        self.assert_in_task_status_error('Content-length 1000001 exceeds maximum allowed value 1000000')
 
-    @with_mock_url('?status=200&content=test_contents_greater_than_the_max_length&no-content-length&content-type=csv')
+    @with_mock_url('?status=200&content_long=test_contents_greater_than_the_max_length&no-content-length&content-type=csv')
     def test_file_too_large_2(self, url):
         # no size info in headers - it stops only after downloading the content
         context = json.dumps(self.fake_context)
@@ -338,7 +333,7 @@ class TestArchiver(BaseCase):
         data = json.dumps(resource)
         result = update(context, data)
         assert not result, result
-        self.assert_in_task_status_error('Content-length 41 exceeds maximum allowed value 15')
+        self.assert_in_task_status_error('Content-length 1000001 exceeds maximum allowed value 1000000')
 
     @with_mock_url('?status=200&content=content&length=abc&content-type=csv')
     def test_content_length_not_integer(self, url):
@@ -372,9 +367,42 @@ class TestArchiver(BaseCase):
         assert result
         assert_equal(self._task_status_error()['url_redirected_to'], redirect_url)
 
+
+class TestDownload(BaseCase):
+    '''Tests of the download method (and things it calls).
+
+    Doesn't need a fake CKAN to get/set the status of.
+    '''
+    @classmethod
+    def setup_class(cls):
+        cls.fake_context = {
+            'site_url': 'N/A',
+            'apikey': u'fake_api_key',
+            'site_user_apikey': u'fake_site_user_api_key',
+            'cache_url_root': 'http://localhost:50001/resources/',
+        }
+        cls.fake_resource = {
+            'id': u'fake_resource_id',
+            'revision_id': u'fake_revision_id',
+            'url': 'N/A',
+            'format': 'csv'
+        }
+
+    @with_mock_url('?status=200&method=get&content=test&content-type=csv')
+    def test_head_unsupported(self, url):
+        # This test was more relevant when we did HEAD requests. Now servers
+        # which respond badly to HEAD requests are not an issue.
+        resource = self.fake_resource
+        resource['url'] = url
+
+        # HEAD request will return a 405 error, but it will persevere
+        # and do a GET request which will work.
+        result = download(self.fake_context, resource)
+
+        assert result['saved_file']
+
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_download_file(self, url):
-        context = json.dumps(self.fake_context)
         resource = self.fake_resource
         resource['url'] = url
 
@@ -382,13 +410,63 @@ class TestArchiver(BaseCase):
 
         assert result['saved_file']
         assert os.path.exists(result['saved_file'])
-        self._remove_archived_file(result.get('saved_file'))
+        _remove_archived_file(result.get('saved_file'))
 
         # Modify the resource and check that the resource size gets updated
-        resource['url'] = url.replace('content=test','content=test2')
+        resource['url'] = url.replace('content=test', 'content=test2')
         result = download(self.fake_context, resource)
         assert resource['size'] == unicode(len('test2')), resource['size']
 
-        self._remove_archived_file(result.get('saved_file'))
+        _remove_archived_file(result.get('saved_file'))
 
+    def test_wms_1_3(self):
+        with MockWmsServer(wms_version='1.3').serve() as serveraddr:
+            resource = self.fake_resource
+            resource['url'] = serveraddr
+            result = api_request(self.fake_context, resource)
+
+            assert result
+            assert int(result['length']) > 7800, result['length']
+            assert_equal(result['request_type'], 'WMS 1.3')
+
+    def test_wms_1_1_1(self):
+        with MockWmsServer(wms_version='1.1.1').serve() as serveraddr:
+            resource = self.fake_resource
+            resource['url'] = serveraddr
+            result = api_request(self.fake_context, resource)
+
+            assert result
+            assert int(result['length']) > 7800, result['length']
+            assert_equal(result['request_type'], 'WMS 1.1.1')
+
+    def test_wfs(self):
+        with MockWfsServer().serve() as serveraddr:
+            resource = self.fake_resource
+            resource['url'] = serveraddr
+            result = api_request(self.fake_context, resource)
+
+            assert result
+            assert int(result['length']) > 7800, result['length']
+            assert_equal(result['request_type'], 'WFS 2.0')
+
+    def test_wms_error(self):
+        wms_error_1 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<ServiceExceptionReport version="1.3.0"
+  xmlns="http://www.opengis.net/ogc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/ogc http://schemas.opengis.net/wms/1.3.0/exceptions_1_3_0.xsd">
+  <ServiceException code="InvalidFormat">
+Unknown service requested.
+  </ServiceException>
+</ServiceExceptionReport>'''
+        assert_equal(response_is_an_api_error(wms_error_1), True)
+        wms_error_2 = '''<ows:ExceptionReport version='1.1.0' language='en' xmlns:ows='http://www.opengis.net/ows'><ows:Exception exceptionCode='NoApplicableCode'><ows:ExceptionText>Unknown operation name.</ows:ExceptionText></ows:Exception></ows:ExceptionReport>'''
+        assert_equal(response_is_an_api_error(wms_error_2), True)
+
+def _remove_archived_file(file_path):
+    if file_path:
+        if os.path.exists(file_path):
+            resource_folder = os.path.split(file_path)[0]
+            if 'fake_resource_id' in resource_folder:
+                shutil.rmtree(resource_folder)
 

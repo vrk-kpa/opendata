@@ -9,6 +9,7 @@ import tempfile
 import traceback
 import shutil
 import datetime
+import copy
 
 from requests.packages import urllib3
 
@@ -68,22 +69,25 @@ def _clean_content_type(ct):
     return ct
 
 def download(context, resource, url_timeout=30,
-             max_content_length=settings.MAX_CONTENT_LENGTH):
+             max_content_length=settings.MAX_CONTENT_LENGTH,
+             method='GET'):
     '''Given a resource, tries to download it.
 
     Params:
       resource - dict of the resource
 
-    Exceptions from link_checker may be propagated:
+    Exceptions from tidy_url may be propagated:
        LinkInvalidError if the URL is invalid
-       LinkHeadRequestError if HEAD request fails
 
     If there is an error performing the download, raises:
        DownloadException - connection problems etc.
-       DownloadError - HTTP status code is an error
+       DownloadError - HTTP status code is an error or 0 length
 
     If download is not suitable (e.g. too large), raises:
        ChooseNotToDownload
+
+    If the basic GET fails then it will try it with common API
+    parameters (SPARQL, WMS etc) to get a better response.
 
     Returns a dict of results of a successful download:
       length, hash, headers, saved_file, url_redirected_to
@@ -102,7 +106,8 @@ def download(context, resource, url_timeout=30,
 
     # start the download - just get the headers
     # May raise DownloadException
-    res = convert_requests_exceptions(requests.get, url, timeout=url_timeout)
+    method_func = {'GET': requests.get, 'POST': requests.post}[method]
+    res = convert_requests_exceptions(method_func, url, timeout=url_timeout)
     url_redirected_to = res.url if url != res.url else None
     if not res.ok: # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' % \
@@ -151,6 +156,11 @@ def download(context, resource, url_timeout=30,
     def get_content():
         return res.content
     content = convert_requests_exceptions(get_content)
+
+    if response_is_an_api_error(content):
+        raise DownloadError('Server content contained an API error message: %s' % \
+                            content[:250],
+                            url_redirected_to)
 
     if len(content) > max_content_length:
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
@@ -210,7 +220,8 @@ def download(context, resource, url_timeout=30,
             'hash': hash,
             'headers': res.headers,
             'saved_file': saved_file_path,
-            'url_redirected_to': url_redirected_to}
+            'url_redirected_to': url_redirected_to,
+            'request_type': method}
 
 
 @celery.task(name="archiver.clean")
@@ -323,38 +334,38 @@ def _update(context, resource):
 
     log.info("Attempting to download resource: %s" % resource['url'])
     result = None
+    download_error = 0
     try:
         result = download(context, resource)
-        if result is None:
-            raise ArchiverError("Download failed")
     except LinkInvalidError, e:
-        log.info('URL invalid: %r, %r', e, e.args)
-        _save_status(False, 'URL invalid', e, status, resource['id'])
-        return
-    except LinkHeadRequestError, e:
-        log.info('Link head request error: %s', e.args)
-        _save_status(False, 'URL request failed', e, status, resource['id'])
-        return
+        download_error = 'URL invalid'
+        try_as_api = False
     except DownloadException, e:
-        log.info('Server communication error: %r, %r', e, e.args)
-        _save_status(False, 'Download error', e, status, resource['id'])
-        return
+        download_error = 'Download error'
+        try_as_api = True
     except DownloadError, e:
-        log.info('Download failed: %r, %r', e, e.args)
-        _save_status(False, 'Download error', e, status, resource['id'],
-                     e.url_redirected_to)
-        return
+        download_error = 'Download error'
+        try_as_api = True
     except ChooseNotToDownload, e:
-        log.info('Download not carried out: %r, %r', e, e.args)
-        _save_status(False, 'Chose not to download', e, status, resource['id'],
-                     e.url_redirected_to)
-        return
+        download_error = 'Chose not to download'
+        try_as_api = False
     except Exception, e:
         if os.environ.get('DEBUG'):
             raise
         log.error('Uncaught download failure: %r, %r', e, e.args)
         _save_status(False, 'Download failure', e, status, resource['id'])
         return
+
+    if download_error:
+        log.info('GET error: %s - %r, %r "%s"', download_error, e, e.args, resource.get('url'))
+        if try_as_api:
+            result = api_request(context, resource)
+
+        if not try_as_api or not result:
+            extra_args = [e.url_redirected_to] if 'url_redirected_to' in e else []
+            _save_status(False, download_error, e, status, resource['id'],
+                         *extra_args)
+            return
 
     log.info('Attempting to archive resource')
     try:
@@ -752,3 +763,77 @@ def convert_requests_exceptions(func, *args, **kwargs):
             raise
         raise DownloadException('Error with the download: %s' % e)
     return response
+
+def set_ogc_url_params(resource, service, wms_version):
+    url = resource['url']
+    # Remove parameters
+    url = url.split('?')[0]
+    # Add WMS GetCapabilities parameters
+    url += '?service=%s&request=GetCapabilities&version=%s' % (service, wms_version)
+    resource['url'] = url
+
+def wms_1_3_request(context, resource):
+    set_ogc_url_params(resource, 'WMS', '1.3')
+    res = download(context, resource)
+    res['request_type'] = 'WMS 1.3'
+    return res
+
+def wms_1_1_1_request(context, resource):
+    set_ogc_url_params(resource, 'WMS', '1.1.1')
+    res = download(context, resource)
+    res['request_type'] = 'WMS 1.1.1'
+    return res
+
+def wfs_request(context, resource):
+    set_ogc_url_params(resource, 'WFS', '2.0')
+    res = download(context, resource)
+    res['request_type'] = 'WFS 2.0'
+    return res
+
+def api_request(context, resource):
+    '''
+    Tries making requests as if the resource is a well-known sort of API to try
+    and get a valid response. If it does it returns the response, otherwise Archives the response and stores what sort of
+    request elicited it.
+    '''
+    log = update.get_logger()
+    # 'resource' holds the results of the download and will get saved. Only if
+    # an API request is successful do we want to save the details of it.
+    # However download() gets altered for these API requests. So only give
+    # download() a copy of 'resource'.
+    for api_request_func in wms_1_3_request, wms_1_1_1_request, wfs_request:
+        resource_copy = copy.deepcopy(resource)
+        try:
+            download_dict = api_request_func(context, resource_copy)
+        except ArchiverError, e:
+            log.info('API %s error: %r, %r "%s"', api_request_func,
+                     e, e.args, resource.get('url'))
+            continue
+        except Exception, e:
+            if os.environ.get('DEBUG'):
+                raise
+            log.error('Uncaught API %s failure: %r, %r', api_request_func,
+                      e, e.args)
+            continue
+
+        return download_dict
+
+def response_is_an_api_error(response_body):
+    '''Some APIs return errors as the response body, but HTTP status 200. So we
+    need to check response bodies for these error messages.
+    '''
+    response_sample = response_body[:250]  # to allow for <?xml> and <!DOCTYPE> lines
+
+    # WMS spec
+    # e.g. https://map.bgs.ac.uk/ArcGIS/services/BGS_Detailed_Geology/MapServer/WMSServer?service=abc
+    # <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+    # <ServiceExceptionReport version="1.3.0"
+    if '<ServiceExceptionReport' in response_sample:
+        return True
+
+    # This appears to be an alternative - I can't find the spec.
+    # e.g. http://sedsh13.sedsh.gov.uk/ArcGIS/services/HS/Historic_Scotland/MapServer/WFSServer?service=abc
+    # <ows:ExceptionReport version='1.1.0' language='en' xmlns:ows='http://www.opengis.net/ows'><ows:Exception exceptionCode='NoApplicableCode'><ows:ExceptionText>Wrong service type.</ows:ExceptionText></ows:Exception></ows:ExceptionReport>
+    if '<ows:ExceptionReport' in response_sample:
+        return True
+
