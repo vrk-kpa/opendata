@@ -135,20 +135,20 @@ class Archiver(CkanCommand):
         api_url = urlparse.urljoin(config.get('ckan.site_url_internally') or config['ckan.site_url'], 'api/action')
         if len(self.args) > 1:
             # try arg as a group name
-            url = api_url + '/member_list'
-            self.log.info('Requesting list of datasets from %r', url)
+            url = api_url + '/organization_show'
+            self.log.info('Requesting datasets in org %r', url)
             data = {'id': self.args[1],
-                    'object_type': 'package',
-                    'capacity': 'public'}
+                    'include_datasets': 1}
             response = requests.post(url, data=json.dumps(data), headers=REQUESTS_HEADER)
-            self.log.info('List of datasets (status %s): %r...', response.status_code, response.text[:100])
             if response.status_code == 200:
-                package_tuples = json.loads(response.text).get('result')
-                package_names = [pt[0] for pt in package_tuples]
+                self.log.info('Organization found')
+                package_dicts = json.loads(response.text)['result']['packages']
+                package_names = [pd['name'] for pd in package_dicts]
                 if not self.options.queue:
                     self.options.queue = 'bulk'
             else:
-                # must be a package id
+                self.log.info('It is not an org, so must be a dataset')
+                # user must have given a package name/id
                 package_names = [self.args[1]]
                 if not self.options.queue:
                     self.options.queue = 'priority'
