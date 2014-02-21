@@ -1,12 +1,4 @@
 ---
-### System tasks ###
-
-# TODO: Maintenance mode should not block installation tasks that use CKAN API
-#- name: Set server to maintenance
-#  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
-#  register: maintenance
-#  tags:
-#  - maintenance
 
 # TODO: Redis and Supervisor should be separated
 
@@ -148,61 +140,63 @@
   tags:
   - ckan
 
+- name: Create translation cache path
+  file: path="{{ translation_cache_path }}" state=directory
+  tags:
+  - common
+
 - name: Copy translation files
-  copy: src="i18n/{{ item }}.po" dest="{{ cache_path }}/{{ item }}.po"
-  with_items:
-  - fi
-  - sv
+  copy: src="i18n/{{ item }}.po" dest="{{ translation_cache_path }}/{{ item }}.po"
+  with_items: translation_languages
   register: translations
   tags:
   - translations
   - ckan
 
 - name: Fetch CKAN translations
-  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ cache_path }}/ckan.{{ item }}.po"
-  with_items:
-  - fi
-  - sv
+  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan.{{ item }}.po"
+  with_items: translation_languages
   tags:
   - translations
   - ckan
 
 - name: Join translation source files (assets)
-  command: msgcat {{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
-  with_items:
-  - fi
-  - sv
+  command: msgcat "{{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+  with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
 
 - name: Join translation source files (group)
-  command: msgcat {{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ cache_path }}/ckan.{{ item }}.temporary.po
-  with_items:
-  - fi
-  - sv
+  command: msgcat "{{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+  with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
 
+- name: Join translation source files
+  command: msgcat "{{ cache_path }}/{{ item[0] }}/i18n/{{ item[1] }}/LC_MESSAGES/{{ item[0] }}.po" "{{ translation_cache_path }}/ckan.{{ item[1] }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item[1] }}.temporary.po"
+  with_nested:
+    - translation_projects
+    - translation_languages
+  when: translations|changed or modules_copy|changed
+  tags:
+  - translations
+  - ckan
 
 - name: Join translation source files (custom)
-  command: msgcat {{ cache_path }}/{{ item }}.po {{ cache_path }}/ckan.{{ item }}.temporary.po --use-first -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po
-  with_items:
-  - fi
-  - sv
+  command: msgcat "{{ translation_cache_path }}/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po"
+  with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
 
 - name: Compile translation files
-  command: msgfmt {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po -o {{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo
-  with_items:
-  - fi
-  - sv
+  command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
+  with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
   - translations
@@ -263,9 +257,3 @@
   cron: name="harvest" minute="*/5" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
   tags:
   - ckan
-
-#- name: Leave maintenance mode
-#  file: path="/var/www/maintenance" state=absent
-#  when: maintenance|success
-#  tags:
-#  - maintenance

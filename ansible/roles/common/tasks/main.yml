@@ -1,9 +1,41 @@
 ---
 
+- name: Clear module cache
+  file: path="{{ cache_path }}" state=absent
+  when: clear_all_cache
+  tags:
+  - common
+  - clear-cache
+
+- name: Clear module cache
+  file: path="{{ cache_path }}/{{ item }}" state=absent
+  with_flattened:
+    - modules
+  when: clear_module_cache
+  tags:
+  - common
+  - clear-cache
+
+- name: Clear module tar cache
+  file: path="{{ cache_path }}/{{ item }}.tar" state=absent
+  with_flattened:
+    - modules
+  when: clear_module_cache
+  tags:
+  - common
+  - clear-cache
+
 - name: Create paths
   file: path="{{ item }}" state=directory
   with_items: all_paths
   tags:
+  - common
+
+- name: Set server to maintenance
+  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
+  notify: Maintenance end
+  tags:
+  - maintenance
   - common
 
 - name: Ensure common packages
@@ -28,6 +60,7 @@
   - drupal
   - resources
   - modules
+  - translations
 
 - name: Copy modules
   copy: src="{{ modules_path }}/{{ item }}.tar" dest="{{ cache_path }}"
@@ -40,6 +73,7 @@
   - drupal
   - resources
   - modules
+  - translations
 
 - name: Extract modules
   shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
@@ -52,4 +86,4 @@
   - drupal
   - resources
   - modules
-
+  - translations
