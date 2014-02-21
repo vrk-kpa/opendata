@@ -37,3 +37,11 @@ baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
 app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
 
 ckan_files_path: "{{ files_root }}/ckan"
+translation_cache_path: "{{ cache_path }}/translations"
+translation_languages:
+  - "fi"
+  - "sv"
+translation_projects:
+  - "ckanext-drupal7"
+  - "ckanext-ytp-request"
+  - "ckanext-ytp-theme"

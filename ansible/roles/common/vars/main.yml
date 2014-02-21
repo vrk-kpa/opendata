@@ -14,3 +14,6 @@ modules:
   - ytp-drupal-wysiwyg
 
 modules_path: ../modules
+
+clear_module_cache: false
+clear_all_cache: false

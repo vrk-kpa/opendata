@@ -1,0 +1,4 @@
+---
+
+- name: Maintenance end
+  file: path="/var/www/maintenance" state=absent
