@@ -125,15 +125,14 @@ class QACommand(p.toolkit.CkanCommand):
         if len(self.args) > 1:
             for id in self.args[1:]:
                 # try arg as a group name
-                url = api_url + '/member_list'
-                self.log.info('Trying as a group "%s" at URL: %r', id, url)
-                data = {'id': id,
-                        'object_type': 'package',
-                        'capacity': 'public'}
+                url = api_url + '/organization_show'
+                self.log.info('Requesting datasets in org %r', url)
+                data = {'id': self.args[1],
+                        'include_datasets': 1}
                 response = requests.post(url, data=json.dumps(data), headers=REQUESTS_HEADER)
                 if response.status_code == 200:
-                    package_tuples = json.loads(response.text).get('result')
-                    package_names = [pt[0] for pt in package_tuples]
+                    package_dicts = json.loads(response.text)['result']['packages']
+                    package_names = [pd['name'] for pd in package_dicts]
                     if not self.options.queue:
                         self.options.queue = 'bulk'
                 else:
