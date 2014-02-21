@@ -764,29 +764,31 @@ def convert_requests_exceptions(func, *args, **kwargs):
         raise DownloadException('Error with the download: %s' % e)
     return response
 
-def set_ogc_url_params(resource, service, wms_version):
-    url = resource['url']
+def ogc_request(context, resource, service, wms_version):
+    original_url = url = resource['url']
     # Remove parameters
     url = url.split('?')[0]
     # Add WMS GetCapabilities parameters
     url += '?service=%s&request=GetCapabilities&version=%s' % (service, wms_version)
     resource['url'] = url
+    # Make the request
+    response = download(context, resource)
+    # Restore the URL so that it doesn't get saved in the actual resource
+    resource['url'] = original_url
+    return response
 
 def wms_1_3_request(context, resource):
-    set_ogc_url_params(resource, 'WMS', '1.3')
-    res = download(context, resource)
+    res = ogc_request(context, resource, 'WMS', '1.3')
     res['request_type'] = 'WMS 1.3'
     return res
 
 def wms_1_1_1_request(context, resource):
-    set_ogc_url_params(resource, 'WMS', '1.1.1')
-    res = download(context, resource)
+    res = ogc_request(context, resource, 'WMS', '1.1.1')
     res['request_type'] = 'WMS 1.1.1'
     return res
 
 def wfs_request(context, resource):
-    set_ogc_url_params(resource, 'WFS', '2.0')
-    res = download(context, resource)
+    res = ogc_request(context, resource, 'WFS', '2.0')
     res['request_type'] = 'WFS 2.0'
     return res
 
