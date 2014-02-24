@@ -5,5 +5,6 @@ users:
     - name: 'ilja'
     - name: 'villes'
     - name: 'salum'
+    - name: 'zharktas'
 
 sudo_group: sudo
