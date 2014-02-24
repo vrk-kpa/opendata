@@ -1,6 +1,7 @@
 proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
 proxy_temp_path /tmp/nginx_proxy 1 2;
 
+# Drupal authentication cookie mapping. Used to prevent caching.
 map $http_cookie $no_cache {
     default $cookie_auth_tkt;
     ~SESS 1;
@@ -12,11 +13,12 @@ server {
     client_max_body_size 100M;
     gzip_static on;
 
-
+    # Set server to maintenance mode touching the /var/www/maintenance 
     if (-f /var/www/maintenance) {
         return 503;
     }
 
+    # Secondary hostname is used with foreign language by default.
     if ($host = '{{ secondary_hostname }}') {
         rewrite ^/$ /{{ secondary_hostname_language }} permanent;
     }
@@ -57,7 +59,10 @@ server {
         rewrite ^(.*)$ $internal_error break;
     }
 
+    # Fix: CKAN file upload give invalid data path when running CKAN under path (/data).
     rewrite ^/data/data/(.*)$ /data/$1 permanent;
+
+    # Disable CKAN main page. Redirect to Drupal main page. 
     rewrite ^/data/(fi|en|sv)/$ /$1 permanent;
 
     location = /favicon.ico {
@@ -88,6 +93,8 @@ server {
         return 403;
     }
 
+    # Rewrite CKAN login paths to Drupal login
+    
     location /data/user/login {
         rewrite ^/.* /user/login permanent;
     }
@@ -100,6 +107,7 @@ server {
         rewrite ^/.* /user/logout permanent;
     }
 
+    # Common assets
     location /resources {
         root /var/www;
         autoindex off;
@@ -107,6 +115,7 @@ server {
         log_not_found off;
     }
 
+    # CKAN is mapped under data
     location /data {
         proxy_pass http://127.0.0.1:8080/data;
         proxy_set_header Host $host;
@@ -119,6 +128,8 @@ server {
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
     }
+
+    # Drupal
 
     location / {
         try_files $uri @rewrite;

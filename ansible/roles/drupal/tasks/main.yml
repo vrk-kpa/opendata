@@ -84,6 +84,7 @@
     - node_export
     - menu_block
     - menu_import
+    - libraries
     - services
     - services_menu
 
@@ -117,8 +118,10 @@
     - menu_block
     - menu_block_export
     - menu_import
+    - libraries
     - services
     - services_menu
+    - rest_server
     
     - locale
     - i18n
