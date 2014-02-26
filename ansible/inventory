@@ -4,6 +4,12 @@ beta.avoindata.fi
 [alpha]
 alpha.avoindata.fi
 
+[awstest]
+54.72.23.135
+
+[awstest:vars]
+private_variables=variables.yml
+
 [beta:vars]
 private_variables=variables.yml
 
@@ -13,3 +19,4 @@ private_variables=variables-alpha.yml
 [webservers:children]
 beta
 alpha
+awstest
