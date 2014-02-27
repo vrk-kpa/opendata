@@ -61,7 +61,7 @@ harvest_email: harvest@localhost
 
 harvest_sources: false
 
-ckan_version: "2.1"
+ckan_version: "2.2"
 
 email_domain: "localhost"
 email_domain_access: "localhost"

@@ -34,11 +34,13 @@
 
 - name: Download CKAN package
   get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
+  register: download_ckan_package
   tags:
   - ckan
 
 - name: Install CKAN package
-  command: dpkg -i "{{ cache_path }}/{{ ckan_package }}" creates=/usr/lib/ckan/default/
+  command: dpkg -i "{{ cache_path }}/{{ ckan_package }}"
+  when: download_ckan_package|changed
   tags:
   - ckan
 
@@ -105,8 +107,25 @@
   - ckan
   - modules
 
+# Background services can block database update
+- name: Stop supervisor services
+  command: supervisorctl stop all
+  when: download_ckan_package|changed
+  tags:
+  - ckan
+
 - name: Initialize CKAN database
   shell: ckan db init
+  tags:
+  - ckan
+
+- name: Upgrade CKAN database
+  shell: ckan db upgrade
+  tags:
+  - ckan
+
+- name: Upgrade CKAN filestore
+  shell: ./bin/paster --plugin=ckan db migrate-filestore "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
 
@@ -154,22 +173,22 @@
   - ckan
 
 - name: Fetch CKAN translations
-  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan.{{ item }}.po"
+  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po"
   with_items: translation_languages
   tags:
   - translations
   - ckan
 
 - name: Join translation source files (assets)
-  command: msgcat "{{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+  command: msgcat "{{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po" "{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
 
-- name: Join translation source files (group)
-  command: msgcat "{{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+- name: Join translation source files (organization)
+  command: msgcat "{{ cache_path }}/ckanext-ytp-organizations/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.organizations.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
