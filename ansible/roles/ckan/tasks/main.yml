@@ -168,8 +168,8 @@
   - translations
   - ckan
 
-- name: Join translation source files (group)
-  command: msgcat "{{ cache_path }}/ckanext-ytp-groups/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.groups.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+- name: Join translation source files (organization)
+  command: msgcat "{{ cache_path }}/ckanext-ytp-organizations/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.organizations.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items: translation_languages
   when: translations|changed or modules_copy|changed
   tags:
