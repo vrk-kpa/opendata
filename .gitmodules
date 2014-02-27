@@ -16,9 +16,6 @@
 [submodule "modules/ckanext-drupal7"]
 	path = modules/ckanext-drupal7
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-drupal7.git
-[submodule "modules/ckanext-ytp-tools"]
-	path = modules/ckanext-ytp-tools
-	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-tools.git
 [submodule "modules/ytp-tools"]
 	path = modules/ytp-tools
 	url = https://github.com/yhteentoimivuuspalvelut/ytp-tools.git
