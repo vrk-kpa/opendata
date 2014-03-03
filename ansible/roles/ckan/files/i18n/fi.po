@@ -121,7 +121,7 @@ msgid "Change log"
 msgstr "Muutoshistoria"
 
 msgid "Show change log"
-msgstr "Näyät muutoshistoria"
+msgstr "Näytä muutoshistoria"
 
 msgid "Add related"
 msgstr "Lisää liittyvä"
