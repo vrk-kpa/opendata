@@ -236,7 +236,7 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
     '''
 
     if use_cache:
-        val = _find_in_cache("general",'organisation_score_summaries', withsub=include_sub_organisations)
+        val = _find_in_cache("__all__",'organisation_score_summaries', withsub=include_sub_organisations)
         if val:
             return val
 
@@ -278,7 +278,7 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
 def organisations_with_broken_resource_links(include_sub_organisations=False, use_cache=True):
     # get list of orgs that themselves have broken links
     if use_cache:
-        val = _find_in_cache("general",'organisations_with_broken_resource_links', withsub=include_sub_organisations)
+        val = _find_in_cache("__all__",'organisations_with_broken_resource_links', withsub=include_sub_organisations)
         if val:
             return val
 
@@ -607,18 +607,18 @@ def cached_reports(reports_to_run=None):
     if "organisations_with_broken_resource_links" in local_reports:
         log.info("Generating organisations with broken resource links overview")
         val = organisations_with_broken_resource_links(include_sub_organisations=False, use_cache=False)
-        model.DataCache.set("general", "organisations_with_broken_resource_links", json.dumps(val,cls=DateTimeJsonEncoder))
+        model.DataCache.set("__all__", "organisations_with_broken_resource_links", json.dumps(val,cls=DateTimeJsonEncoder))
         val = organisations_with_broken_resource_links(include_sub_organisations=True, use_cache=False)
-        model.DataCache.set("general", "organisations_with_broken_resource_links-withsub", json.dumps(val,cls=DateTimeJsonEncoder))
+        model.DataCache.set("__all__", "organisations_with_broken_resource_links-withsub", json.dumps(val,cls=DateTimeJsonEncoder))
 
     if 'organisation_score_summaries' in local_reports:
         log.info("Generating organisation score summaries overview")
 
         val = organisation_score_summaries(include_sub_organisations=False, use_cache=False)
-        model.DataCache.set("general", "organisation_score_summaries", json.dumps(val,cls=DateTimeJsonEncoder))
+        model.DataCache.set("__all__", "organisation_score_summaries", json.dumps(val,cls=DateTimeJsonEncoder))
 
         val = organisation_score_summaries(include_sub_organisations=True, use_cache=False)
-        model.DataCache.set("general", "organisation_score_summaries-withsub", json.dumps(val,cls=DateTimeJsonEncoder))
+        model.DataCache.set("__all__", "organisation_score_summaries-withsub", json.dumps(val,cls=DateTimeJsonEncoder))
 
     log.info("Fetching %d publishers" % publishers.count())
 
