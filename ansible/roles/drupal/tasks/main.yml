@@ -262,6 +262,7 @@
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
   with_items:
     - { variable: "site_mail", value: "{{ email_from }}" }
+    - { variable: "site_name", value: "{{ drupal_site_name }}" }
   tags:
   - drupal-configuration
   - drupal
