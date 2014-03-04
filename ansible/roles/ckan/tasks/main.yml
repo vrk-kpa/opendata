@@ -162,35 +162,21 @@
 - name: Create translation cache path
   file: path="{{ translation_cache_path }}" state=directory
   tags:
-  - common
-
-- name: Copy translation files
-  copy: src="i18n/{{ item }}.po" dest="{{ translation_cache_path }}/{{ item }}.po"
-  with_items: translation_languages
-  register: translations
-  tags:
   - translations
   - ckan
 
 - name: Fetch CKAN translations
   get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po"
+  register: ckan_translations
   with_items: translation_languages
   tags:
   - translations
   - ckan
 
-- name: Join translation source files (assets)
-  command: msgcat "{{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po" "{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
+- name: Create temporary translation files
+  command: cp "{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
   with_items: translation_languages
-  when: translations|changed or modules_copy|changed
-  tags:
-  - translations
-  - ckan
-
-- name: Join translation source files (organization)
-  command: msgcat "{{ cache_path }}/ckanext-ytp-organizations/i18n/{{ item }}/LC_MESSAGES/ckanext.ytp.organizations.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po"
-  with_items: translation_languages
-  when: translations|changed or modules_copy|changed
+  when: ckan_translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
@@ -200,15 +186,15 @@
   with_nested:
     - translation_projects
     - translation_languages
-  when: translations|changed or modules_copy|changed
+  when: ckan_translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
 
-- name: Join translation source files (custom)
-  command: msgcat "{{ translation_cache_path }}/{{ item }}.po" "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" --use-first -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po"
+- name: Overwrite translation files
+  command: cp "{{ translation_cache_path }}/ckan.{{ item }}.temporary.po" "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po"
   with_items: translation_languages
-  when: translations|changed or modules_copy|changed
+  when: ckan_translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
@@ -216,7 +202,7 @@
 - name: Compile translation files
   command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
   with_items: translation_languages
-  when: translations|changed or modules_copy|changed
+  when: ckan_translations|changed or modules_copy|changed
   tags:
   - translations
   - ckan
