@@ -43,6 +43,9 @@ translation_languages:
 translation_projects:
   - "ckanext-drupal7"
   - "ckanext-ytp-request"
+  - "ckanext-ytp-organizations"
+  - "ckanext-ytp-dataset"
+  - "ytp-assets-common"
   - "ckanext-ytp-theme"
 
 ckan_site_id: "default"
