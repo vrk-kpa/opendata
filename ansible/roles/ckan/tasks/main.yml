@@ -165,8 +165,8 @@
   - translations
   - ckan
 
-- name: Fetch CKAN translations
-  get_url: url="https://raw.github.com/ckan/ckan/ckan-{{ ckan_version }}/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po"
+- name: Copy CKAN translations
+  copy: src="i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po"
   register: ckan_translations
   with_items: translation_languages
   tags:

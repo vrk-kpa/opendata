@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckan-2-2]
+file_filter = ansible/roles/ckan/files/i18n/<lang>/LC_MESSAGES/ckan.po
+source_file = ansible/roles/ckan/files/i18n/ckan.pot
+source_lang = en
+type = PO
+
