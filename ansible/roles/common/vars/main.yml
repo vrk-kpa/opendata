@@ -7,7 +7,6 @@ modules:
   - ckanext-ytp-organizations
   - ckanext-ytp-theme
   - ckanext-ytp-dataset
-  - ckanext-ytp-tools
   - ckanext-ytp-tasks
   - ckanext-ytp-request
   - ytp-theme-drupal

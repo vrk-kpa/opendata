@@ -1,7 +1,7 @@
 Yhteentoimivuuspalvelut (YTP)
 =============================
 
-Main project for Yhteentoimivuuspalvelut.
+Main repository for Yhteentoimivuuspalvelut (_Interoperability services_). The services combines three related subservices: a metadata catalog of open data, a catalog of public services, and a catalog of interoperability tools and guides. The first phase of the service is the open data catalog Avoindata.fi.
 
 - Build (Ansible)
 - Development (Vagrant)
@@ -185,7 +185,7 @@ Please file [issues at Github](https://github.com/yhteentoimivuuspalvelut/ytp/is
 
 ## Copying and License
 
-This material is copyright (c) 2013 Valtiokonttori / Finnish State Treasury.
+This material is copyright (c) 2014 Valtori Government ICT Centre, Finland.
 
 It is open and licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html

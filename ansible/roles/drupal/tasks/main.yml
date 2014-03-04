@@ -80,7 +80,7 @@
     - views
     - features
     - jquery_update
-    
+
     - node_export
     - menu_block
     - menu_import
@@ -294,6 +294,8 @@
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
   with_items:
     - { module: user, delta: login }
+    - { module: system, delta: "powered-by" }
+    - { module: node, delta: "recent" }
   tags:
   - drupal-configuration
   - drupal
@@ -311,7 +313,7 @@
   - drupal-translations
 
 - name: Install extra translations
-  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/resources/i18n/{{ item }}.po --replace chdir="{{ drupal_root }}"
+  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/i18n/{{ item }}/LC_MESSAGES/ytp-assets-common.po --replace chdir="{{ drupal_root }}"
   with_items:
   - "fi"
   - "sv"
