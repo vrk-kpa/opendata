@@ -37,7 +37,7 @@
     "maintainer": "", 
     "status": "active", 
     "title": "Creative Commons CCZero 1.0", 
-    "url": "http://creativecommons.org/publicdomain/zero/1.0/
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/"
   }, 
     {
     "domain_content": true, 
@@ -77,5 +77,18 @@
     "status": "active", 
     "title": "Creative Commons Attribution 4.0", 
     "url": "http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "domain_content": true, 
+    "domain_data": false, 
+    "domain_software": false, 
+    "family": "", 
+    "id": "cc-by-4.0", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons Attribution 4.0 full", 
+    "url": "http://creativecommons.org/licenses/by/4.0/legalcode"
   }
 ]
