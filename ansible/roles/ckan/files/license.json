@@ -1,0 +1,81 @@
+[
+  {
+    "domain_content": false, 
+    "domain_data": false, 
+    "domain_software": false, 
+    "family": "", 
+    "id": "notspecified", 
+    "is_generic": true, 
+    "is_okd_compliant": false, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "License Not Specified", 
+    "url": ""
+  }, 
+  {
+    "domain_content": true, 
+    "domain_data": true, 
+    "domain_software": true, 
+    "family": "", 
+    "id": "cc-zero", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons CCZero", 
+    "url": "http://www.opendefinition.org/licenses/cc-zero"
+  }, 
+    {
+    "domain_content": true, 
+    "domain_data": true, 
+    "domain_software": true, 
+    "family": "", 
+    "id": "cc-zero-1.0", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons CCZero 1.0", 
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/
+  }, 
+    {
+    "domain_content": true, 
+    "domain_data": true, 
+    "domain_software": true, 
+    "family": "", 
+    "id": "cc-zero-1.0-full", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons CCZero 1.0 full", 
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  }, 
+  {
+    "domain_content": true, 
+    "domain_data": false, 
+    "domain_software": false, 
+    "family": "", 
+    "id": "cc-by", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons Attribution", 
+    "url": "http://www.opendefinition.org/licenses/cc-by"
+  },
+    {
+    "domain_content": true, 
+    "domain_data": false, 
+    "domain_software": false, 
+    "family": "", 
+    "id": "cc-by-4.0", 
+    "is_okd_compliant": true, 
+    "is_osi_compliant": false, 
+    "maintainer": "", 
+    "status": "active", 
+    "title": "Creative Commons Attribution 4.0", 
+    "url": "http://creativecommons.org/licenses/by/4.0/"
+  }
+]
