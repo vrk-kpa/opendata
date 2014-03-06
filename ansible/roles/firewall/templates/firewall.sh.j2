@@ -4,6 +4,7 @@ UFW=/usr/sbin/ufw
 
 $UFW --force reset
 $UFW --force enable
-$UFW allow 22
-$UFW allow 80
-$UFW allow 5099
+$UFW allow 22/tcp
+$UFW allow 80/tcp
+$UFW allow 5099/tcp
+$UFW limit 22/tcp
