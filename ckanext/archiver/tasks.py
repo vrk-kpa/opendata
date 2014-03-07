@@ -358,10 +358,12 @@ def _update(context, resource):
 
     if download_error:
         log.info('GET error: %s - %r, %r "%s"', download_error, e, e.args, resource.get('url'))
-        if try_as_api:
-            result = api_request(context, resource)
+        # api_request DISABLED temporarily while fixed
+        #if try_as_api:
+        #    result = api_request(context, resource)
+        #    download_error = not result
 
-        if not try_as_api or not result:
+        if not try_as_api or download_error:
             extra_args = [e.url_redirected_to] if 'url_redirected_to' in e else []
             _save_status(False, download_error, e, status, resource['id'],
                          *extra_args)
