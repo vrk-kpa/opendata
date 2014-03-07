@@ -7,7 +7,7 @@
   - maintenance
 
 - name: Download ontology file
-  get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
+  get_url: url="http://api.finto.fi/rest/v1/juho/data" dest="{{ cache_path }}/juho.owl"
   register: ontology
   tags:
   - ontology
