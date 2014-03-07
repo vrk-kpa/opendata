@@ -158,6 +158,11 @@
   - "{{ drupal_default_editor_username }}"
   tags:
   - ckan
+  
+- name: Copy License register
+  copy: src="license.json" dest="{{ ckan_files_path }}/license.json" mode=0644 owner=root group=ckan
+  tags:
+  - ckan
 
 - name: Create translation cache path
   file: path="{{ translation_cache_path }}" state=directory

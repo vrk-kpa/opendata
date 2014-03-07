@@ -45,6 +45,7 @@ translation_projects:
   - "ckanext-ytp-request"
   - "ckanext-ytp-organizations"
   - "ckanext-ytp-dataset"
+  - "ckanext-ytp-drupal"
   - "ytp-assets-common"
   - "ckanext-ytp-theme"
 
