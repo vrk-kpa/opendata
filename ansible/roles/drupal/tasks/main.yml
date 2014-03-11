@@ -64,6 +64,11 @@
   tags:
   - drupal
 
+- name: Set robots.txt
+  copy: src="robots.txt" dest="{{ drupal_root }}/robots.txt"
+  tags:
+  - drupal
+
 - name: Download Drupal drush tools
   command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ ansible_env.HOME }}/.drush/{{ item }}/"
   with_items:
