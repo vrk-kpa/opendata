@@ -213,6 +213,21 @@
   - ckan
   notify: Restart Apache
 
+- name: Fetch CKAN patches
+  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
+  with_items:
+    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
+  tags:
+  - ckan
+
+- name: Apply CKAN patches
+  shell: patch -s -N -p2 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
+  ignore_errors: True
+  with_items:
+    - {patch: fixGroupView.patch, dir: "{{ virtual_environment }}/src/ckan/ckan"}
+  tags:
+  - ckan
+
 - name: Ensure Apache restart
   service: name=apache2 state=restarted
   tags:
