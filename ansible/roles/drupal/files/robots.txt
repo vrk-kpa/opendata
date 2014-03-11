@@ -19,7 +19,7 @@
 User-agent: *
 Crawl-delay: 10
 # Custom
-Disallow: *
+Disallow: /
 Disallow: /data/
 # Directories
 Disallow: /includes/
