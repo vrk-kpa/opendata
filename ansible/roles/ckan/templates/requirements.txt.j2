@@ -4,3 +4,4 @@ pika==0.9.8
 requests
 rdflib
 celery
+{% if google_analytics -%}-e  git+https://github.com/ckan/ckanext-googleanalytics.git#egg=ckanext-googleanalytics{%- endif %}

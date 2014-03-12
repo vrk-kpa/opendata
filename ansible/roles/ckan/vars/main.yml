@@ -50,3 +50,6 @@ translation_projects:
   - "ckanext-ytp-theme"
 
 ckan_site_id: "default"
+
+google_analytics: false
+# enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "" }
