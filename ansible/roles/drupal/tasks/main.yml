@@ -69,6 +69,11 @@
   tags:
   - drupal
 
+- name: Copy default favicon.ico
+  copy: src="favicon.ico" dest="{{ drupal_root }}/favicon.ico"
+  tags:
+  - drupal
+
 - name: Setup drushrc
   copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode=0644
   tags:
