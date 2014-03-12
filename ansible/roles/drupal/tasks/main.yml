@@ -27,7 +27,7 @@
 - name: Setup drush binary link
   file: path="/usr/local/bin/drush" src="{{ server_path }}/drush-6.x/drush" state=link
   tags:
-  - drupal 
+  - drupal
 
 - name: Set PHP pathinfo
   ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
@@ -66,6 +66,11 @@
 
 - name: Set robots.txt
   copy: src="robots.txt" dest="{{ drupal_root }}/robots.txt"
+  tags:
+  - drupal
+
+- name: Setup drushrc
+  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode=0644
   tags:
   - drupal
 
@@ -389,6 +394,9 @@
   command: drush role-add-perm "1" "{{ item }}" chdir="{{ drupal_root }}"
   with_items:
     - services menu retrieve menu
+  tags:
+  - drupal
+  - roles
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
@@ -402,6 +410,13 @@
   - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
   - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
   - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  tags:
+  - drupal
+
+- name: Copy custom cancel script
+  copy: src="{{ item }}" dest="{{ drupal_root }}/{{ item }}" owner="root" group="root" mode="0644"
+  with_items:
+    - "cancel-user.php"
   tags:
   - drupal
 
