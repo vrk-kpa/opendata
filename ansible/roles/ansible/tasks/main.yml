@@ -20,7 +20,7 @@
 
 - name: Update hostname
   command: service hostname start
-  when: hotname_update|changed
+  when: hostname_update|changed
   tags:
   - ansible
   - has-hostname
