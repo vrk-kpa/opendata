@@ -56,10 +56,13 @@
     "node_submitted_page": "1",
 
     "node_export_existing": "skip",
-    "node_export_reset_menu_article": 0, 
-    "node_export_reset_menu_page": 0, 
-    "node_export_reset_menu_service_alert": 0, 
-    "node_export_reset_path_article": 0, 
-    "node_export_reset_path_page": 0, 
-    "node_export_reset_path_service_alert": 0
+    "node_export_reset_menu_article": 0,
+    "node_export_reset_menu_page": 0,
+    "node_export_reset_menu_service_alert": 0,
+    "node_export_reset_path_article": 0,
+    "node_export_reset_path_page": 0,
+    "node_export_reset_path_service_alert": 0,
+
+    "user_cancel_method": "user_cancel_block_unpublish",
+    "anonymous": "Anonymous"
 }
