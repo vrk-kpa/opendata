@@ -280,11 +280,19 @@
   with_items:
     - { variable: "site_mail", value: "{{ email_from }}" }
     - { variable: "site_name", value: "{{ drupal_site_name }}" }
+  tags:
+  - drupal-configuration
+  - drupal
+  
+- name: Set Drupal remote variables
+  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+  with_items:
     - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
   tags:
   - drupal-configuration
   - drupal
-
+  - non-local
+ 
 - name: Copy fix scripts
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
