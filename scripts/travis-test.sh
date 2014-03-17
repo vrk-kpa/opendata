@@ -24,7 +24,7 @@ for plugin in modules/*; do
 done
 
 echo "## flake8 ##"
-flake8 --max-line-length=160 modules/* --exclude='*.tar,ckanext-drupal7'
+flake8 --max-line-length=160 modules/* --exclude='*.tar,ckanext-drupal7,ckanext-googleanalytics'
 FLAKE8_EXIT=$?
 
 if [ "$FLAKE8_EXIT" != "0" ]; then

@@ -64,5 +64,8 @@
     "node_export_reset_path_service_alert": 0,
 
     "user_cancel_method": "user_cancel_block_unpublish",
-    "anonymous": "Anonymous"
+    "anonymous": "Anonymous",
+
+    "googleanalytics_privacy_donottrack": 0
+
 }
