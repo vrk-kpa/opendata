@@ -1,5 +1,6 @@
 import datetime
 import re
+import os
 import collections
 from collections import namedtuple, defaultdict
 
@@ -583,6 +584,56 @@ def organisation_dataset_scores(organisation_name,
             'publisher_title': organisation_title,
             'data': data.values()}
 
+
+def record_broken_link_totals(val, key):
+    """
+    'val' will be the result of calling organisations_with_broken_resource_links
+    and we will use that data to work out how many broken links, and broken resources
+    each publisher has and record it.  The report name 'key' will be used and the
+    organisation stored in the entity_id for easy lookup.  The 'report' stored will be
+    [date, broken_dataset_count, broken_resource_count]
+    """
+    import ckan.model as model
+
+    log.info("Generating broken link totals for: {0}".format(key))
+
+    # Check the date
+    today = datetime.datetime.now().date()
+
+    # Check for our DEBUG option to allow us to fake the date
+    override_date_check = os.environ.get('OVERRIDE_DATE_CHECK', False)
+
+    # Ideally check if there are any values for this month and if not then
+    # we should run through the process. For now we will just run on the first
+    # of the month
+    if today.day != 1 and not override_date_check:
+        log.info("Skipping totals as not first day of the month")
+        return
+
+    # for each organisation
+    for publisher in val:
+        # publisher is an ordered dict
+        title = publisher['publisher_title']
+        name = publisher['publisher_name']
+        broken_pkgs = publisher['broken_package_count']
+        broken_rscs = publisher['broken_resource_count']
+
+        data = {
+            'packages': broken_pkgs,
+            'resources': broken_rscs
+        }
+
+        current = model.DataCache.get_fresh(name, key)
+        if current:
+            current = collections.OrderedDict(current)
+        else:
+            current = collections.OrderedDict()
+
+        current[today.isoformat()] = data
+
+        model.DataCache.set(name, key, json.dumps(current))
+
+
 def cached_reports(reports_to_run=None):
     """
     Called via the ICachedReport plugin implemented in plugin.py
@@ -605,11 +656,19 @@ def cached_reports(reports_to_run=None):
        filter(model.Group.state=='active')
 
     if "organisations_with_broken_resource_links" in local_reports:
+        # When generating these reports, we have a special case where we
+        # want to use the val returned to keep track of the monthly
+        # count of broken datasets and resources. This will allow us to graph
+        # them over time.
+
         log.info("Generating organisations with broken resource links overview")
         val = organisations_with_broken_resource_links(include_sub_organisations=False, use_cache=False)
         model.DataCache.set("__all__", "organisations_with_broken_resource_links", json.dumps(val,cls=DateTimeJsonEncoder))
+        record_broken_link_totals(val, 'broken-link-totals')
+
         val = organisations_with_broken_resource_links(include_sub_organisations=True, use_cache=False)
         model.DataCache.set("__all__", "organisations_with_broken_resource_links-withsub", json.dumps(val,cls=DateTimeJsonEncoder))
+        record_broken_link_totals(val, 'broken-link-totals-withsub')
 
     if 'organisation_score_summaries' in local_reports:
         log.info("Generating organisation score summaries overview")

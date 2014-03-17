@@ -105,6 +105,17 @@ class ApiController(BaseController):
             abort(404)
         return json.dumps(resource_five_stars(id), cls=DateTimeJsonEncoder)
 
+    def broken_link_totals(self, id=None, format='json'):
+        import ckan.model as model
+
+        if not id:
+            abort(404)
+
+        report = model.DataCache.get_fresh(id, 'broken-link-totals')
+        if not report:
+            return "{}"
+        return json.dumps(report, sort_keys=True)
+
     def broken_resource_links_by_dataset(self, format='json'):
         result = broken_resource_links_by_dataset()
         if format == 'csv':
