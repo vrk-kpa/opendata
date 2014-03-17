@@ -142,7 +142,7 @@ class ApiController(BaseController):
             response.headers['Content-Type'] = 'application/json'
             return json.dumps(result, cls=DateTimeJsonEncoder)
 
-    def broken_resource_links_for_organisation(self, id, format='json'):
+    def broken_resource_links_for_organisation(self, id=None, format='json'):
         if not id:
             abort(404)
         include_sub_publishers = t.asbool(request.params.get('include_sub_publishers') or False)
