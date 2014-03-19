@@ -9,6 +9,7 @@ modules:
   - ckanext-ytp-dataset
   - ckanext-ytp-tasks
   - ckanext-ytp-request
+  - ckanext-ytp-user
   - ckanext-googleanalytics
   - ytp-theme-drupal
   - ytp-drupal-wysiwyg

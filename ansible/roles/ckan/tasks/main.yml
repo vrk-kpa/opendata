@@ -49,6 +49,16 @@
   tags:
   - ckan
 
+- name: Ensure upload path ownership
+  command: chown -R "{{ www_user }}:{{ ckan_group }}" "{{ ckan_files_path }}" 
+  tags:
+  - ckan
+
+- name: Ensure upload path mode
+  command: chmod -R "0770" "{{ ckan_files_path }}" 
+  tags:
+  - ckan
+
 - name: Disable Nginx sites
   file: path="/etc/nginx/sites-enabled/{{ item }}" state=absent
   with_items:
