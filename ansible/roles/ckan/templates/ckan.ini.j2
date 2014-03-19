@@ -40,7 +40,7 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 
 ckan.site_id = {{ ckan_site_id }}
 
-ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }}
+ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }} {% if google_analytics -%}googleanalytics{%- endif %}
 
 ckan.site_title = CKAN
 ckan.site_logo = /base/images/ckan-logo.png
@@ -89,6 +89,14 @@ ofs.storage_dir = {{ ckan_files_path }}
 
 # 2.2 filestore:
 ckan.storage_path = {{ ckan_files_path }}
+
+{% if google_analytics -%}
+googleanalytics.id = {{ google_analytics.id }}
+googleanalytics.account = {{ google_analytics.account }}
+googleanalytics.username = {{ google_analytics.username }}
+googleanalytics.password = {{ google_analytics.password }}
+googleanalytics.type = {{ google_analytics.type }}
+{%- endif %}
 
 [loggers]
 

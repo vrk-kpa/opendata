@@ -6,32 +6,18 @@
   tags:
   - maintenance
 
-- name: Download ontology file
-  get_url: url="http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl" dest="{{ cache_path }}/juho.owl"
-  register: ontology
+- name: Import dataset tags
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_dataset_tags ckanext.ytp.dataset.tags_import manual '{\"ontology_url\": \"http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl\", \"meta_name\": \"z_avoindatafi_metadata\"}'"
   tags:
-  - ontology
   - data
-
-- name: Copy ontology script
-  copy: src="parse-tags-from-ontology.py" dest="{{ cache_path }}/parse-tags-from-ontology.py"
-  register: ontology_script
-  tags:
-  - ontology
-  - data
-
-- name: Import dataset tags from JUHO ontology
-  command: ./bin/python {{ cache_path }}/parse-tags-from-ontology.py {{ harvest_username }} {{ virtual_environment }} {{ ckan_ini }} {{ cache_path }}/juho.owl chdir="{{ virtual_environment }}"
-  when: ontology|changed or ontology_script|changed
-  tags:
-  - ontology
-  - data
-
+  - data-tags-celery
+  
 - name: Import harvest organizations
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
   when: harvest_sources != False
   tags:
   - data
+  - harvest
 
 - name: Set harvest sources
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
@@ -41,6 +27,7 @@
   tags:
   - data
   - non-local
+  - harvest
 
 - name: Import base organizations
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization.json\"}'"

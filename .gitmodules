@@ -31,3 +31,6 @@
 [submodule "modules/ckanext-ytp-request"]
 	path = modules/ckanext-ytp-request
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-request.git
+[submodule "modules/ckanext-googleanalytics"]
+	path = modules/ckanext-googleanalytics
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-googleanalytics.git

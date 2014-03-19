@@ -27,7 +27,7 @@
 - name: Setup drush binary link
   file: path="/usr/local/bin/drush" src="{{ server_path }}/drush-6.x/drush" state=link
   tags:
-  - drupal 
+  - drupal
 
 - name: Set PHP pathinfo
   ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
@@ -61,6 +61,21 @@
 - name: Install drupal
   command: ./install-drupal.sh chdir="{{ cache_path }}"
   when: drupal_script|changed
+  tags:
+  - drupal
+
+- name: Set robots.txt
+  copy: src="robots.txt" dest="{{ drupal_root }}/robots.txt"
+  tags:
+  - drupal
+
+- name: Copy default favicon.ico
+  copy: src="favicon.ico" dest="{{ drupal_root }}/favicon.ico"
+  tags:
+  - drupal
+
+- name: Setup drushrc
+  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode=0644
   tags:
   - drupal
 
@@ -102,6 +117,7 @@
     - features_extra
     - imce
     - imce_wysiwyg
+    - google_analytics
   tags:
   - drupal
 
@@ -142,6 +158,7 @@
     - fe_block
     - imce
     - imce_wysiwyg
+    - googleanalytics
   tags:
   - drupal
 
@@ -258,7 +275,7 @@
   - drupal-configuration
   - drupal
 
-- name: Set Drupal template variables
+- name: Set Drupal variables
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
   with_items:
     - { variable: "site_mail", value: "{{ email_from }}" }
@@ -266,7 +283,16 @@
   tags:
   - drupal-configuration
   - drupal
-
+  
+- name: Set Drupal remote variables
+  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+  with_items:
+    - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
+  tags:
+  - drupal-configuration
+  - drupal
+  - non-local
+ 
 - name: Copy fix scripts
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
@@ -384,6 +410,9 @@
   command: drush role-add-perm "1" "{{ item }}" chdir="{{ drupal_root }}"
   with_items:
     - services menu retrieve menu
+  tags:
+  - drupal
+  - roles
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"
@@ -397,6 +426,13 @@
   - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
   - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
   - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  tags:
+  - drupal
+
+- name: Copy custom cancel script
+  copy: src="{{ item }}" dest="{{ drupal_root }}/{{ item }}" owner="root" group="root" mode="0644"
+  with_items:
+    - "cancel-user.php"
   tags:
   - drupal
 

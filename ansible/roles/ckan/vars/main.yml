@@ -19,6 +19,7 @@ ckan_extensions:
   - ckanext-ytp-tasks
   - ckanext-ytp-dataset
   - ckanext-ytp-request
+  - ckanext-googleanalytics
 
 redis_hostname: localhost
 redis_port: 6379
@@ -50,3 +51,4 @@ translation_projects:
   - "ckanext-ytp-theme"
 
 ckan_site_id: "default"
+
