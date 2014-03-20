@@ -77,6 +77,7 @@ ckan.harvest.mq.redis_db = {{ redis_harvest_database }}
 ckanext.drupal7.domain = {{ drupal_hostname }},{{ secondary_hostname }}
 ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
 ckanext.drupal7.connection = postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+ckanext.drupal7.allow_edit = true
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json
 

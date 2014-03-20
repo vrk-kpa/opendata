@@ -49,6 +49,16 @@
   tags:
   - ckan
 
+- name: Ensure upload path ownership
+  command: chown -R "{{ www_user }}:{{ ckan_group }}" "{{ ckan_files_path }}" 
+  tags:
+  - ckan
+
+- name: Ensure upload path mode
+  command: chmod -R "0770" "{{ ckan_files_path }}" 
+  tags:
+  - ckan
+
 - name: Disable Nginx sites
   file: path="/etc/nginx/sites-enabled/{{ item }}" state=absent
   with_items:
@@ -110,7 +120,6 @@
 # Background services can block database update
 - name: Stop supervisor services
   command: supervisorctl stop all
-  when: download_ckan_package|changed
   tags:
   - ckan
 
@@ -212,6 +221,21 @@
   - translations
   - ckan
   notify: Restart Apache
+
+- name: Fetch CKAN patches
+  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
+  with_items:
+    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
+  tags:
+  - ckan
+
+- name: Apply CKAN patches
+  shell: patch -s -N -p2 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
+  ignore_errors: True
+  with_items:
+    - {patch: fixGroupView.patch, dir: "{{ virtual_environment }}/src/ckan/ckan"}
+  tags:
+  - ckan
 
 - name: Ensure Apache restart
   service: name=apache2 state=restarted
