@@ -11,6 +11,12 @@
   tags:
   - data
   - data-tags-celery
+
+- name: Import organization types
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_organization_types ckanext.ytp.organizations.organization_type_import manual '{\"data_url\": \"http://api.finto.fi/rest/v1/jupo/data\",\"data_format\": \"n3\"}'"
+  tags:
+  - data
+  - data-organization-types
   
 - name: Import harvest organizations
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"https://raw2.github.com/yhteentoimivuuspalvelut/ytp-tools/master/organization_harvest.json\"}'"
