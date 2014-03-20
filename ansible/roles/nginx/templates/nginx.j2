@@ -12,7 +12,9 @@ server {
     root /var/www/ytp;
     client_max_body_size 100M;
     gzip_static on;
-
+    {% if vagrant is defined %}
+    sendfile off;
+    {% endif %}
     # Set server to maintenance mode touching the /var/www/maintenance 
     if (-f /var/www/maintenance) {
         return 503;
