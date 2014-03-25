@@ -44,6 +44,23 @@
   tags:
   - ckan
 
+- name: Fetch CKAN patches
+  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
+  with_items:
+    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
+    - { patch: "https://github.com/ckan/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" }
+  tags:
+  - ckan
+
+- name: Apply CKAN patches
+  shell: patch -s -N -p1 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
+  ignore_errors: True
+  with_items:
+    - { patch: "fixGroupView.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: "fix_multilingual.patch", dir: "{{ virtual_environment }}/src/ckan" }
+  tags:
+  - ckan
+
 - name: Create CKAN files path
   file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ ckan_group }}"
   tags:
@@ -238,32 +255,17 @@
   - translations
   - ckan
 
-- name: Fetch CKAN patches
-  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
-  with_items:
-    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
-  tags:
-  - ckan
-
-- name: Apply CKAN patches
-  shell: patch -s -N -p2 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
-  ignore_errors: True
-  with_items:
-    - {patch: fixGroupView.patch, dir: "{{ virtual_environment }}/src/ckan/ckan"}
-  tags:
-  - ckan
-
 - name: Ensure Apache restart
   service: name=apache2 state=restarted
   tags:
   - apache
   - ckan
-  
+
 - name: Ensure Nginx is restarted
   service: name=nginx state=restarted
   tags:
   - ckan
-  
+
 - name: Copy celery configuration
   template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode=0640 owner=root group=ckan
   tags:
