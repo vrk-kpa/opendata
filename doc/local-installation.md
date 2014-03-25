@@ -68,6 +68,12 @@ Vagrant command looks for Vagrantfile which contains all the virtual machine con
 
 `vagrant destroy` will completely remove the virtual machine, requiring you to create a new one with `up` again.
 
+### Advanced provisioning with Ansible
+
+If you need to make adjustments to the provisioning configuration, you can either edit the Ansible settings in the Vagrant file, or simply run Ansible without Vagrant:
+
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local # from the main ytp directory
+
 
 ### Access to service
 
