@@ -222,6 +222,22 @@
   - ckan
   notify: Restart Apache
 
+- name: Compile translation files
+  command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
+  with_items: translation_languages
+  when: ckan_translations|changed or modules_copy|changed
+  tags:
+  - translations
+  - ckan
+  notify: Restart Apache
+
+- name: Add facet translations
+  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp-dataset ytp-facet-translations "{{ cache_path }}/ckanext-ytp-dataset/i18n" -c /etc/ckan/default/production.ini
+  when: modules_copy|changed
+  tags:
+  - translations
+  - ckan
+
 - name: Fetch CKAN patches
   command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
   with_items:
