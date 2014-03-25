@@ -44,22 +44,30 @@
   tags:
   - ckan
 
+# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
+# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
 - name: Fetch CKAN patches
   command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
   with_items:
     - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
     - { patch: "https://github.com/ckan/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" }
+    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: downgradeSelect2js.patch}
   tags:
   - ckan
+  - patch_ckan
 
+# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
+# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
 - name: Apply CKAN patches
   shell: patch -s -N -p1 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
   ignore_errors: True
   with_items:
     - { patch: "fixGroupView.patch", dir: "{{ virtual_environment }}/src/ckan" }
     - { patch: "fix_multilingual.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: downgradeSelect2js.patch, dir: "{{ virtual_environment }}/src/ckan" }
   tags:
   - ckan
+  - patch_ckan
 
 - name: Create CKAN files path
   file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ ckan_group }}"
@@ -229,15 +237,6 @@
   tags:
   - translations
   - ckan
-
-- name: Compile translation files
-  command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
-  with_items: translation_languages
-  when: ckan_translations|changed or modules_copy|changed
-  tags:
-  - translations
-  - ckan
-  notify: Restart Apache
 
 - name: Compile translation files
   command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
