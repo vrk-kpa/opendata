@@ -10,6 +10,12 @@ This repository contains:
 - Continuous Integration ([Travis](https://travis-ci.org/yhteentoimivuuspalvelut/ytp)) [![Build Status][travis-image]][travis-url]
 - Rest of the project code tied together as submodules
 
+## Getting started
+
+To try out the service, visit [beta.avoindata.fi](http://beta.avoindata.fi) and register a user account to create new datasets.
+
+To get started in developing the software, install a local development environment as described in the [documentation](doc/local-installation.md), and then see the [development documentation](doc/local-development.md).
+
 ## Documentation
 
 Please refer to the [documentation directory](doc).
