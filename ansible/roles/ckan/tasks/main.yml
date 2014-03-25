@@ -49,9 +49,10 @@
 - name: Fetch CKAN patches
   command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
   with_items:
-    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
+    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fix_group_view.patch }
     - { patch: "https://github.com/ckan/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" }
-    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: downgradeSelect2js.patch}
+    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: fix_hardcoded_languages.patch}
+    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: downgrade_select2js.patch}
   tags:
   - ckan
   - patch_ckan
@@ -62,9 +63,10 @@
   shell: patch -s -N -p1 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
   ignore_errors: True
   with_items:
-    - { patch: "fixGroupView.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: "fix_group_view.patch", dir: "{{ virtual_environment }}/src/ckan" }
     - { patch: "fix_multilingual.patch", dir: "{{ virtual_environment }}/src/ckan" }
-    - { patch: downgradeSelect2js.patch, dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: "fix_hardcoded_languages.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: downgrade_select2js.patch, dir: "{{ virtual_environment }}/src/ckan" }
   tags:
   - ckan
   - patch_ckan
