@@ -44,6 +44,33 @@
   tags:
   - ckan
 
+# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
+# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
+- name: Fetch CKAN patches
+  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
+  with_items:
+    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fix_group_view.patch }
+    - { patch: "https://github.com/ckan/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" }
+    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: fix_hardcoded_languages.patch}
+    - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: downgrade_select2js.patch}
+  tags:
+  - ckan
+  - patch_ckan
+
+# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
+# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
+- name: Apply CKAN patches
+  shell: patch -s -N -p1 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
+  ignore_errors: True
+  with_items:
+    - { patch: "fix_group_view.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: "fix_multilingual.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: "fix_hardcoded_languages.patch", dir: "{{ virtual_environment }}/src/ckan" }
+    - { patch: downgrade_select2js.patch, dir: "{{ virtual_environment }}/src/ckan" }
+  tags:
+  - ckan
+  - patch_ckan
+
 - name: Create CKAN files path
   file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ ckan_group }}"
   tags:
@@ -222,15 +249,6 @@
   - ckan
   notify: Restart Apache
 
-- name: Compile translation files
-  command: msgfmt "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.po" -o "{{ virtual_environment }}/src/ckan/ckan/i18n/{{ item }}/LC_MESSAGES/ckan.mo"
-  with_items: translation_languages
-  when: ckan_translations|changed or modules_copy|changed
-  tags:
-  - translations
-  - ckan
-  notify: Restart Apache
-
 - name: Add facet translations
   command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp-dataset ytp-facet-translations "{{ cache_path }}/ckanext-ytp-dataset/i18n" -c /etc/ckan/default/production.ini
   when: modules_copy|changed
@@ -238,32 +256,17 @@
   - translations
   - ckan
 
-- name: Fetch CKAN patches
-  command: wget {{ item.patch }} -O {{ cache_path }}/{{ item.file }}
-  with_items:
-    - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: fixGroupView.patch }
-  tags:
-  - ckan
-
-- name: Apply CKAN patches
-  shell: patch -s -N -p2 < {{ cache_path }}/{{ item.patch }} chdir="{{ item.dir }}"
-  ignore_errors: True
-  with_items:
-    - {patch: fixGroupView.patch, dir: "{{ virtual_environment }}/src/ckan/ckan"}
-  tags:
-  - ckan
-
 - name: Ensure Apache restart
   service: name=apache2 state=restarted
   tags:
   - apache
   - ckan
-  
+
 - name: Ensure Nginx is restarted
   service: name=nginx state=restarted
   tags:
   - ckan
-  
+
 - name: Copy celery configuration
   template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode=0640 owner=root group=ckan
   tags:
