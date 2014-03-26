@@ -118,23 +118,8 @@ class QAPlugin(p.SingletonPlugin):
 
         data = json.dumps(resource_dict)
 
-        task_id = make_uuid()
-        task_status = {
-            'entity_id': resource.id,
-            'entity_type': u'resource',
-            'task_type': u'qa',
-            'key': u'celery_task_id',
-            'value': task_id,
-            'error': u'',
-            'last_updated': datetime.datetime.now().isoformat()
-        }
-        task_context = {
-            'model': model,
-            'user': user.get('name'),
-        }
-
         queue = 'priority'
-        p.toolkit.get_action('task_status_update')(task_context, task_status)
+        task_id = make_uuid()
         send_task('qa.update', args=[context, data], task_id=task_id, queue=queue)
 
         log.debug('QA check for resource put into celery queue %s: %s url=%r',

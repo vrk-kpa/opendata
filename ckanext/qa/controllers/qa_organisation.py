@@ -26,6 +26,7 @@ class QAOrganisationController(BaseController):
             c.org_name = id
             c.query = broken_resource_links_for_organisation
             c.data = c.query(organisation_name=id, include_sub_organisations=c.include_sub_publishers)
+            print c.data
             return render('ckanext/qa/organisation/broken_resource_links/organisation.html')
 
     def scores(self, id=None):

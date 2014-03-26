@@ -34,6 +34,36 @@ OPENNESS_SCORE_REASON = {
 }
 
 USER_AGENT = 'ckanext-archiver'
+CONFIG_LOADED = False
+
+def load_config():
+    config_filepath = os.environ.get('CKAN_INI') or '/var/ckan/ckan.ini'
+    if not config_filepath:
+        raise Exception("Configuration file not specified in CKAN_INI")
+
+    import paste.deploy
+    config_abs_path = os.path.abspath(config_filepath)
+    conf = paste.deploy.appconfig('config:' + config_abs_path)
+    import ckan
+    ckan.config.environment.load_environment(conf.global_conf,
+            conf.local_conf)
+
+    global CONFIG_LOADED
+    CONFIG_LOADED = True
+    print "config loaded"
+
+def register_translator():
+    # Register a translator in this thread so that
+    # the _() functions in logic layer can work
+    from paste.registry import Registry
+    from pylons import translator
+    from ckan.lib.cli import MockTranslator
+    global registry
+    registry=Registry()
+    registry.prepare()
+    global translator_obj
+    translator_obj=MockTranslator()
+    registry.register(translator, translator_obj)
 
 def _update_task_status(context, data, log):
     """
@@ -43,36 +73,24 @@ def _update_task_status(context, data, log):
 
     Returns the content of the response.
     """
-    if isinstance(data, list):
-        func = '/task_status_update_many'
-        payload = {'data': data}
-    elif isinstance(data, dict):
-        func = '/task_status_update'
-        payload = data
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + func
-    try:
-        res = requests.post(
-            api_url, json.dumps(payload),
-            headers={'Authorization': context['apikey'],
-                     'Content-Type': 'application/json',
-                     'User-Agent': USER_AGENT}
-        )
-    except requests.exceptions.RequestException, e:
-        log.error('ckan failed to update task_status, error %r.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
-                        % (e.args, context, data, res, api_url))
-        raise CkanError('ckan failed to update task_status, error %s'
-                        % e)
-    if res.status_code == 200:
-        return res.content
-    else:
-        try:
-            content = res.content
-        except:
-            content = '<could not read request content to discover error>'
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, api_url))
-        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'
-                        % (res.status_code, content))
+    global CONFIG_LOADED
+    if not CONFIG_LOADED:
+        load_config()
+        register_translator()
+
+    import ckan.model as model
+    from ckanext.qa.model import QATask
+
+    if isinstance(data, dict):
+        q = QATask.create(data)
+        model.Session.add(q)
+        model.Session.commit()
+    elif isinstance(data, list):
+        for payload in data:
+            q = QATask.create(payload)
+            model.Session.add(q)
+        model.Session.commit()
+
     log.info('Task status updated ok')
 
 
@@ -160,68 +178,19 @@ def update(context, data):
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         raise
 
-def get_status(context, resource_id, log):
-    '''Returns a dict of the current QA 'status'.
-    (task status value where key='status')
+def get_qa_format(resource_id):
+    global CONFIG_LOADED
+    if not CONFIG_LOADED:
+        load_config()
+        register_translator()
 
-    Result is dict with keys: openness_score, reason, format, is_broken,
-                              last_updated
+    import ckan.model as model
+    from ckanext.qa.model import QATask
 
-    May propagate CkanError if the request fails.
-    '''
-    task_status = get_task_status('status', context, resource_id, log)
-    if task_status:
-        status = json.loads(task_status['error']) \
-                 if task_status['error'] else {}
-        status['openness_score'] = task_status['value']
-        status['last_updated'] = task_status['last_updated']
-        if 'format' not in status:
-            status['format'] = None
-        if 'is_broken' not in status:
-            status['is_broken'] = None
-        log.info('Previous QA status checked ok: %s', status)
-    else:
-        status = {'openness_score': '', 'reason': '',
-                  'format': '', 'is_broken': None,
-                  'last_updated': ''}
-        log.info('Previous QA status blank - using default: %s', status)
-    return status
-
-def get_task_status(key, context, resource_id, log):
-    '''Gets a row from the task_status table as a dict including keys:
-       'value', 'error', 'stack', 'last_updated'
-    If the key isn\'t there, returns None.'''
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
-    try:
-        response = requests.post(
-            api_url,
-            json.dumps({'entity_id': resource_id, 'task_type': 'qa',
-                        'key': key}),
-            headers={'Authorization': context['site_user_apikey'],
-                     'Content-Type': 'application/json',
-                     'User-Agent': USER_AGENT}
-        )
-    except requests.exceptions.RequestException, e:
-        log.error('Error getting %s. Error=%r\napi_url=%r',
-                  key, e.args, api_url)
-        raise CkanError('Error getting %s' % key)
-
-    if response.content:
-        try:
-            res_dict = json.loads(response.content)
-        except ValueError, e:
-            raise CkanError('CKAN response not JSON: %s', response.content)
-    else:
-        res_dict = {}
-    if response.status_code == 404 and res_dict.get('success') is False:
-        return None
-    elif res_dict.get('success'):
-        result = res_dict['result']
-    else:
-        log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
-                  key, response.status_code, response.content, api_url)
-        raise CkanError('Error getting %s' % key)
-    return result
+    q = QATask.get_for_resource(resource_id)
+    if not q:
+        return ''
+    return q.format
 
 def resource_score(context, data, log):
     """
@@ -274,7 +243,7 @@ def resource_score(context, data, log):
                         score = 1
                         if format_ == None:
                             # use any previously stored format value for this resource
-                            format_ = get_status(context, data['id'], log)['format']
+                            format_ = get_qa_format(data['id'])
         score_reason = ' '.join(score_reasons)
         format_ = format_ or None
     except Exception, e:
@@ -352,7 +321,7 @@ def score_if_link_broken(context, archiver_status, data, score_reasons, log):
     if archiver_status['value'] in LINK_STATUSES__BROKEN:
         # Score 0 since we are sure the link is currently broken
         score_reasons.append(broken_link_error_message(archiver_status))
-        format_ = get_status(context, data['id'], log)['format']
+        format_ = get_qa_format(data['id'])
         log.info('Archiver says link is broken. Previous format: %r' % format_)
         return (0, format_, True)
     return (None, None, False)
@@ -475,7 +444,6 @@ def update_search_index(context, package_id, log):
     '''
     Tells CKAN to update its search index for a given package dict.
     '''
-    log.info('Updating Search Index..')
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/search_index_update'
     data = {'id': package_id}
     try:

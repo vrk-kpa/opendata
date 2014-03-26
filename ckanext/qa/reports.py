@@ -137,6 +137,18 @@ def resource_five_stars(id):
          'openness_score_reason': <string>,
          'openness_update': <datetime>}
     """
+    from ckanext.qa.model import QATask
+
+    # As QA now uses a database table rather than the task_status API we should
+    # look there for the data first and use that if we can find it. If not we
+    # will use the old method (for the short term)
+
+    q = QATask.get_for_resource(id)
+    if q:
+        log.info("Returning QA data from QATask")
+        result = q.as_dict()
+        return result
+
     if id:
         r = model.Resource.get(id)
         if not r:
@@ -220,12 +232,12 @@ def broken_resource_links_by_dataset():
 
 
 # NOT USED in this branch, but is used in release-v2.0
-def organisations_with_broken_resource_links_by_name():
-    raise NotImplementedError
+#def organisations_with_broken_resource_links_by_name():
+#    raise NotImplementedError
 
 # NOT USED in this branch, but is used in release-v2.0
-def organisations_with_broken_resource_links(include_resources=False):
-    raise NotImplementedError
+#def organisations_with_broken_resource_links(include_resources=False):
+#    raise NotImplementedError
 
 
 not_broken_but_0_stars = set(('Chose not to download',))
@@ -277,66 +289,59 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
 
 
 def organisations_with_broken_resource_links(include_sub_organisations=False, use_cache=True):
+    import ckanext.qa.model as qa_model
     # get list of orgs that themselves have broken links
     if use_cache:
         val = _find_in_cache("__all__",'organisations_with_broken_resource_links', withsub=include_sub_organisations)
         if val:
             return val
 
-    sql = """
-        select count(distinct(package.id)) as broken_package_count,
-               count(resource.id) as broken_resource_count,
-               "group".name as publisher_name,
-               "group".title as publisher_title
-        from task_status
-            left join resource on task_status.entity_id = resource.id
-            left join resource_group on resource.resource_group_id = resource_group.id
-            left join package on resource_group.package_id = package.id
-            left join member on member.table_id = package.id
-            left join "group" on member.group_id = "group".id
-        where
-            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
-            and task_status.task_type='qa'
-            and task_status.key='status'
-            and package.state = 'active'
-            and resource.state='active'
-            and resource_group.state='active'
-            and "group".state='active'
-        group by "group".name, "group".title
-        order by "group".title;
-        """ % {
-        'status_filter': ' and '.join(["task_status.value!='%s'" % status for status in archiver_status__not_broken_link]),
-        }
-    rows = model.Session.execute(sql)
-    if not include_sub_organisations:
-        # need to convert to dict, since the sql results will disappear on return
-        data = []
-        for row in rows:
-            row_data = OrderedDict((
-                ('publisher_title', row.publisher_title),
-                ('publisher_name', row.publisher_name),
-                ('broken_package_count', row.broken_package_count),
-                ('broken_resource_count', row.broken_resource_count),
-                ))
-            data.append(row_data)
-    else:
-        counts_by_publisher = {}
-        for row in rows:
-            for publisher in go_up_tree(model.Group.by_name(row.publisher_name)):
-                if publisher not in counts_by_publisher:
-                    counts_by_publisher[publisher] = [0, 0]
-                counts_by_publisher[publisher][0] += row.broken_package_count
-                counts_by_publisher[publisher][1] += row.broken_resource_count
+    results = {}
+    data = []
 
-        data = []
-        for row in sorted(counts_by_publisher.items(), key=lambda x: x[0].title):
-            row_data = OrderedDict((
-                ('publisher_title', row[0].title),
-                ('publisher_name', row[0].name),
-                ('broken_package_count', row[1][0]),
-                ('broken_resource_count', row[1][1]),
-                ))
-            data.append(row_data)
+    # Get all the broken datasets and build up the results by publisher
+    for publisher in model.Session.query(model.Group).filter(model.Group.state=="active").all():
+
+        tasks = model.Session.query(qa_model.QATask)\
+            .filter(qa_model.QATask.organization_id==publisher.id)\
+            .filter(qa_model.QATask.is_broken==True).all()
+        package_count = len(set([p.dataset_id for p in tasks]))
+        results[publisher.name] = {
+            'publisher_title': publisher.title,
+            'packages': package_count,
+            'resources': len(tasks)
+        }
+
+    if include_sub_organisations:
+        for k, v in results.iteritems():
+            pub = model.Group.by_name(k)
+            pubdict = results[pub.name]
+
+            for publisher in go_down_tree(pub):
+                if publisher.id == pub.id:
+                    # go_down_tree returns itself, and we already have those
+                    # values in pubdict
+                    continue
+
+                if publisher.name in results:
+                    # If we have scores for this sub-publisher
+                    bp,br = results[publisher.name]['packages'], results[publisher.name]['resources']
+                    pubdict['packages'] += bp
+                    pubdict['resources'] += br
+
+            results[pub.name] = pubdict
+
+    for k, v in results.iteritems():
+        if results[k]['resources'] == 0:
+            continue
+
+        data.append(OrderedDict((
+            ('publisher_title', results[k]['publisher_title']),
+            ('publisher_name', k),
+            ('broken_package_count', results[k]['packages']),
+            ('broken_resource_count', results[k]['resources']),
+            )))
+
     return data
 
 def broken_resource_links_for_organisation(organisation_name,
@@ -358,118 +363,87 @@ def broken_resource_links_for_organisation(organisation_name,
         if val:
             return val
 
-    ## This was the start of a trial - left in case it was useful
-    ## q = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.Resource.url, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'), model.TaskStatus.error.label('error'), model.Group.id.label('publisher_id'), model.Group.name.label('publisher_name'), model.Group.title.label('publisher_title'))\
-    ##     .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
-    ##     .join(model.Resource)\
-    ##     .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-    ##     .join(model.Member, model.Member.table_id == model.Package.id)\
-    ##     .join(model.Group)\
-    ##     .filter(model.TaskStatus.task_type==u'qa')\
-    ##     .filter(model.TaskStatus.key==u'status')\
-    ##     .filter(model.TaskStatus.error.like('%"is_broken": true%'))\
-    ##     .filter(model.Resource.state==u'active')\
-    ##     .filter(model.Package.state==u'active')\
-    ##     .filter(model.Group.name==organisation_name)\
-    ##     .filter(model.Group.state==u'active')\
-    ##     .order_by(desc(model.TaskStatus.value))\
-    ##     .order_by(desc(model.TaskStatus.last_updated))
-    ## rows = q.all()
-    ## print rows[:1]
+    import ckanext.qa.model as qa_model
+    import ckanext.archiver.model as ar_model
 
-    ## data = {}
-    ## for row in rows:
-    ##     pass
+    publisher = model.Group.get(organisation_name)
 
-    ## return {'publisher_name': row.publisher_name if data else organisation_name,
-    ##         'publisher_title': row.publisher_title if data else '',
-    ##         'data': data}
+    name = publisher.name
+    title = publisher.title
 
-    values = {}
-    sql = """
-        select package.id as package_id,
-               task_status.key as task_status_key,
-               task_status.value as task_status_value,
-               task_status.error as task_status_error,
-               task_status.last_updated as task_status_last_updated,
-               resource.id as resource_id,
-               resource.url as resource_url,
-               resource.position,
-               package.title as package_title,
-               package.name as package_name,
-               "group".id as publisher_id,
-               "group".name as publisher_name,
-               "group".title as publisher_title,
-               package_extra.value as external_reference
-        from task_status
-            left join resource on task_status.entity_id = resource.id
-            left join resource_group on resource.resource_group_id = resource_group.id
-            left join package on resource_group.package_id = package.id
-            left join member on member.table_id = package.id
-            left join "group" on member.group_id = "group".id
-            left join package_extra on package_extra.package_id = package.id
-        where
-            entity_id in (select entity_id from task_status where task_status.task_type='archiver' and task_status.key='status' and %(status_filter)s)
-            and task_status.task_type='archiver'
-            and task_status.key='status'
-            and package.state = 'active'
-            and resource.state='active'
-            and resource_group.state='active'
-            and "package_extra".key='external_reference'
-            and "group".state='active'
-            %(org_filter)s
-        order by package.title, package.name, resource.position
-        """
-    sql_options = {
-        'status_filter': ' and '.join(["task_status.value!='%s'" % status for status in archiver_status__not_broken_link]),
-        }
-    org = model.Group.by_name(organisation_name)
-    if not org:
-        abort(404, 'Publisher not found')
-    organisation_title = org.title
-
+    tasks = model.Session.query(qa_model.QATask,ar_model.ArchiveTask,model.Resource)\
+        .filter(qa_model.QATask.is_broken==True)\
+        .filter(qa_model.QATask.resource_id==model.Resource.id)\
+        .filter(qa_model.QATask.resource_id==ar_model.ArchiveTask.resource_id)
     if not include_sub_organisations:
-        sql_options['org_filter'] = 'and "group".name = :org_name'
-        values['org_name'] = organisation_name
+        tasks = tasks.filter(qa_model.QATask.organization_id==publisher.id)
     else:
-        sub_org_filters = ['"group".name=\'%s\'' % organisation.name for organisation in go_down_tree(org)]
-        sql_options['org_filter'] = 'and (%s)' % ' or '.join(sub_org_filters)
+        # We want any organization_id that is part of this publishers tree.
+        org_ids = ['%s' % organisation.id for organisation in go_down_tree(publisher)]
+        tasks = tasks.filter(qa_model.QATask.organization_id.in_(org_ids))
 
-    item_properties_as_dates = set(('first_failure', 'last_success'))
-    rows = model.Session.execute(sql % sql_options, values)
-    data = []
-    for row in rows:
+    results = []
+
+    # Entirely possible we don't find an archive task because of the race,
+    # so we'll have one to copy the defaults.
+    blank = ar_model.ArchiveTask()
+
+    for qatask, artask, resource in tasks.all():
+        pkg = model.Package.get(qatask.dataset_id)
+
+        # Refetch publisher if we are doing sub-orgs
+        if include_sub_organisations:
+            publisher = model.Group.get(qatask.organization_id)
+
+        if not artask:
+            artask = blank
+
         via = ''
-        if row.external_reference == 'ONSHUB':
+        er = pkg.extras.get('external_reference', '')
+        if er == 'ONSHUB':
             via = "Stats Hub"
-        elif row.external_reference.startswith("DATA4NR"):
+        elif er.startswith("DATA4NR"):
             via = "Data4nr"
+
         row_data = OrderedDict((
-            ('dataset_title', row.package_title),
-            ('dataset_name', row.package_name),
-            ('publisher_title', row.publisher_title),
-            ('publisher_name', row.publisher_name),
-            ('resource_position', row.position),
-            ('resource_id', row.resource_id),
-            ('resource_url', row.resource_url),
-            ('status', row.task_status_value),
-            ('via', via)
+            ('dataset_title', pkg.title),
+            ('dataset_name', pkg.name),
+            ('publisher_title', publisher.title),
+            ('publisher_name', publisher.name),
+            ('resource_position', resource.position),
+            ('resource_id', resource.id),
+            ('resource_url', resource.id),
+            ('via', via),
+            ('first_failure', artask.first_failure),
+            ('last_success', artask.last_success),
+            ('url_redirected_to', artask.url_redirected_to),
+            ('reason', artask.reason),
+            ('status', qatask.archiver_status),
+            ('failure_count', artask.failure_count),
             ))
 
-        if row.task_status_error:
-            item_properties = json.loads(row.task_status_error)
-            for key, value in item_properties.items():
-                if key in item_properties_as_dates:
-                    row_data[key] = datetime.datetime(*map(int, re.split('[^\d]', value)[:-1])) \
-                                    if value else None
-                else:
-                    row_data[key] = value
-        row_data['last_updated'] = row.task_status_last_updated
-        data.append(row_data)
+        results.append(row_data)
 
-    return {'publisher_name': organisation_name,
-            'publisher_title': organisation_title,
-            'data': data}
+    """
+    if include_sub_organisations:
+        for pubname, items in row_data.iteritems():
+            # Add items (which is a list) to the parents groups
+            for publisher in go_down_tree(pub):
+                if publisher.name == pubname:
+                    # go_down_tree returns itself, and we already have those
+                    # values in the results
+                    continue
+
+                # Get the parent list
+                l = results.get(pubname)
+                # Extend the list with those from the child
+                l.extend(results.get(publisher.name,[]))
+                results[pubname] = l
+    """
+
+    return {'publisher_name': name,
+            'publisher_title': title,
+            'data': results}
 
 def organisation_dataset_scores(organisation_name,
                                 include_sub_organisations=False,

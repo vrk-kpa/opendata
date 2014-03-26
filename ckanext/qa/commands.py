@@ -20,6 +20,10 @@ class QACommand(p.toolkit.CkanCommand):
 
     Usage::
 
+        paster qa init
+           - Creates the database tables that QA expects for storing
+           results
+
         paster qa [options] update [dataset/group name/id]
            - QA analysis on all resources in a given dataset, or on all
            datasets if no dataset given
@@ -88,8 +92,15 @@ class QACommand(p.toolkit.CkanCommand):
             self.clean()
         elif cmd == 'migrate1':
             self.migrate1()
+        elif cmd == 'init':
+            self.init_db()
         else:
             self.log.error('Command "%s" not recognized' % (cmd,))
+
+    def init_db(self):
+        import ckan.model as model
+        from ckanext.qa.model import init_tables
+        init_tables(model.meta.engine)
 
     def update(self, user, context):
         from ckan.model.types import make_uuid
