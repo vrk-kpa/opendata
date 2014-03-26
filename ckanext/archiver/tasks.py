@@ -36,7 +36,7 @@ USER_AGENT = 'ckanext-archiver'
 CONFIG_LOADED = False
 
 def load_config():
-    config_filepath = os.environ.get('CKAN_INI')
+    config_filepath = os.environ.get('CKAN_INI') or '/var/ckan/ckan.ini'
     if not config_filepath:
         raise Exception("Configuration file not specified in CKAN_INI")
 
