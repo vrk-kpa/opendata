@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.skip_tags = "has-hostname,non-local,postfix"
       ansible.extra_vars = { google_analytics: false }
       # ansible.extra_vars = { clear_module_cache: true }
-      # ansible.tags = "drupal"
+      ansible.tags = "data-tags-celery"
       # ansible.start_at_task = ""
     end
 
