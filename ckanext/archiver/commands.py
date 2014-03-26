@@ -28,6 +28,9 @@ class Archiver(CkanCommand):
 
     Usage:
 
+        paster archiver init
+           - Creates the database table archiver needs to run
+
         paster archiver update [{package-name/id}|{group-name/id}]
            - Archive all resources or just those belonging to a specific
              package or group, if specified
@@ -114,6 +117,10 @@ class Archiver(CkanCommand):
                 self.log.error('Command requires a parameter, the name of the output')
                 return
             self.report(self.args[1], delete=True)
+        elif cmd == 'init':
+            import ckan.model as model
+            from ckanext.archiver.model import init_tables
+            init_tables(model.meta.engine)
         elif cmd == 'migrate-archive-dirs':
             self.migrate_archive_dirs()
         else:

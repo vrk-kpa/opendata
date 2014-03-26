@@ -33,6 +33,36 @@ LINK_STATUSES__ALL = LINK_STATUSES__BROKEN + LINK_STATUSES__NOT_SURE + \
                      LINK_STATUSES__OK
 
 USER_AGENT = 'ckanext-archiver'
+CONFIG_LOADED = False
+
+def load_config():
+    config_filepath = os.environ.get('CKAN_INI')
+    if not config_filepath:
+        raise Exception("Configuration file not specified in CKAN_INI")
+
+    import paste.deploy
+    config_abs_path = os.path.abspath(config_filepath)
+    conf = paste.deploy.appconfig('config:' + config_abs_path)
+    import ckan
+    ckan.config.environment.load_environment(conf.global_conf,
+            conf.local_conf)
+
+    global CONFIG_LOADED
+    CONFIG_LOADED = True
+    print "config loaded"
+
+def register_translator():
+    # Register a translator in this thread so that
+    # the _() functions in logic layer can work
+    from paste.registry import Registry
+    from pylons import translator
+    from ckan.lib.cli import MockTranslator
+    global registry
+    registry=Registry()
+    registry.prepare()
+    global translator_obj
+    translator_obj=MockTranslator()
+    registry.register(translator, translator_obj)
 
 class ArchiverError(Exception):
     pass
@@ -255,6 +285,7 @@ def update(context, data):
     '''
     log = update.get_logger()
     log.info('Starting update task: %r', data)
+
     try:
         data = json.loads(data)
         context = json.loads(context)
@@ -266,22 +297,11 @@ def update(context, data):
         # Any problem at all is recorded in task_status and then reraised
         log.error('Error occurred during archiving resource: %s\nResource: %r',
                   e, data)
-        update_task_status(context, {
-            'entity_id': data['id'],
-            'entity_type': u'resource',
-            'task_type': 'archiver',
-            'key': u'celery_task_id',
-            'value': unicode(update.request.id),
-            'error': '%s: %s' % (e.__class__.__name__,  unicode(e)),
-            'stack': traceback.format_exc(),
-            'last_updated': datetime.datetime.now().isoformat()
-        }, log)
         raise
 
 def _update(context, resource):
     """
     Link check and archive the given resource.
-    Records result in the task_status key='status'.
     If successful, updates the resource with the cache_url & hash etc.
 
     Params:
@@ -625,65 +645,23 @@ def update_task_status(context, data, log):
 
     Returns the content of the response.
     """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
-    post_data = json.dumps(data)
-    res = requests.post(
-        api_url, post_data,
-        headers = {'Authorization': context['site_user_apikey'],
-                   'Content-Type': 'application/json',
-                   'User-Agent': USER_AGENT}
-    )
-    if res.status_code == 200:
-        log.info('Task status updated OK')
-        return res.content
-    else:
-        try:
-            content = res.content
-        except:
-            content = '<could not read request content to discover error>'
-        log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, post_data, api_url))
-        raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
+    global CONFIG_LOADED
+    if not CONFIG_LOADED:
+        load_config()
+        register_translator()
+
+    import ckan.model as model
+    from ckanext.archiver.model import ArchiveTask
+
+    old = ArchiveTask.get_for_resource(data.get('entity_id'))
+    if old:
+        model.Session.delete(old)
+    a = ArchiveTask.create(data)
+    model.Session.add(a)
+    model.Session.commit()
+
     log.info('Task status updated ok: %r', data)
 
-def get_task_status(key, context, resource_id, log):
-    '''Gets a row from the task_status table as a dict including keys:
-       'value', 'error', 'stack', 'last_updated'
-    If the key is not there, returns None.
-
-    :param context: Dict including: site_url, site_user_apikey
-    '''
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_show'
-    try:
-        response = requests.post(
-            api_url,
-            json.dumps({'entity_id': resource_id, 'task_type': 'archiver',
-                        'key': key}),
-            headers={'Authorization': context['site_user_apikey'],
-                     'Content-Type': 'application/json',
-                     'User-Agent': USER_AGENT}
-        )
-    except requests.exceptions.RequestException, e:
-        log.error('Error getting %s. Error=%r\napi_url=%r',
-                  key, e.args, api_url)
-        raise CkanError('Error getting %s' % key)
-
-    if response.content:
-        try:
-            res_dict = json.loads(response.content)
-        except ValueError, e:
-            raise CkanError('CKAN response not JSON: %s', response.content)
-    else:
-        res_dict = {}
-    if response.status_code == 404 and res_dict['success'] is False:
-        return None
-    elif res_dict['success']:
-        result = res_dict['result']
-    else:
-        log.error('Error getting %s. Status=%r Error=%r\napi_url=%r',
-                  key, response.status_code, response.content, api_url)
-        raise CkanError('Error getting %s' % key)
-    return result
 
 def get_status(context, resource_id, log):
     '''Returns a dict of the current archiver 'status'.
@@ -696,12 +674,25 @@ def get_status(context, resource_id, log):
 
     :param context: Dict including: site_url, site_user_apikey
     '''
-    task_status = get_task_status('status', context, resource_id, log)
-    if task_status:
-        status = json.loads(task_status['error']) \
-                 if task_status['error'] else {}
-        status['value'] = task_status['value']
-        status['last_updated'] = task_status.get('last_updated')
+
+    global CONFIG_LOADED
+    if not CONFIG_LOADED:
+        load_config()
+        register_translator()
+
+    import ckan.model as model
+    from ckanext.archiver.model import ArchiveTask
+
+    a = ArchiveTask.get_for_resource(resource_id)
+    if a:
+        status = {}
+        status['last_updated'] = a.created
+        status['value'] = a.response
+        status['reason'] = a.reason
+        status['last_updated'] = a.created.isoformat() if a.created else ''
+        status['first_failure'] = a.first_failure.isoformat() if a.first_failure else ''
+        status['failure_count'] = a.failure_count
+        status['last_success'] = a.last_success.isoformat() if a.last_success else ''
         log.info('Archiver status (currently stored value): %s', status)
     else:
         status = {'value': '', 'reason': '',
