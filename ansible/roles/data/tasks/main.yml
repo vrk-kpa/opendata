@@ -7,7 +7,7 @@
   - maintenance
 
 - name: Import dataset tags
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_dataset_tags ckanext.ytp.dataset.tags_import manual '{\"ontology_url\": \"http://onki.fi/en/browser/downloadfile/juho?o=http%3A%2F%2Fwww.yso.fi%2Fonto%2Fjuho&f=juho%2Fyso%2Bvnas%2Beks%2Bveps160610a-ONKIIN.rdf-xml.owl\", \"meta_name\": \"z_avoindatafi_metadata\"}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_dataset_tags ckanext.ytp.dataset.tags_import manual '{\"topic_url\": \"http://dev.finto.fi/rest/v1/avoindata-topic/data\", \"contenttype_url\": \"http://dev.finto.fi/rest/v1/avoindata-ct/data\", \"data_format\": \"n3\", \"meta_name\": \"z_avoindatafi_metadata\"}'"
   tags:
   - data
   - data-tags-celery
@@ -30,6 +30,16 @@
   with_items: harvest_sources
   when: harvest_sources != False
   ignore_errors: True
+  tags:
+  - data
+  - non-local
+  - harvest
+
+- name: Set public harvest sources
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'"
+  ignore_errors: True
+  with_items:
+  - { name: "maanmittauslaitos", url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw", type: "csw", title: "Maanmittauslaitos", organization: "maanmittauslaitos", configuration: '' }
   tags:
   - data
   - non-local
