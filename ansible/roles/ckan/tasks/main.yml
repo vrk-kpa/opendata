@@ -22,16 +22,6 @@
   - packages
   - ckan
 
-- name: Create ckan group
-  group: name={{ ckan_group }} state=present system=yes
-  tags:
-  - ckan
-
-- name: Create ckan user
-  user: name="{{ ckan_user }}" state=present group="{{ ckan_group }}" groups="{{ www_group }}" system=yes shell=/usr/sbin/nologin home="{{ server_path }}"
-  tags:
-  - ckan
-
 - name: Download CKAN package
   get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
   register: download_ckan_package
@@ -72,12 +62,18 @@
   - patch_ckan
 
 - name: Create CKAN files path
-  file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ ckan_group }}"
+  file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
   tags:
   - ckan
 
-- name: Ensure upload path ownership
-  command: chown -R "{{ www_user }}:{{ ckan_group }}" "{{ ckan_files_path }}" 
+- name: Ensure path ownerships
+  command: chown -R "{{ www_user }}:{{ www_group }}" "{{ ckan_files_path }}" /etc/ckan/default
+  tags:
+  - ckan
+
+- name: Ensure clerybeat pid ownership
+  command: chown "{{ www_user }}:{{ www_group }}" /tmp/celerybeat_pid /tmp/celerybeat_schedule
+  ignore_errors: True
   tags:
   - ckan
 
@@ -124,15 +120,91 @@
   tags:
   - ckan
 
+- name: Ensure spatial requirements
+  apt: pkg="{{ item }}" state=present
+  register: postgis_installed
+  with_items:
+    - postgresql-9.1-postgis
+    - python-dev 
+    - libxslt1-dev
+    - libgeos-c1
+  tags:
+  - packages
+  - ckan
+  - spatial
+
+- name: Spatial table references
+  command: sudo -u postgres psql -d "{{ ckan_database_name }}" -f "{{ item }}"
+  when: postgis_installed|changed
+  with_items:
+    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql"
+    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql"
+  tags:
+  - ckan
+  - spatial
+
+- name: Spatial table rigths
+  command: sudo -u postgres psql -d "{{ ckan_database_username }}" -c "{{ item }}"
+  when: postgis_installed|changed
+  with_items:
+    - "ALTER TABLE spatial_ref_sys OWNER TO {{ ckan_database_username }};"
+    - "ALTER TABLE geometry_columns OWNER TO {{ ckan_database_username }};"
+  tags:
+  - ckan
+  - spatial
+
+- name: Create debian cache path
+  file: path="{{ cache_path }}/debian" state=directory
+  tags:
+  - ckan
+  - spatial
+  - packages
+
+- name: Copy libxml2-2.9 packages
+  copy: src="{{ item }}" dest="{{ cache_path }}/debian/{{ item }}" mode=0644 owner=root group=root
+  register: copy_libxml2
+  with_items:
+    - "libxml2_2.9.1+dfsg1-3_amd64.deb"
+    - "libxml2-dev_2.9.1+dfsg1-3_amd64.deb"
+  tags:
+  - packages
+  - ckan
+  - spatial
+
+- name: Install libxml2-2.9 packages
+  command: dpkg -i "{{ cache_path }}/debian/{{ item }}"
+  when: copy_libxml2|changed
+  with_items:
+    - "libxml2_2.9.1+dfsg1-3_amd64.deb"
+    - "libxml2-dev_2.9.1+dfsg1-3_amd64.deb"
+  tags:
+  - packages
+  - ckan
+  - spatial
+
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
   tags:
   - ckan
+  - spatial
 
 - name: Install requirements
   pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
   tags:
   - ckan
+  - spatial
+
+- name: Install spatial requirements
+  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  tags:
+  - ckan
+  - spatial
+
+- name: Ensure SqlAlchemy version
+  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.7.10" extra_args='--exists-action=w'
+  tags:
+  - ckan
+  - spatial
 
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
@@ -172,6 +244,11 @@
 
 - name: Initialize task database
   shell: ./bin/paster --plugin=ckanext-ytp-tasks ytp-tasks-initialize-database "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
+- name: Initialize spatial database
+  shell: ./bin/paster --plugin=ckanext-spatial spatial initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
 
