@@ -3,7 +3,8 @@
     "user_register": "1",
 
     "custom_username_validation_pattern": "/^[a-z0-9_]+$/",
-    "custom_username_validation_errormsg": "Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _",
+    "custom_username_validation_errormsg": "Username can only contain characters a-z, 0-9 and _",
+    "custom_username_validation_hint": "Username can only contain characters a-z, 0-9 and _",
 
     "theme_default": "ytp_theme",
 
