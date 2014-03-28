@@ -280,6 +280,7 @@
   with_items:
     - { variable: "site_mail", value: "{{ email_from }}" }
     - { variable: "site_name", value: "{{ drupal_site_name }}" }
+    - { variable: "date_format_short", value: 'd.m.Y - H:i'}
   tags:
   - drupal-configuration
   - drupal

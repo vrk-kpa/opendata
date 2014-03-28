@@ -1,6 +1,6 @@
 [program:ckan_gather_consumer]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
 user={{ harvester_user }}
 numprocs=1
 stdout_logfile={{ log_path }}/gather_consumer.log
@@ -12,7 +12,7 @@ startsecs=10
 
 [program:ckan_fetch_consumer]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
 user={{ harvester_user }}
 numprocs=1
 stdout_logfile={{ log_path }}/fetch_consumer.log
