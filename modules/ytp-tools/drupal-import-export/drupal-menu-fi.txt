@@ -1,0 +1,9 @@
+Julkaise dataa {"url":"publish","lang":"fi"}
+Ajankohtaista {"url":"news","lang":"fi"}
+Tietoa palvelusta {"url":"about","lang":"fi"}
+-Palaute {"url":"feedback","lang":"fi"}
+-Medialle {"url":"media","lang":"fi"}
+-Yksityisyys {"url":"privacy","lang":"fi"}
+--Käyttöehdot {"url":"tos","lang":"fi"}
+-Tiedon tuottajat {"url":"producers","lang":"fi"}
+-Käyttäjät {"url":"users","lang":"fi"}

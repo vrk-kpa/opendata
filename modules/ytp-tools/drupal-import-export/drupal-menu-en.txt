@@ -1,0 +1,9 @@
+Publish data {"url":"publish","lang":"en"}
+News {"url":"news","lang":"en"}
+About {"url":"about","lang":"en"}
+-Feedback {"url":"feedback","lang":"en"}
+-Media {"url":"media","lang":"en"}
+-Privacy {"url":"privacy","lang":"en"}
+--Terms of service {"url":"tos","lang":"en"}
+-Data producers {"url":"producers","lang":"en"}
+-Users {"url":"users","lang":"en"}
