@@ -1,0 +1,3 @@
+recursive-include ckanext/ytp/organizations/i18n *
+recursive-include ckanext/ytp/organizations/public *
+recursive-include ckanext/ytp/organizations/templates *
