@@ -1,0 +1,9 @@
+Publicera data {"url":"publish","lang":"sv"}
+Aktuellt {"url":"news","lang":"sv"}
+Om tjänsten {"url":"about","lang":"sv"}
+-Feedback {"url":"feedback","lang":"sv"}
+-Medierna {"url":"media","lang":"sv"}
+-Integritet {"url":"privacy","lang":"sv"}
+--Användarvillkor {"url":"tos","lang":"sv"}
+-Dataproducenter {"url":"producers","lang":"sv"}
+-Användare {"url":"users","lang":"sv"}

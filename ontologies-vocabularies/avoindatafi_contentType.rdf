@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:dc11="http://purl.org/dc/elements/1.1/"
+  xmlns:dct="http://purl.org/dc/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p31">
+    <skos:topConceptOf>
+      <skos:ConceptScheme rdf:about="http://avoindata.fi/onto/contentType">
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p48"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p39"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p20"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p54"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p25"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p4"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p45"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p22"/>
+        <dc11:description xml:lang="fi">Sanastossa on kuvattu Avoindata.fi -palvelussa tietoaineistoon tallennettavat sisältötyypit.</dc11:description>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p50"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p7"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p47"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p43"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p2"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p16"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p26"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p18"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p53"/>
+        <dc11:title xml:lang="sv">Ontologi för Avoindata.fi: Innehållstyp</dc11:title>
+        <skos:prefLabel xml:lang="sv">Ontologi för Avoindata.fi: Innehållstyp</skos:prefLabel>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p56"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p23"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p32"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p29"/>
+        <dc11:publisher xml:lang="en">Ministry of Finance</dc11:publisher>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p6"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p40"/>
+        <dc11:description xml:lang="en">The glossary has descriptions of content types saved in the information content of the  Avoindata.fi service</dc11:description>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p11"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p41"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p52"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p44"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p33"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p27"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p3"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p57"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p13"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p17"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p1"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p12"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p31"/>
+        <skos:prefLabel xml:lang="fi">Avoindata.fi:n ontologia: Sisältötyyppi</skos:prefLabel>
+        <dc11:publisher xml:lang="fi">Valtiovarainministeriö</dc11:publisher>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p10"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p38"/>
+        <dc11:title xml:lang="fi">Avoindata.fi:n ontologia: Sisältötyyppi</dc11:title>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p34"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p36"/>
+        <dc11:description xml:lang="sv">Vokabulären innehåller beskrivningar av  innehållstyper inlagrade i datamaterialet i Avoindata.fi-tjänsten.</dc11:description>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p28"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p37"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p5"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p21"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p15"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p51"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p35"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p30"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p24"/>
+        <dct:license rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+        <dc11:title xml:lang="en">Ontology of Avoindata.fi: Content type</dc11:title>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p9"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p42"/>
+        <skos:prefLabel xml:lang="en">Ontology of Avoindata.fi: Content type</skos:prefLabel>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p19"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p14"/>
+        <dc11:publisher xml:lang="sv">Finansministeriet</dc11:publisher>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p55"/>
+        <skos:hasTopConcept rdf:resource="http://avoindata.fi/onto/contentType/p8"/>
+      </skos:ConceptScheme>
+    </skos:topConceptOf>
+    <skos:prefLabel xml:lang="en">Data security</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Datasäkerhet</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p5479"/>
+    <skos:prefLabel xml:lang="fi">Tietoturva</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p12">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Beskrivning av referensarkitektur</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of reference architecture</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Viitearkkitehtuurin kuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p14">
+    <skos:prefLabel xml:lang="sv">Beskrivning av den gemensamma övergripande arkitekturen inom organisation</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of a single organization's architecture</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Yksittäisen organisaation arkkitehtuurikuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p34">
+    <skos:prefLabel xml:lang="sv">Identifikatorer</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Tunnisteet</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Identifiers</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p12492"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p22">
+    <skos:prefLabel xml:lang="en">Code libraries</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Kodsystem</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Koodistot</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p8">
+    <skos:prefLabel xml:lang="sv">Beskrivning av anknytande arkitektur</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of adjoining architecture</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Sidosarkkitehtuurin kuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p38">
+    <skos:prefLabel xml:lang="sv">Anvisningar</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p9583"/>
+    <skos:prefLabel xml:lang="fi">Ohjeet</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Instructions</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p20">
+    <skos:prefLabel xml:lang="en">File formats</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p12108"/>
+    <skos:prefLabel xml:lang="fi">Tiedostomuodot</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Filformat</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p51">
+    <skos:prefLabel xml:lang="sv">Beskrivning av informationssystem</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Tietojärjestelmän kuvaus</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of information system</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p35">
+    <skos:prefLabel xml:lang="sv">Audiovisuellt material</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Audiovisual material</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Audiovisuaalinen aineisto</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p6545"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p36">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Communication systems</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Viestijärjestelmät</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Kommunikationssystem</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p4">
+    <skos:prefLabel xml:lang="sv">Beskrivning av målarkitektur</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Description of target architecture</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Kohdearkkitehtuurikuvaus</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p56">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Prosessikuvaus</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Processbeskrivning</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Process diagram</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p11">
+    <skos:prefLabel xml:lang="fi">Valtionhallinnon yhteisen kokonaisarkkitehtuurin kuvaus</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Description of the shared central government enterprise architecture</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Beskrivning av den gemensamma övergripande arkitekturen inom statsförvaltningen</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p6">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of the present state</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Beskrivning av nuläget</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Nykytilan kuvaus</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p23">
+    <skos:prefLabel xml:lang="sv">Användargränssnitt</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">User interfaces</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p1295"/>
+    <skos:prefLabel xml:lang="fi">Käyttöliittymät</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p2">
+    <skos:prefLabel xml:lang="fi">Arkkitehtuurikuvaukset</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Arkitekturbeskrivningar</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Architecture descriptions</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p16">
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p5841"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Stipulations</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Bestämmelser</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Määräykset</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p53">
+    <skos:prefLabel xml:lang="en">Short description of information system</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Tietojärjestelmäseloste</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Redogörelse för informationssystem</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p21">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p1321"/>
+    <skos:prefLabel xml:lang="en">Indexes</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Hakemistot</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Index</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p25">
+    <skos:prefLabel xml:lang="fi">Mallintaminen</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Modellering</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Modelling</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p3533"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p45">
+    <skos:prefLabel xml:lang="sv">Beskrivning av information</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of information</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Tietojen kuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p26">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Character sets</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Teckenuppsättningar</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Merkistöt</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p44">
+    <skos:prefLabel xml:lang="en">Technology service</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Tekniktjänst</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Teknologiapalvelu</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p18">
+    <skos:prefLabel xml:lang="sv">Strukturell data</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Structured data</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Rakenteinen tieto</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p28">
+    <skos:prefLabel xml:lang="fi">Paikkatieto</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Geografiska information</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Geographic information</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p40">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">JHS-rekommendation</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">JHS-suositus</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">JHS-recommendation</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p24">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Klassificeringar</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Classifications</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p1401"/>
+    <skos:prefLabel xml:lang="fi">Luokitukset</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p50">
+    <skos:prefLabel xml:lang="en">XML-schemes</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">XML-skeemat</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">XML-scheman</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p7">
+    <skos:prefLabel xml:lang="fi">Soveltamisohjeet</skos:prefLabel>
+    <skos:closeMatch rdf:resource="http://www.yso.fi/onto/juho/p525"/>
+    <skos:prefLabel xml:lang="en">Guidelines</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Instruktioner</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p54">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of functionality</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Toiminnan kuvaus</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Beskrivning av verksamheten</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p15">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Open data</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Avoin data</skos:prefLabel>
+    <skos:closeMatch rdf:resource="http://www.yso.fi/onto/yso/p26655"/>
+    <skos:prefLabel xml:lang="sv">Öppen data</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p39">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p7637"/>
+    <skos:prefLabel xml:lang="fi">Suositukset</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Rekommendationer</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Recommendations</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p43">
+    <skos:prefLabel xml:lang="en">Description of technology</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Teknikbeskrivning</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Teknologiakuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p10">
+    <skos:prefLabel xml:lang="sv">Exempel på genomförande</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Toteutusesimerkki</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Example of implementation</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p33">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Toiminnan kehittäminen</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Development of functions</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Utveckling av verksamheten</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p57">
+    <skos:prefLabel xml:lang="fi">Skeemat</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p6369"/>
+    <skos:prefLabel xml:lang="en">Schemes</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Scheman</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p52">
+    <skos:prefLabel xml:lang="en">Information system service</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Tietojärjestelmäpalvelu</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Informationssystemtjänst</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p19">
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p4513"/>
+    <skos:prefLabel xml:lang="en">Standards</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Standardit</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Standarder</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p29">
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p7407"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Glossaries</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Sanastot</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Ordlistor</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p47">
+    <skos:prefLabel xml:lang="sv">Begreppsmodell</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Conceptual model</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Käsitemalli</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p9">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of target</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Beskrivning av målläget</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Tavoitetilan kuvaus</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p13">
+    <skos:prefLabel xml:lang="fi">Yhteentoimivuuden kuvaus</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Beskrivning av interoperabiliteten</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of interoperability</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p37">
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Web-services</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Web-services</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Web-services</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p3">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="en">Description of the shared public sector enterprise architecture</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Julkisen hallinnon yhteisen kokonaisarkkitehtuurin kuvaus</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Beskrivning av den gemensamma övergripande arkitekturen inom den offentliga förvaltningen</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p30">
+    <skos:prefLabel xml:lang="en">Presentation of information</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Tiedon esitystapa</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Presentationssätt för information</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p48">
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p21341"/>
+    <skos:prefLabel xml:lang="sv">Ontologi</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Ontology</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Ontologia</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p55">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Tjänstebeskrivning</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Service description</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Palvelukuvaus</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p1">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">API</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">API</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">API</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p42">
+    <skos:prefLabel xml:lang="en">VAHTI-instruction</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">VAHTI-anvisning</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">VAHTI-ohje</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p17">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Ohjelmistokomponentit</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Program components</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Programvarukomponenter</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p27">
+    <skos:prefLabel xml:lang="fi">Metadata</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Metakunskap</skos:prefLabel>
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p9319"/>
+    <skos:prefLabel xml:lang="en">Metadata</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p41">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="sv">Annan rekommendation eller anvisning</skos:prefLabel>
+    <skos:prefLabel xml:lang="fi">Muu suositus tai ohje</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Other recommendation or instruction</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p5">
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Kuntasektorin yhteisen kokonaisarkkitehtuurin kuvaus</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Description of the shared local government enterprise architecture</skos:prefLabel>
+    <skos:prefLabel xml:lang="sv">Beskrivining av den gemensamma övergripande arkitekturen inom den kommunala sektorn</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://avoindata.fi/onto/contentType/p32">
+    <skos:exactMatch rdf:resource="http://www.yso.fi/onto/yso/p12936"/>
+    <skos:prefLabel xml:lang="sv">Datanät</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Information networks</skos:prefLabel>
+    <skos:inScheme rdf:resource="http://avoindata.fi/onto/contentType"/>
+    <skos:prefLabel xml:lang="fi">Tietoverkot</skos:prefLabel>
+    <skos:topConceptOf rdf:resource="http://avoindata.fi/onto/contentType"/>
+  </skos:Concept>
+</rdf:RDF>
