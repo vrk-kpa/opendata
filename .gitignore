@@ -1,0 +1,12 @@
+syntax: glob
+*.egg-info
+*.pyc
+*.swp
+*.swo
+*~
+build/
+dist/
+credentials.json
+token.dat.project
+.pydevproject
+.project
