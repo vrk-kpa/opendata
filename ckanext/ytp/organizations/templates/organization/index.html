@@ -1,0 +1,33 @@
+{% ckan_extends %}
+
+<!-- JSTree is included, but so far does nothing. Need to encapsulate it in a 'javascript module' -->
+{% block scripts %}
+  {{ super() }}
+  {% resource 'jstree/jquery.jstree.js' %}
+{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
+  {% block organizations_search_form %}
+    {% snippet 'snippets/search_form.html', type='organization', query=c.q, sorting='disabled', count=c.page.item_count, placeholder=_('Search data producers...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
+  {% endblock %}
+  {% block organizations_list %}
+    {% if c.page.items or request.params %}
+      {% if c.page.items %}
+        <div id="publisher-tree">
+            {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="empty">
+        {{ _('There are currently no organizations for this site') }}.
+        {% if h.check_access('organization_create') %}
+          {% link_for _('How about creating one?'), controller='organization', action='new' %}</a>.
+        {% endif %}
+      </p>
+    {% endif %}
+  {% endblock %}
+  {% block page_pagination %}
+    {# Hide pagination while using the tree view {{ c.page.pager() }} #}
+  {% endblock %}
+{% endblock %}
