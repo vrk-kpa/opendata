@@ -1,0 +1,18 @@
+{% set current_url = request.environ.CKAN_CURRENT_URL %}
+{% set lang = h.lang() %}
+
+{% set menu = h.get_menu_for_page(current_url, lang) %}
+{%- if menu -%}
+    <ul class="menu nav">
+        {%- for _item, attribs in menu.tree.items() recursive -%}
+            <li class="ytp-menulink">
+                <a href="{{ attribs['link']['href'] }}" {% if attribs['selected'] -%}class="selected"{%- endif -%}>
+                    {{ attribs['link']['title'] }}
+                </a>
+                {%- if attribs['children'] -%}
+                    <ul class="menu nav">{{ loop(attribs['children'].items()) }}</ul>
+                {%- endif -%}
+            </li>
+        {%- endfor -%}
+    </ul>
+{%- endif -%}
