@@ -1,0 +1,260 @@
+# Translations template for ckanext-ytp-dataset.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ytp-dataset
+# project.
+# 
+# Translators:
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-04-02 12:22+0300\n"
+"PO-Revision-Date: 2014-04-02 09:23+0000\n"
+"Last-Translator: ilja.dev\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/ytp/dataset/converters.py:10
+msgid "Multiple translation in same language"
+msgstr ""
+
+#: ckanext/ytp/dataset/converters.py:69
+msgid "Date format incorrect"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:181
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
+msgid "Collection Type"
+msgstr "Information reserv"
+
+#: ckanext/ytp/dataset/plugin.py:182
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
+msgid "Tags"
+msgstr "Ämne"
+
+#: ckanext/ytp/dataset/plugin.py:183
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:105
+msgid "Content Type"
+msgstr "Innehållstyp"
+
+#: ckanext/ytp/dataset/plugin.py:184
+msgid "Formats"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:185
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:69
+msgid "Organization"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:5
+msgid "Valid from"
+msgstr "Gäller från"
+
+#: ckanext/ytp/dataset/translations.py:6
+msgid "Valid till"
+msgstr "Giltigt till"
+
+#: ckanext/ytp/dataset/translations.py:7
+msgid "Title en"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:8
+msgid "Title fi"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:9
+msgid "Title sv"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/new.html:4
+#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
+#: ckanext/ytp/dataset/templates/package/new_resource.html:4
+msgid "Create Dataset"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
+msgid "Additional data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/new_resource.html:4
+msgid "Add data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:16
+msgid "License"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:77
+msgid "Change log"
+msgstr "Versionshistorik"
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:78
+msgid "Created"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:79
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:80
+msgid "Show change log"
+msgstr "Visa versionshistorik"
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:85
+msgid "Related"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:92
+msgid "Add related"
+msgstr "Lägg in relaterad"
+
+#: ckanext/ytp/dataset/templates/package/snippets/license_rdf.html:17
+#, python-format
+msgid ""
+" To the extent possible under law <a rel=\"dct:publisher\" "
+"href=\"%(creator_url)s\" > <span "
+"property=\"dct:title\">%(creator)s</span></a> has waived all copyright and "
+"related or neighboring rights to <a href=\"%(content_url)s\" > <span "
+"property=\"dct:title\">%(content_title)s</span></a>. "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/license_rdf.html:33
+#, python-format
+msgid ""
+" <span xmlns:dct=\"http://purl.org/dc/terms/\"  "
+"\thref=\"http://purl.org/dc/dcmitype/Dataset\"  \tproperty=\"dct:title\" "
+"rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\"  "
+"\trel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
+"href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
+"rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> "
+"Creative Commons Attribution 4.0 International License</a>. "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:14
+msgid "Open Data"
+msgstr "Open data"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:20
+msgid "Interoperability Tools"
+msgstr "Verktyg för driftskompatibilitet"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:27
+msgid "Public Service"
+msgstr "Statstjänst"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+msgid "Title"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+msgid "eg. A descriptive title"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+msgid "Copyright Notice"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+msgid "Additional information concerning copyright"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+msgid "Disclaimer of Warranty"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+msgid "Disclaimer on liability due to use of this dataset"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:72
+msgid "Select an organization..."
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:86
+msgid "Visibility"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+msgid "Public"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+msgid "Private"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:107
+msgid "Period of validity"
+msgstr "Giltighet"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:108
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:110
+msgid "YYYY-MM-DD"
+msgstr "ÅÅÅÅ-MM-DD"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:113
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
+msgid "Extra information"
+msgstr "Kommentarer"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:13
+msgid "No description for this resource"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:3
+msgid "Files"
+msgstr "Filer"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:17
+#, python-format
+msgid ""
+" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
+"add some?</a> "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:8
+msgid "Source"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:16
+msgid "Author"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
+msgid "Maintainer"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:30
+msgid "Version"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
+msgid "State"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
+msgid "Show More {facet_type}"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:73
+msgid "Show Only Popular {facet_type}"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
+msgid "There are no {facet_type} that match this search"
+msgstr ""
