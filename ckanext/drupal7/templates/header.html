@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{% block header_account_notlogged %}
+<li><a href="//{{ h.ckanext_drupal7_domain() }}/user">{{ _('Log in') }}</a></li>
+  <li><a href="//{{ h.ckanext_drupal7_domain() }}/user/register">{{ _('Register') }}</a></li>
+{% endblock %}
+
+{% block header_account_log_out_link %}
+  <li><a href="//{{ h.ckanext_drupal7_domain() }}/user/logout" title="{{ _('Log out') }}">
+    <i class="icon-signout"></i>
+  </a></li>
+{% endblock %}
+
