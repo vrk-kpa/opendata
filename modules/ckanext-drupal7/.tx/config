@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-drupal7]
+file_filter = i18n/<lang>/LC_MESSAGES/ckanext-drupal7.po
+source_file = i18n/ckanext-drupal7.pot
+source_lang = en
+type = PO
+

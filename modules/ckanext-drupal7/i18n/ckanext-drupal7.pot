@@ -1,0 +1,36 @@
+# Translations template for ckanext-drupal7.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-drupal7
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-drupal7 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-02-20 17:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: ckanext/drupal7/plugin.py:22
+msgid "Users cannot be created."
+msgstr ""
+
+#: ckanext/drupal7/plugin.py:28
+msgid "Users cannot be edited."
+msgstr ""
+
+#: ckanext/drupal7/plugin.py:34 ckanext/drupal7/plugin.py:40
+msgid "Users cannot reset passwords."
+msgstr ""
+
+#: ckanext/drupal7/plugin.py:175
+msgid "You are not authorized to do this"
+msgstr ""
+
