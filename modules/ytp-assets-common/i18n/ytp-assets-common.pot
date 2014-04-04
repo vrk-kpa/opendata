@@ -1,0 +1,50 @@
+# Manual
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-01-03 15:16+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "Log in"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Own checklist"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Data Repositories"
+msgstr ""
+
+msgid "Data Producers"
+msgstr ""
+
+msgid "Publish Data"
+msgstr ""
+
+msgid "News"
+msgstr ""
+
+msgid "About us"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Strong"
+msgstr ""
+
+msgid "Username can only contain characters a-z, 0-9 and _"
+msgstr ""
