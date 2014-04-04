@@ -1,0 +1,9 @@
+{% ckan_extends %}
+
+{% block secondary_content %}
+{% endblock %}
+
+{% block body_extras %}
+    {{ super() }}
+    {% resource "ytp_user_js/ytp_user.js" %}
+{% endblock %}
