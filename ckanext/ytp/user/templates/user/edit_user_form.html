@@ -1,0 +1,70 @@
+{% import 'macros/form.html' as form %}
+
+<form class="dataset-form form-horizontal" method="post" action="{{ action }}" data-module="basic-form" enctype="multipart/form-data">
+  {{ form.errors(error_summary) }}
+
+  <fieldset>
+    <legend>{{ _('Change details') }}</legend>
+    {{ form.input('name', label=_('Username'), id='field-username', value=data.name, error=errors.name, classes=['control-medium'], is_required=true, attrs={'readonly': 'readonly'}) }}
+
+    {{ form.input('_apikey', label=_('API key'), id='field-apikey', value=data.apikey, classes=['control-medium'], attrs={'readonly': 'readonly'}) }}
+
+    {{ form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('eg. Joe Bloggs'), is_required=true, classes=['control-medium']) }}
+
+    {{ form.input('job_title', label=_('Job title'), id='field-job_title', value=data.job_title, error=errors.job_title, placeholder=_('Software Designer'), classes=['control-medium']) }}
+
+    {{ form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('eg. joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': 'readonly'}) }}
+
+    {{ form.input('telephone_number', label=_('Telephone number'), id='field-telephone_number', value=data.telephone_number, error=errors.telephone_number, placeholder=_('+358 50 123 4567'), classes=['control-medium']) }}
+
+    {{ form.select('main_organization', label=_('Main organization'), options=h.organizations_for_select(), selected=data.main_organization, error=errors.main_organization) }}
+
+    {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
+    {% set is_url = data.image_url and data.image_url.startswith('http') %}
+
+    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
+
+    {{ form.markdown('about', label=_('About'), id='field-about', value=data.about, error=errors.about, placeholder=_('A little information about yourself')) }}
+
+    {# Social Media #}
+
+    {{ form.input('linkedin', label=_('LinkedIn'), id='field-linkedin', value=data.linkedin, error=errors.linkedin, placeholder=_('https://uk.linkedin.com/in/joe_bloggs'), classes=['control-medium']) }}
+    {{ form.input('facebook', label=_('Facebook'), id='field-facebook', value=data.facebook, error=errors.facebook, placeholder=_('https://www.facebook.com/joe_boggs'), classes=['control-medium']) }}
+    {{ form.input('twitter', label=_('Twitter'), id='field-twitter', value=data.twitter, error=errors.twitter, placeholder=_('https://twitter.com/avoindata'), classes=['control-medium']) }}
+
+    {# User pages #}
+
+    {% call form.input_block("field-blog", _('Blogs'), errors.blog, ['control-medium'], is_required=false) %}
+        {% for blog_item in data.blog %}
+        <input id="field-blog-{{ loop.counter }}" type="text" name="blog" value="{{ blog_item }}" />
+        {% endfor %}
+        <input id="field-blog" type="text" name="blog" value="" placeholder="{{ _('https://www.example.com/my-blog') }}" class="ytp-list" />
+    {% endcall %}
+
+    {% call form.input_block("field-www_page", _('WWW-pages'), errors.www_page, ['control-medium'], is_required=false) %}
+        {% for www_page_item in data.www_page %}
+        <input id="field-www_page-{{ loop.counter }}" type="text" name="www_page" value="{{ www_page_item }}" />
+        {% endfor %}
+
+        <input id="field-www_page" type="text" name="www_page" value="" placeholder="{{ _('https://www.example.com/my-page') }}" class="ytp-list" />
+    {% endcall %}
+
+    {% if c.show_email_notifications %}
+      {% call form.checkbox('activity_streams_email_notifications', label=_('Subscribe to notification emails'), id='field-activity-streams-email-notifications', value=True, checked=c.userobj.activity_streams_email_notifications) %}
+      {{ form.info(_("You will receive notification emails from {site_title}, e.g. when you have new activities on your dashboard.".format(site_title=g.site_title)), classes=['info-help-tight']) }}
+      {% endcall %}
+    {% endif %}
+
+  </fieldset>
+
+  <div class="form-actions">
+    {% block delete_button %}
+      {% if h.check_access('user_delete', {'id': data.id})  %}
+        {% set locale = h.dump_json({'content': _('Are you sure you want to delete this User?')}) %}
+        <a class="btn btn-danger pull-left" href="{% url_for controller='user', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+      {% endif %}
+    {% endblock %}
+    {{ form.required_message() }}
+    <button class="btn btn-primary" type="submit" name="save">{{ _('Update Profile') }}</button>
+  </div>
+</form>
