@@ -1,0 +1,19 @@
+<div class="byline">	<span  class="byline-dataset">
+{{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y") }} {% if pkg.organization -%}
+	|<a href="/data/organization/{{pkg.organization.get('name') }}">
+	{{ pkg.organization.get('title') }}</a>
+{%- endif -%}
+</span>  
+ <span  class="byline-dataset"> add note | translations </span> <br />
+ <span class="byline-contentype"><a href="/data/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a> </span>
+{%- if pkg.get('resources') -%}
+	{% set formats = h.unique_formats(pkg.get('resources')) %}
+<span class="byline-dataset"> 
+	{%- for format in formats -%}
+		{{_(format)}}
+	{%- if not loop.last %} | {% endif -%}
+	{%- endfor -%}
+</span>
+{%- endif -%}
+
+</div>

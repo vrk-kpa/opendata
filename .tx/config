@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-ytp-dataset]
+file_filter = i18n/<lang>/LC_MESSAGES/ckanext-ytp-dataset.po
+source_file = i18n/ckanext-ytp-dataset.pot
+source_lang = en
+type = PO
+

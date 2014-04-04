@@ -1,0 +1,120 @@
+{% ckan_extends %}
+
+{% import 'macros/language_form.html' as language_form %}
+
+{% block package_basic_fields_title %}
+    {% resource "ytp_dataset_js/ytp_dataset.js" %}
+
+    {# YTP extensions to dataset #}
+
+    {% call form.input_block("collection_type", _('Collection Type'), errors.collection_type, [], extra_html="") %}
+        <div class="radio-select-label">
+          <label class="radio inline">
+            <input name="collection_type" type="radio" value="Open Data" {% if data.collection_type == 'Open Data' %}checked="checked"{% endif %} />
+            {%- trans -%}Open Data{%- endtrans -%}
+          </label> 
+        </div>
+        <div class="radio-select-label">
+          <label class="radio inline">
+            <input name="collection_type" type="radio" value="Interoperability Tools" {% if data.collection_type == 'Interoperability Tools' %}checked="checked"{% endif %} />
+            {%- trans -%}Interoperability Tools{%- endtrans -%}
+          </label>
+        </div>
+        {# Disabled temporarily from view. Remove hidden to enable. #}
+        <div class="radio-select-label hidden">
+          <label class="radio inline">
+            <input name="collection_type" type="radio" value="Public Services" {% if data.collection_type == 'Public Services' %}checked="checked"{% endif %} />
+            {%- trans -%}Public Service{%- endtrans -%}
+          </label>
+        </div>
+    {% endcall %}
+
+    {{ language_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), selected_locale=data.title_locale, data=data) }}
+
+{% endblock %}
+
+{% block package_basic_fields_license %}
+    {{ super() }}
+    {{ form.markdown('copyright_notice', id='field-copyright', label=_('Copyright Notice'), placeholder=_('Additional information concerning copyright'), value=data.copyright_notice, error=errors.copyright_notice) }}
+    {{ form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer) }}
+{% endblock %}
+
+{% block package_basic_fields_org %}
+
+    {# ### Taken from CKAN. Modified to show organization and visibility selector always. ### #}
+
+    {# if we have a default group then this wants remembering #}
+    {% if data.group_id %}
+      <input type="hidden" name="groups__0__id" value="{{ data.group_id }}" />
+    {% endif %}
+
+    {% set dataset_is_draft = data.get('state', 'draft').startswith('draft') or data.get('state', 'none') ==  'none' %}
+    {% set dataset_has_organization = data.owner_org or data.group_id %}
+    {% set organizations_available = h.organizations_available('create_dataset') %}
+    {% set user_is_sysadmin = h.check_access('sysadmin') %}
+    {% set show_organizations_selector = organizations_available %}
+    {% set show_visibility_selector = dataset_has_organization or organizations_available %}
+
+    {% if show_organizations_selector and show_visibility_selector %}
+      <div data-module="dataset-visibility">
+    {% endif %}
+
+    {% if dataset_has_organization %}
+        {% set selected_org = dataset_has_organization %}
+        {% set existing_org = dataset_has_organization %}
+    {% endif %}
+
+    {% if show_organizations_selector %}
+    <div class="control-group">
+      <label for="field-organizations" class="control-label">{{ _('Organization') }}</label>
+      <div class="controls">
+        <select id="field-organizations" name="owner_org" data-module="autocomplete">
+          <option value="" {% if not selected_org and data.id %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
+          {% for organization in organizations_available %}
+            {# get out first org from users list only if there is not an existing org #}
+            {% set selected_org = (existing_org and existing_org == organization.id) or (not existing_org and not data.id and organization.id == organizations_available[0].id) %}
+            <option value="{{ organization.id }}" {% if selected_org %} selected="selected" {% endif %}>{{ organization.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show_visibility_selector %}
+      {% block package_metadata_fields_visibility %}
+        <div class="control-group">
+          <label for="field-private" class="control-label">{{ _('Visibility') }}</label>
+          <div class="controls">
+            <select id="field-private" name="private">
+              {% for option in [('False', _('Public')), ('True', _('Private'))] %}
+                <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      {% endblock %}
+    {% endif %}
+
+    {% if show_organizations_selector and show_visibility_selector %}
+      </div>
+    {% endif %}
+
+    {# ### YTP extensions to dataset ### #}
+
+    {% set content_type_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'content_type', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=content_type&incomplete=?'} %}
+    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder='', value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs) }}
+
+    {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
+        <input id="valid_from" type="date" name="valid_from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+        -
+        <input id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+    {% endcall %}
+
+    {{ form.markdown('extra_information', id='field-extra_information', label=_('Extra information'), value=data.extra_information, error=errors.extra_information) }}
+
+    {{ form.hidden("ytp", "true") }}
+
+{% endblock %}
+
+
+
