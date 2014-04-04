@@ -1,0 +1,39 @@
+#!/usr/bin/env drush
+
+// Set IMCE role profiles
+// Give role names as arguments
+
+$public_pid = 1; // default profile
+$weight = "0";
+
+$imce_roles_profiles = variable_get('imce_roles_profiles');
+
+if (!$imce_roles_profiles) {
+    $imce_roles_profiles = array();
+}
+
+$roles = user_roles();
+$role_ids = array();
+
+while ($argument = drush_shift()) {
+    $role_id = array_search($argument, $roles);
+    if ($role_id === FALSE) {
+        drush_die("Invalid role name " . $argument, 1);
+    }
+    $role_ids[] = $role_id;
+}
+
+if (!$role_ids) {
+    drush_die("No roles provied", 2);
+}
+
+foreach ($role_ids as &$role_id) {
+    $imce_roles_profiles[$role_id] = array('weight' => $weight, 'public_pid' => $public_pid); 
+}
+
+variable_set('imce_roles_profiles', $imce_roles_profiles);
+
+
+
+
+
