@@ -1,0 +1,225 @@
+@import "variables.less";
+
+.navbar-fixed-top {
+  background-color: @navbar-color-background;
+  min-height: @navbar-height;
+
+  .navbar-brand {
+    margin-right: 40%;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .navbar-brand, .lang-select > li > a {
+      color: @navbar-color-text;
+    }
+
+  .navbar-brand, .navbar-nav > li > a {
+    padding: 10px;
+  }
+
+  .navbar-toggle {
+    padding: 4px 0px 5px 0px;
+  }
+
+  .navbar-nav li {
+    font-size: 13px;
+  }
+    .collapse{
+    .navbar-nav.lang-select, .navbar-nav.user-nav {
+    a {
+      margin: 10px 0px 10px 10px;
+      padding: 0px;
+    }
+
+    li a {
+      padding-right: 10px;
+      padding-left: 0px;
+      border-right: 1px solid @navbar-color-text;
+      display: inline-block;
+    }
+    li:last-child a {
+      border-right: medium none;
+      padding-right: 0;
+    }
+    }
+  }
+  .collapsing, .in{
+    .navbar-nav.lang-select, .navbar-nav.user-nav {
+      a {
+        margin: 10px 0px 10px 10px;
+        padding: 0px;
+      }
+      li{
+        text-align:  center;
+        border-bottom: 1px solid @navbar-color-text;
+      }
+      li a {
+        padding-bottom: 10px;
+        padding-top: 0px;
+        display: inline-block;
+      }
+      li:last-child  {
+        border-bottom: medium none;
+        padding-top: 10px;
+      }
+    }
+  }
+}
+
+.navbar-nav.user-nav {
+  span, a {
+    color: @navbar-color-darker;
+  }
+  .login {
+    color: @navbar-color-text;
+  }
+}
+
+.navbar.navbar-main {
+  border: 1px solid @menu-border-color;
+  border-radius: 4px;
+  background-color: @menu-link-background;
+  background-image: url('../images/navbar-main-background.png?timestamp=<%= timestamp %>');
+  background-repeat: repeat-x;
+  min-height: 40px;
+
+  .navbar-brand {
+    padding: 10px;
+  }
+  .navbar-toggle {
+    padding: 0px;
+  }
+
+  .navbar-header {
+    margin: 0;
+    padding: 0;
+    button {
+      padding-top: 6px;
+    }
+    .icon-bar {
+      background: #000;
+    }
+
+    .navbar-brand {
+      color: #333;
+    }
+  }
+
+  .navbar-nav {
+    li > a {
+      font-size: 18px;
+      letter-spacing: 0.5px;      
+      color: @menu-link-color;
+      padding: 10px 20px 10px 20px;
+    }
+    .active {
+      a, a:hover, a:focus {
+        color: #fff;
+        background-color: @menu-active-color;
+        background-image: none;
+      }
+    }
+      a:hover{
+      background-color: @menu-hover-color;
+    }
+  }
+}
+
+.navbar.navbar-search {
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #555555;
+  padding: 2px;
+  height: 54px;
+
+  form {
+    margin: 0;
+    padding: 0;
+
+    input.search-term {
+      float: left;
+      border: 0px;
+      padding: 11px 14px 11px 18px;
+      color: @nonimportant-text-color;
+      background-color: #fff;
+      font-size: 18px;
+      width: 75%;
+    }
+    input.search-submit {
+      border: none;
+      background: url('../images/search-button.png?timestamp=<%= timestamp %>');
+      margin-top: 1px;
+      margin-right: 2px;
+      width: 77px;
+      height: 47px;
+      float: right;
+      color: transparent;
+    }
+  }
+}
+
+
+/* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
+ul.menu.nav {
+  margin-left: 0px !important;
+}
+
+li.ytp-menulink {
+  margin-left: 14px;
+  font-size: 16px;
+
+  a {
+    color: @menu-link-color;
+    font-weight: 300;
+    background: @menu-link-background;
+    padding: 6px 20px 6px 20px;
+    border: 1px solid @menu-border-color;
+    }
+  a:focus, a.selected {
+    color: #fff;
+    background-color: @menu-active-color;
+    border: 1px solid @menu-active-color;
+    }
+  a:hover{
+    color: @menu-link-color;
+    background-color: @menu-hover-color;
+  }
+
+  &.collapsed > a:after {
+    content: "\f105";
+    float: right;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+  }
+
+  &.expanded > a:after {
+    content: "\f107";
+    float: right;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+  }
+}  
+
+li.ytp-menulink.active-trail > a.active-trail {
+  border-left: 6px solid @menu-active-color;
+}
+
+li.ytp-menulink.active > a.active {
+  color: #fff;
+  background-color: @menu-active-color;
+  border: 1px solid @menu-active-color;
+}
+.menu-name-main-menu{
+  margin-left: -14px;  
+}
+.drupal-crumbs{
+  padding-left: 14px;  
+}
