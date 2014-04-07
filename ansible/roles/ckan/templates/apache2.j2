@@ -18,3 +18,7 @@ WSGISocketPrefix /var/run/wsgi
 
 </VirtualHost>
 
+{# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
+{% if vagrant is defined %}
+    EnableSendfile Off
+{% endif %}
