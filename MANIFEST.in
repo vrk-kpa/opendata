@@ -1,0 +1,10 @@
+recursive-include ckanext/ytp/user/templates *
+recursive-include ckanext/ytp/user/public *
+recursive-include ckanext/ytp/dataset/templates *
+recursive-include ckanext/ytp/dataset/public *
+recursive-include ckanext/ytp/organizations/i18n *
+recursive-include ckanext/ytp/organizations/public *
+recursive-include ckanext/ytp/organizations/templates *
+recursive-include ckanext/ytp/theme/public *
+recursive-include ckanext/ytp/theme/templates *
+

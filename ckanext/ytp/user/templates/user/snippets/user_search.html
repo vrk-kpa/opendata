@@ -1,0 +1,19 @@
+<section class="module module-narrow module-shallow simple-input">
+  <h2 class="module-heading">{{ _('Users') }}</h2>
+  <form class="module-content field-bordered" action="{% url_for controller='user', action='index' %}" method="get">
+    <div class="field">
+      <label for="field-user-search">{{ _('Search Users') }}</label>
+      <input id="field-user-search" class="field" name="q" placeholder="{{ _('Search') }}" value="{{ query }}" />
+      <button class="btn-search" type="submit">{{ _('Search') }}</button>
+    </div>
+    <div class="user-search-controls">
+      <a class="user-search-action" href="{% url_for controller='user', action='index' %}">
+        <i class="icon-large icon-remove-sign">{{ _("Clear search") }}</i>
+      </a>
+      <select class="submit-on-change" name="order_by">
+          <option value="name" {% if order_by == 'name' -%}selected="selected"{%- endif -%}>{{ _('Order by name') }}</option>
+          <option value="created" {% if order_by == 'created' -%}selected="selected"{%- endif -%}>{{ _('Order register date') }}</option>
+      </select>
+    </div>
+  </form>
+</section>
