@@ -1,2 +1,0 @@
-recursive-include ckanext/ytp/dataset/templates *
-recursive-include ckanext/ytp/dataset/public *

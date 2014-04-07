@@ -1,9 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[ytp.ckanext-ytp-user]
-file_filter = i18n/<lang>/LC_MESSAGES/ckanext-ytp-user.po
-source_file = i18n/ckanext-ytp-user.pot
-source_lang = en
-type = PO
-

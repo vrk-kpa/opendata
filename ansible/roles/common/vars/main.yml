@@ -4,12 +4,9 @@ modules:
   - ytp-assets-common
   - ckanext-drupal7
   - ckanext-ytp-drupal
-  - ckanext-ytp-organizations
-  - ckanext-ytp-theme
-  - ckanext-ytp-dataset
   - ckanext-ytp-tasks
   - ckanext-ytp-request
-  - ckanext-ytp-user
+  - ckanext-ytp-main
   - ckanext-googleanalytics
   - ytp-theme-drupal
   - ytp-drupal-wysiwyg

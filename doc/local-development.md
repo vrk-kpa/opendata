@@ -16,8 +16,8 @@ The ytp-develop.py -script is created to automated project switching on Vagrant.
 
 Examples:
 
-    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-dataset # replace ckanext-ytp-dataset project
-    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-theme ytp-assets-common # replace both ckanext-ytp-theme and ytp-assets-common projects 
+    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-main # replace ckanext-ytp-main project
+    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-main ytp-assets-common # replace both ckanext-ytp-main and ytp-assets-common projects 
 
 ### Notes
 
