@@ -1,0 +1,75 @@
+{% ckan_extends %}
+
+{% set user = c.user_dict %}
+
+{% block secondary_content %}
+<div class="module context-info">
+  <section class="module-content">
+    {% block secondary_content_inner %}
+      <div class="image">{% if user.image_display_url %}<img src="{{ user.image_display_url }}" width="190" height="190" class="media-image" />{% endif %}</div>
+      <h1 class="heading">{{ user.display_name }}</h1>
+      {% if c.about_formatted %}
+        {{ c.about_formatted }}
+      {% else %}
+        <p class="empty">
+          {% if c.is_myself %}
+            {% trans %}You have not provided a biography.{% endtrans %}
+          {% else %}
+            {% trans %}This user has no biography.{% endtrans %}
+          {% endif %}
+        </p>
+      {% endif %}
+      <div class="nums">
+        <dl>
+          <dt>{{ _('Followers') }}</dt>
+          <dd>{{ h.SI_number_span(user.num_followers) }}</dd>
+        </dl>
+        <dl>
+          <dt>{{ _('Datasets') }}</dt>
+          <dd>{{ h.SI_number_span(user.number_administered_packages) }}</dd>
+        </dl>
+        <dl>
+          <dt>{{ _('Edits') }}</dt>
+          <dd>{{ h.SI_number_span(user.number_of_edits) }}</dd>
+        </dl>
+      </div>
+      {% if c.is_myself == false %}
+        <div class="follow_button">
+          {{ h.follow_button('user', user.id) }}</li>
+        </div>
+      {% endif %}
+      <div class="info">
+        <dl>
+          {% if user.name.startswith('http://') or user.name.startswith('https://') %}
+            <dt>{{ _('Open ID') }}</dt>
+            <dd>{{ user.name|urlize(25) }}{# Be great if this just showed the domain #}</dd>
+          {% else %}
+            <dt>{{ _('Username') }}</dt>
+            <dd>{{ user.name }}</dd>
+          {% endif %}
+        </dl>
+        {% if c.is_myself %}
+          <dl>
+            <dt>{{ _('Email') }} <span class="label" title="{{ _('This means only you can see this') }}">{{ _('Private') }}</span></dt>
+            <dd>{{ user.email }}</dd>
+          </dl>
+        {% endif %}
+        <dl>
+          <dt>{{ _('Member Since') }}</dt>
+          <dd>{{ h.render_datetime(user.created) }}</dd>
+        </dl>
+        <dl>
+          <dt>{{ _('State') }}</dt>
+          <dd>{{ user.state }}</dd>
+        </dl>
+        {% if c.is_myself %}
+          <dl>
+            <dt class="key">{{ _('API Key') }} <span class="label" title="{{ _('This means only you can see this') }}">{{ _('Private') }}</span></dt>
+            <dd class="value"><code>{{ user.apikey }}</code></dd>
+          </dl>
+        {% endif %}
+      </div>
+    {% endblock %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% ckan_extends %}
+
+{% block page_primary_action %}
+	{{ super() }} 
+  <a class="btn btn-primary" href="/data/{{h.lang()}}/member-request/list">
+    <i class="icon-wrench"></i>
+     {{_('Membership Requests')}}
+     </a>
+{% endblock %}
