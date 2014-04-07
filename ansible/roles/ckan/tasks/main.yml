@@ -327,7 +327,7 @@
   notify: Restart Apache
 
 - name: Add facet translations
-  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp-dataset ytp-facet-translations "{{ cache_path }}/ckanext-ytp-dataset/i18n" -c /etc/ckan/default/production.ini
+  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp-main ytp-facet-translations "{{ cache_path }}/ckanext-ytp-main/i18n" -c /etc/ckan/default/production.ini
   when: modules_copy|changed
   tags:
   - translations
