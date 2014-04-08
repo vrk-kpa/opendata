@@ -1,0 +1,42 @@
+---
+
+- name: Download Drupal themes
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
+  register: download_themes
+  with_items:
+    - bootstrap
+  tags:
+  - drupal
+
+- name: Enable Drupal themes
+  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  when: download_themes|changed
+  with_items:
+    - bootstrap
+  tags:
+  - drupal
+
+- name: Install YTP Drupal theme
+  shell: rm -rf "{{ drupal_theme_path }}/ytp_theme" && cp -r "{{ cache_path }}/ytp-theme-drupal" "{{ drupal_theme_path }}/ytp_theme"
+  tags:
+  - drupal
+
+- name: Fetch Bootstrap sources
+  get_url: url="https://github.com/twbs/bootstrap/archive/v{{ bootstrap_version }}.zip" dest="{{ cache_path }}/v{{ bootstrap_version }}.zip"
+  tags:
+  - drupal
+
+- name: Extract Bootstrap source to theme
+  command: unzip "{{ cache_path }}/v{{ bootstrap_version }}.zip" chdir="{{ drupal_theme_path }}/ytp_theme" creates="{{ drupal_theme_path }}/ytp_theme/bootstrap-{{ bootstrap_version }}"
+  tags:
+  - drupal
+
+- name: Symlink Boostrap version
+  command: ln -sf "bootstrap-{{ bootstrap_version }}" bootstrap chdir="{{ drupal_theme_path }}/ytp_theme"
+  tags:
+  - drupal
+
+- name: Enable YTP theme
+  command: drush en -y ytp_theme chdir="{{ drupal_root }}"
+  tags:
+  - drupal

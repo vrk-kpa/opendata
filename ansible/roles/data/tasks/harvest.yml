@@ -1,0 +1,28 @@
+---
+
+- name: Import harvest organizations
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"https://raw.githubusercontent.com/yhteentoimivuuspalvelut/ytp/master/modules/ytp-tools/organization_harvest.json\"}'"
+  when: harvest_sources != False
+  tags:
+  - data
+  - harvest
+
+- name: Set harvest sources
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
+  with_items: harvest_sources
+  when: harvest_sources != False
+  ignore_errors: True
+  tags:
+  - data
+  - non-local
+  - harvest
+
+- name: Set public harvest sources
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'"
+  ignore_errors: True
+  with_items:
+  - { name: "maanmittauslaitos", url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw", type: "csw", title: "Maanmittauslaitos", organization: "maanmittauslaitos", configuration: '' }
+  tags:
+  - data
+  - non-local
+  - harvest

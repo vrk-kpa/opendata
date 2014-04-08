@@ -1,0 +1,28 @@
+---
+
+- name: Copy Drupal features
+  copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
+  register: features_copy
+  with_items: all_features
+  tags:
+  - drupal
+
+- name: Prepare features install
+  file: path="{{ features_module_path }}" state=directory
+  when: features_copy|changed
+  tags:
+  - drupal
+
+- name: Install features
+  command: tar xf "{{ cache_path }}/{{ item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
+  when: features_copy|changed
+  with_items: all_features
+  tags:
+  - drupal
+
+- name: Enable features
+  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
+  when: features_copy|changed
+  with_items: all_features
+  tags:
+  - drupal

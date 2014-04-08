@@ -181,73 +181,9 @@
   tags:
   - drupal
 
-- name: Download Drupal themes
-  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
-  register: download_themes
-  with_items:
-    - bootstrap
-  tags:
-  - drupal
+- include: theme.yml
 
-- name: Enable Drupal themes
-  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
-  when: download_themes|changed
-  with_items:
-    - bootstrap
-  tags:
-  - drupal
-
-- name: Install YTP Drupal theme
-  shell: rm -rf "{{ drupal_theme_path }}/ytp_theme" && cp -r "{{ cache_path }}/ytp-theme-drupal" "{{ drupal_theme_path }}/ytp_theme"
-  tags:
-  - drupal
-
-- name: Fetch Bootstrap sources
-  get_url: url="https://github.com/twbs/bootstrap/archive/v{{ bootstrap_version }}.zip" dest="{{ cache_path }}/v{{ bootstrap_version }}.zip"
-  tags:
-  - drupal
-
-- name: Extract Bootstrap source to theme
-  command: unzip "{{ cache_path }}/v{{ bootstrap_version }}.zip" chdir="{{ drupal_theme_path }}/ytp_theme" creates="{{ drupal_theme_path }}/ytp_theme/bootstrap-{{ bootstrap_version }}"
-  tags:
-  - drupal
-
-- name: Symlink Boostrap version
-  command: ln -sf "bootstrap-{{ bootstrap_version }}" bootstrap chdir="{{ drupal_theme_path }}/ytp_theme"
-  tags:
-  - drupal
-
-- name: Enable YTP theme
-  command: drush en -y ytp_theme chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-
-- name: Copy Drupal features
-  copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
-  register: features_copy
-  with_items: all_features
-  tags:
-  - drupal
-
-- name: Prepare features install
-  file: path="{{ features_module_path }}" state=directory
-  when: features_copy|changed
-  tags:
-  - drupal
-
-- name: Install features
-  command: tar xf "{{ cache_path }}/{{ item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
-  when: features_copy|changed
-  with_items: all_features
-  tags:
-  - drupal
-
-- name: Enable features
-  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
-  when: features_copy|changed
-  with_items: all_features
-  tags:
-  - drupal
+- include: features.yml
 
 - name: Set default Drupal language
   command: drush language-default fi chdir="{{ drupal_root }}"
@@ -284,7 +220,7 @@
   tags:
   - drupal-configuration
   - drupal
-  
+
 - name: Set Drupal remote variables
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
   with_items:
@@ -293,7 +229,7 @@
   - drupal-configuration
   - drupal
   - non-local
- 
+
 - name: Copy fix scripts
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
@@ -328,92 +264,14 @@
   - drupal-configuration
   - drupal
 
-- name: Refresh Drupal translations
-  command: drush l10n-update-refresh chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-  - drupal-translations
-
-- name: Update Drupal translations
-  command: drush -y l10n-update chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-  - drupal-translations
-
-- name: Install extra translations
-  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/i18n/{{ item }}/LC_MESSAGES/ytp-assets-common.po --replace chdir="{{ drupal_root }}"
-  with_items:
-  - "fi"
-  - "sv"
-  when: modules_copy|changed
-  tags:
-  - drupal
-  - drupal-translations
+- include: translations.yml
 
 - name: Ensure PHP-FPM is restarted
   service: name=php5-fpm state=restarted
   tags:
   - drupal
 
-- name: Add Drupal roles
-  command: drush role-create "{{ item }}" chdir="{{ drupal_root }}"
-  ignore_errors: True
-  with_items:
-  - "{{ drupal_editor_rolename }}"
-  - "{{ drupal_ckan_admin_rolename }}"
-  tags:
-  - drupal
-  - roles
-
-- name: Add permissions to editor role
-  command: drush role-add-perm "{{ drupal_editor_rolename }}" "{{ item }}" chdir="{{ drupal_root }}"
-  with_items:
-    - create article content
-    - edit own article content
-    - edit any article content
-    - delete own article content
-    - delete any article content
-    - administer comments
-    - access comments
-    - post comments
-    - edit own comments
-    - view revisions
-    - revert revisions
-    - delete revisions
-    - create service_alert content
-    - edit own service_alert content
-    - edit any service_alert content
-    - delete own service_alert content
-    - delete any service_alert content
-    - translate interface
-    - translate user-defined strings
-    - translate content
-    - use text format filtered_html
-    - use text format full_html
-    - create page content
-    - edit own page content
-    - edit any page content
-    - delete own page content
-    - delete any page content
-    - administer nodes
-    - access content overview
-    - administer url aliases
-    - create url aliases
-    - access toolbar
-    - customize shortcut links
-    - view own unpublished content
-    - administer menu
-  tags:
-  - drupal
-  - roles
-
-- name: Add permissions to anonymous role
-  command: drush role-add-perm "1" "{{ item }}" chdir="{{ drupal_root }}"
-  with_items:
-    - services menu retrieve menu
-  tags:
-  - drupal
-  - roles
+- include: roles.yml
 
 - name: Add default editor user
   command: drush user-create "{{ drupal_default_editor_username }}" --mail="{{ drupal_default_editor_email }}" --password="{{ drupal_default_editor_password }}" chdir="{{ drupal_root }}"

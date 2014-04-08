@@ -1,0 +1,23 @@
+---
+
+- name: Refresh Drupal translations
+  command: drush l10n-update-refresh chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+  - drupal-translations
+
+- name: Update Drupal translations
+  command: drush -y l10n-update chdir="{{ drupal_root }}"
+  tags:
+  - drupal
+  - drupal-translations
+
+- name: Install extra translations
+  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/i18n/{{ item }}/LC_MESSAGES/ytp-assets-common.po --replace chdir="{{ drupal_root }}"
+  with_items:
+  - "fi"
+  - "sv"
+  when: modules_copy|changed
+  tags:
+  - drupal
+  - drupal-translations
