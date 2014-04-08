@@ -1,0 +1,28 @@
+# Manual
+# 
+# Translators:
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"POT-Creation-Date: 2014-01-03 15:16+0200\n"
+"PO-Revision-Date: 2014-04-08 11:22+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Strong"
+msgstr "Vahva"
+
+msgid "Username can only contain characters a-z, 0-9 and _"
+msgstr "Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _"
+
+msgid "password"
+msgstr "salasana"
+
+msgid "Have you forgotten your password?"
+msgstr "Unohtuiko salasana?"

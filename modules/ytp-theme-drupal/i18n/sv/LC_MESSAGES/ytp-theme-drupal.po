@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-04-08 11:59+0000\n"
+"PO-Revision-Date: 2014-04-08 11:00+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -14,32 +14,14 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Log in"
-msgstr "Logga in"
+msgid "Strong"
+msgstr ""
 
-msgid "Log out"
-msgstr "Logga ut"
+msgid "Username can only contain characters a-z, 0-9 and _"
+msgstr ""
 
-msgid "Own checklist"
-msgstr "Egen checklista"
+msgid "password"
+msgstr ""
 
-msgid "Home"
-msgstr "Start"
-
-msgid "Data Repositories"
-msgstr "Databaser"
-
-msgid "Data Producers"
-msgstr "Dataproducenter"
-
-msgid "Publish Data"
-msgstr "Publicera data"
-
-msgid "News"
-msgstr "News"
-
-msgid "About us"
-msgstr "Om oss"
-
-msgid "Files"
-msgstr "Filer"
+msgid "Have you forgotten your password?"
+msgstr ""

@@ -16,3 +16,11 @@ all_features:
   - service_alert_feature
   - article_view_feature
   - blocks_feature
+
+translation_cache_path: "{{ cache_path }}/translations"
+translation_languages:
+  - "fi"
+  - "sv"
+translation_projects:
+  - "ytp-theme-drupal"
+  - "ytp-assets-common"
