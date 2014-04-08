@@ -125,11 +125,11 @@
       <?php if (!empty($action_links)): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-      <h2><?php print t("Username") . ' ' . t('and') . ' ' . t("password") ?></h2>
+      <h2 class="form-subheading"><?php print t("Username") . ' ' . t('and') . ' ' . t("password") ?></h2>
       <?php print drupal_render($loginform); ?>
       <br/>
       <div id="ResetPasswordForm" style="display: none;">
-        <h2><?php print t("Have you forgotten your password?") ?>
+        <h2 class="form-subheading"><?php print t("Have you forgotten your password?") ?></h2>
         <?php print drupal_render($resetform); ?>
       </div>
     </section>
