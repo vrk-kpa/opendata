@@ -133,7 +133,6 @@ def organization_type_import(data):
 
     try:
         creation = get_action('vocabulary_create')(context, {'name': vocabulary_name, 'tags': org_types})
-        print creation
     except ValidationError:
         existing_vocab = get_action('vocabulary_show')(context, {'id': vocabulary_name})
         existing_id = existing_vocab.get('id')

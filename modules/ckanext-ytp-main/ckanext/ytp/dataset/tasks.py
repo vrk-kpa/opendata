@@ -66,10 +66,7 @@ def parse_tag_list(data_url, data_format, tag_limit):
                 if label_obj.language == 'fi':
                     tag_list.append(unicode(label_obj))
             else:
-                print "Reached tag limit of %s" % tag_limit
                 break
-
-    print "Parsed %s tags from %s triples" % (len(tag_list), len(graph))
     return tag_list
 
 
