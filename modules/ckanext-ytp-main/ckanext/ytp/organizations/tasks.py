@@ -132,7 +132,7 @@ def organization_type_import(data):
     _add_children_concepts(org_types, graph, URIRef('http://www.yso.fi/onto/jupo/p1050'), 0, 8, '')
 
     try:
-        creation = get_action('vocabulary_create')(context, {'name': vocabulary_name, 'tags': org_types})
+        get_action('vocabulary_create')(context, {'name': vocabulary_name, 'tags': org_types})
     except ValidationError:
         existing_vocab = get_action('vocabulary_show')(context, {'id': vocabulary_name})
         existing_id = existing_vocab.get('id')
