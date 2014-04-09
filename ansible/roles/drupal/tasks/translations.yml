@@ -12,8 +12,26 @@
   - drupal
   - drupal-translations
 
+- name: Create temporary drupal translation files
+  command: touch  "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po"
+  with_items: translation_languages
+  when: modules_copy|changed
+  tags:
+  - translations
+  - drupal-translations
+
+- name: Join drupal translation source files
+  command: msgcat "{{ cache_path }}/{{ item[0] }}/i18n/{{ item[1] }}/LC_MESSAGES/{{ item[0] }}.po" "{{ translation_cache_path }}/drupal.{{ item[1] }}.temporary.po" --use-first -o "{{ translation_cache_path }}/drupal.{{ item[1] }}.temporary.po"
+  with_nested:
+    - translation_projects
+    - translation_languages
+  when: modules_copy|changed
+  tags:
+  - translations
+  - drupal-translations
+
 - name: Install extra translations
-  command: drush language-import {{ item }} {{ cache_path }}/ytp-assets-common/i18n/{{ item }}/LC_MESSAGES/ytp-assets-common.po --replace chdir="{{ drupal_root }}"
+  command: drush language-import {{ item }} "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po" --replace chdir="{{ drupal_root }}"
   with_items:
   - "fi"
   - "sv"

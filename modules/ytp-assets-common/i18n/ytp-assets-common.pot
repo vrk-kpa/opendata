@@ -43,8 +43,3 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-msgid "Strong"
-msgstr ""
-
-msgid "Username can only contain characters a-z, 0-9 and _"
-msgstr ""

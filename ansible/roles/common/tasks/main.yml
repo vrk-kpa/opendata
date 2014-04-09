@@ -31,13 +31,6 @@
   tags:
   - common
 
-- name: Set server to maintenance
-  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
-  notify: Maintenance end
-  tags:
-  - maintenance
-  - common
-
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -61,6 +54,7 @@
   - resources
   - modules
   - translations
+  - drupal-translations
 
 - name: Copy modules
   copy: src="{{ modules_path }}/{{ item }}.tar" dest="{{ cache_path }}"
@@ -74,6 +68,7 @@
   - resources
   - modules
   - translations
+  - drupal-translations
 
 - name: Extract modules
   shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"

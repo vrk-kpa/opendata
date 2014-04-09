@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ytp-theme-drupal]
+file_filter = i18n/<lang>/LC_MESSAGES/ytp-theme-drupal.po
+source_file = i18n/ytp-theme-drupal.pot
+source_lang = en
+type = PO
+

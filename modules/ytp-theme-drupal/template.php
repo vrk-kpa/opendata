@@ -88,6 +88,46 @@ function ytp_theme_preprocess_page(&$variables) {
     $variables['site_section'] = '';
   }
 
+  unset($variables['tabs']);
+
+
+  if ( in_array('page__user__login', $variables['theme_hook_suggestions'] ) ){
+    $loginform = drupal_get_form('user_login_block');
+    if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
+        $items[] = l(t('Create new account'), 'user/register', array('attributes' => array('title' => t('Create a new user account.'))));
+    }
+    $items[] = '<a onclick="jQuery(\'#ResetPasswordForm\').show()">' . t("Request new password") . '</a>';
+    $loginform['links'] = array('#markup' => theme('item_list', array('items' => $items)));
+    $loginform['links']['#weight'] = 100;
+    $loginform['#attributes'] = array('class' => 'form-horizontal');
+    $loginform['name']['#field_prefix'] = '<div class="col-sm-10">';
+    $loginform['name']['#field_suffix'] = '</div>';
+
+    $loginform['pass']['#field_prefix'] = '<div class="col-sm-10">';
+    $loginform['pass']['#field_suffix'] = '</div>';
+
+    $loginform['links']['#prefix'] = '<div class="col-sm-8">';
+    $loginform['links']['#suffix'] = '</div></div>';
+
+    $loginform['actions']['#prefix'] = '<div class="col-sm-2 col-sm-offset-2">';
+    $loginform['actions']['#suffix'] = '</div>';
+
+    #$loginform['actions']['#weight'] = 0;
+
+
+    $variables['loginform'] = $loginform;
+
+    $resetform = drupal_get_form('user_pass');
+    $query_string = array('destination' => 'user/login');
+    $resetform['#action'] = url('user/password', array('query' => $query_string));
+
+    $resetform['#attributes'] = array('class' => 'form-horizontal');
+    $resetform['name']['#field_prefix'] = '<div class="col-sm-10">';
+    $resetform['name']['#field_suffix'] = '</div>';
+    $resetform['actions']['#prefix'] = '<div class="form-group"><div class="col-sm-10 col-sm-offset-2">';
+    $resetform['actions']['#suffix'] = '</div></div>';
+    $variables['resetform'] = $resetform;
+  }
 }
 
 /**
