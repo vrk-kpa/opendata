@@ -26,3 +26,6 @@ msgstr "salasana"
 
 msgid "Have you forgotten your password?"
 msgstr "Unohtuiko salasana?"
+
+msgid "Search datasets"
+msgstr "Etsi tietoaineistoja"
