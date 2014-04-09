@@ -12,7 +12,7 @@ import traceback
 import ckan.lib.celery_app as celery_app
 from ckanext.dgu.lib.formats import Formats
 from ckanext.qa.sniff_format import sniff_file_format
-from ckanext.archiver.tasks import get_status as get_archiver_status, LINK_STATUSES__BROKEN
+from ckanext.archiver.model import Archival, Status
 
 class QAError(Exception):
     pass
@@ -215,21 +215,18 @@ def resource_score(context, data, log):
     score_reason = ''
     format_ = None
     is_broken = None
-    archiver_status = {}
 
     try:
         score_reasons = [] # a list of strings detailing how we scored it
         assert set(context.keys()) >= set(('site_url', 'site_user_apikey')), \
                'Context missing keys. Has: %s' % context.keys()
-        archiver_status = get_archiver_status(context=context,
-                                              resource_id=data['id'],
-                                              log=log)
+        archival = Archival.get_for_resource(resource_id=data['id'])
 
-        score, format_, is_broken = score_if_link_broken(context, archiver_status, data, score_reasons, log)
+        score, format_, is_broken = score_if_link_broken(context, archival, data, score_reasons, log)
         if score == None:
             # we don't want to take the publisher's word for it, in case the link
             # is only to a landing page, so highest priority is the sniffed type
-            score, format_ = score_by_sniffing_data(context, archiver_status, data,
+            score, format_ = score_by_sniffing_data(context, archival, data,
                                          score_reasons, log)
             if score == None:
                 # Fall-backs are user-given data
@@ -269,28 +266,25 @@ def resource_score(context, data, log):
         'openness_score_reason': score_reason,
         'format': format_,
         'is_broken': is_broken,
-        'archiver_status': archiver_status.get('value', '')
+        'archiver_status': archival.status
     }
 
     return result
 
-def broken_link_error_message(archiver_status):
-    '''Given an archiver_status for a broken link, it returns a helpful
+def broken_link_error_message(archival):
+    '''Given an archival for a broken link, it returns a helpful
     error message (string) describing the attempts.'''
-    messages = ['File could not be downloaded.',
-                'Reason: %s.' % archiver_status['value'],
-                'Error details: %s.' % archiver_status['reason']]
-    def format_date(iso_date):
-        if iso_date:
-            return datetime.datetime(*map(int, re.split('[^\d]', iso_date)[:-1])).\
-                   strftime('%d/%m/%Y')
+    def format_date(date):
+        if date:
+            return date.strftime('%d/%m/%Y')
         else:
             return ''
-    if 'last_updated' in archiver_status:
-        # (older versions of archiver don't return this one)
-        messages.append('Attempted on %s.' % format_date(archiver_status['last_updated']))
-    last_success = format_date(archiver_status['last_success'])
-    if archiver_status['failure_count'] in (1, '1'):
+    messages = ['File could not be downloaded.',
+                'Reason: %s.' % archival.status,
+                'Error details: %s.' % archival.reason,
+                'Attempted on %s.' % format_date(archival.last_updated)]
+    last_success = format_date(archival.last_success)
+    if archival.failure_count == 1:
         if last_success:
             messages.append('This URL worked the previous time: %s.' % last_success)
         else:
@@ -298,14 +292,14 @@ def broken_link_error_message(archiver_status):
     else:
         messages.append('Tried %s times since %s.' % \
                         (archiver_status['failure_count'],
-                         format_date(archiver_status['first_failure'])))
+                         format_date(archival.first_failure)))
         if last_success:
             messages.append('This URL last worked on: %s.' % last_success)
         else:
             messages.append('This URL has not worked in the history of this tool.')
     return ' '.join(messages)
 
-def score_if_link_broken(context, archiver_status, data, score_reasons, log):
+def score_if_link_broken(context, archival, data, score_reasons, log):
     '''
     Looks to see if the archiver said it was broken, and if so, writes to
     the score_reasons and returns a score.
@@ -318,15 +312,15 @@ def score_if_link_broken(context, archiver_status, data, score_reasons, log):
       * format_ is the display_name or None
       * is_broken is a boolean
     '''
-    if archiver_status['value'] in LINK_STATUSES__BROKEN:
+    if archival.is_broken:
         # Score 0 since we are sure the link is currently broken
-        score_reasons.append(broken_link_error_message(archiver_status))
+        score_reasons.append(broken_link_error_message(archival))
         format_ = get_qa_format(data['id'])
         log.info('Archiver says link is broken. Previous format: %r' % format_)
         return (0, format_, True)
     return (None, None, False)
 
-def score_by_sniffing_data(context, archiver_status, data, score_reasons, log):
+def score_by_sniffing_data(context, archival, data, score_reasons, log):
     '''
     Looks inside a data file\'s contents to determine its format and score.
 
@@ -353,17 +347,14 @@ def score_by_sniffing_data(context, archiver_status, data, score_reasons, log):
                 return (None, None)
         else:
             # No cache_url
-            if archiver_status['value'] == 'Chose not to download':
+            if archival.status_id == Status.by_text('Chose not to download'):
                 score_reasons.append('File was not downloaded deliberately. Reason: %s. Using other methods to determine file openness.' % \
-                                     archiver_status['reason'])
+                                     archival.reason)
                 return (None, None)
-            elif archiver_status['value'] in ('Download failure', 'System error during archival'):
+            elif archival.is_broken is None and archival.status_id:
+                # i.e. 'Download failure' or 'System error during archival'
                 score_reasons.append('A system error occurred during downloading this file. Reason: %s. Using other methods to determine file openness.' % \
-                                     archiver_status['reason'])
-                return (None, None)
-            elif archiver_status['value']:
-                score_reasons.append('Downloading this file failed. A system error occurred determining the reason for the error: %s Using other methods to determine file openness.' % \
-                                     archiver_status['value'])
+                                     archival.reason)
                 return (None, None)
             else:
                 score_reasons.append('This file had not been downloaded at the time of scoring it.')
