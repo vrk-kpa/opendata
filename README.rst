@@ -25,17 +25,17 @@ This means that the 'bulk' queue can happily run slowly, chugging through the do
 Installation
 ------------
 
-Install the extension as usual, e.g. (from an activated virtualenv):
+Install the extension source as usual, e.g. (from an activated virtualenv)::
 
-::
+    $ pip install -e git+http://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
 
-    $ pip install -e git+http://github.com/okfn/ckanext-archiver.git#egg=ckanext-archiver
-
-Or (primarily for developers) download the source, then from the ckanext-archiver directory run:
-
-::
+Or (primarily for developers) download the source, then from the ckanext-archiver directory run::
 
     $ pip install -e ./
+
+Whichever way you install the source, you now must create the database tables::
+
+    $ paster --plugin=ckanext-archiver archiver init --config=ckan.ini
 
 
 Configuration

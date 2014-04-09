@@ -10,6 +10,7 @@ import traceback
 import shutil
 import datetime
 import copy
+import re
 
 from requests.packages import urllib3
 
@@ -23,33 +24,17 @@ except ImportError:
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
-# NB Be very careful changing these status strings. They are also used in
-# ckanext-qa tasks.py.
-LINK_STATUSES__BROKEN = ('URL invalid', 'URL request failed', 'Download error')
-LINK_STATUSES__NOT_SURE = ('Chose not to download', 'Download failure',
-                           'System error during archival')
-LINK_STATUSES__OK = ('Archived successfully',)
-LINK_STATUSES__ALL = LINK_STATUSES__BROKEN + LINK_STATUSES__NOT_SURE + \
-                     LINK_STATUSES__OK
-
 USER_AGENT = 'ckanext-archiver'
-CONFIG_LOADED = False
 
-def load_config():
-    config_filepath = os.environ.get('CKAN_INI') or '/var/ckan/ckan.ini'
-    if not config_filepath:
-        raise Exception("Configuration file not specified in CKAN_INI")
 
+def load_config(ckan_ini_filepath):
     import paste.deploy
-    config_abs_path = os.path.abspath(config_filepath)
+    config_abs_path = os.path.abspath(ckan_ini_filepath)
     conf = paste.deploy.appconfig('config:' + config_abs_path)
     import ckan
     ckan.config.environment.load_environment(conf.global_conf,
-            conf.local_conf)
+                                             conf.local_conf)
 
-    global CONFIG_LOADED
-    CONFIG_LOADED = True
-    print "config loaded"
 
 def register_translator():
     # Register a translator in this thread so that
@@ -58,10 +43,10 @@ def register_translator():
     from pylons import translator
     from ckan.lib.cli import MockTranslator
     global registry
-    registry=Registry()
+    registry = Registry()
     registry.prepare()
     global translator_obj
-    translator_obj=MockTranslator()
+    translator_obj = MockTranslator()
     registry.register(translator, translator_obj)
 
 class ArchiverError(Exception):
@@ -73,7 +58,7 @@ class DownloadException(ArchiverError):
 class ArchiverErrorAfterDownloadStarted(ArchiverError):
     def __init__(self, msg, url_redirected_to=None):
         super(ArchiverError, self).__init__(msg)
-        self.url_redirected_to=url_redirected_to
+        self.url_redirected_to = url_redirected_to
 class DownloadError(ArchiverErrorAfterDownloadStarted):
     pass
 class ArchiveError(ArchiverErrorAfterDownloadStarted):
@@ -91,12 +76,6 @@ class LinkHeadMethodNotSupported(LinkCheckerError):
 class CkanError(ArchiverError):
     pass
 
-def _clean_content_type(ct):
-    # For now we should remove the charset from the content type and
-    # handle it better, differently, later on.
-    if 'charset' in ct:
-        return ct[:ct.index(';')]
-    return ct
 
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
@@ -120,8 +99,7 @@ def download(context, resource, url_timeout=30,
     parameters (SPARQL, WMS etc) to get a better response.
 
     Returns a dict of results of a successful download:
-      length, hash, headers, saved_file, url_redirected_to
-    Updates the resource values for: mimetype, size, hash
+      mimetype, size, hash, headers, saved_file, url_redirected_to
     '''
 
     log = update.get_logger()
@@ -131,7 +109,7 @@ def download(context, resource, url_timeout=30,
     url = tidy_url(url)
 
     if (resource.get('resource_type') == 'file.upload' and
-        not url.startswith('http')):
+            not url.startswith('http')):
         url = context['site_url'].rstrip('/') + url
 
     # start the download - just get the headers
@@ -139,27 +117,18 @@ def download(context, resource, url_timeout=30,
     method_func = {'GET': requests.get, 'POST': requests.post}[method]
     res = convert_requests_exceptions(method_func, url, timeout=url_timeout)
     url_redirected_to = res.url if url != res.url else None
-    if not res.ok: # i.e. 404 or something
-        raise DownloadError('Server reported status error: %s %s' % \
+    if not res.ok:  # i.e. 404 or something
+        raise DownloadError('Server reported status error: %s %s' %
                             (res.status_code, res.reason),
                             url_redirected_to)
     log.info('GET succeeded. Content headers: %r', res.headers)
 
     # record headers
-    content_type = _clean_content_type(res.headers.get('content-type', '').lower())
-    content_length = res.headers.get('content-length')
-    resource_changed = False
-    if resource.get('mimetype') != content_type:
-        resource_changed = True
-        resource['mimetype'] = content_type
-
-    # this is to store the size in case there is an error, but the real size check
-    # is done after downloading the data file, with its real length
-    if content_length is not None and (resource.get('size') != content_length):
-        resource_changed = True
-        resource['size'] = content_length
+    mimetype = _clean_content_type(res.headers.get('content-type', '').lower())
 
     # make sure resource content-length does not exceed our maximum
+    content_length = res.headers.get('content-length')
+
     if content_length:
         try:
             content_length = int(content_length)
@@ -173,26 +142,30 @@ def download(context, resource, url_timeout=30,
                     pass
     if isinstance(content_length, int) and \
        int(content_length) >= max_content_length:
-            if resource_changed:
-                _update_resource(context, resource, log)
             # record fact that resource is too large to archive
-            log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
-                     content_length, max_content_length, resource['id'], url)
-            raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
+            log.warning('Resource too large to download: %s > max (%s). '
+                        'Resource: %s %r', content_length,
+                        max_content_length, resource['id'], url)
+            raise ChooseNotToDownload('Content-length %s exceeds maximum '
+                                      'allowed value %s' %
                                       (content_length, max_content_length),
                                       url_redirected_to)
+    # content_length in the headers is useful but can be unreliable, so when we
+    # download, we will monitor it doesn't go over the max.
 
-    # continue the download - the response body
+    # continue the download - stream the response body
     def get_content():
         return res.content
     content = convert_requests_exceptions(get_content)
 
+    # APIs can return status 200, but contain an error message in the body
     if response_is_an_api_error(content):
         raise DownloadError('Server content contained an API error message: %s' % \
                             content[:250],
                             url_redirected_to)
 
-    if len(content) > max_content_length:
+    content_length = len(content)
+    if content_length > max_content_length:
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
                                   (content_length, max_content_length),
                                   url_redirected_to)
@@ -203,50 +176,19 @@ def download(context, resource, url_timeout=30,
         raise ChooseNotToDownload(str(e), url_redirected_to)
     log.info('Resource saved. Length: %s File: %s', length, saved_file_path)
 
-    # check if resource size changed
-    if unicode(length) != resource.get('size'):
-        resource_changed = True
-        resource['size'] = unicode(length)
-
-    # check that resource did not exceed maximum size when being saved
-    # (content-length header could have been invalid/corrupted, or not accurate
-    # if resource was streamed)
-    #
-    # TODO: remove partially archived file in this case
-    if length >= max_content_length:
-        if resource_changed:
-            _update_resource(context, resource, log)
-        # record fact that resource is too large to archive
-        log.warning('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
-                 length, max_content_length, resource['id'], url)
-        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" %
-                                  max_content_length,
-                                  url_redirected_to)
-
-    # zero length (or just one byte) indicates a problem too
+    # zero length (or just one byte) indicates a problem
     if length < 2:
-        if resource_changed:
-            _update_resource(context, resource, log)
         # record fact that resource is zero length
         log.warning('Resource found was length %i - not archiving. Resource: %s %r',
                  length, resource['id'], url)
         raise DownloadError("Content-length after streaming was %i" % length,
                             url_redirected_to)
 
-    # update the resource metadata in CKAN if the resource has changed
-    if resource.get('hash') != hash:
-        resource['hash'] = hash
-        try:
-            # This may fail for archiver.update() as a result of the resource
-            # not yet existing, but is necessary for dependant extensions.
-            _update_resource(context, resource, log)
-        except:
-            pass
-
     log.info('Resource downloaded: id=%s url=%r cache_filename=%s length=%s hash=%s',
              resource['id'], url, saved_file_path, length, hash)
 
-    return {'length': length,
+    return {'mimetype': mimetype,
+            'size': length,
             'hash': hash,
             'headers': res.headers,
             'saved_file': saved_file_path,
@@ -263,46 +205,28 @@ def clean():
     log.error("clean task not implemented yet")
 
 @celery.task(name="archiver.update")
-def update(context, data):
+def update(ckan_ini_filepath, resource_id):
     '''
     Archive a resource.
-
-    Params:
-      data - resource_dict
-             e.g. {
-                   "revision_id": "2bc8ed56-8900-431a-b556-2417f309f365",
-                   "id": "842062b2-e146-4c5f-80e8-64d072ad758d"}
-                   "content_length": "35731",
-                   "hash": "",
-                   "description": "",
-                   "format": "",
-                   "url": "http://www.justice.gov.uk/publications/companywindingupandbankruptcy.htm",
-                   "openness_score_failure_count": "0",
-                   "content_type": "text/html",
-                   "openness_score": "1",
-                   "openness_score_reason": "obtainable via web page",
-                   "position": 0,
     '''
     log = update.get_logger()
-    log.info('Starting update task: %r', data)
+    log.info('Starting update task: %r', resource_id)
 
     try:
-        data = json.loads(data)
-        context = json.loads(context)
-        result = _update(context, data)
+        result = _update(ckan_ini_filepath, resource_id)
         return result
     except Exception, e:
         if os.environ.get('DEBUG'):
             raise
-        # Any problem at all is recorded in task_status and then reraised
+        # Any problem at all is logged and reraised so that celery can log it too
         log.error('Error occurred during archiving resource: %s\nResource: %r',
-                  e, data)
+                  e, resource_id)
         raise
 
-def _update(context, resource):
+def _update(ckan_ini_filepath, resource_id):
     """
     Link check and archive the given resource.
-    If successful, updates the resource with the cache_url & hash etc.
+    If successful, updates the archival table with the cache_url & hash etc.
 
     Params:
       resource - resource dict
@@ -321,89 +245,90 @@ def _update(context, resource):
     """
     log = update.get_logger()
 
-    resource.pop(u'revision_id', None)
-    if not resource:
-        raise ArchiverError('Resource not found')
+    load_config(ckan_ini_filepath)
+    register_translator()
 
-    # check that archive directory exists
+    from ckan import model
+    from ckan.logic import get_action
+    from pylons import config
+
+    assert is_id(resource_id), resource_id
+    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}
+    resource = get_action('resource_show')(context_, {'id': resource_id})
+
     if not os.path.exists(settings.ARCHIVE_DIR):
         log.info("Creating archive directory: %s" % settings.ARCHIVE_DIR)
         os.mkdir(settings.ARCHIVE_DIR)
 
-    # Get current task_status
-    status = get_status(context, resource['id'], log)
-    def _save_status(has_passed, status_txt, exception, status, resource_id, url_redirected_to=None):
-        assert status_txt in LINK_STATUSES__ALL, status_txt
-        last_success = status.get('last_success', '')
-        first_failure = status.get('first_failure', '')
-        failure_count = status.get('failure_count', 0)
-        if has_passed:
-            last_success = datetime.datetime.now().isoformat()
-            first_failure = ''
-            failure_count = 0
-            reason = ''
-        else:
-            if not first_failure:
-                first_failure = datetime.datetime.now().isoformat()
-            failure_count += 1
-            reason = '%s' % exception
-        save_status(context, resource_id, status_txt,
-                    reason, url_redirected_to,
-                    last_success, first_failure,
-                    failure_count, log)
+    def _save(status_id, exception, resource, url_redirected_to=None,
+              download_result=None, archive_result=None):
+        reason = '%s' % exception
+        save_archival(resource, status_id,
+                      reason, url_redirected_to,
+                      download_result, archive_result,
+                      log)
 
+    # Download
     log.info("Attempting to download resource: %s" % resource['url'])
-    result = None
-    download_error = 0
+    download_result = None
+    from ckanext.archiver.model import Status
+    download_status_id = Status.by_text('Archived successfully')
+    context = {
+        'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
+        'cache_url_root': config.get('ckan.cache_url_root'),
+        }
     try:
-        result = download(context, resource)
+        download_result = download(context, resource)
     except LinkInvalidError, e:
-        download_error = 'URL invalid'
+        download_status_id = Status.by_text('URL invalid')
         try_as_api = False
     except DownloadException, e:
-        download_error = 'Download error'
+        download_status_id = Status.by_text('Download error')
         try_as_api = True
     except DownloadError, e:
-        download_error = 'Download error'
+        download_status_id = Status.by_text('Download error')
         try_as_api = True
     except ChooseNotToDownload, e:
-        download_error = 'Chose not to download'
+        download_status_id = Status.by_text('Chose not to download')
         try_as_api = False
     except Exception, e:
         if os.environ.get('DEBUG'):
             raise
         log.error('Uncaught download failure: %r, %r', e, e.args)
-        _save_status(False, 'Download failure', e, status, resource['id'])
+        _save(Status.by_text('Download failure'), e, resource)
         return
 
-    if download_error:
-        log.info('GET error: %s - %r, %r "%s"', download_error, e, e.args, resource.get('url'))
-        # api_request DISABLED temporarily while fixed
-        #if try_as_api:
-        #    result = api_request(context, resource)
-        #    download_error = not result
+    if not Status.is_ok(download_status_id):
+        log.info('GET error: %s - %r, %r "%s"',
+                 Status.by_id(download_status_id), e, e.args,
+                 resource.get('url'))
 
-        if not try_as_api or download_error:
+        if try_as_api:
+            download_result = api_request(context, resource)
+            if download_result:
+                download_status_id = Status.by_text('Archived successfully')
+            # else the download_status_id (i.e. an error) is left what it was
+            # from the previous download (i.e. not when we tried it as an API)
+
+        if not try_as_api or not Status.is_ok(download_status_id):
             extra_args = [e.url_redirected_to] if 'url_redirected_to' in e else []
-            _save_status(False, download_error, e, status, resource['id'],
-                         *extra_args)
+            _save(download_status_id, e, resource, *extra_args)
             return
 
+    # Archival
     log.info('Attempting to archive resource')
     try:
-        file_path = archive_resource(context, resource, log, result)
+        archive_result = archive_resource(context, resource, log, download_result)
     except ArchiveError, e:
         log.error('System error during archival: %r, %r', e, e.args)
-        _save_status(False, 'System error during archival', e, status, resource['id'], result['url_redirected_to'])
+        _save(Status.by_text('System error during archival'), e, resource, download_result['url_redirected_to'])
         return
 
     # Success
-    _save_status(True, 'Archived successfully', '', status, resource['id'],
-                 result['url_redirected_to'])
-    return json.dumps({
-        'resource': resource,
-        'file_path': file_path
-    })
+    _save(Status.by_text('Archived successfully'), '', resource,
+          download_result['url_redirected_to'], download_result, archive_result)
+    # The return value is only used by tests. Serialized for Celery.
+    return json.dumps(dict(download_result, **archive_result))
 
 
 @celery.task(name="archiver.link_checker")
@@ -465,6 +390,15 @@ def link_checker(context, data):
             raise LinkHeadRequestError(error_message)
     return json.dumps(headers)
 
+
+def _clean_content_type(ct):
+    # For now we should remove the charset from the content type and
+    # handle it better, differently, later on.
+    if 'charset' in ct:
+        return ct[:ct.index(';')]
+    return ct
+
+
 def tidy_url(url):
     '''
     Given a URL it does various checks before returning a tidied version
@@ -498,7 +432,7 @@ def tidy_url(url):
 
     # Check we aren't using any schemes we shouldn't be
     if not parsed_url.scheme in ALLOWED_SCHEMES:
-        raise LinkInvalidError('Invalid url scheme. Please use one of: %s' % \
+        raise LinkInvalidError('Invalid url scheme. Please use one of: %s' %
                                ' '.join(ALLOWED_SCHEMES))
 
     if not parsed_url.host:
@@ -506,64 +440,51 @@ def tidy_url(url):
 
     return url
 
+
 def archive_resource(context, resource, log, result=None, url_timeout=30):
     """
     Archive the given resource. Moves the file from the temporary location
-    given in download() and updates the resource with the link to it.
+    given in download().
 
     Params:
        result - result of the download(), containing keys: length, saved_file
 
     If there is a failure, raises ArchiveError.
 
-    Updates resource keys: cache_url, cache_last_updated, cache_filepath
-    Returns: cache_filepath
+    Returns: {cache_filepath, cache_url}
     """
-    if result['length']:
-        relative_archive_path = os.path.join(resource['id'][:2], resource['id'])
-        archive_dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_path)
-        if not os.path.exists(archive_dir):
-            os.makedirs(archive_dir)
-        # try to get a file name from the url
-        parsed_url = urlparse.urlparse(resource.get('url'))
-        try:
-            file_name = parsed_url.path.split('/')[-1] or 'resource'
-            file_name = file_name.strip() # trailing spaces cause problems
-        except:
-            file_name = "resource"
-        saved_file = os.path.join(archive_dir, file_name)
-        shutil.move(result['saved_file'], saved_file)
-        log.info('Going to do chmod: %s', saved_file)
-        try:
-            os.chmod(saved_file, 0644) # allow other users to read it
-        except Exception, e:
-            log.error('chmod failed %s: %s', saved_file, e)
-            raise
-        log.info('Archived resource as: %s', saved_file)
-        previous_cache_filepath = resource.get('cache_filepath')
-        resource['cache_filepath'] = saved_file
+    relative_archive_path = os.path.join(resource['id'][:2], resource['id'])
+    archive_dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_path)
+    if not os.path.exists(archive_dir):
+        os.makedirs(archive_dir)
+    # try to get a file name from the url
+    parsed_url = urlparse.urlparse(resource.get('url'))
+    try:
+        file_name = parsed_url.path.split('/')[-1] or 'resource'
+        file_name = file_name.strip()  # trailing spaces cause problems
+    except:
+        file_name = "resource"
 
-        # update the resource object: set cache_url and cache_last_updated
-        if context.get('cache_url_root'):
-            cache_url = urlparse.urljoin(
-                context['cache_url_root'], '%s/%s' % (relative_archive_path, file_name)
-            )
-            if resource.get('cache_url') != cache_url:
-                resource['cache_url'] = cache_url
-                resource['cache_last_updated'] = datetime.datetime.now().isoformat()
-                log.info('Updating resource with cache_url=%s', cache_url)
-                _update_resource(context, resource, log)
-            elif resource.get('cache_filepath') != previous_cache_filepath:
-                log.info('Updating just cache_filepath for resource with cache_url=%s', cache_url)
-                _update_resource(context, resource, log)
-            else:
-                log.info('Not updating resource since cache_url is unchanged: %s',
-                          cache_url)
-        else:
-            log.warning('Not saved cache_url because no value for cache_url_root in config')
-            raise ArchiveError('No value for cache_url_root in config')
+    # move the temp file to the resource's archival directory
+    saved_file = os.path.join(archive_dir, file_name)
+    shutil.move(result['saved_file'], saved_file)
+    log.info('Going to do chmod: %s', saved_file)
+    try:
+        os.chmod(saved_file, 0644)  # allow other users to read it
+    except Exception, e:
+        log.error('chmod failed %s: %s', saved_file, e)
+        raise
+    log.info('Archived resource as: %s', saved_file)
 
-        return saved_file
+    # calculate the cache_url
+    if not context.get('cache_url_root'):
+        log.warning('Not saved cache_url because no value for cache_url_root '
+                    'in config')
+        raise ArchiveError('No value for cache_url_root in config')
+    cache_url = urlparse.urljoin(context['cache_url_root'],
+                                 '%s/%s' % (relative_archive_path, file_name))
+    return {'cache_filepath': saved_file,
+            'cache_url': cache_url}
 
 
 def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
@@ -577,11 +498,11 @@ def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
     resource_hash = hashlib.sha1()
     length = 0
 
-    #tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fd, tmp_resource_file_path = tempfile.mkstemp()
 
     with open(tmp_resource_file_path, 'wb') as fp:
-        for chunk in response.iter_content(chunk_size=chunk_size, decode_unicode=False):
+        for chunk in response.iter_content(chunk_size=chunk_size,
+                                           decode_unicode=False):
             fp.write(chunk)
             length += len(chunk)
             resource_hash.update(chunk)
@@ -597,137 +518,58 @@ def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
     return length, content_hash, tmp_resource_file_path
 
 
-def _update_resource(context, resource, log):
-    """
-    Use CKAN API to update the given resource.
-    If cannot update, records this fact in the task_status table.
-
-    Params:
-      context - dict containing 'site_user_apikey' and 'site_url'
-      resource - dict of the resource containing
-
-    Returns the content of the response.
-
-    """
-    api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/resource_update'
-    resource['last_modified'] = datetime.datetime.now().isoformat()
-    post_data = json.dumps(resource)
-    res = requests.post(
-        api_url, post_data,
-        headers={'Authorization': context['site_user_apikey'],
-                 'Content-Type': 'application/json',
-                 'User-Agent': USER_AGENT}
-    )
-
-    if res.status_code == 200:
-        log.info('Resource updated OK: %s', resource['id'])
-        return res.content
-    else:
-        try:
-            content = res.content
-        except:
-            content = '<could not read request content to discover error>'
-        log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, resource, res, post_data, api_url))
-        raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
-
-def update_task_status(context, data, log):
-    """
-    Use CKAN API to update the task status.
-
-    Params:
-      context - dict containing 'site_url', 'site_user_apikey'
-      data - dict representing one row in the task_status table:
-               entity_id, entity_type, task_type, key, value,
-               error, stack, last_updated
-
-    May raise CkanError if the request fails.
-
-    Returns the content of the response.
-    """
-    global CONFIG_LOADED
-    if not CONFIG_LOADED:
-        load_config()
-        register_translator()
-
-    import ckan.model as model
-    from ckanext.archiver.model import ArchiveTask
-
-    old = ArchiveTask.get_for_resource(data.get('entity_id'))
-    if old:
-        model.Session.delete(old)
-    a = ArchiveTask.create(data)
-    model.Session.add(a)
-    model.Session.commit()
-
-    log.info('Task status updated ok: %r', data)
-
-
-def get_status(context, resource_id, log):
-    '''Returns a dict of the current archiver 'status'.
-    (task status value where key='status')
-
-    Result is dict with keys: value, reason, last_success, first_failure,
-    failure_count, last_updated
-
-    May propagate CkanError if the request fails.
-
-    :param context: Dict including: site_url, site_user_apikey
-    '''
-
-    global CONFIG_LOADED
-    if not CONFIG_LOADED:
-        load_config()
-        register_translator()
-
-    import ckan.model as model
-    from ckanext.archiver.model import ArchiveTask
-
-    a = ArchiveTask.get_for_resource(resource_id)
-    if a:
-        status = {}
-        status['last_updated'] = a.created
-        status['value'] = a.response
-        status['reason'] = a.reason
-        status['last_updated'] = a.created.isoformat() if a.created else ''
-        status['first_failure'] = a.first_failure.isoformat() if a.first_failure else ''
-        status['failure_count'] = a.failure_count
-        status['last_success'] = a.last_success.isoformat() if a.last_success else ''
-        log.info('Archiver status (currently stored value): %s', status)
-    else:
-        status = {'value': '', 'reason': '',
-                  'last_success': '', 'first_failure': '', 'failure_count': 0,
-                  'last_updated': ''}
-        log.info('Archiver status blank - using default: %s', status)
-    return status
-
-def save_status(context, resource_id, status, reason, url_redirected_to,
-                last_success, first_failure, failure_count, log):
-    '''Writes to the task status table the result of an attempt to download
+# was save_status
+def save_archival(resource, status_id, reason, url_redirected_to,
+                  download_result, archive_result, log):
+    '''Writes to the archival table the result of an attempt to download
     the resource.
 
     May propagate a CkanError.
     '''
-    now = datetime.datetime.now().isoformat()
-    data = {
-            'entity_id': resource_id,
-            'entity_type': u'resource',
-            'task_type': 'archiver',
-            'key': u'status',
-            'value': status,
-            'error': json.dumps({
-                'reason': reason,
-                'last_success': last_success,
-                'first_failure': first_failure,
-                'failure_count': failure_count,
-                'url_redirected_to': url_redirected_to,
-                }),
-            'last_updated': now
-        }
+    now = datetime.datetime.now()
 
-    update_task_status(context, data, log)
-    log.info('Saved status: %r reason=%r last_success=%r first_failure=%r failure_count=%r',
-             status, reason, last_success, first_failure, failure_count)
+    from ckanext.archiver.model import Archival, Status
+    from ckan import model
+
+    archival = Archival.get_for_resource(resource['id'])
+    if not archival:
+        archival = Archival.create(resource['id'])
+        model.Session.add(archival)
+    previous_archival_was_broken = archival.is_broken
+
+    revision = model.Session.query(model.Revision).get(resource['revision_id'])
+    archival.resource_timestamp = revision.timestamp
+
+    # Details of the latest archival attempt
+    archival.status_id = status_id
+    archival.is_broken = Status.is_broken(status_id)
+    archival.reason = reason
+    archival.url_redirected_to = url_redirected_to
+
+    # Details of successful archival
+    if archival.is_broken is False:
+        archival.cache_filepath = archive_result['cache_filepath']
+        archival.cache_url = archive_result['cache_url']
+        archival.size = download_result['size']
+        archival.mimetype = download_result['mimetype']
+        archival.hash = download_result['hash']
+
+    # History
+    if archival.is_broken is False:
+        archival.last_success = now
+        archival.first_failure = None
+        archival.failure_count = 0
+    else:
+        if previous_archival_was_broken is not False:
+            # i.e. this is the first failure (or the first archival)
+            archival.first_failure = now
+            archival.failure_count = 1
+        else:
+            archival.failure_count += 1
+
+    archival.updated = now
+    log.info('Archival saved: %r', archival)
+    model.repo.commit_and_remove()
 
 def convert_requests_exceptions(func, *args, **kwargs):
     '''
@@ -757,12 +599,14 @@ def convert_requests_exceptions(func, *args, **kwargs):
         raise DownloadException('Error with the download: %s' % e)
     return response
 
+
 def ogc_request(context, resource, service, wms_version):
     original_url = url = resource['url']
     # Remove parameters
     url = url.split('?')[0]
     # Add WMS GetCapabilities parameters
-    url += '?service=%s&request=GetCapabilities&version=%s' % (service, wms_version)
+    url += '?service=%s&request=GetCapabilities&version=%s' % \
+           (service, wms_version)
     resource['url'] = url
     # Make the request
     response = download(context, resource)
@@ -770,26 +614,30 @@ def ogc_request(context, resource, service, wms_version):
     resource['url'] = original_url
     return response
 
+
 def wms_1_3_request(context, resource):
     res = ogc_request(context, resource, 'WMS', '1.3')
     res['request_type'] = 'WMS 1.3'
     return res
+
 
 def wms_1_1_1_request(context, resource):
     res = ogc_request(context, resource, 'WMS', '1.1.1')
     res['request_type'] = 'WMS 1.1.1'
     return res
 
+
 def wfs_request(context, resource):
     res = ogc_request(context, resource, 'WFS', '2.0')
     res['request_type'] = 'WFS 2.0'
     return res
 
+
 def api_request(context, resource):
     '''
     Tries making requests as if the resource is a well-known sort of API to try
-    and get a valid response. If it does it returns the response, otherwise Archives the response and stores what sort of
-    request elicited it.
+    and get a valid response. If it does it returns the response, otherwise
+    Archives the response and stores what sort of request elicited it.
     '''
     log = update.get_logger()
     # 'resource' holds the results of the download and will get saved. Only if
@@ -812,6 +660,13 @@ def api_request(context, resource):
             continue
 
         return download_dict
+
+
+def is_id(id_string):
+    '''Tells the client if the string looks like a revision id or not'''
+    reg_ex = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+    return bool(re.match(reg_ex, id_string))
+
 
 def response_is_an_api_error(response_body):
     '''Some APIs return errors as the response body, but HTTP status 200. So we

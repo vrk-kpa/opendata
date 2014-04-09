@@ -1,23 +1,21 @@
-import pkg_resources
 import logging
 import os
 import sys
-from datetime import datetime
 import json
-import urlparse
 import re
 import shutil
+import itertools
 
 import requests
 from pylons import config
-from pylons.test import pylonsapp
-from paste.deploy import loadapp
 import paste.fixture
-import paste
 
 from ckan.lib.cli import CkanCommand
+from ckanext.archiver import plugin
+from ckanext.archiver.model import Archival
 
 REQUESTS_HEADER = {'content-type': 'application/json'}
+
 
 class Archiver(CkanCommand):
     '''
@@ -127,91 +125,88 @@ class Archiver(CkanCommand):
             self.log.error('Command %s not recognized' % (cmd,))
 
     def update(self):
-        from ckan.logic import get_action
         from ckan import model
-        from ckan.model.types import make_uuid
-        import tasks
-        user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
-        context = json.dumps({
-            'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
-            'apikey': user.get('apikey'),
-            'site_user_apikey': user.get('apikey'),
-            'username': user.get('name'),
-            'cache_url_root': config.get('ckan.cache_url_root')
-        })
-        api_url = urlparse.urljoin(config.get('ckan.site_url_internally') or config['ckan.site_url'], 'api/action')
+        packages = []
+        resources = []
         if len(self.args) > 1:
-            # try arg as a group name
-            url = api_url + '/organization_show'
-            self.log.info('Requesting datasets in org %r', url)
-            data = {'id': self.args[1],
-                    'include_datasets': 1}
-            response = requests.post(url, data=json.dumps(data), headers=REQUESTS_HEADER)
-            if response.status_code == 200:
-                self.log.info('Organization found')
-                package_dicts = json.loads(response.text)['result']['packages']
-                package_names = [pd['name'] for pd in package_dicts]
-                if not self.options.queue:
-                    self.options.queue = 'bulk'
-            else:
-                self.log.info('It is not an org, so must be a dataset')
-                # user must have given a package name/id
-                package_names = [self.args[1]]
-                if not self.options.queue:
-                    self.options.queue = 'priority'
+            for arg in self.args[1:]:
+                # try arg as a group id/name
+                group = model.Group.get(arg)
+                if group:
+                    packages.extend(group.packages())
+                    if not self.options.queue:
+                        self.options.queue = 'bulk'
+                    continue
+                # try arg as a package id/name
+                pkg = model.Package.get(arg)
+                if pkg:
+                    packages.append(pkg)
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
+                    continue
+                # try arg as a resource id
+                res = model.Resource.get(arg)
+                if res:
+                    resources.append(res)
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
+                    continue
+                else:
+                    self.log.error('Could not recognize as a group, package '
+                                   'or resource: %r', arg)
+                    sys.exit(1)
         else:
-            url = api_url + '/package_list'
-            self.log.info('Requesting list of datasets from %r', url)
-            response = requests.post(url, data="{}", headers=REQUESTS_HEADER)
-            self.log.info('List of datasets (status %s): %r...', response.status_code, response.text[:100])
-            package_names = json.loads(response.text).get('result')
+            # all packages
+            pkgs = model.Session.query(model.Package)\
+                        .filter_by(state='active')\
+                        .order_by('name').all()
+            packages.extend(pkgs)
             if not self.options.queue:
                 self.options.queue = 'bulk'
 
-        self.log.info("Number of datasets to archive: %d" % len(package_names))
+        if packages:
+            self.log.info('Datasets to archive: %d', len(packages))
+        if resources:
+            self.log.info('Resources to archive: %d', len(resources))
+        if not (packages or resources):
+            self.log.error('No datasets or resources to process')
+            sys.exit(1)
 
-        for package_name in sorted(package_names):
-            self.log.info('Getting dataset metadata: %s', package_name)
+        self.log.info('Queue: %s', self.options.queue)
+        for package in packages:
+            resources = list(itertools.chain.from_iterable(
+                (rg.resources_all for rg in package.resource_groups_all)))
+            self.log.info('Queuing dataset %s (%s resources)',
+                          package.name, len(resources))
+            for resource in resources:
+                plugin.create_archiver_task(resource, self.options.queue)
 
-            # Get the dataset's resource urls
-            data = json.dumps({'id': unicode(package_name)})
-            response = requests.post(api_url + '/package_show', data=data,
-                                     headers=REQUESTS_HEADER)
-            if response.status_code == 403:
-                self.log.warn('Dataset %s gave 403 - ignoring' % package_name)
-                continue
-            assert response.status_code == 200, response.status_code
-            package = json.loads(response.text).get('result')
+        for resource in resources:
+            package = resource.resource_group.package
+            self.log.info('Queuing resource %s/%s', package.name, resource.id)
+            plugin.create_archiver_task(resource, self.options.queue)
 
-            self.log.info('Archival of dataset resource data added to celery queue "%s": %s (%d resources)' % (self.options.queue, package.get('name'), len(package.get('resources', []))))
-            for resource in package.get('resources', []):
-                data = json.dumps(resource, {'model': model})
-                task_id = make_uuid()
-                tasks.update.apply_async(args=[context, data], task_id=task_id, queue=self.options.queue)
+        self.log.info('Completed queueing')
 
     def view(self, package_ref=None):
         from ckan import model
 
-        r_q = model.Session.query(model.Resource)
+        r_q = model.Session.query(model.Resource).filter_by(state='active')
         print 'Resources: %i total' % r_q.count()
-        r_q = r_q.filter(model.Resource.cache_url!='')
-        print '           %i with cache_url' % r_q.count()
-        last_updated_res = r_q.order_by(model.Resource.cache_last_updated.desc()).first()
-        print '           %s latest update' % (last_updated_res.last_modified if last_updated_res else '(no)')
-        ts_q = model.Session.query(model.TaskStatus).filter_by(task_type='archiver')
-        print 'Archive status records - %i TaskStatus rows' % ts_q.count()
-        print '                  across %i Resources' % ts_q.distinct('entity_id').count()
+        a_q = model.Session.query(Archival)
+        print 'Archived resources: %i total' % a_q.count()
+        num_with_cache_url = a_q.filter(Archival.cache_url!='').count()
+        print '                    %i with cache_url' % num_with_cache_url
+        last_updated_res = a_q.order_by(Archival.updated.desc()).first()
+        print 'Latest archival: %s' % (last_updated_res.updated.strftime('%Y-%m-%d %H:%M') if last_updated_res else '(no)')
 
         if package_ref:
             pkg = model.Package.get(package_ref)
             print 'Package %s %s' % (pkg.name, pkg.id)
             for res in pkg.resources:
                 print 'Resource %s' % res.id
-                for row in ts_q.filter_by(entity_id=res.id):
-                    print '* TS %s = %r error=%r' % (row.key, row.value, row.error)
-                for row in r_q.filter_by(id=res.id):
-                    print '* cache_url=%r size=%s mimetype=%s cache_last_updated=%r' % \
-                          (row.cache_url, row.size, row.mimetype, row.cache_last_updated)
+                for archival in a_q.filter_by(resource_id=res.id):
+                    print '* %r' % archival
 
     def clean_status(self):
         from ckan import model
@@ -219,7 +214,7 @@ class Archiver(CkanCommand):
         print 'Before:'
         self.view()
 
-        q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
+        q = model.Session.query(Archival)
         q.delete()
         model.Session.commit()
 
@@ -232,25 +227,20 @@ class Archiver(CkanCommand):
         print 'Before:'
         self.view()
 
-        def new_revision():
-            rev = model.repo.new_revision()
-            rev.message = 'Refresh cached resources'
-
-        q = model.Session.query(model.Resource).filter(model.Resource.cache_url!='')
-        resources = q.all()
-        num_resources = len(resources)
+        q = model.Session.query(Archival).filter(Archival.cache_url != '')
+        archivals = q.all()
+        num_archivals = len(archivals)
         progress = 0
-        rev = new_revision()
-        for res in resources:
-            res.cache_url = ''
-            res.cache_last_updated = None
-            if 'cache_filepath' in res.extras:
-                del res.extras['cache_filepath']
+        for archival in archivals:
+            archival.cache_url = None
+            archival.cache_filepath = None
+            archival.size = None
+            archival.mimetype = None
+            archival.hash = None
             progress += 1
             if progress % 1000 == 0:
-                print 'Done %i/%i' % (progress, num_resources)
+                print 'Done %i/%i' % (progress, num_archivals)
                 model.Session.commit()
-                rev = new_revision()
         model.Session.commit()
         model.Session.remove()
 
@@ -261,7 +251,6 @@ class Archiver(CkanCommand):
         """
         Generates a report containing orphans (either files or resources)
         """
-        import re
         import csv
         from ckan import model
 
@@ -354,7 +343,6 @@ class Archiver(CkanCommand):
 
     def migrate_archive_dirs(self):
         from ckan import model
-        from ckanext.archiver.tasks import get_status as ArchiverError
         from ckan.logic import get_action
 
         site_user = get_action('get_site_user')(
