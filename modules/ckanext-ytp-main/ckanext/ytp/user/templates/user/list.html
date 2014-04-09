@@ -27,10 +27,14 @@
               <li>
                 {{ h.linked_user(user['name'], maxlength=20, avatar=60) }}
                 <p>
+                {% set main_organization = h.main_organization(user[0]).display_name %}
                 {%- if user[0].extras -%}
-                  {{ user[0].extras['job_title'] }},
+                  {{ user[0].extras['job_title'] }}
+                  {%- if main_organization -%}
+                  ,
+                  {%- endif %}
                 {%- endif %}
-                {{ h.main_organization(user[0]).display_name }}
+                {{ main_organization }}
                 </p>
               </li>
               {% endif %}
