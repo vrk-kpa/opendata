@@ -59,7 +59,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
             Return content as dictionary containing language, title, body, node_id and edit link. None if not found.
             Tries to fallback to different language if fallback is True.
 
-            Not cached. 
+            Not cached.
         """
         if not language:
             language = helpers.lang()
