@@ -532,17 +532,20 @@ def save_archival(resource, status_id, reason, url_redirected_to,
     from ckan import model
 
     archival = Archival.get_for_resource(resource['id'])
+    first_archival = not archival
     if not archival:
         archival = Archival.create(resource['id'])
         model.Session.add(archival)
-    previous_archival_was_broken = archival.is_broken
+    else:
+        log.info('Archival from before: %r', archival)
+        previous_archival_was_broken = archival.is_broken
 
     revision = model.Session.query(model.Revision).get(resource['revision_id'])
     archival.resource_timestamp = revision.timestamp
 
     # Details of the latest archival attempt
     archival.status_id = status_id
-    archival.is_broken = Status.is_broken(status_id)
+    archival.is_broken = Status.is_status_broken(status_id)
     archival.reason = reason
     archival.url_redirected_to = url_redirected_to
 
@@ -560,7 +563,10 @@ def save_archival(resource, status_id, reason, url_redirected_to,
         archival.first_failure = None
         archival.failure_count = 0
     else:
-        if previous_archival_was_broken is not False:
+        log.info('First_archival=%r Previous_broken=%r Failure_count=%r' %
+                 (first_archival, previous_archival_was_broken,
+                  archival.failure_count))
+        if first_archival or previous_archival_was_broken is False:
             # i.e. this is the first failure (or the first archival)
             archival.first_failure = now
             archival.failure_count = 1

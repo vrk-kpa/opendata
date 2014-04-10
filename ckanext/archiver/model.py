@@ -62,7 +62,7 @@ class Status:
         return cls.instance()._by_id[status_id]
 
     @classmethod
-    def is_broken(cls, status_id):
+    def is_status_broken(cls, status_id):
         if status_id == 0:
             return False
         elif status_id < 20:
