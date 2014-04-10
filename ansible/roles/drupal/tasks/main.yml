@@ -181,6 +181,18 @@
   tags:
   - drupal
 
+- name: Install ytpdrupaltools module
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytpdrupaltools" && cp -r "{{ cache_path }}/ytpdrupaltools" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
+  register: install_ytpdrupaltools
+  tags:
+  - drupal
+
+- name: Enable ytpdrupaltools module
+  command: drush en -y ytpdrupaltools chdir="{{ drupal_root }}"
+  when: install_ytpdrupaltools|changed
+  tags:
+  - drupal
+
 - include: theme.yml
 
 - include: features.yml
@@ -333,3 +345,4 @@
   command: drush cache-clear all -y chdir="{{ drupal_root }}"
   tags:
   - drupal
+
