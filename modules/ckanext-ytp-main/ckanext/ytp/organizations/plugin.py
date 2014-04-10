@@ -9,7 +9,10 @@ from sqlalchemy import event
 import ckanext.ytp.organizations.logic.action as action
 import logging
 import pylons
+
 import ckan.logic.schema
+from ckan.common import c
+
 from ckan.plugins import toolkit
 import ast
 import datetime
@@ -208,15 +211,16 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
-        from pylons import tmpl_context as c
+        from pylons import tmpl_context
         model = context['model']
         group_id = data_dict.get('id')
+
         if group_id:
             group = model.Group.get(group_id)
-            c.allowable_parent_groups = \
+            tmpl_context.allowable_parent_groups = \
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
-            c.allowable_parent_groups = model.Group.all(group_type='organization')
+            tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
 
     def _get_dropdown_menu_contents(self, vocabulary_name):
         """ Gets a vocabulary by name and mangles it to match data structure required by form.select """
@@ -234,8 +238,20 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         except:
             return []
 
+    def _get_authorized_parents(self):
+        """ Returns a list of organizations under which the current user can put child organizations. The user is required to be an admin in the parent. """
+
+        admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
+            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
+
+        admin_groups = []
+        for admin_org in admin_in_orgs:
+            if any(admin_org.group.name == non_looping_org.name for non_looping_org in c.allowable_parent_groups):
+                admin_groups.append(admin_org.group)
+        return admin_groups
+
     def get_helpers(self):
-        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents}
+        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents}
 
 
 # From ckanext-hierarchy

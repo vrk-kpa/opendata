@@ -22,7 +22,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Fix Windows file rights, otherwise Ansible tries to execute files
       ytp.vm.synced_folder "../", "/src", :mount_options => ["dmode=777","fmode=666"]
     else
-      ytp.vm.synced_folder "../", "/src"
+      # Basic VM synced folder mount
+      # ytp.vm.synced_folder "../", "/src"
+
+      # NFS mounting requires installing nfs-kernel-server on host
+      ytp.vm.synced_folder "../", "/src", type: "nfs"
+
+      # Or try rsync with "vagrant rsync-auto" https://www.vagrantup.com/blog/feature-preview-vagrant-1-5-rsync.html
+      # ytp.vm.synced_folder "../", "/src", type: "rsync"
     end
 
     ytp.vm.provision "ansible" do |ansible|
@@ -33,12 +40,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.skip_tags = "has-hostname,non-local,postfix"
       ansible.extra_vars = { google_analytics: false }
       # ansible.extra_vars = { clear_module_cache: true }
-      ansible.tags = "drupal"
+      # ansible.tags = "data-tags-celery"
       # ansible.start_at_task = ""
     end
 
     ytp.vm.provider "virtualbox" do |vbox|
-      vbox.memory = 1024
+      vbox.memory = 1536
     end
   end
 

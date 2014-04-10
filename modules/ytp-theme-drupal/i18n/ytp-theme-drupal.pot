@@ -15,13 +15,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Strong"
-msgstr "Strong"
+msgstr ""
 
 msgid "Username can only contain characters a-z, 0-9 and _"
-msgstr "Username can only contain characters a-z, 0-9 and _"
+msgstr ""
 
 msgid "password"
-msgstr "password"
+msgstr ""
 
 msgid "Have you forgotten your password?"
-msgstr "Have you forgotten your password?"
+msgstr ""
