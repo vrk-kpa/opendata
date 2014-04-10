@@ -4237,6 +4237,15 @@ ul.no-bullet li:hover {
 .user-search-pagination .pagination {
   margin-left: 10px;
 }
+.right-action {
+  float: right;
+}
+.controls p {
+  font-size: 110%;
+  font-weight: bold;
+  margin-top: 8px;
+  position: static;
+}
 
 h1,
 h2,
@@ -4337,7 +4346,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1397045126264") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1397124483901") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4367,7 +4376,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1397045126264');
+  background-image: url('../images/sprite.png?timestamp=1397124483901');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4377,7 +4386,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1397045126264');
+  background-image: url('../images/sprite.png?timestamp=1397124483901');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4438,7 +4447,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1397045126264") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1397124483901") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4540,7 +4549,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1397045126264');
+  background-image: url('../images/navbar-main-background.png?timestamp=1397124483901');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -4604,7 +4613,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1397045126264');
+  background: url('../images/search-button.png?timestamp=1397124483901');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -4677,7 +4686,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1397045126264');
+  background-image: url('../images/sprite.png?timestamp=1397124483901');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

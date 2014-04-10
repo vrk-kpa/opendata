@@ -151,3 +151,38 @@ class ProducersMenu(RootMenuItem):
     def __init__(self, plugin):
         super(ProducersMenu, self).__init__(plugin)
         self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False)]
+
+
+class _CommonPublishMenu(MenuItem):
+    def __init__(self, title, collection_type):
+        super(_CommonPublishMenu, self).__init__()
+        self.title = title
+        self._collection_type = collection_type
+
+    def link(self):
+        return helpers.url_for('add dataset', collection_type=self._collection_type)
+
+
+class PublishToolsMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishToolsMenu, self).__init__(_("Publish Tools and Instructions"), 'Interoperability Tools')
+
+
+class PublishDataMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishDataMenu, self).__init__(_("Publish Open Data"), 'Open Data')
+
+
+class PublishMainMenu(MenuItem):
+    def __init__(self):
+        super(PublishMainMenu, self).__init__()
+        self.title = _("Publish Data")
+
+    def link(self):
+        return helpers.url_for('add dataset')
+
+
+class PublishMenu(RootMenuItem):
+    def __init__(self, plugin):
+        super(PublishMenu, self).__init__(plugin)
+        self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]

@@ -4,6 +4,9 @@ from paste.deploy.converters import asbool
 import sqlalchemy
 from ckan.common import c
 from ckan.logic import NotFound
+from ckan.lib import helpers
+import urllib
+from webhelpers.html.tags import literal
 
 
 def user_delete_me(context, data_dict):
@@ -21,6 +24,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
 
     _config_template = "ckanext.ytp.drupal.%s"
     _node_type = 'service_alert'
+    _language_fallback_order = ['fi', 'en', 'sv']
     cancel_url = None
 
     def before_map(self, m):
@@ -44,13 +48,46 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
 
-    def _request_language(self):
-        return toolkit.request.environ.get('CKAN_LANG')
-
     def _service_alerts(self):
-        language = None if self._translations_disabled else self._request_language()
+        """ Get service alerts from Drupal """
+        language = None if self._translations_disabled else helpers.lang()
         return self.engine.execute("""SELECT nid, title FROM node WHERE type = %(type)s AND language = %(language)s""",
                                    {'type': self._node_type, 'language': language})
+
+    def _fetch_drupal_content(self, identifier, language=None, fallback=True):
+        """ This helper fetches content from Drupal database using url alias identifier.
+            Return content as dictionary containing language, title, body, node_id and edit link. None if not found.
+            Tries to fallback to different language if fallback is True.
+
+            Not cached. 
+        """
+        if not language:
+            language = helpers.lang()
+
+        query = """SELECT url_alias.language, node.title, field_revision_body.body_value, node.nid from url_alias
+                       INNER JOIN node ON node.nid = split_part(url_alias.source, '/', 2)::integer
+                       INNER JOIN field_revision_body ON field_revision_body.entity_id = split_part(url_alias.source, '/', 2)::integer
+                   WHERE url_alias.alias = %(identifier)s"""
+
+        results = {}
+        for content_language, title, body, node_id in self.engine.execute(query, {'identifier': identifier}):
+            results[content_language] = {'language': content_language, 'title': title, 'body': body, 'node_id': node_id}
+
+        result = results.get(language, None)
+
+        if not result and fallback and results:
+            for fallback_language in self._language_fallback_order:
+                result = results.get(fallback_language)
+                if result:
+                    break
+            if not result:
+                result = results.itervalues().next()
+
+        if result:
+            result['edit'] = urllib.quote("/%s/node/%s/edit" % (language, str(result['node_id'])))
+            result['body'] = literal(result['body'])
+
+        return result
 
     def get_drupal_user_id(self, username):
         result = self.engine.execute("SELECT uid FROM users WHERE name = %(name)s", {'name': username})
@@ -59,7 +96,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
         raise NotFound
 
     def get_helpers(self):
-        return {'service_alerts': self._service_alerts}
+        return {'service_alerts': self._service_alerts, 'fetch_drupal_content': self._fetch_drupal_content}
 
     def get_auth_functions(self):
         return {'user_delete_me': user_delete_me}

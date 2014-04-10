@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-09 13:15+0300\n"
-"PO-Revision-Date: 2014-04-09 10:15+0000\n"
+"POT-Creation-Date: 2014-04-10 12:59+0300\n"
+"PO-Revision-Date: 2014-04-10 09:59+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -25,33 +25,34 @@ msgid "Multiple translation in same language"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:70
-#: ckanext/ytp/organizations/plugin.py:286
+#: ckanext/ytp/organizations/plugin.py:302
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:181
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
+#: ckanext/ytp/dataset/plugin.py:197
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:21
 msgid "Collection Type"
 msgstr "Information reserv"
 
-#: ckanext/ytp/dataset/plugin.py:182
+#: ckanext/ytp/dataset/plugin.py:198
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr "Ämne"
 
-#: ckanext/ytp/dataset/plugin.py:183
+#: ckanext/ytp/dataset/plugin.py:199
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:105
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:117
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/dataset/plugin.py:184 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:200 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:185
+#: ckanext/ytp/dataset/plugin.py:201
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:69
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:81
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr ""
@@ -79,6 +80,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/new.html:4
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
 #: ckanext/ytp/dataset/templates/package/new_resource.html:4
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:3
 msgid "Create Dataset"
 msgstr ""
 
@@ -142,77 +144,77 @@ msgid ""
 "Creative Commons Attribution 4.0 International License</a>. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:14
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:25
 msgid "Open Data"
 msgstr "Open data"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:31
 msgid "Interoperability Tools"
 msgstr "Verktyg för driftskompatibilitet"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:27
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
 msgid "Public Service"
 msgstr "Statstjänst"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:44
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:236
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:256
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
 msgstr "Namn"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:44
 msgid "eg. A descriptive title"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:50
 msgid "Copyright Notice"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:50
 msgid "Additional information concerning copyright"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 msgid "Disclaimer of Warranty"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 msgid "Disclaimer on liability due to use of this dataset"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:72
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:84
 msgid "Select an organization..."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:86
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:98
 msgid "Visibility"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:101
 msgid "Public"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:101
 #: ckanext/ytp/user/templates/user/read_base.html:53
 #: ckanext/ytp/user/templates/user/read_base.html:67
 msgid "Private"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:107
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:119
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:33
 msgid "Period of validity"
 msgstr "Giltighet"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:108
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:110
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:120
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:122
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:36
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:43
 msgid "YYYY-MM-DD"
 msgstr "ÅÅÅÅ-MM-DD"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:113
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:125
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
 msgid "Extra information"
 msgstr "Kommentarer"
 
@@ -231,31 +233,52 @@ msgid ""
 "add some?</a> "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
-msgid "Additional Info"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:8
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:16
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:14
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:21
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
 msgid "Maintainer"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:30
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:24
 msgid "Version"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 #: ckanext/ytp/user/templates/user/read_base.html:62
 msgid "State"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:6
+#: ckanext/ytp/theme/menu.py:179
+msgid "Publish Data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:16
+msgid "Edit content"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:24
+msgid ""
+"Provide open data, tools or manuals for others. You can also publish public "
+"services or software based on open data."
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:29
+#: ckanext/ytp/theme/menu.py:173
+msgid "Publish Open Data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:30
+#: ckanext/ytp/theme/menu.py:168
+msgid "Publish Tools and Instructions"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
@@ -270,7 +293,7 @@ msgstr ""
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:113
+#: ckanext/ytp/organizations/plugin.py:116
 msgid "Group title already exists in database"
 msgstr "Grupp titel finns redan i databasen"
 
@@ -829,8 +852,7 @@ msgid "API Key"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:3
-msgid ""
-"Rekisteröityneenä käyttäjänä voit selailla palvelun käyttäjien tietoja."
+msgid "As registerd user you can browse users."
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:6

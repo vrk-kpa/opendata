@@ -6,8 +6,19 @@
     {% resource "ytp_dataset_js/ytp_dataset.js" %}
 
     {# YTP extensions to dataset #}
-
-    {% call form.input_block("collection_type", _('Collection Type'), errors.collection_type, [], extra_html="") %}
+    
+    
+    {% if data.collection_type %}
+    <div class="control-group">
+      <label for="field-organizations" class="control-label">{{ _('Collection Type') }}</label>
+      <div class="controls">
+          <p>{{ _(data.collection_type) }}</p>
+      </div>
+    </div>
+        
+      {{ form.hidden('collection_type', data.collection_type) }}
+    {% else %}
+        {% call form.input_block("collection_type", _('Collection Type'), errors.collection_type, [], extra_html="") %}
         <div class="radio-select-label">
           <label class="radio inline">
             <input name="collection_type" type="radio" value="Open Data" {% if data.collection_type == 'Open Data' %}checked="checked"{% endif %} />
@@ -27,7 +38,8 @@
             {%- trans -%}Public Service{%- endtrans -%}
           </label>
         </div>
-    {% endcall %}
+        {% endcall %}
+    {% endif %}
 
     {{ language_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), selected_locale=data.title_locale, data=data) }}
 
