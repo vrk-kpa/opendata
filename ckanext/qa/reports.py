@@ -363,40 +363,31 @@ def broken_resource_links_for_organisation(organisation_name,
         if val:
             return val
 
-    import ckanext.qa.model as qa_model
-    import ckanext.archiver.model as ar_model
+    from ckanext.archiver.model import Archival
 
     publisher = model.Group.get(organisation_name)
 
     name = publisher.name
     title = publisher.title
 
-    tasks = model.Session.query(qa_model.QATask,ar_model.ArchiveTask,model.Resource)\
-        .filter(qa_model.QATask.is_broken==True)\
-        .filter(qa_model.QATask.resource_id==model.Resource.id)\
-        .filter(qa_model.QATask.resource_id==ar_model.ArchiveTask.resource_id)
+    archivals = model.Session.query(Archival, model.Package, model.Group).\
+        filter(Archival.is_broken == True).\
+        join(model.Package, Archival.package_id == model.Package.id)
+
     if not include_sub_organisations:
-        tasks = tasks.filter(qa_model.QATask.organization_id==publisher.id)
+        archivals = archivals.filter(model.Package.owner_org == publisher.id)
     else:
         # We want any organization_id that is part of this publishers tree.
         org_ids = ['%s' % organisation.id for organisation in go_down_tree(publisher)]
-        tasks = tasks.filter(qa_model.QATask.organization_id.in_(org_ids))
+        archivals = archivals.filter(model.Package.owner_org.in_(org_ids))
+
+    archivals = archivals.join(model.Group, model.Package.owner_org == model.Group.id)
 
     results = []
 
-    # Entirely possible we don't find an archive task because of the race,
-    # so we'll have one to copy the defaults.
-    blank = ar_model.ArchiveTask()
-
-    for qatask, artask, resource in tasks.all():
-        pkg = model.Package.get(qatask.dataset_id)
-
-        # Refetch publisher if we are doing sub-orgs
-        if include_sub_organisations:
-            publisher = model.Group.get(qatask.organization_id)
-
-        if not artask:
-            artask = blank
+    for archival, pkg, publisher in archivals.all():
+        pkg = model.Package.get(archival.package_id)
+        resource = model.Resource.get(archival.resource_id)
 
         via = ''
         er = pkg.extras.get('external_reference', '')
@@ -405,6 +396,10 @@ def broken_resource_links_for_organisation(organisation_name,
         elif er.startswith("DATA4NR"):
             via = "Data4nr"
 
+        archived_resource = model.Session.query(model.ResourceRevision)\
+                            .filter_by(id=resource.id)\
+                            .filter_by(revision_timestamp=archival.resource_timestamp)\
+                            .first() or resource
         row_data = OrderedDict((
             ('dataset_title', pkg.title),
             ('dataset_name', pkg.name),
@@ -412,34 +407,19 @@ def broken_resource_links_for_organisation(organisation_name,
             ('publisher_name', publisher.name),
             ('resource_position', resource.position),
             ('resource_id', resource.id),
-            ('resource_url', resource.id),
+            ('resource_url', archived_resource.url),
+            ('url_up_to_date', resource.url == archived_resource.url),
             ('via', via),
-            ('first_failure', artask.first_failure),
-            ('last_success', artask.last_success),
-            ('url_redirected_to', artask.url_redirected_to),
-            ('reason', artask.reason),
-            ('status', qatask.archiver_status),
-            ('failure_count', artask.failure_count),
+            ('first_failure', archival.first_failure),
+            ('last_updated', archival.updated),
+            ('last_success', archival.last_success),
+            ('url_redirected_to', archival.url_redirected_to),
+            ('reason', archival.reason),
+            ('status', archival.status),
+            ('failure_count', archival.failure_count),
             ))
 
         results.append(row_data)
-
-    """
-    if include_sub_organisations:
-        for pubname, items in row_data.iteritems():
-            # Add items (which is a list) to the parents groups
-            for publisher in go_down_tree(pub):
-                if publisher.name == pubname:
-                    # go_down_tree returns itself, and we already have those
-                    # values in the results
-                    continue
-
-                # Get the parent list
-                l = results.get(pubname)
-                # Extend the list with those from the child
-                l.extend(results.get(publisher.name,[]))
-                results[pubname] = l
-    """
 
     return {'publisher_name': name,
             'publisher_title': title,
