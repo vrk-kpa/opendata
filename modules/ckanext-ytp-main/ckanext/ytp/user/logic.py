@@ -12,6 +12,7 @@ import json
 import logging
 import sqlalchemy
 import sqlalchemy.sql
+from ckanext.ytp.common.converters import to_list_json
 
 log = logging.getLogger(__name__)
 
@@ -143,12 +144,6 @@ def auth_user_list(context, data_dict):
     if not c.user:
         return {'success': False, 'msg': _('Have to be logged in to list users')}
     return {'success': True}
-
-
-def to_list_json(value, context):
-    if isinstance(value, basestring):
-        value = [value]
-    return json.dumps([item for item in value if item])
 
 
 def action_user_update(context, data_dict):

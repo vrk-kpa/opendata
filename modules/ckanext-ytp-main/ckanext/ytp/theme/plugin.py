@@ -64,7 +64,8 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                                     skip = True
                                 else:
                                     for key, value in urlparse.parse_qs(pattern_url.query).iteritems():
-                                        if parsed_parameters.get(key, None)[0] != value[0]:
+                                        parameter = parsed_parameters.get(key, None)
+                                        if not parameter or parameter[0] != value[0]:
                                             skip = True
                                             break
                             if not skip:

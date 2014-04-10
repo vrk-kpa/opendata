@@ -192,9 +192,10 @@ section.dataset-sidebar{
   padding: 5px;
 }
 
-.nonimportant-text, .sidebar-title, span.dataset-extra, span.byline-dataset, span.res-format, p.dataset-license {
+.nonimportant-text, .sidebar-title, span.byline-dataset, span.res-format, p.dataset-license {
   color: @nonimportant-text-color;
 }
+
 span.byline-dataset{
   padding: 2px
 }
@@ -476,4 +477,22 @@ ul.no-bullet li:hover {
   font-weight: bold;
   margin-top: 8px;
   position: static;
+}
+
+dt {
+  float: left;
+  clear: left;
+  width: 160px;
+  font-weight: normal;
+  color: @nonimportant-text-color;
+  margin-bottom: 8px;
+}
+
+dt:after {
+  content: ":";
+}
+
+dd {
+  margin: 0 0 8px 170px;
+  padding: 0 0 0.5em 0;
 }

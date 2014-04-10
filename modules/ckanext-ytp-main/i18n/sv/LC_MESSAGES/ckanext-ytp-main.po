@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-10 12:59+0300\n"
-"PO-Revision-Date: 2014-04-10 09:59+0000\n"
+"POT-Creation-Date: 2014-04-10 21:46+0300\n"
+"PO-Revision-Date: 2014-04-10 18:46+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -29,28 +29,28 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:197
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:13
+#: ckanext/ytp/dataset/plugin.py:206
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:12
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:21
 msgid "Collection Type"
 msgstr "Information reserv"
 
-#: ckanext/ytp/dataset/plugin.py:198
+#: ckanext/ytp/dataset/plugin.py:207
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr "Ämne"
 
-#: ckanext/ytp/dataset/plugin.py:199
+#: ckanext/ytp/dataset/plugin.py:208
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:117
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/dataset/plugin.py:200 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:209 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:201
+#: ckanext/ytp/dataset/plugin.py:210
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:81
 #: ckanext/ytp/theme/translations.py:10
@@ -214,9 +214,8 @@ msgid "YYYY-MM-DD"
 msgstr "ÅÅÅÅ-MM-DD"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:125
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
-msgid "Extra information"
-msgstr "Kommentarer"
+msgid "Extra information at website"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:13
 msgid "No description for this resource"
@@ -233,31 +232,35 @@ msgid ""
 "add some?</a> "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:8
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
+msgid "Extra information"
+msgstr "Kommentarer"
+
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:7
 msgid "Source"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:14
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:15
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:23
 msgid "Maintainer"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:24
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 msgid "Version"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
 #: ckanext/ytp/user/templates/user/read_base.html:62
 msgid "State"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/ytp/new_select.html:6
-#: ckanext/ytp/theme/menu.py:179
+#: ckanext/ytp/theme/menu.py:184
 msgid "Publish Data"
 msgstr ""
 
@@ -272,12 +275,12 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/ytp/new_select.html:29
-#: ckanext/ytp/theme/menu.py:173
+#: ckanext/ytp/theme/menu.py:179
 msgid "Publish Open Data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/ytp/new_select.html:30
-#: ckanext/ytp/theme/menu.py:168
+#: ckanext/ytp/theme/menu.py:174
 msgid "Publish Tools and Instructions"
 msgstr ""
 
@@ -633,28 +636,28 @@ msgid ""
 "again.</p> "
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:114
+#: ckanext/ytp/user/logic.py:115
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:117
+#: ckanext/ytp/user/logic.py:118
 msgid "Cannot change username"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:119
+#: ckanext/ytp/user/logic.py:120
 msgid "Cannot change email"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:130
+#: ckanext/ytp/user/logic.py:131
 msgid "Have to be logged in to edit user"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:138
+#: ckanext/ytp/user/logic.py:139
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:144
+#: ckanext/ytp/user/logic.py:145
 msgid "Have to be logged in to list users"
 msgstr ""
 

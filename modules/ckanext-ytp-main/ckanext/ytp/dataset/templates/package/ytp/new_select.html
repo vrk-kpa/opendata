@@ -26,8 +26,8 @@
     {%- endtrans -%} 
 
     <!-- Julkaise avointa dataa, Julkaise työkaluja ja ohjeita -->
-    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Open Data') }}">{{ _('Publish Open Data') }}</a>
-    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Interoperability Tools') }}">{{ _('Publish Tools and Instructions')}}</a>
+    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Open Data', group=c.preselected_group or "") }}">{{ _('Publish Open Data') }}</a>
+    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Interoperability Tools', group=c.preselected_group or "") }}">{{ _('Publish Tools and Instructions')}}</a>
 
     {# Not implemented yet:
     <a class="info-link" href="{{ new_url }}?collection_type=Public+Services">Julkaise palvelu</a>

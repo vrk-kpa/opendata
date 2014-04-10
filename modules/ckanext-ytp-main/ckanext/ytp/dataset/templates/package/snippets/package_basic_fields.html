@@ -1,6 +1,6 @@
 {% ckan_extends %}
 
-{% import 'macros/language_form.html' as language_form %}
+{% import 'macros/ytp_form.html' as ytp_form %}
 
 {% block package_basic_fields_title %}
     {% resource "ytp_dataset_js/ytp_dataset.js" %}
@@ -41,7 +41,7 @@
         {% endcall %}
     {% endif %}
 
-    {{ language_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), selected_locale=data.title_locale, data=data) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), selected_locale=data.title_locale, data=data) }}
 
 {% endblock %}
 
@@ -122,7 +122,7 @@
         <input id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
     {% endcall %}
 
-    {{ form.markdown('extra_information', id='field-extra_information', label=_('Extra information'), value=data.extra_information, error=errors.extra_information) }}
+    {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, error=errors.extra_information) }}
 
     {{ form.hidden("ytp", "true") }}
 

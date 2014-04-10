@@ -4,10 +4,13 @@ from ckan import plugins, model
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing
 from ckan.lib import helpers
-from ckan.common import _, c
+from ckan.common import _, c, request
 
 from converters import convert_to_tags_string, date_validator, translation_string, string_join
 import logging
+from ckanext.ytp.common.converters import to_list_json, from_json_list
+from webhelpers.html import escape, literal
+import types
 
 try:
     from collections import OrderedDict  # 2.7
@@ -89,6 +92,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _collection_mapping = {None: "package/ytp/new_select.html", 'Open Data': 'package/new.html',
                            'Interoperability Tools': 'package/new.html', 'Public Services': 'package/new.html'}
 
+    _key_mappings = {'extra_information': 'Extra information at website'}
+    _key_exclude = ['resources', 'organization', 'author_email', 'author', 'maintainer_email', 'maintainer', 'version', 'state']
+
     # IRoutes #
 
     def after_show(self, context, pkg_dict):
@@ -110,6 +116,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         toolkit.add_public_directory(config, '/var/www/resources')
         toolkit.add_resource('public/javascript/', 'ytp_dataset_js')
         toolkit.add_template_directory(config, 'templates')
+        toolkit.add_resource('../common/public/javascript/', 'ytp_common_js')
 
     # IDatasetForm #
 
@@ -132,7 +139,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'warranty_disclaimer': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'collection_type': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'extra_information': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'extra_information': [ignore_missing, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
@@ -163,9 +170,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'copyright_notice': [convert_from_extras, ignore_missing]})
         schema.update({'warranty_disclaimer': [convert_from_extras, ignore_missing]})
         schema.update({'collection_type': [convert_from_extras, ignore_missing]})
-        schema.update({'extra_information': [convert_from_extras, ignore_missing]})
+        schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
         schema.update({'valid_from': [convert_from_extras, ignore_missing]})
-        schema.update({'v_unique_formatsalid_till': [convert_from_extras, ignore_missing]})
+        schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
 
         schema.update({'title_locale': [convert_from_extras, ignore_missing]})
@@ -182,13 +189,15 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return True
 
     def new_template(self):
-        from ckan.common import request
-
         template = self._collection_mapping.get(request.params.get('collection_type', None), None)
         if not template:
             c.unknown_collection = True
             return self._collection_mapping.get(None)
         return template
+
+    def setup_template_variables(self, context, data_dict):
+        c.preselected_group = request.params.get('group', None)
+        super(YTPDatasetForm, self).setup_template_variables(context, data_dict)
 
     # IFacets #
 
@@ -245,13 +254,47 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _is_list(self, value):
         return isinstance(value, list)
 
+    def _translate_key(self, key):
+        return _(self._key_mappings.get(key, key))
+
+    def _escape(self, value):
+        return escape(unicode(value))
+
+    def _format_value(self, value):
+        if isinstance(value, types.DictionaryType):
+            value_buffer = []
+            for key, item_value in value.iteritems():
+                value_buffer.append("%s: %s" % (key, self._format_value(item_value)))
+            return ", ".join(value_buffer)
+        elif isinstance(value, types.ListType):
+            value_buffer = []
+            for item_value in value:
+                value_buffer.append(self._format_value(item_value))
+            return ", ".join(value_buffer)
+
+        return self._escape(value)
+
+    def _format_extras(self, extras):
+        if not extras:
+            return ""
+        extra_buffer = []
+        for extra_key, extra_value in extras.iteritems():
+            if extra_key in self._key_exclude:
+                continue
+            value = self._format_value(extra_value).strip()
+            if value:
+                extra_buffer.append(u'<dt>%s</dt><dd>%s</dd>' % (self._translate_key(extra_key), value))
+
+        return literal("<dl>" + "\n".join(extra_buffer) + "</dl>")
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
                 'get_user': self._get_user,
                 'unique_formats': self._unique_formats,
                 'locales_offered': self._locales_offered,
-                'is_list': self._is_list}
+                'is_list': self._is_list,
+                'format_extras': self._format_extras}
 
     # IActions #
 
