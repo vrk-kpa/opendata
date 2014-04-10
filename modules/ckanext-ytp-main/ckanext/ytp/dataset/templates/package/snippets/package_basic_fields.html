@@ -6,8 +6,7 @@
     {% resource "ytp_dataset_js/ytp_dataset.js" %}
 
     {# YTP extensions to dataset #}
-    
-    
+
     {% if data.collection_type %}
     <div class="control-group">
       <label for="field-organizations" class="control-label">{{ _('Collection Type') }}</label>
@@ -15,8 +14,9 @@
           <p>{{ _(data.collection_type) }}</p>
       </div>
     </div>
-        
-      {{ form.hidden('collection_type', data.collection_type) }}
+
+    {{ form.hidden('collection_type', data.collection_type) }}
+
     {% else %}
         {% call form.input_block("collection_type", _('Collection Type'), errors.collection_type, [], extra_html="") %}
         <div class="radio-select-label">
