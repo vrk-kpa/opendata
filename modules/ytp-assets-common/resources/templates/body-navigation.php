@@ -58,8 +58,6 @@
         <div id="main-navigation-collapse" class="collapse navbar-collapse">
           <ul class="nav navbar-nav" id="main-navigation-links">
             <?php
-
-
                 $uri = $_SERVER['REQUEST_URI'];
                 $lang = $language->language;
 
@@ -77,9 +75,9 @@
                 $href = '/data/' . $lang . '/organization';
                 if ( $uri ==  $href || $site_section == t("Data Producers")) { $class = ' class="active" '; }
                 echo '<li' . $class . '><a href="' . $href . '">' . t("Data Producers") . '</a></li>';
-                
+
                 $class = '';
-                $href = '/' . $lang . '/publish';
+                $href = '/data/' . $lang . '/dataset/new';
                 if ( $uri == $href || $site_section == t("Publish Data")) { $class = ' class="active" '; }
                 echo '<li' . $class . '><a href='. $href . '>' . t("Publish Data") . '</a></li>';
 
