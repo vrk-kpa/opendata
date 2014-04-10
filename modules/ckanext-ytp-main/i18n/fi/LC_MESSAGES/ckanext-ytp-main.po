@@ -7,15 +7,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
 # ilja.dev, 2014
 # ilja.dev, 2014
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
+# salum, 2014
 # salum, 2014
 # Yhteentoimivuuspalvelut <yhteentoimivuusportaali@valtiokonttori.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-09 13:15+0300\n"
-"PO-Revision-Date: 2014-04-09 10:15+0000\n"
-"Last-Translator: ilja.dev\n"
+"POT-Creation-Date: 2014-04-09 15:45+0300\n"
+"PO-Revision-Date: 2014-04-10 06:30+0000\n"
+"Last-Translator: salum\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,31 +31,31 @@ msgid "Multiple translation in same language"
 msgstr "Useampi käännös samalla kielellä"
 
 #: ckanext/ytp/dataset/converters.py:70
-#: ckanext/ytp/organizations/plugin.py:286
+#: ckanext/ytp/organizations/plugin.py:302
 msgid "Date format incorrect"
-msgstr ""
+msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/dataset/plugin.py:181
+#: ckanext/ytp/dataset/plugin.py:199
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 msgid "Collection Type"
 msgstr "Tietovaranto"
 
-#: ckanext/ytp/dataset/plugin.py:182
+#: ckanext/ytp/dataset/plugin.py:200
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/dataset/plugin.py:183
+#: ckanext/ytp/dataset/plugin.py:201
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:105
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/dataset/plugin.py:184 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:202 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/dataset/plugin.py:185
+#: ckanext/ytp/dataset/plugin.py:203
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:69
 #: ckanext/ytp/theme/translations.py:10
@@ -83,8 +85,10 @@ msgstr "Nimi sv"
 #: ckanext/ytp/dataset/templates/package/new.html:4
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
 #: ckanext/ytp/dataset/templates/package/new_resource.html:4
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:3
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:6
 msgid "Create Dataset"
-msgstr ""
+msgstr "Luo uusi tietoaineisto"
 
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
 msgid "Additional data"
@@ -97,7 +101,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:16
 msgid "License"
-msgstr ""
+msgstr "Lisenssi"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:77
 msgid "Change log"
@@ -117,7 +121,7 @@ msgstr "Näytä muutoshistoria"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:85
 msgid "Related"
-msgstr ""
+msgstr "Liittyvä"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:92
 msgid "Add related"
@@ -131,7 +135,7 @@ msgid ""
 "property=\"dct:title\">%(creator)s</span></a> has waived all copyright and "
 "related or neighboring rights to <a href=\"%(content_url)s\" > <span "
 "property=\"dct:title\">%(content_title)s</span></a>. "
-msgstr ""
+msgstr "Lain sallimissa rajoissa <a rel=\"dct:publisher\" href=\"%(creator_url)s\" > <span property=\"dct:title\">%(creator)s</span></a> luopuu kaikista tekijänoikeuksista ja lähioikeuksista teokseen<a href=\"%(content_url)s\" > <span property=\"dct:title\">%(content_title)s</span></a>. "
 
 #: ckanext/ytp/dataset/templates/package/snippets/license_rdf.html:33
 #, python-format
@@ -144,7 +148,7 @@ msgid ""
 "href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
 "rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> "
 "Creative Commons Attribution 4.0 International License</a>. "
-msgstr ""
+msgstr "<span xmlns:dct=\"http://purl.org/dc/terms/\" ⇥href=\"http://purl.org/dc/dcmitype/Dataset\" ⇥property=\"dct:title\" rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" href=\"%(attribution_url)s\" property=\"cc:attributionName\" ⇥rel=\"cc:attributionURL\">%(content_title)s</a></span> on julkaissut <a href=\"%(creator_url)s\" >%(creator)s</a> lisenssillä <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> Creative Commons Attribution 4.0 International License</a>. "
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:14
 msgid "Open Data"
@@ -179,7 +183,7 @@ msgstr "Lisätietoja tekijänoikeuksista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
 msgid "Disclaimer of Warranty"
-msgstr ""
+msgstr "Tietoa takuuista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
 msgid "Disclaimer on liability due to use of this dataset"
@@ -274,14 +278,14 @@ msgstr ""
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:113
+#: ckanext/ytp/organizations/plugin.py:116
 msgid "Group title already exists in database"
 msgstr "Ryhmän otsikko löytyy jo tietokannasta"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:21
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:49
 msgid "Contact info"
-msgstr ""
+msgstr "Yhteystiedot"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:58
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:158
@@ -289,13 +293,13 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:246
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:266
 msgid "Plain language translation available"
-msgstr ""
+msgstr "Selkokielinen versio saatavilla"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:61
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:159
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:230
 msgid "Plain language translation not available"
-msgstr ""
+msgstr "Ei selkokielistä versiota saatavilla"
 
 #: ckanext/ytp/organizations/templates/organization/index.html:10
 #: ckanext/ytp/theme/menu.py:69 ckanext/ytp/theme/menu.py:144
@@ -384,51 +388,51 @@ msgstr "Tuottajatyyppi"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:30
 msgid "Business ID"
-msgstr ""
+msgstr "Y-tunnus"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:31
 msgid "OID"
-msgstr ""
+msgstr "OID"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:32
 msgid "Alternative name"
-msgstr ""
+msgstr "Vaihtoehtoinen nimi"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:50
 msgid "Address"
-msgstr ""
+msgstr "Osoite"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:52
 msgid "Street"
-msgstr ""
+msgstr "Katu/tie"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:52
 msgid "House number"
-msgstr ""
+msgstr "Talon numero"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:52
 msgid "Staircase"
-msgstr ""
+msgstr "Porras"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:52
 msgid "Apartment number"
-msgstr ""
+msgstr "Huoneisto"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:53
 msgid "Example street 1 apartment 5"
-msgstr ""
+msgstr "Esimerkkikatu 1 as. 5"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:57
 msgid "P.O. box"
-msgstr ""
+msgstr "Postilokero"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:61
 msgid "Zip code"
-msgstr ""
+msgstr "Postinumero"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
 msgid "Place of Business"
-msgstr ""
+msgstr "Toimipaikka"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:71
 msgid "Country"
@@ -436,35 +440,35 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:76
 msgid "Address specifier"
-msgstr ""
+msgstr "Osoitteen tarkenne"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:78
 msgid "Unofficial name of the building"
-msgstr ""
+msgstr "Rakennuksen epävirallinen nimi"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:80
 msgid "Building ID"
-msgstr ""
+msgstr "Rakennustunnus"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:85
 msgid "Arrival instructions"
-msgstr ""
+msgstr "Saapumisohje"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:87
 msgid "Getting there"
-msgstr ""
+msgstr "Kulkuohje"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:89
 msgid "Parking"
-msgstr ""
+msgstr "Pysäköinti"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:91
 msgid "Arrival by public transport"
-msgstr ""
+msgstr "Saapuminen julkisilla kulkuvälineillä"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:93
 msgid "URL for public transport"
-msgstr ""
+msgstr "Julkisen liikenteen URL"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:105
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:216
@@ -512,12 +516,12 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:242
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:262
 msgid "Accessibility"
-msgstr ""
+msgstr "Esteettömyys"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:244
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:264
 msgid "WCAG"
-msgstr ""
+msgstr "WCAG"
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:244
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:264
@@ -833,9 +837,8 @@ msgid "API Key"
 msgstr "API avain"
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:3
-msgid ""
-"Rekisteröityneenä käyttäjänä voit selailla palvelun käyttäjien tietoja."
-msgstr ""
+msgid "As registerd user you can browse users."
+msgstr "Rekisteröityneenä käyttäjänä voit selailla palvelun käyttäjien tietoja."
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:6
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:7
