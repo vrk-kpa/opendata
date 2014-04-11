@@ -7,6 +7,7 @@ from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _
 from sqlalchemy import event
 import ckanext.ytp.organizations.logic.action as action
+from ckanext.ytp.organizations import auth
 import logging
 import pylons
 
@@ -91,6 +92,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IGroupForm, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IAuthFunctions)
 
     def configure(self, config):
         _configure(config)
@@ -252,6 +254,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
     def get_helpers(self):
         return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents}
+
+    def get_auth_functions(self):
+        return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update}
 
 
 # From ckanext-hierarchy

@@ -246,7 +246,7 @@
   copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
   register: copy_fix_scripts
   with_items:
-    - fix_language_weight
+    - fix_language
   tags:
   - drupal-configuration
   - drupal
@@ -255,7 +255,7 @@
   command: "'{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
   when: copy_fix_scripts|changed
   with_items:
-    - fix_language_weight
+    - fix_language
   tags:
   - drupal-configuration
   - drupal
