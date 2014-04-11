@@ -22,7 +22,7 @@ function ytp_user_user_login(&$edit, $account) {
 	
 }
 function ytp_user_page_build(&$page){
-	debug( services_get_resources() );
+	debug(services_endpoint_new()  );
 }
 
 

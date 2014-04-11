@@ -181,15 +181,15 @@
   tags:
   - drupal
 
-- name: Install ytpdrupaltools module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytpdrupaltools" && cp -r "{{ cache_path }}/ytpdrupaltools" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
-  register: install_ytpdrupaltools
+- name: InstallYTP user module
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp-drupal-user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
+  register: install_ytp_drupal_user
   tags:
   - drupal
 
 - name: Enable ytpdrupaltools module
-  command: drush en -y ytpdrupaltools chdir="{{ drupal_root }}"
-  when: install_ytpdrupaltools|changed
+  command: drush en -y ytp_user chdir="{{ drupal_root }}"
+  when: iinstall_ytp_drupal_user|changed
   tags:
   - drupal
 
