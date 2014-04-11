@@ -7,4 +7,5 @@ recursive-include ckanext/ytp/organizations/public *
 recursive-include ckanext/ytp/organizations/templates *
 recursive-include ckanext/ytp/theme/public *
 recursive-include ckanext/ytp/theme/templates *
+recursive-include ckanext/ytp/commont/public *
 

@@ -76,7 +76,7 @@ class YtpUserPlugin(plugins.SingletonPlugin):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
-        toolkit.add_resource('public/javascript/', 'ytp_user_js')
+        toolkit.add_resource('../common/public/javascript/', 'ytp_common_js')
         toolkit.add_public_directory(config, 'public')
 
     def configure(self, config):

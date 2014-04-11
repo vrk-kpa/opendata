@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-09 15:45+0300\n"
-"PO-Revision-Date: 2014-04-10 07:13+0000\n"
-"Last-Translator: salum\n"
+"POT-Creation-Date: 2014-04-10 21:46+0300\n"
+"PO-Revision-Date: 2014-04-10 18:48+0000\n"
+"Last-Translator: ilja.dev\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,29 +35,30 @@ msgstr "Useampi käännös samalla kielellä"
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/dataset/plugin.py:199
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
+#: ckanext/ytp/dataset/plugin.py:206
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:21
 msgid "Collection Type"
 msgstr "Tietovaranto"
 
-#: ckanext/ytp/dataset/plugin.py:200
+#: ckanext/ytp/dataset/plugin.py:207
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/dataset/plugin.py:201
+#: ckanext/ytp/dataset/plugin.py:208
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:105
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:117
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/dataset/plugin.py:202 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:209 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/dataset/plugin.py:203
+#: ckanext/ytp/dataset/plugin.py:210
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:69
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:81
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr "Tiedon tuottaja"
@@ -86,7 +87,6 @@ msgstr "Nimi sv"
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
 #: ckanext/ytp/dataset/templates/package/new_resource.html:4
 #: ckanext/ytp/dataset/templates/package/ytp/new_select.html:3
-#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:6
 msgid "Create Dataset"
 msgstr "Luo uusi tietoaineisto"
 
@@ -150,79 +150,78 @@ msgid ""
 "Creative Commons Attribution 4.0 International License</a>. "
 msgstr "<span xmlns:dct=\"http://purl.org/dc/terms/\" ⇥href=\"http://purl.org/dc/dcmitype/Dataset\" ⇥property=\"dct:title\" rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" href=\"%(attribution_url)s\" property=\"cc:attributionName\" ⇥rel=\"cc:attributionURL\">%(content_title)s</a></span> on julkaissut <a href=\"%(creator_url)s\" >%(creator)s</a> lisenssillä <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> Creative Commons Attribution 4.0 International License</a>. "
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:14
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:25
 msgid "Open Data"
 msgstr "Avoin data"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:31
 msgid "Interoperability Tools"
 msgstr "Työkalut ja ohjeet"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:27
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
 msgid "Public Service"
 msgstr "Julkinen palvelu"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:44
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:236
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:256
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
 msgstr "Nimi"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:32
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:44
 msgid "eg. A descriptive title"
 msgstr "esim. kuvaava nimike"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:50
 msgid "Copyright Notice"
 msgstr "Tekijäoikeusilmoitus"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:50
 msgid "Additional information concerning copyright"
 msgstr "Lisätietoja tekijänoikeuksista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 msgid "Disclaimer of Warranty"
 msgstr "Tietoa takuuista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 msgid "Disclaimer on liability due to use of this dataset"
 msgstr "Tietoa käyttäjän vastuista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:72
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:84
 msgid "Select an organization..."
 msgstr "Valitse tiedon tuottaja..."
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:86
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:98
 msgid "Visibility"
 msgstr "Näkyvyys"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:101
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:89
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:101
 #: ckanext/ytp/user/templates/user/read_base.html:53
 #: ckanext/ytp/user/templates/user/read_base.html:67
 msgid "Private"
 msgstr "Yksityinen"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:107
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:119
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:33
 msgid "Period of validity"
 msgstr "Voimassaolo"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:108
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:110
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:120
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:122
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:36
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:43
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:113
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
-msgid "Extra information"
-msgstr "Lisätietoja"
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:125
+msgid "Extra information at website"
+msgstr "Lisätietoja verkkosivulla"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:13
 msgid "No description for this resource"
@@ -240,31 +239,56 @@ msgid ""
 msgstr " <p class=\"empty\">Tietoaineistossa ei ole dataa, <a href=\"%(url)s\">mikset lisäisi dataa?</a> "
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
-msgid "Additional Info"
+msgid "Extra information"
 msgstr "Lisätietoja"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:8
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:7
 msgid "Source"
 msgstr "Lähde"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:16
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:15
 msgid "Author"
 msgstr "Laatija"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:21
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:23
 msgid "Maintainer"
 msgstr "Ylläpitäjä"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:30
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 msgid "Version"
 msgstr "Versio"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
 #: ckanext/ytp/user/templates/user/read_base.html:62
 msgid "State"
 msgstr "Tila"
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:6
+#: ckanext/ytp/theme/menu.py:184
+msgid "Publish Data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:16
+msgid "Edit content"
+msgstr "Muokkaa sisältöä"
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:24
+msgid ""
+"Provide open data, tools or manuals for others. You can also publish public "
+"services or software based on open data."
+msgstr "Tarjoa avointa dataa, työkaluja ja ohjeita muiden käyttöön. Voit myös julkaista avoimeen dataan pohjautuvia julkisia palveluja tai toteuttamiasi sovelluksia."
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:29
+#: ckanext/ytp/theme/menu.py:179
+msgid "Publish Open Data"
+msgstr "Julkaise avointa dataa"
+
+#: ckanext/ytp/dataset/templates/package/ytp/new_select.html:30
+#: ckanext/ytp/theme/menu.py:174
+msgid "Publish Tools and Instructions"
+msgstr "Julkaise työkaluja ja ohjeita"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
 msgid "Show More {facet_type}"
@@ -618,28 +642,28 @@ msgid ""
 "again.</p> "
 msgstr " <p><strong>Etsinnässä tapahtui virhe.</strong> Yritä uudelleen.</p> "
 
-#: ckanext/ytp/user/logic.py:114
+#: ckanext/ytp/user/logic.py:115
 msgid "User not found"
 msgstr "Käyttäjää ei löytynyt"
 
-#: ckanext/ytp/user/logic.py:117
+#: ckanext/ytp/user/logic.py:118
 msgid "Cannot change username"
 msgstr "Käyttäjätunnusta ei voi muuttaa"
 
-#: ckanext/ytp/user/logic.py:119
+#: ckanext/ytp/user/logic.py:120
 msgid "Cannot change email"
 msgstr "Sähköpostiosoitetta ei voi muuttaa"
 
-#: ckanext/ytp/user/logic.py:130
+#: ckanext/ytp/user/logic.py:131
 msgid "Have to be logged in to edit user"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 
-#: ckanext/ytp/user/logic.py:138
+#: ckanext/ytp/user/logic.py:139
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr "Käyttäjällä %s ei ole oikeuksia muokata käyttäjää %s"
 
-#: ckanext/ytp/user/logic.py:144
+#: ckanext/ytp/user/logic.py:145
 msgid "Have to be logged in to list users"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 

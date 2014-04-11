@@ -13,7 +13,18 @@ class YtpRequestController(base.BaseController):
 
     not_auth_message = _('Unauthorized')
 
+    def _basic_context(self, user=None):
+        return {'model': model, 'session': model.Session, 'user': user or c.user}
+
+    def _get_available_roles(self, user=None, context=None):
+        roles = []
+        for role in toolkit.get_action('member_roles_list')(context or self._basic_context(user), {}):
+            if role['value'] != 'member':
+                roles.append(role)
+        return roles
+
     def new(self, data=None, errors=None, error_summary=None):
+        """ Controller for new member request """
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author,
                    'save': 'save' in request.params,
@@ -31,8 +42,8 @@ class YtpRequestController(base.BaseController):
         extra_vars = {'data': data, 'errors': errors or {}, 'error_summary': error_summary or {}, 'action': 'new',
                       'selected_organization': request.params.get('selected_organization', None)}
 
-        c.roles = toolkit.get_action('member_roles_list')(context, {})
-        c.user_role = 'member'
+        c.roles = self._get_available_roles()
+        c.user_role = 'editor'
 
         c.form = render("request/new_request_form.html", extra_vars=extra_vars)
         return render("request/new.html")
@@ -55,6 +66,7 @@ class YtpRequestController(base.BaseController):
             return self.new(data_dict, errors, error_summary)
 
     def list(self):
+        """ Controller for listing member requests """
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
         try:
@@ -65,13 +77,23 @@ class YtpRequestController(base.BaseController):
             abort(401, self.not_auth_message)
 
     def show(self, member_id):
+        """ Controller for viewing member request """
         try:
             member = model.Session.query(model.Member).get(member_id)
-            if member.state != 'pending':
+            if not member or member.state != 'pending':
                 abort(404, _('Request not found'))
 
+            role = request.params.get('role', None)
+            if role:
+                check_access('member_request_process', {'member': member_id})
+                member.capacity = role
+                revision = model.repo.new_revision()
+                revision.author = c.user
+                revision.message = u'Changed member request role'
+                member.save()
+
             member_user = model.Session.query(model.User).get(member.table_id)
-            extra_vars = {"member": member, "member_user": member_user}
+            extra_vars = {"member": member, "member_user": member_user, "roles": self._get_available_roles(member_user.name)}
             return render('request/show.html', extra_vars=extra_vars)
         except toolkit.ObjectNotFound:
             abort(404, _('Request not found'))
@@ -81,6 +103,7 @@ class YtpRequestController(base.BaseController):
     def _process(self, member_id, approve):
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
+
         data_dict = {"member": member_id, "approve": approve}
 
         try:
@@ -91,10 +114,17 @@ class YtpRequestController(base.BaseController):
         except NotFound:
             abort(404, _('Request not found'))
 
+    def process(self):
+        member_id = request.params.get('member_id')
+        approve = request.params.get('approve')
+        return self._process(member_id, approve == 'true')
+
     def reject(self, member_id):
+        """ Controller to reject member request """
         return self._process(member_id, False)
 
     def approve(self, member_id):
+        """ Controller to approve member request """
         return self._process(member_id, True)
 
     def show_organization(self, organization_id):

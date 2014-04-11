@@ -4,6 +4,7 @@ from ckan.common import c
 
 
 def get_user_member(organization_id, state=None):
+    """ Helper function to get member states """
     state_query = None
     if not state:
         state_query = or_(model.Member.state == 'active', model.Member.state == 'pending')

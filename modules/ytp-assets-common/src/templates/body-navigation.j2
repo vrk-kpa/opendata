@@ -52,14 +52,14 @@
           </button>
           <a class="navbar-brand visible-xs" href="#">Päävalikko</a>
         </div>
-        
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div id="main-navigation-collapse" class="collapse navbar-collapse">
           <ul class="nav navbar-nav" id="main-navigation-links">
             <li><a href="/{{ lang }}">{{ _('Home') }}</a></li>
-            <li {% if current_url.startswith("/dataset") %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset">{{ _('Data Repositories') }}</a></li>
+            <li {% if current_url.startswith("/dataset") and not current_url.startswith("/dataset/new") %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset">{{ _('Data Repositories') }}</a></li>
             <li {% if current_url.startswith("/organization") %}class="active"{% endif %}><a href="/data/{{ lang }}/organization">{{ _('Data Producers') }}</a></li>
-            <li><a href="/{{ lang }}/publish">{{ _('Publish Data') }}</a></li>
+            <li {% if current_url.startswith("/dataset/new") %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset/new">{{ _('Publish Data') }}</a></li>
             <li><a href="/{{ lang }}/news">{{ _('News') }}</a></li>
             <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
           </ul>

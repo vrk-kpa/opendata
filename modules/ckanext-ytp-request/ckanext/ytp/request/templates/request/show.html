@@ -1,5 +1,7 @@
 {% extends "request/page.html" %}
 
+{% import 'macros/form.html' as form %}
+
 {% block subtitle %}{{ _('Organization membership request') }}{% endblock %}
 
 {% block secondary_content %}
@@ -16,6 +18,9 @@
 {% endblock %}
 
 {% block primary_content %}
+  {% resource "ytp_request_js/request.js" %}
+
+  {% set allow_process = h.check_access('member_request_process', {'member': member.id}) %}
   <section class="module">
     <div class="module-content">
       <h1>{% trans %}Organization membership request{% endtrans %}</h1>
@@ -43,17 +48,29 @@
               </tr>
               <tr>
                   <th>{% trans %}Role{% endtrans %}</th>
-                  <td><b>{{ member.capacity }}</b></td>
+                  <td>
+                  {% if allow_process %}
+                  <form class="dataset-form form-horizontal" method="post" action="{{ h.url_for('member_request_show', member_id=member.id) }}" data-module="basic-form">
+                      <select name="role" class="submit-on-change">
+                      {% for option in roles %}
+                          <option value="{{ option.value }}"{% if option.value == member.capacity %} selected="selected"{% endif %}>{{ option.text or option.value }}</option>
+                      {% endfor %}
+                      </select>
+                  </form>
+                  {% else %}
+                      <b>{{ member.capacity }}</b>
+                  {% endif %}
+                  </td>
               </tr>
           </tbody>
       </table>
       <div class="form-actions">
-      {% if h.check_access('member_request_process', {'member': member.id})%}
-        {% set locale = h.dump_json({'content': _('Are you sure you want reject this request?')}) %}
-        <a href="{{ h.url_for('member_request_reject', member_id=member.id) }}" class="btn btn-danger pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
+      {% if allow_process %}
+          {% set locale = h.dump_json({'content': _('Are you sure you want reject this request?')}) %}
+          <a href="{{ h.url_for('member_request_reject', member_id=member.id) }}" class="btn btn-danger pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
 
-        {% set locale = h.dump_json({'content': _('Are you sure you want approve this request?')}) %}
-        <a href="{{ h.url_for('member_request_approve', member_id=member.id) }}" class="btn btn-primary" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
+          {% set locale = h.dump_json({'content': _('Are you sure you want approve this request?')}) %}
+          <a href="{{ h.url_for('member_request_approve', member_id=member.id) }}" class="btn btn-primary" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
       {% endif %}
 
       {% if member_user.id == c.userobj.id and h.check_access('member_request_cancel', {'member': member.id}) %}

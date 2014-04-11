@@ -26,6 +26,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         _("member")
         _("editor")
 
+    # IRoutes #
+
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
         controller = 'ckanext.ytp.request.controller:YtpRequestController'
@@ -34,14 +36,20 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect("member_request_show", '/member-request/show/{member_id}', action='show', controller=controller)
         m.connect("member_request_reject", '/member-request/reject/{member_id}', action='reject', controller=controller)
         m.connect("member_request_approve", '/member-request/approve/{member_id}', action='approve', controller=controller)
+        m.connect("member_request_process", '/member-request/process', action='process', controller=controller)
         m.connect("member_request_cancel", '/member-request/cancel/{member_id}', action='cancel', controller=controller)
         m.connect("member_request_show_organization", '/member-request/show-organization/{organization_id}', action='show_organization', controller=controller)
         m.connect("member_request_membership_cancel", '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller)
         return m
 
+    # IConfigurer #
+
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_public_directory(config, 'public')
+        toolkit.add_resource('public/javascript/', 'ytp_request_js')
+
+    # IActions #
 
     def _get_function_dictionary(self, module, prefix):
         return {name: getattr(module, name) for name in dir(module) if name.startswith(prefix)}
@@ -49,8 +57,12 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     def get_actions(self):
         return self._get_function_dictionary(logic, "member_request_")
 
+    # IAuthFunctions #
+
     def get_auth_functions(self):
         return self._get_function_dictionary(auth, "member_request_")
+
+    # ITemplateHelpers #
 
     def _list_organizations(self):
         context = {'user': c.user}
