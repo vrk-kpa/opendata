@@ -1,0 +1,32 @@
+<?php
+/*
+function ytpdrupaltools_install() {
+  // Check if our field is not already created.
+  if (!field_info_field('field_fullname')) {
+    $field = array(
+        'field_name' => 'field_fullname', 
+        'type' => 'text', 
+    );
+    field_create_field($field);
+
+    // Create the instance on the bundle.
+    $instance = array(
+        'field_name' => 'field_fullname', 
+        'entity_type' => 'user', 
+        'label' => 'Fullname', 
+        'bundle' => 'user', 
+        // If you don't set the "required" property then the field wont be required by default.
+        'required' => TRUE,
+        'settings' => array(
+           // Here you inform either or not you want this field showing up on the registration form.
+            'user_register_form' => 1,
+        ),
+        'widget' => array(
+            'type' => 'textfield',
+            'weight' => '1',
+        ), 
+    );
+    field_create_instance($instance);
+  }
+}
+ */

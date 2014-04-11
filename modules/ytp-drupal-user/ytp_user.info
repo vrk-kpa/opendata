@@ -1,0 +1,6 @@
+name = YTP Drupal user
+description = Provides modifies user data for ckan
+core = 7.x
+files[] = ytp-drupal-user.module
+package = YTP
+dependencies[] = services
