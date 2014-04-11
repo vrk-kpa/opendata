@@ -43,6 +43,9 @@ class YtpDevelopMain(object):
     def develop_drupal(self, name):
         return self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
 
+    def develop_drupal_module(self, name):
+        return self._replace_with_link("/var/www/ytp/sites/all/modules/" + name, "/src/modules/" + name)
+
     def _get_projects(self):
         for project_name in os.listdir(self.source_path):
             if os.path.isdir(os.path.join(self.source_path, project_name)) and self._get_mapping(project_name):
@@ -78,9 +81,12 @@ class YtpDevelopMain(object):
 
     def _get_mappings(self):
         if self._mappings is None:
-            self._mappings = {re.compile(u'^ckanext-.+'): self.develop_ckanext, u'ytp-assets-common': self.develop_assets,
+            self._mappings = {re.compile(u'^ckanext-.+'): self.develop_ckanext,
+                              u'ytp-assets-common': self.develop_assets,
                               u'ytp-theme-drupal': self.develop_drupal,
-                              u'--list': self.list_projects, u'--serve': self.paster_serve,
+                              u'ytp-drupal-user': self.develop_drupal_module,
+                              u'--list': self.list_projects,
+                              u'--serve': self.paster_serve,
                               u'--all': self._execute_all}
         return self._mappings
 
