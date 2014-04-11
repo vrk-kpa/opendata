@@ -1,0 +1,37 @@
+{% extends "package/base_form_page.html" %}
+
+{% block subtitle %}{{ _('Create Dataset') }}{% endblock %}
+
+{% block primary_content %}
+    <h1 class="content-heading">{{ _("Publish Data") }}</h1>
+    {{ super() }}
+{% endblock %}
+
+{% block primary_content_inner %}
+
+<div>
+    {% set publish_content = h.fetch_drupal_content('publish') %}
+    {% if publish_content %}
+    {% if c.userobj.sysadmin %}
+        <a class="right-action" href="{{ publish_content.edit }}">{{ _('Edit content') }}</a>
+    {% endif %}
+    {{ publish_content.body }}
+    {% endif %}
+</div>
+
+<div class="info-box">
+    <!-- Tarjoa avointa dataa, työkaluja ja ohjeita muiden käyttöön. Voit myös julkaista avoimeen dataan pohjautuvia julkisia palveluja tai toteuttamiasi sovelluksia. -->
+    {%- trans -%}
+    Provide open data, tools or manuals for others. You can also publish public services or software based on open data.
+    {%- endtrans -%} 
+
+    <!-- Julkaise avointa dataa, Julkaise työkaluja ja ohjeita -->
+    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Open Data', group=c.preselected_group or "") }}">{{ _('Publish Open Data') }}</a>
+    <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Interoperability Tools', group=c.preselected_group or "") }}">{{ _('Publish Tools and Instructions')}}</a>
+
+    {# Not implemented yet:
+    <a class="info-link" href="{{ new_url }}?collection_type=Public+Services">Julkaise palvelu</a>
+    <a class="info-link" href="{{ new_url }}?collection_type=Not+Implemented">Julkaise sovellus</a>
+    #}
+</div>
+{% endblock %}

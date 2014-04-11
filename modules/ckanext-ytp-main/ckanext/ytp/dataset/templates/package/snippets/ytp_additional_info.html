@@ -1,39 +1,42 @@
 <section class="dataset-additional-info">
   <h3>{{ _('Extra information') }}</h3>
-  
-  {% if pkg_dict.extra_information %}<p>{{pkg_dict.extra_information}}</p>{% endif %}
 
   {% block package_additional_info %}
+    <dl>
     {% if pkg_dict.url %}
-     <p><span class="dataset-extra">{{ _('Source') }}:</span> {{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</p>
+        <dt>{{ _('Source') }}:</dt>
+        <dd>{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</dd>
     {% endif %}
 
     {% if pkg_dict.author_email %}
-      <p><span class="dataset-extra">{{ _("Author") }}:</span> {{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</p>
+      <dt>{{ _("Author") }}</dt>
+      <dd>{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</dd>
     {% elif pkg_dict.author %}
-      <p><span class="dataset-extra">{{ _("Author") }}:</span> {{ pkg_dict.author }}</p>
+      <dt>{{ _("Author") }}</dt>
+      <dd>{{ pkg_dict.author }}</dd>
     {% endif %}
 
     {% if pkg_dict.maintainer_email %}
-      <p><span class="dataset-extra">{{ _('Maintainer') }}:</span> {{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</p>
+      <dt>{{ _('Maintainer') }}</dt>
+      <dd>{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</dd>
     {% elif pkg_dict.maintainer %}
-      <p><span class="dataset-extra">{{ _('Maintainer') }}:</span> { pkg_dict.maintainer }}</p>
+      <dt>{{ _('Maintainer') }}</dt>
+      <dd>{ pkg_dict.maintainer }}</dd>
     {% endif %}
 
     {% if pkg_dict.version %}
-      <p><span class="dataset-extra">{{ _("Version") }}:</span> {{ pkg_dict.version }}</p>
+      <dt>{{ _("Version") }}</dt>
+      <dd>{{ pkg_dict.version }}</dd>
     {% endif %}
 
     {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-      <p><span class="dataset-extra">{{ _("State") }}:</span> {{ pkg_dict.state }}</p>
+      <dt>{{ _("State") }}</dt>
+      <dd>{{ pkg_dict.state }}</dd>
     {% endif %}
+    </dl>
 
-    {% block extras scoped %}
-      {% for extra in h.sorted_extras(pkg_dict.extras) %}
-        {% set key, value = extra %}
-        <p><span class="dataset-extra">{{ _(key) }}:</span> {{ value }}</p>
-      {% endfor %}
-    {% endblock %}
+    {{ h.format_extras(pkg_dict) }}
+
   {% endblock %}
 
 </section>

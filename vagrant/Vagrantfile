@@ -23,10 +23,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ytp.vm.synced_folder "../", "/src", :mount_options => ["dmode=777","fmode=666"]
     else
       # Basic VM synced folder mount
-      # ytp.vm.synced_folder "../", "/src"
+      ytp.vm.synced_folder "../", "/src"
 
       # NFS mounting requires installing nfs-kernel-server on host
-      ytp.vm.synced_folder "../", "/src", type: "nfs"
+      # If you use firewall on host machine, remember add exception, example: sudo ufw allow from 10.10.10.0/24
+      # ytp.vm.synced_folder "../", "/src", type: "nfs"
 
       # Or try rsync with "vagrant rsync-auto" https://www.vagrantup.com/blog/feature-preview-vagrant-1-5-rsync.html
       # ytp.vm.synced_folder "../", "/src", type: "rsync"

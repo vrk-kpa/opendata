@@ -1,4 +1,4 @@
-from ckan.common import _, c
+from ckan.common import _, c, request
 from ckan.lib import helpers
 from collections import OrderedDict
 from ckan.logic import NotFound
@@ -151,3 +151,40 @@ class ProducersMenu(RootMenuItem):
     def __init__(self, plugin):
         super(ProducersMenu, self).__init__(plugin)
         self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False)]
+
+
+class _CommonPublishMenu(MenuItem):
+    def __init__(self, title, collection_type=None):
+        super(_CommonPublishMenu, self).__init__()
+        self.title = title
+        self._collection_type = collection_type
+
+    def link(self):
+        arguments = {}
+        if self._collection_type:
+            arguments['collection_type'] = self._collection_type
+        group = request.params.get('group')
+        if group:
+            arguments['group'] = group
+        return helpers.url_for('add dataset', **arguments)
+
+
+class PublishToolsMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishToolsMenu, self).__init__(_("Publish Tools and Instructions"), 'Interoperability Tools')
+
+
+class PublishDataMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishDataMenu, self).__init__(_("Publish Open Data"), 'Open Data')
+
+
+class PublishMainMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishMainMenu, self).__init__(_("Publish Data"))
+
+
+class PublishMenu(RootMenuItem):
+    def __init__(self, plugin):
+        super(PublishMenu, self).__init__(plugin)
+        self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]
