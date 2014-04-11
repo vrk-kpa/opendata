@@ -28,12 +28,12 @@ class YtpDevelopMain(object):
 
         return 0
 
-    def _replace_with_link(self, original_path, source_path):
+    def _replace_with_link(self, original_path, source_path, ignore_errors=False):
         if os.path.islink(original_path):
             print u"Already linked"
             return 0
 
-        shutil.rmtree(original_path)
+        shutil.rmtree(original_path, ignore_errors=ignore_errors)
         os.symlink(source_path, original_path)
         return 0
 
@@ -44,7 +44,7 @@ class YtpDevelopMain(object):
         return self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
 
     def develop_drupal_module(self, name):
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/" + name, "/src/modules/" + name)
+        return self._replace_with_link("/var/www/ytp/sites/all/modules/" + name, "/src/modules/" + name, ignore_errors=True)
 
     def _get_projects(self):
         for project_name in os.listdir(self.source_path):
