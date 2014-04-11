@@ -1,10 +1,43 @@
 <?php
 /*
  ****************************
- * YTP-Drupal-tools plugin inserts content from ckan to the rupal instance on 
+ * YTP Drupal user plugin inserts content from ckan to the rupal instance on 
  * avoindata.fi service
  ****************************
  */
+function create_ytp_user_service($endpoint){
+
+	$endpoint->api_version = 3;
+	$endpoint->name = 'user_service_name';
+	$endpoint->server = 'rest_server';
+	$endpoint->path = 'user_2';
+	$endpoint->authentication = array();
+	$endpoint->authentication['services'] ='services';
+	$endpoint->resources = array();
+	$user = array();
+  	$operations=array();
+	$retrieve =array();
+	$update  =array();
+	$index =array();
+	$enabled =array();
+	$enabled['enabled'] = '1';
+	$retrieve['enabled'] = $enabled;
+	$update['enabled'] = $enabled;
+	$index['enabled'] = $enabled;
+	$operations['retrieve'] = $retrieve;
+	$operations['update'] = $update;
+	$operations['index']= $index;
+	$user['operations'] =$operations;
+	$actions=array();
+	$token=array();
+	$token['enabled']=$enabled;
+	$actions['token']=$token;
+  	$user['actions']=$actions;
+  	$endpoint->resources['user'] = $user;
+	$endpoint->debug = 1;
+	return $endpoint;
+}
+ 
 function ytp_user_user_login(&$edit, $account) {
 
 	debug($account);
@@ -22,11 +55,18 @@ function ytp_user_user_login(&$edit, $account) {
 	
 }
 function ytp_user_page_build(&$page){
-	debug(services_endpoint_new()  );
+
+	//debug("'user_end'\n<br />\n");
+	//debug(services_endpoint_export(services_endpoint_load('user_end')));
+	//services_endpoint_save($endpoint); 
+	//debug("'user_service_name'\n<br />\n");
+	//debug(services_endpoint_export(services_endpoint_load('user_service_name')));
+
 }
 
 
 function ytp_user_enable() {
+
   // Check if our field is not already created.
   if (!field_info_field('field_fullname')) {
     $field = array(
@@ -57,4 +97,17 @@ function ytp_user_enable() {
     field_create_instance($instance);
 	drupal_set_message($field['field_fullname'].' was created.');
   }
+  $endpoint = services_endpoint_new();
+  $endpoint = create_ytp_user_service($endpoint);
+  if ( services_endpoint_load('user_service_name') == FALSE ){
+  	services_endpoint_save($endpoint); 
+  }
+  
+}
+function ytp_user_disable(){
+	global $ytp_user_service_name;
+	$endpoint = services_endpoint_load('user_service_name');
+	if ($endpoint != FALSE){
+		services_endpoint_delete($endpoint);
+	}
 }
