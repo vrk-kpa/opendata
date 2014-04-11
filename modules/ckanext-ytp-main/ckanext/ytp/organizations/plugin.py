@@ -256,7 +256,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents}
 
     def get_auth_functions(self):
-        return {'organization_create': auth.organization_create}
+        return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update}
 
 
 # From ckanext-hierarchy
