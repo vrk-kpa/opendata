@@ -5,7 +5,9 @@
 {%- endif -%}
 </span>  
  <span  class="byline-dataset"> add note | translations </span> <br />
+    {% if pkg.collection_type -%}
  <span class="byline-contentype"><a href="/data/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a> </span>
+    {%- endif -%}
 {%- if pkg.get('resources') -%}
 	{% set formats = h.unique_formats(pkg.get('resources')) %}
 <span class="byline-dataset"> 
