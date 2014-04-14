@@ -1,12 +1,13 @@
 # Manual
 # 
 # Translators:
+# Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-04-08 11:22+0000\n"
+"PO-Revision-Date: 2014-04-14 07:23+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -27,5 +28,8 @@ msgstr "salasana"
 msgid "Have you forgotten your password?"
 msgstr "Unohtuiko salasana?"
 
-msgid "Search datasets"
-msgstr "Etsi tietoaineistoja"
+msgid "User Info"
+msgstr "Omat tietoni"
+
+msgid "Signup or login"
+msgstr "Kirjaudu tai rekisteröidy"

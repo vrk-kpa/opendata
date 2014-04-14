@@ -1,11 +1,12 @@
 # Manual
 # 
 # Translators:
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-04-08 11:00+0000\n"
+"PO-Revision-Date: 2014-04-14 07:22+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -26,5 +27,8 @@ msgstr ""
 msgid "Have you forgotten your password?"
 msgstr ""
 
-msgid "Search datasets"
+msgid "User Info"
+msgstr ""
+
+msgid "Signup or login"
 msgstr ""

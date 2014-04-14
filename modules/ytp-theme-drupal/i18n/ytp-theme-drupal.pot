@@ -25,3 +25,10 @@ msgstr ""
 
 msgid "Have you forgotten your password?"
 msgstr ""
+
+msgid "User Info"
+msgstr ""
+
+msgid "Signup or login"
+msgstr ""
+
