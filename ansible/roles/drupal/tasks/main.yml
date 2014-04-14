@@ -221,6 +221,13 @@
   - drupal-configuration
   - drupal
 
+- name: Enable email verification
+  command: drush vset "user_email_verification" "1" chdir='{{ drupal_root }}'
+  when: enable_email_verification != False
+  tags:
+  - drupal-configuration
+  - drupal
+
 - name: Set Drupal remote variables
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
   with_items:
