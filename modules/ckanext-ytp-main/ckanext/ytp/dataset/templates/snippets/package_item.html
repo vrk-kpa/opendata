@@ -43,6 +43,7 @@ Example:
         <div>{{ notes|urlize }}</div>
       {% endif %}
     </div>
+    {#
     {% if package.resources and not hide_resources %}
       <ul class="dataset-resources unstyled">
         {% for resource in h.dict_list_reduce(package.resources, 'format') %}
@@ -50,8 +51,10 @@ Example:
             <a href="{{ h.url_for(controller='package', action='read', id=package.name) }}" class="label" data-format="{{ resource.lower() }}">{{ resource }}</a>
           </li>
         {% endfor %}
+
       </ul>
     {% endif %}
+        #}
   {% endblock %}
 {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
     {% if package.organization -%}
