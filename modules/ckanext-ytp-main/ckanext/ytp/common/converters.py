@@ -8,6 +8,8 @@ def to_list_json(value, context):
 
 
 def from_json_list(value, context):
+    if not value:
+        return value
     try:
         if isinstance(value, basestring):
             parsed_value = json.loads(value)
