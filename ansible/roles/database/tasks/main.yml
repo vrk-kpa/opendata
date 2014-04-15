@@ -7,31 +7,63 @@
   - packages
   - database
 
-- name: Copy Postgresql configuration
-  action: template src=pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf owner=postgres group=postgres mode=0640
+- name: Copy Postgresql configurations
+  action: template src={{ item.file }} dest={{ item.dest }} owner=postgres group=postgres mode=0640
+  with_items:
+  - { file: pg_hba.conf.j2, dest: /etc/postgresql/9.1/main/pg_hba.conf }
+  - { file: postgresql.conf.j2, dest: /etc/postgresql/9.1/main/postgresql.conf }
   tags:
   - database
 
-- name: Reload postgres
-  service: name=postgresql state=reloaded
+- name: Restart postgres
+  service: name=postgresql state=restarted
   tags:
   - database
 
+- name: Setup Postgresql users
+  sudo_user: postgres
+  postgresql_user: user={{ item.user }} password={{ item.password }}
+  with_items:
+  - { user: "{{ ckan_database_username }}", password: "{{ ckan_database_password }}" }
+  - { user: "{{ drupal_database_username }}", password: "{{ drupal_database_password }}" }  
+  tags:
+  - database
+  
 - name: Setup Postgresql databases
   sudo_user: postgres
-  postgresql_db: name="{{ ckan_database_name }}"
-                 encoding='UTF-8'
-                 lc_collate='en_US.UTF-8'
-                 lc_ctype='en_US.UTF-8'
-                 template='template0'
+  postgresql_db: name={{ item.name }} owner={{ item.owner }} {{ item.options }}
+  with_items:
+  - { name: "{{ ckan_database_name }}", owner: "{{ ckan_database_username }}", options: "encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'" }
+  - { name: "{{ drupal_database_name }}", owner: "{{ drupal_database_username }}", options: "encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'" }
   tags:
   - database
 
-- name: Setup CKAN Postgresql user
-  sudo_user: postgres
-  postgresql_user: user="{{ ckan_database_username }}" password="{{ ckan_database_password }}" db="{{ ckan_database_name }}"
+- name: Ensure spatial requirements
+  apt: pkg="{{ item }}" state=present
+  register: postgis_installed
+  with_items:
+    - postgresql-9.1-postgis
   tags:
-  - database
+  - packages
+  - spatial
+
+- name: Spatial table references
+  command: sudo -u postgres psql -d "{{ ckan_database_name }}" -f "{{ item }}"
+  when: postgis_installed|changed
+  with_items:
+    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql"
+    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql"
+  tags:
+  - spatial
+
+- name: Spatial table rights
+  command: sudo -u postgres psql -d "{{ ckan_database_username }}" -c "{{ item }}"
+  when: postgis_installed|changed
+  with_items:
+    - "ALTER TABLE spatial_ref_sys OWNER TO {{ ckan_database_username }};"
+    - "ALTER TABLE geometry_columns OWNER TO {{ ckan_database_username }};"
+  tags:
+  - spatial
 
 - name: Install database backup tools
   action: apt pkg="{{ item }}" state="present"

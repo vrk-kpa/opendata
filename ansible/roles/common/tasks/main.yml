@@ -49,6 +49,7 @@
   - packages
   - common
 
+# TODO at least most of these should not be done for dbserver
 - name: Package modules
   local_action: command tar cf {{ item }}.tar {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
   sudo: false
@@ -63,6 +64,7 @@
   - translations
   - drupal-translations
 
+# TODO at least most of these should not be done for dbserver
 - name: Copy modules
   copy: src="{{ modules_path }}/{{ item }}.tar" dest="{{ cache_path }}"
   register: modules_copy
@@ -77,6 +79,7 @@
   - translations
   - drupal-translations
 
+# TODO at least most of these should not be done for dbserver
 - name: Extract modules
   shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
   when: modules_copy|changed

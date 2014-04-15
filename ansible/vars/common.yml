@@ -1,7 +1,7 @@
 ---
 
-database_ip_range: 127.0.0.1/32
-database_host: localhost
+database_ip_range: 10.10.10.0/24
+database_host: 10.10.10.20
 database_port: 5432
 
 ckan_database_name: ckan_default

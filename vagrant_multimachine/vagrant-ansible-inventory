@@ -1,0 +1,14 @@
+[dbserver]
+db.ytp.local
+
+[dbserver:vars]
+vagrant=true
+private_variables=variables.yml
+
+[webserver]
+web.ytp.local
+
+[webserver:vars]
+vagrant=true
+# TODO: We should use default variablesi bn Vagrant instead of private.
+private_variables=variables.yml

@@ -1,0 +1,29 @@
+---
+
+# NOTE: FIREWALL HAS BEEN REMOVED!
+
+- hosts: dbserver
+  accelerate: false
+  sudo: true
+  roles:
+    - ansible
+    - users
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/local.yml", "vars/none.yml"]
+
+- hosts: dbserver
+  accelerate: "{{ accelerate }}"
+  sudo: true
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/private/{{ private_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
+  vars:
+    accelerate: true
+  roles:
+    - clean
+    - common
+    - resources
+    - database
+    - postfix

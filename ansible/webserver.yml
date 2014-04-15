@@ -1,17 +1,18 @@
 ---
 
-- hosts: all
+# NOTE: FIREWALL HAS BEEN REMOVED!
+
+- hosts: webserver
   accelerate: false
   sudo: true
   roles:
     - ansible
-    - firewall
     - users
   vars_files:
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: webservers
+- hosts: webserver
   accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:
@@ -24,7 +25,6 @@
     - clean
     - common
     - resources
-    - database
     - nginx
     - postfix
     - jetty
