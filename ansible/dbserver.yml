@@ -24,6 +24,5 @@
   roles:
     - clean
     - common
-    - resources
     - database
     - postfix

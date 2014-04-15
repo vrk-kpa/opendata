@@ -1,12 +1,12 @@
 [dbserver]
-db.ytp.local
+10.10.10.20
 
 [dbserver:vars]
 vagrant=true
 private_variables=variables.yml
 
 [webserver]
-web.ytp.local
+10.10.10.10
 
 [webserver:vars]
 vagrant=true

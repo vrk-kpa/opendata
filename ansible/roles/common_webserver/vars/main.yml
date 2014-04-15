@@ -1,0 +1,16 @@
+---
+
+modules:
+  - ytp-assets-common
+  - ckanext-drupal7
+  - ckanext-ytp-drupal
+  - ckanext-ytp-tasks
+  - ckanext-ytp-request
+  - ckanext-ytp-main
+  - ckanext-googleanalytics
+  - ytp-theme-drupal
+  - ytp-drupal-wysiwyg
+
+modules_path: ../modules
+
+clear_module_cache: false

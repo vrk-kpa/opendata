@@ -24,7 +24,7 @@
   roles:
     - clean
     - common
-    - resources
+    - common_webserver
     - nginx
     - postfix
     - jetty
