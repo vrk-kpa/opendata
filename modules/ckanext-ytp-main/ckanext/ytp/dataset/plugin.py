@@ -8,7 +8,7 @@ from ckan.common import _, c, request
 
 from converters import convert_to_tags_string, date_validator, translation_string, string_join
 import logging
-from ckanext.ytp.common.converters import to_list_json, from_json_list
+from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
 from webhelpers.html import escape, literal
 import types
 
@@ -139,7 +139,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'warranty_disclaimer': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'collection_type': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'extra_information': [ignore_missing, to_list_json, convert_to_extras]})
+        schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
