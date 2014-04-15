@@ -1,7 +1,10 @@
 ---
 
-database_ip_range: 10.10.10.0/24
-database_host: 10.10.10.20
+# Database hostname is the first database under dbserver group in Ansible inventory file
+database_host: "{{ hostvars[groups['dbserver'][0]]['inventory_hostname'] }}"
+# Database is expected to be in the same subnet as the webservers
+# TODO On Vagrant the private network is not the default interface, it is eth1
+database_ip_range: "{% if vagrant is defined %}10.0.0.0/8{% else %}{{ ansible_default_ipv4.network }} {{ ansible_default_ipv4.netmask }}{% endif %}"
 database_port: 5432
 
 ckan_database_name: ckan_default
