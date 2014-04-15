@@ -105,7 +105,7 @@ class MyPasswordMenu(MenuItem):
     def link(self):
         try:
             ytp_drupal = get_plugin('ytp_drupal')
-            if ytp_drupal or not c.user:
+            if not ytp_drupal or not c.user:
                 raise NotFound
             return "/%s/user/%s/edit" % (helpers.lang(), str(ytp_drupal.get_drupal_user_id(c.user)))
         except NotFound:
