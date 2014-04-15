@@ -8,6 +8,15 @@ function rename_input() {
     });
 }
 
+function set_translations() {
+    $('.language').hide();
+    $('.select-translation:checked').each(function(index, element) {
+        if (!$(element).attr('disabled')) {
+            $('#translate_' + $(element).val()).css('display', 'inline-block');
+        }
+    });
+}
+
 /* Create add link for all ytp-list class elements. Add link clones the input. */
 $(document).ready(function() {
     $('.ytp-locale-list').each(function(){
@@ -40,4 +49,22 @@ $(document).ready(function() {
     });
     $('.locale-select-change').change(rename_input);
 
+    $('.language-show').click(function() {
+        $('.language-select').slideToggle();
+    });
+
+    $('.select-original-language').change(function() {
+        var language_code = $(this).val();
+        $('.original_language').html($('#translate_' + language_code).text());
+        $('.select-translation').removeAttr('disabled');
+        $('#select_translation_' + language_code).attr('checked', 'checked').attr('disabled', 'disabled');
+        set_translations();
+    });
+
+    $('.select-translation').change(function() {
+        set_translations();
+    });
+    $('.select-original-language').removeAttr('checked');
+    $('.select-translation').removeAttr('checked').attr('disabled', 'disabled');
+    
 });

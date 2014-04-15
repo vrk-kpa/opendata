@@ -1,0 +1,133 @@
+<style>
+/* TODO: Move to common */
+
+.translate-bar {
+    background-color: rgb(0, 0, 0, 0);
+    position: relative;
+}
+
+.translate-bar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: inline;
+}
+.translate-bar li {
+    display: inline-block;
+    font-size: medium;
+    min-width: 2em;
+}
+
+.translate-bar a.active {
+    background-color: #E9F6FA;
+}
+
+.translate-bar a, .translate-bar span {
+    margin-right: 1em;
+    padding: 0.2em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    display: block;
+}
+
+.translate-bar a:hover {
+    text-decoration: none;
+    background-color: #E9F6FA;
+}
+.translate-bar a:focus {
+    text-decoration: none;
+    background-color: rgb(0, 0, 0, 0);
+}
+
+.module-content {
+    padding-right: 0;
+}
+
+.stages {
+    margin-right: 0;
+}
+
+.translate-content {
+    background-color: #E9F6FA;
+    padding-right: 25px;
+    padding-bottom: 15px;
+}
+
+.default-language {
+    position: absolute;
+    bottom: 2px;
+    right: 0;
+}
+
+.default-language label {
+    font-weight: normal;
+    font-size: small;
+    display: block;
+    margin: 0;
+}
+
+.default-language select {
+    width: 10em;
+}
+
+.translate-bar th, .translate-bar td {
+    min-width: 10em;
+}
+
+.translate-bar .language {
+    display: none;
+}
+.language-select {
+    display: none;
+}
+
+.language-select table {
+    margin: 8px 0;
+}
+
+.translate-bar .original_language {
+    font-weight: bold;
+}
+
+</style>
+
+<div class="translate-bar">
+    <ul>
+        <li><span>{{ _('Languages versions') }}:</span></li>
+        <li><a href="javascript:void(0)" class="translate language-show original_language" id="translate_original">{{ _("Original language") }} ({{ _("Not set") }})</a></li><!--
+     --><li class="language" id="translate_fi"><span>{{ _("Finnish") }}</span></li><!--
+     --><li class="language" id="translate_sv"><span>{{ _("Swedish") }}</span></li><!--
+     --><li class="language" id="translate_en"><span>{{ _("English") }}</span></li><!--
+     --><li><a href="javascript:void(0)" class="translate language-show" id="translate_extra"><i class="icon-plus-sign"></i> {{ _("Translate") }}</a></li>
+    </ul>
+</div>
+
+<div class="translate-bar language-select">
+    <table>
+        <thead>
+            <tr>
+                <th>{{ _('Language') }}</th>
+                <th>{{ _('Original language') }}</th>
+                <th>{{ _('Translate') }}</th>
+            </tr>
+        </thead>
+        <tfoot><!-- --></tfoot>
+        <tbody>
+            <tr>
+                <td>{{ _("Finnish") }}</td>
+                <td><input type="radio" name="orginal_language" value="fi" class="select-original-language" /></td>
+                <td><input type="checkbox" class="select-translation" value="fi" id="select_translation_fi" /></td>
+            </tr>
+            <tr>
+                <td>{{ _("Swedish") }}</td>
+                <td><input type="radio" name="orginal_language" value="sv" class="select-original-language" /></td>
+                <td><input type="checkbox" class="select-translation" value="sv" id="select_translation_sv" /></td>
+            </tr>
+            <tr>
+                <td>{{ _("English") }}</td>
+                <td><input type="radio" name="orginal_language" value="en" class="select-original-language" /></td>
+                <td><input type="checkbox" class="select-translation" value="en" id="select_translation_en" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
