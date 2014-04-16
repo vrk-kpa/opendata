@@ -47,7 +47,9 @@
     {% if value %}
       {% set values = value if value.append else [value] %}
       {% for value_item in values %}
+        {% if value_item %}
         <input id="{{ id or name }}-{{ loop.counter }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+        {% endif %}
       {% endfor %}
     {% endif %}
     <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="ytp-list" {{ form.attributes(attrs) }} />
