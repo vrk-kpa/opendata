@@ -11,6 +11,7 @@ import logging
 from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
 from webhelpers.html import escape, literal
 import types
+import re
 
 try:
     from collections import OrderedDict  # 2.7
@@ -254,23 +255,36 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _is_list(self, value):
         return isinstance(value, list)
 
-    def _translate_key(self, key):
-        return _(self._key_mappings.get(key, key))
+    def _prettify(self, field_name):
+        """ Taken from ckan.logic.ValidationError.error_summary """
+        field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL',
+                                    field_name.replace('_', ' ').capitalize())
+        return _(field_name.replace('_', ' '))
 
     def _escape(self, value):
         return escape(unicode(value))
+
+    def _translate_key(self, key):
+        return self._escape(self._key_mappings.get(key, None) or self._prettify(key))
+
+    def _list_to_ul(self, items):
+        ul_buffer = ["<ul class='dataset-extra'>"]
+        for item in items:
+            ul_buffer.append("<li>%s</li>" % item)
+        ul_buffer.append("</ul>")
+        return "\n".join(ul_buffer)
 
     def _format_value(self, value):
         if isinstance(value, types.DictionaryType):
             value_buffer = []
             for key, item_value in value.iteritems():
-                value_buffer.append("%s: %s" % (key, self._format_value(item_value)))
-            return ", ".join(value_buffer)
+                value_buffer.append("%s: %s" % (self._escape(key), self._format_value(item_value)))
+            return self._list_to_ul(value_buffer)
         elif isinstance(value, types.ListType):
             value_buffer = []
             for item_value in value:
                 value_buffer.append(self._format_value(item_value))
-            return ", ".join(value_buffer)
+            return self._list_to_ul(value_buffer)
 
         return self._escape(value)
 
