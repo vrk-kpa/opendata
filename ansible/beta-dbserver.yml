@@ -1,8 +1,9 @@
 ---
 
-# NOTE: FIREWALL HAS BEEN REMOVED!
+# NOTE: Database server on beta does not have a firewall as it is
+#       running on an isolated security group
 
-- hosts: dbserver
+- hosts: beta-dbserver
   accelerate: false
   sudo: true
   roles:
@@ -12,7 +13,7 @@
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: dbserver
+- hosts: beta-dbserver
   accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:

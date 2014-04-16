@@ -1,18 +1,17 @@
 ---
 
-# NOTE: FIREWALL HAS BEEN REMOVED!
-
-- hosts: webserver
+- hosts: beta-webserver
   accelerate: false
   sudo: true
   roles:
     - ansible
+    - firewall
     - users
   vars_files:
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: webserver
+- hosts: beta-webserver
   accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:

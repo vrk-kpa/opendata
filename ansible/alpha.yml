@@ -1,0 +1,33 @@
+---
+
+- hosts: alpha
+  accelerate: false
+  sudo: true
+  roles:
+    - ansible
+    - firewall
+    - users
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/local.yml", "vars/none.yml"]
+
+- hosts: alpha
+  accelerate: "{{ accelerate }}"
+  sudo: true
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/private/{{ private_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
+  vars:
+    accelerate: true
+  roles:
+    - clean
+    - common
+    - database
+    - common_webserver
+    - nginx
+    - postfix
+    - jetty
+    - ckan
+    - drupal
+    - data

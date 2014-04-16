@@ -1,5 +1,0 @@
----
-# Top-level Ansible playbook for building YTP site
-- include: dbservers.yml
-- include: webservers.yml
-
