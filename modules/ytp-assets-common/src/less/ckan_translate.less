@@ -1,0 +1,77 @@
+@import "variables.less";
+
+.translate-content {
+    background-color: @form-background;
+    padding-right: 25px;
+    padding-bottom: 15px;
+}
+
+.translate-bar {
+    background-color: @form-background;
+    position: relative;
+    padding: 3px 14px;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        display: inline;
+    }
+    li {
+        display: inline-block;
+        font-size: medium;
+        min-width: 2em;
+    }
+
+    a.active {
+        background-color: @form-background;
+    }
+
+    a:hover {
+        text-decoration: none;
+        background-color: @form-background;
+    }
+
+    a:focus {
+       text-decoration: none;
+       background-color: @form-background;
+    }
+
+    a, span {
+        margin-right: 1em;
+        padding: 0.2em;
+        border-radius: 5px;
+        margin-bottom: 1em;
+        display: block;
+    }
+    th, td {
+        min-width: 10em;
+    }
+
+    .language {
+        display: none;
+    }
+
+    .original_language {
+       font-weight: bold;
+    }
+}
+
+.translate-language-select {
+    display: none;
+    table {
+        padding: 8px 0;
+    }
+}
+
+input.translation-input {
+    display: inline-block;
+}
+
+.translation-input-container {
+    display: inline-block;
+}
+
+.translation-input-language {
+    text-transform: uppercase;
+}

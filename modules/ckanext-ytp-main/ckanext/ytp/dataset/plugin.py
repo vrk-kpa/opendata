@@ -6,7 +6,7 @@ from ckan.lib.navl.dictization_functions import Missing
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
-from converters import convert_to_tags_string, date_validator, translation_string, string_join
+from converters import convert_to_tags_string, date_validator, string_join
 import logging
 from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
 from webhelpers.html import escape, literal
@@ -95,6 +95,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _key_mappings = {'extra_information': 'Extra information at website'}
     _key_exclude = ['resources', 'organization', 'author_email', 'author', 'maintainer_email', 'maintainer', 'version', 'state']
 
+    _localized_fields = ['title', 'notes', 'copyright_notice' 'warranty_disclaimer']
+
     # IRoutes #
 
     def after_show(self, context, pkg_dict):
@@ -120,16 +122,20 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     # IDatasetForm #
 
-    def _add_languages_modify(self, schema, field, locales):
+    def _add_languages_modify(self, schema, fields, locales):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_to_extras = toolkit.get_converter('convert_to_extras')
         for locale in locales:
-            schema.update({"%s_%s" % (field, locale): [ignore_missing, translation_string(field), unicode, convert_to_extras]})
+            for field in fields:
+                schema.update({"%s_%s" % (field, locale): [ignore_missing, unicode, convert_to_extras]})
         return schema
 
-    def _add_languages_show(self, schema, field, locales):
+    def _add_languages_show(self, schema, fields, locales):
+        convert_from_extras = toolkit.get_converter('convert_from_extras')
+        ignore_missing = toolkit.get_validator('ignore_missing')
         for locale in locales:
-            schema.update({"%s_%s" % (field, locale): [toolkit.get_converter('convert_from_extras'), toolkit.get_validator('ignore_missing')]})
+            for field in fields:
+                schema.update({"%s_%s" % (field, locale): [convert_from_extras, ignore_missing]})
         return schema
 
     def _modify_package_schema(self, schema):
@@ -144,10 +150,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
 
-        schema.update({'title_locale': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
+
         locales = [locale.language for locale in helpers.get_available_locales()]
 
-        self._add_languages_modify(schema, 'title', locales)
+        self._add_languages_modify(schema, self._localized_fields, locales)
 
         return schema
 
@@ -175,10 +183,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
 
-        schema.update({'title_locale': [convert_from_extras, ignore_missing]})
+        schema.update({'original_language': [convert_from_extras, ignore_missing]})
+        schema.update({'translations': [convert_from_extras, from_json_list, ignore_missing]})
         locales = [locale.language for locale in helpers.get_available_locales()]
 
-        self._add_languages_show(schema, 'title', locales)
+        self._add_languages_show(schema, self._localized_fields, locales)
 
         return schema
 
@@ -287,6 +296,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         return literal("<dl>" + "\n".join(extra_buffer) + "</dl>")
 
+    def _extra_translation(self, values, field, markdown=False):
+        """ Used as helper. Get correct translation from extras (values) for given field. """
+        translation = values.get('%s_%s' % (field, helpers.lang()), values.get(field, "")) if values and isinstance(values, dict) else ""
+        return helpers.render_markdown(translation) if markdown and translation else translation
+
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -294,7 +309,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'unique_formats': self._unique_formats,
                 'locales_offered': self._locales_offered,
                 'is_list': self._is_list,
-                'format_extras': self._format_extras}
+                'format_extras': self._format_extras,
+                'extra_translation': self._extra_translation}
 
     # IActions #
 

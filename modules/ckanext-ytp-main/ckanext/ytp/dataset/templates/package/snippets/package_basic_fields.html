@@ -41,14 +41,18 @@
         {% endcall %}
     {% endif %}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), selected_locale=data.title_locale, data=data) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), data=data) }}
 
+{% endblock %}
+
+{% block package_basic_fields_description %}
+  {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
 {% block package_basic_fields_license %}
     {{ super() }}
-    {{ form.markdown('copyright_notice', id='field-copyright', label=_('Copyright Notice'), placeholder=_('Additional information concerning copyright'), value=data.copyright_notice, error=errors.copyright_notice) }}
-    {{ form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer) }}
+    {{ ytp_form.markdown('copyright_notice', id='field-copyright', label=_('Copyright Notice'), placeholder=_('Additional information concerning copyright'), value=data.copyright_notice, error=errors.copyright_notice, locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
 {% block package_basic_fields_org %}
