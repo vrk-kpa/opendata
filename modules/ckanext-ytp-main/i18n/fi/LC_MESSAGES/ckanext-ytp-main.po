@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-10 21:46+0300\n"
-"PO-Revision-Date: 2014-04-10 18:48+0000\n"
+"POT-Creation-Date: 2014-04-15 16:49+0300\n"
+"PO-Revision-Date: 2014-04-15 13:52+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +26,16 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ckanext/ytp/common/converters.py:32
+msgid "Incorrect URL format"
+msgstr "Väärä URL formaatti"
+
 #: ckanext/ytp/dataset/converters.py:10
 msgid "Multiple translation in same language"
 msgstr "Useampi käännös samalla kielellä"
 
 #: ckanext/ytp/dataset/converters.py:70
-#: ckanext/ytp/organizations/plugin.py:302
+#: ckanext/ytp/organizations/plugin.py:307
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
@@ -202,6 +206,7 @@ msgid "Public"
 msgstr "Julkinen"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:101
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:28
 #: ckanext/ytp/user/templates/user/read_base.html:53
 #: ckanext/ytp/user/templates/user/read_base.html:67
 msgid "Private"
@@ -302,7 +307,34 @@ msgstr ""
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:116
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:33
+msgid "Draft"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:35
+msgid "Deleted"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:40
+msgid "Popular"
+msgstr ""
+
+#: ckanext/ytp/organizations/auth.py:22 ckanext/ytp/organizations/auth.py:46
+#, python-format
+msgid "User %s is not administrator in the selected parent organization"
+msgstr ""
+
+#: ckanext/ytp/organizations/auth.py:27
+#, python-format
+msgid "User %s not authorized to create organizations"
+msgstr ""
+
+#: ckanext/ytp/organizations/auth.py:51
+#, python-format
+msgid "User %s not authorized to edit organization %s"
+msgstr ""
+
+#: ckanext/ytp/organizations/plugin.py:118
 msgid "Group title already exists in database"
 msgstr "Ryhmän otsikko löytyy jo tietokannasta"
 
