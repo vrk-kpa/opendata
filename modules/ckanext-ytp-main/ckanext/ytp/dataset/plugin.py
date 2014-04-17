@@ -291,8 +291,19 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL', field_name.replace('_', ' ').capitalize())
         return _(field_name.replace('_', ' '))
 
-    def _translate_key(self, key):
+    def _get_key_mapping(self, key):
         value = self._key_mappings.get(key, None)
+        if value:
+            return value
+        for locale in helpers.get_available_locales():
+            suffix = '_%s' % locale.language
+            if key.endswith(suffix):
+                return "%s (%s)" % (self._prettify(key[:-len(suffix)]), locale.language), None
+        return None
+
+
+    def _translate_key(self, key):
+        value = self._get_key_mapping(key)
         return _escape(_(value[0]) if value else self._prettify(key)), value[1] if value else None
 
     def _format_value(self, value):
