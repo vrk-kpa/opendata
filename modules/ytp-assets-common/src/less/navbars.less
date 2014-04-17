@@ -230,7 +230,11 @@ li.ytp-menulink {
     font-weight: normal;
     text-decoration: inherit;
   }
-}  
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
 
 li.ytp-menulink.active-trail > a.active-trail {
   border-left: 6px solid @menu-active-color;
@@ -241,9 +245,9 @@ li.ytp-menulink.active > a.active {
   background-color: @menu-active-color;
   border: 1px solid @menu-active-color;
 }
-.menu-name-main-menu{
+.menu-name-main-menu {
   margin-left: -14px;  
 }
-.drupal-crumbs{
+.drupal-crumbs {
   padding-left: 14px;  
 }

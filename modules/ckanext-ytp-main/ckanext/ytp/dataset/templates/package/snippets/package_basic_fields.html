@@ -126,7 +126,7 @@
         <input id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
     {% endcall %}
 
-    {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, error=errors.extra_information) }}
+    {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, placeholder=_("http://www.example.com/"), error=errors.extra_information) }}
 
     {{ form.hidden("ytp", "true") }}
 
