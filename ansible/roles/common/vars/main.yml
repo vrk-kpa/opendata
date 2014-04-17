@@ -10,7 +10,7 @@ modules:
   - ckanext-googleanalytics
   - ytp-theme-drupal
   - ytp-drupal-wysiwyg
-  - ytpdrupaltools
+  - ytp-drupal-user
 
 modules_path: ../modules
 

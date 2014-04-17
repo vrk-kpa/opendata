@@ -187,9 +187,9 @@
   tags:
   - drupal
 
-- name: Enable ytpdrupaltools module
+- name: Enable ytp-drupal-user module
   command: drush en -y ytp_user chdir="{{ drupal_root }}"
-  when: iinstall_ytp_drupal_user|changed
+  when: install_ytp_drupal_user|changed
   tags:
   - drupal
 

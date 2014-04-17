@@ -1,6 +1,6 @@
 <?php
 /*
-function ytpdrupaltools_install() {
+function ytp-drupal-user_install() {
   // Check if our field is not already created.
   if (!field_info_field('field_fullname')) {
     $field = array(
