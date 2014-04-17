@@ -1,6 +1,8 @@
 ---
 
-- hosts: alpha
+# Alpha has database on the webserver
+
+- hosts: webserver
   accelerate: false
   sudo: true
   roles:
@@ -11,7 +13,7 @@
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: alpha
+- hosts: webserver
   accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:

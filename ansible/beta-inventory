@@ -1,18 +1,12 @@
 
-[alpha]
-alpha.avoindata.fi
-
-[alpha:vars]
-private_variables=variables-alpha.yml
-
-[beta-webserver]
+[webserver]
 ec2-54-72-207-190.eu-west-1.compute.amazonaws.com
 
-[beta-webserver:vars]
+[webserver:vars]
 private_variables=variables.yml
 
-[beta-dbserver]
+[dbserver]
 ec2-54-72-213-82.eu-west-1.compute.amazonaws.com
 
-[beta-dbserver:vars]
+[dbserver:vars]
 private_variables=variables.yml
