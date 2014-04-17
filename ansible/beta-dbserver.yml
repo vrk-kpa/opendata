@@ -3,7 +3,7 @@
 # NOTE: Database server on beta does not have a firewall as it is
 #       running on an isolated security group
 
-- hosts: beta-dbserver
+- hosts: dbserver
   accelerate: false
   sudo: true
   roles:
@@ -13,7 +13,7 @@
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: beta-dbserver
+- hosts: dbserver
   accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:
