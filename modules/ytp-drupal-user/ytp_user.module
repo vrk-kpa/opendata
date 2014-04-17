@@ -1,7 +1,7 @@
 <?php
 /*
  ****************************
- * YTP Drupal user plugin inserts content from ckan to the rupal instance on 
+ * YTP Drupal user plugin inserts content from ckan to the drupal instance on 
  * avoindata.fi service
  ****************************
  */
@@ -52,15 +52,14 @@ function ytp_user_user_login(&$edit, $account) {
 	$user->fullname=$php_user->fullname;
 	debug($user);
 
-	
 }
 function ytp_user_page_build(&$page){
 
 	//debug("'user_end'\n<br />\n");
-	//debug(services_endpoint_export(services_endpoint_load('user_end')));
+	debug(services_endpoint_export(services_endpoint_load('user_end')));
 	//services_endpoint_save($endpoint); 
 	//debug("'user_service_name'\n<br />\n");
-	//debug(services_endpoint_export(services_endpoint_load('user_service_name')));
+	debug(services_endpoint_export(services_endpoint_load('user_service_name')));
 
 }
 

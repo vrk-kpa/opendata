@@ -1,3 +1,5 @@
+import requests
+
 from ckan import logic
 from ckan.plugins import toolkit
 from ckan.logic import auth, NotFound, ValidationError, side_effect_free
@@ -37,7 +39,12 @@ def _add_user_extras(user_obj, user_dict):
             qualified=True
         )
     return user_dict
-
+def _update_drupal_user(context, data_dict):
+    fullname=data_dict.get('fullname')
+    token_url = 'http://localhost/user_2/?q=services/session/token'
+    r = requests.get(token_url)
+    token=r.
+    
 
 @side_effect_free
 def action_user_show(context, data_dict):
