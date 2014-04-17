@@ -36,6 +36,7 @@ translation_cache_path: "{{ cache_path }}/translations"
 translation_languages:
   - "fi"
   - "sv"
+
 translation_projects:
   - "ckanext-drupal7"
   - "ckanext-ytp-request"
@@ -45,3 +46,12 @@ translation_projects:
 
 ckan_site_id: "default"
 
+patches_cache_path: "{{ cache_path }}/patch"
+ckan_source_path: "{{ virtual_environment }}/src/ckan"
+
+ckan_patches:
+  - { patch: "https://github.com/ckan/ckan/commit/770df34be2a487b4f3b81286987cd38e74c9ebf8.patch", file: "fix_group_view.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: "fix_hardcoded_languages.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: "downgrade_select2js.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/f772576d3c480f654c39ecaeb72feb423450f200.patch", file: "fix_invalid_date_indexing.patch" }

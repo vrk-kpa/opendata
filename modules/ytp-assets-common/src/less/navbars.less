@@ -45,27 +45,51 @@
     }
   }
   .collapsing, .in{
+    overflow-y: visible;
     .navbar-nav.lang-select, .navbar-nav.user-nav {
+
       a {
         margin: 10px 0px 10px 10px;
         padding: 0px;
       }
-      li{
-        text-align:  center;
+      li {
+        text-align: center;
         border-bottom: 1px solid @navbar-color-text;
       }
       li a {
-        padding-bottom: 10px;
+        padding-bottom: 0px;
         padding-top: 0px;
         display: inline-block;
+        font-size: 1.5em;
+        color: @navbar-color-text;
       }
-      li:last-child  {
+      li:last-child {
         border-bottom: medium none;
-        padding-top: 10px;
+        padding-top: 0px;
+      }
+
+      ul {
+        text-align: center;
+        li.list-item-class {
+          display: inline;
+          border-right: 1px solid @navbar-color-text;
+          border-bottom: none;
+          padding-right: 10px;
+        }
+        li.list-item-class:last-child {
+          padding-right: 0px;
+          border-right: none;
+
+        }
       }
     }
   }
+
+  .navbar-collapse.in{
+      overflow-y: visible;
+    }
 }
+
 
 .navbar-nav.user-nav {
   span, a {
@@ -206,7 +230,11 @@ li.ytp-menulink {
     font-weight: normal;
     text-decoration: inherit;
   }
-}  
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
 
 li.ytp-menulink.active-trail > a.active-trail {
   border-left: 6px solid @menu-active-color;
@@ -217,9 +245,9 @@ li.ytp-menulink.active > a.active {
   background-color: @menu-active-color;
   border: 1px solid @menu-active-color;
 }
-.menu-name-main-menu{
+.menu-name-main-menu {
   margin-left: -14px;  
 }
-.drupal-crumbs{
+.drupal-crumbs {
   padding-left: 14px;  
 }

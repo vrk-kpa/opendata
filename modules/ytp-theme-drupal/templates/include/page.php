@@ -108,7 +108,14 @@
           print $ytp_custom_top;
         }
       ?>
-     
+    <?php if (!user_is_logged_in()) { ?>
+      <div id="responsive-login-panel" class="panel panel-default visible-xs">
+        <div class="panel-body">
+            <a href="<?php print url('user/login')?>"> <?php print t('Signup or login') ?></a>
+        </div>
+      </div>
+    <?php } ?>
+
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if (!empty($title)): ?>

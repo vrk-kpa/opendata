@@ -7,9 +7,9 @@ import urlparse
 
 
 class YtpThemePlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
-
     plugins.implements(plugins.IConfigurer)
 
     default_domain = None
@@ -28,6 +28,15 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                   menu.PublishMenu, menu.PublishToolsMenu),
                  (['/%(language)s/dataset/new', '/dataset/new'], menu.PublishMenu, menu.PublishMainMenu)]
 
+    # IRoutes #
+
+    def before_map(self, m):
+        """ Redirect data-path in stand-alone environment directly to CKAN. """
+        m.redirect('/data/*(url)', '/{url}', _redirect_code='301 Moved Permanently')
+        return m
+
+    # IConfigurer #
+
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_template_directory(config, '/var/www/resources/templates')
@@ -37,8 +46,12 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
         toolkit.add_resource('public/js/', 'ytp_js')
 
+    # IConfigurable #
+
     def configure(self, config):
         self.default_domain = config.get("ckanext.ytp.theme.default_domain")
+
+    # ITemplateHelpers #
 
     def _short_domain(self, hostname, default=None):
         if not hostname or hostname[0].isdigit():

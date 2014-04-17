@@ -24,3 +24,5 @@ translation_languages:
 translation_projects:
   - "ytp-theme-drupal"
   - "ytp-assets-common"
+
+enable_email_verification: False

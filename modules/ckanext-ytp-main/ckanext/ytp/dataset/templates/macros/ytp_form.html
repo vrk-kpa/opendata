@@ -44,12 +44,16 @@
   {% do classes.append('control-medium') %}
   {%- set extra_html = caller() if caller -%}
   {% call form.input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required) %}
-    {% if value %}
-      {% set values = value if value.append else [value] %}
-      {% for value_item in values %}
-        <input id="{{ id or name }}-{{ loop.counter }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
-      {% endfor %}
-    {% endif %}
-    <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="ytp-list" {{ form.attributes(attrs) }} />
+    <div class="ytp-multiple-values">
+        {% if value %}
+          {% set values = value if value.append else [value] %}
+          {% for value_item in values %}
+            {% if value_item %}
+            <input id="{{ id or name }}-{{ loop.counter }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" class="ytp-multiple-value" {{ form.attributes(attrs) }} />
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="ytp-multiple-value" {{ form.attributes(attrs) }} />
+    </div>
   {% endcall %}
 {% endmacro %}

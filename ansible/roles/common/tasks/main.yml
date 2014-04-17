@@ -31,6 +31,13 @@
   tags:
   - common
 
+- name: Update packages
+  apt: upgrade=dist
+  tags:
+  - packages
+  - non-local
+  - common
+
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
