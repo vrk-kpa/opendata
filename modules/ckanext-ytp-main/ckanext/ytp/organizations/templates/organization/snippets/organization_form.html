@@ -27,9 +27,9 @@
 {# Hide custom fields #}
 {% block custom_fields %}
 
-{{ form.input('BusinessID', label=_('Business ID'), placeholder=_('Business ID'), value=data.BusinessID, error=errors.BusinessID, classes=['control-full']) }}
-{{ form.input('OID', label=_('OID'), placeholder=_('OID'), value=data.OID, error=errors.OID, classes=['control-full']) }}
-{{ form.input('AlternativeName', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.AlternativeName, error=errors.AlternativeName, classes=['control-full']) }}
+{{ form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
+{{ form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
+{{ form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full']) }}
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
     <div class="row">
     <div class="col-sm-5">
@@ -50,48 +50,48 @@
 {% call form.input_block("address", _('Address'), errors.address, [], extra_html="") %}
         <div class="control-full">
         <label>{{_('Street')}}, {{_('House number')}}, {{_('Staircase')}}, {{_('Apartment number')}}</label>
-        <input class="form-control" name ="streetAddress" id="streetAddress" type="text" value="{{data.streetAddress}}" placeholder="{{_('Example street 1 apartment 5')}}"/>
+        <input class="form-control" name ="street_address" id="street_address" type="text" value="{{data.street_address}}" placeholder="{{_('Example street 1 apartment 5')}}"/>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <label>{{_('P.O. box')}}</label><br/>
-                <input class="form-control" id="POBox" name="POBox" type="text" value="{{data.POBox}}">
+                <input class="form-control" id="street_address_pobox" name="street_address_pobox" type="text" value="{{data.street_address_pobox}}">
             </div>
             <div class="col-sm-6">
                 <label>{{_('Zip code')}}</label><br/>
-                <input class="form-control" id="zipCode" type="text" name="zipCode" value="{{data.zipCode}}">
+                <input class="form-control" id="street_address_zip_code" type="text" name="street_address_zip_code" value="{{data.street_address_zip_code}}">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <label>{{_('Place of Business')}}</label><br/>
-                <input class="form-control" id="PlaceOfBusiness" type="text" name="PlaceOfBusiness" value="{{data.PlaceOfBusiness}}">
+                <input class="form-control" id="street_address_place_of_business" type="text" name="street_address_place_of_business" value="{{data.street_address_place_of_business}}">
             </div>
             <div class="col-sm-6">
                 <label>{{_('Country')}}</label><br/>
-                <input class="form-control" id="country" type="text" name="country" value="{{data.country}}">
+                <input class="form-control" id="street_address_country" type="text" name="street_address_country" value="{{data.street_address_country}}">
             </div>
         </div>
 {% endcall %}
 {% call form.input_block("addressSpecifier", _('Address specifier'), errors.addressSpecifier, [], extra_html="") %}
 <div class="control-full">
     <label>{{_('Unofficial name of the building')}}</label>
-    <input class="form-control" id="unofficialName" type="text" name="unofficialName" value="{{data.unofficialName}}"/>
+    <input class="form-control" id="street_address_unofficial_name" type="text" name="street_address_unofficial_name" value="{{data.street_address_unofficial_name}}"/>
     <label>{{_('Building ID')}}</label>
-    <input class="form-control" id="buildingId" type="text" name="buildingId" value="{{data.buildingId}}"/>
+    <input class="form-control" id="street_address_building_id" type="text" name="street_address_building_id" value="{{data.street_address_building_id}}"/>
 </div>
 {% endcall %}
 
 {% call form.input_block("arrivalInstructions", _('Arrival instructions'), errors.arrivalInstructions, [], extra_html="") %}
 <div class="control-full">
     <label>{{_('Getting there')}}</label>
-    <textarea class="form-control" name="gettingThere" id="gettingThere" >{{data.gettingThere}}</textarea>
+    <textarea class="form-control" name="street_address_getting_there" id="street_address_getting_there" >{{data.street_address_getting_there}}</textarea>
     <label>{{_('Parking')}}</label>
-    <textarea class="form-control" name="parking" id="parking" >{{data.parking}}</textarea>
+    <textarea class="form-control" name="street_address_parking" id="street_address_parking" >{{data.street_address_parking}}</textarea>
     <label>{{_('Arrival by public transport')}}</label>
-    <input class="form-control" id="publicTransport"  name="publicTransport" value="{{data.publicTransport}}"/>
+    <input class="form-control" id="street_address_public_transport"  name="street_address_public_transport" value="{{data.street_address_public_transport}}"/>
     <label>{{_('URL for public transport')}}</label>
-    <input class="form-control" id="UrlPublicTransport"  name="UrlPublicTransport" value="{{data.UrlPublicTransport}}"/>
+    <input class="form-control" id="street_address_url_public_transport"  name="street_address_url_public_transport" value="{{data.street_address_url_public_transport}}"/>
 </div>
 {% endcall %}
 
@@ -131,30 +131,30 @@
             var homepage = $("#" + formId);
 
             //Get values from form
-            var title = homepage.find("#HomePageTitlesElement").val();
-            var url = homepage.find("#HomePageUrlsElement").val();
-            var description = homepage.find("#HomePageDescriptionsElement").val();
-            var wcag = homepage.find("#HomePageWCAGsElement").val();
-            var accessibility = homepage.find("#HomePageAccessibilitiesElement").val();
-            var plainlanguage = homepage.find("#HomePagePlainLanguageAvailabilities").val();
+            var title = homepage.find("#homepage_titles_element").val();
+            var url = homepage.find("#homepage_urls_element").val();
+            var description = homepage.find("#homepage_descriptions_element").val();
+            var wcag = homepage.find("#homepage_wcags_element").val();
+            var accessibility = homepage.find("#homepage_accessibilities_element").val();
+            var plainlanguage = homepage.find("#homepage_plain_language_availabilities").val();
 
             //validate mandatory values
             if (title == '' || url == '' ){
                 if ( title == '' ){
-                    homepage.find("#HomePageTitlesElement").after('<span class="error-block">{{_("Missing value")}}</span>');
+                    homepage.find("#homepage_titles_element").after('<span class="error-block">{{_("Missing value")}}</span>');
                 }
                 if ( url == ''){
-                    homepage.find("#HomePageUrlsElement").after('<span class="error-block">{{_("Missing value")}}</span>');
+                    homepage.find("#homepage_urls_element").after('<span class="error-block">{{_("Missing value")}}</span>');
                 }
                 return;
             }
             homepage.children().hide();
 
-            homepage.find("#HomePageTitles").val(title).removeAttr('disabled');
-            homepage.find("#HomePageUrls").val(url).removeAttr('disabled');
-            homepage.find("#HomePageDescriptions").val(description).removeAttr('disabled');
-            homepage.find("#HomePageWCAGs").val(wcag).removeAttr('disabled');
-            homepage.find("#HomePageAccessibilities").val(accessibility).removeAttr('disabled');
+            homepage.find("#homepage_titles").val(title).removeAttr('disabled');
+            homepage.find("#homepage_urls").val(url).removeAttr('disabled');
+            homepage.find("#homepage_descriptions").val(description).removeAttr('disabled');
+            homepage.find("#homepage_wcags").val(wcag).removeAttr('disabled');
+            homepage.find("#homepage_accessibilities").val(accessibility).removeAttr('disabled');
             var plainlanguageAvailable = "{{ _('Plain language translation available') }}"
             var plainlanguageNotAvailable = "{{ _('Plain language translation not available') }}"
             plainlanguage = plainlanguage == "0" ? plainlanguageNotAvailable : plainlanguageAvailable;
@@ -179,11 +179,11 @@
             var form = $("#" + formId);
 
             //move values form hidden elements for edits
-            form.find("#HomePageTitlesElement").val(form.find('#HomePageTitles').val());
-            form.find("#HomePageUrlsElement").val(form.find('#HomePageUrls').val());
-            form.find("#HomePageDescriptionsElement").val(form.find('#HomePageDescriptions').val());
-            form.find("#HomePageWCAGsElement").val(form.find('#HomePageWCAGs').val());
-            form.find("#HomePageAccessibilitiesElement").val(form.find('#HomePageAccessibilities').val());
+            form.find("#homepage_titles_element").val(form.find('#homepage_titles').val());
+            form.find("#homepage_urls_element").val(form.find('#homepage_urls').val());
+            form.find("#homepage_descriptions_element").val(form.find('#homepage_descriptions').val());
+            form.find("#homepage_wcags_element").val(form.find('#homepage_wcags').val());
+            form.find("#homepage_accessibilities_element").val(form.find('#homepage_accessibilities').val());
 
             form.find('.homepage.button, .homepage.static').remove();
             form.children().children().removeClass('hiddenFormTemplate');
@@ -192,7 +192,7 @@
         }
 
         function ToggleCheckbox(formId){
-            var hiddenInput = $(formId).parents("div[id^=Homepage]").find('#HomePagePlainLanguageAvailabilities:hidden');
+            var hiddenInput = $(formId).parents("div[id^=Homepage]").find('#homepage_plain_language_availabilities:hidden');
             var currentValue = hiddenInput.val();
             var newValue = currentValue == "0" ? "1" : "0";
             hiddenInput.val(newValue);
@@ -202,12 +202,12 @@
     <h2 class="organization-subheading">{{_('Homepages')}}</h2>
     <div id="homepages">
     <a onclick=AddHomepage() >{{_('Add Homepage')}}</a>
-    {% set page_list = data.get('HomePageUrls') %}
-    {% set desc_list = data.get('HomePageDescriptions') %}
-    {% set title_list = data.get('HomePageTitles') %}
-    {% set accessibility_list = data.get('HomePageAccessibilities') %}
-    {% set wcag_list = data.get('HomePageWCAGs') %}
-    {% set plainlanguage_list = data.get('HomePagePlainLanguageAvailabilities') %}
+    {% set page_list = data.get('homepage_urls') %}
+    {% set desc_list = data.get('homepage_descriptions') %}
+    {% set title_list = data.get('homepage_titles') %}
+    {% set accessibility_list = data.get('homepage_accessibilities') %}
+    {% set wcag_list = data.get('homepage_wcags') %}
+    {% set plainlanguage_list = data.get('homepage_plain_language_availabilities') %}
 
     {% if page_list %}
         {% for page in page_list %}
@@ -232,17 +232,17 @@
                     </p>
                 </div>
                 <div class="homepage editpage hiddenFormTemplate">
-                    <input type="hidden" id="HomePageTitles" name="HomePageTitles" value="{{title_list[loop.index0]}}" class="hiddenFormTemplate"/>
-                    {{ form.input('HomePageTitlesElement', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="HomePageUrls" name="HomePageUrls" value="{{page}}" class="hiddenFormTemplate"/>
-                    {{ form.input('HomePageUrlsElement', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="HomePageDescriptions" name="HomePageDescriptions" value="{{desc_list[loop.index0]}}" class="hiddenFormTemplate"/>
-                    {{ form.markdown('HomePageDescriptionsElement', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
-                    <input type="hidden" id="HomePageAccessibilities" name="HomePageAccessibilities" value="{{accessibility_list[loop.index0]}}" class="hiddenFormTemplate" />
-                    {{ form.markdown('HomePageAccessibilitiesElement', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
-                    <input type="hidden" id="HomePageWCAGs" name="HomePageWCAGs" value="{{wcag_list[loop.index0]}}" class="hiddenFormTemplate" />
-                    {{ form.input('HomePageWCAGsElement', label=_('WCAG'), placeholder=_('WGAC'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="HomePagePlainLanguageAvailabilities" name="HomePagePlainLanguageAvailabilities" value="{{plainlanguage_list[loop.index0]}}" class="hiddenFormTemplate"/>
+                    <input type="hidden" id="homepage_titles" name="homepage_titles" value="{{title_list[loop.index0]}}" class="hiddenFormTemplate"/>
+                    {{ form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
+                    <input type="hidden" id="homepage_urls" name="homepage_urls" value="{{page}}" class="hiddenFormTemplate"/>
+                    {{ form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
+                    <input type="hidden" id="homepage_descriptions" name="homepage_descriptions" value="{{desc_list[loop.index0]}}" class="hiddenFormTemplate"/>
+                    {{ form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
+                    <input type="hidden" id="homepage_accessibilities" name="homepage_accessibilities" value="{{accessibility_list[loop.index0]}}" class="hiddenFormTemplate" />
+                    {{ form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
+                    <input type="hidden" id="homepage_wcags" name="homepage_wcags" value="{{wcag_list[loop.index0]}}" class="hiddenFormTemplate" />
+                    {{ form.input('homepage_wcags_element', label=_('WCAG'), placeholder=_('WCAG'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
+                    <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="{{plainlanguage_list[loop.index0]}}" class="hiddenFormTemplate"/>
                     {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs=plainlanguageCheckbox) }}
                 </div>
             </div>
@@ -252,17 +252,17 @@
     </div>
 
     <div id="HiddenFormTemplate" class="homepage">
-        <input type="hidden" id="HomePageTitles" name="HomePageTitles" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('HomePageTitlesElement', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="HomePageUrls" name="HomePageUrls" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('HomePageUrlsElement', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="HomePageDescriptions" name="HomePageDescriptions" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.markdown('HomePageDescriptionsElement', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="HomePageAccessibilities" name="HomePageAccessibilities" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.markdown('HomePageAccessibilitiesElement', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="HomePageWCAGs" name="HomePageWCAGs" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('HomePageWCAGsElement', label=_('WCAG'), placeholder=_('WGAC'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="HomePagePlainLanguageAvailabilities" name="HomePagePlainLanguageAvailabilities" value="0" class="hiddenFormTemplate" disabled="disabled"/>
+        <input type="hidden" id="homepage_titles" name="homepage_titles" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        <input type="hidden" id="homepage_urls" name="homepage_urls" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        <input type="hidden" id="homepage_descriptions" name="homepage_descriptions" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        <input type="hidden" id="homepage_accessibilities" name="homepage_accessibilities" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        <input type="hidden" id="homepage_wcags" name="homepage_wcags" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.input('homepage_wcags_element', label=_('WCAG'), placeholder=_('WGAC'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="0" class="hiddenFormTemplate" disabled="disabled"/>
         {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled", "onclick": "ToggleCheckbox(this)"}) }}
     </div>
 {% endblock %}
