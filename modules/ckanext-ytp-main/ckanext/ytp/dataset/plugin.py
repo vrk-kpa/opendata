@@ -81,6 +81,28 @@ def organization_list_for_user(context, data_dict):
     return orgs_list
 
 
+def _escape(value):
+    return escape(unicode(value))
+
+
+def _list_to_ul(items):
+    ul_buffer = ["<ul class='dataset-extra'>"]
+    for item in items:
+        ul_buffer.append("<li>%s</li>" % item)
+    ul_buffer.append("</ul>")
+    return "\n".join(ul_buffer)
+
+
+def _to_link(value):
+    if not isinstance(value, list):
+        value = [value]
+    link_buffer = []
+    for item in value:
+        if item:
+            link_buffer.append('<a href="%s">%s</a>' % (_escape(item), _escape(item)))
+    return _list_to_ul(link_buffer)
+
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -93,7 +115,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _collection_mapping = {None: "package/ytp/new_select.html", 'Open Data': 'package/new.html',
                            'Interoperability Tools': 'package/new.html', 'Public Services': 'package/new.html'}
 
-    _key_mappings = {'extra_information': 'Extra information at website'}
+    _key_mappings = {'extra_information': ('Extra information at website', _to_link)}
     _key_exclude = ['resources', 'organization', 'author_email', 'author', 'maintainer_email', 'maintainer', 'version', 'state']
 
     # IRoutes #
@@ -257,36 +279,26 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def _prettify(self, field_name):
         """ Taken from ckan.logic.ValidationError.error_summary """
-        field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL',
-                                    field_name.replace('_', ' ').capitalize())
+        field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL', field_name.replace('_', ' ').capitalize())
         return _(field_name.replace('_', ' '))
 
-    def _escape(self, value):
-        return escape(unicode(value))
-
     def _translate_key(self, key):
-        return self._escape(self._key_mappings.get(key, None) or self._prettify(key))
-
-    def _list_to_ul(self, items):
-        ul_buffer = ["<ul class='dataset-extra'>"]
-        for item in items:
-            ul_buffer.append("<li>%s</li>" % item)
-        ul_buffer.append("</ul>")
-        return "\n".join(ul_buffer)
+        value = self._key_mappings.get(key, None)
+        return _escape(_(value[0]) if value else self._prettify(key)), value[1] if value else None
 
     def _format_value(self, value):
         if isinstance(value, types.DictionaryType):
             value_buffer = []
             for key, item_value in value.iteritems():
-                value_buffer.append("%s: %s" % (self._escape(key), self._format_value(item_value)))
-            return self._list_to_ul(value_buffer)
+                value_buffer.append(u"%s: %s" % (_escape(key), self._format_value(item_value)))
+            return _list_to_ul(value_buffer)
         elif isinstance(value, types.ListType):
             value_buffer = []
             for item_value in value:
                 value_buffer.append(self._format_value(item_value))
-            return self._list_to_ul(value_buffer)
+            return _list_to_ul(value_buffer)
 
-        return self._escape(value)
+        return _escape(value)
 
     def _format_extras(self, extras):
         if not extras:
@@ -295,9 +307,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         for extra_key, extra_value in extras.iteritems():
             if extra_key in self._key_exclude:
                 continue
-            value = self._format_value(extra_value).strip()
-            if value:
-                extra_buffer.append(u'<dt>%s</dt><dd>%s</dd>' % (self._translate_key(extra_key), value))
+            key, value_formatter = self._translate_key(extra_key)
+            value = None
+            if value_formatter:
+                value = value_formatter(extra_value)
+            else:
+                value = self._format_value(extra_value).strip()
+            if key and value:
+                extra_buffer.append(u'<dt>%s</dt><dd>%s</dd>' % (key, value))
 
         return literal("<dl>" + "\n".join(extra_buffer) + "</dl>")
 
