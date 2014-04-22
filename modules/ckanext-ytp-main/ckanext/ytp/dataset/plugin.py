@@ -301,7 +301,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 return "%s (%s)" % (self._prettify(key[:-len(suffix)]), locale.language), None
         return None
 
-
     def _translate_key(self, key):
         value = self._get_key_mapping(key)
         return _escape(_(value[0]) if value else self._prettify(key)), value[1] if value else None
@@ -342,7 +341,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         """ Used as helper. Get correct translation from extras (values) for given field. """
         translation = values.get('%s_%s' % (field, helpers.lang()), values.get(field, "")) if values and isinstance(values, dict) else ""
         return helpers.render_markdown(translation) if markdown and translation else translation
-
 
     def get_helpers(self):
         return {'current_user': self._current_user,
