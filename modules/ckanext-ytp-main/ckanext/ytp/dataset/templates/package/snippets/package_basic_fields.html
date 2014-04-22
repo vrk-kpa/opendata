@@ -64,8 +64,6 @@
     {{ ytp_form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
-
-
 {% block package_basic_fields_org %}
 
     {# ### Taken from CKAN. Modified to show organization and visibility selector always. ### #}
