@@ -56,10 +56,10 @@ function ytp_user_user_login(&$edit, $account) {
 function ytp_user_page_build(&$page){
 
 	//debug("'user_end'\n<br />\n");
-	debug(services_endpoint_export(services_endpoint_load('user_end')));
+	//debug(services_endpoint_export(services_endpoint_load('user_end')));
 	//services_endpoint_save($endpoint); 
 	//debug("'user_service_name'\n<br />\n");
-	debug(services_endpoint_export(services_endpoint_load('user_service_name')));
+	//debug(services_endpoint_export(services_endpoint_load('user_service_name')));
 
 }
 
