@@ -100,16 +100,16 @@ def migrate(options):
                         setattr(archival, field, value)
                     changed = True
             if not changed:
-                print add_stat('Already exists correctly in archival table', res, stats)
+                add_stat('Already exists correctly in archival table', res, stats)
                 continue
-            print add_stat('Updated in archival table', res, stats)
+            add_stat('Updated in archival table', res, stats)
         else:
             archival = Archival.create(res.id)
             if options.write:
                 for field, value in fields.items():
                     setattr(archival, field, value)
                 model.Session.add(archival)
-            print add_stat('Added to archival table', res, stats)
+            add_stat('Added to archival table', res, stats)
 
     print 'Summary\n', stats.report()
     if options.write:

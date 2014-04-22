@@ -96,7 +96,7 @@ class Archival(Base):
     # Details of last successful archival
     cache_filepath = Column(types.UnicodeText)
     cache_url = Column(types.UnicodeText)
-    size = Column(types.Integer, default=0)
+    size = Column(types.BigInteger, default=0)
     mimetype = Column(types.UnicodeText)
     hash = Column(types.UnicodeText)
 
