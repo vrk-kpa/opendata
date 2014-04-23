@@ -3857,6 +3857,9 @@ aside.secondary {
 .content-heading,
 .page-heading {
   border-bottom: 1px solid #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 ul.dataset-extra {
   padding-left: 0;
@@ -4127,6 +4130,14 @@ ul.no-bullet li:hover {
   background-color: #ffffff;
   /*  @background-hilight */
 }
+.nav-item.active > a span,
+.nav-aside li.active a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: -webkit-calc(230px);
+  width: calc(230px);
+}
 .nav-item.active > a:hover,
 .nav-aside li.active a:hover {
   color: #1f7994;
@@ -4270,6 +4281,16 @@ dt:after {
 dd {
   margin: 0 0 8px 170px;
   padding: 0 0 0.5em 0;
+}
+.context-info h1.heading {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resource-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .translate-content {
@@ -4436,7 +4457,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1397750281038") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1398250340109") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4466,7 +4487,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1397750281038');
+  background-image: url('../images/sprite.png?timestamp=1398250340109');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4476,7 +4497,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1397750281038');
+  background-image: url('../images/sprite.png?timestamp=1398250340109');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4540,7 +4561,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1397750281038") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1398250340109") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4673,7 +4694,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1397750281038');
+  background-image: url('../images/navbar-main-background.png?timestamp=1398250340109');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -4737,7 +4758,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1397750281038');
+  background: url('../images/search-button.png?timestamp=1398250340109');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -4813,7 +4834,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1397750281038');
+  background-image: url('../images/sprite.png?timestamp=1398250340109');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

@@ -2,7 +2,7 @@
 <li class="resource-item">
   {% block resource_item_title %}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
-    {{ h.resource_display_name(res) | truncate(50) }}
+    {{ h.resource_display_name(res) }}
      {{ h.popular('views', res.tracking_summary.total, min=10) }}
   </a>
   {% endblock %}
@@ -15,6 +15,6 @@
   </p>
 	<p class="dataset-license">{{_('License')}}:
 	</p>
-	<p><a href="{{res.url}}">{{res.url}}</a> <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
+	<p class="ellipsis"><a href="{{res.url}}">{{res.url}}</a> <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
    </p>
 </li>

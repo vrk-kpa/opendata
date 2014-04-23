@@ -98,7 +98,8 @@ aside.secondary {
 }
 
 .dataset-title, .content-heading, .page-heading  {
-    border-bottom: 1px solid #999;
+  border-bottom: 1px solid #999;
+  .text-overflow;
 }
 
 ul.dataset-extra {
@@ -379,6 +380,10 @@ ul.no-bullet li:hover {
   color: black;
   font-weight: bold;
   background-color: @body-color-background; /*  @background-hilight */
+  span{
+    .text-overflow;
+    width: calc(280px - 50px);
+  }
   &:hover {
     color: @main-hilight-color;
     background-color: @background-hilight;
@@ -509,4 +514,14 @@ dt:after {
 dd {
   margin: 0 0 8px 170px;
   padding: 0 0 0.5em 0;
+}
+
+.context-info{
+  h1.heading{
+    .text-overflow;
+  }
+}
+
+.resource-item{
+  .text-overflow;
 }
