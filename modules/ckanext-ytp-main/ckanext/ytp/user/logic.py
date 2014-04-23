@@ -42,28 +42,36 @@ def _add_user_extras(user_obj, user_dict):
     return user_dict
 
 def _update_drupal_user(context, data_dict):
+    import pprint
     fullname = data_dict.get('fullname')
     print('_update_drupal_user')
+    print('c: ' + c.user)
+    print('context: ' + context.get('user'))
     try:
         print('TRYING!')
         ytp_drupal = get_plugin('ytp_drupal')
         if not ytp_drupal or not c.user:
             log.error('ytp_drupal not found')
-            print('ytp_drupal not found')
             raise NotFound
         print('ytp_drupal found')
-        host1 = helpers.ckanext_drupal7_domain()
-        print('helper called, host1: ' + host1)
-        host = ytp_drupal.get_domain()
+        drupal7 = get_plugin('drupal7')
+        if not drupal7 :
+            log.error('drupal7 not found')
+            raise NotFound
+        print('drupal7 found')
+        # host1 = helpers.ckanext_drupal7_domain()
+        # print('helper called, host1: ' + host1)
+        print(dir(drupal7))
+        host = drupal7.get_domain()
         print('host: ' + host)
-        token_url = '%s/user_2/?q=services/session/token' % host 
+        token_url = '%s/user_2/?q=services/session/token' % host
         token_request = requests.get(token_url)
         log.warning(token_request.status_code)
         print('token_request.status_code: ' + token_request.status_code)
         token = tokent_request.text
-        duid =  str(ytp_drupal.get_drupal_user_id(c.user))
+        duid = str(ytp_drupal.get_drupal_user_id(c.user))
         print(duid)
-        update_url = host + '/user_2/' + duid + '.json' 
+        update_url = host + '/user_2/' + duid + '.json'
         payload = {"field_fullname": {"und": [{"value":  fullname  , "format": null, "safe_value":  fullname }]}}
         headers = {"Content-type" : "application/json", "X-CSRF-Token" : token}
         r = requests.put(update_url, data=json.dumps(payload), headers=headers)
@@ -73,6 +81,8 @@ def _update_drupal_user(context, data_dict):
             log.error(str(r.status_code))
             return False
     finally:
+        log.error('lg.e.finally')
+        print('p.finally')
         return False
 
 @side_effect_free
