@@ -1,21 +1,22 @@
 
 function show_languages(locales, locales_disabled) {
     $.each(locales, function(index, locale) {
-        $("[translation-data-locale='" + locale + "']").css('display', 'inline-block');
+        $("[translation-data-locale='" + locale + "']").show();
     });
     $.each(locales_disabled, function(index, locale) {
         $("[translation-data-locale='" + locale + "']").hide();
         $("input[translation-data-locale='" + locale + "']").val("");
+        $("textarea[translation-data-locale='" + locale + "']").val("");
     });
 
     $('.translation-list').each(function() {
        var container = $(this);
        var visible_inputs = container.find('.translation-input:visible');
-       var size_persent = 100.0 / visible_inputs.length - 5.0;
+       var size_persent = (100.0 - visible_inputs.length) / visible_inputs.length;
        if (visible_inputs.length == 1) {
            size_persent = 100;
        }
-       visible_inputs.css('width', size_persent.toString() + "%");
+       visible_inputs.closest('.translation-container').css('width', size_persent.toString() + "%");
     });
 }
 
@@ -48,6 +49,7 @@ function set_original_language() {
     $('.translate-original-language').html($('#translate_' + language_code).text());
     $('.translation-select').removeAttr('disabled');
     $('#translation_select_' + language_code).removeAttr('checked').attr('disabled', 'disabled');
+    $('.translation-input-original').text(language_code);
     set_translations();
 }
 
@@ -99,7 +101,7 @@ $(document).ready(function() {
         set_translations();
     });
 
-    if (!$('.translation-select-original:checked')) {
+    if ($('.translation-select-original:checked').length === 0) {
         $('.translation-select').removeAttr('checked').attr('disabled', 'disabled');
     }
 
