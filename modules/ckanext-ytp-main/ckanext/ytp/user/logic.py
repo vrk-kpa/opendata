@@ -9,6 +9,7 @@ from ckan.lib.dictization import model_save, model_dictize
 from ckan.lib.dictization.model_dictize import user_dictize
 from ckan.lib import uploader, munge, helpers
 from ckan.common import c
+from ckan.plugins.core import get_plugin
 
 import json
 import logging
@@ -42,19 +43,37 @@ def _add_user_extras(user_obj, user_dict):
 
 def _update_drupal_user(context, data_dict):
     fullname = data_dict.get('fullname')
-
+    print('_update_drupal_user')
     try:
+        print('TRYING!')
         ytp_drupal = get_plugin('ytp_drupal')
         if not ytp_drupal or not c.user:
+            log.error('ytp_drupal not found')
+            print('ytp_drupal not found')
             raise NotFound
-        host = ytp_drupal.get_domain();
-        token_url = '%s/user_2/?q=services/session/token' % host // TODO
+        print('ytp_drupal found')
+        host1 = helpers.ckanext_drupal7_domain()
+        print('helper called, host1: ' + host1)
+        host = ytp_drupal.get_domain()
+        print('host: ' + host)
+        token_url = '%s/user_2/?q=services/session/token' % host 
         token_request = requests.get(token_url)
+        log.warning(token_request.status_code)
+        print('token_request.status_code: ' + token_request.status_code)
         token = tokent_request.text
         duid =  str(ytp_drupal.get_drupal_user_id(c.user))
-        update_url = host + '/user_2/' + duid + '.json' // TODO
+        print(duid)
+        update_url = host + '/user_2/' + duid + '.json' 
+        payload = {"field_fullname": {"und": [{"value":  fullname  , "format": null, "safe_value":  fullname }]}}
+        headers = {"Content-type" : "application/json", "X-CSRF-Token" : token}
+        r = requests.put(update_url, data=json.dumps(payload), headers=headers)
+        if r.status_code == requests.codes.ok :
+            return True
+        else:
+            log.error(str(r.status_code))
+            return False
     finally:
-        return FALSE
+        return False
 
 @side_effect_free
 def action_user_show(context, data_dict):
@@ -234,6 +253,10 @@ def action_user_update(context, data_dict):
                                'session': session}
 
     toolkit.get_action('activity_create')(activity_create_context, activity_dict)
+
+    # Attempt ot update drupal user
+    _update_drupal_user(context, data_dict)
+
     # TODO: Also create an activity detail recording what exactly changed in
     # the user.
 
