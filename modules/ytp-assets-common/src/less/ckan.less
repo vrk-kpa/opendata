@@ -47,14 +47,19 @@ input[type="date"] {
 }
 
 [role=main] .primary {
-    float: none;
-    background: none;
-    margin: 0px 0px 2em 0px;
+  float: none;
+  background: none;
+  margin: 0px 0px 2em 0px;
 }
 
 .module-content, article.module {
-    background: none !important;
+  background: none !important;
 }
+
+.module-content {
+  padding-right: 0;
+}
+
 
 aside.secondary {
   background: @body-color-background;
@@ -228,6 +233,7 @@ ul.no-bullet li:hover {
 
 .stages{
   padding-left: @gutterX;
+  margin-right: 0;
 }
 .stages li.active .highlight {
   background: #2BA6CB;

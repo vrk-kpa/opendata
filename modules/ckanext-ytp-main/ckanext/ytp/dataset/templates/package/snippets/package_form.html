@@ -1,5 +1,8 @@
 {% ckan_extends %}
 
-  {% block basic_fields %}
-    {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors, licenses=h.dataset_licenses(), groups_available=c.groups_available %}
-  {% endblock %}
+{% block basic_fields %}
+   {% include "package/ytp/language_bar.html" %}
+   <div class="translate-content">
+       {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors, licenses=h.dataset_licenses(), groups_available=c.groups_available %}
+   </div>
+{% endblock %}

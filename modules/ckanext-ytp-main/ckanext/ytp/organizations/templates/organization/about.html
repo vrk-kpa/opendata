@@ -7,9 +7,9 @@
     {# display extra org info #}
 
         <div id="OrgExtraInfo">
-            <p>{{c.group_dict.BusinessID}}</p>
-            <p>{{c.group_dict.OID}}</p>
-            <p>{{c.group_dict.AlternativeName}}</p>
+            <p>{{c.group_dict.business_id}}</p>
+            <p>{{c.group_dict.oid}}</p>
+            <p>{{c.group_dict.alternative_name}}</p>
             {% if c.group_dict.valid_from or c.group_dict.valid_till %}
             <p>{{c.group_dict.valid_from}} - {{c.group_dict.valid_till}}</p>
             {% endif %}
@@ -19,27 +19,27 @@
 
         <div id="addressInfo">
             <h2 class="organization-subheading">{{_('Contact info')}}</h2>
-            <p>{{c.group_dict.streetAddress}}</p>
-            <p>{{c.group_dict.POBox}}</p>
-            <p>{{c.group_dict.zipCode}}</p>
-            <p>{{c.group_dict.PlaceOfBusiness}}</p>
-            <p>{{c.group_dict.country}}</p>
-            <p>{{c.group_dict.unofficialName}}</p>
-            <p>{{c.group_dict.buildingId}}</p>
-            <p>{{c.group_dict.gettingThere}}</p>
-            <p>{{c.group_dict.parking}}</p>
-            <p>{{c.group_dict.publicTransport}}</p>
-            <p><a href="{{c.group_dict.UrlPublicTransport}}">{{c.group_dict.UrlPublicTransport}}</a></p>
+            <p>{{c.group_dict.street_address}}</p>
+            <p>{{c.group_dict.street_address_pobox}}</p>
+            <p>{{c.group_dict.street_address_zip_code}}</p>
+            <p>{{c.group_dict.street_address_place_of_business}}</p>
+            <p>{{c.group_dict.street_address_country}}</p>
+            <p>{{c.group_dict.street_address_unofficial_name}}</p>
+            <p>{{c.group_dict.street_address_building_id}}</p>
+            <p>{{c.group_dict.street_address_getting_there}}</p>
+            <p>{{c.group_dict.street_address_parking}}</p>
+            <p>{{c.group_dict.street_address_public_transport}}</p>
+            <p><a href="{{c.group_dict.street_address_url_public_transport}}">{{c.group_dict.street_address_url_public_transport}}</a></p>
 
         </div>
 
     {# display homepages #}
-    {% set page_list = c.group_dict.get('HomePageUrls') %}
-    {% set desc_list = c.group_dict.get('HomePageDescriptions') %}
-    {% set title_list = c.group_dict.get('HomePageTitles') %}
-    {% set accessibility_list = c.group_dict.get('HomePageAccessibilities') %}
-    {% set wcag_list = c.group_dict.get('HomePageWCAGs') %}
-    {% set plainlanguage_list = c.group_dict.get('HomePagePlainLanguageAvailabilities') %}
+    {% set page_list = c.group_dict.get('homepage_urls') %}
+    {% set desc_list = c.group_dict.get('homepage_descriptions') %}
+    {% set title_list = c.group_dict.get('homepage_titles') %}
+    {% set accessibility_list = c.group_dict.get('homepage_accessibilities') %}
+    {% set wcag_list = c.group_dict.get('homepage_wcags') %}
+    {% set plainlanguage_list = c.group_dict.get('homepage_plain_language_availabilities') %}
 
 
     {% if page_list %}

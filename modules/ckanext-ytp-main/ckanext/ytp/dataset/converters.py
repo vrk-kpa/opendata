@@ -28,26 +28,6 @@ def _single_value(values):
     return result
 
 
-def translation_string(name):
-    def callable_method(key, data, errors, context):
-        value = data[key]
-        if not isinstance(value, basestring):
-            if _is_empty(value):
-                data[key] = ""
-                return
-
-            value = _single_value(value)
-            if not value:
-                _multiple_translations_error()
-
-        _prefix, suffix = key[0].rsplit('_', 1)
-
-        if data[("%s_locale" % name,)] == suffix:
-            _multiple_translations_error()
-
-    return callable_method
-
-
 def create_vocabulary(id_string):
     """ Create vocabulary. """
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})

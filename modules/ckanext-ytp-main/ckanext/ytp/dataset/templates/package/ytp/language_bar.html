@@ -1,0 +1,40 @@
+{% macro language_row(title, locale, original_language, translations) -%}
+    <tr>
+        <td>{{ title }}</td>
+        <td><input type="radio" name="original_language" value="{{ locale }}" class="translation-select-original"{% if original_language == locale %} checked="checked"{% endif %} /></td>
+        <td><input type="checkbox" class="translation-select" value="{{ locale }}" id="translation_select_{{ locale }}" name="translations"{% if locale in translations %} checked="checked"{% endif %} /></td>
+    </tr>
+{%- endmacro %}
+
+{% snippet 'package/ytp/modal.html', modal_id="modal_confirm_original", header=_('Confirm'), body=_("Are you sure you want to change original language? This will remove target language translation data.") %}
+{% snippet 'package/ytp/modal.html', modal_id="modal_confirm_translation", header=_('Confirm'), body=_("Are you sure you want to remove translation? Translated data will be removed.") %}
+
+
+<div class="translate-bar">
+    <ul>
+        <li><span>{{ _('Languages versions') }}:</span></li>
+        <li><a href="javascript:void(0)" class="translate translate-language-show translate-original-language" id="translate_original">{{ _("Original language") }} ({{ _("Not set") }})</a></li><!--
+     --><li class="language" id="translate_fi"><span>{{ _("Finnish") }}</span></li><!--
+     --><li class="language" id="translate_en"><span>{{ _("English") }}</span></li><!--
+     --><li class="language" id="translate_sv"><span>{{ _("Swedish") }}</span></li><!--
+     --><li><a href="javascript:void(0)" class="translate translate-language-show" id="translate_extra"><i class="icon-plus-sign"></i> {{ _("Translate") }}</a></li>
+    </ul>
+</div>
+
+<div class="translate-bar translate-language-select">
+    <table>
+        <thead>
+            <tr>
+                <th>{{ _('Language') }}</th>
+                <th>{{ _('Original language') }}</th>
+                <th>{{ _('Translate') }}</th>
+            </tr>
+        </thead>
+        <tfoot><!-- --></tfoot>
+        <tbody>
+            {{ language_row(_("Finnish"), 'fi', data.original_language, data.translations) }}
+            {{ language_row(_("English"), 'en', data.original_language, data.translations) }}
+            {{ language_row(_("Swedish"), 'sv', data.original_language, data.translations) }}
+        </tbody>
+    </table>
+</div>

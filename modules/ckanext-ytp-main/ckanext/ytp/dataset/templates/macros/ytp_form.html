@@ -3,38 +3,58 @@
 
 {# multilinqual input #}
 
-{% macro language_select(id, name, locales, selected_locale, change=False) %}
-    <select class="locale-select {% if change -%}locale-select-change{%- endif %}" id="{{ id or name }}" name="{{ name }}" style="position: absolute; width: 7em; right: -8em; top: 6px;">
-    {% for locale in locales %}
-        <option value="{{ locale }}" {% if selected_locale == locale %}selected="selected"{% endif %}>{{ locale.get_display_name() }}</option>
-    {% endfor %}
-    </select>
-{% endmacro %}
-
-{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], selected_locale=none, data=none) %}
+{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none) %}
   {%- set extra_html = caller() if caller -%}
 
   {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
-    <div style="position: relative;">
-        <div style="position: relative;" class="ytp-locale-list">
-            {{ language_select(id + "_locale", name + "_locale", locales, selected_locale) }}
-            <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+    <div class="translation-list">
+        <div class="translation-container">
+            <div class="input-group">
+                <span class="translation-input-language input-group-addon translation-input-original"></span>
+                <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" class="translation-input form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+            </div>
         </div>
 
         {% for locale in locales %}
-        {% set locale_value = data[name + "_" + locale.language] %}
-        {% if locale_value %}
-            {% if not locale_value.append %}
-                {% set locale_value = [locale_value] %}
-            {% endif %}
-            {% for locale_item in locale_value %}
-            <div style="position: relative;">
-                {{ language_select(id + "_locale_" + locale.language, name + "_locale_" + locale.language, locales, locale, change=true) }}
-                <input id="{{ id or name }}_{{ locale }}" type="{{ type }}" name="{{ name }}_{{ locale }}" value="{{ locale_item | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+            {% set locale_field_name = name + "_" + locale.language %}
+            {% set locale_value = data[locale_field_name] %}
+            <div class="translation-container" translation-data-locale="{{ locale.language }}">
+                <div class="input-group">
+                    <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
+                    <input id="{{ locale_field_name }}" type="{{ type }}" translation-data-locale="{{ locale.language }}" name="{{ locale_field_name }}" value="{{ locale_value | empty_and_escape }}" class="translation-input form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+                </div>
             </div>
-            {% endfor %}
-        {% endif %}
         {% endfor %}
+        {# fake input for slug-preview to attach  #}
+        <input type="hidden" data-module="slug-preview-target"  />
+    </div>
+  {% endcall %}
+{% endmacro %}
+
+{% macro markdown(name, id='', label='', value='', placeholder='', error="", classes=[], attrs={}, is_required=false, locales=[], data=none) %}
+  {% set classes = (classes|list) %}
+  {% do classes.append('control-full') %}
+
+  {%- set extra_html = caller() if caller -%}
+  {% call form.input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required) %}
+    <div class="translation-list">
+        <div class="translation-container">
+            <div class="input-group">
+                <span class="translation-input-language input-group-addon translation-input-original"></span>
+                <textarea id="{{ id or name }}" name="{{ name }}" cols="20" rows="5" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} class="translation-input">{{ value | empty_and_escape }}</textarea>
+            </div>
+        </div>
+        {% for locale in locales %}
+            {% set locale_field_name = name + "_" + locale.language %}
+            {% set locale_value = data[locale_field_name] %}
+        <div class="translation-container" translation-data-locale="{{ locale.language }}">
+            <div class="input-group">
+                <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
+                <textarea id="{{ locale_field_name }}" name="{{ locale_field_name }}" translation-data-locale="{{ locale.language }}" cols="20" rows="5" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} class="translation-input">{{ locale_value | empty_and_escape }}</textarea>
+            </div>
+        </div>
+        {% endfor %}
+        <span class="editor-info-block">{% trans %}You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown formatting</a> here{% endtrans %}</span>
     </div>
   {% endcall %}
 {% endmacro %}
