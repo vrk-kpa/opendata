@@ -118,7 +118,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _key_mappings = {'extra_information': ('Extra information at website', _to_link)}
     _key_exclude = ['resources', 'organization', 'author_email', 'author', 'maintainer_email', 'maintainer', 'version', 'state']
 
-    _localized_fields = ['title', 'notes', 'copyright_notice' 'warranty_disclaimer']
+    _localized_fields = ['title', 'notes', 'copyright_notice', 'warranty_disclaimer']
 
     # IRoutes #
 
