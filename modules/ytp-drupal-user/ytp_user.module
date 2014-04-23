@@ -8,6 +8,7 @@
 function create_ytp_user_service($endpoint){
 
 	$endpoint->api_version = 3;
+	$endpoint->disabled = FALSE;
 	$endpoint->name = 'user_service_name';
 	$endpoint->server = 'rest_server';
 	$endpoint->path = 'user_2';
@@ -51,6 +52,7 @@ function ytp_user_user_login(&$edit, $account) {
 	debug($user);
 	$user->fullname=$php_user->fullname;
 	debug($user);
+	$
 
 }
 function ytp_user_page_build(&$page){
@@ -109,4 +111,8 @@ function ytp_user_disable(){
 	if ($endpoint != FALSE){
 		services_endpoint_delete($endpoint);
 	}
+}
+
+function ytp_user_user_insert(&$edit, $account, $category){
+	
 }

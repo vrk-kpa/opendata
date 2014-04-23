@@ -39,11 +39,22 @@ def _add_user_extras(user_obj, user_dict):
             qualified=True
         )
     return user_dict
+
 def _update_drupal_user(context, data_dict):
     fullname = data_dict.get('fullname')
-    token_url = 'http://localhost/user_2/?q=services/session/token'
-    r = requests.get(token_url)
 
+    try:
+        ytp_drupal = get_plugin('ytp_drupal')
+        if not ytp_drupal or not c.user:
+            raise NotFound
+        host = ytp_drupal.get_domain();
+        token_url = '%s/user_2/?q=services/session/token' % host // TODO
+        token_request = requests.get(token_url)
+        token = tokent_request.text
+        duid =  str(ytp_drupal.get_drupal_user_id(c.user))
+        update_url = host + '/user_2/' + duid + '.json' // TODO
+    finally:
+        return FALSE
 
 @side_effect_free
 def action_user_show(context, data_dict):
