@@ -77,133 +77,6 @@ class CkanError(ArchiverError):
     pass
 
 
-def download(context, resource, url_timeout=30,
-             max_content_length=settings.MAX_CONTENT_LENGTH,
-             method='GET'):
-    '''Given a resource, tries to download it.
-
-    Params:
-      resource - dict of the resource
-
-    Exceptions from tidy_url may be propagated:
-       LinkInvalidError if the URL is invalid
-
-    If there is an error performing the download, raises:
-       DownloadException - connection problems etc.
-       DownloadError - HTTP status code is an error or 0 length
-
-    If download is not suitable (e.g. too large), raises:
-       ChooseNotToDownload
-
-    If the basic GET fails then it will try it with common API
-    parameters (SPARQL, WMS etc) to get a better response.
-
-    Returns a dict of results of a successful download:
-      mimetype, size, hash, headers, saved_file, url_redirected_to
-    '''
-
-    log = update.get_logger()
-
-    url = resource['url']
-
-    url = tidy_url(url)
-
-    if (resource.get('resource_type') == 'file.upload' and
-            not url.startswith('http')):
-        url = context['site_url'].rstrip('/') + url
-
-    # start the download - just get the headers
-    # May raise DownloadException
-    method_func = {'GET': requests.get, 'POST': requests.post}[method]
-    res = convert_requests_exceptions(method_func, url, timeout=url_timeout)
-    url_redirected_to = res.url if url != res.url else None
-    if not res.ok:  # i.e. 404 or something
-        raise DownloadError('Server reported status error: %s %s' %
-                            (res.status_code, res.reason),
-                            url_redirected_to)
-    log.info('GET succeeded. Content headers: %r', res.headers)
-
-    # record headers
-    mimetype = _clean_content_type(res.headers.get('content-type', '').lower())
-
-    # make sure resource content-length does not exceed our maximum
-    content_length = res.headers.get('content-length')
-
-    if content_length:
-        try:
-            content_length = int(content_length)
-        except ValueError:
-            # if there are multiple Content-Length headers, requests
-            # will return all the values, comma separated
-            if ',' in content_length:
-                try:
-                    content_length = int(content_length.split(',')[0])
-                except ValueError:
-                    pass
-    if isinstance(content_length, int) and \
-       int(content_length) >= max_content_length:
-            # record fact that resource is too large to archive
-            log.warning('Resource too large to download: %s > max (%s). '
-                        'Resource: %s %r', content_length,
-                        max_content_length, resource['id'], url)
-            raise ChooseNotToDownload('Content-length %s exceeds maximum '
-                                      'allowed value %s' %
-                                      (content_length, max_content_length),
-                                      url_redirected_to)
-    # content_length in the headers is useful but can be unreliable, so when we
-    # download, we will monitor it doesn't go over the max.
-
-    # continue the download - stream the response body
-    def get_content():
-        return res.content
-    content = convert_requests_exceptions(get_content)
-
-    # APIs can return status 200, but contain an error message in the body
-    if response_is_an_api_error(content):
-        raise DownloadError('Server content contained an API error message: %s' % \
-                            content[:250],
-                            url_redirected_to)
-
-    content_length = len(content)
-    if content_length > max_content_length:
-        raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-                                  (content_length, max_content_length),
-                                  url_redirected_to)
-
-    try:
-        length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
-    except ChooseNotToDownload, e:
-        raise ChooseNotToDownload(str(e), url_redirected_to)
-    log.info('Resource saved. Length: %s File: %s', length, saved_file_path)
-
-    # zero length (or just one byte) indicates a problem
-    if length < 2:
-        # record fact that resource is zero length
-        log.warning('Resource found was length %i - not archiving. Resource: %s %r',
-                 length, resource['id'], url)
-        raise DownloadError("Content-length after streaming was %i" % length,
-                            url_redirected_to)
-
-    log.info('Resource downloaded: id=%s url=%r cache_filename=%s length=%s hash=%s',
-             resource['id'], url, saved_file_path, length, hash)
-
-    return {'mimetype': mimetype,
-            'size': length,
-            'hash': hash,
-            'headers': res.headers,
-            'saved_file': saved_file_path,
-            'url_redirected_to': url_redirected_to,
-            'request_type': method}
-
-
-@celery.task(name="archiver.clean")
-def clean():
-    """
-    Remove all archived resources.
-    """
-    log = clean.get_logger()
-    log.error("clean task not implemented yet")
-
 @celery.task(name="archiver.update")
 def update(ckan_ini_filepath, resource_id):
     '''
@@ -331,64 +204,169 @@ def _update(ckan_ini_filepath, resource_id):
     return json.dumps(dict(download_result, **archive_result))
 
 
-@celery.task(name="archiver.link_checker")
-def link_checker(context, data):
-    """
-    Check that the resource's url is valid, and accepts a HEAD request.
+def download(context, resource, url_timeout=30,
+             max_content_length=settings.MAX_CONTENT_LENGTH,
+             method='GET'):
+    '''Given a resource, tries to download it.
 
-    Redirects are not followed - they simple return 'location' in the headers.
+    Params:
+      resource - dict of the resource
 
-    data is a JSON dict describing the link:
-        { 'url': url,
-          'url_timeout': url_timeout }
+    Exceptions from tidy_url may be propagated:
+       LinkInvalidError if the URL is invalid
 
-    Raises LinkInvalidError if the URL is invalid
-    Raises LinkHeadRequestError if HEAD request fails
-    Raises LinkHeadMethodNotSupported if server says HEAD is not supported
+    If there is an error performing the download, raises:
+       DownloadException - connection problems etc.
+       DownloadError - HTTP status code is an error or 0 length
 
-    Returns a json dict of the headers of the request
-    """
+    If download is not suitable (e.g. too large), raises:
+       ChooseNotToDownload
+
+    If the basic GET fails then it will try it with common API
+    parameters (SPARQL, WMS etc) to get a better response.
+
+    Returns a dict of results of a successful download:
+      mimetype, size, hash, headers, saved_file, url_redirected_to
+    '''
+
     log = update.get_logger()
-    data = json.loads(data)
-    url_timeout = data.get('url_timeout', 30)
 
-    error_message = ''
-    headers = {'User-Agent': USER_AGENT}
+    url = resource['url']
 
-    url = tidy_url(data['url'])
+    url = tidy_url(url)
 
-    # Send a head request
+    if (resource.get('resource_type') == 'file.upload' and
+            not url.startswith('http')):
+        url = context['site_url'].rstrip('/') + url
+
+    # start the download - just get the headers
+    # May raise DownloadException
+    method_func = {'GET': requests.get, 'POST': requests.post}[method]
+    res = convert_requests_exceptions(method_func, url, timeout=url_timeout)
+    url_redirected_to = res.url if url != res.url else None
+    if not res.ok:  # i.e. 404 or something
+        raise DownloadError('Server reported status error: %s %s' %
+                            (res.status_code, res.reason),
+                            url_redirected_to)
+    log.info('GET succeeded. Content headers: %r', res.headers)
+
+    # record headers
+    mimetype = _clean_content_type(res.headers.get('content-type', '').lower())
+
+    # make sure resource content-length does not exceed our maximum
+    content_length = res.headers.get('content-length')
+
+    if content_length:
+        try:
+            content_length = int(content_length)
+        except ValueError:
+            # if there are multiple Content-Length headers, requests
+            # will return all the values, comma separated
+            if ',' in content_length:
+                try:
+                    content_length = int(content_length.split(',')[0])
+                except ValueError:
+                    pass
+    if isinstance(content_length, int) and \
+       int(content_length) >= max_content_length:
+            # record fact that resource is too large to archive
+            log.warning('Resource too large to download: %s > max (%s). '
+                        'Resource: %s %r', content_length,
+                        max_content_length, resource['id'], url)
+            raise ChooseNotToDownload('Content-length %s exceeds maximum '
+                                      'allowed value %s' %
+                                      (content_length, max_content_length),
+                                      url_redirected_to)
+    # content_length in the headers is useful but can be unreliable, so when we
+    # download, we will monitor it doesn't go over the max.
+
+    # continue the download - stream the response body
+    def get_content():
+        return res.content
+    content = convert_requests_exceptions(get_content)
+
+    # APIs can return status 200, but contain an error message in the body
+    if response_is_an_api_error(content):
+        raise DownloadError('Server content contained an API error message: %s' % \
+                            content[:250],
+                            url_redirected_to)
+
+    content_length = len(content)
+    if content_length > max_content_length:
+        raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
+                                  (content_length, max_content_length),
+                                  url_redirected_to)
+
     try:
-        res = requests.head(url, timeout=url_timeout)
-        headers = res.headers
-    except httplib.InvalidURL, ve:
-        log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
-        raise LinkHeadRequestError("Invalid URL or Redirect Link")
-    except ValueError, ve:
-        log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
-        raise LinkHeadRequestError("Could not make HEAD request")
-    except requests.exceptions.ConnectionError, e:
-        raise LinkHeadRequestError('Connection error: %s' % e)
-    except requests.exceptions.HTTPError, e:
-        raise LinkHeadRequestError('Invalid HTTP response: %s' % e)
-    except requests.exceptions.Timeout, e:
-        raise LinkHeadRequestError('Connection timed out after %ss' % url_timeout)
-    except requests.exceptions.TooManyRedirects, e:
-        raise LinkHeadRequestError('Too many redirects')
-    except requests.exceptions.RequestException, e:
-        raise LinkHeadRequestError('Error during request: %s' % e)
+        length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
+    except ChooseNotToDownload, e:
+        raise ChooseNotToDownload(str(e), url_redirected_to)
+    log.info('Resource saved. Length: %s File: %s', length, saved_file_path)
+
+    # zero length (or just one byte) indicates a problem
+    if length < 2:
+        # record fact that resource is zero length
+        log.warning('Resource found was length %i - not archiving. Resource: %s %r',
+                 length, resource['id'], url)
+        raise DownloadError("Content-length after streaming was %i" % length,
+                            url_redirected_to)
+
+    log.info('Resource downloaded: id=%s url=%r cache_filename=%s length=%s hash=%s',
+             resource['id'], url, saved_file_path, length, hash)
+
+    return {'mimetype': mimetype,
+            'size': length,
+            'hash': hash,
+            'headers': res.headers,
+            'saved_file': saved_file_path,
+            'url_redirected_to': url_redirected_to,
+            'request_type': method}
+
+
+def archive_resource(context, resource, log, result=None, url_timeout=30):
+    """
+    Archive the given resource. Moves the file from the temporary location
+    given in download().
+
+    Params:
+       result - result of the download(), containing keys: length, saved_file
+
+    If there is a failure, raises ArchiveError.
+
+    Returns: {cache_filepath, cache_url}
+    """
+    relative_archive_path = os.path.join(resource['id'][:2], resource['id'])
+    archive_dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_path)
+    if not os.path.exists(archive_dir):
+        os.makedirs(archive_dir)
+    # try to get a file name from the url
+    parsed_url = urlparse.urlparse(resource.get('url'))
+    try:
+        file_name = parsed_url.path.split('/')[-1] or 'resource'
+        file_name = file_name.strip()  # trailing spaces cause problems
+    except:
+        file_name = "resource"
+
+    # move the temp file to the resource's archival directory
+    saved_file = os.path.join(archive_dir, file_name)
+    shutil.move(result['saved_file'], saved_file)
+    log.info('Going to do chmod: %s', saved_file)
+    try:
+        os.chmod(saved_file, 0644)  # allow other users to read it
     except Exception, e:
-        raise LinkHeadRequestError('Error with the request: %s' % e)
-    else:
-        if res.status_code == 405:
-            # this suggests a GET request may be ok, so proceed to that
-            # in the download
-            raise LinkHeadMethodNotSupported()
-        if not res.ok or res.status_code >= 400:
-            error_message = 'Server returned HTTP error status: %s %s' % \
-                (res.status_code, res.reason)
-            raise LinkHeadRequestError(error_message)
-    return json.dumps(headers)
+        log.error('chmod failed %s: %s', saved_file, e)
+        raise
+    log.info('Archived resource as: %s', saved_file)
+
+    # calculate the cache_url
+    if not context.get('cache_url_root'):
+        log.warning('Not saved cache_url because no value for cache_url_root '
+                    'in config')
+        raise ArchiveError('No value for cache_url_root in config')
+    cache_url = urlparse.urljoin(context['cache_url_root'],
+                                 '%s/%s' % (relative_archive_path, file_name))
+    return {'cache_filepath': saved_file,
+            'cache_url': cache_url}
 
 
 def _clean_content_type(ct):
@@ -441,52 +419,6 @@ def tidy_url(url):
     return url
 
 
-def archive_resource(context, resource, log, result=None, url_timeout=30):
-    """
-    Archive the given resource. Moves the file from the temporary location
-    given in download().
-
-    Params:
-       result - result of the download(), containing keys: length, saved_file
-
-    If there is a failure, raises ArchiveError.
-
-    Returns: {cache_filepath, cache_url}
-    """
-    relative_archive_path = os.path.join(resource['id'][:2], resource['id'])
-    archive_dir = os.path.join(settings.ARCHIVE_DIR, relative_archive_path)
-    if not os.path.exists(archive_dir):
-        os.makedirs(archive_dir)
-    # try to get a file name from the url
-    parsed_url = urlparse.urlparse(resource.get('url'))
-    try:
-        file_name = parsed_url.path.split('/')[-1] or 'resource'
-        file_name = file_name.strip()  # trailing spaces cause problems
-    except:
-        file_name = "resource"
-
-    # move the temp file to the resource's archival directory
-    saved_file = os.path.join(archive_dir, file_name)
-    shutil.move(result['saved_file'], saved_file)
-    log.info('Going to do chmod: %s', saved_file)
-    try:
-        os.chmod(saved_file, 0644)  # allow other users to read it
-    except Exception, e:
-        log.error('chmod failed %s: %s', saved_file, e)
-        raise
-    log.info('Archived resource as: %s', saved_file)
-
-    # calculate the cache_url
-    if not context.get('cache_url_root'):
-        log.warning('Not saved cache_url because no value for cache_url_root '
-                    'in config')
-        raise ArchiveError('No value for cache_url_root in config')
-    cache_url = urlparse.urljoin(context['cache_url_root'],
-                                 '%s/%s' % (relative_archive_path, file_name))
-    return {'cache_filepath': saved_file,
-            'cache_url': cache_url}
-
-
 def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
     """
     Write the response content to disk.
@@ -518,7 +450,6 @@ def _save_resource(resource, response, max_file_size, chunk_size=1024*16):
     return length, content_hash, tmp_resource_file_path
 
 
-# was save_status
 def save_archival(resource, status_id, reason, url_redirected_to,
                   download_result, archive_result, log):
     '''Writes to the archival table the result of an attempt to download
@@ -533,6 +464,7 @@ def save_archival(resource, status_id, reason, url_redirected_to,
 
     archival = Archival.get_for_resource(resource['id'])
     first_archival = not archival
+    previous_archival_was_broken = None
     if not archival:
         archival = Archival.create(resource['id'])
         model.Session.add(archival)
@@ -692,4 +624,74 @@ def response_is_an_api_error(response_body):
     # <ows:ExceptionReport version='1.1.0' language='en' xmlns:ows='http://www.opengis.net/ows'><ows:Exception exceptionCode='NoApplicableCode'><ows:ExceptionText>Wrong service type.</ows:ExceptionText></ows:Exception></ows:ExceptionReport>
     if '<ows:ExceptionReport' in response_sample:
         return True
+
+
+@celery.task(name="archiver.clean")
+def clean():
+    """
+    Remove all archived resources.
+    """
+    log = clean.get_logger()
+    log.error("clean task not implemented yet")
+
+
+@celery.task(name="archiver.link_checker")
+def link_checker(context, data):
+    """
+    Check that the resource's url is valid, and accepts a HEAD request.
+
+    Redirects are not followed - they simple return 'location' in the headers.
+
+    data is a JSON dict describing the link:
+        { 'url': url,
+          'url_timeout': url_timeout }
+
+    Raises LinkInvalidError if the URL is invalid
+    Raises LinkHeadRequestError if HEAD request fails
+    Raises LinkHeadMethodNotSupported if server says HEAD is not supported
+
+    Returns a json dict of the headers of the request
+    """
+    log = update.get_logger()
+    data = json.loads(data)
+    url_timeout = data.get('url_timeout', 30)
+
+    error_message = ''
+    headers = {'User-Agent': USER_AGENT}
+
+    url = tidy_url(data['url'])
+
+    # Send a head request
+    try:
+        res = requests.head(url, timeout=url_timeout)
+        headers = res.headers
+    except httplib.InvalidURL, ve:
+        log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
+        raise LinkHeadRequestError("Invalid URL or Redirect Link")
+    except ValueError, ve:
+        log.error("Could not make a head request to %r, error is: %s. Package is: %r.", url, ve, data.get('package'))
+        raise LinkHeadRequestError("Could not make HEAD request")
+    except requests.exceptions.ConnectionError, e:
+        raise LinkHeadRequestError('Connection error: %s' % e)
+    except requests.exceptions.HTTPError, e:
+        raise LinkHeadRequestError('Invalid HTTP response: %s' % e)
+    except requests.exceptions.Timeout, e:
+        raise LinkHeadRequestError('Connection timed out after %ss' % url_timeout)
+    except requests.exceptions.TooManyRedirects, e:
+        raise LinkHeadRequestError('Too many redirects')
+    except requests.exceptions.RequestException, e:
+        raise LinkHeadRequestError('Error during request: %s' % e)
+    except Exception, e:
+        raise LinkHeadRequestError('Error with the request: %s' % e)
+    else:
+        if res.status_code == 405:
+            # this suggests a GET request may be ok, so proceed to that
+            # in the download
+            raise LinkHeadMethodNotSupported()
+        if not res.ok or res.status_code >= 400:
+            error_message = 'Server returned HTTP error status: %s %s' % \
+                (res.status_code, res.reason)
+            raise LinkHeadRequestError(error_message)
+    return json.dumps(headers)
+
 
