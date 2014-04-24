@@ -61,9 +61,9 @@ input[type="date"] {
 }
 
 
-aside.secondary {
+[role=main] .secondary {
   background: @body-color-background;
-  width: 280px !important;
+  width: 280px;
   border: 1px solid @menu-border-color;
 }
 
@@ -136,6 +136,18 @@ section.module {
 
 .toolbar .breadcrumb {
     font-size: 16px;
+}
+
+@media(max-width: @screen-xs-max) {
+  [role=main] .primary {
+    float: right;
+    width: 100%;
+  }
+
+  [role=main] .secondary{
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 
 @media (min-width: 768px) {
