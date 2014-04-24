@@ -55,6 +55,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: "fix_hardcoded_languages.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9b89870cd13504e3e21465079625d405eab563f9.patch", file: "downgrade_select2js.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/f772576d3c480f654c39ecaeb72feb423450f200.patch", file: "fix_invalid_date_indexing.patch" }
-  - { pathc: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/14a5fc814048e93bd08c3877027bcff326a4ac3b.patch", file: "fix_organization_listing.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/14a5fc814048e93bd08c3877027bcff326a4ac3b.patch", file: "fix_organization_listing.patch" }
 
 service_database_enabled: true
