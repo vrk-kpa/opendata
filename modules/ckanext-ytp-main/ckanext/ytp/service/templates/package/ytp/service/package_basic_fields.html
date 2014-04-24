@@ -1,46 +1,22 @@
-{% ckan_extends %}
+{% extends 'package/snippets/package_basic_fields.html' %}
 
 {% import 'macros/ytp_form.html' as ytp_form %}
 
 {% block package_basic_fields_title %}
     {% resource "ytp_common_js/ytp_form.js" %}
 
-    {# YTP extensions to dataset #}
-
-    {% if data.collection_type %}
     <div class="control-group">
       <label for="field-organizations" class="control-label">{{ _('Collection Type') }}</label>
       <div class="controls">
-          <p>{{ _(data.collection_type) }}</p>
+          <p>{{ _('Public Service') }}</p>
       </div>
     </div>
 
-    {{ form.hidden('collection_type', data.collection_type) }}
-
-    {% else %}
-        {% call form.input_block("collection_type", _('Collection Type'), errors.collection_type, [], extra_html="") %}
-        <div class="radio-select-label">
-          <label class="radio inline">
-            <input name="collection_type" type="radio" value="Open Data" {% if data.collection_type == 'Open Data' %}checked="checked"{% endif %} />
-            {%- trans -%}Open Data{%- endtrans -%}
-          </label> 
-        </div>
-        <div class="radio-select-label">
-          <label class="radio inline">
-            <input name="collection_type" type="radio" value="Interoperability Tools" {% if data.collection_type == 'Interoperability Tools' %}checked="checked"{% endif %} />
-            {%- trans -%}Interoperability Tools{%- endtrans -%}
-          </label>
-        </div>
-        <div class="radio-select-label">
-          <label class="radio inline">
-            <input name="collection_type" type="radio" value="Public Services" {% if data.collection_type == 'Public Services' %}checked="checked"{% endif %} />
-            {%- trans -%}Public Service{%- endtrans -%}
-          </label>
-        </div>
-        {% endcall %}
-    {% endif %}
+    {{ form.hidden('collection_type', 'Public Service') }}
 
     {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), data=data, slug=true) }}
+
+    {{ ytp_form.input('alternative_title', id='field-alternative_title', label=_('Alternative Title'), placeholder=_('eg. A descriptive title'), value=data.alternative_title, error=errors.alternative_title, locales=h.get_available_locales(), data=data) }}
 
 {% endblock %}
 
@@ -58,9 +34,6 @@
 {% endblock %}
 
 {% block package_basic_fields_license %}
-    {{ super() }}
-    {{ ytp_form.markdown('copyright_notice', id='field-copyright', label=_('Copyright Notice'), placeholder=_('Additional information concerning copyright'), value=data.copyright_notice, error=errors.copyright_notice, locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
 {% block package_basic_fields_org %}
@@ -123,22 +96,12 @@
       </div>
     {% endif %}
 
-    {# ### YTP extensions to dataset ### #}
+    {{ form.select('service_group', label=_('Service group'), options={}, selected=None, error=errors.service_group) }}
 
-    {% set content_type_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'content_type', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=content_type&incomplete=?'} %}
-    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder='', value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs) }}
-
-    {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
-        <input id="valid_from" type="date" name="valid_from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
-        -
-        <input id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
-    {% endcall %}
-
-    {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, placeholder=_("http://www.example.com/"), error=errors.extra_information) }}
+    {{ form.input('municipalities', id='field-municipalities', label=_('Municipalities, where service is provided'), placeholder='', value=data.municipalities, error=errors.municipalities) }}
+    {{ form.input('target_groups', id='field-target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups) }}
+    {{ ytp_form.markdown('usage_requirements', id='field-usage_requirements', label=_('Usage Requirements'), placeholder='', value=data.usage_requirements, error=errors.usage_requirements, locales=h.get_available_locales(), data=data) }}
 
     {{ form.hidden("ytp", "true") }}
 
 {% endblock %}
-
-
-

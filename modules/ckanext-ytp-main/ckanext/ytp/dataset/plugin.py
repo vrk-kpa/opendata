@@ -14,6 +14,7 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled
+from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema
 
 
 try:
@@ -23,6 +24,10 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
+
+OPEN_DATA = 'Open Data'
+INTEROPERABILITY_TOOLS = 'Interoperability Tools'
+PUBLIC_SERVICES = 'Public Services'
 
 def _escape(value):
     return escape(unicode(value))
@@ -53,10 +58,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
-    plugins.implements(plugins.IActions, inherit=True)
 
-    _collection_mapping = {None: "package/ytp/new_select.html", 'Open Data': 'package/new.html',
-                           'Interoperability Tools': 'package/new.html', 'Public Services': 'package/new.html'}
+    _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
+                           OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
+                           INTEROPERABILITY_TOOLS: ('package/new.html', 'package/new_package_form.html')}
 
     _key_mappings = {'extra_information': ('Extra information at website', _to_link)}
     _key_exclude = ['resources', 'organization', 'author_email', 'author', 'maintainer_email', 'maintainer', 'version', 'state']
@@ -84,29 +89,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         toolkit.add_public_directory(config, '/var/www/resources')
         toolkit.add_resource('public/javascript/', 'ytp_dataset_js')
         toolkit.add_template_directory(config, 'templates')
+
         toolkit.add_resource('../common/public/javascript/', 'ytp_common_js')
+        toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm #
-
-    def _add_languages_modify(self, schema, fields, locales):
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        convert_to_extras = toolkit.get_converter('convert_to_extras')
-        for locale in locales:
-            for field in fields:
-                schema.update({"%s_%s" % (field, locale): [ignore_missing, unicode, convert_to_extras]})
-        return schema
-
-    def _add_languages_show(self, schema, fields, locales):
-        convert_from_extras = toolkit.get_converter('convert_from_extras')
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        for locale in locales:
-            for field in fields:
-                schema.update({"%s_%s" % (field, locale): [convert_from_extras, ignore_missing]})
-        return schema
 
     def _modify_package_schema(self, schema):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_to_extras = toolkit.get_converter('convert_to_extras')
+
+        schema = add_translation_modify_schema(schema)
 
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'warranty_disclaimer': [ignore_missing, unicode, convert_to_extras]})
@@ -119,9 +112,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
 
-        locales = [locale.language for locale in helpers.get_available_locales()]
 
-        self._add_languages_modify(schema, self._localized_fields, locales)
+        schema = add_languages_modify(schema, self._localized_fields)
 
         return schema
 
@@ -149,11 +141,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
 
-        schema.update({'original_language': [convert_from_extras, ignore_missing]})
-        schema.update({'translations': [convert_from_extras, from_json_list, ignore_missing]})
-        locales = [locale.language for locale in helpers.get_available_locales()]
-
-        self._add_languages_show(schema, self._localized_fields, locales)
+        schema = add_translation_show_schema(schema)
+        schema = add_languages_show(schema, self._localized_fields)
 
         return schema
 
@@ -163,12 +152,18 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def is_fallback(self):
         return True
 
-    def new_template(self):
+    def _get_from_mapping(self, index):
         template = self._collection_mapping.get(request.params.get('collection_type', None), None)
         if not template:
             c.unknown_collection = True
-            return self._collection_mapping.get(None)
-        return template
+            return self._collection_mapping.get(None)[index]
+        return template[index]
+
+    def new_template(self):
+        return self._get_from_mapping(0)
+
+    def package_form(self):
+        return self._get_from_mapping(1)
 
     def setup_template_variables(self, context, data_dict):
         c.preselected_group = request.params.get('group', None)
@@ -293,9 +288,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'locales_offered': self._locales_offered,
                 'is_list': self._is_list,
                 'format_extras': self._format_extras,
-                'extra_translation': self._extra_translation}
-
-    # IActions #
-
-    def get_actions(self):
-        return {'service_database_enabled': service_database_enabled}
+                'extra_translation': self._extra_translation,
+                'service_database_enabled': service_database_enabled}

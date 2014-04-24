@@ -3,7 +3,7 @@
 
 {# multilinqual input #}
 
-{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none) %}
+{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none, slug=false) %}
   {%- set extra_html = caller() if caller -%}
 
   {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
@@ -25,8 +25,10 @@
                 </div>
             </div>
         {% endfor %}
+        {% if slug %}
         {# fake input for slug-preview to attach  #}
         <input type="hidden" data-module="slug-preview-target"  />
+        {% endif %}
     </div>
   {% endcall %}
 {% endmacro %}
