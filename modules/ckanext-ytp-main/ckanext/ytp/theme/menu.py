@@ -1,8 +1,9 @@
 from ckan.common import _, c, request
 from ckan.lib import helpers
-from collections import OrderedDict
 from ckan.logic import NotFound
 from ckan.plugins.core import get_plugin
+from ckanext.ytp.dataset.helpers import service_database_enabled
+from collections import OrderedDict
 
 """ Menu class structure. The structure is complex, because cross linking between Drupal and CKAN can be expected.
     Menu generation is subset of Drupal menu from API.
@@ -169,6 +170,11 @@ class _CommonPublishMenu(MenuItem):
         return helpers.url_for('add dataset', **arguments)
 
 
+class PublishServiceMenu(_CommonPublishMenu):
+    def __init__(self):
+        super(PublishServiceMenu, self).__init__(_("Publish Public Service"), 'Public Services')
+
+
 class PublishToolsMenu(_CommonPublishMenu):
     def __init__(self):
         super(PublishToolsMenu, self).__init__(_("Publish Tools and Instructions"), 'Interoperability Tools')
@@ -188,3 +194,5 @@ class PublishMenu(RootMenuItem):
     def __init__(self, plugin):
         super(PublishMenu, self).__init__(plugin)
         self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]
+        if service_database_enabled():
+            self.children.append(PublishServiceMenu())

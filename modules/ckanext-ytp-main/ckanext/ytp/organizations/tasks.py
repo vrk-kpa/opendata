@@ -66,32 +66,6 @@ def organization_import(data):
                 organization = get_action('organization_create')(context, values)
 
 
-def _user_has_organization(username):
-    user = model.User.get(username)
-    if not user:
-        raise NotFound("Failed to find user")
-    query = model.Session.query(model.Member).filter(model.Member.table_name == 'user').filter(model.Member.table_id == user.id)
-    return query.count() > 0
-
-
-def _create_default_organization(context, organization_name, organization_title):
-    values = {'name': organization_name, 'title': organization_title, 'id': organization_name}
-    try:
-        return plugins.toolkit.get_action('organization_show')(context, values)
-    except NotFound:
-        return plugins.toolkit.get_action('organization_create')(context, values)
-
-
-@celery_app.celery.task(name="ckanext.ytp.organizations.default_organization")
-def default_organization(username, organization_name, organization_title):
-    _load_config()
-    if _user_has_organization(username):
-        return
-    context = _create_context()
-    organization = _create_default_organization(context, organization_name, organization_title)
-    plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'], "username": username, "role": "editor"})
-
-
 def _add_children_concepts(list, graph, current, indent, max_depth, prefix):
     """ Add a SKOS concept and its children recursively into a pseudo-hierarchical list """
 

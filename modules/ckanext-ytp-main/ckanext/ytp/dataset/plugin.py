@@ -1,17 +1,20 @@
-from pylons import config
-
 from ckan import plugins, model
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
-from converters import convert_to_tags_string, date_validator, string_join
-import logging
-from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
 from webhelpers.html import escape, literal
+from pylons import config
+
+from ckanext.ytp.dataset.converters import convert_to_tags_string, date_validator, string_join
+from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
+
 import types
 import re
+import logging
+from ckanext.ytp.dataset.helpers import service_database_enabled
+
 
 try:
     from collections import OrderedDict  # 2.7
@@ -19,66 +22,6 @@ except ImportError:
     from sqlalchemy.util import OrderedDict
 
 log = logging.getLogger(__name__)
-
-
-def organization_list_for_user(context, data_dict):
-    ''' Taken from CKAN (ckan.logic.action.get). Fixes member state.
-    https://github.com/ckan/ckan/issues/1596
-
-    Return the list of organizations that the user is a member of.
-
-    :param permission: the permission the user has against the
-    returned organizations (optional, default: ``edit_group``)
-    :type permission: string
-
-    :returns: list of dictized organizations that the user is
-    authorized to edit
-    :rtype: list of dicts
-    '''
-    from ckan.logic.action.get import _check_access
-    from ckan import new_authz
-    from ckan.lib.dictization import model_dictize
-
-    current_model = context['model']
-    user = context['user']
-
-    _check_access('organization_list_for_user', context, data_dict)
-    sysadmin = new_authz.is_sysadmin(user)
-
-    orgs_q = current_model.Session.query(model.Group) \
-        .filter(current_model.Group.is_organization == True) \
-        .filter(current_model.Group.state == 'active')  # noqa
-
-    if not sysadmin:
-        # for non-Sysadmins check they have the required permission
-
-        permission = data_dict.get('permission', 'edit_group')
-
-        roles = new_authz.get_roles_with_permission(permission)
-
-        if not roles:
-            return []
-        user_id = new_authz.get_user_id_for_username(user, allow_none=True)
-        if not user_id:
-            return []
-
-        q = current_model.Session.query(current_model.Member) \
-            .filter(current_model.Member.table_name == 'user') \
-            .filter(current_model.Member.capacity.in_(roles)) \
-            .filter(current_model.Member.table_id == user_id) \
-            .filter(current_model.Member.state == 'active')
-
-        group_ids = []
-        for row in q.all():
-            group_ids.append(row.group_id)
-
-        if not group_ids:
-            return []
-
-        orgs_q = orgs_q.filter(current_model.Group.id.in_(group_ids))
-
-    orgs_list = model_dictize.group_list_dictize(orgs_q.all(), context)
-    return orgs_list
 
 
 def _escape(value):
@@ -355,4 +298,4 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     # IActions #
 
     def get_actions(self):
-        return {'organization_list_for_user': organization_list_for_user}
+        return {'service_database_enabled': service_database_enabled}
