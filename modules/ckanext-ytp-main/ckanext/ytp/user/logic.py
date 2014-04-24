@@ -1,5 +1,3 @@
-import requests
-
 from ckan import logic
 from ckan.plugins import toolkit
 from ckan.logic import auth, NotFound, ValidationError, side_effect_free
@@ -13,6 +11,7 @@ from ckan.plugins.core import get_plugin
 
 from pylons import request, response
 
+import requests
 import json
 import logging
 import sqlalchemy
@@ -44,57 +43,39 @@ def _add_user_extras(user_obj, user_dict):
     return user_dict
 
 def _update_drupal_user(context, data_dict):
-    import pprint
+    resource = 'user'
+    path = 'user_2'
     fullname = data_dict.get('fullname')
-    print('_update_drupal_user')
-    print('c: ' + c.user)
-    print('context: ' + context.get('user'))
+
     try:
-        print('TRYING!')
         ytp_drupal = get_plugin('ytp_drupal')
         if not ytp_drupal or not c.user:
             log.error('ytp_drupal not found')
             raise NotFound
-        print('ytp_drupal found')
         drupal7 = get_plugin('drupal7')
         if not drupal7 :
             log.error('drupal7 not found')
             raise NotFound
-        print('drupal7 found')
-        # host1 = helpers.ckanext_drupal7_domain()
-        # print('helper called, host1: ' + host1)
-        print(dir(drupal7))
         host = drupal7.get_domain()
-
+        log.warning('host: ' + host)
         # Get Drupal cookie from cookies
-        request_cookies = request.cookies
-        session_cookie = None
-        for cookie_key in request_cookies:
-            if cookie_key[:4] == 'SESS':
-                session_cookie = (cookie_key, request_cookies[cookie_key])
+        # print(dir(ytp_drupal))
+        session_cookie = ytp_drupal.get_drupal_session_cookie()
         cookie_header = session_cookie[0] + "=" + session_cookie[1]
-        print(cookie_header)
-        print('host: ' + host)
-        token_url = 'http://%s/user_2/?q=services/session/token' % host
-        token_request = requests.get(token_url, headers={"Cookie": cookie_header})
-        log.warning(token_request.status_code)
-        print('token_request.status_code: ' + repr(token_request.status_code))
-        token = token_request.text
-        log.warning('request: ' + token)
+        token = ytp_drupal.get_drupal_session_token(host, path, cookie_header)
         duid = str(ytp_drupal.get_drupal_user_id(c.user))
-        print(duid)
-        update_url = 'http://' + host + '/user_2/user/' + duid + '.json'
+        update_url = 'http://' + host + '/' + path + '/' + resource + '/' + duid + '.json'
         payload = {"field_fullname": {"und": [{"value":  fullname  , "format": None, "safe_value":  fullname }]}}
         headers = {"Content-type" : "application/json", "X-CSRF-Token" : token, "Cookie": cookie_header}
         r = requests.put(update_url, data=json.dumps(payload), headers=headers)
         if r.status_code == requests.codes.ok :
             return True
         else:
-            log.error("statuscode not ok: " + repr(r.status_code))
+            log.error("put " + update_url + " fails with http " + repr(r.status_code))
             log.error(repr(r.text))
             return False
     except Exception as e:
-        print("Exception: ", e)
+        log.error(e)
         return False
 
 

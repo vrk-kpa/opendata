@@ -5,6 +5,10 @@ import sqlalchemy
 from ckan.common import c
 from ckan.logic import NotFound
 from ckan.lib import helpers
+
+from pylons import request, response
+
+import requests
 import urllib
 from webhelpers.html.tags import literal
 
@@ -94,9 +98,27 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
         for row in result:
             return row[0]
         raise NotFound
+    def get_drupal_session_cookie(self):
+        '''returns tuple of (cookie_name, cookie_value)'''
+        request_cookies = request.cookies
+        session_cookie = None
+        for cookie_key in request_cookies:
+            if cookie_key[:4] == 'SESS':
+                session_cookie = (cookie_key, request_cookies[cookie_key])
+        return session_cookie
+
+    def get_drupal_session_token(self, domain, service, cookie_header=''):
+        '''return text of X-CSRF-Token)'''
+        token_url = 'http://' + domain + '/' + service + '/?q=services/session/token'
+        token_request = requests.get(token_url, headers={"Cookie": cookie_header})
+        token = token_request.text
+        return token
 
     def get_helpers(self):
         return {'service_alerts': self._service_alerts, 'fetch_drupal_content': self._fetch_drupal_content}
 
     def get_auth_functions(self):
         return {'user_delete_me': user_delete_me}
+
+
+
