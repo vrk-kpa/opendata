@@ -45,7 +45,7 @@
                 <?php if (!user_is_logged_in()) { ?>
                 <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?> &gt;</a></li>
                 <?php } else { ?>
-                <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>"><?php global $user; print_r($user->name);?></a> | <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
+                <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>"><?php global $user; print_r($user->fullname);?></a> | <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
                 <?php } ?>
             <li><a href="#"><span class="icon icon-cart-navbar"></span> <?php echo t("Own checklist"); ?> (0)</a></li>
           </ul>

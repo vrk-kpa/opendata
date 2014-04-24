@@ -52,7 +52,7 @@
                 {% if not c.userobj %}
                 <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }} &gt;</a>
                 {% else %}
-                <a href="/data/{{ lang }}/user/{{ c.userobj.name }}">{{ c.userobj.name }}</a> | <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }} &gt;</a>
+                <a href="/data/{{ lang }}/user/{{ c.userobj.name }}">{{ c.userobj.full_name }}</a> | <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }} &gt;</a> 
                 {% endif %}
             </li>
             <li><a href="#"><span class="icon icon-cart-navbar"></span> {{ _('Own checklist') }} (0)</a></li>

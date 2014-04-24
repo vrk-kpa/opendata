@@ -41,27 +41,12 @@ function create_ytp_user_service($endpoint){
  
 function ytp_user_user_login(&$edit, $account) {
 
-	debug($account);
-	$namevar = $account -> name;
-	debug($namevar);
-	$ckan_user_json = file_get_contents("http://localhost/data/api/3/action/user_show?id=" . $namevar);
-	debug($ckan_user_json);
-	$php_user = json_decode($ckan_user_json);
-	debug($php_user);
-	global $user;
-	debug($user);
-	$user->fullname=$php_user->fullname;
-	debug($user);
-	$
+
 
 }
 function ytp_user_page_build(&$page){
 
-	//debug("'user_end'\n<br />\n");
-	//debug(services_endpoint_export(services_endpoint_load('user_end')));
-	//services_endpoint_save($endpoint); 
-	//debug("'user_service_name'\n<br />\n");
-	//debug(services_endpoint_export(services_endpoint_load('user_service_name')));
+
 
 }
 
