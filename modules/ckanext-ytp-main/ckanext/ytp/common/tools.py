@@ -1,6 +1,9 @@
 from ckan import model, plugins
 import sys
 import imp
+from ckan.plugins import toolkit
+from ckanext.ytp.common.converters import to_list_json, from_json_list
+from ckan.lib import helpers
 
 
 def create_system_context():
@@ -17,3 +20,46 @@ def get_original_method(module_name, method_name):
     reimport_module = imp.load_compiled('%s.reimport' % module_name, imported_module.__file__)
 
     return getattr(reimport_module, method_name)
+
+
+def get_locales():
+    return [locale.language for locale in helpers.get_available_locales()]
+
+
+def add_translation_modify_schema(schema):
+    ignore_missing = toolkit.get_validator('ignore_missing')
+    convert_to_extras = toolkit.get_converter('convert_to_extras')
+
+    schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
+    schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
+    return schema
+
+
+def add_languages_modify(schema, fields, locales=None):
+    if locales is None:
+        locales = get_locales()
+    ignore_missing = toolkit.get_validator('ignore_missing')
+    convert_to_extras = toolkit.get_converter('convert_to_extras')
+    for locale in locales:
+        for field in fields:
+            schema.update({"%s_%s" % (field, locale): [ignore_missing, unicode, convert_to_extras]})
+    return schema
+
+
+def add_translation_show_schema(schema):
+    ignore_missing = toolkit.get_validator('ignore_missing')
+    convert_from_extras = toolkit.get_converter('convert_from_extras')
+    schema.update({'original_language': [convert_from_extras, ignore_missing]})
+    schema.update({'translations': [convert_from_extras, from_json_list, ignore_missing]})
+    return schema
+
+
+def add_languages_show(schema, fields, locales=None):
+    if locales is None:
+        locales = get_locales()
+    convert_from_extras = toolkit.get_converter('convert_from_extras')
+    ignore_missing = toolkit.get_validator('ignore_missing')
+    for locale in locales:
+        for field in fields:
+            schema.update({"%s_%s" % (field, locale): [convert_from_extras, ignore_missing]})
+    return schema

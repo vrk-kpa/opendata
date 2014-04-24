@@ -1,0 +1,10 @@
+{% import 'macros/form.html' as form %}
+{% import 'macros/ytp_form.html' as ytp_form %}
+
+{{ form.select('implementation_style', label=_('Implementation style'), options={}, selected=None, error=errors.implementation_style, is_required=True) }}
+
+{{ form.select('organizer_or_responsible', label=_('Organizer or Responsible'), options={}, selected=None, error=errors.organizer_or_responsible, is_required=True) }}
+
+{{ ytp_form.input('service_producer_other', label=_('Service provider if other than organizer'), value=data.service_producer_other, placeholder='', error=errors.service_producer_other, locales=h.get_available_locales(), data=data) }}
+
+{{ ytp_form.input('service_type', label=_('Service type'), value=data.service_type, placeholder='', error=errors.service_type, locales=h.get_available_locales(), data=data) }}

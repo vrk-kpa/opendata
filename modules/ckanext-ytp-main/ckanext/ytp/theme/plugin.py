@@ -26,7 +26,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'], menu.PublishMenu, menu.PublishDataMenu),
                  (['/%(language)s/dataset/new?collection_type=Interoperability+Tools', '/dataset/new?collection_type=Interoperability+Tools'],
                   menu.PublishMenu, menu.PublishToolsMenu),
-                 (['/%(language)s/dataset/new?collection_type=Public+Services', '/dataset/new?collection_type=Public+Services'],
+                 (['/%(language)s/service/new', '/service/new'],
                   menu.PublishMenu, menu.PublishServiceMenu),
                  (['/%(language)s/dataset/new', '/dataset/new'], menu.PublishMenu, menu.PublishMainMenu)]
 

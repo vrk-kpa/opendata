@@ -1,0 +1,145 @@
+{% import 'macros/form.html' as form %}
+{% import 'macros/ytp_form.html' as ytp_form %}
+
+<p class="info-box">{{ _('Add service related service channel') }}</p>
+
+<ul class="nav nav-tabs nav-justified" data-service-tabs="service_channels">
+    <li data-service-tab="electronic_service" class="active"><a href="javascript:void(0);">+ {{ _('Electronic Service' ) }}</a></li>
+    <li data-service-tab="office_or_service_point"><a href="javascript:void(0);">+ {{ _('Office or Service Point') }}</a></li>
+    <li data-service-tab="postal_address"><a href="javascript:void(0);">+ {{ _('Postal Address') }}</a></li>
+    <li data-service-tab="telephone_service"><a href="javascript:void(0);">+ {{ _('Telephone Service') }}</a></li>
+</ul>
+
+<div data-service-contents="service_channels">
+    <div data-service-content="electronic_service">
+        {{ ytp_form.input('electronic_service_name', label=_('Electronic service name'), value=data.electronic_service_name, placeholder='', error=errors.electronic_service_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.input('electronic_service_alternative_name', label=_('Electronic service alternative name'), value=data.electronic_service_alternative_name, placeholder='', error=errors.electronic_service_alternative_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.markdown('electronic_service_description', id='field-electronic_service_description', label=_('Service description'), placeholder='', value=data.electronic_service_description, error=errors.electronic_service_description, locales=h.get_available_locales(), data=data) }}
+        {{ form.input('electronic_service_email', label=_('Email address'), value=data.electronic_service_email, placeholder='', error=errors.electronic_service_email) }}
+        {{ form.input('electronic_service_telephone_number', label=_('Telephone number'), value=data.electronic_service_telephone_number, placeholder='', error=errors.electronic_service_telephone_number) }}
+    </div>
+    <div data-service-content="office_or_service_point">
+        {{ ytp_form.input('office_name', label=_('Name'), value=data.office_name, placeholder='', error=errors.office_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.input('office_alternative_name', label=_('Alternative name'), value=data.office_alternative_name, placeholder='', error=errors.office_alternative_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.markdown('office_description', id='field-office_description', label=_('Service description'), placeholder='', value=data.office_description, error=errors.office_description, locales=h.get_available_locales(), data=data) }}
+        {{ form.input('office_email', label=_('Email address'), value=data.office_email, placeholder='', error=errors.office_email) }}
+        {{ form.input('office_telephone_number', label=_('Telephone number'), value=data.office_telephone_number, placeholder='', error=errors.office_telephone_number) }}
+
+        {% call form.input_block("opening_hours", _('Opening hours'), errors.opening_hours, [], extra_html="") %}
+            <table class="service-opening-hours">
+                <tbody>
+                        <tr>
+                            <td>{{ _("Mo") }}</td>
+                            <td><input type="text" name="open_monday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_monday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Tu") }}</td>
+                            <td><input type="text" name="open_tuesday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_tuesday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("We") }}</td>
+                            <td><input type="text" name="open_wednesday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_wednesday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Th") }}</td>
+                            <td><input type="text" name="open_thursday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_thursday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Fr") }}</td>
+                            <td><input type="text" name="open_friday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_friday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Sa") }}</td>
+                            <td><input type="text" name="open_saturday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_saturday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Su") }}</td>
+                            <td><input type="text" name="open_sunday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="open_sunday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                </tbody>
+            </table>
+        {% endcall %}
+
+    </div>
+    <div data-service-content="postal_address">
+        {{ form.input('postal_address', label=_('Postall address'), value=data.postal_address, placeholder='', error=errors.postal_address) }}
+        {{ form.input('postal_address_floor_and_room_number', label=_('Floor and room number'), value=data.postal_address_floor_and_room_number, placeholder='', error=errors.postal_address_floor_and_room_number) }}
+        {{ form.input('postal_address_postal_box', label=_('Postal Box'), value=data.postal_address_postal_box, placeholder='', error=errors.postal_address_postal_box) }}
+        {{ form.input('postal_address_postal_number', label=_('Postal Number'), value=data.postal_address_postal_number, placeholder='', error=errors.postal_address_postal_number) }}
+        {{ form.input('postal_address_post_office', label=_('Post office'), value=data.postal_address_post_office, placeholder='', error=errors.postal_address_post_office) }}
+        {{ form.input('postal_address_country', label=_('Contry'), value=data.postal_address_country, placeholder='', error=errors.postal_address_country) }}
+    </div>
+    <div data-service-content="telephone_service">
+        {{ ytp_form.input('telephone_service_name', label=_('Name'), value=data.telephone_service_name, placeholder='', error=errors.telephone_service_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.input('telephone_service_alternative_name', label=_('Alternative name'), value=data.telephone_service_alternative_name, placeholder='', error=errors.telephone_service_alternative_name, locales=h.get_available_locales(), data=data) }}
+        {{ ytp_form.markdown('telephone_service_description', id='field-telephone_service_description', label=_('Service description'), placeholder='', value=data.telephone_service_description, error=errors.telephone_service_description, locales=h.get_available_locales(), data=data) }}
+
+        {{ form.input('telephone_service_telephone_number', label=_('Telephone number'), value=data.telephone_service_telephone_number, placeholder='', error=errors.telephone_service_telephone_number, is_required=true) }}
+        {{ form.input('telephone_service_sms_service', label=_('SMS service'), value=data.telephone_service_sms_service, placeholder='', error=errors.telephone_service_sms_service) }}
+        {{ form.input('telephone_service_fax_service', label=_('Fax service'), value=data.telephone_service_fax_service, placeholder='', error=errors.telephone_service_fax_service) }}
+        {{ form.input('telephone_service_email', label=_('Email address'), value=data.telephone_service_email, placeholder='', error=errors.telephone_service_email) }}
+
+        {% call form.input_block("telephone_service_opening_hours", _('Opening hours'), errors.opening_hours, [], extra_html="") %}
+            <table class="service-opening-hours">
+                <tbody>
+                        <tr>
+                            <td>{{ _("Mo") }}</td>
+                            <td><input type="text" name="telephone_service_open_monday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_monday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Tu") }}</td>
+                            <td><input type="text" name="telephone_service_open_tuesday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_tuesday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("We") }}</td>
+                            <td><input type="text" name="telephone_service_open_wednesday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_wednesday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Th") }}</td>
+                            <td><input type="text" name="telephone_service_open_thursday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_thursday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Fr") }}</td>
+                            <td><input type="text" name="telephone_service_open_friday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_friday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Sa") }}</td>
+                            <td><input type="text" name="telephone_service_open_saturday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_saturday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                        <tr>
+                            <td>{{ _("Su") }}</td>
+                            <td><input type="text" name="telephone_service_open_sunday_from" value="" placeholder="{{ _('08:00') }}" /></td>
+                            <td class="service-opening-hours-separate">-</td>
+                            <td><input type="text" name="telephone_service_open_sunday_till" value="" placeholder="{{ _('16:00') }}" /></td>
+                        </tr>
+                </tbody>
+            </table>
+        {% endcall %}
+    </div>
+</div>
