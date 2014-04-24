@@ -71,6 +71,8 @@ class Drupal7Plugin(p.SingletonPlugin):
             raise Exception('Drupal7 extension has not been configured')
 
         self.domains = [item.strip() for item in domain.split(",")]
+        log.error(('domain: ', domain, ' domains: ', self.domains))
+        self.domain = self.domains[0]
 
     def before_map(self, map):
         map.connect(

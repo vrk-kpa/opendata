@@ -11,6 +11,8 @@ from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
 
+from pylons import request, response
+
 import json
 import logging
 import sqlalchemy
@@ -63,27 +65,38 @@ def _update_drupal_user(context, data_dict):
         # print('helper called, host1: ' + host1)
         print(dir(drupal7))
         host = drupal7.get_domain()
+
+        # Get Drupal cookie from cookies
+        request_cookies = request.cookies
+        session_cookie = None
+        for cookie_key in request_cookies:
+            if cookie_key[:4] == 'SESS':
+                session_cookie = (cookie_key, request_cookies[cookie_key])
+        cookie_header = session_cookie[0] + "=" + session_cookie[1]
+        print(cookie_header)
         print('host: ' + host)
-        token_url = '%s/user_2/?q=services/session/token' % host
-        token_request = requests.get(token_url)
+        token_url = 'http://%s/user_2/?q=services/session/token' % host
+        token_request = requests.get(token_url, headers={"Cookie": cookie_header})
         log.warning(token_request.status_code)
-        print('token_request.status_code: ' + token_request.status_code)
-        token = tokent_request.text
+        print('token_request.status_code: ' + repr(token_request.status_code))
+        token = token_request.text
+        log.warning('request: ' + token)
         duid = str(ytp_drupal.get_drupal_user_id(c.user))
         print(duid)
-        update_url = host + '/user_2/' + duid + '.json'
-        payload = {"field_fullname": {"und": [{"value":  fullname  , "format": null, "safe_value":  fullname }]}}
-        headers = {"Content-type" : "application/json", "X-CSRF-Token" : token}
+        update_url = 'http://' + host + '/user_2/user/' + duid + '.json'
+        payload = {"field_fullname": {"und": [{"value":  fullname  , "format": None, "safe_value":  fullname }]}}
+        headers = {"Content-type" : "application/json", "X-CSRF-Token" : token, "Cookie": cookie_header}
         r = requests.put(update_url, data=json.dumps(payload), headers=headers)
         if r.status_code == requests.codes.ok :
             return True
         else:
-            log.error(str(r.status_code))
+            log.error("statuscode not ok: " + repr(r.status_code))
+            log.error(repr(r.text))
             return False
-    finally:
-        log.error('lg.e.finally')
-        print('p.finally')
+    except Exception as e:
+        print("Exception: ", e)
         return False
+
 
 @side_effect_free
 def action_user_show(context, data_dict):
