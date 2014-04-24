@@ -3,10 +3,15 @@
 {# Note: ckanext-ytp-drupal overrides header block #}
 
 {% block secondary %}
+    {% set inner = self.secondary_inner() %}
+    {% if inner | trim %}
     <aside class="secondary col-xs-12">
-    {%- include('ytp/menu.html') -%}
-    {% block secondary_content %}{% endblock %}
+    {% block secondary_inner %}
+        {%- include('ytp/menu.html') -%}
+        {% block secondary_content -%}{%- endblock %}
+    {% endblock %}
     </aside>
+    {% endif %}
 {% endblock %}
 
 {% block primary %}

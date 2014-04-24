@@ -116,6 +116,12 @@
       </div>
     <?php } ?>
 
+    <div id="responsive-browse-panel" class="panel panel-default visible-xs">
+      <div class="panel-body">
+        <a href="<?php print "data/" . $language->language . "/dataset" ?>"> <?php print t('Browse Datasets') ?></a>
+      </div>
+    </div>
+
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if (!empty($title)): ?>
