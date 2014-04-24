@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 
+import ckan.logic.schema
+
 from ckan import plugins, model
 from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Invalid
-from ckan.common import _
-from sqlalchemy import event
-import ckanext.ytp.organizations.logic.action as action
+from ckan.common import _, c
+from ckan.logic import NotFound
+from ckan.plugins import toolkit
+
+from ckanext.ytp.organizations.logic import action
 from ckanext.ytp.organizations import auth
+from ckanext.ytp.common.tools import create_system_context, get_original_method
+
 import logging
 import pylons
-
-import ckan.logic.schema
-from ckan.common import c
-
-from ckan.plugins import toolkit
 import ast
 import datetime
-
 
 log = logging.getLogger(__name__)
 
@@ -50,41 +50,31 @@ def _configure(config=None):
     _default_organization_title = _get_variable(config, "default_organization_title")
 
 
-def _user_modified_listener(user_object):
+def _user_has_organization(username):
+    user = model.User.get(username)
+    if not user:
+        raise NotFound("Failed to find user")
+    query = model.Session.query(model.Member).filter(model.Member.table_name == 'user').filter(model.Member.table_id == user.id)
+    return query.count() > 0
+
+
+def _create_default_organization(context, organization_name, organization_title):
+    values = {'name': organization_name, 'title': organization_title, 'id': organization_name}
+    try:
+        return plugins.toolkit.get_action('organization_show')(context, values)
+    except NotFound:
+        return plugins.toolkit.get_action('organization_create')(context, values)
+
+
+def action_user_create(context, data_dict):
     _configure()
-    import uuid
-    from ckan.lib.celery_app import celery
 
-    celery.send_task("ckanext.ytp.organizations.default_organization", args=(user_object.id, _default_organization_name, _default_organization_title),
-                     task_id=str(uuid.uuid4()))
+    result = get_original_method('ckan.logic.action.create', 'user_create')(context, data_dict)
+    context = create_system_context()
+    organization = _create_default_organization(context, _default_organization_name, _default_organization_title)
+    plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'], "username": result['name'], "role": "editor"})
 
-
-class UserEventListener(object):
-    _users = []
-
-    def __init__(self, method):
-        super(UserEventListener, self).__init__()
-        event.listen(model.Session, 'after_commit', self._session_listener)
-        event.listen(model.User, 'after_insert', self._user_model_listener)
-        event.listen(model.User, 'after_update', self._user_model_listener)
-        self.method = method
-
-    def clear(self):
-        self._users = []
-
-    def _session_listener(self, session):
-        if not self._users:
-            return
-        for user in self._users:
-            self.method(user)
-        self.clear()
-
-    def _user_model_listener(self, target, value, initiator):
-        if isinstance(initiator, model.User):
-            if initiator.state == "active":
-                self._users.append(initiator)
-        else:
-            log.warning("User listener called with non user object %s" % str(type(initiator)))
+    return result
 
 
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
@@ -93,10 +83,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IActions)
 
     def configure(self, config):
         _configure(config)
-        self.events = UserEventListener(_user_modified_listener)
 
     def group_title_validator(self, key, data, errors, context):
         """ Validator to prevent duplicate title.
@@ -257,6 +247,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update}
+
+    def get_actions(self):
+        return {'user_create': action_user_create}
 
 
 # From ckanext-hierarchy
