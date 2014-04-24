@@ -1,13 +1,25 @@
-{% ckan_extends %}
+{% extends "ckan_page.html" %}
 
 {# Note: ckanext-ytp-drupal overrides header block #}
 
-
 {% block secondary %}
-    <aside class="secondary">
-    {%- include('ytp/menu.html') -%}
-    {% block secondary_content %}{% endblock %}
+    {% set inner = self.secondary_inner() %}
+    {% if inner | trim %}
+    <aside class="secondary col-xs-12">
+    {% block secondary_inner %}
+        {%- include('ytp/menu.html') -%}
+        {% block secondary_content -%}{%- endblock %}
+    {% endblock %}
     </aside>
+    {% endif %}
+{% endblock %}
+
+{% block primary %}
+    <div class="primary col-xs-12">
+        {% block primary_content %}
+            {{ super() }}
+        {% endblock %}
+    </div>
 {% endblock %}
 
 {%- block footer %}

@@ -84,6 +84,8 @@ licenses_group_url = file://{{ ckan_files_path }}/license.json
 ckanext.ytp.organizations.default_organization_name = yksityishenkilo
 ckanext.ytp.organizations.default_organization_title = Yksityishenkil\u00f6
 
+ckanext.ytp.dataset.service_database_enabled = {% if service_database_enabled -%}true{%- else -%}false{%- endif %}
+
 # 2.1 filestore:
 ofs.impl = pairtree
 ofs.storage_dir = {{ ckan_files_path }}
