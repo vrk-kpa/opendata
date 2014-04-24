@@ -43,6 +43,12 @@
           {% endblock %}
 
           <div class="wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' %} no-nav{% endif %}">
+            {#
+                The pre_primary block can be used to add content to before the
+                rendering of the main content columns of the page.
+                #}
+            {% block pre_primary %}
+            {% endblock %}
 
               {% block secondary %}
                   <aside class="secondary">
@@ -62,12 +68,7 @@
                   </aside>
               {% endblock %}
 
-            {#
-            The pre_primary block can be used to add content to before the
-            rendering of the main content columns of the page.
-            #}
-            {% block pre_primary %}
-            {% endblock %}
+
 
             {% block primary %}
               <div class="primary">
