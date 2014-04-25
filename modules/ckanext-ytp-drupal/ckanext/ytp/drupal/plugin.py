@@ -6,7 +6,7 @@ from ckan.common import c
 from ckan.logic import NotFound
 from ckan.lib import helpers
 
-from pylons import request, response
+from pylons import request
 
 import requests
 import urllib
@@ -98,6 +98,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
         for row in result:
             return row[0]
         raise NotFound
+
     def get_drupal_session_cookie(self):
         '''returns tuple of (cookie_name, cookie_value)'''
         request_cookies = request.cookies
@@ -119,6 +120,3 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
 
     def get_auth_functions(self):
         return {'user_delete_me': user_delete_me}
-
-
-
