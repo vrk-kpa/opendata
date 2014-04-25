@@ -80,7 +80,8 @@ Vagrant command looks for Vagrantfile which contains all the virtual machine con
 
 If you need to make adjustments to the provisioning configuration, you can either edit the Ansible settings in the Vagrant file, or simply run Ansible without Vagrant:
 
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local # from the main ytp directory
+    # cd into the main ytp directory (cd /src inside vagrant)
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local
 
 If you are using ssh keys the following may suffice:
 
