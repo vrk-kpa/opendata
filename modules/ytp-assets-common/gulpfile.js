@@ -77,5 +77,5 @@ gulp.task('default', function(callback) {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(paths.src.less+'/**/*.less', ['default']);
+  gulp.watch([paths.src.less+'/**/*.less', paths.src.templates], ['default']);
 });
