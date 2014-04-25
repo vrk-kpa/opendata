@@ -1,4 +1,3 @@
-
 # Local installation
 
 
@@ -13,8 +12,6 @@ Fetch source codes
 
     git clone https://github.com/yhteentoimivuuspalvelut/ytp.git
     cd ytp
-    git submodule init
-    git submodule update 
 
 Note that if submodules are updated, you need to `init` and `update` those after `pull`.
 
