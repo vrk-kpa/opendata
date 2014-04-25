@@ -82,6 +82,10 @@ If you need to make adjustments to the provisioning configuration, you can eithe
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local # from the main ytp directory
 
+If you are using ssh keys the following may suffice:
+
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/site.yml --skip-tags=has-hostname,non-local
+
 
 ### Access to service
 
