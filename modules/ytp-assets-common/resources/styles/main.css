@@ -3856,7 +3856,7 @@ article.module {
 .dataset-title,
 .content-heading,
 .page-heading {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #999999;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -4302,6 +4302,30 @@ dd {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.dataset-form .nav-tabs.nav-justified > li > a {
+  min-height: 36px;
+}
+.dataset-form .nav-tabs > li.active > a,
+.dataset-form .nav-tabs > li.active > a:hover,
+.dataset-form .nav-tabs > li.active > a:focus {
+  background-color: #E9F6FA;
+}
+.dataset-form h2 {
+  margin: 0 0.5em;
+  border-bottom: 1px solid #999999;
+}
+.dataset-form .service-opening-hours td {
+  min-width: 2em;
+}
+.dataset-form .service-opening-hours-separate {
+  min-width: 1em;
+  text-align: center;
+  border: 0;
+}
+.dataset-form .service-opening-hours input {
+  text-align: center;
+  width: 5em;
+}
 
 .translate-content {
   background-color: #e9f6fa;
@@ -4474,7 +4498,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1398342078884") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1398421807048") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4486,7 +4510,7 @@ h3 {
   margin-top: 0;
 }
 h3 {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #999999;
   margin-bottom: 16px;
 }
 h4 {
@@ -4504,7 +4528,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1398342078884');
+  background-image: url('../images/sprite.png?timestamp=1398421807048');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4514,7 +4538,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1398342078884');
+  background-image: url('../images/sprite.png?timestamp=1398421807048');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4578,7 +4602,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1398342078884") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1398421807048") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4711,7 +4735,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1398342078884');
+  background-image: url('../images/navbar-main-background.png?timestamp=1398421807048');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -4775,7 +4799,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1398342078884');
+  background: url('../images/search-button.png?timestamp=1398421807048');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -4851,7 +4875,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1398342078884');
+  background-image: url('../images/sprite.png?timestamp=1398421807048');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
