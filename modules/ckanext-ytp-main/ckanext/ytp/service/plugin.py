@@ -1,26 +1,11 @@
-from ckan import plugins, model
+from ckan import plugins
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing
-from ckan.lib import helpers
-from ckan.common import _, c, request
+from ckan.common import c, request
 
-from webhelpers.html import escape, literal
-from pylons import config
-
-from ckanext.ytp.dataset.converters import convert_to_tags_string, date_validator, string_join
-from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
-
-import types
-import re
-import logging
-from ckanext.ytp.dataset.helpers import service_database_enabled
+from ckanext.ytp.common.converters import to_list_json, is_url
 from ckanext.ytp.common.tools import add_translation_modify_schema, add_languages_modify, add_languages_show
 
-
-try:
-    from collections import OrderedDict  # 2.7
-except ImportError:
-    from sqlalchemy.util import OrderedDict
+import logging
 
 log = logging.getLogger(__name__)
 

@@ -29,6 +29,7 @@ OPEN_DATA = 'Open Data'
 INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
+
 def _escape(value):
     return escape(unicode(value))
 
@@ -111,7 +112,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
-
 
         schema = add_languages_modify(schema, self._localized_fields)
 

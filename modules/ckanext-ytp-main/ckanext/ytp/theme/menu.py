@@ -179,7 +179,6 @@ class PublishServiceMenu(MenuItem):
         return helpers.url_for('service_new')
 
 
-
 class PublishToolsMenu(_CommonPublishMenu):
     def __init__(self):
         super(PublishToolsMenu, self).__init__(_("Publish Tools and Instructions"), 'Interoperability Tools')
