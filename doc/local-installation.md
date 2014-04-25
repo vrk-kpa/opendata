@@ -33,7 +33,6 @@ We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible 
     sudo apt-get update
     sudo apt-get install virtualbox-4.3
 
-
 ### Install Vagrant from package
 
 Download Vagrant latest 64-bit version for Ubuntu from [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
@@ -50,6 +49,11 @@ We use [Ansible](http://www.ansible.com) configuration management to automate pr
     sudo apt-get install ansible
     sudo apt-get install python-keyczar
 
+**If you are using Windows host, install and use Ansible from inside your virtual machine:**
+
+    vagrant ssh
+    sudo apt-get install ansible
+    sudo apt-get install python-keyczar
 
 ### Run Vagrant and start Ansible installation
 
