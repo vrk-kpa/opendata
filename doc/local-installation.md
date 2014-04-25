@@ -13,9 +13,6 @@ Fetch source codes
     git clone https://github.com/yhteentoimivuuspalvelut/ytp.git
     cd ytp
 
-Note that if submodules are updated, you need to `init` and `update` those after `pull`.
-
-
 ## Vagrant
 
 We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible development environment for the project.
