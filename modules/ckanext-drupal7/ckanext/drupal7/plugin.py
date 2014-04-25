@@ -162,7 +162,7 @@ class Drupal7Plugin(p.SingletonPlugin):
         # HTTP Status 401 causes a login redirect.  We need to prevent this
         # unless we are actually trying to login.
         if (status_code == 401
-            and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
+                and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
                 h.redirect_to('drupal7_unauthorized')
         return (status_code, detail, headers, comment)
 

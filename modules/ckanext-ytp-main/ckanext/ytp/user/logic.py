@@ -9,8 +9,6 @@ from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
 
-from pylons import request, response
-
 import requests
 import json
 import logging
@@ -42,6 +40,7 @@ def _add_user_extras(user_obj, user_dict):
         )
     return user_dict
 
+
 def _update_drupal_user(context, data_dict):
     resource = 'user'
     path = 'user_2'
@@ -53,7 +52,7 @@ def _update_drupal_user(context, data_dict):
             log.error('ytp_drupal not found')
             raise NotFound
         drupal7 = get_plugin('drupal7')
-        if not drupal7 :
+        if not drupal7:
             log.error('drupal7 not found')
             raise NotFound
         host = drupal7.get_domain()
@@ -65,10 +64,10 @@ def _update_drupal_user(context, data_dict):
         token = ytp_drupal.get_drupal_session_token(host, path, cookie_header)
         duid = str(ytp_drupal.get_drupal_user_id(c.user))
         update_url = 'http://' + host + '/' + path + '/' + resource + '/' + duid + '.json'
-        payload = {"field_fullname": {"und": [{"value":  fullname  , "format": None, "safe_value":  fullname }]}}
-        headers = {"Content-type" : "application/json", "X-CSRF-Token" : token, "Cookie": cookie_header}
+        payload = {"field_fullname": {"und": [{"value":  fullname, "format": None, "safe_value":  fullname}]}}
+        headers = {"Content-type": "application/json", "X-CSRF-Token": token, "Cookie": cookie_header}
         r = requests.put(update_url, data=json.dumps(payload), headers=headers)
-        if r.status_code == requests.codes.ok :
+        if r.status_code == requests.codes.ok:
             return True
         else:
             log.error("put " + update_url + " fails with http " + repr(r.status_code))

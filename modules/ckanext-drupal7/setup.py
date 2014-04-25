@@ -8,7 +8,7 @@ setup(
     description="Drupal User Integration",
     long_description="""\
     """,
-    classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='',
     author='Toby dacre',
     author_email='toby.dacre@okfn.org',
@@ -21,7 +21,7 @@ setup(
     install_requires=[
         # -*- Extra requirements: -*-
     ],
-    entry_points=\
+    entry_points=
     """
     [ckan.plugins]
 
