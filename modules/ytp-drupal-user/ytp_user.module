@@ -39,17 +39,6 @@ function create_ytp_user_service($endpoint){
 	return $endpoint;
 }
  
-function ytp_user_user_login(&$edit, $account) {
-
-
-
-}
-function ytp_user_page_build(&$page){
-
-
-
-}
-
 
 function ytp_user_enable() {
 
@@ -98,6 +87,3 @@ function ytp_user_disable(){
 	}
 }
 
-function ytp_user_user_insert(&$edit, $account, $category){
-	
-}
