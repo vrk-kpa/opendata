@@ -52,6 +52,16 @@ We use [Ansible](http://www.ansible.com) configuration management to automate pr
     sudo apt-get install ansible
     sudo apt-get install python-keyczar
 
+### Generate keys for Ansible
+
+Run inside virtual machine:
+
+    ssh-keygen -t rsa
+    
+Append generated key into authorized_keys:
+
+    cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+
 ### Run Vagrant and start Ansible installation
 
 Vagrant command looks for Vagrantfile which contains all the virtual machine configurations, therefore you should run the command in the vagrant directory (`cd ytp/vagrant`).
