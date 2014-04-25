@@ -1,4 +1,3 @@
-
 # Local installation
 
 
@@ -13,11 +12,6 @@ Fetch source codes
 
     git clone https://github.com/yhteentoimivuuspalvelut/ytp.git
     cd ytp
-    git submodule init
-    git submodule update 
-
-Note that if submodules are updated, you need to `init` and `update` those after `pull`.
-
 
 ## Vagrant
 
@@ -36,7 +30,6 @@ We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible 
     sudo apt-get update
     sudo apt-get install virtualbox-4.3
 
-
 ### Install Vagrant from package
 
 Download Vagrant latest 64-bit version for Ubuntu from [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
@@ -53,6 +46,21 @@ We use [Ansible](http://www.ansible.com) configuration management to automate pr
     sudo apt-get install ansible
     sudo apt-get install python-keyczar
 
+**If you are using Windows host, install and use Ansible from inside your virtual machine:**
+
+    vagrant ssh
+    sudo apt-get install ansible
+    sudo apt-get install python-keyczar
+
+### Generate keys for Ansible
+
+Run inside virtual machine:
+
+    ssh-keygen -t rsa
+    
+Append generated key into authorized_keys:
+
+    cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
 
 ### Run Vagrant and start Ansible installation
 
@@ -72,7 +80,12 @@ Vagrant command looks for Vagrantfile which contains all the virtual machine con
 
 If you need to make adjustments to the provisioning configuration, you can either edit the Ansible settings in the Vagrant file, or simply run Ansible without Vagrant:
 
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local # from the main ytp directory
+    # cd into the main ytp directory (cd /src inside vagrant)
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local
+
+If you are using ssh keys the following may suffice:
+
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/site.yml --skip-tags=has-hostname,non-local
 
 
 ### Access to service
