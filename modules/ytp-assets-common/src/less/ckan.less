@@ -98,7 +98,7 @@ input[type="date"] {
 }
 
 .dataset-title, .content-heading, .page-heading  {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid @header-text-border;
   .text-overflow;
 }
 
@@ -536,4 +536,29 @@ dd {
 
 .resource-item{
   .text-overflow;
+}
+
+.dataset-form {
+    .nav-tabs.nav-justified > li > a {
+        min-height: 36px; 
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        background-color: #E9F6FA;
+    }
+    h2 {
+        margin: 0 0.5em;
+        border-bottom: 1px solid @header-text-border;
+    }
+    .service-opening-hours td {
+        min-width: 2em;
+    }
+    .service-opening-hours-separate {
+        min-width: 1em;
+        text-align: center;
+        border: 0;
+    }
+    .service-opening-hours input {
+        text-align: center;
+        width: 5em;
+    }
 }

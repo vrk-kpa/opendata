@@ -170,9 +170,13 @@ class _CommonPublishMenu(MenuItem):
         return helpers.url_for('add dataset', **arguments)
 
 
-class PublishServiceMenu(_CommonPublishMenu):
+class PublishServiceMenu(MenuItem):
     def __init__(self):
-        super(PublishServiceMenu, self).__init__(_("Publish Public Service"), 'Public Services')
+        super(PublishServiceMenu, self).__init__()
+        self.title = _("Publish Public Service")
+
+    def link(self):
+        return helpers.url_for('service_new')
 
 
 class PublishToolsMenu(_CommonPublishMenu):
