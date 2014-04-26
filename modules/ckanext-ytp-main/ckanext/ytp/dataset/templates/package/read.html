@@ -1,17 +1,17 @@
 {% ckan_extends %}
 
 {% block primary %}
+    {% block content_action %}
+    <div class="pull-right">
+        {{ super() }}
+    </div>
+    {% endblock %}
     <h1 class="dataset-title">
         {% block page_heading %}
             {{ h.extra_translation(pkg, 'title') or pkg.name }}
             {% if pkg.state.startswith('draft') %}
                 [{{ _('Draft') }}]
             {% endif %}
-        {% endblock %}
-        {% block content_action %}
-        <div class="pull-right">
-            {{super()}}
-        </div>
         {% endblock %}
     </h1>
     {% snippet "package/snippets/subtitle_byline.html", pkg=pkg %}

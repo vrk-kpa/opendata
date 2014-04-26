@@ -1,21 +1,33 @@
-<div class="byline">	<span  class="byline-dataset">
-{{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y") }} {% if pkg.organization -%}
-	|<a href="/data/organization/{{pkg.organization.get('name') }}">
-	{{ pkg.organization.get('title') }}</a>
-{%- endif -%}
-</span>  
- <span  class="byline-dataset"> add note | translations </span> <br />
-    {% if pkg.collection_type -%}
- <span class="byline-contentype"><a href="/data/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a> </span>
-    {%- endif -%}
-{%- if pkg.get('resources') -%}
-	{% set formats = h.unique_formats(pkg.get('resources')) %}
-<span class="byline-dataset"> 
-	{%- for format in formats -%}
-		{{_(format)}}
-	{%- if not loop.last %} | {% endif -%}
-	{%- endfor -%}
-</span>
-{%- endif -%}
 
+<div class="byline">
+    {% if pkg.collection_type -%}
+        <span class="byline-contentype"><a href="/data/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a></span>
+    {%- endif -%}
+
+    <span  class="byline-dataset">
+        {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y") }}
+        {% if pkg.organization -%}
+            | <a href="/data/organization/{{ pkg.organization.get('name') }}">
+            {{ pkg.organization.get('title') }}</a>
+        {%- endif -%}
+    </span>
+
+    {% if pkg.translations and pkg.translations.append %}
+    <span class="byline-dataset">
+        | {{ _('Languages') }}: 
+        {% for translation in pkg.translations %}
+            <a href="{{ h.url_for('dataset_read', id=pkg.name, locale=translation) }}">{{ h.get_locales_dict()[translation].get_display_name(h.lang()) }}</a>
+        {% endfor %}
+    </span>
+    {% endif %}
+
+    {%- if pkg.get('resources') -%}
+        {% set formats = h.unique_formats(pkg.get('resources')) %}
+        <span class="byline-dataset"> 
+            {%- for format in formats -%}
+                {{_(format)}}
+                {%- if not loop.last %} | {% endif -%}
+            {%- endfor -%}
+        </span>
+    {%- endif -%}
 </div>
