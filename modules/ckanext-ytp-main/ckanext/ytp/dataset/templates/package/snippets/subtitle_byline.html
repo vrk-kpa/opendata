@@ -14,9 +14,14 @@
 
     {% if pkg.translations and pkg.translations.append %}
     <span class="byline-dataset">
-        | {{ _('Languages') }}: 
+        {% set current_language = h.lang() %}
+        {% set locales_dictionary = h.get_locales_dict() %}
+        | {{ _('Languages') }}:
+        {% if pkg.original_language %}
+        <a href="{{ h.url_for('dataset_read', id=pkg.name, locale=translation) }}">{{ locales_dictionary[pkg.original_language].get_display_name(current_language) }}</a>
+        {% endif %}
         {% for translation in pkg.translations %}
-            <a href="{{ h.url_for('dataset_read', id=pkg.name, locale=translation) }}">{{ h.get_locales_dict()[translation].get_display_name(h.lang()) }}</a>
+            <a href="{{ h.url_for('dataset_read', id=pkg.name, locale=translation) }}">{{ locales_dictionary[translation].get_display_name(current_language) }}</a>
         {% endfor %}
     </span>
     {% endif %}
