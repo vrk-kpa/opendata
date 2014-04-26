@@ -100,6 +100,6 @@
     {{ form.input('target_groups', id='field-target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups) }}
     {{ ytp_form.markdown('usage_requirements', id='field-usage_requirements', label=_('Usage Requirements'), placeholder='', value=data.usage_requirements, error=errors.usage_requirements, locales=h.get_available_locales(), data=data) }}
 
-    {{ form.hidden("ytp", "true") }}
+    {{ form.hidden("ytp", "true") }}
 
 {% endblock %}

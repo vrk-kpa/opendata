@@ -23,7 +23,7 @@
             {% set locale_value = data[locale_field_name] %}
             <div class="translation-container" translation-data-locale="{{ locale.language }}">
                 <div class="input-group">
-                    <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
+                    <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
                     <input id="{{ locale_field_name }}" type="{{ type }}" translation-data-locale="{{ locale.language }}" name="{{ locale_field_name }}" value="{{ locale_value | empty_and_escape }}" class="translation-input form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
                 </div>
             </div>
@@ -54,7 +54,7 @@
             {% set locale_value = data[locale_field_name] %}
         <div class="translation-container" translation-data-locale="{{ locale.language }}">
             <div class="input-group">
-                <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
+                <span translation-data-locale="{{ locale.language }}" class="translation-input-language input-group-addon">{{ locale.language }}</span>
                 <textarea id="{{ locale_field_name }}" name="{{ locale_field_name }}" translation-data-locale="{{ locale.language }}" cols="20" rows="5" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} class="translation-input">{{ locale_value | empty_and_escape }}</textarea>
             </div>
         </div>

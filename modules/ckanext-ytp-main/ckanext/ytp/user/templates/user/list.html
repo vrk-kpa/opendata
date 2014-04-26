@@ -29,7 +29,7 @@
                 <p>
                 {% set main_organization = h.main_organization(user[0]).display_name %}
                 {%- if user[0].extras -%}
-                  {{ user[0].extras['job_title'] }}
+                  {{ user[0].extras['job_title'] }}
                   {%- if main_organization -%}
                   ,
                   {%- endif %}

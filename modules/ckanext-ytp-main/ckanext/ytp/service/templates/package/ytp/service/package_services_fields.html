@@ -28,7 +28,7 @@
 {{ form.input('service_duration_per_customer', label=_('Estimated duration per customer'), value=data.service_duration_per_customer, placeholder='', error=errors.service_duration_per_customer) }}
 
 
-<h2>{{ _('Remote Service (video connection)') }}</h2>
+<h2>{{ _('Remote Service (video connection)') }}</h2>
 
 {% call form.input_block("remote_service", _('Remote service'), errors.remote_service, [], extra_html="") %}
 <div class="radio-select-label">

@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _('Create Dataset') }}{% endblock %}
 
 {% block primary_content %}
-    <h1 class="content-heading">{{ _("Publish Data") }}</h1>
+    <h1 class="content-heading">{{ _("Publish Data") }}</h1>
     {{ super() }}
 {% endblock %}
 
@@ -13,9 +13,9 @@
     {% set publish_content = h.fetch_drupal_content('publish') %}
     {% if publish_content %}
     {% if c.userobj.sysadmin %}
-        <a class="right-action" href="{{ publish_content.edit }}">{{ _('Edit content') }}</a>
+        <a class="right-action" href="{{ publish_content.edit }}">{{ _('Edit content') }}</a>
     {% endif %}
-    {{ publish_content.body }}
+    {{ publish_content.body }}
     {% endif %}
 </div>
 

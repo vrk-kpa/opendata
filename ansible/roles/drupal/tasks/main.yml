@@ -243,7 +243,7 @@
 - name: Set Drupal remote variables
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
   with_items:
-    - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
+    - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
   tags:
   - drupal-configuration
   - drupal
@@ -301,9 +301,9 @@
 - name: Set user roles
   command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
   with_items:
-  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
-  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
-  - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_editor_rolename }}" }
+  - { username: "{{ drupal_default_editor_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
+  - { username: "{{ drupal_admin_username }}", role: "{{ drupal_ckan_admin_rolename }}" }
   tags:
   - drupal
 
