@@ -3,8 +3,6 @@
 {% import 'macros/ytp_form.html' as ytp_form %}
 
 {% block package_basic_fields_title %}
-    {% resource "ytp_common_js/ytp_form.js" %}
-
     <div class="control-group">
       <label for="field-organizations" class="control-label">{{ _('Collection Type') }}</label>
       <div class="controls">
@@ -14,7 +12,7 @@
 
     {{ form.hidden('collection_type', 'Public Service') }}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), data=data, slug=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
 
     {{ ytp_form.input('alternative_title', id='field-alternative_title', label=_('Alternative Title'), placeholder=_('eg. A descriptive title'), value=data.alternative_title, error=errors.alternative_title, locales=h.get_available_locales(), data=data) }}
 

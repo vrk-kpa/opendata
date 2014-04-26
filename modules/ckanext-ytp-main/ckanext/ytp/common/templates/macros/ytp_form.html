@@ -5,13 +5,16 @@
 
 {% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none, slug=false) %}
   {%- set extra_html = caller() if caller -%}
-
+  {%- set slug_attributes = {} -%}
+  {%- if slug -%}
+    {%- set slug_attributes = {'data-module': 'slug-preview-target'} -%}
+  {%- endif -%}
   {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
     <div class="translation-list">
         <div class="translation-container">
             <div class="input-group">
                 <span class="translation-input-language input-group-addon translation-input-original"></span>
-                <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" class="translation-input form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+                <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" class="translation-input form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} {{ form.attributes(slug_attributes) }} />
             </div>
         </div>
 

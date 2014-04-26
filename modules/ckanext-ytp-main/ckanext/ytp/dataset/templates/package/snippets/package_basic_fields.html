@@ -3,8 +3,6 @@
 {% import 'macros/ytp_form.html' as ytp_form %}
 
 {% block package_basic_fields_title %}
-    {% resource "ytp_common_js/ytp_form.js" %}
-
     {# YTP extensions to dataset #}
 
     {% if data.collection_type %}
@@ -40,7 +38,7 @@
         {% endcall %}
     {% endif %}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}, locales=h.get_available_locales(), data=data, slug=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
 
 {% endblock %}
 
