@@ -13,7 +13,11 @@
     {% endif %}
   {% endblock %}
 
-  {% include "package/ytp/language_bar.html" %}
+  {% set translate_data = data %}
+  {% if not data.translations %}
+    {% set translate_data = h.get_action('package_show', {'id': pkg_name}) %}
+  {% endif %} 
+  {{ h.snippet('package/ytp/language_bar.html', data=translate_data) }}
   <div class="translate-content">
 
   {{ form.errors(error_summary) }}
