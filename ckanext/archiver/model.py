@@ -121,7 +121,20 @@ class Archival(Base):
 
     @classmethod
     def get_for_resource(cls, resource_id):
+        '''Returns the archival for the given resource, or if it doens't exist,
+        returns None.'''
         return model.Session.query(cls).filter(cls.resource_id==resource_id).first()
+
+    @classmethod
+    def get_for_package(cls, package_id):
+        '''Returns the archivals for the given package. May not be any if the
+        package has no resources or has not been archived. It checks the
+        resources are not deleted.'''
+        return model.Session.query(cls) \
+                    .filter(cls.package_id==package_id) \
+                    .join(model.Resource, cls.resource_id==model.Resource.id) \
+                    .filter(model.Resource.state=='active') \
+                    .all()
 
     @classmethod
     def create(cls, resource_id):
@@ -143,6 +156,8 @@ class Archival(Base):
 
     @property
     def status(self):
+        if self.status_id is None:
+            return None
         return Status.by_id(self.status_id)
 
 def init_tables(engine):
