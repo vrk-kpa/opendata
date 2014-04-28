@@ -47,9 +47,10 @@
                 <?php } else { ?>
                 <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>">
                 	<?php global $user; $temp=  user_load($user->uid);
-					if (isset($field_fullname['und'])) {
-						if (isset($field_fullname['und'][0]) ){
-							if ( isset($field_fullname['und'][0]['value'])){
+					debug($temp);
+					if (isset($temp->$field_fullname['und'])) {
+						if (isset($temp->$field_fullname['und'][0]) ){
+							if ( isset($temp->$field_fullname['und'][0]['value'])){
 					 			$fullname=$temp->field_fullname['und'][0]['value'];
 					}}}
                 	if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} ?></a> 
