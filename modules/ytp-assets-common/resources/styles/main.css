@@ -3903,6 +3903,18 @@ section.module {
     width: 100%;
     margin-bottom: 20px;
   }
+  section.module {
+    margin: 20px 0;
+  }
+  h2.module-heading {
+    margin: 0;
+  }
+  .panel-heading {
+    padding: 0 15px;
+  }
+  .panel-body {
+    padding: 0;
+  }
 }
 @media (min-width: 768px) {
   .container {
@@ -4517,7 +4529,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1398524700447") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1398678145421") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4547,7 +4559,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1398524700447');
+  background-image: url('../images/sprite.png?timestamp=1398678145421');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4557,7 +4569,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1398524700447');
+  background-image: url('../images/sprite.png?timestamp=1398678145421');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4621,7 +4633,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1398524700447") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1398678145421") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4754,7 +4766,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1398524700447');
+  background-image: url('../images/navbar-main-background.png?timestamp=1398678145421');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -4818,7 +4830,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1398524700447');
+  background: url('../images/search-button.png?timestamp=1398678145421');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -4894,7 +4906,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1398524700447');
+  background-image: url('../images/sprite.png?timestamp=1398678145421');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
