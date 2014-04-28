@@ -1,48 +1,52 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, MetaData
+from sqlalchemy import Column
 from sqlalchemy import types
-from sqlalchemy.orm import mapper
 from sqlalchemy.ext.declarative import declarative_base
 
 import ckan.model as model
-from ckan.lib.base import *
 
 log = __import__('logging').getLogger(__name__)
 
 Base = declarative_base()
 
+
 def make_uuid():
     return unicode(uuid.uuid4())
 
-metadata = MetaData()
 
-class QATask(Base):
+class QA(Base):
     """
     Contains the latest results per dataset/resource for QA tasks
     run against them.
     """
-    __tablename__ = 'qa_task'
+    __tablename__ = 'qa'
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    organization_id = Column(types.UnicodeText, nullable=False, index=True)
-    dataset_id = Column(types.UnicodeText, nullable=False, index=True)
+    package_id = Column(types.UnicodeText, nullable=False, index=True)
     resource_id = Column(types.UnicodeText, nullable=False, index=True)
-    error = Column(types.UnicodeText)
+    resource_timestamp = Column(types.DateTime)  # key to resource_revision
+    archival_timestamp = Column(types.DateTime)
 
     openness_score = Column(types.Integer)
     openness_score_reason = Column(types.UnicodeText)
-
-    url = Column(types.UnicodeText, index=True)
     format = Column(types.UnicodeText)
-    is_broken = Column(types.Boolean, index=True)
-    archiver_status = Column(types.UnicodeText)
-    created   = Column(types.DateTime, default=datetime.now)
 
-    def __init__(self, **kwargs):
-        for k,v in kwargs.items():
-            setattr(self, k, v)
+    created = Column(types.DateTime, default=datetime.now)
+    updated = Column(types.DateTime)
+
+    def __repr__(self):
+        if not self.error:
+            summary = 'score=%s format=%s' % (self.openness_score, self.format)
+            details = self.openness_score_reason
+        else:
+            summary = 'ERROR'
+            details = self.error
+        package = model.Package.get(self.package_id)
+        package_name = package.name if package else '?%s?' % self.package_id
+        return '<QA %s /dataset/%s/resource/%s%s>' % \
+            (summary, package_name, self.resource_id, details)
 
     def as_dict(self):
         result = {}
@@ -65,35 +69,34 @@ class QATask(Base):
         return model.Session.query(cls).filter(cls.resource_id==resource_id).first()
 
     @classmethod
-    def create(cls, entity):
-        from paste.deploy.converters import asbool
-        # Get the existing entry for the resource, or create  new one
-        # if it doesn't exist.
-        c = cls.get_for_resource(entity.get('entity_id')) or cls()
+    def get_for_package(cls, package_id):
+        '''Returns the QA for the given package. May not be any if the package
+        has no resources or has not been archived. It checks the resources are
+        not deleted.'''
+        return model.Session.query(cls) \
+                    .filter(cls.package_id==package_id) \
+                    .join(model.Resource, cls.resource_id==model.Resource.id) \
+                    .filter(model.Resource.state=='active') \
+                    .all()
 
-        c.resource_id = entity.get('entity_id')
-        c.created = entity.get('last_updated')
+    @classmethod
+    def create(cls, resource_id):
+        c = cls()
+        c.resource_id = resource_id
 
-        # We need to find the dataset_id for the resource.
+        # Find the package_id for the resource.
         q = """
-            SELECT P.id, P.owner_org from package P
+            SELECT P.id from package P
             INNER JOIN resource_group RG ON RG.package_id = P.id
             INNER JOIN resource R ON R.resource_group_id = RG.id
             WHERE R.id = '%s';
         """
         row = model.Session.execute(q % c.resource_id).first()
-        c.organization_id = row[1]
-        c.dataset_id = row[0]
-        c.openness_score = int(entity.get('value', 0))
-
-        if entity.get('error'):
-            d = json.loads(entity.get('error'))
-            c.is_broken = asbool(d.get('is_broken', False))
-            c.format = d.get('format')
-            c.archiver_status = d.get('archiver_status')
-            c.openness_score_reason = d.get('reason')
-
+        if not row or not row[0]:
+            raise Exception("Missing dataset")
+        c.package_id = row[0]
         return c
 
 def init_tables(e):
     Base.metadata.create_all(e)
+    log.info('QA database tables are set-up')

@@ -1,22 +1,22 @@
-import os
-import subprocess
-import time
 import requests
 import json
 import logging
-import datetime
-from functools import wraps
-import copy
+import os
 import urllib
+import datetime
 
 from nose.tools import raises, assert_equal
 from ckan import model
 from ckan.tests import BaseCase
+from ckan.logic import get_action
 
 import ckanext.qa.tasks
-from ckanext.qa.tasks import resource_score, update, extension_variants
+from ckanext.qa.tasks import resource_score, extension_variants
 import ckanext.archiver
 from ckanext.dgu.lib.formats import Formats
+from ckanext.qa import model as qa_model
+from ckanext.archiver import model as archiver_model
+from ckanext.archiver.model import Archival, Status
 
 log = logging.getLogger(__name__)
 
@@ -41,138 +41,79 @@ def set_sniffed_format(format_display_name):
     else:
         sniffed_format = None
 
-ARCHIVER_TASK_STATUS_FAILED_16_TIMES = json.dumps(
-    {'success': True, #meaningless
-     'result': {'value': 'Download error',
-                'error': json.dumps({
-                    'reason': 'Server returned 500 error',
-                    'last_success': '',
-                    'first_failure': '2008-10-01T19:30:37.536836',
-                    'failure_count': 16,
-                    }),
-                'stack': '',
-                'last_updated': '2008-10-10T19:30:37.536836',
-                }
-     }
-    )
-ARCHIVER_TASK_STATUS_404 = json.dumps(
-    {'success': True, #meaningless
-     'result': {'value': 'Download error',
-                'error': json.dumps({
-                    'reason': 'Server reported status error: 404 Not Found',
-                    'last_success': '2012-09-01T19:30:37.536836',
-                    'first_failure': '2012-10-01T19:30:37.536836',
-                    'failure_count': 1,
-                    }),
-                'stack': '',
-                'last_updated': '2008-10-01T19:30:37.536836',
-                }
-     }
-    )
-QA_TASK_STATUS_CSW = json.dumps(
-    {'success': True,
-     'result': {'value': 3,
-                'error': json.dumps({
-                    'reason': 'It looked like a CSV',
-                    'format': 'CSV',
-                    'is_broken': False,
-                    }),
-                'last_updated': '2008-10-01T19:30:37.536836',
-                }
-     })
+TODAY = datetime.datetime(year=2008, month=10, day=10)
 
 class TestResourceScore(BaseCase):
 
     @classmethod
     def setup_class(cls):
-        fake_ckan_path = os.path.join(os.path.dirname(__file__), "fake_ckan.py")
-        cls.fake_ckan = subprocess.Popen(['python', fake_ckan_path])
-        cls.fake_ckan_url = 'http://0.0.0.0:50001'
-
-        #make sure services are running
-        for i in range(0, 12):
-            time.sleep(0.1)
-            try:
-                response = requests.get(cls.fake_ckan_url)
-            except requests.ConnectionError:
-                continue
-            if response:
-                break
-        else:
-            raise Exception('services did not start!')
-
-        cls.fake_context = {
-            'site_url': cls.fake_ckan_url,
-            'apikey': u'fake_api_key',
-            'site_user_apikey': u'fake_api_key',
-        }
+        archiver_model.init_tables(model.meta.engine)
+        qa_model.init_tables(model.meta.engine)
         cls.fake_resource = {
             'id': u'fake_resource_id',
             'url': 'http://remotesite.com/filename.csv',
             'cache_url': 'http://remotesite.com/resources/filename.csv',
-            'cache_filepath': __file__, # must exist
+            'cache_filepath': __file__,  # must exist
             'package': u'fake_package_id',
             'is_open': True,
             'position': 2,
         }
 
-    @classmethod
-    def teardown_class(cls):
-        cls.fake_ckan.kill()
+    def teardown(self):
+        pkg = model.Package.get(u'testpkg')
+        if pkg:
+            model.repo.new_revision()
+            pkg.purge()
+            model.repo.commit_and_remove()
 
-    def setup(self):
-        self.set_archiver_task_status_ok()
-        self.unset_task_status('qa')
-        
+    def _test_resource(self, url='anything', format='TXT', archived=True, cached=True, license_id='uk-ogl'):
+        context = {'model': model, 'ignore_auth': True, 'session': model.Session, 'user': 'test'}
+        pkg = {'name': 'testpkg', 'license_id': license_id, 'resources': [
+            {'url': url, 'format': format, 'description': 'Test'}
+            ]}
+        pkg = get_action('package_create')(context, pkg)
+        res_id = pkg['resources'][0]['id']
+        if archived:
+            archival = Archival.create(res_id)
+            archival.cache_filepath = __file__ if cached else None  # just needs to exist
+            archival.updated = TODAY
+            model.Session.add(archival)
+            model.Session.commit()
+        return res_id
+
     @classmethod
-    def set_task_status(cls, task_type, task_status_str):
+    def _set_task_status(cls, task_type, task_status_str):
         url = '%s/set_task_status/%s/%s' % (cls.fake_ckan_url,
                                             task_type,
                                             urllib.quote(task_status_str))
         res = requests.get(url)
         assert res.status_code == 200
-    
-    @classmethod
-    def set_archiver_task_status_ok(cls):
-        url = '%s/set_archiver_task_status_ok' % cls.fake_ckan_url
-        res = requests.get(url)
-        assert res.status_code == 200
-
-    @classmethod
-    def unset_task_status(cls, task_type):
-        url = '%s/unset_task_status/%s' % (cls.fake_ckan_url, task_type)
-        res = requests.get(url)
-        assert res.status_code == 200
 
     def test_by_sniff_csv(self):
         set_sniffed_format('CSV')
-        data = self.fake_resource
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource(), log)
         assert result['openness_score'] == 3, result
         assert 'Content of file appeared to be format "CSV"' in result['openness_score_reason'], result
         assert result['format'] == 'CSV', result
-        assert result['is_broken'] == False, result
+        assert result['archival_timestamp'] == TODAY, result
 
-    def test_by_sniff_xls(self):
-        set_sniffed_format('XLS')
-        data = self.fake_resource
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 2, result
-        assert 'Content of file appeared to be format "XLS"' in result['openness_score_reason'], result
-        assert result['format'] == 'XLS', result
-        assert result['is_broken'] == False, result
-
-    def test_not_cached(self):
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename'
-        data['cache_url'] = None
-        data['cache_filepath'] = None
-        self.unset_task_status('archiver')
-        result = resource_score(self.fake_context, data, log)
-        # falls back on fake_ckan task status data detailing failed attempts
+    def test_not_archived(self):
+        result = resource_score(self._test_resource(archived=False, cached=False, format=None), log)
+        # falls back on previous QA data detailing failed attempts
         assert result['openness_score'] == 1, result
         assert result['format'] == None, result
-        assert result['is_broken'] == False, result
+        assert result['archival_timestamp'] == None, result
+        assert 'This file had not been downloaded at the time of scoring it.' in result['openness_score_reason'], result
+        assert 'Could not determine a file extension in the URL.' in result['openness_score_reason'], result
+        assert 'Format field is blank.' in result['openness_score_reason'], result
+        assert 'Could not understand the file format, therefore score is 1.' in result['openness_score_reason'], result
+
+    def test_archiver_ran_but_not_cached(self):
+        result = resource_score(self._test_resource(cached=False, format=None), log)
+        # falls back on previous QA data detailing failed attempts
+        assert result['openness_score'] == 1, result
+        assert result['format'] == None, result
+        assert result['archival_timestamp'] == TODAY, result
         assert 'This file had not been downloaded at the time of scoring it.' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL.' in result['openness_score_reason'], result
         assert 'Format field is blank.' in result['openness_score_reason'], result
@@ -180,117 +121,97 @@ class TestResourceScore(BaseCase):
 
     def test_by_extension(self):
         set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename.xls'
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource('http://site.com/filename.xls'), log)
         assert result['openness_score'] == 2, result
+        assert result['archival_timestamp'] == TODAY, result
         assert_equal(result['format'], 'XLS')
-        assert_equal(result['is_broken'], False)
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'extension "xls" relates to format "XLS"' in result['openness_score_reason'], result
+
+    def test_extension_not_recognized(self):
+        set_sniffed_format(None)
+        result = resource_score(self._test_resource('http://site.com/filename.zar'), log)
+        assert result['openness_score'] == 1, result
+        assert 'not recognized from its contents' in result['openness_score_reason'], result
+        assert 'URL extension "zar" is an unknown format' in result['openness_score_reason'], result
 
     def test_by_format_field(self):
         set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename'
-        data['format'] = 'XLS'
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource(format='XLS'), log)
         assert result['openness_score'] == 2, result
         assert_equal(result['format'], 'XLS')
-        assert_equal(result['is_broken'], False)
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field "XLS"' in result['openness_score_reason'], result
 
     def test_by_format_field_excel(self):
         set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename'
-        data['format'] = 'Excel'
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 2, result
+        result = resource_score(self._test_resource(format='Excel'), log)
         assert_equal(result['format'], 'XLS')
-        assert_equal(result['is_broken'], False)
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
-        assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
-        assert 'Format field "Excel"' in result['openness_score_reason'], result
 
-    def test_extension_not_recognised(self):
+    def test_format_field_not_recognized(self):
         set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename.zar' # unknown format
-        data['format'] = ''
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource(format='ZAR'), log)
         assert result['openness_score'] == 1, result
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
-        assert 'URL extension "zar" is an unknown format' in result['openness_score_reason'], result
-
-    def test_format_field_not_recognised(self):
-        set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename'
-        data['format'] = 'ZAR'
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 1, result
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field "ZAR" does not correspond to a known format' in result['openness_score_reason'], result
 
     def test_no_format_clues(self):
         set_sniffed_format(None)
-        data = copy.deepcopy(self.fake_resource)
-        data['url'] = 'http://remotesite.com/filename'
-        data['format'] = ''
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource(format=None), log)
         assert result['openness_score'] == 1, result
-        assert 'not recognised from its contents' in result['openness_score_reason'], result
+        assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL' in result['openness_score_reason'], result
         assert 'Format field is blank' in result['openness_score_reason'], result
 
     def test_available_but_not_open(self):
         set_sniffed_format('CSV')
-        data = copy.deepcopy(self.fake_resource)
-        data['is_open'] = False
-        result = resource_score(self.fake_context, data, log)
+        result = resource_score(self._test_resource(license_id=None), log)
         assert result['openness_score'] == 0, result
         assert_equal(result['format'], 'CSV')
-        assert_equal(result['is_broken'], False)
-        assert 'License not open' in result['openness_score_reason'], result
-
-    def test_available_but_not_open_pdf(self):
-        set_sniffed_format('PDF')
-        data = copy.deepcopy(self.fake_resource)
-        data['is_open'] = False
-        result = resource_score(self.fake_context, data, log)
-        assert result['openness_score'] == 0, result
         assert 'License not open' in result['openness_score_reason'], result
 
     def test_not_available_and_not_open(self):
-        data = copy.deepcopy(self.fake_resource)
-        data['is_open'] = False
-        data['cache_url'] = None
-        data['cache_filepath'] = None
-        self.set_task_status('archiver', ARCHIVER_TASK_STATUS_FAILED_16_TIMES)
-        result = resource_score(self.fake_context, data, log)
+        res_id = self._test_resource(license_id=None, format=None, cached=False)
+        archival = Archival.get_for_resource(res_id)
+        archival.status_id = Status.by_text('Download error')
+        archival.reason = 'Server returned 500 error'
+        archival.last_success = None
+        archival.first_failure = datetime.datetime(year=2008, month=10, day=1, hour=6, minute=30)
+        archival.failure_count = 16
+        archival.is_broken = True
+        model.Session.commit()
+        result = resource_score(res_id, log)
         assert result['openness_score'] == 0, result
         assert_equal(result['format'], None)
-        assert_equal(result['is_broken'], True)
         # in preference it should report that it is not available
         assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server returned 500 error. Attempted on 10/10/2008. Tried 16 times since 01/10/2008. This URL has not worked in the history of this tool.')
 
     def test_not_available_any_more(self):
-        set_sniffed_format('CSV')
-        data = copy.deepcopy(self.fake_resource)
+        # A cache of the data still exists from the previous run, but this
+        # time, the archiver found the file gave a 404.
+        # The record of the previous (successful) run of QA.
+        res_id = self._test_resource(license_id=None, format=None)
+        qa = qa_model.QA.create(res_id)
+        qa.format = 'CSV'
+        model.Session.add(qa)
+        model.Session.commit()
         # cache still exists from the previous run, but this time, the archiver
         # found the file gave a 404.
-        self.set_task_status('archiver', ARCHIVER_TASK_STATUS_404)
-        self.set_task_status('qa', QA_TASK_STATUS_CSW)
-        result = resource_score(self.fake_context, data, log)
+        archival = Archival.get_for_resource(res_id)
+        archival.cache_filepath = __file__
+        archival.status_id = Status.by_text('Download error')
+        archival.reason = 'Server returned 404 error'
+        archival.last_success = datetime.datetime(year=2008, month=10, day=1)
+        archival.first_failure = datetime.datetime(year=2008, month=10, day=2)
+        archival.failure_count = 1
+        archival.is_broken = True
+        result = resource_score(res_id, log)
         assert result['openness_score'] == 0, result
         assert_equal(result['format'], 'CSV')
-        assert_equal(result['is_broken'], True)
         # in preference it should report that it is not available
-        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server reported status error: 404 Not Found. Attempted on 01/10/2008. This URL worked the previous time: 01/09/2012.')
+        assert_equal(result['openness_score_reason'], 'File could not be downloaded. Reason: Download error. Error details: Server returned 404 error. Attempted on 10/10/2008. This URL worked the previous time: 01/10/2008.')
 
 
 class TestExtensionVariants:

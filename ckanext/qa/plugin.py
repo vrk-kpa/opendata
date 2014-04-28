@@ -1,6 +1,7 @@
 import json
 import datetime
 import logging
+import os
 
 from genshi.input import HTML
 from genshi.filters import Transformer
@@ -11,9 +12,9 @@ import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.helpers as h
 import ckan.lib.celery_app as celery_app
+from ckan.lib.celery_app import celery
 import ckan.plugins.toolkit as t
 from ckan.model.types import make_uuid
-from ckanext.qa.lib import get_site_url, get_user_and_context
 
 import html
 import reports
@@ -26,21 +27,21 @@ log = logging.getLogger(__name__)
 
 class QAPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
-    p.implements(p.IConfigurable)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
     p.implements(p.IActions)
-    p.implements(p.ICachedReport)
+    p.implements(p.IReportCache)
 
-    def configure(self, config):
-        self.site_url = get_site_url(config)
+    # IConfigurer
 
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
         p.toolkit.add_public_directory(config, 'public')
         # Update config gets called before the IRoutes methods
         self.root_dir = config.get('ckanext.qa.url_root', '')
+
+    # IRoutes
 
     def before_map(self, map):
         home = 'ckanext.qa.controllers.qa_home:QAHomeController'
@@ -91,64 +92,37 @@ class QAPlugin(p.SingletonPlugin):
 
         return map
 
+    # IDomainObjectModification / IResourceUrlChange
+
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
+        resource = entity
 
         if operation:
             if operation == model.DomainObjectOperation.new:
                 # Resource created
-                self._create_task(entity)
+                create_qa_update_task(resource, queue='priority')
         else:
             # Resource URL has changed.
             # If operation is None, resource URL has been changed because the
             # notify function in IResourceUrlChange only takes 1 parameter
-            self._create_task(entity)
+            create_qa_update_task(resource, queue='priority')
 
-    def _create_task(self, resource):
-        user, context = get_user_and_context(self.site_url)
-
-        resource_dict = resource_dictize(resource, {'model': model})
-        pkg_id = resource.resource_group.package.id if resource.resource_group else None
-        resource_dict['package'] = pkg_id
-
-        related_packages = resource.related_packages()
-        if related_packages:
-            resource_dict['is_open'] = related_packages[0].isopen()
-
-        data = json.dumps(resource_dict)
-
-        queue = 'priority'
-        task_id = make_uuid()
-        send_task('qa.update', args=[context, data], task_id=task_id, queue=queue)
-
-        log.debug('QA check for resource put into celery queue %s: %s url=%r',
-                  queue, resource.id, resource_dict.get('url'))
-
-    def get_star_html(self, resource_id):
-        report = reports.resource_five_stars(resource_id)
-        stars = report.get('openness_score', -1)
-        if stars >= 0:
-            reason = report.get('openness_score_reason')
-            return html.get_star_html(stars, reason)
-        return None
+    # IActions
 
     def get_actions(self):
         return {
             'search_index_update': logic.search_index_update,
+            'qa_resource_show': logic.qa_resource_show,
+            'qa_package_show': logic.qa_package_show,
             }
 
-    def register_reports(self):
-        """
-        This method will be called so that the plugin can register the
-        reports it wants run.  The reports will then be executed on a
-        24 hour schedule and the appropriate tasks called.
+    # IReportCache
 
-        This call should return a dictionary, where the key is a description
-        and the value should be the function to run. This function should
-        take no parameters and return nothing.
-        """
-        from ckanext.qa.reports import cached_reports
+    def register_reports(self):
+        from ckanext.qa import reports
+        return [] # HACKfor now
         return { 'Cached QA Reports': cached_reports }
 
     def list_report_keys(self):
@@ -160,3 +134,22 @@ class QAPlugin(p.SingletonPlugin):
                 'openness-report', 'openness-report-withsub',
                 'organisation_score_summaries',
                 'organisations_with_broken_resource_links']
+
+
+def create_qa_update_package_task(package, queue):
+    from pylons import config
+    task_id = '%s-%s' % (package.name, make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update_package', args=[ckan_ini_filepath, package.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of package put into celery queue %s: %s', queue, package.name)
+
+def create_qa_update_task(resource, queue):
+    from pylons import config
+    package = resource.resource_group.package
+    task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
+

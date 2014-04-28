@@ -3,6 +3,7 @@ import logging
 
 from nose.tools import raises, assert_equal
 
+from ckan.tests import BaseCase
 from ckanext.qa.sniff_format import sniff_file_format, is_json, is_ttl, turtle_regex
 
 logging.basicConfig(level=logging.INFO)

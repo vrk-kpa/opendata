@@ -189,46 +189,10 @@ def _find_in_cache(entity, key_root, withsub=False):
     cache = model.DataCache.get_fresh(entity, key)
     if cache:
        log.debug("Found %s/%s in cache" % (entity,key_root,))
-       return cache
+       return cache, cached_date
 
     return None
 
-
-def broken_resource_links_by_dataset():
-    """
-    Return a list of named tuples, one for each dataset that contains
-    broken resource links (defined as resources with an openness score of 0
-    and the reason is an invalid URL, 404, timeout or similar, as opposed
-    to it being too big to archive or system errors during archival).
-
-    The named tuple (for each dataset) is of the form:
-        (name (str), title (str), resources (list of dicts))
-    """
-    q = model.Session.query(model.Package.name, model.Package.title, model.Resource.id, model.Resource.url, model.TaskStatus.last_updated.label('last_updated'), model.TaskStatus.value.label('value'), model.TaskStatus.error.label('error'))\
-        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
-        .join(model.Resource)\
-        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-        .filter(model.TaskStatus.task_type==u'qa')\
-        .filter(model.TaskStatus.key==u'status')\
-        .filter(model.TaskStatus.error.like('%"is_broken": true%'))\
-        .filter(model.Resource.state==u'active')\
-        .filter(model.Package.state==u'active')\
-        .order_by(desc(model.TaskStatus.value))\
-        .order_by(desc(model.TaskStatus.last_updated))
-    rows = q.all()
-    # One row per resource, therefore need to collate them by dataset
-    datasets = OrderedDict()
-    for row in rows:
-        openness_details = json.loads(row.error)
-        res = DictObj(url=row.url,
-                      openness_score_reason=openness_details.get('reason'))
-        if row.name in datasets:
-            datasets[row.name].resources.append(res)
-        else:
-            datasets[row.name] = DictObj(name=row.name,
-                                         title=row.title,
-                                         resources=[res])
-    return datasets.values()
 
 
 # NOT USED in this branch, but is used in release-v2.0
@@ -247,7 +211,7 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
     '''Returns a list of all organisations with a summary of scores.
     Does SOLR query to be quicker.
     '''
-
+    
     if use_cache:
         val = _find_in_cache("__all__",'organisation_score_summaries', withsub=include_sub_organisations)
         if val:
@@ -287,143 +251,6 @@ def organisation_score_summaries(include_sub_organisations=False, use_cache=True
         publisher_scores.append(publisher_score)
     return sorted(publisher_scores, key=lambda x: -x['total_stars'])
 
-
-def organisations_with_broken_resource_links(include_sub_organisations=False, use_cache=True):
-    import ckanext.qa.model as qa_model
-    # get list of orgs that themselves have broken links
-    if use_cache:
-        val = _find_in_cache("__all__",'organisations_with_broken_resource_links', withsub=include_sub_organisations)
-        if val:
-            return val
-
-    results = {}
-    data = []
-
-    # Get all the broken datasets and build up the results by publisher
-    for publisher in model.Session.query(model.Group).filter(model.Group.state=="active").all():
-
-        tasks = model.Session.query(qa_model.QATask)\
-            .filter(qa_model.QATask.organization_id==publisher.id)\
-            .filter(qa_model.QATask.is_broken==True).all()
-        package_count = len(set([p.dataset_id for p in tasks]))
-        results[publisher.name] = {
-            'publisher_title': publisher.title,
-            'packages': package_count,
-            'resources': len(tasks)
-        }
-
-    if include_sub_organisations:
-        for k, v in results.iteritems():
-            pub = model.Group.by_name(k)
-            pubdict = results[pub.name]
-
-            for publisher in go_down_tree(pub):
-                if publisher.id == pub.id:
-                    # go_down_tree returns itself, and we already have those
-                    # values in pubdict
-                    continue
-
-                if publisher.name in results:
-                    # If we have scores for this sub-publisher
-                    bp,br = results[publisher.name]['packages'], results[publisher.name]['resources']
-                    pubdict['packages'] += bp
-                    pubdict['resources'] += br
-
-            results[pub.name] = pubdict
-
-    for k, v in results.iteritems():
-        if results[k]['resources'] == 0:
-            continue
-
-        data.append(OrderedDict((
-            ('publisher_title', results[k]['publisher_title']),
-            ('publisher_name', k),
-            ('broken_package_count', results[k]['packages']),
-            ('broken_resource_count', results[k]['resources']),
-            )))
-
-    return data
-
-def broken_resource_links_for_organisation(organisation_name,
-                                           include_sub_organisations=False,
-                                           use_cache=True):
-    '''
-    Returns a dictionary detailing broken resource links for the organisation
-
-    i.e.:
-    {'publisher_name': 'cabinet-office',
-     'publisher_title:': 'Cabinet Office',
-     'data': [
-       {'package_name', 'package_title', 'resource_url', 'status', 'reason', 'last_success', 'first_failure', 'failure_count', 'last_updated'}
-      ...]
-
-    '''
-    if use_cache:
-        val = _find_in_cache(organisation_name, 'broken-link-report', withsub=include_sub_organisations)
-        if val:
-            return val
-
-    from ckanext.archiver.model import Archival
-
-    publisher = model.Group.get(organisation_name)
-
-    name = publisher.name
-    title = publisher.title
-
-    archivals = model.Session.query(Archival, model.Package, model.Group).\
-        filter(Archival.is_broken == True).\
-        join(model.Package, Archival.package_id == model.Package.id)
-
-    if not include_sub_organisations:
-        archivals = archivals.filter(model.Package.owner_org == publisher.id)
-    else:
-        # We want any organization_id that is part of this publishers tree.
-        org_ids = ['%s' % organisation.id for organisation in go_down_tree(publisher)]
-        archivals = archivals.filter(model.Package.owner_org.in_(org_ids))
-
-    archivals = archivals.join(model.Group, model.Package.owner_org == model.Group.id)
-
-    results = []
-
-    for archival, pkg, publisher in archivals.all():
-        pkg = model.Package.get(archival.package_id)
-        resource = model.Resource.get(archival.resource_id)
-
-        via = ''
-        er = pkg.extras.get('external_reference', '')
-        if er == 'ONSHUB':
-            via = "Stats Hub"
-        elif er.startswith("DATA4NR"):
-            via = "Data4nr"
-
-        archived_resource = model.Session.query(model.ResourceRevision)\
-                            .filter_by(id=resource.id)\
-                            .filter_by(revision_timestamp=archival.resource_timestamp)\
-                            .first() or resource
-        row_data = OrderedDict((
-            ('dataset_title', pkg.title),
-            ('dataset_name', pkg.name),
-            ('publisher_title', publisher.title),
-            ('publisher_name', publisher.name),
-            ('resource_position', resource.position),
-            ('resource_id', resource.id),
-            ('resource_url', archived_resource.url),
-            ('url_up_to_date', resource.url == archived_resource.url),
-            ('via', via),
-            ('first_failure', archival.first_failure),
-            ('last_updated', archival.updated),
-            ('last_success', archival.last_success),
-            ('url_redirected_to', archival.url_redirected_to),
-            ('reason', archival.reason),
-            ('status', archival.status),
-            ('failure_count', archival.failure_count),
-            ))
-
-        results.append(row_data)
-
-    return {'publisher_name': name,
-            'publisher_title': title,
-            'data': results}
 
 def organisation_dataset_scores(organisation_name,
                                 include_sub_organisations=False,

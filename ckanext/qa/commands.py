@@ -76,11 +76,10 @@ class QACommand(p.toolkit.CkanCommand):
         # won't get disabled
         self.log = logging.getLogger('ckanext.qa')
 
-        from ckanext.qa.lib import get_site_url, get_user_and_context
-        user, context = get_user_and_context(get_site_url(config))
+        from ckanext.qa.lib import get_site_url
 
         if cmd == 'update':
-            self.update(user, context)
+            self.update()
         elif cmd == 'sniff':
             self.sniff()
         elif cmd == 'view':
@@ -102,7 +101,7 @@ class QACommand(p.toolkit.CkanCommand):
         from ckanext.qa.model import init_tables
         init_tables(model.meta.engine)
 
-    def update(self, user, context):
+    def update(self):
         from ckan.model.types import make_uuid
         from ckan.lib.helpers import json
         # import tasks after load config so CKAN_CONFIG evironment variable
@@ -116,7 +115,7 @@ class QACommand(p.toolkit.CkanCommand):
 
             data = json.dumps(package)
             task_id = make_uuid()
-            tasks.update_package.apply_async(args=[context, data],
+            tasks.update_package.apply_async(args=[data],
                                              task_id=task_id,
                                              queue=self.options.queue)
 
