@@ -59,10 +59,10 @@ function ytp_user_enable() {
         'label' => 'Fullname', 
         'bundle' => 'user', 
         // If you don't set the "required" property then the field wont be required by default.
-        'required' => TRUE,
+        'required' => FALSE,
         'settings' => array(
            // Here you inform either or not you want this field showing up on the registration form.
-            'user_register_form' => 1,
+            'user_register_form' => 0,
         ),
         'widget' => array(
             'type' => 'textfield',
