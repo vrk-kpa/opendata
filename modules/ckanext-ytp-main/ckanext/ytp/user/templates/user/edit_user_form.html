@@ -38,7 +38,7 @@
         {% for blog_item in data.blog %}
         <input id="field-blog-{{ loop.counter }}" type="text" name="blog" value="{{ blog_item }}" />
         {% endfor %}
-        <input id="field-blog" type="text" name="blog" value="" placeholder="{{ _('https://www.example.com/my-blog') }}" class="ytp-list" />
+        <input id="field-blog" type="text" name="blog" value="" placeholder="{{ _('https://www.example.com/my-blog') }}" class="ytp-list" />
     {% endcall %}
 
     {% call form.input_block("field-www_page", _('WWW-pages'), errors.www_page, ['control-medium'], is_required=false) %}
@@ -46,7 +46,7 @@
         <input id="field-www_page-{{ loop.counter }}" type="text" name="www_page" value="{{ www_page_item }}" />
         {% endfor %}
 
-        <input id="field-www_page" type="text" name="www_page" value="" placeholder="{{ _('https://www.example.com/my-page') }}" class="ytp-list" />
+        <input id="field-www_page" type="text" name="www_page" value="" placeholder="{{ _('https://www.example.com/my-page') }}" class="ytp-list" />
     {% endcall %}
 
     {% if c.show_email_notifications %}

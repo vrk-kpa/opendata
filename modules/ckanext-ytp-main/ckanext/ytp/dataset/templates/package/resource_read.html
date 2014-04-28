@@ -52,20 +52,25 @@
           {% endblock %}
         </div>
         {% block resource_content %}
-          {% block resource_read_title %}<h1 class="page-heading">{{ h.resource_display_name(res) }}</h1>{% endblock %}
+          {% block resource_read_title %}
+            <h1 class="page-heading">{{ h.extra_translation(res, 'name', fallback=h.resource_display_name) }}</h1>
+          {% endblock %}
           {% block resource_read_url %}
             {% if res.url %}
               <p class="muted ellipsis">{{ _('URL:') }} <a href="{{ res.url }}" title="{{ res.url }}">{{ res.url }}</a></p>
             {% endif %}
           {% endblock %}
           <div class="prose notes" property="rdfs:label">
-            {% if res.description %}
-              {{ h.render_markdown(res.description) }}
-            {% endif %}
-            {% if not res.description and c.package.notes %}
-              <h3>{{ _('From the dataset abstract') }}</h3>
-              <blockquote>{{ h.markdown_extract(c.package.get('notes')) }}</blockquote>
-              <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+            {% set description = h.extra_translation(res, 'description', markdown=True) %}
+            {% if description %}
+              {{ description }}
+            {% else %}
+                {% set notes = h.extra_translation(c.package, 'notes', markdown=True) %}
+                {% if notes %}
+                    <h3>{{ _('From the dataset abstract') }}</h3>
+                    <blockquote>{{ notes }}</blockquote>
+                    <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+                {% endif %}
             {% endif %}
           {% endblock %}
         </div>
