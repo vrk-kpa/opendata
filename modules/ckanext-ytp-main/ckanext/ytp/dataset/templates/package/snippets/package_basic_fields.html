@@ -124,7 +124,7 @@
     {# ### YTP extensions to dataset ### #}
 
     {% set content_type_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'content_type', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=content_type&incomplete=?'} %}
-    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder='', value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs) }}
+    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder=_('eg. Open Data'), value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs) }}
 
     {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
         <input id="valid_from" type="date" name="valid_from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />

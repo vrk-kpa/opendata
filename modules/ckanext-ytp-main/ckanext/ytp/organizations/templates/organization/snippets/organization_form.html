@@ -55,43 +55,43 @@
         <div class="row">
             <div class="col-sm-6">
                 <label>{{_('P.O. box')}}</label><br/>
-                <input class="form-control" id="street_address_pobox" name="street_address_pobox" type="text" value="{{data.street_address_pobox}}">
+                <input class="form-control" id="street_address_pobox" name="street_address_pobox" type="text" value="{{data.street_address_pobox}}" placeholder="{{ _('P.O. Box 123') }}">
             </div>
             <div class="col-sm-6">
                 <label>{{_('Zip code')}}</label><br/>
-                <input class="form-control" id="street_address_zip_code" type="text" name="street_address_zip_code" value="{{data.street_address_zip_code}}">
+                <input class="form-control" id="street_address_zip_code" type="text" name="street_address_zip_code" value="{{data.street_address_zip_code}}" placeholder="{{ _('12345') }}">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <label>{{_('Place of Business')}}</label><br/>
-                <input class="form-control" id="street_address_place_of_business" type="text" name="street_address_place_of_business" value="{{data.street_address_place_of_business}}">
+                <input class="form-control" id="street_address_place_of_business" type="text" name="street_address_place_of_business" value="{{data.street_address_place_of_business}}" placeholder="{{ _('Example City') }}">
             </div>
             <div class="col-sm-6">
                 <label>{{_('Country')}}</label><br/>
-                <input class="form-control" id="street_address_country" type="text" name="street_address_country" value="{{data.street_address_country}}">
+                <input class="form-control" id="street_address_country" type="text" name="street_address_country" value="{{data.street_address_country}}" placeholder="{{ _('Example country') }}">
             </div>
         </div>
 {% endcall %}
 {% call form.input_block("addressSpecifier", _('Address specifier'), errors.addressSpecifier, [], extra_html="") %}
 <div class="control-full">
     <label>{{_('Unofficial name of the building')}}</label>
-    <input class="form-control" id="street_address_unofficial_name" type="text" name="street_address_unofficial_name" value="{{data.street_address_unofficial_name}}"/>
+    <input class="form-control" id="street_address_unofficial_name" type="text" name="street_address_unofficial_name" value="{{data.street_address_unofficial_name}}" placeholder="{{ _('Example name') }}"/>
     <label>{{_('Building ID')}}</label>
-    <input class="form-control" id="street_address_building_id" type="text" name="street_address_building_id" value="{{data.street_address_building_id}}"/>
+    <input class="form-control" id="street_address_building_id" type="text" name="street_address_building_id" value="{{data.street_address_building_id}}" placeholder="{{ _('Example Id') }}"/>
 </div>
 {% endcall %}
 
 {% call form.input_block("arrivalInstructions", _('Arrival instructions'), errors.arrivalInstructions, [], extra_html="") %}
 <div class="control-full">
     <label>{{_('Getting there')}}</label>
-    <textarea class="form-control" name="street_address_getting_there" id="street_address_getting_there" >{{data.street_address_getting_there}}</textarea>
+    <textarea class="form-control" name="street_address_getting_there" id="street_address_getting_there" placeholder="{{ _('Example instructions') }}" >{{data.street_address_getting_there}}</textarea>
     <label>{{_('Parking')}}</label>
-    <textarea class="form-control" name="street_address_parking" id="street_address_parking" >{{data.street_address_parking}}</textarea>
+    <textarea class="form-control" name="street_address_parking" id="street_address_parking" placeholder="{{ _('Example parking instructions') }}">{{data.street_address_parking}}</textarea>
     <label>{{_('Arrival by public transport')}}</label>
-    <input class="form-control" id="street_address_public_transport"  name="street_address_public_transport" value="{{data.street_address_public_transport}}"/>
+    <input class="form-control" id="street_address_public_transport"  name="street_address_public_transport" value="{{data.street_address_public_transport}}" placeholder="{{ _('Example instructions arrival by public transport') }}"/>
     <label>{{_('URL for public transport')}}</label>
-    <input class="form-control" id="street_address_url_public_transport"  name="street_address_url_public_transport" value="{{data.street_address_url_public_transport}}"/>
+    <input class="form-control" id="street_address_url_public_transport"  name="street_address_url_public_transport" value="{{data.street_address_url_public_transport}}" placeholder="{{ _('http://publictransport.example.com/') }}"/>
 </div>
 {% endcall %}
 
