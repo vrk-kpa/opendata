@@ -1,10 +1,43 @@
 ---
 
 - name: Ensure jetty is installed
-  action: apt pkg="{{ item }}" state=latest
+  apt: pkg="{{ item }}" state=latest
   with_items:
     - openjdk-7-jdk
-    - solr-jetty
+    - jetty
+    - libjetty-extra-java
+    - libcurl3
+    - curl
+    - libjs-jquery
+    - libcommons-fileupload-java
+    - libcommons-httpclient-java
+    - libcommons-io-java
+    - libcommons-lang-java
+    - libcommons-logging-java
+    - libgeronimo-stax-1.2-spec-java
+    - libguava-java
+    - libhttpclient-java
+    - libhttpmime-java
+    - libwoodstox-java
+  tags:
+  - jetty
+
+- name: Create debian cache path
+  file: path="{{ cache_path }}/debian" state=directory
+  tags:
+  - jetty
+
+- name: Fetch Jetty packages
+  get_url: url="http://se.archive.ubuntu.com/ubuntu/pool/{{ item.path }}/{{ item.name }}" dest="{{ cache_path }}/debian/{{ item.name }}" mode=0644 owner=root group=root
+  with_items: solr_packages
+  register: fetch_jetty_packages
+  tags:
+  - jetty
+
+- name: Install Jetty packages
+  command: dpkg -i {{ cache_path }}/debian/{{ item.name }}
+  when: fetch_jetty_packages|changed
+  with_items: solr_packages
   tags:
   - jetty
 
