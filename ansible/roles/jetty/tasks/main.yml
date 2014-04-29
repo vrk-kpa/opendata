@@ -34,6 +34,15 @@
   tags:
   - jetty
 
+- name: Remove old Jetty installations
+  apt: pkg="{{ item }}" state=absent
+  with_items:
+    - solr-common
+    - solr-jetty
+  when: fetch_jetty_packages|changed
+  tags:
+  - jetty
+
 - name: Install Jetty packages
   command: dpkg -i {{ cache_path }}/debian/{{ item.name }}
   when: fetch_jetty_packages|changed
