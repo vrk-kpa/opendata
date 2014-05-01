@@ -3,6 +3,12 @@ import copy
 import ckan.model as model
 from ckan.lib.helpers import OrderedDict
 
+def broken_links(organization, include_sub_organizations=False):
+    if organization == None:
+        return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
+    else:
+        return broken_links_for_organization(organization=organization, include_sub_organizations=include_sub_organizations)
+
 
 # WAS organisations_with_broken_resource_links
 def broken_links_by_organization(include_sub_organizations=False):
@@ -60,26 +66,13 @@ def broken_links_by_organization(include_sub_organizations=False):
             ('broken_resource_count', org_counts['resources']),
             )))
 
-    return data
-
-def broken_links_by_organization_option_combinations():
-    for include_sub_orgs in (False, True):
-        yield {'include_sub_organizations': include_sub_orgs}
-
-
-broken_links_by_organization_report_info = {
-    'name': 'broken-links-by-organization',
-    'option_defaults': OrderedDict((('include_sub_organizations', False),
-                                    )),
-    'option_combinations': broken_links_by_organization_option_combinations,
-    'generate': broken_links_by_organization,
-    'template': 'reports/broken_links_by_organization.html',
-    }
+    return {'data': data}
 
 
 def broken_links_for_organization(organization, include_sub_organizations=False):
     '''
     Returns a dictionary detailing broken resource links for the organization
+    or if organization it returns the index page for all organizations.
 
     params:
       organization - name of an organization
@@ -93,6 +86,9 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
 
     '''
     from ckanext.archiver.model import Archival
+
+    if organization == None:
+        return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
 
     org = model.Group.get(organization)
 
@@ -109,7 +105,7 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
     if not include_sub_organizations:
         archivals = archivals.filter(model.Package.owner_org == org.id)
     else:
-        # We want any organization_id that is part of this organization's tree.
+        # We want any organization_id that is part of this organization's tree
         org_ids = ['%s' % organization.id for organization in go_down_tree(org)]
         archivals = archivals.filter(model.Package.owner_org.in_(org_ids))
 
@@ -163,21 +159,21 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
             'data': results}
 
 
-def broken_links_for_organization_option_combinations():
-    for organization in all_organizations():
+def broken_links_option_combinations():
+    for organization in all_organizations(include_none=True):
         for include_sub_organizations in (False, True):
             yield {'organization': organization,
                    'include_sub_organizations': include_sub_organizations}
 
 
-broken_links_for_organization_report_info = {
-    'name': 'broken-links-for-organization',
-    'option_defaults': OrderedDict((('organization', 'cabinet-office'),
+broken_links_report_info = {
+    'name': 'broken-links',
+    'option_defaults': OrderedDict((('organization', None),
                                     ('include_sub_organizations', False),
                                     )),
-    'option_combinations': broken_links_for_organization_option_combinations,
-    'generate': broken_links_for_organization,
-    'template': 'reports/broken_links_for_organization.html',
+    'option_combinations': broken_links_option_combinations,
+    'generate': broken_links,
+    'template': 'reports/broken_links.html',
     }
 
 
@@ -193,7 +189,9 @@ def go_down_tree(organization):
         for grandchild in go_down_tree(child):
             yield grandchild
 
-def all_organizations():
+def all_organizations(include_none):
+    if include_none:
+        yield None
     organizations = model.Session.query(model.Group).\
         filter(model.Group.type=='organization').\
         filter(model.Group.state=='active').order_by('name')

@@ -6,7 +6,6 @@ import json
 import urllib
 import urlparse
 import tempfile
-import traceback
 import shutil
 import datetime
 import copy
@@ -15,12 +14,11 @@ import re
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
-
 try:
     from ckanext.archiver import settings
 except ImportError:
     from ckanext.archiver import default_settings as settings
-
+from ckanext.archiver import interfaces as archiver_interfaces
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
@@ -83,8 +81,10 @@ def update(ckan_ini_filepath, resource_id):
     Archive a resource.
     '''
     log = update.get_logger()
-    log.info('Starting update task: %r', resource_id)
+    log.info('Starting update task: res_id=%r', resource_id)
 
+    # Do all work in a sub-routine since it can then be tested without celery.
+    # Also put try/except around it since we don't trust celery to log errors well.
     try:
         result = _update(ckan_ini_filepath, resource_id)
         return result
@@ -100,6 +100,7 @@ def _update(ckan_ini_filepath, resource_id):
     """
     Link check and archive the given resource.
     If successful, updates the archival table with the cache_url & hash etc.
+    Finally, a notification of the archival is broadcast.
 
     Params:
       resource - resource dict
@@ -140,6 +141,8 @@ def _update(ckan_ini_filepath, resource_id):
                       reason, url_redirected_to,
                       download_result, archive_result,
                       log)
+        notify(resource,
+               archive_result.get('cache_filename') if archive_result else None)
 
     # Download
     log.info("Attempting to download resource: %s" % resource['url'])
@@ -367,6 +370,16 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
                                  '%s/%s' % (relative_archive_path, file_name))
     return {'cache_filepath': saved_file,
             'cache_url': cache_url}
+
+
+def notify(resource, cache_filepath):
+    '''
+    Broadcasts a notification that an archival has taken place (or at least
+    the archival object is changed somehow). e.g. ckanext-qa listens for this
+    '''
+    archiver_interfaces.IPipe.send_data('archived',
+                                        resource_id=resource['id'],
+                                        cache_filepath=cache_filepath)
 
 
 def _clean_content_type(ct):

@@ -112,10 +112,10 @@ class Archival(Base):
         broken_or_not = {True: 'Broken', None: 'Not sure if broken',
                          False: 'Downloaded OK'}
         broken_details = '' if not self.is_broken else \
-                         (' %d failures' % self.failure_count)
+                         ('%d failures' % self.failure_count)
         package = model.Package.get(self.package_id)
         package_name = package.name if package else '?%s?' % self.package_id
-        return '<Archival %s /dataset/%s/resource/%s%s>' % \
+        return '<Archival %s /dataset/%s/resource/%s %s>' % \
             (broken_or_not[self.is_broken], package_name, self.resource_id,
              broken_details)
 

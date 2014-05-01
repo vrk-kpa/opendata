@@ -175,11 +175,15 @@ class Archiver(CkanCommand):
 
         self.log.info('Queue: %s', self.options.queue)
         for package in packages:
-            resources = list(itertools.chain.from_iterable(
-                (rg.resources_all for rg in package.resource_groups_all)))
+            pkg_resources = \
+                [res for res in
+                    itertools.chain.from_iterable(
+                        (rg.resources_all for rg in package.resource_groups_all)
+                    )
+                 if res.state == 'active']
             self.log.info('Queuing dataset %s (%s resources)',
-                          package.name, len(resources))
-            for resource in resources:
+                          package.name, len(pkg_resources))
+            for resource in pkg_resources:
                 plugin.create_archiver_task(resource, self.options.queue)
 
         for resource in resources:
