@@ -20,16 +20,20 @@ import html
 import reports
 import logic
 
+from ckanext.archiver.interfaces import IPipe
+
 resource_dictize = model_dictize.resource_dictize
 send_task = celery_app.celery.send_task
 
 log = logging.getLogger(__name__)
 
+
 class QAPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IRoutes, inherit=True)
-    p.implements(p.IDomainObjectModification, inherit=True)
-    p.implements(p.IResourceUrlChange)
+    p.implements(IPipe, inherit=True)
+    #p.implements(p.IDomainObjectModification, inherit=True)
+    #p.implements(p.IResourceUrlChange)
     p.implements(p.IActions)
     p.implements(p.IReportCache)
 
@@ -92,22 +96,19 @@ class QAPlugin(p.SingletonPlugin):
 
         return map
 
-    # IDomainObjectModification / IResourceUrlChange
+    # IPipe
 
-    def notify(self, entity, operation=None):
-        if not isinstance(entity, model.Resource):
+    def receive_data(self, operation, **params):
+        '''Receive notification from ckan-archiver that a resource has been archived.'''
+        if not operation == 'archived':
             return
-        resource = entity
+        resource_id = params['resource_id']
+        #cache_filepath = params['cached_filepath']
 
-        if operation:
-            if operation == model.DomainObjectOperation.new:
-                # Resource created
-                create_qa_update_task(resource, queue='priority')
-        else:
-            # Resource URL has changed.
-            # If operation is None, resource URL has been changed because the
-            # notify function in IResourceUrlChange only takes 1 parameter
-            create_qa_update_task(resource, queue='priority')
+        resource = model.Resource.get(resource_id)
+        assert resource
+
+        create_qa_update_task(resource, queue='priority')
 
     # IActions
 

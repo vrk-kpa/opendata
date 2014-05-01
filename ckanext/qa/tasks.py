@@ -8,6 +8,7 @@ import os
 import traceback
 
 import ckan.lib.celery_app as celery_app
+from ckan.lib.json import DateTimeJsonEncoder
 from ckanext.dgu.lib.formats import Formats
 from ckanext.qa.sniff_format import sniff_file_format
 from ckanext.archiver.model import Archival, Status
@@ -108,7 +109,7 @@ def update(ckan_ini_filepath, resource_id):
             raise QAError('Resource ID not found: %s' % resource_id)
         qa_result = resource_score(resource, log)
         log.info('Openness scoring: \n%r\n%r\n%r\n\n', qa_result, resource,
-                 resource['url'])
+                 resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
         package = resource.resource_group.package if resource.resource_group else None
@@ -116,7 +117,7 @@ def update(ckan_ini_filepath, resource_id):
             update_search_index(package.id, log)
         else:
             log.warning('Resource not connected to a package. Res: %r', resource)
-        return json.dumps(qa_result)
+        return json.dumps(qa_result, cls=DateTimeJsonEncoder)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s',
                   e.__class__.__name__,  unicode(e))
@@ -132,7 +133,7 @@ def get_qa_format(resource_id):
     return q.format
 
 
-def resource_score(resource_id, log):
+def resource_score(resource, log):
     """
     Score resource on Sir Tim Berners-Lee\'s five stars of openness.
 
@@ -145,18 +146,15 @@ def resource_score(resource_id, log):
 
     Raises QAError for reasonable errors
     """
-    from ckan import model
-
     score = 0
     score_reason = ''
     format_ = None
 
     try:
         score_reasons = []  # a list of strings detailing how we scored it
-        archival = Archival.get_for_resource(resource_id=resource_id)
-        resource = model.Resource.get(resource_id)
+        archival = Archival.get_for_resource(resource_id=resource.id)
         if not resource:
-            raise QAError('Could not find resource "%s"' % resource_id)
+            raise QAError('Could not find resource "%s"' % resource.id)
 
         score, format_ = score_if_link_broken(archival, resource, score_reasons, log)
         if score == None:
@@ -182,8 +180,7 @@ def resource_score(resource_id, log):
     except Exception, e:
         log.error('Unexpected error while calculating openness score %s: %s\nException: %s', e.__class__.__name__,  unicode(e), traceback.format_exc())
         score_reason = "Unknown error: %s" % str(e)
-        if os.environ.get('DEBUG'):
-            raise
+        raise
 
     # Even if we can get the link, we should still treat the resource
     # as having a score of 0 if the license isn't open.
@@ -398,7 +395,7 @@ def save_qa_result(resource_id, qa_result, log):
     else:
         log.info('QA from before: %r', qa)
 
-    for key in ('openness_score', 'openness_reason', 'format'):
+    for key in ('openness_score', 'openness_score_reason', 'format'):
         setattr(qa, key, qa_result[key])
     qa.archival_timestamp == qa_result['archival_timestamp']
     qa.updated = now

@@ -1,11 +1,9 @@
 import requests
-import json
 import logging
-import os
 import urllib
 import datetime
 
-from nose.tools import raises, assert_equal
+from nose.tools import assert_equal
 from ckan import model
 from ckan.tests import BaseCase
 from ckan.logic import get_action
@@ -13,6 +11,7 @@ from ckan.logic import get_action
 import ckanext.qa.tasks
 from ckanext.qa.tasks import resource_score, extension_variants
 import ckanext.archiver
+import ckanext.archiver.tasks
 from ckanext.dgu.lib.formats import Formats
 from ckanext.qa import model as qa_model
 from ckanext.archiver import model as archiver_model
@@ -43,6 +42,43 @@ def set_sniffed_format(format_display_name):
 
 TODAY = datetime.datetime(year=2008, month=10, day=10)
 
+class TestTask(BaseCase):
+
+    @classmethod
+    def setup_class(cls):
+        archiver_model.init_tables(model.meta.engine)
+        qa_model.init_tables(model.meta.engine)
+
+    def teardown(self):
+        model.repo.rebuild_db()
+
+    def test_trigger_on_archival(cls):
+        # create package
+        context = {'model': model, 'ignore_auth': True, 'session': model.Session, 'user': 'test'}
+        pkg = {'name': 'testpkg', 'license_id': 'uk-ogl', 'resources': [
+            {'url': 'http://test.com/', 'format': 'CSV', 'description': 'Test'}
+            ]}
+        pkg = get_action('package_create')(context, pkg)
+        resource_dict = pkg['resources'][0]
+        res_id = resource_dict['id']
+        # create record of archival
+        archival = Archival.create(res_id)
+        cache_filepath = __file__  # just needs to exist
+        archival.cache_filepath = cache_filepath
+        archival.updated = TODAY
+        model.Session.add(archival)
+        model.Session.commit()
+        # TODO show that QA hasn't run yet
+
+        # create a send_data from ckanext-archiver, that gets picked up by
+        # ckanext-qa to put a task on the queue
+        ckanext.archiver.tasks.notify(resource_dict, cache_filepath)
+        # this is useful on its own (without any asserts) because it checks
+        # there are no exceptions when running it
+
+        # TODO run celery and check it actually ran...
+
+
 class TestResourceScore(BaseCase):
 
     @classmethod
@@ -60,11 +96,7 @@ class TestResourceScore(BaseCase):
         }
 
     def teardown(self):
-        pkg = model.Package.get(u'testpkg')
-        if pkg:
-            model.repo.new_revision()
-            pkg.purge()
-            model.repo.commit_and_remove()
+        model.repo.rebuild_db()
 
     def _test_resource(self, url='anything', format='TXT', archived=True, cached=True, license_id='uk-ogl'):
         context = {'model': model, 'ignore_auth': True, 'session': model.Session, 'user': 'test'}
@@ -79,7 +111,7 @@ class TestResourceScore(BaseCase):
             archival.updated = TODAY
             model.Session.add(archival)
             model.Session.commit()
-        return res_id
+        return model.Resource.get(res_id)
 
     @classmethod
     def _set_task_status(cls, task_type, task_status_str):
@@ -173,8 +205,8 @@ class TestResourceScore(BaseCase):
         assert 'License not open' in result['openness_score_reason'], result
 
     def test_not_available_and_not_open(self):
-        res_id = self._test_resource(license_id=None, format=None, cached=False)
-        archival = Archival.get_for_resource(res_id)
+        res = self._test_resource(license_id=None, format=None, cached=False)
+        archival = Archival.get_for_resource(res.id)
         archival.status_id = Status.by_text('Download error')
         archival.reason = 'Server returned 500 error'
         archival.last_success = None
@@ -182,7 +214,7 @@ class TestResourceScore(BaseCase):
         archival.failure_count = 16
         archival.is_broken = True
         model.Session.commit()
-        result = resource_score(res_id, log)
+        result = resource_score(res, log)
         assert result['openness_score'] == 0, result
         assert_equal(result['format'], None)
         # in preference it should report that it is not available
@@ -192,14 +224,14 @@ class TestResourceScore(BaseCase):
         # A cache of the data still exists from the previous run, but this
         # time, the archiver found the file gave a 404.
         # The record of the previous (successful) run of QA.
-        res_id = self._test_resource(license_id=None, format=None)
-        qa = qa_model.QA.create(res_id)
+        res = self._test_resource(license_id=None, format=None)
+        qa = qa_model.QA.create(res.id)
         qa.format = 'CSV'
         model.Session.add(qa)
         model.Session.commit()
         # cache still exists from the previous run, but this time, the archiver
         # found the file gave a 404.
-        archival = Archival.get_for_resource(res_id)
+        archival = Archival.get_for_resource(res.id)
         archival.cache_filepath = __file__
         archival.status_id = Status.by_text('Download error')
         archival.reason = 'Server returned 404 error'
@@ -207,7 +239,7 @@ class TestResourceScore(BaseCase):
         archival.first_failure = datetime.datetime(year=2008, month=10, day=2)
         archival.failure_count = 1
         archival.is_broken = True
-        result = resource_score(res_id, log)
+        result = resource_score(res, log)
         assert result['openness_score'] == 0, result
         assert_equal(result['format'], 'CSV')
         # in preference it should report that it is not available

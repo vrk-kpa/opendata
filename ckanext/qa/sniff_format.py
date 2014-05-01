@@ -360,7 +360,6 @@ def get_zipped_format(filepath, log):
         log.info('Zip has no known extensions: %s', filepath)
         return Formats.by_display_name()['Zip']
 
-    print top_scoring_extension_counts.items()
     top_scoring_extension_counts = sorted(top_scoring_extension_counts.items(),
                                           key=lambda x: x[1])
     top_extension = top_scoring_extension_counts[-1][0]
@@ -372,16 +371,18 @@ def get_zipped_format(filepath, log):
     format_['container'] = Formats.by_display_name()['Zip']['display_name']
     log.info('Zipped file format detected: %s', format_['display_name'])
     return format_
-    
+
+
 def is_excel(filepath, log):
     try:
-        book = xlrd.open_workbook(filepath)
+        xlrd.open_workbook(filepath)
     except Exception, e:
         log.info('Not Excel - failed to load: %s %s', e, e.args)
         return False
     else:
         log.info('Excel file opened successfully')
         return True
+
 
 # same as the python 2.7 subprocess.check_output
 def check_output(*popenargs, **kwargs):
@@ -425,7 +426,8 @@ def run_bsd_file(filepath, log):
         return format_
     log.info('"file" could not determine file format of "%s": %s',
              filepath, result)
-                      
+
+
 def is_ttl(buf, log):
     '''If the buffer is a Turtle RDF file then return True.'''
     # Turtle spec: "Turtle documents may have the strings '@prefix' or '@base' (case dependent) near the beginning of the document."
@@ -465,12 +467,12 @@ def turtle_regex():
      does not support nested blank nodes, collection, sameas ('a' token)
     '''
     if not turtle_regex_:
-         global turtle_regex_
-         rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|""".+?"""(@\w+)?(\^\^\S+)?|\'\'\'.+?\'\'\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
+        global turtle_regex_
+        rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|""".+?"""(@\w+)?(\^\^\S+)?|\'\'\'.+?\'\'\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
 
-         # simple case is: triple_re = '^T T T \.$'.replace('T', rdf_term)
-         # but extend to deal with multiple predicate-objects:
-         #triple = '^T T T\s*(;\s*T T\s*)*\.\s*$'.replace('T', rdf_term).replace(' ', '\s+')
-         triple = '(^T|;)\s*T T\s*(;|\.\s*$)'.replace('T', rdf_term).replace(' ', '\s+')
-         turtle_regex_ = re.compile(triple, re.MULTILINE)
+        # simple case is: triple_re = '^T T T \.$'.replace('T', rdf_term)
+        # but extend to deal with multiple predicate-objects:
+        #triple = '^T T T\s*(;\s*T T\s*)*\.\s*$'.replace('T', rdf_term).replace(' ', '\s+')
+        triple = '(^T|;)\s*T T\s*(;|\.\s*$)'.replace('T', rdf_term).replace(' ', '\s+')
+        turtle_regex_ = re.compile(triple, re.MULTILINE)
     return turtle_regex_

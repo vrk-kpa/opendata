@@ -37,15 +37,11 @@ class QA(Base):
     updated = Column(types.DateTime)
 
     def __repr__(self):
-        if not self.error:
-            summary = 'score=%s format=%s' % (self.openness_score, self.format)
-            details = self.openness_score_reason
-        else:
-            summary = 'ERROR'
-            details = self.error
+        summary = 'score=%s format=%s' % (self.openness_score, self.format)
+        details = self.openness_score_reason
         package = model.Package.get(self.package_id)
         package_name = package.name if package else '?%s?' % self.package_id
-        return '<QA %s /dataset/%s/resource/%s%s>' % \
+        return '<QA %s /dataset/%s/resource/%s %s>' % \
             (summary, package_name, self.resource_id, details)
 
     def as_dict(self):
