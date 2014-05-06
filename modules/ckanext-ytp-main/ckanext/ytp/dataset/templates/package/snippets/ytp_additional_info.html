@@ -82,7 +82,7 @@
     
 	{% set websites = extra_dict.extra_information %}
 	{% if websites|count > 0 %}
-		<dt>{{ _('Additional information') }}</dt>
+		<dt>{{ _('Extra information') }}</dt>
 		{% for site in websites %}
 			<dd><a href="{{site}}">{{site}}</a></dd>
 		{% endfor %}
@@ -90,16 +90,16 @@
     </dl>
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
-
+   <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
+          {{_('Extras')}}
+   </button>
    <dl id="extra_extra" class="collapse">
     {% for key  in extra_dict.keys() %}
     	<dt>{{ _(key) }}</dt>
       	<dd>{{ extra_dict.get(key) }}</dd>
     {% endfor %}
 	</dl>
-   <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
-          {{_('More')}}
-   </button>
+
   {% endblock %}
 
 </section>

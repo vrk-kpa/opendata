@@ -29,48 +29,15 @@ OPEN_DATA = 'Open Data'
 INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
+
 def _escape(value):
     return escape(unicode(value))
-
-
-def _list_to_ul(items):
-    ul_buffer = ["<ul class='dataset-extra'>"]
-    for item in items:
-        ul_buffer.append("<li>%s</li>" % item)
-    ul_buffer.append("</ul>")
-    return "\n".join(ul_buffer)
-
-
-def _to_link(key, value):
-    if not isinstance(value, list):
-        value = [value]
-    link_buffer = []
-    for item in value:
-        if item:
-            link_buffer.append('<a href="%s">%s</a>' % (_escape(item), _escape(item)))
-    return {key: link_buffer}
 
 
 def _prettify(field_name):
     """ Taken from ckan.logic.ValidationError.error_summary """
     field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL', field_name.replace('_', ' ').capitalize())
     return _(field_name.replace('_', ' '))
-
-
-def _get_key_mapping(key):
-    value = _key_mappings.get(key, None)
-    if value:
-        return value
-    for locale in helpers.get_available_locales():
-        suffix = '_%s' % locale.language
-        if key.endswith(suffix):
-            return "%s (%s)" % (_prettify(key[:-len(suffix)]), locale.language), None
-    return None
-
-
-def _translate_key(key):
-    value = _get_key_mapping(key)
-    return _escape(_(value[0]) if value else _prettify(key)), value[1] if value else None
 
 
 def _format_value(value):
@@ -122,10 +89,7 @@ def _parse_extras(key, extras):
         extras_dict.update(_dict_formatter(key, value))
     return extras_dict
 
-
- # , 'copyright_notice', 'warranty_disclaimer']
-
-_key_mappings = {'extra_information': ('Extra information at website', _to_link), 'extras': ('Extra details', _parse_extras)}
+# _key_mappings = {'extra_information': ('Extra information at website', _to_link), 'extras': ('Extra details', _parse_extras)}
 
 _key_functions = {u'extras':  _parse_extras}
 
@@ -145,7 +109,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _localized_fields = ['title', 'notes', 'copyright_notice', 'warranty_disclaimer']
 
     _key_exclude = ['resources', 'organization', 'copyright_notice', 'warranty_disclaimer', 'license_url', 'name',
-                'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title' ]
+                    'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title', 'extra_information',
+                    'maintainer', 'author', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources']
     # IRoutes #
 
     def after_show(self, context, pkg_dict):
@@ -269,9 +234,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return _format_extras(extras)
 
     def _clean_extras(self, extras):
-        for exclude in self._key_exclude:
-            extras.pop(exclude, None)
-        return extras
+        extra_dict = {}
+        for key in extras:
+            if not key in self._key_exclude:
+                value = extras.get(key)
+                if value:
+                    extra_dict.update({_prettify(key): value})
+        return extra_dict
 
     def _unique_formats(self, resources):
         formats = set()
@@ -336,5 +305,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'format_extras': self.format_extras,
                 'extra_translation': self._extra_translation,
                 'service_database_enabled': service_database_enabled,
-                'clean_extras' : self._clean_extras
+                'clean_extras': self._clean_extras
                 }
