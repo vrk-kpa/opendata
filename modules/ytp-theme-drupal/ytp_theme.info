@@ -20,6 +20,8 @@ regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
 regions[top_navigation] = 'Top navigation'
 
+regions[top_bar_secondary] = 'Top Bar Secondary'
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;

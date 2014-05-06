@@ -16,6 +16,7 @@ all_features:
   - service_alert_feature
   - article_view_feature
   - blocks_feature
+  - frontpage_carousel_and_infobox_feature
 
 translation_cache_path: "{{ cache_path }}/translations"
 translation_languages:

@@ -1,3 +1,4 @@
+@import (reference) "upstream_boostrap/mixins";
 @import "variables.less";
 
 body {
@@ -114,4 +115,38 @@ h4 {
 	background-color: @footer-color;
 	font-size: 16px;
 	padding-bottom: 64px;
+}
+
+.carousel{
+  .carousel-inner{
+    .item {
+      img {
+        width: 200px;
+        height: 160px;
+      }
+    }
+    .carousel-caption{
+      left: 220px;
+      height: 160px;
+    }
+    background-color: @navbar-color-background;
+    height: 160px;
+    border-radius: 5px;
+  }
+}
+
+#infobox{
+  background-color: @navbar-color-background;
+  color: @navbar-color-text;
+  height: 160px;
+  border-radius: 5px;
+  padding-top: 15px;
+}
+
+#page-header > .row{
+  padding-bottom: 20px;
+}
+
+.row{
+  margin-right: 0;
 }

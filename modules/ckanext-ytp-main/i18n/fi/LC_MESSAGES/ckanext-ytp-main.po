@@ -10,14 +10,15 @@
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 # salum, 2014
 # salum, 2014
+# toini.salmenkivi <toini.salmenkivi@valtori.fi>, 2014
 # Yhteentoimivuuspalvelut <yhteentoimivuusportaali@valtiokonttori.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-04-28 11:17+0000\n"
-"PO-Revision-Date: 2014-04-28 11:26+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"PO-Revision-Date: 2014-05-06 11:37+0000\n"
+"Last-Translator: toini.salmenkivi <toini.salmenkivi@valtori.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -381,7 +382,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:60
 msgid "Copyright Notice"
-msgstr "Tekijäoikeusilmoitus"
+msgstr "Tekijänoikeusilmoitus"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:60
 msgid "Additional information concerning copyright"
@@ -389,7 +390,7 @@ msgstr "Lisätietoja tekijänoikeuksista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:61
 msgid "Disclaimer of Warranty"
-msgstr "Tietoa takuuista"
+msgstr "Tietoa takuista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:61
 msgid "Disclaimer on liability due to use of this dataset"

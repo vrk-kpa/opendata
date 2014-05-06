@@ -1,6 +1,13 @@
 {% ckan_extends %}
 
-{% block secondary_content %}
-	{% snippet "package/snippets/info.html", pkg=pkg %}
+{% block secondary %}
+{% endblock  %}
+
+{% block primary %}
+    <div>
+        {% block primary_content %}
+            {{ super() }}
+        {% endblock %}
+    </div>
 {% endblock %}
 

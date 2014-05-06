@@ -118,6 +118,8 @@
     - imce
     - imce_wysiwyg
     - google_analytics
+
+    - views_bootstrap-7.x-3.x
   tags:
   - drupal
 
@@ -159,6 +161,8 @@
     - imce
     - imce_wysiwyg
     - googleanalytics
+
+    - views_bootstrap-7.x-3.x
   tags:
   - drupal
 

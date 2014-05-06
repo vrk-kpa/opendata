@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ytp.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
     ytp.vm.network :private_network, ip: "10.10.10.10"
-    
+
     # Sync source code directories from host to guest
     case RUBY_PLATFORM
     when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.skip_tags = "has-hostname,non-local,postfix"
       ansible.extra_vars = { google_analytics: false }
       # ansible.extra_vars = { clear_module_cache: true }
-      # ansible.tags = "data-tags-celery"
+      # ansible.tags = "modules,ckan,drupal"
       # ansible.start_at_task = ""
     end
 

@@ -91,7 +91,17 @@
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
 
-    <?php print render($page['header']); ?>
+    <?php if (!empty($page['header'])): ?>
+      <div class="row">
+        <div class="col-sm-9">
+          <?php print render($page['header']); ?>
+        </div>
+        <div class="col-sm-3" id="infobox">
+          <?php print render($page['top_bar_secondary']); ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
   </header> <!-- /#page-header -->
 
 
@@ -142,7 +152,7 @@
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
-      <aside class="col-sm-4" role="complementary">
+      <aside class="col-sm-3" role="complementary">
         <?php print render($page['sidebar_second']); ?>
       </aside>  <!-- /#sidebar-second -->
     <?php endif; ?>
