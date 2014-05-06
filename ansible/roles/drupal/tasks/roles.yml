@@ -48,6 +48,16 @@
     - customize shortcut links
     - view own unpublished content
     - administer menu
+    - create carousel_item content
+    - edit own carousel_item content
+    - edit any carousel_item content
+    - delete own carousel_item content
+    - delete any carousel_item content
+    - create infobox content
+    - edit own infobox content
+    - edit any infobox content
+    - delete own infobox content
+    - delete any infobox content
   tags:
   - drupal
   - roles
