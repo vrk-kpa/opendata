@@ -39,7 +39,7 @@ function ytp_theme_preprocess_page(&$variables) {
     $variables['content_column_class'] = ' class="col-sm-4"';
   }
   elseif (!empty($variables['page']['sidebar_first']) || !empty($variables['page']['sidebar_second'])) {
-    $variables['content_column_class'] = ' class="col-sm-8"';
+    $variables['content_column_class'] = ' class="col-sm-9"';
   }
   else {
     $variables['content_column_class'] = ' class="col-sm-12"';
