@@ -1,8 +1,16 @@
 {% ckan_extends %}
 
-{% block primary_content %}
-    {% block ytp_title %}
-    <h1 class="content-heading">{{ _("Create Dataset") }}</h1>
-    {% endblock %}
-    {{ super() }}
+{% block secondary %}
+{% endblock  %}
+
+{% block primary %}
+    <div >
+        {% block primary_content %}
+            {% block ytp_title %}
+            <h1 class="content-heading">{{ _("Create Dataset") }}</h1>
+            {% endblock %}
+
+            {{ super() }}
+        {% endblock %}
+    </div>
 {% endblock %}
