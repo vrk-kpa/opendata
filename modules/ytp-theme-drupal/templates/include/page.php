@@ -90,15 +90,20 @@
     <?php if (!empty($site_slogan)): ?>
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
-
     <?php if (!empty($page['header'])): ?>
       <div class="row">
-        <div class="col-sm-9">
-          <?php print render($page['header']); ?>
-        </div>
-        <div class="col-sm-3" id="infobox">
-          <?php print render($page['top_bar_secondary']); ?>
-        </div>
+        <?php if (!empty($page['top_bar_secondary'])): ?>
+          <div class="col-sm-9">
+            <?php print render($page['header']); ?>
+          </div>
+          <div class="col-sm-3" id="infobox">
+            <?php print render($page['top_bar_secondary']); ?>
+          </div>
+        <?php else: ?>
+          <div class="col-sm-12">
+            <?php print render($page['header']); ?>
+          </div>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
 
