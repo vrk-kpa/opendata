@@ -91,14 +91,17 @@
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
 
-    <div class="row">
-      <div class="col-sm-9">
-        <?php print render($page['header']); ?>
+    <?php if (!empty($page['header'])): ?>
+      <div class="row">
+        <div class="col-sm-9">
+          <?php print render($page['header']); ?>
+        </div>
+        <div class="col-sm-3" id="infobox">
+          <?php print render($page['top_bar_secondary']); ?>
+        </div>
       </div>
-      <div class="col-sm-3" id="infobox">
-        <?php print render($page['top_bar_secondary']); ?>
-      </div>
-    </div>
+    <?php endif; ?>
+
   </header> <!-- /#page-header -->
 
 
