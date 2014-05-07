@@ -55,6 +55,8 @@ def broken_links_by_organization(include_sub_organizations=False):
         results = counts
 
     data = []
+    num_broken_packages = 0
+    num_broken_resources = 0
     for org_name, org_counts in sorted(results.iteritems(), key=lambda r: r[0]):
         #if results[org_counts]['resources'] == 0:
         #    continue
@@ -65,8 +67,24 @@ def broken_links_by_organization(include_sub_organizations=False):
             ('broken_package_count', org_counts['packages']),
             ('broken_resource_count', org_counts['resources']),
             )))
+        num_broken_packages += org_counts['packages']
+        num_broken_resources += org_counts['resources']
 
-    return {'data': data}
+    # Get total number of packages & resources
+    num_packages = model.Session.query(model.Package)\
+                        .filter_by(state='active')\
+                        .count()
+    num_resources = model.Session.query(model.Resource)\
+                         .filter_by(state='active')\
+                         .join(model.ResourceGroup)\
+                         .join(model.Package)\
+                         .filter_by(state='active').count()
+
+    return {'data': data,
+            'num_broken_packages': num_broken_packages,
+            'num_broken_resources': num_broken_resources,
+            'num_packages': num_packages,
+            'num_resources': num_resources}
 
 
 def broken_links_for_organization(organization, include_sub_organizations=False):
@@ -149,13 +167,27 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
 
         results.append(row_data)
 
-    num_packages = archivals.distinct(model.Package.name).count()
-    num_resources = len(results)
+    num_broken_packages = archivals.distinct(model.Package.name).count()
+    num_broken_resources = len(results)
+
+    # Get total number of packages & resources
+    num_packages = model.Session.query(model.Package)\
+                        .filter_by(owner_org=org.id)\
+                        .filter_by(state='active')\
+                        .count()
+    num_resources = model.Session.query(model.Resource)\
+                         .filter_by(state='active')\
+                         .join(model.ResourceGroup)\
+                         .join(model.Package)\
+                         .filter_by(owner_org=org.id)\
+                         .filter_by(state='active').count()
 
     return {'organization_name': name,
             'organization_title': title,
-            'broken_package_count': num_packages,
-            'broken_resource_count': num_resources,
+            'num_broken_packages': num_broken_packages,
+            'num_broken_resources': num_broken_resources,
+            'num_packages': num_packages,
+            'num_resources': num_resources,
             'data': results}
 
 

@@ -4,12 +4,16 @@
   py:strip="">
 
     <py:if test="c.options['organization'] == None">
+      <ul>
+          <li>Broken datasets: ${c.data['num_broken_packages']} / ${c.data['num_packages']}</li>
+          <li>Broken links: ${c.data['num_broken_resources']} / ${c.data['num_resources']}</li>
+      </ul>
       <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table">
        <thead>
         <tr>
           <th>Publisher</th>
-          <th>Number of datasets with broken links</th>
-          <th>Total broken links</th>
+          <th>Datasets with broken links</th>
+          <th>Broken links</th>
         </tr>
        </thead>
        <tbody>
@@ -25,8 +29,8 @@
 
     <py:if test="c.options['organization'] != None">
         <ul>
-          <li>Broken datasets: ${c.data['broken_package_count']}</li>
-          <li>Broken links: ${c.data['broken_resource_count']}</li>
+          <li>Broken datasets: ${c.data['num_broken_packages']} / ${c.data['num_packages']}</li>
+          <li>Broken links: ${c.data['num_broken_resources']} / ${c.data['num_resources']}</li>
         </ul>
         <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout: fixed;">
          <thead>
