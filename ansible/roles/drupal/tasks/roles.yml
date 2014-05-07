@@ -53,11 +53,11 @@
     - edit any carousel_item content
     - delete own carousel_item content
     - delete any carousel_item content
-    - create infobox_content content
-    - edit own infobox_content content
-    - edit any infobox_content content
-    - delete own infobox_content content
-    - delete any infobox_content content
+    - create infobox content
+    - edit own infobox content
+    - edit any infobox content
+    - delete own infobox content
+    - delete any infobox content
   tags:
   - drupal
   - roles
