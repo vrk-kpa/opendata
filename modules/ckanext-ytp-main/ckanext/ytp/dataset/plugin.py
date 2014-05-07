@@ -4,7 +4,7 @@ from ckan.lib.navl.dictization_functions import Missing
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
-from webhelpers.html import escape, literal
+from webhelpers.html import escape
 from pylons import config
 
 from ckanext.ytp.dataset.converters import convert_to_tags_string, date_validator, string_join
@@ -240,7 +240,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _clean_extras(self, extras):
         extra_dict = {}
         for key in extras:
-            if not key in self._key_exclude:
+            if key not in self._key_exclude:
                 value = extras.get(key)
                 if value:
                     extra_dict.update({_prettify(key): value})
