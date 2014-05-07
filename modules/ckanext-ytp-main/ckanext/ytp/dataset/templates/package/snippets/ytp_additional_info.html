@@ -88,6 +88,28 @@
 		{% endfor %}
 	{% endif %}
     </dl>
+    
+    {% if extra_dict.copyright_notice %}
+      <dt>{{ _("Copyright Notice") }}</dt>
+      <dd>{{ extra_dict.copyright_notice }}</dd>
+    {% endif %}
+    
+    
+    {% if extra_dict.temporal_granularity %}
+      <dt>{{ _("Temporal Granurality") }}</dt>
+      <dd>{{ extra_dict.temporal_granularity }}</dd>
+    {% endif %} 
+    {% set tc_from = extra_dict.temporal_coverage_from is defined %}
+    {% set tc_to = extra_dict.temporal_coverage_to is defined %}
+    {% if  tc_from or tc_to  %}
+      <dt>{{ _("Temporal Coverage") }}</dt>
+      <dd>{{ extra_dict.temporal_coverage_from }} - {{ extra_dict.temporal_coverage_to  }}</dd>
+    {% endif %} 
+    
+   	{% if extra_dict.update_frequency %}
+      <dt>{{ _("Update Frequency") }}</dt>
+      <dd>{{ extra_dict.update_frequency }}</dd>
+    {% endif %} 
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
    <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
