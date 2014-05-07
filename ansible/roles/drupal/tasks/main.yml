@@ -120,6 +120,7 @@
     - google_analytics
 
     - views_bootstrap-7.x-3.x
+    - strongarm
   tags:
   - drupal
 
@@ -163,6 +164,7 @@
     - googleanalytics
 
     - views_bootstrap-7.x-3.x
+    - strongarm
   tags:
   - drupal
 

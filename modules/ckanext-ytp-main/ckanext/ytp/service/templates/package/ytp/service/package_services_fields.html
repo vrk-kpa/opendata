@@ -1,99 +1,34 @@
 {% import 'macros/form.html' as form %}
 {% import 'macros/ytp_form.html' as ytp_form %}
 
-<h2>{{ _('Chargeability') }}</h2>
+<h2>{{ _('Service charge') }}</h2>
 
-{% call form.input_block("chargeable", _('Chargeable'), errors.chargeable, [], extra_html="") %}
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="chargeable" value="true" />
-    {{ _('Chargeable') }}
-  </label> 
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="chargeable" value="false" />
-    {{ _('Free') }}
-  </label>
-</div>
-{% endcall %}
+{% set yes_no_none_options = ((_('Yes'), "yes"), ( _('No'), "no"), (_('No information'), "unknown")) %}
+{{ ytp_form.radio(yes_no_none_options, "unknown", "free_of_charge", label=_('Free of charge?'), value=data.free_of_charge, error=errors.free_of_charge) }}
 
-{{ form.input('service_charges_url', label=_('Service charges (URL)'), value=data.service_charges_url, placeholder='', error=errors.service_charges_url) }}
-{{ ytp_form.markdown('service_price_description', label=_('Service price description'), value=data.service_price_description, placeholder='', error=errors.service_price_description, locales=h.get_available_locales(), data=data) }}
+{{ form.input('pricing_information_url', label=_('Pricing information for this service (webaddress)'), value=data.pricing_information_url, placeholder=_('https://www.example.com/'), error=pricing_information_url) }}
+{{ ytp_form.markdown('service_price_description', label=_('Description of service pricing'), value=data.service_price_description, placeholder='', error=errors.service_price_description, locales=h.get_available_locales(), data=data) }}
 
-<h2>{{ _('Handling times') }}</h2>
 
-{{ ytp_form.markdown('service_handling_time', label=_('Estimate of service handling time'), value=data.service_handling_time, placeholder='', error=errors.service_handling_time, locales=h.get_available_locales(), data=data) }}
-{{ ytp_form.markdown('service_usage_season', label=_('Service usage season'), value=data.service_usage_season, placeholder='', error=errors.service_usage_season, locales=h.get_available_locales(), data=data) }}
-{{ form.input('service_duration_per_customer', label=_('Estimated duration per customer'), value=data.service_duration_per_customer, placeholder='', error=errors.service_duration_per_customer) }}
+<h2>{{ _('Processing times') }}</h2>
+
+{{ ytp_form.markdown('processing_time_estimate', label=_('Estimate of processing time'), value=data.processing_time_estimate, placeholder='', error=errors.processing_time_estimate, locales=h.get_available_locales(), data=data) }}
+{{ ytp_form.markdown('service_main_usage', label=_('Main time of the year for using this service'), value=data.service_main_usage, placeholder='', error=errors.service_main_usage, locales=h.get_available_locales(), data=data) }}
+{{ form.input('average_service_time_estimate', label=_('Estimated average service time per customer'), value=data.average_service_time_estimate, placeholder='', error=errors.average_service_time_estimate) }}
 
 
 <h2>{{ _('Remote Service (video connection)') }}</h2>
+{% set remote_service_options = ((_('Remote service available'), "yes"), (_('No remote service'), "no"), (_('Status not available'), "unknown")) %}
+{{ ytp_form.radio(remote_service_options, "unknown", "remote_service", label=_('Remote service'), value=data.remote_service, error=errors.remote_service) }}
 
-{% call form.input_block("remote_service", _('Remote service'), errors.remote_service, [], extra_html="") %}
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="remote_service" value="yes" />
-    {{ _('Remote service available') }}
-  </label> 
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="remote_service" value="no" />
-    {{ _('Remote service not available') }}
-  </label>
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="remote_service" value="unknown" />
-    {{ _('No information') }}
-  </label>
-</div>
-{% endcall %}
-
-{{ form.input('remote_service_duration_per_customer', label=_('Estimated duration per customer'), value=data.remote_service_duration_per_customer, placeholder='', error=errors.remote_service_duration_per_customer) }}
+{{ form.input('remote_service_duration_per_customer', label=_('Estimated average remote service time per customer'), value=data.remote_service_duration_per_customer, placeholder='', error=errors.remote_service_duration_per_customer) }}
 
 
-<h2>Electronic resolution and communication</h2>
+<h2>Electronic notification and communication</h2>
 
-{% call form.input_block("resolutions_and_communications_electronic", _('Are resolutions and documents provided electronically?'), errors.resolutions_and_communications_electronic, [], extra_html="") %}
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="resolutions_and_communications_electronic" value="yes" />
-    {{ _('Yes, how?') }}
-  </label> 
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="resolutions_and_communications_electronic" value="no" />
-    {{ _('No') }}
-  </label>
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="resolutions_and_communications_electronic" value="unknown" />
-    {{ _('No information') }}
-  </label>
-</div>
-{% endcall %}
+{% set yes_where_no_none_options = ((_('Yes, where?'), "yes"), ( _('No'), "no"), (_('No information'), "unknown")) %}
+{{ ytp_form.radio(yes_where_no_none_options, "unknown", "decisions_and_documents_electronic", label=_('Is there electronic delivery of decisions and documents?'), value=data.decisions_and_documents_electronic, error=errors.decisions_and_documents_electronic) }}
 
-{% call form.input_block("communicate_service_electronically", _('Can user communicate electronically in service?'), errors.communicate_service_electronically, [], extra_html="") %}
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="communicate_service_electronically" value="yes" />
-    {{ _('Yes, how?') }}
-  </label> 
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="communicate_service_electronically" value="no" />
-    {{ _('No') }}
-  </label>
-</div>
-<div class="radio-select-label">
-  <label class="radio inline">
-    <input type="radio" name="communicate_service_electronically" value="unknown" />
-    {{ _('No information') }}
-  </label>
-</div>
-{% endcall %}
+{% set yes_how_no_none_options = ((_('Yes, how?'), "yes"), ( _('No'), "no"), (_('No information'), "unknown")) %}
+{% set decisions_and_documents_electronic_options = ((_('Yes, how?'), "yes"), ( _('No'), "no"), (_('No information'), "unknown")) %}
+{{ ytp_form.radio(yes_how_no_none_options, "unknown", "communicate_service_digitally", label=_('Can the customer communicate digitally in the service?'), value=data.communicate_service_digitally, error=errors.communicate_service_digitally) }}
