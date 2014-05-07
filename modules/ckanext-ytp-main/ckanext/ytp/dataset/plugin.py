@@ -195,7 +195,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return True
 
     def _get_from_mapping(self, index):
-        template = self._collection_mapping.get(request.params.get('collection_type', None), None)
+        collection_type = request.params.get('collection_type', None)
+        if not collection_type and c.pkg_dict and 'collection_type' in c.pkg_dict:
+            collection_type = c.pkg_dict['collection_type']
+
+        template = self._collection_mapping.get(collection_type, None)
         if not template:
             c.unknown_collection = True
             return self._collection_mapping.get(None)[index]
