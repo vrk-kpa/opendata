@@ -1,0 +1,28 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+  <li class="active">Varaa etäpalveluaika</li>
+{% endblock %}
+
+{% block primary_content %}
+  <article class="module">
+    <div class="module-content">
+      {% block primary_content_inner %}
+        <h1 class="page-heading">
+          {% block page_heading %}Etäpalveluajan varaaminen asiakaspalvelupisteestä{% endblock %}
+        </h1>
+        {{ c.form | safe }}
+      {% endblock %}
+    </div>
+    <div class="module-content">
+      Varaa etäpalveluaika asiakaspalvelupisteeseen oheisella lomakkeella.
+    </div>
+  </article>
+
+  {% snippet 'snippets/postit.html' %}
+{% endblock %}
+
+
+{% block secondary_content %}
+
+{% endblock %}
