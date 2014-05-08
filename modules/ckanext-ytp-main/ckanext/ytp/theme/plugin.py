@@ -28,7 +28,9 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                   menu.PublishMenu, menu.PublishToolsMenu),
                  (['/%(language)s/service/new', '/service/new'],
                   menu.PublishMenu, menu.PublishServiceMenu),
-                 (['/%(language)s/dataset/new', '/dataset/new'], menu.PublishMenu, menu.PublishMainMenu)]
+                 (['/%(language)s/dataset/new', '/dataset/new'], menu.PublishMenu, menu.PublishMainMenu),
+                 (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.OrganizationMenu),
+                 (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.OrganizationMenu)]
 
     # IRoutes #
 
@@ -47,7 +49,6 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_resource('public/css/', 'ytp_css')
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
         toolkit.add_resource('public/js/', 'ytp_js')
-
     # IConfigurable #
 
     def configure(self, config):

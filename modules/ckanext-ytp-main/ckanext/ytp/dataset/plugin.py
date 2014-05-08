@@ -7,8 +7,8 @@ from ckan.common import _, c, request
 from webhelpers.html import escape
 from pylons import config
 
-from ckanext.ytp.dataset.converters import convert_to_tags_string, date_validator, string_join
-from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url
+from ckanext.ytp.dataset.converters import date_validator
+from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join
 
 import types
 import re

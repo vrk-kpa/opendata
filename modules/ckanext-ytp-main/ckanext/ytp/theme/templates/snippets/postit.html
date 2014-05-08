@@ -1,0 +1,76 @@
+{% import 'macros/form.html' as form %}
+<div class="module">
+  <div class="module-content">
+    <form id="postForm" action="https://asiointitili.suomi.fi/message/post" method="post" role="form" class="form-horizontal">
+      <div class="form-group">
+        <label for="serviceLocation" class="col-sm-2 control-label">Asiakaspalvelupiste</label>
+        <div class="col-sm-9">
+          <select class="form-control">
+            <option value="" disabled selected>Valitse asiakaspalvelupiste</option>
+            <option value="Mikkeli">Mikkeli</option>
+            <option value="Parainen">Parainen</option>
+            <option value="Pelkosenniemi">Pelkosenniemi</option>
+            <option value="Saarijärvi">Saarijärvi</option>
+            <option value="Oulu">Oulu</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Päivämäärä ja kellonaika</label>
+        <div class="col-sm-4">
+            <input type="date" class="form-control">
+        </div>
+        <div class="col-sm-4">
+          <select class="form-control">
+            <option value="" disabled selected>Kellonaika</option>
+            <option value="8">8:00</option>
+            <option value="9">9:00</option>
+            <option value="10">10:00</option>
+            <option value="11">11:00</option>
+            <option value="12">12:00</option>
+            <option value="13">13:00</option>
+            <option value="14">14:00</option>
+            <option value="15">15:00</option>
+            <option value="16">16:00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <h2 class="form-subheading">Täytä omat tietosi</h2>
+        <label class="col-sm-2 control-label">Nimi</label>
+        <div class="col-sm-9">
+          <input type="text" placeholder="Nimi.." class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Sähköpostiosoite</label>
+        <div class="col-sm-9">
+          <input type="text" placeholder="Sähköpostiosoite.." class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Puhelinnumero</label>
+        <div class="col-sm-9">
+          <input type="text" placeholder="Puhelinnumero.." class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Asiankuvaus</label>
+        <div class="col-sm-9">
+          <textarea placeholder="Asiankuvaus.." class="form-control"></textarea>
+        </div>
+      </div>
+      <input type="hidden" name="ViranomaisTunnus" id="ViranomaisTunnus" value="email_valtori.fi" />
+      <input type="hidden" name="PalveluTunnus" id="PalveluTunnus" value="email_valtori.fi" />
+      <input type="hidden" name="Nimeke" id="Nimeke" value="Etäpalveluajan varaaminen asiakaspalvelupisteestä" />
+      <input type="hidden" name="Kuvausteksti" id="Kuvausteksti" value="Varaa etäpalveluaika asiakaspalvelupisteeseen oheisella lomakkeella" />
+      <input type="hidden" name="Paluuosoite" id="Paluuosoite" value="{{ h.full_current_url()[:-4] }}/return" />
+      <input type="hidden" name="PalaaAutomaattisesti" id="PalaaAutomaattisesti" value="1" />
+      <input type="hidden" name="ViranomaisenEmail" id="ViranomaisenEmail" value="asiointitili@valtori.fi" />
+      <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Lähetä</button>
+      <button type="reset" class="btn btn-default">Tyhjennä</button>
+      </div>
+    </form>
+  </div>
+</div>

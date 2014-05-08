@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-28 11:17+0000\n"
-"PO-Revision-Date: 2014-04-28 11:17+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"POT-Creation-Date: 2014-05-08 10:08+0000\n"
+"PO-Revision-Date: 2014-05-08 10:08+0000\n"
+"Last-Translator: ilja.dev\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/ytp/common/converters.py:32
+#: ckanext/ytp/common/converters.py:35
 msgid "Incorrect URL format"
 msgstr ""
 
@@ -93,9 +93,10 @@ msgid "OK"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:3
-#: ckanext/ytp/dataset/templates/package/new.html:5
-#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
-#: ckanext/ytp/dataset/templates/package/new_resource.html:4
+#: ckanext/ytp/dataset/templates/package/base.html:17
+#: ckanext/ytp/dataset/templates/package/new.html:10
+#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
+#: ckanext/ytp/dataset/templates/package/new_resource.html:10
 msgid "Create Dataset"
 msgstr ""
 
@@ -126,42 +127,41 @@ msgid "Publish Tools and Instructions"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:33
-#: ckanext/ytp/theme/menu.py:176
-msgid "Publish Public Service"
+msgid "Publish Service"
 msgstr ""
 
-#: ckanext/ytp/dataset/converters.py:10
+#: ckanext/ytp/dataset/converters.py:7
 msgid "Multiple translation in same language"
 msgstr ""
 
-#: ckanext/ytp/dataset/converters.py:50
+#: ckanext/ytp/dataset/converters.py:37
 #: ckanext/ytp/organizations/plugin.py:300
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:176
+#: ckanext/ytp/dataset/plugin.py:222
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
 msgstr "Information reserv"
 
-#: ckanext/ytp/dataset/plugin.py:177
+#: ckanext/ytp/dataset/plugin.py:223
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr "Ämne"
 
-#: ckanext/ytp/dataset/plugin.py:178
+#: ckanext/ytp/dataset/plugin.py:224
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/dataset/plugin.py:179 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:225 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:180
+#: ckanext/ytp/dataset/plugin.py:226
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:64
@@ -189,11 +189,24 @@ msgstr ""
 msgid "Title sv"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:4
+#: ckanext/ytp/dataset/templates/package/base.html:8
+#: ckanext/ytp/organizations/templates/organization/index.html:10
+#: ckanext/ytp/theme/menu.py:70 ckanext/ytp/theme/menu.py:145
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/base.html:12
+#: ckanext/ytp/dataset/templates/package/base.html:16
+#: ckanext/ytp/theme/menu.py:60 ckanext/ytp/user/templates/user/read.html:5
+#: ckanext/ytp/user/templates/user/read_base.html:28
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
 msgid "Additional data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/new_resource.html:4
+#: ckanext/ytp/dataset/templates/package/new_resource.html:10
 msgid "Add data"
 msgstr ""
 
@@ -272,6 +285,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/resource_read.html:112
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:5
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:58
 msgid "License"
 msgstr ""
 
@@ -374,6 +388,7 @@ msgid "eg. Some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:60
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:74
 msgid "Copyright Notice"
 msgstr ""
 
@@ -382,6 +397,7 @@ msgid "Additional information concerning copyright"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:61
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:79
 msgid "Disclaimer of Warranty"
 msgstr ""
 
@@ -552,31 +568,18 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:2
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:85
 msgid "Extra information"
 msgstr "Kommentarer"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:7
-msgid "Source"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:15
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:50
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:53
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:23
-msgid "Maintainer"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
-msgid "Version"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
-#: ckanext/ytp/user/templates/user/read_base.html:62
-msgid "State"
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:94
+msgid "Extras"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
@@ -638,11 +641,6 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:159
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:230
 msgid "Plain language translation not available"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/index.html:10
-#: ckanext/ytp/theme/menu.py:70 ckanext/ytp/theme/menu.py:145
-msgid "Organizations"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/index.html:12
@@ -900,7 +898,7 @@ msgid "0 Datasets"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/new.html:4
-msgid "Create Public Service"
+msgid "Create Service"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/new_package_form.html:23
@@ -911,20 +909,20 @@ msgstr ""
 msgid "Alternative Title"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:97
-msgid "Service group"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:99
-msgid "Municipalities, where service is provided"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:100
-msgid "Target groups"
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:98
+msgid "Service cluster"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:101
-msgid "Usage Requirements"
+msgid "Municipalities, where service is provided"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:104
+msgid "Target groups"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:106
+msgid "Requirements for using the service"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:14
@@ -936,7 +934,7 @@ msgid "Producer"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:16
-msgid "Services"
+msgid "Service Details"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:17
@@ -957,20 +955,20 @@ msgid ""
 "under the Open Database License."
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
-msgid "Implementation style"
-msgstr ""
-
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
-msgid "Organizer or Responsible"
+msgid "Production type"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:8
-msgid "Service provider if other than organizer"
+msgid "Responsible organization"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:10
-msgid "Service type"
+msgid "Service provider (if other than responsible organization)"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:12
+msgid "Service class"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:4
@@ -1126,87 +1124,107 @@ msgstr ""
 msgid "Fax service"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:4
-msgid "Chargeability"
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:5
+msgid "Service charge"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:6
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:10
-msgid "Chargeable"
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
+msgid "Yes"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:16
-msgid "Free"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Service charges (URL)"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:22
-msgid "Service price description"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:24
-msgid "Handling times"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:26
-msgid "Estimate of service handling time"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:27
-msgid "Service usage season"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:28
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:54
-msgid "Estimated duration per customer"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:31
-msgid "Remote Service (video connection)"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:33
-msgid "Remote service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:37
-msgid "Remote service available"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:43
-msgid "Remote service not available"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:49
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:75
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:96
-msgid "No information"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:59
-msgid "Are resolutions and documents provided electronically?"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:63
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:84
-msgid "Yes, how?"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:69
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:90
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
 msgid "No"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:80
-msgid "Can user communicate electronically in service?"
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
+msgid "No information"
 msgstr ""
 
-#: ckanext/ytp/theme/menu.py:60 ckanext/ytp/user/templates/user/read.html:5
-#: ckanext/ytp/user/templates/user/read_base.html:28
-msgid "Datasets"
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:8
+msgid "Free of charge?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:10
+msgid "Pricing information for this service (webaddress)"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:10
+msgid "https://www.example.com/"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
+msgid "Description of service pricing"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:13
+msgid "Processing times"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:15
+msgid "Estimate of processing time"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:16
+msgid "Main time of the year for using this service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:17
+msgid "Estimated average service time per customer"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:20
+msgid "Remote Service (video connection)"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
+msgid "Remote service available"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
+msgid "No remote service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
+msgid "Status not available"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:22
+msgid "Remote service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:24
+msgid "Estimated average remote service time per customer"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
+msgid "Yes, where?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
+msgid "Unknown"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:30
+msgid "Is there electronic delivery of decisions and documents?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:32
+msgid "Where?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
+msgid "Yes, how?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:35
+msgid "Can the customer communicate digitally in the service?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:37
+msgid "How?"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:80
@@ -1228,6 +1246,10 @@ msgstr ""
 #: ckanext/ytp/theme/menu.py:135 ckanext/ytp/user/templates/user/list.html:6
 #: ckanext/ytp/user/templates/user/list.html:14
 msgid "Users"
+msgstr ""
+
+#: ckanext/ytp/theme/menu.py:176
+msgid "Publish Public Service"
 msgstr ""
 
 #: ckanext/ytp/theme/translations.py:7
@@ -1488,6 +1510,10 @@ msgstr ""
 
 #: ckanext/ytp/user/templates/user/read_base.html:58
 msgid "Member Since"
+msgstr ""
+
+#: ckanext/ytp/user/templates/user/read_base.html:62
+msgid "State"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/read_base.html:67
