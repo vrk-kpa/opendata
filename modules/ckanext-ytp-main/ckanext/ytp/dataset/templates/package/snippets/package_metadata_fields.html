@@ -1,5 +1,7 @@
 {% ckan_extends %}
 
+{% import 'macros/ytp_form.html' as ytp_form %}
+
 {# Disable custom fields from form #}
 {% block custom_fields %}
 {% endblock %}
@@ -10,4 +12,30 @@
 
 {% block package_metadata_fields %}
   {{ super() }}
+  
+  {% block package_temporal_metadata %}
+{# Aikajakso jolta aineiston on, esim. 1 vuosi. 
+	Tai vaikka 7 kuukautta. Vapaatekstikenttä. #}
+
+   {{ ytp_form.input('temporal_granularity', id='temporal_granularity', label=_('Temporal Granurality'), placeholder=_('eg. A year, 2 months'), value=data.temporal_granularity, error=errors.temporal_granularity, classes=['control'], locales=h.get_available_locales(), data=data) }}
+
+{# Aikajakson alkupäivämäärä 
+	(kalenterivalitsin ei tässä tehtävässä #}
+
+    {% call form.input_block("temporal_coverage", _('Temporal Coverage'), errors.validity, [], extra_html="") %}
+ <input id="temporal_coverage-from" type="date" name="temporal_coverage-from" value="{{ data.get('temporal_coverage-from') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+-
+{# Aikajakson loppupäivämäärä 
+	(kalenterivalitsin ei tässä tehtävässä) #}
+
+ <input id="temporal_coverage-to" type="date" name="temporal_coverage-to" value="{{ data.get('temporal_coverage-to') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+    {% endcall %}
+
+{# Päivitysväli, eli kuinka usein tietoja päivitetään 
+	tai tuodaan uusi data, esim. joka toinen vuosi. 
+	Tai joka vuosi. Vapaatekstikenttä. #} 
+
+   {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control'], locales=h.get_available_locales(), data=data) }}
+ 
+  {% endblock %} 
 {% endblock %}

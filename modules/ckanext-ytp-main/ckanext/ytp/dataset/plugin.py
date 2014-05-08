@@ -56,7 +56,7 @@ def _format_value(value):
 
 
 def _format_extras(extras):
-    log.warning(repr(extras))
+
     if not extras:
         return ""
     extra_buffer = {}
@@ -66,7 +66,7 @@ def _format_extras(extras):
 
 
 def _dict_formatter(key, value):
-    log.warn("dic_formattter key=" + key)
+
     value_formatter = _key_functions.get(key)
     if value_formatter:
         return value_formatter(key, value)
@@ -110,7 +110,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     _key_exclude = ['resources', 'organization', 'copyright_notice', 'warranty_disclaimer', 'license_url', 'name',
                     'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title', 'extra_information',
-                    'maintainer', 'author', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources']
+                    'maintainer', 'author', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
+                    'temporal_granularity', 'temporal_coverage-from', 'temporal_coverage-to', 'update_frequency']
     # IRoutes #
 
     def after_show(self, context, pkg_dict):
@@ -150,6 +151,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
+        schema.update({'temporal_granularity': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'temporal_coverage-from': [ignore_missing, date_validator, convert_to_extras]})
+        schema.update({'temporal_coverage-to': [ignore_missing, date_validator, convert_to_extras]})
+        schema.update({'update_frequency': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
@@ -181,6 +186,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
         schema.update({'valid_from': [convert_from_extras, ignore_missing]})
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
+        schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
+        schema.update({'temporal_coverage-from': [convert_from_extras, ignore_missing]})
+        schema.update({'temporal_coverage-to': [convert_from_extras, ignore_missing]})
+        schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
 
         schema = add_translation_show_schema(schema)

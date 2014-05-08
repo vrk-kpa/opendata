@@ -59,14 +59,14 @@
       <dd>{% if extra_dict.license_url %}
       	<a href ="{{ extra_dict.license_url }}">
       		{% if extra_dict.license_title %}
-      		{{extra_dict.license_title}}
+      			{{extra_dict.license_title}}
       		{% else %}
-      		{{extra_dict.license_ur}}
+      			{{extra_dict.license_ur}}
       		{% endif %}
       	</a>
-      	{% endif %}
       	{% else %}
-      	{{extra_dict.license_title}}
+      		{{extra_dict.license_title}}
+      	{% endif %}
       	</dd>   
     {% endif %}
     
@@ -88,6 +88,28 @@
 		{% endfor %}
 	{% endif %}
     </dl>
+    
+    {% if extra_dict.copyright_notice %}
+      <dt>{{ _("Copyright Notice") }}</dt>
+      <dd>{{ extra_dict.copyright_notice }}</dd>
+    {% endif %}
+    
+    
+    {% if extra_dict.temporal_granularity %}
+      <dt>{{ _("Temporal Granurality") }}</dt>
+      <dd>{{ extra_dict.temporal_granularity }}</dd>
+    {% endif %} 
+    {% set tc_from = extra_dict.get('temporal_coverage-from')  %}
+    {% set tc_to = extra_dict.get('temporal_coverage-to') %}
+    {% if  tc_from or tc_to  %}
+      <dt>{{ _("Temporal Coverage") }}</dt>
+      <dd>{{ tc_from }} - {{ tc_to  }}</dd>
+    {% endif %} 
+    
+   	{% if extra_dict.update_frequency %}
+      <dt>{{ _("Update Frequency") }}</dt>
+      <dd>{{ extra_dict.update_frequency }}</dd>
+    {% endif %} 
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
    <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">

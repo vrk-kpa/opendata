@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-08 10:08+0000\n"
+"POT-Creation-Date: 2014-05-08 14:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,29 +134,29 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:222
+#: ckanext/ytp/dataset/plugin.py:231
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:223
+#: ckanext/ytp/dataset/plugin.py:232
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:224
+#: ckanext/ytp/dataset/plugin.py:233
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:225 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:234 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:226
+#: ckanext/ytp/dataset/plugin.py:235
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:64
@@ -384,6 +384,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:60
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:74
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:93
 msgid "Copyright Notice"
 msgstr ""
 
@@ -434,6 +435,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:130
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:132
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:26
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:36
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:43
 msgid "YYYY-MM-DD"
@@ -445,6 +448,26 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:135
 msgid "http://www.example.com/"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
+msgid "Temporal Granurality"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:38
+msgid "eg. A year, 2 months"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:105
+msgid "Temporal Coverage"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:110
+msgid "Update Frequency"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:31
@@ -573,7 +596,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:94
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:116
 msgid "Extras"
 msgstr ""
 
