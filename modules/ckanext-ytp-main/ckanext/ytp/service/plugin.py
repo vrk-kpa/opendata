@@ -2,7 +2,7 @@ from ckan import plugins
 from ckan.plugins import toolkit
 from ckan.common import c, request
 
-from ckanext.ytp.common.converters import to_list_json, is_url
+from ckanext.ytp.common.converters import to_list_json, is_url, convert_to_tags_string, string_join
 from ckanext.ytp.common.tools import add_translation_modify_schema, add_languages_modify, add_languages_show
 
 import logging
@@ -16,16 +16,17 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     _localized_fields = []
     # optional text fields
-    _plain_text_fields = ['alternative_title', 'municipalities', 'target_groups',  # 1
-                          'usage_requirements', 'service_provider_other', 'service_class',  # 2
-                          'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
-                          'service_main_usage', 'average_service_time_estimate', 'remote_service_duration_per_customer']  # 3
+    _text_fields = ['alternative_title',  # 1
+                    'usage_requirements', 'service_provider_other', 'service_class',  # 2
+                    'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
+                    'service_main_usage', 'average_service_time_estimate', 'remote_service_duration_per_customer',
+                    'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
     _radio_fields = ['free_of_charge', 'remote_service', 'decisions_and_documents_electronic',  # 3
                      'communicate_service_digitally']  # 3
     _select_fields = ['service_cluster', 'production_type',  # 1
                       'responsible_organization']  # 2
 
-    _all_custom_fields = _plain_text_fields + _radio_fields + _select_fields
+    _custom_text_fields = _text_fields + _radio_fields + _select_fields
 
     def update_config(self, config):
         toolkit.add_public_directory(config, '/var/www/resources')
@@ -41,12 +42,13 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_to_extras = toolkit.get_converter('convert_to_extras')
 
-        for plain_text_field in self._all_custom_fields:
-            schema.update({plain_text_field: [ignore_missing, unicode, convert_to_extras]})
+        for text_field in self._custom_text_fields:
+            schema.update({text_field: [ignore_missing, unicode, convert_to_extras]})
 
         schema.update({'collection_type': [ignore_missing, unicode, convert_to_extras]})
-
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
+        schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
+        schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
 
         schema = add_translation_modify_schema(schema)
         schema = add_languages_modify(schema, self._localized_fields)
@@ -67,11 +69,14 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_from_extras = toolkit.get_converter('convert_from_extras')
 
-        for plain_text_field in self._all_custom_fields:
-            schema.update({plain_text_field: [convert_from_extras, ignore_missing]})
+        for text_field in self._custom_text_fields:
+            schema.update({text_field: [convert_from_extras, ignore_missing]})
 
         schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
         schema.update({'collection_type': [convert_from_extras, ignore_missing]})
+        schema.update({'municipalities': [toolkit.get_converter('convert_from_tags')('municipalities'), string_join, ignore_missing]})
+        schema.update({'target_groups': [toolkit.get_converter('convert_from_tags')('target_groups'), string_join, ignore_missing]})
+
         schema = add_languages_show(schema, self._localized_fields)
         return schema
 

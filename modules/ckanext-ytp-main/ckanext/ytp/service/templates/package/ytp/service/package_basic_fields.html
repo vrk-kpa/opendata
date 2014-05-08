@@ -97,8 +97,12 @@
     {% set service_cluster_options = ({'value': '', 'text': ''}, {'value': 'group-1', 'text': 'Group 1'}, {'value': 'group-2', 'text': 'Group 2'}) %}
     {{ form.select('service_cluster', label=_('Service cluster'), options=service_cluster_options, selected=data.service_cluster, error=errors.service_cluster) }}
 
-    {{ form.input('municipalities', id='field-municipalities', label=_('Municipalities, where service is provided'), placeholder='', value=data.municipalities, error=errors.municipalities) }}
-    {{ form.input('target_groups', id='field-target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups) }}
+    {% set municipalities_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'municipalities', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=municipalities&incomplete=?'} %}
+    {{ form.input('municipalities', label=_('Municipalities, where service is provided'), placeholder='', value=data.municipalities, error=errors.municipalities, classes=['control-full'], attrs=municipalities_attrs) }}
+
+    {% set target_groups_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=target_groups&incomplete=?'} %}
+    {{ form.input('target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups, classes=['control-full'], attrs=target_groups_attrs) }}
+
     {{ ytp_form.markdown('usage_requirements', id='field-usage_requirements', label=_('Requirements for using the service'), placeholder='', value=data.usage_requirements, error=errors.usage_requirements, locales=h.get_available_locales(), data=data) }}
 
     {{ form.hidden("ytp", "true") }}
