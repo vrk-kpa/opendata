@@ -148,10 +148,19 @@ class OrganizationMenu(MenuItem):
         return helpers.url_for('organizations_index')
 
 
+class PostitNewMenu(MenuItem):
+    def __init__(self):
+        super(PostitNewMenu, self).__init__()
+        self.title = _("Postit")
+
+    def link(self):
+        return helpers.url_for('/postit/new')
+
+
 class ProducersMenu(RootMenuItem):
     def __init__(self, plugin):
         super(ProducersMenu, self).__init__(plugin)
-        self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False)]
+        self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False), PostitNewMenu()]
 
 
 class _CommonPublishMenu(MenuItem):

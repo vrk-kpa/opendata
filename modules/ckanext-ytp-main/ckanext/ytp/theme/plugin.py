@@ -29,8 +29,8 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                  (['/%(language)s/service/new', '/service/new'],
                   menu.PublishMenu, menu.PublishServiceMenu),
                  (['/%(language)s/dataset/new', '/dataset/new'], menu.PublishMenu, menu.PublishMainMenu),
-                 (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.OrganizationMenu),
-                 (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.OrganizationMenu)]
+                 (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.PostitNewMenu),
+                 (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.PostitNewMenu)]
 
     # IRoutes #
 
