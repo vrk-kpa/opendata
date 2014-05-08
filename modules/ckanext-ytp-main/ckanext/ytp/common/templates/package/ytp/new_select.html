@@ -30,7 +30,7 @@
     <a class="info-link" href="{{ h.url_for(controller='package', action='new', collection_type='Interoperability Tools', group=c.preselected_group or "") }}">{{ _('Publish Tools and Instructions')}}</a>
 
     {% if h.service_database_enabled() %}
-        <a class="info-link" href="{{ h.url_for('service_new') }}">{{ _('Publish Public Service')}}</a>
+        <a class="info-link" href="{{ h.url_for('service_new') }}">{{ _('Publish Service')}}</a>
     {% endif %}
 
     {# Not implemented yet:

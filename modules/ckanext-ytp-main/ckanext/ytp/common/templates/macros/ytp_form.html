@@ -82,3 +82,20 @@
     </div>
   {% endcall %}
 {% endmacro %}
+
+{% macro radio(options, default_selected, name, id='', label='', value='', placeholder='', type='radio', error="", classes=[], attrs={}, is_required=false) %}
+    {%- set extra_html = caller() if caller -%}
+
+    {% call form.input_block(id or name, label or name, errors, classes, extra_html=extra_html, is_required=is_required) %}
+        {% set selected_option = value or default_selected %}
+        {% for item_label, item_value in options %}
+            <div class="radio-select-label">
+                <label class="radio inline">
+                    <input type="{{ type }}" name="{{ name }}" value="{{ item_value }}" {% if item_value == selected_option %}checked="checked" {% endif %}/>
+                    {{ item_label }}
+                </label>
+            </div>
+
+        {% endfor %}
+    {% endcall %}
+{% endmacro %}

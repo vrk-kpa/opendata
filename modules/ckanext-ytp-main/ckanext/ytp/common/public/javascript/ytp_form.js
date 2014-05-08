@@ -146,3 +146,25 @@ $(document).ready(function() {
     set_translations();
 });
 
+function setTargetVisibility(target, element, data) {
+    var targetContainer = target.closest('.control-group');;
+    if ($('[name=' + element + ']:checked').val() == data) {
+        targetContainer.show();
+    } else {
+        targetContainer.hide();
+        target.val('');
+    }
+}
+
+$(document).ready(function() {
+     $('[data-ytp-visible-element]').each(function() {
+         var target = $(this);
+         var element = target.attr('data-ytp-visible-element');
+         var data = target.attr('data-ytp-visible-data');
+         setTargetVisibility(target, element, data);
+         $('[name=' + element + ']').change(function() {
+             setTargetVisibility(target, element, data);
+         });
+     });
+});
+
