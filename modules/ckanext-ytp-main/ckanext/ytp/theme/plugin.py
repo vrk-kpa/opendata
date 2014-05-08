@@ -32,7 +32,6 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                  (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.OrganizationMenu),
                  (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.OrganizationMenu)]
 
-
     # IRoutes #
 
     def before_map(self, m):
