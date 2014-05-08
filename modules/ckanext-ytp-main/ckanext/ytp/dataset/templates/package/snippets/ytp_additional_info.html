@@ -59,14 +59,14 @@
       <dd>{% if extra_dict.license_url %}
       	<a href ="{{ extra_dict.license_url }}">
       		{% if extra_dict.license_title %}
-      		{{extra_dict.license_title}}
+      			{{extra_dict.license_title}}
       		{% else %}
-      		{{extra_dict.license_ur}}
+      			{{extra_dict.license_ur}}
       		{% endif %}
       	</a>
-      	{% endif %}
       	{% else %}
-      	{{extra_dict.license_title}}
+      		{{extra_dict.license_title}}
+      	{% endif %}
       	</dd>   
     {% endif %}
     
@@ -99,11 +99,11 @@
       <dt>{{ _("Temporal Granurality") }}</dt>
       <dd>{{ extra_dict.temporal_granularity }}</dd>
     {% endif %} 
-    {% set tc_from = extra_dict.temporal_coverage_from is defined %}
-    {% set tc_to = extra_dict.temporal_coverage_to is defined %}
+    {% set tc_from = extra_dict.get('temporal_coverage-from')  %}
+    {% set tc_to = extra_dict.get('temporal_coverage-to') %}
     {% if  tc_from or tc_to  %}
       <dt>{{ _("Temporal Coverage") }}</dt>
-      <dd>{{ extra_dict.temporal_coverage_from }} - {{ extra_dict.temporal_coverage_to  }}</dd>
+      <dd>{{ tc_from }} - {{ tc_to  }}</dd>
     {% endif %} 
     
    	{% if extra_dict.update_frequency %}

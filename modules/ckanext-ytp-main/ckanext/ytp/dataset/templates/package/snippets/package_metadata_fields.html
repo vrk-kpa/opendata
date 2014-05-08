@@ -22,13 +22,13 @@
 {# Aikajakson alkupäivämäärä 
 	(kalenterivalitsin ei tässä tehtävässä #}
 
-    {% call form.input_block("tempora_coverage", _('Temporal Coverage'), errors.validity, [], extra_html="") %}
- <input id="temporal_coverage-from" type="date" name="temporal_coverage-from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
-
+    {% call form.input_block("temporal_coverage", _('Temporal Coverage'), errors.validity, [], extra_html="") %}
+ <input id="temporal_coverage-from" type="date" name="temporal_coverage-from" value="{{ data.get('temporal_coverage-from') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+-
 {# Aikajakson loppupäivämäärä 
 	(kalenterivalitsin ei tässä tehtävässä) #}
 
- <input id="temporal_coverage-to" type="date" name="temporal_coverage-to" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+ <input id="temporal_coverage-to" type="date" name="temporal_coverage-to" value="{{ data.get('temporal_coverage-to') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
     {% endcall %}
 
 {# Päivitysväli, eli kuinka usein tietoja päivitetään 
