@@ -160,7 +160,7 @@ class PostitNewMenu(MenuItem):
 class ProducersMenu(RootMenuItem):
     def __init__(self, plugin):
         super(ProducersMenu, self).__init__(plugin)
-        self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False), PostitNewMenu()]
+        self.children = [OrganizationMenu(), ListUsersMenu(), MyInformationMenu(children=False)]
 
 
 class _CommonPublishMenu(MenuItem):
