@@ -3,7 +3,7 @@ from ckan.plugins import toolkit
 from ckan.common import c, request
 
 from ckanext.ytp.common.converters import to_list_json, is_url, convert_to_tags_string, string_join
-from ckanext.ytp.common.tools import add_translation_modify_schema, add_languages_modify, add_languages_show
+from ckanext.ytp.common.tools import add_translation_modify_schema, add_languages_modify, add_languages_show, add_translation_show_schema
 
 import logging
 
@@ -14,10 +14,14 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
 
-    _localized_fields = []
+    _localized_fields = ['title', 'notes', 'alternative_title', 'usage_requirements',  # 1
+                         'service_provider_other', 'service_class',  # 2
+                         'service_price_description', 'processing_time_estimate',  # 3
+                         'service_main_usage', 'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
+
     # optional text fields
-    _text_fields = ['alternative_title',  # 1
-                    'usage_requirements', 'service_provider_other', 'service_class',  # 2
+    _text_fields = ['alternative_title', 'usage_requirements',  # 1
+                    'service_provider_other', 'service_class',  # 2
                     'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
                     'service_main_usage', 'average_service_time_estimate', 'remote_service_duration_per_customer',
                     'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
@@ -42,6 +46,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_to_extras = toolkit.get_converter('convert_to_extras')
 
+        schema = add_translation_modify_schema(schema)
+        schema = add_languages_modify(schema, self._localized_fields)
+
         for text_field in self._custom_text_fields:
             schema.update({text_field: [ignore_missing, unicode, convert_to_extras]})
 
@@ -49,9 +56,6 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
         schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
-
-        schema = add_translation_modify_schema(schema)
-        schema = add_languages_modify(schema, self._localized_fields)
 
         return schema
 
@@ -69,6 +73,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_from_extras = toolkit.get_converter('convert_from_extras')
 
+        schema = add_translation_show_schema(schema)
+        schema = add_languages_show(schema, self._localized_fields)
+
         for text_field in self._custom_text_fields:
             schema.update({text_field: [convert_from_extras, ignore_missing]})
 
@@ -77,7 +84,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'municipalities': [toolkit.get_converter('convert_from_tags')('municipalities'), string_join, ignore_missing]})
         schema.update({'target_groups': [toolkit.get_converter('convert_from_tags')('target_groups'), string_join, ignore_missing]})
 
-        schema = add_languages_show(schema, self._localized_fields)
+
         return schema
 
     def package_types(self):
