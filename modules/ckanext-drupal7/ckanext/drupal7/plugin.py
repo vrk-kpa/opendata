@@ -90,7 +90,7 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def create_drupal_session_names(self):
         self.drupal_session_names = []
-        for domain in self.domains + p.toolkit.request.environ['HTTP_HOST']:
+        for domain in self.domains + [p.toolkit.request.environ['HTTP_HOST']]:
             session_name = 'SESS%s' % hashlib.sha256(domain).hexdigest()[:32]
             self.drupal_session_names.append(session_name)
 
