@@ -4,7 +4,6 @@
 #       running on an isolated security group
 
 - hosts: dbserver
-  accelerate: false
   sudo: true
   roles:
     - ansible
@@ -14,14 +13,11 @@
     - ["vars/local.yml", "vars/none.yml"]
 
 - hosts: dbserver
-  accelerate: "{{ accelerate }}"
   sudo: true
   vars_files:
     - "vars/common.yml"
     - ["vars/private/{{ private_variables }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
-  vars:
-    accelerate: true
   roles:
     - clean
     - common

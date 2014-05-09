@@ -1,7 +1,6 @@
 ---
 
-- hosts: beta-webserver
-  accelerate: false
+- hosts: webserver
   sudo: true
   roles:
     - ansible
@@ -11,15 +10,12 @@
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: beta-webserver
-  accelerate: "{{ accelerate }}"
+- hosts: webserver
   sudo: true
   vars_files:
     - "vars/common.yml"
     - ["vars/private/{{ private_variables }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
-  vars:
-    accelerate: false
   roles:
     - clean
     - common
