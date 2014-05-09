@@ -6,3 +6,6 @@
        {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors, licenses=h.dataset_licenses(), groups_available=c.groups_available %}
    </div>
 {% endblock %}
+ {% block metadata_fields %}
+    {% snippet 'package/snippets/package_metadata_fields.html', data=data, errors=errors %}
+  {% endblock %}
