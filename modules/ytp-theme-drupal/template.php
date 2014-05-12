@@ -45,8 +45,6 @@ function ytp_theme_preprocess_page(&$variables) {
     $variables['content_column_class'] = ' class="col-sm-12"';
   }
 
-
-
   // Primary nav.
   $variables['primary_nav'] = FALSE;
   if ($variables['main_menu']) {
@@ -81,16 +79,19 @@ function ytp_theme_preprocess_page(&$variables) {
   }
 
   $site_section = menu_get_active_trail();
-  if ( array_key_exists(1, $site_section) ){
+  if (array_key_exists(1, $site_section)){
     $variables['site_section'] = $site_section[1]['title'];
   }
   else{
     $variables['site_section'] = '';
   }
 
-  unset($variables['tabs']);
+  // Hide edit tabs from user login and register pages
+  if (in_array('page__user__login', $variables['theme_hook_suggestions']) or in_array('page__user__register', $variables['theme_hook_suggestions'])){
+    unset($variables['tabs']);
+  }
 
-
+  // Customize login page
   if ( in_array('page__user__login', $variables['theme_hook_suggestions'] ) ){
     $loginform = drupal_get_form('user_login_block');
     if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
@@ -113,7 +114,6 @@ function ytp_theme_preprocess_page(&$variables) {
     $loginform['actions']['#suffix'] = '</div>';
 
     #$loginform['actions']['#weight'] = 0;
-
 
     $variables['loginform'] = $loginform;
 
