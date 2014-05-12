@@ -1,4 +1,0 @@
----
-# Top-level Ansible playbook for building YTP beta site
-- include: beta-dbserver.yml
-- include: beta-webserver.yml
