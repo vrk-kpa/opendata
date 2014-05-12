@@ -1,7 +1,7 @@
-[webservers]
+[webserver]
 10.10.10.10
 
-[webservers:vars]
+[webserver:vars]
 vagrant=true
 # TODO: We should use default variables in Vagrant instead of private.
 private_variables=variables.yml
