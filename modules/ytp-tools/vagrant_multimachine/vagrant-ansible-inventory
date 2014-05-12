@@ -1,0 +1,14 @@
+[dbserver]
+10.10.10.20
+
+[dbserver:vars]
+vagrant=true
+private_variables=variables.yml
+
+[webserver]
+10.10.10.10
+
+[webserver:vars]
+vagrant=true
+# TODO: We should use default variables in Vagrant instead of private.
+private_variables=variables.yml

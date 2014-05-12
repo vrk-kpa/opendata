@@ -1,13 +1,9 @@
 #! /bin/sh
 
-if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ drupal_database_name }}'"` ]; then
-    if [ -d {{ drupal_root }} ]; then
-        BACKUP={{ backup_path }}/drupal-backup-$DATE.tgz
-        tar czf $BACKUP {{ drupal_root }}
-        rm -R {{ drupal_root }}
-        chown 0:0 $BACKUP
-        chmod 600 $BACKUP
-    fi
+# Installs Drupal if there is no existing content in the Drupal database
+if [ ! `psql -h {{ database_host }} -tAc "SELECT COUNT(*) FROM pg_tables WHERE schemaname='public' AND tablename='node'"` ]; then
+
+    # Download Drupal and copy default settings
     drush dl drupal --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
     mkdir -p {{ drupal_root }}/sites/default/files
     chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/files
@@ -15,15 +11,10 @@ if [ ! `sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ 
     cp {{ drupal_root }}/sites/default/default.settings.php {{ drupal_root }}/sites/default/settings.php
     chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/settings.php
 
-    sudo -u postgres psql -U postgres -d postgres -c "ALTER USER {{ drupal_database_username }} CREATEDB;"
-    sudo -u postgres createdb -O {{ drupal_database_username }} {{ drupal_database_name }} --encoding=utf-8 --locale=en_US.UTF-8 --template=template0
-
+    # Install Drupal
     cd {{ drupal_root }}
     drush site-install -y standard --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} \
-        --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@localhost/{{ drupal_database_name }} --site-name={{ drupal_site_name }}
+        --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }} --site-name={{ drupal_site_name }}
 
     cd -
 fi
-
-sudo -u postgres psql -U postgres -d postgres -c "ALTER USER {{ drupal_database_username }} NOCREATEDB;"
-

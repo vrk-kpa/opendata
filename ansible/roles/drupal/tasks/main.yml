@@ -45,20 +45,13 @@
   tags:
   - drupal
 
-- name: Create Drupal install script
+- name: Create Drupal installation script
   template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode=0700 owner=root group=root
   register: drupal_script
   tags:
   - drupal
 
-- name: Setup Drupal Postgresql user
-  sudo_user: postgres
-  postgresql_user: user="{{ drupal_database_username }}" password="{{ drupal_database_password }}"
-  when: drupal_script|changed
-  tags:
-  - drupal
-
-- name: Install drupal
+- name: Install Drupal
   command: ./install-drupal.sh chdir="{{ cache_path }}"
   when: drupal_script|changed
   tags:

@@ -1,0 +1,28 @@
+---
+
+- hosts: webserver
+  sudo: true
+  roles:
+    - ansible
+    - firewall
+    - users
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/local.yml", "vars/none.yml"]
+
+- hosts: webserver
+  sudo: true
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/private/{{ private_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
+  roles:
+    - clean
+    - common
+    - common_webserver
+    - nginx
+    - postfix
+    - jetty
+    - ckan
+    - drupal
+    - data

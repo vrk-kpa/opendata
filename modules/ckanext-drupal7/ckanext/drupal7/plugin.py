@@ -91,7 +91,7 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def create_drupal_session_names(self):
         self.drupal_session_names = []
-        for domain in self.domains:
+        for domain in self.domains + [p.toolkit.request.environ['HTTP_HOST']]:
             session_name = 'SESS%s' % hashlib.sha256(domain).hexdigest()[:32]
             self.drupal_session_names.append(session_name)
 
@@ -161,9 +161,8 @@ class Drupal7Plugin(p.SingletonPlugin):
     def abort(self, status_code, detail, headers, comment):
         # HTTP Status 401 causes a login redirect.  We need to prevent this
         # unless we are actually trying to login.
-        if (status_code == 401
-                and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
-                h.redirect_to('drupal7_unauthorized')
+        if (status_code == 401 and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
+            h.redirect_to('drupal7_unauthorized')
         return (status_code, detail, headers, comment)
 
     def get_auth_functions(self):

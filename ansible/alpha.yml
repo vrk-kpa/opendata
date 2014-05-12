@@ -1,7 +1,8 @@
 ---
 
-- hosts: all
-  accelerate: false
+# Alpha has database on the webserver
+
+- hosts: webserver
   sudo: true
   roles:
     - ansible
@@ -11,20 +12,17 @@
     - "vars/common.yml"
     - ["vars/local.yml", "vars/none.yml"]
 
-- hosts: webservers
-  accelerate: "{{ accelerate }}"
+- hosts: webserver
   sudo: true
   vars_files:
     - "vars/common.yml"
     - ["vars/private/{{ private_variables }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
-  vars:
-    accelerate: false
   roles:
     - clean
     - common
-    - resources
     - database
+    - common_webserver
     - nginx
     - postfix
     - jetty

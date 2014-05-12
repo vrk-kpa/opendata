@@ -1,0 +1,81 @@
+---
+
+# Web modules
+
+- name: Clear module cache
+  file: path="{{ cache_path }}/{{ item }}" state=absent
+  with_flattened:
+    - modules
+  when: clear_module_cache
+  tags:
+  - common
+  - clear-cache
+
+- name: Clear module tar cache
+  file: path="{{ cache_path }}/{{ item }}.tar" state=absent
+  with_flattened:
+    - modules
+  when: clear_module_cache
+  tags:
+  - common
+  - clear-cache
+
+- name: Package modules
+  local_action: command tar cf {{ item }}.tar {{ item }} --exclude=.git --exclude-from={{ item }}/.gitignore chdir="{{ modules_path }}"
+  sudo: false
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
+  - translations
+  - drupal-translations
+
+- name: Copy modules
+  copy: src="{{ modules_path }}/{{ item }}.tar" dest="{{ cache_path }}"
+  register: modules_copy
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
+  - translations
+  - drupal-translations
+
+- name: Extract modules
+  shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
+  when: modules_copy|changed
+  with_flattened:
+    - modules
+  tags:
+  - common
+  - ckan
+  - drupal
+  - resources
+  - modules
+  - translations
+
+# Web resources
+
+- name: Ensure www path is present
+  file: path=/var/www state=directory mode=0755 owner=root group=root
+  tags:
+  - resources
+
+- name: Clean resources
+  file: path=/var/www/resources state=absent
+  when: modules_copy|changed
+  tags:
+  - resources
+
+- name: Copy resources
+  shell: cp -R {{ cache_path }}/ytp-assets-common/resources /var/www/resources
+  when: modules_copy|changed
+  tags:
+  - resources
