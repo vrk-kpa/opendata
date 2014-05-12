@@ -5,3 +5,9 @@
 vagrant=true
 # TODO: We should use default variables in Vagrant instead of private.
 private_variables=variables.yml
+
+[dbserver]
+10.10.10.10
+
+[dbserver:vars]
+private_variables=variables.yml
