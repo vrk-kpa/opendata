@@ -11,29 +11,26 @@
 {% endblock %}
 
 {% block package_metadata_fields %}
-  {{ super() }}
   
+        {# {{ form.select('resource_type', id='field-type', label=_('Resource Type'), options=[{'value': 'empty', 'text': _('Select a type…')}], selected="empty", error=errors.type) }} 
+
+      {{ form.input('last_modified', id='field-last-modified', label=_('Last Modified'), placeholder=_('eg. 2012-06-05'), value=data.last_modified, error=errors.last_modified, classes=[]) }}
+
+      {{ form.input('size', id='field-size', label=_('File Size'), placeholder=_('eg. 1024'), value=data.size, error=errors.size, classes=[]) }}
+
+      {{ form.input('mimetype', id='field-mimetype', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype, error=errors.mimetype, classes=[]) }}
+
+      {{ form.input('mimetype_inner', id='field-mimetype-inner', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype_inner, error=errors.mimetype_inner, classes=[]) }}
+  #}
   {% block package_temporal_metadata %}
-{# Aikajakso jolta aineiston on, esim. 1 vuosi. 
-	Tai vaikka 7 kuukautta. Vapaatekstikenttä. #}
 
    {{ ytp_form.input('temporal_granularity', id='temporal_granularity', label=_('Temporal Granurality'), placeholder=_('eg. A year, 2 months'), value=data.temporal_granularity, error=errors.temporal_granularity, classes=['control'], locales=h.get_available_locales(), data=data) }}
-
-{# Aikajakson alkupäivämäärä 
-	(kalenterivalitsin ei tässä tehtävässä #}
 
     {% call form.input_block("temporal_coverage", _('Temporal Coverage'), errors.validity, [], extra_html="") %}
  <input id="temporal_coverage-from" type="date" name="temporal_coverage-from" value="{{ data.get('temporal_coverage-from') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
 -
-{# Aikajakson loppupäivämäärä 
-	(kalenterivalitsin ei tässä tehtävässä) #}
-
  <input id="temporal_coverage-to" type="date" name="temporal_coverage-to" value="{{ data.get('temporal_coverage-to') | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
     {% endcall %}
-
-{# Päivitysväli, eli kuinka usein tietoja päivitetään 
-	tai tuodaan uusi data, esim. joka toinen vuosi. 
-	Tai joka vuosi. Vapaatekstikenttä. #} 
 
    {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control'], locales=h.get_available_locales(), data=data) }}
  

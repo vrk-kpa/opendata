@@ -1,0 +1,25 @@
+---
+
+# NOTE: Database server on beta does not have a firewall as it is
+#       running on an isolated security group
+
+- hosts: dbserver
+  sudo: true
+  roles:
+    - ansible
+    - users
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/local.yml", "vars/none.yml"]
+
+- hosts: dbserver
+  sudo: true
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/private/{{ private_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
+  roles:
+    - clean
+    - common
+    - database
+    - postfix

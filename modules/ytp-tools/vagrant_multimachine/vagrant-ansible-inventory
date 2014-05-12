@@ -1,3 +1,10 @@
+[dbserver]
+10.10.10.20
+
+[dbserver:vars]
+vagrant=true
+private_variables=variables.yml
+
 [webserver]
 10.10.10.10
 

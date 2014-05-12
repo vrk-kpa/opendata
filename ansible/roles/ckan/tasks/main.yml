@@ -8,6 +8,9 @@
     - redis-server
     - python-pip
     - supervisor
+    - python-dev 
+    - libxslt1-dev
+    - libgeos-c1
   tags:
   - packages
   - ckan
@@ -94,8 +97,6 @@
   template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode=0640 owner=root group="{{ www_group }}"
   tags:
   - ckan
-
-- include: spatial.yml
 
 - name: Create debian cache path
   file: path="{{ cache_path }}/debian" state=directory

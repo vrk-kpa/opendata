@@ -47,8 +47,9 @@
 
 
   {% block metadata_fields %}
+  {% include "package/snippets/package_metadata_fields.html" %}
     {% if include_metadata %}
-      {# TODO: Where do these come from, they don't exist in /package/new_package_form.html #}
+      {# TODO: Where do these come from, they don't exist in /package/new_package_form.html 
       {# {{ form.select('resource_type', id='field-type', label=_('Resource Type'), options=[{'value': 'empty', 'text': _('Select a type…')}], selected="empty", error=errors.type) }} #}
 
       {{ form.input('last_modified', id='field-last-modified', label=_('Last Modified'), placeholder=_('eg. 2012-06-05'), value=data.last_modified, error=errors.last_modified, classes=[]) }}
@@ -58,7 +59,8 @@
       {{ form.input('mimetype', id='field-mimetype', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype, error=errors.mimetype, classes=[]) }}
 
       {{ form.input('mimetype_inner', id='field-mimetype-inner', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype_inner, error=errors.mimetype_inner, classes=[]) }}
-    {% endif %}
+	#}
+   {% endif %}
   {% endblock %}
 
   <div class="form-actions">

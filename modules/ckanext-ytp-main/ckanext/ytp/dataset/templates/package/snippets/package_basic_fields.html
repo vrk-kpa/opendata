@@ -134,6 +134,13 @@
 
     {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, placeholder=_("http://www.example.com/"), error=errors.extra_information) }}
 
+  {% block metadata_fields %}
+   {% block package_temporal_metadata %}	
+    {% snippet 'package/snippets/package_metadata_fields.html', data=data, errors=errors %}
+  
+  {% endblock %}
+{% endblock %}
+
     {{ form.hidden("ytp", "true") }}
 
 {% endblock %}

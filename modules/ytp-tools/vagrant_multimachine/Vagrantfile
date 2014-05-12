@@ -1,0 +1,87 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# This Vagrantfile sets up a virtual machines and installs the webserver service
+# on it to create a local development environment.
+#
+# Tested with Vagrant 1.4.2 and VirtualBox 4.3.6 on Ubuntu 13.10 64-bit
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define "dbserver" do |dbserver|
+    dbserver.vm.box = "precise64"
+    dbserver.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+    dbserver.vm.network :private_network, ip: "10.10.10.20"
+    
+    # Sync source code directories from host to guest
+    case RUBY_PLATFORM
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      # Fix Windows file rights, otherwise Ansible tries to execute files
+      dbserver.vm.synced_folder "../../", "/src", :mount_options => ["dmode=777","fmode=666"]
+    else
+      # Basic VM synced folder mount
+      dbserver.vm.synced_folder "../../", "/src"
+    end
+
+    dbserver.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../../ansible/dbserver.yml"
+      ansible.verbose = "v"
+      ansible.inventory_path = "vagrant-ansible-inventory"
+      ansible.skip_tags = "has-hostname,non-local,postfix"
+      ansible.extra_vars = { google_analytics: false }
+      # ansible.extra_vars = { clear_module_cache: true }
+      # ansible.tags = "modules,drupal"
+      # ansible.start_at_task = ""
+    end
+
+    dbserver.vm.provider "virtualbox" do |vbox|
+      vbox.memory = 1024
+    end
+  end
+
+  # http://docs.vagrantup.com/v2/multi-machine/index.html
+  config.vm.define "webserver" do |webserver|
+    webserver.vm.box = "precise64"
+    webserver.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+    webserver.vm.network :private_network, ip: "10.10.10.10"
+    
+    # Sync source code directories from host to guest
+    case RUBY_PLATFORM
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      # Fix Windows file rights, otherwise Ansible tries to execute files
+      webserver.vm.synced_folder "../../", "/src", :mount_options => ["dmode=777","fmode=666"]
+    else
+      # Basic VM synced folder mount
+      webserver.vm.synced_folder "../../", "/src"
+
+      # NFS mounting requires installing nfs-kernel-server on host
+      # If you use firewall on host machine, remember add exception, example: sudo ufw allow from 10.10.10.0/24
+      # webserver.vm.synced_folder "../", "/src", type: "nfs"
+
+      # Or try rsync with "vagrant rsync-auto" https://www.vagrantup.com/blog/feature-preview-vagrant-1-5-rsync.html
+      # webserver.vm.synced_folder "../", "/src", type: "rsync"
+    end
+
+    webserver.vm.provision "ansible" do |ansible|
+      # http://docs.vagrantup.com/v2/provisioning/ansible.html
+      ansible.playbook = "../../ansible/webserver.yml"
+      ansible.verbose = "v"
+      ansible.inventory_path = "vagrant-ansible-inventory"
+      ansible.skip_tags = "has-hostname,non-local,postfix"
+      ansible.extra_vars = { google_analytics: false }
+      # ansible.extra_vars = { clear_module_cache: true }
+      # ansible.tags = "modules,drupal"
+      # ansible.start_at_task = ""
+    end
+
+    webserver.vm.provider "virtualbox" do |vbox|
+      vbox.memory = 1024
+    end
+  end
+
+
+end

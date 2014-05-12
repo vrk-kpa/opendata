@@ -43,35 +43,26 @@ Example:
         <div>{{ notes|urlize }}</div>
       {% endif %}
     </div>
-    {#
-    {% if package.resources and not hide_resources %}
-      <ul class="dataset-resources unstyled">
-        {% for resource in h.dict_list_reduce(package.resources, 'format') %}
-          <li>
-            <a href="{{ h.url_for(controller='package', action='read', id=package.name) }}" class="label" data-format="{{ resource.lower() }}">{{ resource }}</a>
-          </li>
-        {% endfor %}
-
-      </ul>
-    {% endif %}
-        #}
   {% endblock %}
-{{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
-    {% if package.organization -%}
-        |<a href="/data/organization/{{package.organization.get('name') }}">
-        {{ package.organization.get('title') }}</a>
+
+  {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
+  {% if package.organization -%}
+    | <a href="/data/organization/{{package.organization.get('name') }}">
+    {{ package.organization.get('title') }}</a>
+  {%- endif -%}
+
+  <div>
+    {% if package.collection_type -%}
+      <span class="byline-contentype"><a href="/data/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
     {%- endif -%}
-        <br/>
-{% if package.collection_type -%}
-<span class="byline-contentype"><a href="/data/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
-{%- endif -%}
-{%- if package.get('resources') -%}
-{% set formats = h.unique_formats(package.get('resources')) %}
-<span class="byline-dataset">
-	{%- for format in formats -%}
-		{{_(format)}}
-	{%- if not loop.last %} | {% endif -%}
-	{%- endfor -%}
-</span>
-{%- endif -%}
+    {%- if package.get('resources') -%}
+      {% set formats = h.unique_formats(package.get('resources')) %}
+      <span class="byline-dataset">
+        {%- for format in formats -%}
+          {{_(format)}}
+          {%- if not loop.last %} | {% endif -%}
+        {%- endfor -%}
+      </span>
+    {%- endif -%}
+  </div>
 </li>
