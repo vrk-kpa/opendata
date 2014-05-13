@@ -1,6 +1,5 @@
 # Upstream Bootstrap
 
-This directory contains Bootstrap that is used as a reference during less compile process.
-Contents of these files will not be included in the final main.css
+This directory contains Bootstrap that is compiled in to bootstrap.css
 
-## Current version: 3.0.2
+## Current version: 3.1.1
