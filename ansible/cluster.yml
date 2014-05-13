@@ -1,0 +1,4 @@
+---
+# Top-level Ansible playbook for building a cluster of servers for the service
+- include: cluster-dbserver.yml
+- include: cluster-webserver.yml

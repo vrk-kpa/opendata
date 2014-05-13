@@ -1,10 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
-# This Vagrantfile sets up a virtual machines and installs the YTP service
+# This Vagrantfile sets up a virtual machine and installs the YTP service
 # on it to create a local development environment.
 #
-# Tested with Vagrant 1.4.2 and VirtualBox 4.3.6 on Ubuntu 13.10 64-bit
+# Tested with Vagrant 1.6.1 and VirtualBox 4.3.10 on Ubuntu 14.04 64-bit
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -35,11 +35,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ytp.vm.provision "ansible" do |ansible|
       # http://docs.vagrantup.com/v2/provisioning/ansible.html
-      ansible.playbook = "../ansible/alpha.yml"
+      ansible.playbook = "../ansible/single-server.yml"
       ansible.verbose = "v"
       ansible.inventory_path = "vagrant-ansible-inventory"
       ansible.skip_tags = "has-hostname,non-local,postfix"
-      ansible.extra_vars = { google_analytics: false }
       ansible.limit = 'all'
       # ansible.extra_vars = { clear_module_cache: true }
       # ansible.tags = "modules,ckan,drupal"

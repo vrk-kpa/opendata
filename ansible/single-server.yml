@@ -1,6 +1,6 @@
 ---
 
-# Alpha has database on the webserver
+# This playbook installs all roles on a single server
 
 - hosts: webserver
   sudo: true
