@@ -26,8 +26,9 @@ regions[top_bar_secondary] = 'Top Bar Secondary'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
-stylesheets[all][] = css/style.css
-
+stylesheets[all][] = 'bootstrap/dist/css/bootstrap.min.css'
+stylesheets[all][] = 'css/overrides.css'
+stylesheets[all][] = 'css/style.css'
 
 ; For information on choosing the desired method, please read the Drupal
 ; Bootstrap sub-theme "how-to" documentation:
@@ -55,7 +56,7 @@ scripts[] = 'bootstrap/js/tab.js'
 scripts[] = 'bootstrap/js/transition.js'
 ;
 ; ; Disable BootstrapCDN if using Bootstrap source files in your sub-theme.
-; settings[bootstrap_cdn] = ''
+settings[bootstrap_cdn] = ''
 
 
 ; ;-------------------------

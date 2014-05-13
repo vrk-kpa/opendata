@@ -27,7 +27,7 @@
           </a>
         </div>
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
-          <div class="visible-xs">
+          <div class="visible-xs visible-sm visible-md">
             <ul class="nav navbar-nav user-nav navbar-right">
                 {{ build_nav_bar(false) }}
                 {% if c.userobj %}
@@ -40,7 +40,7 @@
                 </ul>
             </ul>
           </div>
-          <div class="hidden-xs">
+          <div class="hidden-xs hidden-sm hidden-md">
           <ul class="nav navbar-nav lang-select">
             <li></li>
             <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
@@ -65,7 +65,7 @@
     <!--
       Main menu navbar
     -->
-    <div class="container hidden-xs">
+    <div class="container hidden-xs hidden-sm hidden-md">
       <nav class="navbar navbar-main" role="main-navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -75,7 +75,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand visible-xs" href="#">Päävalikko</a>
+          <a class="navbar-brand visible-xs visible-sm visible-md" href="#">Päävalikko</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

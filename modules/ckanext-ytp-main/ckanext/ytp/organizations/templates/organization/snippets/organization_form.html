@@ -18,10 +18,19 @@
             </select>
         </div>
     </div>
-  
+
+    {% set has_public_adminstration_rights = h.check_access('organization_public_adminstartion_change', {}) %}
+    {% call form.input_block("public_adminstration_organization", _('Public administration organization'), errors.public_adminstration_organization, [], extra_html="") %}
+    <input type="checkbox" name="public_adminstration_organization" value="true" {% if data.public_adminstration_organization == 'true' %}checked="checked"{% endif %} {% if not has_public_adminstration_rights %}readonly="readonly" onclick="return false;"{% endif %} />
+    {% endcall %}
+
     {# Producer type selector #}
-    {{ form.select('producer_type', id='field-producer_type', label=_('Producer type'), options=h.get_dropdown_menu_contents('ytp_organization_types'), selected=data.get('producer_type'), error=errors.producer_type) }}
-  
+    {% set menu_vocabularies = ['private_services'] %}
+    {% if data.public_adminstration_organization == 'yes' %}
+        {% do menu_vocabularies.append('public_services') %}
+    {% endif %}
+    {{ form.select('producer_type', id='field-producer_type', label=_('Producer type'), options=h.get_dropdown_menu_contents(menu_vocabularies), selected=data.get('producer_type'), error=errors.producer_type) }}
+
 {% endblock %}
 
 {# Hide custom fields #}
@@ -30,6 +39,7 @@
 {{ form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
 {{ form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
 {{ form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full']) }}
+
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
     <div class="row">
     <div class="col-sm-5">

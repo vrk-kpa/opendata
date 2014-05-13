@@ -9,12 +9,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
-    base64 = require('gulp-base64'),
-    debug = require('gulp-debug'),
-    grunt = require('gulp-grunt')(gulp, {
-        base: require('path').join(__dirname, '/src/foo'),
-        prefix: 'bootstrap-'
-    });
+    base64 = require('gulp-base64');
 
 var paths = {
   src: {
@@ -92,7 +87,7 @@ gulp.task('bootstrap', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['less', 'templates', 'static_pages', 'images', 'fonts'],
+              ['bootstrap', 'less', 'templates', 'static_pages', 'images', 'fonts'],
               callback);
 });
 
