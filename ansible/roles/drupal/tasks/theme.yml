@@ -36,6 +36,12 @@
   tags:
   - drupal
 
+- name: Replace Bootstrap css with ytp build
+  copy: src="/var/www/resources/vendor/{{ item }}" dest="{{ drupal_theme_path }}/ytp_theme/bootstrap/dist/css"
+  with_items:
+    - bootstrap.css
+    - bootstrap.min.css
+
 - name: Enable YTP theme
   command: drush en -y ytp_theme chdir="{{ drupal_root }}"
   tags:

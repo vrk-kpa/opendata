@@ -28,7 +28,7 @@
         </div>
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
 
-          <div class="visible-xs">
+          <div class="visible-xs visible-sm visible-md">
               <ul class="nav navbar-nav user-nav navbar-right">
                    <?php buildMainNavBar(false); ?>
                    <?php if (user_is_logged_in()) { ?>
@@ -37,7 +37,7 @@
                    <?php print render($page['top_navigation']); ?>
               </ul>
           </div>
-          <div class="hidden-xs">
+          <div class="hidden-xs hidden-sm hidden-md">
           <?php print render($page['top_navigation']); ?>
 
           <ul class="nav navbar-nav user-nav navbar-right ">
@@ -66,7 +66,7 @@
     <!--
       Main menu navbar
     -->
-    <div class="container hidden-xs">
+    <div class="container hidden-xs hidden-sm hidden-md">
       <nav class="navbar navbar-main" role="main-navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">

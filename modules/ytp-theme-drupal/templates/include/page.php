@@ -124,14 +124,14 @@
         }
       ?>
     <?php if (!user_is_logged_in()) { ?>
-      <div id="responsive-login-panel" class="panel panel-default visible-xs">
+      <div id="responsive-login-panel" class="panel panel-default visible-xs visible-sm visible-md">
         <div class="panel-body">
             <a href="<?php print url('user/login')?>"> <?php print t('Signup or login') ?></a>
         </div>
       </div>
     <?php } ?>
 
-    <div id="responsive-browse-panel" class="panel panel-default visible-xs">
+    <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm visible-md">
       <div class="panel-body">
         <a href="<?php print "data/" . $language->language . "/dataset" ?>"> <?php print t('Browse Datasets') ?></a>
       </div>

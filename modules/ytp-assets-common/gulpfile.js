@@ -8,7 +8,13 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
-    base64 = require('gulp-base64');
+    MinCSS = require('gulp-minify-css'),
+    base64 = require('gulp-base64'),
+    debug = require('gulp-debug'),
+    grunt = require('gulp-grunt')(gulp, {
+        base: require('path').join(__dirname, '/src/foo'),
+        prefix: 'bootstrap-'
+    });
 
 var paths = {
   src: {
@@ -16,7 +22,8 @@ var paths = {
     less: 'src/less',
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
-    fonts: 'src/fonts/**/*'
+    fonts: 'src/fonts/**/*',
+    bootstrap: 'src/less/upstream_bootstrap'
   },
   dist: 'resources'
 };
@@ -69,6 +76,19 @@ gulp.task('fonts', function() {
   return gulp.src(paths.src.fonts)
     .pipe(gulp.dest(paths.dist+'/fonts'));
 });
+
+gulp.task('bootstrap', function(){
+  return gulp.src(paths.src.bootstrap + '/bootstrap.less')
+      .pipe(less({
+          paths: [paths.src.bootstrap]
+      }))
+      .pipe(concat('bootstrap.css'))
+      .pipe(gulp.dest(paths.dist + '/vendor'))
+      .pipe(MinCSS({keepBreaks: true}))
+      .pipe(concat('bootstrap.min.css'))
+      .pipe(gulp.dest(paths.dist + '/vendor'))
+});
+
 
 gulp.task('default', function(callback) {
   runSequence('clean',
