@@ -6,7 +6,7 @@ drupal_root: "{{ www_root }}/{{ drupal_name }}"
 drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
 features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
 
-bootstrap_version: "3.0.0"
+bootstrap_version: "3.1.1"
 
 drupal_upload_path: "{{ drupal_root }}/sites/default/files"
 

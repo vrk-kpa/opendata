@@ -1,7 +1,9 @@
 {
   "name": "ytp-assets-common",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-minify-css": "~0.3.4"
+  },
   "devDependencies": {
     "gulp": "~3.5.1",
     "gulp-livereload": "~0.3.1",
