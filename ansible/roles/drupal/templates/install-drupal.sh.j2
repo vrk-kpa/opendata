@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # Installs Drupal if there is no existing content in the Drupal database
-if [ ! `psql -h {{ database_host }} -tAc "SELECT COUNT(*) FROM pg_tables WHERE schemaname='public' AND tablename='node'"` ]; then
+if [ ! `psql -h {{ database_host }} drupal -tAc "SELECT COUNT(*) FROM pg_tables WHERE schemaname='public' AND tablename='node'"` ]; then
 
     # Download Drupal and copy default settings
     drush dl drupal --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
