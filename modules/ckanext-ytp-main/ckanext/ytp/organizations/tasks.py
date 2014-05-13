@@ -7,7 +7,7 @@ from rdflib import Graph, URIRef
 from rdflib.namespace import SKOS
 
 from ckan import model, plugins
-from ckan.logic import get_action, NotFound, ValidationError
+from ckan.logic import get_action, NotFound
 from ckan.lib import celery_app
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.cli import CkanCommand
@@ -57,7 +57,7 @@ def organization_import(data):
             else:
                 title = item['title']
                 name = item['name']
-            values = {'name': name, 'title': title, 'id': name}
+            values = {'name': name, 'title': title, 'id': name, 'public_adminstration_organization': 'true'}
             try:
                 organization = get_action('organization_show')(context, values)
                 if organization['title'] != title:
@@ -66,25 +66,25 @@ def organization_import(data):
                 organization = get_action('organization_create')(context, values)
 
 
-def _add_children_concepts(list, graph, current, indent, max_depth, prefix):
-    """ Add a SKOS concept and its children recursively into a pseudo-hierarchical list """
-
+def _add_children_concepts(graph, current, prefix='', indent=0, max_depth=8, data=None):
+    """ Add a SKOS concept and its children recursively into a pseudo-hierarchical data """
     sister = 0
+    if data is None:
+        data = []
+        data.append({'name': prefix + " " + graph.value(current, SKOS.prefLabel)})
 
     if indent < max_depth:
-        for subj, pred, child in graph.triples((current, SKOS.narrower, None)):
+        for _subject, _predicate, child in graph.triples((current, SKOS.narrower, None)):
             sister += 1
-            list.append({'name': prefix + '.' + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
-            _add_children_concepts(list, graph, child, indent + 1, max_depth, prefix + '.' + str(sister))
+            data.append({'name': prefix + '.' + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
+            _add_children_concepts(graph, child, prefix + '.' + str(sister), indent + 1, max_depth, data)
 
-    # Top-level items
-    if indent < max_depth:
-        for subj, pred, child in graph.triples((current, SKOS.member, None)):
+        for _subject, _predicate, child in graph.triples((current, SKOS.member, None)):
             sister += 1
-            list.append({'name': prefix + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
-            _add_children_concepts(list, graph, child, indent + 1, max_depth, prefix + str(sister))
+            data.append({'name': prefix + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
+            _add_children_concepts(graph, child, prefix + str(sister), indent + 1, max_depth, data)
 
-    return
+    return data
 
 
 @celery_app.celery.task(name="ckanext.ytp.organizations.organization_type_import")
@@ -100,14 +100,17 @@ def organization_type_import(data):
     graph = Graph()
     graph.parse(data_url, format=data_format)
 
-    vocabulary_name = 'ytp_organization_types'
-    org_types = []
+    services = (('private_services', 'http://www.yso.fi/onto/jupo/p728', "1"), ('public_services', 'http://www.yso.fi/onto/jupo/p605', "2"))
 
-    _add_children_concepts(org_types, graph, URIRef('http://www.yso.fi/onto/jupo/p1050'), 0, 8, '')
+    for service_name, service_url, prefix in services:
+        organization_types = _add_children_concepts(graph, URIRef(service_url), prefix)
 
-    try:
-        get_action('vocabulary_create')(context, {'name': vocabulary_name, 'tags': org_types})
-    except ValidationError:
-        existing_vocab = get_action('vocabulary_show')(context, {'id': vocabulary_name})
-        existing_id = existing_vocab.get('id')
-        get_action('vocabulary_update')(context, {'id': existing_id, 'tags': org_types})
+        try:
+            get_action('vocabulary_show')(context, {'id': service_name})
+            for tag in get_action('tag_list')(context, {'vocabulary_id': service_name, 'query': None, 'all_fields': True}):
+                get_action('tag_delete')(context, {'id': tag['id']})
+
+            get_action('vocabulary_delete')(context, {'id': service_name})
+        except NotFound:
+            pass  # Vocabulary does not exist
+        get_action('vocabulary_create')(context, {'name': service_name, 'tags': organization_types})

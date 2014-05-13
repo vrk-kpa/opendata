@@ -136,6 +136,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'homepage_wcags': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
         schema.update({'homepage_plain_language_availabilities': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
 
+        schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
 
         # schema for extra org info
@@ -198,6 +199,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'street_address_url_public_transport': [convert_from_extras, ignore_missing]})
 
         schema.update({'producer_type': [convert_from_extras, ignore_missing]})
+        schema.update({'public_adminstration_organization': [convert_from_extras, ignore_missing]})
 
         return schema
 
@@ -214,18 +216,20 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         else:
             tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
 
-    def _get_dropdown_menu_contents(self, vocabulary_name):
+    def _get_dropdown_menu_contents(self, vocabulary_names):
         """ Gets a vocabulary by name and mangles it to match data structure required by form.select """
 
         try:
             user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
             context = {'user': user['name']}
-            vocabulary = toolkit.get_action('vocabulary_show')(context, {'id': 'ytp_organization_types'})
-            tags = vocabulary.get('tags')
-
             menu_items = []
-            for tag in sorted(tags):
-                menu_items.append({'value': tag['name'], 'text': tag['display_name']})
+
+            for vocabulary_name in vocabulary_names:
+                vocabulary = toolkit.get_action('vocabulary_show')(context, {'id': vocabulary_name})
+                tags = vocabulary.get('tags')
+
+                for tag in sorted(tags):
+                    menu_items.append({'value': tag['name'], 'text': tag['display_name']})
             return menu_items
         except:
             return []
@@ -246,7 +250,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents}
 
     def get_auth_functions(self):
-        return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update}
+        return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update,
+                'organization_public_adminstartion_change': auth.organization_public_adminstartion_change}
 
     def get_actions(self):
         return {'user_create': action_user_create}

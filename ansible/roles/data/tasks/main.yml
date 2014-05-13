@@ -22,7 +22,7 @@
   - data-tags-celery
 
 - name: Import organization types
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_organization_types ckanext.ytp.organizations.organization_type_import manual '{\"data_url\": \"http://api.finto.fi/rest/v1/jupo/data\",\"data_format\": \"n3\"}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_organization_types ckanext.ytp.organizations.organization_type_import daily '{\"data_url\": \"http://api.finto.fi/rest/v1/jupo/data\",\"data_format\": \"n3\"}'"
   tags:
   - data
   - data-organization-types
