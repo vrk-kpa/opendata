@@ -21,10 +21,8 @@ def search_index_update(context, data_dict):
     '''
     model = context['model']
     #session = context['session']
-    user = context.get('user')
-
-    if not ckan.new_authz.is_sysadmin(user):
-        return {'success': False, 'msg': _('User %s not authorized to update the search index manually') % str(user)}
+    #user = context.get('user')
+    p.toolkit.check_access('search_index_update', context, data_dict)
 
     pkg_dict = p.toolkit.get_action('package_show')(
         {'model': model, 'ignore_auth': True, 'validate': False,
@@ -45,6 +43,7 @@ def qa_resource_show(context, data_dict):
     model = context['model']
     session = context['session']
     #user = context.get('user')
+    #p.toolkit.check_access('qa_resource_show', context, data_dict)
 
     res_id = p.toolkit.get_or_bust(data_dict, 'id')
     res = session.query(model.Resource).get(res_id)
@@ -69,16 +68,17 @@ def qa_resource_show(context, data_dict):
 
 
 @p.toolkit.side_effect_free
-def qa_package_show(context, data_dict):
+def qa_package_broken_show(context, data_dict):
     '''
-    Returns the QA and Archival information for a package, aggregating the
-    scores of its resources.
+    Returns the Archival is_broken information for a package, aggregating
+    across its resources.
 
     is_broken - True (all), 'some', False or None (not sure)
     '''
     model = context['model']
     session = context['session']
     #user = context.get('user')
+    #p.toolkit.check_access('qa_package_broken_show', context, data_dict)
 
     pkg_id = p.toolkit.get_or_bust(data_dict, 'id')
     pkg = session.query(model.Package).get(pkg_id)
@@ -102,7 +102,32 @@ def qa_package_show(context, data_dict):
             is_broken = False  # all ok
         else:
             is_broken = None  # not sure / not recorded
+    else:
+        is_broken = False
+    return {'name': pkg.name,
+            'title': pkg.title,
+            'id': pkg.id,
+            'archival_is_broken': is_broken,
+            }
 
+
+@p.toolkit.side_effect_free
+def qa_package_openness_show(context, data_dict):
+    '''
+    Returns the QA score for a package, aggregating the
+    scores of its resources.
+    '''
+    model = context['model']
+    session = context['session']
+    #user = context.get('user')
+    #p.toolkit.check_access('qa_package_openness_show', context, data_dict)
+
+    pkg_id = p.toolkit.get_or_bust(data_dict, 'id')
+    pkg = session.query(model.Package).get(pkg_id)
+    if not pkg:
+        raise p.toolkit.ObjectNotFound
+
+    if pkg.resources:
         # Aggregate openness score
         best_score = None
         best_score_reason = None
@@ -114,15 +139,13 @@ def qa_package_show(context, data_dict):
             if not latest_update or qa.updated > latest_update:
                 latest_update = qa.updated
     else:
-        is_broken = False
         best_score = 0
         best_score_reason = 'Dataset has no resources.'
         latest_update = None
     return {'name': pkg.name,
             'title': pkg.title,
             'id': pkg.id,
-            'archival_is_broken': is_broken,
             'openness_score': best_score,
             'openness_score_reason': best_score_reason,
-            'updated': latest_update.isoformat(),
+            'updated': latest_update.isoformat() if latest_update else None,
             }

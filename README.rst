@@ -54,21 +54,7 @@ You must also make sure that the following is set in your CKAN config:
     ckan.site_url = <URL to your CKAN instance>
 
 
-**Optional:**
 
-By default, the report for organisations will be listed in the QA reports
-page (/qa). If you do not want to show this report, you can disable it by
-setting the following config option:
-
-::
-
-    qa.organisations = false
-
-
-By defaults all QA links (except /api) are routed via /qa as a URL. If you wish
-to provide the URLs at /somewhere/qa you can provide the following config option:
-
-    qa.url_root = /somewhere
 
 
 Using The QA Extension
@@ -90,28 +76,12 @@ The command can be run on just a single package by giving the package ``name`` o
 ``update/clean`` subcommand. If no package name is given, the database is scanned
 for a list of all packages and the command is run on each one.
 
-After you run the ``archive`` and ``qa`` commands, the QA results can be viewed
+After you run the ``archive`` or ``qa`` commands, the QA results can be viewed
 at
 
 ::
 
-    http://your-ckan-instance/qa
-
-
-API Access
-----------
-
-The QA Extension exposes the following API endpoints:
-
-::
-
-    http://your-ckan-instance/api/2/util/qa/package_five_stars
-
-    http://your-ckan-instance/api/2/util/qa/broken_resource_links_by_package
-
-    http://your-ckan-instance/api/2/util/qa/organisations_with_broken_resource_links
-
-    http://your-ckan-instance/api/2/util/qa/broken_resource_links_by_package_for_organisation
+    http://your-ckan-instance/data/report
 
 
 Developers

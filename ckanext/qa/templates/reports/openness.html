@@ -1,0 +1,92 @@
+<html xmlns:py="http://genshi.edgewall.org/"
+  xmlns:i18n="http://genshi.edgewall.org/i18n"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  py:strip="">
+
+    <py:if test="c.options['organization'] == None">
+      <ul>
+        <li>Datasets given a score: ${c.data['num_packages_scored']} / ${c.data['num_packages']}</li>
+        <li>Totals
+          <table class="table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Score TBC</th>
+                <th py:for="n in range(6)">Score ${n}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${c.data['total_score_counts'].get(None, 0)}</td>
+                <th py:for="n in range(6)">${c.data['total_score_counts'].get(str(n), 0)}</th>
+              </tr>
+            </tbody>
+          </table>
+        </li>
+      </ul>
+      <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table">
+        <thead>
+          <tr>
+            <th>Publisher</th>
+            <th>Score TBC</th>
+            <th py:for="n in range(6)">Score ${n}</th>
+            <th>Total stars</th>
+            <th>Average stars</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr py:for="row in c.data['data']">
+            <td>${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
+            <td>${row.get(None, 0)}</td>
+            <td py:for="n in range(6)">${row.get(str(n), 0)}</td>
+            <td>${row['total_stars']}</td>
+            <td>${row['average_stars']}</td>
+          </tr>
+        </tbody>
+      </table>
+    </py:if>
+
+    <py:if test="c.options['organization'] != None">
+      <ul>
+        <li>Average stars: ${c.data['average_stars']}</li>
+        <li>Total stars: ${c.data['total_stars']}</li>
+        <li>Datasets given a score: ${c.data['num_packages_scored']} / ${c.data['num_packages']}</li>
+        <li>Totals
+          <table class="table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Score TBC</th>
+                <th py:for="n in range(6)">Score ${n}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${c.data['score_counts'].get(None, 0)}</td>
+                <td py:for="n in range(6)">${c.data['score_counts'].get(str(n), 0)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </li>
+      </ul>
+      <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th py:if="c.options['include_sub_organizations']">Publisher</th>
+            <th>Score</th>
+            <th>Score reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr py:for="row in c.data['data']">
+            <td>${h.link_to(row['dataset_title'], '/dataset/%s' % row['dataset_name'])}</td>
+            <td py:if="c.options['include_sub_organizations']">${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
+            <td>${row['openness_score']}</td>
+            <td class="js-tooltip" title="${row['openness_score_reason']}">${h.truncate(row['openness_score_reason'], 150)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </py:if>
+
+</html>
+
+
