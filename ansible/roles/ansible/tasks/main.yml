@@ -31,11 +31,6 @@
   - packages
   - ansible
 
-- name: Ensure keyczar is installed
-  apt: pkg=python-keyczar state=latest
-  tags:
-  - ansible
-
 - name: Ensure ansible requirements
   action: apt pkg="{{ item }}" state=latest
   with_items:
