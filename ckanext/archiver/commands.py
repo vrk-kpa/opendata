@@ -1,14 +1,12 @@
 import logging
 import os
 import sys
-import json
+import time
 import re
 import shutil
 import itertools
 
-import requests
 from pylons import config
-import paste.fixture
 
 from ckan.lib.cli import CkanCommand
 
@@ -189,6 +187,7 @@ class Archiver(CkanCommand):
             package = resource.resource_group.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
             plugin.create_archiver_task(resource, self.options.queue)
+            time.sleep(0.1) # to try to avoid Redis getting overloaded
 
         self.log.info('Completed queueing')
 
