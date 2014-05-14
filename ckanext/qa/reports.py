@@ -71,7 +71,7 @@ def openness_index(include_sub_organizations=False):
             ('total_stars', total_stars),
             ('average_stars', average_stars),
             ))
-        row.update(org_counts['score_counts'])
+        row.update(jsonify_counter(org_counts['score_counts']))
         data.append(row)
 
     # Get total number of packages & resources
@@ -79,18 +79,20 @@ def openness_index(include_sub_organizations=False):
                         .filter_by(state='active')\
                         .count()
     return {'data': data,
-            'total_score_counts': total_score_counts,
+            'total_score_counts': jsonify_counter(total_score_counts),
             'num_packages_scored': sum(total_score_counts.values()),
             'num_packages': num_packages,
             }
 
 def openness_for_organization(organization=None, include_sub_organizations=False):
     org = model.Group.get(organization)
+    if not org:
+        raise p.toolkit.ObjectNotFound
 
     if not include_sub_organizations:
         orgs = [org]
     else:
-        orgs = org.get_children_group_hierarchy(type='organization')
+        orgs = go_down_tree(org)
 
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
     score_counts = Counter()
@@ -113,9 +115,10 @@ def openness_for_organization(organization=None, include_sub_organizations=False
             score_counts[qa['openness_score']] += 1
 
     total_stars = sum([k*v for k, v in score_counts.items() if k])
-    average_stars = round(float(total_stars) /
-                          sum([v for k, v in score_counts.items()
-                              if k is not None]), 1)
+    num_pkgs_with_stars = sum([v for k, v in score_counts.items()
+                               if k is not None])
+    average_stars = round(float(total_stars) / num_pkgs_with_stars, 1) \
+                    if num_pkgs_with_stars else 0.0
 
     # Get total number of packages & resources
     num_packages = model.Session.query(model.Package)\
@@ -123,7 +126,7 @@ def openness_for_organization(organization=None, include_sub_organizations=False
                         .filter_by(state='active')\
                         .count()
     return {'data': rows,
-            'score_counts': score_counts,
+            'score_counts': jsonify_counter(score_counts),
             'total_stars': total_stars,
             'average_stars': average_stars,
             'num_packages_scored': len(rows),
@@ -158,3 +161,22 @@ def all_organizations(include_none):
         filter(model.Group.state=='active').order_by('name')
     for organization in organizations:
         yield organization.name
+
+def go_down_tree(publisher):
+    '''Provided with a publisher object, it walks down the hierarchy and yields
+    each publisher, including the one you supply.
+   
+    Essentially this is a slower version of Group.get_children_group_hierarchy
+    because it returns Group objects, rather than dicts.
+    '''
+    yield publisher
+    for child in publisher.get_children_groups(type='organization'):
+        for grandchild in go_down_tree(child):
+            yield grandchild
+
+def jsonify_counter(counter):
+    # When counters are stored as JSON, integers become strings. Do the conversion
+    # here to ensure that when you run the report the first time, you get the same
+    # response as subsequent times that go through the cache/JSON.
+    return dict((str(k) if k is not None else k, v) for k, v in counter.items())
+

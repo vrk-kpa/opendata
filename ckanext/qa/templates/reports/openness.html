@@ -47,10 +47,10 @@
 
     <py:if test="c.options['organization'] != None">
       <ul>
-        <li>Average stars: ${c.data['average_stars']}</li>
+        <li>Average score: ${c.data['average_stars']}</li>
         <li>Total stars: ${c.data['total_stars']}</li>
         <li>Datasets given a score: ${c.data['num_packages_scored']} / ${c.data['num_packages']}</li>
-        <li>Totals
+        <li>Score frequencies:
           <table class="table table-striped table-bordered table-condensed">
             <thead>
               <tr>
