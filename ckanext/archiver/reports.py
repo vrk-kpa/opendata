@@ -2,9 +2,11 @@ import copy
 
 import ckan.model as model
 from ckan.lib.helpers import OrderedDict
+import ckan.plugins as p
+
 
 def broken_links(organization, include_sub_organizations=False):
-    if organization == None:
+    if organization is None:
         return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
     else:
         return broken_links_for_organization(organization=organization, include_sub_organizations=include_sub_organizations)
@@ -109,6 +111,8 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
         return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
 
     org = model.Group.get(organization)
+    if not org:
+        raise p.toolkit.ObjectNotFound()
 
     name = org.name
     title = org.title
