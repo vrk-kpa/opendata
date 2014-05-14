@@ -18,7 +18,8 @@ var paths = {
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
     fonts: 'src/fonts/**/*',
-    bootstrap: 'src/less/upstream_bootstrap'
+    bootstrap: 'src/less/upstream_bootstrap',
+    root: 'src'
   },
   dist: 'resources'
 };
@@ -85,9 +86,14 @@ gulp.task('bootstrap', function(){
 });
 
 
+gulp.task('config', function(){
+    return gulp.src(paths.src.root + '/resource.config')
+        .pipe(gulp.dest(paths.dist))
+});
+
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'less', 'templates', 'static_pages', 'images', 'fonts'],
+              ['bootstrap', 'config', 'less', 'templates', 'static_pages', 'images', 'fonts'],
               callback);
 });
 

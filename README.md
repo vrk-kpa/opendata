@@ -8,7 +8,7 @@ This repository contains:
 - Automated Deployment ([Ansible](http://www.ansible.com))
 - Local Development Tools ([Vagrant](http://www.vagrantup.com))
 - Continuous Integration ([Travis](https://travis-ci.org/yhteentoimivuuspalvelut/ytp)) [![Build Status][travis-image]][travis-url]
-- Rest of the project code tied together as submodules
+- Rest of the project code tied together as subtree modules
 
 ## Getting started
 

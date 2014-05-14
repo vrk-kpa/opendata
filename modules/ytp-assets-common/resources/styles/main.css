@@ -2098,7 +2098,7 @@ textarea {
   display: none;
 }
 .toolbar .breadcrumb a {
-  color: #1f7994;
+  color: #505050;
 }
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
@@ -4091,7 +4091,7 @@ section.module {
 .toolbar .breadcrumb {
   font-size: 16px;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   [role=main] .primary {
     float: right;
     width: 100%;
@@ -4729,7 +4729,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1399985055152") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1400044592216") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4759,7 +4759,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1399985055152');
+  background-image: url('../images/sprite.png?timestamp=1400044592216');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4769,7 +4769,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1399985055152');
+  background-image: url('../images/sprite.png?timestamp=1400044592216');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4859,7 +4859,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1399985055152") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1400044592216") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4992,7 +4992,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1399985055152');
+  background-image: url('../images/navbar-main-background.png?timestamp=1400044592216');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -5056,7 +5056,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1399985055152');
+  background: url('../images/search-button.png?timestamp=1400044592216');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -5132,7 +5132,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1399985055152');
+  background-image: url('../images/sprite.png?timestamp=1400044592216');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
