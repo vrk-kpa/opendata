@@ -76,8 +76,6 @@ class QACommand(p.toolkit.CkanCommand):
         # won't get disabled
         self.log = logging.getLogger('ckanext.qa')
 
-        from ckanext.qa.lib import get_site_url
-
         if cmd == 'update':
             self.update()
         elif cmd == 'sniff':
