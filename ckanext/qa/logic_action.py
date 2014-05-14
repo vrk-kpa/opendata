@@ -1,7 +1,6 @@
 import logging
 
 import ckan.plugins as p
-import ckan.new_authz
 from ckan.lib.search import index_for
 from ckanext.archiver.model import Archival
 from ckanext.qa.model import QA

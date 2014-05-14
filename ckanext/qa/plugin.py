@@ -74,12 +74,24 @@ class QAPlugin(p.SingletonPlugin):
     # IActions
 
     def get_actions(self):
-        return find_logic_functions('ckanext.qa.logic_action')
+        from ckanext.qa import logic_action as logic
+        return {
+            'search_index_update': logic.search_index_update,
+            'qa_resource_show': logic.qa_resource_show,
+            'qa_package_broken_show': logic.qa_package_broken_show,
+            'qa_package_openness_show': logic.qa_package_openness_show,
+            }
 
     # IAuthFunctions
 
     def get_auth_functions(self):
-        return find_logic_functions('ckanext.qa.logic_auth')
+        from ckanext.qa import logic_auth as logic
+        return {
+            'search_index_update': logic.search_index_update,
+            'qa_resource_show': logic.qa_resource_show,
+            'qa_package_broken_show': logic.qa_package_broken_show,
+            'qa_package_openness_show': logic.qa_package_openness_show,
+            }
 
     # IReportCache
 
@@ -106,19 +118,3 @@ def create_qa_update_task(resource, queue):
     celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
                      task_id=task_id, queue=queue)
     log.debug('QA of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
-
-
-def find_logic_functions(module_path):
-    '''Given a python module containing logic functions, it returns a dict of
-    them by their name.
-    This is based on _get_logic_functions in ckanext-harvest
-    '''
-    logic_functions = {}
-    module = __import__(module_path)
-    for part in module_path.split('.')[1:]:
-        module = getattr(module, part)
-    for key, value in module.__dict__.items():
-        if not key.startswith('_') and (hasattr(value, '__call__')
-                and (value.__module__ == module_path)):
-            logic_functions[key] = value
-    return logic_functions
