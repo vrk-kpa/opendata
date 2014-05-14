@@ -74,7 +74,6 @@ def update_package(ckan_ini_filepath, package_id):
             qa_result = resource_score(resource, log)
             log.info('Res score: %s format:%s url:"%s"', qa_result.get('openness_score'), qa_result.get('format'), resource['url'])
             save_qa_result(resource.id, qa_result, log)
-            #_update_task_status(context, _task_status_data(resource['id'], result), log)
             log.info('CKAN updated with openness score')
         update_search_index(package.id, log)
     except QAError, e:
@@ -378,7 +377,6 @@ def update_search_index(package_id, log):
     get_action('search_index_update')(context_, {'id': package_id})
 
 
-#was _update_task_status
 def save_qa_result(resource_id, qa_result, log):
     """
     Saves the results of the QA check to the qa table.

@@ -33,20 +33,20 @@ class QAPlugin(p.SingletonPlugin):
         # Redirect from some old URLs
         map.redirect('%s/qa' % self.root_dir,
                      '/data/report')
-        map.redirect('%s/qa/dataset/{.*}' % self.root_dir,
+        map.redirect('%s/qa/dataset/{a:.*}' % self.root_dir,
                      '/data/report')
-        map.redirect('%s/qa/organisation/{.*}' % self.root_dir,
+        map.redirect('%s/qa/organisation/{a:.*}' % self.root_dir,
                      '/data/report')
-        map.redirect('/api/2/util/qa/{.*}' % self.root_dir,
+        map.redirect('/api/2/util/qa/{a:.*}',
                      '/data/report')
         map.redirect('%s/qa/organisation/broken_resource_links' % self.root_dir,
                      '/data/report/broken-links')
         map.redirect('%s/qa/organisation/broken_resource_links/:organization' % self.root_dir,
-                     '/data/report/broken-links/:organizations')
+                     '/data/report/broken-links/:organization')
         map.redirect('%s/qa/organisation/scores' % self.root_dir,
                      '/data/report/openness')
         map.redirect('%s/qa/organisation/scores/:organization' % self.root_dir,
-                     '/data/report/openness/:organizations')
+                     '/data/report/openness/:organization')
 
         # Link checker
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'

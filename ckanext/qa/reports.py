@@ -3,10 +3,7 @@ import copy
 
 import ckan.model as model
 import ckan.plugins as p
-from ckan.lib.helpers import json, OrderedDict
-from ckan.lib.search.query import PackageSearchQuery
-from ckanext.dgu.lib.publisher import go_down_tree
-from ckan.lib.base import abort
+from ckan.lib.helpers import OrderedDict
 
 import logging
 
@@ -143,6 +140,7 @@ def openness_report_combinations():
 
 openness_report_info = {
     'name': 'openness',
+    'title': 'Openness (Five Stars)',
     'option_defaults': OrderedDict((('organization', None),
                                     ('include_sub_organizations', False),
                                     )),
