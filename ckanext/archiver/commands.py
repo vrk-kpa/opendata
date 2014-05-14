@@ -11,8 +11,6 @@ from pylons import config
 import paste.fixture
 
 from ckan.lib.cli import CkanCommand
-from ckanext.archiver import plugin
-from ckanext.archiver.model import Archival
 
 REQUESTS_HEADER = {'content-type': 'application/json'}
 
@@ -127,6 +125,7 @@ class Archiver(CkanCommand):
 
     def update(self):
         from ckan import model
+        from ckanext.archiver import plugin
         packages = []
         resources = []
         if len(self.args) > 1:
@@ -195,6 +194,7 @@ class Archiver(CkanCommand):
 
     def view(self, package_ref=None):
         from ckan import model
+        from ckanext.archiver.model import Archival
 
         r_q = model.Session.query(model.Resource).filter_by(state='active')
         print 'Resources: %i total' % r_q.count()
@@ -215,6 +215,7 @@ class Archiver(CkanCommand):
 
     def clean_status(self):
         from ckan import model
+        from ckanext.archiver.model import Archival
 
         print 'Before:'
         self.view()
@@ -228,6 +229,7 @@ class Archiver(CkanCommand):
 
     def clean_cached_resources(self):
         from ckan import model
+        from ckanext.archiver.model import Archival
 
         print 'Before:'
         self.view()
