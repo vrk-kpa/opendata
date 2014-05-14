@@ -182,12 +182,13 @@ class Archiver(CkanCommand):
                           package.name, len(pkg_resources))
             for resource in pkg_resources:
                 plugin.create_archiver_task(resource, self.options.queue)
+            time.sleep(0.1)  # to try to avoid Redis getting overloaded
 
         for resource in resources:
             package = resource.resource_group.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
             plugin.create_archiver_task(resource, self.options.queue)
-            time.sleep(0.1) # to try to avoid Redis getting overloaded
+            time.sleep(0.05)  # to try to avoid Redis getting overloaded
 
         self.log.info('Completed queueing')
 
