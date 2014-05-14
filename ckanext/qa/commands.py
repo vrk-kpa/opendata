@@ -100,91 +100,66 @@ class QACommand(p.toolkit.CkanCommand):
         init_tables(model.meta.engine)
 
     def update(self):
-        from ckan.model.types import make_uuid
-        from ckan.lib.helpers import json
-        # import tasks after load config so CKAN_CONFIG evironment variable
-        # can be set
-        import tasks
-
-        for package in self._package_list():
-            self.log.info('QA on dataset being added to Celery queue "%s": %s (%d resources)' % \
-                        (self.options.queue, package.get('name'),
-                         len(package.get('resources', []))))
-
-            data = json.dumps(package)
-            task_id = make_uuid()
-            tasks.update_package.apply_async(args=[data],
-                                             task_id=task_id,
-                                             queue=self.options.queue)
-
-
-    def _package_list(self):
-        """
-        Generate the package dicts as declared in self.args.
-
-        Make API calls for the packages declared in self.args, and generate
-        the package dicts.
-
-        If no packages are declared in self.args, then retrieve all the
-        packages from the catalogue.
-        """
-        from ckan.lib.helpers import json
-        api_url = urlparse.urljoin(config.get('ckan.site_url_internally') or config['ckan.site_url'], 'api/action')
+        from ckan import model
+        from ckanext.qa import plugin
+        packages = []
+        resources = []
         if len(self.args) > 1:
-            for id in self.args[1:]:
-                # try arg as a group name
-                url = api_url + '/organization_show'
-                self.log.info('Requesting datasets in org %r', url)
-                data = {'id': self.args[1],
-                        'include_datasets': 1}
-                response = requests.post(url, data=json.dumps(data), headers=REQUESTS_HEADER)
-                if response.status_code == 200:
-                    package_dicts = json.loads(response.text)['result']['packages']
-                    package_names = [pd['name'] for pd in package_dicts]
+            for arg in self.args[1:]:
+                # try arg as a group id/name
+                group = model.Group.get(arg)
+                if group:
+                    packages.extend(group.packages())
                     if not self.options.queue:
                         self.options.queue = 'bulk'
-                else:
-                    # must be a package id
-                    package_names = [id]
+                    continue
+                # try arg as a package id/name
+                pkg = model.Package.get(arg)
+                if pkg:
+                    packages.append(pkg)
                     if not self.options.queue:
                         self.options.queue = 'priority'
-                for package_name in sorted(package_names):
-                    data = json.dumps({'id': unicode(package_name)})
-                    url = api_url + '/package_show'
-                    response = requests.post(url, data, headers=REQUESTS_HEADER)
-                    if response.status_code == 403:
-                        self.log.warning('Package "%s" is in the group but '
-                                         'returned %i error, so skipping.' % \
-                                         (package_name, response.status_code))
-                        continue
-                    elif not response.ok:
-                        err = ('Failed to get package %s from url %r: %s %s' %
-                               (package_name, url, response.status_code, response.reason))
-                        self.log.error(err)
-                        raise CkanApiError(err)
-                    yield json.loads(response.content).get('result')
+                    continue
+                # try arg as a resource id
+                res = model.Resource.get(arg)
+                if res:
+                    resources.append(res)
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
+                    continue
+                else:
+                    self.log.error('Could not recognize as a group, package '
+                                   'or resource: %r', arg)
+                    sys.exit(1)
         else:
+            # all packages
+            pkgs = model.Session.query(model.Package)\
+                        .filter_by(state='active')\
+                        .order_by('name').all()
+            packages.extend(pkgs)
             if not self.options.queue:
                 self.options.queue = 'bulk'
-            page, limit = 1, 10
-            while True:
-                url = api_url + '/current_package_list_with_resources'
-                response = requests.post(url,
-                                         json.dumps({'page': page,
-                                                     'limit': limit,
-                                                     'order_by': 'name'}),
-                                         headers=REQUESTS_HEADER)
-                if not response.ok:
-                    err = ('Failed to get package list with resources from url %r: %s %s' %
-                           (url, response.status_code, response.reason))
-                    self.log.error(err)
-                    raise CkanApiError(err)
-                chunk = json.loads(response.content).get('result')
-                if not chunk:
-                    break
-                for package in chunk:
-                    yield package
-                page += 1
+
+        if packages:
+            self.log.info('Datasets to QA: %d', len(packages))
+        if resources:
+            self.log.info('Resources to QA: %d', len(resources))
+        if not (packages or resources):
+            self.log.error('No datasets or resources to process')
+            sys.exit(1)
+
+        self.log.info('Queue: %s', self.options.queue)
+        for package in packages:
+            plugin.create_qa_update_package_task(package, self.options.queue)
+            self.log.info('Queuing dataset %s (%s resources)',
+                          package.name, len(pkg.resources))
+
+        for resource in resources:
+            package = resource.resource_group.package
+            self.log.info('Queuing resource %s/%s', package.name, resource.id)
+            plugin.create_qa_update_task(resource, self.options.queue)
+
+        self.log.info('Completed queueing')
 
     def sniff(self):
         from ckanext.qa.sniff_format import sniff_file_format

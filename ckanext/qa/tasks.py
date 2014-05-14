@@ -50,7 +50,7 @@ def register_translator():
     registry.register(translator, translator_obj)
 
 
-@celery_app.celery.task(name="qa.package")
+@celery_app.celery.task(name="qa.update_package")
 def update_package(ckan_ini_filepath, package_id):
     """
     Given a package, calculates an openness score for each of its resources.
@@ -72,14 +72,11 @@ def update_package(ckan_ini_filepath, package_id):
         log.info('Openness scoring package %s (%i resources)', package.name, len(package.resources))
         for resource in package.resources:
             qa_result = resource_score(resource, log)
-            log.info('Res score: %s format:%s url:"%s"', qa_result.get('openness_score'), qa_result.get('format'), resource['url'])
+            log.info('Openness scoring: \n%r\n%r\n%r\n\n', qa_result, resource,
+                     resource.url)
             save_qa_result(resource.id, qa_result, log)
             log.info('CKAN updated with openness score')
         update_search_index(package.id, log)
-    except QAError, e:
-        log.error('Error occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
-        if os.environ.get('DEBUG'):
-            raise
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         raise
