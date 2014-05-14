@@ -1,13 +1,13 @@
 
 # Development in Vagrant
 
-You can develop in full installation by replacing the sources in the virtualbox. Then you can edit the files on local machine because the /src/ is mapped to ../modules
+We have setup Vagrant so that you can have the source codes and IDE on your native host machine, while running a full installation of the service in VirtualBox. Live changes can be made to the server from the host machine, as the project subdirectory modules/ is mapped as /src/ inside the virtual machine. After provisioning the virtual machine, it uses the static codes installed on the server (which you can ofcourse temporarily edit by SSHing into the server). To live-edit code from the host machine, you must manually choose to symlink individual modules to have the server use the code from the host machine.
 
 Look at individual instructions for each project at Github project page.
 
-## Automatic project switch
+## Linking a module from the host machine
 
-The ytp-develop.py -script is created to automated project switching on Vagrant. This script is executed under Vargant (`vagrant ssh`).
+The ytp-develop.py script is provided to help with linking the modules. This script is executed on the virtual machine (`vagrant ssh`).
 
     sudo /src/ytp-tools/scripts/ytp-develop.py # help
     sudo /src/ytp-tools/scripts/ytp-develop.py --list # list available projects
@@ -22,10 +22,10 @@ Examples:
 ### Notes
 
 - Serve command cannot reload all modification and need to restarted on some changes.
-- Serve cannot access asset files currently so layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`. 
+- Serve cannot access asset files currently so the layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`. 
 - For ckanext project if setup.py is changed or if some files are inserted you need to re-execute `ytp-develop.py` (executes correct python setup.py develop).
 
-## Manually switch Python packages (ckanext-*)
+## Manually link Python packages (ckanext-*)
 
     vagrant ssh
     cd /src/<python-package>
@@ -36,7 +36,7 @@ Examples:
 - If you modify *setup.py* re-run *setup.py develop*. 
 
 
-### Manually switch running CKAN via PasteScript
+### Manually running CKAN via PasteScript
 
 As modifications to Python packages require Apace restart, you can use *paster* for development. 
 
@@ -48,7 +48,7 @@ As modifications to Python packages require Apace restart, you can use *paster* 
 Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
 
 
-## Manually switch Drupal theme (ytp-theme-drupal)
+## Manually linking Drupal theme (ytp-theme-drupal)
 
     vagrant ssh
     cd /var/www/ytp/sites/all/themes
@@ -56,7 +56,7 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     sudo ln -s /src/ytp-theme-drupal ytp_theme
 
 
-## Manually switch Assets (ytp-theme-drupal)
+## Manually linking Assets (ytp-theme-drupal)
 
     vagrant ssh
     cd /var/www/

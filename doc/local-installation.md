@@ -3,7 +3,7 @@
 
 ## Requirements
 
-- Ubuntu x86_64 (tested with 13.04 and 13.10)
+- Ubuntu x86_64 (tested with 14.04, 13.10 and 13.04)
 
 
 ## Source
@@ -32,25 +32,23 @@ We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible 
 
 ### Install Vagrant from package
 
-Download Vagrant latest 64-bit version for Ubuntu from [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
+Download Vagrant latest 64-bit version for Ubuntu from [vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
 
-    sudo dpkg -i vagrant_1.4.3_x86_64.deb
+    sudo dpkg -i vagrant_1.6.2_x86_64.deb
 
 
 ## Ansible
 
-We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 1.4+ is required.
+We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 1.5+ is required.
 
     sudo add-apt-repository ppa:rquillo/ansible
     sudo apt-get update
     sudo apt-get install ansible
-    sudo apt-get install python-keyczar
 
 **If you are using Windows host, install and use Ansible from inside your virtual machine:**
 
     vagrant ssh
     sudo apt-get install ansible
-    sudo apt-get install python-keyczar
 
 ### Generate keys for Ansible
 
@@ -81,30 +79,26 @@ Vagrant command looks for Vagrantfile which contains all the virtual machine con
 If you need to make adjustments to the provisioning configuration, you can either edit the Ansible settings in the Vagrant file, or simply run Ansible without Vagrant:
 
     # cd into the main ytp directory (cd /src inside vagrant)
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/site.yml --skip-tags=has-hostname,non-local
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/single-server.yml --skip-tags=has-hostname,non-local
 
 If you are using ssh keys the following may suffice:
 
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/site.yml --skip-tags=has-hostname,non-local
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
 
 
 ### Access to service
 
-After provisioning the service into a virtual machines, access the service at [http://10.10.10.10/](http://10.10.10.10/) once the installation is ready.
+After the provisioning of the server is ready, access the service at [http://10.10.10.10/](http://10.10.10.10/).
 
 
 ## Known issues
 
-Sometimes the Accelerate in Ansible breaks the SSH connection.  
+Sometimes the SSH connection breaks.
 
     "GATHERING FACTS: fatal: [10.10.10.10] => SSH encountered an unknown error during the connection. We recommend you re-run the command using -vvvv, which will enable SSH debugging output to help diagnose the issue"
     or
     "fatal: [10.10.10.10] => decryption failed"
 
-Kill acceleration process on machine and re-run the provision 
+Simply re-run the provision:
 
-    vagrant ssh
-    ps aux | grep acceleration
-    kill <acceleration-pid>
-    exit
-    vagrant provision # re-run
+    vagrant provision
