@@ -76,17 +76,17 @@ class CkanError(ArchiverError):
 
 
 @celery.task(name="archiver.update")
-def update(ckan_ini_filepath, resource_id):
+def update(ckan_ini_filepath, resource_id, queue):
     '''
     Archive a resource.
     '''
     log = update.get_logger()
-    log.info('Starting update task: res_id=%r', resource_id)
+    log.info('Starting update task: res_id=%r queue=%s', resource_id, queue)
 
     # Do all work in a sub-routine since it can then be tested without celery.
     # Also put try/except around it since we don't trust celery to log errors well.
     try:
-        result = _update(ckan_ini_filepath, resource_id)
+        result = _update(ckan_ini_filepath, resource_id, queue)
         return result
     except Exception, e:
         if os.environ.get('DEBUG'):
@@ -96,7 +96,7 @@ def update(ckan_ini_filepath, resource_id):
                   e, resource_id)
         raise
 
-def _update(ckan_ini_filepath, resource_id):
+def _update(ckan_ini_filepath, resource_id, queue):
     """
     Link check and archive the given resource.
     If successful, updates the archival table with the cache_url & hash etc.
@@ -104,6 +104,7 @@ def _update(ckan_ini_filepath, resource_id):
 
     Params:
       resource - resource dict
+      queue - name of the celery queue
 
     Should only raise on a fundamental error:
       ArchiverError
@@ -142,6 +143,7 @@ def _update(ckan_ini_filepath, resource_id):
                       download_result, archive_result,
                       log)
         notify(resource,
+               queue,
                archive_result.get('cache_filename') if archive_result else None)
 
     # Download
@@ -372,13 +374,14 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
             'cache_url': cache_url}
 
 
-def notify(resource, cache_filepath):
+def notify(resource, queue, cache_filepath):
     '''
     Broadcasts a notification that an archival has taken place (or at least
     the archival object is changed somehow). e.g. ckanext-qa listens for this
     '''
     archiver_interfaces.IPipe.send_data('archived',
                                         resource_id=resource['id'],
+                                        queue=queue, 
                                         cache_filepath=cache_filepath)
 
 

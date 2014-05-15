@@ -20,14 +20,14 @@ class IPipe(Interface):
     turn put the resulting data into the pipeline
     """
 
-    def receive_data(self, operation, **params):
+    def receive_data(self, operation, queue, **params):
         pass
 
     @classmethod
-    def send_data(cls, operation, **params):
+    def send_data(cls, operation, queue, **params):
         for observer in plugins.PluginImplementations(cls):
             try:
-                observer.receive_data(operation, **params)
+                observer.receive_data(operation, queue, **params)
             except Exception, ex:
                 log.exception(ex)
                 # We reraise all exceptions so they are obvious there

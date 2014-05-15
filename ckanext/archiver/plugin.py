@@ -60,6 +60,6 @@ def create_archiver_task(resource, queue):
     package = resource.resource_group.package
     task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
     ckan_ini_filepath = os.path.abspath(config.__file__)
-    celery.send_task('archiver.update', args=[ckan_ini_filepath, resource.id],
+    celery.send_task('archiver.update', args=[ckan_ini_filepath, resource.id, queue],
                      task_id=task_id, queue=queue)
     log.debug('Archival of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
