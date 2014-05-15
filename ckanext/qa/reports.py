@@ -1,5 +1,6 @@
 from collections import Counter
 import copy
+from pylons import config
 
 import ckan.model as model
 import ckan.plugins as p
@@ -110,6 +111,7 @@ def openness_for_organization(organization=None, include_sub_organizations=False
             rows.append(OrderedDict((
                 ('dataset_name', pkg.name),
                 ('dataset_title', pkg.title),
+                ('dataset_notes', dataset_notes(pkg)),
                 ('organization_name', org.name),
                 ('organization_title', org.title),
                 ('openness_score', qa['openness_score']),
@@ -122,7 +124,6 @@ def openness_for_organization(organization=None, include_sub_organizations=False
                                if k is not None])
     average_stars = round(float(total_stars) / num_pkgs_with_stars, 1) \
                     if num_pkgs_with_stars else 0.0
-
 
     return {'data': rows,
             'score_counts': jsonify_counter(score_counts),
@@ -179,3 +180,8 @@ def jsonify_counter(counter):
     # response as subsequent times that go through the cache/JSON.
     return dict((str(k) if k is not None else k, v) for k, v in counter.items())
 
+
+def dataset_notes(pkg):
+    '''Returns a string with notes about the given package. It is configurable.'''
+    expression = config.get('ckanext-report.notes.dataset')
+    return eval(expression, None, {'pkg': pkg, 'asbool': p.toolkit.asbool})
