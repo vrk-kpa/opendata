@@ -59,7 +59,7 @@ class QAPlugin(p.SingletonPlugin):
 
     # IPipe
 
-    def receive_data(self, operation, **params):
+    def receive_data(self, operation, queue, **params):
         '''Receive notification from ckan-archiver that a resource has been archived.'''
         if not operation == 'archived':
             return
@@ -69,7 +69,7 @@ class QAPlugin(p.SingletonPlugin):
         resource = model.Resource.get(resource_id)
         assert resource
 
-        create_qa_update_task(resource, queue='priority')
+        create_qa_update_task(resource, queue=queue)
 
     # IActions
 
