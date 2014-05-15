@@ -97,8 +97,11 @@ def openness_for_organization(organization=None, include_sub_organizations=False
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
     score_counts = Counter()
     rows = []
+    num_packages = 0
     for org in orgs:
-        for pkg in org.packages():
+        pkgs = org.packages()
+        num_packages += len(pkgs)
+        for pkg in pkgs:
             try:
                 qa = p.toolkit.get_action('qa_package_openness_show')(context, {'id': pkg.id})
             except p.toolkit.ObjectNotFound:
@@ -120,11 +123,7 @@ def openness_for_organization(organization=None, include_sub_organizations=False
     average_stars = round(float(total_stars) / num_pkgs_with_stars, 1) \
                     if num_pkgs_with_stars else 0.0
 
-    # Get total number of packages & resources
-    num_packages = model.Session.query(model.Package)\
-                        .filter_by(owner_org=org.id)\
-                        .filter_by(state='active')\
-                        .count()
+
     return {'data': rows,
             'score_counts': jsonify_counter(score_counts),
             'total_stars': total_stars,
