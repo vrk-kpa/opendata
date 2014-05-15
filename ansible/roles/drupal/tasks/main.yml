@@ -318,7 +318,7 @@
   - drupal
 
 - name: Apply imce scripts
-  command: "'{{ scripts_path }}/imce_set_for_roles.drush' '{{ drupal_editor_rolename }}' chdir='{{ drupal_root }}'"
+  command: "'{{ scripts_path }}/imce_set_for_roles.drush' '{{ drupal_editor_rolename }}' '{{ drupal_publisher_rolename }}' chdir='{{ drupal_root }}'"
   when: copy_imce_scripts|changed
   tags:
   - drupal

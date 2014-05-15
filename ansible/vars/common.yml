@@ -42,6 +42,7 @@ all_paths:
 drupal_hostname: "{{ inventory_hostname }}"
 
 drupal_editor_rolename: editor
+drupal_publisher_rolename: publisher
 drupal_ckan_admin_rolename: ckan_admin
 
 admin: {'username' : 'admin', 'password': 'admin', 'email': 'vagrant@localhost'}
@@ -60,7 +61,7 @@ drupal_roles:
   - { 'username': "{{ admin.username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }
   - { 'username': "test-editor", 'role': "{{ drupal_editor_rolename }}" }
   - { 'username': "test-editor", 'role': "{{ drupal_ckan_admin_rolename }}" }
-  - { 'username': "test-publisher", 'role': "{{ drupal_editor_rolename }}" }
+  - { 'username': "test-publisher", 'role': "{{ drupal_publisher_rolename }}" }
 
 ckan_admins:
   - "{{ admin.username }}"
