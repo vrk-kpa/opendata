@@ -36,6 +36,7 @@
          <thead>
             <tr class="js-tooltip">
               <th style="width: 100px">Dataset</th>
+              <th style="width: 40px">Notes</th>
               <th py:if="c.options['include_sub_organizations']" style="width: 45px">Publisher</th>
               <th style="width: 20px" title="Index/position of the resource in the dataset">Index</th>
               <th style="width: 190px">URL</th>
@@ -50,6 +51,7 @@
          <tbody>
             <tr py:for="row_dict in c.data['data']">
               <td><a href="${h.url_for(controller='package', action='read', id=row_dict['dataset_name'])}">${row_dict['dataset_title']}</a></td>
+              <td>${row_dict['dataset_notes']}</td>
               <td py:if="c.options['include_sub_organizations']"><a href="/publisher/${row_dict['organization_name']}">${row_dict['organization_title']}</a></td>
               <td><a href="/dataset/${row_dict['dataset_name']}/resource/${row_dict['resource_id']}">${row_dict['resource_position']}</a></td>
               <td><a href="${row_dict['resource_url']}" style="word-wrap:break-word;">${row_dict['resource_url']}</a></td>

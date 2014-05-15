@@ -1,4 +1,5 @@
 import copy
+from pylons import config
 
 import ckan.model as model
 from ckan.lib.helpers import OrderedDict
@@ -153,6 +154,7 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
         row_data = OrderedDict((
             ('dataset_title', pkg.title),
             ('dataset_name', pkg.name),
+            ('dataset_notes', dataset_notes(pkg)),
             ('organization_title', org.title),
             ('organization_name', org.name),
             ('resource_position', resource.position),
@@ -233,3 +235,9 @@ def all_organizations(include_none):
         filter(model.Group.state=='active').order_by('name')
     for organization in organizations:
         yield organization.name
+
+
+def dataset_notes(pkg):
+    '''Returns a string with notes about the given package. It is configurable.'''
+    expression = config.get('ckanext-report.notes.dataset')
+    return eval(expression, None, {'pkg': pkg, 'asbool': p.toolkit.asbool})
