@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-13 12:46+0000\n"
-"PO-Revision-Date: 2014-05-13 12:47+0000\n"
-"Last-Translator: ilja.dev\n"
+"POT-Creation-Date: 2014-05-15 10:08+0000\n"
+"PO-Revision-Date: 2014-05-15 10:14+0000\n"
+"Last-Translator: salum\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -456,8 +456,7 @@ msgid "http://www.example.com/"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
-msgid "Temporal Granurality"
+msgid "Temporal Granularity"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
@@ -601,6 +600,10 @@ msgstr "Kommentarer"
 msgid "Author"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
+msgid "Temporal Granurality"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:116
 msgid "Extras"
 msgstr ""
@@ -628,31 +631,31 @@ msgstr ""
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:13
+#: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
 #, python-format
 msgid "User %s not authorized to create public organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:24
+#: ckanext/ytp/organizations/auth.py:27
 msgid "Only registered users can create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:36 ckanext/ytp/organizations/auth.py:64
+#: ckanext/ytp/organizations/auth.py:39 ckanext/ytp/organizations/auth.py:67
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:45
+#: ckanext/ytp/organizations/auth.py:48
 #, python-format
 msgid "User %s not authorized to create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:67
+#: ckanext/ytp/organizations/auth.py:71
 #, python-format
 msgid "User %s not allowed to change public organization option"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:72
+#: ckanext/ytp/organizations/auth.py:76
 #, python-format
 msgid "User %s not authorized to edit organization %s"
 msgstr ""
