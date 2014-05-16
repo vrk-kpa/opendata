@@ -4729,7 +4729,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1400044592216") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1400068236308") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4759,7 +4759,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1400044592216');
+  background-image: url('../images/sprite.png?timestamp=1400068236308');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4769,7 +4769,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1400044592216');
+  background-image: url('../images/sprite.png?timestamp=1400068236308');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4839,13 +4839,37 @@ h4 {
 .carousel .carousel-inner .carousel-caption {
   left: 220px;
   height: 160px;
+  text-align: left;
+  font-size: 18px;
+  line-height: 25px;
+  overflow: hidden;
+}
+.carousel .carousel-inner .carousel-caption h3 {
+  border-bottom: none;
+  margin-bottom: 0;
+  font-size: 24px;
+}
+.carousel .carousel-inner .carousel-caption a {
+  color: #ffffff;
+}
+.carousel .carousel-control .icon-next,
+.carousel .carousel-control .icon-prev {
+  top: 35%;
+  font-size: 62px;
+}
+.carousel .carousel-indicators {
+  bottom: 5px;
+  margin-bottom: 0;
 }
 #infobox {
   background-color: #333333;
   color: #ffffff;
   height: 160px;
   border-radius: 5px;
-  padding-top: 15px;
+  padding-top: 10px;
+  font-size: 18px;
+  overflow: hidden;
+  line-height: 25px;
 }
 #page-header > .row {
   padding-bottom: 20px;
@@ -4859,7 +4883,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1400044592216") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1400068236308") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -4992,7 +5016,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1400044592216');
+  background-image: url('../images/navbar-main-background.png?timestamp=1400068236308');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -5056,7 +5080,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1400044592216');
+  background: url('../images/search-button.png?timestamp=1400068236308');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -5132,7 +5156,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1400044592216');
+  background-image: url('../images/sprite.png?timestamp=1400068236308');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

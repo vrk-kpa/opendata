@@ -128,10 +128,33 @@ h4 {
     .carousel-caption{
       left: 220px;
       height: 160px;
+      text-align: left;
+      font-size: 18px;
+      line-height: 25px;
+      overflow: hidden;
+      h3{
+        border-bottom: none;
+        margin-bottom: 0;
+        font-size: 24px;
+      }
+      a{
+        color: @navbar-color-text;
+      }
     }
     background-color: @navbar-color-background;
     height: 160px;
     border-radius: 5px;
+  }
+  .carousel-control{
+    .icon-next, .icon-prev{
+      top: 35%;
+      font-size: 62px;
+    }
+  }
+
+  .carousel-indicators{
+    bottom: 5px;
+    margin-bottom: 0;
   }
 }
 
@@ -140,7 +163,11 @@ h4 {
   color: @navbar-color-text;
   height: 160px;
   border-radius: 5px;
-  padding-top: 15px;
+  padding-top: 10px;
+  font-size: 18px;
+  overflow: hidden;
+  line-height: 25px;
+
 }
 
 #page-header > .row{
