@@ -55,13 +55,13 @@ def qa_resource_show(context, data_dict):
     return {'name': pkg.name,
             'title': pkg.title,
             'id': res.id,
-            'archival_updated': archival.updated.isoformat() if archival else None,
+            'archival_updated': archival.updated.isoformat() if archival and archival.updated else None,
             'archival_is_broken': archival.is_broken if archival else None,
             'archival_reason': archival.reason if archival else None,
             'archival_url_redirected_to': archival.url_redirected_to if archival else None,
             'openness_score': qa.openness_score if qa else None,
             'openness_score_reason': qa.openness_score_reason if qa else None,
-            'updated': qa.updated.isoformat() if qa else None,
+            'updated': qa.updated.isoformat() if qa and qa.updated else None,
             'format': qa.format if qa else None,
             }
 
