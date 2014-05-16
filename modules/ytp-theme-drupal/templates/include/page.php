@@ -91,16 +91,16 @@
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
     <?php if (!empty($page['header'])): ?>
-      <div class="row">
+      <div class="row hidden-xs hidden-sm hidden-md">
         <?php if (!empty($page['top_bar_secondary'])): ?>
-          <div class="col-sm-9">
+          <div class="col-lg-9">
             <?php print render($page['header']); ?>
           </div>
-          <div class="col-sm-3" id="infobox">
+          <div class="col-lg-3" id="infobox">
             <?php print render($page['top_bar_secondary']); ?>
           </div>
         <?php else: ?>
-          <div class="col-sm-12">
+          <div class="col-lg-12">
             <?php print render($page['header']); ?>
           </div>
         <?php endif; ?>
@@ -112,7 +112,7 @@
 
   <div class="row">
     <?php if (!empty($page['sidebar_first'])): ?>
-      <aside class="col-sm-4 ytp-nav" role="complementary">
+      <aside class="col-xs-12 col-sm-12 col-md-12 col-lg-3 ytp-nav" role="complementary">
         <?php print render($page['sidebar_first']); ?>
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>
@@ -131,12 +131,18 @@
       </div>
     <?php } ?>
 
-    <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm visible-md">
-      <div class="panel-body">
-        <a href="<?php print "data/" . $language->language . "/dataset" ?>"> <?php print t('Browse Datasets') ?></a>
-      </div>
-    </div>
-
+    <?php
+        #if we are on the front page
+        if (isset($ytp_custom_top)) {
+    ?>
+        <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm visible-md">
+          <div class="panel-body">
+            <a href="<?php print "data/" . $language->language . "/dataset" ?>"> <?php print t('Browse datasets') ?></a>
+          </div>
+        </div>
+    <?php
+      }
+    ?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if (!empty($title)): ?>
