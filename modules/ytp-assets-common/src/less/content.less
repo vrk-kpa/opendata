@@ -167,7 +167,20 @@ h4 {
   font-size: 18px;
   overflow: hidden;
   line-height: 25px;
+  .content{
+    height: 120px;
+    overflow: hidden;
+  }
+  .readmore {
+    a {
+      color: @navbar-color-text;
+      text-decoration: underline;
 
+      &:after{
+        content: ">";
+      }
+    }
+  }
 }
 
 #page-header > .row{
