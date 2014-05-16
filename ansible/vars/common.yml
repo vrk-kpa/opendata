@@ -12,6 +12,8 @@ ckan_database_username: ckan_default
 ckan_database_password: pass
 ckan_database_host: "{{ database_host }}"
 
+ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
+
 drupal_database_name: drupal
 drupal_database_username: drupal
 drupal_database_password: drupal

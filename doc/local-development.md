@@ -66,6 +66,9 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
 
 ## Manually running ckanext tests
 
+    # create database once
+    sudo -u postgres createdb -O ckan_default ckan_test
+
     . /usr/lib/ckan/default/bin/activate
     cd modules/ckanext-ytp-<name>
     nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
