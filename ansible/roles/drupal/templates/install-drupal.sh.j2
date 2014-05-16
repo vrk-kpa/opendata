@@ -13,7 +13,7 @@ if [ ! `psql -h {{ database_host }} drupal -tAc "SELECT COUNT(*) FROM pg_tables 
 
     # Install Drupal
     cd {{ drupal_root }}
-    drush site-install -y standard --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} \
+    drush site-install -y standard --account-name={{ admin.username }} --account-pass={{ admin.password }} \
         --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }} --site-name={{ drupal_site_name }}
 
     cd -

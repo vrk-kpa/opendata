@@ -14,7 +14,7 @@ ckan_database_host: "{{ database_host }}"
 
 drupal_database_name: drupal
 drupal_database_username: drupal
-drupal_database_password: drupal  
+drupal_database_password: drupal
 
 www_root: /var/www
 www_user: www-data
@@ -39,28 +39,40 @@ all_paths:
   - "{{ log_path }}"
   - "{{ static_path }}"
 
-drupal_admin_username: admin
-drupal_admin_password: admin
-drupal_admin_email: vagrant@localhost
-
 drupal_hostname: "{{ inventory_hostname }}"
 
 drupal_editor_rolename: editor
-drupal_default_editor_username: test-editor
-drupal_default_editor_email: editor@localhost
-drupal_default_editor_password: test-editor-password
-
+drupal_publisher_rolename: publisher
 drupal_ckan_admin_rolename: ckan_admin
+
+admin: {'username' : 'admin', 'password': 'admin', 'email': 'vagrant@localhost'}
+
+harvest_user: {'username' : 'harvest', 'password': 'harvest', 'email': 'harvest@localhost'}
+
+ytp_users:
+  - username: 'test-editor'
+    password: 'test-editor'
+    email: 'editor@localhost'
+  - username: 'test-publisher'
+    password: 'test-publisher'
+    email: 'publisher@localhost'
+
+drupal_roles:
+  - { 'username': "{{ admin.username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }
+  - { 'username': "test-editor", 'role': "{{ drupal_editor_rolename }}" }
+  - { 'username': "test-editor", 'role': "{{ drupal_ckan_admin_rolename }}" }
+  - { 'username': "test-publisher", 'role': "{{ drupal_publisher_rolename }}" }
+
+ckan_admins:
+  - "{{ admin.username }}"
+  - "{{ harvest_user.username }}"
+  - "test-editor"
 
 secondary_hostname: 127.0.0.1
 secondary_hostname_language: en
 
 ckan_ini: /etc/ckan/default/production.ini
 virtual_environment: /usr/lib/ckan/default
-
-harvest_username: harvest
-harvest_password: harvest
-harvest_email: harvest@localhost
 
 harvest_sources: false
 

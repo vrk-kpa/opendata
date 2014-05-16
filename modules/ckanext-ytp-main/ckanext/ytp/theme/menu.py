@@ -207,5 +207,5 @@ class PublishMenu(RootMenuItem):
     def __init__(self, plugin):
         super(PublishMenu, self).__init__(plugin)
         self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]
-        if service_database_enabled():
+        if helpers.check_access('can_create_service') and service_database_enabled():
             self.children.append(PublishServiceMenu())

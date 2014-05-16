@@ -200,23 +200,20 @@
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
   ignore_errors: True
-  with_items:
-  - { username: "{{ harvest_username }}", password: "{{ harvest_password }}", email: "{{ harvest_email }}" }
-  - { username: "{{ drupal_admin_username }}", password: "{{ drupal_admin_password }}", email: "{{ drupal_admin_email }}" }
-  - { username: "{{ drupal_default_editor_username }}", password: "{{ drupal_default_editor_password }}", email: "{{ drupal_default_editor_email }}" }
+  with_flattened:
+    - ytp_users
+    - harvest_user
+    - admin
   tags:
   - ckan
 
 - name: Add CKAN sysadmins
   shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}"
   ignore_errors: True
-  with_items:
-  - "{{ harvest_username }}"
-  - "{{ drupal_admin_username }}"
-  - "{{ drupal_default_editor_username }}"
+  with_items: ckan_admins
   tags:
   - ckan
-  
+
 - name: Copy License register
   copy: src="license.json" dest="{{ ckan_files_path }}/license.json" mode=0644 owner=root group="{{ www_group }}"
   tags:

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-13 12:46+0000\n"
-"PO-Revision-Date: 2014-05-13 12:49+0000\n"
+"POT-Creation-Date: 2014-05-15 13:16+0000\n"
+"PO-Revision-Date: 2014-05-15 13:18+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -137,11 +137,7 @@ msgstr "Julkaise työkaluja ja ohjeita"
 msgid "Publish Service"
 msgstr "Julkaise palvelu"
 
-#: ckanext/ytp/dataset/converters.py:7
-msgid "Multiple translation in same language"
-msgstr "Useampi käännös samalla kielellä"
-
-#: ckanext/ytp/dataset/converters.py:37
+#: ckanext/ytp/dataset/converters.py:15
 #: ckanext/ytp/organizations/plugin.py:305
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
@@ -463,9 +459,8 @@ msgid "http://www.example.com/"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
-msgid "Temporal Granurality"
-msgstr "Ajallinen mittausväli"
+msgid "Temporal Granularity"
+msgstr "Ajallinen miitausväli"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:35
@@ -608,6 +603,10 @@ msgstr "Lisätietoja"
 msgid "Author"
 msgstr "Laatija"
 
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
+msgid "Temporal Granurality"
+msgstr "Ajallinen mittausväli"
+
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:116
 msgid "Extras"
 msgstr "Lisätiedot"
@@ -635,31 +634,31 @@ msgstr ""
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:13
+#: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
 #, python-format
 msgid "User %s not authorized to create public organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:24
+#: ckanext/ytp/organizations/auth.py:27
 msgid "Only registered users can create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:36 ckanext/ytp/organizations/auth.py:64
+#: ckanext/ytp/organizations/auth.py:39 ckanext/ytp/organizations/auth.py:67
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:45
+#: ckanext/ytp/organizations/auth.py:48
 #, python-format
 msgid "User %s not authorized to create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:67
+#: ckanext/ytp/organizations/auth.py:71
 #, python-format
 msgid "User %s not allowed to change public organization option"
 msgstr "Käyttäjä %s ei voi vaihtaaa julkisen organisaation valintaa"
 
-#: ckanext/ytp/organizations/auth.py:72
+#: ckanext/ytp/organizations/auth.py:76
 #, python-format
 msgid "User %s not authorized to edit organization %s"
 msgstr ""
@@ -944,6 +943,23 @@ msgstr[1] "{num} tietoaineistoa"
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:35
 msgid "0 Datasets"
 msgstr "0 tietoaineistoa"
+
+#: ckanext/ytp/service/plugin.py:136
+msgid "Organization does not exists"
+msgstr "Organisaatiota ei ole"
+
+#: ckanext/ytp/service/plugin.py:138
+msgid "Invalid organization type"
+msgstr "Väärä organisaatiotyyppi"
+
+#: ckanext/ytp/service/plugin.py:156
+msgid "Login required"
+msgstr "Kirjautuminen vaaditaan"
+
+#: ckanext/ytp/service/plugin.py:161 ckanext/ytp/service/plugin.py:169
+#, python-format
+msgid "User %s is not part of any public organization"
+msgstr "Käyttäjä %s ei ole osana mitään julkista organisaatiota"
 
 #: ckanext/ytp/service/templates/package/ytp/service/new.html:4
 msgid "Create Service"
