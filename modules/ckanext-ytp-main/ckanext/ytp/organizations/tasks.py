@@ -63,7 +63,8 @@ def organization_import(data):
                 values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
             try:
                 organization = get_action('organization_show')(context, values)
-                if organization['title'] != title:
+
+                if organization['title'] != title or organization.get('public_adminstration_organization', None) != 'true' if public_organization else None:
                     organization = get_action('organization_update')(context, values)
             except NotFound:
                 organization = get_action('organization_create')(context, values)
