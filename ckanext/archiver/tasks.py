@@ -349,6 +349,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     try:
         file_name = parsed_url.path.split('/')[-1] or 'resource'
         file_name = file_name.strip()  # trailing spaces cause problems
+        file_name = file_name.encode('ascii', 'ignore')  # e.g. u'\xa3' signs
     except:
         file_name = "resource"
 
