@@ -56,13 +56,14 @@ class TestYtpOrganizationPlugin(TestCase):
     def test_organization_import(self):
         """ Test organization import """
         organization_url = tools.get_organization_test_source()
-        data = simplejson.dumps({'url': organization_url})
+        data = simplejson.dumps({'url': organization_url, 'public_organization': True})
         for _ in xrange(2):
             result = organization_import.apply((data,))
             self.assert_true(result.successful())
             for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto", u"Suomen ymp\u00e4rist\u00f6keskus":
                 organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
                 self.assert_equal(organization['title'], title)
+                self.assert_equal(organization['public_adminstration_organization'], 'true')
 
     def test_organization_import_with_name(self):
         """ Test organization import """
@@ -74,3 +75,4 @@ class TestYtpOrganizationPlugin(TestCase):
             for name, title in (u"hri", u"Helsinki Region Infoshare"), (u"datagovuk", u"Data.Gov.UK"):
                 organization = tests.call_action_api(self.app, 'organization_show', id=name)
                 self.assert_equal(organization['title'], title)
+                self.assert_true('public_adminstration_organization' not in organization)

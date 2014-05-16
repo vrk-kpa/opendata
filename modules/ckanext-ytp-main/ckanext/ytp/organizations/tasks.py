@@ -44,8 +44,9 @@ def organization_import(data):
     """ Import organizations """
     _load_config()
     context = _create_context()
-
-    data_url = simplejson.loads(data).get('url')
+    configuration = simplejson.loads(data)
+    data_url = configuration.get('url')
+    public_organization = configuration.get('public_organization', False)
 
     with closing(urllib2.urlopen(data_url)) as source:
         data = simplejson.load(source)
@@ -57,7 +58,9 @@ def organization_import(data):
             else:
                 title = item['title']
                 name = item['name']
-            values = {'name': name, 'title': title, 'id': name, 'public_adminstration_organization': 'true'}
+            values = {'name': name, 'title': title, 'id': name}
+            if public_organization:
+                values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
             try:
                 organization = get_action('organization_show')(context, values)
                 if organization['title'] != title:
