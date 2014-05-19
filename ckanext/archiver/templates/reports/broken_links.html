@@ -34,18 +34,18 @@
         </ul>
         <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout: fixed;">
          <thead>
-            <tr class="js-tooltip">
+            <tr class="js-tooltip" style="letter-spacing: -1px; font-size: 13px;">
               <th style="width: 100px">Dataset</th>
-              <th style="width: 40px">Notes</th>
-              <th py:if="c.options['include_sub_organizations']" style="width: 45px">Publisher</th>
-              <th style="width: 20px" title="Index/position of the resource in the dataset">Index</th>
+              <th style="width: 45px">Notes</th>
+              <th py:if="c.options['include_sub_organizations']" style="width: 85px">Publisher</th>
+              <th style="width: 20px" title="Index/position of the resource in the dataset">Res</th>
               <th style="width: 190px">URL</th>
               <th style="">Status</th>
               <th style="width: 120px">Reason</th>
               <th style="width: 25px" title="Failed download attempts">No. of fails</th>
-              <th title="First failed attempt">First fail</th>
-              <th title="Most recent failed attempt">Latest fail</th>
-              <th title="The last time it was successfully obtained">Last success</th>
+              <th style="width: 75px" title="First failed attempt">First fail</th>
+              <th style="width: 75px" title="Most recent failed attempt">Latest fail</th>
+              <th style="width: 75px" title="The last time it was successfully obtained">Last success</th>
             </tr>
          </thead>
          <tbody>
