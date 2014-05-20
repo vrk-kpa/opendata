@@ -280,8 +280,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return {'name': name, 'display_name': display_name, 'url': url}
 
     def _dataset_licenses(self):
-        return [('', ''), (u'License Not Specified', u'notspecified'),
-                (u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
+        return [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
                 (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0')]
 
     def _locales_offered(self):

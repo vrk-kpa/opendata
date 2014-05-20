@@ -242,6 +242,7 @@
 
 - name: Set Drupal remote variables
   command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+  when: google_analytics != False
   with_items:
     - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
   tags:
