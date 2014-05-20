@@ -89,7 +89,11 @@ def _parse_extras(key, extras):
         extras_dict.update(_dict_formatter(key, value))
     return extras_dict
 
-# _key_mappings = {'extra_information': ('Extra information at website', _to_link), 'extras': ('Extra details', _parse_extras)}
+def set_to_user_name(value, context):
+    return context['auth_user_obj'].display_name
+
+def set_to_user_email(value, context):
+    return context['auth_user_obj'].email
 
 _key_functions = {u'extras':  _parse_extras}
 
@@ -122,9 +126,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
+        controller = 'ckanext.ytp.dataset.controller:YtpDatasetController'
         m.connect('/ytp-api/1/util/tag/autocomplete', action='ytp_tag_autocomplete',
-                  controller='ckanext.ytp.dataset.controller:YtpDatasetController',
+                  controller=controller,
                   conditions=dict(method=['GET']))
+        m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
+
         return m
 
     # IConfigurer #
@@ -152,15 +159,18 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'temporal_granularity': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'temporal_coverage_from': [ignore_missing, date_validator, convert_to_extras]})
-        schema.update({'temporal_coverage_to': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'update_frequency': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
-
+        # TODO: This is not working with empty values
+        # schema.update({'resources': {'temporal_coverage_from': [ignore_missing, date_validator],
+        #               'temporal_coverage_to': [ignore_missing, date_validator]}})
         schema = add_languages_modify(schema, self._localized_fields)
+
+        schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
+        schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
         return schema
 
@@ -187,8 +197,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'valid_from': [convert_from_extras, ignore_missing]})
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
-        schema.update({'temporal_coverage_from': [convert_from_extras, ignore_missing]})
-        schema.update({'temporal_coverage_to': [convert_from_extras, ignore_missing]})
         schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
 
@@ -299,13 +307,15 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             If fallback is set then use fallback as value if value is empty.
             If fallback is function then call given function with `values`.
         """
-
         translation = values.get('%s_%s' % (field, helpers.lang()), "") or values.get(field, "") if values else ""
 
         if not translation and fallback:
             translation = fallback(values) if hasattr(fallback, '__call__') else fallback
 
         return self._markdown(translation, markdown) if markdown and translation else translation
+
+    def _get_package(self, package):
+        return toolkit.get_action('package_show')({'model': model}, {'id': package})
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -317,5 +327,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'format_extras': self.format_extras,
                 'extra_translation': self._extra_translation,
                 'service_database_enabled': service_database_enabled,
-                'clean_extras': self._clean_extras
-                }
+                'clean_extras': self._clean_extras,
+                'get_package': self._get_package}
