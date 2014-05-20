@@ -4,9 +4,13 @@
 {% if pkg.license_title %}
 <p class="dataset-license">{{ _('License') }}: {{ _(pkg.license_title) }}</p>
 {% endif %}
-{% if res.temporal_coverage_from or res.temporal_coverage_to %}<p>{{_('Temporal Coverage')}}: 
-	{{h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_from), "%d.%m.%Y") }} - 
-	{{h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_to), "%d.%m.%Y")}} </p>{% endif %}
+{% if res.temporal_coverage_from or res.temporal_coverage_to %}
+    <p>
+        {{_('Temporal Coverage')}}:
+        {{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_from), "%d.%m.%Y") }} -
+        {{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_to), "%d.%m.%Y")}}
+    </p>
+{% endif %}
 {% if res.temporal_granularity %}<p>{{_('Temporal Granurality')}}: {{res.temporal_granularity}} </p>{% endif %}
 {% if res.update_frequency %}<p>{{_('Update Frequency')}}: {{res.update_frequency}}</p>{% endif %}
 <p class="ellipsis">

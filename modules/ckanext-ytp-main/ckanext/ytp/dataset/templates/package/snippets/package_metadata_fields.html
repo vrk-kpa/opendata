@@ -2,15 +2,31 @@
 
 {% import 'macros/ytp_form.html' as ytp_form %}
 
-{# Disable custom fields from form #}
+{# Disable fields from metadata form #}
+
 {% block custom_fields %}
 {% endblock %}
 
-{# Disable groups from form #}
-{% block dataset_fields %}
+{% block package_metadata_fields_url %}
 {% endblock %}
 
-{% block package_metadata_fields %}
+{% block package_metadata_fields_version %}
+{% endblock %}
+
+{% block package_metadata_author %}
+  {{ form.input('author', label=_('Author'), id='field-author', placeholder=_('Filled automatically'), value=data.author, error=errors.author, classes=['control-medium'], attrs={'readonly': 'readonly'}) }}
+
+  {{ form.input('author_email', label=_('Author Email'), id='field-author-email', placeholder=_('Filled automatically'), value=data.author_email, error=errors.author_email, classes=['control-medium'], attrs={'readonly': 'readonly'}) }}
+{% endblock %}
+
+{% block package_metadata_fields_maintainer %}
+  {{ form.input('maintainer', label=_('Maintainer'), id='field-maintainer', placeholder=_('Joe Bloggs'), value=data.maintainer, error=errors.maintainer, classes=['control-medium']) }}
+
+  {{ form.input('maintainer_email', label=_('Maintainer Email'), id='field-maintainer-email', placeholder=_('joe@example.com'), value=data.maintainer_email, error=errors.maintainer_email, classes=['control-medium']) }}
+{% endblock %}
+
+{% block dataset_fields %}
+  {# Disable groups from form #}
   {% block package_temporal_metadata %}
 
     {{ ytp_form.input('temporal_granularity', id='temporal_granularity', label=_('Temporal Granularity'), placeholder=_('eg. A year, 2 months'), value=data.temporal_granularity, error=errors.temporal_granularity, classes=['control'], locales=h.get_available_locales(), data=data) }}
@@ -22,6 +38,5 @@
     {% endcall %}
 
     {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control'], locales=h.get_available_locales(), data=data) }}
-
-  {% endblock %} 
+  {% endblock %}
 {% endblock %}

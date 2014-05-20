@@ -89,7 +89,11 @@ def _parse_extras(key, extras):
         extras_dict.update(_dict_formatter(key, value))
     return extras_dict
 
-# _key_mappings = {'extra_information': ('Extra information at website', _to_link), 'extras': ('Extra details', _parse_extras)}
+def set_to_user_name(value, context):
+    return context['auth_user_obj'].display_name
+
+def set_to_user_email(value, context):
+    return context['auth_user_obj'].email
 
 _key_functions = {u'extras':  _parse_extras}
 
@@ -160,9 +164,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
-        schema.update({'resources': {'temporal_coverage_from': [ignore_missing, date_validator],
-                       'temporal_coverage_to': [ignore_missing, date_validator]}})
+        # TODO: This is not working with empty values
+        # schema.update({'resources': {'temporal_coverage_from': [ignore_missing, date_validator],
+        #               'temporal_coverage_to': [ignore_missing, date_validator]}})
         schema = add_languages_modify(schema, self._localized_fields)
+
+        schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
+        schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
         return schema
 
