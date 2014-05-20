@@ -1,12 +1,12 @@
 <section id="dataset-resources" class="resources">
-  <h3>{{ _('Files') }} ({{ resources|count }})</h3>
+  <h3>{{ list_title or _('Files') }} ({{ resources|count }})</h3>
 
   {% block resource_list %}
   {% if resources %}
     <ul class="resource-list">
       {% block resource_list_inner %}
       {% for resource in resources %}
-        {% snippet 'package/snippets/resource_item2.html', pkg=pkg, res=resource %}
+        {% snippet 'package/snippets/resource_item2.html', pkg=pkg, res=resource, draft=draft or false %}
       {% endfor %}
       {% endblock %}
     </ul>

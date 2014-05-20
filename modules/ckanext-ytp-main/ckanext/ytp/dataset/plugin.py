@@ -122,9 +122,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
+        controller = 'ckanext.ytp.dataset.controller:YtpDatasetController'
         m.connect('/ytp-api/1/util/tag/autocomplete', action='ytp_tag_autocomplete',
-                  controller='ckanext.ytp.dataset.controller:YtpDatasetController',
+                  controller=controller,
                   conditions=dict(method=['GET']))
+        m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
+
         return m
 
     # IConfigurer #
@@ -296,13 +299,15 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             If fallback is set then use fallback as value if value is empty.
             If fallback is function then call given function with `values`.
         """
-
         translation = values.get('%s_%s' % (field, helpers.lang()), "") or values.get(field, "") if values else ""
 
         if not translation and fallback:
             translation = fallback(values) if hasattr(fallback, '__call__') else fallback
 
         return self._markdown(translation, markdown) if markdown and translation else translation
+
+    def _get_package(self, package):
+        return toolkit.get_action('package_show')({'model': model}, {'id': package})
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -314,5 +319,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'format_extras': self.format_extras,
                 'extra_translation': self._extra_translation,
                 'service_database_enabled': service_database_enabled,
-                'clean_extras': self._clean_extras
-                }
+                'clean_extras': self._clean_extras,
+                'get_package': self._get_package}

@@ -58,7 +58,6 @@ def _update_drupal_user(context, data_dict):
         host = drupal7.get_domain()
         log.warning('host: ' + host)
         # Get Drupal cookie from cookies
-        # print(dir(ytp_drupal))
         session_cookie = ytp_drupal.get_drupal_session_cookie()
         cookie_header = session_cookie[0] + "=" + session_cookie[1]
         token = ytp_drupal.get_drupal_session_token(host, path, cookie_header)

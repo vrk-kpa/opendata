@@ -1,11 +1,12 @@
-from ckan.lib import base
 from ckan import model
 from ckan.common import request, c, response
 from ckan.logic import get_action, NotFound
 from ckan.lib import helpers
+from ckan.controllers.package import PackageController
+from ckan.lib.base import redirect
 
 
-class YtpDatasetController(base.BaseController):
+class YtpDatasetController(PackageController):
     def ytp_tag_autocomplete(self):
         """ CKAN autocomplete discards vocabulary_id from request.
             This is modification from tag_autocomplete function from CKAN.
@@ -34,3 +35,16 @@ class YtpDatasetController(base.BaseController):
         response.status_int = status_int
         response.headers['Content-Type'] = 'application/json;charset=utf-8'
         return helpers.json.dumps(resultSet)
+
+    def new_metadata(self, id, data=None, errors=None, error_summary=None):
+        """ Fake metadata creation. Change status to active and redirect to read. """
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user or c.author, 'auth_user_obj': c.userobj}
+
+        data_dict = get_action('package_show')(context, {'id': id})
+        data_dict['id'] = id
+        data_dict['state'] = 'active'
+        context['allow_state_change'] = True
+
+        get_action('package_update')(context, data_dict)
+        redirect(helpers.url_for(controller='package', action='read', id=id))

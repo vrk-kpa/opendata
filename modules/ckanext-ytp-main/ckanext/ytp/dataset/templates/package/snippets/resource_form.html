@@ -4,19 +4,21 @@
 {% set data = data or {} %}
 {% set errors = errors or {} %}
 {% set action = form_action or h.url_for(controller='package', action='new_resource', id=pkg_name) %}
+{% set package = h.get_package(pkg_name) %}
 
 <form class="dataset-form dataset-resource-form form-horizontal" method="post" action="{{ action }}" data-module="basic-form resource-form" enctype="multipart/form-data">
   {% block stages %}
-    {# An empty stages variable will not show the stages #}
-    {% if stage %}
-      {{ h.snippet('package/snippets/stages.html', stages=stage, pkg_name=pkg_name) }}
-    {% endif %}
+  <ul class="nav nav-tabs nav-justified" data-service-tabs="services">
+      <li data-service-tab="basic_information"><a href="javascript:$('#previous-button').trigger('click')">1. {{ _('Basic Information' ) }}</a></li>
+      <li data-service-tab="producer" class="active"><a href="javascript:void(0);">2. {{ _('Resources') }}</a></li>
+  </ul>
   {% endblock %}
 
   {% set translate_data = data %}
   {% if not data.translations %}
     {% set translate_data = h.get_action('package_show', {'id': pkg_name}) %}
-  {% endif %} 
+  {% endif %}
+
   {{ h.snippet('package/ytp/language_bar.html', data=translate_data) }}
   <div class="translate-content">
 
@@ -56,27 +58,12 @@
     {% endcall %}
 
    {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control'], locales=h.get_available_locales(), data=data) }}
- 
-
-    {% if include_metadata %}
-      {# TODO: Where do these come from, they don't exist in /package/new_package_form.html 
-      {# {{ form.select('resource_type', id='field-type', label=_('Resource Type'), options=[{'value': 'empty', 'text': _('Select a type…')}], selected="empty", error=errors.type) }} #}
-
-      {{ form.input('last_modified', id='field-last-modified', label=_('Last Modified'), placeholder=_('eg. 2012-06-05'), value=data.last_modified, error=errors.last_modified, classes=[]) }}
-
-      {{ form.input('size', id='field-size', label=_('File Size'), placeholder=_('eg. 1024'), value=data.size, error=errors.size, classes=[]) }}
-
-      {{ form.input('mimetype', id='field-mimetype', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype, error=errors.mimetype, classes=[]) }}
-
-      {{ form.input('mimetype_inner', id='field-mimetype-inner', label=_('MIME Type'), placeholder=_('eg. application/json'), value=data.mimetype_inner, error=errors.mimetype_inner, classes=[]) }}
-	#}
-   {% endif %}
   {% endblock %}
 
   <div class="form-actions">
     {% block delete_button %}
-      {% if data.id %}
-        {% if h.check_access('resource_delete', {'id': data.id})  %}
+      {% if data.id and package.state != 'draft' %}
+        {% if h.check_access('resource_delete', {'id': data.id}) %}
           {% set locale = h.dump_json({'content': _('Are you sure you want to delete this resource?')}) %}
           <a class="btn btn-danger pull-left" href="{% url_for controller='package', action='resource_delete', resource_id=data.id, id=pkg_name %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
         {% endif %}
@@ -84,15 +71,20 @@
     {% endblock %}
     {% if stage %}
       {% block previous_button %}
-        <button class="btn" name="save" value="go-dataset" type="submit">{{ _('Previous') }}</button>
+        <button class="btn" name="save" value="go-dataset" type="submit" id="previous-button">{{ _('Previous') }}</button>
       {% endblock %}
       {% block again_button %}
         <button class="btn" name="save" value="again" type="submit">{{ _('Save & add another') }}</button>
         {% endblock %}
-      <button class="btn btn-primary" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Next: Additional Info') }}{% endblock %}</button>
+      <button class="btn btn-primary" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Save') }}{% endblock %}</button>
     {% else %}
       <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Add') }}</button>
     {% endif %}
   </div>
   </div>
+  {% if package.state == 'draft' and package.resources %}
+  <div class="translate-content" style="padding: 1em;">
+    {% snippet "package/snippets/resources_list2.html", pkg=package, resources=package.resources, list_title=_('Inserted Resources'), draft=true %}
+  </div>
+  {% endif %}
 </form>

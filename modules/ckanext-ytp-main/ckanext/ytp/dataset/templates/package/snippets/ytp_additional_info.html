@@ -4,48 +4,8 @@
 
   {% block package_additional_info %}
     <dl>
-
-  {#  
-    {% if pkg_dict.url %}
-        <dt>{{ _('Source') }}:</dt>
-        <dd>{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</dd>
-    {% endif %}
-
-    {% if pkg_dict.author_email %}
-      <dt>{{ _("Author") }}</dt>
-      <dd>{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</dd>
-    {% elif pkg_dict.author %}
-      <dt>{{ _("Author") }}</dt>
-      <dd>{{ pkg_dict.author }}</dd>
-    {% endif %}
-
-    {% if pkg_dict.maintainer_email %}
-      <dt>{{ _('Maintainer') }}</dt>
-      <dd>{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</dd>
-    {% elif pkg_dict.maintainer %}
-      <dt>{{ _('Maintainer') }}</dt>
-      <dd>{{ pkg_dict.maintainer }}</dd>
-    {% endif %}
-
-    {% if pkg_dict.version %}
-      <dt>{{ _("Version") }}</dt>
-      <dd>{{ pkg_dict.version }}</dd>
-    {% endif %}
-
-    {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-      <dt>{{ _("State") }}</dt>
-      <dd>{{ pkg_dict.state }}</dd>
-    {% endif %}
-   
-     {% if pkg_dict.licence %}
-      <dt>{{ _("License") }}</dt>
-      <dd>{{ pkg_dict.licence }}</dd>
-    {% endif %}
-#}
-	<!-- h.format_extras(pkg_dict) -->
-
     {% set extra_dict = h.format_extras(pkg_dict) %}
-    
+
     {% if extra_dict.author_email %}
       <dt>{{ _("Author") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.author_email, name=extra_dict.author) }}</dd>
@@ -53,60 +13,57 @@
       <dt>{{ _("Author") }}</dt>
       <dd>{{ extra_dict.author }}</dd>
     {% endif %}
-    
+
     {% if extra_dict.license_url or dict.license_title  %}
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
-      	<a href ="{{ extra_dict.license_url }}">
-      		{% if extra_dict.license_title %}
-      			{{extra_dict.license_title}}
-      		{% else %}
-      			{{extra_dict.license_ur}}
-      		{% endif %}
-      	</a>
-      	{% else %}
-      		{{extra_dict.license_title}}
-      	{% endif %}
-      	</dd>   
+        <a href ="{{ extra_dict.license_url }}">
+        {% if extra_dict.license_title %}
+            {{ extra_dict.license_title }}
+        {% else %}
+            {{ extra_dict.license_ur }}
+        {% endif %}
+        </a>
+        {% else %}
+            {{extra_dict.license_title}}
+        {% endif %}
+        </dd>
     {% endif %}
-    
+
     {% if extra_dict.copyright_notice %}
       <dt>{{ _("Copyright Notice") }}</dt>
       <dd>{{ extra_dict.copyright_notice }}</dd>
     {% endif %}
-    
+
     {% if extra_dict.warranty_disclaimer %}
       <dt>{{ _("Disclaimer of Warranty") }}</dt>
       <dd>{{ extra_dict.warranty_disclaimer }}</dd>
     {% endif %}
-    
-	{% set websites = extra_dict.extra_information %}
-	{% if websites|count > 0 %}
-		<dt>{{ _('Extra information') }}</dt>
-		{% for site in websites %}
-			<dd><a href="{{site}}">{{site}}</a></dd>
-		{% endfor %}
-	{% endif %}
+
+    {% set websites = extra_dict.extra_information %}
+    {% if websites|count > 0 %}
+        <dt>{{ _('Extra information') }}</dt>
+        {% for site in websites %}
+            <dd><a href="{{site}}">{{site}}</a></dd>
+        {% endfor %}
+    {% endif %}
     </dl>
-    
+
     {% if extra_dict.copyright_notice %}
       <dt>{{ _("Copyright Notice") }}</dt>
       <dd>{{ extra_dict.copyright_notice }}</dd>
     {% endif %}
-    
-    
-
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
-   <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
-          {{_('Extras')}}
-   </button>
-   <dl id="extra_extra" class="collapse">
+    <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
+        {{_('Technical extra information')}}
+    </button>
+    <dl id="extra_extra" class="collapse">
     {% for key  in extra_dict.keys() %}
-    	<dt>{{ _(key) }}</dt>
-      	<dd>{{ extra_dict.get(key) }}</dd>
+        <dt>{{ _(key) }}</dt>
+        <dd>{{ extra_dict.get(key) }}</dd>
     {% endfor %}
-	</dl>
+    </dl>
 
   {% endblock %}
 
