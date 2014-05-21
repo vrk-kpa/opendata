@@ -47,3 +47,5 @@ modules/*.tar
 vars/ytp-secrets/
 
 .idea/
+ansible/vars/private
+
