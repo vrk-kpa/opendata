@@ -4,4 +4,5 @@ host {{ drupal_database_name }} {{ drupal_database_username }} {{ database_ip_ra
 {% if vagrant is defined -%}
 local {{ ckan_test_database.name }} {{ ckan_test_database.username }} md5
 host {{ ckan_test_database.name }} {{ ckan_test_database.username }} 127.0.0.0/8 md5
+host postgres {{ drupal_database_username }} {{ database_ip_range }} password
 {%- endif %}
