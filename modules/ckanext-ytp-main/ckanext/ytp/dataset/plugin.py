@@ -89,11 +89,14 @@ def _parse_extras(key, extras):
         extras_dict.update(_dict_formatter(key, value))
     return extras_dict
 
+
 def set_to_user_name(value, context):
     return context['auth_user_obj'].display_name
 
+
 def set_to_user_email(value, context):
     return context['auth_user_obj'].email
+
 
 _key_functions = {u'extras':  _parse_extras}
 
