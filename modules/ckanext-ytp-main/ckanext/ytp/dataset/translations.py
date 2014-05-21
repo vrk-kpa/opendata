@@ -7,6 +7,9 @@ def _translations():
     _("Title en")
     _("Title fi")
     _("Title sv")
+    _("Tag string")
+    _("Notes")
+    _("Content type")
 
 
 def facet_translations():

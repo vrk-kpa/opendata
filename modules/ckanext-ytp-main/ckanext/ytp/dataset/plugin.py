@@ -152,7 +152,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _modify_package_schema(self, schema):
         ignore_missing = toolkit.get_validator('ignore_missing')
         convert_to_extras = toolkit.get_converter('convert_to_extras')
-
+        not_empty = toolkit.get_validator('not_empty')
         schema = add_translation_modify_schema(schema)
 
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
@@ -161,9 +161,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
-        schema.update({'temporal_granularity': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'update_frequency': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'content_type': [ignore_missing, convert_to_tags_string('content_type')]})
+        schema.update({'content_type': [not_empty, convert_to_tags_string('content_type')]})
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
@@ -175,10 +173,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
         schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
+        # Override CKAN schema
+        schema.update({'notes': [not_empty, unicode]})
+        schema.update({'license_id': [not_empty, unicode]})
+
         return schema
 
     def create_package_schema(self):
         schema = super(YTPDatasetForm, self).create_package_schema()
+        not_empty = toolkit.get_validator('not_empty')
+        tag_string_convert = toolkit.get_validator('tag_string_convert')
+        schema.update({'tag_string': [not_empty, tag_string_convert]})
         return self._modify_package_schema(schema)
 
     def update_package_schema(self):
