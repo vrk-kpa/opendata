@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-15 13:16+0000\n"
-"PO-Revision-Date: 2014-05-15 13:18+0000\n"
+"POT-Creation-Date: 2014-05-20 12:47+0000\n"
+"PO-Revision-Date: 2014-05-20 13:54+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -205,6 +205,10 @@ msgstr "Tiedon tuottajat"
 msgid "Datasets"
 msgstr "Tietoaineistot"
 
+#: ckanext/ytp/dataset/templates/package/edit_base.html:4
+msgid "Close without saving"
+msgstr "Sulje tallentamatta"
+
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
 msgid "Additional data"
 msgstr ""
@@ -281,14 +285,14 @@ msgid "Created"
 msgstr "Luotu"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:108
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:46
 msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:112
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:5
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:58
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
 msgid "License"
 msgstr "Lisenssi"
 
@@ -297,7 +301,6 @@ msgid "Change log"
 msgstr "Muutoshistoria"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:79
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
@@ -364,7 +367,7 @@ msgid "eg. A descriptive title"
 msgstr "esim. kuvaava nimike"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:31
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:33
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:248
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:268
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
@@ -378,7 +381,7 @@ msgid "eg. my-dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:41
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:250
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:270
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
@@ -391,8 +394,8 @@ msgid "eg. Some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:60
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:74
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:93
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:53
 msgid "Copyright Notice"
 msgstr "Tekijänoikeusilmoitus"
 
@@ -401,7 +404,7 @@ msgid "Additional information concerning copyright"
 msgstr "Lisätietoja tekijänoikeuksista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:61
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:79
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:39
 msgid "Disclaimer of Warranty"
 msgstr "Tietoa takuista"
 
@@ -443,8 +446,10 @@ msgstr "Voimassaolo"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:130
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:132
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:30
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:32
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:46
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:53
 msgid "YYYY-MM-DD"
@@ -458,74 +463,32 @@ msgstr "Lisätietoja verkkosivulla"
 msgid "http://www.example.com/"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
-msgid "Temporal Granularity"
-msgstr "Ajallinen miitausväli"
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:9
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:12
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:14
+msgid "Basic Information"
+msgstr "Perustiedot"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:35
-msgid "eg. A year, 2 months"
-msgstr "esim. vuosi, 2 kuukautta"
-
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:105
-msgid "Temporal Coverage"
-msgstr "Katettu ajanjakso"
-
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:35
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:110
-msgid "Update Frequency"
-msgstr "Päivittymisväli"
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:31
-msgid "File"
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:10
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/resources.html:17
+msgid "Resources"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:35
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:87
-msgid "Name"
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:34
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:65
+msgid ""
+"Important: By submitting content, you agree to release your contributions "
+"under the Open Database License."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:35
-msgid "eg. January 2011 Gold Prices"
-msgstr ""
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:43
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
+msgid "Are you sure you want to delete this dataset?"
+msgstr "Haluatko varmasti poistaa tietoaineiston?"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:39
-msgid "Some useful notes about the data"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
-msgid "eg. CSV, XML or JSON"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
-msgid "eg. 2012-06-05"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-msgid "File Size"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-msgid "eg. 1024"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:59
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:61
-msgid "MIME Type"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:59
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:61
-msgid "eg. application/json"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:70
-msgid "Are you sure you want to delete this resource?"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:71
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:115
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:118
@@ -535,22 +498,82 @@ msgstr ""
 msgid "Delete"
 msgstr "Poista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:77
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:48
+msgid "Next: Add Data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:16
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
+msgid "Temporal Granularity"
+msgstr "Ajallinen miitausväli"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:16
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
+msgid "eg. A year, 2 months"
+msgstr "esim. vuosi, 2 kuukautta"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:18
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:7
+msgid "Temporal Coverage"
+msgstr "Katettu ajanjakso"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:11
+msgid "Update Frequency"
+msgstr "Päivittymisväli"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:33
+msgid "File"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:37
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:87
+msgid "Name"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:37
+msgid "eg. January 2011 Gold Prices"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:41
+msgid "Some useful notes about the data"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:46
+msgid "eg. CSV, XML or JSON"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:67
+msgid "Are you sure you want to delete this resource?"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:51
 msgid "Previous"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:80
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:77
 msgid "Save & add another"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:82
-msgid "Next: Additional Info"
-msgstr ""
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:79
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:118
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:61
+msgid "Save"
+msgstr "Tallenna"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:84
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:81
 msgid "Add"
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:87
+msgid "Inserted Resources"
+msgstr "Lisätyt resurssit"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:18
 msgid "No description for this resource"
@@ -574,9 +597,9 @@ msgstr ""
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resources.html:17
-msgid "Resources"
-msgstr ""
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:10
+msgid "Temporal Granurality"
+msgstr "Ajallinen mittausväli"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:2
 msgid "Files"
@@ -594,22 +617,18 @@ msgid "Languages"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:85
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:45
 msgid "Extra information"
 msgstr "Lisätietoja"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:50
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:53
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:10
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
 msgid "Author"
 msgstr "Laatija"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:99
-msgid "Temporal Granurality"
-msgstr "Ajallinen mittausväli"
-
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:116
-msgid "Extras"
-msgstr "Lisätiedot"
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:59
+msgid "Technical extra information"
+msgstr "Tekniset lisätiedot"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
@@ -888,11 +907,6 @@ msgstr "Julkisen liikenteen URL"
 msgid "http://publictransport.example.com/"
 msgstr "http://joukkoliikenne.example.com/"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:118
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:61
-msgid "Save"
-msgstr "Tallenna"
-
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:154
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:157
 msgid "Missing value"
@@ -989,10 +1003,6 @@ msgstr "Kohderyhmät"
 msgid "Requirements for using the service"
 msgstr "Käytön edellytykset"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:14
-msgid "Basic Information"
-msgstr "Perustiedot"
-
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:15
 msgid "Producer"
 msgstr "Tuottaja"
@@ -1008,16 +1018,6 @@ msgstr "Palvelukanavat"
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:52
 msgid "Next"
 msgstr "Seuraava"
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
-msgid "Are you sure you want to delete this dataset?"
-msgstr "Haluatko varmasti poistaa tietoaineiston?"
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:65
-msgid ""
-"Important: By submitting content, you agree to release your contributions "
-"under the Open Database License."
-msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
 msgid "Production type"
@@ -1370,28 +1370,28 @@ msgid ""
 "again.</p> "
 msgstr " <p><strong>Etsinnässä tapahtui virhe.</strong> Yritä uudelleen.</p> "
 
-#: ckanext/ytp/user/logic.py:154
+#: ckanext/ytp/user/logic.py:153
 msgid "User not found"
 msgstr "Käyttäjää ei löytynyt"
 
-#: ckanext/ytp/user/logic.py:157
+#: ckanext/ytp/user/logic.py:156
 msgid "Cannot change username"
 msgstr "Käyttäjätunnusta ei voi muuttaa"
 
-#: ckanext/ytp/user/logic.py:159
+#: ckanext/ytp/user/logic.py:158
 msgid "Cannot change email"
 msgstr "Sähköpostiosoitetta ei voi muuttaa"
 
-#: ckanext/ytp/user/logic.py:170
+#: ckanext/ytp/user/logic.py:169
 msgid "Have to be logged in to edit user"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 
-#: ckanext/ytp/user/logic.py:178
+#: ckanext/ytp/user/logic.py:177
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr "Käyttäjällä %s ei ole oikeuksia muokata käyttäjää %s"
 
-#: ckanext/ytp/user/logic.py:184
+#: ckanext/ytp/user/logic.py:183
 msgid "Have to be logged in to list users"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 

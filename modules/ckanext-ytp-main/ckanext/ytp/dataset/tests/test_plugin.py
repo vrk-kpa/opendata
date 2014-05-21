@@ -33,6 +33,7 @@ class TestYtpDatasetPlugin(TestCase):
         context = {'model': model, 'session': model.Session, 'ignore_auth': True}
         admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
         context['user'] = admin_user['name']
+        context['auth_user_obj'] = model.User.get(admin_user['name'])
         return context
 
     def test_create_dataset(self):
