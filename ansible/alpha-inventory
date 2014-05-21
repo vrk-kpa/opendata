@@ -3,10 +3,10 @@
 alpha.avoindata.fi
 
 [webserver:vars]
-private_variables=variables-alpha.yml
+secret_variables=variables-alpha.yml
 
 [dbserver]
 alpha.avoindata.fi
 
 [dbserver:vars]
-private_variables=variables-alpha.yml
+secret_variables=variables-alpha.yml

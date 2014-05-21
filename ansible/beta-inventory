@@ -1,12 +1,12 @@
 
 [webserver]
-ec2-54-72-207-190.eu-west-1.compute.amazonaws.com
+notavailable.avoindata.fi
 
 [webserver:vars]
-private_variables=variables.yml
+secret_variables=variables-beta.yml
 
 [dbserver]
 ec2-54-72-213-82.eu-west-1.compute.amazonaws.com
 
 [dbserver:vars]
-private_variables=variables.yml
+secret_variables=variables-beta.yml

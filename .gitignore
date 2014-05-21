@@ -44,6 +44,6 @@ modules/*.tgz
 modules/*.tar
 
 
-vars/private/variables.yml
+vars/ytp-secrets/
 
 .idea/

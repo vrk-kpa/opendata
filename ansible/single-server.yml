@@ -16,7 +16,7 @@
   sudo: true
   vars_files:
     - "vars/common.yml"
-    - ["vars/private/{{ private_variables }}", "vars/none.yml"]
+    - ["vars/ytp-secrets/{{ private_variables }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
   roles:
     - clean
