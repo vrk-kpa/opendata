@@ -1,20 +1,18 @@
 import copy
-from pylons import config
 
 import ckan.model as model
 from ckan.lib.helpers import OrderedDict
 import ckan.plugins as p
-
+from ckanext.report import lib
 
 def broken_links(organization, include_sub_organizations=False):
     if organization is None:
-        return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
+        return broken_links_index(include_sub_organizations=include_sub_organizations)
     else:
         return broken_links_for_organization(organization=organization, include_sub_organizations=include_sub_organizations)
 
 
-# WAS organisations_with_broken_resource_links
-def broken_links_by_organization(include_sub_organizations=False):
+def broken_links_index(include_sub_organizations=False):
     '''Returns the count of broken links for all organizations.'''
 
     from ckanext.archiver.model import Archival
@@ -33,10 +31,23 @@ def broken_links_by_organization(include_sub_organizations=False):
                          .filter(model.Resource.state == 'active')
         broken_resources = archivals.count()
         broken_datasets = archivals.distinct(model.Package.id).count()
+        num_datasets = model.Session.query(model.Package)\
+                .filter_by(owner_org=org.id)\
+                .filter_by(state='active')\
+                .count()
+        num_resources = model.Session.query(model.Package)\
+                .filter_by(owner_org=org.id)\
+                .filter_by(state='active')\
+                .join(model.ResourceGroup)\
+                .join(model.Resource)\
+                .filter_by(state='active')\
+                .count()
         counts[org.name] = {
             'organization_title': org.title,
-            'packages': broken_datasets,
-            'resources': broken_resources
+            'broken_packages': broken_datasets,
+            'broken_resources': broken_resources,
+            'packages': num_datasets,
+            'resources': num_resources
         }
 
     counts_with_sub_orgs = copy.deepcopy(counts)  # new dict
@@ -49,6 +60,10 @@ def broken_links_by_organization(include_sub_organizations=False):
                 if sub_org_name not in counts:
                     # occurs only if there is an organization created since the last loop?
                     continue
+                counts_with_sub_orgs[org_name]['broken_packages'] += \
+                        counts[sub_org_name]['broken_packages']
+                counts_with_sub_orgs[org_name]['broken_resources'] += \
+                        counts[sub_org_name]['broken_resources']
                 counts_with_sub_orgs[org_name]['packages'] += \
                         counts[sub_org_name]['packages']
                 counts_with_sub_orgs[org_name]['resources'] += \
@@ -60,34 +75,35 @@ def broken_links_by_organization(include_sub_organizations=False):
     data = []
     num_broken_packages = 0
     num_broken_resources = 0
+    num_packages = 0
+    num_resources = 0
     for org_name, org_counts in sorted(results.iteritems(), key=lambda r: r[0]):
-        #if results[org_counts]['resources'] == 0:
-        #    continue
-
         data.append(OrderedDict((
             ('organization_title', results[org_name]['organization_title']),
             ('organization_name', org_name),
-            ('broken_package_count', org_counts['packages']),
-            ('broken_resource_count', org_counts['resources']),
+            ('package_count', org_counts['packages']),
+            ('resource_count', org_counts['resources']),
+            ('broken_package_count', org_counts['broken_packages']),
+            ('broken_package_percent', lib.percent(org_counts['broken_packages'], org_counts['packages'])),
+            ('broken_resource_count', org_counts['broken_resources']),
+            ('broken_resource_percent', lib.percent(org_counts['broken_resources'], org_counts['resources'])),
             )))
-        num_broken_packages += org_counts['packages']
-        num_broken_resources += org_counts['resources']
+        # Totals - always use the counts, rather than counts_with_sub_orgs, to
+        # avoid counting a package in both its org and parent org
+        org_counts_ = counts[org_name]
+        num_broken_packages += org_counts_['broken_packages']
+        num_broken_resources += org_counts_['broken_resources']
+        num_packages += org_counts_['packages']
+        num_resources += org_counts_['resources']
 
-    # Get total number of packages & resources
-    num_packages = model.Session.query(model.Package)\
-                        .filter_by(state='active')\
-                        .count()
-    num_resources = model.Session.query(model.Resource)\
-                         .filter_by(state='active')\
-                         .join(model.ResourceGroup)\
-                         .join(model.Package)\
-                         .filter_by(state='active').count()
-
-    return {'data': data,
+    return {'table': data,
             'num_broken_packages': num_broken_packages,
             'num_broken_resources': num_broken_resources,
             'num_packages': num_packages,
-            'num_resources': num_resources}
+            'num_resources': num_resources,
+            'broken_package_percent': lib.percent(num_broken_packages, num_packages),
+            'broken_resource_percent': lib.percent(num_broken_resources, num_resources),
+            }
 
 
 def broken_links_for_organization(organization, include_sub_organizations=False):
@@ -101,15 +117,12 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
     Returns:
     {'organization_name': 'cabinet-office',
      'organization_title:': 'Cabinet Office',
-     'data': [
+     'table': [
        {'package_name', 'package_title', 'resource_url', 'status', 'reason', 'last_success', 'first_failure', 'failure_count', 'last_updated'}
       ...]
 
     '''
     from ckanext.archiver.model import Archival
-
-    if organization == None:
-        return broken_links_by_organization(include_sub_organizations=include_sub_organizations)
 
     org = model.Group.get(organization)
     if not org:
@@ -126,10 +139,11 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
         filter(model.Resource.state == 'active')
 
     if not include_sub_organizations:
+        org_ids = [org.id]
         archivals = archivals.filter(model.Package.owner_org == org.id)
     else:
         # We want any organization_id that is part of this organization's tree
-        org_ids = ['%s' % organization.id for organization in go_down_tree(org)]
+        org_ids = ['%s' % organization.id for organization in lib.go_down_tree(org)]
         archivals = archivals.filter(model.Package.owner_org.in_(org_ids))
 
     archivals = archivals.join(model.Group, model.Package.owner_org == model.Group.id)
@@ -154,7 +168,7 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
         row_data = OrderedDict((
             ('dataset_title', pkg.title),
             ('dataset_name', pkg.name),
-            ('dataset_notes', dataset_notes(pkg)),
+            ('dataset_notes', lib.dataset_notes(pkg)),
             ('organization_title', org.title),
             ('organization_name', org.name),
             ('resource_position', resource.position),
@@ -178,14 +192,14 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
 
     # Get total number of packages & resources
     num_packages = model.Session.query(model.Package)\
-                        .filter_by(owner_org=org.id)\
+                        .filter(model.Package.owner_org.in_(org_ids))\
                         .filter_by(state='active')\
                         .count()
     num_resources = model.Session.query(model.Resource)\
                          .filter_by(state='active')\
                          .join(model.ResourceGroup)\
                          .join(model.Package)\
-                         .filter_by(owner_org=org.id)\
+                         .filter(model.Package.owner_org.in_(org_ids))\
                          .filter_by(state='active').count()
 
     return {'organization_name': name,
@@ -194,11 +208,13 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
             'num_broken_resources': num_broken_resources,
             'num_packages': num_packages,
             'num_resources': num_resources,
-            'data': results}
+            'broken_package_percent': lib.percent(num_broken_packages, num_packages),
+            'broken_resource_percent': lib.percent(num_broken_resources, num_resources),
+            'table': results}
 
 
 def broken_links_option_combinations():
-    for organization in all_organizations(include_none=True):
+    for organization in lib.all_organizations(include_none=True):
         for include_sub_organizations in (False, True):
             yield {'organization': organization,
                    'include_sub_organizations': include_sub_organizations}
@@ -206,38 +222,11 @@ def broken_links_option_combinations():
 
 broken_links_report_info = {
     'name': 'broken-links',
+    'description': 'Dataset resource URLs that are found to result in errors when resolved.',
     'option_defaults': OrderedDict((('organization', None),
                                     ('include_sub_organizations', False),
                                     )),
     'option_combinations': broken_links_option_combinations,
     'generate': broken_links,
-    'template': 'reports/broken_links.html',
+    'template': 'report/broken_links.html',
     }
-
-
-def go_down_tree(organization):
-    '''Provided with an organization object, it walks down the hierarchy and yields
-    each organization, including the one you supply.
-
-    Essentially this is a slower version of Group.get_children_group_hierarchy
-    because it returns Group objects, rather than dicts.
-    '''
-    yield organization
-    for child in organization.get_children_groups(type='organization'):
-        for grandchild in go_down_tree(child):
-            yield grandchild
-
-def all_organizations(include_none):
-    if include_none:
-        yield None
-    organizations = model.Session.query(model.Group).\
-        filter(model.Group.type=='organization').\
-        filter(model.Group.state=='active').order_by('name')
-    for organization in organizations:
-        yield organization.name
-
-
-def dataset_notes(pkg):
-    '''Returns a string with notes about the given package. It is configurable.'''
-    expression = config.get('ckanext-report.notes.dataset')
-    return eval(expression, None, {'pkg': pkg, 'asbool': p.toolkit.asbool})
