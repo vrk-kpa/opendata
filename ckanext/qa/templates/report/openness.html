@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr py:for="row in c.data['data']">
+          <tr py:for="row in c.data['table']">
             <td>${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
             <td>${row.get(None, 0)}</td>
             <td py:for="n in range(6)">${row.get(str(n), 0)}</td>
@@ -78,7 +78,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr py:for="row in c.data['data']">
+          <tr py:for="row in c.data['table']">
             <td>${h.link_to(row['dataset_title'], '/dataset/%s' % row['dataset_name'])}</td>
             <td>${row['dataset_notes']}</td>
             <td py:if="c.options['include_sub_organizations']">${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
