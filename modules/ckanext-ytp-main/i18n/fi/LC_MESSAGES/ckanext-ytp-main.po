@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-20 12:47+0000\n"
-"PO-Revision-Date: 2014-05-20 13:54+0000\n"
+"POT-Creation-Date: 2014-05-21 10:04+0000\n"
+"PO-Revision-Date: 2014-05-21 10:59+0000\n"
 "Last-Translator: ilja.dev\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -142,31 +142,32 @@ msgstr "Julkaise palvelu"
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/dataset/plugin.py:231
+#: ckanext/ytp/dataset/plugin.py:247
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
 msgstr "Tietovaranto"
 
-#: ckanext/ytp/dataset/plugin.py:232
+#: ckanext/ytp/dataset/plugin.py:248
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:66
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/dataset/plugin.py:233
+#: ckanext/ytp/dataset/plugin.py:249
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:136
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/dataset/plugin.py:234 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:250 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/dataset/plugin.py:235
+#: ckanext/ytp/dataset/plugin.py:251
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:100
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:64
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
@@ -191,6 +192,18 @@ msgstr "Nimi fi"
 #: ckanext/ytp/dataset/translations.py:9
 msgid "Title sv"
 msgstr "Nimi sv"
+
+#: ckanext/ytp/dataset/translations.py:10
+msgid "Tag string"
+msgstr "Aihe"
+
+#: ckanext/ytp/dataset/translations.py:11
+msgid "Notes"
+msgstr "Kuvaus"
+
+#: ckanext/ytp/dataset/translations.py:12
+msgid "Content type"
+msgstr "Sisältötyyppi"
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
 #: ckanext/ytp/organizations/templates/organization/index.html:10
@@ -412,22 +425,26 @@ msgstr "Tietoa takuista"
 msgid "Disclaimer on liability due to use of this dataset"
 msgstr "Tietoa käyttäjän vastuista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:94
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:66
+msgid "eg. economy, mental health, government"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:103
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:67
 msgid "Select an organization..."
 msgstr "Valitse tiedon tuottaja..."
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:108
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:117
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:81
 msgid "Visibility"
 msgstr "Näkyvyys"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:111
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:120
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:84
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:111
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:120
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:28
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:84
 #: ckanext/ytp/user/templates/user/read_base.html:53
@@ -435,19 +452,17 @@ msgstr "Julkinen"
 msgid "Private"
 msgstr "Yksityinen"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:136
 msgid "eg. Open Data"
 msgstr "esim. Avoin data"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:129
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:138
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:43
 msgid "Period of validity"
 msgstr "Voimassaolo"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:130
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:132
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:139
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:141
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:46
@@ -455,11 +470,11 @@ msgstr "Voimassaolo"
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:135
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:144
 msgid "Extra information at website"
 msgstr "Lisätietoja verkkosivulla"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:135
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:144
 msgid "http://www.example.com/"
 msgstr ""
 
@@ -475,19 +490,19 @@ msgstr "Perustiedot"
 msgid "Resources"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:37
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:65
 msgid ""
 "Important: By submitting content, you agree to release your contributions "
 "under the Open Database License."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:43
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:46
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 msgid "Are you sure you want to delete this dataset?"
 msgstr "Haluatko varmasti poistaa tietoaineiston?"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:47
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:115
@@ -498,33 +513,40 @@ msgstr "Haluatko varmasti poistaa tietoaineiston?"
 msgid "Delete"
 msgstr "Poista"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:48
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
 msgid "Next: Add Data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:16
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
-msgid "Temporal Granularity"
-msgstr "Ajallinen miitausväli"
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:10
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
+msgid "Author"
+msgstr "Laatija"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:16
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
-msgid "eg. A year, 2 months"
-msgstr "esim. vuosi, 2 kuukautta"
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
+msgid "Filled automatically"
+msgstr "Täytetään automaattisesti"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:18
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:7
-msgid "Temporal Coverage"
-msgstr "Katettu ajanjakso"
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
+msgid "Author Email"
+msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:11
-msgid "Update Frequency"
-msgstr "Päivittymisväli"
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+msgid "Maintainer"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+msgid "Joe Bloggs"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+msgid "Maintainer Email"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+msgid "joe@example.com"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:33
 msgid "File"
@@ -547,6 +569,25 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:46
 msgid "eg. CSV, XML or JSON"
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
+msgid "Temporal Granularity"
+msgstr "Ajallinen miitausväli"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
+msgid "eg. A year, 2 months"
+msgstr "esim. vuosi, 2 kuukautta"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
+msgid "Temporal Coverage"
+msgstr "Katettu ajanjakso"
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:15
+msgid "Update Frequency"
+msgstr "Päivittymisväli"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:67
 msgid "Are you sure you want to delete this resource?"
@@ -597,7 +638,7 @@ msgstr ""
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:10
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:14
 msgid "Temporal Granurality"
 msgstr "Ajallinen mittausväli"
 
@@ -620,11 +661,6 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:45
 msgid "Extra information"
 msgstr "Lisätietoja"
-
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:10
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:13
-msgid "Author"
-msgstr "Laatija"
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:59
 msgid "Technical extra information"
