@@ -6,8 +6,6 @@
   - ckan
   - patch_ckan
 
-# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
-# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
 - name: Fetch CKAN patches
   get_url: url="{{ item.patch }}" dest="{{ patches_cache_path }}/{{ item.file }}"
   register: fetch_patches
@@ -26,23 +24,3 @@
   tags:
   - ckan
   - patch_ckan
-
-- name: Fetch Spatial patches
-  get_url: url="{{ item.patch }}" dest="{{ patches_cache_path }}/{{ item.file }}"
-  register: fetch_spatial_patches
-  with_items: spatial_patches
-  tags:
-  - ckan
-  - patch_ckan
-
-# fixGroupView is fixed in ckan 2.3 https://github.com/ckan/ckan/issues/1420
-# downgradeSelect2js fixes ckan issue https://github.com/ckan/ckan/issues/1512
-- name: Apply Spatial patches
-  shell: patch -s -N -p1 < "{{ patches_cache_path }}/{{ item.file }}" chdir="{{ spatial_source_path }}"
-  when: fetch_spatial_patches|changed
-  ignore_errors: True
-  with_items: spatial_patches
-  tags:
-  - ckan
-  - patch_ckan
-

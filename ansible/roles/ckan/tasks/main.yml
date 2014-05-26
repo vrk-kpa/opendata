@@ -161,6 +161,8 @@
   - ckan
   - modules
 
+- include: patch_spatial.yml
+
 # Background services can block database update
 - name: Stop supervisor services
   command: supervisorctl stop all
