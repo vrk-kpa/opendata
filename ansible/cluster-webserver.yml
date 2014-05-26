@@ -2,21 +2,14 @@
 
 - hosts: webserver
   sudo: true
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/ytp-secrets/{{ secret_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
   roles:
     - ansible
     - firewall
     - users
-  vars_files:
-    - "vars/common.yml"
-    - ["vars/local.yml", "vars/none.yml"]
-
-- hosts: webserver
-  sudo: true
-  vars_files:
-    - "vars/common.yml"
-    - ["vars/ytp-secrets/{{ private_variables }}", "vars/none.yml"]
-    - ["vars/local.yml", "vars/none.yml"]
-  roles:
     - clean
     - common
     - common_webserver
