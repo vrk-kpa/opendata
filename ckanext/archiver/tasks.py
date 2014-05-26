@@ -247,7 +247,7 @@ def download(context, resource, url_timeout=30,
     # start the download - just get the headers
     # May raise DownloadException
     method_func = {'GET': requests.get, 'POST': requests.post}[method]
-    res = convert_requests_exceptions(method_func, url, timeout=url_timeout)
+    res = convert_requests_exceptions(log, method_func, url, timeout=url_timeout)
     url_redirected_to = res.url if url != res.url else None
     if not res.ok:  # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' %
@@ -288,7 +288,7 @@ def download(context, resource, url_timeout=30,
     # continue the download - stream the response body
     def get_content():
         return res.content
-    content = convert_requests_exceptions(get_content)
+    content = convert_requests_exceptions(log, get_content)
 
     # APIs can return status 200, but contain an error message in the body
     if response_is_an_api_error(content):
@@ -526,18 +526,30 @@ def save_archival(resource, status_id, reason, url_redirected_to,
     log.info('Archival saved: %r', archival)
     model.repo.commit_and_remove()
 
-def convert_requests_exceptions(func, *args, **kwargs):
+def convert_requests_exceptions(log, func, *args, **kwargs):
     '''
     Run a requests command, catching exceptions and reraising them as
     DownloadException. Status errors, such as 404 or 500 do not cause
     exceptions, instead exposed as not response.ok.
     e.g.
-    >>> convert_requests_exceptions(requests.get, url, timeout=url_timeout)
+    >>> convert_requests_exceptions(log, requests.get, url, timeout=url_timeout)
     runs:
         res = requests.get(url, timeout=url_timeout)
     '''
+    from requests_ssl import SSLv3Adapter
     try:
-        response = func(*args, **kwargs)
+        try:
+            response = func(*args, **kwargs)
+        except requests.exceptions.ConnectionError, e:
+            if 'SSL23_GET_SERVER_HELLO' not in str(e):
+                raise
+            log.info('SSLv23 failed so trying again using SSLv3: %r', args)
+            requests_session = requests.Session()
+            requests_session.mount('https://', SSLv3Adapter())
+            func = {requests.get: requests_session.get,
+                    requests.post: requests_session.post}[func]
+            response = func(*args, **kwargs)
+
     except requests.exceptions.ConnectionError, e:
         raise DownloadException('Connection error: %s' % e)
     except requests.exceptions.HTTPError, e:
