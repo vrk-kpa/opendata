@@ -181,7 +181,7 @@
   - drupal
 
 - name: Install YTP user module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp-drupal-user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
   register: install_ytp_drupal_user
   tags:
   - drupal

@@ -13,16 +13,23 @@
   tags:
   - drupal
 
+- name: Disable features
+  command: drush dis -y "{{ item.item }}" chdir="{{drupal_root}}"
+  when: features_copy|changed and item.changed
+  with_items: "features_copy.results"
+  tags:
+    - drupal
+
 - name: Install features
-  command: tar xf "{{ cache_path }}/{{ item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
-  when: features_copy|changed
-  with_items: all_features
+  command: tar xf "{{ cache_path }}/{{ item.item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
+  when: features_copy|changed and item.changed
+  with_items: features_copy.results
   tags:
   - drupal
 
 - name: Enable features
-  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
-  when: features_copy|changed
-  with_items: all_features
+  command: drush en -y "{{ item.item }}" chdir="{{ drupal_root }}"
+  when: features_copy|changed and item.changed
+  with_items: features_copy.results
   tags:
   - drupal
