@@ -180,7 +180,7 @@
   tags:
   - drupal
 
-- name: InstallYTP user module
+- name: Install YTP user module
   shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp-drupal-user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
   register: install_ytp_drupal_user
   tags:
@@ -326,7 +326,7 @@
   - drupal
 
 - name: Create upload paths
-  file: path={{ drupal_upload_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775 state="directory"
+  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775 state="directory"
   register: create_upload_paths
   with_items:
     - ""
@@ -336,8 +336,23 @@
   tags:
   - drupal
 
+- name: Copy htaccess file
+  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode=644 owner=root group=root
+  tags:
+  - drupal
+
+- name: Remove default Drupal file upload path
+  file: path="{{ drupal_root }}/sites/default/files" state=absent
+  tags:
+  - drupal
+
+- name: Symlink file upload paths
+  file: path="{{ drupal_root }}/sites/default/files" src="{{ drupal_files_path }}" state=link force=yes
+  tags:
+  - drupal
+
 - name: Ensure correct permission for Drupal upload directory
-  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_upload_path }}"
+  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_files_path }}"
   when: create_upload_paths|changed
   tags:
   - drupal
