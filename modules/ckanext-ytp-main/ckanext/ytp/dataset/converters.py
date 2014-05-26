@@ -16,7 +16,7 @@ def date_validator(value, context):
 
 
 def simple_date_validate(value, context):
-    if value == '' or value == None :
+    if value == '' or value is None:
         return ''
     try:
         datetime.datetime.strptime(value, "%Y-%m-%d")
