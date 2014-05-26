@@ -7,7 +7,7 @@ from ckan.common import _, c, request
 from webhelpers.html import escape
 from pylons import config
 
-from ckanext.ytp.dataset.converters import date_validator
+from ckanext.ytp.dataset.converters import date_validator, simple_date_validate
 from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join
 
 import types
@@ -166,8 +166,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
         # TODO: This is not working with empty values
-        # schema.update({'resources': {'temporal_coverage_from': [ignore_missing, date_validator],
-        #               'temporal_coverage_to': [ignore_missing, date_validator]}})
+        res_schema = schema.get('resources')
+        res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
+                           'temporal_coverage_to': [ignore_missing, simple_date_validate]})
+        schema.update({'resources': res_schema})
         schema = add_languages_modify(schema, self._localized_fields)
 
         schema.update({'author': [set_to_user_name, ignore_missing, unicode]})

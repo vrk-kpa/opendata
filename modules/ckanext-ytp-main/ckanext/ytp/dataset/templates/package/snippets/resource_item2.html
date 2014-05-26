@@ -7,8 +7,8 @@
 {% if res.temporal_coverage_from or res.temporal_coverage_to %}
     <p>
         {{_('Temporal Coverage')}}:
-        {{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_from), "%d.%m.%Y") }} -
-        {{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_to), "%d.%m.%Y")}}
+        {% if res.temporal_coverage_from %}{{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_from), "%d.%m.%Y") }}{% endif %} -
+        {% if res.temporal_coverage_to %}{{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_to), "%d.%m.%Y")}}{% endif %}
     </p>
 {% endif %}
 {% if res.temporal_granularity %}<p>{{_('Temporal Granurality')}}: {{res.temporal_granularity}} </p>{% endif %}

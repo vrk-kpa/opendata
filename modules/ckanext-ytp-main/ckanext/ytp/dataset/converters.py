@@ -13,3 +13,13 @@ def date_validator(value, context):
         return datetime.datetime.strptime(value, "%Y-%m-%d").date()
     except (TypeError, ValueError):
         raise Invalid(_('Date format incorrect'))
+
+
+def simple_date_validate(value, context):
+    if value == '' or value == None :
+        return ''
+    try:
+        datetime.datetime.strptime(value, "%Y-%m-%d")
+        return value
+    except ValueError:
+        raise Invalid(_('Date format incorrect'))
