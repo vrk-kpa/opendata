@@ -23,7 +23,7 @@ then itself be extended to add/remove blocks of functionality. #}
   {% block basic_fields %}
       {% include "package/ytp/language_bar.html" %}
       <div class="translate-content">
-          {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors, licenses=c.licenses, groups_available=c.groups_available %}
+          {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors, licenses=h.dataset_licenses(), groups_available=c.groups_available %}
       </div>
   {% endblock %}
 

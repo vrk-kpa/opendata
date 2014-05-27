@@ -1,6 +1,6 @@
 from ckan import plugins, model
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing
+from ckan.lib.navl.dictization_functions import Missing, StopOnError
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
@@ -98,6 +98,15 @@ def set_to_user_email(value, context):
     return context['auth_user_obj'].email
 
 
+def not_value(text_value):
+
+    def callback(key, data, errors, context):
+        value = data.get(key)
+        if value == text_value:
+            errors[key].append(_('Missing value'))
+            raise StopOnError
+    return callback
+
 _key_functions = {u'extras':  _parse_extras}
 
 
@@ -178,7 +187,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         # Override CKAN schema
         schema.update({'title': [not_empty, unicode]})
         schema.update({'notes': [not_empty, unicode]})
-        schema.update({'license_id': [not_empty, unicode]})
+        schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
 
         return schema
 
