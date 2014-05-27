@@ -337,6 +337,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _get_package(self, package):
         return toolkit.get_action('package_show')({'model': model}, {'id': package})
 
+    def _resource_display_name(self, resource_dict):
+        """ taken from helpers.resource_display_name """
+        value = helpers.resource_display_name(resource_dict)
+        return value if value != _("Unnamed resource") else _("Additional Info")
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -348,4 +353,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'extra_translation': self._extra_translation,
                 'service_database_enabled': service_database_enabled,
                 'clean_extras': self._clean_extras,
-                'get_package': self._get_package}
+                'get_package': self._get_package,
+                'resource_display_name': self._resource_display_name}
