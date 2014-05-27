@@ -176,6 +176,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
         # Override CKAN schema
+        schema.update({'title': [not_empty, unicode]})
         schema.update({'notes': [not_empty, unicode]})
         schema.update({'license_id': [not_empty, unicode]})
 

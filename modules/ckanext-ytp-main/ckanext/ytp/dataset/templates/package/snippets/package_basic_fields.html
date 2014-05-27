@@ -38,7 +38,7 @@
         {% endcall %}
     {% endif %}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true, is_required=true) }}
 
 {% endblock %}
 
