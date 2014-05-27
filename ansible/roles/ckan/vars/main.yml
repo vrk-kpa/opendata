@@ -62,6 +62,6 @@ ckan_patches:
 spatial_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/08e967ae7ce77e0591c5bda40e581695e28cf63c.patch", file: "add_configuration.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/675f10819d5972a1b7c79b9ca6b6102f98a9699d.patch", file: "fix_error_encoding.patch" }
-
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/876e531f73196dbda55cbcdae01b1c1f2005e355.patch", file: "fix_resource_naming.patch" }
 
 service_database_enabled: true
