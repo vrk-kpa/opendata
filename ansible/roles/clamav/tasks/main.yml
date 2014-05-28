@@ -1,11 +1,18 @@
 ---
 
 - name: Install Clamav packages
-  action: apt pkg="{{ item }}" state=latest
+  apt: pkg="{{ item }}" state=latest
   with_items:
     - clamav
+  register: clamav_install
   tags:
   - packages
+  - clamav
+
+- name: Update virus definition
+  command: freshclam --quiet
+  when: clamav_install|changed
+  tags:
   - clamav
 
 - name: Copy daily virus check

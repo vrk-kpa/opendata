@@ -6,12 +6,16 @@ HOST=`hostname`
 TEMPORARY_FILE=`mktemp /tmp/virus-alert.XXXXX`
 LOG_ROTATED="$LOG-`date --rfc-3339=date`"
 mv $LOG $LOG_ROTATED
-gzip $LOG_ROTATED
+gzip -qf9 $LOG_ROTATED
 
-clamscan --recursive --suppress-ok-results --infected --exclude-dir=/dev --exclude-dir=/proc --log=$LOG / > $TEMPORARY_FILE
+freshclam --quiet
+
+clamscan --recursive --suppress-ok-results --infected --exclude-dir=/dev --exclude-dir=/proc --exclude-dir=/var/log --exclude-dir="{{ backup_path }}" --log=$LOG / > $TEMPORARY_FILE
 
 if [ `grep Infected $TEMPORARY_FILE | grep -v 0 | wc -l` != 0 ]; then
     cat $TEMPORARY_FILE | mail -s "System virus detected at $HOST!" $EMAIL
+else
+    cat $TEMPORARY_FILE | mail -s "Daily virus scan log" $EMAIL
 fi
 
 rm $TEMPORARY_FILE
