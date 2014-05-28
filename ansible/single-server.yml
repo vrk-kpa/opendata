@@ -24,4 +24,5 @@
     - jetty
     - ckan
     - drupal
+    - clamav
     - data
