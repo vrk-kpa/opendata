@@ -43,6 +43,9 @@ inventory-*
 modules/*.tgz
 modules/*.tar
 
+modules/ytp-drupal-features/*.tgz
+modules/ytp-drupal-features/*.tar
+
 
 vars/ytp-secrets/
 
