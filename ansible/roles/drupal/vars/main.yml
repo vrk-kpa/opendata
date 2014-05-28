@@ -19,6 +19,12 @@ all_features:
   - frontpage_carousel_feature
   - frontpage_infobox_feature
 
+extracted_features:
+  - frontpage_carousel_feature
+  - frontpage_infobox_feature
+
+ytp_features_path: ../modules/ytp-drupal-features
+
 translation_cache_path: "{{ cache_path }}/translations"
 translation_languages:
   - "fi"
