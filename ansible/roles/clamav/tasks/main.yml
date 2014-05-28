@@ -1,0 +1,19 @@
+---
+
+- name: Install Clamav packages
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - clamav
+  tags:
+  - packages
+  - clamav
+
+- name: Copy daily virus check
+  template: src=daily.j2 dest="/etc/cron.daily/ytp_clamscan" mode=0755 owner=root group=root
+  tags:
+  - clamav
+
+- name: Copy hourly virus check
+  template: src=hourly.j2 dest="/etc/cron.hourly/ytp_clamscan" mode=0755 owner=root group=root
+  tags:
+  - clamav

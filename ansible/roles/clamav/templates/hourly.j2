@@ -1,0 +1,14 @@
+#!/bin/bash
+
+EMAIL="{{ admin_email }}"
+LOG=/var/log/clamav/scan.log
+HOST=`hostname`
+TEMPORARY_FILE=`mktemp /tmp/virus-alert.XXXXX`
+
+clamscan --remove --recursive --suppress-ok-results --infected --log=$LOG "{{ ckan_files_path }}" "{{ drupal_files_path }}" > $TEMPORARY_FILE
+
+if [ `grep Infected $TEMPORARY_FILE | grep -v 0 | wc -l` != 0 ]; then
+    cat $TEMPORARY_FILE | mail -s "Virus detected (and removed) at $HOST!" $EMAIL
+fi
+
+rm $TEMPORARY_FILE
