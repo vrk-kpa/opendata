@@ -122,11 +122,20 @@ class MyCancelMenu(MenuItem):
     def link(self):
         return helpers.url_for('user_delete_me')
 
+class MyActivityStream(MenuItem):
+    def __init__(self):
+        super(MyActivityStream, self).__init__()
+        self.title = _('Activity Stream')
+        self.requires_login = True
+
+    def link(self):
+        return helpers.url_for('user_activity_stream', id=c.user)
+
 
 class UserMenu(RootMenuItem):
     def __init__(self, plugin):
         super(UserMenu, self).__init__(plugin)
-        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu()]
+        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu(), MyActivityStream()]
 
 
 class ListUsersMenu(MenuItem):

@@ -21,6 +21,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                  (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
                  (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
                   menu.UserMenu, menu.MyPersonalDataMenu),
+                 (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyActivityStream),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
                  (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'], menu.PublishMenu, menu.PublishDataMenu),
