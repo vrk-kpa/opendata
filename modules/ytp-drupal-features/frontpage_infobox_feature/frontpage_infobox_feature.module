@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the frontpage_infobox_feature feature.
+ */
+
+include_once 'frontpage_infobox_feature.features.inc';

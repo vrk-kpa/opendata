@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the frontpage_carousel_feature feature.
+ */
+
+include_once 'frontpage_carousel_feature.features.inc';

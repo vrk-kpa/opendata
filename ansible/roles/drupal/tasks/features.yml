@@ -1,24 +1,45 @@
 ---
 
+- name: Tar extracted features
+  local_action: command tar cf {{ item }}.tar {{ item }} --exclude=.git  chdir="{{ ytp_features_path }}"
+  sudo: false
+  with_items: extracted_features
+  tags:
+    - drupal
+    - features
+
+- name: Copy and install extracted features
+  unarchive: src="{{ ytp_features_path }}/{{ item }}.tar" dest="{{ features_module_path }}"
+  register: extracted_features_copy
+  with_items: extracted_features
+  tags:
+    - drupal
+    - features
+
 - name: Copy Drupal features
   copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
   register: features_copy
   with_items: all_features
   tags:
   - drupal
+  - features
 
 - name: Prepare features install
   file: path="{{ features_module_path }}" state=directory
-  when: features_copy|changed
+  when: features_copy|changed or extracted_features_copy|changed
   tags:
   - drupal
+  - features
 
 - name: Disable features
   command: drush dis -y "{{ item.item }}" chdir="{{drupal_root}}"
-  when: features_copy|changed and item.changed
-  with_items: "features_copy.results"
+  when: features_copy|changed or extracted_features_copy|changed and item.changed
+  with_flattened:
+    - "features_copy.results"
+    - "extracted_features_copy.results"
   tags:
     - drupal
+    - features
 
 - name: Install features
   command: tar xf "{{ cache_path }}/{{ item.item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
@@ -26,10 +47,14 @@
   with_items: features_copy.results
   tags:
   - drupal
+  - features
 
 - name: Enable features
   command: drush en -y "{{ item.item }}" chdir="{{ drupal_root }}"
-  when: features_copy|changed and item.changed
-  with_items: features_copy.results
+  when: features_copy|changed or extracted_features_copy|changed and item.changed
+  with_flattened:
+    - features_copy.results
+    - extracted_features_copy.results
   tags:
   - drupal
+  - features
