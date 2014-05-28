@@ -16,7 +16,6 @@
 
 - name: Apply Spatial patches
   shell: patch -s -N -p1 < "{{ patches_cache_path }}/{{ item.file }}" chdir="{{ spatial_source_path }}"
-  when: fetch_spatial_patches|changed
   ignore_errors: True
   with_items: spatial_patches
   tags:

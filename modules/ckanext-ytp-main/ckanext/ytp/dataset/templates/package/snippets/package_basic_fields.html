@@ -38,7 +38,7 @@
         {% endcall %}
     {% endif %}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true, is_required=true) }}
 
 {% endblock %}
 
@@ -56,7 +56,29 @@
 {% endblock %}
 
 {% block package_basic_fields_license %}
-    {{ super() }}
+    <div class="control-group">
+      {% set error = errors.license_id %}
+      <label class="control-label" for="field-license">
+          <span title="{{ _("This field is required") }}" class="control-required">*</span>
+          {{ _("License") }}
+      </label>
+      <div class="controls">
+        <select id="field-license" name="license_id" data-module="autocomplete">
+          {% for license_desc, license_id in licenses|sort if license_desc  %}
+            <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ license_desc }}</option>
+          {% endfor %}
+        </select>
+        {% if error and error is iterable %}<span class="error-block">{{ error|join(', ') }}</span>{% endif %}
+        <span class="info-block info-inline">
+          <i class="icon-info-sign"></i>
+          {% trans %}
+            License definitions and additional information can be found
+            at <a href="http://opendefinition.org/licenses/">opendefinition.org</a>
+          {% endtrans %}
+        </span>
+      </div>
+    </div>
+
     {{ ytp_form.markdown('copyright_notice', id='field-copyright', label=_('Copyright Notice'), placeholder=_('Additional information concerning copyright'), value=data.copyright_notice, error=errors.copyright_notice, locales=h.get_available_locales(), data=data) }}
     {{ ytp_form.markdown('warranty_disclaimer', id='field-warranty', label=_('Disclaimer of Warranty'), placeholder=_('Disclaimer on liability due to use of this dataset'), value=data.warranty_disclaimer, error=errors.warranty_disclaimer, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
@@ -97,7 +119,11 @@
 
     {% if show_organizations_selector %}
     <div class="control-group">
-      <label for="field-organizations" class="control-label">{{ _('Organization') }}</label>
+      <label for="field-organizations" class="control-label">
+          <span title="{{ _("This field is required") }}" class="control-required">*</span>
+          {{ _('Organization') }}
+      </label>
+
       <div class="controls">
         <select id="field-organizations" name="owner_org" data-module="autocomplete">
           <option value="" {% if not selected_org and data.id %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
@@ -146,9 +172,8 @@
   {% block metadata_fields %}
    {% block package_temporal_metadata %}	
     {% snippet 'package/snippets/package_metadata_fields.html', data=data, errors=errors %}
-  
+   {% endblock %}
   {% endblock %}
-{% endblock %}
 
 {{ form.hidden("ytp", "true") }}
 

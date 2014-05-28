@@ -38,7 +38,7 @@ class TestYtpDatasetPlugin(TestCase):
 
     def test_create_dataset(self):
         context = self._create_context()
-        data_dict = {'name': 'test_dataset_1',
+        data_dict = {'name': 'test_dataset_1', 'title': 'test_title',
                      'notes': "test_notes", 'license_id': "licence_id",
                      'content_type': "content_type_test", 'tag_string': "tag1,tag2",
                      'extras': [{'key': 'copyright_notice', 'value': 'test_notice'}]}

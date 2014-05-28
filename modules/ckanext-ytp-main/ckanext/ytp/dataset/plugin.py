@@ -1,6 +1,6 @@
 from ckan import plugins, model
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing
+from ckan.lib.navl.dictization_functions import Missing, StopOnError
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
@@ -98,6 +98,15 @@ def set_to_user_email(value, context):
     return context['auth_user_obj'].email
 
 
+def not_value(text_value):
+
+    def callback(key, data, errors, context):
+        value = data.get(key)
+        if value == text_value:
+            errors[key].append(_('Missing value'))
+            raise StopOnError
+    return callback
+
 _key_functions = {u'extras':  _parse_extras}
 
 
@@ -176,8 +185,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
         # Override CKAN schema
+        schema.update({'title': [not_empty, unicode]})
         schema.update({'notes': [not_empty, unicode]})
-        schema.update({'license_id': [not_empty, unicode]})
+        schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
 
         return schema
 
@@ -327,6 +337,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _get_package(self, package):
         return toolkit.get_action('package_show')({'model': model}, {'id': package})
 
+    def _resource_display_name(self, resource_dict):
+        """ taken from helpers.resource_display_name """
+        value = helpers.resource_display_name(resource_dict)
+        return value if value != _("Unnamed resource") else _("Additional Info")
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -338,4 +353,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'extra_translation': self._extra_translation,
                 'service_database_enabled': service_database_enabled,
                 'clean_extras': self._clean_extras,
-                'get_package': self._get_package}
+                'get_package': self._get_package,
+                'resource_display_name': self._resource_display_name}

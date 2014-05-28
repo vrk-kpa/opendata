@@ -6,7 +6,7 @@ harvester_user: "{{ www_user }}"
 celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats text_preview recline_preview
-ckan_plugins: multilingual_dataset harvest ckan_harvester spatial_metadata spatial_query csw_harvester drupal7 ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
+ckan_plugins: multilingual_dataset harvest ckan_harvester spatial_metadata spatial_query csw_harvester disqus drupal7 ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
 
 ckan_extensions:
   - ckanext-drupal7
@@ -61,5 +61,8 @@ ckan_patches:
 
 spatial_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/08e967ae7ce77e0591c5bda40e581695e28cf63c.patch", file: "add_configuration.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/675f10819d5972a1b7c79b9ca6b6102f98a9699d.patch", file: "fix_error_encoding.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/876e531f73196dbda55cbcdae01b1c1f2005e355.patch", file: "fix_resource_naming.patch" }
 
 service_database_enabled: true
+disqus_name: avoindata
