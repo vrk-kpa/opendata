@@ -122,6 +122,7 @@ class MyCancelMenu(MenuItem):
     def link(self):
         return helpers.url_for('user_delete_me')
 
+
 class MyActivityStream(MenuItem):
     def __init__(self):
         super(MyActivityStream, self).__init__()
