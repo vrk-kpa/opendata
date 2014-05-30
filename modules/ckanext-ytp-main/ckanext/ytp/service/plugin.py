@@ -156,7 +156,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         harvest_object_count = model.Session.query(HarvestObject) \
             .filter(HarvestObject.package_id == package.id) \
             .filter(HarvestObject.current == True) \
-            .count()
+            .count()  # noqa
 
         if harvest_object_count > 0:
             return {'success': False, 'msg': _("Harvested datasets are read-only")}
