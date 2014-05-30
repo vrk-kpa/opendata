@@ -107,7 +107,7 @@
                 echo '<li' . $class . '><a href="' . $href . '">' . t("Data Producers") . '</a></li>';
 
                 $class = '';
-                $href = '/data/' . $lang . '/dataset/new';
+                $href = '/data/' . $lang . '/publish';
                 if ( ($uri == $href || $site_section == t("Publish Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
                 echo '<li' . $class . '><a href='. $href . '>' . t("Publish Data") . '</a></li>';
 
