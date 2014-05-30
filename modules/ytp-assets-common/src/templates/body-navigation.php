@@ -30,10 +30,7 @@
                       "alpha.opendata.fi" => "opendata_fi_alpha.png",
                       "beta.opendata.fi" => "opendata_fi_beta.png",
               );
-              if (!empty($_SERVER['HTTP_HOST']) && !is_numeric($_SERVER['HTTP_HOST'][0])) {
-                  $domain = implode('.', array_slice(explode('.', $_SERVER['HTTP_HOST']), -2));
-              }
-              $logo = isset($logos[$domain]) ? $logos[$domain] : 'opendata_fi_alpha.png';
+              $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi_alpha.png';
               echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
               ?>
           </a>
