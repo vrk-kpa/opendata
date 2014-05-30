@@ -211,11 +211,12 @@ class PublishDataMenu(_CommonPublishMenu):
 class PublishMainMenu(_CommonPublishMenu):
     def __init__(self):
         super(PublishMainMenu, self).__init__(_("Publish Data"))
+        self.children = [PublishDataMenu(), PublishToolsMenu()]
+        if helpers.check_access('can_create_service') and service_database_enabled():
+            self.children.append(PublishServiceMenu())
 
 
 class PublishMenu(RootMenuItem):
     def __init__(self, plugin):
         super(PublishMenu, self).__init__(plugin)
-        self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]
-        if helpers.check_access('can_create_service') and service_database_enabled():
-            self.children.append(PublishServiceMenu())
+        self.children = [PublishMainMenu()]

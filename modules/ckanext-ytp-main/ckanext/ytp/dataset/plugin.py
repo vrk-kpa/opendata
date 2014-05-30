@@ -1,6 +1,6 @@
 from ckan import plugins, model
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing, StopOnError
+from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
@@ -99,11 +99,27 @@ def set_to_user_email(value, context):
 
 
 def not_value(text_value):
-
     def callback(key, data, errors, context):
         value = data.get(key)
         if value == text_value:
             errors[key].append(_('Missing value'))
+            raise StopOnError
+    return callback
+
+
+def not_empty_or(item):
+    def callback(key, data, errors, context):
+        value = data.get(key)
+        if value == "":
+            # tag_string is converted to tags, so we need check if value is given as empty
+            errors[key].append(_('Missing value'))
+            raise StopOnError
+        elif not value or value is missing:
+            value = data.get((item, 0, u'name'), None)
+            if not value or value is missing:
+                errors[key].append(_('Missing value'))
+            else:
+                data.pop(key, None)
             raise StopOnError
     return callback
 
@@ -189,13 +205,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'notes': [not_empty, unicode]})
         schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
 
+        tag_string_convert = toolkit.get_validator('tag_string_convert')
+        schema.update({'tag_string': [not_empty_or('tags'), tag_string_convert]})
+
         return schema
 
     def create_package_schema(self):
         schema = super(YTPDatasetForm, self).create_package_schema()
-        not_empty = toolkit.get_validator('not_empty')
-        tag_string_convert = toolkit.get_validator('tag_string_convert')
-        schema.update({'tag_string': [not_empty, tag_string_convert]})
         return self._modify_package_schema(schema)
 
     def update_package_schema(self):
