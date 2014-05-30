@@ -18,11 +18,23 @@
               <?php
               // We want to get default domain or domain with last two items in it: example.com instead www.example.com.
               // Checking if host is ip using numeric start is not perfect but fast and good enough for our purposes. 
-              $domain = "avoindata.fi";
+              $domain = null;
+              $logos = array(
+                      "avoindata.fi" => "avoindata_fi.png",
+                      "www.avoindata.fi" => "avoindata_fi.png",
+                      "alpha.avoindata.fi" => "avoindata_fi_alpha.png",
+                      "beta.avoindata.fi" => "avoindata_fi_beta.png",
+
+                      "opendata.fi" => "opendata_fi.png",
+                      "www.opendata.fi" => "opendata_fi.png",
+                      "alpha.opendata.fi" => "opendata_fi_alpha.png",
+                      "beta.opendata.fi" => "opendata_fi_beta.png",
+              );
               if (!empty($_SERVER['HTTP_HOST']) && !is_numeric($_SERVER['HTTP_HOST'][0])) {
                   $domain = implode('.', array_slice(explode('.', $_SERVER['HTTP_HOST']), -2));
               }
-              echo $domain;
+              $logo = isset($logos[$domain]) ? $logos[$domain] : 'opendata_fi_alpha.png';
+              echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
               ?>
           </a>
         </div>
@@ -46,14 +58,14 @@
                 <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?> &gt;</a></li>
                 <?php } else { ?>
                 <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>">
-                	<?php global $user; $temp =  user_load($user->uid);
-					if (isset($temp->field_fullname['und'])) {
-						if (isset($temp->field_fullname['und'][0]) ){
-							if ( isset($temp->field_fullname['und'][0]['value'])){
-					 			$fullname=$temp->field_fullname['und'][0]['value'];
-					}}}
-                	if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} ?></a> 
-                	| <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
+                    <?php global $user; $temp =  user_load($user->uid);
+                    if (isset($temp->field_fullname['und'])) {
+                        if (isset($temp->field_fullname['und'][0]) ){
+                            if ( isset($temp->field_fullname['und'][0]['value'])){
+                                 $fullname=$temp->field_fullname['und'][0]['value'];
+                    }}}
+                    if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} ?></a> 
+                    | <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
                 <?php } ?>
             <li><a href="#"><span class="icon icon-cart-navbar"></span> <?php echo t("Own checklist"); ?> (0)</a></li>
           </ul>
