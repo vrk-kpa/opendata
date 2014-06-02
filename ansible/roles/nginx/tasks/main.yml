@@ -6,6 +6,9 @@
     - nginx
     - packages
 
+- include: ssl.yml
+  when: ssl_path != false
+
 - name: Copy Nginx configuration
   template: src=nginx.j2 dest=/etc/nginx/sites-available/ytp mode=0644 owner=root group=root
   tags:

@@ -112,6 +112,14 @@ def action_user_show(context, data_dict):
     user_dict = model_dictize.user_dictize(user_obj, context)
     user_dict = _add_user_extras(user_obj, user_dict)
 
+    user_dict.pop('password', None)
+    user_dict.pop('reset_key', None)
+
+    if not context.get('keep_apikey', False):
+        user_dict.pop('apikey', None)
+    if not context.get('keep_email', False):
+        user_dict.pop('email', None)
+
     if context.get('return_minimal'):
         return user_dict
 
@@ -275,10 +283,9 @@ def action_user_update(context, data_dict):
     return user_data
 
 
+@logic.side_effect_free
 def action_user_list(context, data_dict):
-    ''' Modiefed from ckan/controlers/user.py: user_list
-
-    Return a list of the site's user accounts.
+    '''Return a list of the site's user accounts.
 
     :param q: restrict the users returned to those whose names contain a string
       (optional)
@@ -290,6 +297,7 @@ def action_user_list(context, data_dict):
     :rtype: list of dictionaries
 
     '''
+    #  Modiefed from ckan/controlers/user.py: user_list
     model = context['model']
 
     toolkit.check_access('user_list', context, data_dict)
@@ -344,6 +352,11 @@ def action_user_list(context, data_dict):
     for user in query.all():
         result_dict = model_dictize.user_dictize(user[0], context)
         result_dict = _add_user_extras(user[0], result_dict)
+        result_dict.pop('password', None)
+        result_dict.pop('reset_key', None)
+        result_dict.pop('apikey', None)
+        result_dict.pop('email', None)
+        result_dict.pop('sysadmin', None)
         users_list.append(result_dict)
 
     return users_list
