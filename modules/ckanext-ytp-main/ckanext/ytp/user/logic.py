@@ -282,6 +282,7 @@ def action_user_update(context, data_dict):
         user_data[key] = value
     return user_data
 
+
 @logic.side_effect_free
 def action_user_list(context, data_dict):
     '''Return a list of the site's user accounts.
