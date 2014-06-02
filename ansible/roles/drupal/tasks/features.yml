@@ -11,7 +11,6 @@
 
 - name: Prepare features install
   file: path="{{ features_module_path }}" state=directory
-  when: features_copy|changed or extracted_features_copy|changed
   tags:
   - drupal
   - features
