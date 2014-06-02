@@ -8,6 +8,15 @@
     - drupal
     - features
 
+
+- name: Prepare features install
+  file: path="{{ features_module_path }}" state=directory
+  when: features_copy|changed or extracted_features_copy|changed
+  tags:
+  - drupal
+  - features
+
+
 - name: Copy and install extracted features
   unarchive: src="{{ ytp_features_path }}/{{ item }}.tar" dest="{{ features_module_path }}"
   register: extracted_features_copy
@@ -24,12 +33,6 @@
   - drupal
   - features
 
-- name: Prepare features install
-  file: path="{{ features_module_path }}" state=directory
-  when: features_copy|changed or extracted_features_copy|changed
-  tags:
-  - drupal
-  - features
 
 - name: Disable features
   command: drush dis -y "{{ item.item }}" chdir="{{drupal_root}}"
