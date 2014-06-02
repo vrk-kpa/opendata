@@ -193,8 +193,12 @@ ul.menu.nav {
 }
 
 li.ytp-menulink {
-  margin-left: 14px;
+  margin-left: 0px;
   font-size: 16px;
+
+  li {
+    margin-left: 14px;
+  }
 
   a {
     color: @menu-link-color;
@@ -202,12 +206,14 @@ li.ytp-menulink {
     background: @menu-link-background;
     padding: 6px 20px 6px 20px;
     border: 1px solid @menu-border-color;
-    }
+  }
+
   a:focus, a.selected {
     color: #fff;
     background-color: @menu-active-color;
     border: 1px solid @menu-active-color;
-    }
+  }
+
   a:hover{
     color: @menu-link-color;
     background-color: @menu-hover-color;
@@ -229,10 +235,6 @@ li.ytp-menulink {
     font-style: normal;
     font-weight: normal;
     text-decoration: inherit;
-  }
-
-  &:first-child {
-    margin-left: 0;
   }
 }
 

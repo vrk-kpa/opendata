@@ -123,10 +123,20 @@ class MyCancelMenu(MenuItem):
         return helpers.url_for('user_delete_me')
 
 
+class MyActivityStream(MenuItem):
+    def __init__(self):
+        super(MyActivityStream, self).__init__()
+        self.title = _('Activity Stream')
+        self.requires_login = True
+
+    def link(self):
+        return helpers.url_for('user_activity_stream', id=c.user)
+
+
 class UserMenu(RootMenuItem):
     def __init__(self, plugin):
         super(UserMenu, self).__init__(plugin)
-        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu()]
+        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu(), MyActivityStream()]
 
 
 class ListUsersMenu(MenuItem):
@@ -201,11 +211,12 @@ class PublishDataMenu(_CommonPublishMenu):
 class PublishMainMenu(_CommonPublishMenu):
     def __init__(self):
         super(PublishMainMenu, self).__init__(_("Publish Data"))
+        self.children = [PublishDataMenu(), PublishToolsMenu()]
+        if helpers.check_access('can_create_service') and service_database_enabled():
+            self.children.append(PublishServiceMenu())
 
 
 class PublishMenu(RootMenuItem):
     def __init__(self, plugin):
         super(PublishMenu, self).__init__(plugin)
-        self.children = [PublishMainMenu(), PublishDataMenu(), PublishToolsMenu()]
-        if helpers.check_access('can_create_service') and service_database_enabled():
-            self.children.append(PublishServiceMenu())
+        self.children = [PublishMainMenu()]

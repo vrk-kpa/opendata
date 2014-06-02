@@ -10,6 +10,7 @@ from ckanext.ytp.common import tools
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import auth
+from ckanext.harvest.model import HarvestObject
 
 log = logging.getLogger(__name__)
 
@@ -152,7 +153,12 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return result
 
         package = auth.get_package_object(context, data_dict)
-        if package.extras.get('harvest_object_id', None) is not None:
+        harvest_object_count = model.Session.query(HarvestObject) \
+            .filter(HarvestObject.package_id == package.id) \
+            .filter(HarvestObject.current == True) \
+            .count()  # noqa
+
+        if harvest_object_count > 0:
             return {'success': False, 'msg': _("Harvested datasets are read-only")}
 
         return tools.get_original_method('ckan.logic.auth.update', 'package_update')(context, data_dict)

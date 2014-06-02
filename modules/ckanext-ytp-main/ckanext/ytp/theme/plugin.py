@@ -4,6 +4,9 @@ from ckan.common import c
 from ckanext.ytp.theme import menu
 import types
 import urlparse
+from webhelpers.html.builder import literal
+import re
+from ckan.lib import helpers
 
 
 class YtpThemePlugin(plugins.SingletonPlugin):
@@ -13,6 +16,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
 
     default_domain = None
+    logos = {}
 
     # TODO: We should use named routes instead
     _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
@@ -21,6 +25,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
                  (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
                  (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
                   menu.UserMenu, menu.MyPersonalDataMenu),
+                 (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyActivityStream),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
                  (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'], menu.PublishMenu, menu.PublishDataMenu),
@@ -49,10 +54,14 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_resource('public/css/', 'ytp_css')
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
         toolkit.add_resource('public/js/', 'ytp_js')
+
     # IConfigurable #
 
     def configure(self, config):
         self.default_domain = config.get("ckanext.ytp.theme.default_domain")
+        logos = config.get("ckanext.ytp.theme.logos")
+        if logos:
+            self.logos = dict(item.split(":") for item in re.split("\s+", logos.strip()))
 
     # ITemplateHelpers #
 
@@ -100,5 +109,12 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         else:
             return {}
 
+    def _site_logo(self, hostname, default=None):
+        logo = self.logos.get(hostname, self.logos.get('default', None))
+        if logo:
+            return literal('<img src="%s" class="site-logo" />' % helpers.url_for_static("/images/logo/%s" % logo))
+        else:
+            return self._short_domain(hostname, default)
+
     def get_helpers(self):
-        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page}
+        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page, 'site_logo': self._site_logo}
