@@ -59,6 +59,11 @@
     - edit any infobox content
     - delete own infobox content
     - delete any infobox content
+    - create tutorial content
+    - edit own tutorial content
+    - edit any tutorial content
+    - delete own tutorial content
+    - delete any tutorial content
   tags:
   - drupal
   - roles
@@ -111,6 +116,11 @@
     - edit any infobox content
     - delete own infobox content
     - delete any infobox content
+    - create tutorial content
+    - edit own tutorial content
+    - edit any tutorial content
+    - delete own tutorial content
+    - delete any tutorial content
   tags:
   - drupal
   - roles
