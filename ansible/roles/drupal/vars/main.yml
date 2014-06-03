@@ -22,6 +22,7 @@ all_features:
 extracted_features:
   - frontpage_carousel_feature
   - frontpage_infobox_feature
+  - frontpage_tutorial
 
 ytp_features_path: ../modules/ytp-drupal-features
 

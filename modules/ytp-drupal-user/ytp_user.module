@@ -72,6 +72,35 @@ function ytp_user_enable() {
     field_create_instance($instance);
 	drupal_set_message($field['field_fullname'].' was created.');
   }
+
+  //field for ckan api key
+  if (!field_info_field('field_ckan_api_key')){
+    $apikey_field = array(
+      'field_name' => 'field_ckan_api_key',
+      'type' => 'text',
+      'cardinality' => 1,
+      'translatable' => FALSE
+    );
+
+    field_create_field($apikey_field);
+
+    $apikey_instance = array(
+      'field_name' => 'field_ckan_api_key',
+      'entity_type' => 'user',
+      'bundle' => 'user',
+      'settings' => array(
+        'user_register_form' => 0
+      ),
+      'widget' => array(
+        'type' => 'textfield',
+        'weight' => '1',
+      )
+    );
+
+    field_create_instance($apikey_instance);
+    drupal_set_message($apikey_field['field_name'] . ' was created.');
+  }
+
   $endpoint = services_endpoint_new();
   $endpoint = create_ytp_user_service($endpoint);
   if ( services_endpoint_load('user_service_name') == FALSE ){
