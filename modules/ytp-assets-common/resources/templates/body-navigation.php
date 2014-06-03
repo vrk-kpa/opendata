@@ -30,10 +30,7 @@
                       "alpha.opendata.fi" => "opendata_fi_alpha.png",
                       "beta.opendata.fi" => "opendata_fi_beta.png",
               );
-              if (!empty($_SERVER['HTTP_HOST']) && !is_numeric($_SERVER['HTTP_HOST'][0])) {
-                  $domain = implode('.', array_slice(explode('.', $_SERVER['HTTP_HOST']), -2));
-              }
-              $logo = isset($logos[$domain]) ? $logos[$domain] : 'opendata_fi_alpha.png';
+              $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi_alpha.png';
               echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
               ?>
           </a>
@@ -58,14 +55,19 @@
                 <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?> &gt;</a></li>
                 <?php } else { ?>
                 <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>">
-                    <?php global $user; $temp =  user_load($user->uid);
+                    <?php
+                    global $user; $temp =  user_load($user->uid);
                     if (isset($temp->field_fullname['und'])) {
-                        if (isset($temp->field_fullname['und'][0]) ){
-                            if ( isset($temp->field_fullname['und'][0]['value'])){
+                        if (isset($temp->field_fullname['und'][0]) ) {
+                            if (isset($temp->field_fullname['und'][0]['value'])) {
                                  $fullname=$temp->field_fullname['und'][0]['value'];
-                    }}}
-                    if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} ?></a> 
-                    | <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
+                            }
+                        }
+                    }
+                    if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} 
+                    ?>
+                </a> 
+                | <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a></li>
                 <?php } ?>
             <li><a href="#"><span class="icon icon-cart-navbar"></span> <?php echo t("Own checklist"); ?> (0)</a></li>
           </ul>
@@ -134,7 +136,6 @@
                 echo '<li' . $class . '><a href='. $href . '>' . t("About us") . '</a></li>';
 
             }
-
 
             buildMainNavBar(true);
             ?>
