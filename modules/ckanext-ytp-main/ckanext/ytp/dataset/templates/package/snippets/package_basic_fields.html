@@ -133,6 +133,7 @@
             <option value="{{ organization.id }}" {% if selected_org %} selected="selected" {% endif %}>{{ organization.name }}</option>
           {% endfor %}
         </select>
+        {% if errors.owner_org and errors.owner_org is iterable %}<span class="error-block">{{ errors.owner_org|join(', ') }}</span>{% endif %}
       </div>
     </div>
     {% endif %}
