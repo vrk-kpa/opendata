@@ -12,10 +12,10 @@ function frontpage_tutorial_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['views-frontpage_tutorial-block'] = array(
+  $export['views-e47fa3088ec33a576aec69631d43e97b'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => 'frontpage_tutorial-block',
+    'delta' => 'e47fa3088ec33a576aec69631d43e97b',
     'i18n_block_language' => array(),
     'i18n_mode' => 0,
     'module' => 'views',
@@ -45,17 +45,17 @@ function frontpage_tutorial_default_fe_block_settings() {
         'region' => 'sidebar_second',
         'status' => 1,
         'theme' => 'ytp_theme',
-        'weight' => -12,
+        'weight' => -14,
       ),
     ),
     'title' => '',
     'visibility' => 1,
   );
 
-  $export['views-frontpage_tutorial-block_1'] = array(
+  $export['views-e4be4f0f303377307ca9418c650dc0ba'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => 'frontpage_tutorial-block_1',
+    'delta' => 'e4be4f0f303377307ca9418c650dc0ba',
     'i18n_block_language' => array(),
     'i18n_mode' => 0,
     'module' => 'views',
@@ -85,17 +85,17 @@ function frontpage_tutorial_default_fe_block_settings() {
         'region' => 'sidebar_second',
         'status' => 1,
         'theme' => 'ytp_theme',
-        'weight' => -11,
+        'weight' => -13,
       ),
     ),
     'title' => '',
     'visibility' => 1,
   );
 
-  $export['views-frontpage_tutorial-block_2'] = array(
+  $export['views-edd31d26be0b66ec9af4c7fd260f7efa'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => 'frontpage_tutorial-block_2',
+    'delta' => 'edd31d26be0b66ec9af4c7fd260f7efa',
     'i18n_block_language' => array(),
     'i18n_mode' => 0,
     'module' => 'views',
@@ -122,10 +122,10 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'sidebar_second',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ytp_theme',
-        'weight' => -10,
+        'weight' => -13,
       ),
     ),
     'title' => '',

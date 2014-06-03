@@ -72,7 +72,7 @@ function frontpage_tutorial_views_default_views() {
   );
 
   /* Display: Anonymous tutorial */
-  $handler = $view->new_display('block', 'Anonymous tutorial', 'block');
+  $handler = $view->new_display('block', 'Anonymous tutorial', 'anonymous_view');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
@@ -103,7 +103,7 @@ function frontpage_tutorial_views_default_views() {
   );
 
   /* Display: Authenticated tutorial */
-  $handler = $view->new_display('block', 'Authenticated tutorial', 'block_1');
+  $handler = $view->new_display('block', 'Authenticated tutorial', 'authenticated_view');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
@@ -134,7 +134,7 @@ function frontpage_tutorial_views_default_views() {
   );
 
   /* Display: In organization tutorial */
-  $handler = $view->new_display('block', 'In organization tutorial', 'block_2');
+  $handler = $view->new_display('block', 'In organization tutorial', 'organization_member_view');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(

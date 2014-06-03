@@ -5,7 +5,7 @@ function frontpage_tutorial_views_pre_view(&$view, &$display_id, &$args) {
 	if ( $view->name == "frontpage_tutorial" ){
 	  //dpm($view);
 		//dpm($display_id);
-		if ( $display_id == 'block_2' ){
+		if ( $display_id == 'organization_member_view' ){
 			global $user;
 			//dpm($user);
 			$temp = user_load($user->uid);
@@ -25,7 +25,7 @@ function frontpage_tutorial_views_pre_view(&$view, &$display_id, &$args) {
         //dpm($json['result'][0]['id']);
         if ( count($json['result']) == 1 && $json['result'][0]['id'] == 'yksityishenkilo'){
           dpm($display_id);
-          $view->set_display('block_1');
+          $view->set_display('authenticated_view');
         }
       }
     }
