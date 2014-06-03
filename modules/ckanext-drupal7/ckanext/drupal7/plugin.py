@@ -134,7 +134,7 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def user(self, user_data):
         try:
-            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True}, {'id': user_data.name})
+            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True, 'keep_email': True}, {'id': user_data.name})
         except p.toolkit.ObjectNotFound:
             user = None
 

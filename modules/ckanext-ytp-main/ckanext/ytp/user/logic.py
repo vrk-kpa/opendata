@@ -119,6 +119,7 @@ def action_user_show(context, data_dict):
         user_dict.pop('apikey', None)
     if not context.get('keep_email', False):
         user_dict.pop('email', None)
+        user_dict.pop('email_hash', None)
 
     if context.get('return_minimal'):
         return user_dict
@@ -357,6 +358,7 @@ def action_user_list(context, data_dict):
         result_dict.pop('apikey', None)
         result_dict.pop('email', None)
         result_dict.pop('sysadmin', None)
+        result_dict.pop('email_hash', None)
         users_list.append(result_dict)
 
     return users_list
