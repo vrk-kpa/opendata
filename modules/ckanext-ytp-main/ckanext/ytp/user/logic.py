@@ -114,12 +114,12 @@ def action_user_show(context, data_dict):
 
     user_dict.pop('password', None)
     user_dict.pop('reset_key', None)
-    user_dict.pop('email_hash', None)
 
     if not context.get('keep_apikey', False):
         user_dict.pop('apikey', None)
     if not context.get('keep_email', False):
         user_dict.pop('email', None)
+        user_dict.pop('email_hash', None)
 
     if context.get('return_minimal'):
         return user_dict
