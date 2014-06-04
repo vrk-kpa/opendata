@@ -15,4 +15,5 @@
     - clean
     - common
     - database
+    - s3
     - postfix

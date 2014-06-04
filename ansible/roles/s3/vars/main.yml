@@ -1,0 +1,7 @@
+---
+
+# Disabled by default
+
+aws_access_key: false
+aws_secret_key: false
+s3_drupal_name: "drupal"

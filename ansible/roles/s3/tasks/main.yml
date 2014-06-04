@@ -1,0 +1,8 @@
+---
+
+- name: Create Drupal S3 bucket
+  s3: bucket="{{ s3_drupal_name }}" mode="create" aws_access_key="{{ aws_access_key }}" aws_secret_key="{{ aws_secret_key }}"
+  when: aws_access_key != false
+  tags:
+  - drupal
+  - s3

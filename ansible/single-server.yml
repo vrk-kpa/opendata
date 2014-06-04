@@ -18,6 +18,7 @@
     - clean
     - common
     - database
+    - s3
     - common_webserver
     - nginx
     - postfix

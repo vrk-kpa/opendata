@@ -14,12 +14,6 @@
   - packages
   - drupal
 
-- name: Create Drupal S3 bucket
-  s3: bucket="{{ s3_drupal_name }}" mode=create
-  tags:
-  - drupal
-  - s3
-
 - name: Fetch drush package
   get_url: url="https://github.com/drush-ops/drush/archive/6.x.zip" dest="{{ cache_path }}/drush-6.x.zip"
   tags:
