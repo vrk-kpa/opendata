@@ -123,7 +123,7 @@ function frontpage_tutorial_default_fe_block_settings() {
       ),
       'ytp_theme' => array(
         'region' => '',
-        'status' => 0,
+        'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -13,
       ),
