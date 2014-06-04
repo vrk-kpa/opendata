@@ -45,7 +45,7 @@ def _update_drupal_user(context, data_dict):
     resource = 'user'
     path = 'user_2'
     fullname = data_dict.get('fullname')
-    apikey = data_dict.get('_apikey');
+    apikey = data_dict.get('_apikey')
 
     try:
         ytp_drupal = get_plugin('ytp_drupal')
