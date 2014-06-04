@@ -34,3 +34,4 @@ translation_projects:
   - "ytp-assets-common"
 
 enable_email_verification: False
+s3_drupal_name: "drupal"
