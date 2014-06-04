@@ -1,9 +1,30 @@
 {% extends "package/snippets/resource_item.html" %}
 
 {% block resource_item_explore %}
+
 {% if pkg.license_title %}
-<p class="dataset-license">{{ _('License') }}: {{ _(pkg.license_title) }}</p>
+    <p class="dataset-license">{{ _('License') }}: {{ _(pkg.license_title) }}</p>
+{% else %}
+    {% set licence = h.get_json_value(h.get_pkg_dict_extra(pkg, 'licence', None)) %}
+    {% if licence %}
+        <p class="dataset-license">
+            <a href="#" onclick="$('#{{ res.id }}').toggle(); return false;">
+                {{ _('License') }}: {{ _('Other') }}
+            </a>
+        </p>
+
+        <div style="white-space: normal; display: none;" id="{{ res.id }}">
+            {% if licence.append %}
+                {% for licence_item in licence %}
+                    <p>{{ licence_item }}</p>
+                {% endfor %}
+            {% else %}
+                {{ licence }}
+            {% endif %}
+        </div>
+    {% endif %}
 {% endif %}
+
 {% if res.temporal_coverage_from or res.temporal_coverage_to %}
     <p>
         {{_('Temporal Coverage')}}:
@@ -17,4 +38,5 @@
     <a href="{{ res.url }}">{{ res.url }}</a>
     <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
 </p>
+
 {% endblock %}
