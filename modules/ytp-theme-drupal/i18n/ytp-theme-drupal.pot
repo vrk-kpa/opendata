@@ -39,3 +39,13 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
+#: /fi
+msgid "<a href=\"user/login\">Register</a>"
+msgstr ""
+
+#: /fi
+msgid ""
+"<a href=\"user/login\">Already registered? Sign in</a>\n"
+"<a href=\"user/password\">Forgotten your password?</a>"
+msgstr ""
+

@@ -4731,7 +4731,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1401779778954") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1401877566729") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4761,7 +4761,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1401779778954');
+  background-image: url('../images/sprite.png?timestamp=1401877566729');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4771,7 +4771,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1401779778954');
+  background-image: url('../images/sprite.png?timestamp=1401877566729');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4892,13 +4892,46 @@ h4 {
 .row {
   margin-right: 0;
 }
+.region-sidebar-second section {
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.region-sidebar-second section .views-field-title {
+  margin-bottom: 15px;
+}
+.region-sidebar-second section .views-field-title .field-content {
+  font-size: 16px;
+}
+.region-sidebar-second .tutorial-register {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  background-color: #276EBF;
+}
+.region-sidebar-second .tutorial-register a {
+  color: white;
+}
+.region-sidebar-second .tutorial-register:after {
+  content: " >";
+}
+.region-sidebar-second .tutorial-signin {
+  margin-top: 10px;
+}
+.region-sidebar-second .tutorial-signin a:after {
+  content: " >";
+}
 
 .btn-lg {
   font-size: 22px;
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1401779778954") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1401877566729") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5031,7 +5064,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1401779778954');
+  background-image: url('../images/navbar-main-background.png?timestamp=1401877566729');
   background-repeat: repeat-x;
   min-height: 40px;
 }
@@ -5095,7 +5128,7 @@ span.add-member-or {
 }
 .navbar.navbar-search form input.search-submit {
   border: none;
-  background: url('../images/search-button.png?timestamp=1401779778954');
+  background: url('../images/search-button.png?timestamp=1401877566729');
   margin-top: 1px;
   margin-right: 2px;
   width: 77px;
@@ -5171,7 +5204,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1401779778954');
+  background-image: url('../images/sprite.png?timestamp=1401877566729');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
