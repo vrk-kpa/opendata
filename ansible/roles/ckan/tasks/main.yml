@@ -145,12 +145,6 @@
   - ckan
   - spatial
 
-- name: Ensure SqlAlchemy version
-  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.7.10" extra_args='--exists-action=w'
-  tags:
-  - ckan
-  - spatial
-
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
   when: modules_copy|changed
@@ -162,6 +156,12 @@
   - modules
 
 - include: patch_spatial.yml
+
+- name: Ensure SqlAlchemy version
+  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.7.10" extra_args='--exists-action=w --upgrade --force-reinstall'
+  tags:
+  - ckan
+  - spatial
 
 # Background services can block database update
 - name: Stop supervisor services

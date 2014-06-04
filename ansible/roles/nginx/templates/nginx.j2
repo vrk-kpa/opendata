@@ -144,6 +144,7 @@ server {
         proxy_cache_valid 30m;
         proxy_cache_key $host$scheme$proxy_host$request_uri;
         proxy_intercept_errors on;
+        proxy_read_timeout 120s;
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
     }
