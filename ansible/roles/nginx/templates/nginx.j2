@@ -7,7 +7,21 @@ map $http_cookie $no_cache {
     ~SESS 1;
 }
 
+{% if ssl_path -%}
 server {
+    listen [::]:80;
+    return 301 https://$host$request_uri;
+}
+{%- endif %}
+
+server {
+    {% if ssl_path -%}
+    listen 443;
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/ssl/server.key; 
+    {%- endif %}
+
     server_name {{ inventory_hostname }} {{ secondary_hostname }};
     root /var/www/ytp;
     client_max_body_size 100M;
@@ -130,6 +144,7 @@ server {
         proxy_cache_valid 30m;
         proxy_cache_key $host$scheme$proxy_host$request_uri;
         proxy_intercept_errors on;
+        proxy_read_timeout 120s;
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
     }

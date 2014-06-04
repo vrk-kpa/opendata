@@ -92,8 +92,9 @@ class Drupal7Plugin(p.SingletonPlugin):
     def create_drupal_session_names(self):
         self.drupal_session_names = []
         for domain in self.domains + [p.toolkit.request.environ['HTTP_HOST']]:
-            session_name = 'SESS%s' % hashlib.sha256(domain).hexdigest()[:32]
-            self.drupal_session_names.append(session_name)
+            domain_hash = hashlib.sha256(domain).hexdigest()[:32]
+            self.drupal_session_names.append('SESS%s' % domain_hash)
+            self.drupal_session_names.append('SSESS%s' % domain_hash)  # https
 
     def identify(self):
         ''' This does work around saml2 authorization.
@@ -133,7 +134,7 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def user(self, user_data):
         try:
-            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True}, {'id': user_data.name})
+            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True, 'keep_email': True}, {'id': user_data.name})
         except p.toolkit.ObjectNotFound:
             user = None
 

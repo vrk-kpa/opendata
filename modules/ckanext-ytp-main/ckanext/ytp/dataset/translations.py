@@ -10,6 +10,7 @@ def _translations():
     _("Tag string")
     _("Notes")
     _("Content type")
+    _("Owner org")
 
 
 def facet_translations():

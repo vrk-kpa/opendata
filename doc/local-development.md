@@ -1,7 +1,7 @@
 
 # Development in Vagrant
 
-We have setup Vagrant so that you can have the source codes and IDE on your native host machine, while running a full installation of the service in VirtualBox. Live changes can be made to the server from the host machine, as the project subdirectory modules/ is mapped as /src/ inside the virtual machine. After provisioning the virtual machine, it uses the static codes installed on the server (which you can ofcourse temporarily edit by SSHing into the server). To live-edit code from the host machine, you must manually choose to symlink individual modules to have the server use the code from the host machine.
+[We have setup Vagrant](local-installation.md) so that you can have the source codes and IDE on your native host machine, while running a full installation of the service in VirtualBox. Live changes can be made to the server from the host machine, as the project subdirectory modules/ is mapped as /src/ inside the virtual machine. After provisioning the virtual machine, it uses the static codes installed on the server (which you can ofcourse temporarily edit by SSHing into the server). To live-edit code from the host machine, you must manually choose to symlink individual modules to have the server use the code from the host machine.
 
 Look at individual instructions for each project at Github project page.
 

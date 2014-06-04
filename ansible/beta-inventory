@@ -1,6 +1,6 @@
 
 [webserver]
-notavailable.avoindata.fi
+ec2-54-72-23-135.eu-west-1.compute.amazonaws.com
 
 [webserver:vars]
 secret_variables=variables-beta.yml

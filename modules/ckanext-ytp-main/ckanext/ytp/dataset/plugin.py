@@ -13,7 +13,7 @@ from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url, 
 import types
 import re
 import logging
-from ckanext.ytp.dataset.helpers import service_database_enabled
+from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema
 
 
@@ -370,4 +370,5 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'service_database_enabled': service_database_enabled,
                 'clean_extras': self._clean_extras,
                 'get_package': self._get_package,
-                'resource_display_name': self._resource_display_name}
+                'resource_display_name': self._resource_display_name,
+                'get_json_value': get_json_value}
