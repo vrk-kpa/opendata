@@ -1,12 +1,14 @@
+[dbserver:vars]
+secret_variables=variables-alpha.yml
 
 [webserver]
-alpha.avoindata.fi
+ec2-54-76-128-98.eu-west-1.compute.amazonaws.com
 
 [webserver:vars]
 secret_variables=variables-alpha.yml
 
 [dbserver]
-alpha.avoindata.fi
+ec2-54-76-104-30.eu-west-1.compute.amazonaws.com
 
 [dbserver:vars]
 secret_variables=variables-alpha.yml
