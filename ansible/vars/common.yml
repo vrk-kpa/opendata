@@ -89,3 +89,5 @@ error_email: "{{ admin_email }}"
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
+
+basic_auth_path: false

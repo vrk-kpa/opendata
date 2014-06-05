@@ -9,6 +9,12 @@
 - include: ssl.yml
   when: ssl_path != false
 
+- name: Generate basic auth file
+  template: src=htpasswd.j2 dest="{{ basic_auth_path }}" mode=0640 owner=root group="{{ www_group }}"
+  when: basic_auth_path != false
+  tags:
+    - nginx
+
 - name: Copy Nginx configuration
   template: src=nginx.j2 dest=/etc/nginx/sites-available/ytp mode=0644 owner=root group=root
   tags:

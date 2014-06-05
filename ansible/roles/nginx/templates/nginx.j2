@@ -26,6 +26,11 @@ server {
     root /var/www/ytp;
     client_max_body_size 100M;
     gzip_static on;
+    
+    {% if basic_auth_path -%}
+    auth_basic "Restricted";
+    auth_basic_user_file {{ basic_auth_path }};
+    {%- endif %}
 
     {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
     {% if vagrant is defined %}
