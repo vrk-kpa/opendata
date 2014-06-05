@@ -40,7 +40,9 @@ all_paths:
   - "{{ log_path }}"
   - "{{ static_path }}"
 
-drupal_hostname: "{{ inventory_hostname }}"
+hostname: "{{ inventory_hostname }}"
+secondary_hostname: 127.0.0.1
+secondary_hostname_language: en
 
 drupal_editor_rolename: editor
 drupal_publisher_rolename: publisher
@@ -68,9 +70,6 @@ ckan_admins:
   - "{{ admin.username }}"
   - "{{ harvest_user.username }}"
   - "test-editor"
-
-secondary_hostname: 127.0.0.1
-secondary_hostname_language: en
 
 ckan_ini: /etc/ckan/default/production.ini
 virtual_environment: /usr/lib/ckan/default
