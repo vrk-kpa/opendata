@@ -93,3 +93,4 @@ google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
 certificates_path: "/etc/ssl/opendata"
 
+basic_auth_path: false
