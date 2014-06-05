@@ -25,7 +25,11 @@ who.log_file = %(cache_dir)s/who_log.ini
 
 sqlalchemy.url = postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ ckan_database_host }}/{{ ckan_database_name }}
 
-ckan.site_url = http://{{ hostname }} 
+{% if ssl_path -%}
+ckan.site_url = https://{{ hostname }}
+{%- else -%}
+ckan.site_url = http://{{ hostname }}
+{%- endif %} 
 
 ckan.auth.anon_create_dataset = false
 ckan.auth.create_unowned_dataset = false
@@ -119,6 +123,8 @@ googleanalytics.type = {{ google_analytics.type }}
 {%- endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
+
+solr_url = http://{{ solr_host }}:{{ solr_port }}/solr
 
 [loggers]
 

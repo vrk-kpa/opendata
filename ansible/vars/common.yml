@@ -2,6 +2,9 @@
 
 # Database hostname is the first database under dbserver group in Ansible inventory file
 database_host: "{{ hostvars[groups['dbserver'][0]]['inventory_hostname'] }}"
+solr_host: "127.0.0.1"
+solr_port: "8983"
+
 # Database is expected to be in the same subnet as the webservers
 database_ip_range: "{% if vagrant is defined %}10.0.0.0/8{% else %}172.16.0.0/12{% endif %}"
 database_port: 5432
@@ -88,3 +91,5 @@ error_email: "{{ admin_email }}"
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
+certificates_path: "/etc/ssl/opendata"
+

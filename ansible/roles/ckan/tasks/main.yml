@@ -80,6 +80,12 @@
   - apache
   - ckan
 
+- name: Copy ports configuration
+  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf mode=0644 owner=root group=root
+  tags:
+  - apache
+  - ckan
+
 - name: Copy Apache configuration
   template: src=apache2.j2 dest=/etc/apache2/sites-available/ytp mode=0644 owner=root group=root
   tags:
