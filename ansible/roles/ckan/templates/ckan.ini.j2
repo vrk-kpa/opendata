@@ -89,11 +89,26 @@ ckanext.ytp.dataset.service_database_enabled = {% if service_database_enabled -%
 ckanext.ytp.theme.logos = default:opendata_fi_alpha.png alpha.avoindata.fi:avoindata_fi_alpha.png beta.avoindata.fi:avoindata_fi_beta.png www.avoindata.fi:avoindata_fi.png avoindata.fi:avoindata_fi.png alpha.opendata.fi:opendata_fi_alpha.png beta.opendata.fi:opendata_fi_beta.png www.opendata.fi:opendata_fi.png opendata.fi:opendata_fi.png
 
 # 2.1 filestore:
-ofs.impl = pairtree
 ofs.storage_dir = {{ ckan_files_path }}
 
 # 2.2 filestore:
 ckan.storage_path = {{ ckan_files_path }}
+
+{% if not aws_access_key -%}
+
+ofs.impl = pairtree
+
+{%- else -%}
+
+ofs.impl = s3
+ofs.aws_access_key_id = {{ aws_access_key }}
+ofs.aws_secret_access_key = {{ aws_secret_key }}
+
+# ckanext.s3archive.access_key = {{ aws_access_key }}
+# ckanext.s3archive.secret_key = {{ aws_secret_key }}
+# ckanext.s3archive.bucket = {{ s3_ckan_name }}
+
+{%- endif %}
 
 {% if google_analytics -%}
 googleanalytics.id = {{ google_analytics.id }}
