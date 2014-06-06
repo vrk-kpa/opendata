@@ -26,6 +26,7 @@
     - nginx
     - postfix
     - jetty
+    - redis
     - ckan
     - drupal
     - clamav

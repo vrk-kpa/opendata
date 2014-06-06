@@ -16,8 +16,6 @@ ckan_extensions:
   - ckanext-ytp-main
   - ckanext-googleanalytics
 
-redis_hostname: localhost
-redis_port: 6379
 redis_harvest_database: 0
 redis_celery_database: 1
 

@@ -1,11 +1,10 @@
 ---
 
-# TODO: Redis and Supervisor should be separated
+# TODO: Supervisor should be separated
 
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - redis-server
     - python-pip
     - supervisor
     - python-dev 
@@ -108,6 +107,7 @@
 
 - name: Setup CKAN configuration
   template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode=0640 owner=root group="{{ www_group }}"
+  register: ckan_configuration
   tags:
   - ckan
 
@@ -282,7 +282,7 @@
 
 - name: Ensure supervisor services are restarted
   supervisorctl: name={{ item }} state=restarted
-  when: supervisor_configuration|changed or modules_install|changed
+  when: supervisor_configuration|changed or modules_install|changed or ckan_configuration|changed
   with_flattened:
     - supervisor_services
   tags:

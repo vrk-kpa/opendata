@@ -8,12 +8,3 @@
   ignore_errors: True
   tags:
   - clean
-
-- name: Remove old Jetty installations
-  apt: pkg="{{ item }}" state=absent
-  with_items:
-    - solr-common
-    - solr-jetty
-  when: solr_host != "127.0.0.1"
-  tags:
-  - clean

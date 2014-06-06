@@ -16,6 +16,7 @@
     - common
     - database
     - jetty
+    - redis
     - nfs_server
     - postfix
     - clamav
