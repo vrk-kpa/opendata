@@ -4,6 +4,7 @@ from ckan import plugins, model
 from webhelpers.html.tags import link_to, literal
 from ckan.lib import helpers
 from ckan.common import c
+from ckan.config.routing import SubMapper
 
 
 def _get_user_image(user):
@@ -71,6 +72,7 @@ class YtpUserPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IRoutes, inherit=True)
 
     default_domain = None
 
@@ -92,3 +94,12 @@ class YtpUserPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         return {'user_update': logic.action_user_update, 'user_show': logic.action_user_show, 'user_list': logic.action_user_list}
+
+    def before_map(self, map):
+        # Remap user edit to our user controller
+        user_controller = 'ckanext.ytp.user.controller:YtpUserController'
+        with SubMapper(map, controller=user_controller) as m:
+            m.connect('/user/edit', action='edit')
+            m.connect('/user/edit/{id:.*}', action='edit')
+
+        return map
