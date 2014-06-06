@@ -285,14 +285,24 @@
   when: supervisor_configuration|changed or modules_install|changed
   with_flattened:
     - supervisor_services
+  tags:
+  - ckan
 
 - name: Ensure supervisor services are started
   supervisorctl: name={{ item }} state=started
   with_flattened:
     - supervisor_services
+  tags:
+  - ckan
 
 - name: Ensure harvester cron job
   cron: name="harvest" minute="*/5" hour="0-6" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
+
+- name: Reindex
+  shell: touch "{{ files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}" creates="{{ files_root }}/.solr-reindex"
+  tags:
+  - ckan
+  - non-local

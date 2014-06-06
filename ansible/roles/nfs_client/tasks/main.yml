@@ -1,0 +1,40 @@
+---
+
+- name: Install NFS
+  apt: pkg="nfs-common" state=latest
+  tags:
+  - nfs_client
+
+- name: Backup old files
+  command: mv "{{ files_root }}" "{{ files_root }}_backup" creates="{{ files_root }}/.migrated" removes="{{ files_root }}"
+  tags:
+  - nfs_client
+
+- name: Make shared path
+  file: path="{{ files_root }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  tags:
+  - nfs_client
+
+- name: Ensure shared path is mounted
+  mount: name="{{ files_root }}" src="{{ database_host }}:{{ nfs_shared_path }}" fstype=nfs state=mounted
+  tags:
+  - nfs_client
+
+- name: Prevent remigration
+  command: touch {{ files_root }}/.migrated creates="{{ files_root }}/.migrated"
+  register: prevent_migration
+  tags:
+  - nfs_client
+
+- name: Migrate old files
+  command: cp -a "{{ files_root }}_backup/." "{{ files_root }}/" removes="{{ files_root }}_backup"
+  register: nfs_migration
+  when: prevent_migration|changed
+  tags:
+  - nfs_client
+
+- name: Ensure migrated ownership
+  shell: chown {{ www_user }}:{{ www_group }} "{{ files_root }}" && chmod -R u+rwX,g+rwX,o-rwx "{{ files_root }}"
+  when: nfs_migration|changed
+  tags:
+  - nfs_client

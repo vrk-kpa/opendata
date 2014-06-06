@@ -18,7 +18,8 @@
     - clean
     - common
     - database
-    - s3
+    - nfs_server
+    - nfs_client
     - common_webserver
     - ssl
     - nginx

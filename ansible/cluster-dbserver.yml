@@ -15,5 +15,8 @@
     - clean
     - common
     - database
-    - s3
+    - jetty
+    - nfs_server
     - postfix
+    - clamav
+

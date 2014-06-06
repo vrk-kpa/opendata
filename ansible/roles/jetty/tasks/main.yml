@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure jetty is installed
+- name: Ensure Jetty requirements
   apt: pkg="{{ item }}" state=latest
   with_items:
     - openjdk-7-jdk
