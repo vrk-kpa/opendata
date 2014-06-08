@@ -1,14 +1,17 @@
 
 # Automated deployment using Git, Ansible and CloudFormation
 
-	virtualenv env-aws
-	source env-aws/bin/activate
-	pip install boto
+    sudo pip install boto
+    sudo pip install ansible
 
-	cp secrets-example.txt secrets.py
-	nano secrets.py
-	# Fill in the blanks
-	
-	# Copy Git-accessible key to working directory with filename set in settings.py
-	
-	python deploy.py
+    cp secrets-example.txt secrets.py
+    nano secrets.py
+    # Fill in the blanks
+
+    nano ~/.ssh/config
+    # Host *
+    # StrictHostKeyChecking no
+    # UserKnownHostsFile=/dev/null
+    chmod go-rwx ~/.ssh/config
+    
+    python deploy.py

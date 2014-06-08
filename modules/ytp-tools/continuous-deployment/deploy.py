@@ -53,7 +53,7 @@ class ContinuousDeployer:
                 log.error("Failed to get commit details")
                 raise
 
-            subprocess.call(["ssh-agent bash -c 'ssh-add " + settings.keyfilename + "; cd " +
+            subprocess.call(["ssh-agent bash -c 'ssh-add " + secrets.git_keyfile + "; cd " +
                             self.deploy_path + "/ytp/ansible/vars; git clone " + settings.git_url_secrets + "'"],
                             shell=True, stdout=devnull, stderr=devnull)
 
@@ -77,8 +77,8 @@ class ContinuousDeployer:
         """Wait for cloudformation to create the stack. Crude waiting done by polling, could be replaced with SNS."""
 
         log.debug("Waiting for stack to come up")
-        slept = 0
-        while slept < settings.cloudformation_create_timeout:
+        started_waiting = time.time()
+        while time.time()-started_waiting < settings.cloudformation_create_timeout:
             try:
                 events = self.cloudform.describe_stack_events(stack_name_or_id=self.deploy_id)
 
@@ -86,12 +86,10 @@ class ContinuousDeployer:
                    events[0].resource_type == "AWS::CloudFormation::Stack" and
                    events[0].logical_resource_id == self.deploy_id and
                    events[0].resource_status == "CREATE_COMPLETE"):
-                    log.debug("Stack is now ready")
+                    log.debug("Stack is now ready (took {0} seconds)".format(int(time.time()-started_waiting)))
                     return
             except boto.exception.BotoServerError:
                 log.warning("Server error, maybe stack does not exist yet")
-
-            slept += settings.cloudformation_create_pollrate
             time.sleep(settings.cloudformation_create_pollrate)
         return
 
@@ -106,7 +104,7 @@ class ContinuousDeployer:
                 output_dict[output.key] = output.value
 
             log.debug("Generating inventory file")
-            with open(self.deploy_path + "/generated-inventory", "w") as inventory:
+            with open(self.deploy_path + "/ytp/ansible/auto-generated-inventory", "w") as inventory:
                 inventory.write("[webserver]\n" + output_dict['PublicDNSWeb'] +
                                 "\n\n[webserver:vars]\nsecret_variables=variables-alpha.yml\n\n" +
                                 "[dbserver]\n" + output_dict['PublicDNSDb'] +
@@ -114,6 +112,14 @@ class ContinuousDeployer:
         except:
             log.error("Failed to generate inventory")
             raise
+
+    def test_ansible_connection(self):
+        """Test whether the machines in the inventory file can be accessed."""
+
+        log.debug("Testing connection with Ansible")
+        subprocess.call(["ansible-playbook --private-key=" + secrets.aws_keyfile + " -i " + self.deploy_path +
+                        "/ytp/ansible/auto-generated-inventory --user=ubuntu connection-test.yml"], shell=True)
+        return
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -134,8 +140,8 @@ if __name__ == "__main__":
     deploy.create_infrastructure_stack(settings.cloudformation_templatefile)
     deploy.wait_for_stack_creation()
     deploy.generate_inventory_file()
-
-    # deploy.cleanup()
+    deploy.test_ansible_connection()
+    deploy.cleanup()
 
     # deploy with ansible and dynamic inventory
     # wait for deployment

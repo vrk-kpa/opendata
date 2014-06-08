@@ -24,7 +24,7 @@
 
   "Mappings" : {
     "RegionMap" : {
-      "eu-west-1": { "AMI" : "ami-24506250" }
+      "eu-west-1": { "AMI" : "ami-04d12673" }
     }
   },
 
