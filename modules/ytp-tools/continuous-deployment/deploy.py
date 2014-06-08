@@ -14,7 +14,7 @@ import secrets
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+log.setLevel(logging.DEBUG)
 
 
 class ContinuousDeployer:
@@ -28,11 +28,8 @@ class ContinuousDeployer:
 
     def __init__(self, project_prefix):
         self.deploy_id = "cd-" + project_prefix + "-" + str(int(time.time() * 1000))
-        log.debug("Deployment ID: " + deploy.deploy_id)
+        log.debug("Deployment ID: " + self.deploy_id)
         self.deploy_path = settings.relative_cache_path + self.deploy_id
-        self.ec2 = boto.ec2.connect_to_region(settings.region,
-                                              aws_access_key_id=secrets.aws_access_key_id,
-                                              aws_secret_access_key=secrets.aws_secret_access_key)
         self.cloudform = boto.cloudformation.connect_to_region(settings.region,
                                                                aws_access_key_id=secrets.aws_access_key_id,
                                                                aws_secret_access_key=secrets.aws_secret_access_key)
@@ -46,6 +43,7 @@ class ContinuousDeployer:
         """Clone and extract sources and store last commit information."""
 
         with open(os.devnull, "w") as devnull:
+            log.debug("Fetching sources from git")
             subprocess.call(["git", "clone", settings.git_url_ytp], cwd=self.deploy_path, stdout=devnull, stderr=devnull)
 
             try:
@@ -67,6 +65,7 @@ class ContinuousDeployer:
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
 
+        log.debug("Creating infrastructure to AWS using cloudformation template")
         with open(settings.relative_template_path + template_filename, "r") as template_file:
             template = template_file.read()
 
@@ -77,6 +76,7 @@ class ContinuousDeployer:
     def wait_for_stack_creation(self):
         """Wait for cloudformation to create the stack. Crude waiting done by polling, could be replaced with SNS."""
 
+        log.debug("Waiting for stack to come up")
         slept = 0
         while slept < settings.cloudformation_create_timeout:
             try:
@@ -94,6 +94,26 @@ class ContinuousDeployer:
             slept += settings.cloudformation_create_pollrate
             time.sleep(settings.cloudformation_create_pollrate)
         return
+
+    def generate_inventory_file(self):
+        """Generate a static inventory file from cloudformation outputs."""
+
+        try:
+            log.debug("Fetching cloudformation outputs")
+            outputs = self.cloudform.describe_stacks(stack_name_or_id=self.deploy_id)[0].outputs
+            output_dict = {}
+            for output in outputs:
+                output_dict[output.key] = output.value
+
+            log.debug("Generating inventory file")
+            with open(self.deploy_path + "/generated-inventory", "w") as inventory:
+                inventory.write("[webserver]\n" + output_dict['PublicDNSWeb'] +
+                                "\n\n[webserver:vars]\nsecret_variables=variables-alpha.yml\n\n" +
+                                "[dbserver]\n" + output_dict['PublicDNSDb'] +
+                                "\n\n[dbserver:vars]\nsecret_variables=variables-alpha.yml\n\n")
+        except:
+            log.error("Failed to generate inventory")
+            raise
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -113,7 +133,9 @@ if __name__ == "__main__":
     deploy.prepare_sources()
     deploy.create_infrastructure_stack(settings.cloudformation_templatefile)
     deploy.wait_for_stack_creation()
-    deploy.cleanup()
+    deploy.generate_inventory_file()
+
+    # deploy.cleanup()
 
     # deploy with ansible and dynamic inventory
     # wait for deployment
