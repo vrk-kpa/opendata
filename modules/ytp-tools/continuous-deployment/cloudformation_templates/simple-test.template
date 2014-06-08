@@ -33,9 +33,9 @@
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "KeyName" : { "Ref" : "KeyName" },
-        "InstanceType" : "t1.micro",
+        "InstanceType" : "m3.medium",
+        "SecurityGroups" : ["ytp-autodeploy"],
         "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
-        "UserData" : { "Fn::Base64" : "80" },
         "Tags": [{ "Key" : "Name", "Value" : {"Fn::Join" : [ "-", [ { "Ref" : "DeploymentId" }, "web" ] ]} },{ "Key" : "DeploymentRole", "Value" : "webserver" }]
       }
     },
@@ -43,9 +43,9 @@
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "KeyName" : { "Ref" : "KeyName" },
-        "InstanceType" : "t1.micro",
+        "InstanceType" : "m3.medium",
+        "SecurityGroups" : ["ytp-autodeploy"],
         "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
-        "UserData" : { "Fn::Base64" : "80" },
         "Tags": [{ "Key" : "Name", "Value" : {"Fn::Join" : [ "-", [ { "Ref" : "DeploymentId" }, "db" ] ]} },{ "Key" : "DeploymentRole", "Value" : "dbserver" }]
 
       }

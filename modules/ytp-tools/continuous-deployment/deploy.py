@@ -65,7 +65,7 @@ class ContinuousDeployer:
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
 
-        log.debug("Creating infrastructure to AWS using cloudformation template")
+        log.debug("Creating infrastructure based on template " + template_filename)
         with open(settings.relative_template_path + template_filename, "r") as template_file:
             template = template_file.read()
 
@@ -113,13 +113,20 @@ class ContinuousDeployer:
             log.error("Failed to generate inventory")
             raise
 
-    def test_ansible_connection(self):
-        """Test whether the machines in the inventory file can be accessed."""
+    def run_playbook(self, playbookfile):
+        """Run a playbook."""
 
-        log.debug("Testing connection with Ansible")
-        subprocess.call(["ansible-playbook --private-key=" + secrets.aws_keyfile + " -i " + self.deploy_path +
-                        "/ytp/ansible/auto-generated-inventory --user=ubuntu connection-test.yml"], shell=True)
-        return
+        log.debug("Running playbook " + playbookfile)
+        start_time = time.time()
+        try:
+            with open(self.deploy_path+"/playbooklog-"+playbookfile+"-"+str(time.time())+"-std.log", "w") as logfile_std:
+                with open(self.deploy_path+"/playbooklog-"+playbookfile+"-"+str(time.time())+"-err.log", "w") as logfile_err:
+                   subprocess.call(["ansible-playbook --private-key=" + secrets.aws_keyfile + " -i auto-generated-inventory --user=ubuntu " + playbookfile],
+                                    shell=True, cwd=self.deploy_path+"/ytp/ansible", stdout=logfile_std, stderr=logfile_err)
+        except:
+            log.error("Failed running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
+            raise
+        log.debug("Finished running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -128,8 +135,8 @@ class ContinuousDeployer:
             self.cloudform.delete_stack(self.deploy_id)
         except:
             log.warning("Failed to delete stack, something might be left running in AWS!")
-        log.debug("Removing all temporary files")
-        shutil.rmtree(self.deploy_path)
+        log.debug("Removing source files")
+        shutil.rmtree(self.deploy_path+"/ytp")
 
 
 if __name__ == "__main__":
@@ -140,13 +147,16 @@ if __name__ == "__main__":
     deploy.create_infrastructure_stack(settings.cloudformation_templatefile)
     deploy.wait_for_stack_creation()
     deploy.generate_inventory_file()
-    deploy.test_ansible_connection()
+
+    deploy.run_playbook("connection-test.yml")
+    deploy.run_playbook("cluster-dbserver.yml")
+    deploy.run_playbook("cluster-webserver.yml")
+    # total running time 45 mins on small, 25 mins on medium equally split between servers    
+
     deploy.cleanup()
 
-    # deploy with ansible and dynamic inventory
-    # wait for deployment
+    # TODO:
     # if deploy comes up, run basic tests
     # if ok, run incremental deployment
-    # wait
     # if deploy comes up, run basic tests
     # report and cleanup
