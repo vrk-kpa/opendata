@@ -163,9 +163,9 @@
     {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder=_('eg. Open Data'), value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs, is_required=true) }}
 
     {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
-        <input id="valid_from" type="date" name="valid_from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+      {{ ytp_form.date('valid_from', value=data.valid_from | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
         -
-        <input id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+      {{ ytp_form.date('valid_till', value=data.valid_till | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
     {% endcall %}
 
     {{ ytp_form.input_multiple('extra_information', id='field-extra_information', label=_('Extra information at website'), value=data.extra_information, placeholder=_("http://www.example.com/"), error=errors.extra_information) }}

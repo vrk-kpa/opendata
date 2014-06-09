@@ -56,6 +56,7 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/f772576d3c480f654c39ecaeb72feb423450f200.patch", file: "fix_invalid_date_indexing.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7df6cfc5ed044f8a4cf56c2e727522276f6a90c6.patch", file: "fix_organization_listing.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5e686b87289fbf9824dfa42468186b8cd7ba48a2.patch", file: "fix_multilingual_search.patch" }
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9dd308b648cbf3de3211d4accac835ebcd5f71f1.patch", file: "upgrade_minified_jquery.patch" }
 
 spatial_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/08e967ae7ce77e0591c5bda40e581695e28cf63c.patch", file: "add_configuration.patch" }

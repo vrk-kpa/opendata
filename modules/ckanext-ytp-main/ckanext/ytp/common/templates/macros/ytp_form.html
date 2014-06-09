@@ -102,3 +102,8 @@
         {% endfor %}
     {% endcall %}
 {% endmacro %}
+
+{% macro date(name, id='', label='', value='', placeholder='', type='text', error='', classes=[], attrs={}, is_required=false) %}
+  {% resource 'ytp_common_js/ytp_form.js' %}
+  <input class="form-control" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
+{% endmacro %}

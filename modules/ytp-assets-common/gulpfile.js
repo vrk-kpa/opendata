@@ -85,6 +85,10 @@ gulp.task('bootstrap', function(){
       .pipe(gulp.dest(paths.dist + '/vendor'))
 });
 
+gulp.task('vendor', function(){
+    return gulp.src(paths.src.root + '/vendor/*')
+    .pipe(gulp.dest(paths.dist + '/vendor'))
+});
 
 gulp.task('config', function(){
     return gulp.src(paths.src.root + '/resource.config')
@@ -93,7 +97,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'config', 'less', 'templates', 'static_pages', 'images', 'fonts'],
+              ['bootstrap', 'vendor','config', 'less', 'templates', 'static_pages', 'images', 'fonts'],
               callback);
 });
 
