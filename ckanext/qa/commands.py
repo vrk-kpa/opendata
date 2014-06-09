@@ -152,7 +152,7 @@ class QACommand(p.toolkit.CkanCommand):
         for package in packages:
             plugin.create_qa_update_package_task(package, self.options.queue)
             self.log.info('Queuing dataset %s (%s resources)',
-                          package.name, len(pkg.resources))
+                          package.name, len(package.resources))
 
         for resource in resources:
             package = resource.resource_group.package

@@ -49,7 +49,6 @@ class QA(Base):
         result['value'] = self.openness_score
         result['last_updated'] = self.created
 
-        result['is_broken'] = self.is_broken
         result['format'] = self.format
         result['archiver_status'] = self.archiver_status
         result['reason'] = self.openness_score_reason
