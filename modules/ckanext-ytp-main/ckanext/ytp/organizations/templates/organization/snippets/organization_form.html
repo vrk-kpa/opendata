@@ -1,5 +1,6 @@
 {% ckan_extends %}
 
+{% import 'macros/ytp_form.html' as ytp_form %}
 {# Customizations for organization form #}
 
 {% block basic_fields %}
@@ -48,14 +49,13 @@
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
     <div class="row">
     <div class="col-sm-5">
-        <input class="form-control" id="valid_from" type="date" name="valid_from" value="{{ data.valid_from | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
-
+        {{ ytp_form.date('valid_from', value=data.valid_from | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
     </div>
         <div class="col-sm-1">
         -
         </div>
     <div class="col-sm-5">
-    <input class="form-control" id="valid_till" type="date" name="valid_till" value="{{ data.valid_till | empty_and_escape }}" placeholder="{%- trans -%}YYYY-MM-DD{%- endtrans -%}" />
+      {{ ytp_form.date('valid_till', value=data.valid_till | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
     </div>
     </div>
 {% endcall %}

@@ -54,6 +54,19 @@
   tags:
     - drupal
 
+- name: Create vendor js directory
+  file: path="{{ drupal_theme_path }}/ytp_theme/vendor" state=directory
+  tags:
+    - drupal
+
+- name: Symlink vendor js to drupal
+  command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/vendor/{{ item }}"
+  with_items:
+    - moment-with-langs.js
+    - bootstrap-datetimepicker.js
+  tags:
+    - drupal
+
 - name: Enable YTP theme
   command: drush en -y ytp_theme chdir="{{ drupal_root }}"
   tags:
