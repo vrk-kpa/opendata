@@ -1,0 +1,24 @@
+
+- name: Install redis
+  apt: pkg="redis-server" state=latest
+  tags:
+  - packages
+  - redis
+
+- name: Configure redis
+  lineinfile: dest=/etc/redis/redis.conf regexp="^bind " state="absent"
+  register: configure_redis
+  tags:
+  - redis
+
+- name: Restart redis
+  service: name=redis-server state=restarted
+  when: configure_redis|changed
+  tags:
+  - redis
+
+- name: Ensure redis is started
+  service: name=redis-server state=started
+  tags:
+  - redis
+

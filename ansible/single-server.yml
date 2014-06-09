@@ -6,6 +6,7 @@
   sudo: true
   vars:
     database_host: "127.0.0.1"
+    solr_host: "127.0.0.1"
     database_ip_range: "127.0.0.1/8"
   vars_files:
     - "vars/common.yml"
@@ -18,12 +19,14 @@
     - clean
     - common
     - database
-    - s3
+    - nfs_server
+    - nfs_client
     - common_webserver
     - ssl
     - nginx
     - postfix
     - jetty
+    - redis
     - ckan
     - drupal
     - clamav
