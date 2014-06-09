@@ -2,6 +2,7 @@
 
 import boto.exception
 import boto.cloudformation
+import boto.sns
 import time
 import os
 import shutil
@@ -12,7 +13,7 @@ import logging
 import settings
 import secrets
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s')
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
@@ -28,26 +29,36 @@ class ContinuousDeployer:
 
     def __init__(self, project_prefix):
         self.deploy_id = "cd-" + project_prefix + "-" + str(int(time.time() * 1000))
-        log.debug("Deployment ID: " + self.deploy_id)
         self.deploy_path = settings.relative_cache_path + self.deploy_id
-        self.cloudform = boto.cloudformation.connect_to_region(settings.region,
-                                                               aws_access_key_id=secrets.aws_access_key_id,
-                                                               aws_secret_access_key=secrets.aws_secret_access_key)
+        log.debug("Deployment ID: " + self.deploy_id)
         try:
             os.makedirs(self.deploy_path)
         except OSError:
             log.error("Failed to create cache directory for deployment")
             raise
 
+        file_logger = logging.FileHandler(self.deploy_path + '/deploy.log')
+        file_logger.setLevel(logging.DEBUG)
+        file_formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
+        file_logger.setFormatter(file_formatter)
+        log.addHandler(file_logger)
+
+        self.sns = boto.sns.connect_to_region(settings.region,
+                                              aws_access_key_id=secrets.aws_access_key_id,
+                                              aws_secret_access_key=secrets.aws_secret_access_key)
+        self.cloudform = boto.cloudformation.connect_to_region(settings.region,
+                                                               aws_access_key_id=secrets.aws_access_key_id,
+                                                               aws_secret_access_key=secrets.aws_secret_access_key)
+
     def prepare_sources(self):
         """Clone and extract sources and store last commit information."""
 
         with open(os.devnull, "w") as devnull:
-            log.debug("Fetching sources from git")
+            log.info("Fetching sources from git")
             subprocess.call(["git", "clone", settings.git_url_ytp], cwd=self.deploy_path, stdout=devnull, stderr=devnull)
 
             try:
-                git_log_format = "--pretty=format:{\"CommitId\":\"%H\",\"CommitDetails\":\"%an %ad %f\"}"
+                git_log_format = "--pretty=format:{\"CommitId\":\"%H\",\"CommitDetails\":\"%an %f %ad\"}"
                 self.commit_details = json.loads(subprocess.check_output(["git", "log", "-1", git_log_format], cwd=self.deploy_path+"/ytp"))
             except:
                 log.error("Failed to get commit details")
@@ -65,13 +76,14 @@ class ContinuousDeployer:
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
 
-        log.debug("Creating infrastructure based on template " + template_filename)
+        log.info("Creating infrastructure based on template " + template_filename)
         with open(settings.relative_template_path + template_filename, "r") as template_file:
             template = template_file.read()
 
         stack_parameters = [("KeyName", secrets.aws_instance_key_name), ("DeploymentId", self.deploy_id)]
 
         self.cloudform.create_stack(self.deploy_id, template_body=template, parameters=stack_parameters, tags=self.commit_details, timeout_in_minutes=10)
+        log.debug("Successfully requested for stack")
 
     def wait_for_stack_creation(self):
         """Wait for cloudformation to create the stack. Crude waiting done by polling, could be replaced with SNS."""
@@ -103,7 +115,7 @@ class ContinuousDeployer:
             for output in outputs:
                 output_dict[output.key] = output.value
 
-            log.debug("Generating inventory file")
+            log.info("Generating inventory file")
             with open(self.deploy_path + "/ytp/ansible/auto-generated-inventory", "w") as inventory:
                 inventory.write("[webserver]\n" + output_dict['PublicDNSWeb'] +
                                 "\n\n[webserver:vars]\nsecret_variables=variables-alpha.yml\n\n" +
@@ -116,17 +128,34 @@ class ContinuousDeployer:
     def run_playbook(self, playbookfile):
         """Run a playbook."""
 
-        log.debug("Running playbook " + playbookfile)
+        log.info("Running playbook " + playbookfile)
         start_time = time.time()
         try:
-            with open(self.deploy_path+"/playbooklog-"+playbookfile+"-"+str(time.time())+"-std.log", "w") as logfile_std:
-                with open(self.deploy_path+"/playbooklog-"+playbookfile+"-"+str(time.time())+"-err.log", "w") as logfile_err:
-                   subprocess.call(["ansible-playbook --private-key=" + secrets.aws_keyfile + " -i auto-generated-inventory --user=ubuntu " + playbookfile],
-                                    shell=True, cwd=self.deploy_path+"/ytp/ansible", stdout=logfile_std, stderr=logfile_err)
+            with open(self.deploy_path+"/"+playbookfile+"-"+str(time.time())+"-std.log", "w") as logfile_std:
+                with open(self.deploy_path+"/"+playbookfile+"-"+str(time.time())+"-err.log", "w") as logfile_err:
+                    return_code = subprocess.call(["ansible-playbook --private-key=" + secrets.aws_keyfile + " -i auto-generated-inventory --user=ubuntu " +
+                                                  playbookfile], shell=True, cwd=self.deploy_path+"/ytp/ansible", stdout=logfile_std, stderr=logfile_err)
+                    if return_code != 0:
+                        raise Exception("Running the playbook returned code", return_code)
+                    log.debug("Finished running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
         except:
             log.error("Failed running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
-            raise
-        log.debug("Finished running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
+            log.error("Ansible logs:\n" + subprocess.check_output(["tail -n 15 " + playbookfile + "*.log"], shell=True, cwd=self.deploy_path))
+
+    def send_report(self):
+        """Send deployment report as SNS, which can be subscribed with email etc from AWS console."""
+
+        log.debug("Preparing report")
+        title = "[{0}] Deploy {1}".format(settings.project_prefix, self.deploy_id)
+        message = "Deployment report {0} - {1}\n\n".format(self.deploy_id, time.strftime("%c"))
+
+        try:
+            title = "[{0}] Deploy ({1})".format(settings.project_prefix, self.commit_details["CommitDetails"])
+        except:
+            log.error("Failed to get commit details")
+
+        message += subprocess.check_output(["tail -n 50 deploy.log"], shell=True, cwd=self.deploy_path)
+        self.sns.publish(secrets.aws_arn, message, title)
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -136,24 +165,29 @@ class ContinuousDeployer:
         except:
             log.warning("Failed to delete stack, something might be left running in AWS!")
         log.debug("Removing source files")
-        shutil.rmtree(self.deploy_path+"/ytp")
+        shutil.rmtree(self.deploy_path + "/ytp")
 
 
 if __name__ == "__main__":
 
     deploy = ContinuousDeployer(settings.project_prefix)
 
-    deploy.prepare_sources()
-    deploy.create_infrastructure_stack(settings.cloudformation_templatefile)
-    deploy.wait_for_stack_creation()
-    deploy.generate_inventory_file()
+    try:
+        deploy.prepare_sources()
+        deploy.create_infrastructure_stack(settings.cloudformation_templatefile)
+        deploy.wait_for_stack_creation()
+        deploy.generate_inventory_file()
 
-    deploy.run_playbook("connection-test.yml")
-    deploy.run_playbook("cluster-dbserver.yml")
-    deploy.run_playbook("cluster-webserver.yml")
-    # total running time 45 mins on small, 25 mins on medium equally split between servers    
+        deploy.run_playbook("connection-test.yml")
+        deploy.run_playbook("cluster-dbserver.yml")
+        deploy.run_playbook("cluster-webserver.yml")
 
-    deploy.cleanup()
+        deploy.send_report()
+        deploy.cleanup()
+
+    except Exception, e:
+        import traceback
+        deploy.sns.publish(secrets.aws_arn, str(traceback.print_exc()) + str(e), "Auto-deployment script failed")
 
     # TODO:
     # if deploy comes up, run basic tests
