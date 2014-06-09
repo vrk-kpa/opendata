@@ -66,7 +66,6 @@ class ContinuousDeployer:
             except:
                 log.error("Failed to get commit details")
                 raise
-
             try:
                 subprocess.call(["ssh-agent bash -c 'ssh-add " + secrets.git_keyfile + "; cd " +
                                 self.deploy_path + "/ytp/ansible/vars; git clone " + settings.git_url_secrets + "'"],
@@ -78,7 +77,7 @@ class ContinuousDeployer:
                 process_extract.communicate(secrets.passphrase + "\n")
             except:
                 log.error("Failed to clone and decrypt ytp-secrets")
-                raise                
+                raise
 
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
@@ -146,7 +145,7 @@ class ContinuousDeployer:
                     log.debug("Finished running playbook {0} in {1} seconds".format(playbookfile, int(time.time()-start_time)))
         except:
             log.error("Failed running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
-            log.error("Ansible logs:\n" + subprocess.check_output(["tail -n 15 " + playbookfile + "*.log"], shell=True, cwd=self.deploy_path))
+            log.error("Ansible logs:\n" + subprocess.check_output(["tail -n 20 " + playbookfile + "*.log"], shell=True, cwd=self.deploy_path))
 
     def test_http(self, url):
         """Simple checks to see if deployment succeeded."""
@@ -158,15 +157,16 @@ class ContinuousDeployer:
         """Send deployment report as SNS, which can be subscribed with email etc from AWS console."""
 
         log.debug("Preparing report")
-        title = "[{0}] Deploy {1}".format(settings.project_prefix, self.deploy_id)
+        title = "Deploy finished: {0}".format(self.deploy_id)
         message = "Deployment report {0} - {1}\n\n".format(self.deploy_id, time.strftime("%c"))
 
         try:
-            title = "[{0}] Deploy ({1})".format(settings.project_prefix, self.commit_details["CommitDetails"])
-            message += subprocess.check_output(["tail -n 50 deploy.log"], shell=True, cwd=self.deploy_path)
+            title = "Deploy finished: {0}".format(self.commit_details["CommitDetails"])
+            message += subprocess.check_output(["tail -n 100 deploy.log"], shell=True, cwd=self.deploy_path)
         except:
             log.error("Failed to buildup report")
         self.sns.publish(topic=secrets.aws_arn, message=message, subject=title)
+        log.debug("Report sent")
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -208,4 +208,5 @@ if __name__ == "__main__":
 
     except Exception, e:
         import traceback
-        deploy.sns.publish(topic=secrets.aws_arn, message=base64.b64encode(traceback.format_exc()), subject="Auto-deployment script failed")
+        deploy.sns.publish(topic=secrets.aws_arn, message=base64.b64encode(traceback.format_exc()), subject="Deploy script failed")
+        raise
