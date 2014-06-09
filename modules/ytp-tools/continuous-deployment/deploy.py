@@ -3,12 +3,14 @@
 import boto.exception
 import boto.cloudformation
 import boto.sns
+import requests
 import time
 import os
 import shutil
 import subprocess
 import json
 import logging
+import base64
 
 import settings
 import secrets
@@ -26,6 +28,7 @@ class ContinuousDeployer:
     deploy_id = ""
     deploy_path = ""
     commit_details = None
+    cloudform_outputs = {}
 
     def __init__(self, project_prefix):
         self.deploy_id = "cd-" + project_prefix + "-" + str(int(time.time() * 1000))
@@ -64,14 +67,18 @@ class ContinuousDeployer:
                 log.error("Failed to get commit details")
                 raise
 
-            subprocess.call(["ssh-agent bash -c 'ssh-add " + secrets.git_keyfile + "; cd " +
-                            self.deploy_path + "/ytp/ansible/vars; git clone " + settings.git_url_secrets + "'"],
-                            shell=True, stdout=devnull, stderr=devnull)
+            try:
+                subprocess.call(["ssh-agent bash -c 'ssh-add " + secrets.git_keyfile + "; cd " +
+                                self.deploy_path + "/ytp/ansible/vars; git clone " + settings.git_url_secrets + "'"],
+                                shell=True, stdout=devnull, stderr=devnull)
 
-            process_extract = subprocess.Popen(["./secret.sh", "decrypt"],
-                                               cwd=self.deploy_path+"/ytp/ansible/vars/ytp-secrets",
-                                               stdin=subprocess.PIPE, stdout=devnull, stderr=devnull)
-            process_extract.communicate(secrets.passphrase + "\n")
+                process_extract = subprocess.Popen(["./secret.sh", "decrypt"],
+                                                   cwd=self.deploy_path+"/ytp/ansible/vars/ytp-secrets",
+                                                   stdin=subprocess.PIPE, stdout=devnull, stderr=devnull)
+                process_extract.communicate(secrets.passphrase + "\n")
+            except:
+                log.error("Failed to clone and decrypt ytp-secrets")
+                raise                
 
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
@@ -111,15 +118,14 @@ class ContinuousDeployer:
         try:
             log.debug("Fetching cloudformation outputs")
             outputs = self.cloudform.describe_stacks(stack_name_or_id=self.deploy_id)[0].outputs
-            output_dict = {}
             for output in outputs:
-                output_dict[output.key] = output.value
+                self.cloudform_outputs[output.key] = output.value
 
             log.info("Generating inventory file")
             with open(self.deploy_path + "/ytp/ansible/auto-generated-inventory", "w") as inventory:
-                inventory.write("[webserver]\n" + output_dict['PublicDNSWeb'] +
+                inventory.write("[webserver]\n" + self.cloudform_outputs['PublicDNSWeb'] +
                                 "\n\n[webserver:vars]\nsecret_variables=variables-alpha.yml\n\n" +
-                                "[dbserver]\n" + output_dict['PublicDNSDb'] +
+                                "[dbserver]\n" + self.cloudform_outputs['PublicDNSDb'] +
                                 "\n\n[dbserver:vars]\nsecret_variables=variables-alpha.yml\n\n")
         except:
             log.error("Failed to generate inventory")
@@ -137,10 +143,16 @@ class ContinuousDeployer:
                                                   playbookfile], shell=True, cwd=self.deploy_path+"/ytp/ansible", stdout=logfile_std, stderr=logfile_err)
                     if return_code != 0:
                         raise Exception("Running the playbook returned code", return_code)
-                    log.debug("Finished running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
+                    log.debug("Finished running playbook {0} in {1} seconds".format(playbookfile, int(time.time()-start_time)))
         except:
             log.error("Failed running playbook {0} after {1} seconds".format(playbookfile, int(time.time()-start_time)))
             log.error("Ansible logs:\n" + subprocess.check_output(["tail -n 15 " + playbookfile + "*.log"], shell=True, cwd=self.deploy_path))
+
+    def test_http(self, url):
+        """Simple checks to see if deployment succeeded."""
+
+        req = requests.get(url, verify=False)
+        log.debug("Server returned ok for " + url) if req.status_code == 200 else log.error("Server returned {0} for {1}".format(req.status_code, url))
 
     def send_report(self):
         """Send deployment report as SNS, which can be subscribed with email etc from AWS console."""
@@ -151,11 +163,10 @@ class ContinuousDeployer:
 
         try:
             title = "[{0}] Deploy ({1})".format(settings.project_prefix, self.commit_details["CommitDetails"])
+            message += subprocess.check_output(["tail -n 50 deploy.log"], shell=True, cwd=self.deploy_path)
         except:
-            log.error("Failed to get commit details")
-
-        message += subprocess.check_output(["tail -n 50 deploy.log"], shell=True, cwd=self.deploy_path)
-        self.sns.publish(secrets.aws_arn, message, title)
+            log.error("Failed to buildup report")
+        self.sns.publish(topic=secrets.aws_arn, message=message, subject=title)
 
     def cleanup(self):
         """Delete stack and clean up all local files created for this deployment."""
@@ -182,15 +193,19 @@ if __name__ == "__main__":
         deploy.run_playbook("cluster-dbserver.yml")
         deploy.run_playbook("cluster-webserver.yml")
 
+        deploy.test_http('http://' + deploy.cloudform_outputs['PublicDNSWeb'] + '/')
+        deploy.test_http('https://' + deploy.cloudform_outputs['PublicDNSWeb'] + '/data/fi/dataset')
+
+        log.info("Running playbooks again to test incremental configuration")
+        deploy.run_playbook("cluster-dbserver.yml")
+        deploy.run_playbook("cluster-webserver.yml")
+
+        deploy.test_http('http://' + deploy.cloudform_outputs['PublicDNSWeb'] + '/')
+        deploy.test_http('https://' + deploy.cloudform_outputs['PublicDNSWeb'] + '/data/fi/dataset')
+
         deploy.send_report()
         deploy.cleanup()
 
     except Exception, e:
         import traceback
-        deploy.sns.publish(secrets.aws_arn, str(traceback.print_exc()) + str(e), "Auto-deployment script failed")
-
-    # TODO:
-    # if deploy comes up, run basic tests
-    # if ok, run incremental deployment
-    # if deploy comes up, run basic tests
-    # report and cleanup
+        deploy.sns.publish(topic=secrets.aws_arn, message=base64.b64encode(traceback.format_exc()), subject="Auto-deployment script failed")
