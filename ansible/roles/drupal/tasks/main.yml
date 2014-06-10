@@ -114,6 +114,7 @@
 
     - views_bootstrap-7.x-3.x
     - strongarm
+    - sharethis
   tags:
   - drupal
 
@@ -158,6 +159,7 @@
 
     - views_bootstrap-7.x-3.x
     - strongarm
+    - sharethis
   tags:
   - drupal
 
