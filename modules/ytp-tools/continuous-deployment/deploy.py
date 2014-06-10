@@ -78,6 +78,17 @@ class ContinuousDeployer:
             except:
                 log.error("Failed to clone and decrypt ytp-secrets")
                 raise
+            try:
+                replace = [("alpha.avoindata.fi", self.deploy_id + ".avoindata.fi"),
+                           ("alpha.opendata.fi", self.deploy_id + ".opendata.fi"),
+                           ("-alpha", "-autodeploy")]
+                for pair in replace:
+                    subprocess.call(["sed -i 's/"+ pair[0] + "/" + pair[-1] + "/g' *.yml"],
+                                    cwd=self.deploy_path+"/ytp/ansible/vars/ytp-secrets",
+                                    shell=True, stdout=devnull, stderr=devnull)
+            except:
+                log.error("Failed to edit config vars for autodeployment")
+                raise
 
     def create_infrastructure_stack(self, template_filename):
         """Create an infrastructure stack based on a cloudformation template."""
@@ -150,8 +161,11 @@ class ContinuousDeployer:
     def test_http(self, url):
         """Simple checks to see if deployment succeeded."""
 
-        req = requests.get(url, verify=False)
-        log.debug("Server returned ok for " + url) if req.status_code == 200 else log.error("Server returned {0} for {1}".format(req.status_code, url))
+        try:
+            req = requests.get(url, verify=False)
+            log.debug("Server returned ok for " + url) if req.status_code == 200 else log.error("Server returned {0} for {1}".format(req.status_code, url))
+        except:
+            log.error("Failed to reach server at " + url)
 
     def send_report(self):
         """Send deployment report as SNS, which can be subscribed with email etc from AWS console."""

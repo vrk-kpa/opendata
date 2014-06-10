@@ -8,7 +8,7 @@
 
     "theme_default": "ytp_theme",
 
-    "language_negotiation_language" : {
+    "language_negotiation_language": {
         "locale-url": {
             "callbacks": {
                 "language": "locale_language_from_url",
@@ -67,6 +67,9 @@
     "user_cancel_method": "user_cancel_block_unpublish",
     "anonymous": "Anonymous",
 
-    "googleanalytics_privacy_donottrack": 0
+    "googleanalytics_privacy_donottrack": 0,
 
+    "sharethis_service_option": "\"Facebook:facebook\",\"Tweet:twitter\",\"LinkedIn:linkedin\",\"Email:email\"",
+    "sharethis_button_option": "stbc_",
+    "sharethis_late_load": 1
 }
