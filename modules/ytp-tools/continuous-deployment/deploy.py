@@ -83,7 +83,7 @@ class ContinuousDeployer:
                            ("alpha.opendata.fi", self.deploy_id + ".opendata.fi"),
                            ("-alpha", "-autodeploy")]
                 for pair in replace:
-                    subprocess.call(["sed -i 's/"+ pair[0] + "/" + pair[-1] + "/g' *.yml"],
+                    subprocess.call(["sed -i 's/" + pair[0] + "/" + pair[-1] + "/g' *.yml"],
                                     cwd=self.deploy_path+"/ytp/ansible/vars/ytp-secrets",
                                     shell=True, stdout=devnull, stderr=devnull)
             except:
