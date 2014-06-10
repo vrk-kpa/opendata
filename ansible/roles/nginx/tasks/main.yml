@@ -6,9 +6,6 @@
     - nginx
     - packages
 
-- include: ssl.yml
-  when: ssl_path != false
-
 - name: Generate basic auth file
   template: src=htpasswd.j2 dest="{{ basic_auth_path }}" mode=0640 owner=root group="{{ www_group }}"
   when: basic_auth_path != false

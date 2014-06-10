@@ -13,9 +13,10 @@
     - clean
     - common
     - common_webserver
+    - ssl
+    - nfs_client
     - nginx
     - postfix
-    - jetty
     - ckan
     - drupal
     - data

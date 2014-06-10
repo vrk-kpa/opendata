@@ -16,6 +16,12 @@ WSGISocketPrefix /var/run/wsgi
     ErrorLog /var/log/apache2/ckan_default.error.log
     CustomLog /var/log/apache2/ckan_default.custom.log combined
 
+    {% if ssl_path -%}
+    SSLEngine on
+    SSLCertificateFile      {{ certificates_path }}/server.crt
+    SSLCertificateKeyFile   {{ certificates_path }}/server.key
+    {%- endif %}
+
 </VirtualHost>
 
 {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}

@@ -1,0 +1,28 @@
+
+- name: Ensure SSL path access
+  file: path="/etc/ssl" state=directory mode=0755 owner=root group=root
+  when: ssl_path != false
+  tags:
+    - nginx
+    - ssl
+
+- name: Create SSL path
+  file: path="{{ certificates_path }}" state=directory mode=0755 owner=root group="{{ www_group }}"
+  when: ssl_path != false
+  tags:
+    - nginx
+    - ssl
+
+- name: Copy SSL certificate file
+  copy: src="{{ ssl_path }}/server.crt" dest={{ certificates_path }}/server.crt owner=root group="{{ www_group }}" mode=640
+  when: ssl_path != false
+  tags:
+    - nginx
+    - ssl
+
+- name: Copy SSL key file
+  copy: src="{{ ssl_path }}/server.key" dest={{ certificates_path }}/server.key owner=root group="{{ www_group }}" mode=640
+  when: ssl_path != false
+  tags:
+    - nginx
+    - ssl

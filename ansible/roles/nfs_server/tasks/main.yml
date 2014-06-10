@@ -1,0 +1,34 @@
+---
+
+- name: Install NFS
+  apt: pkg="nfs-kernel-server" state=latest
+  register: nfs_installed
+  tags:
+  - nfs_server
+
+- name: Make shared path
+  file: path="{{ nfs_shared_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  tags:
+  - nfs_server
+
+- name: Ensure shared path ownership
+  shell: chown {{ www_user }}:{{ www_group }} "{{ nfs_shared_path }}" && chmod -R u+rwX,g+rwX,o-rwx "{{ nfs_shared_path }}"
+  tags:
+  - nfs_server
+
+- name: Copy configuration
+  template: src=exports.j2 dest=/etc/exports mode=0644 owner=root group=root
+  register: nfs_exports
+  tags:
+  - nfs_server
+
+- name: Ensure NSF services is restarted
+  service: name="nfs-kernel-server" state=restarted
+  when: nfs_installed|changed or nfs_exports|changed
+  tags:
+  - nfs_server
+
+- name: Ensure NFS service is started
+  service: name="nfs-kernel-server" state=started
+  tags:
+  - nfs_server

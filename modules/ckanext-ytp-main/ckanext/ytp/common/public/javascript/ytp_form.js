@@ -168,3 +168,11 @@ $(document).ready(function() {
      });
 });
 
+
+$(document).ready(function(){
+    $('[data-datepicker]').each(function() {
+        $(this).datetimepicker({
+            pickTime: false
+        });
+    })
+});

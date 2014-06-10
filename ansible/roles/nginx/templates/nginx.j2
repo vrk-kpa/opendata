@@ -18,15 +18,15 @@ server {
     {% if ssl_path -%}
     listen 443;
     ssl on;
-    ssl_certificate /etc/nginx/ssl/server.crt;
-    ssl_certificate_key /etc/nginx/ssl/server.key; 
+    ssl_certificate {{ certificates_path }}/server.crt;
+    ssl_certificate_key {{ certificates_path }}/server.key; 
     {%- endif %}
 
     server_name {{ hostname }} {{ secondary_hostname }};
     root /var/www/ytp;
     client_max_body_size 100M;
     gzip_static on;
-    
+
     {% if basic_auth_path -%}
     auth_basic "Restricted";
     auth_basic_user_file {{ basic_auth_path }};
@@ -118,7 +118,7 @@ server {
     }
 
     # Rewrite CKAN login paths to Drupal login
-    
+
     location /data/user/login {
         rewrite ^/.* /user/login permanent;
     }
@@ -141,7 +141,11 @@ server {
 
     # CKAN is mapped under data
     location /data {
+        {%- if ssl_path -%}
+        proxy_pass https://127.0.0.1:8080/data;
+        {%- else -%}
         proxy_pass http://127.0.0.1:8080/data;
+        {%- endif %}
         proxy_set_header Host $host;
         proxy_cache cache;
         proxy_cache_bypass $no_cache;
