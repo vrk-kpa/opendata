@@ -61,7 +61,7 @@ class ContinuousDeployer:
             subprocess.call(["git", "clone", settings.git_url_ytp], cwd=self.deploy_path, stdout=devnull, stderr=devnull)
 
             try:
-                git_log_format = "--pretty=format:{\"CommitId\":\"%H\",\"CommitDetails\":\"%an %f %ad\"}"
+                git_log_format = "--pretty=format:{\"CommitId\":\"%H\",\"CommitDetails\":\"%an - %f - %ad\"}"
                 self.commit_details = json.loads(subprocess.check_output(["git", "log", "-1", git_log_format], cwd=self.deploy_path+"/ytp"))
             except:
                 log.error("Failed to get commit details")
@@ -175,7 +175,7 @@ class ContinuousDeployer:
         message = "Deployment report {0} - {1}\n\n".format(self.deploy_id, time.strftime("%c"))
 
         try:
-            title = "Deploy finished: {0}".format(self.commit_details["CommitDetails"])
+            message += self.commit_details["CommitDetails"] + "\nGit commit " + self.commit_details["CommitId"] + "\n\n"
             message += subprocess.check_output(["tail -n 100 deploy.log"], shell=True, cwd=self.deploy_path)
         except:
             log.error("Failed to buildup report")
@@ -222,5 +222,5 @@ if __name__ == "__main__":
 
     except Exception, e:
         import traceback
-        deploy.sns.publish(topic=secrets.aws_arn, message=base64.b64encode(traceback.format_exc()), subject="Deploy script failed")
+        deploy.sns.publish(topic=secrets.aws_arn, message=base64.b64encode(traceback.format_exc()), subject="Deploy script crashed")
         raise
