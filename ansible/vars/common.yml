@@ -98,3 +98,5 @@ certificates_path: "/etc/ssl/opendata"
 
 basic_auth_path: false
 nfs_shared_path: "/srv/ytp/shared"
+
+ssl_path: "../../../vars/ytp-secrets/ssl/alpha"

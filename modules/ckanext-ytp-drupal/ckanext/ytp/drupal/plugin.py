@@ -12,6 +12,8 @@ import requests
 import urllib
 from webhelpers.html.tags import literal
 
+import logging
+log = logging.getLogger(__name__)
 
 def user_delete_me(context, data_dict):
     if not c.userobj:
@@ -104,14 +106,14 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
         request_cookies = request.cookies
         session_cookie = None
         for cookie_key in request_cookies:
-            if cookie_key[:4] == 'SESS':
+            if cookie_key[:5] == 'SSESS':
                 session_cookie = (cookie_key, request_cookies[cookie_key])
         return session_cookie
 
     def get_drupal_session_token(self, domain, service, cookie_header=''):
         '''return text of X-CSRF-Token)'''
-        token_url = 'http://' + domain + '/' + service + '/?q=services/session/token'
-        token_request = requests.get(token_url, headers={"Cookie": cookie_header})
+        token_url = 'https://' + domain + '/' + service + '/?q=services/session/token'
+        token_request = requests.get(token_url, headers={"Cookie": cookie_header}, verify=False)
         token = token_request.text
         return token
 
