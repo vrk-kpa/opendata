@@ -15,6 +15,7 @@ from webhelpers.html.tags import literal
 import logging
 log = logging.getLogger(__name__)
 
+
 def user_delete_me(context, data_dict):
     if not c.userobj:
         return {'success': False}
