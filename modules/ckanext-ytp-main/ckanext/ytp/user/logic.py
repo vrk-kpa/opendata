@@ -63,7 +63,7 @@ def _update_drupal_user(context, data_dict):
         cookie_header = session_cookie[0] + "=" + session_cookie[1]
         token = ytp_drupal.get_drupal_session_token(host, path, cookie_header)
         duid = str(ytp_drupal.get_drupal_user_id(c.user))
-        update_url = 'http://' + host + '/' + path + '/' + resource + '/' + duid + '.json'
+        update_url = 'https://' + host + '/' + path + '/' + resource + '/' + duid + '.json'
         payload = {"field_fullname": {"und": [{"value":  fullname, "format": None, "safe_value":  fullname}]},
                    'field_ckan_api_key': {'und': [{'value': apikey, "format": None, "safe_value": apikey}]}}
         headers = {"Content-type": "application/json", "X-CSRF-Token": token, "Cookie": cookie_header}
