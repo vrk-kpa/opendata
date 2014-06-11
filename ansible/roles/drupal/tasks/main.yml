@@ -289,6 +289,8 @@
     - { module: user, delta: login }
     - { module: system, delta: "powered-by" }
     - { module: node, delta: "recent" }
+    - { module: "search", delta: "form" }
+    - { module: "system", delta: "navigation" }
   tags:
   - drupal-configuration
   - drupal
