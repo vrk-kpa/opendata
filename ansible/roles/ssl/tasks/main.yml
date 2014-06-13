@@ -27,23 +27,20 @@
     - nginx
     - ssl
 
-- name: Generate Self signed SSL certificate
+- name: Generate self-signed SSL certificate
   command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ansible_fqdn}}" -days 3650 -keyout {{cache_path}}/server.key -out {{cache_path}}/server.crt -extensions v3_ca creates={{cache_path}}/server.crt
   when: ssl_path == false
   tags:
     - nginx
     - ssl
 
-- name: Copy Generated SSL certificate file
-  copy: src="{{ cache_path }}/server.crt" dest={{ certificates_path }}/server.crt owner=root group="{{ www_group }}" mode=640
+- name: Copy generated SSL files
+  shell: mkdir --parent {{ certificates_path }} && cp {{ cache_path }}/{{ item }} {{ certificates_path }}/{{ item }} && chmod 640 {{ certificates_path }}/{{ item }}
   when: ssl_path == false
+  with_items:
+    - server.crt
+    - server.key
   tags:
     - nginx
     - ssl
 
-- name: Copy Generated SSL key file
-  copy: src="{{ cache_path }}/server.key" dest={{ certificates_path }}/server.key owner=root group="{{ www_group }}" mode=640
-  when: ssl_path == false
-  tags:
-    - nginx
-    - ssl
