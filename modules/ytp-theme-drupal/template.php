@@ -260,7 +260,14 @@ function ytp_theme_preprocess_node(&$variables){
     $date = format_date($variables['created'], 'short');
     #todo get organization for username
     #$variables['submitted'] = t('Submitted by !username on !datetime', array('!username' => $variables['name'], '!datetime' =>$date));
-    $variables['submitted'] = t('updated') . ' ' . t('!datetime | !username', array('!username' => $variables['name'], '!datetime' =>$date));
+    $user = user_load($variables['node']->uid);
+    if ( isset($user->field_fullname['und']) && isset($user->field_fullname['und'][0]) && isset($user->field_fullname['und'][0]['value'])){
+      $author = $user->field_fullname['und'][0]['value'];
+    }
+    else{
+      $author = $variables['name'];
+    }
+    $variables['submitted'] = t('updated') . ' ' . t('!datetime | !username', array('!username' => $author, '!datetime' =>$date));
 }
 
 /**
