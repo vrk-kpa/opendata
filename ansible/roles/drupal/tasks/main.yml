@@ -115,6 +115,9 @@
     - views_bootstrap-7.x-3.x
     - strongarm
     - sharethis
+
+    - date
+    - calendar
   tags:
   - drupal
 
@@ -160,6 +163,10 @@
     - views_bootstrap-7.x-3.x
     - strongarm
     - sharethis
+
+    - date
+    - date_popup
+    - calendar
   tags:
   - drupal
 
@@ -282,6 +289,8 @@
     - { module: user, delta: login }
     - { module: system, delta: "powered-by" }
     - { module: node, delta: "recent" }
+    - { module: "search", delta: "form" }
+    - { module: "system", delta: "navigation" }
   tags:
   - drupal-configuration
   - drupal

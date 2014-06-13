@@ -64,6 +64,11 @@
     - edit any tutorial content
     - delete own tutorial content
     - delete any tutorial content
+    - create event content
+    - edit own event content
+    - edit any event content
+    - delete own event content
+    - delete any event content
   tags:
   - drupal
   - roles
@@ -121,6 +126,11 @@
     - edit any tutorial content
     - delete own tutorial content
     - delete any tutorial content
+    - create event content
+    - edit own event content
+    - edit any event content
+    - delete own event content
+    - delete any event content
   tags:
   - drupal
   - roles

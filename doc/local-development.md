@@ -9,15 +9,15 @@ Look at individual instructions for each project at Github project page.
 
 The ytp-develop.py script is provided to help with linking the modules. This script is executed on the virtual machine (`vagrant ssh`).
 
-    sudo /src/ytp-tools/scripts/ytp-develop.py # help
-    sudo /src/ytp-tools/scripts/ytp-develop.py --list # list available projects
-    sudo /src/ytp-tools/scripts/ytp-develop.py --serve # serve CKAN via paster and access at http://10.10.10.10:5000/
-    sudo /src/ytp-tools/scripts/ytp-develop.py <project-name>... # switch project sources
+    sudo /src/scripts/ytp-develop.py # help
+    sudo /src/scripts/ytp-develop.py --list # list available projects
+    sudo /src/scripts/ytp-develop.py --serve # serve CKAN via paster and access at http://10.10.10.10:5000/
+    sudo /src/scripts/ytp-develop.py <project-name>... # switch project sources
 
 Examples:
 
-    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-main # replace ckanext-ytp-main project
-    sudo /src/ytp-tools/scripts/ytp-develop.py ckanext-ytp-main ytp-assets-common # replace both ckanext-ytp-main and ytp-assets-common projects 
+    sudo /src/scripts/ytp-develop.py ckanext-ytp-main # replace ckanext-ytp-main project
+    sudo /src/scripts/ytp-develop.py ckanext-ytp-main ytp-assets-common # replace both ckanext-ytp-main and ytp-assets-common projects 
 
 ### Notes
 

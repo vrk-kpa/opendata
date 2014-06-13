@@ -21,7 +21,7 @@
         {% if extra_dict.license_title %}
             {{ extra_dict.license_title }}
         {% else %}
-            {{ extra_dict.license_ur }}
+            {{ extra_dict.license_url }}
         {% endif %}
         </a>
         {% else %}
@@ -33,6 +33,18 @@
     {% if extra_dict.copyright_notice %}
       <dt>{{ _("Copyright Notice") }}</dt>
       <dd>{{ extra_dict.copyright_notice }}</dd>
+    {% elif extra_dict.access_constraints %}
+      {% set copyright_notice = h.get_json_value(h.get_pkg_dict_extra(pkg_dict, 'access_constraints', None)) %}
+      <dt>{{ _("Copyright Notice") }}</dt>
+      <dd>
+          {%- if copyright_notice and copyright_notice.append -%}
+            {% for item in copyright_notice %}
+              <p>{{ item }}</p>
+            {% endfor %}
+          {%- else -%}
+            {{ copyright_notice }}
+          {%- endif -%}
+       </dd>
     {% endif %}
 
     {% if extra_dict.warranty_disclaimer %}
@@ -48,11 +60,6 @@
         {% endfor %}
     {% endif %}
     </dl>
-
-    {% if extra_dict.copyright_notice %}
-      <dt>{{ _("Copyright Notice") }}</dt>
-      <dd>{{ extra_dict.copyright_notice }}</dd>
-    {% endif %}
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
     <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
