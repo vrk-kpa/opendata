@@ -406,6 +406,14 @@ function calendar_feature_views_default_views() {
   $handler->display->display_options['filters']['field_event_type_value']['value'] = array(
     'event' => 'event',
   );
+  /* Filter criterion: Content: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
 
   /* Display: Month */
   $handler = $view->new_display('page', 'Month', 'page_1');
@@ -660,6 +668,14 @@ function calendar_feature_views_default_views() {
   $handler->display->display_options['filters']['field_event_type_value']['value'] = array(
     'event' => 'event',
   );
+  /* Filter criterion: Content: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
   $export['event_calendar'] = $view;
 
   $view = new view();
@@ -743,6 +759,14 @@ function calendar_feature_views_default_views() {
   $handler->display->display_options['filters']['field_event_type_value']['field'] = 'field_event_type_value';
   $handler->display->display_options['filters']['field_event_type_value']['value'] = array(
     'training' => 'training',
+  );
+  /* Filter criterion: Content: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
   );
 
   /* Display: Month */
@@ -997,6 +1021,14 @@ function calendar_feature_views_default_views() {
   $handler->display->display_options['filters']['field_event_type_value']['field'] = 'field_event_type_value';
   $handler->display->display_options['filters']['field_event_type_value']['value'] = array(
     'training' => 'training',
+  );
+  /* Filter criterion: Content: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
   );
   $export['training_calendar'] = $view;
 
