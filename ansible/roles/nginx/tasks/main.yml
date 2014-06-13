@@ -12,8 +12,11 @@
   tags:
     - nginx
 
-- name: Copy Nginx configuration
-  template: src=nginx.j2 dest=/etc/nginx/sites-available/ytp mode=0644 owner=root group=root
+- name: Copy Nginx configurations
+  template: src={{ item.template }} dest=/etc/nginx/{{ item.dest }} mode=0644 owner=root group=root
+  with_items:
+    - {'template':'nginx_site_config.j2','dest':'sites-available/ytp'}
+    - {'template':'nginx.conf.j2','dest':'nginx.conf'}
   tags:
     - nginx
 
