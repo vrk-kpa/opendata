@@ -100,7 +100,6 @@
 
 - name: Enable SSL configuration
   command: a2enmod ssl
-  when: ssl_path != false
   tags:
   - apache
   - ckan
