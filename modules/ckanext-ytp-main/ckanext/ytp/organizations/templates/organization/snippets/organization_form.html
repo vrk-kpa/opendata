@@ -20,21 +20,20 @@
         </div>
     </div>
 
-    {% set has_public_adminstration_rights = h.check_access('organization_public_adminstartion_change', {}) %}
+    {% set menu_vocabularies = ['private_services'] %}
+
+    {% set has_public_adminstration_rights = h.check_access('organization_public_adminstration_change', {}) %}
     {% call form.input_block("public_adminstration_organization", _('Public administration organization'), errors.public_adminstration_organization, [], extra_html="") %}
     {% if not has_public_adminstration_rights %}
     <input type="hidden" name="public_adminstration_organization" value="{% if data.public_adminstration_organization == 'true' %}true{% endif %}" />
     <p>{% if data.public_adminstration_organization == 'true' %}{{ _('Yes') }}{% else %}{{ _('No') }}{% endif %}</p>
     {% else %}
+    {% do menu_vocabularies.append('public_services') %}
     <input type="checkbox" name="public_adminstration_organization" value="true" {% if data.public_adminstration_organization == 'true' %}checked="checked"{% endif %} {% if not has_public_adminstration_rights %}readonly="readonly" onclick="return false;"{% endif %} />
     {% endif %}
     {% endcall %}
 
     {# Producer type selector #}
-    {% set menu_vocabularies = ['private_services'] %}
-    {% if data.public_adminstration_organization == 'yes' %}
-        {% do menu_vocabularies.append('public_services') %}
-    {% endif %}
     {{ form.select('producer_type', id='field-producer_type', label=_('Producer type'), options=h.get_dropdown_menu_contents(menu_vocabularies), selected=data.get('producer_type'), error=errors.producer_type) }}
 
 {% endblock %}

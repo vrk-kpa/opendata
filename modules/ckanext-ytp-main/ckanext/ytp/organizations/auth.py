@@ -10,7 +10,7 @@ def _check_public_adminstration_flag(context, data_dict):
     return None
 
 
-def organization_public_adminstartion_change(context, data_dict):
+def organization_public_adminstration_change(context, data_dict):
     return {'success': False, 'msg': _('User %s not authorized to create public organizations') % context['user']}
 
 
