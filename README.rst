@@ -77,6 +77,7 @@ Configuration
     at ``ckanext/archiver/settings.py``, and editing the variables:
 
     ::
+
         ARCHIVE_DIR: path to the directory that archived files will be saved
         to.
         MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive.
