@@ -1,0 +1,12 @@
+
+[webserver]
+prod-web.avoindata.fi
+
+[webserver:vars]
+secret_variables=variables-production.yml
+
+[dbserver]
+prod-db.avoindata.fi
+
+[dbserver:vars]
+secret_variables=variables-production.yml

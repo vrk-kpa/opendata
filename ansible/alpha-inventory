@@ -1,5 +1,3 @@
-[dbserver:vars]
-secret_variables=variables-alpha.yml
 
 [webserver]
 ec2-54-76-128-98.eu-west-1.compute.amazonaws.com
