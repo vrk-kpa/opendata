@@ -378,3 +378,10 @@
   tags:
   - drupal
 
+- name: Update Drupal translations
+  shell: drush l10n-update-refresh && drush -y l10n-update chdir="{{ drupal_root }}"
+  async: 1200
+  poll: 0
+  tags:
+  - drupal
+  - drupal-translations
