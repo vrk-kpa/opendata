@@ -230,6 +230,13 @@
 
 - name: Copy License register
   copy: src="license.json" dest="{{ ckan_files_path }}/license.json" mode=0644 owner=root group="{{ www_group }}"
+  register: copy_licenses
+  tags:
+  - ckan
+
+- name: Ensure reindex is launched
+  file: path="{{ files_root }}/.solr-reindex" state="absent"
+  when: copy_licenses|changed
   tags:
   - ckan
 
@@ -302,6 +309,8 @@
 
 - name: Reindex
   shell: touch "{{ files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}" creates="{{ files_root }}/.solr-reindex"
+  async: 1200
+  poll: 0
   tags:
   - ckan
   - non-local

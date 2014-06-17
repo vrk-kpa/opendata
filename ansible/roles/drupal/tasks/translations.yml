@@ -1,17 +1,5 @@
 ---
 
-- name: Refresh Drupal translations
-  command: drush l10n-update-refresh chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-  - drupal-translations
-
-- name: Update Drupal translations
-  command: drush -y l10n-update chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-  - drupal-translations
-
 - name: Create temporary drupal translation files
   command: touch  "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po"
   with_items: translation_languages
