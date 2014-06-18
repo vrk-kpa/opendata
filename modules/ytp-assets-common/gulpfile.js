@@ -86,7 +86,7 @@ gulp.task('bootstrap', function(){
 });
 
 gulp.task('vendor', function(){
-    return gulp.src(paths.src.root + '/vendor/*')
+    return gulp.src(paths.src.root + '/vendor/**/')
     .pipe(gulp.dest(paths.dist + '/vendor'))
 });
 

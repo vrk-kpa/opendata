@@ -198,7 +198,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
-        # TODO: This is not working with empty values
+
         res_schema = schema.get('resources')
         res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
                            'temporal_coverage_to': [ignore_missing, simple_date_validate]})
