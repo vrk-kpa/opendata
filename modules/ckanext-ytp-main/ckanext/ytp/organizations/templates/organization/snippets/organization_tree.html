@@ -19,7 +19,8 @@ Example:
       {% if node.highlighted %}
         <strong>
       {% endif %}
-      {% link_for node.title, controller='organization', action='read', id=node.name %}
+      {% set node_title = h.extra_translation(node, 'title') or node.name %}
+      {% link_for node_title, controller='organization', action='read', id=node.name %}
       {% if node.highlighted %}
         </strong>
       {% endif %}

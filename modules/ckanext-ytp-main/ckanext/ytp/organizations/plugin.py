@@ -12,12 +12,14 @@ from ckan.plugins import toolkit
 
 from ckanext.ytp.organizations.logic import action
 from ckanext.ytp.organizations import auth
-from ckanext.ytp.common.tools import create_system_context, get_original_method
+from ckanext.ytp.common.tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
+    add_translation_modify_schema, add_languages_modify
 
 import logging
 import pylons
 import ast
 import datetime
+from ckanext.ytp.common.helpers import extra_translation
 
 log = logging.getLogger(__name__)
 
@@ -77,6 +79,12 @@ def action_user_create(context, data_dict):
     return result
 
 
+def action_organization_show(context, data_dict):
+    result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+    result['display_name'] = extra_translation(result, 'title') or result.get('display_name', None) or result.get('name', None)
+    return result
+
+
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IGroupForm, inherit=True)
@@ -84,6 +92,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+
+    _localized_fields = ['title', 'description', 'alternative_name', 'street_address_unofficial_name', 'street_address_building_id',
+                         'street_address_getting_there', 'street_address_parking', 'street_address_public_transport',
+                         'street_address_url_public_transport']
 
     def configure(self, config):
         _configure(config)
@@ -159,6 +171,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'street_address_public_transport': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'street_address_url_public_transport': [ignore_missing, unicode, convert_to_extras]})
 
+        schema = add_translation_modify_schema(schema)
+        schema = add_languages_modify(schema, self._localized_fields)
+
         return schema
 
     def db_to_form_schema(self):
@@ -200,6 +215,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         schema.update({'producer_type': [convert_from_extras, ignore_missing]})
         schema.update({'public_adminstration_organization': [convert_from_extras, ignore_missing]})
+
+        schema = add_translation_show_schema(schema)
+        schema = add_languages_show(schema, self._localized_fields)
 
         return schema
 
@@ -254,7 +272,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
                 'organization_public_adminstration_change': auth.organization_public_adminstration_change}
 
     def get_actions(self):
-        return {'user_create': action_user_create}
+        return {'user_create': action_user_create, 'organization_show': action_organization_show}
 
 
 # From ckanext-hierarchy

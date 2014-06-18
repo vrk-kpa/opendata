@@ -3,6 +3,7 @@ import logging
 import ckan.plugins as p
 import ckan.logic as logic
 from ckanext.ytp.organizations.model import GroupTreeNode
+from ckan import model
 
 log = logging.getLogger(__name__)
 _get_or_bust = logic.get_or_bust
@@ -57,6 +58,7 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
         {'id': root_group.id,
          'name': root_group.name,
          'title': root_group.title})
+    root_node.update(root_group.extras)
     if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
         highlight_group_name = None
@@ -65,6 +67,8 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
         node = GroupTreeNode({'id': group_id,
                               'name': group_name,
                               'title': group_title})
+        group_object = model.Group.get(group_id)
+        node.update(group_object.extras)
         nodes[parent_id].add_child_node(node)
         if highlight_group_name and group_name == highlight_group_name:
             node.highlight()
