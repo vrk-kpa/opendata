@@ -12,7 +12,13 @@ def extra_translation(values, field, markdown=False, fallback=None):
         If fallback is set then use fallback as value if value is empty.
         If fallback is function then call given function with `values`.
     """
-    translation = values.get('%s_%s' % (field, helpers.lang()), "") or values.get(field, "") if values else ""
+    lang = ""
+    try:
+        lang = helpers.lang()
+    except TypeError:
+        pass
+
+    translation = values.get('%s_%s' % (field, lang), "") or values.get(field, "") if values else ""
 
     if not translation and fallback:
         translation = fallback(values) if hasattr(fallback, '__call__') else fallback
