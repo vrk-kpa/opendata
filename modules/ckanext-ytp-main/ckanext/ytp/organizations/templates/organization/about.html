@@ -1,37 +1,81 @@
 {% ckan_extends %}
 
 {% block organization_description %}
-    {{ super() }}
-
+    {% if c.group_dict.description %}
+      {{ h.render_markdown(h.extra_translation(c.group_dict, 'description')) }}
+    {% endif %}
 
     {# display extra org info #}
 
-        <div id="OrgExtraInfo">
-            <p>{{c.group_dict.business_id}}</p>
-            <p>{{c.group_dict.oid}}</p>
-            <p>{{c.group_dict.alternative_name}}</p>
-            {% if c.group_dict.valid_from or c.group_dict.valid_till %}
-            <p>{{c.group_dict.valid_from}} - {{c.group_dict.valid_till}}</p>
-            {% endif %}
-        </div>
+    <div id="OrgExtraInfo">
+        <dl>
+            <dt>{{ _('Business ID') }}</dt>
+            <dd>{{ c.group_dict.business_id }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('OID') }}</dt>
+            <dd>{{ c.group_dict.oid }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Alternative name') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'alternative_name') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Period of validity') }}</dt>
+            <dd>{{ c.group_dict.valid_from }} - {{ c.group_dict.valid_till }}</dd>
+        </dl>
+    </div>
 
     {# display address info #}
 
-        <div id="addressInfo">
-            <h2 class="organization-subheading">{{_('Contact info')}}</h2>
-            <p>{{c.group_dict.street_address}}</p>
-            <p>{{c.group_dict.street_address_pobox}}</p>
-            <p>{{c.group_dict.street_address_zip_code}}</p>
-            <p>{{c.group_dict.street_address_place_of_business}}</p>
-            <p>{{c.group_dict.street_address_country}}</p>
-            <p>{{c.group_dict.street_address_unofficial_name}}</p>
-            <p>{{c.group_dict.street_address_building_id}}</p>
-            <p>{{c.group_dict.street_address_getting_there}}</p>
-            <p>{{c.group_dict.street_address_parking}}</p>
-            <p>{{c.group_dict.street_address_public_transport}}</p>
-            <p><a href="{{c.group_dict.street_address_url_public_transport}}">{{c.group_dict.street_address_url_public_transport}}</a></p>
-
-        </div>
+    <div id="addressInfo">
+        <h2 class="organization-subheading">{{_('Contact info')}}</h2>
+        <dl>
+            <dt>{{ _('Street')}}, {{_('House number')}}, {{_('Staircase')}}, {{_('Apartment number') }}</dt>
+            <dd>{{ c.group_dict.street_address }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('P.O. box') }}</dt>
+            <dd>{{ c.group_dict.street_address_pobox }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Zip code') }}</dt>
+            <dd>{{ c.group_dict.street_address_zip_code }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Place of Business') }}</dt>
+            <dd>{{ c.group_dict.street_address_place_of_business }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Country') }}</dt>
+            <dd>{{ c.group_dict.street_address_country }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Unofficial name of the building') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'street_address_unofficial_name') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Building ID') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'street_address_building_id') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Getting there') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'street_address_getting_there') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Parking') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'street_address_parking') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('Arrival by public transport') }}</dt>
+            <dd>{{ h.extra_translation(c.group_dict, 'street_address_public_transport') }}</dd>
+        </dl>
+        <dl>
+            <dt>{{ _('URL for public transport') }}</dt>
+            {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
+            <dd><a href="{{ url }}">{{ url }}</a></dd>
+        </dl>
+    </div>
 
     {# display homepages #}
     {% set page_list = c.group_dict.get('homepage_urls') %}

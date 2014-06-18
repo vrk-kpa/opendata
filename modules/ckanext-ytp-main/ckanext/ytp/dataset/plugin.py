@@ -14,7 +14,8 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value
-from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema
+from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
+from ckanext.ytp.common.helpers import extra_translation
 
 
 try:
@@ -126,6 +127,18 @@ def not_empty_or(item):
 _key_functions = {u'extras':  _parse_extras}
 
 
+def action_package_show(context, data_dict):
+    result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
+    organization_data = result.get('organization', None)
+    if organization_data:
+        organization_id = organization_data.get('id', None)
+        if organization_id:
+            group = model.Group.get(organization_id)
+            result['organization'].update(group.extras)
+
+    return result
+
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -133,6 +146,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IActions)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -145,12 +159,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     'maintainer', 'author', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
                     'temporal_granularity', 'temporal_coverage_from', 'temporal_coverage_to', 'update_frequency']
     # IRoutes #
-
-    def after_show(self, context, pkg_dict):
-        if u'resources' in pkg_dict and pkg_dict[u'resources']:
-            for resource in pkg_dict[u'resources']:
-                if 'url_type' in resource and isinstance(resource['url_type'], Missing):
-                    resource['url_type'] = None
 
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
@@ -287,6 +295,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return facets_dict
 
     # ITemplateHelpers #
+
     def format_extras(self, extras):
         return _format_extras(extras)
 
@@ -333,23 +342,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _is_list(self, value):
         return isinstance(value, list)
 
-    def _markdown(self, translation, length):
-        return helpers.markdown_extract(translation, extract_length=length) if length is not True and isinstance(length, (int, long)) else \
-            helpers.render_markdown(translation)
-
-    def _extra_translation(self, values, field, markdown=False, fallback=None):
-        """ Used as helper. Get correct translation from extras (values) for given field.
-            If markdown is True uses markdown rendering for value. If markdown is number use markdown_extract with given value.
-            If fallback is set then use fallback as value if value is empty.
-            If fallback is function then call given function with `values`.
-        """
-        translation = values.get('%s_%s' % (field, helpers.lang()), "") or values.get(field, "") if values else ""
-
-        if not translation and fallback:
-            translation = fallback(values) if hasattr(fallback, '__call__') else fallback
-
-        return self._markdown(translation, markdown) if markdown and translation else translation
-
     def _get_package(self, package):
         return toolkit.get_action('package_show')({'model': model}, {'id': package})
 
@@ -366,9 +358,21 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'locales_offered': self._locales_offered,
                 'is_list': self._is_list,
                 'format_extras': self.format_extras,
-                'extra_translation': self._extra_translation,
+                'extra_translation': extra_translation,
                 'service_database_enabled': service_database_enabled,
                 'clean_extras': self._clean_extras,
                 'get_package': self._get_package,
                 'resource_display_name': self._resource_display_name,
                 'get_json_value': get_json_value}
+
+    # IPackageController #
+
+    def after_show(self, context, pkg_dict):
+        if u'resources' in pkg_dict and pkg_dict[u'resources']:
+            for resource in pkg_dict[u'resources']:
+                if 'url_type' in resource and isinstance(resource['url_type'], Missing):
+                    resource['url_type'] = None
+
+    # IActions #
+    def get_actions(self):
+        return {'package_show': action_package_show}

@@ -1,10 +1,10 @@
 {# example use of this template
-	{% snippet 'package/snippets/license_rdf.html', 
-  				license_id=pkg.license_id, 
-  				content_title=pkg.title, 
-  				creator=creator_user.display_name, 
-  				creator_url=creator_user.url, 
-  				attribution_url=h.url_for('', qualified=True) %}
+    {% snippet 'package/snippets/license_rdf.html', 
+                  license_id=pkg.license_id, 
+                  content_title=pkg.title, 
+                  creator=creator_user.display_name, 
+                  creator_url=creator_user.url, 
+                  attribution_url=h.url_for('', qualified=True) %}
 #}
 
 {% if license_id=='cc-zero-1.0' %}
@@ -18,16 +18,16 @@
 To the extent possible under law
   <a rel="dct:publisher" href="{{creator_url}}" >
     <span property="dct:title">{{creator}}</span></a> 
-	has waived all copyright and related or neighboring rights to 
-	<a href="{{content_url}}" >
+    has waived all copyright and related or neighboring rights to 
+    <a href="{{content_url}}" >
   <span property="dct:title">{{content_title}}</span></a>.
-	{% endtrans %}
+    {% endtrans %}
 </p>
 {% endif %}
 
 {% if license_id=='cc-by-4.0' %}
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-	<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/4.0/88x31.png" />
+    <img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/4.0/88x31.png" />
 </a>
 <br />
 {% trans %}
@@ -41,3 +41,4 @@ To the extent possible under law
   	Creative Commons Attribution 4.0 International License</a>.
 {% endtrans %}
 {% endif %}
+

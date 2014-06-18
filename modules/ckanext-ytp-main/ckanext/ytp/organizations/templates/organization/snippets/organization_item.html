@@ -21,7 +21,10 @@
     </div>
   {% endblock %}
   {% block title %}
-    <a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization.display_name) }}" class=""><h4>{{ organization.display_name }}</h4></a>
+    {% set organization_display_name = h.extra_translation(organization, 'title') or organization.name %}
+    <a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization_display_name) }}" class="">
+        <h4>{{ organization_display_name }}</h4>
+    </a>
   {% endblock %}
   {% block description %}
     {% if organization.description %}

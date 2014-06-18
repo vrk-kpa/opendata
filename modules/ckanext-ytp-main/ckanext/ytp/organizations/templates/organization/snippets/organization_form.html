@@ -4,7 +4,33 @@
 {# Customizations for organization form #}
 
 {% block basic_fields %}
-    {{ super() }}
+    {% set translate_data = data %}
+    {#
+    {% if not data.translations %}
+      {% set translate_data = h.get_action('organization_show', {'id': pkg_name}) %}
+    {% endif %}
+    #}
+    {{ h.snippet('package/ytp/language_bar.html', data=translate_data) }}
+    <div class="translate-content">
+
+    {{ ytp_form.input('title', label=_('Name'), id='field-name', placeholder=_('My Organization'), value=data.title, error=errors.title, classes=['control-full'], locales=h.get_available_locales(), data=data, slug=true, is_required=true) }}
+
+    {# Perhaps these should be moved into the controller? #}
+    {% set prefix = h.url_for(controller='organization', action='read', id='') %}
+    {% set domain = h.url_for(controller='organization', action='read', id='', qualified=true) %}
+    {% set domain = domain|replace("http://", "")|replace("https://", "") %}
+    {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<organization>'} %}
+
+    {{ form.prepend('name', label=_('URL'), prepend=prefix, id='field-url', placeholder=_('my-organization'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+
+    {{ ytp_form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about my organization...'), value=data.description, error=errors.description, locales=h.get_available_locales(), data=data) }}
+
+    {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
+    {% set is_url = data.image_url and data.image_url.startswith('http') %}
+
+    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
+
+    {# YTP fields: #}
 
     {# Parent organization selector (from ckanext-hierarchy) #}
     <div class="control-group">
@@ -43,7 +69,7 @@
 
 {{ form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
 {{ form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
-{{ form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full']) }}
+{{ ytp_form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
     <div class="row">
@@ -59,58 +85,50 @@
     </div>
 {% endcall %}
 
-{# Address info #}
+    {# Address info #}
     <h2 class="organization-subheading">{{_('Contact info')}}</h2>
-{% call form.input_block("address", _('Address'), errors.address, [], extra_html="") %}
-        <div class="control-full">
+    {% call form.input_block("address", _('Address'), errors.address, [], extra_html="") %}
+        <div class="control-full address-control">
         <label>{{_('Street')}}, {{_('House number')}}, {{_('Staircase')}}, {{_('Apartment number')}}</label>
         <input class="form-control" name ="street_address" id="street_address" type="text" value="{{data.street_address}}" placeholder="{{_('Example street 1 apartment 5')}}"/>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label>{{_('P.O. box')}}</label><br/>
+                <label>{{ _('P.O. box') }}</label><br/>
                 <input class="form-control" id="street_address_pobox" name="street_address_pobox" type="text" value="{{data.street_address_pobox}}" placeholder="{{ _('P.O. Box 123') }}">
             </div>
             <div class="col-sm-6">
-                <label>{{_('Zip code')}}</label><br/>
+                <label>{{ _('Zip code') }}</label><br/>
                 <input class="form-control" id="street_address_zip_code" type="text" name="street_address_zip_code" value="{{data.street_address_zip_code}}" placeholder="{{ _('12345') }}">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label>{{_('Place of Business')}}</label><br/>
+                <label>{{ _('Place of Business') }}</label><br/>
                 <input class="form-control" id="street_address_place_of_business" type="text" name="street_address_place_of_business" value="{{data.street_address_place_of_business}}" placeholder="{{ _('Example City') }}">
             </div>
             <div class="col-sm-6">
-                <label>{{_('Country')}}</label><br/>
+                <label>{{ _('Country') }}</label><br/>
                 <input class="form-control" id="street_address_country" type="text" name="street_address_country" value="{{data.street_address_country}}" placeholder="{{ _('Example country') }}">
             </div>
         </div>
-{% endcall %}
-{% call form.input_block("addressSpecifier", _('Address specifier'), errors.addressSpecifier, [], extra_html="") %}
-<div class="control-full">
-    <label>{{_('Unofficial name of the building')}}</label>
-    <input class="form-control" id="street_address_unofficial_name" type="text" name="street_address_unofficial_name" value="{{data.street_address_unofficial_name}}" placeholder="{{ _('Example name') }}"/>
-    <label>{{_('Building ID')}}</label>
-    <input class="form-control" id="street_address_building_id" type="text" name="street_address_building_id" value="{{data.street_address_building_id}}" placeholder="{{ _('Example Id') }}"/>
-</div>
-{% endcall %}
+    {% endcall %}
 
-{% call form.input_block("arrivalInstructions", _('Arrival instructions'), errors.arrivalInstructions, [], extra_html="") %}
-<div class="control-full">
-    <label>{{_('Getting there')}}</label>
-    <textarea class="form-control" name="street_address_getting_there" id="street_address_getting_there" placeholder="{{ _('Example instructions') }}" >{{data.street_address_getting_there}}</textarea>
-    <label>{{_('Parking')}}</label>
-    <textarea class="form-control" name="street_address_parking" id="street_address_parking" placeholder="{{ _('Example parking instructions') }}">{{data.street_address_parking}}</textarea>
-    <label>{{_('Arrival by public transport')}}</label>
-    <input class="form-control" id="street_address_public_transport"  name="street_address_public_transport" value="{{data.street_address_public_transport}}" placeholder="{{ _('Example instructions arrival by public transport') }}"/>
-    <label>{{_('URL for public transport')}}</label>
-    <input class="form-control" id="street_address_url_public_transport"  name="street_address_url_public_transport" value="{{data.street_address_url_public_transport}}" placeholder="{{ _('http://publictransport.example.com/') }}"/>
-</div>
-{% endcall %}
+    <h3 class="organization-subheading">{{ _('Address specifier') }}</h3>
+
+    {{ ytp_form.input('street_address_unofficial_name', label=_('Unofficial name of the building'), id='street_address_unofficial_name', placeholder=_('Example name'), value=data.street_address_unofficial_name, error=errors.street_address_unofficial_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('street_address_building_id', label=_('Building ID'), id='street_address_building_id', placeholder=_('Example Id'), value=data.street_address_building_id, error=errors.street_address_building_id, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+
+    <h3 class="organization-subheading">{{ _('Arrival instructions') }}</h3>
+
+    {{ ytp_form.markdown('street_address_getting_there', label=_('Getting there'), id='street_address_getting_there', placeholder=_('Example instructions'), value=data.street_address_getting_there, error=errors.street_address_getting_there, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.markdown('street_address_parking', label=_('Parking'), id='street_address_parking', placeholder=_('Example parking instructions'), value=data.street_address_parking, error=errors.street_address_parking, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+
+    {{ ytp_form.input('street_address_public_transport', label=_('Arrival by public transport'), id='street_address_public_transport', placeholder=_('Example instructions arrival by public transport'), value=data.street_address_public_transport, error=errors.street_address_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('street_address_url_public_transport', label=_('URL for public transport'), id='street_address_url_public_transport', placeholder=_('http://publictransport.example.com/'), value=data.street_address_url_public_transport, error=errors.street_address_url_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
 
-{# Homepage functionality #}
+    {# Homepage functionality #}
     <script type="text/javascript">
 
         function CreateButtonString(editButton){
@@ -279,4 +297,7 @@
         <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="0" class="hiddenFormTemplate" disabled="disabled"/>
         {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled", "onclick": "ToggleCheckbox(this)"}) }}
     </div>
+    </div> <!-- end div class="translate-content" -->
 {% endblock %}
+
+
