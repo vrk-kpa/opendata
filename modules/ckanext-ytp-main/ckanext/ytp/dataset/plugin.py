@@ -129,10 +129,12 @@ _key_functions = {u'extras':  _parse_extras}
 
 def action_package_show(context, data_dict):
     result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
-    organization_id = result.get('organization', {}).get('id', None)
-    if organization_id:
-        group = model.Group.get(organization_id)
-        result['organization'].update(group.extras)
+    organization_data = result.get('organization', None)
+    if organization_data:
+        organization_id = organization_data.get('id', None)
+        if organization_id:
+            group = model.Group.get(organization_id)
+            result['organization'].update(group.extras)
 
     return result
 
