@@ -107,3 +107,46 @@
   {% resource 'ytp_common_js/ytp_form.js' %}
   <input class="form-control" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
 {% endmacro %}
+
+{% macro modal(name, id='', label='', treedata='') %}
+  {% resource 'ytp_common_js/ytp_form.js' %}
+  <button class="btn btn-primary" data-toggle="modal" data-target="#{{ id or name }}">{{ label }}</button>
+  <div class="modal fade" id="{{ id or name }}" role="dialog" aria-labelledby="{{ label }}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+          <h4 class="modal-title" id="{{ label }}">{{ label }}</h4>
+        </div>
+        <div class="modal-body">
+          {{ tree(treedata) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+
+{% macro tree(data) %}
+  <div data-tree>
+    <ul>
+    {%- for node in data recursive %}
+      {% if node is string %}
+        <li>{{ node }}</li>
+      {% else %}
+        <li>{{ node.text }}
+        {% if node.children %}
+          <ul>
+            {{ loop(node.children) }}
+          </ul>
+        {% endif %}
+        </li>
+      {% endif %}
+    {%- endfor  %}
+    </ul>
+  </div>
+{% endmacro %}

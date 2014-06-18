@@ -5,7 +5,7 @@
     "gulp-minify-css": "~0.3.4"
   },
   "devDependencies": {
-    "gulp": "~3.5.1",
+    "gulp": "~3.8.1",
     "gulp-livereload": "~0.3.1",
     "gulp-imagemin": "~0.1.4",
     "tiny-lr": "0.0.5",

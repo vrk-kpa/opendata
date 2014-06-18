@@ -1,0 +1,2 @@
+def get_dict_tree_from_json(filename):
+    return [{'text': 'root 1', 'children':[ {'text': 'child 1', 'children': ['child of child']}, {'text': 'child 2', 'children':[{'text': 'child of child 2', 'children':['child of child of child']}]} ]}, {'text': 'root 2', 'children':['child 3 as string']}]

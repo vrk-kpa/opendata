@@ -175,4 +175,8 @@ $(document).ready(function(){
             pickTime: false
         });
     })
+
+    $('[data-tree]').each(function(){
+        $(this).jstree();
+    })
 });

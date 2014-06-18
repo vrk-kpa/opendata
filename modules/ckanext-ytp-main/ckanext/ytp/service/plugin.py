@@ -7,6 +7,7 @@ from ckanext.ytp.common.tools import add_translation_modify_schema, add_language
 
 import logging
 from ckanext.ytp.common import tools
+from ckanext.ytp.common.helpers import get_dict_tree_from_json
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import auth
@@ -231,4 +232,5 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return model_dictize.group_list_dictize(orgs_q.all(), context)
 
     def get_helpers(self):
-        return {'service_organization': self._service_organizations}
+        return {'service_organization': self._service_organizations,
+                'get_dict_tree_from_json': get_dict_tree_from_json}
