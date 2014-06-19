@@ -108,7 +108,11 @@
   <input class="form-control" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
 {% endmacro %}
 
-{% macro modal(name, id='', label='', treedata='') %}
+{# Usage: #}
+{# {% set treedata = h.get_dict_tree_from_json('/src/ytp/files/ckandata/municipalities.json') %} #}
+{#{{ ytp_form.modal('test', label='Test label', treedata=treedata, formAttrs = {'nodesToSelect': 'all', 'targetElementId': 'municipalities' }) }} #}
+
+{% macro modal(name, id='', label='', treedata='', formAttrs) %}
   {% resource 'ytp_common_js/ytp_form.js' %}
   <button class="btn btn-primary" data-toggle="modal" data-target="#{{ id or name }}">{{ label }}</button>
   <div class="modal fade" id="{{ id or name }}" role="dialog" aria-labelledby="{{ label }}" aria-hidden="true">
@@ -122,8 +126,8 @@
           {{ tree(treedata) }}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('Close')  }}</button>
+          <button type="button" class="btn btn-primary" onclick="transferSelectedFromTreeToForm($('#{{ id or name }} [data-tree]').jstree(),'{{ formAttrs.nodesToSelect }}', '{{ formAttrs.targetElementId }}')">{{ _('Save') }}</button>
         </div>
       </div>
     </div>
@@ -131,22 +135,22 @@
 {% endmacro %}
 
 
-{% macro tree(data) %}
+{%- macro tree(data) -%}
   <div data-tree>
     <ul>
-    {%- for node in data recursive %}
-      {% if node is string %}
+    {%- for node in data recursive -%}
+      {%- if node is string -%}
         <li>{{ node }}</li>
-      {% else %}
+      {%- else -%}
         <li>{{ node.text }}
-        {% if node.children %}
+        {%- if node.children -%}
           <ul>
             {{ loop(node.children) }}
           </ul>
-        {% endif %}
+        {%- endif -%}
         </li>
-      {% endif %}
-    {%- endfor  %}
+      {%- endif -%}
+    {%- endfor  -%}
     </ul>
   </div>
-{% endmacro %}
+{%- endmacro -%}

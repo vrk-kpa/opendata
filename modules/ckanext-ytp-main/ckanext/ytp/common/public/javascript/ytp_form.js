@@ -177,6 +177,29 @@ $(document).ready(function(){
     })
 
     $('[data-tree]').each(function(){
-        $(this).jstree();
+        $(this).jstree({
+            plugins: ['checkbox']
+        });
     })
 });
+
+function transferSelectedFromTreeToForm(tree, nodesToSelect, targetElementId) {
+    if (!nodesToSelect || nodesToSelect == "all") {
+        var selected = tree.get_selected('full');
+    }
+    else if (nodesToSelect == "top") {
+        selected = tree.get_top_selected('full');
+    }
+    else if (nodesToSelect == "bottom") {
+        selected = tree.get_bottom_selected('full');
+    }
+
+    var input = $('#' + targetElementId);
+
+    selected.forEach(function(element){
+        var values = input.select2('data');
+        values.push({id: element.id, text: tree.get_text(element)})
+        input.select2( 'data', values);
+    })
+
+}
