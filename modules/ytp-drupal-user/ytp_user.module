@@ -116,3 +116,23 @@ function ytp_user_disable(){
 	}
 }
 
+/**
+ * Implements hook_user_login
+ * 
+ * @param $edit The array of form values submitted by the user.
+ * @param $account The user object on which the operation was just performed.
+ */
+function ytp_user_user_login(&$edit, $account) {
+    global $language;
+
+    // Redirect only when the user is not resetting her password
+    // Otherwise, the password reset functionality will be impaired
+    if (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset') {
+        // Using drupal_goto() or overriding $edit['redirect'] do not work if $_GET['destination'] is set,
+        // because $_GET['destination] overrides them
+        unset($_GET['destination']);
+
+        // Redirect the user to her profile page
+        drupal_goto('/data/' . $language->language . '/user/' . $account->name, array('external' => TRUE));
+    }
+}
