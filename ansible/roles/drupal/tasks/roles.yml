@@ -16,7 +16,6 @@
   tags:
   - drupal
   - drupal-configuration
-  - drush-speed-test
   - roles
 
 - name: Copy permissions list
@@ -25,7 +24,6 @@
   tags:
   - drupal
   - drupal-configuration
-  - drush-speed-test
   - roles
 
 - name: Set role permissions
@@ -34,5 +32,4 @@
   tags:
   - drupal
   - drupal-configuration
-  - drush-speed-test
   - roles
