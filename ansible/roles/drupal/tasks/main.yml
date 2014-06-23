@@ -211,21 +211,18 @@
   - drupal-configuration
   - drupal
 
-- name: Copy drush variable import script
-  copy: src=multiple-variables.drush dest="{{ scripts_path }}/multiple-variables.drush" owner=root group=root mode=0750
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Copy drush variables
-  copy: src=drupal.json dest="{{ cache_path }}/drupal.json" owner=root group=root mode=0600
+- name: Copy drush variable import script and variables json
+  copy: src={{ item.src }} dest={{ item.dest }} owner={{ item.owner }} group={{ item.group }} mode={{ item.mode }}
+  with_items:
+    - { src: 'multiple-variables.drush', dest: '{{ scripts_path }}/multiple-variables.drush', owner: 'root', group: 'root', mode: '0750' }
+    - { src: 'drupal.json', dest: '{{ cache_path }}/drupal.json', owner: 'root', group: 'root', mode: '0600'}
   register: drush_variables
   tags:
   - drupal-configuration
   - drupal
 
 - name: Set Drupal variables from file
-  command: "'{{ scripts_path }}/multiple-variables.drush' '{{ cache_path }}/drupal.json' chdir='{{ drupal_root }}'"
+  command: "{{ scripts_path }}/multiple-variables.drush {{ cache_path }}/drupal.json chdir={{ drupal_root }}"
   when: drush_variables|changed
   tags:
   - drupal-configuration
