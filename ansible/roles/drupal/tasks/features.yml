@@ -29,37 +29,19 @@
     - drupal
     - features
 
-- name: Copy Drupal features
-  copy: src="{{ item }}.tar" dest="{{ cache_path }}/{{ item }}.tar"
-  register: features_copy
-  with_items: all_features
-  tags:
-  - drupal
-  - features
-
 - name: Disable features
   command: drush dis -y "{{ item.item }}" chdir="{{drupal_root}}"
-  when: features_copy|changed or extracted_features_copy|changed and item.changed
+  when: extracted_features_copy|changed and item.changed
   with_flattened:
-    - "features_copy.results"
     - "extracted_features_copy.results"
   tags:
     - drupal
     - features
 
-- name: Install features
-  command: tar xf "{{ cache_path }}/{{ item.item }}.tar" --directory="{{ features_module_path }}" # creates={{ features_module_path}/{{ item}
-  when: features_copy|changed and item.changed
-  with_items: features_copy.results
-  tags:
-  - drupal
-  - features
-
 - name: Enable features
   command: drush en -y "{{ item.item }}" chdir="{{ drupal_root }}"
-  when: features_copy|changed or extracted_features_copy|changed and item.changed
+  when: extracted_features_copy|changed and item.changed
   with_flattened:
-    - features_copy.results
     - extracted_features_copy.results
   tags:
   - drupal

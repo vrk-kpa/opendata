@@ -1,0 +1,13 @@
+name = Service Alert Feature
+core = 7.x
+package = Features
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = text
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[field_base][] = body
+features[field_instance][] = node-service_alert-body
+features[node][] = service_alert
+features[views_view][] = service_alerts_view
