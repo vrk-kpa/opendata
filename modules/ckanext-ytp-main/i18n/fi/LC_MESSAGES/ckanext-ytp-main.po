@@ -6,19 +6,20 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
 # ilja.dev, 2014
-# ilja.dev, 2014
+# Ilja Pyykkönen, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 # salum, 2014
-# salum, 2014
+# Salum Abdul-Rahman, 2014
 # toini.salmenkivi <toini.salmenkivi@valtori.fi>, 2014
+# Vilsepi, 2014
 # Yhteentoimivuuspalvelut <yhteentoimivuusportaali@valtiokonttori.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-06-03 07:43+0000\n"
-"PO-Revision-Date: 2014-06-03 07:59+0000\n"
-"Last-Translator: ilja.dev\n"
+"PO-Revision-Date: 2014-06-23 10:48+0000\n"
+"Last-Translator: Vilsepi\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1103,7 +1104,7 @@ msgstr "Palvelun tuottaja, jos eri kuin järjestäjä"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:12
 msgid "Service class"
-msgstr "Palvelutyyppi"
+msgstr "Palveluluokitus"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:4
 msgid "Add service related service channel"
