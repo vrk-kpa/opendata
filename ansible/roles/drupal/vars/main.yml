@@ -10,14 +10,12 @@ bootstrap_version: "3.1.1"
 
 drupal_files_path: "{{ files_root }}/drupal"
 
-all_features:
+extracted_features:
   - language_feature
   - article_feature
   - service_alert_feature
   - article_view_feature
   - blocks_feature
-
-extracted_features:
   - frontpage_carousel_feature
   - frontpage_infobox_feature
   - frontpage_tutorial

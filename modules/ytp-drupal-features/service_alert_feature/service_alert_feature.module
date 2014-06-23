@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Service Alert Feature feature.
+ */
+
+include_once 'service_alert_feature.features.inc';
