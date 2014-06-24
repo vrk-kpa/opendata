@@ -1,4 +1,5 @@
 
+
 function serviceShowPhase(tabs, name) {
     var current = $('[data-service-tabs=' + tabs + ']');
     var content = $('[data-service-contents=' + tabs + ']');
@@ -30,6 +31,10 @@ function serviceSetupNavigationButtons(index) {
 
 $(document).ready(function() {
     var currentPhase = 1;
+    var serviceChannelIndex = $('#free_resource_index').val();
+    if (!serviceChannelIndex) {
+        serviceChannelIndex = 0;
+    }
 
     $('.service-next-phase').click(function() {
         var next = $('[data-service-tabs="services"]').find('.active').first().next();
@@ -59,5 +64,68 @@ $(document).ready(function() {
         });
         serviceShowPhase(tabs, current.find('.active').first().attr('data-service-tab'));
     });
+
+    $('.service-channels-add').click(function() {
+        var currentIndex = serviceChannelIndex;
+        serviceChannelIndex++;
+
+        var element = $(this).attr('data-service-channels-element');
+        if (!element) {
+            alert("Error: Failed to add data");
+            return false;
+        }
+        var source = $("[data-service-content=" + element + "]");
+        var clonedData = source.clone();
+
+        clonedData.attr('data-service-content', '');
+
+        clonedData.find('[id]').each(function() {
+            var element = $(this);
+            element.attr('id', element.attr('id') + "_" + currentIndex);
+        });
+
+        clonedData.find('[name]').each(function() {
+            var element = $(this);
+            var element_name = element.attr('name');
+            element.attr('name', "resources__" + currentIndex + "__" + element_name);
+        });
+
+        clonedData.find("button").remove();
+
+        clonedData.hide();
+
+        var container = $('<li class="service-channels-item" id="resource_' + currentIndex + '"></li>').appendTo('#service-channels-list');
+        var link = $('<a href="javascript:void(0);"></a>');
+        var removeLink = $("#service-channel-remove-template").clone();
+        removeLink.show();
+        link.appendTo(container).append('<i class="icon-plus"></i> ' + $('[data-service-tab=' + element + ']').text());
+        removeLink.appendTo(container);
+
+        container.append(clonedData);
+
+        removeLink.click(function() {
+            if (confirm(removeLink.attr('data-confirm-message'))) {
+                container.remove();
+            }
+            return false;
+        });
+
+        link.click(function() {
+            clonedData.toggle();
+            return false;
+        });
+        source.find('[name]').each(function(index, input) {
+            input = $(input);
+            var name = input.attr('name');
+            if (name == 'url' || name == 'service_channel_type') {
+                return;
+            }
+            input.val('');
+        });
+
+        return false;
+    });
+
     serviceSetupNavigationButtons(currentPhase);
+
 });

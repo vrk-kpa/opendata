@@ -77,6 +77,10 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
         schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
 
+        # Service channels
+        resources_schema = schema.get('resources')
+        resources_schema.update({'url': [ignore_missing, unicode]})
+
         return schema
 
     def create_package_schema(self):

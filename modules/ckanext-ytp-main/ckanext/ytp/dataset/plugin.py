@@ -1,4 +1,4 @@
-from ckan import plugins, model
+from ckan import plugins, model, logic
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing
 from ckan.lib import helpers
@@ -126,7 +126,7 @@ def not_empty_or(item):
 
 _key_functions = {u'extras':  _parse_extras}
 
-
+@logic.side_effect_free
 def action_package_show(context, data_dict):
     result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
     organization_data = result.get('organization', None)
