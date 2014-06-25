@@ -1,4 +1,7 @@
 from ckan.lib import helpers
+import json
+import urllib2
+from pylons import config
 
 
 def _markdown(translation, length):
@@ -26,7 +29,11 @@ def extra_translation(values, field, markdown=False, fallback=None):
     return _markdown(translation, markdown) if markdown and translation else translation
 
 
-def get_dict_tree_from_json(filename):
-    return [{'text': 'root 1', 'children': [{'text': 'child 1', 'children': ['child of child']},
-                                            {'text': 'child 2', 'children': [{'text': 'child of child 2', 'children': ['child of child of child']}]}]},
-            {'text': 'root 2', 'children': ['child 3 as string']}]
+def get_dict_tree_from_json(fileurl_variable_name):
+    """ Parse a JSON file and return it for constructing UI trees. """
+
+    file_url = config.get(fileurl_variable_name, None)
+    if file_url:
+        return json.load(urllib2.urlopen(file_url))
+    else:
+        return []

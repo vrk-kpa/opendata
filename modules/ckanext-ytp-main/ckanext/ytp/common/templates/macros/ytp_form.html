@@ -108,14 +108,18 @@
   <input class="form-control" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
 {% endmacro %}
 
-{# Usage: #}
-{# {% set treedata = h.get_dict_tree_from_json('/src/ytp/files/ckandata/municipalities.json') %} #}
-{#{{ ytp_form.modal('test', label='Test label', treedata=treedata, formAttrs = {'nodesToSelect': 'all', 'targetElementId': 'municipalities' }) }} #}
-
-{% macro modal(name, id='', label='', treedata='', formAttrs) %}
+{% macro modal(name, id='', label='', treedata='', modalAttrs, inputAttrs) %}
   {% resource 'ytp_common_js/ytp_form.js' %}
-  <button class="btn btn-primary" data-toggle="modal" data-target="#{{ id or name }}">{{ label }}</button>
-  <div class="modal fade" id="{{ id or name }}" role="dialog" aria-labelledby="{{ label }}" aria-hidden="true">
+  <div class="control-group control-full{{ " error" if error }}">
+    <label class="control-label" for="{{ for }}">{% if is_required %}<span title="{{ _("This field is required") }}" class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>
+    <div class="controls ytp-modal-form">
+      <button class="btn btn-primary" data-toggle="modal" data-target="#{{ id or name }}_modal">{{ _('Select') }}</button>
+      <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(inputAttrs) }} />
+      {% if error and error is iterable %}<span class="error-block">{{ error|join(', ') }}</span>{% endif %}
+    </div>
+  </div>
+  
+  <div class="modal fade" id="{{ id or name }}_modal" role="dialog" aria-labelledby="{{ label }}" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -126,8 +130,8 @@
           {{ tree(treedata) }}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('Close')  }}</button>
-          <button type="button" class="btn btn-primary" onclick="transferSelectedFromTreeToForm($('#{{ id or name }} [data-tree]').jstree(),'{{ formAttrs.nodesToSelect }}', '{{ formAttrs.targetElementId }}')">{{ _('Save') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('Cancel')  }}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="transferSelectedFromTreeToForm($('#{{ id or name }}_modal [data-tree]').jstree(),'{{ modalAttrs.nodesToSelect }}', '{{ modalAttrs.targetElementId }}')">{{ _('Save and Close') }}</button>
         </div>
       </div>
     </div>

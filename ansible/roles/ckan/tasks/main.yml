@@ -228,15 +228,19 @@
   tags:
   - ckan
 
-- name: Copy License register
-  copy: src="license.json" dest="{{ ckan_files_path }}/license.json" mode=0644 owner=root group="{{ www_group }}"
-  register: copy_licenses
+- name: Copy data structures for CKAN UI options
+  copy: src="{{ item }}" dest="{{ ckan_files_path }}/{{ item }}" mode=0644 owner=root group="{{ www_group }}"
+  register: copy_ckan_ui_data
+  with_items:
+    - license.json
+    - service_classes.json
+    - municipalities.json
   tags:
   - ckan
 
 - name: Ensure reindex is launched
   file: path="{{ files_root }}/.solr-reindex" state="absent"
-  when: copy_licenses|changed
+  when: copy_ckan_ui_data|changed
   tags:
   - ckan
 

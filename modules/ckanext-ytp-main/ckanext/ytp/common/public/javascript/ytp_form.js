@@ -198,7 +198,7 @@ function transferSelectedFromTreeToForm(tree, nodesToSelect, targetElementId) {
 
     selected.forEach(function(element){
         var values = input.select2('data');
-        values.push({id: element.id, text: tree.get_text(element)})
+        values.push({id: element.id, text: tree.get_text(element), locked: true})
         input.select2( 'data', values);
     })
 

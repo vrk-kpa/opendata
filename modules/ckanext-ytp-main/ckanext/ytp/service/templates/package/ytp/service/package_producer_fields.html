@@ -9,4 +9,8 @@
 
 {{ ytp_form.input('service_provider_other', label=_('Service provider (if other than responsible organization)'), value=data.service_provider_other, placeholder='', error=errors.service_provider_other, locales=h.get_available_locales(), data=data) }}
 
-{{ ytp_form.input('service_class', label=_('Service class'), value=data.service_class, placeholder='', error=errors.service_class, locales=h.get_available_locales(), data=data) }}
+{{ ytp_form.modal('service_class', 
+                  label=_('Service class'), 
+                  treedata=h.get_dict_tree_from_json('service_classes_options_url'),
+                  modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'service_class' },
+                  inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'service_class'}) }}
