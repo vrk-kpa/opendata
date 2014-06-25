@@ -93,9 +93,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
 
-    _localized_fields = ['title', 'description', 'alternative_name', 'street_address_unofficial_name', 'street_address_building_id',
-                         'street_address_getting_there', 'street_address_parking', 'street_address_public_transport',
-                         'street_address_url_public_transport']
+    _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
+                         'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
+                         'street_address_unofficial_name', 'street_address_building_id', 'street_address_getting_there',
+                         'street_address_parking', 'street_address_public_transport', 'street_address_url_public_transport']
 
     def configure(self, config):
         _configure(config)

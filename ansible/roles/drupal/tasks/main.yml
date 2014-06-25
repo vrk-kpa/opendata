@@ -39,6 +39,23 @@
   tags:
   - drupal
 
+# The listen.owner, listen.group, and listen.mode options are used for setting the permissions so that
+# nginx does not return 502 Bad Gateway (because of permission denied)
+- name: Set PHP socket (listen owner)
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+  tags:
+  - drupal
+
+- name: Set PHP socket (listen group)
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+  tags:
+  - drupal
+
+- name: Set PHP socket (listen mode)
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.mode value=0660
+  tags:
+  - drupal
+
 # required by drush
 - name: Create root pgpass
   template: src=pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
