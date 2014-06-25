@@ -87,32 +87,17 @@
 
     {# Address info #}
     <h2 class="organization-subheading">{{_('Contact info')}}</h2>
-    {% call form.input_block("address", _('Address'), errors.address, [], extra_html="") %}
-        <div class="control-full address-control">
-        <label>{{_('Street')}}, {{_('House number')}}, {{_('Staircase')}}, {{_('Apartment number')}}</label>
-        <input class="form-control" name ="street_address" id="street_address" type="text" value="{{data.street_address}}" placeholder="{{_('Example street 1 apartment 5')}}"/>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label>{{ _('P.O. box') }}</label><br/>
-                <input class="form-control" id="street_address_pobox" name="street_address_pobox" type="text" value="{{data.street_address_pobox}}" placeholder="{{ _('P.O. Box 123') }}">
-            </div>
-            <div class="col-sm-6">
-                <label>{{ _('Zip code') }}</label><br/>
-                <input class="form-control" id="street_address_zip_code" type="text" name="street_address_zip_code" value="{{data.street_address_zip_code}}" placeholder="{{ _('12345') }}">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label>{{ _('Place of Business') }}</label><br/>
-                <input class="form-control" id="street_address_place_of_business" type="text" name="street_address_place_of_business" value="{{data.street_address_place_of_business}}" placeholder="{{ _('Example City') }}">
-            </div>
-            <div class="col-sm-6">
-                <label>{{ _('Country') }}</label><br/>
-                <input class="form-control" id="street_address_country" type="text" name="street_address_country" value="{{data.street_address_country}}" placeholder="{{ _('Example country') }}">
-            </div>
-        </div>
+
+    {% call ytp_form.input('street_address', label= _('Address'), placeholder=_('Example street 1 apartment 5'), value=data.street_address, error=errors.street_address, classes=['control-full'], locales=h.get_available_locales(), data=data) %}
+    <span>{{ _('Street') }}, {{ _('House number') }}, {{ _('Staircase') }}, {{ _('Apartment number') }}</span>
     {% endcall %}
+
+    {{ ytp_form.input('street_address_pobox', label=_('P.O. box'), id='street_address_pobox', placeholder=_('P.O. Box 123'), value=data.street_address_pobox, error=errors.street_address_pobox, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('street_address_zip_code', label=_('Zip code'), id='street_address_zip_code', placeholder=_('12345'), value=data.street_address_zip_code, error=errors.street_address_zip_code, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+
+
+    {{ ytp_form.input('street_address_place_of_business', label=_('Place of Business'), id='street_address_place_of_business', placeholder=_('Example City'), value=data.street_address_place_of_business, error=errors.street_address_place_of_business, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('street_address_country', label=_('Country'), id='street_address_country', placeholder= _('Example country'), value=data.street_address_country, error=errors.street_address_country, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
     <h3 class="organization-subheading">{{ _('Address specifier') }}</h3>
 
