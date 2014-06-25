@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-03 07:43+0000\n"
-"PO-Revision-Date: 2014-06-23 10:57+0000\n"
-"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"POT-Creation-Date: 2014-06-25 20:47+0300\n"
+"PO-Revision-Date: 2014-06-25 17:48+0000\n"
+"Last-Translator: Vilsepi\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,29 @@ msgstr ""
 msgid ""
 "You can use <a href=\"http://daringfireball.net/projects/markdown/syntax\" "
 "target=\"_blank\">Markdown formatting</a> here"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:114
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:123
+msgid "This field is required"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:114
+msgid "Custom"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:116
+msgid "Select"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:133
+#: ckanext/ytp/common/templates/package/ytp/modal.html:12
+msgid "Cancel"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:134
+msgid "Save and Close"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:11
@@ -85,10 +108,6 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: ckanext/ytp/common/templates/package/ytp/modal.html:12
-msgid "Cancel"
-msgstr ""
-
 #: ckanext/ytp/common/templates/package/ytp/modal.html:13
 msgid "OK"
 msgstr ""
@@ -132,53 +151,54 @@ msgid "Publish Service"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:305
+#: ckanext/ytp/organizations/plugin.py:324
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:105 ckanext/ytp/dataset/plugin.py:115
-#: ckanext/ytp/dataset/plugin.py:120
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:159
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:162
+#: ckanext/ytp/dataset/plugin.py:106 ckanext/ytp/dataset/plugin.py:116
+#: ckanext/ytp/dataset/plugin.py:121
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:161
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:164
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:275
+#: ckanext/ytp/dataset/plugin.py:283
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
 msgstr "Information reserv"
 
-#: ckanext/ytp/dataset/plugin.py:276
+#: ckanext/ytp/dataset/plugin.py:284
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:88
 msgid "Tags"
 msgstr "Ämne"
 
-#: ckanext/ytp/dataset/plugin.py:277
+#: ckanext/ytp/dataset/plugin.py:285
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:163
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/dataset/plugin.py:278 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:286 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:279
+#: ckanext/ytp/dataset/plugin.py:287
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:124
+#: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:64
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:359
+#: ckanext/ytp/dataset/plugin.py:351
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:359
+#: ckanext/ytp/dataset/plugin.py:351
 msgid "Additional Info"
 msgstr ""
 
@@ -226,6 +246,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:12
 #: ckanext/ytp/dataset/templates/package/base.html:16
+#: ckanext/ytp/organizations/templates/snippets/organization.html:53
 #: ckanext/ytp/theme/menu.py:60 ckanext/ytp/user/templates/user/read.html:5
 #: ckanext/ytp/user/templates/user/read_base.html:28
 msgid "Datasets"
@@ -318,7 +339,8 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/resource_read.html:112
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:5
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:6
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
 msgid "License"
 msgstr ""
@@ -380,8 +402,8 @@ msgid "Public Service"
 msgstr "Statstjänst"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:251
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:271
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:253
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:273
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
@@ -395,8 +417,9 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:33
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:253
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:273
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:255
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:275
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
 #: ckanext/ytp/theme/translations.py:5
 msgid "URL"
@@ -409,8 +432,9 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:41
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:255
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:275
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:257
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:277
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "Description"
 msgstr ""
@@ -418,11 +442,6 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "eg. Some useful notes about the data"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:123
-msgid "This field is required"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:74
@@ -433,7 +452,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:82
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:53
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:38
 msgid "Copyright Notice"
 msgstr ""
 
@@ -442,7 +461,7 @@ msgid "Additional information concerning copyright"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:83
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:39
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:51
 msgid "Disclaimer of Warranty"
 msgstr ""
 
@@ -482,7 +501,8 @@ msgid "eg. Open Data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:165
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:48
+#: ckanext/ytp/organizations/templates/organization/about.html:24
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:74
 msgid "Period of validity"
 msgstr "Giltighet"
 
@@ -490,8 +510,8 @@ msgstr "Giltighet"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:168
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:51
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:58
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:77
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:83
 msgid "YYYY-MM-DD"
 msgstr "ÅÅÅÅ-MM-DD"
 
@@ -530,9 +550,9 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:47
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:120
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:231
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:233
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:57
 #: ckanext/ytp/user/templates/user/edit_user_form.html:64
 msgid "Delete"
@@ -578,6 +598,7 @@ msgid "File"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:37
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:87
 msgid "Name"
@@ -605,12 +626,12 @@ msgid "eg. A year, 2 months"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:30
 msgid "Temporal Coverage"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:15
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:36
 msgid "Update Frequency"
 msgstr ""
 
@@ -628,7 +649,7 @@ msgid "Save & add another"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:79
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:61
 msgid "Save"
 msgstr ""
@@ -658,12 +679,16 @@ msgid "More information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:120
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:231
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:233
 msgid "Edit"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:14
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
+msgid "Other"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35
 msgid "Temporal Granurality"
 msgstr ""
 
@@ -678,16 +703,16 @@ msgid ""
 "add some?</a> "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:19
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:21
 msgid "Languages"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:45
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:57
 msgid "Extra information"
 msgstr "Kommentarer"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:59
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:66
 msgid "Technical extra information"
 msgstr ""
 
@@ -743,32 +768,119 @@ msgstr ""
 msgid "User %s not authorized to edit organization %s"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:108
+#: ckanext/ytp/organizations/plugin.py:121
 msgid "Group title already exists in database"
 msgstr "Grupp titel finns redan i databasen"
 
-#: ckanext/ytp/organizations/templates/organization/about.html:21
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:64
+#: ckanext/ytp/organizations/templates/organization/about.html:12
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:70
+msgid "Business ID"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:16
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:71
+msgid "OID"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:20
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:72
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:88
+msgid "Alternative name"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:32
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:89
 msgid "Contact info"
 msgstr "Kontaktinfo"
 
+#: ckanext/ytp/organizations/templates/organization/about.html:34
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:92
+msgid "Street"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:34
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:92
+msgid "House number"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:34
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:92
+msgid "Staircase"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:34
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:92
+msgid "Apartment number"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:38
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:95
+msgid "P.O. box"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:42
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:96
+msgid "Zip code"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:46
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:99
+msgid "Place of Business"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:50
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:100
+msgid "Country"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:54
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:104
+msgid "Unofficial name of the building"
+msgstr ""
+
 #: ckanext/ytp/organizations/templates/organization/about.html:58
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:173
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:242
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:261
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:281
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:105
+msgid "Building ID"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:62
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+msgid "Getting there"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:66
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:110
+msgid "Parking"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:70
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
+msgid "Arrival by public transport"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:74
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:113
+msgid "URL for public transport"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/about.html:102
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:175
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:244
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:263
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:283
 msgid "Plain language translation available"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/about.html:61
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:174
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:245
+#: ckanext/ytp/organizations/templates/organization/about.html:105
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:176
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:247
 msgid "Plain language translation not available"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/index.html:13
 msgid "Search data producers..."
-msgstr "Sök dataproducerare..."
+msgstr "Sök dataproducenter..."
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:7
 msgid "If you wish to add an existing user, search for their username below."
@@ -818,223 +930,178 @@ msgstr ""
 msgid "Create Organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:10
-msgid "Parent"
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
+msgid "My Organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:14
-msgid "None - top level"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:23
-msgid "Public administration organization"
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
+msgid "my-organization"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
+msgid "A little information about my organization..."
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:37
+msgid "Parent"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:41
+msgid "None - top level"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:52
+msgid "Public administration organization"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
 msgid "Yes"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
 msgid "No"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:37
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:63
 msgid "Producer type"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:44
-msgid "Business ID"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:45
-msgid "OID"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:46
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:88
-msgid "Alternative name"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:65
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:91
 msgid "Address"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
-msgid "Street"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
-msgid "House number"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
-msgid "Staircase"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
-msgid "Apartment number"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:68
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:91
 msgid "Example street 1 apartment 5"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:72
-msgid "P.O. box"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:73
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:95
 msgid "P.O. Box 123"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:76
-msgid "Zip code"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:77
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:96
 msgid "12345"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:82
-msgid "Place of Business"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:83
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:99
 msgid "Example City"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:86
-msgid "Country"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:87
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:100
 msgid "Example country"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:91
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
 msgid "Address specifier"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:93
-msgid "Unofficial name of the building"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:94
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:104
 msgid "Example name"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:95
-msgid "Building ID"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:96
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:105
 msgid "Example Id"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:100
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:107
 msgid "Arrival instructions"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
-msgid "Getting there"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:103
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
 msgid "Example instructions"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:104
-msgid "Parking"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:105
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:110
 msgid "Example parking instructions"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:106
-msgid "Arrival by public transport"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:107
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
 msgid "Example instructions arrival by public transport"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:108
-msgid "URL for public transport"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:113
 msgid "http://publictransport.example.com/"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:217
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:219
 msgid "Homepages"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:219
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:221
 msgid "Add Homepage"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:253
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:273
-msgid "http://example.com/"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:255
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:275
-msgid "A little information about the item..."
+msgid "http://example.com/"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:257
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:277
-msgid "Accessibility"
+msgid "A little information about the item..."
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:259
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:279
+msgid "Accessibility"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:261
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:281
 msgid "WCAG"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:279
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:281
 msgid "WGAC"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:24
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:25
 msgid "View {organization_name}"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:33
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:36
 msgid "{num} Dataset"
 msgid_plural "{num} Datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:35
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:38
 msgid "0 Datasets"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:138
+#: ckanext/ytp/organizations/templates/snippets/organization.html:39
+msgid "read more"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/snippets/organization.html:42
+msgid "There is no description for this organization"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/snippets/organization.html:49
+#: ckanext/ytp/user/templates/user/read_base.html:24
+msgid "Followers"
+msgstr ""
+
+#: ckanext/ytp/service/plugin.py:139
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:140
+#: ckanext/ytp/service/plugin.py:141
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:162
+#: ckanext/ytp/service/plugin.py:163
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:168
+#: ckanext/ytp/service/plugin.py:169
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:173 ckanext/ytp/service/plugin.py:181
+#: ckanext/ytp/service/plugin.py:174 ckanext/ytp/service/plugin.py:182
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
@@ -1059,16 +1126,16 @@ msgstr ""
 msgid "Municipalities, where service is provided"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:104
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:107
 msgid "Target groups"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:106
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:109
 msgid "Requirements for using the service"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:15
-msgid "Producer"
+msgid "Production"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:16
@@ -1095,7 +1162,7 @@ msgstr ""
 msgid "Service provider (if other than responsible organization)"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:12
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:13
 msgid "Service class"
 msgstr ""
 
@@ -1428,28 +1495,46 @@ msgid ""
 "again.</p> "
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:161
+#: ckanext/ytp/user/controller.py:26
+msgid "No user specified"
+msgstr ""
+
+#: ckanext/ytp/user/controller.py:32
+msgid "Unauthorized to edit a user."
+msgstr ""
+
+#: ckanext/ytp/user/controller.py:50
+#, python-format
+msgid "Unauthorized to edit user %s"
+msgstr ""
+
+#: ckanext/ytp/user/controller.py:52 ckanext/ytp/user/logic.py:164
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:164
+#: ckanext/ytp/user/controller.py:58
+#, python-format
+msgid "User %s not authorized to edit %s"
+msgstr ""
+
+#: ckanext/ytp/user/logic.py:167
 msgid "Cannot change username"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:166
+#: ckanext/ytp/user/logic.py:169
 msgid "Cannot change email"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:177
+#: ckanext/ytp/user/logic.py:180
 msgid "Have to be logged in to edit user"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:185
+#: ckanext/ytp/user/logic.py:188
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/user/logic.py:191
+#: ckanext/ytp/user/logic.py:194
 msgid "Have to be logged in to list users"
 msgstr ""
 
@@ -1615,10 +1700,6 @@ msgstr ""
 
 #: ckanext/ytp/user/templates/user/read_base.html:18
 msgid "This user has no biography."
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/read_base.html:24
-msgid "Followers"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/read_base.html:32
