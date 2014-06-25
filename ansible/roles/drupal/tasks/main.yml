@@ -42,12 +42,12 @@
 # The listen.owner, listen.group, and listen.mode options are used for setting the permissions so that
 # nginx does not return 502 Bad Gateway (because of permission denied)
 - name: Set PHP socket (listen owner)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.owner value=www-data
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
   tags:
   - drupal
 
 - name: Set PHP socket (listen group)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.group value=www-data
+  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
   tags:
   - drupal
 
