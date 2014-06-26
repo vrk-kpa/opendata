@@ -101,7 +101,7 @@
                       label=_('Municipalities, where service is provided'),
                       treedata=h.get_dict_tree_from_json('municipalities_options_url'),
                       modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'municipalities' },
-                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'municipalities'}) }}
+                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'municipalities', 'readonly': true}) }}
 
     {% set target_groups_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=target_groups&incomplete=?'} %}
     {{ form.input('target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups, classes=['control-full'], attrs=target_groups_attrs) }}
