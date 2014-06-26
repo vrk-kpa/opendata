@@ -1,5 +1,3 @@
-proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
-proxy_temp_path /tmp/nginx_proxy 1 2;
 
 # Drupal authentication cookie mapping. Used to prevent caching.
 map $http_cookie $no_cache {
@@ -15,10 +13,10 @@ server {
 server {
     listen 443;
     ssl on;
-    ssl_certificate {{ certificates_path }}/server.crt;
-    ssl_certificate_key {{ certificates_path }}/server.key;
+    ssl_certificate {{ certificates_path }}/{{ item.ssl_crt }};
+    ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
 
-    server_name {{ hostname }} {{ secondary_hostname }};
+    server_name {{ item.server_name }};
     root /var/www/ytp;
     client_max_body_size 100M;
     gzip_static on;
@@ -39,9 +37,9 @@ server {
     }
 
     # Secondary hostname is used with foreign language by default.
-    if ($host = '{{ secondary_hostname }}') {
-        rewrite ^/$ /{{ secondary_hostname_language }} permanent;
-    }
+    {% if item.root_redirect %}
+    rewrite ^/$ /{{ item.root_redirect }} permanent;
+    {% endif %}
 
     error_page 503 @maintenance;
 

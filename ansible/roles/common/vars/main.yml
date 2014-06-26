@@ -1,3 +1,7 @@
 ---
 
 clear_all_cache: false
+
+apt_source_url: "http://fi.archive.ubuntu.com"
+# Ubuntu 12.04
+ubuntu_codename: precise

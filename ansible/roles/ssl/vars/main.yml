@@ -1,3 +1,7 @@
 ---
 
 ssl_path: false
+ssl_crt_primary: server.crt
+ssl_crt_secondary: server.crt
+ssl_key_primary: server.key
+ssl_key_secondary: server.key

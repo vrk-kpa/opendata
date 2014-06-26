@@ -13,11 +13,10 @@
     - ["vars/ytp-secrets/{{ secret_variables }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
   roles:
-    - ansible
+    - common
     - firewall
     - users
     - clean
-    - common
     - database
     - nfs_server
     - nfs_client

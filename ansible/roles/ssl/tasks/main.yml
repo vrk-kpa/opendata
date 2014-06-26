@@ -1,14 +1,12 @@
 
 - name: Ensure SSL path access
   file: path="/etc/ssl" state=directory mode=0755 owner=root group=root
-  when: ssl_path != false
   tags:
     - nginx
     - ssl
 
 - name: Create SSL path
   file: path="{{ certificates_path }}" state=directory mode=0755 owner=root group="{{ www_group }}"
-  when: ssl_path != false
   tags:
     - nginx
     - ssl
@@ -20,27 +18,29 @@
     - nginx
     - ssl
 
-- name: Copy SSL key file
-  copy: src="{{ ssl_path }}/server.key" dest={{ certificates_path }}/server.key owner=root group="{{ www_group }}" mode=640
+- name: Copy SSL files
+  copy: src="{{ ssl_path }}/{{ item }}" dest={{ certificates_path }}/{{ item }} owner=root group="{{ www_group }}" mode=640
   when: ssl_path != false
+  with_items:
+    - "{{ ssl_crt_primary }}"
+    - "{{ ssl_crt_secondary }}"
+    - "{{ ssl_key_primary }}"
+    - "{{ ssl_key_secondary }}"
   tags:
     - nginx
     - ssl
 
 - name: Generate self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ansible_fqdn}}" -days 3650 -keyout {{cache_path}}/server.key -out {{cache_path}}/server.crt -extensions v3_ca creates={{cache_path}}/server.crt
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ ansible_fqdn }}" -days 3650 -keyout "{{ certificates_path }}/{{ ssl_key_primary }}" -out "{{ certificates_path }}/server.crt" -extensions v3_ca creates="{{ certificates_path }}/{{ ssl_crt_primary }}"
+  register: generate_certificates
   when: ssl_path == false
   tags:
     - nginx
     - ssl
 
-- name: Copy generated SSL files
-  shell: mkdir --parent {{ certificates_path }} && cp {{ cache_path }}/{{ item }} {{ certificates_path }}/{{ item }} && chmod 640 {{ certificates_path }}/{{ item }}
-  when: ssl_path == false
-  with_items:
-    - server.crt
-    - server.key
+- name: Ensure certificates ownership
+  shell: chmod 640 {{ certificates_path }}/* && chown "root:{{ www_group }}" {{ certificates_path }}/*
+  when: ssl_path == false and generate_certificates|changed
   tags:
     - nginx
     - ssl
-

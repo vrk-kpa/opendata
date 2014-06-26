@@ -7,10 +7,36 @@
   - common
   - clear-cache
 
-- name: Create common paths
-  file: path="{{ item }}" state=directory
-  with_items: all_paths
+- name: Set hostname
+  template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
+  register: hostname_update
   tags:
+  - common
+  - has-hostname
+
+- name: Update hostname
+  command: service hostname start
+  when: hostname_update|changed
+  tags:
+  - common
+  - has-hostname
+
+- name: Copy environment
+  template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
+  tags:
+  - common
+
+- name: Copy apt sources.list
+  template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
+  when: apt_source_url != false
+  tags:
+  - packages
+  - common
+
+- name: Update package cache
+  apt: update_cache=yes
+  tags:
+  - packages
   - common
 
 - name: Update packages
@@ -20,6 +46,16 @@
   - non-local
   - common
 
+- name: Ensure ansible requirements
+  action: apt pkg="{{ item }}" state=latest
+  with_items:
+    - python-psycopg2
+    - python-virtualenv
+  tags:
+  - packages
+  - common
+
+# TODO: Move this to roles where packages are used even those are duplicate
 - name: Ensure common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -29,4 +65,11 @@
     - gettext
   tags:
   - packages
+  - common
+
+# TODO: Move path creation where paths are used even those are duplicate
+- name: Create common paths
+  file: path="{{ item }}" state=directory
+  with_items: all_paths
+  tags:
   - common

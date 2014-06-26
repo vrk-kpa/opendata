@@ -12,16 +12,24 @@
   tags:
     - nginx
 
-- name: Copy Nginx configurations
-  template: src={{ item.template }} dest=/etc/nginx/{{ item.dest }} mode=0644 owner=root group=root
+- name: Copy base Nginx configuration
+  template: src="nginx.conf.j2" dest=/etc/nginx/nginx.conf mode=0644 owner=root group=root
+  tags:
+    - nginx
+
+- name: Copy Nginx sites
+  template: src={{ item.template }} dest=/etc/nginx/{{ item.destination }} mode=0644 owner=root group=root
   with_items:
-    - {'template':'nginx_site_config.j2','dest':'sites-available/ytp'}
-    - {'template':'nginx.conf.j2','dest':'nginx.conf'}
+    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'ssl_crt': "{{ ssl_crt_primary }}", 'ssl_key': "{{ ssl_key_primary }}", 'server_name': "{{ hostname }}", 'root_redirect': false }
+    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'ssl_crt': "{{ ssl_crt_secondary }}", 'ssl_key': "{{ ssl_key_secondary }}", 'server_name': "{{ secondary_hostname }}", 'root_redirect': "{{ secondary_hostname_language }}" }
   tags:
     - nginx
 
 - name: Enable Nginx site
-  file: src=/etc/nginx/sites-available/ytp dest=/etc/nginx/sites-enabled/ytp state=link
+  file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" state=link
+  with_items:
+    - "ytp"
+    - "ytp-secondary"
   tags:
     - nginx
   notify:
