@@ -1,0 +1,177 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"POT-Creation-Date: 2014-06-26 12:55+0000\n"
+"PO-Revision-Date: 2014-06-26 15:08+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: field:body:tutorial:label
+msgctxt "body:tutorial:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:body:infobox:label
+msgctxt "body:infobox:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:body:service_alert:label
+msgctxt "body:service_alert:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:body:article:label
+msgctxt "body:article:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:body:page:label
+msgctxt "body:page:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:body:event:label
+msgctxt "body:event:label"
+msgid "Body"
+msgstr "Leipäteksti"
+
+#: field:comment_body:comment_node_carousel_item:label
+msgctxt "comment_body:comment_node_carousel_item:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:comment_body:comment_node_service_alert:label
+msgctxt "comment_body:comment_node_service_alert:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:comment_body:comment_node_article:label
+msgctxt "comment_body:comment_node_article:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:comment_body:comment_node_page:label
+msgctxt "comment_body:comment_node_page:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:field_fullname:user:label
+msgctxt "field_fullname:user:label"
+msgid "Fullname"
+msgstr "Koko nimi"
+
+#: field:field_ckan_api_key:user:label
+msgctxt "field_ckan_api_key:user:label"
+msgid "field_ckan_api_key"
+msgstr ""
+
+#: field:field_tags:article:label
+msgctxt "field_tags:article:label"
+msgid "Tags"
+msgstr "Tagit"
+
+#: field:field_tags:article:description
+msgctxt "field_tags:article:description"
+msgid "Enter a comma-separated list of words to describe your content."
+msgstr "Syötä pilkuilla eroteltu lista sanoista jotka kuvaavat sisältöäsi."
+
+#: field:field_role:#allowed_values:Anonymous
+msgctxt "field_role:#allowed_values:Anonymous"
+msgid "Anonymous"
+msgstr "Anonyymi"
+
+#: field:field_role:#allowed_values:Authenticated
+msgctxt "field_role:#allowed_values:Authenticated"
+msgid "Authenticated"
+msgstr "Sisäänkirjautunut"
+
+#: field:field_image:carousel_item:label
+msgctxt "field_image:carousel_item:label"
+msgid "Image"
+msgstr "Kuva"
+
+#: field:field_role:tutorial:label
+msgctxt "field_role:tutorial:label"
+msgid "Role"
+msgstr "Rooli"
+
+#: field:body:carousel_item:label
+msgctxt "body:carousel_item:label"
+msgid "Description"
+msgstr "Kuvaus"
+
+#: field:field_event_date:event:label
+msgctxt "field_event_date:event:label"
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: field:field_event_type:#allowed_values:event
+msgctxt "field_event_type:#allowed_values:event"
+msgid "Event"
+msgstr "Tapahtuma"
+
+#: field:field_event_type:#allowed_values:training
+msgctxt "field_event_type:#allowed_values:training"
+msgid "Training"
+msgstr "Koulutus"
+
+#: field:field_event_type:event:label
+msgctxt "field_event_type:event:label"
+msgid "Type"
+msgstr "Tyyppi"
+
+#: field:field_event_type:event:description
+msgctxt "field_event_type:event:description"
+msgid "Type of the event"
+msgstr "Tapahtumatyyppi"
+
+#: field:field_event_location:event:label
+msgctxt "field_event_location:event:label"
+msgid "Location"
+msgstr "Sijainti"
+
+#: field:field_event_location:event:description
+msgctxt "field_event_location:event:description"
+msgid "Location of the event"
+msgstr "Tapahtuman sijainti"
+
+#: field:field_role:#allowed_values:In organization
+msgctxt "field_role:#allowed_values:In organization"
+msgid "In organization"
+msgstr "Organisaatiossa"
+
+#: field:field_image:article:label
+msgctxt "field_image:article:label"
+msgid "Image"
+msgstr "Kuva"
+
+#: field:field_image:article:description
+msgctxt "field_image:article:description"
+msgid "Upload an image to go with this article."
+msgstr "Lataa artikkeliin liittyvä kuva."
+
+#: field:comment_body:comment_node_event:label
+msgctxt "comment_body:comment_node_event:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:comment_body:comment_node_tutorial:label
+msgctxt "comment_body:comment_node_tutorial:label"
+msgid "Comment"
+msgstr "Kommentti"
+
+#: field:comment_body:comment_node_infobox:label
+msgctxt "comment_body:comment_node_infobox:label"
+msgid "Comment"
+msgstr "Kommentti"

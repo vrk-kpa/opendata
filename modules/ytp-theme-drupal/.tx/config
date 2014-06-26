@@ -7,3 +7,14 @@ source_file = i18n/ytp-theme-drupal.pot
 source_lang = en
 type = PO
 
+[ytp.ytp-theme-drupal-field]
+file_filter = i18n-field/<lang>/LC_MESSAGES/ytp-theme-drupal-field.po
+source_file = i18n-field/ytp-theme-drupal-field.pot
+source_lang = en
+type = PO
+
+[ytp.ytp-theme-drupal-node]
+file_filter = i18n-node/<lang>/LC_MESSAGES/ytp-theme-drupal-node.po
+source_file = i18n-node/ytp-theme-drupal-node.pot
+source_lang = en
+type = PO

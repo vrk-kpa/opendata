@@ -161,6 +161,7 @@
     - i18n_node
     - i18n_block
     - i18n_menu
+    - i18n_field
 
     - pathauto
     - tokenvariables

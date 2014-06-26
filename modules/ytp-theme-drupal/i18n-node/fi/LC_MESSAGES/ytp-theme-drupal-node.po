@@ -1,0 +1,126 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"POT-Creation-Date: 2014-06-26 13:58+0000\n"
+"PO-Revision-Date: 2014-06-26 14:56+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: node:type:article:name
+msgctxt "type:article:name"
+msgid "Article"
+msgstr "Artikkeli"
+
+#: node:type:article:title_label
+msgctxt "type:article:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:article:description
+msgctxt "type:article:description"
+msgid ""
+"Use <em>articles</em> for time-sensitive content like news, press releases "
+"or blog posts."
+msgstr "Käytä <em>artikkeleita</em> ajallisesti herkälle sisällölle kuten uutisille, lehdistötiedotteille tai blogikirjoituksille."
+
+#: node:type:page:name
+msgctxt "type:page:name"
+msgid "Basic page"
+msgstr "Perussivu"
+
+#: node:type:page:title_label
+msgctxt "type:page:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:page:description
+msgctxt "type:page:description"
+msgid ""
+"Use <em>basic pages</em> for your static content, such as an 'About us' "
+"page."
+msgstr "Käytä <em>perussivuja</em> staattiseen sisältöösi kuten esimerkiksi \"Tietoa meistä\"-sivuun."
+
+#: node:type:service_alert:name
+msgctxt "type:service_alert:name"
+msgid "Service alert"
+msgstr "Palvelutiedote"
+
+#: node:type:service_alert:title_label
+msgctxt "type:service_alert:title_label"
+msgid "Otsikko"
+msgstr "Otsikko"
+
+#: node:type:service_alert:description
+msgctxt "type:service_alert:description"
+msgid "Service alerts are messages that are show on every page."
+msgstr "Palvelutiedotteet ovat viestejä, jotka näytetään jokaisella sivulla."
+
+#: node:type:carousel_item:name
+msgctxt "type:carousel_item:name"
+msgid "Carousel item"
+msgstr "Karusellisisältö"
+
+#: node:type:carousel_item:title_label
+msgctxt "type:carousel_item:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:carousel_item:description
+msgctxt "type:carousel_item:description"
+msgid "Front page carousel content"
+msgstr "Etusivun karusellin sisältö."
+
+#: node:type:infobox:name
+msgctxt "type:infobox:name"
+msgid "Infobox"
+msgstr "Informaatiolaatikko"
+
+#: node:type:infobox:title_label
+msgctxt "type:infobox:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:infobox:description
+msgctxt "type:infobox:description"
+msgid "Front page infobox content"
+msgstr "Etusivun informaatiolaatikon sisältö."
+
+#: node:type:tutorial:name
+msgctxt "type:tutorial:name"
+msgid "Tutorial"
+msgstr "Opetus"
+
+#: node:type:tutorial:title_label
+msgctxt "type:tutorial:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:tutorial:description
+msgctxt "type:tutorial:description"
+msgid "Content for frontpage tutorial box"
+msgstr "Etusivun opetuslaatikon sisältö."
+
+#: node:type:event:name
+msgctxt "type:event:name"
+msgid "Event"
+msgstr "Tapahtuma"
+
+#: node:type:event:title_label
+msgctxt "type:event:title_label"
+msgid "Title"
+msgstr "Otsikko"
+
+#: node:type:event:description
+msgctxt "type:event:description"
+msgid "Calendar event"
+msgstr "Kalenteritapahtuma"

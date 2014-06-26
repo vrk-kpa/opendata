@@ -1,0 +1,177 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"POT-Creation-Date: 2014-06-26 12:55+0000\n"
+"PO-Revision-Date: 2014-06-26 15:08+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: field:body:tutorial:label
+msgctxt "body:tutorial:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:body:infobox:label
+msgctxt "body:infobox:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:body:service_alert:label
+msgctxt "body:service_alert:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:body:article:label
+msgctxt "body:article:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:body:page:label
+msgctxt "body:page:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:body:event:label
+msgctxt "body:event:label"
+msgid "Body"
+msgstr "Brödtext"
+
+#: field:comment_body:comment_node_carousel_item:label
+msgctxt "comment_body:comment_node_carousel_item:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:comment_body:comment_node_service_alert:label
+msgctxt "comment_body:comment_node_service_alert:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:comment_body:comment_node_article:label
+msgctxt "comment_body:comment_node_article:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:comment_body:comment_node_page:label
+msgctxt "comment_body:comment_node_page:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:field_fullname:user:label
+msgctxt "field_fullname:user:label"
+msgid "Fullname"
+msgstr "Hela namnet"
+
+#: field:field_ckan_api_key:user:label
+msgctxt "field_ckan_api_key:user:label"
+msgid "field_ckan_api_key"
+msgstr ""
+
+#: field:field_tags:article:label
+msgctxt "field_tags:article:label"
+msgid "Tags"
+msgstr "Etiketter"
+
+#: field:field_tags:article:description
+msgctxt "field_tags:article:description"
+msgid "Enter a comma-separated list of words to describe your content."
+msgstr "Ange en kommaseparerad lista med ord för att beskriva ditt innehåll."
+
+#: field:field_role:#allowed_values:Anonymous
+msgctxt "field_role:#allowed_values:Anonymous"
+msgid "Anonymous"
+msgstr "Gäst"
+
+#: field:field_role:#allowed_values:Authenticated
+msgctxt "field_role:#allowed_values:Authenticated"
+msgid "Authenticated"
+msgstr "Inloggad"
+
+#: field:field_image:carousel_item:label
+msgctxt "field_image:carousel_item:label"
+msgid "Image"
+msgstr "Bild"
+
+#: field:field_role:tutorial:label
+msgctxt "field_role:tutorial:label"
+msgid "Role"
+msgstr "Roll"
+
+#: field:body:carousel_item:label
+msgctxt "body:carousel_item:label"
+msgid "Description"
+msgstr "Beskrivning"
+
+#: field:field_event_date:event:label
+msgctxt "field_event_date:event:label"
+msgid "Date"
+msgstr "Datum"
+
+#: field:field_event_type:#allowed_values:event
+msgctxt "field_event_type:#allowed_values:event"
+msgid "Event"
+msgstr "Händelse"
+
+#: field:field_event_type:#allowed_values:training
+msgctxt "field_event_type:#allowed_values:training"
+msgid "Training"
+msgstr "Utbildning"
+
+#: field:field_event_type:event:label
+msgctxt "field_event_type:event:label"
+msgid "Type"
+msgstr "Typ"
+
+#: field:field_event_type:event:description
+msgctxt "field_event_type:event:description"
+msgid "Type of the event"
+msgstr "Typ av händelse"
+
+#: field:field_event_location:event:label
+msgctxt "field_event_location:event:label"
+msgid "Location"
+msgstr "Plats"
+
+#: field:field_event_location:event:description
+msgctxt "field_event_location:event:description"
+msgid "Location of the event"
+msgstr "Platsen för händelsen"
+
+#: field:field_role:#allowed_values:In organization
+msgctxt "field_role:#allowed_values:In organization"
+msgid "In organization"
+msgstr "I organisationen"
+
+#: field:field_image:article:label
+msgctxt "field_image:article:label"
+msgid "Image"
+msgstr "Bild"
+
+#: field:field_image:article:description
+msgctxt "field_image:article:description"
+msgid "Upload an image to go with this article."
+msgstr "Ladda upp en bild tillsammans med denna artikel."
+
+#: field:comment_body:comment_node_event:label
+msgctxt "comment_body:comment_node_event:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:comment_body:comment_node_tutorial:label
+msgctxt "comment_body:comment_node_tutorial:label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: field:comment_body:comment_node_infobox:label
+msgctxt "comment_body:comment_node_infobox:label"
+msgid "Comment"
+msgstr "Kommentar"

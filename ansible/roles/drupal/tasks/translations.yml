@@ -31,3 +31,26 @@
   - drupal-translations
   - translations
 
+# The following translations belong to specific Drupal text groups and therefore need to be imported specifically to the respective group in order for the
+# translations to work
+- name: Create temporary drupal translation files for text groups
+  command: cp "{{ cache_path }}/ytp-theme-drupal/i18n-{{ item[0] }}/{{ item[1] }}/LC_MESSAGES/ytp-theme-drupal-{{ item[0] }}.po" "{{ translation_cache_path }}/drupal.{{ item[0] }}.{{ item[1] }}.temporary.po"
+  with_nested:
+    - translation_text_groups
+    - translation_languages
+  when: modules_copy|changed
+  tags:
+  - drupal
+  - translations
+  - drupal-translations
+
+- name: Install drupal text group translations
+  command: drush language-import {{ item[1] }} "{{ translation_cache_path }}/drupal.{{ item[0] }}.{{ item[1] }}.temporary.po" --replace --group={{ item[0] }} chdir="{{ drupal_root }}"
+  with_nested:
+    - translation_text_groups
+    - translation_languages
+  when: modules_copy|changed
+  tags:
+  - drupal
+  - drupal-translations
+  - translations

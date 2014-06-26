@@ -30,5 +30,8 @@ translation_languages:
 translation_projects:
   - "ytp-theme-drupal"
   - "ytp-assets-common"
+translation_text_groups:
+  - "field"
+  - "node"
 
 enable_email_verification: False
