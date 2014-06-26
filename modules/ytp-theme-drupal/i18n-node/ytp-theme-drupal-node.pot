@@ -54,12 +54,12 @@ msgstr ""
 
 #: node:type:service_alert:title_label
 msgctxt "type:service_alert:title_label"
-msgid "Otsikko"
+msgid "Title"
 msgstr ""
 
 #: node:type:service_alert:description
 msgctxt "type:service_alert:description"
-msgid "Service alerts are messages that are show on every page."
+msgid "Service alerts are messages that are shown on every page."
 msgstr ""
 
 #: node:type:carousel_item:name

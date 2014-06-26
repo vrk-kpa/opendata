@@ -19,9 +19,9 @@ function service_alert_feature_node_info() {
     'service_alert' => array(
       'name' => t('Service alert'),
       'base' => 'node_content',
-      'description' => t('Service alerts are messages that are show on every page.'),
+      'description' => t('Service alerts are messages that are shown on every page.'),
       'has_title' => '1',
-      'title_label' => t('Otsikko'),
+      'title_label' => t('Title'),
       'help' => '',
     ),
   );
