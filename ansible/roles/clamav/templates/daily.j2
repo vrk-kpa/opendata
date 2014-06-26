@@ -12,10 +12,14 @@ freshclam --quiet
 
 clamscan --recursive --suppress-ok-results --infected --exclude-dir=/sys --exclude-dir=/dev --exclude-dir=/proc --exclude-dir=/var/log --exclude-dir="{{ backup_path }}" --log=$LOG / > $TEMPORARY_FILE
 
+# Add some system information to message also
+echo -e '\n' >> $TEMPORARY_FILE
+df -h >> $TEMPORARY_FILE 
+
 if [ `grep Infected $TEMPORARY_FILE | grep -v 0 | wc -l` != 0 ]; then
     cat $TEMPORARY_FILE | mail -s "System virus detected at $HOST!" $EMAIL
 else
-    cat $TEMPORARY_FILE | mail -s "Daily virus scan log" $EMAIL
+    cat $TEMPORARY_FILE | mail -s "Daily status log" $EMAIL
 fi
 
 rm $TEMPORARY_FILE
