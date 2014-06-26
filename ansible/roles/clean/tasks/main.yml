@@ -2,9 +2,25 @@
 
 # Changes that are required already installed system
 
-# Drush is not installable via drush anymore.
-- name: Remove old drush installation
-  command: pear uninstall drush/drush removes="/usr/share/php/.registry/.channel.pear.drush.org/drush.reg"
+# Revert own patches that are replaced by ckan patches, can be removed after some time
+
+- name: Check if the patch files exist on cache
+  command: /usr/bin/test -e "{{ cache_path }}/patch/{{ item }}"
+  register: patches_exist
   ignore_errors: True
+  with_items:
+    - downgrade_select2js.patch
+  tags:
+    - clean
+
+
+- name: Revert pathces
+  name: Apply CKAN patches
+  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" chdir="{{ ckan_source_path }}"
+  when: patches_exist|changed
+  ignore_errors: True
+  with_items:
+    - downgrade_select2js.patch
   tags:
   - clean
+  
