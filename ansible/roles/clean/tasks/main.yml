@@ -15,12 +15,11 @@
 
 
 - name: Revert pathces
-  name: Apply CKAN patches
-  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" chdir="{{ ckan_source_path }}"
+  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" chdir="{{ virtual_environment }}/src/ckan"
   when: patches_exist|changed
   ignore_errors: True
   with_items:
     - downgrade_select2js.patch
   tags:
   - clean
-  
+
