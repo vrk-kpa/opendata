@@ -5,6 +5,7 @@
   with_items: translation_languages
   when: modules_copy|changed
   tags:
+  - drupal
   - translations
   - drupal-translations
 
@@ -15,6 +16,7 @@
     - translation_languages
   when: modules_copy|changed
   tags:
+  - drupal
   - translations
   - drupal-translations
 
