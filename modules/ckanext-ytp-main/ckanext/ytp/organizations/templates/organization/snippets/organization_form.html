@@ -116,19 +116,18 @@
     {# Homepage functionality #}
     <script type="text/javascript">
 
-        function CreateButtonString(editButton){
+        function CreateButtonString(editButton) {
 
-            if (editButton == true){
-                var buttons = "<a class='homepage button' onclick=\"Edit($(this).parents('.homepage').attr('id'))\">{{_('Edit')}}</a><a class='homepage button' onclick=\"Delete($(this).parents('.homepage').attr('id'))\">{{_('Delete')}}</a>";
-            }
-            else{
-                var buttons = "<a class='homepage button btn btn-primary' onclick=\"Save($(this).parents('.homepage').attr('id'))\">{{_('Save')}}</a><a class='homepage button btn btn-danger' onclick=\"Delete($(this).parents('.homepage').attr('id'))\">{{_('Delete')}}</a>";
+            if (editButton == true) {
+                var buttons = "<a class='homepage button' onclick=\"Edit($(this).parents('.homepage').attr('id'))\" href='javascript:void(0);'>{{_('Edit')}}</a><a class='homepage button' onclick=\"Delete($(this).parents('.homepage').attr('id'))\" href='javascript:void(0);'>{{ _('Delete') }}</a>";
+            } else{
+                var buttons = "<a class='homepage button btn btn-primary' onclick=\"Save($(this).parents('.homepage').attr('id'))\" href='javascript:void(0);'>{{_('Save')}}</a><a class='homepage button btn btn-danger' onclick=\"Delete($(this).parents('.homepage').attr('id'))\" href='javascript:void(0);'>{{ _('Delete') }}</a>";
             }
 
             return buttons;
         }
 
-        function AddHomepage(){
+        function AddHomepage() {
             var homepageCount = $(".homepage").length;
             var homepage = document.createElement('div');
             homepage.id = "Homepage_" + ++homepageCount;
@@ -144,7 +143,7 @@
             homepages.append(homepage);
         }
 
-        function Save(formId){
+        function Save(formId) {
             var homepage = $("#" + formId);
 
             //Get values from form
@@ -156,11 +155,11 @@
             var plainlanguage = homepage.find("#homepage_plain_language_availabilities").val();
 
             //validate mandatory values
-            if (title == '' || url == '' ){
-                if ( title == '' ){
+            if (title == '' || url == '' ) {
+                if ( title == '' ) {
                     homepage.find("#homepage_titles_element").after('<span class="error-block">{{_("Missing value")}}</span>');
                 }
-                if ( url == ''){
+                if ( url == '') {
                     homepage.find("#homepage_urls_element").after('<span class="error-block">{{_("Missing value")}}</span>');
                 }
                 return;
@@ -172,16 +171,22 @@
             homepage.find("#homepage_descriptions").val(description).removeAttr('disabled');
             homepage.find("#homepage_wcags").val(wcag).removeAttr('disabled');
             homepage.find("#homepage_accessibilities").val(accessibility).removeAttr('disabled');
-            var plainlanguageAvailable = "{{ _('Plain language translation available') }}"
-            var plainlanguageNotAvailable = "{{ _('Plain language translation not available') }}"
+            var plainlanguageAvailable = "{{ _('Plain language translation available') }}";
+            var plainlanguageNotAvailable = "{{ _('Plain language translation not available') }}";
             plainlanguage = plainlanguage == "0" ? plainlanguageNotAvailable : plainlanguageAvailable;
 
             var template = "<h3>" + title + "</h3>" +
-                '<a href="' + url + '">' + url + '</a>' +
-                '<p>' + description + '</p>' +
-                '<p>' + accessibility + '</p>' +
-                '<p>' + wcag + '</p>' +
-                '<p>' + plainlanguage + '</p>';
+                '<dl>' + 
+                '<dt>{{ _("URL") }}</dt>' +
+                '<dd><a href="' + url + '">' + url + '</a></dd>' +
+                '<dt>{{ _("Description") }}</dt>' +
+                '<dd>' + description + '</dd>' +
+                '<dt>{{ _("Accessibility") }}</dt>' + 
+                '<dd>' + accessibility + '</dd>' + 
+                '<dt>{{ _("WCAG") }}</dt>' +
+                '<dd>' + wcag + '</dd>' + 
+                '</dl>' + 
+                '<small>' + plainlanguage + '</small>';
 
             var content = $("<div class='link-container'>" + CreateButtonString(true) + "</div>" + "<div class='homepage static'>" + template + '</div>');
             homepage.append(content);
@@ -218,7 +223,7 @@
     </script>
     <h2 class="organization-subheading">{{_('Homepages')}}</h2>
     <div id="homepages">
-    <a onclick=AddHomepage() >{{_('Add Homepage')}}</a>
+    <a onclick="AddHomepage()" href="javascript:void(0);">{{_('Add Homepage')}}</a>
     {% set page_list = data.get('homepage_urls') %}
     {% set desc_list = data.get('homepage_descriptions') %}
     {% set title_list = data.get('homepage_titles') %}
@@ -230,15 +235,25 @@
         {% for page in page_list %}
             <div id="Homepage_{{ loop.index }}" class="homepage single">
                 <div class="link-container">
-                    <a class='homepage button' onclick="Edit($(this).parents('.homepage').attr('id'))">{{_('Edit')}}</a><a class='homepage button' onclick="Delete($(this).parents('.homepage').attr('id'))">{{_('Delete')}}</a>
+                    <a class='homepage button' onclick="Edit($(this).parents('.homepage').attr('id'))" href="javascript:void(0);">{{ _('Edit') }}</a><a class='homepage button' onclick="Delete($(this).parents('.homepage').attr('id'))" href="javascript:void(0);">{{ _('Delete') }}</a>
                 </div>
                 <div class="homepage static">
-                    <h3>{{title_list[loop.index0]}}</h3>
-                    <a href="{{page}}">{{page}}</a>
-                    <p>{{desc_list[loop.index0]}}</p>
-                    <p>{{accessibility_list[loop.index0]}}</p>
-                    <p>{{wcag_list[loop.index0]}}</p>
-                    <p>
+                    <h3>{{ title_list[loop.index0] }}</h3>
+                    <dl>
+                        <dt>{{ _('URL') }}</dt>
+                        <dd><a href="{{page}}">{{ page }}</a></dd>
+
+                        <dt>{{ _('Description') }}</dt>
+                        <dd>{{ desc_list[loop.index0] }}</dd>
+
+                        <dt>{{ _('Accessibility') }}</dt>
+                        <dd>{{ accessibility_list[loop.index0] }}</dd>
+
+                        <dt>{{ _('WCAG') }}</dt>
+                        <dd>{{ wcag_list[loop.index0] }}</dd>
+                    </dl>
+
+                    <small>
                         {% if plainlanguage_list[loop.index0] == "1" %}
                             {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)", 'checked': 'checked' } %}
                             {{ _('Plain language translation available') }}
@@ -246,7 +261,7 @@
                             {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)"} %}
                             {{ _('Plain language translation not available') }}
                         {% endif %}
-                    </p>
+                    </small>
                 </div>
                 <div class="homepage editpage hiddenFormTemplate">
                     <input type="hidden" id="homepage_titles" name="homepage_titles" value="{{title_list[loop.index0]}}" class="hiddenFormTemplate"/>
