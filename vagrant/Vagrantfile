@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "../ansible/single-server.yml"
       ansible.verbose = "v"
       ansible.inventory_path = "vagrant-ansible-inventory"
-      ansible.skip_tags = "has-hostname,non-local,postfix"
+      ansible.skip_tags = "non-local,postfix"
       ansible.limit = 'all'
       # ansible.extra_vars = { clear_module_cache: true }
       # ansible.tags = "modules,ckan,drupal"

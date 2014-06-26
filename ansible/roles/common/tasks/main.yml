@@ -14,6 +14,7 @@
   register: hostname_update
   tags:
   - common
+  - non-local
   - has-hostname
 
 - name: Update hostname
@@ -21,6 +22,7 @@
   when: hostname_update|changed
   tags:
   - common
+  - non-local
   - has-hostname
 
 - name: Copy environment
@@ -31,6 +33,7 @@
 - name: Reboot daily
   cron: name="reboot" minute="0" hour="5" job="/sbin/shutdown -r +5"
   tags:
+  - non-local
   - ckan
   - cron
 
