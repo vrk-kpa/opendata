@@ -4,19 +4,9 @@
 
 # Revert own patches that are replaced by ckan patches, can be removed after some time
 
-- name: Check if the patch files exist on cache
-  command: /usr/bin/test -e "{{ cache_path }}/patch/{{ item }}"
-  register: patches_exist
-  ignore_errors: True
-  with_items:
-    - downgrade_select2js.patch
-  tags:
-    - clean
-
 
 - name: Revert pathces
-  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" chdir="{{ virtual_environment }}/src/ckan"
-  when: patches_exist|changed
+  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" && rm "{{ cache_path }}/patch/{{ item }}" chdir="{{ virtual_environment }}/src/ckan" removes="{{ cache_path }}/patch/{{ item }}"
   ignore_errors: True
   with_items:
     - downgrade_select2js.patch
