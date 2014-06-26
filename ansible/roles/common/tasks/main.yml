@@ -28,6 +28,12 @@
   tags:
   - common
 
+- name: Reboot daily
+  cron: name="reboot" minute="0" hour="5" job="/sbin/shutdown -r +5"
+  tags:
+  - ckan
+  - cron
+
 - name: Copy apt sources.list
   template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
   when: apt_source_url != false
@@ -75,3 +81,4 @@
   with_items: all_paths
   tags:
   - common
+
