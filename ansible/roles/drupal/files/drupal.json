@@ -45,6 +45,7 @@
     "i18n_node_extended_article": "1",
     "i18n_node_extended_page": "1",
     "i18n_node_extended_service_alert": "1",
+    "i18n_string_source_language": "en",
 
     "drupal_http_request_fails": "false",
 
