@@ -108,7 +108,7 @@
   <input class="form-control" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
 {% endmacro %}
 
-{% macro modal(name, id='', label='', treedata='', modalAttrs, inputAttrs) %}
+{% macro modal(name, id='', label='', value='', treedata='', modalAttrs, inputAttrs) %}
   {% resource 'ytp_common_js/ytp_form.js' %}
   <div class="control-group control-full{{ " error" if error }}">
     <label class="control-label" for="{{ for }}">{% if is_required %}<span title="{{ _("This field is required") }}" class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>
@@ -127,7 +127,7 @@
           <h4 class="modal-title" id="{{ label }}">{{ label }}</h4>
         </div>
         <div class="modal-body">
-          {{ tree(treedata) }}
+          {{ tree(treedata, value=value) }}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('Cancel')  }}</button>
@@ -139,14 +139,14 @@
 {% endmacro %}
 
 
-{%- macro tree(data) -%}
+{%- macro tree(data, value='') -%}
   <div data-tree>
     <ul>
     {%- for node in data recursive -%}
       {%- if node is string -%}
         <li>{{ node }}</li>
       {%- else -%}
-        <li>{{ node.text }}
+        <li {% if node.text in value %} data-jstree='{"selected": true}' {% endif %}>{{ node.text }}
         {%- if node.children -%}
           <ul>
             {{ loop(node.children) }}
