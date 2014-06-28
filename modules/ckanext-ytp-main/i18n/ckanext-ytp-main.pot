@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-25 20:47+0300\n"
+"POT-Creation-Date: 2014-06-28 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,6 @@ msgid "Create Dataset"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:6
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:18
 #: ckanext/ytp/theme/menu.py:213
 msgid "Publish Data"
 msgstr ""
@@ -152,8 +151,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:106 ckanext/ytp/dataset/plugin.py:116
 #: ckanext/ytp/dataset/plugin.py:121
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:161
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:164
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:160
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:163
 msgid "Missing value"
 msgstr ""
 
@@ -397,8 +396,8 @@ msgid "Public Service"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:253
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:273
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:268
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:288
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
@@ -413,8 +412,10 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:33
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:255
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:275
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:180
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:243
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:270
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:290
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
 #: ckanext/ytp/theme/translations.py:5
 msgid "URL"
@@ -428,8 +429,10 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:41
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:257
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:277
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:182
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:246
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:272
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:292
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "Description"
 msgstr ""
@@ -531,14 +534,14 @@ msgid "Resources"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:37
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:65
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:64
 msgid ""
 "Important: By submitting content, you agree to release your contributions "
 "under the Open Database License."
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:46
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:55
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
@@ -546,9 +549,9 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:233
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:57
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:124
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:238
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 #: ckanext/ytp/user/templates/user/edit_user_form.html:64
 msgid "Delete"
 msgstr ""
@@ -594,8 +597,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:37
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:87
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:19
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:90
 msgid "Name"
 msgstr ""
 
@@ -635,7 +638,7 @@ msgid "Are you sure you want to delete this resource?"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:51
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:50
 msgid "Previous"
 msgstr ""
 
@@ -644,12 +647,13 @@ msgid "Save & add another"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:79
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:61
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:124
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:60
 msgid "Save"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:81
+#: ckanext/ytp/service/templates/package/ytp/service/macros/service_form.html:3
 msgid "Add"
 msgstr ""
 
@@ -675,7 +679,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:233
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:238
 msgid "Edit"
 msgstr ""
 
@@ -779,8 +783,8 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:20
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:72
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:88
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:20
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:91
 msgid "Alternative name"
 msgstr ""
 
@@ -860,16 +864,16 @@ msgid "URL for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:102
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:175
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:244
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:263
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:283
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:174
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:259
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:278
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:298
 msgid "Plain language translation available"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:105
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:176
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:247
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:175
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:262
 msgid "Plain language translation not available"
 msgstr ""
 
@@ -1021,35 +1025,39 @@ msgstr ""
 msgid "http://publictransport.example.com/"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:219
-msgid "Homepages"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:221
-msgid "Add Homepage"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:255
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:275
-msgid "http://example.com/"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:257
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:277
-msgid "A little information about the item..."
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:259
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:279
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:184
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:249
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:274
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:294
 msgid "Accessibility"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:261
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:281
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:186
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:252
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:276
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:296
 msgid "WCAG"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:281
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:224
+msgid "Homepages"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:226
+msgid "Add Homepage"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:270
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:290
+msgid "http://example.com/"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:272
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:292
+msgid "A little information about the item..."
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:296
 msgid "WGAC"
 msgstr ""
 
@@ -1080,23 +1088,23 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:139
+#: ckanext/ytp/service/plugin.py:143
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:141
+#: ckanext/ytp/service/plugin.py:145
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:163
+#: ckanext/ytp/service/plugin.py:167
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:169
+#: ckanext/ytp/service/plugin.py:173
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:174 ckanext/ytp/service/plugin.py:182
+#: ckanext/ytp/service/plugin.py:178 ckanext/ytp/service/plugin.py:186
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
@@ -1121,11 +1129,11 @@ msgstr ""
 msgid "Municipalities, where service is provided"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:107
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:108
 msgid "Target groups"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:109
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:110
 msgid "Requirements for using the service"
 msgstr ""
 
@@ -1138,10 +1146,11 @@ msgid "Service Details"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:17
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:151
 msgid "Service Channels"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:52
+#: ckanext/ytp/service/templates/package/ytp/service/package_form.html:51
 msgid "Next"
 msgstr ""
 
@@ -1161,157 +1170,178 @@ msgstr ""
 msgid "Service class"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:4
-msgid "Add service related service channel"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:7
-msgid "Electronic Service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:8
-msgid "Office or Service Point"
-msgstr ""
-
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:9
-msgid "Postal Address"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:10
-msgid "Telephone Service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:15
 msgid "Electronic service name"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:16
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:10
 msgid "Electronic service alternative name"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:17
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:24
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:89
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:11
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:21
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:92
 msgid "Service description"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:18
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:25
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:94
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:12
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:97
 msgid "Email address"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:19
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:26
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:91
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:13
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:94
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
 msgid "Telephone number"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:28
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:96
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:25
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:99
 msgid "Opening hours"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:32
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:100
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:29
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:103
 msgid "Mo"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:33
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:39
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:45
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:51
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:57
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:63
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:69
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:101
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:107
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:113
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:119
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:125
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:131
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:137
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:30
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:36
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:42
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:48
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:54
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:60
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:66
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:104
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:110
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:116
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:122
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:128
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:134
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:140
 msgid "08:00"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:35
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:41
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:47
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:53
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:59
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:65
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:71
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:103
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:109
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:115
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:121
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:127
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:133
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:139
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:32
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:38
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:44
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:50
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:56
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:62
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:68
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:106
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:112
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:118
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:124
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:130
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:136
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:142
 msgid "16:00"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:38
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:106
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:35
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:109
 msgid "Tu"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:44
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:112
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:41
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:115
 msgid "We"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:50
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:118
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:47
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:121
 msgid "Th"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:56
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:124
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:53
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:127
 msgid "Fr"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:62
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:130
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:59
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:133
 msgid "Sa"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:68
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:136
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:65
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:139
 msgid "Su"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:78
 msgid "Postall address"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:80
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
 msgid "Floor and room number"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:81
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:80
 msgid "Postal Box"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:82
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:81
 msgid "Postal Number"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:83
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:82
 msgid "Post office"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:84
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:83
 msgid "Contry"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:92
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:95
 msgid "SMS service"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:93
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:96
 msgid "Fax service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:149
+msgid "Add service related service channel"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:154
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:161
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:167
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:174
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:181
+msgid "Are you sure you want to remove selected resource?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:154
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:161
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:167
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:174
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:181
+#: ckanext/ytp/theme/templates/snippets/search_form.html:69
+msgid "Remove"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:160
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:196
+msgid "Electronic Service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:166
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:197
+msgid "Office or Service Point"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:173
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:198
+msgid "Postal Address"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:180
+#: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:199
+msgid "Telephone Service"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:5
@@ -1474,10 +1504,6 @@ msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:45
 msgid "Go"
-msgstr ""
-
-#: ckanext/ytp/theme/templates/snippets/search_form.html:69
-msgid "Remove"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
