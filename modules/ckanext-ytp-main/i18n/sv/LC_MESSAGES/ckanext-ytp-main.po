@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-28 17:05+0300\n"
-"PO-Revision-Date: 2014-06-28 14:05+0000\n"
-"Last-Translator: Ilja Pyykkönen\n"
+"POT-Creation-Date: 2014-07-04 12:03+0300\n"
+"PO-Revision-Date: 2014-07-04 09:04+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -193,11 +193,16 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:351
+#: ckanext/ytp/dataset/plugin.py:338
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
+msgid "Other"
+msgstr "Annan"
+
+#: ckanext/ytp/dataset/plugin.py:352
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:351
+#: ckanext/ytp/dataset/plugin.py:352
 msgid "Additional Info"
 msgstr ""
 
@@ -686,10 +691,6 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:238
 msgid "Edit"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
-msgid "Other"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35

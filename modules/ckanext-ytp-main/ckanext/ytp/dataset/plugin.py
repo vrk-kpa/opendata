@@ -335,7 +335,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def _dataset_licenses(self):
         return [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
-                (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0')]
+                (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0'),
+                (_('Other'), u'other')]
 
     def _locales_offered(self):
         return config.get('ckan.locales_offered', '').split()
