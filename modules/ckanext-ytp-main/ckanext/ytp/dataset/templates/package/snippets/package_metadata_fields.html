@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block package_metadata_author %}
-  {{ form.input('author', label=_('Author'), id='field-author', placeholder=_('Filled automatically'), value=data.author, error=errors.author, classes=['control-medium'], attrs={'readonly': 'readonly'}) }}
+  {{ form.input('author', label=_('Author'), id='field-author', placeholder=_('Author'), value=data.author, error=errors.author, classes=['control-medium'], attrs={}) }}
 
-  {{ form.input('author_email', label=_('Author Email'), id='field-author-email', placeholder=_('Filled automatically'), value=data.author_email, error=errors.author_email, classes=['control-medium'], attrs={'readonly': 'readonly'}) }}
+  {{ form.input('author_email', label=_('Author Email'), id='field-author-email', placeholder=_('Author Email'), value=data.author_email, error=errors.author_email, classes=['control-medium'], attrs={}) }}
 {% endblock %}
 
 {% block package_metadata_fields_maintainer %}
