@@ -19,7 +19,7 @@
     - ssl
 
 - name: Generate self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ ansible_fqdn }}" -days 3650 -keyout "{{ certificates_path }}/{{ ssl_key_primary }}" -out "{{ certificates_path }}/server.crt" -extensions v3_ca creates="{{ certificates_path }}/{{ ssl_crt_primary }}"
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ ansible_fqdn }}" -days 3650 -keyout "{{ certificates_path }}/{{ ssl_key_primary }}" -out "{{ certificates_path }}/{{ ssl_crt_primary }}" -extensions v3_ca creates="{{ certificates_path }}/{{ ssl_crt_primary }}"
   register: generate_certificates
   when: ssl_path == false
   tags:

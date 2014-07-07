@@ -17,8 +17,8 @@ WSGISocketPrefix /var/run/wsgi
     CustomLog /var/log/apache2/ckan_default.custom.log combined
 
     SSLEngine on
-    SSLCertificateFile      {{ certificates_path }}/server.crt
-    SSLCertificateKeyFile   {{ certificates_path }}/server.key
+    SSLCertificateFile      {{ certificates_path }}/{{ssl_crt_primary}}
+    SSLCertificateKeyFile   {{ certificates_path }}/{{ssl_key_primary}}
 
 </VirtualHost>
 
