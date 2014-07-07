@@ -262,10 +262,19 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def is_fallback(self):
         return True
 
-    def _get_from_mapping(self, index):
+    def _get_collection_type(self):
+        """Gets the type of collection (Open Data, Interoperability Tools, or Public Services).
+
+        This method can be used to identify which collection the user is currently looking at or editing, i.e., which page the user is on.
+        """
         collection_type = request.params.get('collection_type', None)
         if not collection_type and c.pkg_dict and 'collection_type' in c.pkg_dict:
             collection_type = c.pkg_dict['collection_type']
+        return collection_type
+
+    def _get_from_mapping(self, index):
+        # Get the collection type so that we know which template to show
+        collection_type = self._get_collection_type()
 
         template = self._collection_mapping.get(collection_type, None)
         if not template:
@@ -340,9 +349,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return {'name': name, 'display_name': display_name, 'url': url}
 
     def _dataset_licenses(self):
-        return [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
-                (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0'),
-                (_('Other'), u'other')]
+        # Get the collection type so that we know what licenses to display
+        collection_type = self._get_collection_type()
+
+        licenses_list = [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
+                         (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0')]
+
+        # Show the 'Other' license only if the user is on the Interoperability Tools collection type
+        if collection_type == INTEROPERABILITY_TOOLS:
+            licenses_list.append((_('Other'), u'other'))
+
+        return licenses_list
 
     def _locales_offered(self):
         return config.get('ckan.locales_offered', '').split()
