@@ -200,7 +200,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
 
-        schema.update({'owner': [not_empty, ignore_missing, unicode, convert_to_extras]})
+        schema.update({'owner': [ignore_missing, unicode, convert_to_extras]})
 
         res_schema = schema.get('resources')
         res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
