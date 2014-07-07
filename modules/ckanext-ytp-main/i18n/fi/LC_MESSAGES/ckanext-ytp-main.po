@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-04 15:03+0300\n"
-"PO-Revision-Date: 2014-07-04 12:14+0000\n"
+"POT-Creation-Date: 2014-07-07 14:54+0300\n"
+"PO-Revision-Date: 2014-07-07 12:01+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -169,30 +169,30 @@ msgstr "Päivämäärän muoto väärä"
 msgid "Missing value"
 msgstr "Puuttuva arvo"
 
-#: ckanext/ytp/dataset/plugin.py:284
+#: ckanext/ytp/dataset/plugin.py:290
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
 msgstr "Tietovaranto"
 
-#: ckanext/ytp/dataset/plugin.py:285
+#: ckanext/ytp/dataset/plugin.py:291
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/dataset/plugin.py:286
+#: ckanext/ytp/dataset/plugin.py:292
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:167
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/dataset/plugin.py:287 ckanext/ytp/theme/translations.py:9
+#: ckanext/ytp/dataset/plugin.py:293 ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/dataset/plugin.py:288
+#: ckanext/ytp/dataset/plugin.py:294
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -201,16 +201,16 @@ msgstr "Tiedostomuoto"
 msgid "Organization"
 msgstr "Tiedon tuottaja"
 
-#: ckanext/ytp/dataset/plugin.py:339
+#: ckanext/ytp/dataset/plugin.py:345
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
 msgid "Other"
 msgstr "Muu"
 
-#: ckanext/ytp/dataset/plugin.py:353
+#: ckanext/ytp/dataset/plugin.py:359
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:353
+#: ckanext/ytp/dataset/plugin.py:359
 msgid "Additional Info"
 msgstr ""
 
@@ -584,28 +584,28 @@ msgstr ""
 msgid "Author"
 msgstr "Laatija"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
-msgid "Filled automatically"
-msgstr "Täytetään automaattisesti"
-
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
 msgid "Author Email"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
-msgid "Maintainer"
-msgstr ""
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+msgid "Owner"
+msgstr "Omistaja"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
 msgid "Joe Bloggs"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
-msgid "Maintainer Email"
-msgstr ""
+msgid "Maintainer"
+msgstr "Ylläpitäjä"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
+msgid "Maintainer Email"
+msgstr "Ylläpitäjän sähköposti"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
 msgid "joe@example.com"
 msgstr ""
 
