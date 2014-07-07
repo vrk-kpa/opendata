@@ -157,7 +157,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     _key_exclude = ['resources', 'organization', 'copyright_notice', 'warranty_disclaimer', 'license_url', 'name',
                     'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title', 'extra_information',
-                    'maintainer', 'author', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
+                    'maintainer', 'author', 'owner', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
                     'temporal_granularity', 'temporal_coverage_from', 'temporal_coverage_to', 'update_frequency']
     # IRoutes #
 
@@ -199,6 +199,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
+
+        schema.update({'owner': [not_empty, ignore_missing, unicode, convert_to_extras]})
 
         res_schema = schema.get('resources')
         res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
@@ -247,6 +249,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
         schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
         schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
+        schema.update({'owner': [convert_from_extras, ignore_missing]})
 
         schema = add_translation_show_schema(schema)
         schema = add_languages_show(schema, self._localized_fields)
