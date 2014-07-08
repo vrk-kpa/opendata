@@ -254,15 +254,23 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
             return []
 
     def _get_authorized_parents(self):
-        """ Returns a list of organizations under which the current user can put child organizations. The user is required to be an admin in the parent. """
+        """ Returns a list of organizations under which the current user can put child organizations.
 
-        admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
-            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
+        The user is required to be an admin in the parent. If the user is a sysadmin, then the user will see all allowable parent organizations. """
 
-        admin_groups = []
-        for admin_org in admin_in_orgs:
-            if any(admin_org.group.name == non_looping_org.name for non_looping_org in c.allowable_parent_groups):
-                admin_groups.append(admin_org.group)
+        if not c.userobj.sysadmin:
+            # If the user is not a sysadmin, then show only those parent organizations in which the user is an admin
+            admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
+                .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
+
+            admin_groups = []
+            for admin_org in admin_in_orgs:
+                if any(admin_org.group.name == non_looping_org.name for non_looping_org in c.allowable_parent_groups):
+                    admin_groups.append(admin_org.group)
+        else:
+            # If the user is a sysadmin, then show all allowable parent organizations
+            admin_groups = c.allowable_parent_groups
+
         return admin_groups
 
     def get_helpers(self):
