@@ -1,5 +1,5 @@
 from ckan import model
-from ckan.common import request, c, response
+from ckan.common import request, c, response, _
 from ckan.logic import get_action, NotFound
 from ckan.lib import helpers
 from ckan.controllers.package import PackageController
@@ -47,4 +47,11 @@ class YtpDatasetController(PackageController):
         context['allow_state_change'] = True
 
         get_action('package_update')(context, data_dict)
+        success_message = ('<div style="display: inline-block"><p>' + _("Dataset was saved successfully.") + '</p>' +
+                           '<p>' + _("Fill additional info") + ':</p>' +
+                           '<p><a href="/data/dataset/' + data_dict.get('name') + '/related/new">>' + _("Add related") + '</a></p>' +
+                           '<p><a href="/data/dataset/edit/' + data_dict.get('name') + '">>' + _("Edit or add language versions") + '</a> ' +
+                           '<a href="/data/dataset/delete/' + id + '">>' + _('Delete') + '</a></p>' +
+                           '<p><a href="/data/dataset/new/">' + _('Create Dataset') + '</a></p></div>')
+        helpers.flash_success(success_message, True)
         redirect(helpers.url_for(controller='package', action='read', id=id))
