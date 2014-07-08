@@ -58,9 +58,4 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5e686b87289fbf9824dfa42468186b8cd7ba48a2.patch", file: "fix_multilingual_search.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9dd308b648cbf3de3211d4accac835ebcd5f71f1.patch", file: "upgrade_minified_jquery.patch" }
 
-spatial_patches:
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/08e967ae7ce77e0591c5bda40e581695e28cf63c.patch", file: "add_configuration.patch" }
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/675f10819d5972a1b7c79b9ca6b6102f98a9699d.patch", file: "fix_error_encoding.patch" }
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckanext-spatial/commit/876e531f73196dbda55cbcdae01b1c1f2005e355.patch", file: "fix_resource_naming.patch" }
-
 service_database_enabled: true
