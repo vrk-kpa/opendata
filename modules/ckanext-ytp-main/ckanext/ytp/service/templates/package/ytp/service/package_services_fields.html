@@ -1,14 +1,25 @@
 {% import 'macros/form.html' as form %}
 {% import 'macros/ytp_form.html' as ytp_form %}
 
+<h2>Electronic notification and communication</h2>
+
+{% set yes_where_no_none_options = ((_('Yes, where?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
+{{ ytp_form.radio(yes_where_no_none_options, "unknown", "decisions_and_documents_electronic", label=_('Is there electronic delivery of decisions and documents?'), value=data.decisions_and_documents_electronic, error=errors.decisions_and_documents_electronic) }}
+
+{{ ytp_form.input('decisions_and_documents_electronic_where', label=_('Where?'), value=data.decisions_and_documents_electronic_where, placeholder='', error=errors.decisions_and_documents_electronic_where, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'decisions_and_documents_electronic', 'data-ytp-visible-data': 'yes'}) }}
+
+{% set yes_how_no_none_options = ((_('Yes, how?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
+{{ ytp_form.radio(yes_how_no_none_options, "unknown", "communicate_service_digitally", label=_('Can the customer communicate digitally in the service?'), value=data.communicate_service_digitally, error=errors.communicate_service_digitally) }}
+
+{{ ytp_form.input('communicate_service_digitally_how', label=_('How?'), value=data.communicate_service_digitally_how, placeholder='', error=errors.communicate_service_digitally_how, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'communicate_service_digitally', 'data-ytp-visible-data': 'yes'}) }}
 
 <h2>{{ _('Service charge') }}</h2>
 
-{% set yes_no_none_options = ((_('Yes'), "yes"), ( _('No'), "no"), (_('No information'), "unknown")) %}
-{{ ytp_form.radio(yes_no_none_options, "unknown", "free_of_charge", label=_('Free of charge?'), value=data.free_of_charge, error=errors.free_of_charge) }}
+{% set service_charge_options = ((_('Charges apply'), "yes"), ( _('Free of charge'), "no"), (_('No information'), "unknown")) %}
+{{ ytp_form.radio(service_charge_options, "unknown", "service_charge", label=_('Service charge'), value=data.service_charge, error=errors.service_charge) }}
 
-{{ form.input('pricing_information_url', label=_('Pricing information for this service (webaddress)'), value=data.pricing_information_url, placeholder=_('https://www.example.com/'), error=pricing_information_url, attrs={'data-ytp-visible-element': 'free_of_charge', 'data-ytp-visible-data': 'no'}) }}
-{{ ytp_form.markdown('service_price_description', label=_('Description of service pricing'), value=data.service_price_description, placeholder='', error=errors.service_price_description, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'free_of_charge', 'data-ytp-visible-data': 'no'}) }}
+{{ form.input('pricing_information_url', label=_('Pricing information for this service (webaddress)'), value=data.pricing_information_url, placeholder=_('https://www.example.com/'), error=pricing_information_url, attrs={'data-ytp-visible-element': 'service_charge', 'data-ytp-visible-data': 'yes'}) }}
+{{ ytp_form.markdown('service_price_description', label=_('Description of service pricing'), value=data.service_price_description, placeholder='', error=errors.service_price_description, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'service_charge', 'data-ytp-visible-data': 'yes'}) }}
 
 <h2>{{ _('Processing times') }}</h2>
 
@@ -22,16 +33,3 @@
 {{ ytp_form.radio(remote_service_options, "unknown", "remote_service", label=_('Remote service'), value=data.remote_service, error=errors.remote_service) }}
 
 {{ form.input('remote_service_duration_per_customer', label=_('Estimated average remote service time per customer'), value=data.remote_service_duration_per_customer, placeholder='', error=errors.remote_service_duration_per_customer, attrs={'data-ytp-visible-element': 'remote_service', 'data-ytp-visible-data': 'yes'}) }}
-
-
-<h2>Electronic notification and communication</h2>
-
-{% set yes_where_no_none_options = ((_('Yes, where?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
-{{ ytp_form.radio(yes_where_no_none_options, "unknown", "decisions_and_documents_electronic", label=_('Is there electronic delivery of decisions and documents?'), value=data.decisions_and_documents_electronic, error=errors.decisions_and_documents_electronic) }}
-
-{{ ytp_form.input('decisions_and_documents_electronic_where', label=_('Where?'), value=data.decisions_and_documents_electronic_where, placeholder='', error=errors.decisions_and_documents_electronic_where, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'decisions_and_documents_electronic', 'data-ytp-visible-data': 'yes'}) }}
-
-{% set yes_how_no_none_options = ((_('Yes, how?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
-{{ ytp_form.radio(yes_how_no_none_options, "unknown", "communicate_service_digitally", label=_('Can the customer communicate digitally in the service?'), value=data.communicate_service_digitally, error=errors.communicate_service_digitally) }}
-
-{{ ytp_form.input('communicate_service_digitally_how', label=_('How?'), value=data.communicate_service_digitally_how, placeholder='', error=errors.communicate_service_digitally_how, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'communicate_service_digitally', 'data-ytp-visible-data': 'yes'}) }}

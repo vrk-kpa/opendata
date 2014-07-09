@@ -45,7 +45,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
                     'service_main_usage', 'average_service_time_estimate', 'remote_service_duration_per_customer',
                     'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
-    _radio_fields = ['free_of_charge', 'remote_service', 'decisions_and_documents_electronic',  # 3
+    _radio_fields = ['service_charge', 'remote_service', 'decisions_and_documents_electronic',  # 3
                      'communicate_service_digitally']  # 3
     _select_fields = ['service_cluster', 'production_type',  # 1
                       'responsible_organization']  # 2

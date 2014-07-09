@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-08 13:32+0300\n"
+"POT-Creation-Date: 2014-07-09 16:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,7 +175,7 @@ msgid "Delete"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:324
+#: ckanext/ytp/organizations/plugin.py:332
 msgid "Date format incorrect"
 msgstr ""
 
@@ -970,14 +970,12 @@ msgid "Public administration organization"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:55
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
 msgid "Yes"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:55
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
 msgid "No"
 msgstr ""
 
@@ -1360,97 +1358,102 @@ msgstr ""
 msgid "Telephone Service"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:5
-msgid "Service charge"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
-msgid "No information"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:8
-msgid "Free of charge?"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:10
-msgid "Pricing information for this service (webaddress)"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:10
-msgid "https://www.example.com/"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
-msgid "Description of service pricing"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:13
-msgid "Processing times"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:15
-msgid "Estimate of processing time"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:16
-msgid "Main time of the year for using this service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:17
-msgid "Estimated average service time per customer"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:20
-msgid "Remote Service (video connection)"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Remote service available"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "No remote service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Status not available"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:22
-msgid "Remote service"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:24
-msgid "Estimated average remote service time per customer"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:6
 msgid "Yes, where?"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:29
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
 msgid "Unknown"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:30
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:7
 msgid "Is there electronic delivery of decisions and documents?"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:32
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:9
 msgid "Where?"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:34
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
 msgid "Yes, how?"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:35
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:12
 msgid "Can the customer communicate digitally in the service?"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:37
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:14
 msgid "How?"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:16
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:19
+msgid "Service charge"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:18
+msgid "Charges apply"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:18
+msgid "Free of charge"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:18
+msgid "No information"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
+msgid "Pricing information for this service (webaddress)"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
+msgid "https://www.example.com/"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:22
+msgid "Description of service pricing"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:24
+msgid "Processing times"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:26
+msgid "Estimate of processing time"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:27
+msgid "Main time of the year for using this service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:28
+msgid "Estimated average service time per customer"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:31
+msgid "Remote Service (video connection)"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:32
+msgid "Remote service available"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:32
+msgid "No remote service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:32
+msgid "Status not available"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:33
+msgid "Remote service"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:35
+msgid "Estimated average remote service time per customer"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:80
