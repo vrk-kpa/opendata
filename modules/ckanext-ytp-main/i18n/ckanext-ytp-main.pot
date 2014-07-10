@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-09 16:16+0300\n"
+"POT-Creation-Date: 2014-07-10 12:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1102,23 +1102,33 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:143
+#: ckanext/ytp/service/plugin.py:42
+msgid "Service charge must be supplied"
+msgstr ""
+
+#: ckanext/ytp/service/plugin.py:52
+msgid ""
+"If there is a service charge, you must supply either the pricing information "
+"URL for this service or a description of the service pricing or both"
+msgstr ""
+
+#: ckanext/ytp/service/plugin.py:178
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:145
+#: ckanext/ytp/service/plugin.py:180
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:167
+#: ckanext/ytp/service/plugin.py:202
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:173
+#: ckanext/ytp/service/plugin.py:208
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:178 ckanext/ytp/service/plugin.py:186
+#: ckanext/ytp/service/plugin.py:213 ckanext/ytp/service/plugin.py:221
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""

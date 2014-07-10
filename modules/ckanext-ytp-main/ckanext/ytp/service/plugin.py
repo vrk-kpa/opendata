@@ -12,6 +12,7 @@ from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import auth
 from ckanext.harvest.model import HarvestObject
+from ckan.lib.navl.dictization_functions import missing, Invalid
 
 log = logging.getLogger(__name__)
 
@@ -28,6 +29,31 @@ def static_value(preset_value):
     return method
 
 
+def service_charge_validator(key, data, errors, context):
+    """Validates the fields related to service charge.
+
+    If the service has a charge, then the user must also supply either the pricing information URL or a description of the service pricing or both."""
+
+    # Get the value for the service charge radio field
+    service_charge_value = data.get(key)
+
+    if service_charge_value is missing or service_charge_value is None or service_charge_value == '':
+        # At least one of the service charge values must be selected
+        raise Invalid(_('Service charge must be supplied'))
+    elif service_charge_value == 'yes':
+        # Check if the service has a charge
+        # Get the pricing information url and service price description values from the data (the key is a tuple)
+        pricing_url_value = data.get(('pricing_information_url',))
+        service_price_value = data.get(('service_price_description',))
+
+        if ((pricing_url_value is missing or pricing_url_value is None or pricing_url_value == '') and
+                (service_price_value is missing or service_price_value is None or service_price_value == '')):
+            # If both the pricing information url and the service price description fields are empty, show an error message
+            raise Invalid(_('If there is a service charge, you must supply either the pricing information URL for this service or a description of the ' +
+                            'service pricing or both'))
+    return service_charge_value
+
+
 class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
@@ -42,10 +68,10 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     # optional text fields
     _text_fields = ['alternative_title', 'usage_requirements',  # 1
                     'service_provider_other', 'service_class',  # 2
-                    'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
+                    'processing_time_estimate',  # 3
                     'service_main_usage', 'average_service_time_estimate', 'remote_service_duration_per_customer',
                     'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
-    _radio_fields = ['service_charge', 'remote_service', 'decisions_and_documents_electronic',  # 3
+    _radio_fields = ['remote_service', 'decisions_and_documents_electronic',  # 3
                      'communicate_service_digitally']  # 3
     _select_fields = ['service_cluster', 'production_type',  # 1
                       'responsible_organization']  # 2
@@ -77,6 +103,11 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
         schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
 
+        # Apply the service_charge_validator to the service charge field
+        schema.update({'service_charge': [service_charge_validator, unicode, convert_to_extras]})
+        schema.update({'pricing_information_url': [is_url, unicode, convert_to_extras]})
+        schema.update({'service_price_description': [unicode, convert_to_extras]})
+
         # Service channels
         resources_schema = schema.get('resources')
         resources_schema.update({'url': [ignore_missing, unicode]})
@@ -107,6 +138,10 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'collection_type': [static_value(u'Public Service')]})
         schema.update({'municipalities': [toolkit.get_converter('convert_from_tags')('municipalities'), string_join, ignore_missing]})
         schema.update({'target_groups': [toolkit.get_converter('convert_from_tags')('target_groups'), string_join, ignore_missing]})
+
+        schema.update({'service_charge': [convert_from_extras, ignore_missing]})
+        schema.update({'pricing_information_url': [convert_from_extras, ignore_missing]})
+        schema.update({'service_price_description': [convert_from_extras, ignore_missing]})
 
         return schema
 
