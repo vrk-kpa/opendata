@@ -42,7 +42,7 @@ Check out `resources` folder for results.
 
 ### Exceptions
 
-[upstream_boostrap/bootstrap.less](src/less/upstream_boostrap/bootstrap.less) imports [YTP varibles.less](src/less/variables.less) to modify bootstrap variables before bootstrap building, similar to what [Boostrap customize](http://getbootstrap.com/customize/) does.
+[upstream_boostrap/bootstrap.less](src/less/upstream_bootstrap/bootstrap.less) imports [YTP varibles.less](src/less/variables.less) to modify bootstrap variables before bootstrap building, similar to what [Boostrap customize](http://getbootstrap.com/customize/) does.
 
 `upstream_ckan` contains [ytp_ckan_bootstrap.less](src/less/upstream_ckan/ytp_ckan_bootstrap.less) and [ytp_main.less](src/less/upstream_ckan/ytp_main.less) which are used to build ckan css.
 
