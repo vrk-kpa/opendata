@@ -17,11 +17,6 @@ Install gulp:
 
 	sudo npm install -g gulp
 
-Get a copy of this repo:
-
-	git clone https://github.com/yhteentoimivuuspalvelut/ytp-assets-common.git
-	cd ytp-assets-common
-
 Install dependencies with npm (might require sudo):
 
 	npm install -d
@@ -32,4 +27,23 @@ Build assets with gulp:
 
 Check out `resources` folder for results.
 
-Note: `resources/styles`, `resources/images` and `resources/templates` are generated from `less`, `images` and `templates` paths. 
+
+## Structure
+
+`resources` directory is deleted in the build process and generated from `src` dir. Fonts, images, templates and vendor directories are pretty much copies from src.
+
+`styles` directory contains main.css compiled from less-files. 
+
+`static` contains copies from static_pages with css and images inlined during build.
+
+## Less-files
+
+`less` directory contain all less-files used in project. It also contains upstream bootstrap and ckan sources. To modify css of YTP drupal or YTP ckan, less-files in the root of less directory are modified. It is presumed that upstream files are unmodified and can be upgraded at will at anytime.
+
+### Exceptions
+
+[upstream_boostrap/bootstrap.less](src/less/upstream_boostrap/bootstrap.less) imports [YTP varibles.less](src/less/variables.less) to modify bootstrap variables before bootstrap building, similar to what [Boostrap customize](http://getbootstrap.com/customize/) does.
+
+`upstream_ckan` contains [ytp_ckan_bootstrap.less](src/less/upstream_ckan/ytp_ckan_bootstrap.less) and [ytp_main.less](src/less/upstream_ckan/ytp_main.less) which are used to build ckan css.
+
+
