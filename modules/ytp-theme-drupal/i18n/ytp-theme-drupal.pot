@@ -49,3 +49,6 @@ msgid ""
 "<a href=\"user/password\">Forgotten your password?</a>"
 msgstr ""
 
+#: /fi/admin/content
+msgid "previous"
+msgstr ""

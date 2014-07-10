@@ -2,12 +2,13 @@
 # 
 # Translators:
 # Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-06-04 10:08+0000\n"
+"PO-Revision-Date: 2014-07-10 07:37+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgid "Strong"
 msgstr "Vahva"
 
 msgid "Username can only contain characters a-z, 0-9 and _"
-msgstr "Käyttäjätunnus tulee sisältää vain merkkejä a-z, 0-9 ja _"
+msgstr "Käyttäjätunnuksen tulee sisältää vain merkkejä a-z, 0-9 ja _"
 
 msgid "password"
 msgstr "salasana"
@@ -50,3 +51,7 @@ msgid ""
 "<a href=\"user/login\">Already registered? Sign in</a>\n"
 "<a href=\"user/password\">Forgotten your password?</a>"
 msgstr "<a href=\"user/login\">Jo tunnukset? Kirjaudu sisään</a>\n<a href=\"user/password\">Unohtuiko salasana?</a>"
+
+#: /fi/admin/content
+msgid "previous"
+msgstr "edellinen"
