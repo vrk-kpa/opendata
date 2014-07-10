@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-10 12:09+0300\n"
-"PO-Revision-Date: 2014-07-10 09:11+0000\n"
+"POT-Creation-Date: 2014-07-10 19:20+0300\n"
+"PO-Revision-Date: 2014-07-10 16:21+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgstr "Ruotsi"
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:21
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:31
 msgid "Translate"
-msgstr "Käännä"
+msgstr "Lisää kieli"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:29
 msgid "Language"
@@ -226,7 +226,7 @@ msgstr "Tiedostomuoto"
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:64
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:36
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr "Tiedon tuottaja"
@@ -516,23 +516,23 @@ msgid "eg. economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:67
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:39
 msgid "Select an organization..."
 msgstr "Valitse tiedon tuottaja..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:148
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:81
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:59
 msgid "Visibility"
 msgstr "Näkyvyys"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:151
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:84
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:62
 msgid "Public"
 msgstr "Julkinen"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:151
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:28
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:84
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:62
 #: ckanext/ytp/user/templates/user/read_base.html:53
 #: ckanext/ytp/user/templates/user/read_base.html:67
 msgid "Private"
@@ -1158,19 +1158,15 @@ msgstr ""
 msgid "Alternative Title"
 msgstr "Vaihtoehtoinen nimi"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:98
-msgid "Service cluster"
-msgstr "Palvelukokonaisuus"
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:101
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:76
 msgid "Municipalities, where service is provided"
 msgstr "Kunnat, joissa palvelu tarjotaan"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:108
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:83
 msgid "Target groups"
 msgstr "Kohderyhmät"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:110
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:85
 msgid "Requirements for using the service"
 msgstr "Käytön edellytykset"
 
@@ -1206,6 +1202,10 @@ msgstr "Palvelun tuottaja, jos eri kuin järjestäjä"
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:13
 msgid "Service class"
 msgstr "Palveluluokitus"
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:55
+msgid "Service cluster"
+msgstr "Palvelukokonaisuus"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:9
 msgid "Electronic service name"
