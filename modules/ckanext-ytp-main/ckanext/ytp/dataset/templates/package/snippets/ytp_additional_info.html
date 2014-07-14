@@ -14,6 +14,19 @@
       <dd>{{ extra_dict.author }}</dd>
     {% endif %}
 
+    {% if extra_dict.maintainer_email %}
+      <dt>{{ _("Maintainer") }}</dt>
+      <dd>{{ h.mail_to(email_address=extra_dict.maintainer_email, name=extra_dict.maintainer) }}</dd>
+    {% elif extra_dict.maintainer %}
+      <dt>{{ _("Maintainer") }}</dt>
+      <dd>{{ extra_dict.maintainer }}</dd>
+    {% endif %}
+
+    {% if extra_dict.owner %}
+      <dt>{{ _("Owner") }}</dt>
+      <dd>{{ extra_dict.owner }}</dd>
+    {% endif %}
+
     {% if extra_dict.license_url or dict.license_title  %}
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
