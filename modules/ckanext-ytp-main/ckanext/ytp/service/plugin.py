@@ -113,6 +113,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         resources_schema = schema.get('resources')
         resources_schema.update({'url': [ignore_missing, unicode]})
 
+        # Remove tags from the form's data model
+        del schema['tag_string']
+
         return schema
 
     def create_package_schema(self):
@@ -143,6 +146,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'service_charge': [convert_from_extras, ignore_missing]})
         schema.update({'pricing_information_url': [convert_from_extras, ignore_missing]})
         schema.update({'service_price_description': [convert_from_extras, ignore_missing]})
+
+        # Do not show the tags
+        del schema['tag_string']
 
         return schema
 

@@ -31,6 +31,10 @@
   {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
+{# Hide the tags from the UI #}
+{% block package_basic_fields_tags %}
+{% endblock %}
+
 {% block package_basic_fields_license %}
 {% endblock %}
 
