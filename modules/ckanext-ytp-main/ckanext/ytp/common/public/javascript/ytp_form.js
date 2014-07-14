@@ -177,9 +177,15 @@ $(document).ready(function(){
     })
 
     $('[data-tree]').each(function(){
-        $(this).jstree({
-            plugins: ['checkbox']
-        });
+        var TreeConfig = JSON.parse($(this).attr('attrs'));
+        if ($.isEmptyObject(TreeConfig)) {
+            $(this).jstree({
+                plugins: ['checkbox']
+            });
+        }
+        else{
+            $(this).jstree(TreeConfig);
+        }
     })
 });
 
