@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-10 19:20+0300\n"
-"PO-Revision-Date: 2014-07-10 16:21+0000\n"
+"POT-Creation-Date: 2014-07-14 12:48+0300\n"
+"PO-Revision-Date: 2014-07-14 09:50+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1158,15 +1158,27 @@ msgstr ""
 msgid "Alternative Title"
 msgstr "Vaihtoehtoinen nimi"
 
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:75
+msgid "National"
+msgstr "Valtakunnallinen"
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:75
+msgid "Regional or local"
+msgstr "Alueellinen tai paikallinen"
+
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:76
+msgid "Service provision"
+msgstr "Palveluntarjonta"
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:79
 msgid "Municipalities, where service is provided"
 msgstr "Kunnat, joissa palvelu tarjotaan"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:83
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Target groups"
 msgstr "Kohderyhmät"
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:85
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:89
 msgid "Requirements for using the service"
 msgstr "Käytön edellytykset"
 

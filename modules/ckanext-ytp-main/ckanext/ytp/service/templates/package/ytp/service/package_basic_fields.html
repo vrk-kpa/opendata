@@ -72,12 +72,16 @@
       </div>
     {% endif %}
 
+    {% set service_region_options = ((_('National'), "national"), ( _('Regional or local'), "regional_local")) %}
+    {{ ytp_form.radio(service_region_options, "national", "service_region", label=_('Service provision'), value=data.service_region, error=errors.service_region) }}
+
     {{ ytp_form.modal('municipalities',
                       label=_('Municipalities, where service is provided'),
                       treedata=h.get_dict_tree_from_json('municipalities_options_url'),
                       modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'municipalities' },
-                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'municipalities', 'readonly': true},
-                      value=data.municipalities)}}
+                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'municipalities', 'readonly': true,
+                            'data-ytp-visible-element': 'service_region', 'data-ytp-visible-data': 'regional_local'},
+                      value=data.municipalities) }}
 
     {% set target_groups_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=target_groups&incomplete=?'} %}
     {{ form.input('target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups, classes=['control-full'], attrs=target_groups_attrs) }}
