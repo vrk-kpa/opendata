@@ -62,7 +62,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     _localized_fields = ['title', 'notes', 'alternative_title', 'usage_requirements',  # 1
                          'service_provider_other', 'service_class',  # 2
-                         'service_price_description', 'processing_time_estimate',  # 3
+                         'pricing_information_url', 'service_price_description', 'processing_time_estimate',  # 3
                          'service_main_usage', 'decisions_and_documents_electronic_where', 'communicate_service_digitally_how']  # 3
 
     # optional text fields
