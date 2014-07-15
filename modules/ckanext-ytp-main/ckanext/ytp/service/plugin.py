@@ -74,8 +74,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _radio_fields = ['service_region',  # 1
                      'remote_service', 'decisions_and_documents_electronic',  # 3
                      'communicate_service_digitally']  # 3
-    _select_fields = ['service_cluster', 'production_type',  # 1
-                      'responsible_organization']  # 2
+    _select_fields = ['service_cluster', 'production_type']  # 1
 
     _custom_text_fields = _text_fields + _radio_fields + _select_fields
 

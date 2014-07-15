@@ -1,40 +1,31 @@
 {% import 'macros/form.html' as form %}
 {% import 'macros/ytp_form.html' as ytp_form %}
 
-{% set test_options = ({'value': '', 'text': ''}, {'value': 'group-1', 'text': 'Group 1'}, {'value': 'group-2', 'text': 'Group 2'}) %}
-
 {% set production_type_options = ({'value': 'self-produced', 'text': _('Self-produced services')}, {'value': 'purchased', 'text': _('Purchased services')}, {'value': 'voucher', 'text': _('Services paid with a service voucher')}, {'value': 'supported', 'text': _('Supported services')}) %}
 {{ form.select('production_type', label=_('Production type'), options=production_type_options, selected=data.production_type, error=errors.production_type, is_required=True) }}
 
-{{ form.select('responsible_organization', label=_('Responsible organization'), options=test_options, selected=data.responsible_organization, error=errors.responsible_organization, is_required=True) }}
-
-{{ ytp_form.input('service_provider_other', label=_('Service provider (if other than responsible organization)'), value=data.service_provider_other, placeholder='', error=errors.service_provider_other, locales=h.get_available_locales(), data=data) }}
-
-{{ ytp_form.modal('service_class', 
-                  label=_('Service class'), 
-                  treedata=h.get_dict_tree_from_json('service_classes_options_url'),
-                  modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'service_class' },
-                  inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'service_class', 'readonly': true},
-                  value=data.service_class) }}
-
 {% block producer_fields_org %}
-    
+
+    {# ### Taken from CKAN. Modified to show organization always. ### #}
+
     {% set dataset_has_organization = data.owner_org or data.group_id %}
     {% set organizations_available = h.service_organization() %}
-    {% set show_organizations_selector = organizations_available %}
-    
-    {% if show_organizations_selector %}
+
+    {% if organizations_available %}
       <div data-module="dataset-visibility">
     {% endif %}
-    
+
     {% if dataset_has_organization %}
         {% set selected_org = dataset_has_organization %}
         {% set existing_org = dataset_has_organization %}
     {% endif %}
-    
-    {% if show_organizations_selector %}
+
+    {% if organizations_available %}
     <div class="control-group">
-      <label for="field-organizations" class="control-label">{{ _('Organization') }}</label>
+      <label for="field-organizations" class="control-label">
+          <span class="control-required" title="{{ _("This field is required") }}">*</span>
+          {{ _('Responsible organization') }}
+      </label>
       <div class="controls">
         <select id="field-organizations" name="owner_org" data-module="autocomplete">
           <option value="" {% if not selected_org and data.id %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
@@ -47,11 +38,20 @@
       </div>
     </div>
     {% endif %}
-    
-    {% if show_organizations_selector %}
+
+    {% if organizations_available %}
       </div>
     {% endif %}
-    
+
     {% set service_cluster_options = ({'value': '', 'text': ''}, {'value': 'group-1', 'text': 'Group 1'}, {'value': 'group-2', 'text': 'Group 2'}) %}
     {{ form.select('service_cluster', label=_('Service cluster'), options=service_cluster_options, selected=data.service_cluster, error=errors.service_cluster) }}
 {% endblock %}
+
+{{ ytp_form.input('service_provider_other', label=_('Service provider (if other than responsible organization)'), value=data.service_provider_other, placeholder='', error=errors.service_provider_other, locales=h.get_available_locales(), data=data) }}
+
+{{ ytp_form.modal('service_class', 
+                  label=_('Service class'), 
+                  treedata=h.get_dict_tree_from_json('service_classes_options_url'),
+                  modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'service_class' },
+                  inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'service_class', 'readonly': true},
+                  value=data.service_class) }}
