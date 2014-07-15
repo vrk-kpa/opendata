@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-14 12:48+0300\n"
-"PO-Revision-Date: 2014-07-14 09:49+0000\n"
+"POT-Creation-Date: 2014-07-15 11:15+0300\n"
+"PO-Revision-Date: 2014-07-15 08:16+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -218,7 +218,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:36
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:37
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr ""
@@ -375,7 +375,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:6
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:31
 msgid "License"
 msgstr ""
 
@@ -485,8 +485,8 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:86
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:34
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:47
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:51
 msgid "Copyright Notice"
 msgstr ""
 
@@ -495,7 +495,7 @@ msgid "Additional information concerning copyright"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:87
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:51
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:64
 msgid "Disclaimer of Warranty"
 msgstr ""
 
@@ -508,23 +508,23 @@ msgid "eg. economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:39
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:40
 msgid "Select an organization..."
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:148
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:59
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:63
 msgid "Visibility"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:151
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:62
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:66
 msgid "Public"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:151
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:28
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:62
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:66
 #: ckanext/ytp/user/templates/user/read_base.html:53
 #: ckanext/ytp/user/templates/user/read_base.html:67
 msgid "Private"
@@ -596,6 +596,7 @@ msgid "Author Email"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:26
 msgid "Owner"
 msgstr "Ägare"
 
@@ -605,6 +606,8 @@ msgid "Joe Bloggs"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:18
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:21
 msgid "Maintainer"
 msgstr "Förvaltare"
 
@@ -728,11 +731,11 @@ msgid "Languages"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:3
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:70
 msgid "Extra information"
 msgstr "Kommentarer"
 
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:66
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:79
 msgid "Technical extra information"
 msgstr ""
 
@@ -1117,23 +1120,23 @@ msgid ""
 " URL for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:178
+#: ckanext/ytp/service/plugin.py:185
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:180
+#: ckanext/ytp/service/plugin.py:187
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:202
+#: ckanext/ytp/service/plugin.py:209
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:208
+#: ckanext/ytp/service/plugin.py:215
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:213 ckanext/ytp/service/plugin.py:221
+#: ckanext/ytp/service/plugin.py:220 ckanext/ytp/service/plugin.py:228
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
@@ -1150,27 +1153,27 @@ msgstr ""
 msgid "Alternative Title"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:75
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:79
 msgid "National"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:75
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:79
 msgid "Regional or local"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:76
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:80
 msgid "Service provision"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:79
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:83
 msgid "Municipalities, where service is provided"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:94
 msgid "Target groups"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:89
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:96
 msgid "Requirements for using the service"
 msgstr ""
 
@@ -1192,22 +1195,38 @@ msgid "Next"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+msgid "Self-produced services"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+msgid "Purchased services"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+msgid "Services paid with a service voucher"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+msgid "Supported services"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:7
 msgid "Production type"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:8
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:9
 msgid "Responsible organization"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:10
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:11
 msgid "Service provider (if other than responsible organization)"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:13
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:14
 msgid "Service class"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:55
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:56
 msgid "Service cluster"
 msgstr ""
 

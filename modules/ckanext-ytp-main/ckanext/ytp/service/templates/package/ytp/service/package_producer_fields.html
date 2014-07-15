@@ -3,7 +3,8 @@
 
 {% set test_options = ({'value': '', 'text': ''}, {'value': 'group-1', 'text': 'Group 1'}, {'value': 'group-2', 'text': 'Group 2'}) %}
 
-{{ form.select('production_type', label=_('Production type'), options=test_options, selected=data.production_type, error=errors.production_type, is_required=True) }}
+{% set production_type_options = ({'value': 'self-produced', 'text': _('Self-produced services')}, {'value': 'purchased', 'text': _('Purchased services')}, {'value': 'voucher', 'text': _('Services paid with a service voucher')}, {'value': 'supported', 'text': _('Supported services')}) %}
+{{ form.select('production_type', label=_('Production type'), options=production_type_options, selected=data.production_type, error=errors.production_type, is_required=True) }}
 
 {{ form.select('responsible_organization', label=_('Responsible organization'), options=test_options, selected=data.responsible_organization, error=errors.responsible_organization, is_required=True) }}
 
