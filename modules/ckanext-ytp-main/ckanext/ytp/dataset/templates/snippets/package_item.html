@@ -53,7 +53,7 @@ Example:
 
   <div>
     {% if package.collection_type -%}
-      <span class="byline-contentype"><a href="/data/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
+      <span class="byline-contentype"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
     {%- endif -%}
     {%- if package.get('resources') -%}
       {% set formats = h.unique_formats(package.get('resources')) %}

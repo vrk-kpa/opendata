@@ -3,7 +3,7 @@
     {% block collection_type %}
         <div>
         <h4 class="dataset-title sidebar-title">Tietovaranto</h4>
-        <a href="/data/dataset?collection_type={{ pkg.collection_type }}" >
+        <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
          {{ _(pkg.collection_type) }}</a>
         </div>
     {% endblock %}
