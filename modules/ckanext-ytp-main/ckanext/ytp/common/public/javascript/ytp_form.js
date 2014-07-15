@@ -146,8 +146,16 @@ $(document).ready(function() {
     set_translations();
 });
 
-function setTargetVisibility(target, element, data) {
-    var targetContainer = target.closest('.control-group');;
+/**
+ * Sets the visibility of the target element's closest element with the given parentClass depending on the given element and data
+ * 
+ * @param target The target element
+ * @param parentClass The class for identifying the closest parent element of the target element whose visibility is changed
+ * @param element The name of the element based on which the visibility is changed
+ * @param data The value of the element based on which the visibility is changed
+ */
+function setTargetVisibility(target, parentClass, element, data) {
+    var targetContainer = target.closest(parentClass);
     if ($('[name=' + element + ']:checked').val() == data) {
         targetContainer.show();
     } else {
@@ -161,11 +169,47 @@ $(document).ready(function() {
          var target = $(this);
          var element = target.attr('data-ytp-visible-element');
          var data = target.attr('data-ytp-visible-data');
-         setTargetVisibility(target, element, data);
+         var parentClass = '.control-group';
+         setTargetVisibility(target, parentClass, element, data);
          $('[name=' + element + ']').change(function() {
-             setTargetVisibility(target, element, data);
+             setTargetVisibility(target, parentClass, element, data);
          });
      });
+});
+
+$(document).ready(function() {
+    /* Loop through all elements with the data-ytp-visible-after-element attribute */
+    $('[data-ytp-visible-after-element]').each(function() {
+        var target = $(this);
+
+        // All the input fields inside the translation-list contain the data-ytp-visible-after-element attribute. We're only interested to perform the
+        // statements inside the if statement for one of those fields. Since all the localized fields have the translation-data-locale attribute, we can
+        // target the original input field by checking that the field does not have the translation-data-locale attribute.
+        if (!target.attr('translation-data-locale')) {
+            var element = target.attr('data-ytp-visible-after-element');
+            var data = target.attr('data-ytp-visible-after-data');
+            // We want to show/hide the div with the translation-list class
+            var parentClass = '.translation-list';
+
+            // Get the element which has the translation-list class
+            var targetTranslationContainer = target.closest(parentClass);
+            targetTranslationContainer.css('margin-top', '15px');
+
+            // Get the element after which we will move the translation-list
+            var elementContainer = $('[name=' + element + '][value=' + data + ']').closest('.radio-select-label');
+            // Remove the parent div with the control-group class since we are going to move the translation-list from within it to another location
+            target.closest('.control-group').remove();
+            // Move the translation-list after the radio-select-label with the given name and value
+            elementContainer.after(targetTranslationContainer);
+
+            // Set the visibility of the translation-list
+            setTargetVisibility(targetTranslationContainer, parentClass, element, data);
+            $('[name=' + element + ']').change(function() {
+                // Bind the field group to set the visibility of the translation-list upon change
+                setTargetVisibility(targetTranslationContainer, parentClass, element, data);
+            });
+       }
+    });
 });
 
 

@@ -6,12 +6,12 @@
 {% set yes_where_no_none_options = ((_('Yes, where?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
 {{ ytp_form.radio(yes_where_no_none_options, "unknown", "decisions_and_documents_electronic", label=_('Is there electronic delivery of decisions and documents?'), value=data.decisions_and_documents_electronic, error=errors.decisions_and_documents_electronic, is_required=true) }}
 
-{{ ytp_form.input('decisions_and_documents_electronic_where', label=_('Where?'), value=data.decisions_and_documents_electronic_where, placeholder='', error=errors.decisions_and_documents_electronic_where, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'decisions_and_documents_electronic', 'data-ytp-visible-data': 'yes'}) }}
+{{ ytp_form.input('decisions_and_documents_electronic_where', label=_('Where?'), value=data.decisions_and_documents_electronic_where, placeholder='', error=errors.decisions_and_documents_electronic_where, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-after-element': 'decisions_and_documents_electronic', 'data-ytp-visible-after-data': 'yes'}) }}
 
 {% set yes_how_no_none_options = ((_('Yes, how?'), "yes"), ( _('No'), "no"), (_('Unknown'), "unknown")) %}
 {{ ytp_form.radio(yes_how_no_none_options, "unknown", "communicate_service_digitally", label=_('Can the customer communicate digitally in the service?'), value=data.communicate_service_digitally, error=errors.communicate_service_digitally, is_required=true) }}
 
-{{ ytp_form.input('communicate_service_digitally_how', label=_('How?'), value=data.communicate_service_digitally_how, placeholder='', error=errors.communicate_service_digitally_how, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'communicate_service_digitally', 'data-ytp-visible-data': 'yes'}) }}
+{{ ytp_form.input('communicate_service_digitally_how', label=_('How?'), value=data.communicate_service_digitally_how, placeholder='', error=errors.communicate_service_digitally_how, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-after-element': 'communicate_service_digitally', 'data-ytp-visible-after-data': 'yes'}) }}
 
 <h2>{{ _('Service charge') }}</h2>
 
