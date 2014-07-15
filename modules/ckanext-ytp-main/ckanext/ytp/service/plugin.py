@@ -103,6 +103,10 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
         schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
 
+        # Make the following fields mandatory
+        schema.update({'decisions_and_documents_electronic': [unicode, convert_to_extras]})
+        schema.update({'communicate_service_digitally': [unicode, convert_to_extras]})
+
         # Apply the service_charge_validator to the service charge field
         schema.update({'service_charge': [service_charge_validator, unicode, convert_to_extras]})
         schema.update({'pricing_information_url': [is_url, unicode, convert_to_extras]})
