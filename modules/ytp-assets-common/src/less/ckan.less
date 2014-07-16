@@ -58,11 +58,15 @@ input[type="date"] {
 
 .module-content {
   padding-right: 0;
+  select, input{
+    .border-radius(3px);
+    border: 1px solid @neutral-color;
+  }
 }
 
 
 [role=main] .secondary {
-  width: 280px;
+  width: @secondary-width;
   padding-left: 0;
 }
 
@@ -73,25 +77,25 @@ input[type="date"] {
 }
 
 .btn {
-    background-color: #808080;
-    border-color: #9a9d9e;
-    color: #FFFFFF;
+  background-color: @button-background;
+  border-color: #9a9d9e;
+  color: #FFFFFF;
 }
 
 .btn:hover, .btn:focus, .btn:active, .btn.active, .open .dropdown-toggle.btn {
-    background-color: #747474;
+    background-color: @button-hilight;
     border-color: #9a9d9e;
     color: #FFFFFF;
 }
 
 .btn-primary {
-    background-color: #1f7994;
+    background-color: @button-primary-background;
     border-color: #84b7c7;
     color: #FFFFFF;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
-    background-color: #185c70;
+    background-color: @button-primary-hilight;
     border-color: #84b7c7;
     color: #FFFFFF;
 }
@@ -118,8 +122,17 @@ ul.dataset-extra {
 }
 
 header.page-header {
-    margin: 0px;
+   margin: 0px;
+  .content_action{
+    padding-bottom: 10px;
+    margin-right: 0px;
+  }
+  .nav-tabs{
+    margin-top: 10px;
+    border: none;
+  }
 }
+
 
 section.module {
     margin: 0 0 20px 0;
@@ -170,13 +183,13 @@ section.module {
 
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-sm-min) {
   .container {
     width: 750px;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: @screen-md-min) {
   .container {
     width: 970px;
   }
@@ -185,12 +198,12 @@ section.module {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: @screen-lg-min) {
   .container {
-    width: 1110px;
+    width: @screen-lg;
   }
   [role=main] .primary {
-    width: 780px;
+    width: @screen-lg - @secondary-width - @grid-gutter-width;
     float: right;
   }
 }
@@ -617,4 +630,39 @@ dd {
 
 .service-channels-item {
     list-style: none;
+}
+
+.search-form{
+  .search-input{
+    &.search-giant{
+      border: 3px solid @block-color-hilight;
+      border-radius: 10px;
+      input{
+        border: none;
+        border-radius: 10px;
+      }
+      button{
+        border: none;
+        border-radius: 10px;
+        width: 60px;
+        height: 44px;
+        margin-top: -22px;
+        margin-right: -10px;
+        background: @block-color-hilight;
+        color: @block-color;
+        i.icon-search{
+          font-size: 28px;
+          width: 25px;
+          color: @block-color;
+        }
+      }
+    }
+  }
+}
+
+.wrapper.no-nav{
+  .content_action{
+    position: absolute;
+    right: 0;
+  }
 }

@@ -107,7 +107,7 @@
   background-image: url('../images/navbar-main-background.png?timestamp=<%= timestamp %>');
   background-repeat: repeat-x;
   min-height: 40px;
-
+  margin: 0 -15px;
   .navbar-brand {
     padding: 10px;
   }
@@ -151,10 +151,10 @@
 }
 
 .navbar.navbar-search {
-  background-color: #fff;
+  background-color: @body-color-background;
   background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 3px solid @block-color-hilight;
+  border-radius: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #555555;
   padding: 2px;
@@ -167,21 +167,34 @@
     input.search-term {
       float: left;
       border: 0px;
-      padding: 11px 14px 11px 18px;
+      padding: 10px 14px 10px 18px;
       color: @nonimportant-text-color;
       background-color: #fff;
       font-size: 18px;
-      width: 75%;
+      width: 90%;
+      &:focus{
+        outline: none;
+      }
     }
-    input.search-submit {
+    button.search-submit {
       border: none;
-      background: url('../images/search-button.png?timestamp=<%= timestamp %>');
-      margin-top: 1px;
       margin-right: 2px;
-      width: 77px;
-      height: 47px;
+      width: 60px;
+      height: 44px;
       float: right;
-      color: transparent;
+      background: @block-color-hilight;
+      color: @block-color;
+      border-radius: 10px;
+      position: absolute;
+      right: 1px;
+      top: 2px;
+      i.icon-search{
+        font-size: 28px;
+        width: 25px;
+      }
+      span{
+        display: none;
+      }
     }
   }
 }

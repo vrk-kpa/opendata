@@ -139,10 +139,10 @@ h4 {
         font-size: 24px;
       }
       a{
-        color: @navbar-color-text;
+        color: @block-color;
       }
     }
-    background-color: @navbar-color-background;
+    background-color: @block-color-background;
     height: 160px;
     border-radius: 5px;
   }
@@ -160,8 +160,8 @@ h4 {
 }
 
 #infobox{
-  background-color: @navbar-color-background;
-  color: @navbar-color-text;
+  background-color: @block-color-background;
+  color: @block-color;
   height: 160px;
   border-radius: 5px;
   padding-top: 10px;
@@ -174,7 +174,7 @@ h4 {
   }
   .readmore {
     a {
-      color: @navbar-color-text;
+      color: @block-color;
       text-decoration: underline;
 
       &:after{
@@ -194,7 +194,7 @@ h4 {
 
 .region-sidebar-second{
   section{
-    background-color: #f2f2f2;
+    background-color: @block-secondary-color-background;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -211,12 +211,12 @@ h4 {
     padding: 10px;
     font-size: 20px;
     text-align: center;
-    color: white;
+    color: @block-color;
     border-radius: 5px;
     a{
-      color: white;
+      color: @block-color;
     }
-    background-color: #276EBF;
+    background-color: @block-color-hilight;
     &:after{
       content: " >";
     }

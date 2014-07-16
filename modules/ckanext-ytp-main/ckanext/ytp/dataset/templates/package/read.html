@@ -2,10 +2,10 @@
 
 {% block primary %}
     {% block content_action %}
-    <div class="pull-right">
+       <div class="content_action">
         {{ super() }}
     </div>
-    {% endblock %}
+       {% endblock %}
     <h1 class="dataset-title">
         {% block page_heading %}
             {{ h.extra_translation(pkg, 'title') or pkg.name }}
