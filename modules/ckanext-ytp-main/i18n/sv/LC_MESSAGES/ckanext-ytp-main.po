@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-15 11:15+0300\n"
-"PO-Revision-Date: 2014-07-15 08:16+0000\n"
+"POT-Creation-Date: 2014-07-16 16:43+0300\n"
+"PO-Revision-Date: 2014-07-16 13:44+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,7 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:114
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:26
 msgid "This field is required"
 msgstr ""
 
@@ -218,7 +219,6 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:37
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
 msgstr ""
@@ -508,7 +508,7 @@ msgid "eg. economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:40
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:31
 msgid "Select an organization..."
 msgstr ""
 
@@ -1120,23 +1120,23 @@ msgid ""
 " URL for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:185
+#: ckanext/ytp/service/plugin.py:190
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:187
+#: ckanext/ytp/service/plugin.py:192
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:209
+#: ckanext/ytp/service/plugin.py:214
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:215
+#: ckanext/ytp/service/plugin.py:220
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:220 ckanext/ytp/service/plugin.py:228
+#: ckanext/ytp/service/plugin.py:225 ckanext/ytp/service/plugin.py:233
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
@@ -1169,11 +1169,15 @@ msgstr ""
 msgid "Municipalities, where service is provided"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:94
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:93
+msgid "Life situation"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:102
 msgid "Target groups"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:96
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:104
 msgid "Requirements for using the service"
 msgstr ""
 
@@ -1194,40 +1198,40 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Self-produced services"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Purchased services"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Services paid with a service voucher"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:6
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Supported services"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:7
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:5
 msgid "Production type"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:9
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:27
 msgid "Responsible organization"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:11
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:47
+msgid "Service cluster"
+msgstr ""
+
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:50
 msgid "Service provider (if other than responsible organization)"
 msgstr ""
 
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:14
+#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:53
 msgid "Service class"
-msgstr ""
-
-#: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:56
-msgid "Service cluster"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:9
