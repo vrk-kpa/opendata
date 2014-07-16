@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-07-16 16:43+0300\n"
-"PO-Revision-Date: 2014-07-16 13:44+0000\n"
+"PO-Revision-Date: 2014-07-16 13:48+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1216,7 +1216,7 @@ msgstr "Ostopalvelut"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Services paid with a service voucher"
-msgstr "Palvelusetelillä maksetut palvelut"
+msgstr "Palvelusetelillä maksettavat palvelut"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:4
 msgid "Supported services"
