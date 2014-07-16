@@ -236,7 +236,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
             tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
 
     def _get_dropdown_menu_contents(self, vocabulary_names):
-        """ Gets a vocabulary by name and mangles it to match data structure required by form.select """
+        """ Gets vocabularies by name and mangles them to match data structure required by form.select """
 
         try:
             user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})

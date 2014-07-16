@@ -60,7 +60,12 @@
     {% endcall %}
 
     {# Producer type selector #}
-    {{ form.select('producer_type', id='field-producer_type', label=_('Producer type'), options=h.get_dropdown_menu_contents(menu_vocabularies), selected=data.get('producer_type'), error=errors.producer_type) }}
+    {{ ytp_form.modal('producer_type', 
+                      label=_('Producer type'), 
+                      treedata=h.get_dict_tree_from_json('producer_type_options_url'),
+                      modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'producer_type' },
+                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'producer_type', 'readonly': true},
+                      value=data.producer_type) }}
 
 {% endblock %}
 

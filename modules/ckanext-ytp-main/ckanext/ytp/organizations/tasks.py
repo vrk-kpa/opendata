@@ -12,6 +12,8 @@ from ckan.lib import celery_app
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.cli import CkanCommand
 
+from pylons import config
+
 _config_loaded = False
 
 
@@ -70,25 +72,17 @@ def organization_import(data):
                 organization = get_action('organization_create')(context, values)
 
 
-def _add_children_concepts(graph, current, prefix='', indent=0, max_depth=8, data=None):
+def _add_child_concepts(graph, current_uri, depth=0, max_depth=8):
     """ Add a SKOS concept and its children recursively into a pseudo-hierarchical data """
-    sister = 0
-    if data is None:
-        data = []
-        data.append({'name': prefix + " " + graph.value(current, SKOS.prefLabel)})
 
-    if indent < max_depth:
-        for _subject, _predicate, child in graph.triples((current, SKOS.narrower, None)):
-            sister += 1
-            data.append({'name': prefix + '.' + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
-            _add_children_concepts(graph, child, prefix + '.' + str(sister), indent + 1, max_depth, data)
+    branch = {'text': graph.value(current_uri, SKOS.prefLabel)}
 
-        for _subject, _predicate, child in graph.triples((current, SKOS.member, None)):
-            sister += 1
-            data.append({'name': prefix + str(sister) + " " + graph.value(child, SKOS.prefLabel)})
-            _add_children_concepts(graph, child, prefix + str(sister), indent + 1, max_depth, data)
-
-    return data
+    if depth < max_depth:
+        for _subject, _predicate, child in graph.triples((current_uri, SKOS.narrower, None)):
+            if 'children' not in branch:
+                branch['children'] = []
+            branch['children'].append(_add_child_concepts(graph, child, depth + 1, max_depth))
+    return branch
 
 
 @celery_app.celery.task(name="ckanext.ytp.organizations.organization_type_import")
@@ -104,17 +98,13 @@ def organization_type_import(data):
     graph = Graph()
     graph.parse(data_url, format=data_format)
 
-    services = (('private_services', 'http://www.yso.fi/onto/jupo/p728', "1"), ('public_services', 'http://www.yso.fi/onto/jupo/p605', "2"))
+    organization_top_types = [{'name':'private_services', 'uri':'http://www.yso.fi/onto/jupo/p728'},
+                              {'name':'public_services', 'uri':'http://www.yso.fi/onto/jupo/p605'}]
 
-    for service_name, service_url, prefix in services:
-        organization_types = _add_children_concepts(graph, URIRef(service_url), prefix)
+    organization_types = [_add_child_concepts(graph, URIRef(top_type['uri'])) for top_type in organization_top_types]
 
-        try:
-            get_action('vocabulary_show')(context, {'id': service_name})
-            for tag in get_action('tag_list')(context, {'vocabulary_id': service_name, 'query': None, 'all_fields': True}):
-                get_action('tag_delete')(context, {'id': tag['id']})
-
-            get_action('vocabulary_delete')(context, {'id': service_name})
-        except NotFound:
-            pass  # Vocabulary does not exist
-        get_action('vocabulary_create')(context, {'name': service_name, 'tags': organization_types})
+    filename = config.get("producer_type_options_url")
+    if filename.startswith("file://"):
+        filename = filename[7:]
+    with open(filename, 'w') as json_file:
+        json_file.write(simplejson.dumps(organization_types, indent=2))
