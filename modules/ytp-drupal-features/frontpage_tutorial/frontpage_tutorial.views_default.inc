@@ -101,7 +101,7 @@ function frontpage_tutorial_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="user/login">Register</a>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="user/register">Register</a>';
   $handler->display->display_options['fields']['nothing']['element_type'] = 'div';
   $handler->display->display_options['fields']['nothing']['element_class'] = 'tutorial-register';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;

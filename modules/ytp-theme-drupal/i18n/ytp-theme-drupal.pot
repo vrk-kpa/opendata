@@ -40,7 +40,7 @@ msgid "Read more"
 msgstr ""
 
 #: /fi
-msgid "<a href=\"user/login\">Register</a>"
+msgid "<a href=\"user/register\">Register</a>"
 msgstr ""
 
 #: /fi
