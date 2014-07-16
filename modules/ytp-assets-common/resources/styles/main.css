@@ -4802,7 +4802,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/background.png?timestamp=1405508161620") repeat-x scroll 50% 40px #ffffff;
+  background: url("../images/background.png?timestamp=1405508722866") repeat-x scroll 50% 40px #ffffff;
   padding-top: 64px;
 }
 a {
@@ -4832,7 +4832,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1405508161620');
+  background-image: url('../images/sprite.png?timestamp=1405508722866');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4842,7 +4842,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1405508161620');
+  background-image: url('../images/sprite.png?timestamp=1405508722866');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5005,7 +5005,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1405508161620") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1405508722866") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5144,7 +5144,7 @@ span.add-member-or {
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1405508161620');
+  background-image: url('../images/navbar-main-background.png?timestamp=1405508722866');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5178,11 +5178,11 @@ span.add-member-or {
 .navbar.navbar-main .navbar-nav .active a:hover,
 .navbar.navbar-main .navbar-nav .active a:focus {
   color: #fff;
-  background-color: #2ba6cb;
+  background-color: #276ebf;
   background-image: none;
 }
 .navbar.navbar-main .navbar-nav a:hover {
-  background-color: #ddf4fa;
+  background-color: #a2cdfd;
 }
 .navbar.navbar-search {
   background-color: #ffffff;
@@ -5251,12 +5251,12 @@ li.ytp-menulink a {
 li.ytp-menulink a:focus,
 li.ytp-menulink a.selected {
   color: #fff;
-  background-color: #2ba6cb;
-  border: 1px solid #2ba6cb;
+  background-color: #276ebf;
+  border: 1px solid #276ebf;
 }
 li.ytp-menulink a:hover {
   color: #141414;
-  background-color: #ddf4fa;
+  background-color: #a2cdfd;
 }
 li.ytp-menulink.collapsed > a:after {
   content: "\f105";
@@ -5275,12 +5275,12 @@ li.ytp-menulink.expanded > a:after {
   text-decoration: inherit;
 }
 li.ytp-menulink.active-trail > a.active-trail {
-  border-left: 6px solid #2ba6cb;
+  border-left: 6px solid #276ebf;
 }
 li.ytp-menulink.active > a.active {
   color: #fff;
-  background-color: #2ba6cb;
-  border: 1px solid #2ba6cb;
+  background-color: #276ebf;
+  border: 1px solid #276ebf;
 }
 .menu-name-main-menu {
   margin-left: -14px;
@@ -5298,7 +5298,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1405508161620');
+  background-image: url('../images/sprite.png?timestamp=1405508722866');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
