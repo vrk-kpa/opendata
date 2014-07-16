@@ -170,8 +170,9 @@
 
   </div>
 </div>
+</div>
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
 
-</div>
+

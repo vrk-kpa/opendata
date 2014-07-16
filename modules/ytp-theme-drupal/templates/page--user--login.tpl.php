@@ -73,7 +73,7 @@
  * @ingroup themeable
  */
 ?>
-
+<div id="page_wrapper">
 <?php include("/var/www/resources/templates/body-navigation.php"); /* YTP common navigation */ ?>
 
 
@@ -141,6 +141,7 @@
     <?php endif; ?>
 
   </div>
+</div>
 </div>
 <footer class="footer container">
   <?php print render($page['footer']); ?>
