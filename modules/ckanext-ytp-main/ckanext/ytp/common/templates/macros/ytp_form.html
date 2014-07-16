@@ -146,7 +146,16 @@
       {%- if node is string -%}
         <li>{{ node }}</li>
       {%- else -%}
-        <li {% if node.text in value %} data-jstree='{"selected": true}' {% endif %}>{{ node.text }}
+        {%- set data_js_tree_value = '' -%}
+        {%- if node.text in value and 'opened' in node.state and node.state['opened'] -%}
+            {%- set data_js_tree_value = '{"selected": true, "opened": true}' -%}
+        {%- elif node.text in value -%}
+            {%- set data_js_tree_value = '{"selected": true}' -%}
+        {%- elif 'opened' in node.state and node.state['opened'] -%}
+            {%- set data_js_tree_value = '{"opened": true}' -%}
+        {%- endif -%}
+
+        <li {% if data_js_tree_value %} data-jstree='{{ data_js_tree_value }}' {% endif %}>{{ node.text }}
         {%- if node.children -%}
           <ul>
             {{ loop(node.children) }}

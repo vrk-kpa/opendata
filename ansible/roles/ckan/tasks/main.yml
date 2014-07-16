@@ -233,6 +233,7 @@
     - license.json
     - service_classes.json
     - municipalities.json
+    - life_situations.json
   tags:
   - ckan
 

@@ -102,6 +102,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
         schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
+        schema.update({'life_situations': [ignore_missing, convert_to_tags_string('life_situations')]})
 
         # Make the following fields mandatory
         schema.update({'decisions_and_documents_electronic': [unicode, convert_to_extras]})
@@ -145,6 +146,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'collection_type': [static_value(u'Public Service')]})
         schema.update({'municipalities': [toolkit.get_converter('convert_from_tags')('municipalities'), string_join, ignore_missing]})
         schema.update({'target_groups': [toolkit.get_converter('convert_from_tags')('target_groups'), string_join, ignore_missing]})
+        schema.update({'life_situations': [toolkit.get_converter('convert_from_tags')('life_situations'), string_join, ignore_missing]})
 
         schema.update({'service_charge': [convert_from_extras, ignore_missing]})
         schema.update({'pricing_information_url': [convert_from_extras, ignore_missing]})
