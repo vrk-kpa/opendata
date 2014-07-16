@@ -75,7 +75,7 @@ def organization_import(data):
 def _add_child_concepts(graph, current_uri, depth=0, max_depth=8):
     """ Add a SKOS concept and its children recursively into a pseudo-hierarchical data """
 
-    branch = {'text': graph.value(current_uri, SKOS.prefLabel)}
+    branch = {'text': graph.value(current_uri, SKOS.prefLabel), 'state': {'opened': True}}
 
     if depth < max_depth:
         for _subject, _predicate, child in graph.triples((current_uri, SKOS.narrower, None)):
@@ -90,7 +90,6 @@ def organization_type_import(data):
     """ Import organization types """
 
     _load_config()
-    context = _create_context()
 
     data_url = simplejson.loads(data).get('data_url')
     data_format = simplejson.loads(data).get('data_format')
@@ -98,8 +97,8 @@ def organization_type_import(data):
     graph = Graph()
     graph.parse(data_url, format=data_format)
 
-    organization_top_types = [{'name':'private_services', 'uri':'http://www.yso.fi/onto/jupo/p728'},
-                              {'name':'public_services', 'uri':'http://www.yso.fi/onto/jupo/p605'}]
+    organization_top_types = [{'name': 'private_services', 'uri': 'http://www.yso.fi/onto/jupo/p728'},
+                              {'name': 'public_services', 'uri': 'http://www.yso.fi/onto/jupo/p605'}]
 
     organization_types = [_add_child_concepts(graph, URIRef(top_type['uri'])) for top_type in organization_top_types]
 
