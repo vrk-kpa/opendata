@@ -234,6 +234,7 @@
     - service_classes.json
     - municipalities.json
     - life_situations.json
+    - target_groups.json
   tags:
   - ckan
 

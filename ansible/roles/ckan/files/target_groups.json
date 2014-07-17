@@ -1,0 +1,37 @@
+[
+    {
+        "text": "Kansalaiset",
+        "state": {
+            "opened": true
+        },
+        "children" : [
+            {"text": "Ikääntyneet"},
+            {"text": "Opiskelijat"},
+            {"text": "Vammaiset"},
+            {"text": "Maahanmuuttajat"},
+            {"text": "Nuoret"}
+        ]
+    },
+    {
+        "text": "Yrittäjät",
+        "state": {
+            "opened": true
+        },
+        "children": [
+            {"text": "Kauppiaat"},
+            {"text": "Maatalousyrittäjät"},
+            {"text": "Pienyrittäjät"}
+        ]
+    },
+    {
+        "text": "Viranomaiset",
+        "state": {
+            "opened": true
+        },
+        "children": [
+            {"text": "Valtionhallinto"},
+            {"text": "Kunnat"}
+        ]
+    },
+    {"text": "Yhdistykset ja yhteisöt"}
+]

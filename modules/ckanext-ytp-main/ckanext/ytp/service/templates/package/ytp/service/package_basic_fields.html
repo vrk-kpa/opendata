@@ -98,8 +98,14 @@
                       value=data.life_situations
                       )}}
 
-    {% set target_groups_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=target_groups&incomplete=?'} %}
-    {{ form.input('target_groups', label=_('Target groups'), placeholder='', value=data.target_groups, error=errors.target_groups, classes=['control-full'], attrs=target_groups_attrs) }}
+    {{ ytp_form.modal('target_groups',
+                      label=_('Target groups'),
+                      treedata=h.get_dict_tree_from_json('target_group_options_url'),
+                      modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'target_groups' },
+                      inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'readonly': true},
+                      treeAttrs='{"plugins":["checkbox"]}',
+                      value=data.target_groups
+                      )}}
 
     {{ ytp_form.markdown('usage_requirements', id='field-usage_requirements', label=_('Requirements for using the service'), placeholder='', value=data.usage_requirements, error=errors.usage_requirements, locales=h.get_available_locales(), data=data) }}
 
