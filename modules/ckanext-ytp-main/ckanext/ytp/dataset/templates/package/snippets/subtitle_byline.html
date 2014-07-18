@@ -1,7 +1,7 @@
 
 <div class="byline">
     {% if pkg.collection_type -%}
-        <span class="byline-contentype"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a></span>
+        <span class="label label-primary"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a></span>
     {%- endif -%}
 
     <span  class="byline-dataset">

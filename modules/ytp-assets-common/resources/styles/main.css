@@ -3978,6 +3978,9 @@ h4 small {
 .alert-error .alert-link {
   color: #843534;
 }
+.label-important {
+  background-color: #d9534f;
+}
 .hero {
   background: none;
 }
@@ -4225,6 +4228,9 @@ span.byline-contentype {
   border-radius: 5px;
   padding: 4px 8px;
 }
+/*.dataset-item {
+  border-bottom: none;
+}*/
 .dataset-item .byline-contentype {
   display: inline-block;
   margin-top: 6px;
@@ -4754,6 +4760,15 @@ a:focus {
   color: #0d4252;
   text-decoration: underline;
 }
+.label {
+  padding: 0.3em 0.8em 0.3em 0.8em;
+  font-size: 100%;
+  margin: 3px;
+  border-radius: 0.3em;
+}
+.label a {
+  color: #ffffff;
+}
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
   font-weight: normal;
@@ -4810,7 +4825,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1405514658428") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1405701596430") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4821,10 +4836,6 @@ h1,
 h2,
 h3 {
   margin-top: 0;
-}
-h3 {
-  border-bottom: 1px solid #999999;
-  margin-bottom: 16px;
 }
 h4 {
   font-size: 18px;
@@ -4841,7 +4852,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1405514658428');
+  background-image: url('../images/sprite.png?timestamp=1405701596430');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4851,7 +4862,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1405514658428');
+  background-image: url('../images/sprite.png?timestamp=1405701596430');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5014,7 +5025,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1405514658428") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1405701596430") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5154,7 +5165,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fcfcfc;
-  background-image: url('../images/navbar-main-background.png?timestamp=1405514658428');
+  background-image: url('../images/navbar-main-background.png?timestamp=1405701596430');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5308,7 +5319,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1405514658428');
+  background-image: url('../images/sprite.png?timestamp=1405701596430');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

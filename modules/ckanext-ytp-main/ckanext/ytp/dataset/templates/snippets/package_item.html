@@ -5,7 +5,7 @@ package        - A package to display.
 item_class     - The class name to use on the list item.
 hide_resources - If true hides the resources (default: false).
 banner         - If true displays a popular banner (default: false).
-truncate       - The length to trucate the description to (default: 180)
+truncate       - The length to trucate the description to (default: 400)
 truncate_title - The length to truncate the title to (default: 80).
 
 Example:
@@ -13,27 +13,16 @@ Example:
   {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
 
 #}
-{% set truncate = truncate or 180 %}
+{% set truncate = truncate or 400 %}
 {% set truncate_title = truncate_title or 80 %}
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
-{% set notes = h.extra_translation(package, 'notes', markdown=True) %}
+{% set notes = h.truncate(h.extra_translation(package, 'notes', markdown=True), truncate) %}
 
 <li class="{{ item_class or "dataset-item" }}">
   {% block package_item_content %}
     <div class="dataset-content">
       <h3 class="dataset-heading">
-        {% if package.private %}
-          <span class="dataset-private label label-inverse">
-            <i class="icon-lock"></i>
-            {{ _('Private') }}
-          </span>
-        {% endif %}
         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
-        {% if package.get('state', '').startswith('draft') %}
-          <span class="label label-info">{{ _('Draft') }}</span>
-        {% elif package.get('state', '').startswith('deleted') %}
-          <span class="label label-important">{{ _('Deleted') }}</span>
-        {% endif %}
         {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
       </h3>
       {% if banner %}
@@ -45,24 +34,32 @@ Example:
     </div>
   {% endblock %}
 
-  {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
-  {% if package.organization -%}
-    | <a href="/data/organization/{{package.organization.get('name') }}">
-    {{ package.organization.get('title') }}</a>
-  {%- endif -%}
-
   <div>
     {% if package.collection_type -%}
-      <span class="byline-contentype"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
+      <span class="label label-primary"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
     {%- endif -%}
-    {%- if package.get('resources') -%}
-      {% set formats = h.unique_formats(package.get('resources')) %}
-      <span class="byline-dataset">
-        {%- for format in formats -%}
-          {{_(format)}}
-          {%- if not loop.last %} | {% endif -%}
-        {%- endfor -%}
-      </span>
-    {%- endif -%}
+    {% if package.get('state', '').startswith('draft') %}
+      <span class="label label-info">{{ _('Draft') }}</span>
+    {% elif package.get('state', '').startswith('deleted') %}
+      <span class="label label-important">{{ _('Deleted') }}</span>
+    {% endif %}
+    
+    <span class="byline-dataset">
+      {%- if package.get('resources') -%}
+        {% set formats = h.unique_formats(package.get('resources')) %}
+          {%- for format in formats -%}
+            {{_(format)}}
+            {%- if not loop.last %}, {% endif -%}
+          {%- endfor -%}
+          &nbsp;
+      {%- endif -%}
+
+      {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
+      {% if package.organization -%}
+        <a href="/data/organization/{{package.organization.get('name') }}">
+        {{ package.organization.get('title') }}</a>
+      {%- endif -%}
+    </span>
+
   </div>
 </li>

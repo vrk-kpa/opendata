@@ -1,3 +1,6 @@
+
+@import "variables.less";
+
 h1,
 h2,
 h3,
@@ -63,12 +66,26 @@ a {
     text-decoration: underline;
   }
 }
+
+.label {
+  padding: 0.3em 0.8em 0.3em 0.8em;
+  font-size: 100%;
+  margin: 3px;
+  border-radius: 0.3em;
+
+  a {
+    color: @button-inverse-text-color;
+  }
+}
+
+
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
   font-weight: normal;
   font-weight: initial;
   color: #000;
 }
+
 .toolbar .breadcrumb li{
   color: #000;
 }
