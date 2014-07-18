@@ -1,43 +1,58 @@
 @import (reference) "upstream_bootstrap/variables";
 
-@body-color-background: #fff;
-@navbar-color-background: #333;
-@navbar-color-text: #fff;
-@navbar-color-darker: #999;
+// Common color palette. Please minimize the number of different colors
+
+@site-primary-color: #276ebf;
+
+// For very 'extra' information, meant for small text on white/light backgrounds
+@nonimportant-text-color: #999999;
+
+// Light background to emphasize a subarea in main content, gives a "post-it" note feeling
+@background-hilight: #f3f3fb;
+
+// Light border lines that separate UI areas/elements
+@element-border-color: #dfdfdf;
+
+// More colorful border to highlight active/selected area, menu item etc.
+@decorative-border-color: @site-primary-color;
+
+
+// Rest of the variables
+
+@body-color-background: #ffffff;
+@navbar-color-background: #333333;
+@navbar-color-text: #ffffff;
+@navbar-color-darker: #999999;
 @navbar-height: 40px;
 @infowell-color-dark: #175971;
-@infowell-color-medium: #258BB1;
-@infowell-color-light: #27B0DC;
+@infowell-color-medium: #258bb1;
+@infowell-color-light: #27b0dc;
 @footer-color: #f0f0f0;
 @menu-link-color: #141414;
-@menu-link-background: #fcfcfc;
-@menu-border-color: #c2c2c2;
-@menu-active-color: #276ebf;
-@menu-hover-color: #A2CDFD;
-@service-alert-color: #FCF8E3;
-@nonimportant-text-color: #666;
-@background-hilight: #e9f6fa;
-@form-background:  #e9f6fa;
+@menu-link-background: #fdfdfd;
+
+@menu-active-color: @site-primary-color;
+@menu-hover-color: #a2cdfd;
+@service-alert-color: #fcf8e3;
+
 @main-hilight-color: #1f7994;
-@form-subheading-color: #9AA0A1;
-@header-text-border: #999999;
-@breadcrumbTextColor: #1F7994;
+@form-subheading-color: #9aa0a1;
+
+@breadcrumbtextcolor: #1f7994;
 @neutral-color: #cccccc;
 
 @button-background: #999999;
 @button-hilight: #747474;
-@button-primary-background: #276ebf;
-@button-primary-hilight: #0F54A2;
-@button-inverse-text-color: #fff;
+@button-primary-background: @site-primary-color;
+@button-primary-hilight: #0f54a2;
+@button-inverse-text-color: #ffffff;
 
-@block-color-background: #4D4D4D;
-@block-color: #fff;
-@block-secondary-color-background: #F2F2F2;
+@block-color-background: #4d4d4d;
+@block-color: #ffffff;
 
-@block-color-hilight: #266AB9;
+@block-color-hilight: #266ab9;
 
 @input-color-placeholder: #999999;
-
 
 @secondary-width: 280px;
 @grid-float-breakpoint: @screen-lg-min;
