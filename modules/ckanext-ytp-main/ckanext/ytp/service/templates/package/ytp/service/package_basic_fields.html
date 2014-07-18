@@ -104,7 +104,8 @@
                       modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'target_groups' },
                       inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'target_groups', 'readonly': true},
                       treeAttrs='{"plugins":["checkbox"]}',
-                      value=data.target_groups
+                      value=data.target_groups,
+                      is_required=True
                       )}}
 
     {{ ytp_form.markdown('usage_requirements', id='field-usage_requirements', label=_('Requirements for using the service'), placeholder='', value=data.usage_requirements, error=errors.usage_requirements, locales=h.get_available_locales(), data=data) }}

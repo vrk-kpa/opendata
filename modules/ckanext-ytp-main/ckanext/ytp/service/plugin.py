@@ -54,6 +54,17 @@ def service_charge_validator(key, data, errors, context):
     return service_charge_value
 
 
+def target_groups_validator(key, data, errors, context):
+    """Validates the target groups field.
+
+    At least one of the main target groups needs to be selected."""
+
+    target_groups_value = data.get(key)
+    if target_groups_value is missing or target_groups_value is None or target_groups_value == '':
+        raise Invalid(_('At least one of the main target groups must to be selected'))
+    return target_groups_value
+
+
 class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
@@ -101,7 +112,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'collection_type': [set_to_value(u'Public Service'), unicode, convert_to_extras]})
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'municipalities': [ignore_missing, convert_to_tags_string('municipalities')]})
-        schema.update({'target_groups': [ignore_missing, convert_to_tags_string('target_groups')]})
+        schema.update({'target_groups': [target_groups_validator, convert_to_tags_string('target_groups')]})
         schema.update({'life_situations': [ignore_missing, convert_to_tags_string('life_situations')]})
 
         # Make the following fields mandatory
