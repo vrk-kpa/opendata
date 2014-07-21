@@ -205,8 +205,12 @@ section.module {
     width: @screen-lg;
   }
   [role=main] .primary {
-    width: @screen-lg - @secondary-width - @grid-gutter-width;
+    width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
     float: right;
+    padding-left: 0;
+  }
+  [role=main] .secondary{
+    padding-right: 0;
   }
 }
 
