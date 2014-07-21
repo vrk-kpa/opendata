@@ -1,11 +1,12 @@
 # Manual
 # 
 # Translators:
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-04-08 11:59+0000\n"
+"PO-Revision-Date: 2014-07-21 09:31+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -43,3 +44,6 @@ msgstr "Tietoa palvelusta"
 
 msgid "Files"
 msgstr "Tiedostot"
+
+msgid "Feedback"
+msgstr "Anna palautetta"

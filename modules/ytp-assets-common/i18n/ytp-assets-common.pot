@@ -43,3 +43,6 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+

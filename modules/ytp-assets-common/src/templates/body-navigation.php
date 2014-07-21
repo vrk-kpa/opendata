@@ -140,6 +140,11 @@
                 if ( ($uri == $href || $site_section == t("About us")) && $useActiveHiLight == true) { $class = ' class="active" '; }
                 echo '<li' . $class . '><a href='. $href . '>' . t("About us") . '</a></li>';
 
+                $class = '';
+                $href = '/' . $lang . '/feedback';
+                if ( ($uri == $href || $site_section == t("Feedback")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+                echo '<li' . $class . '><a href='. $href . '>' . t("Feedback") . '</a></li>';
+
             }
 
             buildMainNavBar(true);

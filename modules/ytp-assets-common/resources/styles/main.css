@@ -3987,7 +3987,7 @@ h4 small {
 .highlighted {
   border: 1px solid #ADADAD;
   padding: 0.3em 1em 0.3em 1em;
-  margin: 0em 0em 1em 0em;
+  margin: 25px 20px 20px 20px;
   border-radius: 4px;
   background: #fcf8e3;
 }
@@ -4824,7 +4824,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1405934312714") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1405935304373") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4851,7 +4851,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1405934312714');
+  background-image: url('../images/sprite.png?timestamp=1405935304373');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4861,7 +4861,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1405934312714');
+  background-image: url('../images/sprite.png?timestamp=1405935304373');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5024,7 +5024,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1405934312714") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1405935304373") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5160,11 +5160,11 @@ span.add-member-or {
   color: #ffffff;
 }
 .navbar.navbar-main {
-  border: 1px solid #dfdfdf;
+  border: none;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1405934312714');
+  background-image: url('../images/navbar-main-background.png?timestamp=1405935304373');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5188,6 +5188,9 @@ span.add-member-or {
 .navbar.navbar-main .navbar-header .navbar-brand {
   color: #333;
 }
+.navbar.navbar-main .navbar-nav li:first-child > a {
+  border-top-left-radius: 20px;
+}
 .navbar.navbar-main .navbar-nav li > a {
   font-size: 18px;
   letter-spacing: 0.5px;
@@ -5203,6 +5206,10 @@ span.add-member-or {
 }
 .navbar.navbar-main .navbar-nav a:hover {
   background-color: #a2cdfd;
+}
+.navbar.navbar-main .navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
 }
 .navbar.navbar-search {
   background-color: #ffffff;
@@ -5318,7 +5325,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1405934312714');
+  background-image: url('../images/sprite.png?timestamp=1405935304373');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
