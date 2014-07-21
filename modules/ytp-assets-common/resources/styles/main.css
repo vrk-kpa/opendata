@@ -4109,7 +4109,7 @@ section.module {
   margin: 0 0 20px 0;
 }
 .module-resource {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .module-resource .actions {
   right: 0;
@@ -4169,7 +4169,7 @@ section.module {
   }
 }
 article.module {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .modal-header,
 .modal-body,
@@ -4192,7 +4192,7 @@ article.module {
   }
 }
 ul.resource-list {
-  background: #f2f3f6;
+  background: #ebedef;
 }
 .resource-list {
   margin: 0 0 20px 0;
@@ -4229,7 +4229,7 @@ span.byline-dataset a {
   color: #999999;
 }
 span.byline-contentype {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   text-transform: uppercase;
   border-radius: 5px;
   padding: 4px 8px;
@@ -4323,7 +4323,7 @@ ul.no-bullet li:hover {
   margin-left: 180px;
 }
 .info-box {
-  background: #f2f3f6;
+  background: #ebedef;
   margin: 0;
   padding: 0.7em 1.3em;
 }
@@ -4375,7 +4375,7 @@ ul.no-bullet li:hover {
 }
 /* Selected facet pill */
 .pill {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   color: #1f7994;
 }
 .pill a.remove {
@@ -4417,7 +4417,7 @@ ul.no-bullet li:hover {
 .nav-item.active > a:hover,
 .nav-aside li.active a:hover {
   color: #1f7994;
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .nav-item.active > a:before,
 .nav-aside li.active a:before {
@@ -4574,7 +4574,7 @@ dd {
 .dataset-form .nav-tabs > li.active > a,
 .dataset-form .nav-tabs > li.active > a:hover,
 .dataset-form .nav-tabs > li.active > a:focus {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .dataset-form h2 {
   margin: 0 0.5em;
@@ -4634,12 +4634,12 @@ dd {
 }
 
 .translate-content {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   padding-right: 25px;
   padding-bottom: 15px;
 }
 .translate-bar {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   position: relative;
   padding: 3px 14px;
 }
@@ -4655,15 +4655,15 @@ dd {
   min-width: 2em;
 }
 .translate-bar a.active {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .translate-bar a:hover {
   text-decoration: none;
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .translate-bar a:focus {
   text-decoration: none;
-  background-color: #f2f3f6;
+  background-color: #ebedef;
 }
 .translate-bar a,
 .translate-bar span {
@@ -4833,7 +4833,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1405945028385") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1405949815063") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4860,7 +4860,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1405945028385');
+  background-image: url('../images/sprite.png?timestamp=1405949815063');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4870,7 +4870,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1405945028385');
+  background-image: url('../images/sprite.png?timestamp=1405949815063');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4891,7 +4891,7 @@ h4 {
 .node .meta.nodetype {
   display: inline;
   color: #1f7994;
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   font-variant: small-caps;
   padding: 3px;
 }
@@ -4932,17 +4932,16 @@ h4 {
 }
 .carousel .carousel-inner {
   background-color: #276ebf;
-  height: 150px;
+  height: 160px;
   border-radius: 10px;
-  padding-top: 15px;
 }
 .carousel .carousel-inner .item img {
   width: 200px;
-  height: 150px;
+  height: 160px;
 }
 .carousel .carousel-inner .carousel-caption {
   left: 220px;
-  height: 150px;
+  height: 160px;
   text-align: left;
   font-size: 18px;
   line-height: 25px;
@@ -4951,6 +4950,7 @@ h4 {
 .carousel .carousel-inner .carousel-caption h3 {
   border-bottom: none;
   margin-bottom: 0;
+  margin-top: 15px;
   font-size: 24px;
 }
 .carousel .carousel-inner .carousel-caption a {
@@ -4958,8 +4958,8 @@ h4 {
 }
 .carousel .carousel-control {
   background: none;
-  width: 5%;
-  opacity: 0.3;
+  width: 4%;
+  opacity: 0.2;
 }
 .carousel .carousel-control .icon-next,
 .carousel .carousel-control .icon-prev {
@@ -4967,7 +4967,7 @@ h4 {
   font-size: 62px;
 }
 .carousel .carousel-indicators {
-  bottom: 3px;
+  bottom: 2px;
   margin-bottom: 0;
 }
 #infobox {
@@ -4998,7 +4998,7 @@ h4 {
   margin-right: 0;
 }
 .region-sidebar-second section {
-  background-color: #f2f3f6;
+  background-color: #ebedef;
   padding: 10px;
   margin: 10px 0;
   border-radius: 5px;
@@ -5039,7 +5039,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1405945028385") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1405949815063") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5179,7 +5179,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1405945028385');
+  background-image: url('../images/navbar-main-background.png?timestamp=1405949815063');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5340,7 +5340,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1405945028385');
+  background-image: url('../images/sprite.png?timestamp=1405949815063');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
