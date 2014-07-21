@@ -6,7 +6,7 @@
   </h2>
   {% block package_list %}
   {% if user.datasets %}
-    {% snippet 'snippets/package_list.html', packages=user.datasets %}
+    {% snippet 'snippets/package_list.html', packages=h.sort_datasets_by_state_priority(user.datasets) %}
   {% else %}
 
     {% if c.is_myself %}

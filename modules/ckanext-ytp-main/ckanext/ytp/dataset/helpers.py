@@ -11,3 +11,15 @@ def get_json_value(value):
         return json.loads(value)
     except:
         return value
+
+def sort_datasets_by_state_priority(datasets):
+    """ Sorts the given list of datasets so that drafts appear first and deleted ones last. Also secondary sorts by modification date, latest first. """
+    
+    sorted_datasets = []
+    sorted_datasets.extend(sorted([dataset for dataset in datasets if dataset['state']=='draft'],
+                                  key=lambda sorting_key: sorting_key['metadata_modified'], reverse=True))
+    sorted_datasets.extend(sorted([dataset for dataset in datasets if dataset['state'] not in ['draft','deleted']],
+                                  key=lambda sorting_key: sorting_key['metadata_modified'], reverse=True))
+    sorted_datasets.extend(sorted([dataset for dataset in datasets if dataset['state']=='deleted'],
+                                  key=lambda sorting_key: sorting_key['metadata_modified'], reverse=True))
+    return sorted_datasets
