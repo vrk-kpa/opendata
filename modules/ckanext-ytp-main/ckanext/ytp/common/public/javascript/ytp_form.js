@@ -233,24 +233,35 @@ $(document).ready(function(){
     })
 });
 
+
+/**
+ * 
+ * @param tree A jsTree instance
+ * @param nodesToSelect A string indicating which nodes to select ('all', 'top', 'bottom')
+ * @param targetElementId The id of the target input field
+ */
 function transferSelectedFromTreeToForm(tree, nodesToSelect, targetElementId) {
+    // Check whether we are selecting all the nodes, just the parents, or just the children
     if (!nodesToSelect || nodesToSelect == "all") {
         var selected = tree.get_selected('full');
-    }
-    else if (nodesToSelect == "top") {
+    } else if (nodesToSelect == "top") {
         selected = tree.get_top_selected('full');
-    }
-    else if (nodesToSelect == "bottom") {
+    } else if (nodesToSelect == "bottom") {
         selected = tree.get_bottom_selected('full');
     }
 
+    // Get a reference to the input field we are updating
     var input = $('#' + targetElementId);
+    // Get the array of values in the input field
     var values = input.select2('data');
+    // Empty the array
     values.length = 0;
 
-    selected.forEach(function(element){
-        values.push({id: tree.get_text(element), text: tree.get_text(element), locked: true})
-        input.select2( 'data', values);
-    })
+    selected.forEach(function(element) {
+        // Append each of the selected items to the array
+        values.push({id: tree.get_text(element), text: tree.get_text(element), locked: true});
+    });
 
+    // Update the input field's values
+    input.select2('data', values);
 }
