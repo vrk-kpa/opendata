@@ -3,7 +3,8 @@ body{
 	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-size: 14px;
 	line-height: 1.428571429;
-	background: url('../../images/background.png') repeat-x scroll 50% 40px;
+	background: url('../../images/stamen_background_small.jpg') 50% 50% fixed no-repeat;
+    background-size: cover;
 	padding-top: 64px;
 }
 
@@ -33,8 +34,19 @@ body{
 	float: left;
 }
 
+.container{
+    max-width: 800px;
+    min-width: 480px;
+    width: 90%;
+    height: 600px;
+    background-color: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
+}
+
 #content{
-	width: 500px;
+	width: 440px;
 	margin: auto
 }
 
@@ -46,7 +58,8 @@ body{
 }
 
 #content > div {
-	width: 460px;
-	background-color: #FCF8E3;
+	width: 400px;
+	background-color: #cbe7ff;
 	padding: 20px;
+    border-radius: 20px;
 }
