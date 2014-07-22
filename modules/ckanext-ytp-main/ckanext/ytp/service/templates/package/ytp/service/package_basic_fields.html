@@ -78,6 +78,17 @@
       </div>
     {% endif %}
 
+  <div class="control-group">
+    <label for="field-state" class="control-label">{{ _('State') }}</label>
+    <div class="controls">
+      <select id="field-state" name="state">
+        <option value="active" {% if data.get('state', 'none') == 'active' %} selected="selected" {% endif %}>{{ _('Active') }}</option>
+        <option value="draft" {% if data.get('state', 'none') == 'draft' %} selected="selected" {% endif %}>{{ _('Draft') }}</option>
+        <option value="deleted" {% if data.get('state', 'none') == 'deleted' %} selected="selected" {% endif %}>{{ _('Deleted') }}</option>
+      </select>
+    </div>
+  </div>
+
     {% set service_region_options = ((_('National'), "national"), ( _('Regional or local'), "regional_local")) %}
     {{ ytp_form.radio(service_region_options, "national", "service_region", label=_('Service provision'), value=data.service_region, error=errors.service_region) }}
 

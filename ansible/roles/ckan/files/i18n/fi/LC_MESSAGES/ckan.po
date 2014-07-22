@@ -5,22 +5,23 @@
 # Translators:
 # apoikola <antti.poikola@gmail.com>, 2013
 # floapps <jaakko.louhio@floapps.com>, 2012
-# hami <hami.kekkonen@hel.fi>, 2013
-# ilja.dev, 2014
+# Hami Kekkonen <hami.kekkonen@hel.fi>, 2013
+# Ilja Pyykkönen, 2014
 # <internet@davidread.org>, 2011
-# Jaakko Korhonen <jaakko.korhonen@outlook.com>, 2014
+# jaakkokorhonen <jaakko.korhonen@outlook.com>, 2014
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 # kyyberi <jarkko.moilanen@want3d.fi>, 2013
 # Open Knowledge Foundation <translations@okfn.org>, 2011
-# razz0 <mikko.koho@csc.fi>, 2013
-# tarmo <tarmo@iki.fi>, 2014
+# Mikko Koho <mikko.koho@csc.fi>, 2013
+# Tarmo Toikkanen <tarmo@iki.fi>, 2014
 # Yhteentoimivuuspalvelut <yhteentoimivuusportaali@valtiokonttori.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-12-13 11:40+0000\n"
-"PO-Revision-Date: 2014-05-28 14:24+0000\n"
-"Last-Translator: ilja.dev\n"
+"PO-Revision-Date: 2014-07-22 09:53+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3110,7 +3111,7 @@ msgstr "Luonnos"
 #: ckan/templates/package/snippets/package_basic_fields.html:109
 #: ckan/templates/snippets/package_item.html:35
 msgid "Deleted"
-msgstr "Poistetut"
+msgstr "Poistettu"
 
 #: ckan/templates/organization/bulk_process.html:75
 #: ckan/templates/package/read.html:11
