@@ -3,7 +3,7 @@ body{
 	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-size: 14px;
 	line-height: 1.428571429;
-	background: url('../../images/stamen_background_small.jpg') 50% 50% fixed no-repeat;
+	background: url('../../images/stamen_background.jpg') 50% 50% fixed no-repeat;
     background-size: cover;
 	padding-top: 64px;
 }

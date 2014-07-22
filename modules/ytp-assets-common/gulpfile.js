@@ -57,7 +57,7 @@ gulp.task('templates', function() {
 
 gulp.task('static_css', function(){
     return gulp.src(paths.src.static_pages + "/css/main.css" )
-        .pipe(base64())
+        .pipe(base64({maxImageSize:512*1024}))
         .pipe(concat('style.css'))
         .pipe(gulp.dest(paths.src.static_pages + "/css"));
 });
