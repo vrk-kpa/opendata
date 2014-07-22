@@ -27,6 +27,7 @@ def get_locales():
 
 
 def add_translation_modify_schema(schema):
+    """Modifies the given schema with translation related keys"""
     ignore_missing = toolkit.get_validator('ignore_missing')
     convert_to_extras = toolkit.get_converter('convert_to_extras')
 
@@ -36,6 +37,7 @@ def add_translation_modify_schema(schema):
 
 
 def add_languages_modify(schema, fields, locales=None):
+    """Adds localized field keys to the given schema"""
     if locales is None:
         locales = get_locales()
     ignore_missing = toolkit.get_validator('ignore_missing')

@@ -1,6 +1,8 @@
 {% import 'macros/form.html' as form %}
+{% import 'macros/ytp_form.html' as ytp_form %}
 
 <form class="dataset-form form-horizontal" method="post" action="{{ action }}" data-module="basic-form" enctype="multipart/form-data">
+  {% include "package/ytp/language_bar.html" %}
   {{ form.errors(error_summary) }}
 
   <fieldset>
@@ -11,7 +13,7 @@
 
     {{ form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('eg. Joe Bloggs'), is_required=true, classes=['control-medium']) }}
 
-    {{ form.input('job_title', label=_('Job title'), id='field-job_title', value=data.job_title, error=errors.job_title, placeholder=_('Software Designer'), classes=['control-medium']) }}
+    {{ ytp_form.input('job_title', label=_('Job title'), id='field-job_title', value=data.job_title, placeholder=_('Software Designer'), error=errors.job_title, locales=h.get_available_locales(), data=data) }}
 
     {{ form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('eg. joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': 'readonly'}) }}
 
@@ -24,7 +26,7 @@
 
     {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
 
-    {{ form.markdown('about', label=_('About'), id='field-about', value=data.about, error=errors.about, placeholder=_('A little information about yourself')) }}
+    {{ ytp_form.markdown('about', id='field-about', label=_('About'), placeholder=_('A little information about yourself'), value=data.about, error=errors.about, locales=h.get_available_locales(), data=data) }}
 
     {# Social Media #}
 

@@ -15,8 +15,13 @@ import logging
 import sqlalchemy
 import sqlalchemy.sql
 from ckanext.ytp.common.converters import to_list_json
+from ckanext.ytp.common.tools import add_languages_modify, add_translation_modify_schema
 
 log = logging.getLogger(__name__)
+
+
+# Insert here the fields that are localized
+_localized_fields = ['job_title', 'about']
 
 
 def _add_user_extras(user_obj, user_dict):
@@ -24,7 +29,7 @@ def _add_user_extras(user_obj, user_dict):
         if key in user_dict:
             log.warning("Trying to override user data with extra variable '%s'", key)
             continue
-        if key in ('blog', 'www_page'):
+        if key in ('blog', 'www_page', 'translations'):
             if value:
                 user_dict[key] = json.loads(value)
         else:
@@ -216,6 +221,8 @@ def action_user_update(context, data_dict):
     user = context['user']
     session = context['session']
     schema = context.get('schema') or logic.schema.default_update_user_schema()
+    # Modify the schema by adding translation related keys
+    add_translation_modify_schema(schema)
 
     upload = uploader.Upload('user')
     upload.update_data_dict(data_dict, 'image_url', 'image_upload', 'clear_upload')
@@ -236,12 +243,20 @@ def action_user_update(context, data_dict):
     schema['blog'] = [ignore_missing, to_list_json, convert_to_extras]
     schema['www_page'] = [ignore_missing, to_list_json, convert_to_extras]
 
+    # Add the localized keys for the localized fields to the schema
+    schema = add_languages_modify(schema, _localized_fields)
+
     id = logic.get_or_bust(data_dict, 'id')
 
     user_obj = model.User.get(id)
     context['user_obj'] = user_obj
     if user_obj is None:
         raise NotFound('User was not found.')
+
+    # If the translations are not in the data_dict, the user has not added any translations or the user has deleted all translations.
+    # Therefore, the translations are not sent with the POST so we need to empty and update the translations here.
+    if 'translations' not in data_dict:
+        data_dict['translations'] = []
 
     toolkit.check_access('user_update', context, data_dict)
 
@@ -267,7 +282,7 @@ def action_user_update(context, data_dict):
 
     toolkit.get_action('activity_create')(activity_create_context, activity_dict)
 
-    # Attempt ot update drupal user
+    # Attempt to update drupal user
     _update_drupal_user(context, data_dict)
 
     # TODO: Also create an activity detail recording what exactly changed in
