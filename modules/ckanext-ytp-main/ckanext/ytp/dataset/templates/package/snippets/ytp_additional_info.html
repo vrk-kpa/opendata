@@ -45,7 +45,8 @@
 
     {% if extra_dict.copyright_notice %}
       <dt>{{ _("Copyright Notice") }}</dt>
-      <dd>{{ extra_dict.copyright_notice }}</dd>
+      <dd>{{ h.extra_translation(extra_dict, 'copyright_notice', markdown=True) }}</dd>
+    {# TODO: This is for a specific harvest source and should be mapped during harvesting to the copyright field instead of handling it specifically in the template #}
     {% elif extra_dict.access_constraints %}
       {% set copyright_notice = h.get_json_value(h.get_pkg_dict_extra(pkg_dict, 'access_constraints', None)) %}
       <dt>{{ _("Copyright Notice") }}</dt>
@@ -62,7 +63,7 @@
 
     {% if extra_dict.warranty_disclaimer %}
       <dt>{{ _("Disclaimer of Warranty") }}</dt>
-      <dd>{{ extra_dict.warranty_disclaimer }}</dd>
+      <dd>{{ h.extra_translation(extra_dict, 'warranty_disclaimer', markdown=True) }}</dd>
     {% endif %}
 
     {% set websites = extra_dict.extra_information %}
