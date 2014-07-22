@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-17 17:02+0300\n"
+"POT-Creation-Date: 2014-07-22 11:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,7 +277,6 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/organizations/templates/snippets/organization.html:53
 #: ckanext/ytp/theme/menu.py:60 ckanext/ytp/user/templates/user/read.html:5
-#: ckanext/ytp/user/templates/user/read_base.html:28
 msgid "Datasets"
 msgstr ""
 
@@ -294,7 +293,7 @@ msgid "Add data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/read.html:13
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:33
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:42
 msgid "Draft"
 msgstr ""
 
@@ -518,10 +517,9 @@ msgid "Public"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:151
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:28
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:66
-#: ckanext/ytp/user/templates/user/read_base.html:53
-#: ckanext/ytp/user/templates/user/read_base.html:67
+#: ckanext/ytp/user/templates/user/read_base.html:34
+#: ckanext/ytp/user/templates/user/read_base.html:48
 msgid "Private"
 msgstr ""
 
@@ -638,6 +636,7 @@ msgid "eg. CSV, XML or JSON"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:52
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35
 msgid "Temporal Granularity"
 msgstr ""
 
@@ -706,10 +705,6 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35
-msgid "Temporal Granurality"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:2
 msgid "Files"
 msgstr ""
@@ -749,12 +744,12 @@ msgstr ""
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:35
-msgid "Deleted"
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:40
-msgid "Popular"
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:44
+msgid "Deleted"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
@@ -1101,7 +1096,6 @@ msgid "There is no description for this organization"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/snippets/organization.html:49
-#: ckanext/ytp/user/templates/user/read_base.html:24
 msgid "Followers"
 msgstr ""
 
@@ -1115,27 +1109,27 @@ msgid ""
 "URL for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:63
+#: ckanext/ytp/service/plugin.py:64
 msgid "At least one of the main target groups must to be selected"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:200
+#: ckanext/ytp/service/plugin.py:201
 msgid "Organization does not exists"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:202
+#: ckanext/ytp/service/plugin.py:203
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:224
+#: ckanext/ytp/service/plugin.py:225
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:230
+#: ckanext/ytp/service/plugin.py:231
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:235 ckanext/ytp/service/plugin.py:243
+#: ckanext/ytp/service/plugin.py:236 ckanext/ytp/service/plugin.py:244
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
@@ -1670,7 +1664,7 @@ msgid "Change details"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:8
-#: ckanext/ytp/user/templates/user/read_base.html:47
+#: ckanext/ytp/user/templates/user/read_base.html:28
 msgid "Username"
 msgstr ""
 
@@ -1695,7 +1689,7 @@ msgid "Software Designer"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:16
-#: ckanext/ytp/user/templates/user/read_base.html:53
+#: ckanext/ytp/user/templates/user/read_base.html:34
 msgid "Email"
 msgstr ""
 
@@ -1791,28 +1785,24 @@ msgstr ""
 msgid "This user has no biography."
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:32
-msgid "Edits"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/read_base.html:44
+#: ckanext/ytp/user/templates/user/read_base.html:25
 msgid "Open ID"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:53
-#: ckanext/ytp/user/templates/user/read_base.html:67
+#: ckanext/ytp/user/templates/user/read_base.html:34
+#: ckanext/ytp/user/templates/user/read_base.html:48
 msgid "This means only you can see this"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:58
+#: ckanext/ytp/user/templates/user/read_base.html:39
 msgid "Member Since"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:62
+#: ckanext/ytp/user/templates/user/read_base.html:43
 msgid "State"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:67
+#: ckanext/ytp/user/templates/user/read_base.html:48
 msgid "API Key"
 msgstr ""
 
