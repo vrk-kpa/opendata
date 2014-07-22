@@ -10,6 +10,7 @@ from ckan.lib import helpers
 from pylons import config
 from ckanext.ytp.request.model import MemberExtra
 from ckan.lib.i18n import set_lang, get_lang
+from ckan.lib.helpers import url_for
 
 log = logging.getLogger(__name__)
 
@@ -25,12 +26,12 @@ def _get_safe_locale():
         return _get_default_locale()
 
 
-def _mail_new_membership_request(locale, admin, group_name, user_name, user_email):
+def _mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     current_locale = get_lang()
     set_lang(locale)
     try:
         subject = _("New membership request (%s)" % group_name)
-        message = _("User '%s' (%s) has requested membership to organization '%s'." % (user_name, user_email, group_name))
+        message = _("User '%s' (%s) has requested membership to organization '%s'.\n\n%s" % (user_name, user_email, group_name, url))
         mail_user(admin, subject, message)
     except MailerException, e:
         log.error(e)
@@ -126,8 +127,10 @@ def _create_member_request(context, data_dict):
         model.repo.commit()
         changed = True
 
+    url = url_for('member_request_show_organization', organization_id=group.id)
+
     for admin in get_organization_admins(group.id):
-        _mail_new_membership_request(locale, admin, group.display_name, userobj.display_name, userobj.email)
+        _mail_new_membership_request(locale, admin, group.display_name, url, userobj.display_name, userobj.email)
 
     return member, changed
 
