@@ -23,7 +23,7 @@
         min-width: 2em;
     }
 
-    a.active {
+    a:active {
         background-color: @background-hilight;
     }
 
@@ -54,6 +54,28 @@
 
     .original_language {
        font-weight: bold;
+    }
+}
+
+// A general translate-bar without the background
+.user-form .translate-bar {
+    background-color: transparent;
+    padding-left: 0;
+
+    a:active {
+        background-color: transparent;
+    }
+
+    a:hover {
+        background-color: transparent;
+    }
+
+    a:focus {
+        background-color: transparent;
+    }
+
+    span {
+        padding-left: 0;
     }
 }
 
