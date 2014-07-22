@@ -9,6 +9,7 @@ from ckan.common import c, _
 from ckanext.ytp.request import auth, logic
 from ckan.lib import helpers
 from ckanext.ytp.request.tools import get_user_member
+from ckanext.ytp.request.model import setup
 
 log = logging.getLogger(__name__)
 
@@ -19,6 +20,10 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IConfigurable)
+
+    def configure(self, config):
+        setup()
 
     def _add_to_translation(self):
         """ Include dynamic values to translation search. Never called. """

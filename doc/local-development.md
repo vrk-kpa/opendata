@@ -73,4 +73,4 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     cd modules/ckanext-ytp-<name>
     nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
     # or
-    nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --nocapture
+    nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --nocapture --nologcapture

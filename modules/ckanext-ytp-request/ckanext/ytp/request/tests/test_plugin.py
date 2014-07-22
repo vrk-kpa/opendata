@@ -4,6 +4,7 @@ from ckan.tests import TestCase
 from ckan.logic import NotFound
 from ckan import model, plugins
 from ckan.plugins import toolkit
+from ckanext.ytp.request.tools import get_organization_admins
 
 
 class TestYtpRequestPlugin(TestCase):
@@ -68,3 +69,42 @@ class TestYtpRequestPlugin(TestCase):
             toolkit.get_action("member_request_process")(context_admin, {"member": member['id'], "approve": approve})
             show_member = toolkit.get_action("member_request_show")(context_user, {"member": member['id']})
             self.assert_equal(show_member['state'], result)
+
+    def test_get_organization_admins(self):
+        context_user = self._create_context()
+        user = self._create_user("test_admins_1")
+        context_user['user'] = "test_admins_1"
+
+        context_user_2 = self._create_context()
+        user_2 = self._create_user("test_admins_2")
+        context_user_2['user'] = "test_admins_2"
+
+        context_admin = self._create_context()
+
+        organization = toolkit.get_action("organization_create")(context_admin, {"name": 'test_admins'})
+
+        for admin in get_organization_admins(organization['id']):
+            self.assert_true(admin.id != user.id)
+
+        member = toolkit.get_action("member_request_create")(context_user, {"group": organization['id'], 'role': "editor"})
+        toolkit.get_action("member_request_process")(context_admin, {"member": member['id'], "approve": False})
+
+        for admin in get_organization_admins(organization['id']):
+            self.assert_true(admin.id != user.id)
+
+        member = toolkit.get_action("member_request_create")(context_user, {"group": organization['id'], 'role': "editor"})
+        toolkit.get_action("member_request_process")(context_admin, {"member": member['id'], "approve": True})
+
+        for admin in get_organization_admins(organization['id']):
+            self.assert_true(admin.id != user.id)
+
+        member = toolkit.get_action("member_request_create")(context_user_2, {"group": organization['id'], 'role': "admin"})
+        toolkit.get_action("member_request_process")(context_admin, {"member": member['id'], "approve": True})
+
+        ok = False
+        for admin in get_organization_admins(organization['id']):
+            if admin.id == user_2.id:
+                ok = True
+
+        if not ok:
+            self.fail("User not found from organization admins")

@@ -3,6 +3,56 @@ from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import NotFound, ValidationError, check_access
 from ckan.common import _, c
+from ckan.lib.mailer import mail_user, MailerException
+import logging
+from ckanext.ytp.request.tools import get_organization_admins
+from ckan.lib import helpers
+from pylons import config
+from ckanext.ytp.request.model import MemberExtra
+from ckan.lib.i18n import set_lang, get_lang
+
+log = logging.getLogger(__name__)
+
+
+def _get_default_locale():
+    return config.get('ckan.locale_default', 'en')
+
+
+def _get_safe_locale():
+    try:
+        return helpers.lang()
+    except:
+        return _get_default_locale()
+
+
+def _mail_new_membership_request(locale, admin, group_name, user_name, user_email):
+    current_locale = get_lang()
+    set_lang(locale)
+    try:
+        subject = _("New membership request (%s)" % group_name)
+        message = _("User '%s' (%s) has requested membership to organization '%s'." % (user_name, user_email, group_name))
+        mail_user(admin, subject, message)
+    except MailerException, e:
+        log.error(e)
+    finally:
+        set_lang(current_locale)
+
+
+def _mail_process_status(locale, member_user, approve, group_name, capacity):
+    current_locale = get_lang()
+    set_lang(locale)
+    try:
+        role_name = _(capacity)
+        if approve:
+            message = _("Your membership request to organization '%s' with '%s' access has been approved." % (group_name, role_name))
+            mail_user(member_user, _('Organization membership approved (%s)' % group_name), message)
+        else:
+            message = _("Your membership request to organization '%s' with '%s' access has been rejected.")
+            mail_user(member_user, _('Organization membership rejected (%s)' % group_name), message)
+    except MailerException, e:
+        log.error(e)
+    finally:
+        set_lang(current_locale)
 
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
@@ -51,6 +101,8 @@ def _create_member_request(context, data_dict):
         member = model.Member(table_name="user", table_id=userobj.id, group_id=group.id, capacity=role, state='pending')
         changed = True
 
+    locale = _get_safe_locale()
+
     if member.state != 'pending' or changed:
         member.state = 'pending'
         member.capacity = role
@@ -67,8 +119,15 @@ def _create_member_request(context, data_dict):
             model.Session.add(member)
         else:
             member.save()
+
+        extra = MemberExtra(member_id=member.id, key="locale", value=locale)
+        extra.save()
+
         model.repo.commit()
         changed = True
+
+    for admin in get_organization_admins(group.id):
+        _mail_new_membership_request(locale, admin, group.display_name, userobj.display_name, userobj.email)
 
     return member, changed
 
@@ -167,6 +226,12 @@ def _process_request(context, member, action):
 
     member.save()
     model.repo.commit()
+
+    member_user = model.Session.query(model.User).get(member.table_id)
+
+    locale = member.extras.get('locale', None) or _get_default_locale()
+    _mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
+
     return model_dictize.member_dictize(member, context)
 
 
