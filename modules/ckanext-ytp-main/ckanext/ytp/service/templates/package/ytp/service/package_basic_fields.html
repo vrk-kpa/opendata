@@ -53,6 +53,8 @@
     {% set user_is_sysadmin = h.check_access('sysadmin') %}
     {% set show_visibility_selector = dataset_has_organization or organizations_available %}
 
+    {# hide visibility selector #}
+    {% set show_visibility_selector = False %}
     {% if show_visibility_selector %}
       <div data-module="dataset-visibility">
     {% endif %}

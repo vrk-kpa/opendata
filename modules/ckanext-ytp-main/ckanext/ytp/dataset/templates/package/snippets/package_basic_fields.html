@@ -142,6 +142,8 @@
     </div>
     {% endif %}
 
+  {# hide visibility selector #}
+  {% set show_visibility_selector = False %}
     {% if show_visibility_selector %}
       {% block package_metadata_fields_visibility %}
         <div class="control-group">
