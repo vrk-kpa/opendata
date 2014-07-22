@@ -80,7 +80,7 @@ gulp.task('bootstrap', function(){
       }))
       .pipe(concat('bootstrap.css'))
       .pipe(gulp.dest(paths.dist + '/vendor'))
-      .pipe(MinCSS({keepBreaks: true}))
+      .pipe(MinCSS({keepBreaks: false}))
       .pipe(concat('bootstrap.min.css'))
       .pipe(gulp.dest(paths.dist + '/vendor'))
 });
