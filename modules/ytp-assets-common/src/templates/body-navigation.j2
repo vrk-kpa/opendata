@@ -54,14 +54,21 @@
             <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
           </ul>
           <ul class="nav navbar-nav user-nav navbar-right">
-            <li>
+
                 {% if not c.userobj %}
-                <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }} &gt;</a>
+                <li>
+                    <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }} &gt;</a>
+                </li>
                 {% else %}
-                {{h.linked_user(c.userobj.name, 0, 0)}} | <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }} &gt;</a> 
+                <li>
+                    {{h.linked_user(c.userobj.name, 0, 0)}}
+                </li>
+                <li>
+                    <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }} &gt;</a>
+                </li>
                 {% endif %}
-            </li>
-            <li><a href="#"><span class="icon icon-cart-navbar"></span> {{ _('Own checklist') }} (0)</a></li>
+
+            <!-- <li><a href="#"><span class="icon icon-cart-navbar"></span> {{ _('Own checklist') }} (0)</a></li> -->
           </ul>
           </div>
         </div><!--/.nav-collapse -->

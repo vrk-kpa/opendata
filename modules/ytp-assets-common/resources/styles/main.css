@@ -3920,7 +3920,7 @@ h4 small {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #428bca;
+  color: #276ebf;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
@@ -3940,7 +3940,7 @@ h4 small {
 .pagination > ul > li > span:hover,
 .pagination > ul > li > a:focus,
 .pagination > ul > li > span:focus {
-  color: #2a6496;
+  color: #1a497f;
   background-color: #eeeeee;
   border-color: #dddddd;
 }
@@ -3989,7 +3989,7 @@ h4 small {
   padding: 0.3em 1em 0.3em 1em;
   margin: 25px 20px 20px 20px;
   border-radius: 4px;
-  background: #fcf8e3;
+  background: #cbe7ff;
 }
 .highlighted a {
   color: #842534;
@@ -4479,7 +4479,7 @@ ul.no-bullet li:hover {
 }
 .module .read-more {
   font-weight: normal;
-  color: #1f7994;
+  color: #276ebf;
 }
 .nav-facet .nav-item > a:hover:after,
 .nav-facet .nav-item.active > a:after {
@@ -4755,7 +4755,7 @@ h4 {
   font-size: 14px;
 }
 a {
-  color: #187794;
+  color: #276ebf;
   text-decoration: none;
 }
 a:hover,
@@ -4833,12 +4833,12 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1405949815063") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406009866764") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
 a {
-  color: #1f7994;
+  color: #276ebf;
 }
 h1,
 h2,
@@ -4860,7 +4860,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1405949815063');
+  background-image: url('../images/sprite.png?timestamp=1406009866764');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4870,7 +4870,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1405949815063');
+  background-image: url('../images/sprite.png?timestamp=1406009866764');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4994,9 +4994,6 @@ h4 {
 #page-header > .row {
   padding-bottom: 20px;
 }
-.row {
-  margin-right: 0;
-}
 .region-sidebar-second section {
   background-color: #ebedef;
   padding: 10px;
@@ -5039,7 +5036,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1405949815063") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406009866764") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5179,7 +5176,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1405949815063');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406009866764');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5340,7 +5337,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1405949815063');
+  background-image: url('../images/sprite.png?timestamp=1406009866764');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
