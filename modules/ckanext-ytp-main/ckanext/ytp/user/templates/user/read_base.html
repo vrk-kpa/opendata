@@ -9,8 +9,8 @@
       <div class="image">{% if user.image_display_url %}<img src="{{ user.image_display_url }}" width="190" height="190" class="media-image" />{% endif %}</div>
       <h1 class="heading">{{ user.display_name }}</h1>
       {% if user['about'] %}
-        {# First, translate the about field and then render the markdown in it #}
-        {{ h.render_markdown(h.extra_translation(user, 'about')) }}
+        {# Translate the about field #}
+        {{ h.extra_translation(user, 'about', markdown=True) }}
       {% else %}
         <p class="empty">
           {% if c.is_myself %}
