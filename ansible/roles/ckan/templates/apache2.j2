@@ -1,8 +1,8 @@
 WSGISocketPrefix /var/run/wsgi
 <VirtualHost 0.0.0.0:8080>
 
-    ServerName ytp.local
-    ServerAlias www.ytp.local
+    ServerName {{ hostname }}
+    ServerAlias {{ secondary_hostname }}
     WSGIScriptAlias /data /etc/ckan/default/apache.wsgi
 
     # pass authorization info on (needed for rest api)

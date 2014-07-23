@@ -17,6 +17,10 @@ def get_user_member(organization_id, state=None):
 
 
 def get_organization_admins(group_id):
-    return model.Session.query(model.User).join(model.Member, or_(model.User.id == model.Member.table_id, model.User.sysadmin == True)). \
-        filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id). \
-        filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin')  # noqa
+    admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
+                 filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
+                 filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
+
+    admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
+
+    return admins

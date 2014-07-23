@@ -127,7 +127,9 @@ def _create_member_request(context, data_dict):
         model.repo.commit()
         changed = True
 
-    url = url_for('member_request_show_organization', organization_id=group.id)
+    url = config.get('ckan.site_url', "")
+    if url:
+        url = url + url_for('member_request_show_organization', organization_id=group.id)
 
     for admin in get_organization_admins(group.id):
         _mail_new_membership_request(locale, admin, group.display_name, url, userobj.display_name, userobj.email)
