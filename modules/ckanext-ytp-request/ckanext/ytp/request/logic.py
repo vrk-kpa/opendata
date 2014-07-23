@@ -30,8 +30,8 @@ def _mail_new_membership_request(locale, admin, group_name, url, user_name, user
     current_locale = get_lang()
     set_lang(locale)
     try:
-        subject = _("New membership request (%s)" % group_name)
-        message = _("User '%s' (%s) has requested membership to organization '%s'.\n\n%s" % (user_name, user_email, group_name, url))
+        subject = _("New membership request (%s)") % group_name
+        message = _("User '%s' (%s) has requested membership to organization '%s'.\n\n%s") % (user_name, user_email, group_name, url)
         mail_user(admin, subject, message)
     except MailerException, e:
         log.error(e)
@@ -45,11 +45,11 @@ def _mail_process_status(locale, member_user, approve, group_name, capacity):
     try:
         role_name = _(capacity)
         if approve:
-            message = _("Your membership request to organization '%s' with '%s' access has been approved." % (group_name, role_name))
-            mail_user(member_user, _('Organization membership approved (%s)' % group_name), message)
+            message = _("Your membership request to organization '%s' with '%s' access has been approved.") % (group_name, role_name)
+            mail_user(member_user, _('Organization membership approved (%s)') % group_name, message)
         else:
             message = _("Your membership request to organization '%s' with '%s' access has been rejected.")
-            mail_user(member_user, _('Organization membership rejected (%s)' % group_name), message)
+            mail_user(member_user, _('Organization membership rejected (%s)') % group_name, message)
     except MailerException, e:
         log.error(e)
     finally:
