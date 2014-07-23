@@ -11,6 +11,7 @@ from pylons import config
 from ckanext.ytp.request.model import MemberExtra
 from ckan.lib.i18n import set_lang, get_lang
 from ckan.lib.helpers import url_for
+from pylons.i18n.translation import gettext_noop
 
 log = logging.getLogger(__name__)
 
@@ -27,33 +28,52 @@ def _get_safe_locale():
 
 
 def _mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
+    subject = gettext_noop("New membership request (%s)")
+    message = gettext_noop("User '%s' (%s) has requested membership to organization '%s'.\n\n%s")
+
     current_locale = get_lang()
-    set_lang(locale)
+
+    if current_locale != 'en':
+        set_lang(locale)
+        subject = _(subject)
+        message = _(message)
+        set_lang(current_locale)
+
+    subject = subject % group_name
+    message = message % (user_name, user_email, group_name, url)
+
     try:
-        subject = _("New membership request (%s)") % group_name
-        message = _("User '%s' (%s) has requested membership to organization '%s'.\n\n%s") % (user_name, user_email, group_name, url)
         mail_user(admin, subject, message)
     except MailerException, e:
         log.error(e)
-    finally:
-        set_lang(current_locale)
 
 
 def _mail_process_status(locale, member_user, approve, group_name, capacity):
+    if approve:
+        subject = gettext_noop('Organization membership approved (%s)')
+        message = gettext_noop("Your membership request to organization '%s' with '%s' access has been approved.")
+    else:
+        subject = gettext_noop('Organization membership rejected (%s)')
+        message = gettext_noop("Your membership request to organization '%s' with '%s' access has been rejected.")
+
+    role_name = capacity
+
     current_locale = get_lang()
-    set_lang(locale)
+
+    if current_locale != 'en':
+        set_lang(locale)
+        message = _(message)
+        subject = _(subject)
+        role_name = _(role_name)
+        set_lang(current_locale)
+
+    subject = subject % group_name
+    message = message % (group_name, role_name)
+
     try:
-        role_name = _(capacity)
-        if approve:
-            message = _("Your membership request to organization '%s' with '%s' access has been approved.") % (group_name, role_name)
-            mail_user(member_user, _('Organization membership approved (%s)') % group_name, message)
-        else:
-            message = _("Your membership request to organization '%s' with '%s' access has been rejected.")
-            mail_user(member_user, _('Organization membership rejected (%s)') % group_name, message)
+        mail_user(member_user, subject, message)
     except MailerException, e:
         log.error(e)
-    finally:
-        set_lang(current_locale)
 
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
