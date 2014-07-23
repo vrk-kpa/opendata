@@ -29,7 +29,8 @@
                 <p>
                 {% set main_organization = h.main_organization(user[0]).display_name %}
                 {%- if user[0].extras -%}
-                  {{ user[0].extras['job_title'] }}
+                  {# Translate the job_title field #}
+                  {{ h.extra_translation(user[0].extras, 'job_title') }}
                   {%- if main_organization -%}
                   ,
                   {%- endif %}
