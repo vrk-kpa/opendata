@@ -7,8 +7,23 @@
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
   display: block;
+  width: 100% \9;
   max-width: 100%;
   height: auto;
+}
+.form-horizontal .form-group-sm .form-control {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.form-horizontal .form-group-lg .form-control {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
 }
 .btn-group-lg > .btn {
   padding: 10px 16px;
@@ -28,6 +43,7 @@
   line-height: 1.5;
   border-radius: 3px;
 }
+.dl-horizontal dd,
 .container,
 .container-fluid,
 .row,
@@ -43,6 +59,8 @@
 .modal-footer {
   *zoom: 1;
 }
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
 .container:before,
 .container:after,
 .container-fluid:before,
@@ -72,6 +90,7 @@
   content: " ";
   display: table;
 }
+.dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
 .row:after,
@@ -87,6 +106,8 @@
 .modal-footer:after {
   clear: both;
 }
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
 .container:before,
 .container:after,
 .container-fluid:before,
@@ -117,6 +138,7 @@
   content: "";
   line-height: 0;
 }
+.dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
 .row:after,
@@ -149,6 +171,7 @@
 .form-actions:after {
   clear: both;
 }
+.dl-horizontal dd,
 .container,
 .container-fluid,
 .row,
@@ -164,6 +187,8 @@
 .modal-footer {
   *zoom: 1;
 }
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
 .container:before,
 .container:after,
 .container-fluid:before,
@@ -194,6 +219,7 @@
   content: "";
   line-height: 0;
 }
+.dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
 .row:after,
@@ -1326,14 +1352,14 @@ textarea {
 .control-custom.disabled .checkbox.btn:focus,
 .control-custom.disabled .checkbox.btn:active,
 .control-custom.disabled .checkbox.btn.active,
-.open .dropdown-toggle.control-custom.disabled .checkbox.btn {
+.open > .dropdown-toggle.control-custom.disabled .checkbox.btn {
   color: #ffffff;
-  background-color: #3276b1;
+  background-color: #3071a9;
   border-color: #285e8e;
 }
 .control-custom.disabled .checkbox.btn:active,
 .control-custom.disabled .checkbox.btn.active,
-.open .dropdown-toggle.control-custom.disabled .checkbox.btn {
+.open > .dropdown-toggle.control-custom.disabled .checkbox.btn {
   background-image: none;
 }
 .control-custom.disabled .checkbox.btn .badge {
@@ -3892,7 +3918,7 @@ h4 small {
   color: #009900;
 }
 .label-inverse {
-  background-color: #999999;
+  background-color: #777777;
 }
 .btn-mini {
   padding: 1px 5px;
@@ -3962,7 +3988,7 @@ h4 small {
 .pagination > ul > .disabled > a,
 .pagination > ul > .disabled > a:hover,
 .pagination > ul > .disabled > a:focus {
-  color: #999999;
+  color: #777777;
   background-color: #ffffff;
   border-color: #dddddd;
   cursor: not-allowed;
@@ -4546,13 +4572,16 @@ ul.no-bullet li:hover {
   margin-top: 8px;
   position: static;
 }
+.dl-horizontal dt {
+  white-space: normal;
+}
 dt {
   float: left;
   clear: left;
   width: 160px;
   font-weight: normal;
   color: #999999;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 dt:after {
   content: ":";
@@ -4852,7 +4881,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406118209043") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406187181997") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4879,7 +4908,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406118209043');
+  background-image: url('../images/sprite.png?timestamp=1406187181997');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4889,7 +4918,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406118209043');
+  background-image: url('../images/sprite.png?timestamp=1406187181997');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5055,7 +5084,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406118209043") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406187181997") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5195,7 +5224,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406118209043');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406187181997');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5356,7 +5385,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406118209043');
+  background-image: url('../images/sprite.png?timestamp=1406187181997');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
