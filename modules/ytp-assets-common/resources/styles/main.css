@@ -4366,10 +4366,6 @@ ul.no-bullet li:hover {
   padding-right: 0.5em;
   content: "\f105";
 }
-.organization-subheading {
-  color: #9aa0a1;
-  border-bottom: solid #9aa0a1 1px;
-}
 .hiddenFormTemplate {
   display: none;
 }
@@ -4463,7 +4459,6 @@ ul.no-bullet li:hover {
   font-size: 18px;
   font-weight: normal;
   line-height: 1;
-  color: #999999;
   background-color: transparent;
   border-top: 0;
   border-bottom: 1px solid #dddddd;
@@ -4580,15 +4575,15 @@ dt {
   clear: left;
   width: 160px;
   font-weight: normal;
-  color: #999999;
-  margin-bottom: 6px;
+  color: #194568;
+  margin-bottom: 3px;
 }
 dt:after {
   content: ":";
 }
 dd {
-  margin: 0 0 8px 170px;
-  padding: 0 0 0.5em 0;
+  margin: 0 0 3px 165px;
+  padding: 0 0 0.3em 0;
 }
 .context-info h1.heading {
   overflow: hidden;
@@ -4884,7 +4879,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406189515366") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406204592855") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4911,7 +4906,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406189515366');
+  background-image: url('../images/sprite.png?timestamp=1406204592855');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4921,7 +4916,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406189515366');
+  background-image: url('../images/sprite.png?timestamp=1406204592855');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5087,7 +5082,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406189515366") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406204592855") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5227,7 +5222,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406189515366');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406204592855');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5388,7 +5383,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406189515366');
+  background-image: url('../images/sprite.png?timestamp=1406204592855');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
