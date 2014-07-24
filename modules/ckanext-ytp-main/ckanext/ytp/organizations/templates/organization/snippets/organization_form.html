@@ -149,7 +149,15 @@
         }
 
         function Save(formId) {
-            var homepage = $("#" + formId);
+          var homepage = $("#" + formId);
+
+          if ( $('.translation-select:checked').length > 0){
+            console.log("get translations");
+            var locales = [];
+            $('.translation-select:checked').each(function(index, element){
+              locales.push($(element).val());
+            })
+          }
 
             //Get values from form
             var title = homepage.find("#homepage_titles_element").val();
@@ -169,8 +177,30 @@
                 }
                 return;
             }
-            homepage.children().hide();
 
+          if ( locales.length > 0){
+            var translations = {};
+            for ( var i in locales ){
+                translations[locales[i]] = {
+                  title: homepage.find("#homepage_titles_element_" + locales[i]).val(),
+                  url: homepage.find("#homepage_urls_element_" + locales[i]).val(),
+                  description: homepage.find("#homepage_descriptions_element_" + locales[i]).val(),
+                  accessibility: homepage.find("#homepage_accessibilities_element_" + locales[i]).val()
+                }
+            }
+          }
+          var value = {
+            title: title,
+            url: url,
+            description: description,
+            wcac: wcag,
+            accessibility: accessibility,
+            plainlanguage: plainlanguage,
+            translations: translations
+          }
+
+            homepage.children().hide();
+            homepage.find('#homepage').val(JSON.stringify(value)).removeAttr('disabled');
             homepage.find("#homepage_titles").val(title).removeAttr('disabled');
             homepage.find("#homepage_urls").val(url).removeAttr('disabled');
             homepage.find("#homepage_descriptions").val(description).removeAttr('disabled');
@@ -180,15 +210,34 @@
             var plainlanguageNotAvailable = "{{ _('Plain language translation not available') }}";
             plainlanguage = plainlanguage == "0" ? plainlanguageNotAvailable : plainlanguageAvailable;
 
-            var template = "<h3>" + title + "</h3>" +
-                '<dl>' + 
+            var template = "<h3>" + title + "</h3>";
+          for ( var i in locales){
+            template += '<h3>' + translations[locales[i]].title + '</h3>';
+          }
+
+          template += '<dl>' +
                 '<dt>{{ _("URL") }}</dt>' +
-                '<dd><a href="' + url + '">' + url + '</a></dd>' +
-                '<dt>{{ _("Description") }}</dt>' +
-                '<dd>' + description + '</dd>' +
-                '<dt>{{ _("Accessibility") }}</dt>' + 
-                '<dd>' + accessibility + '</dd>' + 
-                '<dt>{{ _("WCAG") }}</dt>' +
+                '<dd><a href="' + url + '">' + url + '</a></dd>';
+
+          for ( var i in locales){
+            template += '<dd><a href="' + translations[locales[i]].url + '">' + translations[locales[i]].url + '</a></dd>';
+          }
+
+          template += '<dt>{{ _("Description") }}</dt>' +
+                '<dd>' + description + '</dd>';
+
+          for ( var i in locales){
+            template += '<dd>' + translations[locales[i]].description + '</dd>';
+          }
+
+          template += '<dt>{{ _("Accessibility") }}</dt>' +
+                '<dd>' + accessibility + '</dd>';
+
+          for ( var i in locales){
+            template += '<dd>' + translations[locales[i]].accessibility + '</dd>';
+          }
+
+          template += '<dt>{{ _("WCAG") }}</dt>' +
                 '<dd>' + wcag + '</dd>' + 
                 '</dl>' + 
                 '<small>' + plainlanguage + '</small>';
@@ -225,41 +274,57 @@
             hiddenInput.val(newValue);
         }
 
+
+
+
     </script>
     <h2 class="organization-subheading">{{_('Homepages')}}</h2>
     <div id="homepages">
     <a onclick="AddHomepage()" href="javascript:void(0);">{{_('Add Homepage')}}</a>
-    {% set page_list = data.get('homepage_urls') %}
+    {% set page_list = data.get('homepage') %}
+    {% set page_list_url = data.get('homepage_urls') %}
     {% set desc_list = data.get('homepage_descriptions') %}
     {% set title_list = data.get('homepage_titles') %}
     {% set accessibility_list = data.get('homepage_accessibilities') %}
     {% set wcag_list = data.get('homepage_wcags') %}
     {% set plainlanguage_list = data.get('homepage_plain_language_availabilities') %}
-
     {% if page_list %}
         {% for page in page_list %}
-            <div id="Homepage_{{ loop.index }}" class="homepage single">
-                <div class="link-container">
+          <div id="Homepage_{{ loop.index }}" class="homepage single">
+            <div class="link-container">
                     <a class='homepage button' onclick="Edit($(this).parents('.homepage').attr('id'))" href="javascript:void(0);">{{ _('Edit') }}</a><a class='homepage button' onclick="Delete($(this).parents('.homepage').attr('id'))" href="javascript:void(0);">{{ _('Delete') }}</a>
                 </div>
                 <div class="homepage static">
-                    <h3>{{ title_list[loop.index0] }}</h3>
+                    <h3>{{ page['title'] }}</h3>
+                    {% for locale in page['translations'] %}
+                      <h3>{{ page['translations'][locale]['title'] }}</h3>
+                      {% do data.update({'homepage_titles_element_' + locale: page['translations'][locale]['title']}) %}
+                    {% endfor %}
                     <dl>
                         <dt>{{ _('URL') }}</dt>
-                        <dd><a href="{{page}}">{{ page }}</a></dd>
-
+                        <dd><a href="{{page['url']}}">{{ page['url'] }}</a></dd>
+                        {% for locale in page['translations'] %}
+                          <dd>{{ page['translations'][locale]['url'] }}</dd>
+                          {% do data.update({'homepage_urls_element_' + locale: page['translations'][locale]['url']}) %}
+                        {% endfor %}
                         <dt>{{ _('Description') }}</dt>
-                        <dd>{{ desc_list[loop.index0] }}</dd>
-
+                        <dd>{{ page['description'] }}</dd>
+                      {% for locale in page['translations'] %}
+                        <dd>{{ page['translations'][locale]['description'] }}</dd>
+                        {% do data.update({'homepage_descriptions_element_' + locale: page['translations'][locale]['description']}) %}
+                      {% endfor %}
                         <dt>{{ _('Accessibility') }}</dt>
-                        <dd>{{ accessibility_list[loop.index0] }}</dd>
-
+                        <dd>{{ page['accessibility'] }}</dd>
+                      {% for locale in page['translations'] %}
+                        <dd>{{ page['translations'][locale]['accessibility'] }}</dd>
+                        {% do data.update({'homepage_accessibilities_element_' + locale: page['translations'][locale]['accessibility']}) %}
+                      {% endfor %}
                         <dt>{{ _('WCAG') }}</dt>
-                        <dd>{{ wcag_list[loop.index0] }}</dd>
+                        <dd>{{ page['wcag'] }}</dd>
                     </dl>
 
                     <small>
-                        {% if plainlanguage_list[loop.index0] == "1" %}
+                        {% if page['plain_language'] == "1" %}
                             {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)", 'checked': 'checked' } %}
                             {{ _('Plain language translation available') }}
                         {% else %}
@@ -269,17 +334,18 @@
                     </small>
                 </div>
                 <div class="homepage editpage hiddenFormTemplate">
-                    <input type="hidden" id="homepage_titles" name="homepage_titles" value="{{title_list[loop.index0]}}" class="hiddenFormTemplate"/>
-                    {{ form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="homepage_urls" name="homepage_urls" value="{{page}}" class="hiddenFormTemplate"/>
-                    {{ form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="homepage_descriptions" name="homepage_descriptions" value="{{desc_list[loop.index0]}}" class="hiddenFormTemplate"/>
-                    {{ form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
-                    <input type="hidden" id="homepage_accessibilities" name="homepage_accessibilities" value="{{accessibility_list[loop.index0]}}" class="hiddenFormTemplate" />
-                    {{ form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate']) }}
-                    <input type="hidden" id="homepage_wcags" name="homepage_wcags" value="{{wcag_list[loop.index0]}}" class="hiddenFormTemplate" />
+                    <input type="hidden" id="homepage" name="homepage" value="{{ page }}" class="hiddenFormTemplate" />
+                    <input type="hidden" id="homepage_titles" name="homepage_titles" value="{{page['title']}}" class="hiddenFormTemplate"/>
+                    {{ ytp_form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], locales=h.get_available_locales(), data=data) }}
+                    <input type="hidden" id="homepage_urls" name="homepage_urls" value="{{page['url']}}" class="hiddenFormTemplate"/>
+                    {{ ytp_form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'],locales=h.get_available_locales(), data=data) }}
+                    <input type="hidden" id="homepage_descriptions" name="homepage_descriptions" value="{{page['description']}}" class="hiddenFormTemplate"/>
+                    {{ ytp_form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate'],locales=h.get_available_locales(), data=data) }}
+                    <input type="hidden" id="homepage_accessibilities" name="homepage_accessibilities" value="{{page['accessibility']}}" class="hiddenFormTemplate" />
+                    {{ ytp_form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate'],locales=h.get_available_locales(),data=data) }}
+                    <input type="hidden" id="homepage_wcags" name="homepage_wcags" value="{{page['wcag']}}" class="hiddenFormTemplate" />
                     {{ form.input('homepage_wcags_element', label=_('WCAG'), placeholder=_('WCAG'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate']) }}
-                    <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="{{plainlanguage_list[loop.index0]}}" class="hiddenFormTemplate"/>
+                    <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="{{page['plain_language']}}" class="hiddenFormTemplate"/>
                     {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs=plainlanguageCheckbox) }}
                 </div>
             </div>
@@ -289,17 +355,17 @@
     </div>
 
     <div id="HiddenFormTemplate" class="homepage">
+        <input type="hidden" id="homepage" name="homepage" value="" class="hiddenFormTemplate" disabled="disabled"/>
         <input type="hidden" id="homepage_titles" name="homepage_titles" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        {{ ytp_form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"},locales=h.get_available_locales()) }}
         <input type="hidden" id="homepage_urls" name="homepage_urls" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        {{ ytp_form.input('homepage_urls_element', label=_('URL'), placeholder=_('http://example.com/'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"},locales=h.get_available_locales()) }}
         <input type="hidden" id="homepage_descriptions" name="homepage_descriptions" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        {{ ytp_form.markdown('homepage_descriptions_element', label=_('Description'), placeholder=_('A little information about the item...'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"},locales=h.get_available_locales()) }}
         <input type="hidden" id="homepage_accessibilities" name="homepage_accessibilities" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
+        {{ ytp_form.markdown('homepage_accessibilities_element', label=_('Accessibility'), placeholder=_('Accessibility'), value="", error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled"},locales=h.get_available_locales()) }}
         <input type="hidden" id="homepage_wcags" name="homepage_wcags" value="" class="hiddenFormTemplate" disabled="disabled"/>
-        {{ form.input('homepage_wcags_element', label=_('WCAG'), placeholder=_('WGAC'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
-        <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="0" class="hiddenFormTemplate" disabled="disabled"/>
+        {{ form.input('homepage_wcags_element', label=_('WCAG'), placeholder=_('WCAG'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"}) }}
         {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled", "onclick": "ToggleCheckbox(this)"}) }}
     </div>
     </div> <!-- end div class="translate-content" -->

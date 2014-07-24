@@ -14,6 +14,7 @@ from ckanext.ytp.organizations.logic import action
 from ckanext.ytp.organizations import auth
 from ckanext.ytp.common.tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
+import json
 
 import logging
 import pylons
@@ -149,6 +150,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'homepage_wcags': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
         schema.update({'homepage_plain_language_availabilities': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
 
+        schema.update({'homepage': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
+
+
         schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
 
@@ -187,6 +191,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'package_count': [ignore_missing]})
 
         # Schema for homepages
+        schema.update({'homepage': [convert_from_extras, from_json_to_object, ignore_missing]})
         schema.update({'homepage_urls': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
         schema.update({'homepage_descriptions': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
         schema.update({'homepage_titles': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
@@ -319,6 +324,15 @@ def convert_from_db_to_form_list(key, data):
 
     return key
 
+def from_json_to_object(key, data):
+    key = ast.literal_eval(key)
+    if isinstance(key, list):
+        for i, value in enumerate(key):
+            parsed = json.loads(value)
+            key[i] = parsed
+    from pprint import pprint
+    pprint(key)
+    return key
 
 def date_validator(value, context):
     """ Validator for date fields """
