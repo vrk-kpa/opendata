@@ -85,6 +85,13 @@ def _add_child_concepts(graph, current_uri, depth=0, max_depth=8):
     return branch
 
 
+def _dump_json(path, data):
+    if path.startswith("file://"):
+        path = path[7:]
+    with open(path, 'w') as json_file:
+        json_file.write(simplejson.dumps(data, indent=2))
+
+
 @celery_app.celery.task(name="ckanext.ytp.organizations.organization_type_import")
 def organization_type_import(data):
     """ Import organization types """
@@ -97,13 +104,8 @@ def organization_type_import(data):
     graph = Graph()
     graph.parse(data_url, format=data_format)
 
-    organization_top_types = [{'name': 'private_services', 'uri': 'http://www.yso.fi/onto/jupo/p728'},
-                              {'name': 'public_services', 'uri': 'http://www.yso.fi/onto/jupo/p605'}]
+    private_url = 'http://www.yso.fi/onto/jupo/p728'
+    public_url = 'http://www.yso.fi/onto/jupo/p605'
 
-    organization_types = [_add_child_concepts(graph, URIRef(top_type['uri'])) for top_type in organization_top_types]
-
-    filename = config.get("producer_type_options_url")
-    if filename.startswith("file://"):
-        filename = filename[7:]
-    with open(filename, 'w') as json_file:
-        json_file.write(simplejson.dumps(organization_types, indent=2))
+    _dump_json(config.get("producer_type_private_options_url"), [_add_child_concepts(graph, URIRef(private_url))])
+    _dump_json(config.get("producer_type_options_url"), [_add_child_concepts(graph, URIRef(top_type)) for top_type in (private_url, public_url)])

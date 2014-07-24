@@ -1,0 +1,8 @@
+
+{# Prints a single row of dt dd to be used inside a dl tag. Does not print anything if there is no value defined. #}
+{% macro value_list_item(label, value='') %}
+  {% if value %}
+    <dt>{{ label }}</dt>
+    <dd>{{ value }}</dd>
+  {% endif %}
+{%- endmacro -%}

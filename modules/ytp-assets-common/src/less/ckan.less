@@ -373,11 +373,6 @@ ul.no-bullet li:hover {
   content: "\f105";
 }
 
-.organization-subheading {
-  color: @form-subheading-color;
-  border-bottom: solid @form-subheading-color 1px;
-}
-
 .hiddenFormTemplate {
   display: none;
 }
@@ -485,7 +480,6 @@ ul.no-bullet li:hover {
   font-size: 18px;
   font-weight: normal;
   line-height: 1;
-  color: @nonimportant-text-color;
   background-color: transparent;
   border-top: 0;
   border-bottom: 1px solid @moduleHeadingBorderColor;
@@ -577,13 +571,18 @@ ul.no-bullet li:hover {
   position: static;
 }
 
+
+.dl-horizontal dt {
+  white-space: normal;
+}
+
 dt {
   float: left;
   clear: left;
   width: 160px;
   font-weight: normal;
-  color: @nonimportant-text-color;
-  margin-bottom: 8px;
+  color: @field-label-color;
+  margin-bottom: 3px;
 }
 
 dt:after {
@@ -591,8 +590,8 @@ dt:after {
 }
 
 dd {
-  margin: 0 0 8px 170px;
-  padding: 0 0 0.5em 0;
+  margin: 0 0 3px 165px;
+  padding: 0 0 0.3em 0;
 }
 
 .context-info{

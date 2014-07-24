@@ -122,9 +122,11 @@ def action_user_show(context, data_dict):
     user_dict.pop('password', None)
     user_dict.pop('reset_key', None)
 
-    if not context.get('keep_apikey', False):
+    keep_apikey = context.get('keep_apikey', False) or (context.get('for_view', False) and c.user == user_obj.name)
+    keep_email = context.get('keep_email', False) or (context.get('for_view', False) and c.user == user_obj.name)
+    if not keep_apikey:
         user_dict.pop('apikey', None)
-    if not context.get('keep_email', False):
+    if not keep_email:
         user_dict.pop('email', None)
         user_dict.pop('email_hash', None)
 

@@ -27,11 +27,18 @@ def _get_safe_locale():
         return _get_default_locale()
 
 
+def _reset_lang():
+    try:
+        i18n.set_lang(None)
+    except TypeError:
+        pass
+
+
 def _mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     current_locale = get_lang()
 
     if locale == 'en':
-        i18n.set_lang(None)
+        _reset_lang()
     else:
         set_lang(locale)
     subject = _("New membership request (%s)") % group_name
@@ -48,7 +55,7 @@ def _mail_new_membership_request(locale, admin, group_name, url, user_name, user
 def _mail_process_status(locale, member_user, approve, group_name, capacity):
     current_locale = get_lang()
     if locale == 'en':
-        i18n.set_lang(None)
+        _reset_lang()
     else:
         set_lang(locale)
 
