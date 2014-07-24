@@ -46,23 +46,30 @@
         </div>
     </div>
 
-    {% set menu_vocabularies = ['private_services'] %}
+    {% set menu_vocabularies = ['producer_type_private_options_url'] %}  {# Jinja supports only inner scoped _objects_ #}
 
     {% set has_public_adminstration_rights = h.check_access('organization_public_adminstration_change', {}) %}
     {% call form.input_block("public_adminstration_organization", _('Public administration organization'), errors.public_adminstration_organization, [], extra_html="") %}
     {% if not has_public_adminstration_rights %}
-    <input type="hidden" name="public_adminstration_organization" value="{% if data.public_adminstration_organization == 'true' %}true{% endif %}" />
-    <p>{% if data.public_adminstration_organization == 'true' %}{{ _('Yes') }}{% else %}{{ _('No') }}{% endif %}</p>
+        <input type="hidden" name="public_adminstration_organization" value="{% if data.public_adminstration_organization == 'true' %}true{% endif %}" />
+        <p>
+            {% if data.public_adminstration_organization == 'true' %}
+                {{ _('Yes') }}
+                {% do menu_vocabularies.append('producer_type_options_url') %}
+            {% else %}
+                {{ _('No') }}
+            {% endif %}
+        </p>
     {% else %}
-    {% do menu_vocabularies.append('public_services') %}
-    <input type="checkbox" name="public_adminstration_organization" value="true" {% if data.public_adminstration_organization == 'true' %}checked="checked"{% endif %} {% if not has_public_adminstration_rights %}readonly="readonly" onclick="return false;"{% endif %} />
+        {% do menu_vocabularies.append('producer_type_options_url') %}
+        <input type="checkbox" name="public_adminstration_organization" value="true" {% if data.public_adminstration_organization == 'true' %}checked="checked"{% endif %} {% if not has_public_adminstration_rights %}readonly="readonly" onclick="return false;"{% endif %} />
     {% endif %}
     {% endcall %}
 
     {# Producer type selector #}
     {{ ytp_form.modal('producer_type', 
                       label=_('Producer type'), 
-                      treedata=h.get_dict_tree_from_json('producer_type_options_url'),
+                      treedata=h.get_dict_tree_from_json(menu_vocabularies[-1]),
                       modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'producer_type' },
                       inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'producer_type', 'readonly': true},
                       value=data.producer_type) }}
