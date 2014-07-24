@@ -32,7 +32,6 @@
             {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
             {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), c.group_dict.street_address),
                                    (_('P.O. box'), c.group_dict.street_address_pobox),
-                                   ('Todella pitkä label ksdofdfdsfk posdfk posdkf podskf posdf kpdsof kpdsof kpsdfok psdofk psodfk psdofk psodfk pdsofpsdof kpsdofk posdkf podsfkdspok podsfk psdofk psdof kpsdof kpsodfk dsff', 'Pieni arvo'),
                                    (_('Zip code'), c.group_dict.street_address_zip_code),
                                    (_('Place of Business'), c.group_dict.street_address_place_of_business),
                                    (_('Country'), c.group_dict.street_address_country),
@@ -40,7 +39,6 @@
                                    (_('Building ID'), h.extra_translation(c.group_dict, 'street_address_building_id')),
                                    (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
                                    (_('Parking'), h.extra_translation(c.group_dict, 'street_address_parking', markdown=True)),
-                                   ('Todella pitkä arvo','ksdofdfdsfk posdfk posdkf sdoifgj ofdsigj osidfjg osidfjg osdifjg osdifgj sodfig jsdofig jsdofigj sodif gjoidfjg oidfjg oidfjg odfig jdofigj odfigj podskf posdf kpdsof kpdsof kpsdfok psdofk psodfk psdofk psodfk pdsofpsdof kpsdofk posdkf podsfkdspok podsfk psdofk psdof kpsdof kpsodfk dsff'),
                                    (_('Arrival by public transport'), h.extra_translation(c.group_dict, 'street_address_public_transport')),
                                    (_('URL for public transport'), url|urlize)
                                    ] %}
