@@ -1,90 +1,64 @@
 {% ckan_extends %}
 
+{% import 'macros/ytp_layout.html' as ytp_layout %}
+
 {% block organization_description %}
     {% if c.group_dict.description %}
       {{ h.render_markdown(h.extra_translation(c.group_dict, 'description')) }}
     {% endif %}
 
-    {# display extra org info #}
+    {# Display extra organization information #}
 
-    <div id="OrgExtraInfo">
-        <dl>
-            <dt>{{ _('Business ID') }}</dt>
-            <dd>{{ c.group_dict.business_id }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('OID') }}</dt>
-            <dd>{{ c.group_dict.oid }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Alternative name') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'alternative_name') }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Period of validity') }}</dt>
-            <dd>{{ c.group_dict.valid_from }} - {{ c.group_dict.valid_till }}</dd>
-        </dl>
-    </div>
+    <!--<div id="OrgExtraInfo">
+        <dl class="dl-horizontal">
+            {% set info_list = [(_('Business ID'), c.group_dict.business_id),
+                                (_('OID'), c.group_dict.oid),
+                                (_('Alternative name'), h.extra_translation(c.group_dict, 'alternative_name')),
+                                (_('Period of validity'), [c.group_dict.valid_from, c.group_dict.valid_till]|join(' - '))
+                                ] %}
 
-    {# display address info #}
+            {% for info in info_list %}
+                {{ ytp_layout.value_list_item(info.0, info.1) }}
+            {% endfor %}
+        </dl>
+    </div>-->
+
+    {# Display address information #}
 
     <div id="addressInfo">
         <h2 class="organization-subheading">{{_('Contact info')}}</h2>
-        <dl>
-            <dt>{{ _('Street')}}, {{_('House number')}}, {{_('Staircase')}}, {{_('Apartment number') }}</dt>
-            <dd>{{ c.group_dict.street_address }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('P.O. box') }}</dt>
-            <dd>{{ c.group_dict.street_address_pobox }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Zip code') }}</dt>
-            <dd>{{ c.group_dict.street_address_zip_code }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Place of Business') }}</dt>
-            <dd>{{ c.group_dict.street_address_place_of_business }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Country') }}</dt>
-            <dd>{{ c.group_dict.street_address_country }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Unofficial name of the building') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'street_address_unofficial_name') }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Building ID') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'street_address_building_id') }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Getting there') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True) }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Parking') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'street_address_parking', markdown=True) }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('Arrival by public transport') }}</dt>
-            <dd>{{ h.extra_translation(c.group_dict, 'street_address_public_transport') }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ _('URL for public transport') }}</dt>
+        <dl class="dl-horizontal">
+
             {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
-            <dd><a href="{{ url }}">{{ url }}</a></dd>
+            {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), c.group_dict.street_address),
+                                   (_('P.O. box'), c.group_dict.street_address_pobox),
+                                   ('Todella pitkä label ksdofdfdsfk posdfk posdkf podskf posdf kpdsof kpdsof kpsdfok psdofk psodfk psdofk psodfk pdsofpsdof kpsdofk posdkf podsfkdspok podsfk psdofk psdof kpsdof kpsodfk dsff', 'Pieni arvo'),
+                                   (_('Zip code'), c.group_dict.street_address_zip_code),
+                                   (_('Place of Business'), c.group_dict.street_address_place_of_business),
+                                   (_('Country'), c.group_dict.street_address_country),
+                                   (_('Unofficial name of the building'), h.extra_translation(c.group_dict, 'street_address_unofficial_name')),
+                                   (_('Building ID'), h.extra_translation(c.group_dict, 'street_address_building_id')),
+                                   (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
+                                   (_('Parking'), h.extra_translation(c.group_dict, 'street_address_parking', markdown=True)),
+                                   ('Todella pitkä arvo','ksdofdfdsfk posdfk posdkf sdoifgj ofdsigj osidfjg osidfjg osdifjg osdifgj sodfig jsdofig jsdofigj sodif gjoidfjg oidfjg oidfjg odfig jdofigj odfigj podskf posdf kpdsof kpdsof kpsdfok psdofk psodfk psdofk psodfk pdsofpsdof kpsdofk posdkf podsfkdspok podsfk psdofk psdof kpsdof kpsodfk dsff'),
+                                   (_('Arrival by public transport'), h.extra_translation(c.group_dict, 'street_address_public_transport')),
+                                   (_('URL for public transport'), url|urlize)
+                                   ] %}
+
+            {% for info in address_info %}
+                {{ ytp_layout.value_list_item(info.0, info.1) }}
+            {% endfor %}
         </dl>
     </div>
 
-    {# display homepages #}
+    {# Display homepages #}
+
     {% set page_list = c.group_dict.get('homepage_urls') %}
     {% set desc_list = c.group_dict.get('homepage_descriptions') %}
     {% set title_list = c.group_dict.get('homepage_titles') %}
     {% set accessibility_list = c.group_dict.get('homepage_accessibilities') %}
     {% set wcag_list = c.group_dict.get('homepage_wcags') %}
     {% set plainlanguage_list = c.group_dict.get('homepage_plain_language_availabilities') %}
-
 
     {% if page_list %}
         <div id="homepages">
@@ -111,10 +85,10 @@
         </div>
     {% endif %}
 
-
+    {# Display organization hierarchy #}
     {# TODO: Add JSTree #}
 
-  <div id="publisher-tree">
-     {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.get_action('group_tree_section', {'id': c.group_dict.id, 'type': c.group_dict.type})] %}
-  </div>
+    <div id="publisher-tree">
+        {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.get_action('group_tree_section', {'id': c.group_dict.id, 'type': c.group_dict.type})] %}
+    </div>
 {% endblock %}
