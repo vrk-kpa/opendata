@@ -289,12 +289,7 @@
     <div id="homepages">
     <a onclick="AddHomepage()" href="javascript:void(0);">{{_('Add Homepage')}}</a>
     {% set page_list = data.get('homepage') %}
-    {% set page_list_url = data.get('homepage_urls') %}
-    {% set desc_list = data.get('homepage_descriptions') %}
-    {% set title_list = data.get('homepage_titles') %}
-    {% set accessibility_list = data.get('homepage_accessibilities') %}
-    {% set wcag_list = data.get('homepage_wcags') %}
-    {% set plainlanguage_list = data.get('homepage_plain_language_availabilities') %}
+    
     {% if page_list %}
         {% for page in page_list %}
           <div id="Homepage_{{ loop.index }}" class="homepage single">

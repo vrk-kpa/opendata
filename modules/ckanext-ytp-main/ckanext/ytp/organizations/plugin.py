@@ -143,15 +143,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         convert_to_extras = toolkit.get_converter('convert_to_extras')
 
         # schema for homepages
-        schema.update({'homepage_urls': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage_descriptions': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage_titles': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage_accessibilities': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage_wcags': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage_plain_language_availabilities': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-
         schema.update({'homepage': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-
 
         schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
@@ -192,12 +184,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         # Schema for homepages
         schema.update({'homepage': [convert_from_extras, from_json_to_object, ignore_missing]})
-        schema.update({'homepage_urls': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
-        schema.update({'homepage_descriptions': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
-        schema.update({'homepage_titles': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
-        schema.update({'homepage_accessibilities': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
-        schema.update({'homepage_wcags': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
-        schema.update({'homepage_plain_language_availabilities': [convert_from_extras, convert_from_db_to_form_list, ignore_missing]})
 
         # schema for extra org info
         schema.update({'business_id': [convert_from_extras, ignore_missing]})
@@ -324,15 +310,16 @@ def convert_from_db_to_form_list(key, data):
 
     return key
 
+
 def from_json_to_object(key, data):
     key = ast.literal_eval(key)
     if isinstance(key, list):
         for i, value in enumerate(key):
             parsed = json.loads(value)
             key[i] = parsed
-    from pprint import pprint
-    pprint(key)
+
     return key
+
 
 def date_validator(value, context):
     """ Validator for date fields """
