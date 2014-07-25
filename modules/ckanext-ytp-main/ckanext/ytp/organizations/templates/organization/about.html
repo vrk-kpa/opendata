@@ -56,25 +56,30 @@
 
     {# Display homepages #}
 
-    {% set page_list = c.group_dict.get('homepage_urls') %}
-    {% set desc_list = c.group_dict.get('homepage_descriptions') %}
-    {% set title_list = c.group_dict.get('homepage_titles') %}
-    {% set accessibility_list = c.group_dict.get('homepage_accessibilities') %}
-    {% set wcag_list = c.group_dict.get('homepage_wcags') %}
-    {% set plainlanguage_list = c.group_dict.get('homepage_plain_language_availabilities') %}
+    {% set homepages = c.group_dict.get('homepages') %}
 
-    {% if page_list %}
+    {% if homepages %}
         <div id="homepages">
-        {% for page in page_list %}
+        {% for page in homepages %}
             <div id="Homepage_{{ loop.index }}" class="homepage single">
                 <div class="homepage static">
-                    <h3>{{title_list[loop.index0]}}</h3>
-                    <a href="{{page}}">{{page}}</a>
-                    <p>{{desc_list[loop.index0]}}</p>
-                    <p>{{accessibility_list[loop.index0]}}</p>
-                    <p>{{wcag_list[loop.index0]}}</p>
+                  {% set locale = h.lang() %}
+                  {% set original_language = c.group_dict.get('original_language') %}
+                  {% if original_language != locale %}
+                    {% if page['translations'][locale] %}
+                      {% set translated_page = page['translations'][locale] %}
+                    {% endif %}
+                  {% else %}
+                    {% set translated_page = page %}
+                  {% endif %}
+
+                  <h3>{{translated_page['title']}}</h3>
+                    <a href="{{translated_page['url']}}">{{translated_page['url']}}</a>
+                    <p>{{translated_page['description']}}</p>
+                    <p>{{translated_page['accessibility']}}</p>
+                    <p>{{page['wcag']}}</p>
                     <p>
-                        {% if plainlanguage_list[loop.index0] == "1" %}
+                        {% if page['plainlanguage'] == 1 %}
                         {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)", 'checked': 'checked' } %}
                         {{ _('Plain language translation available') }}
                         {% else %}

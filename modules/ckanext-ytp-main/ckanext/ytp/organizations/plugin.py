@@ -143,7 +143,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         convert_to_extras = toolkit.get_converter('convert_to_extras')
 
         # schema for homepages
-        schema.update({'homepage': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
+        schema.update({'homepages': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
 
         schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
@@ -183,7 +183,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'package_count': [ignore_missing]})
 
         # Schema for homepages
-        schema.update({'homepage': [convert_from_extras, from_json_to_object, ignore_missing]})
+        schema.update({'homepages': [convert_from_extras, from_json_to_object, ignore_missing]})
 
         # schema for extra org info
         schema.update({'business_id': [convert_from_extras, ignore_missing]})
@@ -312,11 +312,17 @@ def convert_from_db_to_form_list(key, data):
 
 
 def from_json_to_object(key, data):
+    if not key:
+        return key
     key = ast.literal_eval(key)
     if isinstance(key, list):
         for i, value in enumerate(key):
-            parsed = json.loads(value)
-            key[i] = parsed
+            try:
+                parsed = json.loads(value)
+                key[i] = parsed
+            except:
+                pass
+
 
     return key
 
