@@ -66,8 +66,10 @@
                   {% set locale = h.lang() %}
                   {% set original_language = c.group_dict.get('original_language') %}
                   {% if original_language != locale %}
-                    {% if page['translations'][locale] %}
+                    {% if page['translations'] and page['translations'][locale] %}
                       {% set translated_page = page['translations'][locale] %}
+                    {% else %}
+                      {% set translated_page = page %}
                     {% endif %}
                   {% else %}
                     {% set translated_page = page %}
@@ -79,7 +81,7 @@
                     <p>{{translated_page['accessibility']}}</p>
                     <p>{{page['wcag']}}</p>
                     <p>
-                        {% if page['plainlanguage'] == 1 %}
+                        {% if page['plainlanguage'] == 1 or page['plainlanguage'] == '1' %}
                         {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)", 'checked': 'checked' } %}
                         {{ _('Plain language translation available') }}
                         {% else %}

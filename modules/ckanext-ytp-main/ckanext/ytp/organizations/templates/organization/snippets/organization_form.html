@@ -158,9 +158,9 @@
         function Save(formId) {
           var homepage = $("#" + formId);
 
+          var locales = [];
           if ( $('.translation-select:checked').length > 0){
-            console.log("get translations");
-            var locales = [];
+
             $('.translation-select:checked').each(function(index, element){
               locales.push($(element).val());
             })
@@ -325,7 +325,7 @@
                     </dl>
 
                     <small>
-                        {% if page['plainlanguage'] == 1 %}
+                        {% if page['plainlanguage'] == 1 or page['plainlanguage'] == '1'%}
                           {% set plainlanguageCheckbox  = {"onclick": "ToggleCheckbox(this)", 'checked': 'checked' } %}
                             {{ _('Plain language translation available') }}
                         {% else %}
