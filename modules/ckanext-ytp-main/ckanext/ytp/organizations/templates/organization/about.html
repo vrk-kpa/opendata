@@ -36,11 +36,11 @@
         <dl class="dl-horizontal">
 
             {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
-            {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), c.group_dict.street_address),
-                                   (_('P.O. box'), c.group_dict.street_address_pobox),
-                                   (_('Zip code'), c.group_dict.street_address_zip_code),
-                                   (_('Place of Business'), c.group_dict.street_address_place_of_business),
-                                   (_('Country'), c.group_dict.street_address_country),
+            {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), h.extra_translation(c.group_dict, 'street_address')),
+                                   (_('P.O. box'), h.extra_translation(c.group_dict, 'street_address_pobox')),
+                                   (_('Zip code'), h.extra_translation(c.group_dict, 'street_address_zip_code')),
+                                   (_('Place of Business'), h.extra_translation(c.group_dict, 'street_address_place_of_business')),
+                                   (_('Country'), h.extra_translation(c.group_dict, 'street_address_country')),
                                    (_('Unofficial name of the building'), h.extra_translation(c.group_dict, 'street_address_unofficial_name')),
                                    (_('Building ID'), h.extra_translation(c.group_dict, 'street_address_building_id')),
                                    (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
