@@ -16,7 +16,8 @@
                 {% set validity = [c.group_dict.valid_from, c.group_dict.valid_till]|join(' - ') %}
             {% endif %}
 
-            {% set info_list = [(_('Business ID'), c.group_dict.business_id),
+            {% set info_list = [(_('Producer type'), c.group_dict.producer_type|replace(",",", ")),
+                                (_('Business ID'), c.group_dict.business_id),
                                 (_('OID'), c.group_dict.oid),
                                 (_('Alternative name'), h.extra_translation(c.group_dict, 'alternative_name')),
                                 (_('Period of validity'), validity)
