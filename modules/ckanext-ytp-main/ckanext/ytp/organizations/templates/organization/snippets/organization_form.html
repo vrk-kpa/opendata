@@ -140,17 +140,18 @@
         }
 
         function AddHomepage() {
-            var homepageCount = $(".homepage").length;
+            var homepageCount = $(".homepage.single").length;
             var homepage = document.createElement('div');
             homepage.id = "Homepage_" + ++homepageCount;
             var homepageElements = $('#HiddenFormTemplate').clone();
             homepageElements.removeAttr('id');
             homepageElements.children().removeClass('hiddenFormTemplate');
             homepageElements.removeAttr("disabled").find('*').removeAttr("disabled");
-
+            homepageElements.find('#homepage').attr('id', 'homepage_' + homepageCount)
             var buttons = $('<div class="save-container">' + CreateButtonString(false) + '</div>');
 
             $(homepage).addClass('homepage single').append(homepageElements).append(buttons);
+
             var homepages = $("#homepages");
             homepages.append(homepage);
         }
@@ -207,7 +208,7 @@
           }
 
             homepage.children().hide();
-            homepage.find('#homepage').val(JSON.stringify(value)).removeAttr('disabled');
+            homepage.find('#homepage_' + homepage.attr('id').substr(9) ).val(JSON.stringify(value)).removeAttr('disabled');
             homepage.find("#homepage_titles").val(title).removeAttr('disabled');
             homepage.find("#homepage_urls").val(url).removeAttr('disabled');
             homepage.find("#homepage_descriptions").val(description).removeAttr('disabled');
