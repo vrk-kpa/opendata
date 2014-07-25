@@ -84,7 +84,7 @@
     {% endif %}
   </div>
   </div>
-  {% if package.state == 'draft' and package.resources %}
+  {% if package.resources %}
   <div class="translate-content" style="padding: 1em;">
     {% snippet "package/snippets/resources_list2.html", pkg=package, resources=package.resources, list_title=_('Inserted Resources'), draft=true %}
   </div>
