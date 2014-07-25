@@ -1,0 +1,19 @@
+{% ckan_extends %}
+
+{% block form %}
+  {% snippet 'package/snippets/resource_form.html', data=data, errors=errors, error_summary=error_summary, include_metadata=false, pkg_name=pkg_name, stage=stage, allow_upload=g.ofs_impl and logged_in, hide_stages=True %}
+{% endblock %}
+
+{% block secondary_content %}
+{% endblock %}
+
+{% block primary %}
+    <div >
+        {% block primary_content %}
+            {% block ytp_title %}
+            <h1 class="content-heading">{{ _("Create Dataset") }} - {{ _("Add data") }}</h1>
+            {% endblock %}
+            {{ super() }}
+        {% endblock %}
+    </div>
+{% endblock %}

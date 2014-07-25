@@ -8,10 +8,12 @@
 
 <form class="dataset-form dataset-resource-form form-horizontal" method="post" action="{{ action }}" data-module="basic-form resource-form" enctype="multipart/form-data">
   {% block stages %}
-  <ul class="nav nav-tabs nav-justified" data-service-tabs="services">
-      <li data-service-tab="basic_information"><a href="javascript:$('#previous-button').trigger('click')">1. {{ _('Basic Information' ) }}</a></li>
-      <li data-service-tab="producer" class="active"><a href="javascript:void(0);">2. {{ _('Resources') }}</a></li>
-  </ul>
+      {% if not hide_stages %}
+      <ul class="nav nav-tabs nav-justified" data-service-tabs="services">
+          <li data-service-tab="basic_information"><a href="javascript:$('#previous-button').trigger('click')">1. {{ _('Basic Information' ) }}</a></li>
+          <li data-service-tab="producer" class="active"><a href="javascript:void(0);">2. {{ _('Resources') }}</a></li>
+      </ul>
+      {% endif %}
   {% endblock %}
 
   {% set translate_data = data %}
