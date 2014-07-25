@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-12-13 11:40+0000\n"
-"PO-Revision-Date: 2014-07-22 09:53+0000\n"
+"PO-Revision-Date: 2014-07-25 10:28+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -503,7 +503,7 @@ msgstr "Ei oikeuksia luoda tietoaineistoa"
 
 #: ckan/controllers/package.py:574 ckanext/datapusher/plugin.py:52
 msgid "Unauthorized to edit this resource"
-msgstr "Ei oikeuksia muokata tätä resurssia "
+msgstr "Ei oikeuksia muokata tätä aineistolinkkiä "
 
 #: ckan/controllers/package.py:594 ckan/controllers/package.py:1111
 #: ckan/controllers/package.py:1187 ckan/controllers/package.py:1225
@@ -523,7 +523,7 @@ msgstr "Tietoaineistoa {id} ei löydy."
 
 #: ckan/controllers/package.py:649
 msgid "You must add at least one data resource"
-msgstr "Sinun täytyy lisätä vähintään yksi dataresurssi"
+msgstr "Sinun täytyy lisätä vähintään yksi aineistolinkki"
 
 #: ckan/controllers/package.py:657
 #: ckan/templates_legacy/error_document_template.html:5
@@ -533,7 +533,7 @@ msgstr "Virhe"
 
 #: ckan/controllers/package.py:675
 msgid "Unauthorized to create a resource"
-msgstr "Ei oikeutta luoda resurssia"
+msgstr "Ei oikeutta luoda ainestolinkkiä"
 
 #: ckan/controllers/package.py:977
 msgid "Unable to add package to search index."
@@ -555,22 +555,22 @@ msgstr "Tietoaineisto on poistettu."
 
 #: ckan/controllers/package.py:1104
 msgid "Resource has been deleted."
-msgstr "Resurssi on poistettu."
+msgstr "Aineistolinkki on poistettu."
 
 #: ckan/controllers/package.py:1109
 #, python-format
 msgid "Unauthorized to delete resource %s"
-msgstr "Ei oikeuksia poistaa resurssia %s"
+msgstr "Ei oikeuksia poistaa ainestolinkkiä %s"
 
 #: ckan/controllers/package.py:1189 ckan/controllers/package.py:1227
 #: ckan/controllers/package.py:1406 ckan/controllers/package.py:1488
 #, python-format
 msgid "Unauthorized to read resource %s"
-msgstr "Resurssin lukeminen ei sallittu %s"
+msgstr "Aineistolinkin lukeminen ei sallittu %s"
 
 #: ckan/controllers/package.py:1236
 msgid "Resource data not found"
-msgstr "Resurssin dataa ei löydy"
+msgstr "Aineistolinkin dataa ei löydy"
 
 #: ckan/controllers/package.py:1243
 msgid "No download is available"
@@ -868,7 +868,7 @@ msgstr "{actor} muutti tietoaineiston {dataset} lisäystä {extra} "
 
 #: ckan/lib/activity_streams.py:79
 msgid "{actor} updated the resource {resource} in the dataset {dataset}"
-msgstr "{actor} päivitti resurssia {resource} tietoaineistossa {dataset}"
+msgstr "{actor} päivitti aineistolinkkiä {resource} tietoaineistossa {dataset}"
 
 #: ckan/lib/activity_streams.py:82
 msgid "{actor} updated their profile"
@@ -901,7 +901,7 @@ msgstr "{actor} poisti lisäkentän {extra} tietoaineistosta {dataset}"
 
 #: ckan/lib/activity_streams.py:104
 msgid "{actor} deleted the resource {resource} from the dataset {dataset}"
-msgstr "{actor} poisti resurssin {resource} tietoaineistosta {dataset}"
+msgstr "{actor} poisti aineistolinkin {resource} tietoaineistosta {dataset}"
 
 #: ckan/lib/activity_streams.py:108
 msgid "{actor} created the group {group}"
@@ -921,7 +921,7 @@ msgstr "{actor} lisäsi lisäkentän {extra} tietoaineistoon {dataset}"
 
 #: ckan/lib/activity_streams.py:120
 msgid "{actor} added the resource {resource} to the dataset {dataset}"
-msgstr "{actor} lisäsi resurssin {resource} tietoaineistoon {dataset}"
+msgstr "{actor} lisäsi aineistolinkin {resource} tietoaineistoon {dataset}"
 
 #: ckan/lib/activity_streams.py:123
 msgid "{actor} signed up"
@@ -1119,7 +1119,7 @@ msgstr "Tuntematon"
 
 #: ckan/lib/helpers.py:1033
 msgid "Unnamed resource"
-msgstr "Nimetön resurssi"
+msgstr "Nimetön aineistolinkki"
 
 #: ckan/lib/helpers.py:1080
 msgid "Created new dataset."
@@ -1127,7 +1127,7 @@ msgstr "Uusi tietoaineisto luotu."
 
 #: ckan/lib/helpers.py:1082
 msgid "Edited resources."
-msgstr "Tietoaineistolinkkejä muokattu."
+msgstr "Aineistolinkkejä muokattu."
 
 #: ckan/lib/helpers.py:1084
 msgid "Edited settings."
@@ -1147,15 +1147,15 @@ msgstr[1] "{number} viimeaikaista katselukertaa"
 
 #: ckan/lib/helpers.py:1589
 msgid "The resource url is not specified."
-msgstr "Resurssin URL:ia ei ole määritelty."
+msgstr "Aineistolinkin URL:ia ei ole määritelty."
 
 #: ckan/lib/helpers.py:1607
 msgid "No preview handler for resource of type {0}"
-msgstr "Tyypin {0} resursseille ei ole esikatseluvaihtoehtoa"
+msgstr "Tyypin {0} ainestolinkille ei ole esikatseluvaihtoehtoa"
 
 #: ckan/lib/helpers.py:1611
 msgid "The resource format is not specified."
-msgstr "Resurssin tiedostoformaattia ei ole määritelty."
+msgstr "Aineistolinkin tiedostoformaattia ei ole määritelty."
 
 #: ckan/lib/mailer.py:25
 #, python-format
@@ -1254,7 +1254,7 @@ msgstr "Aineistolinkit"
 
 #: ckan/logic/__init__.py:99 ckan/logic/action/__init__.py:54
 msgid "Package resource(s) invalid"
-msgstr "Tietoaineiston tiedostolinkki(t) virheellisiä"
+msgstr "Tietoaineiston ainestolinkki(t) virheellisiä"
 
 #: ckan/logic/__init__.py:101 ckan/logic/__init__.py:103
 #: ckan/logic/action/__init__.py:56 ckan/logic/action/__init__.py:58
@@ -1351,7 +1351,7 @@ msgstr "Aktiviteetin tyyppi"
 #: ckan/logic/validators.py:239
 #: ckan/templates_legacy/package/new_package_form.html:20
 msgid "Resource"
-msgstr "Tietoaineistolinkki"
+msgstr "Aineistolinkki"
 
 #: ckan/logic/validators.py:310
 msgid "Names must be strings"
@@ -1616,7 +1616,7 @@ msgstr "Täytyy olla <field>:<value> pari(eja)"
 
 #: ckan/logic/action/get.py:1689
 msgid "Field \"{field}\" not recognised in resource_search."
-msgstr "Kentää \"{field}\" ei tunnistettu toiminnossa resource_search."
+msgstr "Kenttää \"{field}\" ei tunnistettu toiminnossa resource_search."
 
 #: ckan/logic/action/get.py:2012
 msgid "unknown user:"
@@ -1628,7 +1628,7 @@ msgstr "Kohteita ei löytynyt."
 
 #: ckan/logic/action/update.py:208 ckan/logic/action/update.py:221
 msgid "Resource was not found."
-msgstr "Tietoaineistolinkkiä ei löytynyt"
+msgstr "Aineistolinkkiä ei löytynyt"
 
 #: ckan/logic/action/update.py:268 ckan/logic/action/update.py:1089
 msgid "Package was not found."
@@ -1733,7 +1733,7 @@ msgstr "Tietoaineistoa ei löytynyt tälle aineistolinkille, ei voida tarkistaa 
 #: ckan/logic/auth/delete.py:41
 #, python-format
 msgid "User %s not authorized to delete resource %s"
-msgstr "Käyttäjällä %s ei ole oikeuksia poistaa resurssia %s"
+msgstr "Käyttäjällä %s ei ole oikeuksia poistaa aineistolinkkiä %s"
 
 #: ckan/logic/auth/delete.py:50 ckan/logic/auth/delete.py:64
 msgid "Only the owner can delete a related item"
@@ -1787,7 +1787,7 @@ msgstr "Käyttäjällä %s ei ole oikeuksia lukea tietoaineistoa %s"
 #: ckan/logic/auth/get.py:141
 #, python-format
 msgid "User %s not authorized to read resource %s"
-msgstr "Käyttäjällä %s ei ole oikeutta lukea resurssia %s"
+msgstr "Käyttäjällä %s ei ole oikeutta lukea aineistolinkkiä %s"
 
 #: ckan/logic/auth/get.py:216
 msgid "You must be logged in to access your dashboard."
@@ -1801,7 +1801,7 @@ msgstr "Käyttäjällä %s ei ole oikeuksia muokata tietoaineistoa %s"
 #: ckan/logic/auth/update.py:69
 #, python-format
 msgid "User %s not authorized to edit resource %s"
-msgstr "Käyttäjällä %s ei oikeuksia muokata resurssia %s"
+msgstr "Käyttäjällä %s ei oikeuksia muokata aineistolinkkiä %s"
 
 #: ckan/logic/auth/update.py:92
 #, python-format
@@ -1981,7 +1981,7 @@ msgstr "Ladataan..."
 
 #: ckan/public/base/javascript/modules/api-info.js:20
 msgid "There is no API data to load for this resource"
-msgstr "API:n kautta ei ole ladattavissa dataa tälle resurssille"
+msgstr "API:n kautta ei ole ladattavissa dataa tälle aineistolinkille"
 
 #: ckan/public/base/javascript/modules/api-info.js:21
 msgid "Failed to load data API information"
@@ -2097,7 +2097,7 @@ msgstr "näytä vähemmän"
 
 #: ckan/public/base/javascript/modules/resource-reorder.js:8
 msgid "Reorder resources"
-msgstr "Uudelleenjärjestä resurssit"
+msgstr "Uudelleenjärjestä aineistolinkit"
 
 #: ckan/public/base/javascript/modules/resource-reorder.js:9
 msgid "Save order"
@@ -2118,7 +2118,7 @@ msgstr "Tapahtui virhe"
 
 #: ckan/public/base/javascript/modules/resource-upload-field.js:27
 msgid "Resource uploaded"
-msgstr "Resurssi on ladattu"
+msgstr "Aineistolinkki on ladattu"
 
 #: ckan/public/base/javascript/modules/resource-upload-field.js:28
 msgid "Unable to upload file"
@@ -2416,7 +2416,7 @@ msgstr "Esimerkki: Python"
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:9
 msgid "This resource can not be previewed at the moment."
-msgstr "Resurssille ei ole esikatselua tällä hetkellä."
+msgstr "Aineistolinkille ei ole esikatselua tällä hetkellä."
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:11
 msgid "Click here for more information."
@@ -2424,7 +2424,7 @@ msgstr "Klikkaa tästä saadaksesi lisätietoa ..."
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:18
 msgid "Download resource"
-msgstr "Lataa resurssi"
+msgstr "Lataa aineistolinkki"
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:23
 msgid "Your browser does not support iframes."
@@ -3281,7 +3281,7 @@ msgid ""
 " A CKAN Dataset is a collection of data resources (such as files), together "
 "with a description and other information, at a fixed URL. Datasets are what "
 "users see when searching for data. "
-msgstr "CKAN tietoaineisto on kokoelma resursseja (esim. tiedostoja), sekä niihin liittyvä kuvaus ja muuta tietoa, kuten pysyvä URL -osoite. Kun käyttäjä etsii dataa hänelle näytetään tietoaineistoja."
+msgstr "CKAN tietoaineisto on kokoelma aineistolinkkejä (esim. tiedostoja), sekä niihin liittyvä kuvaus ja muuta tietoa, kuten pysyvä URL -osoite. Kun käyttäjä etsii dataa hänelle näytetään tietoaineistoja."
 
 #: ckan/templates/package/confirm_delete.html:11
 msgid "Are you sure you want to delete dataset - {name}?"
@@ -3289,7 +3289,7 @@ msgstr "Haluatko varmasti poistaa tietoaineiston - {name}?"
 
 #: ckan/templates/package/confirm_delete_resource.html:11
 msgid "Are you sure you want to delete resource - {name}?"
-msgstr "Haluatko varmasti poistaa resurssin - {name}?"
+msgstr "Haluatko varmasti poistaa ainestolinkin - {name}?"
 
 #: ckan/templates/package/edit_base.html:14
 msgid "View dataset"
@@ -3297,7 +3297,7 @@ msgstr "Tarkastele tietoaineistoa"
 
 #: ckan/templates/package/edit_base.html:18
 msgid "Edit metadata"
-msgstr "Muokkaa metadataa"
+msgstr "Muokkaa perustietoja"
 
 #: ckan/templates/package/group_list.html:14
 msgid "Associate this group with this dataset"
@@ -3317,7 +3317,7 @@ msgstr "Päivitä tietoaineisto"
 
 #: ckan/templates/package/new_package_metadata.html:3
 msgid "Add metadata to the dataset"
-msgstr "Lisää tietoaineistoon metatietoa"
+msgstr "Lisää tietoaineistoon perustietoa"
 
 #: ckan/templates/package/new_resource.html:5
 msgid "Add data to the dataset"
@@ -3326,16 +3326,16 @@ msgstr "Lisää dataa tietoaineistoon"
 #: ckan/templates/package/new_resource.html:10
 #: ckan/templates/package/new_resource_not_draft.html:7
 msgid "Add New Resource"
-msgstr "Lisää uusi resurssi"
+msgstr "Lisää uusi aineistolinkki"
 
 #: ckan/templates/package/new_resource_not_draft.html:3
 #: ckan/templates/package/new_resource_not_draft.html:4
 msgid "Add resource"
-msgstr "Lisää resurssi"
+msgstr "Lisää aineistolinkki"
 
 #: ckan/templates/package/new_resource_not_draft.html:15
 msgid "New resource"
-msgstr "Uusi resurssi"
+msgstr "Uusi aineistolinkki"
 
 #: ckan/templates/package/read_base.html:39
 #, python-format
@@ -3408,16 +3408,16 @@ msgstr "Lokitiedoston loppu"
 
 #: ckan/templates/package/resource_edit_base.html:15
 msgid "All resources"
-msgstr "Kaikki resurssit"
+msgstr "Kaikki aineistolinkit"
 
 #: ckan/templates/package/resource_edit_base.html:17
 msgid "View resource"
-msgstr "Tarkastele resurssia"
+msgstr "Tarkastele aineistolinkkiä"
 
 #: ckan/templates/package/resource_edit_base.html:22
 #: ckan/templates/package/resource_edit_base.html:29
 msgid "Edit resource"
-msgstr "Muokkaa resurssia"
+msgstr "Muokkaa aineistolinkkiä"
 
 #: ckan/templates/package/resource_edit_base.html:24
 msgid "DataStore"
@@ -3431,7 +3431,7 @@ msgstr "API osoite"
 #: ckan/templates/package/resource_read.html:40
 #: ckan/templates/package/snippets/resource_item.html:47
 msgid "Go to resource"
-msgstr "Mene resurssiin"
+msgstr "Mene aineistolinkkiin"
 
 #: ckan/templates/package/resource_read.html:42
 #: ckan/templates/package/snippets/resource_item.html:44
@@ -3445,7 +3445,7 @@ msgstr "URL:"
 
 #: ckan/templates/package/resource_read.html:65
 msgid "There is no description for this resource"
-msgstr "Tälle resurssille ei ole kuvausta."
+msgstr "Tälle aineistolinkille ei ole kuvausta."
 
 #: ckan/templates/package/resource_read.html:68
 msgid "From the dataset abstract"
@@ -3503,7 +3503,7 @@ msgstr "Muoto"
 
 #: ckan/templates/package/resources.html:8
 msgid "Add new resource"
-msgstr "Lisää uusi resurssi"
+msgstr "Lisää uusi aineistolinkki"
 
 #: ckan/templates/package/resources.html:19
 #, python-format
@@ -3656,7 +3656,7 @@ msgstr "Haluatko varmasti poistaa tietoaineiston?"
 
 #: ckan/templates/package/snippets/package_form.html:41
 msgid "Next: Add Data"
-msgstr "Seuraavaksi: Lisää dataa"
+msgstr "Seuraavaksi: Lisää ainestolinkki"
 
 #: ckan/templates/package/snippets/package_metadata_fields.html:6
 msgid "http://example.com/dataset.json"
@@ -3695,7 +3695,7 @@ msgstr "Valmis"
 
 #: ckan/templates/package/snippets/resource_edit_form.html:12
 msgid "Update Resource"
-msgstr "Päivitä resurssi"
+msgstr "Päivitä aineistolinkki"
 
 #: ckan/templates/package/snippets/resource_form.html:24
 msgid "File"
@@ -3737,11 +3737,11 @@ msgstr "esim. application/json"
 
 #: ckan/templates/package/snippets/resource_form.html:61
 msgid "Are you sure you want to delete this resource?"
-msgstr "Haluatko varmasti poistaa tämän resurssin?"
+msgstr "Haluatko varmasti poistaa tämän aineistolinkin?"
 
 #: ckan/templates/package/snippets/resource_form.html:71
 msgid "Save & add another"
-msgstr "Tallenna ja lisää toinen"
+msgstr "Tallenna ja lisää toinen aineistolinkki"
 
 #: ckan/templates/package/snippets/resource_form.html:73
 msgid "Next: Additional Info"
@@ -3749,15 +3749,15 @@ msgstr "Seuraavaksi: Lisää tietoja"
 
 #: ckan/templates/package/snippets/resource_help.html:2
 msgid "What's a resource?"
-msgstr "Mikä on resurssi?"
+msgstr "Mikä on aineistolinkki?"
 
 #: ckan/templates/package/snippets/resource_help.html:4
 msgid "A resource can be any file or link to a file containing useful data."
-msgstr "Resurssi voi olla mikä tahansa tiedosto tai linkki tiedostoon, jossa on hyödyllistä dataa."
+msgstr "Aineistolinkki voi olla mikä tahansa tiedosto tai linkki tiedostoon, jossa on hyödyllistä dataa."
 
 #: ckan/templates/package/snippets/resource_item.html:16
 msgid "No description for this resource"
-msgstr "Ei kuvausta tälle resurssille"
+msgstr "Ei kuvausta tälle aineistolinkille"
 
 #: ckan/templates/package/snippets/resource_item.html:24
 msgid "Explore"
@@ -3779,7 +3779,7 @@ msgstr "Lisää tietoa"
 
 #: ckan/templates/package/snippets/resources_list.html:13
 msgid "Data and Resources"
-msgstr "Data ja resurssit"
+msgstr "Data ja aineistolinkit"
 
 #: ckan/templates/package/snippets/resources_list.html:26
 #, python-format
@@ -3803,7 +3803,7 @@ msgstr "Luo uusi tietoaineisto"
 #: ckan/templates/package/snippets/stages.html:36
 #: ckan/templates/package/snippets/stages.html:38
 msgid "Add data"
-msgstr "Lisää dataa"
+msgstr "Lisää ainestolinkki"
 
 #: ckan/templates/package/snippets/stages.html:44
 #: ckan/templates/package/snippets/stages.html:48
@@ -4529,7 +4529,7 @@ msgstr "Tietoaineistojen lukumäärä"
 
 #: ckan/templates_legacy/_util.html:101
 msgid "View dataset resources"
-msgstr "Näytä tietoaineiston tiedostolinkit"
+msgstr "Näytä tietoaineiston aineistolinkit"
 
 #: ckan/templates_legacy/_util.html:101
 msgid "DOWNLOAD"
@@ -4537,7 +4537,7 @@ msgstr "LATAA"
 
 #: ckan/templates_legacy/_util.html:104
 msgid "No downloadable resources."
-msgstr "Ei ladattavia resursseja."
+msgstr "Ei ladattavia aineistolinkkejä."
 
 #: ckan/templates_legacy/_util.html:126
 msgid "No description for this item"
@@ -4593,7 +4593,7 @@ msgstr "(ei nimeä)"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Delete the resource '%name%'?"
-msgstr "Poista tietoaineistolinkki '%name%'?"
+msgstr "Poista aineistolinkki '%name%'?"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Preview not available for data type: "
@@ -4617,7 +4617,7 @@ msgstr "Data tiedosto"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Metadata"
-msgstr "Metatieto"
+msgstr "Perustieto"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Documentation"
@@ -4639,7 +4639,7 @@ msgstr "Url"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Resource Type"
-msgstr "Tiedostolinkin tyyppi"
+msgstr "Aineistolinkin tyyppi"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "DataStore enabled"
@@ -4671,7 +4671,7 @@ msgstr "Tehty"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "This resource has unsaved changes."
-msgstr "Tässä resurssissa on tallentamattomia muutoksia"
+msgstr "Tässä aineistolinkissä on tallentamattomia muutoksia"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "e.g. csv, html, xls, rdf, ..."
@@ -4691,7 +4691,7 @@ msgstr "Avain"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Delete Resource"
-msgstr "Poista resurssi"
+msgstr "Poista aineistolinkki"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "You can use %aMarkdown formatting%b here."
@@ -4999,7 +4999,7 @@ msgstr "Lisää tietoaineistoja"
 #: ckan/templates_legacy/group/read.html:29
 #: ckan/templates_legacy/package/search.html:25
 msgid "Resource Formats"
-msgstr "Resurssien tyypit"
+msgstr "Aineistolinkkien tyypit"
 
 #: ckan/templates_legacy/group/read.html:33
 msgid "State:"
@@ -5361,7 +5361,7 @@ msgstr "esimerkiksi saaste, joet, veden laatu"
 
 #: ckan/templates_legacy/package/new_package_form.html:130
 msgid "Add Resources"
-msgstr "Lisää resursseja"
+msgstr "Lisää aineistolinkkejä"
 
 #: ckan/templates_legacy/package/new_package_form.html:132
 msgid ""
@@ -5559,7 +5559,7 @@ msgstr "[1:Tietoaineiston sivu] sivustolla \n            [2:%(harvest_catalogue_
 #: ckan/templates_legacy/package/resource_embedded_dataviewer.html:87
 #: ckan/templates_legacy/package/resource_read.html:58
 msgid "- Dataset - Resource"
-msgstr "Tietoaineisto - Tiedostolinkki"
+msgstr "Tietoaineisto - Aineistolinkki"
 
 #: ckan/templates_legacy/package/resource_read.html:87
 msgid "Data API is unavailable for this resource as DataStore is disabled"
@@ -5575,7 +5575,7 @@ msgstr "Lähtöisin [1:tietoaineistosta]:"
 
 #: ckan/templates_legacy/package/resource_read.html:150
 msgid "Cannot embed as resource is private."
-msgstr "Ei voida upottaa koska resurssi on yksityinen."
+msgstr "Ei voida upottaa koska aineistolinkki on yksityinen."
 
 #: ckan/templates_legacy/package/resource_read.html:150
 #: ckan/templates_legacy/package/resource_read.html:151
@@ -6126,11 +6126,11 @@ msgstr "DataStore resurssia ei löytynyt"
 #: ckanext/datastore/logic/action.py:328 ckanext/datastore/logic/action.py:412
 #: ckanext/datastore/logic/action.py:438
 msgid "Resource \"{0}\" was not found."
-msgstr "Resurssia \"{0}\" ei löytynyt."
+msgstr "Aineistolinkkiä \"{0}\" ei löytynyt."
 
 #: ckanext/datastore/logic/auth.py:15
 msgid "User {0} not authorized to update resource {1}"
-msgstr "Käyttäjällä {0} ei ole lupaa päivittää resurssia {1}"
+msgstr "Käyttäjällä {0} ei ole lupaa päivittää ainestolinkkiä {1}"
 
 #: ckanext/example_idatasetform/templates/package/snippets/package_basic_fields.html:4
 msgid "Custom Text"
