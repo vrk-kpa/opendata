@@ -18,9 +18,7 @@
 
   {{ form.input('author_email', label=_('Author Email'), id='field-author-email', placeholder=_('Author Email'), value=data.author_email, error=errors.author_email, classes=['control-medium'], attrs={}) }}
 
-  {% if data.collection_type == 'Interoperability Tools' %}
-    {{ form.input('owner', label=_('Owner'), id='field-owner', placeholder=_('Joe Bloggs'), value=data.owner, error=errors.owner, classes=['control-medium']) }}
-  {% endif %}
+  {{ form.input('owner', label=_('Owner'), id='field-owner', placeholder=_('Joe Bloggs'), value=data.owner, error=errors.owner, classes=['control-medium']) }}
 {% endblock %}
 
 {% block package_metadata_fields_maintainer %}
