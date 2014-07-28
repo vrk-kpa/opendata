@@ -49,6 +49,8 @@ all_paths:
 hostname: "{{ inventory_hostname }}"
 secondary_hostname: 127.0.0.1
 secondary_hostname_language: en
+base_hostname: ""
+secondary_base_hostname: ""
 
 drupal_editor_rolename: editor
 drupal_publisher_rolename: publisher

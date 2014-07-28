@@ -10,6 +10,14 @@ server {
     return 301 https://$host$request_uri;
 }
 
+{% if item.base_hostname %}
+server {
+    listen       443;
+    server_name  {{ item.base_hostname }}
+    return       301 $scheme://{{ item.server_name }}$request_uri;
+}
+{% endif %}
+
 server {
     listen 443;
     ssl on;
