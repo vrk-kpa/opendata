@@ -70,7 +70,7 @@
     {% if websites|count > 0 %}
         <dt>{{ _('Extra information') }}</dt>
         {% for site in websites %}
-            <dd><a href="{{site}}">{{site}}</a></dd>
+            <dd>{{ site|urlize }}</dd>
         {% endfor %}
     {% endif %}
     </dl>

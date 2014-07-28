@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-28 15:36+0300\n"
+"POT-Creation-Date: 2014-07-28 16:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ckanext/ytp/common/converters.py:35
-msgid "Incorrect URL format"
+#: ckanext/ytp/common/converters.py:36
+msgid "Incorrect URL format detected: URL must start with http://, https:// or www."
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:65
