@@ -4663,6 +4663,9 @@ dd {
   position: absolute;
   right: 0;
 }
+dl#extra_extra {
+  margin-top: 30px;
+}
 
 .translate-content {
   background-color: #ebedef;
@@ -4883,7 +4886,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406552171268") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406552399250") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4910,7 +4913,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406552171268');
+  background-image: url('../images/sprite.png?timestamp=1406552399250');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4920,7 +4923,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406552171268');
+  background-image: url('../images/sprite.png?timestamp=1406552399250');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5086,7 +5089,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406552171268") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406552399250") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5226,7 +5229,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406552171268');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406552399250');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5387,7 +5390,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406552171268');
+  background-image: url('../images/sprite.png?timestamp=1406552399250');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
