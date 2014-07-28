@@ -52,3 +52,7 @@ msgstr ""
 #: /fi/admin/content
 msgid "previous"
 msgstr ""
+
+#: /
+msgid "Search datasets..."
+msgstr ""
