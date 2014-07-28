@@ -146,7 +146,7 @@
             var homepageElements = $('#HiddenFormTemplate').clone();
             homepageElements.removeAttr('id');
             homepageElements.children().removeClass('hiddenFormTemplate');
-            homepageElements.removeAttr("disabled").find('*').removeAttr("disabled");
+            homepageElements.find('input[type!=hidden], textarea').removeAttr("disabled");
             homepageElements.find('#homepage').attr('id', 'homepage_' + homepageCount)
             var buttons = $('<div class="save-container">' + CreateButtonString(false) + '</div>');
 
@@ -384,7 +384,7 @@
     </div>
 
     <div id="HiddenFormTemplate" class="homepage">
-        <input type="hidden" id="homepage" name="homepages" value="" class="hiddenFormTemplate" disabled="disabled"/>
+        <input type="hidden" id="homepage" name="homepages" value="{}" class="hiddenFormTemplate" disabled="disabled"/>
         <input type="hidden" id="homepage_titles" name="homepage_titles" value="" class="hiddenFormTemplate" disabled="disabled"/>
         {{ ytp_form.input('homepage_titles_element', label=_('Title'), placeholder=_('Title'), value="", error=errors.url, classes=['control-full', 'hiddenFormTemplate'], attrs={"disabled": "disabled"},locales=h.get_available_locales()) }}
         <input type="hidden" id="homepage_urls" name="homepage_urls" value="" class="hiddenFormTemplate" disabled="disabled"/>
