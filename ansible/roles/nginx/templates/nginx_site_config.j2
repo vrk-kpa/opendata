@@ -13,7 +13,10 @@ server {
 {% if item.base_hostname %}
 server {
     listen       443;
-    server_name  {{ item.base_hostname }}
+    ssl on;
+    ssl_certificate {{ certificates_path }}/{{ item.ssl_crt }};
+    ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
+    server_name  {{ item.base_hostname }};
     return       301 $scheme://{{ item.server_name }}$request_uri;
 }
 {% endif %}
