@@ -5,7 +5,6 @@ dependencies[] = ctools
 dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = list
-dependencies[] = node
 dependencies[] = options
 dependencies[] = service_alert_feature
 dependencies[] = strongarm
