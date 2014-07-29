@@ -40,10 +40,11 @@ $(document).ready(function() {
 
 function show_languages(locales, locales_disabled) {
     $.each(locales, function(index, locale) {
-        $("[translation-data-locale='" + locale + "']").show();
+        //$("[data-translation-locale='" + locale + "']").show();
+        $('[data-translation-locale="' + locale + '"][data-translation-hidden]').removeAttr('data-translation-hidden');
     });
     $.each(locales_disabled, function(index, locale) {
-        $("[translation-data-locale='" + locale + "']").hide();
+        $("[data-translation-locale='" + locale + "']").attr('data-translation-hidden', '');
         $("input[translation-data-locale='" + locale + "']").val("");
         $("textarea[translation-data-locale='" + locale + "']").val("");
     });
@@ -59,7 +60,7 @@ function show_languages(locales, locales_disabled) {
 }
 
 function set_translations() {
-    $('.language').hide();
+    //$('.language').hide();
 
     $('.translation-select:checked').each(function(index, element) {
         if (!$(element).attr('disabled')) {
@@ -87,7 +88,16 @@ function set_original_language() {
     $('.translate-original-language').html($('#translate_' + language_code).text());
     $('.translation-select').removeAttr('disabled');
     $('#translation_select_' + language_code).removeAttr('checked').attr('disabled', 'disabled');
-    $('.translation-input-original').text(language_code);
+
+    var input_element = $('[data-translation-original]');
+    if (input_element.parent().hasClass('input-group')){
+        input_element.siblings('span').attr('data-translation-original', language_code).text(language_code);
+    }
+    else {
+        var language_element = $('<div class="input-group"></div>');
+        input_element.wrap(language_element).before('<span data-translation-original=' + language_code + ' class="translation-input-language input-group-addon">' + language_code + '</span>');
+    }
+    //$('.translation-input-original').text(language_code);
     set_translations();
 }
 
