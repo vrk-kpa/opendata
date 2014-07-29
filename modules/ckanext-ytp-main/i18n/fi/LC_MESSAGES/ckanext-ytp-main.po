@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-28 15:36+0300\n"
-"PO-Revision-Date: 2014-07-28 12:40+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"POT-Creation-Date: 2014-07-28 16:38+0300\n"
+"PO-Revision-Date: 2014-07-28 13:42+0000\n"
+"Last-Translator: Ilja Pyykkönen\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,9 +29,10 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/ytp/common/converters.py:35
-msgid "Incorrect URL format"
-msgstr "Väärä URL formaatti"
+#: ckanext/ytp/common/converters.py:36
+msgid ""
+"Incorrect URL format detected: URL must start with http://, https:// or www."
+msgstr "Väärä URL formaatti havaittu. URLin täytyy alkaa muodolla http://, https:// tai www."
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:65
 msgid ""
