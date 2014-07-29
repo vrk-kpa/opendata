@@ -4886,7 +4886,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406552399250") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406626127926") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4913,7 +4913,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406552399250');
+  background-image: url('../images/sprite.png?timestamp=1406626127926');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4923,7 +4923,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406552399250');
+  background-image: url('../images/sprite.png?timestamp=1406626127926');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -4995,6 +4995,7 @@ h4 {
 .carousel .carousel-inner .carousel-caption {
   left: 220px;
   height: 160px;
+  top: 0;
   text-align: left;
   font-size: 18px;
   line-height: 25px;
@@ -5003,7 +5004,7 @@ h4 {
 .carousel .carousel-inner .carousel-caption h3 {
   border-bottom: none;
   margin-bottom: 0;
-  margin-top: 15px;
+  margin-top: 0px;
   font-size: 24px;
 }
 .carousel .carousel-inner .carousel-caption a {
@@ -5089,7 +5090,7 @@ h4 {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406552399250") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406626127926") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5229,7 +5230,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406552399250');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406626127926');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5390,7 +5391,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406552399250');
+  background-image: url('../images/sprite.png?timestamp=1406626127926');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
