@@ -257,7 +257,7 @@ function ytp_theme_user_register_form_submit($form, &$form_state) {
 }
 
 function ytp_theme_preprocess_node(&$variables){
-    $date = format_date($variables['created'], 'short');
+    $date = format_date($variables['changed'], 'short');
     #todo get organization for username
     #$variables['submitted'] = t('Submitted by !username on !datetime', array('!username' => $variables['name'], '!datetime' =>$date));
     $user = user_load($variables['node']->uid);
