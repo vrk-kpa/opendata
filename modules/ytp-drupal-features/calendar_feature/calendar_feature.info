@@ -7,7 +7,6 @@ dependencies[] = date
 dependencies[] = date_views
 dependencies[] = fe_block
 dependencies[] = list
-dependencies[] = node
 dependencies[] = service_alert_feature
 dependencies[] = strongarm
 dependencies[] = text
