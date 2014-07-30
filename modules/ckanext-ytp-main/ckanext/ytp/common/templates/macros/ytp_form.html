@@ -17,6 +17,11 @@
 </div>
 {% endmacro %}
 
+{# A normal input field without support for translations #}
+{% macro _input_div(name, id, value, placeholder, type, attrs, slug_attributes={}) %}
+    <input id="{{ id }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" class="form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} {{ form.attributes(slug_attributes) }} />
+{% endmacro %}
+
 {% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none, slug=false) %}
   {%- set extra_html = caller() if caller -%}
   {%- set slug_attributes = {} -%}
@@ -24,18 +29,27 @@
     {%- set slug_attributes = {'data-module': 'slug-preview-target'} -%}
   {%- endif -%}
   {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
-    <div class="translation-list">
-        {{ _translation_input_div(name, id or name, value, placeholder, type, attrs, none, slug_attributes) }}
+    {%- if locales -%}
+      {# If there are locales, we should use the input field which supports translations #}
+      <div class="translation-list">
+          {{ _translation_input_div(name, id or name, value, placeholder, type, attrs, none, slug_attributes) }}
 
-        {% for locale in locales %}
-            {% set locale_field_name = name + "_" + locale.language %}
-            {% set locale_value = data[locale_field_name] %}
-            {{ _translation_input_div(locale_field_name, locale_field_name, locale_value, placeholder, type, attrs, locale) }}
-        {% endfor %}
-        {% if slug %}
+          {% for locale in locales %}
+              {% set locale_field_name = name + "_" + locale.language %}
+              {% set locale_value = data[locale_field_name] %}
+              {{ _translation_input_div(locale_field_name, locale_field_name, locale_value, placeholder, type, attrs, locale) }}
+          {% endfor %}
+          {% if slug %}
+            <input type="hidden" data-module="slug-preview-target"  /> {# fake input for slug-preview to attach  #}
+          {% endif %}
+      </div>
+    {%- else -%}
+      {# If there are no locales, we should use the normal input field #}
+      {{ _input_div(name, id or name, value, placeholder, type, attrs, slug_attributes) }}
+      {% if slug %}
         <input type="hidden" data-module="slug-preview-target"  /> {# fake input for slug-preview to attach  #}
-        {% endif %}
-    </div>
+      {% endif %}
+    {%- endif -%}
   {% endcall %}
 {% endmacro %}
 
@@ -77,11 +91,15 @@
           {% set values = value if value.append else [value] %}
           {% for value_item in values %}
             {% if value_item %}
-            <input id="{{ id or name }}-{{ loop.counter }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" class="ytp-multiple-value" {{ form.attributes(attrs) }} />
+            <div>
+                <input id="{{ id or name }}-{{ loop.index }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" class="ytp-multiple-value form-control" {{ form.attributes(attrs) }} />
+            </div>
             {% endif %}
           {% endfor %}
         {% endif %}
-        <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="ytp-multiple-value" {{ form.attributes(attrs) }} />
+        <div>
+            <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="ytp-multiple-value form-control" {{ form.attributes(attrs) }} />
+        </div>
     </div>
   {% endcall %}
 {% endmacro %}
@@ -101,6 +119,21 @@
 
         {% endfor %}
     {% endcall %}
+{% endmacro %}
+
+{# A macro for select fields modified from Ckan's form.html #}
+{% macro select(name, id='', label='', options='', selected='', error='', classes=[], attrs={}, is_required=false) %}
+  {% set classes = (classes|list) %}
+  {% do classes.append('control-select') %}
+
+  {%- set extra_html = caller() if caller -%}
+  {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
+    <select id="{{ id or name }}" name="{{ name }}" class="form-control" {{ form.attributes(attrs) }}>
+      {% for option in options %}
+        <option value="{{ option.value }}"{% if option.value == selected %} selected{% endif %}>{{ option.text or option.value }}</option>
+      {% endfor %}
+    </select>
+  {% endcall %}
 {% endmacro %}
 
 {% macro date(name, id='', label='', value='', placeholder='', type='text', error='', classes=[], attrs={}, is_required=false) %}

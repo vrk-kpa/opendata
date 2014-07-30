@@ -1,32 +1,50 @@
-
-function createRemoveLink(item) {
-    var removeLink = $('<a href="javascript:void(0);" class="ytp-add-input" style="margin-left: 3px;"><i class="icon-minus-sign-alt icon-large"></i></a>');
+/**
+ * 
+ * @param inputContainer A div container element which includes an input field
+ */
+function createRemoveLink(inputContainer) {
+    // The remove link with the icon
+    var removeLink = $('<a href="javascript:void(0);" class="ytp-add-input"><span class="icon-minus-sign-alt icon-2x"></span></a>');
+    // Add an event listener for removing the input field container
     removeLink.click(function() {
-        item.val("").remove();
-        removeLink.remove();
+        // Remove the value inside the container's input field
+        inputContainer.find('> input').val("");
+        // Remove the container
+        inputContainer.remove();
         return false;
     });
-    item.after(removeLink);
+    // Append the remove link to the input container
+    inputContainer.append(removeLink);
     return removeLink;
 }
 
 $(document).ready(function() {
-    /* Create add link for all ytp-list class elements. Add link clones the input. */
+    /* Create an add link for all the ytp-multiple-values child div elements. The add link clones the input container. */
     $('.ytp-multiple-values').each(function() {
-        var container = $(this);
-        container.find('.ytp-multiple-value').each(function(valueIndex) {
+        var listContainer = $(this);
+        // Loop through all the children divs inside ytp-multiple-values
+        listContainer.children('div').each(function(valueIndex) {
             if (valueIndex == 0) {
-                var addLink = $('<a href="javascript:void(0);" class="ytp-add-input" style="margin-left: 3px;"><i class="icon-plus-sign-alt icon-large"></i></a>');
-                var input = $(this);
+                // We are adding the 'add link' only to the first child
+                var addLink = $('<a href="javascript:void(0);" class="ytp-add-input"><span class="icon-plus-sign-alt icon-2x"></span></a>');
+                var inputContainer = $(this);
+                inputContainer.append(addLink);
 
                 addLink.click(function() {
-                    var cloned = input.clone().val("").removeAttr('id');
-                    container.append(cloned);
-                    createRemoveLink(cloned);
+                    // Clone the input container div which contains the input field
+                    var clonedInputContainer = inputContainer.clone();
+                    // Clear the input field's value and remove the id
+                    clonedInputContainer.find('> input').val("").removeAttr('id');
+                    // Remove the 'add link' button from the input container
+                    clonedInputContainer.find('> a').remove();
+                    // Append the cloned input container after the last element
+                    listContainer.append(clonedInputContainer);
+                    // Add the 'remove link' to the cloned input container
+                    createRemoveLink(clonedInputContainer);
                     return false;
                 });
-                input.after(addLink);
             } else {
+                // We are adding the remove link to all the other children
                 createRemoveLink($(this));
             }
         });
@@ -55,7 +73,15 @@ function show_languages(locales, locales_disabled) {
         sizePersent = 100;
     }
 
-    $('.translation-container').css('width', sizePersent.toString() + "%");
+    if (visibleCount == 1) {
+        // If only one language has been selected, set the width of the input field to match the width of the non-translateable fields
+        $('.control-medium .translation-container').css('width', "320px");
+        // In any case, set the text area width to be as wide as possible
+        $('.control-full .translation-container').css('width', sizePersent.toString() + "%");
+    } else {
+        // If more than one language has been selected, set the width according to the number of fields
+        $('.translation-container').css('width', sizePersent.toString() + "%");
+    }
 }
 
 function set_translations() {
