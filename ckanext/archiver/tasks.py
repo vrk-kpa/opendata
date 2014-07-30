@@ -10,6 +10,7 @@ import shutil
 import datetime
 import copy
 import re
+import time
 
 from requests.packages import urllib3
 
@@ -82,6 +83,9 @@ def update(ckan_ini_filepath, resource_id, queue):
     '''
     log = update.get_logger()
     log.info('Starting update task: res_id=%r queue=%s', resource_id, queue)
+
+    # HACK because of race condition #1481
+    time.sleep(2)
 
     # Do all work in a sub-routine since it can then be tested without celery.
     # Also put try/except around it since we don't trust celery to log errors well.
