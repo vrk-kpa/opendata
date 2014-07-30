@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-28 16:38+0300\n"
+"POT-Creation-Date: 2014-07-30 15:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,33 +22,33 @@ msgstr ""
 msgid "Incorrect URL format detected: URL must start with http://, https:// or www."
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:65
+#: ckanext/ytp/common/templates/macros/ytp_form.html:79
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
 "formatting</a> here"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:114
+#: ckanext/ytp/common/templates/macros/ytp_form.html:147
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:26
 msgid "This field is required"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:114
+#: ckanext/ytp/common/templates/macros/ytp_form.html:147
 msgid "Custom"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:116
+#: ckanext/ytp/common/templates/macros/ytp_form.html:149
 msgid "Select"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:133
+#: ckanext/ytp/common/templates/macros/ytp_form.html:166
 #: ckanext/ytp/common/templates/package/ytp/modal.html:12
 msgid "Cancel"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:134
+#: ckanext/ytp/common/templates/macros/ytp_form.html:167
 msgid "Save and Close"
 msgstr ""
 
@@ -156,7 +156,7 @@ msgid "Fill additional info"
 msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:52
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:92
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:98
 msgid "Add related"
 msgstr ""
 
@@ -172,7 +172,7 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:136
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:297
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
-#: ckanext/ytp/user/templates/user/edit_user_form.html:66
+#: ckanext/ytp/user/templates/user/edit_user_form.html:54
 msgid "Delete"
 msgstr ""
 
@@ -196,13 +196,13 @@ msgid "Collection Type"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:300
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:301
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
 msgid "Content Type"
 msgstr ""
@@ -212,7 +212,7 @@ msgid "Formats"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:303
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/theme/translations.py:10
@@ -270,14 +270,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
 #: ckanext/ytp/organizations/templates/organization/index.html:10
-#: ckanext/ytp/theme/menu.py:70 ckanext/ytp/theme/menu.py:155
+#: ckanext/ytp/theme/menu.py:155
 msgid "Organizations"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:12
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/organizations/templates/snippets/organization.html:53
-#: ckanext/ytp/theme/menu.py:60 ckanext/ytp/user/templates/user/read.html:5
+#: ckanext/ytp/user/templates/user/read.html:5
 msgid "Datasets"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:104
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:78
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:83
 msgid "Created"
 msgstr ""
 
@@ -369,7 +369,7 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:112
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:36
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:52
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:6
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
@@ -377,19 +377,19 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:77
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:79
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:80
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:85
 msgid "Show change log"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:85
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:91
 msgid "Related"
 msgstr ""
 
@@ -1514,20 +1514,30 @@ msgstr ""
 msgid "Estimated average remote service time per customer"
 msgstr ""
 
+#: ckanext/ytp/theme/menu.py:60
+msgid "My Datasets"
+msgstr ""
+
+#: ckanext/ytp/theme/menu.py:70
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:4
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:19
+msgid "My Organizations"
+msgstr ""
+
 #: ckanext/ytp/theme/menu.py:80
-msgid "Personal Data"
+msgid "Edit Your Profile"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:90
-msgid "My Information"
+msgid "My Profile"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:102
-msgid "User Account"
+msgid "Account Settings"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:119
-msgid "Cancel account"
+msgid "Delete Account"
 msgstr ""
 
 #: ckanext/ytp/theme/menu.py:129
@@ -1648,11 +1658,6 @@ msgstr ""
 msgid "Activity from items that I'm following"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:4
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:19
-msgid "My Organizations"
-msgstr ""
-
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:9
 msgid "You can request organization membership or add new organization."
 msgstr ""
@@ -1752,31 +1757,31 @@ msgstr ""
 msgid "https://twitter.com/avoindata"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:39
+#: ckanext/ytp/user/templates/user/edit_user_form.html:38
 msgid "Blogs"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:43
+#: ckanext/ytp/user/templates/user/edit_user_form.html:38
 msgid "https://www.example.com/my-blog"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:46
+#: ckanext/ytp/user/templates/user/edit_user_form.html:40
 msgid "WWW-pages"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:51
+#: ckanext/ytp/user/templates/user/edit_user_form.html:40
 msgid "https://www.example.com/my-page"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:55
+#: ckanext/ytp/user/templates/user/edit_user_form.html:43
 msgid "Subscribe to notification emails"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:65
+#: ckanext/ytp/user/templates/user/edit_user_form.html:53
 msgid "Are you sure you want to delete this User?"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:70
+#: ckanext/ytp/user/templates/user/edit_user_form.html:58
 msgid "Update Profile"
 msgstr ""
 
