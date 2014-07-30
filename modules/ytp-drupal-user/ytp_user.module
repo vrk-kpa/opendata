@@ -136,3 +136,19 @@ function ytp_user_user_login(&$edit, $account) {
         drupal_goto('/data/' . $language->language . '/user/' . $account->name, array('external' => TRUE));
     }
 }
+
+/**
+ * Implements hook_form_alter
+ * 
+ * @param $form Nested array of form elements that comprise the form
+ * @param $form_state A keyed array containing the current state of the form
+ * @param $form_id String representing the name of the form itself
+ */
+function ytp_user_form_alter(&$form, $form_state, $form_id) {
+   if ($form_id === 'user_profile_form') {
+       // Hide the fullname, ckan_api_key, and picture fields from the user edit form
+       $form['field_fullname']['#access'] = FALSE;
+       $form['field_ckan_api_key']['#access'] = FALSE;
+       $form['picture']['#access'] = FALSE;
+    }
+}
