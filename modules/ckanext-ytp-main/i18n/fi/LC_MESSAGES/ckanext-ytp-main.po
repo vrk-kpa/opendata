@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-30 15:37+0300\n"
-"PO-Revision-Date: 2014-07-31 05:50+0000\n"
+"POT-Creation-Date: 2014-07-31 10:13+0300\n"
+"PO-Revision-Date: 2014-07-31 06:40+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -133,7 +133,7 @@ msgid "Create Dataset"
 msgstr "Luo uusi tietoaineisto"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:6
-#: ckanext/ytp/theme/menu.py:213
+#: ckanext/ytp/theme/menu.py:203
 msgid "Publish Data"
 msgstr ""
 
@@ -148,12 +148,12 @@ msgid ""
 msgstr "Tarjoa avointa dataa, työkaluja ja ohjeita muiden käyttöön. Voit myös julkaista avoimeen dataan pohjautuvia julkisia palveluja tai toteuttamiasi sovelluksia."
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
-#: ckanext/ytp/theme/menu.py:208
+#: ckanext/ytp/theme/menu.py:198
 msgid "Publish Open Data"
 msgstr "Julkaise avointa dataa"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:30
-#: ckanext/ytp/theme/menu.py:203
+#: ckanext/ytp/theme/menu.py:193
 msgid "Publish Tools and Instructions"
 msgstr "Julkaise työkaluja ja ohjeita"
 
@@ -186,7 +186,7 @@ msgstr "Muokkaa tai lisää kieliversioita"
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:136
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:297
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
-#: ckanext/ytp/user/templates/user/edit_user_form.html:54
+#: ckanext/ytp/user/templates/user/edit_user_form.html:56
 msgid "Delete"
 msgstr "Poista"
 
@@ -284,7 +284,7 @@ msgstr "Omistava organisaatio"
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
 #: ckanext/ytp/organizations/templates/organization/index.html:10
-#: ckanext/ytp/theme/menu.py:155
+#: ckanext/ytp/theme/menu.py:145
 msgid "Organizations"
 msgstr "Tiedon tuottajat"
 
@@ -536,14 +536,14 @@ msgstr "Julkinen"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:153
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:68
-#: ckanext/ytp/user/templates/user/read_base.html:35
-#: ckanext/ytp/user/templates/user/read_base.html:49
+#: ckanext/ytp/user/templates/user/read_base.html:39
+#: ckanext/ytp/user/templates/user/read_base.html:53
 msgid "Private"
 msgstr "Yksityinen"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:167
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:82
-#: ckanext/ytp/user/templates/user/read_base.html:44
+#: ckanext/ytp/user/templates/user/read_base.html:48
 msgid "State"
 msgstr "Tila"
 
@@ -1279,7 +1279,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:13
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:94
-#: ckanext/ytp/user/templates/user/edit_user_form.html:20
+#: ckanext/ytp/user/templates/user/edit_user_form.html:22
 msgid "Telephone number"
 msgstr "Puhelinnumero"
 
@@ -1554,20 +1554,16 @@ msgstr "Käyttäjätilin asetukset"
 msgid "Delete Account"
 msgstr "Poista käyttäjätili"
 
-#: ckanext/ytp/theme/menu.py:129
-msgid "Activity Stream"
-msgstr ""
-
-#: ckanext/ytp/theme/menu.py:145 ckanext/ytp/user/templates/user/list.html:6
+#: ckanext/ytp/theme/menu.py:135 ckanext/ytp/user/templates/user/list.html:6
 #: ckanext/ytp/user/templates/user/list.html:14
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: ckanext/ytp/theme/menu.py:164
+#: ckanext/ytp/theme/menu.py:154
 msgid "Postit"
 msgstr ""
 
-#: ckanext/ytp/theme/menu.py:195
+#: ckanext/ytp/theme/menu.py:185
 msgid "Publish Public Service"
 msgstr "Julkaise julkinen palvelu"
 
@@ -1673,15 +1669,15 @@ msgid "Activity from items that I'm following"
 msgstr "Seuraamieni osioiden toiminta"
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:9
-msgid "You can request organization membership or add new organization."
-msgstr "Voit ilmoittautua olemassa oleviin organisaaitoihin tai lisätä palveluun uuden organisaation."
+msgid "You can request organization membership or add a new organization."
+msgstr "Voit ilmoittautua olemassa oleviin organisaatioihin tai lisätä palveluun uuden organisaation."
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:11
 msgid "Search organizations"
 msgstr "Etsi organisaatioita"
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:13
-msgid "Add Organization"
+msgid "Add organization"
 msgstr "Lisää tietoa tuottava organisaatio"
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:28
@@ -1693,109 +1689,109 @@ msgstr "Et ole minkään tiedontuottajaorganisaation jäsen."
 msgid "Create one now?"
 msgstr "Luo uusi nyt?"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:9
+#: ckanext/ytp/user/templates/user/edit_user_form.html:5
 msgid "Change details"
 msgstr "Muuta tietoja"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:10
-#: ckanext/ytp/user/templates/user/read_base.html:29
+#: ckanext/ytp/user/templates/user/edit_user_form.html:12
+#: ckanext/ytp/user/templates/user/read_base.html:33
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:12
+#: ckanext/ytp/user/templates/user/edit_user_form.html:14
 msgid "API key"
 msgstr "API-avain"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:14
+#: ckanext/ytp/user/templates/user/edit_user_form.html:16
 msgid "Full name"
 msgstr "Koko nimi"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:14
+#: ckanext/ytp/user/templates/user/edit_user_form.html:16
 msgid "eg. Joe Bloggs"
 msgstr "esim. Matti Meikäläinen"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:16
+#: ckanext/ytp/user/templates/user/edit_user_form.html:18
 msgid "Job title"
 msgstr "Nimike"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:16
+#: ckanext/ytp/user/templates/user/edit_user_form.html:18
 msgid "Software Designer"
 msgstr "Ohjelmistosuunnittelija"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:18
-#: ckanext/ytp/user/templates/user/read_base.html:35
+#: ckanext/ytp/user/templates/user/edit_user_form.html:20
+#: ckanext/ytp/user/templates/user/read_base.html:39
 msgid "Email"
 msgstr "Sähköposti"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:18
+#: ckanext/ytp/user/templates/user/edit_user_form.html:20
 msgid "eg. joe@example.com"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:20
+#: ckanext/ytp/user/templates/user/edit_user_form.html:22
 msgid "+358 50 123 4567"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:22
+#: ckanext/ytp/user/templates/user/edit_user_form.html:24
 msgid "Main organization"
-msgstr ""
+msgstr "Organisaatio"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:29
+#: ckanext/ytp/user/templates/user/edit_user_form.html:31
 msgid "About"
 msgstr "Tietoja"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:29
+#: ckanext/ytp/user/templates/user/edit_user_form.html:31
 msgid "A little information about yourself"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:33
+#: ckanext/ytp/user/templates/user/edit_user_form.html:35
 msgid "LinkedIn"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:33
+#: ckanext/ytp/user/templates/user/edit_user_form.html:35
 msgid "https://uk.linkedin.com/in/joe_bloggs"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:34
+#: ckanext/ytp/user/templates/user/edit_user_form.html:36
 msgid "Facebook"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:34
+#: ckanext/ytp/user/templates/user/edit_user_form.html:36
 msgid "https://www.facebook.com/joe_boggs"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:35
+#: ckanext/ytp/user/templates/user/edit_user_form.html:37
 msgid "Twitter"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:35
+#: ckanext/ytp/user/templates/user/edit_user_form.html:37
 msgid "https://twitter.com/avoindata"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:38
+#: ckanext/ytp/user/templates/user/edit_user_form.html:40
 msgid "Blogs"
 msgstr "Blogit"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:38
+#: ckanext/ytp/user/templates/user/edit_user_form.html:40
 msgid "https://www.example.com/my-blog"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:40
+#: ckanext/ytp/user/templates/user/edit_user_form.html:42
 msgid "WWW-pages"
 msgstr "WWW-sivut"
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:40
+#: ckanext/ytp/user/templates/user/edit_user_form.html:42
 msgid "https://www.example.com/my-page"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:43
+#: ckanext/ytp/user/templates/user/edit_user_form.html:45
 msgid "Subscribe to notification emails"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:53
+#: ckanext/ytp/user/templates/user/edit_user_form.html:55
 msgid "Are you sure you want to delete this User?"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:58
+#: ckanext/ytp/user/templates/user/edit_user_form.html:60
 msgid "Update Profile"
 msgstr ""
 
@@ -1811,28 +1807,28 @@ msgstr ""
 msgid "User hasn't created any datasets."
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:17
+#: ckanext/ytp/user/templates/user/read_base.html:21
 msgid "You have not provided a biography."
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:19
+#: ckanext/ytp/user/templates/user/read_base.html:23
 msgid "This user has no biography."
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:26
+#: ckanext/ytp/user/templates/user/read_base.html:30
 msgid "Open ID"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:35
-#: ckanext/ytp/user/templates/user/read_base.html:49
+#: ckanext/ytp/user/templates/user/read_base.html:39
+#: ckanext/ytp/user/templates/user/read_base.html:53
 msgid "This means only you can see this"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:40
+#: ckanext/ytp/user/templates/user/read_base.html:44
 msgid "Member Since"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/read_base.html:49
+#: ckanext/ytp/user/templates/user/read_base.html:53
 msgid "API Key"
 msgstr "API-avain"
 
