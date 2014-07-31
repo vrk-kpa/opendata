@@ -91,7 +91,7 @@
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
     <?php if (!empty($page['header'])): ?>
-      <div class="row hidden-xs hidden-sm hidden-md">
+      <div class="row hidden-xs hidden-sm">
         <?php if (!empty($page['top_bar_secondary'])): ?>
           <div class="col-lg-9">
             <?php print render($page['header']); ?>

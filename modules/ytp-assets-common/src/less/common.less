@@ -120,14 +120,19 @@ a {
 }
 
 #page_wrapper {
-  min-width: 768px;
-  max-width: 1200px;
+  width: @screen-lg;
   background-color: @body-color-background;
   margin: 50px auto;
   padding-bottom: 30px;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0,0,0,0.6);
 }
+@media(max-width: @screen-md-min) {
+  #page_wrapper {
+    width: auto;
+  }
+}
+
 
 .footer {
   border: none;

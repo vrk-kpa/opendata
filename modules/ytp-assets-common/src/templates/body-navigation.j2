@@ -33,7 +33,7 @@
           </a>
         </div>
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
-          <div class="visible-xs visible-sm visible-md">
+          <div class="visible-xs visible-sm">
             <ul class="nav navbar-nav user-nav navbar-right">
                 {{ build_nav_bar(false) }}
                 {% if c.userobj %}
@@ -46,14 +46,14 @@
                 </ul>
             </ul>
           </div>
-          <div class="hidden-xs hidden-sm hidden-md">
+          <div class="hidden-xs hidden-sm">
           <ul class="nav navbar-nav lang-select">
             <li></li>
             <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
             <li><a href="{% url_for current_url, locale='en' %}">In English</a></li>
             <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
           </ul>
-          <ul class="nav navbar-nav user-nav navbar-right">
+          <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
 
                 {% if not c.userobj %}
                 <li>
@@ -78,7 +78,7 @@
     <!--
       Main menu navbar
     -->
-    <div class="container hidden-xs hidden-sm hidden-md">
+    <div class="container hidden-xs hidden-sm">
       <nav class="navbar navbar-main" role="main-navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -88,7 +88,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand visible-xs visible-sm visible-md" href="#">Päävalikko</a>
+          <a class="navbar-brand visible-xs visible-sm" href="#">Päävalikko</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
