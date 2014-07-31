@@ -1,24 +1,26 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _('Cancel account') }}{% endblock %}
+{% block subtitle %}{{ _('Delete account') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Cancel account'), controller='user', action='delete_me') }}</li>
+  <li><a href="{{ h.url_for(controller='user', action='index') }}">{{ _('Users') }}</a></li>
+  <li><a href="{{ h.url_for(controller='user', action='read', id=c.user_dict.name) }}">{{ c.userobj.display_name }}</a></li>
+  <li class="active"><a href="#">{{ _('Delete account') }}</a></li>
 {% endblock %}
 
 {% block primary_content %}
   <section class="module">
     <div class="module-content">
-      <h1 class="page-heading">{% block page_heading %}{{ _('Cancel account') }}{% endblock %}</h1>
+      <h1 class="page-heading">{% block page_heading %}{{ _('Delete account') }}{% endblock %}</h1>
       <p>
       {%- trans -%}
-      By cancelling your accout you can't login again. Your data will not be removed, so if you want to delete data, please do it manually.
+      By deleting your account you can't login again. Your data will not be removed, so if you want to delete your data, please do it manually.
       {%- endtrans -%}
       </p>
       {% block form %}
-        {% set locale = h.dump_json({'content': _('Are you sure you want cancel your accout?')}) %}
+        {% set locale = h.dump_json({'content': _('Are you sure you want delete your accout?')}) %}
         <a href="{{ h.url_for('user_delete_me') }}?delete=true" class="btn btn-danger pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">
-            {{ _('Yes. Cancel my accout.') }}
+            {{ _('Yes. Delete my accout.') }}
         </a>
       {% endblock %}
     </div>
