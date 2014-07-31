@@ -251,6 +251,7 @@
   with_items:
     - { variable: "site_mail", value: "{{ email_from }}" }
     - { variable: "site_name", value: "{{ drupal_site_name }}" }
+    - { variable: "error_level", value: "{{ drupal_error_level }}" }
     - { variable: "date_format_short", value: 'd.m.Y - H:i'}
     - { variable: "jquery_update_jquery_version", value: "1.10" }
   tags:

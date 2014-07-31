@@ -35,3 +35,4 @@ translation_text_groups:
   - "node"
 
 enable_email_verification: False
+drupal_error_level: "2"

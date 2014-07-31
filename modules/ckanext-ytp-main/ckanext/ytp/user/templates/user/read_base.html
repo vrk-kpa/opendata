@@ -2,6 +2,10 @@
 
 {% set user = c.user_dict %}
 
+{# Removes the 'Manage' button from the top right #}
+{% block content_action %}
+{% endblock %}
+
 {% block secondary_content %}
 <div class="module context-info">
   <section class="module-content">

@@ -57,7 +57,7 @@ class RootMenuItem(MenuItem):
 class MyDatasetsMenu(MenuItem):
     def __init__(self):
         super(MyDatasetsMenu, self).__init__()
-        self.title = _("Datasets")
+        self.title = _("My Datasets")
         self.requires_login = True
 
     def link(self):
@@ -67,7 +67,7 @@ class MyDatasetsMenu(MenuItem):
 class MyOrganizationMenu(MenuItem):
     def __init__(self):
         super(MyOrganizationMenu, self).__init__()
-        self.title = _("Organizations")
+        self.title = _("My Organizations")
         self.requires_login = True
 
     def link(self):
@@ -77,7 +77,7 @@ class MyOrganizationMenu(MenuItem):
 class MyPersonalDataMenu(MenuItem):
     def __init__(self):
         super(MyPersonalDataMenu, self).__init__()
-        self.title = _("Personal Data")
+        self.title = _("Edit Your Profile")
         self.requires_login = True
 
     def link(self):
@@ -87,7 +87,7 @@ class MyPersonalDataMenu(MenuItem):
 class MyInformationMenu(MenuItem):
     def __init__(self, children=True):
         super(MyInformationMenu, self).__init__()
-        self.title = _("My Information")
+        self.title = _("My Profile")
         if children:
             self.children = [MyPersonalDataMenu(), MyOrganizationMenu(), MyDatasetsMenu()]
         self.requires_login = True
@@ -99,7 +99,7 @@ class MyInformationMenu(MenuItem):
 class MyPasswordMenu(MenuItem):
     def __init__(self, plugin):
         super(MyPasswordMenu, self).__init__()
-        self.title = _("User Account")
+        self.title = _("Account Settings")
         self.plugin = plugin
         self.requires_login = True
 
@@ -116,27 +116,17 @@ class MyPasswordMenu(MenuItem):
 class MyCancelMenu(MenuItem):
     def __init__(self):
         super(MyCancelMenu, self).__init__()
-        self.title = _("Cancel account")
+        self.title = _("Delete Account")
         self.requires_login = True
 
     def link(self):
         return helpers.url_for('user_delete_me')
 
 
-class MyActivityStream(MenuItem):
-    def __init__(self):
-        super(MyActivityStream, self).__init__()
-        self.title = _('Activity Stream')
-        self.requires_login = True
-
-    def link(self):
-        return helpers.url_for('user_activity_stream', id=c.user)
-
-
 class UserMenu(RootMenuItem):
     def __init__(self, plugin):
         super(UserMenu, self).__init__(plugin)
-        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu(), MyActivityStream()]
+        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu()]
 
 
 class ListUsersMenu(MenuItem):
