@@ -1,11 +1,3 @@
-{% macro language_row(title, locale, original_language, translations) -%}
-    <tr>
-        <td>{{ title }}</td>
-        <td><input type="radio" name="original_language" value="{{ locale }}" class="translation-select-original"{% if original_language == locale %} checked="checked"{% endif %} /></td>
-        <td><input type="checkbox" class="translation-select" value="{{ locale }}" id="translation_select_{{ locale }}" name="translations"{% if locale in translations %} checked="checked"{% endif %} /></td>
-    </tr>
-{%- endmacro %}
-
 {% macro radio_row(title, languages, locales, original_language, translations) %}
   <div class="row">
     <div class="col-sm-2">
@@ -57,35 +49,9 @@
 </div>
 
 <div id="translate-language-select" class="collapse translate-bar translate-language-select">
-  <!--<div class="row">
-    <div class="col-sm-1">
-      {{ _('Language') }}
-    </div>
-    <div class="col-sm-1">
-      {{ _('Original language') }}
-    </div>
-    <div class="col-sm-1">
-      {{ _('Translate') }}
-    </div>
-  </div> -->
+
   {{ radio_row(_('Original language'), [_("Finnish"), _("English"), _("Swedish")], ['fi', 'en', 'sv'], data.original_language, data.translations) }}
   {{ checkbox_row(_('Translate'), [_("Finnish"), _("English"), _("Swedish")], ['fi', 'en', 'sv'], data.original_language, data.translations) }}
 
-  <!--
-  <table>
-        <thead>
-            <tr>
-                <th>{{ _('Language') }}</th>
-                <th>{{ _('Original language') }}</th>
-                <th>{{ _('Translate') }}</th>
-            </tr>
-        </thead>
-        <tfoot><!--</tfoot>
-        <tbody>
-            {{ language_row(_("Finnish"), 'fi', data.original_language, data.translations) }}
-            {{ language_row(_("English"), 'en', data.original_language, data.translations) }}
-            {{ language_row(_("Swedish"), 'sv', data.original_language, data.translations) }}
-        </tbody>
-    </table>
-  -->
+
 </div>

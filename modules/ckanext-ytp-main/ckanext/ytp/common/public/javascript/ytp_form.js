@@ -78,10 +78,16 @@ function show_languages(locales, locales_disabled) {
         // If only one language has been selected, set the width of the input field to match the width of the non-translateable fields
         $('.control-medium .translation-container').css('width', "320px");
         // In any case, set the text area width to be as wide as possible
-        $('.control-full .translation-container').css('width', sizePersent.toString() + "%");
+        //$('.control-full .translation-container').css('width', sizePersent.toString() + "%");
+        $('.control-full .translation-container').removeClass('col-sm-4 col-sm-6').addClass('col-sm-12');
+    } else if (visibleCount == 2){
+        $('.control-full .translation-container').removeClass('col-sm-4').addClass('col-sm-6');
+    } else if (visibleCount == 3) {
+        $('.control-full .translation-container').addClass('col-sm-4');
     } else {
         // If more than one language has been selected, set the width according to the number of fields
         $('.translation-container').css('width', sizePersent.toString() + "%");
+        $('.editor-info-block').css('width', 100.0 - visibleCount + "%");
     }
 }
 
