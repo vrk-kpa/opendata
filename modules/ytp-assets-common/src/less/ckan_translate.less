@@ -10,18 +10,21 @@
     background-color: @background-hilight;
     position: relative;
     padding: 3px 14px;
-
-    ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
-        display: inline;
+    font-size: medium;
+    label.checkbox-inline, label.radio-inline{
+      font-size: medium;
     }
-    li {
-        display: inline-block;
-        font-size: medium;
-        min-width: 2em;
-    }
+    //ul {
+    //    list-style: none;
+    //    padding-left: 0;
+    //    margin: 0;
+    //    display: inline;
+    //}
+    //li {
+    //    display: inline-block;
+    //    font-size: medium;
+    //    min-width: 2em;
+   // }
 
     a:active {
         background-color: @background-hilight;
@@ -80,10 +83,9 @@
 }
 
 .translate-language-select {
-    display: none;
-    table {
-        padding: 8px 0;
-    }
+  .row{
+    margin-bottom: 10px;
+  }
 }
 
 input.translation-input {
@@ -100,7 +102,14 @@ input.translation-input {
 }
 
 .translation-container {
-    display: inline-block;
+  display: inline-block;
+  .input-group{
+    width: 100%;
+    margin-bottom: -5px;
+    .input-group-addon{
+      width: 35px;
+    }
+  }
 }
 
 .translation-list {
@@ -110,4 +119,6 @@ input.translation-input {
 [data-translation-locale][data-translation-hidden]{
   display: none;
 }
+
+
 

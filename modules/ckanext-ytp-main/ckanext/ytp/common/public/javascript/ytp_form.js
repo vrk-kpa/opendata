@@ -60,7 +60,7 @@ function show_languages(locales, locales_disabled) {
 }
 
 function set_translations() {
-    //$('.language').hide();
+    $('.language').hide();
 
     $('.translation-select:checked').each(function(index, element) {
         if (!$(element).attr('disabled')) {
@@ -121,9 +121,9 @@ function modal_confirm(modal_id, ok_method, cancel_method) {
 /* Create add link for all ytp-list class elements. Add link clones the input. */
 $(document).ready(function() {
     var previous_original_language = $('.translation-select-original:checked');
-    $('.translate-language-show').click(function() {
-        $('.translate-language-select').slideToggle();
-    });
+    //$('.translate-language-show').click(function() {
+    //    $('.translate-language-select').slideToggle();
+    //});
 
     $('.translation-select-original').change(function() {
         if (previous_original_language.length == 1 && $("#translation_select_" + $(this).val()).prop('checked')) {

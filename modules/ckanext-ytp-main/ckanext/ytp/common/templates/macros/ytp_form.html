@@ -46,7 +46,7 @@
 
   {%- set extra_html = caller() if caller -%}
   {% call form.input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required) %}
-    <div class="translation-list from-inline">
+    <div class="translation-list form-inline">
         <div class="translation-container">
                 <textarea data-translation-original id="{{ id or name }}" name="{{ name }}" cols="20" rows="5" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} class="translation-input">{{ value | empty_and_escape }}</textarea>
         </div>

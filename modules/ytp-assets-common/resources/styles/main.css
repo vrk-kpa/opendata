@@ -4676,17 +4676,11 @@ dl#extra_extra {
   background-color: #ebedef;
   position: relative;
   padding: 3px 14px;
-}
-.translate-bar ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-  display: inline;
-}
-.translate-bar li {
-  display: inline-block;
   font-size: medium;
-  min-width: 2em;
+}
+.translate-bar label.checkbox-inline,
+.translate-bar label.radio-inline {
+  font-size: medium;
 }
 .translate-bar a:active {
   background-color: #ebedef;
@@ -4733,11 +4727,8 @@ dl#extra_extra {
 .user-form .translate-bar span {
   padding-left: 0;
 }
-.translate-language-select {
-  display: none;
-}
-.translate-language-select table {
-  padding: 8px 0;
+.translate-language-select .row {
+  margin-bottom: 10px;
 }
 input.translation-input {
   display: inline-block;
@@ -4751,6 +4742,13 @@ input.translation-input {
 }
 .translation-container {
   display: inline-block;
+}
+.translation-container .input-group {
+  width: 100%;
+  margin-bottom: -5px;
+}
+.translation-container .input-group .input-group-addon {
+  width: 35px;
 }
 .translation-list {
   position: relative;
@@ -4889,7 +4887,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406636317222") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406794118065") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4916,7 +4914,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406636317222');
+  background-image: url('../images/sprite.png?timestamp=1406794118065');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4926,7 +4924,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406636317222');
+  background-image: url('../images/sprite.png?timestamp=1406794118065');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5087,13 +5085,23 @@ h4 {
 .control-full.error-block {
   width: auto;
 }
+.form-inline .form-control {
+  width: 100%;
+}
+.form-horizontal .radio-inline {
+  padding-top: 0;
+}
+label.radio-inline:after,
+label.checkbox-inline:after {
+  content: "";
+}
 
 .btn-lg {
   font-size: 22px;
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406636317222") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406794118065") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5233,7 +5241,7 @@ span.add-member-or {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406636317222');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406794118065');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5394,7 +5402,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406636317222');
+  background-image: url('../images/sprite.png?timestamp=1406794118065');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
