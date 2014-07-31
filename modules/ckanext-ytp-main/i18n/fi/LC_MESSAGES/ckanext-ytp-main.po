@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-07-30 15:37+0300\n"
-"PO-Revision-Date: 2014-07-30 12:45+0000\n"
+"PO-Revision-Date: 2014-07-31 05:50+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1544,7 +1544,7 @@ msgstr "Muokkaa henkilötietojasi"
 
 #: ckanext/ytp/theme/menu.py:90
 msgid "My Profile"
-msgstr "Oma profiilini"
+msgstr "Oma profiili"
 
 #: ckanext/ytp/theme/menu.py:102
 msgid "Account Settings"
