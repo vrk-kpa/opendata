@@ -46,3 +46,5 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
+msgid "User Info"
+msgstr ""
