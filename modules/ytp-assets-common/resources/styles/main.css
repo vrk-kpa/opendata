@@ -4148,7 +4148,7 @@ section.module {
 .toolbar .breadcrumb {
   font-size: 16px;
 }
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
   [role=main] .primary {
     float: right;
     width: 100%;
@@ -4180,7 +4180,7 @@ section.module {
     width: 970px;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .container {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -4881,13 +4881,17 @@ a:focus {
   height: 16px;
 }
 #page_wrapper {
-  min-width: 768px;
-  max-width: 1200px;
+  width: 1200px;
   background-color: #ffffff;
   margin: 50px auto;
   padding-bottom: 30px;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 992px) {
+  #page_wrapper {
+    width: auto;
+  }
 }
 .footer {
   border: none;
@@ -4902,7 +4906,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406805949970") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406808222480") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4929,7 +4933,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406805949970');
+  background-image: url('../images/sprite.png?timestamp=1406808222480');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4939,7 +4943,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406805949970');
+  background-image: url('../images/sprite.png?timestamp=1406808222480');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5155,7 +5159,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406805949970") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406808222480") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5331,7 +5335,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406805949970');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406808222480');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5482,6 +5486,11 @@ li.ytp-menulink.active > a.active {
 .drupal-crumbs {
   padding-left: 14px;
 }
+@media (max-width: 1200px) {
+  .navbar-nav.navbar-right.user-nav-large {
+    margin-right: 220px;
+  }
+}
 
 
 .well.infowell {
@@ -5492,7 +5501,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406805949970');
+  background-image: url('../images/sprite.png?timestamp=1406808222480');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
