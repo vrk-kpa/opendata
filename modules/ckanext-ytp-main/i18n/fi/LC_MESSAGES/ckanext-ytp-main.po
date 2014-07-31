@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-07-31 10:13+0300\n"
-"PO-Revision-Date: 2014-07-31 06:40+0000\n"
+"PO-Revision-Date: 2014-07-31 10:17+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1822,7 +1822,7 @@ msgstr ""
 #: ckanext/ytp/user/templates/user/read_base.html:39
 #: ckanext/ytp/user/templates/user/read_base.html:53
 msgid "This means only you can see this"
-msgstr ""
+msgstr "Tämä tarkoittaa, että vain sinä voit nähdä tämän"
 
 #: ckanext/ytp/user/templates/user/read_base.html:44
 msgid "Member Since"

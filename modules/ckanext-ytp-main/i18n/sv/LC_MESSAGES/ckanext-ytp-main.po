@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-07-31 10:13+0300\n"
-"PO-Revision-Date: 2014-07-31 09:36+0000\n"
+"PO-Revision-Date: 2014-07-31 10:22+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -91,17 +91,17 @@ msgstr "Inte vald"
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:18
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:36
 msgid "Finnish"
-msgstr ""
+msgstr "Finska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:19
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid "English"
-msgstr ""
+msgstr "Engelska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:20
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
 msgid "Swedish"
-msgstr ""
+msgstr "Svenska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:21
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:31
@@ -1668,7 +1668,7 @@ msgstr "Du kan ansöka medlemskap i en organisation eller skapa en ny organisati
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:11
 msgid "Search organizations"
-msgstr ""
+msgstr "Sök organisationer"
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:13
 msgid "Add organization"
@@ -1816,7 +1816,7 @@ msgstr ""
 #: ckanext/ytp/user/templates/user/read_base.html:39
 #: ckanext/ytp/user/templates/user/read_base.html:53
 msgid "This means only you can see this"
-msgstr ""
+msgstr "Detta betyder att endast du kan se detta"
 
 #: ckanext/ytp/user/templates/user/read_base.html:44
 msgid "Member Since"
