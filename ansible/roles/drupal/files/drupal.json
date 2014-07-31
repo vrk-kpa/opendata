@@ -81,5 +81,59 @@
         "page": "page", 
         "service_alert": 0, 
         "tutorial": 0
+    },
+    "field_bundle_settings_node__event": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }, 
+                    "teaser": {
+                        "visible": false, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }, 
+                    "teaser": {
+                        "visible": false, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": {
+                "path": {
+                    "weight": "4"
+                }, 
+                "title": {
+                    "weight": "0"
+                }
+            }
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
     }
 }
