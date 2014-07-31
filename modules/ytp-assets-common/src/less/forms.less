@@ -48,6 +48,7 @@ span.add-member-or {
   }
 
   a {
+    margin-top: 3px;
     margin-left: 3px;
     float: left;
   }
@@ -63,4 +64,24 @@ span.add-member-or {
 
 textarea{
   resize: vertical;
+}
+
+.form-horizontal .form-inline .form-group{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-control.date{
+  width: 210px;
+}
+
+.form-inline .hyphen{
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.control-full .select2-container {
+  // Important is bad but select2 incorrectly calculates the width and
+  // sets it on the element.
+  width: 440px !important;
 }

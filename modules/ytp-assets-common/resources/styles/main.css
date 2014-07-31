@@ -1108,7 +1108,7 @@ textarea {
 .control-medium input,
 .control-medium select,
 .control-medium textarea {
-  width: 320px;
+  width: 440px;
 }
 .control-large input,
 .control-large .control-label {
@@ -1556,6 +1556,7 @@ textarea {
   margin-bottom: 0;
 }
 .slug-preview {
+  padding-top: 50px;
   font-size: 14px;
   line-height: 1.5;
   margin-top: 5px;
@@ -4901,7 +4902,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1406800768512") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1406805949970") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4928,7 +4929,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1406800768512');
+  background-image: url('../images/sprite.png?timestamp=1406805949970');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4938,7 +4939,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1406800768512');
+  background-image: url('../images/sprite.png?timestamp=1406805949970');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5105,7 +5106,8 @@ h4 {
 .form-inline .form-control {
   width: 100%;
 }
-.form-horizontal .radio-inline {
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
   padding-top: 0;
 }
 label.radio-inline:after,
@@ -5153,7 +5155,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #fff;
-  background: url("../images/button-lg-gradient.png?timestamp=1406800768512") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1406805949970") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5188,6 +5190,7 @@ span.add-member-or {
   float: left;
 }
 .ytp-multiple-values > div a {
+  margin-top: 3px;
   margin-left: 3px;
   float: left;
 }
@@ -5200,6 +5203,20 @@ span.add-member-or {
 }
 textarea {
   resize: vertical;
+}
+.form-horizontal .form-inline .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-control.date {
+  width: 210px;
+}
+.form-inline .hyphen {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.control-full .select2-container {
+  width: 440px !important;
 }
 
 .navbar-fixed-top {
@@ -5314,7 +5331,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1406800768512');
+  background-image: url('../images/navbar-main-background.png?timestamp=1406805949970');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5475,7 +5492,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1406800768512');
+  background-image: url('../images/sprite.png?timestamp=1406805949970');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
