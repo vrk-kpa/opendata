@@ -82,7 +82,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'sidebar_second',
+        'region' => 'disabled',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -13,
@@ -122,7 +122,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => '',
+        'region' => 'sidebar_second',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -13,
