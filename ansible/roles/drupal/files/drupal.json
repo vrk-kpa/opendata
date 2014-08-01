@@ -74,12 +74,12 @@
     "sharethis_button_option": "stbc_",
     "sharethis_late_load": 1,
     "sharethis_node_types": {
-        "article": "article", 
-        "carousel_item": 0, 
-        "event": "event", 
-        "infobox": 0, 
-        "page": "page", 
-        "service_alert": 0, 
+        "article": "article",
+        "carousel_item": 0,
+        "event": "event",
+        "infobox": 0,
+        "page": "page",
+        "service_alert": 0,
         "tutorial": 0
     },
     "field_bundle_settings_node__event": {
@@ -87,50 +87,97 @@
             "display": {
                 "language": {
                     "default": {
-                        "visible": false, 
+                        "visible": false,
                         "weight": "0"
-                    }, 
+                    },
                     "teaser": {
-                        "visible": false, 
+                        "visible": false,
                         "weight": "0"
                     }
-                }, 
+                },
                 "sharethis": {
                     "default": {
-                        "visible": true, 
+                        "visible": true,
                         "weight": "10"
-                    }, 
+                    },
                     "teaser": {
-                        "visible": false, 
+                        "visible": false,
                         "weight": "10"
                     }
                 }
-            }, 
+            },
             "form": {
                 "path": {
                     "weight": "4"
-                }, 
+                },
                 "title": {
                     "weight": "0"
                 }
             }
-        }, 
+        },
         "view_modes": {
             "full": {
                 "custom_settings": false
-            }, 
+            },
             "rss": {
                 "custom_settings": false
-            }, 
+            },
             "search_index": {
                 "custom_settings": false
-            }, 
+            },
             "search_result": {
                 "custom_settings": false
-            }, 
+            },
             "teaser": {
                 "custom_settings": true
-            }, 
+            },
+            "token": {
+                "custom_settings": false
+            }
+        }
+    },
+    "field_bundle_settings_node__article": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false,
+                        "weight": "0"
+                    },
+                    "teaser": {
+                        "visible": false,
+                        "weight": "0"
+                    }
+                },
+                "sharethis": {
+                    "default": {
+                        "visible": true,
+                        "weight": "10"
+                    },
+                    "teaser": {
+                        "visible": false,
+                        "weight": "10"
+                    }
+                }
+            },
+            "form": []
+        },
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            },
+            "rss": {
+                "custom_settings": false
+            },
+            "search_index": {
+                "custom_settings": false
+            },
+            "search_result": {
+                "custom_settings": false
+            },
+            "teaser": {
+                "custom_settings": true
+            },
             "token": {
                 "custom_settings": false
             }
