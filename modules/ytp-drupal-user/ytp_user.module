@@ -147,8 +147,10 @@ function ytp_user_user_login(&$edit, $account) {
 function ytp_user_form_alter(&$form, $form_state, $form_id) {
    if ($form_id === 'user_profile_form') {
        // Hide the fullname, ckan_api_key, and picture fields from the user edit form
-       $form['field_fullname']['#access'] = FALSE;
-       $form['field_ckan_api_key']['#access'] = FALSE;
-       $form['picture']['#access'] = FALSE;
+       // If "$form['field_fullname']['#access'] = FALSE;" or "$form['field_fullname']['#disabled'] = TRUE;" is used, the value won't update from
+       // Ckan to Drupal
+       hide($form['field_fullname']);
+       hide($form['field_ckan_api_key']);
+       hide($form['picture']);
     }
 }

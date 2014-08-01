@@ -3,6 +3,7 @@
  * Custom node.tpl.php
  * 
  * - moved submitted below content
+ * - remove add comment link
  */
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
@@ -20,6 +21,7 @@
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
+      unset($content['links']['comment']['#links']['comment-add']);
       print render($content);
     ?>
   </div>
@@ -31,7 +33,5 @@
   <?php endif; ?>
 
   <?php print render($content['links']); ?>
-
   <?php print render($content['comments']); ?>
-
 </div>
