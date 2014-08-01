@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-drupal 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-04 10:37+0300\n"
+"POT-Creation-Date: 2014-07-31 12:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,22 +23,26 @@ msgid "Unauthorized to delete user"
 msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:3
-#: ckanext/ytp/drupal/templates/user/delete_me.html:6
-#: ckanext/ytp/drupal/templates/user/delete_me.html:12
-msgid "Cancel account"
-msgstr ""
-
+#: ckanext/ytp/drupal/templates/user/delete_me.html:8
 #: ckanext/ytp/drupal/templates/user/delete_me.html:14
-msgid ""
-"By cancelling your accout you can't login again. Your data will not be "
-"removed, so if you want to delete data, please do it manually."
+msgid "Delete account"
 msgstr ""
 
-#: ckanext/ytp/drupal/templates/user/delete_me.html:19
-msgid "Are you sure you want cancel your accout?"
+#: ckanext/ytp/drupal/templates/user/delete_me.html:6
+msgid "Users"
+msgstr ""
+
+#: ckanext/ytp/drupal/templates/user/delete_me.html:16
+msgid ""
+"By deleting your account you can't login again. Your data will not be "
+"removed, so if you want to delete your data, please do it manually."
 msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:21
-msgid "Yes. Cancel my accout."
+msgid "Are you sure you want delete your accout?"
+msgstr ""
+
+#: ckanext/ytp/drupal/templates/user/delete_me.html:23
+msgid "Yes. Delete my accout."
 msgstr ""
 
