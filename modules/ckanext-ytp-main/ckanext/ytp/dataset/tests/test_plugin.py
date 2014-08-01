@@ -2,11 +2,13 @@ import paste.fixture
 import pylons.test
 
 from ckan.tests import TestCase
-from ckan import model, plugins
+from ckan import model, plugins, tests
 from ckan.plugins import toolkit
 from ckan.model.package import Package
 from ckanext.ytp.common.converters import is_url, to_list_json, from_json_list
 from ckan.lib.navl.dictization_functions import Invalid
+from pylons import config
+from paste.deploy.converters import asbool
 
 
 class TestYtpDatasetPlugin(TestCase):
@@ -38,9 +40,8 @@ class TestYtpDatasetPlugin(TestCase):
 
     def test_create_dataset(self):
         context = self._create_context()
-        data_dict = {'name': 'test_dataset_1', 'title': 'test_title',
-                     'notes': "test_notes", 'license_id': "licence_id",
-                     'content_type': "content_type_test", 'tag_string': "tag1,tag2",
+        data_dict = {'name': 'test_dataset_1', 'title': 'test_title', 'notes': "test_notes", 'license_id': "licence_id",
+                     'content_type': "content_type_test", 'tag_string': "tag1,tag2", 'collection_type': 'Open Data',
                      'extras': [{'key': 'copyright_notice', 'value': 'test_notice'}]}
 
         result = toolkit.get_action('package_create')(context, data_dict)
@@ -70,3 +71,18 @@ class TestYtpDatasetPlugin(TestCase):
         context = {}
         self.assert_equal(from_json_list("test_value", context), ["test_value"])
         self.assert_equal(from_json_list('["test_value1","test_value2"]', context), ["test_value1", "test_value2"])
+
+    def test_api_create_dataset(self):
+        tests.call_action_api(self.app, 'package_create', status=409, name='test-name-1', title="test-title-1", content_type="test1,test2",
+                              license_id="other", notes="test notes", tag_string="tag1,tag2", apikey=self.sysadmin.apikey)
+
+        tests.call_action_api(self.app, 'package_create', status=200, name='test-name-2', title="test-title-2", content_type="test1,test2",
+                              license_id="other", notes="test notes", tag_string="tag1,tag2", collection_type="Open Data", apikey=self.sysadmin.apikey)
+
+        test_dataset = Package.get('test-name-2')
+        self.assert_equal(test_dataset.maintainer, "")
+        self.assert_equal(test_dataset.maintainer_email, "")
+
+        if not asbool(config.get('ckanext.ytp.dataset.auto_author', False)):
+            self.assert_equal(test_dataset.author, "")
+            self.assert_equal(test_dataset.author_email, "")

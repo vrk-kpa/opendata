@@ -16,6 +16,7 @@ import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation
+from paste.deploy.converters import asbool
 
 
 try:
@@ -91,6 +92,10 @@ def _parse_extras(key, extras):
     return extras_dict
 
 
+def set_empty_if_missing(value, context):
+    return value if value else u""
+
+
 def set_to_user_name(value, context):
     return context['auth_user_obj'].display_name
 
@@ -148,6 +153,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IConfigurable)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -159,6 +165,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title', 'extra_information',
                     'maintainer', 'author', 'owner', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
                     'temporal_granularity', 'temporal_coverage_from', 'temporal_coverage_to', 'update_frequency']
+
+    auto_author = False
+
+    # IConfigurable #
+
+    def configure(self, config):
+        self.auto_author = asbool(config.get('ckanext.ytp.dataset.auto_author', False))
+
     # IRoutes #
 
     def before_map(self, m):
@@ -191,7 +205,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'warranty_disclaimer': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'collection_type': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'collection_type': [not_empty, unicode, convert_to_extras]})
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
@@ -200,7 +214,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
 
-        schema.update({'owner': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'owner': [set_empty_if_missing, unicode, convert_to_extras]})
+        schema.update({'maintainer': [set_empty_if_missing, unicode]})
+        schema.update({'maintainer_email': [set_empty_if_missing, unicode]})
 
         res_schema = schema.get('resources')
         res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
@@ -208,11 +224,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'resources': res_schema})
         schema = add_languages_modify(schema, self._localized_fields)
 
-        # schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
-        # schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
-
-        schema.update({'author': [ignore_missing, unicode]})
-        schema.update({'author_email': [ignore_missing, unicode]})
+        if self.auto_author:
+            schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
+            schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
+        else:
+            schema.update({'author': [set_empty_if_missing, unicode]})
+            schema.update({'author_email': [set_empty_if_missing, unicode]})
 
         # Override CKAN schema
         schema.update({'title': [not_empty, unicode]})
