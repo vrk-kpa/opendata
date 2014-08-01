@@ -14,14 +14,15 @@
 # Open Knowledge Foundation <translations@okfn.org>, 2011
 # Mikko Koho <mikko.koho@csc.fi>, 2013
 # Tarmo Toikkanen <tarmo@iki.fi>, 2014
+# Vilsepi, 2014
 # Yhteentoimivuuspalvelut <yhteentoimivuusportaali@valtiokonttori.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-12-13 11:40+0000\n"
-"PO-Revision-Date: 2014-07-25 10:28+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"PO-Revision-Date: 2014-08-01 10:52+0000\n"
+"Last-Translator: Vilsepi\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2081,7 +2082,7 @@ msgstr "Lataa tiedosto työasemalta"
 
 #: ckan/public/base/javascript/modules/image-upload.js:20
 msgid "Link to a URL on the internet (you can also link to an API)"
-msgstr "Linkki URL-osoitteeseen intterneteissä (voit myös linkittää API:in)"
+msgstr "URL-osoite (tiedostoon, rajapintaan tai verkkosivuun)."
 
 #: ckan/public/base/javascript/modules/image-upload.js:21
 msgid "Reset this"

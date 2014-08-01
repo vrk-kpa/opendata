@@ -1,5 +1,5 @@
 {% ckan_extends %}
 
 {% block content_action %}
-  {% link_for _('Close without saving'), controller='package', action='read', id=pkg.name, class_='btn', icon='eye-open' %}
+  {% link_for _('Close without saving'), controller='package', action='read', id=pkg.name, class_='btn', icon='arrow-left' %}
 {% endblock %}
