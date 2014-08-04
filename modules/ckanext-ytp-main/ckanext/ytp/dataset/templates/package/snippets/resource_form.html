@@ -30,7 +30,7 @@
 
     {% block basic_fields_url %}
       {% set is_upload = (data.url_type == 'upload') %}
-      {{ form.image_upload(data, errors, field_url='url', field_upload='upload', field_clear='clear_upload',
+      {{ ytp_form.image_upload(data, errors, field_url='url', field_upload='upload', field_clear='clear_upload',
          is_upload_enabled=h.uploads_enabled(), is_url=data.url and not is_upload, is_upload=is_upload,
          upload_label=_('File'), url_label=_('URL')) }}
     {% endblock %}
@@ -51,15 +51,22 @@
 
 
   {% block metadata_fields %}
-     {{ ytp_form.input('temporal_granularity', id='temporal_granularity', label=_('Temporal Granularity'), placeholder=_('eg. A year, 2 months'), value=data.temporal_granularity, error=errors.temporal_granularity, classes=['control'], locales=h.get_available_locales(), data=data) }}
+     {{ ytp_form.input('temporal_granularity', id='temporal_granularity', label=_('Temporal Granularity'), placeholder=_('eg. A year, 2 months'), value=data.temporal_granularity, error=errors.temporal_granularity, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
+    {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
     {% call form.input_block("temporal_coverage", _('Temporal Coverage'), errors.validity, [], extra_html="") %}
-      {{ ytp_form.date('temporal_coverage_from', value=data.get('temporal_coverage_from') | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
--
-      {{ ytp_form.date('temporal_coverage_to', value=data.get('temporal_coverage_to') | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
+      <div class="form-inline date">
+        <div class="form-group">
+          {{ ytp_form.date('temporal_coverage_from', value=data.get('temporal_coverage_from') | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
+        </div>
+        <span class="hyphen">-</span>
+        <div class="form-group">
+          {{ ytp_form.date('temporal_coverage_to', value=data.get('temporal_coverage_to') | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
+        </div>
+      </div>
     {% endcall %}
 
-   {{ ytp_form.input('update_frequency', id='update_frequency', label=_('Update Frequency'), placeholder=_('eg. A year, 2 months'), value=data.update_frequency, error=errors.update_frequency, classes=['control'], locales=h.get_available_locales(), data=data) }}
+
   {% endblock %}
 
   <div class="form-actions">
