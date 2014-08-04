@@ -73,6 +73,7 @@
     "sharethis_service_option": "\"Facebook:facebook\",\"Tweet:twitter\",\"LinkedIn:linkedin\",\"Email:email\"",
     "sharethis_button_option": "stbc_",
     "sharethis_late_load": 1,
+    "sharethis_option_onhover": 0,
     "sharethis_node_types": {
         "article": "article",
         "carousel_item": 0,
