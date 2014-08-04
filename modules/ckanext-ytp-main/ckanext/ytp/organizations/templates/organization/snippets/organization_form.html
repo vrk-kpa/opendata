@@ -28,7 +28,7 @@
     {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
     {% set is_url = data.image_url and data.image_url.startswith('http') %}
 
-    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
+    {{ ytp_form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
 
     {# YTP fields: #}
 
@@ -79,22 +79,20 @@
 {# Hide custom fields #}
 {% block custom_fields %}
 
-{{ form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
-{{ form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
+{{ ytp_form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
+{{ ytp_form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
 {{ ytp_form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
-    <div class="row">
-    <div class="col-sm-5">
+  <div class="form-inline date">
+    <div class="form-group">
         {{ ytp_form.date('valid_from', value=data.valid_from | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
     </div>
-        <div class="col-sm-1">
-        -
-        </div>
-    <div class="col-sm-5">
+    <span class="hyphen">-</span>
+    <div class="form-group">
       {{ ytp_form.date('valid_till', value=data.valid_till | empty_and_escape, placeholder=_('YYYY-MM-DD')) }}
     </div>
-    </div>
+  </div>
 {% endcall %}
 
     {# Address info #}
