@@ -157,6 +157,12 @@ server {
         proxy_read_timeout 120s;
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+
+        location /data/api {
+            proxy_pass https://127.0.0.1:8080/data/api;
+            # Do not show nginx's 404 error page for the API
+            proxy_intercept_errors off;
+        }
     }
 
     # Drupal
