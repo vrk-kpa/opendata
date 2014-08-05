@@ -316,6 +316,12 @@
   - ckan
   - cron
 
+- name: Ensure tracking cron job
+  cron: name="tracking" minute="0" hour="0" job="{{ virtual_environment }}/bin/paster --plugin=ckan tracking update --config={{ ckan_ini }} && {{ virtual_environment }}/bin/paster --plugin=ckan search-index rebuild -r --config={{ ckan_ini }}"
+  tags:
+  - ckan
+  - cron
+
 - name: Reindex
   shell: touch "{{ files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}" creates="{{ files_root }}/.solr-reindex"
   async: 1200
