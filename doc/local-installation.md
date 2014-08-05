@@ -1,4 +1,4 @@
-# Local installation
+# Local installation (Linux)
 
 
 ## Requirements
@@ -90,7 +90,7 @@ Simply re-run the provision:
 
     vagrant provision
     
-# Windows installation
+# Local Installation (Windows)
 
 Install Virtualbox and Vagrant in Windows and clone ytp repo.
 
