@@ -43,7 +43,7 @@ Example:
     {% elif package.get('state', '').startswith('deleted') %}
       <span class="label label-important">{{ _('Deleted') }}</span>
     {% endif %}
-    
+
     <span class="byline-dataset">
       {%- if package.get('resources') -%}
         {% set formats = h.unique_formats(package.get('resources')) %}
