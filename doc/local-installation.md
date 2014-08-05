@@ -122,6 +122,7 @@ Then we clone ansible repo
     
 and install newer ansible
 
+    cd ansible
     git checkout release1.6.10
     source ./hacking/env-setup
     
