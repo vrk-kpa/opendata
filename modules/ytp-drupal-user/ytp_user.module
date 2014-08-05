@@ -132,8 +132,8 @@ function ytp_user_user_login(&$edit, $account) {
         // because $_GET['destination] overrides them
         unset($_GET['destination']);
 
-        // Redirect the user to her profile page
-        drupal_goto('/data/' . $language->language . '/user/' . $account->name, array('external' => TRUE));
+        // Redirect the user to the front page
+        drupal_goto('<front>');
     }
 }
 
@@ -145,12 +145,18 @@ function ytp_user_user_login(&$edit, $account) {
  * @param $form_id String representing the name of the form itself
  */
 function ytp_user_form_alter(&$form, $form_state, $form_id) {
-   if ($form_id === 'user_profile_form') {
-       // Hide the fullname, ckan_api_key, and picture fields from the user edit form
-       // If "$form['field_fullname']['#access'] = FALSE;" or "$form['field_fullname']['#disabled'] = TRUE;" is used, the value won't update from
-       // Ckan to Drupal
-       hide($form['field_fullname']);
-       hide($form['field_ckan_api_key']);
-       hide($form['picture']);
+    global $user;
+
+    if (!in_array('administrator', $user->roles) && $form_id === 'user_profile_form') {
+        // Hide the fullname, ckan_api_key, picture, language selection (locale), timezone, and text formatting (wysiwyg) fields from the user edit form for
+        // all other users than admins.
+        // If "$form['field_fullname']['#access'] = FALSE;" or "$form['field_fullname']['#disabled'] = TRUE;" is used, the value won't update from
+        // Ckan to Drupal.
+        hide($form['field_fullname']);
+        hide($form['field_ckan_api_key']);
+        hide($form['picture']);
+        hide($form['locale']);
+        hide($form['timezone']);
+        hide($form['wysiwyg']);
     }
 }

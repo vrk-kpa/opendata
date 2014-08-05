@@ -1,4 +1,4 @@
-# Local installation
+# Local installation (Linux)
 
 
 ## Requirements
@@ -45,20 +45,7 @@ We use [Ansible](http://www.ansible.com) configuration management to automate pr
     sudo apt-get update
     sudo apt-get install ansible
 
-**If you are using Windows host, install and use Ansible from inside your virtual machine:**
 
-    vagrant ssh
-    sudo apt-get install ansible
-
-### Generate keys for Ansible
-
-Run inside virtual machine:
-
-    ssh-keygen -t rsa
-    
-Append generated key into authorized_keys:
-
-    cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
 
 ### Run Vagrant and start Ansible installation
 
@@ -102,3 +89,54 @@ Sometimes the SSH connection breaks.
 Simply re-run the provision:
 
     vagrant provision
+    
+# Local Installation (Windows)
+
+Install Virtualbox and Vagrant in Windows and clone ytp repo.
+
+## Vagrant
+    
+Create virtual machine by running
+    
+    vagrant up
+
+in ytp/vagrant. It will error about provisioning but that doesn't matter. Afterwards SSH into vagrant:
+    
+    vagrant ssh
+
+Upgrade packages of virtual machine with:
+
+    sudo apt-get update && sudo apt-get upgrade
+    
+It might ask about installing grup, just hit enter and don't install.
+
+### Install ansible
+
+To install ansible, first we install it from ubuntu repositories with git:
+
+    sudo apt-get install ansible git
+    
+Then we clone ansible repo
+    
+    git clone git://github.com/ansible/ansible.git
+    
+and install newer ansible
+
+    git checkout release1.6.10
+    source ./hacking/env-setup
+    
+### Generate SSH keys for ansible
+
+Run to generate ssh keys
+
+    ssh-keygen -t rsa
+    
+Append generated key into authorized_keys:
+
+    cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+    
+### Ansible provision
+
+Run in /src
+
+    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
