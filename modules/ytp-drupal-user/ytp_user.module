@@ -132,8 +132,8 @@ function ytp_user_user_login(&$edit, $account) {
         // because $_GET['destination] overrides them
         unset($_GET['destination']);
 
-        // Redirect the user to her profile page
-        drupal_goto('/data/' . $language->language . '/user/' . $account->name, array('external' => TRUE));
+        // Redirect the user to the front page
+        drupal_goto('<front>');
     }
 }
 
