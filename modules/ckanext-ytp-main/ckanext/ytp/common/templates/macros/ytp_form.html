@@ -18,11 +18,15 @@
 {% endmacro %}
 
 {# A normal input field without support for translations #}
-{% macro _input_div(name, id, value, placeholder, type, attrs, slug_attributes={}) %}
+{% macro _input_div(name, id, value, placeholder, type, attrs, slug_attributes={}, help_text='') %}
     <input id="{{ id }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" class="form-control" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} {{ form.attributes(slug_attributes) }} />
+    {%- if help_text -%}
+        {# Add some help text underneath the input #}
+        <span class='help-block'>{{ help_text }}</span>
+    {%- endif -%}
 {% endmacro %}
 
-{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none, slug=false) %}
+{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, locales=[], data=none, slug=false, help_text='') %}
   {%- set extra_html = caller() if caller -%}
   {%- set slug_attributes = {} -%}
   {%- if slug -%}
@@ -40,13 +44,17 @@
           {% set locale_value = data[locale_field_name] %}
           {{ _translation_input_div(locale_field_name, locale_field_name, locale_value, placeholder, type, attrs, locale) }}
         {% endfor %}
+        {%- if help_text -%}
+            {# Add some help text underneath the input #}
+            <span class='help-block'>{{ help_text }}</span>
+        {%- endif -%}
         {% if slug %}
             <input type="hidden" data-module="slug-preview-target"  /> {# fake input for slug-preview to attach  #}
           {% endif %}
       </div>
     {%- else -%}
       {# If there are no locales, we should use the normal input field #}
-      {{ _input_div(name, id or name, value, placeholder, type, attrs, slug_attributes) }}
+      {{ _input_div(name, id or name, value, placeholder, type, attrs, slug_attributes, help_text) }}
       {% if slug %}
         <input type="hidden" data-module="slug-preview-target"  /> {# fake input for slug-preview to attach  #}
       {% endif %}
