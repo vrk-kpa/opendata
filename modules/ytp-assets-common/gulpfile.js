@@ -98,7 +98,8 @@ gulp.task('config', function(){
 gulp.task('default', function(callback) {
   runSequence('clean',
               'static_css',
-              ['bootstrap', 'vendor','config', 'less', 'templates', 'static_pages', 'images', 'fonts'],
+              ['bootstrap', 'vendor','config', 'templates', 'static_pages', 'images', 'fonts'],
+              'less',
               callback);
 });
 
