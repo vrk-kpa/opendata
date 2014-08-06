@@ -55,14 +55,14 @@ gulp.task('templates', function() {
 });
 
 
-gulp.task('static_css', function() {
+gulp.task('static_css', function(){
     return gulp.src(paths.src.static_pages + "/css/main.css" )
         .pipe(base64({maxImageSize:512*1024}))
         .pipe(concat('style.css'))
         .pipe(gulp.dest(paths.src.static_pages + "/css"));
 });
 
-gulp.task('static_pages', function() {
+gulp.task('static_pages', ['static_css'], function() {
   return gulp.src(paths.src.static_pages + "/*.html")
       .pipe(inlineCss())
       .pipe(gulp.dest(paths.dist + '/static'));
@@ -97,7 +97,6 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              'static_css',
               ['bootstrap', 'vendor','config', 'templates', 'static_pages', 'images', 'fonts'],
               'less',
               callback);
