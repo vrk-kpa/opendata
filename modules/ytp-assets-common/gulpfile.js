@@ -44,7 +44,7 @@ gulp.task('less', function () {
 
 gulp.task('images', function() {
   return gulp.src(paths.src.images)
-    .pipe(imagemin({optimizationLevel: 5}))
+    .pipe(imagemin({optimizationLevel: 0}))
     .pipe(gulp.dest(paths.dist+'/images'));
 });
 
@@ -97,8 +97,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor','config', 'templates', 'static_pages', 'images', 'fonts'],
-              'less',
+              ['bootstrap', 'vendor', 'config', 'templates', 'static_pages', 'images', 'less', 'fonts'],
               callback);
 });
 
