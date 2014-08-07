@@ -5,13 +5,14 @@
 # 
 # Translators:
 # Ilja Pyykkönen, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-22 16:32+0300\n"
-"PO-Revision-Date: 2014-07-22 13:32+0000\n"
-"Last-Translator: Ilja Pyykkönen\n"
+"POT-Creation-Date: 2014-08-07 13:25+0300\n"
+"PO-Revision-Date: 2014-08-07 10:25+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,19 +23,19 @@ msgstr ""
 
 #: ckanext/ytp/request/auth.py:8 ckanext/ytp/request/auth.py:16
 msgid "User is not logged in"
-msgstr ""
+msgstr "Användaren är inte inloggad"
 
 #: ckanext/ytp/request/auth.py:23
-msgid "User has already request or active membership"
-msgstr ""
+msgid "The user has already a pending request or an active membership"
+msgstr "Användaren har redan en ansökan eller en aktiv medlemskap"
 
 #: ckanext/ytp/request/controller.py:14
 msgid "Unauthorized"
-msgstr "Obehörig"
+msgstr "Otillåten"
 
 #: ckanext/ytp/request/controller.py:60
 msgid "Item not found"
-msgstr ""
+msgstr "Objektet hittades inte"
 
 #: ckanext/ytp/request/controller.py:62
 msgid "Integrity Error"
@@ -44,68 +45,68 @@ msgstr ""
 #: ckanext/ytp/request/controller.py:115 ckanext/ytp/request/controller.py:139
 #: ckanext/ytp/request/controller.py:150 ckanext/ytp/request/controller.py:161
 msgid "Request not found"
-msgstr ""
+msgstr "Ansökningen hittades inte"
 
-#: ckanext/ytp/request/logic.py:33
+#: ckanext/ytp/request/logic.py:44
 #, python-format
 msgid "New membership request (%s)"
-msgstr ""
+msgstr "Ny medlemskapsansökan (%s)"
 
-#: ckanext/ytp/request/logic.py:34
+#: ckanext/ytp/request/logic.py:45
 #, python-format
 msgid ""
 "User '%s' (%s) has requested membership to organization '%s'.\n"
 "\n"
 "%s"
-msgstr ""
+msgstr "Användaren '%s' (%s) har ansökt medlemskap i organisationen '%s'\n\n%s"
 
-#: ckanext/ytp/request/logic.py:48
+#: ckanext/ytp/request/logic.py:65
+#, python-format
+msgid "Organization membership approved (%s)"
+msgstr "Medlemskapsansökan godkändes (%s)"
+
+#: ckanext/ytp/request/logic.py:66
 #, python-format
 msgid ""
 "Your membership request to organization '%s' with '%s' access has been "
 "approved."
-msgstr ""
+msgstr "Din ansökan till organisationen '%s' med användarrollen '%s' har godkänts."
 
-#: ckanext/ytp/request/logic.py:49
+#: ckanext/ytp/request/logic.py:68
 #, python-format
-msgid "Organization membership approved (%s)"
-msgstr ""
+msgid "Organization membership rejected (%s)"
+msgstr "Medlemskapsansökan till organisationen har förkastats (%s)"
 
-#: ckanext/ytp/request/logic.py:51
+#: ckanext/ytp/request/logic.py:69
 #, python-format
 msgid ""
 "Your membership request to organization '%s' with '%s' access has been "
 "rejected."
-msgstr ""
+msgstr "Din medlemskapsansökan till organisationen '%s' med användarrollen '%s' har fökastats."
 
-#: ckanext/ytp/request/logic.py:52
-#, python-format
-msgid "Organization membership rejected (%s)"
-msgstr ""
-
-#: ckanext/ytp/request/logic.py:83
+#: ckanext/ytp/request/logic.py:106
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:83
-msgid "As sysadmin you already have access to all organizations"
-msgstr ""
+#: ckanext/ytp/request/logic.py:106
+msgid "As a sysadmin, you already have access to all organizations"
+msgstr "Som huvudanvändare har du redan tillgång till alla organisationer"
 
-#: ckanext/ytp/request/logic.py:92
-msgid "You already have pending request to the organization"
-msgstr ""
+#: ckanext/ytp/request/logic.py:115
+msgid "You already have a pending request to the organization"
+msgstr "Du har redan en avvaktande ansökan till organisationen"
 
-#: ckanext/ytp/request/logic.py:94
+#: ckanext/ytp/request/logic.py:117
 msgid "You are already part of the organization"
-msgstr ""
+msgstr "Du är redan medlem i organisationen"
 
-#: ckanext/ytp/request/logic.py:96
+#: ckanext/ytp/request/logic.py:119
 msgid "Duplicate organization request"
-msgstr ""
+msgstr "En avvaktande ansökan existerar redan"
 
-#: ckanext/ytp/request/logic.py:96
+#: ckanext/ytp/request/logic.py:119
 #: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30
@@ -114,49 +115,49 @@ msgstr ""
 
 #: ckanext/ytp/request/plugin.py:30 ckanext/ytp/request/plugin.py:85
 msgid "admin"
-msgstr ""
+msgstr "huvudanvändare"
 
 #: ckanext/ytp/request/plugin.py:31
 msgid "member"
-msgstr ""
+msgstr "medlem"
 
 #: ckanext/ytp/request/plugin.py:32
 msgid "editor"
-msgstr ""
+msgstr "journalist"
 
 #: ckanext/ytp/request/plugin.py:90
 #: ckanext/ytp/request/templates/organization/read.html:9
 msgid "Request membership"
-msgstr ""
+msgstr "Ansök medlemskap"
 
 #: ckanext/ytp/request/plugin.py:93
 msgid "Pending for approval"
-msgstr ""
+msgstr "Avvaktar godkännande"
 
 #: ckanext/ytp/request/templates/organization/read.html:12
-msgid "Are you sure you want cancel membership?"
-msgstr ""
+msgid "Are you sure you want to end the membership?"
+msgstr "Är du säker på att du vill säga upp medlemskapet?"
 
 #: ckanext/ytp/request/templates/organization/read.html:15
 msgid "Cancel membership"
-msgstr ""
+msgstr "Säg upp medlemskapet"
 
 #: ckanext/ytp/request/templates/organization/read.html:20
 #: ckanext/ytp/request/templates/request/show.html:78
 msgid "Cancel request"
-msgstr ""
+msgstr "Dra tillbaka ansökningen"
 
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
 #: ckanext/ytp/request/templates/request/list.html:21
 msgid "Organization membership requests"
-msgstr ""
+msgstr "Organisationens medlemskapsansökningar"
 
 #: ckanext/ytp/request/templates/request/list.html:10
 msgid ""
-"All organization member requests listed here. Organization admin can approve"
-" or reject requests. To process request select edit."
-msgstr ""
+"All organization membership requests are listed here. The organization admin"
+" can approve or reject requests. To process a request, select edit."
+msgstr "Alla organisationens medlemskapsansökningar är listade här. Organisationens huvudanvändare kan godkänna eller förkasta ansökningar. För att behandla en ansökan välj redigera."
 
 #: ckanext/ytp/request/templates/request/list.html:28
 #: ckanext/ytp/request/templates/request/show.html:34
@@ -169,20 +170,20 @@ msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:44
 msgid "No requests found."
-msgstr ""
+msgstr "Inga ansökningar hittades"
 
 #: ckanext/ytp/request/templates/request/new.html:6
 msgid "New membership request"
-msgstr ""
+msgstr "Ny medlemskapsansökan"
 
 #: ckanext/ytp/request/templates/request/new.html:11
 #: ckanext/ytp/request/templates/request/new.html:19
 msgid "Request organization membership"
-msgstr ""
+msgstr "Ansök medlemskap i organisationen"
 
 #: ckanext/ytp/request/templates/request/new.html:22
-msgid "You can request to be member of organization."
-msgstr ""
+msgid "You can request to be a member of the organization."
+msgstr "Du kan ansöka medlemskap i organisationen."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:14
 msgid "Select an organization..."
@@ -190,19 +191,19 @@ msgstr ""
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:27
 msgid "Send request"
-msgstr ""
+msgstr "Skicka ansökan"
 
 #: ckanext/ytp/request/templates/request/show.html:5
 #: ckanext/ytp/request/templates/request/show.html:9
 #: ckanext/ytp/request/templates/request/show.html:26
 msgid "Organization membership request"
-msgstr ""
+msgstr "Medlemskapsansökan till organisationen"
 
 #: ckanext/ytp/request/templates/request/show.html:12
 msgid ""
-"This shows the organization membership request. If you are organization "
-"admin you can approve or reject request."
-msgstr ""
+"This shows the organization membership requests. If you are an organization "
+"admin, you can approve or reject requests."
+msgstr "Här visas organisationens medlemskapsansökningar. Om du är organisationens huvudanvändare, kan du godkänna eller förkasta ansökningar."
 
 #: ckanext/ytp/request/templates/request/show.html:46
 msgid "State"
@@ -210,20 +211,20 @@ msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:69
 msgid "Are you sure you want reject this request?"
-msgstr ""
+msgstr "Är du säker på att du vill förkasta denna ansökan?"
 
 #: ckanext/ytp/request/templates/request/show.html:70
 msgid "Reject"
-msgstr ""
+msgstr "Förkasta"
 
 #: ckanext/ytp/request/templates/request/show.html:72
 msgid "Are you sure you want approve this request?"
-msgstr ""
+msgstr "Är du säker på att du vill godkänna denna ansökan?"
 
 #: ckanext/ytp/request/templates/request/show.html:73
 msgid "Approve"
-msgstr ""
+msgstr "Godkänn"
 
 #: ckanext/ytp/request/templates/request/show.html:77
-msgid "Are you sure you want cancel this request?"
-msgstr ""
+msgid "Are you sure you want to reject this request?"
+msgstr "Är du säker på att du vill förkasta denna ansökan?"

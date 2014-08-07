@@ -20,7 +20,7 @@ def member_request_create(context, data_dict):
     if organization_id:
         member = get_user_member(organization_id)
         if member:
-            return {'success': False, 'msg': _('User has already request or active membership')}
+            return {'success': False, 'msg': _('The user has already a pending request or an active membership')}
 
     return {'success': True}
 
