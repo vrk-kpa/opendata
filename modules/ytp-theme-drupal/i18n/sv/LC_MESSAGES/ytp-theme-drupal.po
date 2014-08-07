@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-07-28 11:08+0000\n"
+"PO-Revision-Date: 2014-08-07 11:00+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgid "Read more"
 msgstr ""
 
 #: /fi
-msgid "<a href=\"user/register\">Register</a>"
+msgid "<a href=\"en/user/register\">Register</a>"
 msgstr ""
 
 #: /fi
 msgid ""
-"<a href=\"user/login\">Already registered? Sign in</a>\n"
-"<a href=\"user/password\">Forgotten your password?</a>"
+"<a href=\"en/user/login\">Already registered? Sign in</a>\n"
+"<a href=\"en/user/password\">Forgotten your password?</a>"
 msgstr ""
 
 #: /fi/admin/content

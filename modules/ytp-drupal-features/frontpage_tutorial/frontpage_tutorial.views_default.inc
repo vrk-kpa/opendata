@@ -101,7 +101,7 @@ function frontpage_tutorial_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="user/register">Register</a>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="en/user/register">Register</a>';
   $handler->display->display_options['fields']['nothing']['element_type'] = 'div';
   $handler->display->display_options['fields']['nothing']['element_class'] = 'tutorial-register';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
@@ -110,8 +110,8 @@ function frontpage_tutorial_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = '';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="user/login">Already registered? Sign in</a>
-<a href="user/password">Forgotten your password?</a>';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="en/user/login">Already registered? Sign in</a>
+<a href="en/user/password">Forgotten your password?</a>';
   $handler->display->display_options['fields']['nothing_1']['element_type'] = 'div';
   $handler->display->display_options['fields']['nothing_1']['element_class'] = 'tutorial-signin';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
