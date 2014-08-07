@@ -112,19 +112,14 @@ It might ask about installing grup, just hit enter and don't install.
 
 ### Install ansible
 
-To install ansible, first we install it from ubuntu repositories with git:
+To install ansible, we need dependancies:
 
-    sudo apt-get install ansible git
+    sudo apt-get install python-setuptools python-dev
+    sudo easy_install pip
     
-Then we clone ansible repo
-    
-    git clone git://github.com/ansible/ansible.git
-    
-and install newer ansible
+Then we install ansible with pip:
 
-    cd ansible
-    git checkout release1.6.10
-    source ./hacking/env-setup
+    sudo pip install ansible==1.6.10
     
 ### Generate SSH keys for ansible
 
