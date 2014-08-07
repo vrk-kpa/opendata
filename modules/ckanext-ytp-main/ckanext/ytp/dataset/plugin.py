@@ -169,7 +169,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     _key_exclude_resources = ['description', 'name', 'temporal_coverage_from', 'temporal_coverage_to', 'url_type',
                               'mimetype', 'resource_type', 'mimetype_inner', 'update_frequency', 'last_modified',
                               'format', 'temporal_granularity', 'url', 'webstore_url', 'position', 'created',
-                              'webstore_last_updated', 'cache_url', 'cache_last_updated', 'size' ]
+                              'webstore_last_updated', 'cache_url', 'cache_last_updated', 'size']
 
     auto_author = False
 
