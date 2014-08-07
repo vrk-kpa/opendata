@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-31 12:41+0300\n"
-"PO-Revision-Date: 2014-07-31 09:42+0000\n"
+"POT-Creation-Date: 2014-08-07 17:32+0300\n"
+"PO-Revision-Date: 2014-08-07 14:36+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ckanext/ytp/drupal/controller.py:30
 msgid "Unauthorized to delete user"
-msgstr "Ei riittäviä oikeuksia käyttäjän poistamiseen."
+msgstr "Ei riittäviä oikeuksia käyttäjän poistamiseen"
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:3
 #: ckanext/ytp/drupal/templates/user/delete_me.html:8
@@ -37,14 +37,14 @@ msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:16
 msgid ""
-"By deleting your account you can't login again. Your data will not be "
+"By deleting your account, you can't login again. Your data will not be "
 "removed, so if you want to delete your data, please do it manually."
-msgstr "Käyttäjätilin poistamisen jälkeen et voi kirjautua enää. Luomiasi tietoja ei poisteta, joten jos haluat poistaa tiedot tee se manuaalisesti."
+msgstr "Käyttäjätilin poistamisen jälkeen et voi kirjautua enää sisään. Luomiasi tietoja ei poisteta, joten jos haluat poistaa tiedot, tee se manuaalisesti."
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:21
-msgid "Are you sure you want delete your accout?"
+msgid "Are you sure you want delete your account?"
 msgstr "Oletko varma, että haluat poistaa käyttäjätilisi?"
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:23
-msgid "Yes. Delete my accout."
+msgid "Yes. Delete my account."
 msgstr "Kyllä. Poista käyttäjätilini."
