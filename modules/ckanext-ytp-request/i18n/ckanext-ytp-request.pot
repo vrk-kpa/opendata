@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-22 16:32+0300\n"
+"POT-Creation-Date: 2014-08-07 13:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "User is not logged in"
 msgstr ""
 
 #: ckanext/ytp/request/auth.py:23
-msgid "User has already request or active membership"
+msgid "The user has already a pending request or an active membership"
 msgstr ""
 
 #: ckanext/ytp/request/controller.py:14
@@ -44,12 +44,12 @@ msgstr ""
 msgid "Request not found"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:33
+#: ckanext/ytp/request/logic.py:44
 #, python-format
 msgid "New membership request (%s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:34
+#: ckanext/ytp/request/logic.py:45
 #, python-format
 msgid ""
 "User '%s' (%s) has requested membership to organization '%s'.\n"
@@ -57,53 +57,53 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:48
+#: ckanext/ytp/request/logic.py:65
+#, python-format
+msgid "Organization membership approved (%s)"
+msgstr ""
+
+#: ckanext/ytp/request/logic.py:66
 #, python-format
 msgid ""
 "Your membership request to organization '%s' with '%s' access has been "
 "approved."
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:49
+#: ckanext/ytp/request/logic.py:68
 #, python-format
-msgid "Organization membership approved (%s)"
+msgid "Organization membership rejected (%s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:51
+#: ckanext/ytp/request/logic.py:69
 #, python-format
 msgid ""
 "Your membership request to organization '%s' with '%s' access has been "
 "rejected."
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:52
-#, python-format
-msgid "Organization membership rejected (%s)"
-msgstr ""
-
-#: ckanext/ytp/request/logic.py:83
+#: ckanext/ytp/request/logic.py:106
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:83
-msgid "As sysadmin you already have access to all organizations"
+#: ckanext/ytp/request/logic.py:106
+msgid "As a sysadmin, you already have access to all organizations"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:92
-msgid "You already have pending request to the organization"
+#: ckanext/ytp/request/logic.py:115
+msgid "You already have a pending request to the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:94
+#: ckanext/ytp/request/logic.py:117
 msgid "You are already part of the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:96
+#: ckanext/ytp/request/logic.py:119
 msgid "Duplicate organization request"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:96
+#: ckanext/ytp/request/logic.py:119
 #: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30
@@ -132,7 +132,7 @@ msgid "Pending for approval"
 msgstr ""
 
 #: ckanext/ytp/request/templates/organization/read.html:12
-msgid "Are you sure you want cancel membership?"
+msgid "Are you sure you want to end the membership?"
 msgstr ""
 
 #: ckanext/ytp/request/templates/organization/read.html:15
@@ -152,8 +152,8 @@ msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:10
 msgid ""
-"All organization member requests listed here. Organization admin can approve "
-"or reject requests. To process request select edit."
+"All organization membership requests are listed here. The organization admin "
+"can approve or reject requests. To process a request, select edit."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:28
@@ -179,7 +179,7 @@ msgid "Request organization membership"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/new.html:22
-msgid "You can request to be member of organization."
+msgid "You can request to be a member of the organization."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:14
@@ -198,8 +198,8 @@ msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:12
 msgid ""
-"This shows the organization membership request. If you are organization admin"
-" you can approve or reject request."
+"This shows the organization membership requests. If you are an organization "
+"admin, you can approve or reject requests."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:46
@@ -223,6 +223,6 @@ msgid "Approve"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:77
-msgid "Are you sure you want cancel this request?"
+msgid "Are you sure you want to reject this request?"
 msgstr ""
 

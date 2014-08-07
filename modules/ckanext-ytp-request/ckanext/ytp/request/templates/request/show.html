@@ -10,7 +10,7 @@
     <div class="module-content">
       <p>
         {% trans -%}
-        This shows the organization membership request. If you are organization admin you can approve or reject request.
+        This shows the organization membership requests. If you are an organization admin, you can approve or reject requests.
         {%- endtrans %}
       </p>
     </div>
@@ -74,7 +74,7 @@
       {% endif %}
 
       {% if member_user.id == c.userobj.id and h.check_access('member_request_cancel', {'member': member.id}) %}
-        {% set locale = h.dump_json({'content': _('Are you sure you want cancel this request?')}) %}
+        {% set locale = h.dump_json({'content': _('Are you sure you want to reject this request?')}) %}
         <a href="{{ h.url_for('member_request_cancel', member_id=member.id) }}" class="btn btn-primary" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Cancel request') }}</a>
       {% endif %}
       </div>
