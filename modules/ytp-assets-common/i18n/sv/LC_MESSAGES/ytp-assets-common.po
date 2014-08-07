@@ -1,12 +1,13 @@
 # Manual
 # 
 # Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-07-31 12:01+0000\n"
-"Last-Translator: Ilja Pyykkönen\n"
+"PO-Revision-Date: 2014-08-07 14:55+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,10 +22,10 @@ msgid "Log out"
 msgstr "Logga ut"
 
 msgid "Own checklist"
-msgstr "Egen checklista"
+msgstr "Egen minneslista"
 
 msgid "Home"
-msgstr "Start"
+msgstr "Framsida"
 
 msgid "Data Repositories"
 msgstr "Databaser"
@@ -36,7 +37,7 @@ msgid "Publish Data"
 msgstr "Publicera data"
 
 msgid "News"
-msgstr "News"
+msgstr "Aktuellt"
 
 msgid "About us"
 msgstr "Om oss"
@@ -45,7 +46,7 @@ msgid "Files"
 msgstr "Filer"
 
 msgid "Feedback"
-msgstr ""
+msgstr "Ge feedback"
 
 msgid "User Info"
-msgstr ""
+msgstr "Mina uppgifter"
