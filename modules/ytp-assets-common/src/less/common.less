@@ -15,8 +15,8 @@ h6 {
 
 select {
   width: 220px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
+  border: 1px solid @select-border-color;
+  background-color: @select-background;
   padding: 4px;
 }
 
@@ -62,7 +62,7 @@ a {
   text-decoration: none;
   &:hover,
   &:focus {
-    color: #0d4252;
+    color: @link-hilight;
     text-decoration: underline;
   }
 }
@@ -83,15 +83,15 @@ a {
 .toolbar .breadcrumb a.active {
   font-weight: normal;
   font-weight: initial;
-  color: #000;
+  color: @breadcrumb-color;
 }
 
 .toolbar .breadcrumb li {
-  color: #000;
+  color: @breadcrumb-color;
 }
 
 .toolbar .breadcrumb li.last {
-  color: #000;
+  color: @breadcrumb-color;
 }
 
 //Fix drupal bootstrap tabs in page editor as test-editor

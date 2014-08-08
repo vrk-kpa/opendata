@@ -7,7 +7,7 @@
 }
 
 .highlighted {
-  border: 1px solid #ADADAD;
+  border: 1px solid @service-alert-border;
   padding: 0.3em 1em 0.3em 1em;
   margin: 25px 20px 20px 20px;
   border-radius: 4px;
@@ -77,28 +77,28 @@ input[type="date"] {
     box-shadow: none;
 }
 
-.btn {
+a.btn {
   background-color: @button-background;
-  border-color: #9a9d9e;
-  color: #FFFFFF;
+  border-color: @button-border;
+  color: @button-inverse-text-color;
 }
 
-.btn:hover, .btn:focus, .btn:active, .btn.active, .open .dropdown-toggle.btn {
+a.btn:hover, a.btn:focus, a.btn:active, a.btn.active, .open .dropdown-toggle.btn {
     background-color: @button-hilight;
-    border-color: #9a9d9e;
-    color: #FFFFFF;
+    border-color: @button-border;
+    color: @button-inverse-text-color;
 }
 
 .btn-primary {
     background-color: @button-primary-background;
-    border-color: #84b7c7;
-    color: #FFFFFF;
+    border-color: @button-primary-border;
+    color: @button-inverse-text-color;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
     background-color: @button-primary-hilight;
-    border-color: #84b7c7;
-    color: #FFFFFF;
+    border-color: @button-primary-border;
+    color: @button-inverse-text-color;
 }
 
 .dataset-title, .content-heading, .page-heading  {
@@ -321,31 +321,31 @@ ul.no-bullet li:hover {
   margin-right: 0;
 }
 .stages li.active .highlight {
-  background: #2BA6CB;
+  background: @stage-active-background;
 }
 
 .stages li.complete .highlight {
-  color: #ffffff;
-  background: #EDEDED;
+  color: @stage-complete-color;
+  background: @stage-complete-background;
 }
 
 .stages li.active:before {
-   color: #2BA6CB;
-  background: #ffffff;
+  color: @stage-active-badge-color;
+  background: @stage-active-badge-background;
 }
 .stages li.complete:before {
-  color: #EDEDED;
-  background: #ffffff;
+  color: @stage-complete-badge-color;
+  background: @stage-complete-badge-background;
 }
 
 .stages li.active:after {
-  border-top-color: #2BA6CB;
-  border-bottom-color: #2BA6CB;
+  border-top-color: @stage-active-arrow-color;
+  border-bottom-color: @stage-active-arrow-color;
 }
 
 .stages li.complete:after {
-  border-top-color: #EDEDED;
-  border-bottom-color: #EDEDED;
+  border-top-color: @stage-complete-arrow-color;
+  border-bottom-color: @stage-complete-arrow-color;
 }
 
 .form-horizontal .control-group {
@@ -406,7 +406,7 @@ ul.no-bullet li:hover {
 
   }
   .single {
-    border: 1px solid #ADB0B1;
+    border: 1px solid @homepages-border-color;
     border-radius: 3px;
     padding: 10px;
     margin: 10px;
