@@ -111,7 +111,7 @@ function frontpage_tutorial_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = '';
   $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="en/user/login">Already registered? Sign in</a>
-<a href="en/user/password">Forgotten your password?</a>';
+<a href="en/user/password">Forgot your password?</a>';
   $handler->display->display_options['fields']['nothing_1']['element_type'] = 'div';
   $handler->display->display_options['fields']['nothing_1']['element_class'] = 'tutorial-signin';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;

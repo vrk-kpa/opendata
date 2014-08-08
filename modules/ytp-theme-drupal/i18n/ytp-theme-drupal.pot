@@ -29,7 +29,7 @@ msgstr ""
 msgid "User Info"
 msgstr ""
 
-msgid "Signup or login"
+msgid "Sign up or log in"
 msgstr ""
 
 msgid "Browse datasets"
@@ -46,7 +46,7 @@ msgstr ""
 #: /fi
 msgid ""
 "<a href=\"en/user/login\">Already registered? Sign in</a>\n"
-"<a href=\"en/user/password\">Forgotten your password?</a>"
+"<a href=\"en/user/password\">Forgot your password?</a>"
 msgstr ""
 
 #: /fi/admin/content
