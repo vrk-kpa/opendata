@@ -6,3 +6,15 @@
 
 {% block package_metadata_author %}
 {% endblock %}
+
+{% block save_button_text %}
+  {% if form_style != 'edit' %}
+    {{ super() }}
+  {% else %}
+    {% if data.get('state', 'none') == 'active' %}
+      {{ _('Update') }}
+    {% else %}
+      {{ _('Publish') }}
+    {% endif %}
+  {% endif %}
+{% endblock %}

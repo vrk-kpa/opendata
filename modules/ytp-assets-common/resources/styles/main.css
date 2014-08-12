@@ -4073,6 +4073,52 @@ a.btn {
   border-color: #9a9d9e;
   color: #ffffff;
 }
+a.btn.btn-danger {
+  color: #ffffff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+a.btn.btn-danger:hover,
+a.btn.btn-danger:focus,
+a.btn.btn-danger:active,
+a.btn.btn-danger.active,
+.open > .dropdown-togglea.btn.btn-danger {
+  color: #ffffff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+a.btn.btn-danger:active,
+a.btn.btn-danger.active,
+.open > .dropdown-togglea.btn.btn-danger {
+  background-image: none;
+}
+a.btn.btn-danger .badge {
+  color: #d9534f;
+  background-color: #ffffff;
+}
+a.btn.btn-default {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+a.btn.btn-default:hover,
+a.btn.btn-default:focus,
+a.btn.btn-default:active,
+a.btn.btn-default.active,
+.open > .dropdown-togglea.btn.btn-default {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+a.btn.btn-default:active,
+a.btn.btn-default.active,
+.open > .dropdown-togglea.btn.btn-default {
+  background-image: none;
+}
+a.btn.btn-default .badge {
+  color: #ffffff;
+  background-color: #333333;
+}
 a.btn:hover,
 a.btn:focus,
 a.btn:active,
@@ -4909,7 +4955,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1407485381905") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1407840549384") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4936,7 +4982,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1407485381905');
+  background-image: url('../images/sprite.png?timestamp=1407840549384');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4946,7 +4992,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1407485381905');
+  background-image: url('../images/sprite.png?timestamp=1407840549384');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5165,7 +5211,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1407485381905") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1407840549384") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5347,7 +5393,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #fdfdfd;
-  background-image: url('../images/navbar-main-background.png?timestamp=1407485381905');
+  background-image: url('../images/navbar-main-background.png?timestamp=1407840549384');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5513,7 +5559,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1407485381905');
+  background-image: url('../images/sprite.png?timestamp=1407840549384');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

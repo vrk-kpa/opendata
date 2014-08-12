@@ -187,7 +187,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
-
+        m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
         return m
 
     # IConfigurer #
