@@ -12,6 +12,7 @@
 *.css text eol=lf
 *.js text eol=lf
 *.pem text eol=lf
+*.html text eol=lf
 LICENSE text eol=lf
 README text eol=lf
 
