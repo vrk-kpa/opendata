@@ -2125,7 +2125,7 @@ textarea {
   display: none;
 }
 .toolbar .breadcrumb a {
-  color: #505050;
+  color: #5d5d5d;
 }
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
@@ -4859,6 +4859,9 @@ a:focus {
 .label a {
   color: #ffffff;
 }
+.toolbar .breadcrumb {
+  margin: 14px 0 14px 0;
+}
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
   font-weight: normal;
@@ -4870,6 +4873,24 @@ a:focus {
 }
 .toolbar .breadcrumb li.last {
   color: #5d5d5d;
+}
+.toolbar ol.breadcrumb {
+  padding-left: 15px;
+}
+.toolbar.drupal-crumbs .breadcrumb {
+  padding-left: 21px;
+}
+.breadcrumb > li:after {
+  padding-left: 4px;
+}
+.breadcrumb > li + li:before {
+  padding: 0 2px;
+}
+.container.toolbar.drupal-crumbs {
+  margin-bottom: 0px;
+}
+.container .toolbar {
+  margin: 0;
 }
 .js .tab-content {
   display: block;
@@ -4904,7 +4925,7 @@ a:focus {
 #page_wrapper {
   width: 1200px;
   background-color: #ffffff;
-  margin: 50px auto;
+  margin: 4px auto;
   padding-bottom: 30px;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
@@ -4927,7 +4948,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1407929298227") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1407929777999") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4954,7 +4975,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1407929298227');
+  background-image: url('../images/sprite.png?timestamp=1407929777999');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4964,7 +4985,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1407929298227');
+  background-image: url('../images/sprite.png?timestamp=1407929777999');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5089,6 +5110,10 @@ h4 {
 #infobox .readmore a:after {
   content: ">";
 }
+#page-header {
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
 #page-header > .row {
   padding-bottom: 20px;
 }
@@ -5183,7 +5208,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1407929298227") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1407929777999") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5365,7 +5390,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1407929298227');
+  background-image: url('../images/navbar-main-background.png?timestamp=1407929777999');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5531,7 +5556,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1407929298227');
+  background-image: url('../images/sprite.png?timestamp=1407929777999');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

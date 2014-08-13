@@ -78,6 +78,9 @@ a {
   }
 }
 
+.toolbar .breadcrumb {
+  margin: 14px 0 14px 0;
+}
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
   font-weight: normal;
@@ -92,6 +95,33 @@ a {
 .toolbar .breadcrumb li.last {
   color: @breadcrumb-color;
 }
+
+.toolbar ol.breadcrumb {
+  padding-left: 15px;
+}
+.toolbar.drupal-crumbs .breadcrumb {
+  padding-left: 21px;
+}
+
+.breadcrumb {
+  > li {
+    &:after {
+      padding-left: 4px;
+    }
+
+    + li:before {
+      padding: 0 2px;
+    }
+  }
+}
+
+.container.toolbar.drupal-crumbs {
+  margin-bottom: 0px;
+}
+.container .toolbar {
+  margin: 0;
+}
+
 
 //Fix drupal bootstrap tabs in page editor as test-editor
 .js .tab-content {
@@ -121,7 +151,7 @@ a {
 #page_wrapper {
   width: @screen-lg;
   background-color: @body-color-background;
-  margin: 50px auto;
+  margin: 4px auto;
   padding-bottom: 30px;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0,0,0,0.6);
