@@ -1,50 +1,68 @@
 @import (reference) "upstream_bootstrap/variables";
 
-// Common color palette. Please minimize the number of different colors
+// Common color palette. These are the only colors that should be used!
+@ytp-brand-primary: #266ab9;
+@ytp-brand-gray: #888888;
+@ytp-brand-success: #5cb85c;
+@ytp-brand-info: #5bc0de;
+@ytp-brand-warning: #f0ad4e;
+@ytp-brand-danger: #d9534f;
 
-@site-primary-color: #276ebf;
+
+@brand-primary: @ytp-brand-primary;
 
 // For very 'extra' information, meant for small text on white/light backgrounds
-@nonimportant-text-color: #999999;
+@nonimportant-text-color: lighten(@ytp-brand-gray, 8%);
 
-// Light background to emphasize a subarea in main content, gives a "post-it" note feeling
-@background-hilight: #ebedef;
+// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
+@background-hilight: lighten(@ytp-brand-gray, 40%);
 
-// Light border lines that separate UI areas/elements
-@element-border-color: #dfdfdf;
+// Light border lines that separate UI areas
+@section-border-color: lighten(@ytp-brand-gray, 35%);
 
-// More colorful border to highlight active/selected area, menu item etc.
-@decorative-border-color: @site-primary-color;
+// Borders for content: input fields, comments etc. on areas with gray background
+@content-border: lighten(@ytp-brand-gray, 25%);
 
-@button-inverse-text-color: #ffffff;
+// Text color that is on a colored background (labels, buttons, carousel)
+@button-inverse-text-color: white;
 
 // Search box, carousel etc.
-@block-color-background: @site-primary-color;
+@block-color-background: @ytp-brand-primary;
 @block-color: @button-inverse-text-color;
-@block-color-hilight: #266ab9;
+@block-color-hilight: @ytp-brand-primary;
+
+// Bootstrap brand colors (label, button etc.)
+@label-default-bg: lighten(@ytp-brand-gray, 22%);
+@label-primary-bg: lighten(@ytp-brand-primary, 10%);
+
+@link-color: @ytp-brand-primary;
+@link-hilight: darken(@ytp-brand-primary, 10%);
 
 // Name label for input fields and for showing the key/value-pairs
-@field-label-color: #194568;
+@field-label-color: darken(@ytp-brand-primary, 17%);
 
-//drupal colors
-@node-meta-submitted: #727272;
-@tags-color: #777777;
-@comment-background: #f2f2f2;
-@comment-border: #bbbbbb;
+// Help text inside input fields
+@input-color-placeholder: @nonimportant-text-color;
+
+// Vertical side menu and horizontal main menu
+@menu-active-color: @ytp-brand-primary;
+@menu-link-color: darken(@link-color, 33%);
+@menu-link-background: lighten(@background-hilight, 4%);
+@menu-hover-color: lighten(@ytp-brand-primary, 40%);
+
+@body-color-background: white;
 
 
-@homepages-border-color: #ADB0B1;
+// Drupal article tags
+// TODO where is this used
+@node-meta-submitted: #cccccc;
 
 @select-border-color: #cccccc;
-@select-background: #ffffff;
-
-
-@btn-danger-bg: lighten(@brand-danger, 20%);
+@select-background: white;
 
 
 // Rest of the variables
 
-@body-color-background: #ffffff;
 @navbar-color-background: #333333;
 @navbar-color-text: #ffffff;
 @navbar-color-darker: #999999;
@@ -55,38 +73,36 @@
 @infowell-color-dark: #175971;
 @infowell-color-medium: #258bb1;
 @infowell-color-light: #27b0dc;
-@footer-color: #f0f0f0;
-@footer-border: #ebebeb;
-@menu-link-color: #141414;
-@menu-link-background: #fdfdfd;
-
-@menu-active-color: @site-primary-color;
-@menu-hover-color: #a2cdfd;
-
-@service-alert-color: #CBE7FF;
-@service-alert-link-color: #842534;
-@service-alert-border: #ADADAD;
 
 @main-hilight-color: #1f7994;
-@form-subheading-color: #9aa0a1;
 
-@breadcrumbtextcolor: #1f7994;
-@breadcrumb-color: #000;
-@neutral-color: #cccccc;
 
+// Breadcrumbs: TODO these colors do not seem to affect the whole breadcrumb
+@breadcrumbTextColor: darken(@ytp-brand-gray, 17%);
+@breadcrumb-color: darken(@ytp-brand-gray, 17%);
+
+// TODO workaround for having buttons with both 'a' and 'button' tags
 @button-background: #999999;
 @button-hilight: #747474;
-@button-primary-background: @site-primary-color;
+@button-primary-background: @ytp-brand-primary;
 @button-primary-hilight: #0f54a2;
 @button-primary-border: #84b7c7;
 @button-border: #9a9d9e;
 
+// TODO remove me after switching custom service alert to Bootstrap alerts
+@service-alert-color: #CBE7FF;
+@service-alert-link-color: #842534;
+@service-alert-border: #ADADAD;
 
-@input-color-placeholder: #999999;
+// TODO remove if there is no footer
+@footer-color: @nonimportant-text-color;
+@footer-border: @section-border-color;
 
-@link-color: @site-primary-color;
-@link-hilight: #0d4252;
+// TODO not really in use?
+@form-subheading-color: @ytp-brand-gray;
 
+
+// Responsive layout widths
 @secondary-width: 280px;
 @container-horizontal-padding: 40px;
 @grid-float-breakpoint: @screen-md-min;
