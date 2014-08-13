@@ -32,6 +32,9 @@ body {
   font-family: 'Gotham Narrow SSm A', 'Gotham Narrow SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.navbar {
+    margin-bottom: 12px;
+}
 .navbar-brand {
   font-family: 'Mercury SSm A','Mercury SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -162,7 +165,13 @@ a {
     width: auto;
   }
 }
-
+@media(max-width: @screen-lg) {
+  #page_wrapper {
+    margin-top: 0px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
 
 .footer {
   border: none;
