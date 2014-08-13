@@ -34,7 +34,7 @@
         </div>
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
           <div class="visible-xs visible-sm">
-            <ul class="nav navbar-nav user-nav navbar-right">
+            <ul class="nav navbar-nav user-nav pull-right">
                 {{ build_nav_bar(false) }}
                 {% if c.userobj %}
                     <li><a href="/data/{{ lang }}/user/{{ c.userobj.name }}"> {{ _('User Info') }}</a></li>

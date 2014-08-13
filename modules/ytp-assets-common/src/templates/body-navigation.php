@@ -38,7 +38,7 @@
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
 
           <div class="visible-xs visible-sm">
-              <ul class="nav navbar-nav user-nav navbar-right">
+              <ul class="nav navbar-nav user-nav pull-right">
                    <?php buildMainNavBar(false); ?>
                    <?php if (user_is_logged_in()) { ?>
                    <li><a href="<?php print url('user') ?>"> <?php print t('User Info') ?></a></li>
