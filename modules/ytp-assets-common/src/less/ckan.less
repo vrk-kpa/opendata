@@ -249,11 +249,16 @@ article.module {
 
 ul.resource-list {
   background: @background-hilight;
+  padding: 4px 2px 4px 15px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin: 5px 5px 20px 5px;
 }
 
-.resource-list {
-    margin: 0 0 20px 0;
-    padding: 0;
+.resource-item {
+  .text-overflow;
+  padding: 8px 2px 5px 60px;
 }
 
 .notes.embedded-content {
@@ -590,13 +595,6 @@ dd {
   }
   code {
     float: left;
-  }
-}
-
-.resource-item {
-  .text-overflow;
-    &:hover {
-    background-color: darken(@background-hilight, 6%);
   }
 }
 

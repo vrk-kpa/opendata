@@ -4258,10 +4258,15 @@ article.module {
 }
 ul.resource-list {
   background: #eeeeee;
+  padding: 4px 2px 4px 15px;
+  border-radius: 10px;
+  margin: 5px 5px 20px 5px;
 }
-.resource-list {
-  margin: 0 0 20px 0;
-  padding: 0;
+.resource-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 8px 2px 5px 60px;
 }
 .notes.embedded-content {
   margin: 16px 0;
@@ -4615,14 +4620,6 @@ dd {
 .context-info code {
   float: left;
 }
-.resource-item {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.resource-item:hover {
-  background-color: #dfdfdf;
-}
 .dataset-form .nav-tabs.nav-justified > li > a {
   min-height: 36px;
 }
@@ -4958,7 +4955,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1407930448675") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1407937332621") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4990,7 +4987,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1407930448675');
+  background-image: url('../images/sprite.png?timestamp=1407937332621');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5000,7 +4997,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1407930448675');
+  background-image: url('../images/sprite.png?timestamp=1407937332621');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5223,7 +5220,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1407930448675") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1407937332621") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5405,7 +5402,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1407930448675');
+  background-image: url('../images/navbar-main-background.png?timestamp=1407937332621');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5571,7 +5568,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1407930448675');
+  background-image: url('../images/sprite.png?timestamp=1407937332621');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
