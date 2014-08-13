@@ -28,13 +28,4 @@
     </span>
     {% endif %}
 
-    {%- if pkg.get('resources') -%}
-        {% set formats = h.unique_formats(pkg.get('resources')) %}
-        <span class="byline-dataset"> 
-            {%- for format in formats -%}
-                {{_(format)}}
-                {%- if not loop.last %} | {% endif -%}
-            {%- endfor -%}
-        </span>
-    {%- endif -%}
 </div>
