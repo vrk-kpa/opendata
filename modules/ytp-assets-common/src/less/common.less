@@ -81,50 +81,58 @@ a {
   }
 }
 
-.toolbar .breadcrumb {
-  margin: 14px 0 14px 0;
-}
-.toolbar .breadcrumb .active a,
-.toolbar .breadcrumb a.active {
-  font-weight: normal;
-  font-weight: initial;
-  color: @breadcrumb-color;
+.breadcrumb > li + li:before {
+  content: "";
 }
 
-.toolbar .breadcrumb li {
-  color: @breadcrumb-color;
-}
+.toolbar {
+  position: relative;
 
-.toolbar .breadcrumb li.last {
-  color: @breadcrumb-color;
-}
+  &.drupal-crumbs {
+    padding-left: 35px;
+    margin-bottom: 0px;
+  }
+  &.drupal-crumb:empty {
+    display: none;
+  }
 
-.toolbar ol.breadcrumb {
-  padding-left: 15px;
-}
-.toolbar.drupal-crumbs .breadcrumb {
-  padding-left: 21px;
-}
+  ol.breadcrumb {
+    font-size: 14px;
+    padding: 0px 0px 0px 0px;
+    margin-top: 16px;
+    background-color: #fff;
+    //padding: 8px 15px 8px 15px;
+    //background-color: rgb(250, 250, 250);
+    //border-radius: 4px;
 
-.breadcrumb {
-  > li {
-    &:after {
-      padding-left: 4px;
+    li {
+      color: @breadcrumb-color;
+      a {
+        color: @link-color;
+      }
+    }
+    li.last {
+      color: @breadcrumb-color;
+    }
+    > li {
+      &:after {
+        padding-left: 4px;
+      }
+
+      + li:before {
+        padding: 0 2px;
+      }
     }
 
-    + li:before {
-      padding: 0 2px;
+    li.active a {
+      cursor: normal;
+      font-weight: normal;
+      font-weight: initial;
+      text-decoration: none;
+      color: @breadcrumb-color;
     }
   }
 }
-
-.container.toolbar.drupal-crumbs {
-  margin-bottom: 0px;
-}
-.container .toolbar {
-  margin: 0;
-}
-
 
 //Fix drupal bootstrap tabs in page editor as test-editor
 .js .tab-content {
@@ -155,8 +163,8 @@ a {
   width: @screen-lg;
   background-color: @body-color-background;
   margin: 4px auto;
-  padding-bottom: 30px;
-  border-radius: 20px;
+  padding-bottom: 14px;
+  border-radius: @pagewrapper-border-radius;
   box-shadow: 0 0 30px rgba(0,0,0,0.6);
 }
 @media(max-width: @screen-md-min) {

@@ -103,8 +103,8 @@
 
 .navbar.navbar-main {
   border: none;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-top-right-radius: @pagewrapper-border-radius;
+  border-top-left-radius: @pagewrapper-border-radius;
   background-color: @menu-link-background;
   background-image: url('../images/navbar-main-background.png?timestamp=<%= timestamp %>');
   background-repeat: repeat-x;
@@ -135,7 +135,7 @@
   .navbar-nav {
     li {
       &:first-child > a {
-        border-top-left-radius: 20px;
+        border-top-left-radius: @pagewrapper-border-radius;
       }
     }
     li > a {
@@ -165,7 +165,7 @@
   background-color: @body-color-background;
   background-image: none;
   border: 2px solid @block-color-hilight;
-  border-radius: 10px;
+  border-radius: @button-border-radius;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: @navbar-search-color;
   padding: 2px;
@@ -272,10 +272,7 @@ li.ytp-menulink.active > a.active {
   border: 1px solid @menu-active-color;
 }
 .menu-name-main-menu {
-  margin-left: -14px;
-}
-.drupal-crumbs {
-  padding-left: 14px;
+  margin-left: 0px;
 }
 
 .navbar-nav.navbar-right.user-nav-large {
