@@ -9,6 +9,7 @@ from pylons import config
 
 h = helpers
 
+
 class YtpDatasetController(PackageController):
     def ytp_tag_autocomplete(self):
         """ CKAN autocomplete discards vocabulary_id from request.
@@ -59,7 +60,7 @@ class YtpDatasetController(PackageController):
         helpers.flash_success(success_message, True)
         redirect(helpers.url_for(controller='package', action='read', id=id))
 
-    #Modified from original ckan function
+    # Modified from original ckan function
     def edit(self, id, data=None, errors=None, error_summary=None):
         package_type = self._get_package_type(id)
         context = {'model': model, 'session': model.Session,
@@ -97,7 +98,7 @@ class YtpDatasetController(PackageController):
 
         try:
             check_access('package_update', context)
-        except NotAuthorized, e:
+        except NotAuthorized:
             abort(401, _('User %r not authorized to edit %s') % (c.user, id))
         # convert tags if not supplied in data
         if data and not data.get('tag_string'):
