@@ -2,40 +2,17 @@
 
 {% block resource_item_explore %}
 
-{% if pkg.license_title %}
-    <p class="dataset-license">{{ _('License') }}: {{ _(pkg.license_title) }}</p>
-{% else %}
-    {% set licence = h.get_json_value(h.get_pkg_dict_extra(pkg, 'licence', None)) %}
-    {% if licence %}
-        <p class="dataset-license">
-            <a href="#" onclick="$('#{{ res.id }}').toggle(); return false;">
-                {{ _('License') }}: {{ _('Other') }}
-            </a>
-        </p>
-
-        <div style="white-space: normal; display: none;" id="{{ res.id }}">
-            {% if licence.append %}
-                {% for licence_item in licence %}
-                    <p>{{ licence_item }}</p>
-                {% endfor %}
-            {% else %}
-                {{ licence }}
-            {% endif %}
-        </div>
-    {% endif %}
-{% endif %}
-
-{% if res.temporal_coverage_from or res.temporal_coverage_to %}
-    <p>
-        {{_('Temporal Coverage')}}:
-        {% if res.temporal_coverage_from %}{{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_from), "%d.%m.%Y") }}{% endif %} -
-        {% if res.temporal_coverage_to %}{{ h.render_datetime(h.date_str_to_datetime(res.temporal_coverage_to), "%d.%m.%Y")}}{% endif %}
-    </p>
-{% endif %}
-{% if res.temporal_granularity %}<p>{{_('Temporal Granularity')}}: {{res.temporal_granularity}} </p>{% endif %}
-{% if res.update_frequency %}<p>{{_('Update Frequency')}}: {{res.update_frequency}}</p>{% endif %}
 <p class="ellipsis">
-    <a href="{{ res.url }}">{{ res.url }}</a>
+
+    {% if not url_is_edit %}
+    <div class="btn-group">
+        {% if can_edit %}
+            <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}" class="btn btn-default"><i class="icon-edit"></i> {{ _('Edit') }}</a>
+        {% endif %}
+      <a href="{{ res.url }}" target="_blank" class="btn btn-default"><i class="icon-external-link"></i> {{ _('Download') }}</a>
+    </div>
+    {% endif %}
+
     <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
 </p>
 

@@ -249,11 +249,19 @@ article.module {
 
 ul.resource-list {
   background: @background-hilight;
+  padding: 4px 2px 4px 15px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin: 5px 5px 20px 5px;
 }
 
-.resource-list {
-    margin: 0 0 20px 0;
-    padding: 0;
+.resource-item {
+  .text-overflow;
+  padding: 8px 2px 5px 60px;
+  &:hover {
+    background-color: @background-hilight;
+  }
 }
 
 .notes.embedded-content {
@@ -267,12 +275,12 @@ section.dataset-primary-content {
 
 section.dataset-sidebar {
   float:right;
-  width: 220px;
+  width: 250px;
   margin-left: 0;
   border-style:solid;
   border-color: @section-border-color;
   border-width: 1px;
-  padding: 5px;
+  padding: 10px 20px;
 }
 
 .nonimportant-text, span.byline-dataset, span.res-format, p.dataset-license {
@@ -593,13 +601,6 @@ dd {
   }
 }
 
-.resource-item {
-  .text-overflow;
-    &:hover {
-    background-color: darken(@background-hilight, 6%);
-  }
-}
-
 .dataset-form {
     .nav-tabs.nav-justified > li > a {
         min-height: 36px;
@@ -684,4 +685,16 @@ dl#extra_extra {
 .pagination-centered{
   display: block;
   text-align: center;
+}
+
+.license-icon {
+  margin: 2px 0 15px 4px;
+}
+
+.license-smallprint {
+  color: @nonimportant-text-color;
+
+  a{
+    color: @nonimportant-text-color;
+  }
 }

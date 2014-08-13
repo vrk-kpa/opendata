@@ -80,9 +80,11 @@
     {% block changelog_info %}
         <div>
         <h4 class="dataset-title  sidebar-title">{{_('Change log')}}</h4>
-        <span>{{_('Created')}}:</span> {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}} <br />
-        <span>{{_('Last Modified')}}:</span> {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}<br />
-        <a href="/data/dataset/activity/{{pkg.get('name')}}">> {{_('Show change log')}}</a>
+        
+        <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
+        <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
+
+        <a href="/data/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
         </div>
     {% endblock %}
 

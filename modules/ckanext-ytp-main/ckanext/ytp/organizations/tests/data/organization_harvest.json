@@ -1,4 +1,5 @@
 [
-    { "name": "hri", "title": "Helsinki Region Infoshare" },
+    { "name": "hri", "title": "Ulkoinen lähde: Helsingin alue", "title_en": "External source: Helsinki area", "title_sv": "Extern källa: Helsingforsregion",
+      "description": "Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta." },
     { "name": "datagovuk", "title": "Data.Gov.UK" }
 ]
