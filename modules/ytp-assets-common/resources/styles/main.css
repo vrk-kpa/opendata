@@ -4967,11 +4967,7 @@ a:focus {
 }
 
 body {
-<<<<<<< HEAD
-  background: url("../images/stamen_background.jpg?timestamp=1407932021095") 50% 50% fixed no-repeat;
-=======
-  background: url("../images/stamen_background.jpg?timestamp=1407943547242") 50% 50% fixed no-repeat;
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background: url("../images/stamen_background.jpg?timestamp=1407946331988") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 58px;
 }
@@ -5003,11 +4999,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1407932021095');
-=======
-  background-image: url('../images/sprite.png?timestamp=1407943547242');
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background-image: url('../images/sprite.png?timestamp=1407946331988');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5017,11 +5009,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1407932021095');
-=======
-  background-image: url('../images/sprite.png?timestamp=1407943547242');
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background-image: url('../images/sprite.png?timestamp=1407946331988');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5244,11 +5232,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-<<<<<<< HEAD
-  background: url("../images/button-lg-gradient.png?timestamp=1407932021095") repeat-x;
-=======
-  background: url("../images/button-lg-gradient.png?timestamp=1407943547242") repeat-x;
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background: url("../images/button-lg-gradient.png?timestamp=1407946331988") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5430,11 +5414,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #f8f8f8;
-<<<<<<< HEAD
-  background-image: url('../images/navbar-main-background.png?timestamp=1407932021095');
-=======
-  background-image: url('../images/navbar-main-background.png?timestamp=1407943547242');
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background-image: url('../images/navbar-main-background.png?timestamp=1407946331988');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5590,6 +5570,9 @@ li.ytp-menulink.active > a.active {
     margin-right: 220px;
   }
 }
+.navbar-nav.navbar-right.user-nav-large {
+  padding-right: 10px;
+}
 
 
 .well.infowell {
@@ -5600,11 +5583,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1407932021095');
-=======
-  background-image: url('../images/sprite.png?timestamp=1407943547242');
->>>>>>> e6fab8819688f8e3acfc89fcf95531ffcb2d3035
+  background-image: url('../images/sprite.png?timestamp=1407946331988');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
