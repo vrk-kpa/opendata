@@ -114,7 +114,7 @@ h4 {
     padding-top: 16px;
     border-top: 1px solid @footer-border;
     background-color: @footer-color;
-    font-size: 16px;
+    font-size: 50px;
     padding-bottom: 64px;
 }
 
@@ -250,19 +250,20 @@ label.radio-inline:after, label.checkbox-inline:after{
   content: ""
 }
 
+// Drupal article tags
 .field-type-taxonomy-term-reference {
   margin: 14px 0;
   a {
-    color: @tags-color;
+    color: @nonimportant-text-color;
   }
   .field-item {
     display: inline;
     margin-right: 10px;
   }
 }
-
+// Drupal article tag area title
 .field-name-field-tags {
-  color: @tags-color;
+  color: @nonimportant-text-color;
 }
 
 .indented {
@@ -270,7 +271,7 @@ label.radio-inline:after, label.checkbox-inline:after{
 }
 
 .comment-wrapper {
-  background-color: @comment-background;
+  background-color: @background-hilight;
   border-radius: 4px;
   padding: 10px;
 
@@ -289,7 +290,7 @@ label.radio-inline:after, label.checkbox-inline:after{
 }
 
 .comment {
-  border-bottom: 1px solid @comment-border;
+  border-bottom: 1px solid @content-border;
   margin: 12px 0;
 }
 

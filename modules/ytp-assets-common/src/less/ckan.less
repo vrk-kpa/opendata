@@ -61,7 +61,7 @@ input[type="date"] {
   padding-right: 0;
   select, input {
     .border-radius(3px);
-    border: 1px solid @neutral-color;
+    border: 1px solid @content-border;
   }
 }
 
@@ -77,6 +77,7 @@ input[type="date"] {
     box-shadow: none;
 }
 
+
 a.btn {
   background-color: @button-background;
   border-color: @button-border;
@@ -91,7 +92,7 @@ a.btn.btn-default{
   .btn-default;
 }
 
-a.btn:hover, a.btn:focus, a.btn:active, a.btn.active, .open .dropdown-toggle.btn {
+.open .dropdown-toggle.btn {
     background-color: @button-hilight;
     border-color: @button-border;
     color: @button-inverse-text-color;
@@ -110,7 +111,7 @@ a.btn:hover, a.btn:focus, a.btn:active, a.btn.active, .open .dropdown-toggle.btn
 }
 
 .dataset-title, .content-heading, .page-heading  {
-  border-bottom: 1px solid @element-border-color;
+  border-bottom: 1px solid @section-border-color;
   .text-overflow;
 }
 
@@ -269,10 +270,8 @@ section.dataset-sidebar {
   width: 220px;
   margin-left: 0;
   border-style:solid;
-  border-color: @element-border-color;
+  border-color: @section-border-color;
   border-width: 1px;
-  border-top-color: @decorative-border-color;
-  border-top-width: 4px;
   padding: 5px;
 }
 
@@ -383,7 +382,7 @@ ul.no-bullet li:hover {
 
   }
   .single {
-    border: 1px solid @homepages-border-color;
+    border: 1px solid @content-border;
     border-radius: 3px;
     padding: 10px;
     margin: 10px;
@@ -481,6 +480,9 @@ ul.no-bullet li:hover {
 .module .read-more {
   font-weight: normal;
   color: @link-color;
+  &:hover {
+    color: @link-hilight;
+  }
 }
 
 .nav-facet .nav-item > a:hover:after,
@@ -593,6 +595,9 @@ dd {
 
 .resource-item {
   .text-overflow;
+    &:hover {
+    background-color: darken(@background-hilight, 6%);
+  }
 }
 
 .dataset-form {
@@ -604,7 +609,7 @@ dd {
     }
     h2 {
         margin: 0 0.5em 10px;
-        border-bottom: 1px solid @element-border-color;
+        border-bottom: 1px solid @section-border-color;
     }
 
     h3 {

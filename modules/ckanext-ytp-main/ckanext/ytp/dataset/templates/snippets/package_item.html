@@ -45,21 +45,22 @@ Example:
     {% endif %}
 
     <span class="byline-dataset">
-      {%- if package.get('resources') -%}
-        {% set formats = h.unique_formats(package.get('resources')) %}
-          {%- for format in formats -%}
-            {{_(format)}}
-            {%- if not loop.last %}, {% endif -%}
-          {%- endfor -%}
-          &nbsp;
-      {%- endif -%}
 
       {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
       {% if package.organization -%}
         <a href="/data/organization/{{package.organization.get('name') }}">
         {{ package.organization.get('title') }}</a>
       {%- endif -%}
-    </span>
+
+
+      {%- if package.get('resources') -%}
+        {% set formats = h.unique_formats(package.get('resources')) %}
+          {%- for format in formats -%}
+            <span class="label label-default pull-right">{{_(format)}}</span>
+          {%- endfor -%}
+          &nbsp;
+      {%- endif -%}
+</span>
 
   </div>
 </li>
