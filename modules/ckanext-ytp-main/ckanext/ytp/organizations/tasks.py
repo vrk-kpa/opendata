@@ -54,19 +54,24 @@ def organization_import(data):
         data = simplejson.load(source)
 
         for item in data:
+            values = {}
             if isinstance(item, basestring):
-                title = item.strip()
-                name = munge_title_to_name(title).lower()
+                values['title'] = item.strip()
+                values['name'] = munge_title_to_name(values['title']).lower()
             else:
-                title = item['title']
-                name = item['name']
-            values = {'name': name, 'title': title, 'id': name}
+                values['name'] = item.pop('name')
+                values['title'] = item.pop('title')
+                values['description'] = item.pop('description', None)
+                values['extras'] = [{'key': key, 'value': value} for key, value in item.iteritems()]
+            values['id'] = values['name']
+
             if public_organization:
                 values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
             try:
                 organization = get_action('organization_show')(context, values)
 
-                if organization['title'] != title or organization.get('public_adminstration_organization', None) != 'true' if public_organization else None:
+                if organization['title'] != values['title'] or \
+                        organization.get('public_adminstration_organization', None) != 'true' if public_organization else None:
                     organization = get_action('organization_update')(context, values)
             except NotFound:
                 organization = get_action('organization_create')(context, values)

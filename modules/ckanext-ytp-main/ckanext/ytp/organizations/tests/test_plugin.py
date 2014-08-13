@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import paste.fixture
 import pylons.test
 import simplejson
@@ -85,12 +87,15 @@ class TestYtpOrganizationPlugin(TestCase):
 
     def test_organization_import_with_name(self):
         """ Test organization import """
+        expected = (u"hri", u"Ulkoinen lähde: Helsingin alue", u"Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
+                   (u"datagovuk", u"Data.Gov.UK", u"")
         organization_url = tools.get_organization_harvest_test_source()
         data = simplejson.dumps({'url': organization_url})
         for _ in xrange(2):
             result = organization_import.apply((data,))
             self.assert_true(result.successful())
-            for name, title in (u"hri", u"Helsinki Region Infoshare"), (u"datagovuk", u"Data.Gov.UK"):
+            for name, title, description in expected:
                 organization = tests.call_action_api(self.app, 'organization_show', id=name)
                 self.assert_equal(organization['title'], title)
+                self.assert_equal(organization['description'], description)
                 self.assert_true('public_adminstration_organization' not in organization)
