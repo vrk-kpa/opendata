@@ -4268,6 +4268,9 @@ ul.resource-list {
   white-space: nowrap;
   padding: 8px 2px 5px 60px;
 }
+.resource-item:hover {
+  background-color: #eeeeee;
+}
 .notes.embedded-content {
   margin: 16px 0;
 }
@@ -4691,6 +4694,15 @@ dl#extra_extra {
   display: block;
   text-align: center;
 }
+.license-icon {
+  margin: 2px 0 15px 4px;
+}
+.license-smallprint {
+  color: #9c9c9c;
+}
+.license-smallprint a {
+  color: #9c9c9c;
+}
 
 .translate-content {
   background-color: #eeeeee;
@@ -4955,7 +4967,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1407937722785") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1407943547242") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 64px;
 }
@@ -4987,7 +4999,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1407937722785');
+  background-image: url('../images/sprite.png?timestamp=1407943547242');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4997,7 +5009,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1407937722785');
+  background-image: url('../images/sprite.png?timestamp=1407943547242');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5220,7 +5232,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1407937722785") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1407943547242") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5402,7 +5414,7 @@ textarea {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1407937722785');
+  background-image: url('../images/navbar-main-background.png?timestamp=1407943547242');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5568,7 +5580,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1407937722785');
+  background-image: url('../images/sprite.png?timestamp=1407943547242');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

@@ -259,6 +259,9 @@ ul.resource-list {
 .resource-item {
   .text-overflow;
   padding: 8px 2px 5px 60px;
+  &:hover {
+    background-color: @background-hilight;
+  }
 }
 
 .notes.embedded-content {
@@ -682,4 +685,16 @@ dl#extra_extra {
 .pagination-centered{
   display: block;
   text-align: center;
+}
+
+.license-icon {
+  margin: 2px 0 15px 4px;
+}
+
+.license-smallprint {
+  color: @nonimportant-text-color;
+
+  a{
+    color: @nonimportant-text-color;
+  }
 }
