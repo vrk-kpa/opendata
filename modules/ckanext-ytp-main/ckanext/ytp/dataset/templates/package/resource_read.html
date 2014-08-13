@@ -87,36 +87,55 @@
     {% if res %}
       <section class="module">
         <div class="module-content">
-          <h2>{{ _('Additional Information') }}</h2>
-          <table class="table table-striped table-bordered table-condensed" data-module="table-toggle-more">
-            <thead>
-              <tr>
-                <th scope="col">{{ _('Field') }}</th>
-                <th scope="col">{{ _('Value') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">{{ _('Last updated') }}</th>
-                <td>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</td>
-              </tr>
-              <tr>
-                <th scope="row">{{ _('Created') }}</th>
-                <td>{{ h.render_datetime(res.created) or _('unknown') }}</td>
-              </tr>
-              <tr>
-                <th scope="row">{{ _('Format') }}</th>
-                <td>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</td>
-              </tr>
-              <tr>
-                <th scope="row">{{ _('License') }}</th>
-                <td>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</td>
-              </tr>
-              {% for key, value in h.format_resource_items(res.items()) %}
-                <tr class="toggle-more"><th scope="row">{{ key }}</th><td>{{ value }}</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <h2>{{ _('Extra information') }}</h2>
+
+          <dl class="dl-horizontal">
+
+            <dt>{{ _('Last updated') }}</dt>
+            <dd>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</dd>
+
+            <dt>{{ _('Created') }}</dt>
+            <dd>{{ h.render_datetime(res.created) or _('unknown') }}</dd>
+
+            <dt>{{ _('Format') }}</dt>
+            <dd>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</dd>
+
+            <dt>{{ _('License') }}</dt>
+            <dd>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</dd>
+            {% set extra_dict = h.format_extras(res) %}
+
+            {% if extra_dict.temporal_granularity %}
+              <dt>{{ _('Temporal Granularity')}}</dt>
+              <dd>{{ extra_dict.temporal_granularity }}</dd>
+            {% endif %}
+
+            {% if extra_dict.update_frequency %}
+              <dt>{{ _('Update Frequency') }}</dt>
+              <dd>{{ extra_dict.update_frequency }}</dd>
+            {% endif %}
+
+            {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
+              <dt>{{ _('Temporal Coverage') }}</dt>
+              <dd>
+                {% if extra_dict.temporal_coverage_from %}{{ h.render_datetime(h.date_str_to_datetime(extra_dict.temporal_coverage_from), "%d.%m.%Y") }}{% endif %} -
+                {% if extra_dict.temporal_coverage_to %}{{ h.render_datetime(h.date_str_to_datetime(extra_dict.temporal_coverage_to), "%d.%m.%Y")}}{% endif %}
+              </dd>
+            {% endif %}
+          </dl>
+
+
+          {% set extra_dict = h.clean_extras_resources(extra_dict) %}
+
+          <button type="button"  class="btn btn-danger" data-toggle="collapse" data-target="#extra_extra">
+            {{_('Technical extra information')}}
+          </button>
+          <dl id="extra_extra" class="collapse dl-horizontal">
+            {% for key in extra_dict.keys() %}
+              <dt>{{ _(key) }}</dt>
+              <dd>{{ extra_dict.get(key) }}</dd>
+            {% endfor %}
+          </dl>
+
         </div>
       </section>
     {% endif %}

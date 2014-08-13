@@ -103,7 +103,7 @@ def _create_member_request(context, data_dict):
     user = context['user']
 
     if new_authz.is_sysadmin(user):
-        raise ValidationError({}, {_("Role"): _("As sysadmin you already have access to all organizations")})
+        raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
 
     userobj = model.User.get(user)
 
@@ -112,7 +112,7 @@ def _create_member_request(context, data_dict):
 
     if member:
         if member.state == 'pending':
-            message = _("You already have pending request to the organization")
+            message = _("You already have a pending request to the organization")
         else:
             message = _("You are already part of the organization")
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-drupal 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-31 12:41+0300\n"
+"POT-Creation-Date: 2014-08-07 17:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,15 +34,15 @@ msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:16
 msgid ""
-"By deleting your account you can't login again. Your data will not be "
+"By deleting your account, you can't login again. Your data will not be "
 "removed, so if you want to delete your data, please do it manually."
 msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:21
-msgid "Are you sure you want delete your accout?"
+msgid "Are you sure you want delete your account?"
 msgstr ""
 
 #: ckanext/ytp/drupal/templates/user/delete_me.html:23
-msgid "Yes. Delete my accout."
+msgid "Yes. Delete my account."
 msgstr ""
 

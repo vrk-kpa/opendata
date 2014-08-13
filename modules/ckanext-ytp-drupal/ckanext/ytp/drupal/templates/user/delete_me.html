@@ -14,13 +14,13 @@
       <h1 class="page-heading">{% block page_heading %}{{ _('Delete account') }}{% endblock %}</h1>
       <p>
       {%- trans -%}
-      By deleting your account you can't login again. Your data will not be removed, so if you want to delete your data, please do it manually.
+      By deleting your account, you can't login again. Your data will not be removed, so if you want to delete your data, please do it manually.
       {%- endtrans -%}
       </p>
       {% block form %}
-        {% set locale = h.dump_json({'content': _('Are you sure you want delete your accout?')}) %}
+        {% set locale = h.dump_json({'content': _('Are you sure you want delete your account?')}) %}
         <a href="{{ h.url_for('user_delete_me') }}?delete=true" class="btn btn-danger pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">
-            {{ _('Yes. Delete my accout.') }}
+            {{ _('Yes. Delete my account.') }}
         </a>
       {% endblock %}
     </div>

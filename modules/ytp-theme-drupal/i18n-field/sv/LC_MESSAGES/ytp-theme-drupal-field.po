@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-06-26 12:55+0000\n"
-"PO-Revision-Date: 2014-06-26 15:08+0000\n"
+"PO-Revision-Date: 2014-08-08 08:19+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Kommentar"
 #: field:field_fullname:user:label
 msgctxt "field_fullname:user:label"
 msgid "Fullname"
-msgstr "Hela namnet"
+msgstr "Fullständigt namn"
 
 #: field:field_ckan_api_key:user:label
 msgctxt "field_ckan_api_key:user:label"

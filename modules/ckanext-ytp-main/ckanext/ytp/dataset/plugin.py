@@ -166,6 +166,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     'maintainer', 'author', 'owner', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
                     'temporal_granularity', 'temporal_coverage_from', 'temporal_coverage_to', 'update_frequency']
 
+    _key_exclude_resources = ['description', 'name', 'temporal_coverage_from', 'temporal_coverage_to', 'url_type',
+                              'mimetype', 'resource_type', 'mimetype_inner', 'update_frequency', 'last_modified',
+                              'format', 'temporal_granularity', 'url', 'webstore_url', 'position', 'created',
+                              'webstore_last_updated', 'cache_url', 'cache_last_updated', 'size']
+
     auto_author = False
 
     # IConfigurable #
@@ -182,7 +187,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
-
+        m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
         return m
 
     # IConfigurer #
@@ -341,6 +346,15 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     extra_dict.update({_prettify(key): value})
         return extra_dict
 
+    def _clean_extras_resources(self, extras):
+        extra_dict = {}
+        for key in extras:
+            if key not in self._key_exclude_resources:
+                value = extras.get(key)
+                if value:
+                    extra_dict.update({_prettify(key): value})
+        return extra_dict
+
     def _unique_formats(self, resources):
         formats = set()
         for resource in resources:
@@ -403,6 +417,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'extra_translation': extra_translation,
                 'service_database_enabled': service_database_enabled,
                 'clean_extras': self._clean_extras,
+                'clean_extras_resources': self._clean_extras_resources,
                 'get_package': self._get_package,
                 'resource_display_name': self._resource_display_name,
                 'get_json_value': get_json_value,

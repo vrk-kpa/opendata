@@ -2,13 +2,14 @@
 # 
 # Translators:
 # Ilja Pyykkönen, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-07-31 12:02+0000\n"
-"Last-Translator: Ilja Pyykkönen\n"
+"PO-Revision-Date: 2014-08-07 14:45+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Log in"
-msgstr "Kirjaudu"
+msgstr "Kirjaudu sisään"
 
 msgid "Log out"
 msgstr "Kirjaudu ulos"
