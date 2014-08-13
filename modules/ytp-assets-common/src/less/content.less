@@ -4,11 +4,11 @@
 body {
   background: url("../images/stamen_background.jpg?timestamp=<%= timestamp %>") 50% 50% fixed no-repeat;
   background-size: cover;
-  padding-top: 58px;
+  padding-top: 54px;
 }
 @media(max-width: @screen-lg) {
   body {
-    padding-top: 52px;
+    padding-top: 50px;
   }
 }
 
@@ -241,6 +241,26 @@ h4 {
   }
 }
 
+.region-content {
+  margin-top: 24px;
+}
+
+.node {
+  margin-bottom: 12px;
+  > h2 {
+    margin-bottom: 2px;
+  }
+  .submitted {
+    margin-top: 4px;
+    margin-bottom: 6px;
+  }
+  .field.field-name-field-tags {
+    color: @nonimportant-text-color;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
 .control-full.error-block {
   width: auto;
 }
@@ -271,11 +291,6 @@ label.radio-inline:after, label.checkbox-inline:after{
     margin-right: 10px;
   }
 }
-// Drupal article tag area title
-.field-name-field-tags {
-  color: @nonimportant-text-color;
-}
-
 .indented {
   margin-left: 18px;
 }

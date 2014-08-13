@@ -19,7 +19,8 @@
   }
 
   .navbar-toggle {
-    padding: 4px 0px 5px 0px;
+    padding-left: 4px;
+    padding-right: 0px;
   }
 
   .navbar-nav li {
@@ -163,7 +164,7 @@
 .navbar.navbar-search {
   background-color: @body-color-background;
   background-image: none;
-  border: 3px solid @block-color-hilight;
+  border: 2px solid @block-color-hilight;
   border-radius: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: @navbar-search-color;
@@ -177,8 +178,8 @@
     input.search-term {
       float: left;
       border: 0px;
-      padding: 10px 14px 10px 18px;
-      color: @nonimportant-text-color;
+      padding: 10px 14px 9px 18px;
+      color: #333;
       background-color: @body-color-background;
       font-size: 18px;
       width: 90%;
@@ -197,7 +198,7 @@
       border-radius: 10px;
       position: absolute;
       right: 1px;
-      top: 2px;
+      top: 3px;
       i.icon-search {
         font-size: 28px;
         width: 25px;
@@ -277,11 +278,6 @@ li.ytp-menulink.active > a.active {
   padding-left: 14px;
 }
 
-@media (max-width: @screen-lg-min) {
-    .navbar-nav.navbar-right.user-nav-large {
-        margin-right: 220px;
-    }
-}
 .navbar-nav.navbar-right.user-nav-large {
   padding-right: 10px;
 }
