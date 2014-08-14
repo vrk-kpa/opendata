@@ -4357,7 +4357,7 @@ ul.resource-list {
 .resource-item:hover {
   background-color: #eeeeee;
 }
-form ul.resource-list {
+.existing-resources ul.resource-list {
   background: #ffffff;
 }
 .notes.embedded-content {
@@ -4694,7 +4694,7 @@ dt {
   clear: left;
   width: 160px;
   font-weight: normal;
-  color: #174171;
+  color: #3c3c3c;
   margin-bottom: 3px;
 }
 dt:after {
@@ -4967,6 +4967,7 @@ a:focus {
   padding-bottom: 0px;
 }
 .toolbar.drupal-crumbs {
+  padding-top: 0px;
   padding-left: 20px;
   margin-bottom: 0px;
 }
@@ -5079,7 +5080,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408022708021") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408025183532") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5111,7 +5112,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408022708021');
+  background-image: url('../images/sprite.png?timestamp=1408025183532');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5121,7 +5122,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408022708021');
+  background-image: url('../images/sprite.png?timestamp=1408025183532');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5286,7 +5287,6 @@ h4 {
 }
 .region-sidebar-second .tutorial-register {
   margin-top: 10px;
-  padding: 10px;
   font-size: 20px;
   text-align: center;
   color: #ffffff;
@@ -5294,10 +5294,10 @@ h4 {
   background-color: #3b83d7;
 }
 .region-sidebar-second .tutorial-register a {
+  display: block;
+  width: 100%;
+  padding: 10px;
   color: #ffffff;
-}
-.region-sidebar-second .tutorial-register:after {
-  content: " >";
 }
 .region-sidebar-second .tutorial-signin {
   margin-top: 10px;
@@ -5368,7 +5368,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408022708021") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408025183532") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5762,7 +5762,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408022708021');
+  background-image: url('../images/sprite.png?timestamp=1408025183532');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
