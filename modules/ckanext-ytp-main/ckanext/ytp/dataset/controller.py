@@ -10,6 +10,7 @@ from pylons import config
 h = helpers
 import ckan.lib.navl.dictization_functions as dict_fns
 
+
 class YtpDatasetController(PackageController):
     def ytp_tag_autocomplete(self):
         """ CKAN autocomplete discards vocabulary_id from request.
@@ -146,8 +147,7 @@ class YtpDatasetController(PackageController):
             # see if we have any data that we are trying to save
             data_provided = False
             for key, value in data.iteritems():
-                if ((value or isinstance(value, cgi.FieldStorage))
-                    and key != 'resource_type'):
+                if ((value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type'):
                     data_provided = True
                     break
 
