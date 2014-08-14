@@ -4605,7 +4605,7 @@ dt {
   clear: left;
   width: 160px;
   font-weight: normal;
-  color: #174171;
+  color: #3c3c3c;
   margin-bottom: 3px;
 }
 dt:after {
@@ -4976,7 +4976,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408016674021") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408022536651") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5008,7 +5008,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
+  background-image: url('../images/sprite.png?timestamp=1408022536651');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5018,7 +5018,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
+  background-image: url('../images/sprite.png?timestamp=1408022536651');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5257,7 +5257,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408016674021") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408022536651") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5498,7 +5498,7 @@ textarea {
   background-image: none;
 }
 .navbar.navbar-main .navbar-nav a:hover {
-  background-color: #1ac075;
+  background-color: #ee7544;
 }
 .navbar.navbar-main .navbar-collapse {
   padding-left: 0;
@@ -5580,7 +5580,7 @@ li.ytp-menulink a.selected {
 }
 li.ytp-menulink a:hover {
   color: #091a2d;
-  background-color: #1ac075;
+  background-color: #ee7544;
 }
 li.ytp-menulink.collapsed > a:after {
   content: "\f105";
@@ -5645,7 +5645,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
+  background-image: url('../images/sprite.png?timestamp=1408022536651');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
