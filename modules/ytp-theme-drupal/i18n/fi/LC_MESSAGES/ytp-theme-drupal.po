@@ -2,14 +2,15 @@
 # 
 # Translators:
 # Translators:
+# Ilja Pyykkönen, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2014-08-08 08:09+0000\n"
-"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"PO-Revision-Date: 2014-08-14 14:36+0000\n"
+"Last-Translator: Ilja Pyykkönen\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,3 +60,6 @@ msgstr "edellinen"
 #: /
 msgid "Search datasets..."
 msgstr "Etsi tietoaineistoista..."
+
+msgid "Thank you for visiting. You are now logged out."
+msgstr "Kiitos käynnistä. Sinut on nyt kirjattu onnistuneesti ulos palvelusta."

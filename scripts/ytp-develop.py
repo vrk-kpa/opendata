@@ -40,11 +40,11 @@ class YtpDevelopMain(object):
     def develop_assets(self, name):
         return self._replace_with_link("/var/www/resources", "/src/modules/ytp-assets-common/resources")
 
-    def develop_drupal(self, name):
+    def develop_drupal_theme(self, name):
         return self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
 
-    def develop_drupal_module(self, name):
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/" + name, "/src/modules/" + name, ignore_errors=True)
+    def develop_drupal_user(self, name):
+        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_user", "/src/modules/ytp-drupal-user")
 
     def _get_projects(self):
         for project_name in os.listdir(self.source_path):
@@ -83,8 +83,8 @@ class YtpDevelopMain(object):
         if self._mappings is None:
             self._mappings = {re.compile(u'^ckanext-.+'): self.develop_ckanext,
                               u'ytp-assets-common': self.develop_assets,
-                              u'ytp-theme-drupal': self.develop_drupal,
-                              u'ytp-drupal-user': self.develop_drupal_module,
+                              u'ytp-theme-drupal': self.develop_drupal_theme,
+                              u'ytp-drupal-user': self.develop_drupal_user,
                               u'--list': self.list_projects,
                               u'--serve': self.paster_serve,
                               u'--all': self._execute_all}
