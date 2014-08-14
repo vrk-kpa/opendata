@@ -4268,6 +4268,9 @@ ul.resource-list {
 .resource-item:hover {
   background-color: #eeeeee;
 }
+form ul.resource-list {
+  background: #ffffff;
+}
 .notes.embedded-content {
   margin: 16px 0;
 }
@@ -4694,9 +4697,7 @@ dl#extra_extra {
 .license-icon {
   margin: 2px 0 15px 4px;
 }
-.license-smallprint {
-  color: #888888;
-}
+.license-smallprint,
 .license-smallprint a {
   color: #888888;
 }
@@ -4885,7 +4886,6 @@ a:focus {
 .toolbar ol.breadcrumb {
   font-size: 12px;
   padding: 0px 0px 0px 0px;
-  margin-top: 16px;
   background-color: #fff;
   line-height: 1.2;
 }
@@ -4948,7 +4948,7 @@ a:focus {
   margin: 6px auto;
   padding-bottom: 14px;
   border-radius: 8px;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 6px 14px -2px rgba(0, 0, 0, 0.6);
 }
 @media (max-width: 992px) {
   #page_wrapper {
@@ -4967,6 +4967,7 @@ a:focus {
 }
 .main-container,
 #content.container {
+  margin-top: 16px;
   padding-right: 35px;
   padding-left: 35px;
 }
@@ -4975,7 +4976,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408016576544") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408016674021") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5007,7 +5008,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408016576544');
+  background-image: url('../images/sprite.png?timestamp=1408016674021');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5017,7 +5018,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408016576544');
+  background-image: url('../images/sprite.png?timestamp=1408016674021');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5256,7 +5257,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408016576544") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408016674021") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5282,6 +5283,7 @@ span.add-member-or {
 }
 .form-actions {
   border: 0;
+  margin-left: 0;
 }
 .ytp-multiple-values > div {
   overflow: hidden;
@@ -5324,6 +5326,15 @@ textarea {
 }
 .control-group .help-block {
   margin-bottom: 0;
+}
+.outer-form.form-group {
+  margin-top: 10px;
+}
+.outer-form.pull-right {
+  margin-right: 40px;
+}
+.outer-form.pull-left {
+  margin-left: 40px;
 }
 
 .navbar-fixed-top {
@@ -5447,7 +5458,6 @@ textarea {
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1408016576544');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5541,6 +5551,9 @@ textarea {
 .navbar.navbar-search form button.search-submit span {
   display: none;
 }
+.region-top-navigation .item-list .navbar-nav {
+  margin-left: 25%;
+}
 /* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
 ul.menu.nav {
   margin-left: 0px !important;
@@ -5632,7 +5645,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408016576544');
+  background-image: url('../images/sprite.png?timestamp=1408016674021');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

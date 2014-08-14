@@ -230,12 +230,17 @@ ul.resource-list {
   }
 }
 
+form ul.resource-list{
+  background: white
+}
+
+
 .notes.embedded-content {
     margin: 16px 0;
 }
 
 section.dataset-primary-content {
-  float:left;
+  float: left;
   width: 780px;
 }
 
@@ -658,9 +663,7 @@ dl#extra_extra {
 }
 
 .license-smallprint {
-  color: @nonimportant-text-color;
-
-  a{
+  &, a {
     color: @nonimportant-text-color;
   }
 }
