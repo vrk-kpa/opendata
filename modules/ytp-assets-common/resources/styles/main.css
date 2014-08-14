@@ -4930,7 +4930,7 @@ a:focus {
   margin: 6px auto;
   padding-bottom: 14px;
   border-radius: 8px;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 6px 14px -2px rgba(0, 0, 0, 0.6);
 }
 @media (max-width: 992px) {
   #page_wrapper {
@@ -4957,7 +4957,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408013661662") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408015989081") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -4989,7 +4989,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408013661662');
+  background-image: url('../images/sprite.png?timestamp=1408015989081');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4999,7 +4999,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408013661662');
+  background-image: url('../images/sprite.png?timestamp=1408015989081');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5238,7 +5238,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408013661662") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408015989081") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5429,7 +5429,6 @@ textarea {
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1408013661662');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5617,7 +5616,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408013661662');
+  background-image: url('../images/sprite.png?timestamp=1408015989081');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
