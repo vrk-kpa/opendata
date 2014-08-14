@@ -4268,7 +4268,7 @@ ul.resource-list {
 .resource-item:hover {
   background-color: #eeeeee;
 }
-form ul.resource-list {
+.existing-resources ul.resource-list {
   background: #ffffff;
 }
 .notes.embedded-content {
@@ -4946,7 +4946,7 @@ a:focus {
   width: 1200px;
   background-color: #ffffff;
   margin: 6px auto;
-  padding-bottom: 14px;
+  padding-bottom: 30px;
   border-radius: 8px;
   box-shadow: 0px 6px 14px -2px rgba(0, 0, 0, 0.6);
 }
@@ -4967,16 +4967,16 @@ a:focus {
 }
 .main-container,
 #content.container {
-  margin-top: 16px;
-  padding-right: 35px;
-  padding-left: 35px;
+  margin-top: 0px;
+  padding-right: 19px;
+  padding-left: 19px;
 }
 .full-width {
   width: 100%;
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408022536651") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408022725779") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5008,7 +5008,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408022536651');
+  background-image: url('../images/sprite.png?timestamp=1408022725779');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5018,7 +5018,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408022536651');
+  background-image: url('../images/sprite.png?timestamp=1408022725779');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5091,7 +5091,7 @@ h4 {
   margin-top: 4px;
 }
 .carousel .carousel-inner {
-  background-color: #266ab9;
+  background-color: #4D4D4D;
   height: 160px;
   border-radius: 10px;
 }
@@ -5153,7 +5153,7 @@ h4 {
   content: ">";
 }
 #page-header {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 #page-header .region-header {
   margin-bottom: 2px;
@@ -5257,7 +5257,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408022536651") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408022725779") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5485,10 +5485,12 @@ textarea {
   border-top-left-radius: 8px;
 }
 .navbar.navbar-main .navbar-nav li > a {
-  font-size: 18px;
+  text-align: center;
+  min-width: 142px;
+  font-size: 15px;
   letter-spacing: 0.5px;
-  color: #091a2d;
-  padding: 10px 20px 10px 20px;
+  color: #333333;
+  padding: 10px 22px 10px 22px;
 }
 .navbar.navbar-main .navbar-nav .active a,
 .navbar.navbar-main .navbar-nav .active a:hover,
@@ -5566,7 +5568,7 @@ li.ytp-menulink li {
   margin-left: 14px;
 }
 li.ytp-menulink a {
-  color: #091a2d;
+  color: #333333;
   font-weight: 300;
   background: #f8f8f8;
   padding: 6px 20px 6px 20px;
@@ -5579,7 +5581,7 @@ li.ytp-menulink a.selected {
   border: 1px solid #266ab9;
 }
 li.ytp-menulink a:hover {
-  color: #091a2d;
+  color: #333333;
   background-color: #ee7544;
 }
 li.ytp-menulink.collapsed > a:after {
@@ -5645,7 +5647,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408022536651');
+  background-image: url('../images/sprite.png?timestamp=1408022725779');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

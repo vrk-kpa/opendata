@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block secondary %}
+{% endblock  %}
+
+{% block primary %}
+  <div >
+    {% block primary_content %}
+      {% block ytp_title %}
+        <h1 class="content-heading">{{ _('Edit') }} - {{ h.resource_display_name(res) }} - {{ h.dataset_display_name(pkg) }}</h1>
+      {% endblock %}
+      {{ super() }}
+    {% endblock %}
+  </div>
+{% endblock %}
