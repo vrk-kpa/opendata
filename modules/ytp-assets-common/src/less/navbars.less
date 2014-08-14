@@ -112,7 +112,6 @@
   border-top-right-radius: @pagewrapper-border-radius;
   border-top-left-radius: @pagewrapper-border-radius;
   background-color: @menu-link-background;
-  background-image: url('../images/navbar-main-background.png?timestamp=<%= timestamp %>');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -145,10 +144,12 @@
       }
     }
     li > a {
-      font-size: 18px;
+      text-align: center;
+      min-width: 142px;
+      font-size: 15px;
       letter-spacing: 0.5px;
       color: @menu-link-color;
-      padding: 10px 20px 10px 20px;
+      padding: 10px 22px 10px 22px;
     }
     .active {
       a, a:hover, a:focus {
@@ -216,6 +217,15 @@
     }
   }
 }
+
+.region-top-navigation {
+  .item-list {
+    .navbar-nav {
+      margin-left: 25%;
+    }
+  }
+}
+
 
 /* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
 ul.menu.nav {

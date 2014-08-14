@@ -1,12 +1,13 @@
 @import (reference) "upstream_bootstrap/variables";
 
 // Common color palette. These are the only colors that should be used!
-@ytp-brand-primary: #266ab9;
-@ytp-brand-gray: #888888;
-@ytp-brand-success: #5cb85c;
-@ytp-brand-info: #5bc0de;
-@ytp-brand-warning: #f0ad4e;
-@ytp-brand-danger: #d9534f;
+@ytp-brand-primary:	   #266ab9; // Primary navigation/interaction/focus color
+@ytp-brand-decorative: #1ac075; // Decorative secondary color, for non-important elements
+@ytp-brand-gray:       #888888; // Neutral grayish elements
+@ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
+@ytp-brand-info:       #5bc0de; // Notification color, important but not critical
+@ytp-brand-warning:    #f0ad4e; // Slightly dangerous and important element
+@ytp-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
 
 
 @brand-primary: @ytp-brand-primary;
@@ -46,9 +47,9 @@
 
 // Vertical side menu and horizontal main menu
 @menu-active-color: @ytp-brand-primary;
-@menu-link-color: darken(@link-color, 33%);
+@menu-link-color: #333;
 @menu-link-background: lighten(@background-hilight, 4%);
-@menu-hover-color: lighten(@ytp-brand-primary, 40%);
+@menu-hover-color: @ytp-brand-decorative;
 
 @body-color-background: white;
 
@@ -75,7 +76,6 @@
 @infowell-color-light: #27b0dc;
 
 @main-hilight-color: #1f7994;
-
 
 // Breadcrumbs: TODO these colors do not seem to affect the whole breadcrumb
 @breadcrumbTextColor: darken(@ytp-brand-gray, 17%);
@@ -109,3 +109,4 @@
 
 @pagewrapper-border-radius: 8px;
 @button-border-radius: 8px;
+

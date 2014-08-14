@@ -68,13 +68,9 @@ def organization_import(data):
             if public_organization:
                 values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
             try:
-                organization = get_action('organization_show')(context, values)
-
-                if organization['title'] != values['title'] or \
-                        organization.get('public_adminstration_organization', None) != 'true' if public_organization else None:
-                    organization = get_action('organization_update')(context, values)
+                get_action('organization_update')(context, values)
             except NotFound:
-                organization = get_action('organization_create')(context, values)
+                get_action('organization_create')(context, values)
 
 
 def _add_child_concepts(graph, current_uri, depth=0, max_depth=8):
