@@ -52,12 +52,12 @@ then itself be extended to add/remove blocks of functionality. #}
         {% set state = data.get('state', None) %}
         {% if state =='active' or state == 'deleted' or state == 'draft' and data.get('resources', 'none') | length != 0 %}
           {% link_for _('Close without saving'), controller='package', action='read', id=data.name, class_='btn btn-default', icon='arrow-left' %}
-          <button class="btn btn-info" type="submit" name="save" onclick="SaveAsDraft()">{{ _('Save as draft') }}</button>
+          <button class="btn btn-primary" type="submit" name="save" onclick="SaveAsDraft()">{{ _('Save as draft') }}</button>
         {% endif %}
         {%  set resources = data.get('resources', None) %}
         <button class="btn
         {% if state == None %}
-          btn-info
+          btn-primary
         {% else %}
           btn-success
         {% endif %}
