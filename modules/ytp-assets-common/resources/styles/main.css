@@ -4183,28 +4183,6 @@ section.module {
   right: 0;
   top: 0;
 }
-@media (max-width: 992px) {
-  [role=main] .primary {
-    float: right;
-    width: 100%;
-  }
-  [role=main] .secondary {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  section.module {
-    margin: 20px 0;
-  }
-  h2.module-heading {
-    margin: 0;
-  }
-  .panel-heading {
-    padding: 0 15px;
-  }
-  .panel-body {
-    padding: 0;
-  }
-}
 .secondary h2.module-heading {
   padding-top: 0px;
   margin-top: 0px;
@@ -4877,6 +4855,7 @@ a:focus {
 }
 .toolbar {
   position: relative;
+  margin-bottom: 14px;
 }
 .toolbar.drupal-crumbs {
   padding-left: 35px;
@@ -4976,7 +4955,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1407954722747") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408007045074") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5008,7 +4987,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1407954722747');
+  background-image: url('../images/sprite.png?timestamp=1408007045074');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5018,7 +4997,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1407954722747');
+  background-image: url('../images/sprite.png?timestamp=1408007045074');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5157,7 +5136,7 @@ h4 {
 }
 #page-header .region-header {
   margin-bottom: 2px;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
 }
 .page-header {
   border-bottom-width: 0px;
@@ -5165,18 +5144,20 @@ h4 {
 }
 .region-sidebar-second section {
   background-color: #eeeeee;
-  padding: 10px;
+  padding: 18px;
   margin: 10px 0;
   border-radius: 5px;
 }
 .region-sidebar-second section .views-field-title {
-  margin-bottom: 15px;
+  margin-bottom: 4px;
 }
 .region-sidebar-second section .views-field-title .field-content {
-  font-size: 16px;
+  color: #333333;
+  font-size: 18px;
+  font-weight: 400;
 }
 .region-sidebar-second .tutorial-register {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   font-size: 20px;
   text-align: center;
@@ -5195,6 +5176,9 @@ h4 {
 }
 .region-sidebar-second .tutorial-signin a:after {
   content: " >";
+}
+.region-content {
+  margin-top: 21px;
 }
 .control-full.error-block {
   width: auto;
@@ -5252,7 +5236,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1407954722747") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408007045074") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5435,7 +5419,7 @@ textarea {
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   background-color: #f8f8f8;
-  background-image: url('../images/navbar-main-background.png?timestamp=1407954722747');
+  background-image: url('../images/navbar-main-background.png?timestamp=1408007045074');
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5491,6 +5475,7 @@ textarea {
   color: #555555;
   padding: 2px;
   height: 54px;
+  margin-top: 10px;
 }
 .navbar.navbar-search form {
   margin: 0;
@@ -5587,6 +5572,29 @@ li.ytp-menulink.active > a.active {
   padding-right: 10px;
 }
 
+@media (max-width: 992px) {
+  [role=main] .primary {
+    float: right;
+    width: 100%;
+  }
+  [role=main] .secondary {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  section.module {
+    margin: 20px 0;
+  }
+  h2.module-heading {
+    margin: 0;
+  }
+  .panel-heading {
+    padding: 0 15px;
+  }
+  .panel-body {
+    padding: 0;
+  }
+}
+
 
 .well.infowell {
   border-radius: 4px;
@@ -5596,7 +5604,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1407954722747');
+  background-image: url('../images/sprite.png?timestamp=1408007045074');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
