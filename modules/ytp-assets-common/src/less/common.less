@@ -87,6 +87,7 @@ a {
 
 .toolbar {
   position: relative;
+  margin-bottom: 18px;
 
   &.drupal-crumbs {
     padding-left: 35px;
@@ -97,16 +98,18 @@ a {
   }
 
   ol.breadcrumb {
-    font-size: 14px;
+    font-size: 12px;
     padding: 0px 0px 0px 0px;
     margin-top: 16px;
     background-color: #fff;
+    line-height: 1.2;
     //padding: 8px 15px 8px 15px;
     //background-color: rgb(250, 250, 250);
     //border-radius: 4px;
 
     li {
       color: @breadcrumb-color;
+      text-transform: uppercase;
       a {
         color: @link-color;
       }
@@ -162,10 +165,10 @@ a {
 #page_wrapper {
   width: @screen-lg;
   background-color: @body-color-background;
-  margin: 4px auto;
+  margin: 6px auto;
   padding-bottom: 14px;
   border-radius: @pagewrapper-border-radius;
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+  box-shadow: 0 0 24px rgba(0,0,0,0.5);
 }
 @media(max-width: @screen-md-min) {
   #page_wrapper {

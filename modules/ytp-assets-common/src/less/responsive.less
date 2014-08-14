@@ -1,0 +1,30 @@
+@import (reference) "upstream_bootstrap/mixins";
+@import "variables.less";
+
+@media(max-width: @screen-md-min) {
+  [role=main] .primary {
+    float: right;
+    width: 100%;
+  }
+
+  [role=main] .secondary {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  section.module {
+    margin: 20px 0;
+  }
+
+  h2.module-heading {
+    margin: 0;
+  }
+
+  .panel-heading {
+    padding: 0 15px;
+  }
+
+  .panel-body {
+    padding: 0;
+  }
+}
