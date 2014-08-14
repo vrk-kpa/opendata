@@ -5068,11 +5068,7 @@ a:focus {
 }
 
 body {
-<<<<<<< HEAD
-  background: url("../images/stamen_background.jpg?timestamp=1408018599540") 50% 50% fixed no-repeat;
-=======
-  background: url("../images/stamen_background.jpg?timestamp=1408016674021") 50% 50% fixed no-repeat;
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
+  background: url("../images/stamen_background.jpg?timestamp=1408018814374") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -5104,11 +5100,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1408018599540');
-=======
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
+  background-image: url('../images/sprite.png?timestamp=1408018814374');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5118,11 +5110,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1408018599540');
-=======
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
+  background-image: url('../images/sprite.png?timestamp=1408018814374');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5361,11 +5349,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-<<<<<<< HEAD
-  background: url("../images/button-lg-gradient.png?timestamp=1408018599540") repeat-x;
-=======
-  background: url("../images/button-lg-gradient.png?timestamp=1408016674021") repeat-x;
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
+  background: url("../images/button-lg-gradient.png?timestamp=1408018814374") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5689,13 +5673,8 @@ li.ytp-menulink a.selected {
   border: 1px solid #266ab9;
 }
 li.ytp-menulink a:hover {
-<<<<<<< HEAD
   color: #333333;
-  background-color: #bad3f1;
-=======
-  color: #091a2d;
   background-color: #1ac075;
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
 }
 li.ytp-menulink.collapsed > a:after {
   content: "\f105";
@@ -5760,11 +5739,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-<<<<<<< HEAD
-  background-image: url('../images/sprite.png?timestamp=1408018599540');
-=======
-  background-image: url('../images/sprite.png?timestamp=1408016674021');
->>>>>>> 7b7c4b569fdf33ffa0a334a9b1661f88ef7c5f36
+  background-image: url('../images/sprite.png?timestamp=1408018814374');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
