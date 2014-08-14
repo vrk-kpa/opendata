@@ -4250,6 +4250,9 @@ ul.resource-list {
 .resource-item:hover {
   background-color: #eeeeee;
 }
+form ul.resource-list {
+  background: #ffffff;
+}
 .notes.embedded-content {
   margin: 16px 0;
 }
@@ -4676,9 +4679,7 @@ dl#extra_extra {
 .license-icon {
   margin: 2px 0 15px 4px;
 }
-.license-smallprint {
-  color: #888888;
-}
+.license-smallprint,
 .license-smallprint a {
   color: #888888;
 }
@@ -4867,7 +4868,6 @@ a:focus {
 .toolbar ol.breadcrumb {
   font-size: 12px;
   padding: 0px 0px 0px 0px;
-  margin-top: 16px;
   background-color: #fff;
   line-height: 1.2;
 }
@@ -4949,6 +4949,7 @@ a:focus {
 }
 .main-container,
 #content.container {
+  margin-top: 16px;
   padding-right: 35px;
   padding-left: 35px;
 }
@@ -4957,7 +4958,11 @@ a:focus {
 }
 
 body {
+<<<<<<< HEAD
   background: url("../images/stamen_background.jpg?timestamp=1408015989081") 50% 50% fixed no-repeat;
+=======
+  background: url("../images/stamen_background.jpg?timestamp=1408013476452") 50% 50% fixed no-repeat;
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   background-size: cover;
   padding-top: 54px;
 }
@@ -4989,7 +4994,11 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
+<<<<<<< HEAD
   background-image: url('../images/sprite.png?timestamp=1408015989081');
+=======
+  background-image: url('../images/sprite.png?timestamp=1408013476452');
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4999,7 +5008,11 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
+<<<<<<< HEAD
   background-image: url('../images/sprite.png?timestamp=1408015989081');
+=======
+  background-image: url('../images/sprite.png?timestamp=1408013476452');
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5238,7 +5251,11 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
+<<<<<<< HEAD
   background: url("../images/button-lg-gradient.png?timestamp=1408015989081") repeat-x;
+=======
+  background: url("../images/button-lg-gradient.png?timestamp=1408013476452") repeat-x;
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   height: 63px;
 }
 .add-member-or {
@@ -5264,6 +5281,7 @@ span.add-member-or {
 }
 .form-actions {
   border: 0;
+  margin-left: 0;
 }
 .ytp-multiple-values > div {
   overflow: hidden;
@@ -5306,6 +5324,15 @@ textarea {
 }
 .control-group .help-block {
   margin-bottom: 0;
+}
+.outer-form.form-group {
+  margin-top: 10px;
+}
+.outer-form.pull-right {
+  margin-right: 40px;
+}
+.outer-form.pull-left {
+  margin-left: 40px;
 }
 
 .navbar-fixed-top {
@@ -5429,6 +5456,10 @@ textarea {
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   background-color: #f8f8f8;
+<<<<<<< HEAD
+=======
+  background-image: url('../images/navbar-main-background.png?timestamp=1408013476452');
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -15px;
@@ -5616,7 +5647,11 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
+<<<<<<< HEAD
   background-image: url('../images/sprite.png?timestamp=1408015989081');
+=======
+  background-image: url('../images/sprite.png?timestamp=1408013476452');
+>>>>>>> 0bde81429ba2b607b4fda241871a559235b81988
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

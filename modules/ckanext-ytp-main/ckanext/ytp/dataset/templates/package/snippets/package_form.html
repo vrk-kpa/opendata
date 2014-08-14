@@ -61,7 +61,13 @@ then itself be extended to add/remove blocks of functionality. #}
         {% else %}
           btn-success
         {% endif %}
-          " type="submit" name="save" id="save-button" onclick="SaveAsActive()">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</button>
+        " type="submit" name="save" id="save-button" onclick="
+        {% if state == None %}
+          SaveAsDraft()
+        {% else %}
+          SaveAsActive()
+        {% endif %}
+          ">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</button>
 
       {% endblock %}
       {{ form.required_message() }}
