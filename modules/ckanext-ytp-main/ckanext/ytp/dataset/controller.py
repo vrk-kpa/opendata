@@ -1,5 +1,5 @@
 from ckan import model
-from ckan.common import request, c, response, _
+from ckan.common import request, c, response, _, g
 from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_dict, parse_params, tuplize_dict, ValidationError
 from ckan.lib import helpers
 from ckan.controllers.package import PackageController
