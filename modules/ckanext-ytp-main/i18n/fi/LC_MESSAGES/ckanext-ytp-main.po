@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-15 15:20+0300\n"
-"PO-Revision-Date: 2014-08-15 12:21+0000\n"
+"POT-Creation-Date: 2014-08-15 15:43+0300\n"
+"PO-Revision-Date: 2014-08-15 13:06+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -31,8 +31,9 @@ msgstr ""
 
 #: ckanext/ytp/common/converters.py:36
 msgid ""
-"Incorrect URL format detected: URL must start with http://, https:// or www."
-msgstr ""
+"Incorrect web address format detected. Web address must start with http://, "
+"https:// or www."
+msgstr "Väärä verkko-osoitteen muoto. Verkko-osoitteen täytyy alkaa muodolla http://, https:// tai www."
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
@@ -61,7 +62,7 @@ msgid "Cancel"
 msgstr "Peruuta"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
-msgid "Save and Close"
+msgid "Save and close"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:217
@@ -89,14 +90,14 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
-"Are you sure you want to change original language? This will remove target "
-"language translation data."
+"Are you sure you want to change the original language? This will remove the "
+"target language translations."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
 msgid ""
-"Are you sure you want to remove translation? Translated data will be "
-"removed."
+"Are you sure you want to remove the language? The language's translations "
+"will be removed."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:42
@@ -159,8 +160,8 @@ msgstr "Muokkaa sisältöä"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:24
 msgid ""
-"Provide open data, tools or manuals for others. You can also publish public "
-"services or software based on open data."
+"Provide open data, tools, or manuals for use by others. You can also publish"
+" public services and software based on open data."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
@@ -195,8 +196,7 @@ msgid "Edit or add language versions"
 msgstr "Muokkaa tai lisää kieliversioita"
 
 #: ckanext/ytp/dataset/controller.py:59
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
-#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:48
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:91
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
@@ -363,7 +363,6 @@ msgstr "Tietoaineistot"
 
 #: ckanext/ytp/dataset/templates/package/edit_base.html:4
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:54
-#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:101
 msgid "Close without saving"
 msgstr "Sulje tallentamatta"
@@ -373,7 +372,7 @@ msgid "Update"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:17
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:109
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:107
 msgid "Publish"
 msgstr "Julkaise"
 
@@ -757,17 +756,17 @@ msgid ""
 "under the Open Database License."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:50
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:47
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:55
 msgid "Are you sure you want to delete this dataset?"
 msgstr "Haluatko varmasti poistaa tietoaineiston?"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:61
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:108
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:55
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:106
 msgid "Save as draft"
 msgstr "Tallenna luonnoksena"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:76
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:70
 msgid "Next: Add Data"
 msgstr ""
 
@@ -806,11 +805,6 @@ msgid "joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
-msgid "Are you sure you want to delete this resource?"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:25
 msgid "Update Resource"
 msgstr "Päivitä aineistolinkki"
 
@@ -852,7 +846,11 @@ msgstr "Lisää toinen ainestolinkki"
 msgid "Save"
 msgstr "Tallenna"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:120
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+msgid "Are you sure you want to delete this resource?"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:118
 msgid "Inserted Resources"
 msgstr "Lisätyt aineistolinkit"
 
@@ -885,7 +883,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
 msgid "More"
-msgstr "Lisää"
+msgstr "Enemmän"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:73
 msgid "Less"
@@ -925,7 +923,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:71
 #, python-format
-msgid "User %s not allowed to change public organization option"
+msgid "User %s is not allowed to change the public organization option"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:76
@@ -1031,7 +1029,7 @@ msgstr "Saapuminen julkisilla kulkuvälineillä"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
-msgid "URL for public transport"
+msgid "Web address for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
@@ -1255,7 +1253,8 @@ msgstr "Palvelun maksullisuus pitää antaa"
 #: ckanext/ytp/service/plugin.py:52
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
-" URL for this service or a description of the service pricing or both"
+" web address for this service or a description of the service pricing or "
+"both"
 msgstr ""
 
 #: ckanext/ytp/service/plugin.py:64
@@ -1602,7 +1601,7 @@ msgid "No information"
 msgstr "Ei tiedossa"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Pricing information for this service (webaddress)"
+msgid "Pricing information for this service (web address)"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
