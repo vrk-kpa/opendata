@@ -82,7 +82,8 @@ a {
   }
 }
 
-.breadcrumb > li + li:before {
+// CKAN: remove duplicate breadcrumb separator
+.toolbar .breadcrumb li:after {
   content: "";
 }
 
@@ -104,29 +105,33 @@ a {
     font-size: 12px;
     padding: 0px 0px 0px 0px;
     background-color: #fff;
-    line-height: 1.2;
-    //padding: 8px 15px 8px 15px;
-    //background-color: rgb(250, 250, 250);
-    //border-radius: 4px;
+    line-height: 1.3;
 
     li {
+      display: inline-block;
       color: @breadcrumb-color;
       text-transform: uppercase;
       a {
         color: @link-color;
-      }
+        &:hover, &:active, &:focus {
+        	color: @ytp-brand-decorative;
+        }
+      }      
     }
     li.last {
       color: @breadcrumb-color;
     }
     > li {
       &:after {
-        padding-left: 4px;
+        padding: 0 0 0 4px;
       }
 
-      + li:before {
-        padding: 0 2px;
+      &:before {
+        padding: 4px 0 0 0px;
       }
+    }
+    li + li:before {
+    	padding-right: 5px;
     }
 
     li.active a {
@@ -137,6 +142,10 @@ a {
       color: @breadcrumb-color;
     }
   }
+}
+
+#page_wrapper .toolbar {
+  margin-bottom: 6px;
 }
 
 //Fix drupal bootstrap tabs in page editor as test-editor

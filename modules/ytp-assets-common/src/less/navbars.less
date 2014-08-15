@@ -41,6 +41,7 @@
         padding-left: 16px;
         color: @navbar-color-text;
         content: '|';
+        text-decoration: none;
       }
       li:last-child a {
         border-right: medium none;
@@ -223,14 +224,10 @@
   }
 }
 
-.region-top-navigation {
-  .item-list {
-    .navbar-nav {
-      margin-left: 25%;
-    }
-  }
+.region-top-navigation .item-list .navbar-nav.lang-select,
+#page_wrapper .navbar-fixed-top .navbar-nav.lang-select {
+  margin-left: 25%;
 }
-
 
 /* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
 ul.menu.nav {

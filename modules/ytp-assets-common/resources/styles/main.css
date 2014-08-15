@@ -4416,6 +4416,9 @@ ul.resource-list {
   border-radius: 10px;
   margin: 5px 5px 20px 0px;
 }
+.dataset-resources ul.resource-list {
+  margin-left: 0;
+}
 .resource-item {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4429,7 +4432,7 @@ ul.resource-list {
   background: #ffffff;
 }
 .notes.embedded-content {
-  margin: 16px 0;
+  margin: 8px 0;
 }
 section.dataset-primary-content {
   float: left;
@@ -4462,6 +4465,9 @@ span.byline-contentype {
 .dataset-content {
   margin-bottom: 7px;
 }
+.dataset-item-meta :first-child {
+  margin-left: 0;
+}
 ul.dataset-list {
   padding-left: 0px;
 }
@@ -4472,9 +4478,6 @@ ul.dataset-list li.dataset-item {
 }
 ul.dataset-list li.dataset-item .dataset-item-meta {
   display: block;
-}
-ul.dataset-list li.dataset-item .dataset-item-meta :first-child {
-  margin-left: 0;
 }
 ul.dataset-list li.dataset-item .dataset-item-meta .pull-right {
   margin-right: 0;
@@ -4833,6 +4836,18 @@ ul.no-bullet li:hover {
 .dl-horizontal dt {
   white-space: normal;
 }
+.dataset-additional-info .dl-horizontal dt {
+  text-align: right;
+  margin-bottom: 8px;
+}
+.dataset-additional-info .dl-horizontal dd {
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+.dataset-additional-info .dl-horizontal dd:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 dt {
   float: left;
   clear: left;
@@ -5147,7 +5162,7 @@ a:focus {
 .label a {
   color: #ffffff;
 }
-.breadcrumb > li + li:before {
+.toolbar .breadcrumb li:after {
   content: "";
 }
 .toolbar {
@@ -5167,23 +5182,32 @@ a:focus {
   font-size: 12px;
   padding: 0px 0px 0px 0px;
   background-color: #fff;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 .toolbar ol.breadcrumb li {
+  display: inline-block;
   color: #5a5651;
   text-transform: uppercase;
 }
 .toolbar ol.breadcrumb li a {
   color: #266ab9;
 }
+.toolbar ol.breadcrumb li a:hover,
+.toolbar ol.breadcrumb li a:active,
+.toolbar ol.breadcrumb li a:focus {
+  color: #ee7544;
+}
 .toolbar ol.breadcrumb li.last {
   color: #5a5651;
 }
 .toolbar ol.breadcrumb > li:after {
-  padding-left: 4px;
+  padding: 0 0 0 4px;
 }
-.toolbar ol.breadcrumb > li + li:before {
-  padding: 0 2px;
+.toolbar ol.breadcrumb > li:before {
+  padding: 4px 0 0 0px;
+}
+.toolbar ol.breadcrumb li + li:before {
+  padding-right: 5px;
 }
 .toolbar ol.breadcrumb li.active a {
   cursor: normal;
@@ -5191,6 +5215,9 @@ a:focus {
   font-weight: initial;
   text-decoration: none;
   color: #5a5651;
+}
+#page_wrapper .toolbar {
+  margin-bottom: 6px;
 }
 .js .tab-content {
   display: block;
@@ -5260,7 +5287,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408108579048") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408114109855") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
   padding-bottom: 32px;
@@ -5288,7 +5315,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408108579048');
+  background-image: url('../images/sprite.png?timestamp=1408114109855');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5298,7 +5325,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408108579048');
+  background-image: url('../images/sprite.png?timestamp=1408114109855');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5423,6 +5450,7 @@ h4 {
   color: #ffffff;
   height: 160px;
   border-radius: 5px;
+  margin-top: 4px;
   padding-top: 10px;
   font-size: 18px;
   overflow: hidden;
@@ -5547,7 +5575,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408108579048") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408114109855") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5666,6 +5694,7 @@ textarea {
   padding-left: 16px;
   color: #ffffff;
   content: '|';
+  text-decoration: none;
 }
 .navbar-fixed-top .collapse .navbar-nav.lang-select li:last-child a,
 .navbar-fixed-top .collapse .navbar-nav.user-nav li:last-child a {
@@ -5847,7 +5876,8 @@ textarea {
 .navbar.navbar-search form button.search-submit span {
   display: none;
 }
-.region-top-navigation .item-list .navbar-nav {
+.region-top-navigation .item-list .navbar-nav.lang-select,
+#page_wrapper .navbar-fixed-top .navbar-nav.lang-select {
   margin-left: 25%;
 }
 /* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
@@ -5984,7 +6014,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408108579048');
+  background-image: url('../images/sprite.png?timestamp=1408114109855');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
