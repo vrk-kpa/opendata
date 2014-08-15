@@ -42,16 +42,22 @@ then itself be extended to add/remove blocks of functionality. #}
           {%- endtrans -%}
         </p>
       {% endblock %}
+
       {% block delete_button %}
+        {% set state = data.get('state', None) %}
+        <div class="pull-left">
         {% if h.check_access('package_delete', {'id': data.id}) and not data.state == 'deleted' %}
           {% set locale = h.dump_json({'content': _('Are you sure you want to delete this dataset?')}) %}
-          <a class="btn btn-danger pull-left" href="{% url_for controller='package', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+          <a class="btn btn-danger" href="{% url_for controller='package', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
         {% endif %}
+        {% if state =='active' or state == 'deleted' or state == 'draft' and data.get('resources', 'none') | length != 0 %}
+          {% link_for _('Close without saving'), controller='package', action='read', id=data.name, class_='btn btn-default', icon='arrow-left' %}
+        {% endif %}
+        </div>
       {% endblock %}
       {% block save_button %}
         {% set state = data.get('state', None) %}
         {% if state =='active' or state == 'deleted' or state == 'draft' and data.get('resources', 'none') | length != 0 %}
-          {% link_for _('Close without saving'), controller='package', action='read', id=data.name, class_='btn btn-default', icon='arrow-left' %}
           <button class="btn btn-primary" type="submit" name="save" onclick="SaveAsDraft()">{{ _('Save as draft') }}</button>
         {% endif %}
         {%  set resources = data.get('resources', None) %}

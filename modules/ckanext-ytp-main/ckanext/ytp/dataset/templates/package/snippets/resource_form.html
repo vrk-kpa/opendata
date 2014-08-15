@@ -81,8 +81,8 @@
     </div>
   </div>
 
-    <div class="form-group outer-form">
-      <div class="pull-left outer-form">
+  <div class="form-group outer-form">
+    <div class="pull-left outer-form">
   {% endif %}
     {% block delete_button %}
       {% if data.id and package.state != 'draft' %}
@@ -93,15 +93,17 @@
       {% endif %}
     {% endblock %}
 
-    {% if stage %}
-
-      <div>
+      {% if stage %}
+        <div>
+      {% endif %}
       {% block previous_button %}
         <button class="btn" name="save" value="go-dataset" type="submit" id="previous-button" style="display: none;"></button>
         {% link_for _('Close without saving'), controller='package', action='read', id=package.name, class_='btn pull-left', icon='arrow-left' %}
       {% endblock %}
+      {% if stage %}
+        </div>
       </div>
-      </div>
+
       <div class="pull-right outer-form">
         <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Save as draft') }}</button>
         <button class="btn btn-success" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Publish') }}{% endblock %}</button>
