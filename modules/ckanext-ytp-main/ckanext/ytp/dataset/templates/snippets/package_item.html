@@ -56,7 +56,7 @@ Example:
       {%- if package.get('resources') -%}
         {% set formats = h.unique_formats(package.get('resources')) %}
           {%- for format in formats -%}
-            <span class="label label-default pull-right">{{_(format)}}</span>
+            <span class="label label-info pull-right">{{_(format)}}</span>
           {%- endfor -%}
           &nbsp;
       {%- endif -%}

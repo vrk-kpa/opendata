@@ -2,15 +2,19 @@
 
 // Common color palette. These are the only colors that should be used!
 @ytp-brand-primary:	   #266ab9; // Primary navigation/interaction/focus color
-@ytp-brand-decorative: #1ac075; // Decorative secondary color, for non-important elements
+@ytp-brand-decorative: #ee7544; // Decorative secondary color, for non-important elements
 @ytp-brand-gray:       #888888; // Neutral grayish elements
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
 @ytp-brand-info:       #5bc0de; // Notification color, important but not critical
 @ytp-brand-warning:    #f0ad4e; // Slightly dangerous and important element
 @ytp-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
-
-
 @brand-primary: @ytp-brand-primary;
+@brand-info: @ytp-brand-decorative;
+
+// Decorative options:
+// #24C57C green
+// #1ac075 green
+// #ee7544 orange
 
 // For very 'extra' information, meant for small text on white/light backgrounds
 @nonimportant-text-color: lighten(@ytp-brand-gray, 0%);
@@ -32,15 +36,15 @@
 @block-color: @button-inverse-text-color;
 @block-color-hilight: lighten(@ytp-brand-primary, 10%);
 
-// Bootstrap brand colors (label, button etc.)
+// Tweak Bootstrap brand colors (label, button etc.)
 @label-default-bg: lighten(@ytp-brand-gray, 22%);
-@label-primary-bg: lighten(@ytp-brand-primary, 10%);
+@label-primary-bg: lighten(@ytp-brand-primary, 4%);
 
 @link-color: @ytp-brand-primary;
 @link-hilight: darken(@ytp-brand-primary, 10%);
 
 // Name label for input fields and for showing the key/value-pairs
-@field-label-color: darken(@ytp-brand-primary, 17%);
+@field-label-color: darken(@ytp-brand-gray, 30%);
 
 // Help text inside input fields
 @input-color-placeholder: @nonimportant-text-color;
@@ -49,6 +53,7 @@
 @menu-active-color: @ytp-brand-primary;
 @menu-link-color: #333;
 @menu-link-background: lighten(@background-hilight, 4%);
+@menu-link-hover-color: #fff;
 @menu-hover-color: @ytp-brand-decorative;
 
 @body-color-background: white;

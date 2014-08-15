@@ -158,7 +158,8 @@
         background-image: none;
       }
     }
-      a:hover {
+    li a:hover {
+      color: @menu-link-color;
       background-color: @menu-hover-color;
     }
   }
@@ -166,6 +167,10 @@
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+#main-navigation-links > li > a:hover {
+  color: @menu-link-hover-color;
 }
 
 .navbar.navbar-search {

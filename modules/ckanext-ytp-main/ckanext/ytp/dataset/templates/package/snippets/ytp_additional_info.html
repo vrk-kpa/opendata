@@ -1,10 +1,17 @@
 <!-- ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html -->
+
 <section class="dataset-additional-info">
   <h3>{{ _('Extra information') }}</h3>
 
   {% block package_additional_info %}
+
     <dl class="dl-horizontal">
     {% set extra_dict = h.format_extras(pkg_dict) %}
+
+    {% if extra_dict.valid_from or extra_dict.valid_till %}
+      <dt>{{ _("Period of validity") }}</dt>
+      <dd>{{ [extra_dict.valid_from, extra_dict.valid_till]|join(' - ') }}</dd>
+    {% endif %}
 
     {% if extra_dict.author_email %}
       <dt>{{ _("Author") }}</dt>

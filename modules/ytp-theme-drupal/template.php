@@ -35,6 +35,11 @@ function ytp_theme_links__locale_block(&$variables) {
  */
 function ytp_theme_preprocess_page(&$variables) {
   // Add information about the number of sidebars.
+  if (isset($_COOKIE['Drupal_visitor_ytp_logoff']) && $_COOKIE['Drupal_visitor_ytp_logoff'] == 1) {
+    drupal_set_message(t('Thank you for visiting. You are now logged out.'));
+    user_cookie_save(array('ytp.logoff' => 0));
+  }
+
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class'] = ' class="col-sm-4"';
   }
@@ -181,7 +186,7 @@ function ytp_theme_menu_link(&$variables) {
 
   if (isset($element['#bid']) && ($element['#bid']['module'] == 'menu_block')) {
       $element['#attributes']['class'][] = 'ytp-menulink';
-  } 
+  }
 
   if ($element['#below']) {
 
@@ -288,12 +293,12 @@ function ytp_theme_form_element(&$variables) {
   if (isset($element['#markup']) && !empty($element['#id'])) {
     $attributes['id'] = $element['#id'];
   }
-	$suffix = '';
+  $suffix = '';
   // Check for errors and set correct error class.
   if (isset($element['#parents']) && form_get_error($element)) {
-	  if ($element['#type'] != 'password_confirm' ){
-	    $suffix .= '<span class="control-full error-block">' . form_get_error($element) . '</span>';
-	  }
+    if ($element['#type'] != 'password_confirm' ){
+      $suffix .= '<span class="control-full error-block">' . form_get_error($element) . '</span>';
+    }
   }
 
   if (!empty($element['#type'])) {
@@ -399,4 +404,3 @@ function ytp_theme_form_element(&$variables) {
 
   return $output;
 }
-
