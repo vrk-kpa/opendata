@@ -2359,14 +2359,14 @@ output {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 .form-control::-moz-placeholder {
-  color: #888888;
+  color: #88827a;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #888888;
+  color: #88827a;
 }
 .form-control::-webkit-input-placeholder {
-  color: #888888;
+  color: #88827a;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -4281,7 +4281,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .breadcrumb > li + li:before {
   content: "/\00a0";
   padding: 0 5px;
-  color: #5d5d5d;
+  color: #5a5651;
 }
 .breadcrumb > .active {
   color: #777777;
@@ -4443,11 +4443,11 @@ a.label:focus {
   top: -1px;
 }
 .label-default {
-  background-color: #888888;
+  background-color: #88827a;
 }
 .label-default[href]:hover,
 .label-default[href]:focus {
-  background-color: #6f6f6f;
+  background-color: #6d6862;
 }
 .label-primary {
   background-color: #2974ca;
