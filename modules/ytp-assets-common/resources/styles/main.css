@@ -4530,6 +4530,9 @@ ul.no-bullet li:hover {
 #page_wrapper .search-form .control-order-by {
   padding-top: 3px;
 }
+#page_wrapper .search-form .control-order-by select {
+  width: auto;
+}
 .form-horizontal .control-group {
   *zoom: 1;
 }
