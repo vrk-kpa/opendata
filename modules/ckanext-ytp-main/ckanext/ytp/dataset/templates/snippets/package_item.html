@@ -34,33 +34,30 @@ Example:
     </div>
   {% endblock %}
 
-  <div>
+  <div class="dataset-item-meta">
     {% if package.collection_type -%}
-      <span class="label label-primary"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
+      <span class="collection-type label label-default"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
     {%- endif -%}
     {% if package.get('state', '').startswith('draft') %}
-      <span class="label label-info">{{ _('Draft') }}</span>
+      <span class="collection-type draft label label-info">{{ _('Draft') }}</span>
     {% elif package.get('state', '').startswith('deleted') %}
-      <span class="label label-important">{{ _('Deleted') }}</span>
+      <span class="collection-type deleted label label-important">{{ _('Deleted') }}</span>
     {% endif %}
 
-    <span class="byline-dataset">
+    {%- if package.get('resources') -%}
+      {% set formats = h.unique_formats(package.get('resources')) %}
+        {%- for format in formats -%}
+          <span class="format label label-info pull-right">{{_(format)}}</span>
+        {%- endfor -%}
+        &nbsp;
+    {%- endif -%}
 
+    <span class="organization byline-dataset">
       {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
       {% if package.organization -%}
         <a href="/data/organization/{{package.organization.get('name') }}">
         {{ package.organization.get('title') }}</a>
       {%- endif -%}
-
-
-      {%- if package.get('resources') -%}
-        {% set formats = h.unique_formats(package.get('resources')) %}
-          {%- for format in formats -%}
-            <span class="label label-info pull-right">{{_(format)}}</span>
-          {%- endfor -%}
-          &nbsp;
-      {%- endif -%}
-</span>
-
+    </span>
   </div>
 </li>

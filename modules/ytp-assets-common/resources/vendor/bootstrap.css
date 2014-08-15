@@ -4443,11 +4443,11 @@ a.label:focus {
   top: -1px;
 }
 .label-default {
-  background-color: #c0c0c0;
+  background-color: #888888;
 }
 .label-default[href]:hover,
 .label-default[href]:focus {
-  background-color: #a7a7a7;
+  background-color: #6f6f6f;
 }
 .label-primary {
   background-color: #2974ca;

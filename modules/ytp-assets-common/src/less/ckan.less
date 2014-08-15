@@ -50,6 +50,7 @@ input[type="date"] {
   float: none;
   background: none;
   margin: 0px 0px 2em 0px;
+  padding-right: 0px;
 }
 
 .module-content, article.module {
@@ -65,20 +66,20 @@ input[type="date"] {
   }
 }
 
+.module-content:last-child {
+  padding-bottom: 0;
+}
 
 [role=main] .secondary {
-  width: @secondary-width;
+  width: (@secondary-width - 4);
   padding-left: 0;
+  padding-right: 4px;
 }
 
 .wrapper {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
     box-shadow: none;
-}
-
-.wrapper .secondary {
-    //margin-left: -13px;
 }
 
 a.btn {
@@ -100,12 +101,21 @@ a.btn.btn-default{
 }
 
 .btn-primary {
+  &, &.btn {
     background-color: @button-primary-background;
     border-color: @button-primary-border;
     color: @button-inverse-text-color;
+  }
+  &:hover, &:focus, &:active, &.active {
+    &, &.btn {
+      background-color: @ytp-brand-decorative;
+      color: #fff;
+      border-color: @ytp-brand-decorative;
+    }
+  }
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+.open .dropdown-toggle.btn-primary {
     background-color: @button-primary-hilight;
     border-color: @button-primary-border;
     color: @button-inverse-text-color;
@@ -223,7 +233,6 @@ section.dataset-sidebar {
 }
 
 span.byline-dataset {
-  padding: 2px;
   a {
     color: @nonimportant-text-color;
   }
@@ -236,12 +245,6 @@ span.byline-contentype {
   padding: 4px 8px;
 }
 
-
-.dataset-item .byline-contentype {
-  display: inline-block;
-  margin-top: 6px;
-}
-
 .dataset-content {
   margin-bottom: 7px;
 }
@@ -250,7 +253,30 @@ ul.dataset-list {
   padding-left: 0px;
 
   li.dataset-item {
-    margin-bottom: 8px;
+    padding-bottom: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #dddddd;
+
+    .dataset-item-meta {
+      display: block;
+      .collection-type {
+        display: inline-block;
+      }
+      :first-child {
+        margin-left: 0;
+      }
+      .pull-right {
+        margin-right: 0;
+      }
+      .organization {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+      .label {
+        margin-top: 0; padding-top: 4px;
+        margin-bottom: 0; padding-bottom: 4px;        
+      }
+    }
   }
 }
 
@@ -276,13 +302,14 @@ ul.no-bullet li:hover {
   padding-bottom: 12px;
   margin-bottom: 8px;
   h1 {
-    margin-bottom: 4px;
-  }
-  .control-order-by {
-    margin-top: 5px;
+    margin-bottom: 2px;
+    line-height: 1.0;
   }
   .filter-list {
     margin-top: 0px;
+  }
+  .control-order-by {
+    padding-top: 3px;
   }
 }
 
@@ -597,8 +624,12 @@ dd {
         width: 5em;
     }
 }
+.dataset-heading {
+  font-size: 18px;  
+  margin-bottom: 2px;
+}
 .media-grid {
-  padding-bottom:0px
+  padding-bottom: 0px
 }
 
 .address-control {
@@ -610,6 +641,10 @@ dd {
 }
 
 .search-form {
+  border-bottom-style: solid;
+  &.form_search-sm {
+    border-bottom-width: 0px;
+  }
   .search-input {
     &.search-giant {
       border: 2px solid @block-color-hilight;
@@ -635,22 +670,25 @@ dd {
       }
     }
     &.search-sm {
-      border: 2px solid @block-color-hilight;
+      border: 1px solid #ccc;
+      border-radius: 4px;
       border-radius: @button-border-radius;
+      margin-bottom: 0px;
       input {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
         border: none;
         border-radius: 10px;
-        height: 40px;
+        height: 32px;
         padding-left: 10px;
       }
       button {
         border: none;
-        border-radius: 10px;
+        border-radius: 4px;
         width: 20px;
         height: 20px;
         margin-top: -10px;
         margin-right: -5px;
-        background: @block-color-hilight;
+        background: #ccc;
         color: @block-color;
         i.icon-search {
           font-size: 15px;
@@ -689,4 +727,8 @@ dl#extra_extra {
   &, a {
     color: @nonimportant-text-color;
   }
+}
+
+.page_primary_action {
+  text-align: right;
 }

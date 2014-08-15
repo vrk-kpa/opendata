@@ -37,7 +37,7 @@
 @block-color-hilight: lighten(@ytp-brand-primary, 10%);
 
 // Tweak Bootstrap brand colors (label, button etc.)
-@label-default-bg: lighten(@ytp-brand-gray, 22%);
+@label-default-bg: @ytp-brand-gray;
 @label-primary-bg: lighten(@ytp-brand-primary, 4%);
 
 @link-color: @ytp-brand-primary;
@@ -91,7 +91,7 @@
 @button-hilight: #747474;
 @button-primary-background: @ytp-brand-primary;
 @button-primary-hilight: #0f54a2;
-@button-primary-border: #84b7c7;
+@button-primary-border: @button-primary-background; //#84b7c7;
 @button-border: #9a9d9e;
 
 // TODO remove me after switching custom service alert to Bootstrap alerts
