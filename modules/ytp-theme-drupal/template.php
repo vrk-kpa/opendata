@@ -252,16 +252,18 @@ function ytp_theme_breadcrumb($variables) {
 
 function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
   $function = "ytp_theme_{$form_id}_submit";
-  if (function_exists($function))
+  if (function_exists($function)) {
     $form['#submit'][] = $function;
+  }
+  if ($form_id == 'user_profile_form') {
+    $form['#submit'][] = 'ytp_theme_profile_form_submit';
+  }
 }
 
-/* // Temporary disable
-function ytp_theme_user_register_form_submit($form, &$form_state) {
+function ytp_theme_profile_form_submit($form, &$form_state) {
   global $language;
   $form_state['redirect'] = array('/data/' . $language->language . '/user/edit', array('external' => TRUE));
 }
-*/
 
 function ytp_theme_preprocess_node(&$variables){
     $date = format_date($variables['changed'], 'short');
