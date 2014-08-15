@@ -8,7 +8,7 @@
     <dl class="dl-horizontal">
     {% set extra_dict = h.format_extras(pkg_dict) %}
 
-    {% if extra_dict.valid_from or extra.valid_till %}
+    {% if extra_dict.valid_from or extra_dict.valid_till %}
       <dt>{{ _("Period of validity") }}</dt>
       <dd>{{ [extra_dict.valid_from, extra_dict.valid_till]|join(' - ') }}</dd>
     {% endif %}

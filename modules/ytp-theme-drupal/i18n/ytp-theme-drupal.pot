@@ -56,3 +56,6 @@ msgstr ""
 #: /
 msgid "Search datasets..."
 msgstr ""
+
+msgid "Thank you for visiting. You are now logged out."
+msgstr ""
