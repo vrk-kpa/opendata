@@ -79,7 +79,7 @@
 
 <?php if (!empty($page['highlighted'])): ?>
   <div class="container">
-    <div class="highlighted"><?php print render($page['highlighted']); ?></div>
+    <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
   </div>
 <?php endif; ?>
 <div class="container toolbar drupal-crumbs">
