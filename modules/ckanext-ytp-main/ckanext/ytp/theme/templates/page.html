@@ -31,7 +31,7 @@
     {{ super() }}
     {% if h.service_alerts().rowcount != 0 %}
     <div class="container">
-        <div class="highlighted">
+        <div class="alert alert-info">
             <ul class="service_alerts">
                 {% for service_alert in h.service_alerts() %}
                 <li>
