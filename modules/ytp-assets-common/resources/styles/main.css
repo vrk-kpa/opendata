@@ -4744,6 +4744,31 @@ dd {
   width: 25px;
   color: #ffffff;
 }
+.search-form .search-input.search-sm {
+  border: 2px solid #3b83d7;
+  border-radius: 8px;
+}
+.search-form .search-input.search-sm input {
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  padding-left: 10px;
+}
+.search-form .search-input.search-sm button {
+  border: none;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-right: -5px;
+  background: #3b83d7;
+  color: #ffffff;
+}
+.search-form .search-input.search-sm button i.icon-search {
+  font-size: 15px;
+  width: 15px;
+  color: #ffffff;
+}
 .wrapper.no-nav h1.content-heading {
   margin-left: 0;
 }
