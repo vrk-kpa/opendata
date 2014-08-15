@@ -1,0 +1,83 @@
+{% import 'macros/form.html' as form %}
+
+{% set placeholder = placeholder if placeholder else _('Search datasets...') %}
+{% set search_class = search_class if search_class else 'search-giant' %}
+{% set no_bottom_border = no_bottom_border if no_bottom_border else false %}
+
+<form class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}" method="get" data-module="select-switch">
+
+  {% block search_input %}
+    <input type="hidden" name="q" value="{{ query }}"/>
+  {% endblock %}
+
+  {% block search_search_fields %}
+    {% if fields -%}
+      <span>{{ form.hidden_from_list(fields=fields) }}</span>
+    {%- endif %}
+  {% endblock %}
+
+{# Allow disabling of sorting by passing an empty list. Due to CKAN's implementation, not defining sorting equals to default sorting #}
+{% if sorting %}
+    {% if sorting != 'disabled' %}
+        {% set disableable_sorting = sorting %}
+    {% endif %}
+{% else %}
+    {% set disableable_sorting = [(_('Name Ascending'), 'name asc'), (_('Name Descending'), 'name desc')] %}
+{% endif %}
+
+  {% block search_sortby %}
+    {% if disableable_sorting %}
+      <div class="form-select control-group control-order-by">
+        <label for="field-order-by">{{ _('Order by') }}</label>
+        <select id="field-order-by" name="sort">
+          {% for label, value in disableable_sorting %}
+            {% if label and value %}
+              <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <button class="btn js-hide" type="submit">{{ _('Go') }}</button>
+      </div>
+    {% endif %}
+  {% endblock %}
+
+  {% block search_title %}
+    {% if not no_title %}
+      <h1>{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type %}</h1>
+    {% endif %}
+  {% endblock %}
+
+  {% block search_facets %}
+    {% if facets %}
+      <p class="filter-list">
+        {% for field in facets.fields %}
+          {% set search_facets_items = facets.search.get(field)['items'] %}
+          <span class="facet">{{ facets.titles.get(field) }}:</span>
+          {% for value in facets.fields[field] %}
+            <span class="filtered pill">
+              {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
+                {{ facets.translated_fields[(field,value)] }}
+              {%- else -%}
+                {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+              {%- endif %}
+              <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="icon-remove"></i></a>
+            </span>
+          {% endfor %}
+        {% endfor %}
+      </p>
+    {% endif %}
+  {% endblock %}
+
+</form>
+
+{% if show_empty and count == 0 %}
+  {% trans %}
+    <p class="extra">Please try another search.</p>
+  {% endtrans %}
+{% endif %}
+
+{% if error %}
+  {% trans %}
+    <p><strong>There was an error while searching.</strong> Please try again.</p>
+  {% endtrans %}
+{% endif %}

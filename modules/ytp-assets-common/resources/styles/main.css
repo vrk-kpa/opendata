@@ -4654,6 +4654,31 @@ dd {
   width: 25px;
   color: #ffffff;
 }
+.search-form .search-input.search-sm {
+  border: 2px solid #3b83d7;
+  border-radius: 8px;
+}
+.search-form .search-input.search-sm input {
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  padding-left: 10px;
+}
+.search-form .search-input.search-sm button {
+  border: none;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-right: -5px;
+  background: #3b83d7;
+  color: #ffffff;
+}
+.search-form .search-input.search-sm button i.icon-search {
+  font-size: 15px;
+  width: 15px;
+  color: #ffffff;
+}
 .wrapper.no-nav .content_action {
   position: absolute;
   right: 0;
@@ -4951,7 +4976,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408089136239") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408090101111") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
 }
@@ -4978,7 +5003,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408089136239');
+  background-image: url('../images/sprite.png?timestamp=1408090101111');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -4988,7 +5013,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408089136239');
+  background-image: url('../images/sprite.png?timestamp=1408090101111');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5237,7 +5262,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408089136239") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408090101111") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5674,7 +5699,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408089136239');
+  background-image: url('../images/sprite.png?timestamp=1408090101111');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
