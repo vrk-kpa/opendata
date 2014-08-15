@@ -280,7 +280,7 @@ ul.dataset-list {
         padding: 0;
         a {
           display: inline-block;
-          padding: 4px;
+          padding: 4px 11px 4px 11px;
           &:hover, &:active {
             border-radius: 4px;
           }
@@ -305,7 +305,6 @@ ul.no-bullet {
 
 ul.no-bullet li:hover {
   background-color: rgba(128, 128, 128, 0.05);
-  
 }
 
 #page_wrapper .search-form {
@@ -457,6 +456,7 @@ ul.no-bullet li:hover {
     .text-overflow;
     width: calc(280px - 50px);
   }
+
   &:hover, &:active {
     color: #fff;
     background-color: @ytp-brand-gray;
@@ -466,6 +466,12 @@ ul.no-bullet li:hover {
   }
 }
 
+.nav > li > a {
+  &:focus, &:hover, &:active {
+    color: #fff;
+    background-color: @ytp-brand-decorative;
+  }
+}
 
 /* Simplify CKAN's left-handside modules */
 .module-narrow .module-heading {

@@ -4497,7 +4497,7 @@ ul.dataset-list li.dataset-item .dataset-item-meta .collection-type {
 }
 ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a {
   display: inline-block;
-  padding: 4px;
+  padding: 4px 11px 4px 11px;
 }
 ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a:hover,
 ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a:active {
@@ -4687,6 +4687,12 @@ ul.no-bullet li:hover {
 .nav-item.active > a:before,
 .nav-aside li.active a:before {
   background-image: none;
+}
+.nav > li > a:focus,
+.nav > li > a:hover,
+.nav > li > a:active {
+  color: #fff;
+  background-color: #ee7544;
 }
 /* Simplify CKAN's left-handside modules */
 .module-narrow .module-heading {
@@ -5251,7 +5257,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408103373035") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408103603541") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
   padding-bottom: 32px;
@@ -5279,7 +5285,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408103373035');
+  background-image: url('../images/sprite.png?timestamp=1408103603541');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5289,7 +5295,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408103373035');
+  background-image: url('../images/sprite.png?timestamp=1408103603541');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5538,7 +5544,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408103373035") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408103603541") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5975,7 +5981,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408103373035');
+  background-image: url('../images/sprite.png?timestamp=1408103603541');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
