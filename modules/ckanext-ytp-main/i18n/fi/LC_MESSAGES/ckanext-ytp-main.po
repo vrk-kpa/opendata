@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-15 08:55+0300\n"
-"PO-Revision-Date: 2014-08-15 06:00+0000\n"
+"PO-Revision-Date: 2014-08-15 07:39+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -372,7 +372,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:107
 msgid "Publish"
-msgstr ""
+msgstr "Julkaise"
 
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
 msgid "Additional data"
