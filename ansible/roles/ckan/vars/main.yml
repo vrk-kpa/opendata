@@ -60,4 +60,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7641df3acf1370642ea193c93be2a64fd4da261b.patch", file: "fix_collection_type_translation.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/77f966c54b578beb812e486372e768110a48cc98.patch", file: "fix_autocomplete_input_delay.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/c989a39ec9bd1657b6dfc5a9147ffb31f524ae33.patch", file: "upgrade_image-upload.js"}
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b441619d98adafbfe5a1da33cec66614566949e5.patch", file: "fix-rdf.patch"}
+
 service_database_enabled: true
