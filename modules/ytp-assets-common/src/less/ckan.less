@@ -57,6 +57,7 @@ input[type="date"] {
 }
 
 .module-content {
+  padding-left: 0;
   padding-right: 0;
   select, input {
     .border-radius(3px);
@@ -235,6 +236,7 @@ span.byline-contentype {
   padding: 4px 8px;
 }
 
+
 .dataset-item .byline-contentype {
   display: inline-block;
   margin-top: 6px;
@@ -245,7 +247,11 @@ span.byline-contentype {
 }
 
 ul.dataset-list {
-  padding-left: 20px;
+  padding-left: 0px;
+
+  li.dataset-item {
+    margin-bottom: 8px;
+  }
 }
 
 .byline {
@@ -266,6 +272,19 @@ ul.no-bullet li:hover {
   
 }
 
+#page_wrapper .search-form {
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+  h1 {
+    margin-bottom: 4px;
+  }
+  .control-order-by {
+    margin-top: 5px;
+  }
+  .filter-list {
+    margin-top: 0px;
+  }
+}
 
 .form-horizontal .control-group {
   .clearfix;
@@ -644,6 +663,9 @@ dd {
 }
 
 .wrapper.no-nav {
+  h1.content-heading {
+    margin-left: 0;
+  }
   .content_action {
     position: absolute;
     right: 0;

@@ -4047,6 +4047,7 @@ article.module {
   background: none !important;
 }
 .module-content {
+  padding-left: 0;
   padding-right: 0;
 }
 .module-content select,
@@ -4274,7 +4275,10 @@ span.byline-contentype {
   margin-bottom: 7px;
 }
 ul.dataset-list {
-  padding-left: 20px;
+  padding-left: 0px;
+}
+ul.dataset-list li.dataset-item {
+  margin-bottom: 8px;
 }
 .byline {
   margin: 15px 0;
@@ -4288,6 +4292,19 @@ ul.no-bullet {
 }
 ul.no-bullet li:hover {
   background-color: rgba(128, 128, 128, 0.05);
+}
+#page_wrapper .search-form {
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+#page_wrapper .search-form h1 {
+  margin-bottom: 4px;
+}
+#page_wrapper .search-form .control-order-by {
+  margin-top: 5px;
+}
+#page_wrapper .search-form .filter-list {
+  margin-top: 0px;
 }
 .form-horizontal .control-group {
   *zoom: 1;
@@ -4679,6 +4696,9 @@ dd {
   width: 15px;
   color: #ffffff;
 }
+.wrapper.no-nav h1.content-heading {
+  margin-left: 0;
+}
 .wrapper.no-nav .content_action {
   position: absolute;
   right: 0;
@@ -4949,6 +4969,8 @@ a:focus {
   box-shadow: 0px 6px 14px -2px rgba(0, 0, 0, 0.6);
 }
 .footer {
+  margin: 0;
+  padding: 0;
   border: none;
 }
 .main-container,
@@ -4976,9 +4998,10 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408090101111") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408090306393") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
+  padding-bottom: 32px;
 }
 a {
   color: #266ab9;
@@ -5003,7 +5026,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408090101111');
+  background-image: url('../images/sprite.png?timestamp=1408090306393');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5013,7 +5036,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408090101111');
+  background-image: url('../images/sprite.png?timestamp=1408090306393');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5262,7 +5285,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408090101111") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408090306393") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5699,7 +5722,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408090101111');
+  background-image: url('../images/sprite.png?timestamp=1408090306393');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
