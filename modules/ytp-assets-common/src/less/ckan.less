@@ -379,6 +379,12 @@ ul.no-bullet li:hover {
   background-color: @body-color-background;
 }
 
+.module-narrow .nav-item > a,
+.module-narrow .nav-aside li a {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 .nav-item.active > a,
 .nav-aside li.active a {
   color: black;
@@ -405,19 +411,25 @@ ul.no-bullet li:hover {
 
 .module-heading {
   .clearfix;
-  margin: 10px 5px 0 15px;
+  margin: 10px 5px 0px 0px;
   padding: 7px @gutterX;
   font-size: 18px;
   font-weight: normal;
   line-height: 1;
   background-color: transparent;
   border-top: 0;
-  border-bottom: 1px solid @moduleHeadingBorderColor;
+  border-bottom: 0px solid @moduleHeadingBorderColor;
+  font-weight: 400;
 }
 
 .module-footer {
   margin-bottom: 20px;
+  padding-top: 3px;
   border: 0;
+}
+
+.module-narrow .module-footer {
+    padding-left: 12px;
 }
 
 .module .read-more {
