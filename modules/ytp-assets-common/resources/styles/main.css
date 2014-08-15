@@ -4916,8 +4916,8 @@ a:focus {
   padding-bottom: 0px;
 }
 .toolbar.drupal-crumbs {
-  padding-top: 0px;
-  padding-left: 20px;
+  padding-top: 8px;
+  padding-left: 24px;
   margin-bottom: 0px;
 }
 .toolbar.drupal-crumb:empty {
@@ -4995,8 +4995,9 @@ a:focus {
 }
 .main-container,
 #content.container {
-  padding-right: 19px;
-  padding-left: 19px;
+  margin-top: 8px;
+  padding-right: 25px;
+  padding-left: 25px;
 }
 #content.container,
 .drupal-crumbs {
@@ -5195,13 +5196,16 @@ h4 {
 #infobox .readmore a:after {
   content: ">";
 }
+#block-system-main {
+  margin-top: 6px;
+}
 #page-header .region-header {
   margin-bottom: 2px;
   padding-bottom: 10px;
 }
 .page-header {
   border-bottom-width: 0px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 .region-sidebar-second section {
   background-color: #eeeeee;
@@ -5240,9 +5244,6 @@ h4 {
 }
 .region-sidebar-second .tutorial-signin a:after {
   content: " >";
-}
-.region-content {
-  margin-top: 21px;
 }
 .control-full.error-block {
   width: auto;
