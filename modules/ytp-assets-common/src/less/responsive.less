@@ -2,6 +2,14 @@
 @import "variables.less";
 
 @media(max-width: @screen-md-min) {
+  #page_wrapper {
+    width: auto;
+  }
+
+  .container {
+    width: 970px;
+  }
+
   [role=main] .primary {
     float: right;
     width: 100%;
@@ -26,5 +34,45 @@
 
   .panel-body {
     padding: 0;
+  }
+}
+
+@media(max-width: @screen-lg) {
+  body {
+    padding-top: 50px;
+  }
+
+  #page_wrapper {
+    margin-top: 0px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-header, .modal-body, .modal-footer {
+    left: 30%;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .container {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: @screen-lg;
+  }
+  [role=main] .primary {
+    width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
+    float: right;
+    padding-left: 0;
+  }
+  [role=main] .secondary {
+    padding-right: 0;
   }
 }
