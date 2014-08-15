@@ -72,3 +72,11 @@ class YtpUserController(UserController):
         c.form = render(self.edit_user_form, extra_vars=vars)
 
         return render('user/edit.html')
+
+    def me(self, locale=None):
+        if not c.user:
+            h.redirect_to(locale=locale, controller='user', action='login',
+                          id=None)
+        user_ref = c.userobj.get_reference_preferred_for_uri()
+        h.redirect_to(locale=locale, controller='user', action='edit',
+                      id=user_ref)

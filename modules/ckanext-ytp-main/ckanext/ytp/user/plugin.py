@@ -101,5 +101,6 @@ class YtpUserPlugin(plugins.SingletonPlugin):
         with SubMapper(map, controller=user_controller) as m:
             m.connect('/user/edit', action='edit')
             m.connect('/user/edit/{id:.*}', action='edit')
+            m.connect('/user/me', action='me')
 
         return map
