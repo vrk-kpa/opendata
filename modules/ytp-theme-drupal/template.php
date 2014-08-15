@@ -256,10 +256,12 @@ function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
     $form['#submit'][] = $function;
 }
 
+/* // Temporary disable
 function ytp_theme_user_register_form_submit($form, &$form_state) {
   global $language;
   $form_state['redirect'] = array('/data/' . $language->language . '/user/edit', array('external' => TRUE));
 }
+*/
 
 function ytp_theme_preprocess_node(&$variables){
     $date = format_date($variables['changed'], 'short');
