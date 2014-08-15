@@ -259,9 +259,6 @@ ul.dataset-list {
 
     .dataset-item-meta {
       display: block;
-      .collection-type {
-        display: inline-block;
-      }
       :first-child {
         margin-left: 0;
       }
@@ -272,9 +269,22 @@ ul.dataset-list {
         padding-left: 4px;
         padding-right: 4px;
       }
-      .label {
+      .organization {
         margin-top: 0; padding-top: 4px;
         margin-bottom: 0; padding-bottom: 4px;        
+      }
+      .collection-type {
+        display: inline-block;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        a {
+          display: inline-block;
+          padding: 4px;
+          &:hover, &:active {
+            border-radius: 4px;
+          }
+        }
       }
     }
   }
@@ -429,20 +439,27 @@ ul.no-bullet li:hover {
 .module-narrow .nav-aside li a {
   padding-left: 12px;
   padding-right: 12px;
+  border-radius: 4px;
+}
+
+.module-footer a.read-more {
+  &:hover, &:active {
+    color: @ytp-brand-decorative;
+  }
 }
 
 .nav-item.active > a,
 .nav-aside li.active a {
   color: black;
   font-weight: bold;
-  background-color: @body-color-background; /*  @background-hilight */
+  background-color: @body-color-background;
   span {
     .text-overflow;
     width: calc(280px - 50px);
   }
-  &:hover {
-    color: @main-hilight-color;
-    background-color: @background-hilight;
+  &:hover, &:active {
+    color: #fff;
+    background-color: @ytp-brand-gray;
   }
   &:before {
     background-image: none;
@@ -484,13 +501,22 @@ ul.no-bullet li:hover {
   &:hover {
     color: @link-hilight;
   }
+
+  &.read-more-uncollapse:after {
+    content: '\25BC';
+    padding-left: 4px;
+  }
+  &.read-more-collapse:after {
+    content: '\25B2';
+    padding-left: 4px;
+  }
 }
 
 .nav-facet .nav-item > a:hover:after,
 .nav-facet .nav-item.active > a:after {
   background-image: none;
-  font-family: FontAwesome;
-  content: "\f00c";
+  //font-family: FontAwesome;
+  //content: "\f00c";
   position: absolute;
   top: 50%;
   right: 5px;

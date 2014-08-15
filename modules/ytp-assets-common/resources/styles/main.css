@@ -4473,9 +4473,6 @@ ul.dataset-list li.dataset-item {
 ul.dataset-list li.dataset-item .dataset-item-meta {
   display: block;
 }
-ul.dataset-list li.dataset-item .dataset-item-meta .collection-type {
-  display: inline-block;
-}
 ul.dataset-list li.dataset-item .dataset-item-meta :first-child {
   margin-left: 0;
 }
@@ -4486,11 +4483,25 @@ ul.dataset-list li.dataset-item .dataset-item-meta .organization {
   padding-left: 4px;
   padding-right: 4px;
 }
-ul.dataset-list li.dataset-item .dataset-item-meta .label {
+ul.dataset-list li.dataset-item .dataset-item-meta .organization {
   margin-top: 0;
   padding-top: 4px;
   margin-bottom: 0;
   padding-bottom: 4px;
+}
+ul.dataset-list li.dataset-item .dataset-item-meta .collection-type {
+  display: inline-block;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a {
+  display: inline-block;
+  padding: 4px;
+}
+ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a:hover,
+ul.dataset-list li.dataset-item .dataset-item-meta .collection-type a:active {
+  border-radius: 4px;
 }
 .byline {
   margin: 15px 0;
@@ -4647,13 +4658,17 @@ ul.no-bullet li:hover {
 .module-narrow .nav-aside li a {
   padding-left: 12px;
   padding-right: 12px;
+  border-radius: 4px;
+}
+.module-footer a.read-more:hover,
+.module-footer a.read-more:active {
+  color: #ee7544;
 }
 .nav-item.active > a,
 .nav-aside li.active a {
   color: black;
   font-weight: bold;
   background-color: #ffffff;
-  /*  @background-hilight */
 }
 .nav-item.active > a span,
 .nav-aside li.active a span {
@@ -4663,9 +4678,11 @@ ul.no-bullet li:hover {
   width: calc(230px);
 }
 .nav-item.active > a:hover,
-.nav-aside li.active a:hover {
-  color: #1f7994;
-  background-color: #eeeeee;
+.nav-aside li.active a:hover,
+.nav-item.active > a:active,
+.nav-aside li.active a:active {
+  color: #fff;
+  background-color: #888888;
 }
 .nav-item.active > a:before,
 .nav-aside li.active a:before {
@@ -4736,11 +4753,17 @@ ul.no-bullet li:hover {
 .module .read-more:hover {
   color: #1d528f;
 }
+.module .read-more.read-more-uncollapse:after {
+  content: '\25BC';
+  padding-left: 4px;
+}
+.module .read-more.read-more-collapse:after {
+  content: '\25B2';
+  padding-left: 4px;
+}
 .nav-facet .nav-item > a:hover:after,
 .nav-facet .nav-item.active > a:after {
   background-image: none;
-  font-family: FontAwesome;
-  content: "\f00c";
   position: absolute;
   top: 50%;
   right: 5px;
@@ -5068,10 +5091,10 @@ textarea {
 h1,
 h2,
 h3 {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 body {
-  font-family: 'Gotham Narrow SSm A', 'Gotham Narrow SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .navbar {
   margin-bottom: 12px;
@@ -5228,7 +5251,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408098165921") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408101539201") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
   padding-bottom: 32px;
@@ -5256,7 +5279,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408098165921');
+  background-image: url('../images/sprite.png?timestamp=1408101539201');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5266,7 +5289,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408098165921');
+  background-image: url('../images/sprite.png?timestamp=1408101539201');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5515,7 +5538,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408098165921") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408101539201") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5952,7 +5975,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408098165921');
+  background-image: url('../images/sprite.png?timestamp=1408101539201');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

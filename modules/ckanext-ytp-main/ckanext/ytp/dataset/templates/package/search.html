@@ -46,7 +46,7 @@
 
   {% block package_search_results_api %}
   <section class="module">
-    <div class="module-content">
+    <div class="module-content api-help">
       <small>
         {% set api_link = h.link_to(_('API'), h.url_for(controller='api', action='get_api', ver=3)) %}
         {% set api_doc_link = h.link_to(_('API Docs'), 'http://docs.ckan.org/en/{0}/api.html'.format(g.ckan_doc_version)) %}
