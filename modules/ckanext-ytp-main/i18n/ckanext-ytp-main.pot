@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-15 08:55+0300\n"
+"POT-Creation-Date: 2014-08-15 15:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,7 +181,8 @@ msgid "Edit or add language versions"
 msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:59
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:48
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
+#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:91
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
@@ -339,7 +340,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:12
 #: ckanext/ytp/dataset/templates/package/base.html:16
-#: ckanext/ytp/organizations/templates/snippets/organization.html:53
+#: ckanext/ytp/dataset/templates/package/search.html:4
+#: ckanext/ytp/dataset/templates/package/search.html:7
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
 msgid "Datasets"
@@ -347,6 +349,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/edit_base.html:4
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:101
 msgid "Close without saving"
 msgstr ""
@@ -356,7 +359,7 @@ msgid "Update"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:17
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:107
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:109
 msgid "Publish"
 msgstr ""
 
@@ -473,12 +476,64 @@ msgstr ""
 msgid "Technical extra information"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
-msgid "Change log"
+#: ckanext/ytp/dataset/templates/package/search.html:16
+msgid "Add Dataset"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/search.html:29
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:30
+#: ckanext/ytp/theme/templates/snippets/search_form.html:31
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:31
+#: ckanext/ytp/theme/templates/snippets/search_form.html:31
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:32
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
 msgid "Last Modified"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:33
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+msgid "Popular"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:51
+msgid "API"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:52
+msgid "API Docs"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:54
+msgid "full {format} dump"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:55
+#, python-format
+msgid ""
+" You can also access this registry using the %(api_link)s (see "
+"%(api_doc_link)s) or download a %(dump_link)s. "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:59
+#, python-format
+msgid ""
+" You can also access this registry using the %(api_link)s (see "
+"%(api_doc_link)s). "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
+msgid "Change log"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:87
@@ -688,17 +743,17 @@ msgid ""
 "under the Open Database License."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:47
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:50
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:55
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:106
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:61
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:108
 msgid "Save as draft"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:70
+#: ckanext/ytp/dataset/templates/package/snippets/package_form.html:76
 msgid "Next: Add Data"
 msgstr ""
 
@@ -737,6 +792,11 @@ msgid "joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+msgid "Are you sure you want to delete this resource?"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:25
 msgid "Update Resource"
 msgstr ""
 
@@ -778,11 +838,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
-msgid "Are you sure you want to delete this resource?"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:118
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:120
 msgid "Inserted Resources"
 msgstr ""
 
@@ -814,13 +870,11 @@ msgid "Languages"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
-msgid "Show More {facet_type}"
+msgid "More"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:73
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:112
-msgid "Show Only Popular {facet_type}"
+msgid "Less"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
@@ -828,8 +882,12 @@ msgstr ""
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
-msgid "Popular"
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
+msgid "Show More {facet_type}"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:112
+msgid "Show Only Popular {facet_type}"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
@@ -1176,10 +1234,6 @@ msgstr ""
 msgid "There is no description for this organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/snippets/organization.html:49
-msgid "Followers"
-msgstr ""
-
 #: ckanext/ytp/service/plugin.py:42
 msgid "Service charge must be supplied"
 msgstr ""
@@ -1463,6 +1517,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:174
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:181
 #: ckanext/ytp/theme/templates/snippets/search_form.html:69
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:63
 msgid "Remove"
 msgstr ""
 
@@ -1635,34 +1690,32 @@ msgid "Home"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:3
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
 msgid "Search datasets..."
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
+#: ckanext/ytp/theme/templates/snippets/search_input.html:9
 msgid "Submit"
 msgstr ""
 
-#: ckanext/ytp/theme/templates/snippets/search_form.html:31
-msgid "Name Ascending"
-msgstr ""
-
-#: ckanext/ytp/theme/templates/snippets/search_form.html:31
-msgid "Name Descending"
-msgstr ""
-
 #: ckanext/ytp/theme/templates/snippets/search_form.html:37
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:31
 msgid "Order by"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:45
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:39
 msgid "Go"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
 msgid " <p class=\"extra\">Please try another search.</p> "
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:80
 msgid ""
 " <p><strong>There was an error while searching.</strong> Please try "
 "again.</p> "

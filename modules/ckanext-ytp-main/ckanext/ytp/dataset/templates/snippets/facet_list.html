@@ -68,9 +68,9 @@ within_tertiary
         </nav>
         <p class="module-footer">
           {% if h.get_param_int('_%s_limit' % name) %}
-            <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-uncollapse">{{ _('Show more').format(facet_type=title) }}</a>
+            <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-uncollapse">{{ _('More').format(facet_type=title) }}</a>
           {% else %}
-            <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-collapse">{{ _('Show only popular').format(facet_type=title) }}</a>
+            <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-collapse">{{ _('Less').format(facet_type=title) }}</a>
           {% endif %}
         </p>
       {% else %}
