@@ -83,9 +83,10 @@
     </dl>
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
-    <button type="button"  class="btn btn-info" data-toggle="collapse" data-target="#extra_extra">
-        {{_('Technical extra information')}}
-    </button>
+    <h3 class="collapsible
+     collapsed" data-toggle="collapse" data-target="#extra_extra">
+      {{_('Technical extra information')}}
+    </h3>
     <dl id="extra_extra" class="collapse dl-horizontal">
     {% for key  in extra_dict.keys() %}
         <dt>{{ _(key) }}</dt>
