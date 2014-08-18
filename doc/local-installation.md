@@ -49,7 +49,7 @@ We use [Ansible](http://www.ansible.com) configuration management to automate pr
 
 ### Run Vagrant and start Ansible installation
 
-Vagrant command looks for Vagrantfile which contains all the virtual machine configurations, therefore you should run the command in the vagrant directory (`cd ytp/vagrant`).
+Vagrant command uses the Vagrantfile which contains all the virtual machine configurations, therefore you should run the command in the project directory or its subdirectories.
 
 `vagrant up` will both start and then provision your virtual machine. If the machine is already running, this command does nothing. To only start a machine but not provision it, you can use `vagrant up --no-provision`. By default, Vagrant will not reprovision a halted machine that has already been provisioned earlier, but if you wish to start up a completely new machine without provisioning it, you can use the previous command.
 
