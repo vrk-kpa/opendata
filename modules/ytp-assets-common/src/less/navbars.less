@@ -110,12 +110,13 @@
 
 .navbar.navbar-main {
   border: none;
-  border-top-right-radius: @pagewrapper-border-radius;
-  border-top-left-radius: @pagewrapper-border-radius;
+  border-top-right-radius: @border-radius-large;
+  border-top-left-radius: @border-radius-large;
   background-color: @menu-link-background;
   background-repeat: repeat-x;
   min-height: 40px;
-  margin: 0 -15px;
+  margin: 0 -(@grid-gutter-width)/2;  
+  margin-bottom: @line-height-computed;
   .navbar-brand {
     padding: 10px;
   }
@@ -141,7 +142,7 @@
   .navbar-nav {
     li {
       &:first-child > a {
-        border-top-left-radius: @pagewrapper-border-radius;
+        border-top-left-radius: @border-radius-large;
       }
     }
     li > a {

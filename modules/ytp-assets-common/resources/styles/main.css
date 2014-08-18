@@ -161,6 +161,15 @@
   font-weight: 700;
   font-style: italic;
 }
+#publisher-tree li {
+  margin-top: 1px;
+}
+#publisher-tree li a {
+  font-size: 14px;
+}
+#publisher-tree li:hover {
+  background-color: purple;
+}
 
 .view .date-nav-wrapper .date-prev {
   right: 110px;
@@ -4188,10 +4197,6 @@ h4 small {
 .hero {
   background: none;
 }
-.alert.alert-info {
-  padding: 0.3em 1em 0.3em 1em;
-  margin: 25px 20px 20px 20px;
-}
 .alert.alert-info a {
   font-size: 18px;
 }
@@ -5289,23 +5294,13 @@ a:focus {
   background-color: #ffffff;
   margin: 6px auto;
   padding-bottom: 30px;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 0px 6px 14px -2px rgba(0, 0, 0, 0.6);
 }
 .footer {
   margin: 0;
   padding: 0;
   border: none;
-}
-.main-container,
-#content.container {
-  margin-top: 0px;
-  padding-right: 25px;
-  padding-left: 25px;
-}
-#content.container,
-.drupal-crumbs {
-  margin-top: 12px;
 }
 .full-width {
   width: 100%;
@@ -5322,7 +5317,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408358989232") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408366125075") 50% 50% fixed no-repeat;
   background-size: cover;
   padding-top: 54px;
   padding-bottom: 32px;
@@ -5350,7 +5345,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408358989232');
+  background-image: url('../images/sprite.png?timestamp=1408366125075');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5360,7 +5355,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408358989232');
+  background-image: url('../images/sprite.png?timestamp=1408366125075');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5429,9 +5424,6 @@ h4 {
   font-size: 50px;
   padding-bottom: 64px;
 }
-.carousel {
-  margin-top: 4px;
-}
 .carousel .carousel-inner {
   background-color: #4D4D4D;
   height: 160px;
@@ -5470,6 +5462,7 @@ h4 {
   background: none;
   width: 4%;
   opacity: 0.2;
+  z-index: 10;
 }
 .carousel .carousel-control .icon-next,
 .carousel .carousel-control .icon-prev {
@@ -5610,7 +5603,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408358989232") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408366125075") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5809,12 +5802,13 @@ textarea {
 }
 .navbar.navbar-main {
   border: none;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
   background-color: #f2f1f0;
   background-repeat: repeat-x;
   min-height: 40px;
-  margin: 0 -15px;
+  margin: 0 -25px;
+  margin-bottom: 20px;
 }
 .navbar.navbar-main .navbar-brand {
   padding: 10px;
@@ -5836,7 +5830,7 @@ textarea {
   color: #333333;
 }
 .navbar.navbar-main .navbar-nav li:first-child > a {
-  border-top-left-radius: 8px;
+  border-top-left-radius: 6px;
 }
 .navbar.navbar-main .navbar-nav li > a {
   text-align: center;
@@ -6031,7 +6025,7 @@ li.ytp-menulink.active > a.active {
     width: 1200px;
   }
   [role=main] .primary {
-    width: 850px;
+    width: 830px;
     float: right;
     padding-left: 0;
   }
@@ -6049,7 +6043,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408358989232');
+  background-image: url('../images/sprite.png?timestamp=1408366125075');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

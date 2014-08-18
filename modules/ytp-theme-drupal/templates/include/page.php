@@ -82,9 +82,11 @@
     <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
   </div>
 <?php endif; ?>
-<div class="container toolbar drupal-crumbs">
- <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
- </div>
+<?php if (!empty($breadcrumb)): ?>
+  <div class="container toolbar drupal-crumbs">
+    <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
+  </div>
+<?php endif; ?>
 <div class="main-container container">
   <header role="banner" id="page-header">
     <?php if (!empty($site_slogan)): ?>
