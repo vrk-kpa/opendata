@@ -38,7 +38,7 @@
         {% endcall %}
     {% endif %}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full'], locales=h.get_available_locales(), data=data, slug=true, is_required=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('e.g., a descriptive title'), value=data.title, error=errors.title, classes=['control-full'], locales=h.get_available_locales(), data=data, slug=true, is_required=true) }}
 
 {% endblock %}
 
@@ -48,11 +48,11 @@
   {% set domain = domain|replace("http://", "")|replace("https://", "") %}
   {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<dataset>'} %}
 
-  {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-dataset'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+  {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('e.g., my-dataset'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
 {% endblock %}
 
 {% block package_basic_fields_description %}
-  {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data, is_required=true) }}
+  {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('e.g., some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data, is_required=true) }}
 {% endblock %}
 
 {% block package_basic_fields_license %}
@@ -89,7 +89,7 @@
 
 {% block package_basic_fields_tags %}
   {% set tag_attrs = {'data-module': 'autocomplete', 'data-module-tags': '', 'data-module-source': '/api/2/util/tag/autocomplete?incomplete=?'} %}
-  {% call form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs, is_required=true) %}
+  {% call form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('e.g., economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs, is_required=true) %}
     {% if errors.tag_string and errors.tag_string is iterable -%}
     <span class="error-block">{{ errors.tag_string|join(', ') }}</span>
     {%- endif %}
@@ -178,7 +178,7 @@
     {# ### YTP extensions to dataset ### #}
 
     {% set content_type_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'content_type', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=content_type&incomplete=?'} %}
-    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder=_('eg. Open Data'), value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs, is_required=true) }}
+    {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder=_('e.g., Open Data'), value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs, is_required=true) }}
 
     {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
       <div class="form-inline date">

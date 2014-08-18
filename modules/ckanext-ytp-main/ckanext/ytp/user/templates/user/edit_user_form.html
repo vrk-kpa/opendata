@@ -11,11 +11,11 @@
 
     {{ ytp_form.input('_apikey', label=_('API key'), id='field-apikey', value=data.apikey, classes=['control-medium'], attrs={'readonly': ''}) }}
 
-    {{ ytp_form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('eg. Joe Bloggs'), is_required=true, classes=['control-medium']) }}
+    {{ ytp_form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('e.g., Joe Bloggs'), is_required=true, classes=['control-medium']) }}
 
     {{ ytp_form.input('job_title', label=_('Job title'), id='field-job_title', value=data.job_title, placeholder=_('Software Designer'), error=errors.job_title, locales=h.get_available_locales(), data=data, classes=['control-medium']) }}
 
-    {{ ytp_form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('eg. joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': ''},
+    {{ ytp_form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('e.g., joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': ''},
         help_text=_('You can change your email address from the account settings')) }}
 
     {{ ytp_form.input('telephone_number', label=_('Telephone number'), id='field-telephone_number', type='tel', value=data.telephone_number, error=errors.telephone_number, placeholder=_('+358 50 123 4567'), classes=['control-medium']) }}

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:11+0300\n"
+"POT-Creation-Date: 2014-08-18 15:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -464,20 +464,17 @@ msgid "License"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:108
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 msgid "Temporal Granularity"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:113
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:36
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
 msgid "Update Frequency"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:118
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:30
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:58
 msgid "Temporal Coverage"
 msgstr ""
 
@@ -601,7 +598,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:17
-msgid "eg. A descriptive title"
+msgid "e.g., a descriptive title"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
@@ -618,7 +615,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
-msgid "eg. my-dataset"
+msgid "e.g., my-dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
@@ -634,7 +631,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
-msgid "eg. Some useful notes about the data"
+msgid "e.g., some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:78
@@ -663,7 +660,7 @@ msgid "Disclaimer on liability due to use of this dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
-msgid "eg. economy, mental health, government"
+msgid "e.g., economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
@@ -706,7 +703,7 @@ msgid "Deleted"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
-msgid "eg. Open Data"
+msgid "e.g., Open Data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
@@ -822,7 +819,7 @@ msgid "Name"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
-msgid "eg. January 2011 Gold Prices"
+msgid "e.g., January 2011 Gold Prices"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
@@ -830,12 +827,12 @@ msgid "Some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
-msgid "eg. CSV, XML or JSON"
+msgid "e.g., CSV, XML or JSON"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
-msgid "eg. A year, 2 months"
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+msgid "e.g., a year, 2 months"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
@@ -1831,7 +1828,7 @@ msgid "Full name"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:14
-msgid "eg. Joe Bloggs"
+msgid "e.g., Joe Bloggs"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:16
@@ -1848,7 +1845,7 @@ msgid "Email"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
-msgid "eg. joe@example.com"
+msgid "e.g., joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:19
@@ -1961,7 +1958,7 @@ msgid "API Key"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:3
-msgid "As registerd user you can browse users."
+msgid "As a registered user, you can browse users."
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:6
