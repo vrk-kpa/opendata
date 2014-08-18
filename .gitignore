@@ -50,5 +50,5 @@ modules/ytp-drupal-features/*.tar
 vars/ytp-secrets/
 
 .idea/
+.vagrant
 ansible/vars/private
-
