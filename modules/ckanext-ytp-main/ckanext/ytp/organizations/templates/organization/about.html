@@ -46,7 +46,7 @@
                                    (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
                                    (_('Parking'), h.extra_translation(c.group_dict, 'street_address_parking', markdown=True)),
                                    (_('Arrival by public transport'), h.extra_translation(c.group_dict, 'street_address_public_transport')),
-                                   (_('URL for public transport'), url|urlize)
+                                   (_('Web address for public transport'), url|urlize)
                                    ] %}
 
             {% for info in address_info %}

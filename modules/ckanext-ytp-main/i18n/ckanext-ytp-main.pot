@@ -19,7 +19,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 #: ckanext/ytp/common/converters.py:36
-msgid "Incorrect URL format detected: URL must start with http://, https:// or www."
+msgid ""
+"Incorrect web address format detected. Web address must start with http://, "
+"https:// or www."
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
@@ -49,7 +51,7 @@ msgid "Cancel"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
-msgid "Save and Close"
+msgid "Save and close"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:217
@@ -77,12 +79,14 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
-"Are you sure you want to change original language? This will remove target "
-"language translation data."
+"Are you sure you want to change the original language? This will remove the "
+"target language translations."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
-msgid "Are you sure you want to remove translation? Translated data will be removed."
+msgid ""
+"Are you sure you want to remove the language? The language's translations "
+"will be removed."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:42
@@ -145,8 +149,8 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:24
 msgid ""
-"Provide open data, tools or manuals for others. You can also publish public "
-"services or software based on open data."
+"Provide open data, tools, or manuals for use by others. You can also publish "
+"public services and software based on open data."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
@@ -460,17 +464,20 @@ msgid "License"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:108
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:35
 msgid "Temporal Granularity"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:113
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:36
 msgid "Update Frequency"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:118
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:58
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:30
 msgid "Temporal Coverage"
 msgstr ""
 
@@ -827,7 +834,7 @@ msgid "eg. CSV, XML or JSON"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
 msgid "eg. A year, 2 months"
 msgstr ""
 
@@ -914,7 +921,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:71
 #, python-format
-msgid "User %s not allowed to change public organization option"
+msgid "User %s is not allowed to change the public organization option"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:76
@@ -1020,7 +1027,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
-msgid "URL for public transport"
+msgid "Web address for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
@@ -1250,7 +1257,7 @@ msgstr ""
 #: ckanext/ytp/service/plugin.py:52
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
-"URL for this service or a description of the service pricing or both"
+"web address for this service or a description of the service pricing or both"
 msgstr ""
 
 #: ckanext/ytp/service/plugin.py:64
@@ -1597,7 +1604,7 @@ msgid "No information"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Pricing information for this service (webaddress)"
+msgid "Pricing information for this service (web address)"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21

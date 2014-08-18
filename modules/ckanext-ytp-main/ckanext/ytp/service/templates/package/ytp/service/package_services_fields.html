@@ -18,7 +18,7 @@
 {% set service_charge_options = ((_('Charges apply'), "yes"), ( _('Free of charge'), "no"), (_('No information'), "unknown")) %}
 {{ ytp_form.radio(service_charge_options, "unknown", "service_charge", label=_('Service charge'), value=data.service_charge, error=errors.service_charge, is_required=true) }}
 
-{{ ytp_form.input('pricing_information_url', label=_('Pricing information for this service (webaddress)'), value=data.pricing_information_url, placeholder=_('https://www.example.com/'), error=pricing_information_url, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'service_charge', 'data-ytp-visible-data': 'yes'}) }}
+{{ ytp_form.input('pricing_information_url', label=_('Pricing information for this service (web address)'), value=data.pricing_information_url, placeholder=_('https://www.example.com/'), error=pricing_information_url, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'service_charge', 'data-ytp-visible-data': 'yes'}) }}
 {{ ytp_form.markdown('service_price_description', label=_('Description of service pricing'), value=data.service_price_description, placeholder='', error=errors.service_price_description, locales=h.get_available_locales(), data=data, attrs={'data-ytp-visible-element': 'service_charge', 'data-ytp-visible-data': 'yes'}) }}
 
 <h2>{{ _('Processing times') }}</h2>

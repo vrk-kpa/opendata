@@ -1717,6 +1717,14 @@ msgstr "Sök i dataseten..."
 msgid "Submit"
 msgstr "Skicka"
 
+#: ckanext/ytp/theme/templates/snippets/search_form.html:31
+msgid "Name Ascending"
+msgstr "Namn i stigande ordning"
+
+#: ckanext/ytp/theme/templates/snippets/search_form.html:31
+msgid "Name Descending"
+msgstr "Namn i nedstigande ordning"
+
 #: ckanext/ytp/theme/templates/snippets/search_form.html:37
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:31
 msgid "Order by"
