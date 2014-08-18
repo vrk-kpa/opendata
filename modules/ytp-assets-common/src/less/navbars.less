@@ -1,6 +1,7 @@
 @import "upstream_bootstrap/variables";
 @import "variables.less";
 
+
 .navbar-fixed-top {
   background-color: @navbar-color-background;
   min-height: @navbar-height;
@@ -38,10 +39,14 @@
         display: inline-block;
       }
       li a:after {
+        display: inline-block;
         padding-left: 16px;
         color: @navbar-color-text;
         content: '|';
-        text-decoration: none;
+        text-decoration: none !important;
+      }
+      li a.locale-untranslated:after {
+        text-decoration: none !important;
       }
       li:last-child a {
         border-right: medium none;
