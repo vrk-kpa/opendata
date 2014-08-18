@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 15:52+0300\n"
-"PO-Revision-Date: 2014-08-18 12:59+0000\n"
+"POT-Creation-Date: 2014-08-18 17:11+0300\n"
+"PO-Revision-Date: 2014-08-18 14:23+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid ""
 "Incorrect web address format detected. Web address must start with http://, "
 "https:// or www."
-msgstr "Väärä verkko-osoitteen muoto. Verkko-osoitteen täytyy alkaa muodolla http://, https:// tai www."
+msgstr "Verkko-osoitteen muoto on virheellinen. Verkko-osoitteen täytyy alkaa muodolla http://, https:// tai www."
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
@@ -63,8 +63,8 @@ msgid "Cancel"
 msgstr "Peruuta"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
-msgid "Save and Close"
-msgstr ""
+msgid "Save and close"
+msgstr "Tallenna ja sulje"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:217
 msgid "http://example.com/my-image.jpg"
@@ -93,13 +93,13 @@ msgstr ""
 msgid ""
 "Are you sure you want to change the original language? This will remove the "
 "target language translations."
-msgstr ""
+msgstr "Oletko varma, että haluat vaihtaa alkuperäiskielen? Tämä poistaa kohdekielten käännökset."
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
 msgid ""
 "Are you sure you want to remove the language? The language's translations "
 "will be removed."
-msgstr ""
+msgstr "Oletko varma, että haluat poistaa kielen? Kielen kaikki käännökset poistetaan."
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:42
 msgid "Languages versions"
@@ -163,7 +163,7 @@ msgstr "Muokkaa sisältöä"
 msgid ""
 "Provide open data, tools, or manuals for use by others. You can also publish"
 " public services and software based on open data."
-msgstr ""
+msgstr "Tarjoa avointa dataa, työkaluja ja ohjeita muiden käyttöön. Voit myös julkaista avoimeen dataan pohjautuvia julkisia palveluja tai toteuttamiasi sovelluksia."
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
 #: ckanext/ytp/theme/menu.py:198
@@ -899,7 +899,7 @@ msgstr "Näytä vähemmän"
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:119
 msgid "No matches"
-msgstr "Ei hakuehtoja"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
 msgid "Show More {facet_type}"
@@ -1739,7 +1739,7 @@ msgstr "Siirry"
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
 msgid ""
 " <p class=\"extra\">Please try another search or change search facets.</p> "
-msgstr "<p class=\"extra\">Kokeile syöttämällä eri hakusanat tai muuta valitsemiasi hakuehtoja.</p>"
+msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:80
