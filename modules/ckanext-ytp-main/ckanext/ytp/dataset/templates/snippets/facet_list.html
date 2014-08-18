@@ -74,7 +74,7 @@ within_tertiary
           {% endif %}
         </p>
       {% else %}
-        <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
+        <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
       {% endif %}
     </section>
     <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} visible-xs visible-sm">
@@ -116,7 +116,7 @@ within_tertiary
       {% else %}
         <div id ="{{ title | replace(' ', '_') }}" class="panel-collapse collapse ">
           <div class="panel-body">
-            <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
+            <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
           </div>
         </div>
       {% endif %}

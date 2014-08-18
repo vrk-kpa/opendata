@@ -51,7 +51,7 @@ then itself be extended to add/remove blocks of functionality. #}
           <a class="btn btn-danger" href="{% url_for controller='package', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
         {% endif %}
         {% if state =='active' or state == 'deleted' or state == 'draft' and data.get('resources', 'none') | length != 0 %}
-          {% link_for _('Close without saving'), controller='package', action='read', id=data.name, class_='btn btn-default', icon='arrow-left' %}
+          {% link_for _('Close without saving'), controller='package', action='read', id=data.name, class_='btn btn-default', icon='chevron-left' %}
         {% endif %}
         </div>
       {% endblock %}

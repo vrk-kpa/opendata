@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-15 15:20+0300\n"
+"POT-Creation-Date: 2014-08-18 14:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,6 +188,7 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:134
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:295
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:406
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 #: ckanext/ytp/user/templates/user/edit_user_form.html:55
 msgid "Delete"
@@ -351,6 +352,8 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:54
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:101
+#: ckanext/ytp/organizations/templates/organization/edit_base.html:5
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:409
 msgid "Close without saving"
 msgstr ""
 
@@ -471,8 +474,8 @@ msgstr ""
 msgid "Temporal Coverage"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/resource_read.html:130
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:87
+#: ckanext/ytp/dataset/templates/package/resource_read.html:131
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:88
 msgid "Technical extra information"
 msgstr ""
 
@@ -879,7 +882,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:119
-msgid "There are no {facet_type} that match this search"
+msgid "No matches"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
@@ -1210,6 +1213,12 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:370
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:391
 msgid "A little information about the item..."
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:405
+msgid ""
+"Are you sure you want to delete this Organization? This will delete all the "
+"public and private datasets belonging to this organization."
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_item.html:25
@@ -1711,7 +1720,7 @@ msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
-msgid " <p class=\"extra\">Please try another search.</p> "
+msgid " <p class=\"extra\">Please try another search or change search facets.</p> "
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
