@@ -4799,13 +4799,17 @@ ul.no-bullet li:hover {
 .module .read-more:hover {
   color: #1d528f;
 }
-.module .read-more.read-more-uncollapse:after {
-  content: '\25BC';
-  padding-left: 4px;
+.module .read-more.read-more-uncollapse:before {
+  font-weight: normal;
+  font-family: FontAwesome;
+  content: "\f078";
+  padding-right: 6px;
 }
-.module .read-more.read-more-collapse:after {
-  content: '\25B2';
-  padding-left: 4px;
+.module .read-more.read-more-collapse:before {
+  font-weight: normal;
+  font-family: FontAwesome;
+  content: "\f077";
+  padding-right: 6px;
 }
 .nav-facet .nav-item > a:hover:after,
 .nav-facet .nav-item.active > a:after {

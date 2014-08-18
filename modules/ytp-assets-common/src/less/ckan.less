@@ -542,13 +542,17 @@ ul.no-bullet li:hover {
     color: @link-hilight;
   }
 
-  &.read-more-uncollapse:after {
-    content: '\25BC';
-    padding-left: 4px;
+  &.read-more-uncollapse:before {
+    font-weight: normal;
+    font-family: FontAwesome;
+    content: "\f078";
+    padding-right: 6px;
   }
-  &.read-more-collapse:after {
-    content: '\25B2';
-    padding-left: 4px;
+  &.read-more-collapse:before {
+    font-weight: normal;
+    font-family: FontAwesome;
+    content: "\f077";
+    padding-right: 6px;
   }
 }
 
