@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:04+0300\n"
+"POT-Creation-Date: 2014-08-18 14:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1720,7 +1720,7 @@ msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
-msgid " <p class=\"extra\">Please try another search.</p> "
+msgid " <p class=\"extra\">Please try another search or change search facets.</p> "
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86

@@ -5,6 +5,7 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
+# Jaakko Salonen <jaakko.salonen@iki.fi>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 # Vilsepi, 2014
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:04+0300\n"
-"PO-Revision-Date: 2014-08-18 11:05+0000\n"
+"POT-Creation-Date: 2014-08-18 14:11+0300\n"
+"PO-Revision-Date: 2014-08-18 11:13+0000\n"
 "Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -891,7 +892,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:119
 msgid "No matches"
-msgstr ""
+msgstr "Hittades inte"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
 msgid "Show More {facet_type}"
@@ -1728,8 +1729,9 @@ msgstr "Kör"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
-msgid " <p class=\"extra\">Please try another search.</p> "
-msgstr "<p class=\"extra\">Försök med ett annat sök.</p> "
+msgid ""
+" <p class=\"extra\">Please try another search or change search facets.</p> "
+msgstr "<p class=\"extra\">Försök med ett annat sök.</p>"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:80

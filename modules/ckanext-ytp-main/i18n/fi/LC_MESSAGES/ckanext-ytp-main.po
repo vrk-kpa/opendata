@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:04+0300\n"
-"PO-Revision-Date: 2014-08-18 11:06+0000\n"
+"POT-Creation-Date: 2014-08-18 14:11+0300\n"
+"PO-Revision-Date: 2014-08-18 11:12+0000\n"
 "Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1735,8 +1735,9 @@ msgstr "Siirry"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:80
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
-msgid " <p class=\"extra\">Please try another search.</p> "
-msgstr " <p class=\"extra\">Kokeile toisenlaista hakua.</p> "
+msgid ""
+" <p class=\"extra\">Please try another search or change search facets.</p> "
+msgstr "<p class=\"extra\">Kokeile syöttämällä eri hakusanat tai muuta valitsemiasi hakuehtoja.</p>"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:80
