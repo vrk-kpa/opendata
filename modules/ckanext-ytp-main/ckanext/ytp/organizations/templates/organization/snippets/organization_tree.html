@@ -13,7 +13,7 @@ Example:
   {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
 
 #}
-<ul class="no-bullet">
+<ul class="no-bullet organization-tree">
   {% for node in top_nodes recursive %}
     <li id="node_{{ node.name }}">
       {% if node.highlighted %}
@@ -26,7 +26,7 @@ Example:
       {% endif %}
 
       {% if node.children %}
-        <ul class="no-bullet"> {{ loop(node.children) }} </ul>
+        <ul class="no-bullet organization-subtree"> {{ loop(node.children) }} </ul>
       {% endif %}
     </li>
   {% endfor %}
