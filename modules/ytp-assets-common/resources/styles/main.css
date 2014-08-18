@@ -4209,18 +4209,18 @@ h4 small {
       -ms-user-select: none;
           user-select: none;
 }
+.collapsible:hover,
+.collapsible:active,
+.collapsible:focus {
+  color: #ee7544;
+}
 .collapsible:before {
   font-family: FontAwesome;
-  top: 0;
-  left: - 5px;
-  padding-right: 0.5em;
+  padding-right: 0.2em;
   content: "\f077";
 }
 .collapsible.collapsed:before {
   content: "\f078";
-}
-h3.collapsible {
-  margin-bottom: 0;
 }
 .service_alerts {
   list-style: none;
@@ -5009,9 +5009,6 @@ dd {
 .wrapper.no-nav .content_action {
   position: absolute;
   right: 0;
-}
-dl#extra_extra {
-  margin-top: 30px;
 }
 .pagination-centered {
   display: block;

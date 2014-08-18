@@ -25,20 +25,17 @@
 .collapsible {
   cursor: pointer;
   user-select: none;
+  &:hover, &:active, &:focus {
+    color: @ytp-brand-decorative;
+  }
   &:before {
     font-family: FontAwesome;
-    top: 0;
-    left:- 5px;
-    padding-right: 0.5em;
+    padding-right: 0.2em;
     content: "\f077";
   }
   &.collapsed:before {
     content: "\f078";
   }
-}
-
-h3.collapsible {
-  margin-bottom: 0;
 }
 
 .service_alerts {
@@ -793,10 +790,6 @@ dd {
     position: absolute;
     right: 0;
   }
-}
-
-dl#extra_extra {
-  margin-top: 30px;
 }
 
 .pagination-centered {

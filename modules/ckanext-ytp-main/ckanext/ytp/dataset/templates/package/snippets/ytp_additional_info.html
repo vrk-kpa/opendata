@@ -84,10 +84,10 @@
 
     {% set extra_dict = h.clean_extras(extra_dict) %}
     <h3 class="collapsible
-     collapsed" data-toggle="collapse" data-target="#extra_extra">
+     collapsed" data-toggle="collapse" data-target="#extra-extra">
       {{_('Technical extra information')}}
     </h3>
-    <dl id="extra_extra" class="collapse dl-horizontal">
+    <dl id="extra-extra" class="collapse dl-horizontal">
     {% for key  in extra_dict.keys() %}
         <dt>{{ _(key) }}</dt>
         <dd>{{ extra_dict.get(key) }}</dd>
