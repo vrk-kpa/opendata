@@ -117,7 +117,7 @@
   {% endif %}
   {% if package.resources %}
   <div class="existing-resources" style="padding: 1em; margin-top: 20px">
-    {% snippet "package/snippets/resources_list2.html", pkg=package, resources=package.resources, list_title=_('Inserted Resources'), draft=true %}
+    {% snippet "package/snippets/resources_list2.html", pkg=package, resources=package.resources, list_title=_('Inserted Resources'), draft=true, resource_under_edit=data.id %}
   </div>
   {% endif %}
 </form>

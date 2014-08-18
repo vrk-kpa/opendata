@@ -6,7 +6,7 @@
     <ul class="resource-list">
       {% block resource_list_inner %}
       {% for resource in resources %}
-        {% snippet 'package/snippets/resource_item2.html', pkg=pkg, res=resource, draft=draft or false %}
+        {% snippet 'package/snippets/resource_item2.html', pkg=pkg, res=resource, draft=draft or false, resource_under_edit=resource_under_edit or false %}
       {% endfor %}
       {% endblock %}
     </ul>
