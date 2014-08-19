@@ -5539,11 +5539,11 @@ body.toolbar-drawer {
   background-color: #333333;
   min-height: 40px;
 }
-.navbar-top .container-fluid {
+.navbar-top > .container-fluid {
   max-width: 1200px;
+  padding: 0 12px;
 }
 .navbar-top a.navbar-brand {
-  padding-left: 25px;
   padding-right: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -5789,9 +5789,6 @@ li.ytp-menulink.active > a.active {
 }
 .menu-name-main-menu {
   margin-left: 0px;
-}
-.navbar-nav.navbar-right.user-nav-large {
-  padding-right: 10px;
 }
 
 /* Extra small, small, and medium devices */
