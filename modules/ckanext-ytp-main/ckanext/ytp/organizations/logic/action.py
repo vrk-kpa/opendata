@@ -6,7 +6,6 @@ from ckanext.ytp.organizations.model import GroupTreeNode
 from ckan import model
 
 log = logging.getLogger(__name__)
-_get_or_bust = logic.get_or_bust
 
 
 @logic.side_effect_free
@@ -15,7 +14,6 @@ def group_tree(context, data_dict):
 
     :returns: list of top-level GroupTreeNodes
     '''
-    model = _get_or_bust(context, 'model')
     group_type = data_dict.get('type', 'group')
     return [_group_tree_branch(group, type=group_type)
             for group in model.Group.get_top_level_groups(type=group_type)]
@@ -29,9 +27,7 @@ def group_tree_section(context, data_dict):
     :param id: the id or name of the group to inclue in the tree
     :returns: the top GroupTreeNode of the tree section
     '''
-    group_name_or_id = _get_or_bust(data_dict, 'id')
-    model = _get_or_bust(context, 'model')
-    group = model.Group.get(group_name_or_id)
+    group = model.Group.get(data_dict['id'])
     if group is None:
         raise p.toolkit.ObjectNotFound
     group_type = data_dict.get('type', 'group')
