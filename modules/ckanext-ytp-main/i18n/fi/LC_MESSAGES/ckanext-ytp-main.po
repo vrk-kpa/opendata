@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-18 17:11+0300\n"
-"PO-Revision-Date: 2014-08-18 14:23+0000\n"
+"PO-Revision-Date: 2014-08-19 14:43+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -384,7 +384,7 @@ msgstr "Julkaise"
 
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
 msgid "Additional data"
-msgstr ""
+msgstr "Lisätietoja"
 
 #: ckanext/ytp/dataset/templates/package/new_resource.html:10
 #: ckanext/ytp/dataset/templates/package/new_resource_not_draft.html:14
@@ -1037,7 +1037,7 @@ msgstr "Saapuminen julkisilla kulkuvälineillä"
 #: ckanext/ytp/organizations/templates/organization/about.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
 msgid "Web address for public transport"
-msgstr ""
+msgstr "Verkko-osoite julkiselle liikenteelle"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:215
@@ -1499,19 +1499,19 @@ msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
 msgid "Floor and room number"
-msgstr ""
+msgstr "Kerros ja huonenumero"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:80
 msgid "Postal Box"
-msgstr ""
+msgstr "Postilaatikko"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:81
 msgid "Postal Number"
-msgstr ""
+msgstr "Postinumero"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:82
 msgid "Post office"
-msgstr ""
+msgstr "Postitoimisto"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:83
 msgid "Contry"
@@ -1560,7 +1560,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:173
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:198
 msgid "Postal Address"
-msgstr ""
+msgstr "Postiosoite"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:180
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:199
