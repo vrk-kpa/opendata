@@ -4820,6 +4820,7 @@ dd {
   border-radius: 10px;
   height: 32px;
   padding-left: 10px;
+  padding-right: 32px;
 }
 .search-form .search-input.search-sm button {
   border: none;
@@ -5151,7 +5152,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408449940805") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408474090472") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5181,7 +5182,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408449940805');
+  background-image: url('../images/sprite.png?timestamp=1408474090472');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5191,7 +5192,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408449940805');
+  background-image: url('../images/sprite.png?timestamp=1408474090472');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5439,7 +5440,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408449940805") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408474090472") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5912,7 +5913,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408449940805');
+  background-image: url('../images/sprite.png?timestamp=1408474090472');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
