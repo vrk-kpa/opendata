@@ -1,24 +1,7 @@
 @import (reference) "upstream_bootstrap/mixins";
 @import "variables.less";
 
-/* Extra small and small devices */
-@media (max-width: @screen-xs-max) {
-  // Unfix navbar from top
-  body {
-    padding-top: 0;
-  }
-  #page_wrapper {
-    margin-top: 0;
-    padding-top: 0;
-  }
-  .navbar-fixed-top, .navbar-fixed-top .navbar-collapse,
-  .navbar-fixed-bottom, .navbar-fixed-bottom .navbar-collapse {
-    position: relative;
-    max-height: 100%;
-  }  
-}
-
-/* Extra small, Small and medium devices */
+/* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
   #page_wrapper {
     margin-left: (@grid-gutter-width/4);
@@ -28,6 +11,13 @@
     .container {
       width: auto;
     }
+  }
+}
+
+/* Extra small, and small devices */
+@media (max-width: @screen-sm-max) {
+  #page_wrapper {
+    padding-top: 20px;
   }
 }
 

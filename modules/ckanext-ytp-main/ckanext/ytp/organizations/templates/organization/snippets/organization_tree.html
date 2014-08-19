@@ -1,26 +1,16 @@
 {#
 Displays a tree of organzations
-
-NB This template can be slow because it is recursive and uses link_for. At
-DGU we speeded up display of the tree 10 times (necessary as we have 1000 
-organizations) by replacing this template with a recursive code routine:
-https://github.com/datagovuk/ckanext-dgu/blob/5fb78b354517c2198245bdc9c98fb5d6c82c6bcc/ckanext/dgu/lib/helpers.py#L140 
-
-orgs    - List of organizations
-
-Example:
-
-  {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
-
 #}
+
+{% set url_prefix = h.url_for(controller='organization', action='read', id='') %}
+
 <ul class="no-bullet organization-tree">
   {% for node in top_nodes recursive %}
     <li id="node_{{ node.name }}">
       {% if node.highlighted %}
         <strong>
       {% endif %}
-      {% set node_title = h.extra_translation(node, 'title') or node.name %}
-      {% link_for node_title, controller='organization', action='read', id=node.name %}
+      <a href="{{ url_prefix }}/{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
       {% if node.highlighted %}
         </strong>
       {% endif %}

@@ -4867,6 +4867,10 @@ dd {
 .organization-subtree {
   margin-left: 20px;
 }
+.dataset-heading .popular {
+  top: 0;
+  margin-bottom: 2px;
+}
 
 .translate-content {
   background-color: #e8e7e6;
@@ -5152,7 +5156,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408474090472") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408476178725") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5182,7 +5186,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408474090472');
+  background-image: url('../images/sprite.png?timestamp=1408476178725');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5192,7 +5196,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408474090472');
+  background-image: url('../images/sprite.png?timestamp=1408476178725');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5440,7 +5444,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408474090472") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408476178725") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5527,53 +5531,19 @@ body.toolbar-drawer {
 #toolbar {
   position: relative;
 }
+.hidden-xs .navbar-nav.lang-select {
+  margin-left: 25%;
+}
 .navbar-top {
   border-radius: 0;
   background-color: #333333;
   min-height: 40px;
-  /*
-  .collapsing, .in {
-    overflow-y: visible;
-    .navbar-nav.lang-select, .navbar-nav.user-nav {
-      a {
-        margin: 10px 0px 10px 10px;
-        padding: 0px;
-      }
-      li {
-        text-align: center;
-        border-bottom: 1px solid @navbar-color-text;
-      }
-      li a {
-        padding-bottom: 0px;
-        padding-top: 0px;
-        display: inline-block;
-        font-size: 1.5em;
-        color: @navbar-color-text;
-      }
-      li:last-child {
-        border-bottom: medium none;
-        padding-top: 0px;
-      }
-
-      ul {
-        text-align: center;
-        li.list-item-class {
-          display: inline;
-          border-right: 1px solid @navbar-color-text;
-          border-bottom: none;
-          padding-right: 10px;
-        }
-        li.list-item-class:last-child {
-          padding-right: 0px;
-          border-right: none;
-
-        }
-      }
-    }
-  }
-  */
+}
+.navbar-top .container-fluid {
+  max-width: 1200px;
 }
 .navbar-top a.navbar-brand {
+  padding-left: 25px;
   padding-right: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -5585,6 +5555,7 @@ body.toolbar-drawer {
 .navbar-top .navbar-brand,
 .navbar-top .navbar-nav > li > a {
   padding: 10px;
+  padding-left: 25px;
 }
 .navbar-top .navbar-toggle {
   padding-left: 4px;
@@ -5651,10 +5622,6 @@ body.toolbar-drawer {
 }
 .navbar-top .collapsing {
   overflow: hidden;
-}
-.region-top-navigation .item-list .hidden-xs .navbar-nav.lang-select,
-#page_wrapper .navbar-fixed-top .hidden-xs .navbar-nav.lang-select {
-  margin-left: 25%;
 }
 .navbar-nav.user-nav span,
 .navbar-nav.user-nav a {
@@ -5827,24 +5794,7 @@ li.ytp-menulink.active > a.active {
   padding-right: 10px;
 }
 
-/* Extra small and small devices */
-@media (max-width: 767px) {
-  body {
-    padding-top: 0;
-  }
-  #page_wrapper {
-    margin-top: 0;
-    padding-top: 0;
-  }
-  .navbar-fixed-top,
-  .navbar-fixed-top .navbar-collapse,
-  .navbar-fixed-bottom,
-  .navbar-fixed-bottom .navbar-collapse {
-    position: relative;
-    max-height: 100%;
-  }
-}
-/* Extra small, Small and medium devices */
+/* Extra small, small, and medium devices */
 @media (min-width: 480px) and (max-width: 1199px) {
   #page_wrapper {
     margin-left: 12.5px;
@@ -5852,6 +5802,12 @@ li.ytp-menulink.active > a.active {
   }
   #page_wrapper .container {
     width: auto;
+  }
+}
+/* Extra small, and small devices */
+@media (max-width: 991px) {
+  #page_wrapper {
+    padding-top: 20px;
   }
 }
 /* Medium devices */
@@ -5913,7 +5869,7 @@ li.ytp-menulink.active > a.active {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408474090472');
+  background-image: url('../images/sprite.png?timestamp=1408476178725');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
