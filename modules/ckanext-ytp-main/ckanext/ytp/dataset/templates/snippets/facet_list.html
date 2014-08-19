@@ -45,7 +45,7 @@ within_tertiary
       {% set nav_item_class = ' ' %}
       {% set wrapper_class = 'nav-facet nav-facet-tertiary' %}
     {% endif %}
-    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} hidden-xs hidden-sm">
+    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }}">
       <h2 class="module-heading">
         {% set title = title or h.get_facet_title(name) %}
         {{ title }}
@@ -77,7 +77,7 @@ within_tertiary
         <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
       {% endif %}
     </section>
-    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} visible-xs visible-sm">
+    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} visible-xs visible-sm hidden">
       <div class="panel panel-default">
         <div class="panel-heading">
         {% set title = title or h.get_facet_title(name) %}

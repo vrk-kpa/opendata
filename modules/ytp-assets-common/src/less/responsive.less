@@ -18,6 +18,8 @@
 @media (max-width: @screen-sm-max) {
   #page_wrapper {
     padding-top: 20px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
   }
 }
 
@@ -40,16 +42,6 @@
 @media(max-width: @screen-md-min) {
   #page_wrapper {
     width: auto;
-  }
-
-  [role=main] .primary {
-    float: right;
-    width: 100%;
-  }
-
-  [role=main] .secondary {
-    width: 100%;
-    margin-bottom: 12px;
   }
 
   section.module {
@@ -77,11 +69,11 @@
 
 @media (min-width: @screen-md-min) {
   [role=main] .primary {
-    width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
-    float: right;
-    padding-left: 0;
+    //width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
+    //float: right;
+    //padding-left: 0;
   }
   [role=main] .secondary {
-    padding-right: 0;
+    //padding-right: 0;
   }
 }

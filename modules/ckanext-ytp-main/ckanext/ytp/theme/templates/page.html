@@ -5,7 +5,7 @@
 {% block secondary %}
     {% set inner = self.secondary_inner() %}
     {% if inner | trim %}
-    <aside class="secondary col-xs-12 col-sm-12 col-md-12">
+    <aside class="secondary col-xs-6 col-sm-3 sidebar-offcanvas">
     {% block secondary_inner %}
         {%- include('ytp/menu.html') -%}
         {% block secondary_content -%}{%- endblock %}
@@ -15,7 +15,13 @@
 {% endblock %}
 
 {% block primary %}
-    <div class="primary col-xs-12 col-sm-12 col-md-12">
+    <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-9{% endif %}">
+        <p class="visible-xs pull-left">
+            <button class="btn btn-primary" data-toggle="offcanvas" type="button">
+                <i class="icon-align-justify"></i>
+                Muuta hakuehtoja
+            </button>
+        </p>
         {% block primary_content %}
             {{ super() }}
         {% endblock %}
