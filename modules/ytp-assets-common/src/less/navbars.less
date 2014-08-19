@@ -1,10 +1,19 @@
 @import "upstream_bootstrap/variables";
 @import "variables.less";
 
+body.toolbar, body.toolbar-drawer {
+  padding-top: 0px !important;
+}
 
-.navbar-fixed-top {
+#toolbar {
+  position: relative;
+}
+
+.navbar-top {
+  border-radius: 0;
   background-color: @navbar-color-background;
   min-height: @navbar-height;
+
   a.navbar-brand {
     padding-right: 16px;
     text-decoration: none;
@@ -12,8 +21,8 @@
   }
 
   .navbar-brand, .lang-select > li > a {
-      color: @navbar-color-text;
-    }
+    color: @navbar-color-text;
+  }
 
   .navbar-brand, .navbar-nav > li > a {
     padding: 10px;
@@ -27,40 +36,54 @@
   .navbar-nav li {
     font-size: 13px;
   }
-    .collapse {
+
+  .collapse {
+    .hidden-xs, .hidden-sm {
       .navbar-nav.lang-select, .navbar-nav.user-nav {
         a {
-          margin: 10px 0px 10px 16px;
+          margin: 10px 0 10px 0px;
           padding: 0px;
-      }
+        }
 
-      li a {
-        padding-left: 0px;
-        display: inline-block;
-      }
-      li a:after {
-        display: inline-block;
-        padding-left: 16px;
-        color: @navbar-color-text;
-        content: '|';
-        text-decoration: none !important;
-      }
-      li a.locale-untranslated:after {
-        text-decoration: none !important;
-      }
-      li:last-child a {
-        border-right: medium none;
-        padding-right: 0;
-      }
-      li:last-child a:after {
-        display: none;
+        li a {
+          padding-left: 16px;
+          display: inline-block;
+        }
+        li a:after {
+          display: inline-block;
+          padding-left: 16px;
+          color: @navbar-color-text;
+          content: '|';
+          text-decoration: none !important;
+        }
+        li a.locale-untranslated:after {
+          text-decoration: none !important;
+        }
+        li:last-child a {
+          border-right: medium none;
+          padding-right: 0;
+        }
+        li:last-child a:after {
+          display: none;
+        }
       }
     }
   }
+
+  .visible-xs, .visible-sm {
+    li {      
+      font-size: 14px;
+      font-weight: normal;
+      padding: 0px (@grid-gutter-width/2);
+    }
+    .navbar-nav.lang-select {
+      margin: 0;
+    }
+  }
+  /*
   .collapsing, .in {
     overflow-y: visible;
     .navbar-nav.lang-select, .navbar-nav.user-nav {
-
       a {
         margin: 10px 0px 10px 10px;
         padding: 0px;
@@ -97,12 +120,20 @@
       }
     }
   }
+  */
 
   .navbar-collapse.in {
-      overflow-y: visible;
-    }
+    overflow-y: visible;
+  }
+  .collapsing {
+    overflow: hidden;
+  }
 }
 
+.region-top-navigation .item-list .hidden-xs .navbar-nav.lang-select,
+#page_wrapper .navbar-fixed-top .hidden-xs .navbar-nav.lang-select {
+  margin-left: 25%;
+}
 
 .navbar-nav.user-nav {
   span, a {
@@ -120,7 +151,7 @@
   background-color: @menu-link-background;
   background-repeat: repeat-x;
   min-height: 40px;
-  margin: 0 -(@grid-gutter-width)/2;  
+  margin: 0 -(@grid-gutter-width / 2);
   margin-bottom: @line-height-computed;
   .navbar-brand {
     padding: 10px;
@@ -228,11 +259,6 @@
       }
     }
   }
-}
-
-.region-top-navigation .item-list .navbar-nav.lang-select,
-#page_wrapper .navbar-fixed-top .navbar-nav.lang-select {
-  margin-left: 25%;
 }
 
 /* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
