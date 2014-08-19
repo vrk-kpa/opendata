@@ -1,13 +1,55 @@
 @import (reference) "upstream_bootstrap/mixins";
 @import "variables.less";
 
+/* Extra small and small devices */
+@media (max-width: @screen-xs-max) {
+  // Unfix navbar from top
+  body {
+    padding-top: 0;
+  }
+  #page_wrapper {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .navbar-fixed-top, .navbar-fixed-top .navbar-collapse,
+  .navbar-fixed-bottom, .navbar-fixed-bottom .navbar-collapse {
+    position: relative;
+    max-height: 100%;
+  }  
+}
+
+/* Extra small, Small and medium devices */
+@media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
+  #page_wrapper {
+    margin-left: (@grid-gutter-width/4);
+    margin-right: (@grid-gutter-width/4);
+
+    // Make sure container does not overflow with added margins
+    .container {
+      width: auto;
+    }
+  }
+}
+
+/* Medium devices */
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  // Adjust navbar to available screen width
+  .navbar.navbar-main .navbar-nav li > a {
+    padding: 10px 12px;
+    min-width: 134px;
+  }
+}
+
+/* Large devices */
+@media (min-width: @screen-lg) {
+  #page_wrapper, .navbar-main {
+    max-width: @screen-lg;
+  }
+}
+
 @media(max-width: @screen-md-min) {
   #page_wrapper {
     width: auto;
-  }
-
-  .container {
-    width: 970px;
   }
 
   [role=main] .primary {
@@ -37,36 +79,7 @@
   }
 }
 
-@media(max-width: @screen-lg) {
-  body {
-    padding-top: 50px;
-  }
-
-  #page_wrapper {
-    margin-top: 0px;
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-}
-
-@media (min-width: @screen-sm-min) {
-  .container {
-    width: 750px;
-  }
-}
-
-@media (min-width: 768px) {
-  .modal-header, .modal-body, .modal-footer {
-    left: 30%;
-  }
-}
-
 @media (min-width: @screen-md-min) {
-  .container {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: @screen-lg;
-  }
   [role=main] .primary {
     width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
     float: right;
