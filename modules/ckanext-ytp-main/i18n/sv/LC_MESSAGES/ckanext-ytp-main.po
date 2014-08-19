@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:11+0300\n"
-"PO-Revision-Date: 2014-08-18 11:13+0000\n"
-"Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
+"POT-Creation-Date: 2014-08-18 17:11+0300\n"
+"PO-Revision-Date: 2014-08-18 14:24+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,8 +26,9 @@ msgstr ""
 
 #: ckanext/ytp/common/converters.py:36
 msgid ""
-"Incorrect URL format detected: URL must start with http://, https:// or www."
-msgstr ""
+"Incorrect web address format detected. Web address must start with http://, "
+"https:// or www."
+msgstr "Webbadressens format är felaktig. Webbadressen måste börja med http://, https:// eller www."
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
@@ -56,8 +57,8 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
-msgid "Save and Close"
-msgstr ""
+msgid "Save and close"
+msgstr "Spara och stäng"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:217
 msgid "http://example.com/my-image.jpg"
@@ -84,15 +85,15 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
-"Are you sure you want to change original language? This will remove target "
-"language translation data."
-msgstr ""
+"Are you sure you want to change the original language? This will remove the "
+"target language translations."
+msgstr "Är du säker på att du vill ändra originalspråket? Detta tar bort målspråkens översättningar."
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
 msgid ""
-"Are you sure you want to remove translation? Translated data will be "
-"removed."
-msgstr ""
+"Are you sure you want to remove the language? The language's translations "
+"will be removed."
+msgstr "Är du säker på att du vill ta bort språket? Språkets alla översättningar tas bort."
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:42
 msgid "Languages versions"
@@ -154,9 +155,9 @@ msgstr "Redigera innehållet"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:24
 msgid ""
-"Provide open data, tools or manuals for others. You can also publish public "
-"services or software based on open data."
-msgstr ""
+"Provide open data, tools, or manuals for use by others. You can also publish"
+" public services and software based on open data."
+msgstr "Publicera öppen data, verktyg eller instruktioner till andras bruk. Du kan även publicera offentliga tjänster och applikationer som baserar sig på öppen data."
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
 #: ckanext/ytp/theme/menu.py:198
@@ -603,7 +604,7 @@ msgstr "Namn"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:17
-msgid "eg. A descriptive title"
+msgid "e.g., a descriptive title"
 msgstr "t.ex. en beskrivande titel"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
@@ -620,7 +621,7 @@ msgstr "Webbadress"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
-msgid "eg. my-dataset"
+msgid "e.g., my-dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
@@ -636,7 +637,7 @@ msgstr "Beskrivning"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
-msgid "eg. Some useful notes about the data"
+msgid "e.g., some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:78
@@ -665,13 +666,13 @@ msgid "Disclaimer on liability due to use of this dataset"
 msgstr "Friskrivningsklausul för ansvar gällande användningen av denna dataset"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
-msgid "eg. economy, mental health, government"
+msgid "e.g., economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:31
 msgid "Select an organization..."
-msgstr "Välj en data producerare..."
+msgstr "Välj en dataproducerare..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:150
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:65
@@ -708,8 +709,8 @@ msgid "Deleted"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
-msgid "eg. Open Data"
-msgstr "t.ex. öppen data"
+msgid "e.g., Open Data"
+msgstr "t.ex. Öppen data"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
@@ -763,7 +764,7 @@ msgstr "Är du säker på att du vill ta bort denna dataset?"
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:61
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:108
 msgid "Save as draft"
-msgstr ""
+msgstr "Spara som utkast"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:76
 msgid "Next: Add Data"
@@ -810,7 +811,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:25
 msgid "Update Resource"
-msgstr ""
+msgstr "Uppdatera materiallänken"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:36
 msgid "File"
@@ -824,7 +825,7 @@ msgid "Name"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
-msgid "eg. January 2011 Gold Prices"
+msgid "e.g., January 2011 Gold Prices"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
@@ -832,17 +833,17 @@ msgid "Some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
-msgid "eg. CSV, XML or JSON"
+msgid "e.g., CSV, XML or JSON"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-msgid "eg. A year, 2 months"
+msgid "e.g., a year, 2 months"
 msgstr "t.ex. ett år, 2 månader"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
 msgid "Add another resource"
-msgstr ""
+msgstr "Lägg till en annan materiallänk"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:77
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:134
@@ -875,7 +876,7 @@ msgstr ""
 msgid ""
 " <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
 "add some?</a> "
-msgstr "<p class=\"empty\">Datasetet innehåller ingen data, <a href=\"%(url)s\">lägg till?</a> "
+msgstr "<p class=\"empty\">Datasetet innehåller ingen data, <a href=\"%(url)s\">lägg till något?</a> "
 
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:21
 msgid "Languages"
@@ -883,16 +884,16 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:71
 msgid "More"
-msgstr ""
+msgstr "Visa mera"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:73
 msgid "Less"
-msgstr ""
+msgstr "Visa mindre"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:119
 msgid "No matches"
-msgstr "Hittades inte"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
 msgid "Show More {facet_type}"
@@ -923,7 +924,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:71
 #, python-format
-msgid "User %s not allowed to change public organization option"
+msgid "User %s is not allowed to change the public organization option"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:76
@@ -970,7 +971,7 @@ msgstr "Gata/väg"
 #: ckanext/ytp/organizations/templates/organization/about.html:39
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
 msgid "House number"
-msgstr "Husets nummer"
+msgstr "Husnummer"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:39
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
@@ -1029,7 +1030,7 @@ msgstr "Ankomst med kollektivtrafik"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
-msgid "URL for public transport"
+msgid "Web address for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
@@ -1259,8 +1260,9 @@ msgstr "Tjänstens avgiftsbelagdhet måste anges"
 #: ckanext/ytp/service/plugin.py:52
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
-" URL for this service or a description of the service pricing or both"
-msgstr ""
+" web address for this service or a description of the service pricing or "
+"both"
+msgstr "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben eller en beskrivning om priserna eller båda"
 
 #: ckanext/ytp/service/plugin.py:64
 msgid "At least one of the main target groups must to be selected"
@@ -1272,7 +1274,7 @@ msgstr "Organisationen finns inte"
 
 #: ckanext/ytp/service/plugin.py:203
 msgid "Invalid organization type"
-msgstr "Ogiltig organisationstyp"
+msgstr "Felaktig organisationstyp"
 
 #: ckanext/ytp/service/plugin.py:225
 msgid "Harvested datasets are read-only"
@@ -1378,7 +1380,7 @@ msgstr "Tjänstehelhet"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:50
 msgid "Service provider (if other than responsible organization)"
-msgstr "Tjänsteleverantör (om annan en arrangören)"
+msgstr "Tjänsteleverantör (om annan än arrangören)"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:53
 msgid "Service class"
@@ -1606,8 +1608,8 @@ msgid "No information"
 msgstr "Ingen information"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Pricing information for this service (webaddress)"
-msgstr ""
+msgid "Pricing information for this service (web address)"
+msgstr "Prisinformation för tjänsten (webbadress)"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
 msgid "https://www.example.com/"
@@ -1627,7 +1629,7 @@ msgstr "Uppskattad behandlingstid"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:27
 msgid "Main time of the year for using this service"
-msgstr "Huvudsakliga användningstiden för tjänsten i året"
+msgstr "Huvudsakliga användningstiden för tjänsten under året"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:28
 msgid "Estimated average service time per customer"
@@ -1731,7 +1733,7 @@ msgstr "Kör"
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:74
 msgid ""
 " <p class=\"extra\">Please try another search or change search facets.</p> "
-msgstr "<p class=\"extra\">Försök med ett annat sök.</p>"
+msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:80
@@ -1834,7 +1836,7 @@ msgid "Full name"
 msgstr "Fullständigt namn"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:14
-msgid "eg. Joe Bloggs"
+msgid "e.g., Joe Bloggs"
 msgstr "t.ex. Joe Bloggs"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:16
@@ -1851,7 +1853,7 @@ msgid "Email"
 msgstr "E-post"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
-msgid "eg. joe@example.com"
+msgid "e.g., joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:19
@@ -1940,7 +1942,7 @@ msgstr ""
 
 #: ckanext/ytp/user/templates/user/read_base.html:21
 msgid "You have not provided a biography."
-msgstr "Du har inte gett en beskrivning av dig själv."
+msgstr "Du har inte gett en beskrivning om dig själv."
 
 #: ckanext/ytp/user/templates/user/read_base.html:23
 msgid "This user has no biography."
@@ -1964,7 +1966,7 @@ msgid "API Key"
 msgstr "API-nyckel"
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:3
-msgid "As registerd user you can browse users."
+msgid "As a registered user, you can browse users."
 msgstr "Som en registrerad användare kan du bläddra igenom användare."
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:6

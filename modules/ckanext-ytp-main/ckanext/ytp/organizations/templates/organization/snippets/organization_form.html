@@ -120,7 +120,7 @@
     {{ ytp_form.markdown('street_address_parking', label=_('Parking'), id='street_address_parking', placeholder=_('Example parking instructions'), value=data.street_address_parking, error=errors.street_address_parking, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
     {{ ytp_form.input('street_address_public_transport', label=_('Arrival by public transport'), id='street_address_public_transport', placeholder=_('Example instructions arrival by public transport'), value=data.street_address_public_transport, error=errors.street_address_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.input('street_address_url_public_transport', label=_('URL for public transport'), id='street_address_url_public_transport', placeholder=_('http://publictransport.example.com/'), value=data.street_address_url_public_transport, error=errors.street_address_url_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('street_address_url_public_transport', label=_('Web address for public transport'), id='street_address_url_public_transport', placeholder=_('http://publictransport.example.com/'), value=data.street_address_url_public_transport, error=errors.street_address_url_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
 
     {# Homepage functionality #}

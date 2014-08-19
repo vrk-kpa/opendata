@@ -33,7 +33,7 @@ def _check_url(url):
     parts = urlparse.urlsplit(url)
     if not parts.scheme or not parts.netloc:
         if not url.startswith('www.'):
-            raise Invalid(_('Incorrect URL format detected: URL must start with http://, https:// or www.'))
+            raise Invalid(_('Incorrect web address format detected. Web address must start with http://, https:// or www.'))
 
 
 def is_url(value, context):

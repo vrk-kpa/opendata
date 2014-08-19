@@ -49,8 +49,8 @@ def service_charge_validator(key, data, errors, context):
         if ((pricing_url_value is missing or pricing_url_value is None or pricing_url_value == '') and
                 (service_price_value is missing or service_price_value is None or service_price_value == '')):
             # If both the pricing information url and the service price description fields are empty, show an error message
-            raise Invalid(_('If there is a service charge, you must supply either the pricing information URL for this service or a description of the ' +
-                            'service pricing or both'))
+            raise Invalid(_('If there is a service charge, you must supply either the pricing information web address for this service or a description of ' +
+                            'the service pricing or both'))
     return service_charge_value
 
 

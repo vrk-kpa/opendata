@@ -68,7 +68,7 @@ def organization_update(context, data_dict):
 
     if (data_dict and 'save' in data_dict and
             data_dict.get('public_adminstration_organization', None) != group.extras.get('public_adminstration_organization', None)):
-        return {'success': False, 'msg': _('User %s not allowed to change public organization option') % user}
+        return {'success': False, 'msg': _('User %s is not allowed to change the public organization option') % user}
 
     authorized = new_authz.has_user_permission_for_group_or_org(group.id, user, 'update')
     if not authorized:

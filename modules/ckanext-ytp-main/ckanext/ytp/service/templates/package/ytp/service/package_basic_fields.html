@@ -12,9 +12,9 @@
 
     {{ form.hidden('collection_type', 'Public Service') }}
 
-    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
+    {{ ytp_form.input('title', id='field-title', label=_('Title'), placeholder=_('e.g., a descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], locales=h.get_available_locales(), data=data, slug=true) }}
 
-    {{ ytp_form.input('alternative_title', id='field-alternative_title', label=_('Alternative Title'), placeholder=_('eg. A descriptive title'), value=data.alternative_title, error=errors.alternative_title, locales=h.get_available_locales(), data=data) }}
+    {{ ytp_form.input('alternative_title', id='field-alternative_title', label=_('Alternative Title'), placeholder=_('e.g., a descriptive title'), value=data.alternative_title, error=errors.alternative_title, locales=h.get_available_locales(), data=data) }}
 
 {% endblock %}
 
@@ -24,11 +24,11 @@
   {% set domain = domain|replace("http://", "")|replace("https://", "") %}
   {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<dataset>'} %}
 
-  {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-dataset'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+  {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('e.g., my-dataset'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
 {% endblock %}
 
 {% block package_basic_fields_description %}
-  {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data) }}
+  {{ ytp_form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('e.g., some useful notes about the data'), value=data.notes, error=errors.notes, locales=h.get_available_locales(), data=data) }}
 {% endblock %}
 
 {# Hide the tags from the UI #}

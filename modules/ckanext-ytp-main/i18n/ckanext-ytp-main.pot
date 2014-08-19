@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 14:11+0300\n"
+"POT-Creation-Date: 2014-08-18 17:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 #: ckanext/ytp/common/converters.py:36
-msgid "Incorrect URL format detected: URL must start with http://, https:// or www."
+msgid ""
+"Incorrect web address format detected. Web address must start with http://, "
+"https:// or www."
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
@@ -49,7 +51,7 @@ msgid "Cancel"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
-msgid "Save and Close"
+msgid "Save and close"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:217
@@ -77,12 +79,14 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
-"Are you sure you want to change original language? This will remove target "
-"language translation data."
+"Are you sure you want to change the original language? This will remove the "
+"target language translations."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
-msgid "Are you sure you want to remove translation? Translated data will be removed."
+msgid ""
+"Are you sure you want to remove the language? The language's translations "
+"will be removed."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:42
@@ -145,8 +149,8 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:24
 msgid ""
-"Provide open data, tools or manuals for others. You can also publish public "
-"services or software based on open data."
+"Provide open data, tools, or manuals for use by others. You can also publish "
+"public services and software based on open data."
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:29
@@ -594,7 +598,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:17
-msgid "eg. A descriptive title"
+msgid "e.g., a descriptive title"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
@@ -611,7 +615,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
-msgid "eg. my-dataset"
+msgid "e.g., my-dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
@@ -627,7 +631,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
-msgid "eg. Some useful notes about the data"
+msgid "e.g., some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:78
@@ -656,7 +660,7 @@ msgid "Disclaimer on liability due to use of this dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
-msgid "eg. economy, mental health, government"
+msgid "e.g., economy, mental health, government"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
@@ -699,7 +703,7 @@ msgid "Deleted"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
-msgid "eg. Open Data"
+msgid "e.g., Open Data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
@@ -815,7 +819,7 @@ msgid "Name"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
-msgid "eg. January 2011 Gold Prices"
+msgid "e.g., January 2011 Gold Prices"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
@@ -823,12 +827,12 @@ msgid "Some useful notes about the data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
-msgid "eg. CSV, XML or JSON"
+msgid "e.g., CSV, XML or JSON"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
-msgid "eg. A year, 2 months"
+msgid "e.g., a year, 2 months"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
@@ -914,7 +918,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:71
 #, python-format
-msgid "User %s not allowed to change public organization option"
+msgid "User %s is not allowed to change the public organization option"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:76
@@ -1020,7 +1024,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:49
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:123
-msgid "URL for public transport"
+msgid "Web address for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
@@ -1250,7 +1254,7 @@ msgstr ""
 #: ckanext/ytp/service/plugin.py:52
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
-"URL for this service or a description of the service pricing or both"
+"web address for this service or a description of the service pricing or both"
 msgstr ""
 
 #: ckanext/ytp/service/plugin.py:64
@@ -1597,7 +1601,7 @@ msgid "No information"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
-msgid "Pricing information for this service (webaddress)"
+msgid "Pricing information for this service (web address)"
 msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:21
@@ -1824,7 +1828,7 @@ msgid "Full name"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:14
-msgid "eg. Joe Bloggs"
+msgid "e.g., Joe Bloggs"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:16
@@ -1841,7 +1845,7 @@ msgid "Email"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
-msgid "eg. joe@example.com"
+msgid "e.g., joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:19
@@ -1954,7 +1958,7 @@ msgid "API Key"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:3
-msgid "As registerd user you can browse users."
+msgid "As a registered user, you can browse users."
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:6

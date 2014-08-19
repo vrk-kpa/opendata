@@ -89,15 +89,6 @@
     {% endblock %}
 
     {% block related_info %}
-        <div>
-        <h4 class="dataset-title sidebar-title"><a href="/data/dataset/{{pkg.get('name')}}/related" >{{_('Related')}}</a></h4>
-        <!-- TODO when relationships better defined -->
-            {% if pkg.get('relationships_as_object') %}
-            {% for rel in pkg.get('relationships_as_object') %}
-                {{rel}}<br/>
-            {% endfor %}
-        {%endif%}
-        <a href="/data/dataset/{{pkg.get('name')}}/related/new" >{{_('Add related')}}</a>
-        </div>
+        {# Related items deactivated until better defined and layouts updates #}
     {% endblock %}
 </section> 
