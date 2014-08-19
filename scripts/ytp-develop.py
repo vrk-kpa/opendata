@@ -41,7 +41,12 @@ class YtpDevelopMain(object):
         return self._replace_with_link("/var/www/resources", "/src/modules/ytp-assets-common/resources")
 
     def develop_drupal_theme(self, name):
-        return self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
+        self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
+        if not os.path.exists("/var/www/ytp/sites/all/themes/ytp_theme/bootstrap"):
+            subprocess.call(["unzip", "/srv/ytp/cache/v3.2.0.zip"], cwd="/var/www/ytp/sites/all/themes/ytp_theme")
+            subprocess.call(["mv", "bootstrap-3.2.0", "bootstrap"], cwd="/var/www/ytp/sites/all/themes/ytp_theme")
+        return 0
+
 
     def develop_drupal_user(self, name):
         return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_user", "/src/modules/ytp-drupal-user")
