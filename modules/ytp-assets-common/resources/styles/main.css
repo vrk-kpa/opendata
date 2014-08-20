@@ -5175,7 +5175,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408542712813") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408553887545") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5205,7 +5205,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408542712813');
+  background-image: url('../images/sprite.png?timestamp=1408553887545');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5215,7 +5215,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408542712813');
+  background-image: url('../images/sprite.png?timestamp=1408553887545');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5471,7 +5471,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408542712813") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408553887545") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5565,6 +5565,10 @@ body.toolbar-drawer {
   border-radius: 0;
   background-color: #333333;
   min-height: 40px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  margin-bottom: 18px;
+  border-bottom: 6px solid #ee7544;
 }
 .navbar-top > .container-fluid {
   max-width: 1200px;
@@ -5661,7 +5665,7 @@ body.toolbar-drawer {
   border: none;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  background-color: #f2f1f0;
+  background-color: #333333;
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -25px;
@@ -5694,18 +5698,21 @@ body.toolbar-drawer {
   min-width: 142px;
   font-size: 15px;
   letter-spacing: 0.5px;
-  color: #333333;
+  color: #eeeeee;
   padding: 10px 22px 10px 22px;
 }
 .navbar.navbar-main .navbar-nav .active a,
 .navbar.navbar-main .navbar-nav .active a:hover,
-.navbar.navbar-main .navbar-nav .active a:focus {
-  color: #ffffff;
-  background-color: #266ab9;
+.navbar.navbar-main .navbar-nav .active a:focus,
+.navbar.navbar-main .navbar-nav .active a:active {
+  color: #333333;
+  background-color: #ffffff;
   background-image: none;
 }
-.navbar.navbar-main .navbar-nav li a:hover {
-  color: #333333;
+.navbar.navbar-main .navbar-nav li a:hover,
+.navbar.navbar-main .navbar-nav li a:focus,
+.navbar.navbar-main .navbar-nav li a:active {
+  color: #fff;
   background-color: #ee7544;
 }
 .navbar.navbar-main .navbar-collapse {
@@ -5774,20 +5781,20 @@ li.ytp-menulink li {
   margin-left: 14px;
 }
 li.ytp-menulink a {
-  color: #333333;
+  color: #eeeeee;
   font-weight: 300;
-  background: #f2f1f0;
+  background: #333333;
   padding: 6px 20px 6px 20px;
   border: 1px solid #dcdbd8;
 }
 li.ytp-menulink a:focus,
 li.ytp-menulink a.selected {
   color: #ffffff;
-  background-color: #266ab9;
-  border: 1px solid #266ab9;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
 }
 li.ytp-menulink a:hover {
-  color: #333333;
+  color: #eeeeee;
   background-color: #ee7544;
 }
 li.ytp-menulink.collapsed > a:after {
@@ -5807,12 +5814,12 @@ li.ytp-menulink.expanded > a:after {
   text-decoration: inherit;
 }
 li.ytp-menulink.active-trail > a.active-trail {
-  border-left: 6px solid #266ab9;
+  border-left: 6px solid #ffffff;
 }
 li.ytp-menulink.active > a.active {
   color: #ffffff;
-  background-color: #266ab9;
-  border: 1px solid #266ab9;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
 }
 .menu-name-main-menu {
   margin-left: 0px;
@@ -5965,7 +5972,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408542712813');
+  background-image: url('../images/sprite.png?timestamp=1408553887545');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
