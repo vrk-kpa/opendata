@@ -5174,7 +5174,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408528749938") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408534253799") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5204,7 +5204,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408528749938');
+  background-image: url('../images/sprite.png?timestamp=1408534253799');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5214,7 +5214,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408528749938');
+  background-image: url('../images/sprite.png?timestamp=1408534253799');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5462,7 +5462,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408528749938") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408534253799") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5939,7 +5939,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408528749938');
+  background-image: url('../images/sprite.png?timestamp=1408534253799');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
@@ -5963,3 +5963,5 @@ body {
 .well.infowell.infowell-light .infowell-icon {
   background-position: 0px -152px;
 }
+
+/*# sourceMappingURL=maps\main.css.map */

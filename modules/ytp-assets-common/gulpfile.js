@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     less = require('gulp-less'),
+    sourcemaps = require('gulp-sourcemaps'),
     prefixer = require('gulp-autoprefixer'),
     clean = require('gulp-clean'),
     template = require('gulp-template'),
@@ -33,12 +34,14 @@ gulp.task('clean', function() {
 
 gulp.task('less', function () {
   return gulp.src(paths.src.less+"/*.less")
+    .pipe(sourcemaps.init())
     .pipe(less({
       paths: [ paths.src.less ]
     }))
     .pipe(prefixer('last 2 versions', 'ie 9'))
     .pipe(template({timestamp: timestamp}))
     .pipe(concat("main.css"))
+    .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/styles'));
 });
 
