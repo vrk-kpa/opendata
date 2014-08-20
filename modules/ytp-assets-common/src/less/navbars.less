@@ -186,7 +186,7 @@ body.toolbar, body.toolbar-drawer {
   border: 2px solid @block-color-hilight;
   border-radius: @button-border-radius;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  color: @navbar-search-color;
+  color: @block-color-hilight;
   padding: 2px;
   height: 54px;
   margin-top: 10px;
@@ -237,7 +237,7 @@ ul.menu.nav {
 
 li.ytp-menulink {
   margin-left: 0px;
-  font-size: 16px;
+  font-size: 15px;
 
   li {
     margin-left: 14px;
@@ -252,9 +252,8 @@ li.ytp-menulink {
   }
 
   a:focus, a.selected {
-    color: @navbar-color-text;
-    background-color: @menu-active-color;
-    border: 1px solid @menu-active-color;
+    color: @menu-link-active-color;
+    background-color: @ytp-brand-primary;
   }
 
   a:hover {

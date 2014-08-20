@@ -23,6 +23,8 @@ h4 {
 
 .alert.alert-info {
   a {
+    color: @alert-info-text;
+
     &:before {
       font-family: FontAwesome;
       top: 0;
@@ -124,12 +126,15 @@ h4 {
     }
 
     &.node-sticky.node-teaser {
-      padding: 10px 5px 10px 5px;
-      background-color: @background-hilight;
-      border-radius: 10px;
+      margin-top: 0;
+      padding: @line-height-computed (@grid-gutter-width/2);
+      padding-left: (@grid-gutter-width/2 - 6px);
+      background-color: @background-hilight-primary;
+      border-left: 6px solid @ytp-brand-primary;
+      border-radius: @border-radius-large;
 
-      h2 a {
-        color: @ytp-brand-decorative;
+      .links {
+        margin-bottom: 0;
       }
     }
 }

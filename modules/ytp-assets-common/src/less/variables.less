@@ -1,22 +1,16 @@
 @import (reference) "upstream_bootstrap/variables";
 
 // Common color palette. These are the only colors that should be used!
-@ytp-brand-primary:	   #266ab9; // Primary navigation/interaction/focus color
+@ytp-brand-primary:	   lighten(#185A8D, 10%); //#266ab9; // Primary navigation/interaction/focus color
 @ytp-brand-decorative: #ee7544; // Decorative secondary color, for non-important elements
 @ytp-brand-complementary: #3F3D37; // #35332E;
-@ytp-brand-gray:       #88827A; // Neutral grayish elements
+@ytp-brand-gray:       #908B7C; //#88827A; // Neutral grayish elements
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
 @ytp-brand-info:       #5bc0de; // Notification color, important but not critical
 @ytp-brand-warning:    #f0ad4e; // Slightly dangerous and important element
 @ytp-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
 @brand-primary: @ytp-brand-primary;
 @brand-info: @ytp-brand-decorative;
-
-// Bootstrap: Grid
-@grid-gutter-width: 50px;
-
-// Bootstrap: Alerts
-@alert-padding: 8px;
 
 // Button colors
 @btn-default-color:		#000;
@@ -27,7 +21,18 @@
 @nonimportant-text-color: lighten(@ytp-brand-gray, 0%);
 
 // Light background to emphasize a subarea in main content, gives a "post-it note" feeling
-@background-hilight: lighten(@ytp-brand-gray, 40%);
+//@background-hilight: lighten(#D3CDB5, 10%);
+@background-hilight-primary: lighten(#D3CDC5, 16%);
+@background-hilight: lighten(#D3CDC5, 16%);
+
+// Bootstrap: Grid
+@grid-gutter-width: 50px;
+
+// Bootstrap: Alerts
+@alert-padding: 8px;
+@alert-info-bg: @ytp-brand-primary; //#7CA9CC;
+@alert-info-border: @ytp-brand-primary;
+@alert-info-text: lighten(@ytp-brand-primary, 54%);
 
 // Light border lines that separate UI areas
 @section-border-color: lighten(@ytp-brand-gray, 35%);
@@ -41,11 +46,11 @@
 // Search box, carousel etc.
 @block-color-background: @ytp-brand-primary;
 @block-color: @button-inverse-text-color;
-@block-color-hilight: lighten(@ytp-brand-primary, 10%);
+@block-color-hilight: lighten(@ytp-brand-primary, 0%);
 
 // Tweak Bootstrap brand colors (label, button etc.)
 @label-default-bg: @ytp-brand-gray;
-@label-primary-bg: lighten(@ytp-brand-primary, 4%);
+@label-primary-bg: lighten(@ytp-brand-primary, 0%);
 
 @link-color: @ytp-brand-primary;
 @link-hilight: darken(@ytp-brand-primary, 10%);
@@ -80,7 +85,6 @@
 @navbar-color-darker: #999999;
 @navbar-height: 40px;
 @navbar-responsive-toggle-background: #000;
-@navbar-search-color: #555555;
 
 @infowell-color-dark: #175971;
 @infowell-color-medium: #258bb1;
