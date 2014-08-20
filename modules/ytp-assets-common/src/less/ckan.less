@@ -323,7 +323,7 @@ ul.no-bullet {
 }
 
 #page_wrapper .search-form {
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   margin-bottom: 8px;
   h1 {
     margin-bottom: 2px;
@@ -333,7 +333,9 @@ ul.no-bullet {
     margin-top: 0px;
   }
   .control-order-by {
-    padding-top: 3px;
+    margin: -2px 0 0 0;
+    padding-top: 0px;
+    margin-bottom: 8px;
     select {
       width: auto;
     }
@@ -587,7 +589,7 @@ ul.no-bullet {
   width: 25%;
   float: left;
   padding-left: 0;
-  padding-right: 0;
+  padding-right: @grid-gutter-width/2;
 }
 @media (max-width: @screen-xs-max) {
   [role=main] .secondary {
@@ -821,6 +823,10 @@ dd {
 
 .page_primary_action {
   text-align: right;
+  margin-bottom: 0;
+  a {
+    margin-bottom: (@line-height-computed/2);
+  }
 }
 
 

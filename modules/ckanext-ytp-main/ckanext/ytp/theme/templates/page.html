@@ -18,8 +18,9 @@
     <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-9{% endif %}">
         <p class="visible-xs pull-left">
             <button class="btn btn-primary" data-toggle="offcanvas" type="button">
-                <i class="icon-align-justify"></i>
-                Muuta hakuehtoja
+                {% block primary_toggle_offcanvas %}
+                    <i class="icon-align-justify"></i> {{ _('Toggle menu') }}
+                {% endblock %}                
             </button>
         </p>
         {% block primary_content %}
