@@ -4,9 +4,15 @@
 /* Extra small devices */
 @media (max-width: @screen-xs-max) {
   body {
+    background-image: none;
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: contain;
+  }
+
+  #page_wrapper {
+    padding-top: 2px !important;
+    box-shadow: none;
   }
 
   .page_primary_action {
@@ -14,11 +20,20 @@
     text-align: left;
     clear: left;
   }
+
+  .container {
+    padding-left: (@grid-gutter-width/4);
+    padding-right: (@grid-gutter-width/4);
+  }
+
+  .alert {
+    margin-bottom: (@line-height-computed/2);
+  }
 }
 
 /* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
-  #page_wrapper {
+  #page_wrapper {    
     margin-left: (@grid-gutter-width/4);
     margin-right: (@grid-gutter-width/4);
 

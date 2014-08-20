@@ -4296,7 +4296,6 @@ ul.resource-list {
 }
 section.dataset-primary-content {
   float: left;
-  width: 780px;
 }
 .nonimportant-text,
 span.byline-dataset,
@@ -4315,6 +4314,9 @@ span.byline-contentype {
 }
 .dataset-content {
   margin-bottom: 7px;
+}
+.dataset-sidebar {
+  display: inline-block;
 }
 .dataset-item-meta :first-child {
   margin-left: 0;
@@ -5173,7 +5175,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408541942695") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408542712813") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5203,7 +5205,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408541942695');
+  background-image: url('../images/sprite.png?timestamp=1408542712813');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5213,7 +5215,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408541942695');
+  background-image: url('../images/sprite.png?timestamp=1408542712813');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5461,7 +5463,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408541942695") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408542712813") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5860,14 +5862,26 @@ body {
 /* Extra small devices */
 @media (max-width: 767px) {
   body {
+    background-image: none;
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: contain;
+  }
+  #page_wrapper {
+    padding-top: 2px !important;
+    box-shadow: none;
   }
   .page_primary_action {
     display: block;
     text-align: left;
     clear: left;
+  }
+  .container {
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+  }
+  .alert {
+    margin-bottom: 10px;
   }
 }
 /* Extra small, small, and medium devices */
@@ -5943,7 +5957,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408541942695');
+  background-image: url('../images/sprite.png?timestamp=1408542712813');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
