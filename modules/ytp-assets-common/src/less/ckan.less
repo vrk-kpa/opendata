@@ -155,10 +155,6 @@ header.page-header {
     padding-bottom: 10px;
     margin-right: 0px;
   }
-  .nav-tabs {
-    margin-top: 10px;
-    border: none;
-  }
 }
 
 
@@ -426,15 +422,18 @@ ul.no-bullet {
 }
 
 
-
 /* TEMP */
-
 .nav > li {
-  border: 0;
+  border: 0px;
   a {
     padding-top: 3px;
     padding-bottom: 3px;
   }
+}
+
+.nav.nav-tabs > li > a {
+  border-color: #ddd;  
+  border-bottom-color: transparent;
 }
 
 .nav-item > a,
