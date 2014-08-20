@@ -5271,6 +5271,14 @@ h4 {
 .node .meta.tags li:last-child {
   border-right: 0px;
 }
+.node.node-sticky.node-teaser {
+  padding: 10px 5px 10px 5px;
+  background-color: #e8e7e6;
+  border-radius: 10px;
+}
+.node.node-sticky.node-teaser h2 a {
+  color: #ee7544;
+}
 #responsive-login-panel,
 #responsive-browse-panel {
   font-size: 1.5em;
