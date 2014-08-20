@@ -2210,7 +2210,6 @@ textarea {
   clear: both;
 }
 .page-header .nav-tabs {
-  float: left;
   margin-bottom: -1px;
 }
 .page-header .nav-tabs li.active a,
@@ -4226,10 +4225,6 @@ header.page-header .content_action {
   padding-bottom: 10px;
   margin-right: 0px;
 }
-header.page-header .nav-tabs {
-  margin-top: 10px;
-  border: none;
-}
 section.module {
   margin: 0 0 20px 0;
 }
@@ -4495,11 +4490,15 @@ ul.no-bullet {
 }
 /* TEMP */
 .nav > li {
-  border: 0;
+  border: 0px;
 }
 .nav > li a {
   padding-top: 3px;
   padding-bottom: 3px;
+}
+.nav.nav-tabs > li > a {
+  border-color: #ddd;
+  border-bottom-color: transparent;
 }
 .nav-item > a,
 .nav-aside li a {
@@ -5174,7 +5173,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408542533870") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408542908629") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5204,7 +5203,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408542533870');
+  background-image: url('../images/sprite.png?timestamp=1408542908629');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5214,7 +5213,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408542533870');
+  background-image: url('../images/sprite.png?timestamp=1408542908629');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5470,7 +5469,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408542533870") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408542908629") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5873,6 +5872,11 @@ body {
     background-position: 0 0;
     background-size: contain;
   }
+  .page_primary_action {
+    display: block;
+    text-align: left;
+    clear: left;
+  }
 }
 /* Extra small, small, and medium devices */
 @media (min-width: 480px) and (max-width: 1199px) {
@@ -5947,7 +5951,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408542533870');
+  background-image: url('../images/sprite.png?timestamp=1408542908629');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
