@@ -5175,7 +5175,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408553887545") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408562544592") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5205,7 +5205,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408553887545');
+  background-image: url('../images/sprite.png?timestamp=1408562544592');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5215,7 +5215,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408553887545');
+  background-image: url('../images/sprite.png?timestamp=1408562544592');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5293,7 +5293,7 @@ h4 {
   padding-bottom: 64px;
 }
 .carousel .carousel-inner {
-  background-color: #4D4D4D;
+  background-color: #3f3d37;
   height: 160px;
   border-radius: 10px;
 }
@@ -5471,7 +5471,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408553887545") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408562544592") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5563,7 +5563,7 @@ body.toolbar-drawer {
 }
 .navbar-top {
   border-radius: 0;
-  background-color: #333333;
+  background-color: #3f3d37;
   min-height: 40px;
   padding-top: 2px;
   padding-bottom: 4px;
@@ -5590,7 +5590,9 @@ body.toolbar-drawer {
 }
 .navbar-top .navbar-toggle {
   padding-left: 4px;
-  padding-right: 0px;
+  padding-right: 4px;
+  margin-right: 21px;
+  border-color: #88827a;
 }
 .navbar-top .navbar-nav li {
   font-size: 13px;
@@ -5665,7 +5667,7 @@ body.toolbar-drawer {
   border: none;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  background-color: #333333;
+  background-color: #3f3d37;
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -25px;
@@ -5688,7 +5690,7 @@ body.toolbar-drawer {
   background: #000000;
 }
 .navbar.navbar-main .navbar-header .navbar-brand {
-  color: #333333;
+  color: #3f3d37;
 }
 .navbar.navbar-main .navbar-nav li:first-child > a {
   border-top-left-radius: 6px;
@@ -5705,7 +5707,7 @@ body.toolbar-drawer {
 .navbar.navbar-main .navbar-nav .active a:hover,
 .navbar.navbar-main .navbar-nav .active a:focus,
 .navbar.navbar-main .navbar-nav .active a:active {
-  color: #333333;
+  color: #3f3d37;
   background-color: #ffffff;
   background-image: none;
 }
@@ -5783,7 +5785,7 @@ li.ytp-menulink li {
 li.ytp-menulink a {
   color: #eeeeee;
   font-weight: 300;
-  background: #333333;
+  background: #3f3d37;
   padding: 6px 20px 6px 20px;
   border: 1px solid #dcdbd8;
 }
@@ -5972,7 +5974,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408553887545');
+  background-image: url('../images/sprite.png?timestamp=1408562544592');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

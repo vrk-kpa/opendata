@@ -3,6 +3,7 @@
 // Common color palette. These are the only colors that should be used!
 @ytp-brand-primary:	   #266ab9; // Primary navigation/interaction/focus color
 @ytp-brand-decorative: #ee7544; // Decorative secondary color, for non-important elements
+@ytp-brand-complementary: #3F3D37; // #35332E;
 @ytp-brand-gray:       #88827A; // Neutral grayish elements
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
 @ytp-brand-info:       #5bc0de; // Notification color, important but not critical
@@ -56,10 +57,10 @@
 @input-color-placeholder: @nonimportant-text-color;
 
 // Vertical side menu and horizontal main menu
-@menu-active-color: #fff; //@ytp-brand-primary;
-@menu-link-active-color: #333;
-@menu-link-color: #eee; //#333;
-@menu-link-background: #333; //lighten(@background-hilight, 4%);
+@menu-active-color: #fff;
+@menu-link-active-color: @ytp-brand-complementary;
+@menu-link-color: #eee;
+@menu-link-background: @ytp-brand-complementary;
 @menu-link-hover-color: #fff;
 @menu-hover-color: @ytp-brand-decorative;
 
@@ -73,10 +74,8 @@
 @select-border-color: #cccccc;
 @select-background: white;
 
-
 // Rest of the variables
-
-@navbar-color-background: #333333;
+@navbar-color-background: @ytp-brand-complementary;
 @navbar-color-text: #ffffff;
 @navbar-color-darker: #999999;
 @navbar-height: 40px;
