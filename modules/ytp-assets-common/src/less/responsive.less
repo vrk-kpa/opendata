@@ -33,6 +33,7 @@
 
 /* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
+
   #page_wrapper {    
     margin-left: (@grid-gutter-width/4);
     margin-right: (@grid-gutter-width/4);
@@ -62,6 +63,16 @@
       margin: 0;
       margin-bottom: (@line-height-computed/2);
       border-bottom: 0px;
+    }
+  }
+
+  .navbar-top .lang-select {
+    margin-top: (@line-height-computed/4);
+    border-top: 1px solid #222;
+    padding-top: (@line-height-computed/4);
+
+    > li > a {
+      color: #777;
     }
   }
 }

@@ -13,6 +13,10 @@ body.toolbar, body.toolbar-drawer {
   margin-left: 25%;
 }
 
+.navbar-inverse .navbar-nav > li > a {
+  color: @ytp-brand-decorative;
+}
+
 .navbar-top {
   border-radius: 0;
   background-color: @navbar-color-background;
@@ -248,12 +252,13 @@ li.ytp-menulink {
     font-weight: 300;
     background: @menu-link-background;
     padding: 6px 20px 6px 20px;
-    border: 1px solid @section-border-color;
+    border: 1px solid @menu-link-color;
   }
 
   a:focus, a.selected {
+    border-color: @menu-link-active-color;
     color: @menu-link-active-color;
-    background-color: @ytp-brand-primary;
+    background-color: @menu-active-color;
   }
 
   a:hover {
