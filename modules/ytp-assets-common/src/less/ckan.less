@@ -5,22 +5,6 @@
   background: none;
 }
 
-.alert.alert-info {
-  //padding: 0.3em 1em 0.3em 1em;
-  //margin: 25px 12px 20px 12px;
-  a {
-    font-size: 18px;
-
-    &:before {
-      font-family: FontAwesome;
-      top: 0;
-      left:- 5px;
-      padding-right: 0.5em;
-      content: "\f06a";
-    }
-  }
-}
-
 .collapsible {
   cursor: pointer;
   user-select: none;
@@ -42,7 +26,7 @@
   margin: 0;
   padding-left: 0;
   li {
-    line-height: 25px;
+    line-height: 18px;
   }
 }
 
@@ -56,7 +40,6 @@ input[type="date"] {
 }
 
 [role=main] .primary {
-  float: none;
   background: none;
   margin: 0px 0px 2em 0px;
   padding-right: 0px;
@@ -78,12 +61,6 @@ input[type="date"] {
   &:last-child {
     padding-bottom: 0;
   }
-}
-
-[role=main] .secondary {
-  width: (@secondary-width - 4);
-  padding-left: 0;
-  padding-right: 4px;
 }
 
 .module-narrow .module-content.empty {
@@ -162,10 +139,6 @@ header.page-header {
     padding-bottom: 10px;
     margin-right: 0px;
   }
-  .nav-tabs {
-    margin-top: 10px;
-    border: none;
-  }
 }
 
 
@@ -197,6 +170,7 @@ section.module {
 .secondary h2.module-heading {
   padding-top: 0px;
   margin-top: 0px;
+  padding-right: 0px !important;
 }
 
 article.module {
@@ -247,17 +221,6 @@ ul.resource-list {
 
 section.dataset-primary-content {
   float: left;
-  width: 780px;
-}
-
-section.dataset-sidebar {
-  float:right;
-  width: 250px;
-  margin-left: 0;
-  border-style: solid;
-  border-color: @section-border-color;
-  border-width: 1px;
-  padding: 10px 20px;
 }
 
 .nonimportant-text, span.byline-dataset, span.res-format, p.dataset-license {
@@ -279,6 +242,10 @@ span.byline-contentype {
 
 .dataset-content {
   margin-bottom: 7px;
+}
+
+.dataset-sidebar {
+  display: inline-block;
 }
 
 .dataset-item-meta {
@@ -312,9 +279,10 @@ ul.dataset-list {
         display: inline-block;
         border: 0;
         margin: 0;
-        padding: 0;
+        padding: 4px 11px 4px 11px;
         a {
           display: inline-block;
+          margin: -4px -11px -4px -11px;
           padding: 4px 11px 4px 11px;
           &:hover, &:active {
             border-radius: 4px;
@@ -339,7 +307,7 @@ ul.no-bullet {
 }
 
 #page_wrapper .search-form {
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   margin-bottom: 8px;
   h1 {
     margin-bottom: 2px;
@@ -349,7 +317,9 @@ ul.no-bullet {
     margin-top: 0px;
   }
   .control-order-by {
-    padding-top: 3px;
+    margin: -2px 0 0 0;
+    padding-top: 0px;
+    margin-bottom: 8px;
     select {
       width: auto;
     }
@@ -440,15 +410,18 @@ ul.no-bullet {
 }
 
 
-
 /* TEMP */
-
 .nav > li {
-  border: 0;
+  border: 0px;
   a {
     padding-top: 3px;
     padding-bottom: 3px;
   }
+}
+
+.nav.nav-tabs > li > a {
+  border-color: #ddd;  
+  border-bottom-color: transparent;
 }
 
 .nav-item > a,
@@ -509,8 +482,9 @@ ul.no-bullet {
 
 .module-heading {
   .clearfix;
-  margin: 10px 5px 0px 0px;
+  margin: 10px 0px 0px 0px;
   padding: 7px @gutterX;
+  padding-right: 0px;
   font-size: 18px;
   font-weight: normal;
   line-height: 1;
@@ -585,6 +559,30 @@ ul.no-bullet {
 .user-search-actions {
   display: inline-block;
   float: right;
+}
+
+[role=main] .primary {
+  float: left;
+  width: 75%;
+  padding-left: 0;
+}
+@media (max-width: @screen-xs-max) {
+  [role=main] .primary {
+    width: 100%;
+  }
+}
+
+[role=main] .secondary {
+  width: 25%;
+  float: left;
+  padding-left: 0;
+  padding-right: @grid-gutter-width/2;
+}
+@media (max-width: @screen-xs-max) {
+  [role=main] .secondary {
+    width: 90%;
+    padding-right: @grid-gutter-width/2;
+  }
 }
 
 .user-list {
@@ -724,6 +722,7 @@ dd {
 .search-form {
   border-bottom-style: solid;
   &.form_search-sm {
+    padding-left: 0;
     border-bottom-width: 0px;
   }
   .search-input {
@@ -755,6 +754,8 @@ dd {
       border-radius: 4px;
       border-radius: @button-border-radius;
       margin-bottom: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
       input {
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
         border: none;
@@ -809,6 +810,10 @@ dd {
 
 .page_primary_action {
   text-align: right;
+  margin-bottom: 0;
+  a {
+    margin-bottom: (@line-height-computed/2);
+  }
 }
 
 

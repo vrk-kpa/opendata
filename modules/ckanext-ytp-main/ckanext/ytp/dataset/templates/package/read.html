@@ -15,9 +15,9 @@
         {% endblock %}
     </h1>
     {% snippet "package/snippets/subtitle_byline.html", pkg=pkg %}
-    <div id="dataset-primary">
+    <div id="dataset-primary" class="row">
     {% block primary_content %}
-        <section class="dataset-primary-content"> 
+        <section class="dataset-primary-content col-lg-8"> 
         {% block primary_content_inner %}
 
         {% block package_description %}

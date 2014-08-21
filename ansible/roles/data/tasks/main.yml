@@ -1,10 +1,7 @@
 ---
 
 # Forced maintenance leave is removed in future. Ontology import requires CKAN web API.
-- name: Leave maintenance mode
-  file: path="/var/www/maintenance" state=absent
-  tags:
-  - maintenance
+- include: ../../nginx/tasks/maintenance-end.yml
 
 - name: Copy data import files
   copy: src="{{ item }}" dest="{{ cache_path }}/{{ item }}" mode=0644 owner=root group=root

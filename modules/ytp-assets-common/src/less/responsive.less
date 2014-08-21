@@ -1,9 +1,40 @@
 @import (reference) "upstream_bootstrap/mixins";
 @import "variables.less";
 
+/* Extra small devices */
+@media (max-width: @screen-xs-max) {
+  body {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: contain;
+  }
+
+  #page_wrapper {
+    padding-top: 2px !important;
+    box-shadow: none;
+  }
+
+  .page_primary_action {
+    display: block;
+    text-align: left;
+    clear: left;
+  }
+
+  .container {
+    padding-left: (@grid-gutter-width/4);
+    padding-right: (@grid-gutter-width/4);
+  }
+
+  .alert {
+    margin-bottom: (@line-height-computed/2);
+  }
+}
+
 /* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
-  #page_wrapper {
+
+  #page_wrapper {    
     margin-left: (@grid-gutter-width/4);
     margin-right: (@grid-gutter-width/4);
 
@@ -16,8 +47,33 @@
 
 /* Extra small, and small devices */
 @media (max-width: @screen-sm-max) {
+  .navbar-top {
+    margin-bottom: 12px;
+  }
+
   #page_wrapper {
     padding-top: 20px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-bottom: 0px !important;
+
+    .search-form .control-order-by {
+      display: block;
+      float: none;
+      margin: 0;
+      margin-bottom: (@line-height-computed/2);
+      border-bottom: 0px;
+    }
+  }
+
+  .navbar-top .lang-select {
+    margin-top: (@line-height-computed/4);
+    border-top: 1px solid #222;
+    padding-top: (@line-height-computed/4);
+
+    > li > a {
+      color: #777;
+    }
   }
 }
 
@@ -37,19 +93,10 @@
   }
 }
 
+/* Extra small, small and medium devices */
 @media(max-width: @screen-md-min) {
   #page_wrapper {
     width: auto;
-  }
-
-  [role=main] .primary {
-    float: right;
-    width: 100%;
-  }
-
-  [role=main] .secondary {
-    width: 100%;
-    margin-bottom: 12px;
   }
 
   section.module {
@@ -72,16 +119,5 @@
 
   .panel-body {
     padding: 0;
-  }
-}
-
-@media (min-width: @screen-md-min) {
-  [role=main] .primary {
-    width: @screen-lg - @secondary-width - @grid-gutter-width - @container-horizontal-padding;
-    float: right;
-    padding-left: 0;
-  }
-  [role=main] .secondary {
-    padding-right: 0;
   }
 }

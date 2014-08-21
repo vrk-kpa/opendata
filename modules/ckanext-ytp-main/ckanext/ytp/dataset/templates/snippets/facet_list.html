@@ -45,7 +45,7 @@ within_tertiary
       {% set nav_item_class = ' ' %}
       {% set wrapper_class = 'nav-facet nav-facet-tertiary' %}
     {% endif %}
-    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} hidden-xs hidden-sm">
+    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }}">
       <h2 class="module-heading">
         {% set title = title or h.get_facet_title(name) %}
         {{ title }}
@@ -76,51 +76,6 @@ within_tertiary
       {% else %}
         <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
       {% endif %}
-    </section>
-    <section class="{{ wrapper_class or 'module module-narrow module-shallow' }} visible-xs visible-sm">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-        {% set title = title or h.get_facet_title(name) %}
-
-        <h2 class="module-heading" data-toggle="collapse" href="#{{ title | replace(' ', '_')}}">
-        {{ title }}
-      </h2>
-        </div>
-      {% if items %}
-        <div id ="{{ title | replace(' ', '_') }}" class="collapse panel-collapse">
-        <div class="panel-body">
-          <nav>
-          <ul class="{{ nav_class or 'unstyled nav nav-simple nav-facet' }}" >
-            {% for item in items %}
-              {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
-              {% set label = label_function(item) if label_function else item.display_name %}
-              {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
-              {% set count = count_label(item['count']) if count_label else ('(%d)' % item['count']) %}
-              <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
-                <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
-                  <span>{{ _(label_truncated) }} {{ count }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </nav>
-        </div>
-        <p class="module-footer">
-          {% if h.get_param_int('_%s_limit' % name) %}
-            <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _('Show More {facet_type}').format(facet_type=title) }}</a>
-          {% else %}
-            <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
-          {% endif %}
-        </p>
-        </div>
-      {% else %}
-        <div id ="{{ title | replace(' ', '_') }}" class="panel-collapse collapse ">
-          <div class="panel-body">
-            <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
-          </div>
-        </div>
-      {% endif %}
-      </div>
     </section>
   {% endif %}
 {% endwith %}

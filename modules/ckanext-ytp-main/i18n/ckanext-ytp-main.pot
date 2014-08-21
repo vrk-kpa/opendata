@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-18 17:11+0300\n"
+"POT-Creation-Date: 2014-08-20 18:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,7 +176,6 @@ msgid "Fill additional info"
 msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:100
 msgid "Add related"
 msgstr ""
 
@@ -388,13 +387,13 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:10
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:295
 msgid "Edit"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:30
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:10
 msgid "Manage"
 msgstr ""
 
@@ -407,13 +406,12 @@ msgid "API Endpoint"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:40
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:49
-msgid "Go to resource"
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
+msgid "Open"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:42
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:46
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
 msgid "Download"
 msgstr ""
 
@@ -484,55 +482,60 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:16
+#: ckanext/ytp/theme/menu.py:60
+msgid "My Datasets"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:17
 msgid "Add Dataset"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:29
-msgid "Relevance"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/search.html:30
-#: ckanext/ytp/theme/templates/snippets/search_form.html:31
-#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
-msgid "Name Ascending"
+msgid "Relevance"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
-msgid "Name Descending"
+msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/theme/templates/snippets/search_form.html:31
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:33
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:33
+#: ckanext/ytp/dataset/templates/package/search.html:34
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:29
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:51
+#: ckanext/ytp/dataset/templates/package/search.html:52
 msgid "API"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:52
+#: ckanext/ytp/dataset/templates/package/search.html:53
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:54
+#: ckanext/ytp/dataset/templates/package/search.html:55
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/dataset/templates/package/search.html:56
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:59
+#: ckanext/ytp/dataset/templates/package/search.html:60
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
@@ -545,10 +548,6 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:87
 msgid "Show change log"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:93
-msgid "Related"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/license_rdf.html:17
@@ -865,6 +864,10 @@ msgstr ""
 msgid "More information"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:49
+msgid "Go to resource"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:16
 #, python-format
 msgid ""
@@ -885,16 +888,7 @@ msgid "Less"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:77
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:119
 msgid "No matches"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:110
-msgid "Show More {facet_type}"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:112
-msgid "Show Only Popular {facet_type}"
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
@@ -1656,10 +1650,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: ckanext/ytp/theme/menu.py:60
-msgid "My Datasets"
-msgstr ""
-
 #: ckanext/ytp/theme/menu.py:70
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:10
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:25
@@ -1696,6 +1686,10 @@ msgstr ""
 
 #: ckanext/ytp/theme/menu.py:185
 msgid "Publish Public Service"
+msgstr ""
+
+#: ckanext/ytp/theme/templates/page.html:22
+msgid "Toggle menu"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2

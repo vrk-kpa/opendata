@@ -4,8 +4,6 @@
 body {
   background: url("../images/stamen_background.jpg?timestamp=<%= timestamp %>") 50% 50% fixed no-repeat;
   background-size: cover;
-  //padding-top: 54px;
-  //padding-bottom: 32px;
 }
 body.toolbar, body.toolbar-drawer {
   padding-top: 128px !important;
@@ -21,6 +19,20 @@ h1, h2, h3 {
 
 h4 {
     font-size: 18px;
+}
+
+.alert.alert-info {
+  a {
+    color: @alert-info-text;
+
+    &:before {
+      font-family: FontAwesome;
+      top: 0;
+      left:- 5px;
+      padding-right: 0.5em;
+      content: "\f06a";
+    }
+  }
 }
 
 .input-block-level {
@@ -112,6 +124,19 @@ h4 {
             }
         }
     }
+
+    &.node-sticky.node-teaser {
+      margin-top: 0;
+      padding: @line-height-computed (@grid-gutter-width/2);
+      padding-left: (@grid-gutter-width/2 - 6px);
+      background-color: @background-hilight-primary;
+      border-left: 6px solid @ytp-brand-primary;
+      border-radius: @border-radius-large;
+
+      .links {
+        margin-bottom: 0;
+      }
+    }
 }
 
 #responsive-login-panel, #responsive-browse-panel {
@@ -138,7 +163,6 @@ h4 {
     }
     .carousel-caption {
       left: 64px;
-      //left: 220px;
       height: 160px;
       top: 0;
       text-align: left;
@@ -162,7 +186,7 @@ h4 {
       }
       width: 100%;
     }
-    background-color: #4D4D4D;
+    background-color: @ytp-brand-complementary; //;#4D4D4D;
     height: 160px;
     border-radius: 10px;
   }

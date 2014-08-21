@@ -40,9 +40,4 @@
   tags:
     - nginx
 
-- name: Set server to maintenance
-  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
-  notify: Maintenance end
-  tags:
-    - nginx
-    - maintenance
+- include: maintenance-start.yml

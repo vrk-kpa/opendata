@@ -13,10 +13,18 @@ body.toolbar, body.toolbar-drawer {
   margin-left: 25%;
 }
 
+.navbar-inverse .navbar-nav > li > a {
+  color: @ytp-brand-decorative;
+}
+
 .navbar-top {
   border-radius: 0;
   background-color: @navbar-color-background;
   min-height: @navbar-height;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  margin-bottom: 18px;
+  border-bottom: 6px solid @ytp-brand-decorative;
 
   > .container-fluid {
     max-width: @screen-lg;
@@ -40,7 +48,9 @@ body.toolbar, body.toolbar-drawer {
 
   .navbar-toggle {
     padding-left: 4px;
-    padding-right: 0px;
+    padding-right: 4px;
+    margin-right: 21px;
+    border-color: @ytp-brand-gray;
   }
 
   .navbar-nav li {
@@ -107,8 +117,19 @@ body.toolbar, body.toolbar-drawer {
   }
 }
 
+.nav-tabs.nav {
+  > li > a {
+    &:focus, &:hover, &:active {
+      color: @ytp-brand-decorative;
+      background-color: #fff;
+    }
+  }
+}
+
 .navbar.navbar-main {
   border: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border-top-right-radius: @border-radius-large;
   border-top-left-radius: @border-radius-large;
   background-color: @menu-link-background;
@@ -153,15 +174,17 @@ body.toolbar, body.toolbar-drawer {
       padding: 10px 22px 10px 22px;
     }
     .active {
-      a, a:hover, a:focus {
-        color: @navbar-color-text;
+      a, a:hover, a:focus, a:active {
+        color: @menu-link-active-color;
         background-color: @menu-active-color;
         background-image: none;
       }
     }
-    li a:hover {
-      color: @menu-link-color;
-      background-color: @menu-hover-color;
+    li a {
+      &:hover, &:focus, &:active {
+        color: #fff;
+        background-color: @menu-hover-color;
+      }
     }
   }
   .navbar-collapse {
@@ -170,17 +193,13 @@ body.toolbar, body.toolbar-drawer {
   }
 }
 
-#main-navigation-links > li > a:hover {
-  color: @menu-link-hover-color;
-}
-
 .navbar.navbar-search {
   background-color: @body-color-background;
   background-image: none;
   border: 2px solid @block-color-hilight;
   border-radius: @button-border-radius;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  color: @navbar-search-color;
+  color: @block-color-hilight;
   padding: 2px;
   height: 54px;
   margin-top: 10px;
@@ -231,7 +250,7 @@ ul.menu.nav {
 
 li.ytp-menulink {
   margin-left: 0px;
-  font-size: 16px;
+  font-size: 15px;
 
   li {
     margin-left: 14px;
@@ -242,13 +261,13 @@ li.ytp-menulink {
     font-weight: 300;
     background: @menu-link-background;
     padding: 6px 20px 6px 20px;
-    border: 1px solid @section-border-color;
+    border: 1px solid @menu-link-color;
   }
 
   a:focus, a.selected {
-    color: @navbar-color-text;
+    border-color: @menu-link-active-color;
+    color: @menu-link-active-color;
     background-color: @menu-active-color;
-    border: 1px solid @menu-active-color;
   }
 
   a:hover {
