@@ -1,0 +1,6 @@
+---
+
+- hosts: webserver
+  sudo: true
+  tasks:
+  - include: roles/nginx/tasks/maintenance-start.yml
