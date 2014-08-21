@@ -50,6 +50,11 @@
           {% endif %}
         </a>
       </li>
+      <li>
+        <a href="{{ res.url }}">
+          {{ _('Download as CSV') }}
+        </a>
+      </li>
       {% if can_edit %}
       <li>
         <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}">

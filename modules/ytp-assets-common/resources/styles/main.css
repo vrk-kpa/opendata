@@ -2142,7 +2142,7 @@ textarea {
   display: none;
 }
 .toolbar .breadcrumb a {
-  color: #625e53;
+  color: #5a564c;
 }
 .toolbar .breadcrumb .active a,
 .toolbar .breadcrumb a.active {
@@ -3931,7 +3931,7 @@ h4 small {
   color: #009900;
 }
 .label-inverse {
-  background-color: #908b7c;
+  background-color: #5a564c;
 }
 .btn-mini {
   padding: 1px 5px;
@@ -4072,7 +4072,7 @@ input[type="date"] {
 .module-content select,
 .module-content input {
   border-radius: 3px;
-  border: 1px solid #cac8c1;
+  border: 1px solid #9c978a;
 }
 .module-content:first-child {
   padding-top: 0;
@@ -4189,7 +4189,7 @@ a.btn.btn-default .badge {
 .dataset-title,
 .content-heading,
 .page-heading {
-  border-bottom: 1px solid #e2e1dd;
+  border-bottom: 1px solid #b3b0a5;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -4291,10 +4291,10 @@ section.dataset-primary-content {
 span.byline-dataset,
 span.res-format,
 p.dataset-license {
-  color: #908b7c;
+  color: #5a564c;
 }
 span.byline-dataset a {
-  color: #908b7c;
+  color: #5a564c;
 }
 span.byline-contentype {
   background-color: #f6f5f3;
@@ -4462,7 +4462,7 @@ ul.no-bullet {
   margin-right: 20px;
 }
 #homepages .single {
-  border: 1px solid #cac8c1;
+  border: 1px solid #9c978a;
   border-radius: 3px;
   padding: 10px;
   margin: 10px;
@@ -4531,7 +4531,7 @@ ul.no-bullet {
 .nav-item.active > a:active,
 .nav-aside li.active a:active {
   color: #fff;
-  background-color: #908b7c;
+  background-color: #5a564c;
 }
 .nav-item.active > a:before,
 .nav-aside li.active a:before {
@@ -4723,7 +4723,7 @@ dt {
   clear: left;
   width: 160px;
   font-weight: normal;
-  color: #3e3c35;
+  color: #070706;
   margin-bottom: 3px;
 }
 dt:after {
@@ -4751,7 +4751,7 @@ dd {
 }
 .dataset-form h2 {
   margin: 0 0.5em 10px;
-  border-bottom: 1px solid #e2e1dd;
+  border-bottom: 1px solid #b3b0a5;
 }
 .dataset-form h3 {
   border-bottom: 0 none;
@@ -4859,7 +4859,7 @@ dd {
 }
 .license-smallprint,
 .license-smallprint a {
-  color: #908b7c;
+  color: #5a564c;
 }
 .page_primary_action {
   text-align: right;
@@ -4993,7 +4993,7 @@ h6 {
 }
 select {
   width: 220px;
-  border: 1px solid #cac8c1;
+  border: 1px solid #9c978a;
   background-color: #ffffff;
   padding: 4px;
 }
@@ -5042,6 +5042,7 @@ a:focus {
   text-decoration: none;
 }
 .label {
+  font-weight: 400;
   padding: 0.3em 0.8em 0.3em 0.8em;
   font-size: 100%;
   margin: 3px;
@@ -5075,7 +5076,7 @@ a:focus {
 }
 .toolbar ol.breadcrumb li {
   display: inline-block;
-  color: #625e53;
+  color: #5a564c;
   text-transform: uppercase;
 }
 .toolbar ol.breadcrumb li a {
@@ -5087,7 +5088,7 @@ a:focus {
   color: #ee7544;
 }
 .toolbar ol.breadcrumb li.last {
-  color: #625e53;
+  color: #5a564c;
 }
 .toolbar ol.breadcrumb > li:after {
   padding: 0 0 0 4px;
@@ -5103,7 +5104,7 @@ a:focus {
   font-weight: normal;
   font-weight: initial;
   text-decoration: none;
-  color: #625e53;
+  color: #5a564c;
 }
 #page_wrapper .toolbar {
   margin-bottom: 6px;
@@ -5166,7 +5167,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408607137978") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408633693144") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5206,7 +5207,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408607137978');
+  background-image: url('../images/sprite.png?timestamp=1408633693144');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5216,7 +5217,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408607137978');
+  background-image: url('../images/sprite.png?timestamp=1408633693144');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5225,7 +5226,7 @@ h4 {
   margin-bottom: 12px;
 }
 .node .field.field-name-field-tags {
-  color: #908b7c;
+  color: #5a564c;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -5291,8 +5292,8 @@ h4 {
 #footer {
   margin-top: 8px;
   padding-top: 16px;
-  border-top: 1px solid #e2e1dd;
-  background-color: #908b7c;
+  border-top: 1px solid #b3b0a5;
+  background-color: #5a564c;
   font-size: 50px;
   padding-bottom: 64px;
 }
@@ -5434,7 +5435,7 @@ label.checkbox-inline:after {
   margin: 14px 0;
 }
 .field-type-taxonomy-term-reference a {
-  color: #908b7c;
+  color: #5a564c;
 }
 .field-type-taxonomy-term-reference .field-item {
   display: inline;
@@ -5459,7 +5460,7 @@ label.checkbox-inline:after {
   margin: 4px 0;
 }
 .comment {
-  border-bottom: 1px solid #cac8c1;
+  border-bottom: 1px solid #9c978a;
   margin: 12px 0;
 }
 .sharethis-buttons {
@@ -5475,7 +5476,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408607137978") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408633693144") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5493,8 +5494,8 @@ span.add-member-or {
   right: 26px;
 }
 .form-subheading {
-  color: #908b7c;
-  border-bottom: solid #908b7c 1px;
+  color: #5a564c;
+  border-bottom: solid #5a564c 1px;
 }
 .ytp-modal-form .select2-container {
   vertical-align: middle;
@@ -5599,7 +5600,7 @@ body.toolbar-drawer {
   padding-left: 4px;
   padding-right: 4px;
   margin-right: 21px;
-  border-color: #908b7c;
+  border-color: #5a564c;
 }
 .navbar-top .navbar-nav li {
   font-size: 13px;
@@ -5997,7 +5998,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408607137978');
+  background-image: url('../images/sprite.png?timestamp=1408633693144');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
