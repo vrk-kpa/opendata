@@ -62,6 +62,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/c989a39ec9bd1657b6dfc5a9147ffb31f524ae33.patch", file: "upgrade_image-upload.js"}
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b441619d98adafbfe5a1da33cec66614566949e5.patch", file: "fix-rdf.patch"}
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7ad11f098bb03cefdf3639b6d96e3127a6d1c833.patch", file: "fix-group_show.patch"}
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0fbdeebe677ee9fc63a8d95d385703fab4532e2a.patch", file: "refactor-multilingual-warnings.patch"}
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/a98cb6c3ee3f82a8dc6b0fc40db1686b3c72e50a.patch", file: "refactor-multilingual-warnings.patch"}
 
 service_database_enabled: true
