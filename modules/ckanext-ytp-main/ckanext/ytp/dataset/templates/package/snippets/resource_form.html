@@ -98,7 +98,7 @@
       {% endif %}
       {% block previous_button %}
         <button class="btn" name="save" value="go-dataset" type="submit" id="previous-button" style="display: none;"></button>
-        {% link_for _('Close without saving'), controller='package', action='read', id=package.name, class_='btn pull-left', icon='chevron-left' %}
+        {% link_for _('Close without saving'), controller='package', action='read', id=package.name, class_='btn pull-left', icon='' %}
       {% endblock %}
       {% if stage %}
         </div>

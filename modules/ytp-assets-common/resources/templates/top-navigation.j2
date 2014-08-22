@@ -57,14 +57,14 @@
 
                   {% if not c.userobj %}
                   <li>
-                      <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }} &gt;</a>
+                      <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }}</a>
                   </li>
                   {% else %}
                   <li>
                       {{h.linked_user(c.userobj.name, 0, 0)}}
                   </li>
                   <li>
-                      <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }} &gt;</a>
+                      <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }}</a>
                   </li>
                   {% endif %}
 

@@ -13,7 +13,7 @@
       <a class="btn btn-danger" href="{% url_for controller='package', action='resource_delete', resource_id=data.id, id=pkg_name %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
     {% endif %}
   {% endif %}
-  {% link_for _('Close without saving'), controller='package', action='read', id=package.name, class_='btn', icon='chevron-left' %}
+  {% link_for _('Close without saving'), controller='package', action='read', id=package.name, class_='btn', icon='' %}
   </div>
 {% endblock %} #}
 
