@@ -76,6 +76,8 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(paths.dist+'/fonts'));
 });
 
+asdfa = 2;
+
 gulp.task('bootstrap', function(){
   return gulp.src(paths.src.bootstrap + '/bootstrap.less')
       .pipe(less({
