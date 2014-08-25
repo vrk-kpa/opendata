@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-25 19:25+0300\n"
-"PO-Revision-Date: 2014-08-25 16:26+0000\n"
+"PO-Revision-Date: 2014-08-25 16:37+0000\n"
 "Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -517,7 +517,7 @@ msgstr "Lisää työkalu tai ohje"
 #: ckanext/ytp/dataset/templates/package/search.html:36
 #: ckanext/ytp/organizations/templates/organization/read.html:22
 msgid "Add public service"
-msgstr "Add julkinen palvelu"
+msgstr "Lisää julkinen palvelu"
 
 #: ckanext/ytp/dataset/templates/package/search.html:55
 #: ckanext/ytp/organizations/templates/organization/read.html:41

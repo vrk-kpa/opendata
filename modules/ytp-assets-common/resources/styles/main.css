@@ -4668,6 +4668,9 @@ ul.no-bullet {
   padding-left: 0;
   padding-right: 25px;
 }
+[role=main] .secondary > .module-content {
+  padding: 0 0 20px 0;
+}
 @media (max-width: 767px) {
   [role=main] .secondary {
     width: 90%;
@@ -4741,6 +4744,9 @@ dd {
 }
 .context-info code {
   float: left;
+}
+.context-info .module-content {
+  padding: 0 0 20px 0;
 }
 .dataset-form .nav-tabs.nav-justified > li > a {
   min-height: 36px;
@@ -5022,13 +5028,13 @@ h4 {
   line-height: 1.5;
 }
 h1 {
-  font-size: 28px;
+  font-size: 25px;
 }
 h2 {
-  font-size: 21px;
+  font-size: 20px;
 }
 h3 {
-  font-size: 19px;
+  font-size: 18px;
 }
 h4 {
   font-size: 14px;
