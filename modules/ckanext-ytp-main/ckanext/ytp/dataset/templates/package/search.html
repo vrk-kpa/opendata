@@ -25,8 +25,6 @@
                 <span class="sr-only">Toggle Dropdown</span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li>{% link_for _('Add Dataset'), controller='package', action='new', class_='', icon='' %}</li>
-                <li class="divider"></li>
                 <li>
                   <a href="{{ h.url_for(controller='package', action='new', collection_type='Open Data', group=c.preselected_group or "") }}">{{ _('Add open data') }}</a>
                 </li>
@@ -35,7 +33,7 @@
                 </li>
                 <li>
                   {% if h.check_access('can_create_service') and h.service_database_enabled() %}
-                    <a href="{{ h.url_for('service_new') }}">{{ _('Add public service')}}</a>
+                    <a href="{{ h.url_for('service_new') }}">{{ _('Add public service')}} (beta)</a>
                   {% endif %}
                 </li>
               </ul>
