@@ -7,7 +7,7 @@
 
         {% for language in languages %}
           <label class="radio-inline">
-            <input type="radio" name="original_language" value="{{ locales[loop.index0] }}" class="translation-select-original" {% if original_language == locale %} checked="checked"{% endif %} > {{ language }}
+            <input type="radio" name="original_language" value="{{ locales[loop.index0] }}" class="translation-select-original" {% if original_language == locales[loop.index0] %} checked="checked"{% endif %} > {{ language }}
         </label>
       {% endfor %}
 
@@ -49,7 +49,6 @@
 </div>
 
 <div id="translate-language-select" class="collapse translate-bar translate-language-select">
-
   {{ radio_row(_('Original language'), [_("Finnish"), _("English"), _("Swedish")], ['fi', 'en', 'sv'], data.original_language, data.translations) }}
   {{ checkbox_row(_('Translate'), [_("Finnish"), _("English"), _("Swedish")], ['fi', 'en', 'sv'], data.original_language, data.translations) }}
 
