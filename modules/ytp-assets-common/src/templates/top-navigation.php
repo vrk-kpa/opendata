@@ -98,7 +98,7 @@
         <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
           <?php if (!user_is_logged_in()) { ?>
           <li class="user-login">
-            <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?> &gt;</a>
+            <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?></a>
           </li>
           <?php } else { ?>
           <li class="user-info">
@@ -117,7 +117,7 @@
             </a>
           </li>
           <li>
-            <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?> &gt;</a>
+            <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?></a>
           </li>
           <?php } ?>
           <!-- <li><a href="#"><span class="icon icon-cart-navbar"></span> <?php echo t("Own checklist"); ?> (0)</a></li> -->

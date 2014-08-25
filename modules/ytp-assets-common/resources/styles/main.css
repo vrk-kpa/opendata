@@ -4273,6 +4273,7 @@ ul.resource-list {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  white-space: normal;
   padding: 8px 2px 5px 60px;
 }
 .resource-item:hover {
@@ -5167,7 +5168,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408633693144") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408707153390") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5207,7 +5208,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408633693144');
+  background-image: url('../images/sprite.png?timestamp=1408707153390');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5217,7 +5218,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408633693144');
+  background-image: url('../images/sprite.png?timestamp=1408707153390');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5414,9 +5415,6 @@ h4 {
   display: block;
   padding-top: 4px;
 }
-.region-sidebar-second .tutorial-signin a:after {
-  content: " >";
-}
 .control-full.error-block {
   width: auto;
 }
@@ -5476,7 +5474,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408633693144") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408707153390") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5683,7 +5681,7 @@ body.toolbar-drawer {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
-  background-color: #3f3d37;
+  background-color: #1f76b9;
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -25px;
@@ -5798,7 +5796,7 @@ li.ytp-menulink li {
 li.ytp-menulink a {
   color: #eeeeee;
   font-weight: 300;
-  background: #3f3d37;
+  background: #1f76b9;
   padding: 6px 20px 6px 20px;
   border: 1px solid #eeeeee;
 }
@@ -5913,6 +5911,16 @@ body {
   .alert {
     margin-bottom: 10px;
   }
+  .dl-horizontal dt {
+    float: none;
+    font-weight: bold;
+    text-align: left !important;
+    margin: 0 !important;
+  }
+  .dl-horizontal dd {
+    display: block;
+    margin: 0 0 10px 0 !important;
+  }
 }
 /* Extra small, small, and medium devices */
 @media (min-width: 480px) and (max-width: 1199px) {
@@ -5998,7 +6006,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408633693144');
+  background-image: url('../images/sprite.png?timestamp=1408707153390');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
