@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-25 13:25+0300\n"
-"PO-Revision-Date: 2014-08-25 11:12+0000\n"
+"POT-Creation-Date: 2014-08-25 19:25+0300\n"
+"PO-Revision-Date: 2014-08-25 16:26+0000\n"
 "Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:169
 msgid "You must add at least one data resource"
-msgstr ""
+msgstr "Sinun täytyy lisätä ainakin yksi dataresurssi"
 
 #: ckanext/ytp/dataset/controller.py:177
 msgid "Error"
@@ -309,7 +309,7 @@ msgstr "Nimetön resurssi"
 
 #: ckanext/ytp/dataset/plugin.py:409
 msgid "Additional Info"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: ckanext/ytp/dataset/translations.py:5
 msgid "Valid from"
@@ -499,60 +499,89 @@ msgid "My Datasets"
 msgstr "Minun tietoaineistoni"
 
 #: ckanext/ytp/dataset/templates/package/search.html:17
+#: ckanext/ytp/dataset/templates/package/search.html:22
+#: ckanext/ytp/organizations/templates/organization/read.html:8
 msgid "Add Dataset"
-msgstr ""
+msgstr "Lisää tietoaineisto"
 
-#: ckanext/ytp/dataset/templates/package/search.html:30
+#: ckanext/ytp/dataset/templates/package/search.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:15
+msgid "Add open data"
+msgstr "Lisää avoin data"
+
+#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/organizations/templates/organization/read.html:18
+msgid "Add tools or instruction"
+msgstr "Lisää työkalu tai ohje"
+
+#: ckanext/ytp/dataset/templates/package/search.html:36
+#: ckanext/ytp/organizations/templates/organization/read.html:22
+msgid "Add public service"
+msgstr "Add julkinen palvelu"
+
+#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/organizations/templates/organization/read.html:41
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:31
+#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/organizations/templates/organization/read.html:42
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Ascending"
 msgstr "Nimen mukaan nousevasti"
 
-#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/dataset/templates/package/search.html:57
+#: ckanext/ytp/organizations/templates/organization/read.html:43
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
-#: ckanext/ytp/dataset/templates/package/search.html:33
+#: ckanext/ytp/dataset/templates/package/search.html:58
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
+#: ckanext/ytp/organizations/templates/organization/read.html:44
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
-#: ckanext/ytp/dataset/templates/package/search.html:34
+#: ckanext/ytp/dataset/templates/package/search.html:59
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:45
 msgid "Popular"
 msgstr "Suosittu"
 
-#: ckanext/ytp/dataset/templates/package/search.html:52
+#: ckanext/ytp/dataset/templates/package/search.html:77
 msgid "API"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:53
+#: ckanext/ytp/dataset/templates/package/search.html:78
 msgid "API Docs"
 msgstr "API-dokumentaatio"
 
-#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/dataset/templates/package/search.html:80
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/dataset/templates/package/search.html:81
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:60
+#: ckanext/ytp/dataset/templates/package/search.html:85
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:96
+#: ckanext/ytp/organizations/templates/organization/read.html:47
+#: ckanext/ytp/theme/templates/snippets/search_form.html:3
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
+msgid "Search datasets..."
+msgstr "Etsi tietoaineistoista..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
 msgid "Change log"
@@ -773,7 +802,7 @@ msgstr "Tallenna luonnoksena"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:76
 msgid "Next: Add Data"
-msgstr ""
+msgstr "Seuraavaksi: Lisää dataa"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:17
@@ -1408,7 +1437,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:97
 msgid "Email address"
-msgstr ""
+msgstr "Sähköpostiosoite"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:13
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
@@ -1493,7 +1522,7 @@ msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:78
 msgid "Postall address"
-msgstr ""
+msgstr "Postiosoite"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
 msgid "Floor and room number"
@@ -1665,7 +1694,7 @@ msgstr "Etäpalvelun arvioitu kesto per asiakas"
 
 #: ckanext/ytp/service/templates/package/ytp/service/macros/service_form.html:3
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: ckanext/ytp/theme/menu.py:70
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:10
@@ -1712,11 +1741,6 @@ msgstr "Valinnat"
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
 msgstr ""
-
-#: ckanext/ytp/theme/templates/snippets/search_form.html:3
-#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
-msgid "Search datasets..."
-msgstr "Etsi tietoaineistoista..."
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:9
