@@ -13,9 +13,9 @@ body.toolbar, body.toolbar-drawer {
   margin-left: 25%;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-  color: @ytp-brand-decorative;
-}
+//.navbar-inverse .navbar-nav > li > a {
+//  color: @ytp-brand-decorative;
+//}
 
 .navbar-top {
   border-radius: 0;
@@ -35,10 +35,6 @@ body.toolbar, body.toolbar-drawer {
     padding-right: 16px;
     text-decoration: none;
     text-transform: uppercase;
-  }
-
-  .navbar-brand, .lang-select > li > a {
-    color: @navbar-color-text;
   }
 
   .navbar-brand, .navbar-nav > li > a {
@@ -61,6 +57,7 @@ body.toolbar, body.toolbar-drawer {
     .hidden-xs, .hidden-sm {
       .navbar-nav.lang-select, .navbar-nav.user-nav {
         a {
+          color: #fff;
           margin: 10px 0 10px 0px;
           padding: 0px;
         }
@@ -91,7 +88,7 @@ body.toolbar, body.toolbar-drawer {
   }
 
   .visible-xs, .visible-sm {
-    li {      
+    li {
       font-size: 14px;
       font-weight: normal;
       padding: 0px (@grid-gutter-width/2);
@@ -202,7 +199,6 @@ body.toolbar, body.toolbar-drawer {
   color: @block-color-hilight;
   padding: 2px;
   height: 54px;
-  margin-top: 10px;
 
   form {
     margin: 0;

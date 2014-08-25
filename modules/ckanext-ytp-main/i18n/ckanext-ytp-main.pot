@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-20 18:19+0300\n"
+"POT-Creation-Date: 2014-08-25 13:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgid "Languages versions"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:43
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 msgid "Original language"
 msgstr ""
 
@@ -103,25 +103,25 @@ msgid "Not set"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:44
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Finnish"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:45
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "English"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:46
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Swedish"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:47
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
 msgid "Translate"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:62
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:295
 msgid "Edit"
@@ -866,6 +866,10 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:49
 msgid "Go to resource"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:55
+msgid "Download as CSV"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:16

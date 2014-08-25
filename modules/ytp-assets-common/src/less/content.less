@@ -21,6 +21,9 @@ h4 {
     font-size: 18px;
 }
 
+.alert {
+  margin-bottom: @line-height-computed;
+}
 .alert.alert-info {
   a {
     color: @alert-info-text;
@@ -141,7 +144,8 @@ h4 {
 
 #responsive-login-panel, #responsive-browse-panel {
   font-size: 1.5em;
-  padding: 15px;
+  padding: (@grid-gutter-width/4);
+  margin: 0 0 (@grid-gutter-width/4) 0;
 }
 
 #footer {
@@ -251,7 +255,7 @@ h4 {
   section {
     background-color: @background-hilight;
     padding: 18px;
-    margin: 10px 0;
+    margin: 0 0 (@line-height-computed/2) 0;
     border-radius: 5px;
     .views-field-title {
       margin-bottom: 4px;
@@ -329,7 +333,7 @@ label.radio-inline:after, label.checkbox-inline:after{
   }
 
   h3 {
-    display: inline-block; 
+    display: inline-block;
   }
 
   .submitted {
