@@ -5168,7 +5168,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408961186283") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1408965852348") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5186,8 +5186,11 @@ h3 {
 h4 {
   font-size: 18px;
 }
+.alert {
+  margin-bottom: 20px;
+}
 .alert.alert-info a {
-  color: #1f76b9;
+  color: #eff7fc;
 }
 .alert.alert-info a:before {
   font-family: FontAwesome;
@@ -5208,7 +5211,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408961186283');
+  background-image: url('../images/sprite.png?timestamp=1408965852348');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5218,7 +5221,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408961186283');
+  background-image: url('../images/sprite.png?timestamp=1408965852348');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5288,7 +5291,8 @@ h4 {
 #responsive-login-panel,
 #responsive-browse-panel {
   font-size: 1.5em;
-  padding: 15px;
+  padding: 12.5px;
+  margin: 0 0 12.5px 0;
 }
 #footer {
   margin-top: 8px;
@@ -5383,7 +5387,7 @@ h4 {
 .region-sidebar-second section {
   background-color: #f6f5f3;
   padding: 18px;
-  margin: 10px 0;
+  margin: 0 0 10px 0;
   border-radius: 5px;
 }
 .region-sidebar-second section .views-field-title {
@@ -5474,7 +5478,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408961186283") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1408965852348") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5738,7 +5742,6 @@ body.toolbar-drawer {
   color: #1f76b9;
   padding: 2px;
   height: 54px;
-  margin-top: 10px;
 }
 .navbar.navbar-search form {
   margin: 0;
@@ -5997,7 +6000,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408961186283');
+  background-image: url('../images/sprite.png?timestamp=1408965852348');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {

@@ -2,7 +2,7 @@
 
 // Common color palette. These are the only colors that should be used!
 @ytp-brand-primary:	   lighten(#185A8D, 10%); //#266ab9; // Primary navigation/interaction/focus color
-@ytp-brand-decorative: #ee7544; // Decorative secondary color, for non-important elements
+@ytp-brand-decorative: #ee7544; // Decorative secondary color
 @ytp-brand-complementary: #3F3D37;
 @ytp-brand-gray:       darken(#908B7C, 20%); //#88827A; // Neutral grayish elements
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
@@ -30,9 +30,9 @@
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
-@alert-info-bg: lighten(@ytp-brand-primary, 60%);
-@alert-info-border: lighten(@ytp-brand-primary, 20%);
-@alert-info-text: @ytp-brand-primary; //lighten(@ytp-brand-primary, 54%);
+@alert-info-bg: @ytp-brand-primary; //lighten(@ytp-brand-primary, 30%);
+@alert-info-border: @ytp-brand-primary;
+@alert-info-text: lighten(@ytp-brand-primary, 54%); //@ytp-brand-primary;
 
 // Light border lines that separate UI areas
 @section-border-color: lighten(@ytp-brand-gray, 35%);
@@ -70,7 +70,6 @@
 @menu-hover-color: @ytp-brand-decorative;
 
 @body-color-background: white;
-
 
 // Drupal article tags
 // TODO where is this used
