@@ -10,9 +10,9 @@
   - clamav
   - non-local
 
+# Removed when clause 'when: clamav_install|changed' due to Ansible bug https://github.com/ansible/ansible/issues/7432
 - name: Update virus definition
   command: freshclam --quiet
-  when: clamav_install|changed
   async: 7200
   poll: 0
   tags:
