@@ -1,7 +1,6 @@
 from pylons import config
 import json
 
-from ckan.lib import helpers
 from ckan.common import c
 
 
