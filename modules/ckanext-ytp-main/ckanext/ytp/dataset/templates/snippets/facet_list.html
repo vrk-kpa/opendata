@@ -53,6 +53,7 @@ within_tertiary
       {% if items %}
         <nav>
           <ul class="{{ nav_class or 'unstyled nav nav-simple nav-facet' }}">
+            {% set items = h.sort_facet_items_by_name(items) %}
             {% for item in items %}
               {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
               {% set label = label_function(item) if label_function else item.display_name %}
