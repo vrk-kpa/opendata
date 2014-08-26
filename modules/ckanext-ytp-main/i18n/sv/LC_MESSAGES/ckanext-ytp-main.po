@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-25 13:25+0300\n"
-"PO-Revision-Date: 2014-08-25 15:54+0000\n"
+"POT-Creation-Date: 2014-08-25 19:25+0300\n"
+"PO-Revision-Date: 2014-08-26 11:18+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -493,60 +493,89 @@ msgid "My Datasets"
 msgstr "Mina dataset"
 
 #: ckanext/ytp/dataset/templates/package/search.html:17
+#: ckanext/ytp/dataset/templates/package/search.html:22
+#: ckanext/ytp/organizations/templates/organization/read.html:8
 msgid "Add Dataset"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:30
+#: ckanext/ytp/dataset/templates/package/search.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:15
+msgid "Add open data"
+msgstr "Lägg till öppen data"
+
+#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/organizations/templates/organization/read.html:18
+msgid "Add tools or instruction"
+msgstr "Lägg till verktyg eller anvisning"
+
+#: ckanext/ytp/dataset/templates/package/search.html:36
+#: ckanext/ytp/organizations/templates/organization/read.html:22
+msgid "Add public service"
+msgstr "Lägg till offentlig tjänst"
+
+#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/organizations/templates/organization/read.html:41
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:31
+#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/organizations/templates/organization/read.html:42
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Ascending"
 msgstr "Namn i stigande ordning"
 
-#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/dataset/templates/package/search.html:57
+#: ckanext/ytp/organizations/templates/organization/read.html:43
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Descending"
 msgstr "Namn i nedstigande ordning"
 
-#: ckanext/ytp/dataset/templates/package/search.html:33
+#: ckanext/ytp/dataset/templates/package/search.html:58
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
+#: ckanext/ytp/organizations/templates/organization/read.html:44
 msgid "Last Modified"
 msgstr "Senast redigerad"
 
-#: ckanext/ytp/dataset/templates/package/search.html:34
+#: ckanext/ytp/dataset/templates/package/search.html:59
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:45
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:52
+#: ckanext/ytp/dataset/templates/package/search.html:77
 msgid "API"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:53
+#: ckanext/ytp/dataset/templates/package/search.html:78
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/dataset/templates/package/search.html:80
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/dataset/templates/package/search.html:81
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:60
+#: ckanext/ytp/dataset/templates/package/search.html:85
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:96
+#: ckanext/ytp/organizations/templates/organization/read.html:47
+#: ckanext/ytp/theme/templates/snippets/search_form.html:3
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
+msgid "Search datasets..."
+msgstr "Sök i dataseten..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
 msgid "Change log"
@@ -1402,7 +1431,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:97
 msgid "Email address"
-msgstr ""
+msgstr "E-postadress"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:13
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
@@ -1487,7 +1516,7 @@ msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:78
 msgid "Postall address"
-msgstr ""
+msgstr "Postadress"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
 msgid "Floor and room number"
@@ -1706,11 +1735,6 @@ msgstr "Meny"
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
 msgstr ""
-
-#: ckanext/ytp/theme/templates/snippets/search_form.html:3
-#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
-msgid "Search datasets..."
-msgstr "Sök i dataseten..."
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:9
