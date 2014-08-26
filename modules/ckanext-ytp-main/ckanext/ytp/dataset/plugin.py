@@ -13,7 +13,8 @@ from ckanext.ytp.common.converters import to_list_json, from_json_list, is_url, 
 import types
 import re
 import logging
-from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, sort_facet_items_by_name
+from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
+    sort_facet_items_by_name
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation
 from paste.deploy.converters import asbool
