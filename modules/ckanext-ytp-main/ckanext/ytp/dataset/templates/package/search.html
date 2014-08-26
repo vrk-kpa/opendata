@@ -14,9 +14,8 @@
         {% if h.check_access('package_create') %}
           <div class="page_primary_action">
             {% link_for _('My Datasets'), controller='user', action='dashboard_datasets', class_='btn btn-info', icon='star-empty' %}
-            <!-- {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign-alt' %} -->
 
-            <!-- Begin add dataset button group -->
+            <!-- Begin Add Dataset split button -->
             {% resource 'ytp_common_js/ytp_form.js' %}
             <div class="btn-group">
               {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign' %}
@@ -38,8 +37,8 @@
                 </li>
               </ul>
             </div>
-            <!-- End add dataset button group -->
-
+            <!-- End Add Dataset split button -->
+            
           </div>
         {% endif %}
       {% endblock %}
