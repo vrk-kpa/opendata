@@ -66,6 +66,7 @@ within_tertiary
             {% endfor %}
           </ul>
         </nav>
+        {% if h.get_remaining_facet_item_count(name) > 0 %}
         <p class="module-footer">
           {% if h.get_param_int('_%s_limit' % name) %}
             <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-uncollapse">{{ _('More').format(facet_type=title) }}</a>
@@ -73,6 +74,7 @@ within_tertiary
             <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more read-more-collapse">{{ _('Less').format(facet_type=title) }}</a>
           {% endif %}
         </p>
+        {% endif %}
       {% else %}
         <p class="module-content empty">{{ _('No matches').format(facet_type=title) }}</p>
       {% endif %}

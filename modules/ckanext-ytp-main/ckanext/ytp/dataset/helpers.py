@@ -1,6 +1,8 @@
 from pylons import config
 import json
 
+from ckan.lib import helpers
+from ckan.common import c
 
 def service_database_enabled():
     return config.get('ckanext.ytp.dataset.service_database_enabled', 'true') == 'true'
@@ -24,3 +26,8 @@ def sort_datasets_by_state_priority(datasets):
     sorted_datasets.extend(sorted([dataset for dataset in datasets if dataset['state'] == 'deleted'],
                                   key=lambda sorting_key: sorting_key['metadata_modified'], reverse=True))
     return sorted_datasets
+
+def get_remaining_facet_item_count(facet, limit=10):
+    items = c.search_facets.get(facet)['items']
+    return len(items) - 1 - limit
+
