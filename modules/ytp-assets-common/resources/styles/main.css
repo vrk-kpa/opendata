@@ -4215,7 +4215,7 @@ header.page-header .content_action {
   padding-bottom: 10px;
   margin-right: 0px;
 }
-section.module {
+.module {
   margin: 0 0 20px 0;
 }
 .module-resource {
@@ -5031,7 +5031,7 @@ h1 {
   font-size: 25px;
 }
 h2 {
-  font-size: 20px;
+  font-size: 21px;
 }
 h3 {
   font-size: 18px;
@@ -5174,7 +5174,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1408983666151") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1409043651734") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5217,7 +5217,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1408983666151');
+  background-image: url('../images/sprite.png?timestamp=1409043651734');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5227,7 +5227,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1408983666151');
+  background-image: url('../images/sprite.png?timestamp=1409043651734');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5484,7 +5484,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1408983666151") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1409043651734") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6006,7 +6006,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1408983666151');
+  background-image: url('../images/sprite.png?timestamp=1409043651734');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
