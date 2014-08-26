@@ -2,8 +2,8 @@
 
 // Common color palette. These are the only colors that should be used!
 @ytp-brand-primary:	   lighten(#185A8D, 10%); //#266ab9; // Primary navigation/interaction/focus color
-@ytp-brand-decorative: #ee7544; // Decorative secondary color, for non-important elements
-@ytp-brand-complementary: #3F3D37; // #35332E;
+@ytp-brand-decorative: #ee7544; // Decorative secondary color
+@ytp-brand-complementary: #3F3D37;
 @ytp-brand-gray:       darken(#908B7C, 20%); //#88827A; // Neutral grayish elements
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
 @ytp-brand-info:       #5bc0de; // Notification color, important but not critical
@@ -30,9 +30,9 @@
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
-@alert-info-bg: @ytp-brand-primary; //#7CA9CC;
+@alert-info-bg: @ytp-brand-primary; //lighten(@ytp-brand-primary, 30%);
 @alert-info-border: @ytp-brand-primary;
-@alert-info-text: lighten(@ytp-brand-primary, 54%);
+@alert-info-text: lighten(@ytp-brand-primary, 54%); //@ytp-brand-primary;
 
 // Light border lines that separate UI areas
 @section-border-color: lighten(@ytp-brand-gray, 35%);
@@ -71,7 +71,6 @@
 
 @body-color-background: white;
 
-
 // Drupal article tags
 // TODO where is this used
 @node-meta-submitted: #cccccc;
@@ -80,6 +79,7 @@
 @select-background: white;
 
 // Rest of the variables
+@navbar-inverse-link-color: @ytp-brand-decorative;
 @navbar-color-background: @ytp-brand-complementary;
 @navbar-color-text: #ffffff;
 @navbar-color-darker: #999999;
@@ -101,7 +101,7 @@
 @button-hilight: #747474;
 @button-primary-background: @ytp-brand-primary;
 @button-primary-hilight: #0f54a2;
-@button-primary-border: @button-primary-background; //#84b7c7;
+@button-primary-border: #7CA9CC;
 @button-border: #9a9d9e;
 
 // TODO remove if there is no footer

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-20 18:19+0300\n"
-"PO-Revision-Date: 2014-08-20 15:20+0000\n"
-"Last-Translator: Vilsepi\n"
+"POT-Creation-Date: 2014-08-25 13:25+0300\n"
+"PO-Revision-Date: 2014-08-25 15:54+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,7 +100,7 @@ msgid "Languages versions"
 msgstr "Språkversioner"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:43
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 msgid "Original language"
 msgstr "Originalspråk"
 
@@ -109,31 +109,31 @@ msgid "Not set"
 msgstr "Ovald"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:44
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Finnish"
 msgstr "Finska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:45
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "English"
 msgstr "Engelska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:46
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Swedish"
 msgstr "Svenska"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:47
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
 msgid "Translate"
 msgstr "Översätt"
 
 #: ckanext/ytp/common/templates/package/ytp/modal.html:13
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:3
 #: ckanext/ytp/dataset/controller.py:60
@@ -392,7 +392,7 @@ msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:62
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:295
 msgid "Edit"
@@ -872,6 +872,10 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:49
 msgid "Go to resource"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:55
+msgid "Download as CSV"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:16
@@ -1697,7 +1701,7 @@ msgstr "Publicera offentlig tjänst"
 
 #: ckanext/ytp/theme/templates/page.html:22
 msgid "Toggle menu"
-msgstr ""
+msgstr "Meny"
 
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"

@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-20 18:19+0300\n"
-"PO-Revision-Date: 2014-08-20 15:20+0000\n"
-"Last-Translator: Vilsepi\n"
+"POT-Creation-Date: 2014-08-25 19:25+0300\n"
+"PO-Revision-Date: 2014-08-25 16:37+0000\n"
+"Last-Translator: Jaakko Salonen <jaakko.salonen@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "Voit käyttää <a href=\"/fi/markdownsyntax\" target=\"_blank\">tekstin
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:26
 msgid "This field is required"
-msgstr ""
+msgstr "Pakollinen kenttä"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:157
 msgid "Custom"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:159
 msgid "Select"
-msgstr ""
+msgstr "Valitse"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:176
 #: ckanext/ytp/common/templates/package/ytp/modal.html:12
@@ -87,7 +87,7 @@ msgstr ""
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
 msgid "Confirm"
-msgstr ""
+msgstr "Vahvista"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
@@ -106,7 +106,7 @@ msgid "Languages versions"
 msgstr "Kieliversiot"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:43
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 msgid "Original language"
 msgstr "Alkuperäiskieli"
 
@@ -115,31 +115,31 @@ msgid "Not set"
 msgstr "Ei asetettu"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:44
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Finnish"
 msgstr "Suomi"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:45
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "English"
 msgstr "Englanti"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:46
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:52
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
 msgid "Swedish"
 msgstr "Ruotsi"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:47
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:54
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:53
 msgid "Translate"
 msgstr "Lisää kieli"
 
 #: ckanext/ytp/common/templates/package/ytp/modal.html:13
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:3
 #: ckanext/ytp/dataset/controller.py:60
@@ -153,7 +153,7 @@ msgstr "Luo uusi tietoaineisto"
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:6
 #: ckanext/ytp/theme/menu.py:203
 msgid "Publish Data"
-msgstr ""
+msgstr "Julkaise data"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:16
 msgid "Edit content"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:169
 msgid "You must add at least one data resource"
-msgstr ""
+msgstr "Sinun täytyy lisätä ainakin yksi dataresurssi"
 
 #: ckanext/ytp/dataset/controller.py:177
 msgid "Error"
@@ -254,7 +254,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:290
 msgid "Resource not found"
-msgstr ""
+msgstr "Resurssia ei löytynyt"
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
 #: ckanext/ytp/organizations/plugin.py:338
@@ -305,11 +305,11 @@ msgstr "Muu"
 
 #: ckanext/ytp/dataset/plugin.py:409
 msgid "Unnamed resource"
-msgstr ""
+msgstr "Nimetön resurssi"
 
 #: ckanext/ytp/dataset/plugin.py:409
 msgid "Additional Info"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: ckanext/ytp/dataset/translations.py:5
 msgid "Valid from"
@@ -374,7 +374,7 @@ msgstr "Sulje tallentamatta"
 
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:15
 msgid "Update"
-msgstr ""
+msgstr "Päivitä"
 
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:109
@@ -395,10 +395,10 @@ msgstr "Lisää dataa"
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:42
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
-msgstr ""
+msgstr "Vedos"
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:62
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:295
 msgid "Edit"
@@ -411,11 +411,11 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:36
 msgid "View"
-msgstr ""
+msgstr "Katsele"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:38
 msgid "API Endpoint"
-msgstr ""
+msgstr "API-päätepiste"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:40
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:12
@@ -425,11 +425,11 @@ msgstr "Avaa"
 #: ckanext/ytp/dataset/templates/package/resource_read.html:42
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:46
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:60
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:70
 msgid "From the dataset abstract"
@@ -448,13 +448,13 @@ msgstr "Lisätietoja"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:94
 msgid "Last updated"
-msgstr ""
+msgstr "Viimeisin päivitys"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:95
 #: ckanext/ytp/dataset/templates/package/resource_read.html:98
 #: ckanext/ytp/dataset/templates/package/resource_read.html:101
 msgid "unknown"
-msgstr ""
+msgstr "tuntematon"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:97
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:85
@@ -496,63 +496,92 @@ msgstr "Tekniset lisätiedot"
 #: ckanext/ytp/dataset/templates/package/search.html:16
 #: ckanext/ytp/theme/menu.py:60
 msgid "My Datasets"
-msgstr "Minun tietoaineistot"
+msgstr "Minun tietoaineistoni"
 
 #: ckanext/ytp/dataset/templates/package/search.html:17
+#: ckanext/ytp/dataset/templates/package/search.html:22
+#: ckanext/ytp/organizations/templates/organization/read.html:8
 msgid "Add Dataset"
-msgstr ""
+msgstr "Lisää tietoaineisto"
 
-#: ckanext/ytp/dataset/templates/package/search.html:30
+#: ckanext/ytp/dataset/templates/package/search.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:15
+msgid "Add open data"
+msgstr "Lisää avoin data"
+
+#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/organizations/templates/organization/read.html:18
+msgid "Add tools or instruction"
+msgstr "Lisää työkalu tai ohje"
+
+#: ckanext/ytp/dataset/templates/package/search.html:36
+#: ckanext/ytp/organizations/templates/organization/read.html:22
+msgid "Add public service"
+msgstr "Lisää julkinen palvelu"
+
+#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/organizations/templates/organization/read.html:41
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:31
+#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/organizations/templates/organization/read.html:42
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Ascending"
 msgstr "Nimen mukaan nousevasti"
 
-#: ckanext/ytp/dataset/templates/package/search.html:32
+#: ckanext/ytp/dataset/templates/package/search.html:57
+#: ckanext/ytp/organizations/templates/organization/read.html:43
 #: ckanext/ytp/theme/templates/snippets/search_form.html:31
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:25
 msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
-#: ckanext/ytp/dataset/templates/package/search.html:33
+#: ckanext/ytp/dataset/templates/package/search.html:58
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:84
+#: ckanext/ytp/organizations/templates/organization/read.html:44
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
-#: ckanext/ytp/dataset/templates/package/search.html:34
+#: ckanext/ytp/dataset/templates/package/search.html:59
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/organizations/templates/organization/read.html:45
 msgid "Popular"
-msgstr ""
+msgstr "Suosittu"
 
-#: ckanext/ytp/dataset/templates/package/search.html:52
+#: ckanext/ytp/dataset/templates/package/search.html:77
 msgid "API"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:53
+#: ckanext/ytp/dataset/templates/package/search.html:78
 msgid "API Docs"
-msgstr ""
+msgstr "API-dokumentaatio"
 
-#: ckanext/ytp/dataset/templates/package/search.html:55
+#: ckanext/ytp/dataset/templates/package/search.html:80
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:56
+#: ckanext/ytp/dataset/templates/package/search.html:81
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:60
+#: ckanext/ytp/dataset/templates/package/search.html:85
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/search.html:96
+#: ckanext/ytp/organizations/templates/organization/read.html:47
+#: ckanext/ytp/theme/templates/snippets/search_form.html:3
+#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
+msgid "Search datasets..."
+msgstr "Etsi tietoaineistoista..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:82
 msgid "Change log"
@@ -773,7 +802,7 @@ msgstr "Tallenna luonnoksena"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:76
 msgid "Next: Add Data"
-msgstr ""
+msgstr "Seuraavaksi: Lisää dataa"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:17
@@ -878,6 +907,10 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:49
 msgid "Go to resource"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:55
+msgid "Download as CSV"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:16
@@ -1404,7 +1437,7 @@ msgstr ""
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:22
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:97
 msgid "Email address"
-msgstr ""
+msgstr "Sähköpostiosoite"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:13
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:23
@@ -1489,7 +1522,7 @@ msgstr ""
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:78
 msgid "Postall address"
-msgstr ""
+msgstr "Postiosoite"
 
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:79
 msgid "Floor and room number"
@@ -1661,7 +1694,7 @@ msgstr "Etäpalvelun arvioitu kesto per asiakas"
 
 #: ckanext/ytp/service/templates/package/ytp/service/macros/service_form.html:3
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: ckanext/ytp/theme/menu.py:70
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:10
@@ -1703,16 +1736,11 @@ msgstr "Julkaise julkinen palvelu"
 
 #: ckanext/ytp/theme/templates/page.html:22
 msgid "Toggle menu"
-msgstr ""
+msgstr "Valinnat"
 
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
 msgstr ""
-
-#: ckanext/ytp/theme/templates/snippets/search_form.html:3
-#: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
-msgid "Search datasets..."
-msgstr "Etsi tietoaineistoista..."
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:9
