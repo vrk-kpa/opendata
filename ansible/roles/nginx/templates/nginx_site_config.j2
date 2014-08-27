@@ -90,6 +90,8 @@ server {
 
     # Fix: CKAN file upload give invalid data path when running CKAN under path (/data).
     rewrite ^/data/data/(.*)$ /data/$1 permanent;
+    # Fix: Old CKAN file upload paths
+    rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
 
     # Disable CKAN main page. Redirect to Drupal main page. 
     rewrite ^/data/(fi|en|sv)/$ /$1 permanent;
