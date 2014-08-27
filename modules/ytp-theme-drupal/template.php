@@ -120,11 +120,17 @@ function ytp_theme_preprocess_page(&$variables) {
 
     #$loginform['actions']['#weight'] = 0;
 
+    // Map CKAN-style 'came_from' redirects to use Drupal's 'destination' param
+    if (isset($_GET['came_from'])) {
+      $loginform_query_string = array('destination' => $_GET['came_from']);
+      $loginform['#action'] = url('user/login', array('query' => $loginform_query_string));
+    }
+
     $variables['loginform'] = $loginform;
 
     $resetform = drupal_get_form('user_pass');
-    $query_string = array('destination' => 'user/login');
-    $resetform['#action'] = url('user/password', array('query' => $query_string));
+    $resetform_query_string = array('destination' => 'user/login');
+    $resetform['#action'] = url('user/password', array('query' => $resetform_query_string));
 
     $resetform['#attributes'] = array('class' => 'form-horizontal');
     $resetform['name']['#field_prefix'] = '<div class="col-sm-10">';

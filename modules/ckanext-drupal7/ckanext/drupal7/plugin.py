@@ -160,10 +160,10 @@ class Drupal7Plugin(p.SingletonPlugin):
         return user['name']
 
     def abort(self, status_code, detail, headers, comment):
-        # HTTP Status 401 causes a login redirect.  We need to prevent this
-        # unless we are actually trying to login.
-        if (status_code == 401 and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
-            h.redirect_to('drupal7_unauthorized')
+        # HTTP Status 401 causes a login redirect.  We need to prevent this unless we are actually trying to login.
+        # The original ckanext-drupal7 aborts redirects, we actually want to be redirected to login page.
+        #if (status_code == 401 and p.toolkit.request.environ['PATH_INFO'] != '/user/login'):
+        #    h.redirect_to('drupal7_unauthorized')
         return (status_code, detail, headers, comment)
 
     def get_auth_functions(self):

@@ -22,12 +22,7 @@
     echo '<li' . $class . '><a href="' . $href . '">' . t("Data Producers") . '</a></li>';
 
     $class = '';
-    // Link to different pages depending on if the user is logged in or not
-    if (user_is_logged_in()) {
-        $href = '/data/' . $lang . '/dataset/new';
-    } else {
-        $href = '/' . $lang . '/publish';
-    }
+    $href = '/' . $lang . '/publish';
     if ( ($uri == $href || $site_section == t("Publish Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
     echo '<li' . $class . '><a href='. $href . '>' . t("Publish Data") . '</a></li>';
 

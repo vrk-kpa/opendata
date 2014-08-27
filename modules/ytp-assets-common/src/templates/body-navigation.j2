@@ -5,13 +5,7 @@
         <li><a href="/{{ lang }}">{{ _('Home') }}</a></li>
         <li {% if current_url.startswith("/dataset") and not current_url.startswith("/dataset/new") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset">{{ _('Data Repositories') }}</a></li>
         <li {% if current_url.startswith("/organization") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/organization">{{ _('Data Producers') }}</a></li>
-        {# Link to different pages depending on if the user is logged in or not #}
-        {% if c.userobj %}
-            <li><a href="/data/{{ lang }}/dataset/new">{{ _('Publish Data') }}</a></li>
-        {% else %}
-            <li><a href="/{{ lang }}/publish">{{ _('Publish Data') }}</a></li>
-        {% endif %}
-
+        <li><a href="/{{ lang }}/publish">{{ _('Publish Data') }}</a></li>
         {# <li><a href="/{{ lang }}/news">{{ _('News') }}</a></li> #}
         <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
         <li><a href="/{{ lang }}/feedback">{{ _('Feedback') }}</a></li>

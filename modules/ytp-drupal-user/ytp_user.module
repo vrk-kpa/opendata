@@ -125,15 +125,17 @@ function ytp_user_disable(){
 function ytp_user_user_login(&$edit, $account) {
     global $language;
 
-    // Redirect only when the user is not resetting her password
-    // Otherwise, the password reset functionality will be impaired
-    if (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset') {
-        // Using drupal_goto() or overriding $edit['redirect'] do not work if $_GET['destination'] is set,
-        // because $_GET['destination] overrides them
-        unset($_GET['destination']);
+    // Using drupal_goto() or overriding $edit['redirect'] do not work if $_GET['destination'] is set, because $_GET['destination] overrides them
 
-        // Redirect the user to the front page
-        drupal_goto('<front>');
+    // Redirect only when the user is not resetting her password, otherwise the password reset functionality will be impaired
+    if (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset') {
+        if (isset($_REQUEST['destination']) && $_REQUEST['destination'] !== "user/login") {
+            drupal_goto($_REQUEST['destination']);
+        } else {
+            // Redirect the user to the front page
+            unset($_GET['destination']);
+            drupal_goto('<front>');
+        }
     }
 }
 
