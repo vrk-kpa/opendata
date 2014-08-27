@@ -68,7 +68,8 @@ def organization_import(data):
             if public_organization:
                 values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
             try:
-                get_action('organization_update')(context, values)
+                get_action('organization_show')(context, {'id': values['id']})
+                # Do not override organizations
             except NotFound:
                 get_action('organization_create')(context, values)
 

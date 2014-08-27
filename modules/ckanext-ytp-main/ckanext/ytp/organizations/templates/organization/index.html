@@ -10,7 +10,7 @@
   <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
 
   {% block organizations_search_form %}
-    {% snippet 'snippets/search_form.html', type='organization', query=c.q, sorting='disabled', count=c.page.item_count, placeholder=_('Search data producers...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
+    {% snippet 'snippets/search_form.html', type='organization', query=c.q, sorting='disabled', count=c.page.item_count, placeholder=_('Search organizations...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
   {% endblock %}
 
   {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}

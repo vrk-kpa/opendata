@@ -142,8 +142,8 @@ header.page-header {
 }
 
 
-section.module {
-  margin: 0 0 20px 0;
+.module {
+  margin: 0 0 @line-height-computed 0;
 }
 
 .module-resource {
@@ -306,26 +306,6 @@ ul.dataset-list {
 ul.no-bullet {
   list-style-type: none;
   padding-left: 10px;
-}
-
-#page_wrapper .search-form {
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-  h1 {
-    margin-bottom: 2px;
-    line-height: 1.0;
-  }
-  .filter-list {
-    margin-top: 0px;
-  }
-  .control-order-by {
-    margin: -2px 0 0 0;
-    padding-top: 0px;
-    margin-bottom: 8px;
-    select {
-      width: auto;
-    }
-  }
 }
 
 .form-horizontal .control-group {
@@ -825,6 +805,9 @@ dd {
   }
 }
 
+.organization-image {
+  max-width: 100%;
+}
 
 .organization-tree {
   li {
