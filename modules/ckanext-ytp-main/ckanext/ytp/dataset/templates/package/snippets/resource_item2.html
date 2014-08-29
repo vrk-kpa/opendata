@@ -2,10 +2,9 @@
 
 {% block resource_item_explore %}
 
-<p class="ellipsis">
 
     {% if not url_is_edit %}
-    <div class="btn-group">
+    <div class="btn-group pull-left">
         {% if can_edit and res.id != false and res.id != resource_under_edit %}
             <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}" class="btn btn-default"><i class="icon-wrench"></i> {{ _('Manage') }}</a>
         {% endif %}
@@ -13,7 +12,5 @@
     </div>
     {% endif %}
 
-    <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
-</p>
 
 {% endblock %}
