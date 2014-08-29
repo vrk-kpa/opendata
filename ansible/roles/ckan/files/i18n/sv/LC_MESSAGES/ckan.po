@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-12-13 11:40+0000\n"
-"PO-Revision-Date: 2014-08-25 15:54+0000\n"
+"PO-Revision-Date: 2014-08-29 13:11+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -480,7 +480,7 @@ msgstr "Felaktigt format på revision: %r"
 msgid ""
 "Viewing {package_type} datasets in {format} format is not supported "
 "(template file {file} not found)."
-msgstr "Visning av  dataset av typen {package_type} i formatet {format}, stöds inte (mallen {file} hittades inte)."
+msgstr "Visning av dataset av typen {package_type} i formatet {format}, stöds inte (mallen {file} hittades inte)."
 
 #: ckan/controllers/package.py:449
 msgid "CKAN Dataset Revision History"
@@ -496,7 +496,7 @@ msgstr "Oberhörig för att skapa paket"
 
 #: ckan/controllers/package.py:574 ckanext/datapusher/plugin.py:52
 msgid "Unauthorized to edit this resource"
-msgstr "Behörighet saknas för att redigera denna resurs"
+msgstr "Behörighet saknas för att redigera denna materiallänk"
 
 #: ckan/controllers/package.py:594 ckan/controllers/package.py:1111
 #: ckan/controllers/package.py:1187 ckan/controllers/package.py:1225
@@ -516,7 +516,7 @@ msgstr "Dataset med {id} kunde inte hittas."
 
 #: ckan/controllers/package.py:649
 msgid "You must add at least one data resource"
-msgstr "Du måste lägga till åtminstone en dataresurs"
+msgstr "Du måste lägga till åtminstone en materiallänk"
 
 #: ckan/controllers/package.py:657
 #: ckan/templates_legacy/error_document_template.html:5
@@ -526,7 +526,7 @@ msgstr "Fel"
 
 #: ckan/controllers/package.py:675
 msgid "Unauthorized to create a resource"
-msgstr "Behörighet saknas för att skapa en resurs"
+msgstr "Behörighet saknas för att skapa en materiallänk"
 
 #: ckan/controllers/package.py:977
 msgid "Unable to add package to search index."
@@ -548,12 +548,12 @@ msgstr "Dataset har raderats."
 
 #: ckan/controllers/package.py:1104
 msgid "Resource has been deleted."
-msgstr "Resursen har raderats."
+msgstr "Materiallänken har raderats."
 
 #: ckan/controllers/package.py:1109
 #, python-format
 msgid "Unauthorized to delete resource %s"
-msgstr "Behörighet saknas för att radera resurs %s"
+msgstr "Behörighet saknas för att radera materiallänk %s"
 
 #: ckan/controllers/package.py:1189 ckan/controllers/package.py:1227
 #: ckan/controllers/package.py:1406 ckan/controllers/package.py:1488
@@ -563,7 +563,7 @@ msgstr "Inga rättigheter för objektet %s"
 
 #: ckan/controllers/package.py:1236
 msgid "Resource data not found"
-msgstr "Resursens data hittades inte"
+msgstr "Materiallänkens data hittades inte"
 
 #: ckan/controllers/package.py:1243
 msgid "No download is available"
@@ -861,7 +861,7 @@ msgstr "{actor} ändrade extraobjektet {extra} i dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:79
 msgid "{actor} updated the resource {resource} in the dataset {dataset}"
-msgstr "{actor} uppdaterade resursen {resource} i dataset {dataset}"
+msgstr "{actor} uppdaterade materiallänken {resource} i dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:82
 msgid "{actor} updated their profile"
@@ -894,7 +894,7 @@ msgstr "{actor} raderade extraobjektet {extra} från dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:104
 msgid "{actor} deleted the resource {resource} from the dataset {dataset}"
-msgstr "{actor} raderade resursen {resource} från dataset {dataset}"
+msgstr "{actor} raderade materiallänken {resource} från dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:108
 msgid "{actor} created the group {group}"
@@ -914,7 +914,7 @@ msgstr "{actor} lade till extraobjektet {extra} till dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:120
 msgid "{actor} added the resource {resource} to the dataset {dataset}"
-msgstr "{actor} lade till resursen {resource} till dataset {dataset}"
+msgstr "{actor} lade till materiallänken {resource} till dataset {dataset}"
 
 #: ckan/lib/activity_streams.py:123
 msgid "{actor} signed up"
@@ -1112,7 +1112,7 @@ msgstr "Okänd"
 
 #: ckan/lib/helpers.py:1033
 msgid "Unnamed resource"
-msgstr "Namnlös resurs"
+msgstr "Namnlös materiallänk"
 
 #: ckan/lib/helpers.py:1080
 msgid "Created new dataset."
@@ -1120,7 +1120,7 @@ msgstr "Skapade ett nytt dataset."
 
 #: ckan/lib/helpers.py:1082
 msgid "Edited resources."
-msgstr "Redigerade resurser."
+msgstr "Redigerade materiallänkar."
 
 #: ckan/lib/helpers.py:1084
 msgid "Edited settings."
@@ -1140,15 +1140,15 @@ msgstr[1] "visad {number} gånger nyligen"
 
 #: ckan/lib/helpers.py:1589
 msgid "The resource url is not specified."
-msgstr "Resurs-url är inte angiven."
+msgstr "Materiallänkens webbadress är inte angiven."
 
 #: ckan/lib/helpers.py:1607
 msgid "No preview handler for resource of type {0}"
-msgstr "Ingen förhandsvisningshanterare för resurser av typen {0}"
+msgstr "Ingen förhandsvisningshanterare för materiallänken av typen {0}"
 
 #: ckan/lib/helpers.py:1611
 msgid "The resource format is not specified."
-msgstr "Resursens format är inte angivet."
+msgstr "Materiallänkens format är inte angivet."
 
 #: ckan/lib/mailer.py:25
 #, python-format
@@ -1243,7 +1243,7 @@ msgstr "Vänligen mata in ett heltal"
 #: ckan/templates_legacy/package/layout.html:19
 #: ckan/templates_legacy/package/read_core.html:26
 msgid "Resources"
-msgstr "Resurser"
+msgstr "Materiallänkar"
 
 #: ckan/logic/__init__.py:99 ckan/logic/action/__init__.py:54
 msgid "Package resource(s) invalid"
@@ -1344,7 +1344,7 @@ msgstr "Aktivitetstyp"
 #: ckan/logic/validators.py:239
 #: ckan/templates_legacy/package/new_package_form.html:20
 msgid "Resource"
-msgstr "Resurs"
+msgstr "Materiallänk"
 
 #: ckan/logic/validators.py:310
 msgid "Names must be strings"
@@ -1621,7 +1621,7 @@ msgstr "Posten kunde inte hittas."
 
 #: ckan/logic/action/update.py:208 ckan/logic/action/update.py:221
 msgid "Resource was not found."
-msgstr "Resursen hittades inte."
+msgstr "Materiallänken hittades inte."
 
 #: ckan/logic/action/update.py:268 ckan/logic/action/update.py:1089
 msgid "Package was not found."
@@ -1721,12 +1721,12 @@ msgstr "Användare %s är inte behörig att ta bort paket %s"
 #: ckan/logic/auth/delete.py:35 ckan/logic/auth/get.py:135
 #: ckan/logic/auth/update.py:61
 msgid "No package found for this resource, cannot check auth."
-msgstr "Inget paket hittades för denna resurs, kan inte kontrollera behörigheter."
+msgstr "Inget paket hittades för denna materiallänk, kan inte kontrollera behörigheter."
 
 #: ckan/logic/auth/delete.py:41
 #, python-format
 msgid "User %s not authorized to delete resource %s"
-msgstr "Användare %s har inte behörighet att radera resurs %s"
+msgstr "Användare %s har inte behörighet att radera materiallänk %s"
 
 #: ckan/logic/auth/delete.py:50 ckan/logic/auth/delete.py:64
 msgid "Only the owner can delete a related item"
@@ -1794,7 +1794,7 @@ msgstr "Användare %s saknar behörighet att redigera paketet %s"
 #: ckan/logic/auth/update.py:69
 #, python-format
 msgid "User %s not authorized to edit resource %s"
-msgstr "Användare %s har inte behörighet att redigera resurs %s"
+msgstr "Användare %s har inte behörighet att redigera materiallänk %s"
 
 #: ckan/logic/auth/update.py:92
 #, python-format
@@ -1974,7 +1974,7 @@ msgstr "Laddar..."
 
 #: ckan/public/base/javascript/modules/api-info.js:20
 msgid "There is no API data to load for this resource"
-msgstr "Det finns inga API-data att ladda för denna resurs"
+msgstr "Det finns inga API-data att ladda för denna materiallänk"
 
 #: ckan/public/base/javascript/modules/api-info.js:21
 msgid "Failed to load data API information"
@@ -2090,7 +2090,7 @@ msgstr "visa mindre"
 
 #: ckan/public/base/javascript/modules/resource-reorder.js:8
 msgid "Reorder resources"
-msgstr "Ändra ordning på resurser"
+msgstr "Ändra ordning på materiallänkar"
 
 #: ckan/public/base/javascript/modules/resource-reorder.js:9
 msgid "Save order"
@@ -2111,7 +2111,7 @@ msgstr "Ett fel uppstod"
 
 #: ckan/public/base/javascript/modules/resource-upload-field.js:27
 msgid "Resource uploaded"
-msgstr "Resursen laddades upp"
+msgstr "Materiallänken laddades upp"
 
 #: ckan/public/base/javascript/modules/resource-upload-field.js:28
 msgid "Unable to upload file"
@@ -2343,7 +2343,7 @@ msgstr "CKAN Data API"
 
 #: ckan/templates/ajax_snippets/api_info.html:23
 msgid "Access resource data via a web API with powerful query support"
-msgstr "Få tillgång till resursens data via ett webb-API med kraftfullt frågestöd."
+msgstr "Få tillgång till materiallänkens data via en webb-API med kraftfullt frågestöd."
 
 #: ckan/templates/ajax_snippets/api_info.html:24
 msgid ""
@@ -2409,7 +2409,7 @@ msgstr "Exempel: Python"
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:9
 msgid "This resource can not be previewed at the moment."
-msgstr "Denna resurs kan inte förhandsgranskas just nu."
+msgstr "Denna materiallänk kan inte förhandsgranskas just nu."
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:11
 msgid "Click here for more information."
@@ -2417,7 +2417,7 @@ msgstr "Klicka här för att läsa mer..."
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:18
 msgid "Download resource"
-msgstr "Ladda ned resurs"
+msgstr "Ladda ned materiallänk"
 
 #: ckan/templates/dataviewer/snippets/data_preview.html:23
 msgid "Your browser does not support iframes."
@@ -3274,7 +3274,7 @@ msgid ""
 " A CKAN Dataset is a collection of data resources (such as files), together "
 "with a description and other information, at a fixed URL. Datasets are what "
 "users see when searching for data. "
-msgstr "Ett dataset i CKAN är en samling av dataresurser (såsom filer), tillsammans med en beskrivning och annan information, som finns tillgänglig på en permanent URL. Dataset är vad användare ser när de söker efter data."
+msgstr "En dataset i CKAN är en samling av materiallänkar (såsom filer), tillsammans med en beskrivning och annan information, som finns tillgänglig på en permanent URL. Datasetet är vad användare ser när de söker efter data."
 
 #: ckan/templates/package/confirm_delete.html:11
 msgid "Are you sure you want to delete dataset - {name}?"
@@ -3282,7 +3282,7 @@ msgstr "Vill du verkligen radera detta dataset: {name}?"
 
 #: ckan/templates/package/confirm_delete_resource.html:11
 msgid "Are you sure you want to delete resource - {name}?"
-msgstr "Vill du verkligen radera resursen - {name}?"
+msgstr "Vill du verkligen radera materiallänken - {name}?"
 
 #: ckan/templates/package/edit_base.html:14
 msgid "View dataset"
@@ -3319,16 +3319,16 @@ msgstr "Lägg till data till detta dataset"
 #: ckan/templates/package/new_resource.html:10
 #: ckan/templates/package/new_resource_not_draft.html:7
 msgid "Add New Resource"
-msgstr "Lägg till resurs"
+msgstr "Lägg till ny materiallänk"
 
 #: ckan/templates/package/new_resource_not_draft.html:3
 #: ckan/templates/package/new_resource_not_draft.html:4
 msgid "Add resource"
-msgstr "Lägg till resurs"
+msgstr "Lägg till materiallänk"
 
 #: ckan/templates/package/new_resource_not_draft.html:15
 msgid "New resource"
-msgstr "Nu resurs"
+msgstr "Ny materiallänk"
 
 #: ckan/templates/package/read_base.html:39
 #, python-format
@@ -3401,16 +3401,16 @@ msgstr "Slut på loggen"
 
 #: ckan/templates/package/resource_edit_base.html:15
 msgid "All resources"
-msgstr "Alla resurser"
+msgstr "Alla materiallänkar"
 
 #: ckan/templates/package/resource_edit_base.html:17
 msgid "View resource"
-msgstr "Visa resurser"
+msgstr "Visa materiallänkar"
 
 #: ckan/templates/package/resource_edit_base.html:22
 #: ckan/templates/package/resource_edit_base.html:29
 msgid "Edit resource"
-msgstr "Redigera resurser"
+msgstr "Redigera materiallänkar"
 
 #: ckan/templates/package/resource_edit_base.html:24
 msgid "DataStore"
@@ -3424,7 +3424,7 @@ msgstr "Ändpunkt för API"
 #: ckan/templates/package/resource_read.html:40
 #: ckan/templates/package/snippets/resource_item.html:47
 msgid "Go to resource"
-msgstr "Gå till resurs"
+msgstr "Gå till materiallänk"
 
 #: ckan/templates/package/resource_read.html:42
 #: ckan/templates/package/snippets/resource_item.html:44
@@ -3438,7 +3438,7 @@ msgstr "URL:"
 
 #: ckan/templates/package/resource_read.html:65
 msgid "There is no description for this resource"
-msgstr "Det saknas en beskrivning för denna resurs"
+msgstr "Det saknas en beskrivning för denna materiallänk"
 
 #: ckan/templates/package/resource_read.html:68
 msgid "From the dataset abstract"
@@ -3496,7 +3496,7 @@ msgstr "Format"
 
 #: ckan/templates/package/resources.html:8
 msgid "Add new resource"
-msgstr "Lägg till resurs"
+msgstr "Lägg till materiallänk"
 
 #: ckan/templates/package/resources.html:19
 #, python-format
@@ -3532,14 +3532,14 @@ msgstr "fullständig dump i {format}-format"
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
-msgstr "Du kan också komma åt katalogen via %(api_link)s (se %(api_doc_link)s) eller ladda %(dump_link)s."
+msgstr "Du kan också komma åt katalogen via vår %(api_link)s (se %(api_doc_link)s) eller ladda %(dump_link)s."
 
 #: ckan/templates/package/search.html:59
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
-msgstr "Du kan också komma åt katalogen via %(api_link)s (se %(api_doc_link)s)."
+msgstr "Du kan också komma åt katalogen via vår %(api_link)s (se %(api_doc_link)s)."
 
 #: ckan/templates/package/snippets/additional_info.html:2
 #: ckan/templates/snippets/additional_info.html:7
@@ -3688,7 +3688,7 @@ msgstr "Slutför"
 
 #: ckan/templates/package/snippets/resource_edit_form.html:12
 msgid "Update Resource"
-msgstr "Uppdatera resurs"
+msgstr "Uppdatera materiallänk"
 
 #: ckan/templates/package/snippets/resource_form.html:24
 msgid "File"
@@ -3742,15 +3742,15 @@ msgstr "Nästa steg: Ytterligare information"
 
 #: ckan/templates/package/snippets/resource_help.html:2
 msgid "What's a resource?"
-msgstr "Vad är en Resurs?"
+msgstr "Vad är en materiallänk?"
 
 #: ckan/templates/package/snippets/resource_help.html:4
 msgid "A resource can be any file or link to a file containing useful data."
-msgstr "En resurs kan vara en fil, eller länk till en fil, som innehåller användbar data."
+msgstr "En materiallänk kan vara en fil, eller länk till en fil, som innehåller användbar data."
 
 #: ckan/templates/package/snippets/resource_item.html:16
 msgid "No description for this resource"
-msgstr "Ingen beskrivning finns för denna resurs"
+msgstr "Ingen beskrivning finns för denna materiallänk"
 
 #: ckan/templates/package/snippets/resource_item.html:24
 msgid "Explore"
@@ -3772,7 +3772,7 @@ msgstr "Mer information"
 
 #: ckan/templates/package/snippets/resources_list.html:13
 msgid "Data and Resources"
-msgstr "Data och resurser"
+msgstr "Data och materiallänkar"
 
 #: ckan/templates/package/snippets/resources_list.html:26
 #, python-format
@@ -4114,8 +4114,8 @@ msgstr ""
 #: ckan/templates/snippets/search_result_text.html:15
 msgid "{number} dataset found for \"{query}\""
 msgid_plural "{number} datasets found for \"{query}\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} dataset hittades för söktermen \"{query}\""
+msgstr[1] "{number} dataset hittades för söktermen \"{query}\""
 
 #: ckan/templates/snippets/search_result_text.html:16
 msgid "No datasets found for \"{query}\""
@@ -4124,8 +4124,8 @@ msgstr "Inga dataset hittades med söktermen \"{query}\""
 #: ckan/templates/snippets/search_result_text.html:17
 msgid "{number} dataset found"
 msgid_plural "{number} datasets found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} dataset hittades"
+msgstr[1] "{number} dataset hittades"
 
 #: ckan/templates/snippets/search_result_text.html:18
 msgid "No datasets found"
@@ -4522,7 +4522,7 @@ msgstr "Antal dataset"
 
 #: ckan/templates_legacy/_util.html:101
 msgid "View dataset resources"
-msgstr "Visa resurser i dataset"
+msgstr "Visa datasetets materiallänkar"
 
 #: ckan/templates_legacy/_util.html:101
 msgid "DOWNLOAD"
@@ -4530,7 +4530,7 @@ msgstr "LADDA NER"
 
 #: ckan/templates_legacy/_util.html:104
 msgid "No downloadable resources."
-msgstr "Saknar nedladdningsbara resurser."
+msgstr "Saknar nedladdningsbara materiallänkar."
 
 #: ckan/templates_legacy/_util.html:126
 msgid "No description for this item"
@@ -4586,7 +4586,7 @@ msgstr "(inget namn)"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Delete the resource '%name%'?"
-msgstr "Radera objektet '%name%'?"
+msgstr "Radera materiallänken '%name%'?"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Preview not available for data type: "
@@ -4632,7 +4632,7 @@ msgstr "URL"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Resource Type"
-msgstr "Resurstyp"
+msgstr "Typ av materiallänk"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "DataStore enabled"
@@ -4664,7 +4664,7 @@ msgstr "Klar"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "This resource has unsaved changes."
-msgstr "Denna resurs har osparade ändringar."
+msgstr "Denna materiallänk har osparade ändringar."
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "e.g. csv, html, xls, rdf, ..."
@@ -4684,7 +4684,7 @@ msgstr "Nyckel"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "Delete Resource"
-msgstr "Radera resurs"
+msgstr "Radera materiallänk"
 
 #: ckan/templates_legacy/js_strings.html:16
 msgid "You can use %aMarkdown formatting%b here."
@@ -4992,7 +4992,7 @@ msgstr "Lägg till dataset"
 #: ckan/templates_legacy/group/read.html:29
 #: ckan/templates_legacy/package/search.html:25
 msgid "Resource Formats"
-msgstr "Resursformat"
+msgstr "Materiallänkformat"
 
 #: ckan/templates_legacy/group/read.html:33
 msgid "State:"
@@ -5242,11 +5242,11 @@ msgstr "[1: Viktigt:] Genom att skicka in innehåll, samtycker du till att licen
 
 #: ckan/templates_legacy/package/editresources.html:6
 msgid "- Edit Resources - Datasets"
-msgstr "- Redigera resurser - Dataset"
+msgstr "- Redigera materiallänkar - Dataset"
 
 #: ckan/templates_legacy/package/editresources.html:7
 msgid "Edit Resources:"
-msgstr "Redigera resurser"
+msgstr "Redigera materiallänkar"
 
 #: ckan/templates_legacy/package/followers.html:6
 msgid "- Datasets - Followers"
@@ -5280,11 +5280,11 @@ msgstr "Datasethistorik"
 
 #: ckan/templates_legacy/package/layout.html:14
 msgid "Resources (0)"
-msgstr "Resurser (0)"
+msgstr "Materiallänkar (0)"
 
 #: ckan/templates_legacy/package/layout.html:23
 msgid "Add / Edit resources"
-msgstr "Lägg till/redigera resurser"
+msgstr "Lägg till/redigera materiallänkar"
 
 #: ckan/templates_legacy/package/layout.html:37
 #: ckan/templates_legacy/related/related_list.html:26
@@ -5354,7 +5354,7 @@ msgstr "t.ex. miljöförstöring, floder, vattenkvalitet"
 
 #: ckan/templates_legacy/package/new_package_form.html:130
 msgid "Add Resources"
-msgstr "Lägg till resurser"
+msgstr "Lägg till materiallänkar"
 
 #: ckan/templates_legacy/package/new_package_form.html:132
 msgid ""
@@ -5363,7 +5363,7 @@ msgstr "Ladda upp eller länka till filer, API:er och annat material som är rel
 
 #: ckan/templates_legacy/package/new_package_form.html:139
 msgid "New resource..."
-msgstr "Ny resurs..."
+msgstr "Ny materiallänk..."
 
 #: ckan/templates_legacy/package/new_package_form.html:144
 msgid "x"
@@ -5552,11 +5552,11 @@ msgstr "[1:Datasetsida] på \n            [2:%(harvest_catalogue_name)s]"
 #: ckan/templates_legacy/package/resource_embedded_dataviewer.html:87
 #: ckan/templates_legacy/package/resource_read.html:58
 msgid "- Dataset - Resource"
-msgstr "- Dataset - Objekt"
+msgstr "- Dataset - Materiallänk"
 
 #: ckan/templates_legacy/package/resource_read.html:87
 msgid "Data API is unavailable for this resource as DataStore is disabled"
-msgstr "Data API är inte tillgängligt för denna resurs eftersom DataStore är avaktiverad."
+msgstr "Data API är inte tillgänglig för denna materiallänk eftersom DataStore är inaktiverad."
 
 #: ckan/templates_legacy/package/resource_read.html:113
 msgid "License unknown"
@@ -5568,7 +5568,7 @@ msgstr "Från [1:Dataset]:"
 
 #: ckan/templates_legacy/package/resource_read.html:150
 msgid "Cannot embed as resource is private."
-msgstr "Kan inte bädda in eftersom resursen är privat."
+msgstr "Kan inte bädda in eftersom materiallänken är privat."
 
 #: ckan/templates_legacy/package/resource_read.html:150
 #: ckan/templates_legacy/package/resource_read.html:151
@@ -6113,7 +6113,7 @@ msgstr "Inte uppladdad ännu"
 
 #: ckanext/datastore/controller.py:31
 msgid "DataStore resource not found"
-msgstr "DataStore-resurs hittades inte"
+msgstr "DataStore-materiallänken hittades inte"
 
 #: ckanext/datastore/logic/action.py:200 ckanext/datastore/logic/action.py:248
 #: ckanext/datastore/logic/action.py:328 ckanext/datastore/logic/action.py:412

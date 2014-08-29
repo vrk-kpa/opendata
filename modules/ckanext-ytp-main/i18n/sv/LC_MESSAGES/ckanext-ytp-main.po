@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-25 19:25+0300\n"
-"PO-Revision-Date: 2014-08-26 11:18+0000\n"
+"PO-Revision-Date: 2014-08-29 11:29+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -267,13 +267,13 @@ msgstr "Värde saknas"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
-msgstr "Informationsreserv"
+msgstr "Typ av information"
 
 #: ckanext/ytp/dataset/plugin.py:324
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
-msgstr "Ämne"
+msgstr "Taggar"
 
 #: ckanext/ytp/dataset/plugin.py:325
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
@@ -291,7 +291,7 @@ msgstr "Filtyp"
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
-msgstr "Dataproducerare"
+msgstr "Organisation"
 
 #: ckanext/ytp/dataset/plugin.py:393
 msgid "Other"
@@ -346,7 +346,7 @@ msgstr "Ägande organisation"
 #: ckanext/ytp/theme/menu.py:145
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:6
 msgid "Organizations"
-msgstr "Dataproducerare"
+msgstr "Organisationer"
 
 #: ckanext/ytp/dataset/templates/package/base.html:12
 #: ckanext/ytp/dataset/templates/package/base.html:16
@@ -700,7 +700,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:31
 msgid "Select an organization..."
-msgstr "Välj en dataproducerare..."
+msgstr "Välj en organisation..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:150
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:65
