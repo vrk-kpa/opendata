@@ -19,36 +19,40 @@
 {% endblock %}
 
 {% block pre_primary %}
+
+{% endblock %}
+
+{% block primary_content %}
   {% block resource %}
     <section class="module module-resource col-xs-12">
       <div class="module-content">
         <div class="actions">
           {% block resource_actions %}
-          <ul>
-            {% block resource_actions_inner %}
-            {% if h.check_access('package_update', {'id':pkg.id }) %}
-              <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn', icon='wrench' %}</li>
-            {% endif %}
-            {% if res.url %}
-              <li>
-                <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
-                  {% if res.resource_type in ('listing', 'service') %}
-                    <i class="icon-eye-open"></i> {{ _('View') }}
-                  {% elif  res.resource_type == 'api' %}
-                    <i class="icon-key"></i> {{ _('API Endpoint') }}
-                  {% elif not res.can_be_previewed %}
-                    <i class="icon-external-link"></i> {{ _('Open') }}
-                  {% else %}
-                    <i class="icon-download"></i> {{ _('Download') }}
-                  {% endif %}
-                </a>
-              </li>
-            {% endif %}
-            {% if 'datastore' in g.plugins %}
-              <li>{% snippet 'package/snippets/data_api_button.html', resource=res, datastore_root_url=c.datastore_api %}</li>
-            {% endif %}
-            {% endblock %}
-          </ul>
+            <ul>
+              {% block resource_actions_inner %}
+                {% if h.check_access('package_update', {'id':pkg.id }) %}
+                  <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn', icon='wrench' %}</li>
+                {% endif %}
+                {% if res.url %}
+                  <li>
+                    <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
+                      {% if res.resource_type in ('listing', 'service') %}
+                        <i class="icon-eye-open"></i> {{ _('View') }}
+                      {% elif  res.resource_type == 'api' %}
+                        <i class="icon-key"></i> {{ _('API Endpoint') }}
+                      {% elif not res.can_be_previewed %}
+                        <i class="icon-external-link"></i> {{ _('Open') }}
+                      {% else %}
+                        <i class="icon-download"></i> {{ _('Download') }}
+                      {% endif %}
+                    </a>
+                  </li>
+                {% endif %}
+                {% if 'datastore' in g.plugins %}
+                  <li>{% snippet 'package/snippets/data_api_button.html', resource=res, datastore_root_url=c.datastore_api %}</li>
+                {% endif %}
+              {% endblock %}
+            </ul>
           {% endblock %}
         </div>
         {% block resource_content %}
@@ -61,18 +65,18 @@
             {% endif %}
           {% endblock %}
           <div class="prose notes" property="rdfs:label">
-            {% set description = h.extra_translation(res, 'description', markdown=True) %}
-            {% if description %}
-              {{ description }}
-            {% else %}
-                {% set notes = h.extra_translation(c.package, 'notes', markdown=True) %}
-                {% if notes %}
-                    <h3>{{ _('From the dataset abstract') }}</h3>
-                    <blockquote>{{ notes }}</blockquote>
-                    <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
-                {% endif %}
+          {% set description = h.extra_translation(res, 'description', markdown=True) %}
+          {% if description %}
+            {{ description }}
+          {% else %}
+            {% set notes = h.extra_translation(c.package, 'notes', markdown=True) %}
+            {% if notes %}
+              <h3>{{ _('From the dataset abstract') }}</h3>
+              <blockquote>{{ notes }}</blockquote>
+              <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
             {% endif %}
-          {% endblock %}
+          {% endif %}
+        {% endblock %}
         </div>
       </div>
       {% block data_preview %}
@@ -80,9 +84,6 @@
       {% endblock %}
     </section>
   {% endblock %}
-{% endblock %}
-
-{% block primary_content %}
   {% block resource_additional_information %}
     {% if res %}
       <section class="module">
