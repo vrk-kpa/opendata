@@ -1,7 +1,8 @@
 from pylons import config
 import json
 
-from ckan.common import c
+from ckan.common import c, request
+from ckan.lib import helpers
 
 
 def service_database_enabled():
@@ -38,3 +39,28 @@ def sort_facet_items_by_name(items):
     sorted_items.extend(sorted([item for item in items if item['active'] is True], key=lambda item: (-item['count'], item['display_name'])))
     sorted_items.extend(sorted([item for item in items if item['active'] is False], key=lambda item: (-item['count'], item['display_name'])))
     return sorted_items
+
+
+def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
+    if not c.search_facets or \
+            not c.search_facets.get(facet) or \
+            not c.search_facets.get(facet).get('items'):
+        return []
+    facets = []
+    for facet_item in c.search_facets.get(facet)['items']:
+        if not len(facet_item['name'].strip()):
+            continue
+        if not (facet, facet_item['name']) in request.params.items():
+            facets.append(dict(active=False, **facet_item))
+        elif not exclude_active:
+            facets.append(dict(active=True, **facet_item))
+    sorted_items = []
+    sorted_items.extend(sorted([item for item in facets if item['active'] is True], key=lambda item: item['display_name'].lower()))
+    sorted_items.extend(sorted([item for item in facets if item['active'] is False], key=lambda item: item['display_name'].lower()))
+
+    if c.search_facets_limits:
+        limit = c.search_facets_limits.get(facet)
+    if limit:
+        return sorted_items[:limit]
+    else:
+        return sorted_items
