@@ -158,55 +158,77 @@ h4 {
 }
 
 .carousel {
+  .carousel-indicators {
+    bottom: 12px;
+  }
+  .carousel-control {
+    margin-top: 190px;
+    height: 48px;
+    width: 48px;
+  }
+  .carousel-control.left, .carousel-control.right {
+    background-image: none;
+    background-color: transparent;
+    opacity: 1.0;
+    z-index: 100;
+  }
+  .carousel-control.left {
+    border-bottom-left-radius: @button-border-radius;
+    border-top-left-radius: @button-border-radius;
+  }
+  .carousel-control.right {
+    border-bottom-right-radius: @button-border-radius;
+    border-top-right-radius: @button-border-radius;
+  }
+  .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+    left: 33%;
+  }
+  .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+    right: 66%;
+  }
+  .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev,
+  .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+    color: #fff;
+  }
   .carousel-inner {
-    background-color: @ytp-brand-complementary;
+    background-color: #fff;
     height: 250px;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    border-radius: @button-border-radius;
     .item {
+      background-color: #000;
+      width: 100%;
+      height: 100%;
+
       img {
-        min-width: 100%;
-        height: 250px;
-        max-width: none;
         opacity: 1;
       }
     }
     .carousel-caption {
-      top: 0;
+      padding: 0;
+      padding-top: 14px;
+      top: (250px - 64px);
       left: 0;
-      right: initial;
-      text-align: left;
-      line-height: 25px;
-      overflow: hidden;
+      right: 0;
+      bottom: inherit;
+      width: auto;
+      height: 100%;
       font-size: 18px;
+      opacity: 0.65;
+      background-color: #000;
+      color: #fff;
       h3 {
-        border-bottom: none;
-        margin-bottom: 40px;
-        padding: 0px 10px 1px 20px;
-        margin-top: 0;
-        font-size: 34px;
-        background-color: @ytp-brand-decorative;
+        font-size: 22px;
       }
       a {
-        color: #fff; //@ytp-brand-decorative;
+        color: #fff;
       }
     }
   }
-  
-  .carousel-control {
-    background: none;
-    width: 4%;
-    opacity: 0.7;
-    z-index: 10;
-    .icon-next, .icon-prev {
-      top: 80%;
-      font-size: 60px;
-    }
-  }
+
   .carousel-indicators {
-    bottom: 1px;
-    margin-bottom: 0;
-    opacity: 0.8;
-  }
+    display: none;
+  }  
 }
 
 .node .field.field-type-image img {

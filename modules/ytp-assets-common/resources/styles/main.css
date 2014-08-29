@@ -5190,7 +5190,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1409313201329") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1409314895023") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5233,7 +5233,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1409313201329');
+  background-image: url('../images/sprite.png?timestamp=1409314895023');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5243,7 +5243,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1409313201329');
+  background-image: url('../images/sprite.png?timestamp=1409314895023');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5324,52 +5324,83 @@ h4 {
   font-size: 50px;
   padding-bottom: 64px;
 }
+.carousel .carousel-indicators {
+  bottom: 12px;
+}
+.carousel .carousel-control {
+  margin-top: 190px;
+  height: 48px;
+  width: 48px;
+}
+.carousel .carousel-control.left,
+.carousel .carousel-control.right {
+  background-image: none;
+  background-color: transparent;
+  opacity: 1.0;
+  z-index: 100;
+}
+.carousel .carousel-control.left {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+.carousel .carousel-control.right {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.carousel .carousel-control .glyphicon-chevron-left,
+.carousel .carousel-control .icon-prev {
+  left: 33%;
+}
+.carousel .carousel-control .glyphicon-chevron-right,
+.carousel .carousel-control .icon-next {
+  right: 66%;
+}
+.carousel .carousel-control .glyphicon-chevron-left,
+.carousel .carousel-control .icon-prev,
+.carousel .carousel-control .glyphicon-chevron-right,
+.carousel .carousel-control .icon-next {
+  color: #fff;
+}
 .carousel .carousel-inner {
-  background-color: #3f3d37;
+  background-color: #fff;
   height: 250px;
-  border-radius: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.carousel .carousel-inner .item {
+  background-color: #000;
+  width: 100%;
+  height: 100%;
 }
 .carousel .carousel-inner .item img {
-  min-width: 100%;
-  height: 250px;
-  max-width: none;
   opacity: 1;
 }
 .carousel .carousel-inner .carousel-caption {
-  top: 0;
+  padding: 0;
+  padding-top: 14px;
+  top: 186px;
   left: 0;
-  right: initial;
-  text-align: left;
-  line-height: 25px;
-  overflow: hidden;
+  right: 0;
+  bottom: inherit;
+  width: auto;
+  height: 100%;
   font-size: 18px;
+  opacity: 0.65;
+  background-color: #000;
+  color: #fff;
 }
 .carousel .carousel-inner .carousel-caption h3 {
-  border-bottom: none;
-  margin-bottom: 40px;
-  padding: 0px 10px 1px 20px;
-  margin-top: 0;
-  font-size: 34px;
-  background-color: #ee7544;
+  font-size: 22px;
 }
 .carousel .carousel-inner .carousel-caption a {
   color: #fff;
 }
-.carousel .carousel-control {
-  background: none;
-  width: 4%;
-  opacity: 0.7;
-  z-index: 10;
-}
-.carousel .carousel-control .icon-next,
-.carousel .carousel-control .icon-prev {
-  top: 80%;
-  font-size: 60px;
-}
 .carousel .carousel-indicators {
-  bottom: 1px;
-  margin-bottom: 0;
-  opacity: 0.8;
+  display: none;
+}
+.node .field.field-type-image img {
+  max-width: 100%;
+  height: auto !important;
 }
 #infobox {
   background-color: #1f76b9;
@@ -5498,7 +5529,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1409313201329") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1409314895023") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6020,7 +6051,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1409313201329');
+  background-image: url('../images/sprite.png?timestamp=1409314895023');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
@@ -6045,4 +6076,4 @@ body {
   background-position: 0px -152px;
 }
 
-/*# sourceMappingURL=maps/main.css.map */
+/*# sourceMappingURL=maps\main.css.map */
