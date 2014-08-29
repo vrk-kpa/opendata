@@ -10,47 +10,6 @@
 function frontpage_carousel_feature_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-carousel_item-field_body'
-  $field_instances['node-carousel_item-field_body'] = array(
-    'bundle' => 'carousel_item',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_body',
-    'label' => 'Body',
-    'required' => FALSE,
-    'settings' => array(
-      'display_summary' => 0,
-      'text_processing' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 20,
-        'summary_rows' => 5,
-      ),
-      'type' => 'text_textarea_with_summary',
-      'weight' => 5,
-    ),
-  );
-
   // Exported field_instance: 'node-carousel_item-field_image'
   $field_instances['node-carousel_item-field_image'] = array(
     'bundle' => 'carousel_item',
@@ -77,7 +36,7 @@ function frontpage_carousel_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_image',
     'label' => 'Image',
-    'required' => 0,
+    'required' => FALSE,
     'settings' => array(
       'alt_field' => 1,
       'default_image' => 0,
