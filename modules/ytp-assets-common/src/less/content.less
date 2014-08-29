@@ -196,12 +196,13 @@ h4 {
     border: 1px solid #ddd;
     border-radius: @button-border-radius;
     .item {
-      background-color: #000;
+      background-color: #fff;
       width: 100%;
       height: 100%;
 
       img {
-        opacity: 1;
+        max-width: 100%;
+        margin: auto;
       }
     }
     .carousel-caption {
@@ -210,15 +211,20 @@ h4 {
       top: (250px - 64px);
       left: 0;
       right: 0;
+      height: 64px;
       bottom: inherit;
-      width: auto;
-      height: 100%;
+      width: 100%;
       font-size: 18px;
       opacity: 0.65;
       background-color: #000;
       color: #fff;
       h3 {
+        width: 100%;
+        padding: 0 40px;
         font-size: 22px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       a {
         color: #fff;
