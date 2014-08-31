@@ -5158,7 +5158,7 @@ a:focus {
 #page_wrapper .toolbar {
   margin-bottom: 10px;
 }
-#page_wrapper aside .menu.nav {
+#page_wrapper aside > .menu.nav {
   margin-bottom: 20px;
 }
 #page_wrapper .search-form {
