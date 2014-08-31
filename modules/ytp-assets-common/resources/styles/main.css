@@ -5209,7 +5209,7 @@ h4 {
   font-size: 18px;
 }
 .alert {
-  margin-bottom: 10px;
+  margin-bottom: 13.33333333px;
 }
 .alert.alert-info a {
   color: #eff7fc;
@@ -5740,7 +5740,7 @@ body.toolbar-drawer {
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -25px;
-  margin-bottom: 20px;
+  margin-bottom: 13.33333333px;
 }
 .navbar.navbar-main .navbar-brand {
   padding: 10px;
