@@ -22,11 +22,13 @@ def _user_image(user, size):
 
 
 def helper_is_pseudo(user):
+    """ Check if user is pseudo user """
     return user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]
 
 
 def helper_linked_user(user, maxlength=0, avatar=20):
-    if user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]:
+    """ Return user as HTML item """
+    if helper_is_pseudo(user):
         return user
     if not isinstance(user, model.User):
         user_name = unicode(user)

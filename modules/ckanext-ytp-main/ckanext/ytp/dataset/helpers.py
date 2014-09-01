@@ -9,6 +9,7 @@ def service_database_enabled():
 
 
 def get_json_value(value):
+    """ Get value as JSON. If value is not in JSON format return the given value """
     try:
         return json.loads(value)
     except:
