@@ -1,6 +1,8 @@
 
 # https://github.com/okfn/ckanext-datahub/blob/release-v2.0/ckanext/datahub/model/user_extra.py
 
+""" Provides extras for user model """
+
 import vdm.sqlalchemy
 import vdm.sqlalchemy.stateful
 from sqlalchemy import orm, types, Column, Table, ForeignKey

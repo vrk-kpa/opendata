@@ -22,14 +22,16 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurable)
 
-    def configure(self, config):
-        setup()
-
     def _add_to_translation(self):
         """ Include dynamic values to translation search. Never called. """
         _("admin")
         _("member")
         _("editor")
+
+    # IConfigurable #
+
+    def configure(self, config):
+        setup()
 
     # IRoutes #
 

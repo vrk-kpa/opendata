@@ -264,6 +264,11 @@ def _process_request(context, member, action):
 
 
 def member_request_membership_cancel(context, data_dict):
+    ''' Cancel organization membership (not request). Member or organization_id must be provided.
+
+    :param organization_id: id of the organization
+    :type member: string
+    '''
     check_access('member_request_membership_cancel', context, data_dict)
 
     organization_id = data_dict.get("organization_id")

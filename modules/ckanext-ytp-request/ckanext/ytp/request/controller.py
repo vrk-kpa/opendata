@@ -10,6 +10,7 @@ from ckanext.ytp.request.tools import get_user_member
 
 
 class YtpRequestController(base.BaseController):
+    """ View controller for membership requests """
 
     not_auth_message = _('Unauthorized')
 
@@ -115,6 +116,7 @@ class YtpRequestController(base.BaseController):
             abort(404, _('Request not found'))
 
     def process(self):
+        """ Process (reject or approve) membership request """
         member_id = request.params.get('member_id')
         approve = request.params.get('approve')
         return self._process(member_id, approve == 'true')
@@ -139,6 +141,7 @@ class YtpRequestController(base.BaseController):
             abort(404, _('Request not found'))
 
     def cancel(self, member_id):
+        """ Controller for cancelling membership request """
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
         try:
@@ -150,6 +153,7 @@ class YtpRequestController(base.BaseController):
             abort(404, _('Request not found'))
 
     def membership_cancel(self, organization_id):
+        """ Controller for cancelling membership (not request). """
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
         try:
