@@ -6,14 +6,16 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
 # Ilja Pyykkönen, 2014
+# Jaakko Salonen <jaakko.salonen@iki.fi>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-07 13:25+0300\n"
-"PO-Revision-Date: 2014-08-07 10:25+0000\n"
-"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"POT-Creation-Date: 2014-09-01 14:11+0300\n"
+"PO-Revision-Date: 2014-09-01 11:19+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,21 +32,21 @@ msgstr "Käyttäjä ei ole kirjautunut"
 msgid "The user has already a pending request or an active membership"
 msgstr "Käyttäjällä on jo hakemus tai aktiivinen jäsenyys"
 
-#: ckanext/ytp/request/controller.py:14
+#: ckanext/ytp/request/controller.py:15
 msgid "Unauthorized"
 msgstr "Ei oikeuksia"
 
-#: ckanext/ytp/request/controller.py:60
+#: ckanext/ytp/request/controller.py:61
 msgid "Item not found"
 msgstr "Kohdetta ei löytynyt"
 
-#: ckanext/ytp/request/controller.py:62
+#: ckanext/ytp/request/controller.py:63
 msgid "Integrity Error"
-msgstr ""
+msgstr "Eheysvirhe"
 
-#: ckanext/ytp/request/controller.py:84 ckanext/ytp/request/controller.py:99
-#: ckanext/ytp/request/controller.py:115 ckanext/ytp/request/controller.py:139
-#: ckanext/ytp/request/controller.py:150 ckanext/ytp/request/controller.py:161
+#: ckanext/ytp/request/controller.py:85 ckanext/ytp/request/controller.py:100
+#: ckanext/ytp/request/controller.py:116 ckanext/ytp/request/controller.py:141
+#: ckanext/ytp/request/controller.py:153 ckanext/ytp/request/controller.py:165
 msgid "Request not found"
 msgstr "Hakemusta ei löytynyt"
 
@@ -89,7 +91,7 @@ msgstr "Jäsenhakemuksesi organisaatioon '%s' käyttäjäroolilla '%s' on hylät
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
-msgstr ""
+msgstr "Rooli"
 
 #: ckanext/ytp/request/logic.py:106
 msgid "As a sysadmin, you already have access to all organizations"
@@ -112,38 +114,54 @@ msgstr "Hakemus on jo vireillä"
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30
 msgid "Organization"
-msgstr ""
+msgstr "Organisaatio"
 
-#: ckanext/ytp/request/plugin.py:30 ckanext/ytp/request/plugin.py:85
+#: ckanext/ytp/request/plugin.py:27 ckanext/ytp/request/plugin.py:87
 msgid "admin"
 msgstr "pääkäyttäjä"
 
-#: ckanext/ytp/request/plugin.py:31
+#: ckanext/ytp/request/plugin.py:28
 msgid "member"
 msgstr "jäsen"
 
-#: ckanext/ytp/request/plugin.py:32
+#: ckanext/ytp/request/plugin.py:29
 msgid "editor"
 msgstr "toimittaja"
 
-#: ckanext/ytp/request/plugin.py:90
-#: ckanext/ytp/request/templates/organization/read.html:9
+#: ckanext/ytp/request/plugin.py:92
+#: ckanext/ytp/request/templates/organization/read.html:33
 msgid "Request membership"
 msgstr "Hae jäsenyyttä"
 
-#: ckanext/ytp/request/plugin.py:93
+#: ckanext/ytp/request/plugin.py:95
 msgid "Pending for approval"
 msgstr "Odottaa hyväksymistä"
 
-#: ckanext/ytp/request/templates/organization/read.html:12
+#: ckanext/ytp/request/templates/organization/read.html:8
+msgid "Add Dataset"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:15
+msgid "Add open data"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:18
+msgid "Add tools or instruction"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:22
+msgid "Add public service"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:36
 msgid "Are you sure you want to end the membership?"
 msgstr "Oletko varma, että haluat lopettaa jäsenyyden?"
 
-#: ckanext/ytp/request/templates/organization/read.html:15
+#: ckanext/ytp/request/templates/organization/read.html:39
 msgid "Cancel membership"
 msgstr "Peru jäsenyys"
 
-#: ckanext/ytp/request/templates/organization/read.html:20
+#: ckanext/ytp/request/templates/organization/read.html:44
 #: ckanext/ytp/request/templates/request/show.html:78
 msgid "Cancel request"
 msgstr "Peru hakemus"
@@ -151,23 +169,25 @@ msgstr "Peru hakemus"
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
 #: ckanext/ytp/request/templates/request/list.html:21
-msgid "Organization membership requests"
-msgstr "Organisaation jäsenhakemukset"
+msgid "Received membership requests"
+msgstr "Vastaanotetut jäsenhakemukset"
 
 #: ckanext/ytp/request/templates/request/list.html:10
 msgid ""
-"All organization membership requests are listed here. The organization admin"
-" can approve or reject requests. To process a request, select edit."
-msgstr "Kaikki organisaation jäsenhakemukset on listattu tässä. Organisaation pääkäyttäjä voi hyväksyä tai hylätä hakemuksia. Käsitelläksesi hakemuksen valitse muokkaa."
+"All received membership requests are listed here. The organization admin can"
+" approve or reject requests. To process a request, select edit. Admins can "
+"edit the organization, datasets and accept membership requests. Editor can "
+"only edit datasets."
+msgstr "Kaikki vastaanotetut jäsenhakemukset on listattu tässä. Organisaation pääkäyttäjä voi hyväksyä tai hylätä hakemuksia. Käsitelläksesi hakemuksen valitse muokkaa. Ylläpitäjät voivat muokata organisaatiota, tietoaineistoja ja hyväksyä hakemuksia. Muokkaajat voivat muokata vain tietoaineistoja."
 
 #: ckanext/ytp/request/templates/request/list.html:28
 #: ckanext/ytp/request/templates/request/show.html:34
 msgid "User"
-msgstr ""
+msgstr "Käyttäjä"
 
 #: ckanext/ytp/request/templates/request/list.html:38
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 #: ckanext/ytp/request/templates/request/list.html:44
 msgid "No requests found."
@@ -188,7 +208,7 @@ msgstr "Voit hakea organisaation jäsenyyttä."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:14
 msgid "Select an organization..."
-msgstr ""
+msgstr "Valitse organisaatio..."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:27
 msgid "Send request"
@@ -208,7 +228,7 @@ msgstr "Tässä näytetään organisaation jäsenhakemukset listattuna. Organisa
 
 #: ckanext/ytp/request/templates/request/show.html:46
 msgid "State"
-msgstr ""
+msgstr "Tila"
 
 #: ckanext/ytp/request/templates/request/show.html:69
 msgid "Are you sure you want reject this request?"

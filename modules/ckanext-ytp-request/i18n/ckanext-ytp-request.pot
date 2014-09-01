@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-07 13:25+0300\n"
+"POT-Creation-Date: 2014-09-01 14:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,21 +26,21 @@ msgstr ""
 msgid "The user has already a pending request or an active membership"
 msgstr ""
 
-#: ckanext/ytp/request/controller.py:14
+#: ckanext/ytp/request/controller.py:15
 msgid "Unauthorized"
 msgstr ""
 
-#: ckanext/ytp/request/controller.py:60
+#: ckanext/ytp/request/controller.py:61
 msgid "Item not found"
 msgstr ""
 
-#: ckanext/ytp/request/controller.py:62
+#: ckanext/ytp/request/controller.py:63
 msgid "Integrity Error"
 msgstr ""
 
-#: ckanext/ytp/request/controller.py:84 ckanext/ytp/request/controller.py:99
-#: ckanext/ytp/request/controller.py:115 ckanext/ytp/request/controller.py:139
-#: ckanext/ytp/request/controller.py:150 ckanext/ytp/request/controller.py:161
+#: ckanext/ytp/request/controller.py:85 ckanext/ytp/request/controller.py:100
+#: ckanext/ytp/request/controller.py:116 ckanext/ytp/request/controller.py:141
+#: ckanext/ytp/request/controller.py:153 ckanext/ytp/request/controller.py:165
 msgid "Request not found"
 msgstr ""
 
@@ -110,36 +110,52 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/request/plugin.py:30 ckanext/ytp/request/plugin.py:85
+#: ckanext/ytp/request/plugin.py:27 ckanext/ytp/request/plugin.py:87
 msgid "admin"
 msgstr ""
 
-#: ckanext/ytp/request/plugin.py:31
+#: ckanext/ytp/request/plugin.py:28
 msgid "member"
 msgstr ""
 
-#: ckanext/ytp/request/plugin.py:32
+#: ckanext/ytp/request/plugin.py:29
 msgid "editor"
 msgstr ""
 
-#: ckanext/ytp/request/plugin.py:90
-#: ckanext/ytp/request/templates/organization/read.html:9
+#: ckanext/ytp/request/plugin.py:92
+#: ckanext/ytp/request/templates/organization/read.html:33
 msgid "Request membership"
 msgstr ""
 
-#: ckanext/ytp/request/plugin.py:93
+#: ckanext/ytp/request/plugin.py:95
 msgid "Pending for approval"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:12
-msgid "Are you sure you want to end the membership?"
+#: ckanext/ytp/request/templates/organization/read.html:8
+msgid "Add Dataset"
 msgstr ""
 
 #: ckanext/ytp/request/templates/organization/read.html:15
+msgid "Add open data"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:18
+msgid "Add tools or instruction"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:22
+msgid "Add public service"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:36
+msgid "Are you sure you want to end the membership?"
+msgstr ""
+
+#: ckanext/ytp/request/templates/organization/read.html:39
 msgid "Cancel membership"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:20
+#: ckanext/ytp/request/templates/organization/read.html:44
 #: ckanext/ytp/request/templates/request/show.html:78
 msgid "Cancel request"
 msgstr ""
@@ -147,13 +163,15 @@ msgstr ""
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
 #: ckanext/ytp/request/templates/request/list.html:21
-msgid "Organization membership requests"
+msgid "Received membership requests"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:10
 msgid ""
-"All organization membership requests are listed here. The organization admin "
-"can approve or reject requests. To process a request, select edit."
+"All received membership requests are listed here. The organization admin can "
+"approve or reject requests. To process a request, select edit. Admins can "
+"edit the organization, datasets and accept membership requests. Editor can "
+"only edit datasets."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:28
