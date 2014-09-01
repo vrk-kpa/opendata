@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 
-""" Simple script to replace packages on development machine """
+""" Simple script to replace packages on development machine. Intended to be used inside Vagrant machine.
+    See doc/local-development.md for instructions.
+"""
 
 import sys
 import re
@@ -12,11 +14,14 @@ import getpass
 
 
 class YtpDevelopMain(object):
+    """ Dynamic handler class that replaces sources from static location. Hides complexity of package installation. """
+
     source_path = "/src/modules"
     virtual_environment = "/usr/lib/ckan/default"
     _mappings = None
 
     def develop_ckanext(self, name):
+        """ Develop ckan extensions handler. ckanext-* """
         project_path = os.path.join(self.source_path, name)
         if not os.path.isdir(project_path):
             print "Failed to find project at %s" % project_path
@@ -29,6 +34,7 @@ class YtpDevelopMain(object):
         return 0
 
     def _replace_with_link(self, original_path, source_path, ignore_errors=False):
+        """ Replace path with link """
         if os.path.islink(original_path):
             print u"Already linked"
             return 0
@@ -38,9 +44,11 @@ class YtpDevelopMain(object):
         return 0
 
     def develop_assets(self, name):
+        """ Develop ytp-assets-common handler. """
         return self._replace_with_link("/var/www/resources", "/src/modules/ytp-assets-common/resources")
 
     def develop_drupal_theme(self, name):
+        """ Develop ytp-theme-drupal handler. """
         self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
         if not os.path.exists("/var/www/ytp/sites/all/themes/ytp_theme/bootstrap"):
             subprocess.call(["unzip", "/srv/ytp/cache/v3.2.0.zip"], cwd="/var/www/ytp/sites/all/themes/ytp_theme")
@@ -49,6 +57,7 @@ class YtpDevelopMain(object):
 
 
     def develop_drupal_user(self, name):
+        """ Develop ytp-drupal-user handler. """
         return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_user", "/src/modules/ytp-drupal-user")
 
     def _get_projects(self):
@@ -57,11 +66,13 @@ class YtpDevelopMain(object):
                 yield project_name
 
     def list_projects(self, name=None):
+        """ List and print projects handler """
         for project_name in self._get_projects():
             print project_name
         return 0
 
     def paster_serve(self, name=None):
+        """ Serve delopment server handler """
         subprocess.call(["/usr/sbin/ufw", "allow", "5000"])
         process_arguments = ["/usr/bin/sudo", "-u", "www-data", os.path.join(self.virtual_environment, "bin/paster"), "serve",
                              "/etc/ckan/default/production.ini", "--reload", "--monitor-restart"]

@@ -1,5 +1,7 @@
 #! /bin/sh -e
 
+# CKAN install script for Travis CI 
+
 DATABASE_PASSWORD="pass"
 DATE=`date --iso-8601=seconds`
 SOURCE_DIRECTORY="$HOME/ckan"

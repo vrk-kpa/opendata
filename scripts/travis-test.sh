@@ -1,5 +1,7 @@
 #! /bin/sh -e
 
+# CKAN Travis CI testing
+
 SOURCE_DIRECTORY=`pwd`
 VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 
