@@ -40,13 +40,13 @@ msgid "Read more"
 msgstr ""
 
 #: /fi
-msgid "<a href=\"en/user/register\">Register</a>"
+msgid "<a href=\"/en/user/register\">Register</a>"
 msgstr ""
 
 #: /fi
 msgid ""
-"<a href=\"en/user/login\">Already registered? Sign in</a>\n"
-"<a href=\"en/user/password\">Forgot your password?</a>"
+"<a href=\"/en/user/login\">Already registered? Sign in</a>\n"
+"<a href=\"/en/user/password\">Forgot your password?</a>"
 msgstr ""
 
 #: /fi/admin/content
