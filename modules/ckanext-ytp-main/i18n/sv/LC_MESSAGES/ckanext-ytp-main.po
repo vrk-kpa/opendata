@@ -5,6 +5,7 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
+# Ilja Pyykkönen, 2014
 # Jaakko Salonen <jaakko.salonen@iki.fi>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-09-01 14:25+0300\n"
-"PO-Revision-Date: 2014-09-01 11:25+0000\n"
+"PO-Revision-Date: 2014-09-01 12:11+0000\n"
 "Last-Translator: Ilja Pyykkönen\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -333,7 +334,7 @@ msgstr "Ägande organisation"
 
 #: ckanext/ytp/dataset/translations.py:17
 msgid "File upload too large"
-msgstr ""
+msgstr "Uppladdade filen är för stor"
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
 #: ckanext/ytp/organizations/templates/organization/index.html:10
