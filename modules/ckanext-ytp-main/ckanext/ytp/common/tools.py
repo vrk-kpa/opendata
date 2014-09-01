@@ -7,6 +7,7 @@ from ckan.lib import helpers
 
 
 def create_system_context():
+    """ Helper method to create system context for CKAN actions. """
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
     admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
     context['user'] = admin_user['name']
@@ -14,7 +15,10 @@ def create_system_context():
 
 
 def get_original_method(module_name, method_name):
-    """ Example get_original_method('ckan.logic.action.create', 'user_create') """
+    """ In CKAN 2.2 you cannot call original action when you override it.
+        This method fixes the problem.
+        Example get_original_method('ckan.logic.action.create', 'user_create')
+    """
     __import__(module_name)
     imported_module = sys.modules[module_name]
     reimport_module = imp.load_compiled('%s.reimport' % module_name, imported_module.__file__)
@@ -23,6 +27,7 @@ def get_original_method(module_name, method_name):
 
 
 def get_locales():
+    """ Return all available locales strings. """
     return [locale.language for locale in helpers.get_available_locales()]
 
 
@@ -49,6 +54,7 @@ def add_languages_modify(schema, fields, locales=None):
 
 
 def add_translation_show_schema(schema):
+    """ Add translation definitions into given schema """
     ignore_missing = toolkit.get_validator('ignore_missing')
     convert_from_extras = toolkit.get_converter('convert_from_extras')
     schema.update({'original_language': [convert_from_extras, ignore_missing]})
@@ -57,6 +63,7 @@ def add_translation_show_schema(schema):
 
 
 def add_languages_show(schema, fields, locales=None):
+    """ Add translation to schema to given fields. """
     if locales is None:
         locales = get_locales()
     convert_from_extras = toolkit.get_converter('convert_from_extras')

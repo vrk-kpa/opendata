@@ -8,12 +8,14 @@ from itertools import count
 
 
 def to_list_json(value, context):
+    """ CKAN converter. Convert value to JSON format. String value is converted to single item list before converting """
     if isinstance(value, basestring):
         value = [value]
     return json.dumps([item for item in value if item])
 
 
 def from_json_list(value, context):
+    """ CKAN converted. Convert value from JSON format. String value is returned as single item list. """
     if not value:
         return value
     try:
@@ -37,6 +39,7 @@ def _check_url(url):
 
 
 def is_url(value, context):
+    """ CKAN validator. Test is given value is valid URL. Accepts also www-prefix as valid URL. """
     if isinstance(value, basestring):
         _check_url(value)
     elif isinstance(value, list):
@@ -47,6 +50,7 @@ def is_url(value, context):
 
 
 def string_join(key, data, errors, context):
+    """ CKAN converter. Converts list of values to comma-separated list. """
     if isinstance(data[key], Missing):
         return
     data[key] = ",".join(data[key])
