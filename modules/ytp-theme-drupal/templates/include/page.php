@@ -137,9 +137,9 @@
         #if we are on the front page
         if (isset($ytp_custom_top)) {
     ?>
-        <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm visible-md">
+        <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm">
           <div class="panel-body">
-            <a href="<?php print "data/" . $language->language . "/dataset" ?>"> <?php print t('Browse datasets') ?></a>
+            <a href="<?php print "/data/" . $language->language . "/dataset" ?>"> <?php print t('Browse datasets') ?></a>
           </div>
         </div>
     <?php
