@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-01 14:11+0300\n"
+"POT-Creation-Date: 2014-09-01 14:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,40 +289,44 @@ msgstr ""
 msgid "Additional Info"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:5
+#: ckanext/ytp/dataset/translations.py:6
 msgid "Valid from"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:6
+#: ckanext/ytp/dataset/translations.py:7
 msgid "Valid till"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:7
+#: ckanext/ytp/dataset/translations.py:8
 msgid "Title en"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:8
+#: ckanext/ytp/dataset/translations.py:9
 msgid "Title fi"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:9
+#: ckanext/ytp/dataset/translations.py:10
 msgid "Title sv"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:10
+#: ckanext/ytp/dataset/translations.py:11
 msgid "Tag string"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:11
+#: ckanext/ytp/dataset/translations.py:12
 msgid "Notes"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:12
+#: ckanext/ytp/dataset/translations.py:13
 msgid "Content type"
 msgstr ""
 
-#: ckanext/ytp/dataset/translations.py:13
+#: ckanext/ytp/dataset/translations.py:14
 msgid "Owner org"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:17
+msgid "File upload too large"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
