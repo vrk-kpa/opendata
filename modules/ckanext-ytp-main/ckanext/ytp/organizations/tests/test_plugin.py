@@ -67,23 +67,28 @@ class TestYtpOrganizationPlugin(TestCase):
                 self.assert_equal(organization['title'], title)
                 self.assert_equal(organization['public_adminstration_organization'], 'true')
 
-    def test_organization_import_update(self):
+    def _test_organization_import_update(self, extras):
         """ Test organization import """
         organization_url = tools.get_organization_test_source()
 
-        for extras in (False, True):
-            data = {'url': organization_url}
+        data = {'url': organization_url}
+        if extras:
+            data['public_organization'] = True
+        result = organization_import.apply((simplejson.dumps(data),))
+        self.assert_true(result.successful())
+        for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto", u"Suomen ymp\u00e4rist\u00f6keskus":
+            organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
+            self.assert_equal(organization['title'], title)
             if extras:
-                data['public_organization'] = True
-            result = organization_import.apply((simplejson.dumps(data),))
-            self.assert_true(result.successful())
-            for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto", u"Suomen ymp\u00e4rist\u00f6keskus":
-                organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
-                self.assert_equal(organization['title'], title)
-                if extras:
-                    self.assert_equal(organization['public_adminstration_organization'], 'true')
-                else:
-                    self.assert_true('public_adminstration_organization' not in organization)
+                self.assert_equal(organization['public_adminstration_organization'], 'true')
+            else:
+                self.assert_true('public_adminstration_organization' not in organization)
+
+    def test_organization_import_update_public(self):
+        self._test_organization_import_update(True)
+
+    def test_organization_import_update_private(self):
+        self._test_organization_import_update(False)
 
     def test_organization_import_with_name(self):
         """ Test organization import """

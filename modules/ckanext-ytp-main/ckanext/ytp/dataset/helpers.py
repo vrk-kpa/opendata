@@ -2,7 +2,6 @@ from pylons import config
 import json
 
 from ckan.common import c, request
-from ckan.lib import helpers
 
 
 def service_database_enabled():
