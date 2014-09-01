@@ -59,16 +59,16 @@ gulp.task('templates', function() {
 
 
 gulp.task('static_css', function(){
-    return gulp.src(paths.src.static_pages + "/css/main.css" )
-        .pipe(base64({maxImageSize:512*1024}))
-        .pipe(concat('style.css'))
-        .pipe(gulp.dest(paths.src.static_pages + "/css"));
+  return gulp.src(paths.src.static_pages + "/css/main.css" )
+    .pipe(base64({maxImageSize:512*1024}))
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest(paths.src.static_pages + "/css"));
 });
 
 gulp.task('static_pages', ['static_css'], function() {
   return gulp.src(paths.src.static_pages + "/*.html")
-      .pipe(inlineCss())
-      .pipe(gulp.dest(paths.dist + '/static'));
+    .pipe(inlineCss())
+    .pipe(gulp.dest(paths.dist + '/static'));
 });
 
 gulp.task('fonts', function() {
@@ -80,24 +80,24 @@ asdfa = 2;
 
 gulp.task('bootstrap', function(){
   return gulp.src(paths.src.bootstrap + '/bootstrap.less')
-      .pipe(less({
-          paths: [paths.src.bootstrap]
-      }))
-      .pipe(concat('bootstrap.css'))
-      .pipe(gulp.dest(paths.dist + '/vendor'))
-      .pipe(MinCSS({keepBreaks: false}))
-      .pipe(concat('bootstrap.min.css'))
-      .pipe(gulp.dest(paths.dist + '/vendor'))
+    .pipe(less({
+      paths: [paths.src.bootstrap]
+    }))
+    .pipe(concat('bootstrap.css'))
+    .pipe(gulp.dest(paths.dist + '/vendor'))
+    .pipe(MinCSS({keepBreaks: false}))
+    .pipe(concat('bootstrap.min.css'))
+    .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
 gulp.task('vendor', function(){
-    return gulp.src(paths.src.root + '/vendor/**/')
-    .pipe(gulp.dest(paths.dist + '/vendor'))
+  return gulp.src(paths.src.root + '/vendor/**/')
+    .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
 gulp.task('config', function(){
-    return gulp.src(paths.src.root + '/resource.config')
-        .pipe(gulp.dest(paths.dist))
+  return gulp.src(paths.src.root + '/resource.config')
+    .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('default', function(callback) {
