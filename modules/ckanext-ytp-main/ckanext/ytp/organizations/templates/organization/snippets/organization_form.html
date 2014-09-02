@@ -39,7 +39,8 @@
     <div class="control-group">
         <label class="control-label" for="field-parent">{{ _("Parent") }}</label>
         <div class="controls">
-          {% if authorized_parents | count == 0 and selected_parent %}
+
+          {% if authorized_parents | count == 0 or (selected_parent and not h.is_organization_in_authorized_parents(selected_parent, authorized_parents))   %}
             <p>{{ _('Only Admin of the parent organization can control the hierarchy.') }}</p>
           {% else %}
           <select id="field-parent" name="groups__0__name" data-module="autocomplete">
