@@ -264,8 +264,15 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         return admin_groups
 
+    def _get_parent_organization_display_name(self, organization_id):
+        group = [group for group in c.allowable_parent_groups if group.id == organization_id]
+        if group:
+            return group[0].title if group[0].title else group[0].id
+        return "not_found"
+
     def get_helpers(self):
-        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents}
+        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents,
+                'get_parent_organization_display_name': self._get_parent_organization_display_name}
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update,

@@ -33,16 +33,23 @@
     {# YTP fields: #}
 
     {# Parent organization selector (from ckanext-hierarchy) #}
+    {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %}
+    {% set authorized_parents = h.get_authorized_parents() %}
+
     <div class="control-group">
         <label class="control-label" for="field-parent">{{ _("Parent") }}</label>
         <div class="controls">
-            <select id="field-parent" name="groups__0__name" data-module="autocomplete">
-                {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %} {{ selected_parent }}
+          {% if authorized_parents | count == 0 and selected_parent %}
+            <p>{{ _('Only Admin of the parent organization can control the hierarchy.') }}</p>
+          {% else %}
+          <select id="field-parent" name="groups__0__name" data-module="autocomplete">
+                 {{ selected_parent }}
                 <option value="" {% if not selected_parent %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
-                {% for group in h.get_authorized_parents() %}
+                {% for group in authorized_parents %}
                     <option value="{{ group.name }}" {% if group.name == selected_parent %}selected="selected"{% endif %}>{{ group.title }}</option>
                 {% endfor %}
             </select>
+          {% endif %}
         </div>
     </div>
 
