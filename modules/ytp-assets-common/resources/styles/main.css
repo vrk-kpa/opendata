@@ -5200,7 +5200,7 @@ a:focus {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1409575506101") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1409730315170") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5243,7 +5243,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1409575506101');
+  background-image: url('../images/sprite.png?timestamp=1409730315170');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5253,7 +5253,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1409575506101');
+  background-image: url('../images/sprite.png?timestamp=1409730315170');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5396,8 +5396,7 @@ h4 {
   bottom: inherit;
   width: 100%;
   font-size: 18px;
-  opacity: 0.65;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
 }
 .carousel .carousel-inner .carousel-caption h3 {
@@ -5545,7 +5544,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1409575506101") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1409730315170") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6084,7 +6083,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1409575506101');
+  background-image: url('../images/sprite.png?timestamp=1409730315170');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
