@@ -59,7 +59,9 @@
     {% set has_public_adminstration_rights = h.check_access('organization_public_adminstration_change', {}) %}
     {% call form.input_block("public_adminstration_organization", _('Public administration organization'), errors.public_adminstration_organization, [], extra_html="") %}
     {% if not has_public_adminstration_rights %}
-        <input type="hidden" name="public_adminstration_organization" value="{% if data.public_adminstration_organization == 'true' %}true{% endif %}" />
+        {% if data.public_adminstration_organization == 'true' %}
+          <input type="hidden" name="public_adminstration_organization" value="true" />
+        {% endif %}
         <p>
             {% if data.public_adminstration_organization == 'true' %}
                 {{ _('Yes') }}
