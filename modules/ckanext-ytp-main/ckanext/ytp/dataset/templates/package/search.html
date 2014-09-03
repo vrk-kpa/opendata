@@ -92,7 +92,7 @@
 {% endblock %}
 
 {% block secondary_content %}
-  {{ h.snippet('snippets/search_input.html', query=c.q, search_class="search-sm col-xs-12", placeholder=_('Search datasets...')) }}
+  {{ h.snippet('snippets/search_input.html', query=c.q, search_class="search-sm col-xs-12", placeholder=_('Search datasets...'), query_params=c.facet_titles) }}
   {% for facet in c.facet_titles %}
     {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
   {% endfor %}

@@ -64,3 +64,17 @@ def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
         return sorted_items[:limit]
     else:
         return sorted_items
+
+
+def get_active_facet_items(facet):
+    if not c.search_facets or \
+            not c.search_facets.get(facet) or \
+            not c.search_facets.get(facet).get('items'):
+        return []
+    facets = []
+    for facet_item in c.search_facets.get(facet)['items']:
+        if not len(facet_item['name'].strip()):
+            continue
+        if (facet, facet_item['name']) in request.params.items():
+            facets.append(facet_item['name'])
+    return facets
