@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-02 14:30+0300\n"
-"PO-Revision-Date: 2014-09-02 11:32+0000\n"
+"POT-Creation-Date: 2014-09-04 14:20+0300\n"
+"PO-Revision-Date: 2014-09-04 11:22+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -190,10 +190,10 @@ msgstr "Muokkaa tai lisää kieliversioita"
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:91
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:139
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:302
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:413
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:142
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:144
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:305
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:416
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 #: ckanext/ytp/user/templates/user/edit_user_form.html:55
 msgid "Delete"
@@ -247,14 +247,14 @@ msgid "Resource not found"
 msgstr "Resurssia ei löytynyt"
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:345
+#: ckanext/ytp/organizations/plugin.py:352
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
 #: ckanext/ytp/dataset/plugin.py:112 ckanext/ytp/dataset/plugin.py:122
 #: ckanext/ytp/dataset/plugin.py:127
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:186
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:189
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:192
 msgid "Missing value"
 msgstr "Puuttuva arvo"
 
@@ -352,6 +352,7 @@ msgstr "Tiedon tuottajat"
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/dataset/templates/package/search.html:4
 #: ckanext/ytp/dataset/templates/package/search.html:7
+#: ckanext/ytp/organizations/templates/organization/read.html:4
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
 msgid "Datasets"
@@ -362,7 +363,7 @@ msgstr "Tietoaineistot"
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:101
 #: ckanext/ytp/organizations/templates/organization/edit_base.html:5
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:416
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:419
 msgid "Close without saving"
 msgstr "Sulje tallentamatta"
 
@@ -393,8 +394,8 @@ msgstr "Vedos"
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:139
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:302
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:142
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:305
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -615,8 +616,8 @@ msgid "Public Service"
 msgstr "Julkinen palvelu"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:373
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:394
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:376
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:397
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
@@ -631,10 +632,10 @@ msgstr "esim. kuvaava nimike"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:36
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:232
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:311
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:375
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:396
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:235
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:314
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:378
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:399
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
 #: ckanext/ytp/theme/translations.py:5
 msgid "URL"
@@ -648,10 +649,10 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:239
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:317
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:377
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:398
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:242
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:320
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:380
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:401
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "Description"
 msgstr "Kuvaus"
@@ -736,7 +737,7 @@ msgstr "esim. Avoin data"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
 #: ckanext/ytp/organizations/templates/organization/about.html:23
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:93
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:96
 msgid "Period of validity"
 msgstr "Voimassaolo"
 
@@ -744,8 +745,8 @@ msgstr "Voimassaolo"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:190
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:61
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:65
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:96
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:100
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:99
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:103
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
 
@@ -867,7 +868,7 @@ msgid "Add another resource"
 msgstr "Lisää toinen ainestolinkki"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:77
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:144
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:60
 msgid "Save"
 msgstr "Tallenna"
@@ -921,7 +922,7 @@ msgstr "Näytä vähemmän"
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:79
 msgid "No matches"
-msgstr ""
+msgstr "Ei hakuehtoja"
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
 #, python-format
@@ -957,113 +958,113 @@ msgid "Group title already exists in database"
 msgstr "Ryhmän otsikko löytyy jo tietokannasta"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:19
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:78
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:81
 msgid "Producer type"
 msgstr "Tuottajatyyppi"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:20
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:89
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:92
 msgid "Business ID"
 msgstr "Y-tunnus"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:21
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:90
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:93
 msgid "OID"
 msgstr "OID"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:22
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:91
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:94
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:20
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:91
 msgid "Alternative name"
 msgstr "Vaihtoehtoinen nimi"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:35
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:106
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
 msgid "Contact info"
 msgstr "Yhteystiedot"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:39
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
 msgid "Street"
 msgstr "Katu/tie"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:39
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
 msgid "House number"
 msgstr "Talon numero"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:39
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
 msgid "Staircase"
 msgstr "Porras"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:39
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
 msgid "Apartment number"
 msgstr "Huoneisto"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:40
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:115
 msgid "P.O. box"
 msgstr "Postilokero"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:41
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:113
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:116
 msgid "Zip code"
 msgstr "Postinumero"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:42
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:116
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:119
 msgid "Place of Business"
 msgstr "Toimipaikka"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:43
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:117
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:120
 msgid "Country"
 msgstr "Maa"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:44
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:121
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:124
 msgid "Unofficial name of the building"
 msgstr "Rakennuksen epävirallinen nimi"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:45
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
 msgid "Building ID"
 msgstr "Rakennustunnus"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:46
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:126
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
 msgid "Getting there"
 msgstr "Kulkuohje"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:47
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:127
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:130
 msgid "Parking"
 msgstr "Pysäköinti"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:48
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 msgid "Arrival by public transport"
 msgstr "Saapuminen julkisilla kulkuvälineillä"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:49
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:130
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:133
 msgid "Web address for public transport"
 msgstr "Verkko-osoite julkiselle liikenteelle"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:87
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:222
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:336
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:383
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:404
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:225
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:339
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:386
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:407
 msgid "Plain language translation available"
 msgstr "Selkokielinen versio saatavilla"
 
 #: ckanext/ytp/organizations/templates/organization/about.html:90
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:223
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:339
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:226
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:342
 msgid "Plain language translation not available"
 msgstr "Ei selkokielistä versiota saatavilla"
 
@@ -1124,6 +1125,15 @@ msgstr ""
 msgid "Create Organization"
 msgstr ""
 
+#: ckanext/ytp/organizations/templates/organization/read.html:6
+msgid "Activity Stream"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/read.html:8
+#: ckanext/ytp/user/templates/user/edit_user_form.html:30
+msgid "About"
+msgstr "Tietoja"
+
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 msgid "My Organization"
 msgstr ""
@@ -1140,117 +1150,117 @@ msgstr ""
 msgid "Parent"
 msgstr "Yläorganisaatio"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:43
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:44
 msgid "Only Admin of the parent organization can control the hierarchy."
 msgstr "Vain yläorganisaation ylläpitäjä voi hallinnoida organisaatiohierarkiaa."
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:47
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:48
 msgid "None - top level"
 msgstr "Ei mitään"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:59
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:60
 msgid "Public administration organization"
 msgstr "Julkisen hallinnon organisaatio"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:64
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:67
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:70
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:6
 #: ckanext/ytp/service/templates/package/ytp/service/package_services_fields.html:11
 msgid "No"
 msgstr "Ei"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:108
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:111
 msgid "Address"
 msgstr "Osoite"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:108
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:111
 msgid "Example street 1 apartment 5"
 msgstr "Esimerkkikatu 1 as. 5"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:115
 msgid "P.O. Box 123"
 msgstr "PL 123"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:113
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:116
 msgid "12345"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:116
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:119
 msgid "Example City"
 msgstr "Esimerkkikaupunki"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:117
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:120
 msgid "Example country"
 msgstr "Esimerkkimaa"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:119
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
 msgid "Address specifier"
 msgstr "Osoitteen tarkenne"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:121
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:124
 msgid "Example name"
 msgstr "Esimerkkinimi"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:122
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:125
 msgid "Example Id"
 msgstr "Esimerkkitunnus"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:124
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:127
 msgid "Arrival instructions"
 msgstr "Saapumisohje"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:126
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
 msgid "Example instructions"
 msgstr "Esimerkkiohjeet"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:127
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:130
 msgid "Example parking instructions"
 msgstr "Esimerkkipysäköintiohjeet"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
 msgid "Example instructions arrival by public transport"
 msgstr "Esimerkkiohjeet julkisilla kulkuvälinellä saapumiseen"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:130
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:133
 msgid "http://publictransport.example.com/"
 msgstr "http://joukkoliikenne.example.com/"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:246
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:323
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:379
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:400
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:249
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:326
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:382
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:403
 msgid "Accessibility"
 msgstr "Esteettömyys"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:253
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:329
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:381
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:402
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:256
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:332
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:384
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:405
 msgid "WCAG"
 msgstr "WCAG"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:294
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:297
 msgid "Homepages"
 msgstr "Kotisivut"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:296
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:299
 msgid "Add Homepage"
 msgstr "Lisää kotisivu"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:375
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:396
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:378
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:399
 msgid "http://example.com/"
 msgstr "http://example.com/"
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:377
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:398
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:380
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:401
 msgid "A little information about the item..."
 msgstr "Vähän lisätietoa osiosta..."
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:412
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:415
 msgid ""
 "Are you sure you want to delete this Organization? This will delete all the "
 "public and private datasets belonging to this organization."
@@ -1739,7 +1749,7 @@ msgid "Home"
 msgstr ""
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
-#: ckanext/ytp/theme/templates/snippets/search_input.html:9
+#: ckanext/ytp/theme/templates/snippets/search_input.html:15
 msgid "Submit"
 msgstr "Lähetä"
 
@@ -1808,6 +1818,10 @@ msgstr "Käyttäjällä %s ei ole oikeuksia muokata käyttäjää %s"
 #: ckanext/ytp/user/logic.py:201
 msgid "Have to be logged in to list users"
 msgstr "Pitää olla kirjautunut sisään nähdäkseen listan käyttäjistä"
+
+#: ckanext/ytp/user/translations.py:4
+msgid "Fullname"
+msgstr "Koko nimi"
 
 #: ckanext/ytp/user/templates/user/dashboard.html:6
 msgid "Dashboard"
@@ -1891,10 +1905,6 @@ msgstr ""
 #: ckanext/ytp/user/templates/user/edit_user_form.html:23
 msgid "Main organization"
 msgstr "Organisaatio"
-
-#: ckanext/ytp/user/templates/user/edit_user_form.html:30
-msgid "About"
-msgstr "Tietoja"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:30
 msgid "A little information about yourself"

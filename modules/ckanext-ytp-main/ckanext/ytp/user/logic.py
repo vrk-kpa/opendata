@@ -248,6 +248,9 @@ def action_user_update(context, data_dict):
     # Add the localized keys for the localized fields to the schema
     schema = add_languages_modify(schema, _localized_fields)
 
+    not_empty = toolkit.get_validator('not_empty')
+    schema['fullname'] = [not_empty, unicode]
+
     id = logic.get_or_bust(data_dict, 'id')
 
     user_obj = model.User.get(id)
