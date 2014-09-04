@@ -41,7 +41,7 @@ class TestYtpUserPlugin(TestCase):
         data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
         toolkit.get_action('user_update')(context, data_dict)
 
-        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname }
+        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
         data_dict_extras = {'facebook': 'http://example.com/facebook', 'job_title': 'tester', 'telephone_number': '+358 123 1234',
                             'image_url': 'http://example.com/me.png', 'linkedin': 'http://example.com/linkedin',
                             'twitter': 'http://example.com/twitter'}
