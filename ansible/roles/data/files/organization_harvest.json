@@ -1,5 +1,5 @@
 [
-    { "name": "hri", "title": "Ulkoinen lähde: Helsingin alue", "title_en": "External source: Helsinki area", "title_sv": "Extern källa: Helsingforsregion",
+    { "name": "hri", "title": "Ulkoinen lähde: Hri.fi", "title_en": "External source: Hri.fi", "title_sv": "Extern källa: Hri.fi",
       "description": "Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta." },
     { "name": "maanmittauslaitos", "title": "Maanmittauslaitos" },
     { "name": "datagovuk", "title": "DataGovUk"}

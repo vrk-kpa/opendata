@@ -84,7 +84,7 @@ class TestYtpOrganizationPlugin(TestCase):
 
     def test_organization_import_with_name(self):
         """ Test organization import """
-        expected = (u"hri", u"Ulkoinen lähde: Helsingin alue", u"Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
+        expected = (u"hri", u"Ulkoinen lähde: Hri.fi", u"Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
                    (u"datagovuk", u"Data.Gov.UK", u"")
         organization_url = tools.get_organization_harvest_test_source()
         data = simplejson.dumps({'url': organization_url})
