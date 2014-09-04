@@ -49,11 +49,14 @@ class TestYtpOrganizationPlugin(TestCase):
         self.assert_raises(NotFound, plugins.toolkit.get_action('organization_show'), self._create_context(), {"id": "yksityishenkilo"})
 
         plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_1", "id": "test_create_1",
-                                                                           "email": "example1@localhost", "password": "test_password"})
+                                                                           "email": "example1@localhost", "password": "test_password",
+                                                                           "fullname": "test_fullname_1"})
         plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_2", "id": "test_create_2",
-                                                                           "email": "example2@localhost", "password": "test_password"})
+                                                                           "email": "example2@localhost", "password": "test_password",
+                                                                           "fullname": "test_fullname_2"})
         plugins.toolkit.get_action('user_update')(self._create_context(), {"id": "test_create_2", "id": "test_create_2",
-                                                                           "email": "example3@localhost", "password": "test_password"})
+                                                                           "email": "example3@localhost", "password": "test_password",
+                                                                           "fullname": "test_fullname_3"})
 
     def test_organization_import(self):
         """ Test organization import """

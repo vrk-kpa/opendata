@@ -28,25 +28,27 @@ class TestYtpUserPlugin(TestCase):
     def _create_context(self, user_object):
         return {'model': model, 'session': model.Session, 'user': user_object.name, 'user_obj': user_object}
 
-    def _create_user(self, name):
-        user = model.User(name=name, email="test@example.com")
+    def _create_user(self, name, fullname):
+        user = model.User(name=name, email="test@example.com", fullname=fullname)
         model.Session.add(user)
         model.Session.commit()
         return user
 
     def test_user_update(self):
-        user_object = self._create_user('tester')
+        user_object = self._create_user('tester', 'test tester')
         context = self._create_context(user_object)
 
-        data_dict = {'id': user_object.name, 'email': user_object.email}
+        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
         toolkit.get_action('user_update')(context, data_dict)
 
-        data_dict = {'id': user_object.name, 'email': user_object.email}
+        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname }
         data_dict_extras = {'facebook': 'http://example.com/facebook', 'job_title': 'tester', 'telephone_number': '+358 123 1234',
                             'image_url': 'http://example.com/me.png', 'linkedin': 'http://example.com/linkedin',
                             'twitter': 'http://example.com/twitter'}
         data_dict.update(data_dict_extras)
 
+        from pprint import pprint
+        pprint(data_dict)
         user_data = toolkit.get_action('user_update')(context, data_dict)
         user_show_data = toolkit.get_action('user_show')(context, {'id': user_object.name})
         updated_user = model.User.get('tester')
