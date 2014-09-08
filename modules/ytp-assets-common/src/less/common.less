@@ -82,6 +82,18 @@ a {
   }
 }
 
+.form-control, textarea {
+  color: @input-color;
+}
+
+.form-control[readonly] {
+  color: @input-readonly;
+}
+
+::input-placeholder {
+  color: @input-color-placeholder;
+}
+
 // CKAN: remove duplicate breadcrumb separator
 .toolbar .breadcrumb li:after {
   content: "";
