@@ -235,7 +235,7 @@ body.toolbar, body.toolbar-drawer {
   }
 }
 
-/* The ytp-menulink class is only applied to list items inside menu blocks in Drupal. */
+// The ytp-menulink class is only applied to list items inside menu blocks in Drupal.
 ul.menu.nav {
   margin-left: 0px !important;
 }
@@ -256,10 +256,11 @@ li.ytp-menulink {
     border: 1px solid @menu-link-color;
   }
 
-  a:focus, a.selected {
-    border-color: @menu-link-active-color;
+  // .selected is used in CKAN, .active is used in Drupal
+  a:focus, a.selected, li.ytp-menulink.active > a.active {
     color: @menu-link-active-color;
     background-color: @menu-active-color;
+    border-color: @menu-link-active-color;
   }
 
   a:hover {
@@ -286,15 +287,6 @@ li.ytp-menulink {
   }
 }
 
-li.ytp-menulink.active-trail > a.active-trail {
-  border-left: 6px solid @menu-active-color;
-}
-
-li.ytp-menulink.active > a.active {
-  color: @navbar-color-text;
-  background-color: @menu-active-color;
-  border: 1px solid @menu-active-color;
-}
 .menu-name-main-menu {
   margin-left: 0px;
 }
