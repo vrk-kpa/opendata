@@ -25,7 +25,8 @@ setup(
     message_extractors={
         'ckanext': [
             ('**.py', 'python', None),
-            ('ytp/*/templates/**.html', 'ckan', None)
+            ('ytp/*/templates/**.html', 'ckan', None),
+            ('**.js', 'javascript', None)
         ]
     },
     entry_points='''

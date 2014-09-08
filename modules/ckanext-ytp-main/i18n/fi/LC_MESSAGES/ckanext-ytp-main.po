@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-04 14:20+0300\n"
-"PO-Revision-Date: 2014-09-04 11:22+0000\n"
+"POT-Creation-Date: 2014-09-08 10:45+0300\n"
+"PO-Revision-Date: 2014-09-08 07:46+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -36,18 +36,32 @@ msgid ""
 "https:// or www."
 msgstr "Verkko-osoitteen muoto on virheellinen. Verkko-osoitteen täytyy alkaa muodolla http://, https:// tai www."
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:88
-msgid ""
-"You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
-"formatting</a> here"
-msgstr "Voit käyttää <a href=\"/fi/markdownsyntax\" target=\"_blank\">tekstin muotoilua</a>"
+#: ckanext/ytp/common/public/javascript/translations.js:4
+#: ckanext/ytp/organizations/templates/organization/member_new.html:27
+msgid "or"
+msgstr "tai"
 
+#: ckanext/ytp/common/public/javascript/translations.js:5
+msgid "Upload file"
+msgstr "Lataa tiedosto"
+
+#: ckanext/ytp/common/public/javascript/translations.js:6
+msgid "Link to a URL"
+msgstr "Lisää verkko-osoite"
+
+#: ckanext/ytp/common/public/javascript/translations.js:7
 #: ckanext/ytp/common/templates/macros/ytp_form.html:157
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:26
 msgid "This field is required"
 msgstr "Pakollinen kenttä"
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:88
+msgid ""
+"You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
+"formatting</a> here"
+msgstr "Voit käyttää <a href=\"/fi/markdownsyntax\" target=\"_blank\">tekstin muotoilua</a>"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:157
 msgid "Custom"
@@ -80,7 +94,7 @@ msgstr "Kuvan verkko-osoite"
 msgid "Image"
 msgstr "Logo tai kuvituskuva"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:231
+#: ckanext/ytp/common/templates/macros/ytp_form.html:232
 msgid "Clear Upload"
 msgstr ""
 
@@ -224,7 +238,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:169
 msgid "You must add at least one data resource"
-msgstr "Sinun täytyy lisätä ainakin yksi dataresurssi"
+msgstr "Sinun täytyy lisätä ainakin yksi aineistolinkki"
 
 #: ckanext/ytp/dataset/controller.py:177
 msgid "Error"
@@ -835,10 +849,6 @@ msgstr ""
 msgid "Update Resource"
 msgstr "Päivitä aineistolinkki"
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:36
-msgid "File"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:19
@@ -1083,10 +1093,6 @@ msgstr "Jos haluat lisätä olemassa olevan käyttäjän, etsi häntä käyttäj
 #: ckanext/ytp/organizations/templates/organization/member_new.html:11
 msgid "Existing User"
 msgstr "Olemassa oleva käyttäjä"
-
-#: ckanext/ytp/organizations/templates/organization/member_new.html:27
-msgid "or"
-msgstr "tai"
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:31
 msgid "If you wish to invite a new user, enter their email address."

@@ -250,6 +250,7 @@
   shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript/modules "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
+  - translations
 
 - name: Ensure Apache restart
   service: name=apache2 state=restarted

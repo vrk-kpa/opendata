@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-04 14:20+0300\n"
+"POT-Creation-Date: 2014-09-08 10:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,17 +24,31 @@ msgid ""
 "https:// or www."
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:88
-msgid ""
-"You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
-"formatting</a> here"
+#: ckanext/ytp/common/public/javascript/translations.js:4
+#: ckanext/ytp/organizations/templates/organization/member_new.html:27
+msgid "or"
 msgstr ""
 
+#: ckanext/ytp/common/public/javascript/translations.js:5
+msgid "Upload file"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:6
+msgid "Link to a URL"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:7
 #: ckanext/ytp/common/templates/macros/ytp_form.html:157
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:62
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:26
 msgid "This field is required"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:88
+msgid ""
+"You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
+"formatting</a> here"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:157
@@ -68,7 +82,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:231
+#: ckanext/ytp/common/templates/macros/ytp_form.html:232
 msgid "Clear Upload"
 msgstr ""
 
@@ -823,10 +837,6 @@ msgstr ""
 msgid "Update Resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:36
-msgid "File"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:19
@@ -1070,10 +1080,6 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:11
 msgid "Existing User"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/member_new.html:27
-msgid "or"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:31
