@@ -1,5 +1,6 @@
 @import "upstream_bootstrap/variables";
 @import "variables.less";
+@import "mixins/mixins.less";
 
 body.toolbar, body.toolbar-drawer {
   padding-top: 0px !important;
@@ -256,13 +257,6 @@ li.ytp-menulink {
     border: 1px solid @menu-link-color;
   }
 
-  // .selected is used in CKAN, .active is used in Drupal
-  a:focus, a.selected, li.ytp-menulink.active > a.active {
-    color: @menu-link-active-color;
-    background-color: @menu-active-color;
-    border-color: @menu-link-active-color;
-  }
-
   a:hover {
     color: @menu-link-color;
     background-color: @menu-hover-color;
@@ -285,6 +279,15 @@ li.ytp-menulink {
     font-weight: normal;
     text-decoration: inherit;
   }
+
+  // Selected menu item in CKAN
+  a:focus, a.selected {
+    .active-sidebar-menu-item;
+  }
+}
+// Selected menu item in Drupal
+li.ytp-menulink.active > a.active {
+    .active-sidebar-menu-item;
 }
 
 .menu-name-main-menu {

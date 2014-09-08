@@ -5210,7 +5210,7 @@ textarea {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1410178627600") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1410181559529") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5253,7 +5253,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1410178627600');
+  background-image: url('../images/sprite.png?timestamp=1410181559529');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5263,7 +5263,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1410178627600');
+  background-image: url('../images/sprite.png?timestamp=1410181559529');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5554,7 +5554,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1410178627600") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1410181559529") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -5637,6 +5637,11 @@ textarea {
   margin-left: 40px;
 }
 
+.active-sidebar-menu-item {
+  color: #3f3d37;
+  background-color: #ffffff;
+  border-color: #3f3d37;
+}
 body.toolbar,
 body.toolbar-drawer {
   padding-top: 0px !important;
@@ -5875,13 +5880,6 @@ li.ytp-menulink a {
   padding: 6px 20px 6px 20px;
   border: 1px solid #eeeeee;
 }
-li.ytp-menulink a:focus,
-li.ytp-menulink a.selected,
-li.ytp-menulink li.ytp-menulink.active > a.active {
-  color: #3f3d37;
-  background-color: #ffffff;
-  border-color: #3f3d37;
-}
 li.ytp-menulink a:hover {
   color: #eeeeee;
   background-color: #ee7544;
@@ -5901,6 +5899,17 @@ li.ytp-menulink.expanded > a:after {
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+}
+li.ytp-menulink a:focus,
+li.ytp-menulink a.selected {
+  color: #3f3d37;
+  background-color: #ffffff;
+  border-color: #3f3d37;
+}
+li.ytp-menulink.active > a.active {
+  color: #3f3d37;
+  background-color: #ffffff;
+  border-color: #3f3d37;
 }
 .menu-name-main-menu {
   margin-left: 0px;
@@ -6088,7 +6097,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1410178627600');
+  background-image: url('../images/sprite.png?timestamp=1410181559529');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
