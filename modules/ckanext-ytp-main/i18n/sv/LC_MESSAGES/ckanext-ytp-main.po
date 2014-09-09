@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-09-08 10:45+0300\n"
-"PO-Revision-Date: 2014-09-08 13:56+0000\n"
+"PO-Revision-Date: 2014-09-09 13:13+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -653,7 +653,7 @@ msgstr "Webbadress"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
 msgid "e.g., my-dataset"
-msgstr ""
+msgstr "t.ex. mitt-dataset"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
@@ -669,7 +669,7 @@ msgstr "Beskrivning"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "e.g., some useful notes about the data"
-msgstr ""
+msgstr "t.ex. nyttiga anmärkningar om datan"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:78
 msgid ""
@@ -698,7 +698,7 @@ msgstr "Friskrivningsklausul för ansvar gällande användningen av denna datase
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "e.g., economy, mental health, government"
-msgstr ""
+msgstr "t.ex. ekonomi, psykisk hälsa, staten"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:133
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:31
@@ -853,7 +853,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
 msgid "e.g., January 2011 Gold Prices"
-msgstr ""
+msgstr "t.ex. guldens pris i januari 2011"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
 msgid "Some useful notes about the data"
@@ -861,7 +861,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
 msgid "e.g., CSV, XML or JSON"
-msgstr ""
+msgstr "t.ex. CSV, XML eller JSON"
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
@@ -1893,7 +1893,7 @@ msgstr "E-post"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
 msgid "e.g., joe@example.com"
-msgstr ""
+msgstr "t.ex. joe@example.com"
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:19
 msgid "You can change your email address from the account settings"
