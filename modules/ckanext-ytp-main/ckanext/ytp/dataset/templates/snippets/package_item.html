@@ -55,7 +55,7 @@ Example:
     <span class="organization byline-dataset">
       {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
       {% if package.organization -%}
-        <a href="/data/organization/{{package.organization.get('name') }}">
+        <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name') }}">
         {{ package.organization.get('title') }}</a>
       {%- endif -%}
     </span>

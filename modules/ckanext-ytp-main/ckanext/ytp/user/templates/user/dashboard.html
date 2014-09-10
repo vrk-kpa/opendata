@@ -16,7 +16,7 @@
         <div class="page_primary_action">
           <!-- {% block page_primary_action %}{% endblock %} -->
           <div class="btn-group">
-            <a href="/data/fi/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
+            <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
           </div>
           <!-- Begin Add Dataset split button -->
           {% resource 'ytp_common_js/ytp_form.js' %}

@@ -8,7 +8,7 @@
         {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y") }}
         {% if pkg.organization -%}
             |
-            <a href="/data/organization/{{ pkg.organization.get('name') }}">
+            <a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
                 {{ h.extra_translation(pkg.organization, 'title') or pkg.organization.name }}
             </a>
         {%- endif -%}

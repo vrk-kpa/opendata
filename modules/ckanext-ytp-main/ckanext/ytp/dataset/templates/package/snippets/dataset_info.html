@@ -12,7 +12,7 @@
         <div>
         <h4 class="dataset-title  sidebar-title">{{ _('Organization') }}</h4>
         {% if pkg.organization %}
-            <span><a href="/data/organization/{{ pkg.organization.get('name') }}">
+            <span><a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
             {{ h.extra_translation(pkg.organization, 'title') }}</a></span><br />
         {% endif %}
         {% if h.current_user() and pkg.get('creator_user_id') %}
@@ -26,7 +26,7 @@
         <h4 class="dataset-title sidebar-title">{{_('Tags')}}</h4>
         {% if pkg.get('tags') %}
             {% for tag in pkg.get('tags') %}
-                <a href="/data/dataset?tags={{tag.get('name')}}" >{{tag.get('display_name')}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name')}}" >{{tag.get('display_name')}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {% endfor %}
         {%endif%}
@@ -40,7 +40,7 @@
         {% if pkg.get( 'content_type') %}
             {% set con_list = pkg.get( 'content_type').split(',') %}
             {%- for content in con_list -%}
-                <a href="/data/dataset?content_type={{content}}">{{_(content)}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?content_type={{content}}">{{_(content)}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {%- endfor -%}
         {%endif%}
@@ -58,14 +58,14 @@
                   content_title=pkg.title, 
                   creator=creator_user.display_name, 
                   creator_url=creator_user.url, 
-                  attribution_url='/data/dataset/'+pkg.get('name') %}
+                  attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
             {% else %}
                 {% snippet 'package/snippets/license_rdf.html', 
                 license_id=pkg.license_id, 
                 content_title=pkg.title, 
                 creator=h.extra_translation(pkg.organization, 'title'),
-                creator_url='/data/organization/' + pkg.organization.get('name'),
-                attribution_url='/data/dataset/' + pkg.get('name') %}
+                creator_url='/data/' +  h.lang() + '/organization/' + pkg.organization.get('name'),
+                attribution_url='/data/' +  h.lang() + '/dataset/' + pkg.get('name') %}
             {% endif %}
         {% else %}
             {% if 'license_url' in pkg %}
@@ -84,7 +84,7 @@
         <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
         <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
 
-        <a href="/data/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
+        <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
         </div>
     {% endblock %}
 
