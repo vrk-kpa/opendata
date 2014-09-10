@@ -150,6 +150,7 @@ class Drupal7Plugin(p.SingletonPlugin):
                 user['email'] = user_data.mail
                 user['sysadmin'] = bool(user_data.uid)
                 user['id'] = user_data.name
+                user['fullname'] = user_data.name
                 user = p.toolkit.get_action('user_update')({'ignore_auth': True}, user)
         else:
             user = {'email': user_data.mail,
