@@ -260,7 +260,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
                     admin_groups.append(admin_org.group)
         else:
             # If the user is a sysadmin, then show all allowable parent organizations
-            admin_groups = c.allowable_parent_groups
+            admin_groups = []
+            for group in c.allowable_parent_groups:
+                admin_groups.append(group)
 
         return admin_groups
 

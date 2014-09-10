@@ -35,7 +35,6 @@
     {# Parent organization selector (from ckanext-hierarchy) #}
     {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %}
     {% set authorized_parents = h.get_authorized_parents() %}
-
     <div class="control-group">
         <label class="control-label" for="field-parent">{{ _("Parent") }}</label>
         <div class="controls">
