@@ -44,8 +44,6 @@ class TestLoadCommand(TestCase):
 
         config = appconfig('config:test.ini', relative_to=conf_dir)
         config.local_conf['ckan.plugins'] = 'googleanalytics'
-        config.local_conf['googleanalytics.username'] = 'borf'
-        config.local_conf['googleanalytics.password'] = 'borf'
         config.local_conf['googleanalytics.id'] = 'UA-borf-1'
         config.local_conf['googleanalytics.show_downloads'] = 'true'
         cls.config = config.local_conf
