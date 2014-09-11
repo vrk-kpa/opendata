@@ -258,12 +258,18 @@ function ytp_theme_breadcrumb($variables) {
 
 function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
   $function = "ytp_theme_{$form_id}_submit";
-  if (function_exists($function)) {
-    $form['#submit'][] = $function;
-  }
-  if ($form_id == 'user_profile_form') {
-    $form['#submit'][] = 'ytp_theme_profile_form_submit';
-  }
+    if (function_exists($function)) {
+        $form['#submit'][] = $function;
+    }
+    if ($form_id == 'user_profile_form') {
+        $form['#submit'][] = 'ytp_theme_profile_form_submit';
+    }
+    if ($form_id === 'user_register_form') {
+        $form['actions']['submit']['#suffix'] = '<span class="help-block" style="display: inline;">'
+            . t('Next, you will get a confirmation email to your email address')
+            . '</span><p class="help-block">'
+            . t('By clicking Create new account, you agree with our <a href="/en/terms">Terms of Service</a>.') . '</p>';
+    }
 }
 
 function ytp_theme_profile_form_submit($form, &$form_state) {
