@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-09-11 15:09+0300\n"
-"PO-Revision-Date: 2014-09-11 12:09+0000\n"
+"PO-Revision-Date: 2014-09-11 12:41+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:238
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
-msgstr ""
+msgstr "Maximala filstorleken är begränsad till %(size)s MB"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
