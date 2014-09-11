@@ -75,7 +75,7 @@
   - drupal
 
 - name: Set robots.txt
-  copy: src="robots.txt" dest="{{ drupal_root }}/robots.txt"
+  copy: src="{{ search_engine_robots_filename }}" dest="{{ drupal_root }}/robots.txt"
   tags:
   - drupal
 

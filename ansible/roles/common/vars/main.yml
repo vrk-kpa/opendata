@@ -8,3 +8,4 @@ apt_source_url: "http://fi.archive.ubuntu.com"
 # Ubuntu 12.04
 ubuntu_codename: precise
 
+search_engine_robots_filename: "robots_disallowed.txt"
