@@ -414,3 +414,12 @@ function ytp_theme_form_element(&$variables) {
 
   return $output;
 }
+
+function ytp_theme_process_element(&$element, &$form_state){
+
+  if (isset($element['#type']) && $element['#type'] === 'text_format'){
+    if (isset($element['value']['#attributes']['data-toggle']) && $element['value']['#attributes']['data-toggle'] == 'tooltip'){
+      $element['value']['#attributes']['data-placement'] = 'top';
+    }
+  }
+}

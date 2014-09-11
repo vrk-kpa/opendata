@@ -231,6 +231,15 @@
   {% if is_upload %}
     {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full']) }}
   {% endif %}
+
+   <div class="controls">
+    <span class="">
+      <i class="icon-info-sign"></i>
+      {% trans size="10" %}
+        Maximum file size is limited to {{ size }} MB.
+      {% endtrans %}
+    </span>
+  </div>
 {% endif %}
 
 {% if is_upload_enabled %}</div>{% endif %}
