@@ -5,9 +5,8 @@
   <div class="search-input control-group {{ search_class }}">
   <input type="text" class="search" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
   {% for param in query_params %}
-  {% set active_facets = h.get_active_facet_items(param) %}
-    {% for facet in active_facets %}
-      <input type="hidden" name="{{ param }}" value="{{facet}}">
+    {% for value in query_params[param] %}
+      <input type="hidden" name="{{ param }}" value="{{value}}">
     {% endfor %}
   {% endfor %}
 

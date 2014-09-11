@@ -9,10 +9,9 @@
   {% block search_input %}
     <input type="hidden" name="q" value="{{ query }}"/>
     {% for param in query_params %}
-      {% set active_facets = h.get_active_facet_items(param) %}
-      {% for facet in active_facets %}
-        <input type="hidden" name="{{ param }}" value="{{facet}}">
-      {% endfor %}
+        {% for value in query_params[param] %}
+          <input type="hidden" name="{{ param }}" value="{{value}}">
+        {% endfor %}
     {% endfor %}
   {% endblock %}
 

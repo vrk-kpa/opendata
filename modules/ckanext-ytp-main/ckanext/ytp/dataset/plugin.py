@@ -14,7 +14,7 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
-    sort_facet_items_by_name, get_sorted_facet_items_dict, get_active_facet_items
+    sort_facet_items_by_name, get_sorted_facet_items_dict
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation
 from paste.deploy.converters import asbool
@@ -427,8 +427,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'sort_datasets_by_state_priority': sort_datasets_by_state_priority,
                 'get_remaining_facet_item_count': get_remaining_facet_item_count,
                 'sort_facet_items_by_name': sort_facet_items_by_name,
-                'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
-                "get_active_facet_items": get_active_facet_items}
+                'get_sorted_facet_items_dict': get_sorted_facet_items_dict}
 
     # IPackageController #
 
