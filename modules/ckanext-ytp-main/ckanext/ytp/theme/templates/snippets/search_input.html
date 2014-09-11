@@ -10,6 +10,9 @@
       <input type="hidden" name="{{ param }}" value="{{facet}}">
     {% endfor %}
   {% endfor %}
+
+   <input type="hidden" name="sort" value="{{ sorting }}">
+
   <button type="submit" value="search">
     <i class="icon-search"></i>
     <span>{{ _('Submit') }}</span>
