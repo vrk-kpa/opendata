@@ -85,5 +85,5 @@ msgstr ""
 msgid "Next, you will get a confirmation email to your email address"
 msgstr ""
 
-msgid "By clicking Create new account, you agree with our <a href=\"/en/terms\">Terms of Service</a>."
+msgid "By clicking Create new account, you agree with our <a href=\"/en/terms\" target=\"_blank\">Terms of Service</a>."
 msgstr ""

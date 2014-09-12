@@ -268,7 +268,7 @@ function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
         $form['actions']['submit']['#suffix'] = '<span class="help-block" style="display: inline;">'
             . t('Next, you will get a confirmation email to your email address')
             . '</span><p class="help-block">'
-            . t('By clicking Create new account, you agree with our <a href="/en/terms">Terms of Service</a>.') . '</p>';
+            . t('By clicking Create new account, you agree with our <a href="/en/terms" target="_blank">Terms of Service</a>.') . '</p>';
     }
 }
 
