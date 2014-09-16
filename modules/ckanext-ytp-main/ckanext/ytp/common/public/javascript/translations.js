@@ -5,3 +5,5 @@ _('or');
 _('Upload file');
 _('Link to a URL');
 _('This field is required');
+_('Confirm');
+_('Cancel');

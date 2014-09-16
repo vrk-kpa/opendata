@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-11 15:09+0300\n"
-"PO-Revision-Date: 2014-09-12 07:53+0000\n"
-"Last-Translator: Vilsepi\n"
+"POT-Creation-Date: 2014-09-16 09:52+0300\n"
+"PO-Revision-Date: 2014-09-16 07:17+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,6 +57,18 @@ msgstr "Lisää verkko-osoite"
 msgid "This field is required"
 msgstr "Pakollinen kenttä"
 
+#: ckanext/ytp/common/public/javascript/translations.js:8
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
+msgid "Confirm"
+msgstr "Vahvista"
+
+#: ckanext/ytp/common/public/javascript/translations.js:9
+#: ckanext/ytp/common/templates/macros/ytp_form.html:176
+#: ckanext/ytp/common/templates/package/ytp/modal.html:12
+msgid "Cancel"
+msgstr "Peruuta"
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -70,11 +82,6 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:159
 msgid "Select"
 msgstr "Valitse"
-
-#: ckanext/ytp/common/templates/macros/ytp_form.html:176
-#: ckanext/ytp/common/templates/package/ytp/modal.html:12
-msgid "Cancel"
-msgstr "Peruuta"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
 msgid "Save and close"
@@ -102,11 +109,6 @@ msgstr ""
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
 msgstr "Tiedoston enimmäiskoko on rajoitettu %(size)s megatavuun."
-
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
-msgid "Confirm"
-msgstr "Vahvista"
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""
@@ -1778,7 +1780,7 @@ msgstr "Siirry"
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:79
 msgid ""
 " <p class=\"extra\">Please try another search or change search facets.</p> "
-msgstr ""
+msgstr "<p class=\"extra\">Kokeile syöttämällä eri hakusanat tai muuta valitsemiasi hakuehtoja.</p>"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:86
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:85

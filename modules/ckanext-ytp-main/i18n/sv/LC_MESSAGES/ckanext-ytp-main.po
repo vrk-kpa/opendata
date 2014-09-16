@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-11 15:09+0300\n"
-"PO-Revision-Date: 2014-09-11 12:41+0000\n"
+"POT-Creation-Date: 2014-09-16 09:52+0300\n"
+"PO-Revision-Date: 2014-09-16 07:17+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -52,6 +52,18 @@ msgstr "Lägg till webbadress"
 msgid "This field is required"
 msgstr ""
 
+#: ckanext/ytp/common/public/javascript/translations.js:8
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
+msgid "Confirm"
+msgstr "Bekräfta"
+
+#: ckanext/ytp/common/public/javascript/translations.js:9
+#: ckanext/ytp/common/templates/macros/ytp_form.html:176
+#: ckanext/ytp/common/templates/package/ytp/modal.html:12
+msgid "Cancel"
+msgstr "Avbryt"
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -65,11 +77,6 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:159
 msgid "Select"
 msgstr ""
-
-#: ckanext/ytp/common/templates/macros/ytp_form.html:176
-#: ckanext/ytp/common/templates/package/ytp/modal.html:12
-msgid "Cancel"
-msgstr "Avbryt"
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
 msgid "Save and close"
@@ -97,11 +104,6 @@ msgstr ""
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
 msgstr "Maximala filstorleken är begränsad till %(size)s MB"
-
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
-msgid "Confirm"
-msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
 msgid ""

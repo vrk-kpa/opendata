@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-11 15:09+0300\n"
+"POT-Creation-Date: 2014-09-16 09:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,18 @@ msgstr ""
 msgid "This field is required"
 msgstr ""
 
+#: ckanext/ytp/common/public/javascript/translations.js:8
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
+#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
+msgid "Confirm"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:9
+#: ckanext/ytp/common/templates/macros/ytp_form.html:176
+#: ckanext/ytp/common/templates/package/ytp/modal.html:12
+msgid "Cancel"
+msgstr ""
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -57,11 +69,6 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:159
 msgid "Select"
-msgstr ""
-
-#: ckanext/ytp/common/templates/macros/ytp_form.html:176
-#: ckanext/ytp/common/templates/package/ytp/modal.html:12
-msgid "Cancel"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:177
@@ -89,11 +96,6 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:238
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
-msgstr ""
-
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
-#: ckanext/ytp/common/templates/package/ytp/language_bar.html:38
-msgid "Confirm"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/language_bar.html:37
