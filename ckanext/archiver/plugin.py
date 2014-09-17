@@ -4,7 +4,7 @@ import json
 from ckan import model
 from ckan.model.types import make_uuid
 from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification, \
-    IResourceUrlChange, IConfigurable
+    IResourceUrlChange, IConfigurable, toolkit
 from ckan.lib.dictization.model_dictize import resource_dictize
 from ckan.logic import get_action
 from ckan.lib.celery_app import celery
@@ -25,6 +25,14 @@ class ArchiverPlugin(SingletonPlugin):
         self.cache_url_root = config.get('ckan.cache_url_root')
 
     def notify(self, entity, operation=None):
+        if not toolkit.check_ckan_version('2.3'):
+            self._notify(entity, operation)
+
+    def notify_after_commit(self, entity, operation=None):
+        if toolkit.check_ckan_version('2.3'):
+            self._notify(entity, operation)
+
+    def _notify(self, entity, operation=None):
         if not isinstance(entity, model.Resource):
             return
 
