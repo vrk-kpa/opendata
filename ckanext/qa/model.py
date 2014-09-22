@@ -92,6 +92,6 @@ class QA(Base):
         c.package_id = row[0]
         return c
 
-def init_tables(e):
-    Base.metadata.create_all(e)
+def init_tables(engine):
+    Base.metadata.create_all(engine)
     log.info('QA database tables are set-up')
