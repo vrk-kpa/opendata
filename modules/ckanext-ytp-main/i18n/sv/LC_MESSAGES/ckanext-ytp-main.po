@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-09-23 10:53+0300\n"
-"PO-Revision-Date: 2014-09-23 07:58+0000\n"
+"PO-Revision-Date: 2014-09-23 09:48+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -823,7 +823,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
 msgid "Filled automatically"
-msgstr ""
+msgstr "Fylls automatiskt"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
