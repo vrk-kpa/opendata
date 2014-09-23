@@ -409,6 +409,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         value = helpers.resource_display_name(resource_dict)
         return value if value != _("Unnamed resource") else _("Additional Info")
 
+    def _auto_author_set(self):
+        return self.auto_author
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -423,6 +426,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'clean_extras_resources': self._clean_extras_resources,
                 'get_package': self._get_package,
                 'resource_display_name': self._resource_display_name,
+                'auto_author_set': self._auto_author_set,
                 'get_json_value': get_json_value,
                 'sort_datasets_by_state_priority': sort_datasets_by_state_priority,
                 'get_remaining_facet_item_count': get_remaining_facet_item_count,
