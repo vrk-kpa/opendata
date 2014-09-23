@@ -66,3 +66,4 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8175a352f960d83027e2476489e5034cf79e43be.patch", file: "usability-fix-for-image-upload.patch" }
 
 service_database_enabled: true
+auto_author_enabled: true
