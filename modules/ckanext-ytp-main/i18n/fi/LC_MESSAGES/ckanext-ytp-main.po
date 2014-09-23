@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-16 09:52+0300\n"
-"PO-Revision-Date: 2014-09-16 07:17+0000\n"
+"POT-Creation-Date: 2014-09-23 10:53+0300\n"
+"PO-Revision-Date: 2014-09-23 07:55+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -813,37 +813,44 @@ msgstr "Tallenna luonnoksena"
 msgid "Next: Add Data"
 msgstr "Seuraavaksi: Lisää dataa"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:17
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
 msgid "Author"
 msgstr "Laatija"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
 msgid "Author Email"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+msgid "Filled automatically"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
 msgid "Owner"
 msgstr "Omistaja"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
 msgid "Joe Bloggs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 msgid "Maintainer"
 msgstr "Ylläpitäjä"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
 msgid "Maintainer Email"
 msgstr "Ylläpitäjän sähköposti"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:27
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
 msgid "joe@example.com"
 msgstr ""
 
@@ -1146,6 +1153,19 @@ msgstr ""
 #: ckanext/ytp/user/templates/user/edit_user_form.html:30
 msgid "About"
 msgstr "Tietoja"
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:4
+msgid "What are Organizations?"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:8
+msgid ""
+" CKAN Organizations are used to create, manage and publish collections of "
+"datasets. Users can have different roles within an Organization, depending "
+"on their level of authorisation to create, edit and publish. Some of the "
+"organizations listed here are automatically created. To create a public "
+"administration organization, please contact admins. "
+msgstr "CKAN organisaatioita käytetään tietoaineistojen ja aineistokokoelmien luomiseen, hallinnointiin ja julkaisemiseen. Käyttäjillä voi olla organisaatioissa eri rooleja ja eri tasoisia käyttöoikeuksia tietoaineistojen luomiseen, muokkaamiseen ja julkaisemiseen. Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä ylläpitoon."
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 msgid "My Organization"
