@@ -20,8 +20,7 @@
 
     {{ ytp_form.input('telephone_number', label=_('Telephone number'), id='field-telephone_number', type='tel', value=data.telephone_number, error=errors.telephone_number, placeholder=_('+358 50 123 4567'), classes=['control-medium']) }}
 
-    {{ ytp_form.select('main_organization', label=_('Main organization'), options=h.organizations_for_select(), selected=data.main_organization, error=errors.main_organization, classes=['control-medium']) }}
-
+    
     {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
     {% set is_url = data.image_url and data.image_url.startswith('http') %}
 
