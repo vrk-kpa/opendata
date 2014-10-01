@@ -28,5 +28,6 @@
 
 - name: Import base organizations
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization.json\", \"public_organization\": \"true\"}'"
+  when: import_base_organizations != False
   tags:
   - data

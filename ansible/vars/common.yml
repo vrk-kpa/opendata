@@ -101,3 +101,5 @@ certificates_path: "/etc/ssl/opendata"
 basic_auth_path: false
 nfs_shared_path: "/srv/ytp/shared"
 local_cache: "/tmp/ytp/cache"
+
+import_base_organizations: false
