@@ -263,15 +263,17 @@ def _process_request(context, member, action):
 
     return model_dictize.member_dictize(member, context)
 
+
 def _log_process(member_user, member_org, approve):
     if approve:
         log.info("Membership request of %s approved to %s by admin: %s" %
                  (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  c.userobj.fullname if c.userobj.fullname else c.userobj.name) )
+                  c.userobj.fullname if c.userobj.fullname else c.userobj.name))
     else:
         log.info("Membership request of %s rejected to %s by admin: %s" %
                  (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  c.userobj.fullname if c.userobj.fullname else c.userobj.name) )
+                  c.userobj.fullname if c.userobj.fullname else c.userobj.name))
+
 
 def member_request_membership_cancel(context, data_dict):
     ''' Cancel organization membership (not request). Member or organization_id must be provided.
