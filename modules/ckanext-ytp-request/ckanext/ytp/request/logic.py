@@ -256,24 +256,24 @@ def _process_request(context, member, action):
     model.repo.commit()
 
     member_user = model.Session.query(model.User).get(member.table_id)
+    admin_user = model.User.get(user)
 
     locale = member.extras.get('locale', None) or _get_default_locale()
-    _log_process(member_user, member.group.display_name, approve)
+    _log_process(member_user, member.group.display_name, approve, admin_user)
     _mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
 
     return model_dictize.member_dictize(member, context)
 
 
-def _log_process(member_user, member_org, approve):
+def _log_process(member_user, member_org, approve, admin_user):
     if approve:
         log.info("Membership request of %s approved to %s by admin: %s" %
                  (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  c.userobj.fullname if c.userobj.fullname else c.userobj.name))
+                  admin_user.fullname if admin_user.fullname else admin_user.name) )
     else:
         log.info("Membership request of %s rejected to %s by admin: %s" %
                  (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  c.userobj.fullname if c.userobj.fullname else c.userobj.name))
-
+                  admin_user.fullname if admin_user.fullname else admin_user.name) )
 
 def member_request_membership_cancel(context, data_dict):
     ''' Cancel organization membership (not request). Member or organization_id must be provided.
