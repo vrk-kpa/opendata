@@ -31,6 +31,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
 
     _config_template = "ckanext.ytp.drupal.%s"
     _node_type = 'service_alert'
+    _node_status = '1'  # published content has status 1, unpublised has status 0
     _language_fallback_order = ['fi', 'en', 'sv']
     cancel_url = None
 
@@ -58,8 +59,8 @@ class YtpDrupalPlugin(plugins.SingletonPlugin):
     def _service_alerts(self):
         """ Get service alerts from Drupal """
         language = None if self._translations_disabled else helpers.lang()
-        return self.engine.execute("""SELECT nid, title FROM node WHERE type = %(type)s AND language = %(language)s""",
-                                   {'type': self._node_type, 'language': language})
+        return self.engine.execute("""SELECT nid, title FROM node WHERE type = %(type)s AND language = %(language)s AND status = %(status)s""",
+                                   {'type': self._node_type, 'language': language, 'status': self._node_status})
 
     def _fetch_drupal_content(self, identifier, language=None, fallback=True):
         """ This helper fetches content from Drupal database using url alias identifier.
