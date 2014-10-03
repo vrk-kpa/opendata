@@ -63,6 +63,7 @@ error_email_from = {{ error_email_from }}
 
 smtp.server = {{ email_domain_access }}
 smtp.starttls = False
+smtp.mail_from = noreply
 
 ckanext.ytp.drupal.connection = postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
 
