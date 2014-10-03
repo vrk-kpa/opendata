@@ -333,6 +333,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
+
+        facets_dict = OrderedDict()
+        facets_dict.update({'collection_type': _('Collection Type')})
+        facets_dict.update({'tags': _('Tags')})
+        facets_dict.update({'vocab_content_type': _('Content Type')})
+        facets_dict.update({'res_format': _('Formats')})
+
         return facets_dict
 
     # ITemplateHelpers #
