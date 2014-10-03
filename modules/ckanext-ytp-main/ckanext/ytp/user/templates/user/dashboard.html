@@ -15,9 +15,12 @@
       {% if self.page_primary_action() | trim %}
         <div class="page_primary_action">
           <!-- {% block page_primary_action %}{% endblock %} -->
+          {% set orgs =  h.organizations_available() %}
+          {% if orgs | count != 0 %}
           <div class="btn-group">
             <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
           </div>
+          {% endif %}
           <!-- Begin Add Dataset split button -->
           {% resource 'ytp_common_js/ytp_form.js' %}
           <div class="btn-group">
