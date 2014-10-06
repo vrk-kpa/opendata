@@ -26,12 +26,12 @@
     if ( ($uri == $href || $site_section == t("Publish Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
     echo '<li' . $class . '><a href='. $href . '>' . t("Publish Data") . '</a></li>';
 
-    /*
+
     $class = '';
-    $href = '/' . $lang . '/news';
-    if ( ($uri == $href || $site_section == t("News")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href='. $href . '>' . t("News") . '</a></li>';
-    */
+    $href = '/' . $lang . '/training';
+    if ( ($uri == $href || $site_section == t("Training")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href='. $href . '>' . t("Training") . '</a></li>';
+
 
     $class = '';
     $href = '/' . $lang . '/about';

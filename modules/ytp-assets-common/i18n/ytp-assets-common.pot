@@ -48,3 +48,6 @@ msgstr ""
 
 msgid "User Info"
 msgstr ""
+
+msgid "Training"
+msgstr ""
