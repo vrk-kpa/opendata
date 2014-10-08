@@ -183,5 +183,234 @@
                 "custom_settings": false
             }
         }
+    },
+    "field_bundle_settings_node__carousel_item": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": {
+                "language": {
+                    "weight": "3"
+                }, 
+                "path": {
+                    "weight": "4"
+                }, 
+                "title": {
+                    "weight": "0"
+                }
+            }
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
+    },
+    "field_bundle_settings_node__infobox": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }, 
+                    "teaser": {
+                        "visible": true, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": {
+                "language": {
+                    "weight": "2"
+                }, 
+                "path": {
+                    "weight": "3"
+                }, 
+                "title": {
+                    "weight": "0"
+                }
+            }
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
+    },
+    "field_bundle_settings_node__page": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": []
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
+    },
+    "field_bundle_settings_node__service_alert": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": []
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
+    },
+    "field_bundle_settings_node__tutorial": {
+        "extra_fields": {
+            "display": {
+                "language": {
+                    "default": {
+                        "visible": false, 
+                        "weight": "0"
+                    }
+                }, 
+                "sharethis": {
+                    "default": {
+                        "visible": true, 
+                        "weight": "10"
+                    }
+                }
+            }, 
+            "form": {
+                "language": {
+                    "weight": "3"
+                }, 
+                "path": {
+                    "weight": "4"
+                }, 
+                "title": {
+                    "weight": "0"
+                }
+            }
+        }, 
+        "view_modes": {
+            "full": {
+                "custom_settings": false
+            }, 
+            "rss": {
+                "custom_settings": false
+            }, 
+            "search_index": {
+                "custom_settings": false
+            }, 
+            "search_result": {
+                "custom_settings": false
+            }, 
+            "teaser": {
+                "custom_settings": true
+            }, 
+            "token": {
+                "custom_settings": false
+            }
+        }
     }
 }
