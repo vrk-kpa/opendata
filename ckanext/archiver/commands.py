@@ -131,7 +131,12 @@ class Archiver(CkanCommand):
                 # try arg as a group id/name
                 group = model.Group.get(arg)
                 if group:
-                    packages.extend(group.packages())
+                    if group.is_organization:
+                        packages.extend(
+                            model.Session.query(model.Package)\
+                                 .filter_by(owner_org=group.id))
+                    else:
+                        packages.extend(group.packages(with_private=True))
                     if not self.options.queue:
                         self.options.queue = 'bulk'
                     continue
