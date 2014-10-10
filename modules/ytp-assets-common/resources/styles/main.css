@@ -5156,6 +5156,7 @@ textarea {
 }
 .site-logo {
   height: 16px;
+  image-rendering: optimizeQuality;
 }
 #page_wrapper {
   background-color: #ffffff;
@@ -5210,7 +5211,7 @@ textarea {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1412586969804") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1412920704987") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5253,7 +5254,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1412586969804');
+  background-image: url('../images/sprite.png?timestamp=1412920704987');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5263,7 +5264,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1412586969804');
+  background-image: url('../images/sprite.png?timestamp=1412920704987');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5554,7 +5555,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1412586969804") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1412920704987") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6097,7 +6098,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1412586969804');
+  background-image: url('../images/sprite.png?timestamp=1412920704987');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
