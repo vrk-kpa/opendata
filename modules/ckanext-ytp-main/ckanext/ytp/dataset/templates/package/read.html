@@ -9,9 +9,6 @@
     <h1 class="dataset-title">
         {% block page_heading %}
             {{ h.extra_translation(pkg, 'title') or pkg.name }}
-            {% if pkg.state.startswith('draft') %}
-                [{{ _('Draft') }}]
-            {% endif %}
         {% endblock %}
     </h1>
     {% snippet "package/snippets/subtitle_byline.html", pkg=pkg %}
