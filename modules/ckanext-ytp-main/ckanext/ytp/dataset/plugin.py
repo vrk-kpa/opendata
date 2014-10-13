@@ -21,7 +21,6 @@ from paste.deploy.converters import asbool
 from ckanext.spatial.interfaces import ISpatialHarvester
 
 import json
-import re
 import ckan.lib.navl.dictization_functions as dictization_functions
 
 try:
@@ -463,7 +462,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         package_dict = data_dict['package_dict']
 
-        LIST_MAP = {'access_constraints':'copyright_notice'}
+        LIST_MAP = {'access_constraints': 'copyright_notice'}
 
         for source, target in LIST_MAP.iteritems():
             for extra in package_dict['extras']:
@@ -475,19 +474,15 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             'value': value[0]
                         })
 
-
-
-        VALUE_MAP = {'contact-email': ['maintainer_email','author_email']}
+        VALUE_MAP = {'contact-email': ['maintainer_email', 'author_email']}
 
         for source, target in VALUE_MAP.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:
-                        log.debug("VALUE MAP source: " + source + " target: " + target_key)
                         package_dict[target_key] = extra['value']
 
-
-        map = { 'responsible-party': ['maintainer','author']}
+        map = {'responsible-party': ['maintainer', 'author']}
 
         for source, target in map.iteritems():
             for extra in package_dict['extras']:
@@ -495,9 +490,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     value = json.loads(extra['value'])
                     if len(value):
                         for target_key in target:
-                            log.debug("MAP source: " + source + " target: " + target_key)
-                            package_dict[target_key] =  value[0]['name']
-
+                            package_dict[target_key] = value[0]['name']
 
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
@@ -526,13 +519,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     urls = re.findall(r'(https?://\S+)', value[0])
                     if len(urls):
                         if urls[0].endswith('.'):
-                           urls[0] = urls[0][:-1]
+                            urls[0] = urls[0][:-1]
                         package_dict['extras'].append({
                             "key": 'license_url',
                             'value': urls[0]
                         })
 
-
-
-
-        return  package_dict
+        return package_dict
