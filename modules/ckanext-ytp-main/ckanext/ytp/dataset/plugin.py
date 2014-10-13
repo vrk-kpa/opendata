@@ -500,10 +500,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                         value = 'paikkatietoaineistosarja'
                     elif extra['value'] == 'service':
                         value = 'paikkatietopalvelu'
-                        package_dict['extras'].append({
-                            'key': 'collection_type',
-                            'value': 'Interoperability Tools'
-                        })
+                        for temp_extra in package_dict['extras']:
+                            if temp_extra['key'] == 'collection_type':
+                                temp_extra['value'] = 'Interoperability Tools'
                     else:
                         continue
 
