@@ -2,7 +2,7 @@
 
     {% block collection_type %}
         <div>
-        <h4 class="dataset-title sidebar-title">{{ _('Collection type') }}</h4>
+        <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
         <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
          {{ _(pkg.collection_type) }}</a>
         </div>
@@ -83,7 +83,7 @@
                   {% endif %}
                 </a>
               {% else %}
-                {{ _('No license specified.') }}
+                {{ _('License Not Specified') }}
               {% endif %}
             {% endif %}
         {% endif %}
