@@ -18,7 +18,11 @@ from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation
 from paste.deploy.converters import asbool
+from ckanext.spatial.interfaces import ISpatialHarvester
 
+import json
+import re
+import ckan.lib.navl.dictization_functions as dictization_functions
 
 try:
     from collections import OrderedDict  # 2.7
@@ -155,6 +159,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IConfigurable)
+    plugins.implements(ISpatialHarvester, inherit=True)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -451,3 +456,83 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show}
+
+    # ISpatialHarvester
+
+    def get_package_dict(self, context, data_dict):
+
+        package_dict = data_dict['package_dict']
+
+        LIST_MAP = {'access_constraints':'copyright_notice'}
+
+        for source, target in LIST_MAP.iteritems():
+            for extra in package_dict['extras']:
+                if extra['key'] == source:
+                    value = json.loads(extra['value'])
+                    if len(value):
+                        package_dict['extras'].append({
+                            'key': target,
+                            'value': value[0]
+                        })
+
+
+
+        VALUE_MAP = {'contact-email': ['maintainer_email','author_email']}
+
+        for source, target in VALUE_MAP.iteritems():
+            for extra in package_dict['extras']:
+                if extra['key'] == source and len(extra['value']):
+                    for target_key in target:
+                        log.debug("VALUE MAP source: " + source + " target: " + target_key)
+                        package_dict[target_key] = extra['value']
+
+
+        map = { 'responsible-party': ['maintainer','author']}
+
+        for source, target in map.iteritems():
+            for extra in package_dict['extras']:
+                if extra['key'] == source:
+                    value = json.loads(extra['value'])
+                    if len(value):
+                        for target_key in target:
+                            log.debug("MAP source: " + source + " target: " + target_key)
+                            package_dict[target_key] =  value[0]['name']
+
+
+        for extra in package_dict['extras']:
+            if extra['key'] == 'resource-type' and len(extra['value']):
+                    if extra['value'] == 'dataset':
+                        value = 'paikkatietoaineisto'
+                    elif extra['value'] == 'series':
+                        value = 'paikkatietoaineistosarja'
+                    elif extra['value'] == 'service':
+                        value = 'paikkatietopalvelu'
+                        package_dict['extras'].append({
+                            'key': 'collection_type',
+                            'value': 'Interoperability Tools'
+                        })
+                    else:
+                        continue
+
+                    package_dict['content_type'] = value
+                    flattened = dictization_functions.flatten_dict(package_dict)
+                    convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
+                    package_dict = dictization_functions.unflatten(flattened)
+
+            if extra['key'] == 'licence':
+                value = json.loads(extra['value'])
+                if len(value):
+                    package_dict['license'] = value
+                    urls = re.findall(r'(https?://\S+)', value[0])
+                    if len(urls):
+                        if urls[0].endswith('.'):
+                           urls[0] = urls[0][:-1]
+                        package_dict['extras'].append({
+                            "key": 'license_url',
+                            'value': urls[0]
+                        })
+
+
+
+
+        return  package_dict

@@ -38,7 +38,7 @@
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
         <a href ="{{ extra_dict.license_url }}">
-        {% if extra_dict.license_title %}
+        {% if extra_dict.license_title != "None" %}
             {{ extra_dict.license_title }}
         {% else %}
             {{ extra_dict.license_url }}
@@ -53,19 +53,6 @@
     {% if extra_dict.copyright_notice %}
       <dt>{{ _("Copyright Notice") }}</dt>
       <dd>{{ h.extra_translation(pkg_dict, 'copyright_notice', markdown=True) }}</dd>
-    {# TODO: This is for a specific harvest source and should be mapped during harvesting to the copyright field instead of handling it specifically in the template #}
-    {% elif extra_dict.access_constraints %}
-      {% set copyright_notice = h.get_json_value(h.get_pkg_dict_extra(pkg_dict, 'access_constraints', None)) %}
-      <dt>{{ _("Copyright Notice") }}</dt>
-      <dd>
-          {%- if copyright_notice and copyright_notice.append -%}
-            {% for item in copyright_notice %}
-              <p>{{ item }}</p>
-            {% endfor %}
-          {%- else -%}
-            {{ copyright_notice }}
-          {%- endif -%}
-       </dd>
     {% endif %}
 
     {% if extra_dict.warranty_disclaimer %}

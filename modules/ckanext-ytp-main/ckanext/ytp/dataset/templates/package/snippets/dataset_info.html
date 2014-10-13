@@ -2,7 +2,7 @@
 
     {% block collection_type %}
         <div>
-        <h4 class="dataset-title sidebar-title">Tietovaranto</h4>
+        <h4 class="dataset-title sidebar-title">{{ _('Collection type') }}</h4>
         <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
          {{ _(pkg.collection_type) }}</a>
         </div>
@@ -70,8 +70,21 @@
         {% else %}
             {% if 'license_url' in pkg %}
                 <a href="{{ pkg.license_url }}" rel="dc:rights">{{ pkg.license_title }}</a>
-            {% else %}
+            {% elif pkg.license_title != None %}
                 <span property="dc:rights">{{ pkg.license_title }}</span>
+            {% else %}
+              {% set extra_dict = h.format_extras(pkg) %}
+              {% if extra_dict.license_url %}
+                <a href="{{ extra_dict.license_url }}" rel="dc:rights" class="licenseUrl">
+                  {% if extra_dict.license_title != "None" %}
+                    {{ extra_dict.license_title }}
+                  {% else %}
+                    {{  extra_dict.license_url }}
+                  {% endif %}
+                </a>
+              {% else %}
+                {{ _('No license specified.') }}
+              {% endif %}
             {% endif %}
         {% endif %}
         </div>
