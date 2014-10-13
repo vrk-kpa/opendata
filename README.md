@@ -22,6 +22,21 @@ hierarchy_form into your own. If you have your own templates then you can use
 the snippets (or logic functions) that this extension provides to display the
 trees.
 
+Installation
+============
+
+Install the extension in your python environment
+```
+$ . /usr/lib/ckan/default/bin/activate
+(pyenv) $ cd /usr/lib/ckan/default/src
+(pyenv) $ pip install -e "git+https://github.com/datagovuk/ckanext-hierarchy.git#ckanext-hierarchy"
+```
+Then change your CKAN ini file (e.g. development.ini or production.ini).  Note that hierarchy_display 
+should come before hierarchy_form
+```
+ckan.plugins = stats text_view recline_view ... hierarchy_display hierarchy_form
+```
+
 NB:
 This extension relies on a particular feature of CKAN: https://github.com/datagovuk/ckan/tree/1038-organization-hierarchy which at the time of writing is merged into branch release-v2.2 (i.e. CKAN 2.2 beta, which is quite usable) and will be released in CKAN 2.2 (early 2014).
 
