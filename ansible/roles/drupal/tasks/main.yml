@@ -129,12 +129,15 @@
     - imce_wysiwyg
     - google_analytics
 
-    - views_bootstrap-7.x-3.x
+    - views_bootstrap
     - strongarm
     - sharethis
 
     - date
     - calendar
+
+    - recaptcha
+    - honeypot
   tags:
   - drupal
 
@@ -178,13 +181,17 @@
     - imce_wysiwyg
     - googleanalytics
 
-    - views_bootstrap-7.x-3.x
+    - views_bootstrap
     - strongarm
     - sharethis
 
     - date
     - date_popup
     - calendar
+
+    - recaptcha
+    - honeypot
+
   tags:
   - drupal
 
@@ -254,6 +261,11 @@
     - { variable: "error_level", value: "{{ drupal_error_level }}" }
     - { variable: "date_format_short", value: 'd.m.Y - H:i'}
     - { variable: "jquery_update_jquery_version", value: "1.10" }
+    - { variable: "recaptcha_public_key", value: "{{ recaptcha_public_key }}" }
+    - { variable: "recaptcha_private_key", value: "{{ recaptcha_private_key }}" }
+    - { variable: "captcha_add_captcha_description", value: 0 }
+    - { variable: "honeypot_form_user_register_form", value: 1 }
+    - { variable: "honeypot_form_user_pass", value: 1 }
   tags:
   - drupal-configuration
   - drupal
