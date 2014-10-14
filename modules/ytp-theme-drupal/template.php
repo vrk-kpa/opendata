@@ -362,6 +362,7 @@ function ytp_theme_form_element(&$variables) {
       $tooltip = TRUE;
       $attributes['data-toggle'] = 'tooltip';
       $attributes['title'] = $description;
+      $attributes['data-placement'] = 'top';
     }
   }
 
