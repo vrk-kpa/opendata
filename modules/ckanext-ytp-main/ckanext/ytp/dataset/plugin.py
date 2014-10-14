@@ -515,7 +515,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 value = json.loads(extra['value'])
                 if len(value):
                     package_dict['license'] = value
-                    urls = re.findall(r'(https?://\S+)', value[0])
+                    urls = []
+                    for i in value:
+                        urls += re.findall(r'(https?://\S+)', i)
                     if len(urls):
                         if urls[0].endswith('.'):
                             urls[0] = urls[0][:-1]
