@@ -11,14 +11,12 @@
 {% endblock %}
 
 {% block page_primary_action %}
-  <div class="info-box wide">
-    <p>{% trans -%}You can request organization membership or add a new organization.{%- endtrans %}</p>
-
-    {% link_for _('Search organizations'), controller='organization', action='index', class_="info-link", icon="" %}
-    {% if h.check_access('organization_create') %}
-    {% link_for _('Add organization'), controller='organization', action='new', class_="info-link", icon="" %}
-    {% endif %}
-  </div>
+  {% set orgs =  h.organizations_available() %}
+  {% if orgs | count != 0 %}
+    <div class="btn-group">
+      <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
