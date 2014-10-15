@@ -104,5 +104,6 @@ class YtpUserPlugin(plugins.SingletonPlugin):
             m.connect('/user/edit', action='edit')
             m.connect('/user/edit/{id:.*}', action='edit')
             m.connect('/user/me', action='me')
+            m.connect('/user/{id:.*}', action='read')
 
         return map
