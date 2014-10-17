@@ -124,7 +124,8 @@ class YtpUserController(UserController):
                                      .order_by(None))
 
                     dataset_q = user_dataset_q.union(org_dataset_q)
-
+                else:
+                    dataset_q = user_dataset_q
         else:
             dataset_q = user_dataset_q
 
