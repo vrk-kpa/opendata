@@ -1,5 +1,5 @@
 celery
-kombu==2.1.3,
+kombu==3.0.12,
 kombu-sqlalchemy==1.1.0,
 SQLAlchemy==0.7.10,
 requests
