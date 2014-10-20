@@ -1,8 +1,8 @@
-celery,
+celery
 kombu==2.1.3,
 kombu-sqlalchemy==1.1.0,
 SQLAlchemy==0.7.10,
-requests,
+requests
 messytables>=0.1.4,
 flask==0.8  # flask needed for tests
 
