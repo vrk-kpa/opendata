@@ -69,9 +69,9 @@
             {% endif %}
         {% else %}
             {% if 'license_url' in pkg %}
-                <a href="{{ pkg.license_url }}" rel="dc:rights">{{ pkg.license_title }}</a>
+                <a href="{{ pkg.license_url }}" rel="dc:rights">{{ _(pkg.license_title) }}</a>
             {% elif pkg.license_title != None %}
-                <span property="dc:rights">{{ pkg.license_title }}</span>
+                <span property="dc:rights">{{ _(pkg.license_title) }}</span>
             {% else %}
               {% set extra_dict = h.format_extras(pkg) %}
               {% if extra_dict.license_url %}
