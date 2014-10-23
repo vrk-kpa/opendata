@@ -452,6 +452,18 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
+    def before_index(self, pkg_dict):
+
+        tags = pkg_dict['tags']
+        if tags:
+            pkg_dict['tags'] = [tag.lower() for tag in tags]
+
+        content_types = pkg_dict['vocab_content_type']
+        if content_types:
+            pkg_dict['vocab_content_type'] = [content_type.lower() for content_type in content_types]
+
+        return pkg_dict
+
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show}
