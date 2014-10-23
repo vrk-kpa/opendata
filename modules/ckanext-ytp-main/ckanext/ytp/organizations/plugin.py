@@ -22,6 +22,8 @@ import ast
 import datetime
 from ckanext.ytp.common.helpers import extra_translation
 
+from ckan.config.routing import SubMapper
+
 log = logging.getLogger(__name__)
 
 # This plugin is designed to work only these versions of CKAN
@@ -93,6 +95,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IRoutes, inherit=True)
 
     _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
                          'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
@@ -290,6 +293,14 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     def get_actions(self):
         return {'user_create': action_user_create, 'organization_show': action_organization_show}
 
+    def before_map(self, map):
+        organization_controller = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
+
+        with SubMapper(map, controller=organization_controller) as m:
+            m.connect('organization_members', '/organization/members/{id}',
+            action='members', ckan_icon='group')
+
+        return map
 
 # From ckanext-hierarchy
 class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
