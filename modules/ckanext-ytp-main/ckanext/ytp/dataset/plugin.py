@@ -454,12 +454,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def before_index(self, pkg_dict):
 
-        if pkg_dict['tags']:
+        if 'tags' in pkg_dict:
             tags = pkg_dict['tags']
             if tags:
                 pkg_dict['tags'] = [tag.lower() for tag in tags]
 
-        if pkg_dict['vocab_content_type']:
+        if 'vocab_content_type' in pkg_dict:
             content_types = pkg_dict['vocab_content_type']
             if content_types:
                 pkg_dict['vocab_content_type'] = [content_type.lower() for content_type in content_types]
