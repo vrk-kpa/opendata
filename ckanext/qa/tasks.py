@@ -9,7 +9,9 @@ import requests
 import urlparse
 import ckan.lib.celery_app as celery_app
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
+from celery.utils.log import get_task_logger
 
+log = get_task_logger(__name__)
 
 class QAError(Exception):
     pass
@@ -112,7 +114,7 @@ def update(context, data):
         'openness_score_failure_count': the number of consecutive times that
                                         this resource has returned a score of 0
     """
-    log = update.get_logger()
+
     try:
         data = json.loads(data)
         context = json.loads(context)
@@ -169,7 +171,7 @@ def resource_score(context, data):
         'openness_score_failure_count': the number of consecutive times that
                                         this resource has returned a score of 0
     """
-    log = update.get_logger()
+
 
     score = 0
     score_reason = ''
