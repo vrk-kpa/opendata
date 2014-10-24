@@ -1,12 +1,8 @@
-from pylons import config
-
 from ckan import model
-from ckan.common import request, c, _
-from ckan.logic import get_action, NotFound, NotAuthorized, check_access
-from ckan.lib import helpers as h
+from ckan.common import c, _
+from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
-from ckan.lib.base import abort, validate, render
-import ckan.new_authz as new_authz
+from ckan.lib.base import abort
 
 import logging
 

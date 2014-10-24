@@ -298,9 +298,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         with SubMapper(map, controller=organization_controller) as m:
             m.connect('organization_members', '/organization/members/{id}',
-            action='members', ckan_icon='group')
+                      action='members', ckan_icon='group')
 
         return map
+
 
 # From ckanext-hierarchy
 class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
