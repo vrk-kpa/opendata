@@ -157,6 +157,19 @@
   - ckan
   - spatial
 
+- name: Install archiver requirements
+  pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  tags:
+  - ckan
+  - qa
+
+- name: Install qa requirements
+  pip: requirements="{{ virtual_environment }}/src/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  tags:
+  - ckan
+  - qa
+
+
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
   when: modules_copy|changed
