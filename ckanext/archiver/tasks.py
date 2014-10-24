@@ -11,6 +11,9 @@ import shutil
 from datetime import datetime
 
 from ckan.lib.celery_app import celery
+from celery.utils.log import get_task_logger
+
+log = get_task_logger(__name__)
 
 try:
     from ckanext.archiver import settings
@@ -85,8 +88,7 @@ def download(context, resource, url_timeout=30,
     If there is an error performing the download then
     DownloadError is raised.
     '''
-    
-    log = update.get_logger()
+
     
     url = resource['url']
 
@@ -209,12 +211,10 @@ def clean():
     """
     Remove all archived resources.
     """
-    log = clean.get_logger()
     log.error("clean task not implemented yet")
 
 @celery.task(name = "archiver.update")
 def update(context, data):
-    log = update.get_logger()
     log.info('Starting update task: %r', data)
     try:
         data = json.loads(data)
@@ -250,7 +250,6 @@ def _update(context, data):
             'file_path': path to archived file (if archive successful), or None
         }
     """
-    log = update.get_logger()
     data.pop(u'revision_id', None)
 
     # check that archive directory exists
@@ -301,7 +300,6 @@ def link_checker(context, data):
 
     Returns a json dict of the headers of the request
     """
-    log = update.get_logger()
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
 
