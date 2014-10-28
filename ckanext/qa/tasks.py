@@ -194,7 +194,7 @@ def resource_score(context, data):
         score_reason = 'License not open'
     else:
         try:
-            headers = json.loads(link_checker("{}", json.dumps(data)))
+            headers = link_checker("{}", json.dumps(data))
             ct = headers.get('content-type')
 
             # ignore charset if exists (just take everything before the ';')
