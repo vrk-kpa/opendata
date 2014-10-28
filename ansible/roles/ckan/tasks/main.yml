@@ -342,6 +342,12 @@
   - ckan
   - cron
 
+- name: Ensure qa cron job
+  cron: name="qa" minute="0" hour="6" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+  tags:
+  - ckan
+  - cron
+
 - name: Reindex
   shell: touch "{{ files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}" creates="{{ files_root }}/.solr-reindex"
   async: 1200
