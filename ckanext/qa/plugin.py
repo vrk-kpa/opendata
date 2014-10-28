@@ -22,7 +22,7 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(p.ITemplateHelpers)
 
     def configure(self, config):
-        self.site_url = config.get('ckan.site_url')
+        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
 
     def update_config(self, config):
         # check if new templates

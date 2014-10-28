@@ -63,8 +63,11 @@ class QACommand(p.toolkit.CkanCommand):
         user = p.toolkit.get_action('get_site_user')(
             {'model': model, 'ignore_auth': True}, {}
         )
+
+        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
+
         context = json.dumps({
-            'site_url': config['ckan.site_url'],
+            'site_url': self.site_url,
             'apikey': user.get('apikey'),
             'username': user.get('name'),
         })
@@ -118,7 +121,7 @@ class QACommand(p.toolkit.CkanCommand):
         If no packages are declared in self.args, then retrieve all the
         packages from the catalogue.
         """
-        api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
+        api_url = urlparse.urljoin(self.site_url, 'api/action')
         if len(self.args) > 1:
             for id in self.args[1:]:
                 data = {'id': unicode(id)}
