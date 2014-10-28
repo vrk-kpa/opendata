@@ -170,6 +170,11 @@
   - ckan
   - qa
 
+- name: Install python package to support SNI in requests
+  pip: name=ndg-httpsclient virtualenv="{{ virtual_environment }}"
+  tags:
+  - ckan
+  - qa
 
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
