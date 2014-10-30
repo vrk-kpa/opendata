@@ -30,7 +30,7 @@ class YtpOrganizationController(OrganizationController):
                 }
                 user_dict = {'id': user_id}
                 data = get_action('user_show')(user_context, user_dict)
-                members.append((user_id, name, role, data['email']))
+                members.append((user_id, data['name'], role, data['email']))
 
             c.members = members
         except NotAuthorized:
