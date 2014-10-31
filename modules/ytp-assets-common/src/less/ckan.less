@@ -721,8 +721,30 @@ dd {
   margin-bottom: 2px;
 }
 
+/* The media grid and its children assume that the box-sizing property is the default content-box */
+.media-grid, .media-grid *, .media-grid *:after, .media-grid *:before {
+  box-sizing: content-box;
+}
+
 .media-grid {
-  padding-bottom: 0px
+  margin: 0;
+  padding: 0 0 15px 0;
+  width: 100%;
+}
+
+.media-item {
+  line-height: 20px;
+  width: 235px;
+}
+
+.media-image {
+  height: auto;
+  max-width: 100%;
+}
+
+/* Inherit the new btn-sm Bootstrap styles for the old btn-small class */
+.btn-small {
+  .btn-sm;
 }
 
 .address-control {
