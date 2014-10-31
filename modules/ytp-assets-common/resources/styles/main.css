@@ -499,7 +499,6 @@ a.tag:hover {
   padding-right: 15px;
 }
 .module-grid {
-  margin: 0;
   list-style: none;
   *zoom: 1;
   margin: 0 -25px;
@@ -507,7 +506,11 @@ a.tag:hover {
   background: #fbfbfb url("../images/ckan/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
-  padding-bottom: 0px;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0 0 15px 0;
+  width: 100%;
 }
 .module-grid:before,
 .module-grid:after {
@@ -549,6 +552,8 @@ a.tag:hover {
   margin: 15px 0 0 15px;
   background-color: white;
   border-radius: 3px;
+  line-height: 20px;
+  width: 235px;
   float: left;
   margin-left: 20px;
   width: 460px;
@@ -1100,6 +1105,7 @@ textarea {
 .control-full input,
 .control-full select,
 .control-full textarea {
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: auto;
   width: 100%;
@@ -1467,6 +1473,7 @@ textarea {
   clear: both;
 }
 .stages li {
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   line-height: 27px;
   counter-increment: stage;
@@ -1649,7 +1656,6 @@ textarea {
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
   outline: thin dotted \9;
-  /* IE6-9 */
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
 }
 .select2-container-multi .select2-drop {
@@ -1916,6 +1922,7 @@ textarea {
   margin-bottom: 20px;
 }
 .search-form .search-input input {
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   width: 100%;
@@ -4026,9 +4033,9 @@ h4 small {
 .collapsible {
   cursor: pointer;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .collapsible:hover,
 .collapsible:active,
@@ -4526,6 +4533,7 @@ ul.no-bullet {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: -webkit-calc(230px);
   width: calc(230px);
 }
 .nav-item.active > a:hover,
@@ -4781,8 +4789,33 @@ dd {
   font-size: 18px;
   margin-bottom: 2px;
 }
+/* The media grid and its children assume that the box-sizing property is the default content-box */
+.media-grid,
+.media-grid *,
+.media-grid *:after,
+.media-grid *:before {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
 .media-grid {
-  padding-bottom: 0px;
+  margin: 0;
+  padding: 0 0 15px 0;
+  width: 100%;
+}
+.media-item {
+  line-height: 20px;
+  width: 235px;
+}
+.media-image {
+  height: auto;
+  max-width: 100%;
+}
+/* Inherit the new btn-sm Bootstrap styles for the old btn-small class */
+.btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
 }
 .address-control {
   margin-top: 7px;
@@ -5214,7 +5247,7 @@ textarea {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1413182974710") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1414767263776") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5257,7 +5290,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1413182974710');
+  background-image: url('../images/sprite.png?timestamp=1414767263776');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5267,7 +5300,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1413182974710');
+  background-image: url('../images/sprite.png?timestamp=1414767263776');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5558,7 +5591,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1413182974710") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1414767263776") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6101,7 +6134,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1413182974710');
+  background-image: url('../images/sprite.png?timestamp=1414767263776');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
@@ -6125,5 +6158,3 @@ body {
 .well.infowell.infowell-light .infowell-icon {
   background-position: 0px -152px;
 }
-
-/*# sourceMappingURL=maps/main.css.map */
