@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-13 09:59+0300\n"
+"POT-Creation-Date: 2014-11-03 12:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,7 +167,7 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:17
 #: ckanext/ytp/theme/menu.py:193
-msgid "Publish Tools and Instructions"
+msgid "Publish Interoperability Tools"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:19
@@ -199,6 +199,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:91
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
+#: ckanext/ytp/organizations/templates/organization/members.html:43
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:143
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:304
@@ -256,18 +257,18 @@ msgid "Resource not found"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:354
+#: ckanext/ytp/organizations/plugin.py:366
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:116 ckanext/ytp/dataset/plugin.py:126
-#: ckanext/ytp/dataset/plugin.py:131
+#: ckanext/ytp/dataset/plugin.py:115 ckanext/ytp/dataset/plugin.py:125
+#: ckanext/ytp/dataset/plugin.py:130
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:188
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:191
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:343
+#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:342
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -275,24 +276,24 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:344
+#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:343
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:331 ckanext/ytp/dataset/plugin.py:345
+#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:344
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:332 ckanext/ytp/dataset/plugin.py:346
+#: ckanext/ytp/dataset/plugin.py:331 ckanext/ytp/dataset/plugin.py:345
 #: ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:333
+#: ckanext/ytp/dataset/plugin.py:332
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -300,15 +301,15 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:406
+#: ckanext/ytp/dataset/plugin.py:405
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:422
+#: ckanext/ytp/dataset/plugin.py:421
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:422
+#: ckanext/ytp/dataset/plugin.py:421
 msgid "Additional Info"
 msgstr ""
 
@@ -396,15 +397,9 @@ msgstr ""
 msgid "Add data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/read.html:13
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:42
-#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
-msgid "Draft"
-msgstr ""
-
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
+#: ckanext/ytp/organizations/templates/organization/members.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:304
 msgid "Edit"
@@ -412,6 +407,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:34
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
+#: ckanext/ytp/organizations/templates/organization/read_base.html:6
 msgid "Manage"
 msgstr ""
 
@@ -505,22 +501,22 @@ msgid "My Datasets"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:21
-#: ckanext/ytp/user/templates/user/dashboard.html:27
+#: ckanext/ytp/user/templates/user/dashboard_datasets.html:13
 msgid "Add Dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:28
-#: ckanext/ytp/user/templates/user/dashboard.html:34
+#: ckanext/ytp/user/templates/user/dashboard_datasets.html:20
 msgid "Add open data"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:31
-#: ckanext/ytp/user/templates/user/dashboard.html:37
-msgid "Add tools or instruction"
+#: ckanext/ytp/user/templates/user/dashboard_datasets.html:23
+msgid "Add interoperability tools"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:35
-#: ckanext/ytp/user/templates/user/dashboard.html:41
+#: ckanext/ytp/user/templates/user/dashboard_datasets.html:27
 msgid "Add public service"
 msgstr ""
 
@@ -738,6 +734,12 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:42
+#: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
+msgid "Draft"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:44
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
@@ -918,14 +920,14 @@ msgstr ""
 msgid "Download as CSV"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:16
+#: ckanext/ytp/dataset/templates/package/snippets/resources_list2.html:17
 #, python-format
 msgid ""
 " <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not add"
 " some?</a> "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
 msgstr ""
 
@@ -970,7 +972,16 @@ msgstr ""
 msgid "User %s not authorized to edit organization %s"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:122
+#: ckanext/ytp/organizations/controller.py:37
+#, python-format
+msgid "Unauthorized to delete group %s"
+msgstr ""
+
+#: ckanext/ytp/organizations/controller.py:39
+msgid "Group not found"
+msgstr ""
+
+#: ckanext/ytp/organizations/plugin.py:125
 msgid "Group title already exists in database"
 msgstr ""
 
@@ -1110,10 +1121,12 @@ msgid "New User"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:44
+#: ckanext/ytp/organizations/templates/organization/members.html:23
 msgid "Role"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:48
+#: ckanext/ytp/organizations/templates/organization/members.html:38
 msgid "Are you sure you want to delete this member?"
 msgstr ""
 
@@ -1126,8 +1139,24 @@ msgid "Add Member"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/members.html:7
-#: ckanext/ytp/user/templates/user/dashboard.html:21
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:17
 msgid "Membership Requests"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/members.html:21
+msgid "User"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/members.html:22
+#: ckanext/ytp/user/templates/user/edit_user_form.html:10
+#: ckanext/ytp/user/templates/user/read_base.html:33
+msgid "Username"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/members.html:24
+#: ckanext/ytp/user/templates/user/edit_user_form.html:18
+#: ckanext/ytp/user/templates/user/read_base.html:39
+msgid "Email"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/new_organization_form.html:17
@@ -1145,6 +1174,10 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/read.html:8
 #: ckanext/ytp/user/templates/user/edit_user_form.html:29
 msgid "About"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/read_base.html:5
+msgid "Members"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:4
@@ -1725,7 +1758,7 @@ msgstr ""
 
 #: ckanext/ytp/theme/menu.py:70
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:10
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:25
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:23
 msgid "My Organizations"
 msgstr ""
 
@@ -1800,24 +1833,24 @@ msgid ""
 "again.</p> "
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:26
+#: ckanext/ytp/user/controller.py:30
 msgid "No user specified"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:32
+#: ckanext/ytp/user/controller.py:36
 msgid "Unauthorized to edit a user."
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:50
+#: ckanext/ytp/user/controller.py:54
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:52 ckanext/ytp/user/logic.py:171
+#: ckanext/ytp/user/controller.py:56 ckanext/ytp/user/logic.py:171
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:58
+#: ckanext/ytp/user/controller.py:62
 #, python-format
 msgid "User %s not authorized to edit %s"
 msgstr ""
@@ -1851,42 +1884,25 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/dashboard.html:54
+#: ckanext/ytp/user/templates/user/dashboard.html:25
 msgid "News feed"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/dashboard.html:56
+#: ckanext/ytp/user/templates/user/dashboard.html:27
 msgid "Activity from items that I'm following"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:15
-msgid "You can request organization membership or add a new organization."
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:17
-msgid "Search organizations"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:19
-msgid "Add organization"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:34
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:32
 msgid "You are not a member of any organizations."
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:36
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:34
 #: ckanext/ytp/user/templates/user/read.html:16
 msgid "Create one now?"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:9
 msgid "Change details"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/edit_user_form.html:10
-#: ckanext/ytp/user/templates/user/read_base.html:33
-msgid "Username"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:12
@@ -1907,11 +1923,6 @@ msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:16
 msgid "Software Designer"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/edit_user_form.html:18
-#: ckanext/ytp/user/templates/user/read_base.html:39
-msgid "Email"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18

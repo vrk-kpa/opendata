@@ -190,7 +190,7 @@ class PublishServiceMenu(MenuItem):
 
 class PublishToolsMenu(_CommonPublishMenu):
     def __init__(self):
-        super(PublishToolsMenu, self).__init__(_("Publish Tools and Instructions"), 'Interoperability Tools')
+        super(PublishToolsMenu, self).__init__(_("Publish Interoperability Tools"), 'Interoperability Tools')
 
 
 class PublishDataMenu(_CommonPublishMenu):
