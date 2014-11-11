@@ -68,6 +68,7 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/a98cb6c3ee3f82a8dc6b0fc40db1686b3c72e50a.patch", file: "refactor-multilingual-warnings.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8175a352f960d83027e2476489e5034cf79e43be.patch", file: "usability-fix-for-image-upload.patch" }
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/81cf433a8f968f0f993da7c668699b485213f466.patch", file: "fix-double-encoding-in-autocomplete.patch"}
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/ae856c3dd9aa896163f80d330a3274636a5c4e74.patch", file: "fix-template-error-in-resources.patch"}
 
 service_database_enabled: true
 auto_author_enabled: true
