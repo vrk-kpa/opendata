@@ -276,6 +276,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.dropdown-toggle').dropdown();
+    $('.tooltip-element span').tooltip();
 });
 
 

@@ -97,6 +97,10 @@
             {% for i in range(stars) %}
                 <span class="icon-star"></span>
             {% endfor %}
+            {% for i in range(5 - stars) %}
+                <span class="icon-star-empty"></span>
+            {% endfor %}
+            {% snippet "package/snippets/info_tooltip.html", title="Datasets Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type." %}
         </div>
 
     {% endblock %}
