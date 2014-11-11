@@ -23,6 +23,13 @@ setup(
         'nose',
         'mock',
     ],
+    message_extractors={
+        'ckanext': [
+            ('**.py', 'python', None),
+            ('qa/templates_new/**.html', 'ckan', None),
+            ('**.js', 'javascript', None)
+        ]
+    },
     entry_points='''
     [paste.paster_command]
     qa=ckanext.qa.commands:QACommand
