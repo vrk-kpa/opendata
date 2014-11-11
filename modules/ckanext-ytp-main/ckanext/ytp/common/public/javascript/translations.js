@@ -7,3 +7,4 @@ _('Link to a URL');
 _('This field is required');
 _('Confirm');
 _('Cancel');
+_()

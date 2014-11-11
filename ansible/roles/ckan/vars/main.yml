@@ -42,6 +42,9 @@ translation_projects:
   - "ytp-assets-common"
   - "ckanext-ytp-main"
 
+translated_extensions:
+  - "ckanext-qa"
+
 ckan_site_id: "default"
 
 patches_cache_path: "{{ cache_path }}/patch"

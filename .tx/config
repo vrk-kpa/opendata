@@ -7,3 +7,10 @@ source_file = ansible/roles/ckan/files/i18n/ckan.pot
 source_lang = en
 type = PO
 
+
+[ytp.ckanext-qa]
+file_filter = ansible/roles/ckan/files/ckanext-qa/i18n/<lang>/LC_MESSAGES/ckanext-qa.po
+source_file = ansible/roles/ckan/files/ckanext-qa/i18n/ckanext-qa.pot
+source_lang = en
+type = PO
+
