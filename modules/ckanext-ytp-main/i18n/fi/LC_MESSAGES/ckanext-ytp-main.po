@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-11-11 12:13+0200\n"
-"PO-Revision-Date: 2014-11-11 10:15+0000\n"
+"PO-Revision-Date: 2014-11-11 10:23+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -179,8 +179,8 @@ msgstr "Julkaise avointa dataa"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:17
 #: ckanext/ytp/theme/menu.py:193
-msgid "Publish Tools and Instructions"
-msgstr ""
+msgid "Publish Interoperability Tools"
+msgstr "Julkaise yhteentoimivuuden kuvauksia ja ohjeita"
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:19
 msgid "Publish Service"
@@ -524,8 +524,8 @@ msgstr "Lisää avoin data"
 
 #: ckanext/ytp/dataset/templates/package/search.html:31
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:23
-msgid "Add tools or instruction"
-msgstr ""
+msgid "Add interoperability tools"
+msgstr "Lisää yhteentoimivuuden kuvaus tai ohje"
 
 #: ckanext/ytp/dataset/templates/package/search.html:35
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:27

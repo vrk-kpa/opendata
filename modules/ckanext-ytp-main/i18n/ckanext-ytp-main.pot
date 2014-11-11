@@ -167,7 +167,7 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:17
 #: ckanext/ytp/theme/menu.py:193
-msgid "Publish Tools and Instructions"
+msgid "Publish Interoperability Tools"
 msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:19
@@ -512,7 +512,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:31
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:23
-msgid "Add tools or instruction"
+msgid "Add interoperability tools"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:35
