@@ -276,7 +276,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return "not_found"
 
     def _is_organization_in_authorized_parents(self, organization_id, parents):
-        group = [group for group in parents if group.id == organization_id]
+        group = [group for group in parents if group.name == organization_id]
         if group:
             return True
         return False
