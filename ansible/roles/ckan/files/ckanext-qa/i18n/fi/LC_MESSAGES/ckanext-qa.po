@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the ckanext-qa project.
 # 
 # Translators:
+# jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-11-11 10:05+0200\n"
-"PO-Revision-Date: 2014-11-11 08:31+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"PO-Revision-Date: 2014-11-12 14:13+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr "Tarjolla avoimella lisenssillä."
 #: ckanext/qa/html.py:27
 #: ckanext/qa/templates_new/qa/snippets/stars_info.html:15
 msgid "Available as structured data (eg. Excel instead of a scanned table)."
-msgstr "Tarjolla rakenteisassa muodossa. (Esim. Excel skannatun taulukon sijaan)."
+msgstr "Tarjolla rakenteisessa muodossa. (Esim. Excel skannatun taulukon sijaan)."
 
 #: ckanext/qa/html.py:28
 #: ckanext/qa/templates_new/qa/snippets/stars_info.html:16
