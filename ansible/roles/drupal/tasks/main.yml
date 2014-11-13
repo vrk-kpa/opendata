@@ -34,6 +34,11 @@
   tags:
   - drupal
 
+- name: Set PHP max file upload size
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=upload_max_filesize value=50M
+  tags:
+  - drupal
+
 - name: Set PHP socket (listen)
   ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
   tags:
