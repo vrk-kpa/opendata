@@ -4630,15 +4630,15 @@ a.thumbnail.active {
   color: #2b542c;
 }
 .alert-info {
-  background-color: #1f76b9;
-  border-color: #1f76b9;
-  color: #eff7fc;
+  background-color: #ee7544;
+  border-color: #ee7544;
+  color: #ffffff;
 }
 .alert-info hr {
-  border-top-color: #1c68a3;
+  border-top-color: #ec642d;
 }
 .alert-info .alert-link {
-  color: #c4dff5;
+  color: #e6e6e6;
 }
 .alert-warning {
   background-color: #fcf8e3;
