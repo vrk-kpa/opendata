@@ -506,7 +506,6 @@ a.tag:hover {
   background: #fbfbfb url("../images/ckan/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   margin: 0;
   padding: 0 0 15px 0;
@@ -1105,7 +1104,6 @@ textarea {
 .control-full input,
 .control-full select,
 .control-full textarea {
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: auto;
   width: 100%;
@@ -1473,7 +1471,6 @@ textarea {
   clear: both;
 }
 .stages li {
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   line-height: 27px;
   counter-increment: stage;
@@ -1656,6 +1653,7 @@ textarea {
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
   outline: thin dotted \9;
+  /* IE6-9 */
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
 }
 .select2-container-multi .select2-drop {
@@ -1922,7 +1920,6 @@ textarea {
   margin-bottom: 20px;
 }
 .search-form .search-input input {
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   width: 100%;
@@ -4033,9 +4030,9 @@ h4 small {
 .collapsible {
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .collapsible:hover,
 .collapsible:active,
@@ -4207,9 +4204,6 @@ a.btn.btn-default .badge {
 .content-heading,
 .page-heading {
   border-bottom: 1px solid #b3b0a5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 ul.dataset-extra {
   padding-left: 0;
@@ -4287,9 +4281,6 @@ ul.resource-list {
   margin-left: 0;
 }
 .resource-item {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   white-space: normal;
   padding: 8px 2px 5px 60px;
 }
@@ -4533,7 +4524,6 @@ ul.no-bullet {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: -webkit-calc(230px);
   width: calc(230px);
 }
 .nav-item.active > a:hover,
@@ -4746,11 +4736,6 @@ dd {
   margin: 0 0 3px 165px;
   padding: 0 0 0.3em 0;
 }
-.context-info h1.heading {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .context-info code {
   float: left;
 }
@@ -4794,7 +4779,6 @@ dd {
 .media-grid *,
 .media-grid *:after,
 .media-grid *:before {
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 .media-grid {
@@ -5065,7 +5049,7 @@ h1,
 h2,
 h3,
 h4 {
-  line-height: 1.5;
+  line-height: 1.2;
 }
 h1 {
   font-size: 25px;
@@ -5247,7 +5231,7 @@ textarea {
 }
 
 body {
-  background: url("../images/stamen_background.jpg?timestamp=1414767263776") 50% 50% fixed no-repeat;
+  background: url("../images/stamen_background.jpg?timestamp=1416209771278") 50% 50% fixed no-repeat;
   background-size: cover;
 }
 body.toolbar,
@@ -5290,7 +5274,7 @@ h4 {
   display: block;
   width: 21px;
   height: 25px;
-  background-image: url('../images/sprite.png?timestamp=1414767263776');
+  background-image: url('../images/sprite.png?timestamp=1416209771278');
   background-repeat: no-repeat;
   background-position: -56px -24px;
   float: left;
@@ -5300,7 +5284,7 @@ h4 {
   float: left;
   width: 21px;
   height: 24px;
-  background-image: url('../images/sprite.png?timestamp=1414767263776');
+  background-image: url('../images/sprite.png?timestamp=1416209771278');
   background-repeat: no-repeat;
   background-position: -56px 0px;
   margin-right: 8px;
@@ -5591,7 +5575,7 @@ label.checkbox-inline:after {
 }
 .btn-default.btn-lg {
   color: #ffffff;
-  background: url("../images/button-lg-gradient.png?timestamp=1414767263776") repeat-x;
+  background: url("../images/button-lg-gradient.png?timestamp=1416209771278") repeat-x;
   height: 63px;
 }
 .add-member-or {
@@ -6134,7 +6118,7 @@ body {
 .well.infowell .infowell-icon {
   width: 46px;
   height: 76px;
-  background-image: url('../images/sprite.png?timestamp=1414767263776');
+  background-image: url('../images/sprite.png?timestamp=1416209771278');
   background-repeat: no-repeat;
 }
 .well.infowell.infowell-dark {
@@ -6158,3 +6142,5 @@ body {
 .well.infowell.infowell-light .infowell-icon {
   background-position: 0px -152px;
 }
+
+/*# sourceMappingURL=maps/main.css.map */
