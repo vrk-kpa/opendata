@@ -328,8 +328,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict.update({'tags': _('Tags')})
         facets_dict.update({'vocab_content_type': _('Content Type')})
-        facets_dict.update({'res_format': _('Formats')})
         facets_dict.update({'organization': _('Organization')})
+        facets_dict.update({'res_format': _('Formats')})
+
         # add more dataset facets here
         return facets_dict
 
