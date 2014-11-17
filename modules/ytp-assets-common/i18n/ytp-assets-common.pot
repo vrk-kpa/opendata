@@ -31,7 +31,7 @@ msgstr ""
 msgid "Data Producers"
 msgstr ""
 
-msgid "Publish Data"
+msgid "Publish Datasets"
 msgstr ""
 
 msgid "News"

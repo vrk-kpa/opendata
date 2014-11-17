@@ -23,8 +23,8 @@
 
     $class = '';
     $href = '/' . $lang . '/publish';
-    if ( ($uri == $href || $site_section == t("Publish Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href='. $href . '>' . t("Publish Data") . '</a></li>';
+    if ( ($uri == $href || $site_section == t("Publish Datasets")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href='. $href . '>' . t("Publish Datasets") . '</a></li>';
 
 
     $class = '';

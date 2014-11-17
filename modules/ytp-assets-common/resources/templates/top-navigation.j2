@@ -7,9 +7,9 @@
         <li {% if current_url.startswith("/organization") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/organization">{{ _('Data Producers') }}</a></li>
         {# Link to different pages depending on if the user is logged in or not #}
         {% if c.userobj %}
-            <li><a href="/data/{{ lang }}/dataset/new">{{ _('Publish Data') }}</a></li>
+            <li><a href="/data/{{ lang }}/dataset/new">{{ _('Publish Datasets') }}</a></li>
         {% else %}
-            <li><a href="/{{ lang }}/publish">{{ _('Publish Data') }}</a></li>
+            <li><a href="/{{ lang }}/publish">{{ _('Publish Datasets') }}</a></li>
         {% endif %}
         <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
         <li><a href="/{{ lang }}/training">{{ _('Training') }}</a></li>
