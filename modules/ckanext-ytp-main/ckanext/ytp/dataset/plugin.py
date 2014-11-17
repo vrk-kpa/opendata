@@ -423,6 +423,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _auto_author_set(self):
         return self.auto_author
 
+    def _is_sysadmin(self):
+        return c.userobj.sysadmin
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -443,7 +446,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_remaining_facet_item_count': get_remaining_facet_item_count,
                 'sort_facet_items_by_name': sort_facet_items_by_name,
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
-                'calculate_datasets_five_star_rating': calculate_datasets_five_star_rating}
+                'calculate_datasets_five_star_rating': calculate_datasets_five_star_rating,
+                'is_sysadmin': self._is_sysadmin}
 
     # IPackageController #
 
