@@ -3,8 +3,10 @@
 {% block primary %}
     {% block content_action %}
        <div class="content_action">
-        {{ super() }}
-    </div>
+           {% if h.check_access('package_update', {'id':pkg.id }) %}
+               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='btn pull-right', icon='wrench' %}
+           {% endif %}
+        </div>
        {% endblock %}
     <h1 class="dataset-title">
         {% block page_heading %}
