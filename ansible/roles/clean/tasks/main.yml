@@ -2,14 +2,4 @@
 
 # Changes that are required already installed system
 
-# Revert own patches that are replaced by ckan patches, can be removed after some time
-
-
-- name: Revert pathces
-  shell: patch -s -N -p1 -R < "{{ cache_path }}/patch/{{ item }}" && rm "{{ cache_path }}/patch/{{ item }}" chdir="{{ virtual_environment }}/src/ckan" removes="{{ cache_path }}/patch/{{ item }}"
-  ignore_errors: True
-  with_items:
-    - downgrade_select2js.patch
-  tags:
-  - clean
 
