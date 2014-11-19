@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-11-11 12:13+0200\n"
-"PO-Revision-Date: 2014-11-17 09:02+0000\n"
+"PO-Revision-Date: 2014-11-19 10:09+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -596,14 +596,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
 msgid "Dataset Quality"
-msgstr "Tietoaineston laatu"
+msgstr "Tietoaineiston laatu"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:103
 msgid ""
 "Datasets Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
 "unknown type."
-msgstr "Tietoaineston laatu on korkein arvostelu ainestolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, ainestolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä."
+msgstr "Tietoaineiston laatu on korkein arvostelu aineistolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, aineistolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:110
 msgid "Change log"
