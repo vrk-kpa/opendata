@@ -4,9 +4,9 @@
         <span class="label label-default collection-type"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >{{ _(pkg.collection_type) }}</a></span>
     {%- endif -%}
     {% if pkg.state.startswith('draft') %}
-        <span class="collection-type draft label label-info">Vedos</span>
+        <span class="collection-type draft label label-info">{{ _('Draft') }}</span>
     {% elif pkg.state.startswith('deleted') %}
-        <span class="collection-type deleted label label-important">Poistettu</span>
+        <span class="collection-type deleted label label-important">{{ _('Deleted') }}</span>
     {% endif %}
 
     <span  class="byline-dataset">
