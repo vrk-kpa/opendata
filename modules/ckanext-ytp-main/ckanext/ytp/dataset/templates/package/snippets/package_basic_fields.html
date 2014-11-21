@@ -66,10 +66,10 @@
         <select id="field-license" name="license_id" data-module="autocomplete">
           {# Loop through the licenses, add the 'other' option as last in the select list #}
           {% for license_desc, license_id in licenses|sort if license_desc and license_id != 'other' %}
-            <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ license_desc }}</option>
+            <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ _(license_desc | trim) }}</option>
           {% endfor %}
           {% for license_desc, license_id in licenses if license_desc and license_id == 'other' %}
-            <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ license_desc }}</option>
+            <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ _(license_desc | trim) }}</option>
           {% endfor %}
         </select>
         {% if error and error is iterable %}<span class="error-block">{{ error|join(', ') }}</span>{% endif %}
