@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-11-11 12:13+0200\n"
-"PO-Revision-Date: 2014-11-12 14:28+0000\n"
-"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"POT-Creation-Date: 2014-11-21 10:25+0200\n"
+"PO-Revision-Date: 2014-11-21 08:25+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,7 +275,7 @@ msgstr "Datumets format är felaktig"
 msgid "Missing value"
 msgstr "Värde saknas"
 
-#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:342
+#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:343
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -283,24 +283,19 @@ msgstr "Värde saknas"
 msgid "Collection Type"
 msgstr "Typ av information"
 
-#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:343
+#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:344
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr "Taggar"
 
-#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:344
+#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:345
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/dataset/plugin.py:331 ckanext/ytp/dataset/plugin.py:345
-#: ckanext/ytp/theme/translations.py:9
-msgid "Formats"
-msgstr "Filtyp"
-
-#: ckanext/ytp/dataset/plugin.py:332
+#: ckanext/ytp/dataset/plugin.py:331
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -308,57 +303,76 @@ msgstr "Filtyp"
 msgid "Organization"
 msgstr "Organisation"
 
-#: ckanext/ytp/dataset/plugin.py:405
+#: ckanext/ytp/dataset/plugin.py:332 ckanext/ytp/dataset/plugin.py:346
+#: ckanext/ytp/theme/translations.py:9
+msgid "Formats"
+msgstr "Filtyp"
+
+#: ckanext/ytp/dataset/plugin.py:406
 msgid "Other"
 msgstr "Annan"
 
-#: ckanext/ytp/dataset/plugin.py:421
+#: ckanext/ytp/dataset/plugin.py:422
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:421
+#: ckanext/ytp/dataset/plugin.py:422
 msgid "Additional Info"
 msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:6
 msgid "Valid from"
-msgstr "Giltig från"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:7
 msgid "Valid till"
-msgstr "Giltig till"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:8
 msgid "Title en"
-msgstr "Titel en"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:9
 msgid "Title fi"
-msgstr "Titel fi"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:10
 msgid "Title sv"
-msgstr "Titel sv"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:11
 msgid "Tag string"
-msgstr "Ämne"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:12
 msgid "Notes"
-msgstr "Beskrivning"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:13
 msgid "Content type"
-msgstr "Innehållstyp"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:14
 msgid "Owner org"
-msgstr "Ägande organisation"
+msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:17
+#: ckanext/ytp/dataset/templates/translations.html:1
+msgid "Creative Commons Attribution 4.0"
+msgstr "Creative Commons Erkännande 4.0"
+
+#: ckanext/ytp/dataset/translations.py:18
+#: ckanext/ytp/dataset/templates/translations.html:2
+msgid "http://creativecommons.org/licenses/by/4.0/"
+msgstr "http://creativecommons.org/licenses/by/4.0/deed.sv"
+
+#: ckanext/ytp/dataset/translations.py:19
+msgid "http://creativecommons.org/publicdomain/zero/1.0/"
+msgstr "http://creativecommons.org/publicdomain/zero/1.0/deed.sv"
+
+#: ckanext/ytp/dataset/translations.py:22
 msgid "File upload too large"
-msgstr "Uppladdade filen är för stor"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
 #: ckanext/ytp/organizations/templates/organization/index.html:10
@@ -404,18 +418,19 @@ msgstr "Tilläggsinformation"
 msgid "Add data"
 msgstr "Lägg till data"
 
+#: ckanext/ytp/dataset/templates/package/read.html:7
+#: ckanext/ytp/dataset/templates/package/resource_read.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
+#: ckanext/ytp/organizations/templates/organization/read_base.html:6
+msgid "Manage"
+msgstr "Redigera"
+
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
 #: ckanext/ytp/organizations/templates/organization/members.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:304
 msgid "Edit"
-msgstr "Redigera"
-
-#: ckanext/ytp/dataset/templates/package/resource_read.html:34
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
-#: ckanext/ytp/organizations/templates/organization/read_base.html:6
-msgid "Manage"
 msgstr "Redigera"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:40
@@ -629,7 +644,7 @@ msgid ""
 "href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
 "rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> "
 "Creative Commons Attribution 4.0 International License</a>. "
-msgstr "<span xmlns:dct=\"http://purl.org/dc/terms/\" ⇥href=\"http://purl.org/dc/dcmitype/Dataset\" ⇥property=\"dct:title\" rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" href=\"%(attribution_url)s\" property=\"cc:attributionName\" ⇥rel=\"cc:attributionURL\">%(content_title)s</a></span> av <a href=\"%(creator_url)s\" >%(creator)s</a> är licensierad under <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> Creative Commons Attribution 4.0 International License</a>. "
+msgstr "<span xmlns:dct=\"http://purl.org/dc/terms/\" ⇥href=\"http://purl.org/dc/dcmitype/Dataset\" ⇥property=\"dct:title\" rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" href=\"%(attribution_url)s\" property=\"cc:attributionName\" ⇥rel=\"cc:attributionURL\">%(content_title)s</a></span> av <a href=\"%(creator_url)s\" >%(creator)s</a> är licensierad under <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/deed.sv\"> Creative Commons Erkännande 4.0 Internationell</a>. "
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:23
 msgid "Open Data"
@@ -753,12 +768,14 @@ msgid "Active"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:42
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:44
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
@@ -826,44 +843,44 @@ msgstr "Spara som utkast"
 msgid "Next: Add Data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
 msgid "Author"
 msgstr "Skapare"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
 msgid "Author Email"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
 msgid "Filled automatically"
 msgstr "Fylls automatiskt"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
 msgid "Owner"
 msgstr "Ägare"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:26
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:30
 msgid "Joe Bloggs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:30
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 msgid "Maintainer"
 msgstr "Förvaltare"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:32
 msgid "Maintainer Email"
 msgstr "Förvaltarens e-post"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:32
 msgid "joe@example.com"
 msgstr ""
 

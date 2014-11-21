@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-11-11 12:13+0200\n"
+"POT-Creation-Date: 2014-11-21 10:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -268,7 +268,7 @@ msgstr ""
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:342
+#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:343
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -276,24 +276,19 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:343
+#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:344
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:344
+#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:345
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:331 ckanext/ytp/dataset/plugin.py:345
-#: ckanext/ytp/theme/translations.py:9
-msgid "Formats"
-msgstr ""
-
-#: ckanext/ytp/dataset/plugin.py:332
+#: ckanext/ytp/dataset/plugin.py:331
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -301,15 +296,20 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:405
+#: ckanext/ytp/dataset/plugin.py:332 ckanext/ytp/dataset/plugin.py:346
+#: ckanext/ytp/theme/translations.py:9
+msgid "Formats"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:406
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:421
+#: ckanext/ytp/dataset/plugin.py:422
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:421
+#: ckanext/ytp/dataset/plugin.py:422
 msgid "Additional Info"
 msgstr ""
 
@@ -350,6 +350,20 @@ msgid "Owner org"
 msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:17
+#: ckanext/ytp/dataset/templates/translations.html:1
+msgid "Creative Commons Attribution 4.0"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:18
+#: ckanext/ytp/dataset/templates/translations.html:2
+msgid "http://creativecommons.org/licenses/by/4.0/"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:19
+msgid "http://creativecommons.org/publicdomain/zero/1.0/"
+msgstr ""
+
+#: ckanext/ytp/dataset/translations.py:22
 msgid "File upload too large"
 msgstr ""
 
@@ -397,18 +411,19 @@ msgstr ""
 msgid "Add data"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/read.html:7
+#: ckanext/ytp/dataset/templates/package/resource_read.html:34
+#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
+#: ckanext/ytp/organizations/templates/organization/read_base.html:6
+msgid "Manage"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
 #: ckanext/ytp/organizations/templates/organization/members.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:304
 msgid "Edit"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/resource_read.html:34
-#: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:9
-#: ckanext/ytp/organizations/templates/organization/read_base.html:6
-msgid "Manage"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:40
@@ -746,12 +761,14 @@ msgid "Active"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:42
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
+#: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:44
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
@@ -819,44 +836,44 @@ msgstr ""
 msgid "Next: Add Data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:19
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:17
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:20
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:20
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:21
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
 msgid "Author Email"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:23
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:24
 msgid "Filled automatically"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:33
 msgid "Owner"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:25
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:26
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:30
 msgid "Joe Bloggs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:29
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:30
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:25
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:28
 msgid "Maintainer"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:32
 msgid "Maintainer Email"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:31
+#: ckanext/ytp/dataset/templates/package/snippets/package_metadata_fields.html:32
 msgid "joe@example.com"
 msgstr ""
 

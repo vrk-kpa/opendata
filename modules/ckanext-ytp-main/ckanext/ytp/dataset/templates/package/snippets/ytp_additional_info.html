@@ -37,15 +37,15 @@
     {% if extra_dict.license_url or dict.license_title  %}
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
-        <a href ="{{ extra_dict.license_url }}">
+        <a href ="{{ _(extra_dict.license_url) }}">
         {% if extra_dict.license_title != "None" %}
-            {{ extra_dict.license_title }}
+            {{ _(extra_dict.license_title) }}
         {% else %}
-            {{ extra_dict.license_url }}
+            {{ _(extra_dict.license_url) }}
         {% endif %}
         </a>
         {% else %}
-            {{extra_dict.license_title}}
+            {{_(extra_dict.license_title)}}
         {% endif %}
         </dd>
     {% endif %}

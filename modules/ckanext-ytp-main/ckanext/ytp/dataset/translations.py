@@ -13,6 +13,11 @@ def _translations():
     _("Content type")
     _("Owner org")
 
+    # dataset licences and urls
+    _('Creative Commons Attribution 4.0')
+    _('http://creativecommons.org/licenses/by/4.0/')
+    _('http://creativecommons.org/publicdomain/zero/1.0/')
+
     # Missing from CKAN translation
     _('File upload too large')
 
