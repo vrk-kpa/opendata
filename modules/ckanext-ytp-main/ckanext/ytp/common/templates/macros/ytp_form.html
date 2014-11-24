@@ -213,7 +213,7 @@
 
 {% macro image_upload(data, errors, field_url='image_url', field_upload='image_upload', field_clear='clear_upload',
                       is_url=false, is_upload=false, is_upload_enabled=false, placeholder=false,
-                      url_label='', upload_label='', is_required=false)  %}
+                      url_label='', upload_label='', is_required=false, size=10)  %}
   {% set placeholder = placeholder if placeholder else _('http://example.com/my-image.jpg') %}
   {% set url_label = url_label or _('Image URL')  %}
   {% set upload_label = upload_label or _('Image')  %}
@@ -235,7 +235,7 @@
    <div class="controls">
     <span class="info-block-small">
       <i class="icon-info-sign" ></i>
-      {% trans size="10" %}
+      {% trans size=size %}
         Maximum file size is limited to {{ size }} MB.
       {% endtrans %}
     </span>
