@@ -2,3 +2,4 @@ node_modules
 .project
 .pydevproject
 *.css.map
+resources

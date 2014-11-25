@@ -44,6 +44,14 @@
   - packages
   - common
 
+
+- name: Add nodejs repository
+  apt_repository: repo='ppa:chris-lea/node.js'
+  tags:
+  - packages
+  - common
+
+
 - name: Update package cache
   apt: update_cache=yes
   tags:
@@ -74,6 +82,8 @@
     - git-core
     - unzip
     - gettext
+    - build-essential
+    - nodejs
   tags:
   - packages
   - common

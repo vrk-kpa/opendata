@@ -74,6 +74,19 @@
   tags:
   - resources
 
+
+- name: Install resource dependencies
+  npm: path={{cache_path}}/ytp-assets-common
+  when: modules_copy|changed
+  tags:
+  - resources
+
+- name: Generate resources
+  command: "{{cache_path}}/ytp-assets-common/node_modules/gulp/bin/gulp.js chdir={{cache_path}}/ytp-assets-common"
+  when: modules_copy|changed
+  tags:
+  - resources
+
 - name: Copy resources
   shell: cp -R {{ cache_path }}/ytp-assets-common/resources /var/www/resources
   when: modules_copy|changed
