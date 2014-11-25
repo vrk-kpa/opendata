@@ -71,7 +71,8 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'Service unavailable', result
+        assert result['openness_score_reason'] == 'Service unavailable' or \
+            result['openness_score_reason'] == 'Server returned error: Service unavailable', result
 
     @with_mock_url('?status=404')
     def test_url_with_permanent_fetch_error_scores_zero(self, url):
@@ -79,7 +80,8 @@ class TestResultScore(BaseCase):
         data['url'] = url
         result = resource_score(self.fake_context, data)
         assert result['openness_score'] == 0, result
-        assert result['openness_score_reason'] == 'URL unobtainable', result
+        assert result['openness_score_reason'] == 'URL unobtainable' or \
+            result['openness_score_reason'] == 'URL unobtainable: Server returned HTTP 404', result
 
     @with_mock_url('?content-type=arfle%2Fbarfle-gloop')
     def test_url_with_unknown_content_type_scores_one(self, url):
