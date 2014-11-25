@@ -3,3 +3,4 @@ node_modules
 .pydevproject
 *.css.map
 resources
+Thumbs.db
