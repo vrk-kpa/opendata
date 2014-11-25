@@ -319,7 +319,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def setup_template_variables(self, context, data_dict):
         c.preselected_group = request.params.get('group', None)
-        super(YTPDatasetForm, self).setup_template_variables(context, data_dict)
+        try:
+            super(YTPDatasetForm, self).setup_template_variables(context, data_dict)
+        except Exception as e:
+            if 'file:///srv/ytp/files/ckan/license.json' in e.message:
+                log.info(e)
+                pass
+            else:
+                raise
 
     # IFacets #
 
