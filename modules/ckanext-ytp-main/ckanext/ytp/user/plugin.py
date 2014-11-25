@@ -68,8 +68,10 @@ def helper_main_organization(user=None):
         available = helpers.organizations_available()
         return available[0] if available else None
 
+
 def get_image_upload_size():
     return config.get('ckan.max_image_size', 2)
+
 
 class YtpUserPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurable)
