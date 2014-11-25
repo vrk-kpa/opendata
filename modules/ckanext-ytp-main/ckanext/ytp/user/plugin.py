@@ -5,6 +5,7 @@ from webhelpers.html.tags import link_to, literal
 from ckan.lib import helpers
 from ckan.common import c
 from ckan.config.routing import SubMapper
+from pylons import config
 
 
 def _get_user_image(user):
@@ -67,6 +68,8 @@ def helper_main_organization(user=None):
         available = helpers.organizations_available()
         return available[0] if available else None
 
+def get_image_upload_size():
+    return config.get('ckan.max_image_size', 2)
 
 class YtpUserPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurable)
@@ -89,7 +92,8 @@ class YtpUserPlugin(plugins.SingletonPlugin):
 
     def get_helpers(self):
         return {'linked_user': helper_linked_user, 'organizations_for_select': helper_organizations_for_select, 'is_pseudo': helper_is_pseudo,
-                'main_organization': helper_main_organization}
+                'main_organization': helper_main_organization,
+                'get_image_upload_size': get_image_upload_size}
 
     def get_auth_functions(self):
         return {'user_update': logic.auth_user_update, 'user_list': logic.auth_user_list}
