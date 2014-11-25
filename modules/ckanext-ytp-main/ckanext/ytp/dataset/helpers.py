@@ -78,6 +78,7 @@ def calculate_datasets_five_star_rating(dataset_id):
 
     return int(stars)
 
+
 def get_upload_size():
     size = config.get('ckan.max_resource_size', 10)
 
