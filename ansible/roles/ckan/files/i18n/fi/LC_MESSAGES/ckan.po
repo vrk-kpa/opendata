@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-12-13 11:40+0000\n"
-"PO-Revision-Date: 2014-09-01 09:17+0000\n"
+"PO-Revision-Date: 2014-11-26 13:42+0000\n"
 "Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -1340,7 +1340,7 @@ msgstr "Päivämäärän muoto väärä"
 #: ckan/templates/package/related_list.html:5
 #: ckan/templates/snippets/related.html:2
 msgid "Related"
-msgstr "Liittyvä"
+msgstr "Liittyvä media"
 
 #: ckan/logic/validators.py:216
 msgid "That group name or ID does not exist."
@@ -1675,7 +1675,7 @@ msgstr "Sinun täytyy olla sysadmin luodaksesi tämän"
 
 #: ckan/logic/auth/create.py:56
 msgid "You must be logged in to add a related item"
-msgstr "Sinun täytyy olla kirjautunut lisätäksesi liittyvä asia"
+msgstr "Sinun täytyy olla kirjautunut lisätäksesi liittyvän median"
 
 #: ckan/logic/auth/create.py:80
 #, python-format
@@ -1739,7 +1739,7 @@ msgstr "Käyttäjällä %s ei ole oikeuksia poistaa aineistolinkkiä %s"
 
 #: ckan/logic/auth/delete.py:50 ckan/logic/auth/delete.py:64
 msgid "Only the owner can delete a related item"
-msgstr "Vain omistaja voi poistaa liittyvän asian"
+msgstr "Vain omistaja voi poistaa liittyvän median"
 
 #: ckan/logic/auth/delete.py:76
 #, python-format
@@ -1817,7 +1817,7 @@ msgstr "Käyttäjällä %s ei ole oikeuksia muokata organisaatiota %s"
 
 #: ckan/logic/auth/update.py:131 ckan/logic/auth/update.py:137
 msgid "Only the owner can update a related item"
-msgstr "Vain omistaja voi päivittää liittyvän asian"
+msgstr "Vain omistaja voi päivittää liittyvän median"
 
 #: ckan/logic/auth/update.py:142
 msgid "You must be a sysadmin to change a related item's featured field."
@@ -3362,7 +3362,7 @@ msgstr "Ei liittyviä asioita"
 
 #: ckan/templates/package/related_list.html:18
 msgid "Add Related Item"
-msgstr "Lisää liittyvä osio"
+msgstr "Lisää liittyvä media"
 
 #: ckan/templates/package/resource_data.html:12
 msgid "Upload to DataStore"
@@ -3815,11 +3815,11 @@ msgstr "Lisätietoja"
 
 #: ckan/templates/related/base_form_page.html:12
 msgid "Related Form"
-msgstr "Liittyvän osion lomake"
+msgstr "Liittyvän median lomake"
 
 #: ckan/templates/related/base_form_page.html:20
 msgid "What are related items?"
-msgstr "Mitkä ovat liittyvät osiot?"
+msgstr "Mitä ovat liittyvät mediat?"
 
 #: ckan/templates/related/base_form_page.html:22
 msgid ""
@@ -3831,7 +3831,7 @@ msgstr "<p>\"Liittyvä media\" on mikä tahansa tietoaineistoon liittyvä sovell
 
 #: ckan/templates/related/confirm_delete.html:11
 msgid "Are you sure you want to delete related item - {name}?"
-msgstr "Haluatko varmasti poistaa liittyvän osion - {name}?"
+msgstr "Haluatko varmasti poistaa liittyvän median - {name}?"
 
 #: ckan/templates/related/dashboard.html:6
 #: ckan/templates/related/dashboard.html:9
@@ -3851,7 +3851,7 @@ msgstr " <p>Näytetään <strong>%(first)s - %(last)s</strong> / <strong>%(item_
 #: ckan/templates/related/dashboard.html:25
 #, python-format
 msgid " <p><strong>%(item_count)s</strong> related items found</p> "
-msgstr " <p>löytyi <strong>%(item_count)s</strong> liittyvää osiota</p> "
+msgstr " <p>löytyi <strong>%(item_count)s</strong> liittyvää mediaa</p> "
 
 #: ckan/templates/related/dashboard.html:29
 msgid "There have been no apps submitted yet."
@@ -3902,15 +3902,15 @@ msgstr "Tallenna muutokset"
 
 #: ckan/templates/related/edit.html:3
 msgid "Edit related item"
-msgstr "Muokkaa liittyvää osiota"
+msgstr "Muokkaa liittyvää mediaa"
 
 #: ckan/templates/related/edit.html:6
 msgid "Edit Related"
-msgstr "Muokkaa liittyvää"
+msgstr "Muokkaa liittyvää mediaa"
 
 #: ckan/templates/related/edit.html:8
 msgid "Edit Related Item"
-msgstr "Muokkaa liittyvää osiota"
+msgstr "Muokkaa liittyvää mediaa"
 
 #: ckan/templates/related/edit_form.html:5
 msgid "Update"
@@ -3922,15 +3922,15 @@ msgstr "Lisää uusi liittyä asia"
 
 #: ckan/templates/related/new.html:5
 msgid "Create Related"
-msgstr "Luo uusi liittyvä"
+msgstr "Luo uusi liittyvä media"
 
 #: ckan/templates/related/new.html:7
 msgid "Create Related Item"
-msgstr "Luo uusi liittyvä asia"
+msgstr "Luo uusi liittyvä media"
 
 #: ckan/templates/related/snippets/related_form.html:18
 msgid "My Related Item"
-msgstr "Minun tähän liittyvät kohteet"
+msgstr "Minun tähän liittyvät mediat"
 
 #: ckan/templates/related/snippets/related_form.html:19
 msgid "http://example.com/"
@@ -3950,7 +3950,7 @@ msgstr "Tyyppi"
 
 #: ckan/templates/related/snippets/related_form.html:28
 msgid "Are you sure you want to delete this related item?"
-msgstr "Haluatko varmasti poistaa tämän liittyvän osion?"
+msgstr "Haluatko varmasti poistaa tämän liittyvän median?"
 
 #: ckan/templates/related/snippets/related_item.html:16
 msgid "Go to {related_item_type}"
