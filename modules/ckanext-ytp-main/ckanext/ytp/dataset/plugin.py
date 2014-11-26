@@ -195,6 +195,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
         m.connect('new_resource', '/dataset/new_resource/{id}', action='new_resource', controller=controller, ckan_icon='new')
         m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit', controller=controller, ckan_icon='edit')
+        m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
         return m
 
     # IConfigurer #

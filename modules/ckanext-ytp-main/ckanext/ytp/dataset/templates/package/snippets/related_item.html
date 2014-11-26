@@ -1,0 +1,46 @@
+{% set can_edit = h.check_access('related_update', {'id': related.id }) %}
+<li class="resource-item" data-id="{{ related.id }}">
+  <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+      {% block related_item_title %}
+        {% if related.url %}
+          <a href="{{ related.url }}" title="{{ related.title }}">
+        {% endif %}
+        <span class="heading">
+          {{ h.extra_translation(related, 'title') }}
+        </span>
+        {% if related.url %}
+          </a>
+        {% endif %}
+        <span class="banner-horizontal">
+          {%- if related.type == 'application' -%}
+            app
+          {%- elif related.type == 'visualization' -%}
+            viz
+          {%- else -%}
+            {{ related.type | replace('news_', '') }}
+          {%- endif -%}
+        </span>
+      {% endblock %}
+
+      <p class="description">
+        {% set description = h.extra_translation(related, 'description', markdown=80) %}
+        {% if description %}
+          {{ description }}
+        {% else %}
+          <span class="empty">{{ _('No description for this related item') }}</span>
+        {% endif %}
+      </p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="btn-group pull-right pull-sm-left">
+        {% if can_edit %}
+          <a href="{{ h.url_for(controller='related', action='edit', id=pkg_id, related_id=related.id) }}" class="btn btn-default"><i class="icon-wrench"></i> {{ _('Edit') }}</a>
+        {% endif %}
+        {% if related.url %}
+          <a href="{{ related.url }}" target="_blank" class="btn btn-default"><i class="icon-external-link"></i> {{ _('Open') }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</li>

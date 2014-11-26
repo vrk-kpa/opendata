@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-11-21 10:25+0200\n"
+"POT-Creation-Date: 2014-11-26 15:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,7 @@ msgstr ""
 
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:6
 #: ckanext/ytp/common/templates/package/ytp/new_select.html:9
-#: ckanext/ytp/dataset/controller.py:60
+#: ckanext/ytp/dataset/controller.py:65
 #: ckanext/ytp/dataset/templates/package/base.html:17
 #: ckanext/ytp/dataset/templates/package/new.html:10
 #: ckanext/ytp/dataset/templates/package/new_package_metadata.html:10
@@ -178,26 +178,26 @@ msgstr ""
 msgid "Edit content"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:55
+#: ckanext/ytp/dataset/controller.py:60
 msgid "Dataset was saved successfully."
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:56
+#: ckanext/ytp/dataset/controller.py:61
 msgid "Fill additional info"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:57
+#: ckanext/ytp/dataset/controller.py:62
 msgid "Add related"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:58
+#: ckanext/ytp/dataset/controller.py:63
 msgid "Edit or add language versions"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:59
+#: ckanext/ytp/dataset/controller.py:64
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:91
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/members.html:43
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
@@ -209,51 +209,63 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:85
+#: ckanext/ytp/dataset/controller.py:90 ckanext/ytp/dataset/controller.py:360
 #, python-format
 msgid "Unauthorized to read package %s"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:87
+#: ckanext/ytp/dataset/controller.py:92 ckanext/ytp/dataset/controller.py:358
 msgid "Dataset not found"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:101
+#: ckanext/ytp/dataset/controller.py:106
 #, python-format
 msgid "User %r not authorized to edit %s"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:163
+#: ckanext/ytp/dataset/controller.py:168
 msgid "Unauthorized to update dataset"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:166 ckanext/ytp/dataset/controller.py:198
-#: ckanext/ytp/dataset/controller.py:230
+#: ckanext/ytp/dataset/controller.py:171 ckanext/ytp/dataset/controller.py:203
+#: ckanext/ytp/dataset/controller.py:235
 msgid "The dataset {id} could not be found."
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:169
+#: ckanext/ytp/dataset/controller.py:174
 msgid "You must add at least one data resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:177
+#: ckanext/ytp/dataset/controller.py:182
 msgid "Error"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:195
+#: ckanext/ytp/dataset/controller.py:200
 msgid "Unauthorized to create a resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:234
+#: ckanext/ytp/dataset/controller.py:239
 msgid "Unauthorized to create a resource for this package"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:270
+#: ckanext/ytp/dataset/controller.py:275
 msgid "Unauthorized to edit this resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:290
+#: ckanext/ytp/dataset/controller.py:295
 msgid "Resource not found"
+msgstr ""
+
+#: ckanext/ytp/dataset/controller.py:346 ckanext/ytp/dataset/controller.py:348
+#: ckanext/ytp/dataset/controller.py:350
+#, python-format
+msgid "Invalid revision format: %r"
+msgstr ""
+
+#: ckanext/ytp/dataset/controller.py:386
+msgid ""
+"Viewing {package_type} datasets in {format} format is not supported (template"
+" file {file} not found)."
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
@@ -268,7 +280,7 @@ msgstr ""
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:328 ckanext/ytp/dataset/plugin.py:343
+#: ckanext/ytp/dataset/plugin.py:336 ckanext/ytp/dataset/plugin.py:351
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -276,19 +288,19 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:329 ckanext/ytp/dataset/plugin.py:344
+#: ckanext/ytp/dataset/plugin.py:337 ckanext/ytp/dataset/plugin.py:352
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:330 ckanext/ytp/dataset/plugin.py:345
+#: ckanext/ytp/dataset/plugin.py:338 ckanext/ytp/dataset/plugin.py:353
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:331
+#: ckanext/ytp/dataset/plugin.py:339
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -296,20 +308,20 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:332 ckanext/ytp/dataset/plugin.py:346
+#: ckanext/ytp/dataset/plugin.py:340 ckanext/ytp/dataset/plugin.py:354
 #: ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:406
+#: ckanext/ytp/dataset/plugin.py:414
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:422
+#: ckanext/ytp/dataset/plugin.py:430
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:422
+#: ckanext/ytp/dataset/plugin.py:430
 msgid "Additional Info"
 msgstr ""
 
@@ -350,12 +362,11 @@ msgid "Owner org"
 msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:17
-#: ckanext/ytp/dataset/templates/translations.html:1
 msgid "Creative Commons Attribution 4.0"
 msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:18
-#: ckanext/ytp/dataset/templates/translations.html:2
+#: ckanext/ytp/dataset/templates/package/snippets/license_rdf.html:31
 msgid "http://creativecommons.org/licenses/by/4.0/"
 msgstr ""
 
@@ -387,7 +398,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/edit_base.html:4
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:54
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:101
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:100
 #: ckanext/ytp/organizations/templates/organization/edit_base.html:5
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:418
 msgid "Close without saving"
@@ -398,7 +409,7 @@ msgid "Update"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/new_package_form.html:17
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:109
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:108
 msgid "Publish"
 msgstr ""
 
@@ -419,6 +430,7 @@ msgid "Manage"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
 #: ckanext/ytp/organizations/templates/organization/members.html:40
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:141
@@ -435,6 +447,7 @@ msgid "API Endpoint"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:41
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:11
 msgid "Open"
 msgstr ""
@@ -479,7 +492,7 @@ msgid "Created"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:101
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:48
 msgid "Format"
 msgstr ""
 
@@ -487,21 +500,22 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:52
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:38
+#: ckanext/ytp/dataset/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:109
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
 msgid "Temporal Granularity"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:114
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
 msgid "Update Frequency"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:119
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:58
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
 msgid "Temporal Coverage"
 msgstr ""
 
@@ -667,7 +681,7 @@ msgid "e.g., a descriptive title"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:36
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:35
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:234
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:313
@@ -684,7 +698,7 @@ msgid "e.g., my-dataset"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:43
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:241
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:319
@@ -787,8 +801,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:186
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:190
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:61
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:65
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:60
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:64
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:98
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
 msgid "YYYY-MM-DD"
@@ -828,7 +842,7 @@ msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:61
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:108
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:107
 msgid "Save as draft"
 msgstr ""
 
@@ -877,8 +891,20 @@ msgstr ""
 msgid "joe@example.com"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:31
+msgid "No description for this related item"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_list.html:2
+msgid "Related media"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_list.html:15
+msgid " <p class=\"empty\">This dataset has no related media "
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:89
 msgid "Are you sure you want to delete this resource?"
 msgstr ""
 
@@ -886,41 +912,41 @@ msgstr ""
 msgid "Update Resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:39
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_service_channels_fields.html:90
 msgid "Name"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:40
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:39
 msgid "e.g., January 2011 Gold Prices"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:44
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:43
 msgid "Some useful notes about the data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:49
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:48
 msgid "e.g., CSV, XML or JSON"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:55
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:57
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:56
 msgid "e.g., a year, 2 months"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:74
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:73
 msgid "Add another resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:77
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:76
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:143
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:60
 msgid "Save"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:120
+#: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:119
 msgid "Inserted Resources"
 msgstr ""
 
@@ -969,6 +995,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:79
 msgid "No matches"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/license.html:14
+msgid "No License Provided"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/license.html:28
+msgid "This dataset satisfies the Open Definition."
 msgstr ""
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14

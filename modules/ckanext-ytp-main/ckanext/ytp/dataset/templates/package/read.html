@@ -36,6 +36,10 @@
            {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
         {% endblock %}
 
+        {% block package_related %}
+           {% snippet "package/snippets/related_list.html", related_items=c.related_list, pkg_id=c.pkg.name %}
+        {% endblock %}
+
         {% block package_additional_info %}
             {% snippet "package/snippets/ytp_additional_info.html", pkg_dict=pkg %}
         {% endblock %}

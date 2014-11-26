@@ -1,0 +1,22 @@
+<section id="dataset-resources" class="resources">
+  <h3>{{ _('Related media') }} ({{ related_items|count }})</h3>
+
+  {% block related_list %}
+  {% if related_items %}
+    <ul class="resource-list">
+      {% block related_list_inner %}
+      {% for related in related_items %}
+        {% snippet 'package/snippets/related_item.html', pkg_id=pkg_id, related=related %}
+      {% endfor %}
+      {% endblock %}
+    </ul>
+  {% else %}
+    <p>
+      {% trans %}
+      <p class="empty">This dataset has no related media
+      {% endtrans %}
+    </p>
+  {% endif %}
+  <p><a href="{{ h.url_for(controller='related', action='new', id=pkg_id) }}">Add related media</a></p>
+  {% endblock %}
+</section>
