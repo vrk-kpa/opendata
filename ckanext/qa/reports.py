@@ -1,5 +1,5 @@
 from collections import namedtuple
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.dictization.model_dictize as model_dictize
@@ -23,8 +23,9 @@ def five_stars(id=None):
     # overall dataset openness core
     query = model.Session.query(model.Package.name, model.Package.title,
                                 model.Resource.id,
-                                model.TaskStatus.value.label('value'))\
-        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+                                model.TaskStatus.value.label('value'))
+    query = _join_package_to_resource_group_if_it_exists(query)
+    query = query \
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key==u'openness_score')\
@@ -104,8 +105,9 @@ def broken_resource_links_by_dataset():
     The named tuple is of the form:
         (name (str), title (str), resources (list of dicts))
     """
-    query = model.Session.query(model.Package.name, model.Package.title, model.Resource)\
-        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+    query = model.Session.query(model.Package.name, model.Package.title, model.Resource)
+    query = _join_package_to_resource_group_if_it_exists(query)
+    query = query \
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key == u'openness_score')\
@@ -161,8 +163,9 @@ def _get_broken_resource_links(organisation_id=None):
 
     query = model.Session.query(model.Package.name, model.Package.title,
                                 model.PackageExtra.value, model.Resource)\
-        .join(model.PackageExtra)\
-        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
+        .join(model.PackageExtra)
+    query = _join_package_to_resource_group_if_it_exists(query)
+    query = query \
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key == u'openness_score')\
@@ -244,3 +247,14 @@ def _extract_dataset(row):
         [(name, title), Resource]
     """
     return [(row[0], row[1]), row[2]]
+
+
+def _join_package_to_resource_group_if_it_exists(query):
+    '''Newer versions of CKAN (from 2.3) have dropped ResourceGroup, but we
+    will do the join to it for older CKAN versions, to maintain compatibility.
+    '''
+    resource_group_exists = 'ResourceGroup' in dir(model)
+    if resource_group_exists:
+        query = query.join(model.ResourceGroup,
+                           model.Package.id == model.ResourceGroup.package_id)
+    return query
