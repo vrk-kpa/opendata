@@ -11,6 +11,7 @@ from pylons import config
 
 import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.lib.package_saver as package_saver
+from genshi.template import MarkupTemplate
 
 
 h = helpers
@@ -383,8 +384,8 @@ class YtpDatasetController(PackageController):
             return render(template, loader_class=loader)
         except ckan.lib.render.TemplateNotFound:
             msg = _("Viewing {package_type} datasets in {format} format is "
-                    "not supported (template file {file} not found).".format(
-                    package_type=package_type, format=format, file=template))
+                    "not supported (template file {file} not found).".format(package_type=package_type,
+                                                                             format=format, file=template))
             abort(404, msg)
 
         assert False, "We should never get here"
