@@ -74,15 +74,20 @@
   tags:
   - resources
 
+- name: Install gulp
+  npm: name=gulp global=yes
+  when: modules_copy|changed
+  tags:
+  - resources
 
 - name: Install resource dependencies
-  npm: path={{cache_path}}/ytp-assets-common
+  npm: path={{cache_path}}/ytp-assets-common state=present
   when: modules_copy|changed
   tags:
   - resources
 
 - name: Generate resources
-  command: "{{cache_path}}/ytp-assets-common/node_modules/gulp/bin/gulp.js chdir={{cache_path}}/ytp-assets-common"
+  command: "/usr/lib/node_modules/ytp-assets-common/node_modules/gulp/bin/gulp.js chdir={{cache_path}}/ytp-assets-common"
   when: modules_copy|changed
   tags:
   - resources
