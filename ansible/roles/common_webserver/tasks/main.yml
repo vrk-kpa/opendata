@@ -88,12 +88,12 @@
 
 - name: Generate resources
   command: "gulp chdir={{cache_path}}/ytp-assets-common"
-  #when: modules_copy|changed
+  when: modules_copy|changed
   tags:
   - resources
 
 - name: Copy resources
   shell: cp -R {{ cache_path }}/ytp-assets-common/resources /var/www/resources
-  #when: modules_copy|changed
+  when: modules_copy|changed
   tags:
   - resources
