@@ -88,6 +88,13 @@
   - packages
   - common
 
+- name: Upgrade npm
+  npm: name=npm@next global=yes
+  tags:
+  - packages
+  - common
+
+
 # TODO: Move path creation where paths are used even those are duplicate
 - name: Create common paths
   file: path="{{ item }}" state=directory
