@@ -37,6 +37,8 @@ function ytp_wysiwyg_install() {
                 'Format' => 1,
                 'Table' => 1,
                 'Maximize' => 1,
+                'Indent' => 1,
+                'Outdent' => 1
             ),
             'imce' => array(
                 'imce' => 1,
