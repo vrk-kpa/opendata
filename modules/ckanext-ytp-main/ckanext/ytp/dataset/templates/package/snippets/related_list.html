@@ -1,6 +1,5 @@
 <section id="dataset-resources" class="resources">
-  <h3>{{ _('Related media') }} ({{ related_items|count }})</h3>
-
+  <h3>{{ _('Related media') }} ({{ related_items|count }} ) <a class="btn btn-xs" href="{{ h.url_for(controller='related', action='new', id=pkg_id) }}">{{ _('Add Related Item') }}</a></h3>
   {% block related_list %}
   {% if related_items %}
     <ul class="resource-list">
@@ -17,6 +16,5 @@
       {% endtrans %}
     </p>
   {% endif %}
-  <p><a href="{{ h.url_for(controller='related', action='new', id=pkg_id) }}">Add related media</a></p>
   {% endblock %}
 </section>

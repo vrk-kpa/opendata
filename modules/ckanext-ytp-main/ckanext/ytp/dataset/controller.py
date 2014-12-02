@@ -389,3 +389,98 @@ class YtpDatasetController(PackageController):
             abort(404, msg)
 
         assert False, "We should never get here"
+
+    def new_related(self, id):
+        return self._edit_or_new(id, None, False)
+
+    def edit_related(self, id, related_id):
+        return self._edit_or_new(id, related_id, True)
+
+    def _edit_or_new(self, id, related_id, is_edit):
+        """
+        Edit and New were too similar and so I've put the code together
+        and try and do as much up front as possible.
+        """
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user or c.author, 'auth_user_obj': c.userobj,
+                   'for_view': True}
+
+        if is_edit:
+            tpl = 'related/edit.html'
+            auth_name = 'related_update'
+            auth_dict = {'id': related_id}
+            action_name = 'related_update'
+
+            try:
+                related = get_action('related_show')(
+                    context, {'id': related_id})
+            except NotFound:
+                abort(404, _('Related item not found'))
+        else:
+            tpl = 'related/new.html'
+            auth_name = 'related_create'
+            auth_dict = {}
+            action_name = 'related_create'
+
+        try:
+            check_access(auth_name, context, auth_dict)
+        except NotAuthorized:
+            abort(401, _('Not authorized'))
+
+        try:
+            c.pkg_dict = get_action('package_show')(context, {'id': id})
+        except NotFound:
+            abort(404, _('Package not found'))
+
+        data, errors, error_summary = {}, {}, {}
+
+        if request.method == "POST":
+            try:
+                data = clean_dict(
+                    dict_fns.unflatten(
+                        tuplize_dict(
+                            parse_params(request.params))))
+
+                if is_edit:
+                    data['id'] = related_id
+                else:
+                    data['dataset_id'] = id
+                    data['owner_id'] = c.userobj.id
+
+                related = get_action(action_name)(context, data)
+
+                if not is_edit:
+                    h.flash_success(_("Related item was successfully created"))
+                else:
+                    h.flash_success(_("Related item was successfully updated"))
+
+                h.redirect_to(
+                    controller='package', action='read', id=c.pkg_dict['name'])
+            except dict_fns.DataError:
+                abort(400, _(u'Integrity Error'))
+            except ValidationError, e:
+                errors = e.error_dict
+                error_summary = e.error_summary
+        else:
+            if is_edit:
+                data = related
+
+        c.types = self._type_options()
+
+        c.pkg_id = id
+        vars = {'data': data, 'errors': errors, 'error_summary': error_summary}
+        c.form = render("related/edit_form.html", extra_vars=vars)
+        return render(tpl)
+
+    def _type_options(self):
+        '''
+        A tuple of options for the different related types for use in
+        the form.select() template macro.
+        '''
+        return ({"text": _("API"), "value": "api"},
+                {"text": _("Application"), "value": "application"},
+                {"text": _("Idea"), "value": "idea"},
+                {"text": _("News Article"), "value": "news_article"},
+                {"text": _("Paper"), "value": "paper"},
+                {"text": _("Post"), "value": "post"},
+                {"text": _("Visualization"), "value": "visualization"})

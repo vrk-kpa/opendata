@@ -218,15 +218,30 @@ ul.resource-list {
 .resource-item {
   white-space: normal;
 
-  padding: 8px 2px 5px 60px;
+  padding: 8px 2px 5px 80px;
   &:hover {
     background-color: @background-hilight;
   }
 
   .format-label {
     position: absolute;
-    top: 0px;
-    left: -25px;
+    top: 0;
+    left: -35px;
+  }
+
+  .related-label {
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 70px;
+    text-align: center;
+    .label {
+      font-size: 10px;
+      position: absolute;
+      top: 25px;
+      left: -5px;
+      width: 70px;
+    }
   }
 
   .btn-group {

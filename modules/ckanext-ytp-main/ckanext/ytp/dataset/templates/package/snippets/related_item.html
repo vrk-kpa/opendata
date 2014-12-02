@@ -12,15 +12,25 @@
         {% if related.url %}
           </a>
         {% endif %}
-        <span class="banner-horizontal">
-          {%- if related.type == 'application' -%}
-            app
-          {%- elif related.type == 'visualization' -%}
-            viz
+
+        {%- if related.type == 'application' -%}
+            <span class="related-label icon-desktop icon-2x"><span class="label label-primary">{{ _('Application' ) }}</span></span>
+            {% elif related.type == 'news_article' %}
+            <span class="related-label icon-inbox icon-2x"><span class="label label-primary">{{ _('News Article') }}</span></span>
+        {% elif related.type == 'api' %}
+            <span class="related-label icon-puzzle-piece icon-2x"><span class="label label-primary">{{ _('API') }}</span></span>
+        {% elif related.type == 'idea' %}
+            <span class="related-label icon-lightbulb icon-2x"><span class="label label-primary">{{ _('Idea') }}</span></span>
+        {% elif related.type == 'paper' %}
+            <span class="related-label icon-book icon-2x"><span class="label label-primary">{{ _('Paper') }}</span></span>
+        {% elif related.type == 'post' %}
+            <span class="related-label icon-envelope icon-2x"><span class="label label-primary">{{ _('Post') }}</span></span>
+        {% elif related.type == 'visualization' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Visualization') }}</span></span>
           {%- else -%}
-            {{ related.type | replace('news_', '') }}
+            {{ _(related.type)}}
           {%- endif -%}
-        </span>
+
       {% endblock %}
 
       <p class="description">

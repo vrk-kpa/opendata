@@ -19,6 +19,7 @@ from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, a
 from ckanext.ytp.common.helpers import extra_translation
 from paste.deploy.converters import asbool
 from ckanext.spatial.interfaces import ISpatialHarvester
+from ckanext.ytp.dataset import auth
 
 import json
 import ckan.lib.navl.dictization_functions as dictization_functions
@@ -159,6 +160,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(ISpatialHarvester, inherit=True)
+    plugins.implements(plugins.IAuthFunctions)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -205,6 +207,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                       'search'
                   ])), controller='package')
 
+        m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
+        m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
+                  action='edit_related', controller=controller)
         m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
         return m
 
@@ -469,7 +474,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'is_sysadmin': self._is_sysadmin,
                 'get_upload_size': get_upload_size}
 
-    # IPackageController #
+    def get_auth_functions(self):
+        return {'related_update': auth.related_update}
+
+        # IPackageController #
 
     def after_show(self, context, pkg_dict):
         if u'resources' in pkg_dict and pkg_dict[u'resources']:
