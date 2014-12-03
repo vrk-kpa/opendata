@@ -89,7 +89,7 @@
   - common
 
 - name: Upgrade npm
-  npm: name=npm@next global=yes state=latest
+  command: 'npm -g install npm@next'
   tags:
   - packages
   - common
