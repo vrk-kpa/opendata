@@ -200,12 +200,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         # Mapping of new dataset is needed since, remapping on read overwrites it
         m.connect('add dataset', '/dataset/new', controller='package', action='new')
-        m.connect('/dataset/{action}',
-                  requirements=dict(action='|'.join([
-                      'list',
-                      'autocomplete',
-                      'search'
-                  ])), controller='package')
 
         m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
