@@ -865,16 +865,43 @@ dd {
 }
 
 .organization-tree {
-  li {
-    margin-bottom: 3px;
-    a {
-      font-size: 16px;
+  button{
+    display: inline-block;
+    position: absolute;
+    i[class^="icon-"]{
+      display: inline-block;
+      line-height: 22px;
+      text-align: center;
+      vertical-align: middle;
+      margin: 0;
     }
   }
+  .js-collapse, .js-collapsed{
+    display: none;
+  }
+  .organization{
+
+
+  }
+  .organization-row{
+    height: 27px;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    background-color: @background-hilight;
+    a{
+      vertical-align: middle;
+      .highlight{
+        background-color: @ytp-brand-decorative;
+      }
+    }
+  }
+
+  .organization-subtree {
+    margin-left: 30px;
+  }
+
 }
-.organization-subtree {
-  margin-left: 20px;
-}
+
 
 .dataset-heading .popular {
   top: 0;

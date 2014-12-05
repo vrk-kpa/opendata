@@ -3,21 +3,23 @@ Displays a tree of organzations
 #}
 
 {% set url_prefix = h.url_for(controller='organization', action='read', id='') %}
+{% resource 'ytp_common_js/ytp_form.js' %}
+  <div class="no-bullet organization-tree" data-organization-tree>
+    {% for node in top_nodes recursive %}
 
-<ul class="no-bullet organization-tree">
-  {% for node in top_nodes recursive %}
-    <li id="node_{{ node.name }}">
-      {% if node.highlighted %}
-        <strong>
-      {% endif %}
-      <a href="{{ url_prefix }}/{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
-      {% if node.highlighted %}
-        </strong>
-      {% endif %}
 
-      {% if node.children %}
-        <ul class="no-bullet organization-subtree"> {{ loop(node.children) }} </ul>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+        <div id="node_{{ node.name }}" class="organization">
+            {% if node.children %}
+                <button class="js-expand btn btn-primary btn-xs"><i class="icon-plus"></i></button>
+                <button class="js-collapse btn btn-gray btn-xs"><i class="icon-minus"></i></button>
+            {% endif %}
+        <div class="organization-row">
+          <a href="{{ url_prefix }}{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
+        </div>
+        {% if node.children %}
+          <div class="no-bullet organization-subtree js-collapsed"> {{ loop(node.children) }} </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+

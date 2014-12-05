@@ -3,14 +3,22 @@
 <!-- JSTree is included, but so far does nothing. Need to encapsulate it in a 'javascript module' -->
 {% block scripts %}
   {{ super() }}
-  {% resource 'jstree/jquery.jstree.js' %}
+
 {% endblock %}
 
 {% block primary_content_inner %}
   <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
 
   {% block organizations_search_form %}
-    {% snippet 'snippets/search_form.html', type='organization', query=c.q, sorting='disabled', count=c.page.item_count, placeholder=_('Search organizations...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
+      <div class="search-form no-bottom-border">
+        <div class="search-input control-group search-giant">
+            <input data-organization-filter type="text" class="search" placeholder="{{ _('Search organizations...') }}">
+            <button type="submit">
+                <i class="icon-search"></i>
+                <span>{{ _('Submit') }}</span>
+            </button>
+        </div>
+      </div>
   {% endblock %}
 
   {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
