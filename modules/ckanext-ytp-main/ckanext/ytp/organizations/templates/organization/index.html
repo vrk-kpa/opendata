@@ -36,7 +36,7 @@
     {% elif not c.q and c.page.items %}
       {# Organizations found but no query params were given, we should show a tree #}
       <div id="publisher-tree">
-        {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
+        {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}), organizations=c.page.items %}
       </div>
     {% endif %}
   {% endblock %}

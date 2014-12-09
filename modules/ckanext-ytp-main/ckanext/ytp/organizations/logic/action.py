@@ -55,7 +55,6 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
          'name': root_group.name,
          'title': root_group.title})
 
-    root_node.update({'package_count': root_group.packages(return_query=True).count()})
     root_node.update(root_group.extras)
     if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
@@ -66,7 +65,6 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
                               'name': group_name,
                               'title': group_title})
         group_object = model.Group.get(group_id)
-        node.update({'package_count': group_object.packages(return_query=True).count()})
         node.update(group_object.extras)
         nodes[parent_id].add_child_node(node)
         if highlight_group_name and group_name == highlight_group_name:

@@ -281,10 +281,18 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
             return True
         return False
 
+    def _get_dataset_count(self, organizations, organization_name):
+        for organization in organizations:
+            if organization.get('name', None) == organization_name:
+                return organization.get('packages', 0)
+
+        return 0
+
     def get_helpers(self):
         return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents,
                 'get_parent_organization_display_name': self._get_parent_organization_display_name,
-                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents}
+                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents,
+                'get_dataset_count': self._get_dataset_count}
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update,
