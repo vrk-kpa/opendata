@@ -312,7 +312,7 @@ $(document).ready(function(){
         }
 
         var count_str = $('.search-form h1').text();
-        var replaced = count_str.replace(/[0-9]/g, count);
+        var replaced = count_str.replace(/\d+/g, count);
         $('.search-form h1').text(replaced);
     })
 });
