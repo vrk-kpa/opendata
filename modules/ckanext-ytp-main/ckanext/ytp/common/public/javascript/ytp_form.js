@@ -296,7 +296,7 @@ $(document).ready(function(){
                 return element.innerText.toLowerCase().indexOf(search_str) >= 0
 
             }).each(function(index, element){
-                var text = element.innerText;
+                var text = $(element).find('a').get(0).innerText
                 var str_index = text.toLowerCase().indexOf(search_str);
                 if ( str_index >= 0){
                     $(this).find('a').html(text.substr(0, str_index) + '<span class="highlight">' + text.substr(str_index, search_str.length) + '</span>' + text.substr(str_index + search_str.length))[0];
