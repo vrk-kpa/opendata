@@ -19,9 +19,9 @@
             </button>
         </div>
           {% block search_title %}
-              {% if c.q != '' %}
+
                 <h1>{% snippet 'snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='organization' %}</h1>
-              {% endif %}
+
           {% endblock %}
       </form>
   {% endblock %}

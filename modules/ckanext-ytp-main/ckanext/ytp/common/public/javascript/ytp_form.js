@@ -291,6 +291,7 @@ $(document).ready(function(){
             $('.js-collapsed').show();
             var organizations = $('.organization-row');
             organizations.hide();
+            var count = 0;
             organizations.filter(function(index, element){
 
                 return element.innerText.toLowerCase().indexOf(search_str) >= 0
@@ -299,18 +300,28 @@ $(document).ready(function(){
                 var text = $(element).find('a').get(0).innerText
                 var str_index = text.toLowerCase().indexOf(search_str);
                 if ( str_index >= 0){
+                    count++;
                     $(this).find('a').html(text.substr(0, str_index) + '<span class="highlight">' + text.substr(str_index, search_str.length) + '</span>' + text.substr(str_index + search_str.length))[0];
                 }
             }).show();
 
+
+
         }
         else{
+
+            var count = $('.organization-row').length;
+
             $('span.highlight').contents().unwrap()
             $('.organization-row').show();
             $('.js-collapsed').hide();
             $('.js-expand').show();
             //$('.organization-tree').children('.organization').children('.organization-row').show()
         }
+
+        var count_str = $('.search-form h1').text();
+        replaced = count_str.replace(/[0-9]/g, count);
+        $('.search-form h1').text(replaced);
 
 
     })
