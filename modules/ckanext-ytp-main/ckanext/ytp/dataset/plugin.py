@@ -416,11 +416,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         collection_type = self._get_collection_type()
 
         licenses_list = [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
-                         (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0')]
-
-        # Show the 'Other' license only if the user is on the Interoperability Tools collection type
-        if collection_type == INTEROPERABILITY_TOOLS:
-            licenses_list.append((_('Other'), u'other'))
+                         (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0'),
+                         (_('Other'), u'other')]
 
         return licenses_list
 
