@@ -246,12 +246,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema.update({'resources': res_schema})
         schema = add_languages_modify(schema, self._localized_fields)
 
-        if self.auto_author:
-            schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
-            schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
-        else:
+        if not self.auto_author or c.userobj.sysadmin:
             schema.update({'author': [set_empty_if_missing, unicode]})
             schema.update({'author_email': [set_empty_if_missing, unicode]})
+        else:
+            schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
+            schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
         # Override CKAN schema
         schema.update({'title': [not_empty, unicode]})
