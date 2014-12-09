@@ -10,15 +10,15 @@
   <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
 
   {% block organizations_search_form %}
-      <div class="search-form no-bottom-border">
+      <form class="search-form no-bottom-border" method="get" data-module="select-switch">
         <div class="search-input control-group search-giant">
-            <input data-organization-filter type="text" class="search" placeholder="{{ _('Search organizations...') }}">
+            <input data-organization-filter type="text" class="search" name="q" value="{{ c.q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
             <button type="submit">
                 <i class="icon-search"></i>
                 <span>{{ _('Submit') }}</span>
             </button>
         </div>
-      </div>
+      </form>
   {% endblock %}
 
   {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
