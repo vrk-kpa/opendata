@@ -5,7 +5,7 @@ from ckan.logic import NotFound, ValidationError, check_access
 from ckan.common import _, c
 from ckan.lib.mailer import mail_user, MailerException
 import logging
-from ckanext.ytp.request.tools import get_organization_admins
+from ckanext.ytp.request.tools import get_organization_admins, get_ckan_admins
 from ckan.lib import helpers
 from pylons import config
 from ckanext.ytp.request.model import MemberExtra
@@ -154,8 +154,12 @@ def _create_member_request(context, data_dict):
     if url:
         url = url + url_for('member_request_show', member_id=member.id)
 
-    for admin in get_organization_admins(group.id):
-        _mail_new_membership_request(locale, admin, group.display_name, url, userobj.display_name, userobj.email)
+    if role == 'admin':
+        for admin in get_ckan_admins():
+            _mail_new_membership_request(locale, admin, group.display_name, url, userobj.display_name, userobj.email)
+    else:
+        for admin in get_organization_admins(group.id):
+            _mail_new_membership_request(locale, admin, group.display_name, url, userobj.display_name, userobj.email)
 
     return member, changed
 
