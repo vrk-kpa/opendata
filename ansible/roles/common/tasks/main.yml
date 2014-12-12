@@ -89,7 +89,7 @@
   - common
 
 - name: Upgrade npm
-  command: 'npm -g install npm@next'
+  command: 'npm -g install npm@2.1.12'
   tags:
   - packages
   - common
