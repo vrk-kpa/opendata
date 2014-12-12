@@ -412,9 +412,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return {'name': name, 'display_name': display_name, 'url': url}
 
     def _dataset_licenses(self):
-        # Get the collection type so that we know what licenses to display
-        collection_type = self._get_collection_type()
-
         licenses_list = [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
                          (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0'),
                          (_('Other'), u'other')]
