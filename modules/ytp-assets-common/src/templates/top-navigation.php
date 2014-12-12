@@ -65,15 +65,15 @@
           $logos = array(
                   "avoindata.fi" => "avoindata_fi.png",
                   "www.avoindata.fi" => "avoindata_fi.png",
-                  "alpha.avoindata.fi" => "avoindata_fi.png",
-                  "beta.avoindata.fi" => "avoindata_fi.png",
+                  "alpha.avoindata.fi" => "avoindata_fi_alpha.png",
+                  "beta.avoindata.fi" => "avoindata_fi_beta.png",
 
                   "opendata.fi" => "opendata_fi.png",
                   "www.opendata.fi" => "opendata_fi.png",
-                  "alpha.opendata.fi" => "opendata_fi.png",
-                  "beta.opendata.fi" => "opendata_fi.png",
+                  "alpha.opendata.fi" => "opendata_fi_alpha.png",
+                  "beta.opendata.fi" => "opendata_fi_beta.png",
           );
-          $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi.png';
+          $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi_alpha.png';
           echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
           ?>
       </a>
