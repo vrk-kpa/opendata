@@ -288,10 +288,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
             return True
         return False
 
-    def _get_dataset_count(self, organizations, organization_name):
-        for organization in organizations:
-            if organization.get('name', None) == organization_name:
-                return organization.get('packages', 0)
+    def _get_dataset_count(self, organization_name):
+        org = next((organization for organization in c.page.original_collection if organization.get('name', None) == organization_name), None)
+        if org:
+            return org.get('packages', 0)
 
         return 0
 
