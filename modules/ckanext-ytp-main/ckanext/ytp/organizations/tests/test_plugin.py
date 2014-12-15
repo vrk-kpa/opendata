@@ -68,7 +68,11 @@ class TestYtpOrganizationPlugin(TestCase):
             for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto", u"Suomen ymp\u00e4rist\u00f6keskus":
                 organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
                 self.assert_equal(organization['title'], title)
-                self.assert_equal(organization['public_adminstration_organization'], 'true')
+                public_org = 'false'
+                for extra in organization['extras']:
+                    if extra['key'] == 'public_adminstration_organization':
+                        public_org = 'true'
+                self.assert_equal(public_org, 'true')
 
     def test_organization_import_update(self):
         """ Test updating organization import from file """
