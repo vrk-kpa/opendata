@@ -21,6 +21,7 @@ import pylons
 import ast
 import datetime
 from ckanext.ytp.common.helpers import extra_translation
+import itertools
 
 from ckan.config.routing import SubMapper
 
@@ -289,7 +290,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return False
 
     def _get_dataset_count(self, organization_name):
-        org = next((organization for organization in c.page.original_collection if organization.get('name', None) == organization_name), None)
+        org = next(itertools.ifilter(lambda o: o.get('name', None) == organization_name, c.page.original_collection))
         if org:
             return org.get('packages', 0)
 
