@@ -216,6 +216,13 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         return schema
 
+    def db_to_form_schema_options(self, options):
+        if not options.get('api', False):
+            return self.db_to_form_schema()
+        schema = ckan.logic.schema.group_form_schema()
+
+        return schema
+
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
         from pylons import tmpl_context
