@@ -24,6 +24,7 @@
   .container {
     padding-left: (@grid-gutter-width/4);
     padding-right: (@grid-gutter-width/4);
+    margin-top: 12px;
   }
 
   .alert {
@@ -61,7 +62,9 @@
 /* Extra small, and small devices */
 @media (max-width: @screen-sm-max) {
   .navbar-top {
-    margin-bottom: 12px;
+    margin-bottom: 0px;
+    padding-top: 2px;
+    background-color: @ytp-brand-primary;
   }
 
   #page_wrapper {
@@ -90,7 +93,7 @@
 @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
   // Adjust navbar to available screen width
   .navbar.navbar-main .navbar-nav li > a {
-    padding: 10px 12px;
+    padding: 20px 12px;
     min-width: 134px;
   }
 }
@@ -99,6 +102,9 @@
 @media (min-width: @screen-lg) {
   #page_wrapper, .navbar-main {
     max-width: @screen-lg;
+  }
+  .navbar.navbar-main .navbar-nav li > a {
+    padding: 20px 12px;
   }
 }
 
@@ -128,6 +134,10 @@
 
   .panel-body {
     padding: 0;
+  }
+
+  .navbar-top a.navbar-brand {
+    padding-top: 0;
   }
 }
 
