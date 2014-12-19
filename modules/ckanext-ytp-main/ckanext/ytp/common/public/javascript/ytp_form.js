@@ -293,7 +293,7 @@ $(document).ready(function(){
             organizations.hide();
             var count = 0;
             organizations.filter(function(index, element){
-                return element.innerText.toLowerCase().indexOf(search_str) >= 0
+                return element.textContent.toLowerCase().indexOf(search_str) >= 0
             }).each(function(index, element){
                 var text = $(element).find('a').get(0).innerText
                 var str_index = text.toLowerCase().indexOf(search_str);
