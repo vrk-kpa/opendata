@@ -208,7 +208,7 @@
 
 
 - name: Unzip ckeditor
-  unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries"
+  unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries" copy=no
   with_items:
    - 3.6.6.2
   tags:
