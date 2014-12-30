@@ -128,7 +128,7 @@
     - l10n_update
     - admin_language
     - wysiwyg
-    - drush_editor
+
     - features_extra
     - imce
     - imce_wysiwyg
@@ -180,7 +180,6 @@
     - l10n_update
     - admin_language
     - wysiwyg
-    - drush_editor
     - fe_block
     - imce
     - imce_wysiwyg
@@ -201,11 +200,19 @@
   - drupal
 
 - name: Download ckeditor
-  command: drush editor-download {{ item }} chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/libraries/{{ item }}"
+  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }}"
   with_items:
-    - ckeditor
+    - 3.6.6.2
   tags:
   - drupal
+
+
+- name: Unzip ckeditor
+  unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries"
+  with_items:
+   - 3.6.6.2
+  tags:
+    - drupal
 
 - name: Install wysiwyg module
   shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg" && cp -r "{{ cache_path }}/ytp-drupal-wysiwyg" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
