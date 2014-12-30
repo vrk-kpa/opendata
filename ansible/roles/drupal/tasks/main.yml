@@ -206,6 +206,10 @@
   tags:
   - drupal
 
+- name: Create ckeditor directory
+  file: path="{{ drupal_root }}/sites/all/libraries" state=directory
+  tags:
+    - drupal
 
 - name: Unzip ckeditor
   unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries" copy=no
