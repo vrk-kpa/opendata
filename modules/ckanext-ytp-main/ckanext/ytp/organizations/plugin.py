@@ -290,10 +290,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return False
 
     def _get_dataset_count(self, organization_name):
-        org = next(itertools.ifilter(lambda o: o.get('name', None) == organization_name, c.page.original_collection))
-        if org:
-            return org.get('packages', 0)
-
+        if c.page:
+            org = next(itertools.ifilter(lambda o: o.get('name', None) == organization_name, c.page.original_collection))
+            if org:
+                return org.get('packages', 0)
         return 0
 
     def get_helpers(self):
