@@ -16,7 +16,7 @@ setup(
     url='',
     license='',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-    namespace_packages=['ckanext', 'ckanext.ytp.comments'],
+    namespace_packages=['ckanext', 'ckanext.ytp', 'ckanext.ytp.comments'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -24,7 +24,6 @@ setup(
     ],
     entry_points='''
         [ckan.plugins]
-        # Add plugins here, e.g.
-        # myplugin=ckanext.ytp.comments.plugin:PluginClass
+        ytp_comments=ckanext.ytp.comments.plugin:YtpCommentsPlugin
     ''',
 )
