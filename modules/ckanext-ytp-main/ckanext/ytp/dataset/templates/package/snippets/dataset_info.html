@@ -26,7 +26,7 @@
         <h4 class="dataset-title sidebar-title">{{_('Tags')}}</h4>
         {% if pkg.get('tags') %}
             {% for tag in pkg.get('tags') %}
-                <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name')}}" >{{tag.get('display_name')}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name') | lower }}" >{{tag.get('display_name') | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {% endfor %}
         {%endif%}
