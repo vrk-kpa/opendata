@@ -7,12 +7,13 @@ log = logging.getLogger(__name__)
 
 class YtpCommentsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IRoutes, inherit=True)
-    plugins.implements(plugins.IConfigurer, inherit=True)
+    plugins.implements(plugins.IConfigurable, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
 
     # IConfigurer
 
     def configure(self, config):
+        log.debug("Configuring comments module")
         setup()
 
     def update_config(self, config):

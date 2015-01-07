@@ -6,12 +6,16 @@ from ckan.model.types import make_uuid
 
 from ckan.model import Package
 
-import model.meta as meta
-import model.domain_object as domain_object
+import ckan.model.meta as meta
+import ckan.model.domain_object as domain_object
 
 import logging
 
 log = logging.getLogger(__name__)
+
+__all__ = [
+    'PackageComment', 'package_comment_table'
+]
 
 package_comment_table = None
 
@@ -42,12 +46,13 @@ def define_comment_table():
         Column("date", types.DateTime)
     )
 
+    meta.mapper(PackageComment, package_comment_table, properties={
+        'package', orm.relation(Package, backref="package_comments")}
+    )
+
 
 class PackageComment(domain_object.DomainObject):
     @classmethod
     def get(cls, comment_id):
         return meta.Session.query(PackageComment).filter(PackageComment.id == comment_id).first()
 
-meta.mapper(PackageComment, package_comment_table, properties={
-    'package', orm.relation(Package)}
-)
