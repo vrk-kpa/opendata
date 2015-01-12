@@ -34,8 +34,8 @@
     <div id="addressInfo">
         <h2>{{_('Contact info')}}</h2>        
         <dl class="dl-horizontal">
-
             {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
+            {% set homepage = h.extra_translation(c.group_dict, 'homepage') %}
             {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), h.extra_translation(c.group_dict, 'street_address')),
                                    (_('P.O. box'), h.extra_translation(c.group_dict, 'street_address_pobox')),
                                    (_('Zip code'), h.extra_translation(c.group_dict, 'street_address_zip_code')),
@@ -46,7 +46,8 @@
                                    (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
                                    (_('Parking'), h.extra_translation(c.group_dict, 'street_address_parking', markdown=True)),
                                    (_('Arrival by public transport'), h.extra_translation(c.group_dict, 'street_address_public_transport')),
-                                   (_('Web address for public transport'), url|urlize)
+                                   (_('Web address for public transport'), url|urlize),
+                                   (_('Homepage'), homepage|urlize)
                                    ] %}
 
             {% for info in address_info %}
