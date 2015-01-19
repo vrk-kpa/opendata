@@ -9,6 +9,22 @@
 
     {# Display extra organization information #}
 
+    {% set producer_types = [
+            {'id': 'civil-service', 'name': _('Civil Service')},
+            {'id': 'municipality', 'name': _('Municipality / City')},
+            {'id': 'other-public-service', 'name': _('Other Public Service')},
+            {'id': 'educational-research-institute', 'name': _('Educational / Research Institute')},
+            {'id': 'company', 'name': _('Company')},
+            {'id': 'individual', 'name': _('Individual')}
+        ]%}
+    {% set type = [] %}
+    {% for producer_type in producer_types %}
+        {% if c.group_dict.producer_type == producer_type['id'] %}
+           {% do type.append(producer_type['name']) %}
+        {% endif %}
+    {% endfor %}
+
+
     <div id="OrgExtraInfo">
         <dl class="dl-horizontal">
 
@@ -16,7 +32,14 @@
                 {% set validity = [c.group_dict.valid_from, c.group_dict.valid_till]|join(' - ') %}
             {% endif %}
 
-            {% set info_list = [(_('Producer type'), c.group_dict.producer_type|replace(",",", ")),
+            {% set producer = [] %}
+            {% if type %}
+                {% do producer.append(type[-1]) %}
+            {% else %}
+                {% do producer.append(c.group_dict.producer_type|replace(",",", ")) %}
+            {% endif %}
+
+            {% set info_list = [(_('Producer type'), producer[-1]),
                                 (_('Business ID'), c.group_dict.business_id),
                                 (_('OID'), c.group_dict.oid),
                                 (_('Alternative name'), h.extra_translation(c.group_dict, 'alternative_name')),

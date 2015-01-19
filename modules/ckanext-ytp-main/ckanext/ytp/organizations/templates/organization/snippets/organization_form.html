@@ -101,13 +101,10 @@
         ]%}
 
         <div class="controls">
-
-        {{ selected_type }}
             <select id="field-producer_type" name="producer_type" data-module="autocomplete">
-                <option value="" {% if not data.producer_type and data.id %} selected="selected" {% endif %}>{{ _('Select a producer type...') }}</option>
+                <option value="" {% if not data.producer_type and data.id %} selected="selected" {% endif %} >{{ _('Select a producer type...') }}</option>
+                <option value=""></option>
                 {% for producer_type in producer_types %}
-
-                    {# get out first org from users list only if there is not an existing org #}
                     <option value="{{ producer_type.id }}" {% if data.get('producer_type', '') == producer_type.id %} selected="selected" {% endif %}>{{ producer_type.name }}</option>
                 {% endfor %}
             </select>
