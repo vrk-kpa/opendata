@@ -40,7 +40,7 @@
         {% if pkg.get( 'content_type') %}
             {% set con_list = pkg.get( 'content_type').split(',') %}
             {%- for content in con_list -%}
-                <a href="/data/{{ h.lang() }}/dataset?content_type={{content}}">{{_(content)}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {%- endfor -%}
         {%endif%}
