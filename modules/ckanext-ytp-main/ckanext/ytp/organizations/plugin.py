@@ -101,7 +101,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
                          'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
                          'street_address_unofficial_name', 'street_address_building_id', 'street_address_getting_there',
-                         'street_address_parking', 'street_address_public_transport', 'street_address_url_public_transport']
+                         'street_address_parking', 'street_address_public_transport', 'street_address_url_public_transport',
+                         'homepage']
 
     def configure(self, config):
         _configure(config)
@@ -147,30 +148,31 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         convert_to_extras = toolkit.get_converter('convert_to_extras')
 
         # schema for homepages
-        schema.update({'homepages': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
+        # schema.update({'homepages': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
+        schema.update({'homepage': [ignore_missing, unicode, convert_to_extras]})
 
         schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
 
         # schema for extra org info
-        schema.update({'business_id': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'oid': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'alternative_name': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'business_id': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'oid': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'alternative_name': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
         schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
 
         # schema for organisation address
         schema.update({'street_address': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_pobox': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_pobox': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'street_address_zip_code': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'street_address_place_of_business': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_country': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_unofficial_name': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_building_id': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_getting_there': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_parking': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_public_transport': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_url_public_transport': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_country': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_unofficial_name': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_building_id': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_getting_there': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_parking': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_public_transport': [ignore_missing, unicode, convert_to_extras]})
+        # schema.update({'street_address_url_public_transport': [ignore_missing, unicode, convert_to_extras]})
 
         schema = add_translation_modify_schema(schema)
         schema = add_languages_modify(schema, self._localized_fields)
@@ -187,20 +189,26 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'package_count': [ignore_missing]})
 
         # Schema for homepages
-        schema.update({'homepages': [convert_from_extras, from_json_to_object, ignore_missing]})
+        schema.update({'homepage': [convert_from_extras, ignore_missing]})
 
         # schema for extra org info
-        schema.update({'business_id': [convert_from_extras, ignore_missing]})
-        schema.update({'oid': [convert_from_extras, ignore_missing]})
-        schema.update({'alternative_name': [convert_from_extras, ignore_missing]})
         schema.update({'valid_from': [convert_from_extras, ignore_missing]})
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
 
         # schema for organisation address
         schema.update({'street_address': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_pobox': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_zip_code': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_place_of_business': [convert_from_extras, ignore_missing]})
+
+        schema.update({'producer_type': [convert_from_extras, ignore_missing]})
+        schema.update({'public_adminstration_organization': [convert_from_extras, ignore_missing]})
+
+        # old schema is used to display old data if it exists
+        schema.update({'homepages': [convert_from_extras, from_json_to_object, ignore_missing]})
+        schema.update({'business_id': [convert_from_extras, ignore_missing]})
+        schema.update({'oid': [convert_from_extras, ignore_missing]})
+        schema.update({'alternative_name': [convert_from_extras, ignore_missing]})
+        schema.update({'street_address_pobox': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_country': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_unofficial_name': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_building_id': [convert_from_extras, ignore_missing]})
@@ -209,8 +217,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'street_address_public_transport': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_url_public_transport': [convert_from_extras, ignore_missing]})
 
-        schema.update({'producer_type': [convert_from_extras, ignore_missing]})
-        schema.update({'public_adminstration_organization': [convert_from_extras, ignore_missing]})
 
         schema = add_translation_show_schema(schema)
         schema = add_languages_show(schema, self._localized_fields)
