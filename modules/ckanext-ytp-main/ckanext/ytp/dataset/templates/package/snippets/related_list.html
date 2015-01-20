@@ -1,6 +1,6 @@
 <section id="dataset-resources" class="resources">
   <h3>{{ _('Related media') }} ({{ related_items|count }})
-      {% if h.check_access('related_create', {'dataset_id': pkg_id}) %}
+      {% if collection_type != 'Interoperability Tools' or h.check_access('related_create', {'dataset_id': pkg_id}) %}
         <a class="btn btn-xs" href="{{ h.url_for(controller='related', action='new', id=pkg_id) }}">{{ _('Add Related Item') }}</a>
       {% endif %}
   </h3>
