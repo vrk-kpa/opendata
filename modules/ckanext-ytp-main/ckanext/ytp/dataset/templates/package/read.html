@@ -37,7 +37,7 @@
         {% endblock %}
 
         {% block package_related %}
-           {% snippet "package/snippets/related_list.html", related_items=c.related_list, pkg_id=c.pkg.name %}
+           {% snippet "package/snippets/related_list.html", related_items=c.related_list, pkg_id=c.pkg.id %}
         {% endblock %}
 
         {% block package_additional_info %}
