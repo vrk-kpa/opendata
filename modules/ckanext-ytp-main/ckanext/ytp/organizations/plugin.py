@@ -217,7 +217,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         schema.update({'street_address_public_transport': [convert_from_extras, ignore_missing]})
         schema.update({'street_address_url_public_transport': [convert_from_extras, ignore_missing]})
 
-
         schema = add_translation_show_schema(schema)
         schema = add_languages_show(schema, self._localized_fields)
 
