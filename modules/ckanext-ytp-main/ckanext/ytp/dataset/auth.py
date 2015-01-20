@@ -46,9 +46,7 @@ def related_create(context, data_dict):
         if data_dict.get('featured', 0) != 0:
             return {'success': False,
                     'msg': _('You must be a sysadmin to create a featured related item')}
-        print data_dict
         if data_dict.get('dataset_id', None):
-            print "get dataset"
             dataset = get_action('package_show')(context, {'id': data_dict['dataset_id']})
             if dataset.get('collection_type', None) == 'Interoperability Tools':
                 permission = check_access('package_update', context, {'id': data_dict['dataset_id']})
