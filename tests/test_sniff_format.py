@@ -138,8 +138,10 @@ class TestSniffFormat:
         self.check_format('torrent')
     def test_psv(self):
         self.check_format('psv')
-    def test_wms(self):
-        self.check_format('wms')
+    def test_wms_1_3(self):
+        self.check_format('wms', 'afbi_get_capabilities.wms')
+    def test_wms_1_1_1(self):
+        self.check_format('wms', 'oldham_get_capabilities.wms')
     def test_ics(self):
         self.check_format('ics')
     def test_ttl1(self):
