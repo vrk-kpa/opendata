@@ -464,7 +464,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'render_date': render_date}
 
     def get_auth_functions(self):
-        return {'related_update': auth.related_update}
+        return {'related_update': auth.related_update,
+                'related_create': auth.related_create}
 
         # IPackageController #
 
