@@ -62,14 +62,14 @@ then itself be extended to add/remove blocks of functionality. #}
           <button class="btn btn-primary" type="submit" name="save" onclick="SaveAsDraft()">{{ _('Save as draft') }}</button>
         {% endif %}
         {%  set resources = data.get('resources', None) %}
-        <button class="btn
-        {% if state == None or state == 'none' %}
+          <button class="btn
+        {% if state == None or state == 'none' or (state == 'draft' and resources | length == 0) %}
           btn-primary
         {% else %}
           btn-success
         {% endif %}
         " type="submit" name="save" id="save-button" onclick="
-        {% if state == None or state == 'none'  %}
+        {% if state == None or state == 'none' or (state == 'draft' and resources | length == 0)%}
           SaveAsDraft()
         {% else %}
           SaveAsActive()
