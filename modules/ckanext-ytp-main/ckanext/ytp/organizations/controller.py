@@ -3,6 +3,8 @@ from ckan.common import c, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort
+from ckan.lib.dictization.model_dictize import user_dictize, group_dictize, group_list_dictize
+from ckan.new_authz import get_roles_with_permission
 
 import logging
 
@@ -38,3 +40,32 @@ class YtpOrganizationController(OrganizationController):
         except NotFound:
             abort(404, _('Group not found'))
         return self._render_template('group/members.html')
+
+    def user_list(self):
+        if c.userobj and c.userobj.sysadmin:
+
+            q = model.Session.query(model.Group, model.Member, model.User). \
+                filter(model.Member.group_id == model.Group.id). \
+                filter(model.Member.table_id == model.User.id). \
+                filter(model.Member.table_name == 'user'). \
+                filter(model.Group.id != 'yksityishenkilo'). \
+                filter(model.User.name != 'harvest'). \
+                filter(model.User.name != 'default')
+
+            users = []
+
+            for group, member, user in q.all():
+                users.append({
+                    'user_id': user.id,
+                    'username': user.name,
+                    'organization': group.title,
+                    'role': member.capacity,
+                    'email': user.email
+                })
+
+
+            c.users = users
+        else:
+            c.users = []
+
+        return self._render_template('group/user_list.html')
