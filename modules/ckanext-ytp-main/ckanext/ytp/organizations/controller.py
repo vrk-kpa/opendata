@@ -48,9 +48,9 @@ class YtpOrganizationController(OrganizationController):
                 filter(model.Member.group_id == model.Group.id). \
                 filter(model.Member.table_id == model.User.id). \
                 filter(model.Member.table_name == 'user'). \
-                filter(model.Group.id != 'yksityishenkilo'). \
                 filter(model.User.name != 'harvest'). \
-                filter(model.User.name != 'default')
+                filter(model.User.name != 'default'). \
+                filter(model.User.state == 'active')
 
             users = []
 
