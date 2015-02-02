@@ -1,0 +1,63 @@
+{% extends "user/list.html" %}
+
+{% block breadcrumb_content %}
+    <li>{{ h.nav_link(_('Users'), controller='user', action='index') }}</li>
+    <li class="active">{{ h.nav_link(_('All Users'), controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='user_list') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+
+{% block page_primary_action %}
+
+{% endblock %}
+
+{% block primary_content_inner %}
+    {% resource "ytp_resources/vendor/bootstrap-table.css" %}
+    {% resource "ytp_resources/vendor/bootstrap-table.js" %}
+    <h3 class="page-heading">{{ _('{0} users'.format(c.users|length)) }}</h3>
+    <table class="table table-header table-hover table-bordered" data-toggle="table" data-sort-order="asc" data-sort-name="username">
+        <col style="width: 20%" />
+        <col style="width: 10%" />
+        <col style="width: 30%" />
+        <col style="width: 10%" />
+        <col style="width: 20%" />
+        <col style="width: 10%" />
+        <thead>
+        <tr>
+            <th data-field="user" data-sortable="true" scope="col">{{ _('User') }}</th>
+            <th data-field="username" data-sortable="true" scope="col">{{ _('Username') }}</th>
+            <th data-field="organization" data-sortable="true" scope="col">{{ _('Organizations') }}</th>
+            <th data-field="role" data-sortable="true" scope="col">{{ _('Role') }}</th>
+            <th data-field="email" data-sortable="true" scope="col">{{ _('Email') }}</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in c.users %}
+            <tr>
+                <td class="media">
+                    {{ h.linked_user(user['user_id'], maxlength=20) }}
+                </td>
+                <td>{{ user['username'] }}</td>
+                <td>{{ user['organization'] }}</td>
+                <td>{{ user['role'] }}</td>
+                <td>{{ user['email'] }}</td>
+                <td>
+                    {% set locale = h.dump_json({'content': _('Are you sure you want to delete this User?')}) %}
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-small" href="{% url_for controller='user', action='edit', id=user['user_id'] %}" title="{{ _('Edit') }}">
+                            <i class="icon-wrench"></i>
+                        </a>
+                        <a class="btn btn-danger btn-small" href="{% url_for controller='user', action='delete', id=user['user_id'] %}" data-module="confirm-action" data-module-i18n="{{ locale }}" title="{{ _('Delete') }}">{% block delete_button_text %}<i class="icon-remove"></i>{% endblock %}</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block page_pagination %}
+{% endblock %}
+
+{% endblock %}

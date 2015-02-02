@@ -13,6 +13,13 @@
             <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
         </div>
     {% endif %}
+
+    {% if h.is_sysadmin() %}
+        <div class="btn-group">
+            <a href="/data/{{ h.lang() }}/user_list" class="btn btn-primary">{{ _('Users') }}</a>
+        </div>
+    {% endif %}
+
     {{ super() }}
 {% endblock %}
 
