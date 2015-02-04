@@ -2,6 +2,7 @@ from pylons import config
 import json
 
 from ckan.common import c, request
+from ckan.logic import get_action
 
 
 def service_database_enabled():
@@ -83,3 +84,16 @@ def get_upload_size():
     size = config.get('ckan.max_resource_size', 10)
 
     return size
+
+def get_license(license_id):
+    context = {}
+    licenses = get_action('license_list')(context, {})
+
+    for license_obj in licenses:
+        license_obj_id = license_obj.get('id', None)
+        print license_obj
+        if license_obj_id and license_obj_id == license_id:
+            return license_obj
+
+    return None
+

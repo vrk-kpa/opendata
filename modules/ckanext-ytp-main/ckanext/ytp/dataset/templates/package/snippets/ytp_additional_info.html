@@ -33,8 +33,7 @@
       <dt>{{ _("Owner") }}</dt>
       <dd>{{ extra_dict.owner }}</dd>
     {% endif %}
-
-    {% if extra_dict.license_url or dict.license_title  %}
+    {% if extra_dict.license_url or extra_dict.license_title  %}
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
         <a href ="{{ _(extra_dict.license_url) }}">
@@ -45,8 +44,16 @@
         {% endif %}
         </a>
         {% else %}
-            {{_(extra_dict.license_title)}}
-        {% endif %}
+
+          {% set license = h.get_license(extra_dict.license_title) %}
+          {% if license %}
+                <a href="{{ license.get('url') }}">{{ license.get('title') }}</a>
+            {% else %}
+                {{_(extra_dict.license_title)}}
+            {% endif %}
+
+
+      {% endif %}
         </dd>
     {% endif %}
 
