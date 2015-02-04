@@ -13,18 +13,18 @@
       <dd>{{ [extra_dict.valid_from, extra_dict.valid_till]|join(' - ') }}</dd>
     {% endif %}
 
-    {% if extra_dict.author_email %}
+    {% if extra_dict.author_email and extra_dict.author_email != "None" %}
       <dt>{{ _("Author") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.author_email, name=extra_dict.author) }}</dd>
-    {% elif extra_dict.author %}
+    {% elif extra_dict.author  and extra_dict.author != "None" %}
       <dt>{{ _("Author") }}</dt>
       <dd>{{ extra_dict.author }}</dd>
     {% endif %}
 
-    {% if extra_dict.maintainer_email %}
+    {% if extra_dict.maintainer_email and extra_dict.maintainer_email != "None" %}
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.maintainer_email, name=extra_dict.maintainer) }}</dd>
-    {% elif extra_dict.maintainer %}
+    {% elif extra_dict.maintainer and extra_dict.maintainer != "None" %}
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ extra_dict.maintainer }}</dd>
     {% endif %}
