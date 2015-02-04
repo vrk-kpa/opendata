@@ -1,0 +1,36 @@
+{% ckan_extends %}
+
+{% block fields %}
+
+    {% set collection_type = c.pkg_dict.get('collection_type', None) %}
+    {% if collection_type == 'Interoperability Tools' %}
+
+        <div class="control-group">
+            <label for="field-title" class="control-label">
+                <span title="{{ _("This field is required") }}" class="control-required">*</span>
+                {{ _('Title') }}
+            </label>
+
+            <div class="controls">
+                <select id="field-title" name="title" data-module="autocomplete">
+                    <option value="" {% if not selected_org and data.id %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
+                    {% for organization in organizations_available %}
+                        {# get out first org from users list only if there is not an existing org #}
+                        {% set selected_org = (existing_org and existing_org == organization.id) or (not existing_org and not data.id and organization.id == organizations_available[0].id) %}
+                        <option value="{{ organization.id }}" {% if selected_org %} selected="selected" {% endif %}>{{ organization.name }}</option>
+                    {% endfor %}
+                </select>
+                {% if errors.owner_org and errors.owner_org is iterable %}<span class="error-block">{{ errors.owner_org|join(', ') }}</span>{% endif %}
+            </div>
+        </div>
+
+    {% else %}
+        {{ form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full']) }}
+        {{ form.input('url', label=_('URL'), id='field-url', placeholder=_('http://example.com/'), value=data.url, error=errors.url, classes=['control-full']) }}
+        {{ form.input('image_url', label=_('Image URL'), id='field-image-url', placeholder=_('http://example.com/image.png'), value=data.image_url, error=errors.image_url, classes=['control-full']) }}
+        {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about the item...'), value=data.description, error=errors.description) }}
+        {{ form.select('type', label=_('Type'), id='field-types', selected=data.type, options=c.types, error=errors.type) }}
+    {% endif %}
+
+
+{% endblock %}
