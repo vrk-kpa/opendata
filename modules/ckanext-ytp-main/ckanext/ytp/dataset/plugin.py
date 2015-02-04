@@ -435,7 +435,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return self.auto_author
 
     def _is_sysadmin(self):
-        return c.userobj.sysadmin
+        if c.userobj:
+            return c.userobj.sysadmin
+        return False
+
 
     def get_helpers(self):
         return {'current_user': self._current_user,
