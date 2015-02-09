@@ -1,6 +1,6 @@
 from ckan import plugins, model, logic
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing
+from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
@@ -546,9 +546,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                         continue
 
                     package_dict['content_type'] = value
-                    flattened = dictization_functions.flatten_dict(package_dict)
+                    flattened = flatten_dict(package_dict)
                     convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                    package_dict = dictization_functions.unflatten(flattened)
+                    package_dict = unflatten(flattened)
 
             if extra['key'] == 'licence':
                 value = json.loads(extra['value'])
