@@ -439,7 +439,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return c.userobj.sysadmin
         return False
 
-
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,

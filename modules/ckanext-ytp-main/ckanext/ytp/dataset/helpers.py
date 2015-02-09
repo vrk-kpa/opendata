@@ -85,6 +85,7 @@ def get_upload_size():
 
     return size
 
+
 def get_license(license_id):
     context = {}
     licenses = get_action('license_list')(context, {})
@@ -96,4 +97,3 @@ def get_license(license_id):
             return license_obj
 
     return None
-
