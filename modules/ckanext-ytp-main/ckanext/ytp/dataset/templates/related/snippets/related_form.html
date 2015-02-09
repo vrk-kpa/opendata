@@ -4,25 +4,14 @@
 
     {% set collection_type = c.pkg_dict.get('collection_type', None) %}
     {% if collection_type == 'Interoperability Tools' %}
+    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'function(e){console.log(e)}'} %}
+    {% call form.input('format', id='field-format', label=_('Format'), placeholder=_('eg. CSV, XML or JSON'), value=data.format, error=errors.format, classes=['control-medium'], attrs=format_attrs) %}
+        <span class="info-block info-block-small">
+          <i class="icon-info-sign"></i>
+          {{ _('This will be guessed automatically. Leave blank if you wish') }}
+        </span>
+    {% endcall %}
 
-        <div class="control-group">
-            <label for="field-title" class="control-label">
-                <span title="{{ _("This field is required") }}" class="control-required">*</span>
-                {{ _('Title') }}
-            </label>
-
-            <div class="controls">
-                <select id="field-title" name="title" data-module="autocomplete">
-                    <option value="" {% if not selected_org and data.id %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
-                    {% for organization in organizations_available %}
-                        {# get out first org from users list only if there is not an existing org #}
-                        {% set selected_org = (existing_org and existing_org == organization.id) or (not existing_org and not data.id and organization.id == organizations_available[0].id) %}
-                        <option value="{{ organization.id }}" {% if selected_org %} selected="selected" {% endif %}>{{ organization.name }}</option>
-                    {% endfor %}
-                </select>
-                {% if errors.owner_org and errors.owner_org is iterable %}<span class="error-block">{{ errors.owner_org|join(', ') }}</span>{% endif %}
-            </div>
-        </div>
 
     {% else %}
         {{ form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full']) }}
