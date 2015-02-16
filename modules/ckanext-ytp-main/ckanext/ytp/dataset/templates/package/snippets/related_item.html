@@ -27,7 +27,21 @@
             <span class="related-label icon-envelope icon-2x"><span class="label label-primary">{{ _('Post') }}</span></span>
         {% elif related.type == 'visualization' %}
             <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Visualization') }}</span></span>
-          {%- else -%}
+
+        {% elif related.type == 'relates-to-this' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Relates to this') }}</span></span>
+        {% elif related.type == 'based-on-this' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Based on this') }}</span></span>
+        {% elif related.type == 'modification-of-this' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Modification of this') }}</span></span>
+        {% elif related.type == 'supplements-this' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Supplements this') }}</span></span>
+        {% elif related.type == 'included-in' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Included in') }}</span></span>
+        {% elif related.type == 'includes-this' %}
+            <span class="related-label icon-bar-chart icon-2x"><span class="label label-primary">{{ _('Included this') }}</span></span>
+
+        {%- else -%}
             {{ _(related.type)}}
           {%- endif -%}
 

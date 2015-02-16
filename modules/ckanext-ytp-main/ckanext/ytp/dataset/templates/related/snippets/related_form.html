@@ -1,23 +1,26 @@
 {% ckan_extends %}
 
-{% block fields %}
+{% import 'macros/ytp_form.html' as ytp_form %}
 
+
+
+{% block fields %}
+    {% resource "ytp_dataset_js/related.js" %}
     {% set collection_type = c.pkg_dict.get('collection_type', None) %}
     {% if collection_type == 'Interoperability Tools' %}
-    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'function(e){console.log(e)}'} %}
-    {% call form.input('format', id='field-format', label=_('Format'), placeholder=_('eg. CSV, XML or JSON'), value=data.format, error=errors.format, classes=['control-medium'], attrs=format_attrs) %}
-        <span class="info-block info-block-small">
-          <i class="icon-info-sign"></i>
-          {{ _('This will be guessed automatically. Leave blank if you wish') }}
-        </span>
-    {% endcall %}
-
-
+    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'SelectByName(e)', 'data-module-key': "name", 'data-module-label': "title"} %}
+    {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full'], attrs=format_attrs) }}
     {% else %}
-        {{ form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full']) }}
-        {{ form.input('url', label=_('URL'), id='field-url', placeholder=_('http://example.com/'), value=data.url, error=errors.url, classes=['control-full']) }}
-        {{ form.input('image_url', label=_('Image URL'), id='field-image-url', placeholder=_('http://example.com/image.png'), value=data.image_url, error=errors.image_url, classes=['control-full']) }}
-        {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about the item...'), value=data.description, error=errors.description) }}
+        {{ ytp_form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full']) }}
+    {% endif %}
+
+    {{ ytp_form.input('url', label=_('URL'), id='field-url', placeholder=_('http://example.com/'), value=data.url, error=errors.url, classes=['control-full']) }}
+    {{ ytp_form.input('image_url', label=_('Image URL'), id='field-image-url', placeholder=_('http://example.com/image.png'), value=data.image_url, error=errors.image_url, classes=['control-full']) }}
+    {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about the item...'), value=data.description, error=errors.description) }}
+
+    {% if collection_type == 'Interoperability Tools' %}
+        {{ form.select('type', label=_('Related by'), id='field-types', selected=data.type, options=[{'value': "", 'text': _('Choose')}, {'value': 'relates-to-this', 'text': _('Relates to this')}, {'value': 'based-on-this', 'text': _('Based on this')}, {"value": 'modification-of-this', 'text': _("Modification of this")}, {'value': 'supplements-this', 'text': _('Supplements this')}, {'value': 'included-in', 'text': _('Included in')}, {'value': 'includes-this', 'text': _('Includes this')}], error=errors.type) }}
+    {% else %}
         {{ form.select('type', label=_('Type'), id='field-types', selected=data.type, options=c.types, error=errors.type) }}
     {% endif %}
 
