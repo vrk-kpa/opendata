@@ -3,8 +3,6 @@ from ckan.common import c, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort
-from ckan.lib.dictization.model_dictize import user_dictize, group_dictize, group_list_dictize
-from ckan.new_authz import get_roles_with_permission
 
 import logging
 
@@ -62,7 +60,6 @@ class YtpOrganizationController(OrganizationController):
                     'role': member.capacity,
                     'email': user.email
                 })
-
 
             c.users = users
         else:
