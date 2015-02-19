@@ -16,6 +16,7 @@ ckan_extensions:
   - ckanext-ytp-request
   - ckanext-ytp-main
   - ckanext-googleanalytics
+  - ckanext-ytp-comments
 
 redis_harvest_database: 0
 redis_celery_database: 1

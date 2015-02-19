@@ -1,5 +1,4 @@
 import ckan.plugins as plugins
-from ckanext.ytp.comments.model import setup
 
 import logging
 
@@ -14,7 +13,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     def configure(self, config):
         log.debug("Configuring comments module")
-        setup()
+        
 
     def update_config(self, config):
         plugins.toolkit._add_template_directory(config, "templates")
