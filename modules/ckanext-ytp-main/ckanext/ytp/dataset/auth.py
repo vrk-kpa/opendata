@@ -1,7 +1,7 @@
 from ckan.common import _
 import ckan.logic.auth as logic_auth
 import ckan.logic.auth.update as _auth_update
-from ckan.logic import get_action, check_access
+from ckan.logic import get_action, check_access, NotAuthorized
 
 
 def related_update(context, data_dict):
@@ -46,11 +46,14 @@ def related_create(context, data_dict):
         if data_dict.get('featured', 0) != 0:
             return {'success': False,
                     'msg': _('You must be a sysadmin to create a featured related item')}
-        if data_dict.get('dataset_id', None):
+        if data_dict.get('dataset_id', None) is not None:
             dataset = get_action('package_show')(context, {'id': data_dict['dataset_id']})
             if dataset.get('collection_type', None) == 'Interoperability Tools':
-                permission = check_access('package_update', context, {'id': data_dict['dataset_id']})
-                return permission
+                try:
+                    check_access('package_update', context, {'id': data_dict['dataset_id']})
+                    return {'success': True}
+                except NotAuthorized:
+                    return {'success': False, 'msg': _('You must be logged in to add a related item')}
         return {'success': True}
 
     return {'success': False, 'msg': _('You must be logged in to add a related item')}
