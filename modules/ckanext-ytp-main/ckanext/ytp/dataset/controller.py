@@ -501,7 +501,7 @@ class YtpDatasetController(PackageController):
 
         q = request.params.get('incomplete', '')
         collection_type = request.params.get('collection_type', '')
-        limit = request.params.get('limit', 10)
+        limit = request.params.get('limit', None)
         package_dicts = []
 
         context = {'model': model, 'session': model.Session,
@@ -521,7 +521,7 @@ class YtpDatasetController(PackageController):
 
         _check_access('package_autocomplete', context, data_dict)
 
-        limit = data_dict.get('limit', 10)
+        limit = data_dict.get('limit', None)
         q = data_dict.get('q', '')
 
         like_q = u'%%%s%%' % q
@@ -539,7 +539,8 @@ class YtpDatasetController(PackageController):
                 .filter(_and_(model.PackageExtra.key == 'collection_type'),
                         model.PackageExtra.value == collection_type)
 
-        query = query.limit(limit)
+        if limit is not None:
+            query = query.limit(limit)
         q_lower = q.lower()
         pkg_list = []
         for package in query:
