@@ -1,22 +1,30 @@
 import ckan.plugins as plugins
+from ckan.plugins import implements, toolkit
+
 
 import logging
 
 log = logging.getLogger(__name__)
 
 class YtpCommentsPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
-    plugins.implements(plugins.IConfigurable, inherit=True)
-    plugins.implements(plugins.IPackageController, inherit=True)
+    implements(plugins.IRoutes, inherit=True)
+    implements(plugins.IConfigurable, inherit=True)
+    implements(plugins.IPackageController, inherit=True)
+    implements(p.ITemplateHelpers, inherit=True)
 
     # IConfigurer
 
     def configure(self, config):
         log.debug("Configuring comments module")
-        
+
 
     def update_config(self, config):
-        plugins.toolkit._add_template_directory(config, "templates")
+        toolkit.add_template_directory(config, "templates")
+        toolkit.add_public_directory(config, 'public')
+
+
+    def get_helpers(self):
+        return {}
 
     # IPackageController
 
@@ -27,5 +35,9 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     # IRoutes
 
     def before_map(self, map):
-        # TODO: add route for adding comment
+        """
+            /dataset/NAME/comments/reply/PARENT_ID
+            /dataset/NAME/comments/add
+        """
+        controller = 'ckanext.ytp.comments.controller:CommentController'
         return map
