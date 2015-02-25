@@ -527,7 +527,7 @@ class YtpDatasetController(PackageController):
 
         query = model.Session.query(model.Package)
         query = query.filter(model.Package.state == 'active')
-        query = query.filter(model.Package.private == 'False') # noqa
+        query = query.filter(model.Package.private == 'False')  # noqa
         query = query.filter(_or_(model.Package.name.ilike(like_q),
                                   model.Package.title.ilike(like_q)))
 
