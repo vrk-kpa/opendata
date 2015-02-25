@@ -107,7 +107,8 @@ server {
         access_log off;
     }
 
-    location ~* \.(txt|log)$ {
+    # Serve files from ckan but not from anywhere else
+    location ~* ^(?!/data/.*dataset/).*\.(txt|log)$ {
         allow 192.168.0.0/16;
         deny all;
     }
