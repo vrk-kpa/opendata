@@ -26,10 +26,10 @@
         <thead>
         <tr>
             <th data-field="user" data-sortable="true" scope="col" data-sorter="userSorter">{{ _('User') }}</th>
-            <th data-field="username" data-sortable="true" scope="col">{{ _('Username') }}</th>
-            <th data-field="organization" data-sortable="true" scope="col">{{ _('Organizations') }}</th>
-            <th data-field="role" data-sortable="true" scope="col">{{ _('Role') }}</th>
-            <th data-field="email" data-sortable="true" scope="col">{{ _('Email') }}</th>
+            <th data-field="username" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Username') }}</th>
+            <th data-field="organization" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Organizations') }}</th>
+            <th data-field="role" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Role') }}</th>
+            <th data-field="email" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Email') }}</th>
             <th scope="col"></th>
         </tr>
         </thead>
