@@ -509,11 +509,10 @@ class YtpDatasetController(PackageController):
 
         data_dict = {'q': q, 'limit': limit, 'collection_type': collection_type}
 
-        package_dicts = self._package_autocomplete(context,data_dict)
+        package_dicts = self._package_autocomplete(context, data_dict)
 
         resultSet = {'ResultSet': {'Result': package_dicts}}
         return self._finish_ok(resultSet)
-
 
     def _package_autocomplete(self, context, data_dict):
         print(data_dict)
@@ -528,7 +527,7 @@ class YtpDatasetController(PackageController):
 
         query = model.Session.query(model.Package)
         query = query.filter(model.Package.state == 'active')
-        query = query.filter(model.Package.private == False)
+        query = query.filter(model.Package.private is False)
         query = query.filter(_or_(model.Package.name.ilike(like_q),
                                   model.Package.title.ilike(like_q)))
 
@@ -578,8 +577,7 @@ class YtpDatasetController(PackageController):
                 response_msg = response_data
             # Support "JSONP" callback.
             if status_int == 200 and 'callback' in request.params and \
-                    (request.method == 'GET' or
-                             c.logic_function and request.method == 'POST'):
+                    (request.method == 'GET' or c.logic_function and request.method == 'POST'):
                 # escape callback to remove '<', '&', '>' chars
                 callback = cgi.escape(request.params['callback'])
                 response_msg = self._wrap_jsonp(callback, response_msg)

@@ -74,7 +74,9 @@
     <div class="module-content api-help">
       <small>
         {% set api_link = h.link_to(_('API'), h.url_for(controller='api', action='get_api', ver=3)) %}
-        {% set api_doc_link = h.link_to(_('API Docs'), 'http://docs.ckan.org/en/{0}/api.html'.format(g.ckan_doc_version)) %}
+        {# TODO: replace this when updating ckan #}
+        {# {% set api_doc_link = h.link_to(_('API Docs'), 'http://docs.ckan.org/en/{0}/api.html'.format(g.ckan_doc_version)) %} #}
+          {% set api_doc_link = h.link_to(_('API Docs'), 'http://docs.ckan.org/en/{0}/api.html'.format("release-v2.2.2")) %}
         {% if g.dumps_url -%}
           {% set dump_link = h.link_to(_('full {format} dump').format(format=g.dumps_format), g.dumps_url) %}
           {% trans %}
