@@ -45,6 +45,7 @@ class CommentController(BaseController):
             except ValidationError, ve:
                 errors = ve.error_dict
             except Exception, e:
+                log.debug(e)
                 abort(403)
 
             if success:

@@ -11,6 +11,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IPackageController, inherit=True)
     implements(plugins.ITemplateHelpers, inherit=True)
+    implements(plugins.IActions, inherit=True)
 
     # IConfigurer
 
@@ -26,6 +27,11 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {}
 
+    def get_actions(self):
+        import ckanext.ytp.comments.logic.action as actions
+        return {
+            "comment_create": actions.create.comment_create
+        }
     # IPackageController
 
     def before_view(self, pkg_dict):
@@ -40,4 +46,5 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             /dataset/NAME/comments/add
         """
         controller = 'ckanext.ytp.comments.controller:CommentController'
+        map.connect('/dataset/{dataset_name}/comments/add', controller=controller, action='add')
         return map
