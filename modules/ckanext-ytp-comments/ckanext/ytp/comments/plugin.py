@@ -8,9 +8,9 @@ log = logging.getLogger(__name__)
 
 class YtpCommentsPlugin(plugins.SingletonPlugin):
     implements(plugins.IRoutes, inherit=True)
-    implements(plugins.IConfigurable, inherit=True)
+    implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IPackageController, inherit=True)
-    implements(p.ITemplateHelpers, inherit=True)
+    implements(plugins.ITemplateHelpers, inherit=True)
 
     # IConfigurer
 
