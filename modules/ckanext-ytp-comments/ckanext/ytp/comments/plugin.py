@@ -1,7 +1,6 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -12,6 +11,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     implements(plugins.IPackageController, inherit=True)
     implements(plugins.ITemplateHelpers, inherit=True)
     implements(plugins.IActions, inherit=True)
+    implements(plugins.IAuthFunctions, inherit=True)
 
     # IConfigurer
 
@@ -25,12 +25,21 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
 
     def get_helpers(self):
-        return {}
+        return {
+            'get_comments': self._get_comments
+        }
 
     def get_actions(self):
         import ckanext.ytp.comments.logic.action as actions
         return {
-            "comment_create": actions.create.comment_create
+            "comment_create": actions.create.comment_create,
+            "thread_show": actions.get.thread_show
+        }
+
+    def get_auth_functions(self):
+        import ckanext.ytp.comments.logic.auth as auths
+        return {
+            'comment_create': auths.create.comment_create
         }
     # IPackageController
 
@@ -46,5 +55,11 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             /dataset/NAME/comments/add
         """
         controller = 'ckanext.ytp.comments.controller:CommentController'
-        map.connect('/dataset/{dataset_name}/comments/add', controller=controller, action='add')
+        map.connect('/dataset/{dataset_id}/comments/add', controller=controller, action='add')
         return map
+
+    def _get_comments(self, dataset_name):
+        import ckan.model as model
+        from ckan.logic import get_action
+        url =  '/dataset/%s' % dataset_name
+        return get_action('thread_show')({'model': model}, {'url': url})

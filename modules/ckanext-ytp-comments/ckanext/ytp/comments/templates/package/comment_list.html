@@ -1,7 +1,11 @@
 {# todo: add comment list #}
 {# TODO: add if for add comment button #}
 
-<form class="form" action="" method="POST">
+{{ pkg_id }}
+{% set comments = h.get_comments(pkg_id) %}
+{{ comments }}
+
+<form class="form" action="{{ pkg_id }}/comments/add" method="POST">
     <div class="form-controls">
         <label for="subject">Subject</label>
         <input type="text" class="form-control" name="subject"/>

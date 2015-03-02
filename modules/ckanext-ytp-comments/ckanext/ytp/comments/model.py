@@ -126,17 +126,9 @@ class Comment(Base):
             setattr(self, k, v)
 
         # Auto-set some values based on configuration
-        from pylons import config
-        if toolkit.asbool(config.get('ckan.comments.moderation', 'true')):
-            self.approval_status = COMMENT_PENDING
-        else:
-            # If user wants first comment moderated and the user who wrote this hasn't
-            # got another comment, put it into moderation, otherwise approve
-            if toolkit.asbool(config.get('ckan.comments.moderation.first_only', 'true')) and \
-                            Comment.count_for_user(self.user, COMMENT_APPROVED) == 0:
-                self.approval_status = COMMENT_PENDING
-            else:
-                self.approval_status = COMMENT_APPROVED
+
+        self.approval_status = COMMENT_APPROVED
+
 
     @classmethod
     def get(cls, id):

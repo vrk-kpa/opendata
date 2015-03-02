@@ -2,16 +2,18 @@ import datetime
 import ckanext.ytp.comments.model as comment_model
 import ckanext.ytp.comments.util as util
 from ckan import logic
-
+from pprint import pprint
 import logging
 
 log = logging.getLogger(__name__)
 
 def comment_create(context, data_dict):
+    pprint(data_dict)
+    pprint(context)
     model = context['model']
     user = context['user']
 
-    userobj = model.User.get('user')
+    userobj = model.User.get(user)
 
     logic.check_access("comment_create", context, data_dict)
 
@@ -37,7 +39,7 @@ def comment_create(context, data_dict):
     # Create the object
     cmt = comment_model.Comment(thread_id=thread_id,
                                 comment=cleaned_comment)
-
+    pprint(cmt)
     cmt.user_id = userobj.id
     cmt.subject = data_dict.get('subject', 'No subject')
 
