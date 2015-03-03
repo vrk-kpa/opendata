@@ -2,8 +2,31 @@
 {# TODO: add if for add comment button #}
 
 {{ pkg_id }}
-{% set comments = h.get_comments(pkg_id) %}
+{% set thread = h.get_comment_thread(pkg_name) %}
 {{ comments }}
+
+{% macro comment_thread(thread) %}
+    <div class="comment-wrapper">
+    {% for comment in thread.comments %}
+        <div class="comment">
+            <h3>{{ comment.subject }}</h3>
+            <div class="submitted">
+                {{ comment }}
+                <span>{{ h.render_datetime(comment.creation_date) }}</span>
+            </div>
+            <div class="content">
+            {{ comment.content|safe }}
+            {% if comment.comments | length != 0 %}
+                call
+            {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endmacro %}
+
+{{ comment_thread(thread) }}
 
 <form class="form" action="{{ pkg_id }}/comments/add" method="POST">
     <div class="form-controls">

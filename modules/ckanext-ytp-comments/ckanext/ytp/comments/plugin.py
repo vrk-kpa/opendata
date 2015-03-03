@@ -26,7 +26,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     def get_helpers(self):
         return {
-            'get_comments': self._get_comments
+            'get_comment_thread': self._get_comment_thread
         }
 
     def get_actions(self):
@@ -58,7 +58,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         map.connect('/dataset/{dataset_id}/comments/add', controller=controller, action='add')
         return map
 
-    def _get_comments(self, dataset_name):
+    def _get_comment_thread(self, dataset_name):
         import ckan.model as model
         from ckan.logic import get_action
         url =  '/dataset/%s' % dataset_name

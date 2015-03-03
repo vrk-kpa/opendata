@@ -35,7 +35,7 @@ def thread_show(context, data_dict):
 
     # Dictize the thread and all the comments within it.
     thread_dict = thread.as_dict()
-
+    log.debug(thread_dict)
     # Add the top level comments from the thread in order to the following list.
     comments = model.Session.query(comment_model.Comment). \
         filter(comment_model.Comment.thread_id==thread.id)
