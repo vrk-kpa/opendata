@@ -1,6 +1,7 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 
+import datetime
 import logging
 
 log = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     def update_config(self, config):
         toolkit.add_template_directory(config, "templates")
         toolkit.add_public_directory(config, 'public')
+        toolkit.add_resource('public/javascript/', 'comments_js')
 
 
     def get_helpers(self):
@@ -56,6 +58,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         """
         controller = 'ckanext.ytp.comments.controller:CommentController'
         map.connect('/dataset/{dataset_id}/comments/add', controller=controller, action='add')
+        map.connect('/dataset/{dataset_id}/comments/{comment_id}/edit', controller=controller, action='edit')
         return map
 
     def _get_comment_thread(self, dataset_name):
@@ -63,3 +66,6 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         from ckan.logic import get_action
         url =  '/dataset/%s' % dataset_name
         return get_action('thread_show')({'model': model}, {'url': url})
+
+
+

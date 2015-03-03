@@ -1,21 +1,54 @@
 {# todo: add comment list #}
 {# TODO: add if for add comment button #}
 
-{{ pkg_id }}
+{% resource "comments_js/comments.js" %}
+
+{% macro comment_form(values={}, empty=False, hidden=True, prefix="") %}
+    <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/edit/{{ values.id }}" method="POST">
+        <div class="form-controls">
+            <label for="subject">Subject</label>
+            <input type="text" class="form-control" name="subject" {% if not empty %}value="{{ values.subject }}" {% endif %}/>
+            <label for="comment">Comment</label>
+            {% set unescaped_content = values.content.split('<br/>') %}
+            <textarea name="comment" class="form-control" rows="10">{% if not empty %}{% for line in unescaped_content %}{{ line | striptags }}{{'\n'}}{% endfor %}{% endif %}</textarea>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Save"/>
+            <input type="reset" class="btn" value="Reset"/>
+        </div>
+    </form>
+{% endmacro %}
+
+
+
 {% set thread = h.get_comment_thread(pkg_name) %}
-{{ comments }}
 
 {% macro comment_thread(thread) %}
     <div class="comment-wrapper">
     {% for comment in thread.comments %}
         <div class="comment">
+
             <h3>{{ comment.subject }}</h3>
             <div class="submitted">
-                {{ comment }}
-                <span>{{ h.render_datetime(comment.creation_date) }}</span>
+                <span>{{ h.render_datetime(comment.creation_date, "%d.%m.%Y %H:%M") }} {{  h.linked_user(comment.username, 0, 10) }}</span>
             </div>
             <div class="content">
             {{ comment.content|safe }}
+            <ul class="links list-inline">
+                {% if h.check_access('package_update', {'id': pkg_id }) %}
+                    <li><a href="">{{ _('Delete') }}</a> </li>
+                {% endif %}
+
+                {% if userobj and comment.username == userobj.name %}
+                    <li><a onclick="ShowCommentForm('edit_{{ comment.id }}')">{{ _('Modify') }}</a></li>
+                    {{ comment_form(comment, prefix='edit_') }}
+                {% endif %}
+                {% if userobj %}
+                    <li><a onclick="ShowCommentForm('reply_{{ comment.id }}')">{{ _('Reply') }}</a> </li>
+                    {{ comment_form(comment, empty=True, prefix='reply_') }}
+                {% endif %}
+
+            </ul>
             {% if comment.comments | length != 0 %}
                 call
             {% endif %}
@@ -27,6 +60,8 @@
 {% endmacro %}
 
 {{ comment_thread(thread) }}
+
+
 
 <form class="form" action="{{ pkg_id }}/comments/add" method="POST">
     <div class="form-controls">
