@@ -13,8 +13,20 @@ import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.lib.package_saver as package_saver
 from genshi.template import MarkupTemplate
 
+import sqlalchemy
+
+_check_access = check_access
+_or_ = sqlalchemy.or_
+_and_ = sqlalchemy.and_
+
 
 h = helpers
+
+CONTENT_TYPES = {
+    'text': 'text/plain;charset=utf-8',
+    'html': 'text/html;charset=utf-8',
+    'json': 'application/json;charset=utf-8',
+    }
 
 
 class YtpDatasetController(PackageController):
@@ -484,3 +496,120 @@ class YtpDatasetController(PackageController):
                 {"text": _("Paper"), "value": "paper"},
                 {"text": _("Post"), "value": "post"},
                 {"text": _("Visualization"), "value": "visualization"})
+
+    def autocomplete_packages_by_collection_type(self, collection_type=None, q=None):
+
+        q = request.params.get('incomplete', '')
+        collection_type = request.params.get('collection_type', '')
+        limit = request.params.get('limit', None)
+        package_dicts = []
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user or c.author, 'auth_user_obj': c.userobj}
+
+        data_dict = {'q': q, 'limit': limit, 'collection_type': collection_type}
+
+        package_dicts = self._package_autocomplete(context, data_dict)
+
+        resultSet = {'ResultSet': {'Result': package_dicts}}
+        return self._finish_ok(resultSet)
+
+    def _package_autocomplete(self, context, data_dict):
+        print(data_dict)
+        model = context['model']
+
+        _check_access('package_autocomplete', context, data_dict)
+
+        limit = data_dict.get('limit', None)
+        q = data_dict.get('q', '')
+
+        like_q = u'%%%s%%' % q
+
+        query = model.Session.query(model.Package)
+        query = query.filter(model.Package.state == 'active')
+        query = query.filter(model.Package.private == 'False')  # noqa
+        query = query.filter(_or_(model.Package.name.ilike(like_q),
+                                  model.Package.title.ilike(like_q)))
+
+        collection_type = data_dict.get('collection_type', None)
+
+        if collection_type is not None:
+            query = query.join(model.PackageExtra) \
+                .filter(_and_(model.PackageExtra.key == 'collection_type'),
+                        model.PackageExtra.value == collection_type)
+
+        if limit is not None:
+            query = query.limit(limit)
+        q_lower = q.lower()
+        pkg_list = []
+        for package in query:
+            if package.name.startswith(q_lower):
+                match_field = 'name'
+                match_displayed = package.name
+            else:
+                match_field = 'title'
+                match_displayed = '%s (%s)' % (package.title, package.name)
+            result_dict = {
+                'name': package.name,
+                'title': package.title,
+                'match_field': match_field,
+                'match_displayed': match_displayed}
+            pkg_list.append(result_dict)
+
+        return pkg_list
+
+    def _finish(self, status_int, response_data=None,
+                content_type='text'):
+        '''When a controller method has completed, call this method
+        to prepare the response.
+        @return response message - return this value from the controller
+                                   method
+                 e.g. return self._finish(404, 'Package not found')
+        '''
+        assert(isinstance(status_int, int))
+        response.status_int = status_int
+        response_msg = ''
+        if response_data is not None:
+            response.headers['Content-Type'] = CONTENT_TYPES[content_type]
+            if content_type == 'json':
+                response_msg = h.json.dumps(response_data)
+            else:
+                response_msg = response_data
+            # Support "JSONP" callback.
+            if status_int == 200 and 'callback' in request.params and \
+                    (request.method == 'GET' or c.logic_function and request.method == 'POST'):
+                # escape callback to remove '<', '&', '>' chars
+                callback = cgi.escape(request.params['callback'])
+                response_msg = self._wrap_jsonp(callback, response_msg)
+        return response_msg
+
+    def _finish_ok(self, response_data=None,
+                   content_type='json',
+                   resource_location=None):
+        '''If a controller method has completed successfully then
+        calling this method will prepare the response.
+        @param resource_location - specify this if a new
+           resource has just been created.
+        @return response message - return this value from the controller
+                                   method
+                                   e.g. return self._finish_ok(pkg_dict)
+        '''
+        if resource_location:
+            status_int = 201
+            self._set_response_header('Location', resource_location)
+        else:
+            status_int = 200
+
+        return self._finish(status_int, response_data, content_type)
+
+    def _wrap_jsonp(self, callback, response_msg):
+        return '%s(%s);' % (callback, response_msg)
+
+    def _set_response_header(self, name, value):
+        try:
+            value = str(value)
+        except Exception, inst:
+            msg = "Couldn't convert '%s' header value '%s' to string: %s" % \
+                  (name, value, inst)
+            raise Exception(msg)
+        response.headers[name] = value

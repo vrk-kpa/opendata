@@ -13,18 +13,18 @@
       <dd>{{ [extra_dict.valid_from, extra_dict.valid_till]|join(' - ') }}</dd>
     {% endif %}
 
-    {% if extra_dict.author_email %}
+    {% if extra_dict.author_email and extra_dict.author_email != "None" %}
       <dt>{{ _("Author") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.author_email, name=extra_dict.author) }}</dd>
-    {% elif extra_dict.author %}
+    {% elif extra_dict.author  and extra_dict.author != "None" %}
       <dt>{{ _("Author") }}</dt>
       <dd>{{ extra_dict.author }}</dd>
     {% endif %}
 
-    {% if extra_dict.maintainer_email %}
+    {% if extra_dict.maintainer_email and extra_dict.maintainer_email != "None" %}
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.maintainer_email, name=extra_dict.maintainer) }}</dd>
-    {% elif extra_dict.maintainer %}
+    {% elif extra_dict.maintainer and extra_dict.maintainer != "None" %}
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ extra_dict.maintainer }}</dd>
     {% endif %}
@@ -33,8 +33,7 @@
       <dt>{{ _("Owner") }}</dt>
       <dd>{{ extra_dict.owner }}</dd>
     {% endif %}
-
-    {% if extra_dict.license_url or dict.license_title  %}
+    {% if extra_dict.license_url or extra_dict.license_title  %}
       <dt>{{ _("License") }}</dt>
       <dd>{% if extra_dict.license_url %}
         <a href ="{{ _(extra_dict.license_url) }}">
@@ -45,8 +44,16 @@
         {% endif %}
         </a>
         {% else %}
-            {{_(extra_dict.license_title)}}
-        {% endif %}
+
+          {% set license = h.get_license(extra_dict.license_title) %}
+          {% if license %}
+                <a href="{{ license.get('url') }}">{{ license.get('title') }}</a>
+            {% else %}
+                {{_(extra_dict.license_title)}}
+            {% endif %}
+
+
+      {% endif %}
         </dd>
     {% endif %}
 

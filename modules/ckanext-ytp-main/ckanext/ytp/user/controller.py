@@ -57,8 +57,7 @@ class YtpUserController(UserController):
 
         user_obj = context.get('user_obj')
 
-        if not (new_authz.is_sysadmin(c.user)
-                or c.user == user_obj.name):
+        if not (new_authz.is_sysadmin(c.user) or c.user == user_obj.name):
             abort(401, _('User %s not authorized to edit %s') %
                   (str(c.user), id))
 

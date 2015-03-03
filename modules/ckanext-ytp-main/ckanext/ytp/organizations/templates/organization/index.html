@@ -6,6 +6,24 @@
 
 {% endblock %}
 
+{% block page_primary_action %}
+    {% set orgs =  h.organizations_available() %}
+    {% if orgs | count != 0 %}
+        <div class="btn-group">
+            <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
+        </div>
+    {% endif %}
+
+    {% if h.is_sysadmin() %}
+        <div class="btn-group">
+            <a href="/data/{{ h.lang() }}/user_list" class="btn btn-primary">{{ _('Users') }}</a>
+        </div>
+    {% endif %}
+
+    {{ super() }}
+{% endblock %}
+
+
 {% block primary_content_inner %}
   <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
 

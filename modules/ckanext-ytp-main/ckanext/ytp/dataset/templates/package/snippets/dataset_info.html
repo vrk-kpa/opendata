@@ -26,7 +26,7 @@
         <h4 class="dataset-title sidebar-title">{{_('Tags')}}</h4>
         {% if pkg.get('tags') %}
             {% for tag in pkg.get('tags') %}
-                <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name')}}" >{{tag.get('display_name')}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name') | lower }}" >{{tag.get('display_name') | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {% endfor %}
         {%endif%}
@@ -40,7 +40,7 @@
         {% if pkg.get( 'content_type') %}
             {% set con_list = pkg.get( 'content_type').split(',') %}
             {%- for content in con_list -%}
-                <a href="/data/{{ h.lang() }}/dataset?content_type={{content}}">{{_(content)}}</a>
+                <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
             {%- endfor -%}
         {%endif%}
@@ -50,7 +50,7 @@
     {% block license_info %}
         <div>
         <h4 class="dataset-title sidebar-title">{{_('License')}}</h4>
-        {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0'  %}
+        {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
             {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
             {% if pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
                   {% snippet 'package/snippets/license_rdf.html', 

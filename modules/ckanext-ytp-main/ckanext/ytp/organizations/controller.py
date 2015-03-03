@@ -38,3 +38,31 @@ class YtpOrganizationController(OrganizationController):
         except NotFound:
             abort(404, _('Group not found'))
         return self._render_template('group/members.html')
+
+    def user_list(self):
+        if c.userobj and c.userobj.sysadmin:
+
+            q = model.Session.query(model.Group, model.Member, model.User). \
+                filter(model.Member.group_id == model.Group.id). \
+                filter(model.Member.table_id == model.User.id). \
+                filter(model.Member.table_name == 'user'). \
+                filter(model.User.name != 'harvest'). \
+                filter(model.User.name != 'default'). \
+                filter(model.User.state == 'active')
+
+            users = []
+
+            for group, member, user in q.all():
+                users.append({
+                    'user_id': user.id,
+                    'username': user.name,
+                    'organization': group.title,
+                    'role': member.capacity,
+                    'email': user.email
+                })
+
+            c.users = users
+        else:
+            c.users = []
+
+        return self._render_template('group/user_list.html')

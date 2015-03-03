@@ -76,21 +76,50 @@
     {% endcall %}
 
     {# Producer type selector #}
-    {{ ytp_form.modal('producer_type', 
+    {# {{ ytp_form.modal('producer_type',
                       label=_('Producer type'), 
                       treedata=h.get_dict_tree_from_json(menu_vocabularies[-1]),
                       modalAttrs = {'nodesToSelect': 'all', 'targetElementId': 'producer_type' },
                       inputAttrs = {'data-module': 'autocomplete', 'data-module-tags': 'producer_type', 'readonly': true},
                       value=data.producer_type) }}
 
+#}
+
+    <div class="control-group">
+        <label for="field-producer_type" class="control-label">
+            {{ _('Producer type') }}
+        </label>
+
+
+        {% set producer_types = [
+            {'id': 'civil-service', 'name': _('Civil Service')},
+            {'id': 'municipality', 'name': _('Municipality / City')},
+            {'id': 'other-public-service', 'name': _('Other Public Service')},
+            {'id': 'educational-research-institute', 'name': _('Educational / Research Institute')},
+            {'id': 'company', 'name': _('Company')},
+            {'id': 'individual', 'name': _('Individual')}
+        ]%}
+
+        <div class="controls">
+            <select id="field-producer_type" name="producer_type" data-module="autocomplete">
+                <option value="" {% if not data.producer_type and data.id %} selected="selected" {% endif %} >{{ _('Select a producer type...') }}</option>
+                <option value=""></option>
+                {% for producer_type in producer_types %}
+                    <option value="{{ producer_type.id }}" {% if data.get('producer_type', '') == producer_type.id %} selected="selected" {% endif %}>{{ producer_type.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {# Hide custom fields #}
 {% block custom_fields %}
 
-{{ ytp_form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}
-{{ ytp_form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}
-{{ ytp_form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+{# {{ ytp_form.input('business_id', label=_('Business ID'), placeholder=_('Business ID'), value=data.business_id, error=errors.business_id, classes=['control-full']) }}  #}
+{# {{ ytp_form.input('oid', label=_('OID'), placeholder=_('OID'), value=data.oid, error=errors.oid, classes=['control-full']) }}  #}
+{# {{ ytp_form.input('alternative_name', label=_('Alternative name'), placeholder=_('Alternative name'), value=data.alternative_name, error=errors.alternative_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
 
 {% call form.input_block("validity", _('Period of validity'), errors.validity, [], extra_html="") %}
   <div class="form-inline date">
@@ -111,28 +140,31 @@
     <span>{{ _('Street') }}, {{ _('House number') }}, {{ _('Staircase') }}, {{ _('Apartment number') }}</span>
     {% endcall %}
 
-    {{ ytp_form.input('street_address_pobox', label=_('P.O. box'), id='street_address_pobox', placeholder=_('P.O. Box 123'), value=data.street_address_pobox, error=errors.street_address_pobox, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {# {{ ytp_form.input('street_address_pobox', label=_('P.O. box'), id='street_address_pobox', placeholder=_('P.O. Box 123'), value=data.street_address_pobox, error=errors.street_address_pobox, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
     {{ ytp_form.input('street_address_zip_code', label=_('Zip code'), id='street_address_zip_code', placeholder=_('12345'), value=data.street_address_zip_code, error=errors.street_address_zip_code, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
 
     {{ ytp_form.input('street_address_place_of_business', label=_('Place of Business'), id='street_address_place_of_business', placeholder=_('Example City'), value=data.street_address_place_of_business, error=errors.street_address_place_of_business, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.input('street_address_country', label=_('Country'), id='street_address_country', placeholder= _('Example country'), value=data.street_address_country, error=errors.street_address_country, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {# {{ ytp_form.input('street_address_country', label=_('Country'), id='street_address_country', placeholder= _('Example country'), value=data.street_address_country, error=errors.street_address_country, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
 
-    <h3 class="organization-subheading">{{ _('Address specifier') }}</h3>
+    {# <h3 class="organization-subheading">{{ _('Address specifier') }}</h3>  #}
 
-    {{ ytp_form.input('street_address_unofficial_name', label=_('Unofficial name of the building'), id='street_address_unofficial_name', placeholder=_('Example name'), value=data.street_address_unofficial_name, error=errors.street_address_unofficial_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.input('street_address_building_id', label=_('Building ID'), id='street_address_building_id', placeholder=_('Example Id'), value=data.street_address_building_id, error=errors.street_address_building_id, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {# {{ ytp_form.input('street_address_unofficial_name', label=_('Unofficial name of the building'), id='street_address_unofficial_name', placeholder=_('Example name'), value=data.street_address_unofficial_name, error=errors.street_address_unofficial_name, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
+    {# {{ ytp_form.input('street_address_building_id', label=_('Building ID'), id='street_address_building_id', placeholder=_('Example Id'), value=data.street_address_building_id, error=errors.street_address_building_id, classes=['control-full'], locales=h.get_available_locales(), data=data) }} #}
 
-    <h3 class="organization-subheading">{{ _('Arrival instructions') }}</h3>
+    {# <h3 class="organization-subheading">{{ _('Arrival instructions') }}</h3> #}
 
-    {{ ytp_form.markdown('street_address_getting_there', label=_('Getting there'), id='street_address_getting_there', placeholder=_('Example instructions'), value=data.street_address_getting_there, error=errors.street_address_getting_there, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.markdown('street_address_parking', label=_('Parking'), id='street_address_parking', placeholder=_('Example parking instructions'), value=data.street_address_parking, error=errors.street_address_parking, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {# {{ ytp_form.markdown('street_address_getting_there', label=_('Getting there'), id='street_address_getting_there', placeholder=_('Example instructions'), value=data.street_address_getting_there, error=errors.street_address_getting_there, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
+    {# {{ ytp_form.markdown('street_address_parking', label=_('Parking'), id='street_address_parking', placeholder=_('Example parking instructions'), value=data.street_address_parking, error=errors.street_address_parking, classes=['control-full'], locales=h.get_available_locales(), data=data) }}  #}
 
-    {{ ytp_form.input('street_address_public_transport', label=_('Arrival by public transport'), id='street_address_public_transport', placeholder=_('Example instructions arrival by public transport'), value=data.street_address_public_transport, error=errors.street_address_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
-    {{ ytp_form.input('street_address_url_public_transport', label=_('Web address for public transport'), id='street_address_url_public_transport', placeholder=_('http://publictransport.example.com/'), value=data.street_address_url_public_transport, error=errors.street_address_url_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
+    {# {{ ytp_form.input('street_address_public_transport', label=_('Arrival by public transport'), id='street_address_public_transport', placeholder=_('Example instructions arrival by public transport'), value=data.street_address_public_transport, error=errors.street_address_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }} #}
+    {# {{ ytp_form.input('street_address_url_public_transport', label=_('Web address for public transport'), id='street_address_url_public_transport', placeholder=_('http://publictransport.example.com/'), value=data.street_address_url_public_transport, error=errors.street_address_url_public_transport, classes=['control-full'], locales=h.get_available_locales(), data=data) }} #}
 
+
+    {{ ytp_form.input('homepage', label=_('Homepage'), id='homepage', placeholder=_('http://example.com'), value=data.homepage, error=errors.homepage, classes=['control-full'], locales=h.get_available_locales(), data=data) }}
 
     {# Homepage functionality #}
+    {#
     <script type="text/javascript">
 
         function CreateButtonString(editButton) {
@@ -405,7 +437,11 @@
         <input type="hidden" id="homepage_plain_language_availabilities" name="homepage_plain_language_availabilities" value="0" class="hiddenFormTemplate" disabled="disabled"/>
         {{ form.checkbox('ToggleCheckboxValue', label=_('Plain language translation available'), error=errors.description, classes=['hiddenFormTemplate'], attrs={"disabled": "disabled", "onclick": "ToggleCheckbox(this)"}) }}
     </div>
+
+    #}
     </div> <!-- end div class="translate-content" -->
+
+
 {% endblock %}
 
 {% block delete_button %}

@@ -1,6 +1,6 @@
 from ckan import plugins, model, logic
 from ckan.plugins import toolkit
-from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing
+from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
 from ckan.common import _, c, request
 
@@ -14,15 +14,14 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
-    sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_datasets_five_star_rating, get_upload_size
+    sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_datasets_five_star_rating, get_upload_size, get_license
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
-from ckanext.ytp.common.helpers import extra_translation
+from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.ytp.dataset import auth
 
 import json
-import ckan.lib.navl.dictization_functions as dictization_functions
 
 try:
     from collections import OrderedDict  # 2.7
@@ -205,6 +204,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
         m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type', controller=controller)
         return m
 
     # IConfigurer #
@@ -436,7 +436,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return self.auto_author
 
     def _is_sysadmin(self):
-        return c.userobj.sysadmin
+        if c.userobj:
+            return c.userobj.sysadmin
+        return False
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -460,10 +462,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
                 'calculate_datasets_five_star_rating': calculate_datasets_five_star_rating,
                 'is_sysadmin': self._is_sysadmin,
-                'get_upload_size': get_upload_size}
+                'get_upload_size': get_upload_size,
+                'render_date': render_date,
+                'get_license': get_license}
 
     def get_auth_functions(self):
-        return {'related_update': auth.related_update}
+        return {'related_update': auth.related_update,
+                'related_create': auth.related_create}
 
         # IPackageController #
 
@@ -542,9 +547,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                         continue
 
                     package_dict['content_type'] = value
-                    flattened = dictization_functions.flatten_dict(package_dict)
+                    flattened = flatten_dict(package_dict)
                     convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                    package_dict = dictization_functions.unflatten(flattened)
+                    package_dict = unflatten(flattened)
 
             if extra['key'] == 'licence':
                 value = json.loads(extra['value'])

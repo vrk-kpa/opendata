@@ -118,8 +118,8 @@
             {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
               <dt>{{ _('Temporal Coverage') }}</dt>
               <dd>
-                {% if extra_dict.temporal_coverage_from %}{{ h.render_datetime(h.date_str_to_datetime(extra_dict.temporal_coverage_from), "%d.%m.%Y") }}{% endif %} -
-                {% if extra_dict.temporal_coverage_to %}{{ h.render_datetime(h.date_str_to_datetime(extra_dict.temporal_coverage_to), "%d.%m.%Y")}}{% endif %}
+                {% if extra_dict.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_from)) }}{% endif %} -
+                {% if extra_dict.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_to))}}{% endif %}
               </dd>
             {% endif %}
           </dl>

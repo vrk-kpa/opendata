@@ -9,6 +9,22 @@
 
     {# Display extra organization information #}
 
+    {% set producer_types = [
+            {'id': 'civil-service', 'name': _('Civil Service')},
+            {'id': 'municipality', 'name': _('Municipality / City')},
+            {'id': 'other-public-service', 'name': _('Other Public Service')},
+            {'id': 'educational-research-institute', 'name': _('Educational / Research Institute')},
+            {'id': 'company', 'name': _('Company')},
+            {'id': 'individual', 'name': _('Individual')}
+        ]%}
+    {% set type = [] %}
+    {% for producer_type in producer_types %}
+        {% if c.group_dict.producer_type == producer_type['id'] %}
+           {% do type.append(producer_type['name']) %}
+        {% endif %}
+    {% endfor %}
+
+
     <div id="OrgExtraInfo">
         <dl class="dl-horizontal">
 
@@ -16,7 +32,14 @@
                 {% set validity = [c.group_dict.valid_from, c.group_dict.valid_till]|join(' - ') %}
             {% endif %}
 
-            {% set info_list = [(_('Producer type'), c.group_dict.producer_type|replace(",",", ")),
+            {% set producer = [] %}
+            {% if type %}
+                {% do producer.append(type[-1]) %}
+            {% else %}
+                {% do producer.append(c.group_dict.producer_type|replace(",",", ")) %}
+            {% endif %}
+
+            {% set info_list = [(_('Producer type'), producer[-1]),
                                 (_('Business ID'), c.group_dict.business_id),
                                 (_('OID'), c.group_dict.oid),
                                 (_('Alternative name'), h.extra_translation(c.group_dict, 'alternative_name')),
@@ -34,8 +57,8 @@
     <div id="addressInfo">
         <h2>{{_('Contact info')}}</h2>        
         <dl class="dl-horizontal">
-
             {% set url = h.extra_translation(c.group_dict, 'street_address_url_public_transport') %}
+            {% set homepage = h.extra_translation(c.group_dict, 'homepage') %}
             {% set address_info = [([_('Street'), _('House number'), _('Staircase'), _('Apartment number')]|join(', '), h.extra_translation(c.group_dict, 'street_address')),
                                    (_('P.O. box'), h.extra_translation(c.group_dict, 'street_address_pobox')),
                                    (_('Zip code'), h.extra_translation(c.group_dict, 'street_address_zip_code')),
@@ -46,7 +69,8 @@
                                    (_('Getting there'), h.extra_translation(c.group_dict, 'street_address_getting_there', markdown=True)),
                                    (_('Parking'), h.extra_translation(c.group_dict, 'street_address_parking', markdown=True)),
                                    (_('Arrival by public transport'), h.extra_translation(c.group_dict, 'street_address_public_transport')),
-                                   (_('Web address for public transport'), url|urlize)
+                                   (_('Web address for public transport'), url|urlize),
+                                   (_('Homepage'), homepage|urlize)
                                    ] %}
 
             {% for info in address_info %}
