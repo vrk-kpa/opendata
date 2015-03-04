@@ -2,6 +2,7 @@ import logging
 
 import ckanext.ytp.comments.model as comment_model
 from ckan.lib.base import abort
+from ckan import logic
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +52,7 @@ def thread_show(context, data_dict):
 
     # We only want the top-level comments because sub-comments will be retrieved in the
     # c.as_dict call
-    #comments = comments.filter(comment_model.Comment.parent_id == None)
+    comments = comments.filter(comment_model.Comment.parent_id == None)
 
     if isinstance(context.get('offset'),int):
         comments = comments.offset(int(context.get('offset')))
@@ -69,12 +70,12 @@ def comment_show(context, data_dict):
     model = context['model']
     user = context['user']
 
-    id = data_dict.get('id')
+    id = logic.get_or_bust(data_dict, 'id')
+    comment = comment_model.Comment.get(id)
+    if not comment:
+        abort(404)
 
-    if not id:
-        return abort(404)
-
-    comment = model.Session.query(comment_model.Comment). \
-        filter(comment_model.Comment.id == id)
+    logic.check_access("comment_show", context, data_dict)
+    data_dict['comment'] = comment
 
     return comment.as_dict()

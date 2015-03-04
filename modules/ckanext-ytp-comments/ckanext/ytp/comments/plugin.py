@@ -35,13 +35,19 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         import ckanext.ytp.comments.logic.action as actions
         return {
             "comment_create": actions.create.comment_create,
-            "thread_show": actions.get.thread_show
+            "thread_show": actions.get.thread_show,
+            "comment_update": actions.update.comment_update,
+            "comment_show": actions.get.comment_show,
+            "comment_delete": actions.delete.comment_delete
         }
 
     def get_auth_functions(self):
         import ckanext.ytp.comments.logic.auth as auths
         return {
-            'comment_create': auths.create.comment_create
+            'comment_create': auths.create.comment_create,
+            'comment_update': auths.update.comment_update,
+            'comment_show': auths.get.comment_show,
+            'comment_delete': auths.delete.comment_delete
         }
     # IPackageController
 
@@ -59,6 +65,8 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         controller = 'ckanext.ytp.comments.controller:CommentController'
         map.connect('/dataset/{dataset_id}/comments/add', controller=controller, action='add')
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/edit', controller=controller, action='edit')
+        map.connect('/dataset/{dataset_id}/comments/{parent_id}/reply', controller=controller, action='reply')
+        map.connect('/dataset/{dataset_id}/comments/{comment_id}/delete', controller=controller, action='delete')
         return map
 
     def _get_comment_thread(self, dataset_name):

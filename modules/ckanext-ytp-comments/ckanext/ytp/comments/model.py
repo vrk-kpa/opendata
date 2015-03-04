@@ -117,6 +117,7 @@ class Comment(Base):
     comment = Column(types.UnicodeText)
 
     creation_date = Column(types.DateTime, default=datetime.datetime.now)
+    modified_date = Column(types.DateTime, default=datetime.datetime.now)
     approval_status = Column(types.UnicodeText)
 
     state = Column(types.UnicodeText, default=u'active')
@@ -142,7 +143,7 @@ class Comment(Base):
     def get(cls, id):
         return model.Session.query(cls).filter(cls.id==id).first()
 
-    def as_dict(self):
+    def as_dict(self, only_active_children=True):
         """
         Returns this model as a dictionary, including all child comments (as dicts) if
         if has any
@@ -165,7 +166,12 @@ class Comment(Base):
         d['state'] = self.state
         d['thread_id'] = self.thread_id
         d['creation_date'] = self.creation_date.isoformat()
-        d['comments'] = [c.as_dict() for c in self.children]
+        if self.modified_date:
+            d['modified_date'] = self.modified_date.isoformat()
+        if only_active_children is True:
+            d['comments'] = [c.as_dict() for c in self.children if c.state == 'active']
+        else:
+            d['comments'] = [c.as_dict() for c in self.children]
         return d
 
     @classmethod

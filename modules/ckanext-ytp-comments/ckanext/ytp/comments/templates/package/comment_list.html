@@ -3,8 +3,8 @@
 
 {% resource "comments_js/comments.js" %}
 
-{% macro comment_form(values={}, empty=False, hidden=True, prefix="") %}
-    <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/edit/{{ values.id }}" method="POST">
+{% macro comment_form(values={}, empty=False, hidden=True, prefix="", action="add") %}
+    <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/{% if values.id %}{{ values.id }}/{% endif %}{{ action }}" method="POST">
         <div class="form-controls">
             <label for="subject">Subject</label>
             <input type="text" class="form-control" name="subject" {% if not empty %}value="{{ values.subject }}" {% endif %}/>
@@ -24,6 +24,7 @@
 {% set thread = h.get_comment_thread(pkg_name) %}
 
 {% macro comment_thread(thread) %}
+
     <div class="comment-wrapper">
     {% for comment in thread.comments %}
         <div class="comment">
@@ -34,26 +35,29 @@
             </div>
             <div class="content">
             {{ comment.content|safe }}
+            {% if comment.state == 'active' %}
             <ul class="links list-inline">
                 {% if h.check_access('package_update', {'id': pkg_id }) %}
-                    <li><a href="">{{ _('Delete') }}</a> </li>
+                    <li><a href="/dataset/{{ pkg_id }}/comments/{{ comment.id }}/delete">{{ _('Delete') }}</a> </li>
                 {% endif %}
 
                 {% if userobj and comment.username == userobj.name %}
                     <li><a onclick="ShowCommentForm('edit_{{ comment.id }}')">{{ _('Modify') }}</a></li>
-                    {{ comment_form(comment, prefix='edit_') }}
+                    {{ comment_form(comment, prefix='edit_', action='edit') }}
                 {% endif %}
                 {% if userobj %}
                     <li><a onclick="ShowCommentForm('reply_{{ comment.id }}')">{{ _('Reply') }}</a> </li>
-                    {{ comment_form(comment, empty=True, prefix='reply_') }}
+                    {{ comment_form(comment, empty=True, prefix='reply_', action='reply') }}
                 {% endif %}
 
             </ul>
-            {% if comment.comments | length != 0 %}
-                call
             {% endif %}
             </div>
         </div>
+            {% if comment.comments | length != 0 %}
+                {{ comment_thread(comment) }}
+            {% endif %}
+
     {% endfor %}
     </div>
 
