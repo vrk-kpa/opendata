@@ -8,6 +8,7 @@ modules:
   - ckanext-ytp-request
   - ckanext-ytp-main
   - ckanext-googleanalytics
+  - ckanext-ytp-comments
   - ytp-theme-drupal
   - ytp-drupal-wysiwyg
   - ytp-drupal-user

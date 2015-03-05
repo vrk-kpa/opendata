@@ -350,29 +350,36 @@ label.radio-inline:after, label.checkbox-inline:after{
   margin-left: 18px;
 }
 
-.comment-wrapper {
-  background-color: @background-hilight;
-  border-radius: 4px;
+.comment-container{
   padding: 10px;
+  background-color: @background-hilight;
+  .comment-wrapper {
+    background-color: @background-hilight;
+    border-radius: 4px;
+    padding: 10px 0 10px 15px;
 
-  .links {
-    margin: 16px 0 10px 0;
+    .links {
+      margin: 16px 0 10px 0;
+    }
+
+    h3 {
+      display: inline-block;
+    }
+
+    .submitted {
+      float: right;
+      margin: 4px 0;
+    }
   }
 
-  h3 {
-    display: inline-block;
+  .comment {
+    border-bottom: 1px solid @content-border;
+    margin: 12px 0;
   }
 
-  .submitted {
-    float: right;
-    margin: 4px 0;
-  }
 }
 
-.comment {
-  border-bottom: 1px solid @content-border;
-  margin: 12px 0;
-}
+
 
 .sharethis-buttons {
   margin-top: 16px;
