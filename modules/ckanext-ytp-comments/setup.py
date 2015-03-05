@@ -22,6 +22,12 @@ setup(
     install_requires=[
         # -*- Extra requirements: -*-
     ],
+    message_extractors={
+        'ckanext/ytp/comments': [
+            ('**.py', 'python', None),
+            ('templates/**.html', 'ckan', None)
+        ]
+    },
     entry_points='''
         [ckan.plugins]
         ytp_comments=ckanext.ytp.comments.plugin:YtpCommentsPlugin

@@ -39,7 +39,6 @@ def comment_create(context, data_dict):
     # Create the object
     cmt = comment_model.Comment(thread_id=thread_id,
                                 comment=cleaned_comment)
-    pprint(cmt)
     cmt.user_id = userobj.id
     cmt.subject = data_dict.get('subject', 'No subject')
 

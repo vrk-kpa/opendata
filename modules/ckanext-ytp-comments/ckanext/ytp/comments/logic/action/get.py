@@ -60,9 +60,14 @@ def thread_show(context, data_dict):
     if isinstance(context.get('limit'), int):
         comments = comments.limit(int(context.get('limit')))
 
-    thread_dict['comments'] = [
-        c.as_dict() for c in comments.order_by('comment.creation_date asc').all()
-    ]
+    if context.get('with_deleted') != True:
+        thread_dict['comments'] = [
+            c.as_dict() for c in comments.order_by('comment.creation_date asc').all()
+        ]
+    else:
+        thread_dict['comments'] = [
+            c.as_dict(only_active_children=False) for c in comments.order_by('comment.creation_date asc').all()
+        ]
 
     return thread_dict
 

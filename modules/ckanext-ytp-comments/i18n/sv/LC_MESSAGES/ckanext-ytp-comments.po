@@ -1,0 +1,85 @@
+# Translations template for ckanext-ytp-comments.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ytp-comments
+# project.
+# 
+# Translators:
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-03-05 12:40+0200\n"
+"PO-Revision-Date: 2015-03-05 10:52+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/ytp/comments/logic/auth/create.py:15
+#: ckanext/ytp/comments/logic/auth/update.py:17
+msgid "You must be logged in to add a comment"
+msgstr "Du måste vara inloggad för att lägga till en kommentar"
+
+#: ckanext/ytp/comments/logic/auth/delete.py:26
+#: ckanext/ytp/comments/logic/auth/update.py:23
+msgid "Comment does not exist"
+msgstr "Kommentar finns inte"
+
+#: ckanext/ytp/comments/logic/auth/delete.py:29
+#: ckanext/ytp/comments/logic/auth/update.py:26
+msgid "User is not the author of the comment"
+msgstr "Användaren är inte författaren till kommentaren"
+
+#: ckanext/ytp/comments/logic/auth/get.py:36
+msgid "You do not have permission to view this comment"
+msgstr "Du har inte behörighet att visa den här kommentaren"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:8
+#: ckanext/ytp/comments/templates/package/comment_list.html:82
+msgid "Subject"
+msgstr "Ämne"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:10
+#: ckanext/ytp/comments/templates/package/comment_list.html:85
+msgid "Comment"
+msgstr "Kommentar"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:15
+#: ckanext/ytp/comments/templates/package/comment_list.html:89
+msgid "Save"
+msgstr "Spara"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:16
+#: ckanext/ytp/comments/templates/package/comment_list.html:90
+msgid "Clear"
+msgstr "Tömma"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:33
+#: ckanext/ytp/comments/templates/package/comment_list.html:45
+msgid "This comment was deleted."
+msgstr "Denna kommentar togs bort."
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:38
+msgid "Modified"
+msgstr "Redigerad"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:50
+msgid "Delete"
+msgstr "Ta bort"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:54
+msgid "Edit"
+msgstr "Redigera"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:58
+msgid "Reply"
+msgstr "Svara"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:95
+msgid "Login to comment."
+msgstr "Logga in till kommentera."

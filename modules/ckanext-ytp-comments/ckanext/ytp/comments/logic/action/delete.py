@@ -24,11 +24,7 @@ def comment_delete(context, data_dict):
     if not comment:
         abort(404)
 
-    if len(comment.children) > 0:
-        txt = config.get('ckan.comments.deleted.text', 'This message was deleted')
-        comment.comment = txt
-    else:
-        comment.state = 'deleted'
+    comment.state = 'deleted'
 
     model.Session.add(comment)
     model.Session.commit()

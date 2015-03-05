@@ -29,6 +29,7 @@ def comment_update(context, data_dict):
 
     comment.subject = data_dict.get('subject')
     comment.comment = cleaned_comment
+    comment.modified_date = datetime.datetime.now()
 
     model.Session.add(comment)
     model.Session.commit()

@@ -44,6 +44,7 @@ translation_projects:
   - "ckanext-ytp-drupal"
   - "ytp-assets-common"
   - "ckanext-ytp-main"
+  - "ckanext-ytp-comments"
 
 translated_extensions:
   - "ckanext-qa"

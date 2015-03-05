@@ -73,7 +73,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         import ckan.model as model
         from ckan.logic import get_action
         url =  '/dataset/%s' % dataset_name
-        return get_action('thread_show')({'model': model}, {'url': url})
+        return get_action('thread_show')({'model': model, 'with_deleted': True}, {'url': url})
 
 
 
