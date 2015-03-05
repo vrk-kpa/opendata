@@ -2,16 +2,19 @@ from pylons import config
 
 from ckan import model
 from ckan.common import request, c, _
-from ckan.logic import get_action, NotFound, NotAuthorized, check_access
+from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_dict, tuplize_dict, parse_params, ValidationError
+import ckan.lib.navl.dictization_functions as dictization_functions
 from ckan.lib import helpers as h
 from ckan.controllers.user import UserController
 from ckan.lib.base import abort, validate, render
 import ckan.new_authz as new_authz
 
+
 import logging
 
 log = logging.getLogger(__name__)
-
+unflatten = dictization_functions.unflatten
+DataError = dictization_functions.DataError
 
 class YtpUserController(UserController):
 
@@ -144,3 +147,28 @@ class YtpUserController(UserController):
                 context, {'id': c.user_dict['id']})
 
         return render('user/read.html')
+
+    def _save_edit(self, id, context):
+        try:
+            data_dict = clean_dict(unflatten(
+                tuplize_dict(parse_params(request.params))))
+            context['message'] = data_dict.get('log_message', '')
+            data_dict['id'] = id
+
+            # MOAN: Do I really have to do this here?
+            if 'activity_streams_email_notifications' not in data_dict:
+                data_dict['activity_streams_email_notifications'] = False
+
+            user = get_action('user_update')(context, data_dict)
+            h.flash_success(_('Profile updated'))
+            h.redirect_to('home')
+        except NotAuthorized:
+            abort(401, _('Unauthorized to edit user %s') % id)
+        except NotFound, e:
+            abort(404, _('User not found'))
+        except DataError:
+            abort(400, _(u'Integrity Error'))
+        except ValidationError, e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.edit(id, data_dict, errors, error_summary)
