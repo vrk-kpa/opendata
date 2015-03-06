@@ -71,5 +71,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/81cf433a8f968f0f993da7c668699b485213f466.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/ae856c3dd9aa896163f80d330a3274636a5c4e74.patch", file: "fix-template-error-in-resources.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b39b1e8ac3eaaa013db4f2c4af804eadaad83e3f.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8f85ef4ad90df1c9df6dd553b21140d0b48916eb.patch", file: "enable-url-quoting"} # pullreq in ckan master
 service_database_enabled: false
 auto_author_enabled: true
