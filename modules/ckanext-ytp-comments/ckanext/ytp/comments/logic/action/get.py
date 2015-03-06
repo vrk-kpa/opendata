@@ -74,12 +74,10 @@ def thread_show(context, data_dict):
 def comment_show(context, data_dict):
     model = context['model']
     user = context['user']
-
     id = logic.get_or_bust(data_dict, 'id')
     comment = comment_model.Comment.get(id)
     if not comment:
         abort(404)
-
     logic.check_access("comment_show", context, data_dict)
     data_dict['comment'] = comment
 

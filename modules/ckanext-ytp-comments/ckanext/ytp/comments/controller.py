@@ -23,10 +23,8 @@ class CommentController(BaseController):
         check_access('package_show', context ,data_dict)
 
         try:
-            log.info('package_show')
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-            log.info(c.pkg_dict)
         except:
             abort(403)
 
@@ -75,28 +73,22 @@ class CommentController(BaseController):
         # Auth check to make sure the user can see this package
 
         data_dict = {'id': dataset_id}
-        log.info('package_show_access')
         check_access('package_show', context ,data_dict)
 
         try:
-            log.info('package_show')
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-            log.info(c.pkg_dict)
         except:
             abort(403)
 
         errors = {}
-        log.info(request.method)
         if request.method == 'POST':
             data_dict = clean_dict(unflatten(
                 tuplize_dict(parse_params(request.POST))))
             data_dict['parent_id'] = c.parent.id if c.parent else None
             data_dict['url'] = '/dataset/%s' % c.pkg.name
-            log.info(data_dict)
             success = False
             try:
-                log.error(data_dict)
                 res = get_action('comment_create')(context, data_dict)
                 success = True
             except ValidationError, ve:
@@ -122,10 +114,8 @@ class CommentController(BaseController):
         check_access('package_show', context ,data_dict)
 
         try:
-            log.info('package_show')
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-            log.info(c.pkg_dict)
         except:
             abort(403)
 
