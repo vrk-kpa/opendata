@@ -75,6 +75,7 @@ def comment_show(context, data_dict):
     model = context['model']
     user = context['user']
 
+
     id = logic.get_or_bust(data_dict, 'id')
     comment = comment_model.Comment.get(id)
     if not comment:
