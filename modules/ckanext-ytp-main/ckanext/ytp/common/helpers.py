@@ -43,5 +43,4 @@ def get_dict_tree_from_json(fileurl_variable_name):
 def render_date(datetime_):
     if not isinstance(datetime_, datetime.datetime):
         return None
-    print datetime_.isoformat()
     return "%02d.%02d.%02d" % (datetime_.day, datetime_.month, datetime_.year)

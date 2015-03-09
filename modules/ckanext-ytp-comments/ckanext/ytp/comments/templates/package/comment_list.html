@@ -1,0 +1,96 @@
+
+
+{% resource "comments_js/comments.js" %}
+
+{% macro comment_form(values={}, empty=False, hidden=True, prefix="", action="add") %}
+    <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/{% if values.id %}{{ values.id }}/{% endif %}{{ action }}" method="POST">
+        <div class="form-controls">
+            <label for="subject">{{ _('Subject') }}</label>
+            <input type="text" class="form-control" name="subject" {% if not empty %}value="{{ values.subject }}" {% endif %}/>
+            <label for="comment">{{ _('Comment') }}</label>
+            {% set unescaped_content = values.content.split('<br/>') %}
+            <textarea name="comment" class="form-control" rows="10">{% if not empty %}{% for line in unescaped_content %}{{ line | striptags }}{{'\n'}}{% endfor %}{% endif %}</textarea>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
+            <input type="reset" class="btn" value="{{ _('Clear') }}"/>
+        </div>
+    </form>
+{% endmacro %}
+
+
+
+{% set thread = h.get_comment_thread(pkg_name) %}
+
+{% macro comment_thread(thread) %}
+
+    <div class="comment-wrapper">
+    {% for comment in thread.comments %}
+        <div class="comment">
+            {% if comment.state != 'deleted' %}
+                <h3>{{ comment.subject }}</h3>
+            {% else %}
+                <h3>{{ _('This comment was deleted.') }}</h3>
+            {% endif %}
+            <div class="submitted">
+                <span>{{ h.render_datetime(comment.creation_date, "%d.%m.%Y %H:%M") }} {{  h.linked_user(comment.user_id, 0, 10) }}</span>
+                {% if comment.modified_date %}
+                    <br/><span>{{ h.render_datetime(comment.modified_date, "%d.%m.%Y %H:%M") }} {{ _('Modified') }} </span>
+                {% endif %}
+            </div>
+            <div class="content">
+            {% if comment.state != 'deleted' %}
+                {{ comment.content|safe }}
+            {% else %}
+                {{ _('This comment was deleted.') }}
+            {% endif %}
+            {% if comment.state == 'active' %}
+            <ul class="links list-inline">
+                {% if h.check_access('package_update', {'id': pkg_id }) %}
+                    <li><a href="/dataset/{{ pkg_id }}/comments/{{ comment.id }}/delete">{{ _('Delete') }}</a> </li>
+                {% endif %}
+
+                {% if userobj and comment.user_id == userobj.id %}
+                    <li><a onclick="ShowCommentForm('edit_{{ comment.id }}')">{{ _('Edit') }}</a></li>
+                    {{ comment_form(comment, prefix='edit_', action='edit') }}
+                {% endif %}
+                {% if userobj %}
+                    <li><a onclick="ShowCommentForm('reply_{{ comment.id }}')">{{ _('Reply') }}</a> </li>
+                    {{ comment_form(comment, empty=True, prefix='reply_', action='reply') }}
+                {% endif %}
+
+            </ul>
+            {% endif %}
+            </div>
+        </div>
+            {% if comment.comments | length != 0 %}
+                {{ comment_thread(comment) }}
+            {% endif %}
+    {% endfor %}
+    </div>
+
+{% endmacro %}
+
+<div class="comment-container">
+    {{ comment_thread(thread) }}
+</div>
+
+{% if userobj %}
+
+<form class="form" action="{{ pkg_id }}/comments/add" method="POST">
+    <div class="form-controls">
+        <label for="subject">{{ _('Subject') }}</label>
+        <input type="text" class="form-control" name="subject"/>
+
+        <label for="comment">{{ _('Comment') }}</label>
+        <textarea name="comment" class="form-control" rows="10"></textarea>
+    </div>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
+        <input type="reset" class="btn" value="{{ _('Clear') }}"/>
+    </div>
+</form>
+
+{% else %}
+    {{ _('Login to comment.') }}
+{% endif %}
