@@ -228,6 +228,11 @@
   tags:
   - ckan
 
+- name: Initialize comment database
+  shell: ./bin/paster --plugin=ckanext-ytp-comments initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
   ignore_errors: True
