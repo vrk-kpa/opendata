@@ -16,6 +16,7 @@ log = logging.getLogger(__name__)
 unflatten = dictization_functions.unflatten
 DataError = dictization_functions.DataError
 
+
 class YtpUserController(UserController):
 
     # Modify original CKAN Edit user controller
@@ -159,7 +160,7 @@ class YtpUserController(UserController):
             if 'activity_streams_email_notifications' not in data_dict:
                 data_dict['activity_streams_email_notifications'] = False
 
-            user = get_action('user_update')(context, data_dict)
+            get_action('user_update')(context, data_dict)
             h.flash_success(_('Profile updated'))
             h.redirect_to('home')
         except NotAuthorized:

@@ -29,7 +29,6 @@ class CommentController(BaseController):
         except:
             abort(403)
 
-        errors = {}
         if request.method == 'POST':
             data_dict = clean_dict(unflatten(
                 tuplize_dict(parse_params(request.POST))))
@@ -39,7 +38,6 @@ class CommentController(BaseController):
                 res = get_action('comment_update')(context, data_dict)
                 success = True
             except ValidationError, ve:
-                errors = ve.error_dict
                 log.debug(ve)
             except Exception, e:
                 log.debug(e)
@@ -48,7 +46,6 @@ class CommentController(BaseController):
             if success:
                 h.redirect_to(str('/dataset/%s#comment_%s' % (c.pkg.name, res['id'])))
 
-        vars = {'errors': errors}
         return render("package/read.html")
 
     def reply(self, dataset_id, parent_id):
@@ -81,7 +78,6 @@ class CommentController(BaseController):
         except:
             abort(403)
 
-        errors = {}
         if request.method == 'POST':
             data_dict = clean_dict(unflatten(
                 tuplize_dict(parse_params(request.POST))))
@@ -92,7 +88,6 @@ class CommentController(BaseController):
                 res = get_action('comment_create')(context, data_dict)
                 success = True
             except ValidationError, ve:
-                errors = ve.error_dict
                 log.debug(ve)
             except Exception, e:
                 log.debug(e)
@@ -101,7 +96,6 @@ class CommentController(BaseController):
             if success:
                 h.redirect_to(str('/dataset/%s#comment_%s' % (c.pkg.name, res['id'])))
 
-        vars = {'errors': errors}
         return render("package/read.html")
 
     def delete(self, dataset_id, comment_id):
@@ -119,14 +113,12 @@ class CommentController(BaseController):
         except:
             abort(403)
 
-        errors = {}
         try:
             data_dict = {'id': comment_id}
-            res = get_action('comment_delete')(context, data_dict)
+            get_action('comment_delete')(context, data_dict)
         except Exception, e:
             log.debug(e)
 
         h.redirect_to(str('/dataset/%s' % c.pkg.name))
 
-        vars = {'errors': errors}
         return render("package/read.html")

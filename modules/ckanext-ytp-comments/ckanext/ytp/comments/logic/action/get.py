@@ -17,7 +17,6 @@ def thread_show(context, data_dict):
     """
 
     model = context['model']
-    user = context['user']
 
     url = data_dict.get('url')
     id = data_dict.get('id')
@@ -73,8 +72,6 @@ def thread_show(context, data_dict):
 
 
 def comment_show(context, data_dict):
-    model = context['model']
-    user = context['user']
     id = logic.get_or_bust(data_dict, 'id')
     comment = comment_model.Comment.get(id)
     if not comment:
