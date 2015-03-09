@@ -14,6 +14,7 @@
 {% block primary_content_inner %}
     {% resource "ytp_resources/vendor/bootstrap-table.css" %}
     {% resource "ytp_resources/vendor/bootstrap-table.js" %}
+    {% resource "ytp_common_js/table.js" %}
     <h3 class="page-heading">{{ _('{0} users'.format(c.users|length)) }}</h3>
     <table class="table table-header table-hover table-bordered" data-toggle="table" data-sort-order="asc" data-sort-name="username">
         <col style="width: 20%" />
@@ -24,11 +25,11 @@
         <col style="width: 10%" />
         <thead>
         <tr>
-            <th data-field="user" data-sortable="true" scope="col">{{ _('User') }}</th>
-            <th data-field="username" data-sortable="true" scope="col">{{ _('Username') }}</th>
-            <th data-field="organization" data-sortable="true" scope="col">{{ _('Organizations') }}</th>
-            <th data-field="role" data-sortable="true" scope="col">{{ _('Role') }}</th>
-            <th data-field="email" data-sortable="true" scope="col">{{ _('Email') }}</th>
+            <th data-field="user" data-sortable="true" scope="col" data-sorter="userSorter">{{ _('User') }}</th>
+            <th data-field="username" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Username') }}</th>
+            <th data-field="organization" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Organizations') }}</th>
+            <th data-field="role" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Role') }}</th>
+            <th data-field="email" data-sortable="true" scope="col" data-sorter="lowercaseSorter">{{ _('Email') }}</th>
             <th scope="col"></th>
         </tr>
         </thead>
