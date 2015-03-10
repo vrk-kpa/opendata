@@ -34,6 +34,7 @@ setup(
         ytp_user=ckanext.ytp.user.plugin:YtpUserPlugin
         ytp_organizations=ckanext.ytp.organizations.plugin:YtpOrganizationsPlugin
         ytp_organizations_display=ckanext.ytp.organizations.plugin:YtpOrganizationsDisplayPlugin
+        hri_harvester=ckanext.ytp.organizations.harvesters.hriharvester:HRIHarvester
         ytp_theme=ckanext.ytp.theme.plugin:YtpThemePlugin
         ytp_dataset=ckanext.ytp.dataset.plugin:YTPDatasetForm
         ytp_service=ckanext.ytp.service.plugin:YTPServiceForm
