@@ -1,6 +1,7 @@
 {
   "name": "ytp-assets-common",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "repository": "https://github.com/yhteentoimivuuspalvelut/ytp-assets-common",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-livereload": "~3.8.0",

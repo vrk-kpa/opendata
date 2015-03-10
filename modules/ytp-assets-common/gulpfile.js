@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
-    base64 = require('gulp-base64');
+    base64 = require('gulp-base64'),
+    debug = require('gulp-debug');
 
 var paths = {
   src: {
@@ -28,7 +29,8 @@ var paths = {
 var timestamp = new Date().getTime();
 
 gulp.task('clean', function(cb) {
-  del([paths.dist], cb());
+  del.sync([paths.dist]);
+  cb();
 });
 
 gulp.task('less', function () {
