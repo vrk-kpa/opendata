@@ -10,8 +10,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
-    base64 = require('gulp-base64'),
-    debug = require('gulp-debug');
+    base64 = require('gulp-base64');
 
 var paths = {
   src: {
