@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 
 def comment_update(context, data_dict):
     model = context['model']
-    user = context['user']
 
     logic.check_access("comment_update", context, data_dict)
 

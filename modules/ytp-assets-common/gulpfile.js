@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     sourcemaps = require('gulp-sourcemaps'),
     prefixer = require('gulp-autoprefixer'),
-    clean = require('gulp-clean'),
+    del = require('del'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
@@ -27,9 +27,9 @@ var paths = {
 
 var timestamp = new Date().getTime();
 
-gulp.task('clean', function() {
-  return gulp.src(paths.dist)
-    .pipe(clean());
+gulp.task('clean', function(cb) {
+  del.sync([paths.dist]);
+  cb();
 });
 
 gulp.task('less', function () {

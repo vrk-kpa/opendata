@@ -30,22 +30,24 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         }
 
     def get_actions(self):
-        import ckanext.ytp.comments.logic.action as actions
+        from ckanext.ytp.comments.logic.action import get, create, delete, update
+
         return {
-            "comment_create": actions.create.comment_create,
-            "thread_show": actions.get.thread_show,
-            "comment_update": actions.update.comment_update,
-            "comment_show": actions.get.comment_show,
-            "comment_delete": actions.delete.comment_delete
+            "comment_create": create.comment_create,
+            "thread_show": get.thread_show,
+            "comment_update": update.comment_update,
+            "comment_show": get.comment_show,
+            "comment_delete": delete.comment_delete
         }
 
     def get_auth_functions(self):
-        import ckanext.ytp.comments.logic.auth as auths
+        from ckanext.ytp.comments.logic.auth import get, create, delete, update
+
         return {
-            'comment_create': auths.create.comment_create,
-            'comment_update': auths.update.comment_update,
-            'comment_show': auths.get.comment_show,
-            'comment_delete': auths.delete.comment_delete
+            'comment_create': create.comment_create,
+            'comment_update': update.comment_update,
+            'comment_show': get.comment_show,
+            'comment_delete': delete.comment_delete
         }
     # IPackageController
 
