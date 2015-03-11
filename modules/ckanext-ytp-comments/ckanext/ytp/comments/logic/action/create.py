@@ -7,6 +7,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 def comment_create(context, data_dict):
     pprint(data_dict)
     pprint(context)
@@ -35,7 +36,6 @@ def comment_create(context, data_dict):
     # Cleanup the comment
     cleaned_comment = util.clean_input(data_dict.get('comment'))
 
-
     # Create the object
     cmt = comment_model.Comment(thread_id=thread_id,
                                 comment=cleaned_comment)
@@ -54,8 +54,7 @@ def comment_create(context, data_dict):
         if parent:
             cmt.parent_id = parent.id
 
-   # approval and spam checking removed
-
+    # approval and spam checking removed
 
     model.Session.add(cmt)
     model.Session.commit()

@@ -1,14 +1,13 @@
 import logging
-from pylons import config
 from pylons.i18n import _
 
 import ckan.new_authz as new_authz
 from ckan import logic
 import ckanext.ytp.comments.model as comment_model
-import ckan.lib.helpers as h
-from ckan.lib.base import abort, c
+
 
 log = logging.getLogger(__name__)
+
 
 def comment_delete(context, data_dict):
     model = context['model']
@@ -28,4 +27,4 @@ def comment_delete(context, data_dict):
     if comment.user_id is not userobj.id:
         return {'success': False, 'msg': _('User is not the author of the comment')}
 
-    return {'success': True }
+    return {'success': True}

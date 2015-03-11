@@ -14,4 +14,4 @@ def comment_create(context, data_dict):
         log.debug("User is not logged in")
         return {'success': False, 'msg': _('You must be logged in to add a comment')}
 
-    return {'success': True }
+    return {'success': True}

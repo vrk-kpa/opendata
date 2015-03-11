@@ -7,4 +7,3 @@ def get_comment(data_dict):
         id = logic.get_or_bust(data_dict, 'id')
         comment = model.Comment.get(id)
     return comment
-

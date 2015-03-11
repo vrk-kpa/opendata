@@ -1,9 +1,7 @@
 import logging
 
 from ckan.lib.cli import CkanCommand
-from .model import init_tables
 
-from pylons import config
 
 class InitDBCommand(CkanCommand):
     """
@@ -23,7 +21,6 @@ class InitDBCommand(CkanCommand):
         log = logging.getLogger(__name__)
         log.info("starting command")
         self._load_config()
-
 
         import ckan.model as model
         model.Session.remove()

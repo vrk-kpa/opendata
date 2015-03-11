@@ -1,10 +1,10 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 
-import datetime
 import logging
 
 log = logging.getLogger(__name__)
+
 
 class YtpCommentsPlugin(plugins.SingletonPlugin):
     implements(plugins.IRoutes, inherit=True)
@@ -19,12 +19,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     def configure(self, config):
         log.debug("Configuring comments module")
 
-
     def update_config(self, config):
         toolkit.add_template_directory(config, "templates")
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript/', 'comments_js')
-
 
     def get_helpers(self):
         return {
@@ -53,7 +51,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     def before_view(self, pkg_dict):
         # TODO: append comments from model to pkg_dict
-        return  pkg_dict
+        return pkg_dict
 
     # IRoutes
 
@@ -72,8 +70,5 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     def _get_comment_thread(self, dataset_name):
         import ckan.model as model
         from ckan.logic import get_action
-        url =  '/dataset/%s' % dataset_name
+        url = '/dataset/%s' % dataset_name
         return get_action('thread_show')({'model': model, 'with_deleted': True}, {'url': url})
-
-
-

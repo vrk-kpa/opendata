@@ -1,16 +1,12 @@
 import uuid
 import datetime
 
-from sqlalchemy import Table, Column, MetaData, ForeignKey
-from sqlalchemy import types, orm
-from sqlalchemy.sql import select
-from sqlalchemy.orm import mapper, relationship, backref
-from sqlalchemy import func
+from sqlalchemy import Column, MetaData, ForeignKey
+from sqlalchemy import types
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
 from ckan.plugins import toolkit
-
-import ckan.model as model
 from ckan.lib.base import *
 
 log = __import__('logging').getLogger(__name__)
@@ -21,11 +17,14 @@ metadata = MetaData()
 COMMENT_APPROVED = "approved"
 COMMENT_PENDING = "pending"
 
+
 def make_uuid():
     return unicode(uuid.uuid4())
 
+
 def acceptable_comment_on(objtype):
     return objtype in ['package']
+
 
 class CommentThread(Base):
     """
@@ -40,7 +39,7 @@ class CommentThread(Base):
     locked = Column(types.Boolean, default=False)
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
 
     @classmethod
@@ -62,7 +61,7 @@ class CommentThread(Base):
 
         # Look for CommentThread for that URL or create it.
         thread = model.Session.query(cls). \
-            filter(cls.url==u).first()
+            filter(cls.url == u).first()
         if not thread:
             thread = cls(url=u)
             model.Session.add(thread)
@@ -72,7 +71,7 @@ class CommentThread(Base):
 
     @classmethod
     def get(cls, id):
-        return model.Session.query(cls).filter(cls.id==id).first()
+        return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
     def get_or_create(cls, obj, id):
@@ -81,8 +80,8 @@ class CommentThread(Base):
         no thread currently exists, one is created for that object.
         """
         thread = model.Session.query(cls). \
-            filter(cls.comment_on==obj). \
-            filter(cls.comment_on_id==id).first()
+            filter(cls.comment_on == obj). \
+            filter(cls.comment_on_id == id).first()
         if not thread:
             if not acceptable_comment_on(obj):
                 return None
@@ -98,6 +97,7 @@ class CommentThread(Base):
         d['created'] = self.creation_date.isoformat()
         d['id'] = self.id
         return d
+
 
 class Comment(Base):
     """
@@ -124,7 +124,7 @@ class Comment(Base):
     state = Column(types.UnicodeText, default=u'active')
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
 
         # Auto-set some values based on configuration
@@ -135,14 +135,14 @@ class Comment(Base):
             # If user wants first comment moderated and the user who wrote this hasn't
             # got another comment, put it into moderation, otherwise approve
             if toolkit.asbool(config.get('ckan.comments.moderation.first_only', 'true')) and \
-                            Comment.count_for_user(self.user, COMMENT_APPROVED) == 0:
+                    Comment.count_for_user(self.user, COMMENT_APPROVED) == 0:
                 self.approval_status = COMMENT_PENDING
             else:
                 self.approval_status = COMMENT_APPROVED
 
     @classmethod
     def get(cls, id):
-        return model.Session.query(cls).filter(cls.id==id).first()
+        return model.Session.query(cls).filter(cls.id == id).first()
 
     def as_dict(self, only_active_children=True):
         """
@@ -151,7 +151,7 @@ class Comment(Base):
         """
         name = 'anonymous'
         u = model.User.get(self.user_id)
-        if u :
+        if u:
             name = u.fullname
 
         # Hack
@@ -178,8 +178,9 @@ class Comment(Base):
     @classmethod
     def count_for_user(cls, user, status):
         return model.Session.query(Comment) \
-            .filter(Comment.approval_status==status) \
-            .filter(Comment.user==user).count()
+            .filter(Comment.approval_status == status) \
+            .filter(Comment.user == user).count()
+
 
 class CommentBlockedUser(Base):
     """
@@ -194,8 +195,9 @@ class CommentBlockedUser(Base):
     creation_date = Column(types.DateTime, default=datetime.datetime.now)
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
+
 
 def init_tables():
     Base.metadata.create_all(model.meta.engine)

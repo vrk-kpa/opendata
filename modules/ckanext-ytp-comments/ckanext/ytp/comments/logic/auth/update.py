@@ -25,4 +25,4 @@ def comment_update(context, data_dict):
     if comment.user_id != userobj.id:
         return {'success': False, 'msg': _('User is not the author of the comment')}
 
-    return {'success': True }
+    return {'success': True}

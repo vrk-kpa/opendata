@@ -7,12 +7,12 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 def comment_update(context, data_dict):
     model = context['model']
     user = context['user']
 
     logic.check_access("comment_update", context, data_dict)
-
 
     cid = logic.get_or_bust(data_dict, 'id')
     comment = comment_model.Comment.get(cid)
@@ -22,7 +22,6 @@ def comment_update(context, data_dict):
     # Validate that we have the required fields.
     if not all([data_dict.get('comment')]):
         raise logic.ValidationError("Comment text is required")
-
 
     # Cleanup the comment
     cleaned_comment = util.clean_input(data_dict.get('comment'))
