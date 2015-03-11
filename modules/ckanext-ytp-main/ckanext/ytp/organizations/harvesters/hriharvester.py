@@ -392,9 +392,12 @@ class HRIHarvester(HarvesterBase):
                     data_dict = {'id': remote_org}
                     org = get_action('organization_show')(context, data_dict)
                     validated_org = org['id']
-                except NotFound, e:
+                except NotFound:
                     log.info('No organization exist, not importing dataset')
-                    return True
+                    return "unchanged"
+            else:
+                log.info('No organization in harvested dataset')
+                return "unchanged"
 
             package_dict['owner_org'] = validated_org
 
