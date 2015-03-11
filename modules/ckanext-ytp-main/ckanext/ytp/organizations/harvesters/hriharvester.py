@@ -377,42 +377,26 @@ class HRIHarvester(HarvesterBase):
 
             remote_orgs = self.config.get('remote_orgs', None)
 
-            if not remote_orgs in ('only_local', 'create'):
-                # Assign dataset to the source organization
-                package_dict['owner_org'] = local_org
-            else:
-                if not 'owner_org' in package_dict:
-                    package_dict['owner_org'] = None
 
-                # check if remote org exist locally, otherwise remove
-                validated_org = None
-                remote_org = package_dict['owner_org']
+            if not 'owner_org' in package_dict:
+                package_dict['owner_org'] = None
 
-                if remote_org:
-                    try:
-                        data_dict = {'id': remote_org}
-                        org = get_action('organization_show')(context, data_dict)
-                        validated_org = org['id']
-                    except NotFound, e:
-                        log.info('Organization %s is not available' % remote_org)
-                        if remote_orgs == 'create':
-                            try:
-                                try:
-                                    org = self._get_organization(harvest_object.source.url, remote_org)
-                                except RemoteResourceError:
-                                    # fallback if remote CKAN exposes organizations as groups
-                                    # this especially targets older versions of CKAN
-                                    org = self._get_group(harvest_object.source.url, remote_org)
+            # check if remote org exist locally, otherwise remove
+            validated_org = None
+            remote_org = None
+            if package_dict.get('organization'):
+                remote_org = package_dict['organization']['name']
 
-                                for key in ['packages', 'created', 'users', 'groups', 'tags', 'extras', 'display_name', 'type']:
-                                    org.pop(key, None)
-                                get_action('organization_create')(context, org)
-                                log.info('Organization %s has been newly created' % remote_org)
-                                validated_org = org['id']
-                            except (RemoteResourceError, ValidationError):
-                                log.error('Could not get remote org %s' % remote_org)
+            if remote_org:
+                try:
+                    data_dict = {'id': remote_org}
+                    org = get_action('organization_show')(context, data_dict)
+                    validated_org = org['id']
+                except NotFound, e:
+                    log.info('No organization exist, not importing dataset')
+                    return True
 
-                package_dict['owner_org'] = validated_org or local_org
+            package_dict['owner_org'] = validated_org
 
             # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
