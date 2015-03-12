@@ -80,3 +80,19 @@ def comment_show(context, data_dict):
     data_dict['comment'] = comment
 
     return comment.as_dict()
+
+def comment_count(context, data_dict):
+
+    url = data_dict.get('url')
+    id = data_dict.get('id')
+    count = None
+    if url:
+        count = comment_model.CommentThread.count_from_url(url)
+
+    if not count and id:
+        count = comment_model.CommentThread.count(id)
+
+    if not count:
+        return abort(404)
+
+    return count

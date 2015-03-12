@@ -57,7 +57,7 @@ class CommentThread(Base):
 
     @classmethod
     def from_url(cls, threadurl):
-        u = cls.clean_url(threadurl)
+
 
         # Look for CommentThread for that URL or create it.
         thread = model.Session.query(cls). \
@@ -70,8 +70,17 @@ class CommentThread(Base):
         return thread
 
     @classmethod
+    def count_from_url(cls, threadurl):
+
+        return 0
+    @classmethod
     def get(cls, id):
         return model.Session.query(cls).filter(cls.id == id).first()
+
+    @classmethod
+    def count(cls, id):
+
+        return 0
 
     @classmethod
     def get_or_create(cls, obj, id):

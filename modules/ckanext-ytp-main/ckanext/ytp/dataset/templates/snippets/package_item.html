@@ -24,6 +24,7 @@ Example:
       <h3 class="dataset-heading">
         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
         {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+        {{ h.get_comment_count_for_dataset(package.name) }}
       </h3>
       {% if banner %}
         <span class="banner">{{ _('Popular') }}</span>
