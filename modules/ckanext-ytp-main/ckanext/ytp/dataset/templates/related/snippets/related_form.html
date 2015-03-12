@@ -9,9 +9,9 @@
     {% set collection_type = c.pkg_dict.get('collection_type', None) %}
     {% if collection_type == 'Interoperability Tools' %}
     {% set format_attrs = {'data-module': 'autocomplete', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'SelectByName(e)', 'data-module-key': "name", 'data-module-label': "title"} %}
-    {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full'], attrs=format_attrs) }}
+    {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('My Related Component'), value=data.title, error=errors.title, classes=['control-full'], attrs=format_attrs) }}
     {% else %}
-        {{ ytp_form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Item'), value=data.title, error=errors.title, classes=['control-full']) }}
+        {{ ytp_form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Component'), value=data.title, error=errors.title, classes=['control-full']) }}
     {% endif %}
 
     {{ ytp_form.input('url', label=_('URL'), id='field-url', placeholder=_('http://example.com/'), value=data.url, error=errors.url, classes=['control-full']) }}
@@ -25,4 +25,11 @@
     {% endif %}
 
 
+{% endblock %}
+
+{% block delete_button %}
+    {% if h.check_access('related_delete', {'id': data.id})  %}
+        {% set locale = h.dump_json({'content': _('Are you sure you want to delete this related component?')}) %}
+        <a class="btn btn-danger pull-left" href="{% url_for controller='related', action='delete', related_id=data.id, id=c.pkg_id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+    {% endif %}
 {% endblock %}
