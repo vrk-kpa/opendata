@@ -26,6 +26,7 @@
 
     <div class="comment-wrapper">
     {% for comment in thread.comments %}
+        {{ comment.id }}
         <div class="comment">
             {% if comment.state != 'deleted' %}
                 <h3>{{ comment.subject }}</h3>
