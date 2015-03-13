@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-13 08:54+0200\n"
+"POT-Creation-Date: 2015-03-13 09:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,33 +44,33 @@ msgstr ""
 msgid "Request not found"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:19
+#: ckanext/ytp/request/logic.py:18
 #, python-format
 msgid "New membership request (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:20
+#: ckanext/ytp/request/logic.py:19
 #, python-format
 msgid ""
-"Dear %(site)s administrator\n"
+"Dear Avoindata.fi administrator\n"
 "\n"
 "User %(user)s (%(email)s) has requested membership to organization "
-"%(organization)s\".\n"
+"%(organization)s.\n"
 "\n"
 "%(link)s\n"
 "\n"
 "Best regards\n"
 "\n"
-"%(site)s support\n"
+"Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:33
+#: ckanext/ytp/request/logic.py:32
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:34
+#: ckanext/ytp/request/logic.py:33
 #, python-format
 msgid ""
 "Dear %(user)s\n"
@@ -80,16 +80,16 @@ msgid ""
 "\n"
 "Best regards\n"
 "\n"
-"%(site)s support\n"
+"Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:45
+#: ckanext/ytp/request/logic.py:44
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:46
+#: ckanext/ytp/request/logic.py:45
 #, python-format
 msgid ""
 "Dear %(user)s\n"
@@ -99,33 +99,33 @@ msgid ""
 "\n"
 "Best regards\n"
 "\n"
-"%(site)s support\n"
+"Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:157
+#: ckanext/ytp/request/logic.py:154
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:157
+#: ckanext/ytp/request/logic.py:154
 msgid "As a sysadmin, you already have access to all organizations"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:166
+#: ckanext/ytp/request/logic.py:163
 msgid "You already have a pending request to the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:168
+#: ckanext/ytp/request/logic.py:165
 msgid "You are already part of the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:170
+#: ckanext/ytp/request/logic.py:167
 msgid "Duplicate organization request"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:170
+#: ckanext/ytp/request/logic.py:167
 #: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30

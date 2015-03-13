@@ -19,7 +19,7 @@ _SUBJECT_MEMBERSHIP_REQUEST = lambda: _("New membership request (%(organization)
 _MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
 Dear Avoindata.fi administrator
 
-User %(user)s (%(email)s) has requested membership to organization %(organization)s".
+User %(user)s (%(email)s) has requested membership to organization %(organization)s.
 
 %(link)s
 
