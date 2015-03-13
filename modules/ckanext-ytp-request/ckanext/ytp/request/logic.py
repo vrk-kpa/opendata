@@ -17,8 +17,6 @@ log = logging.getLogger(__name__)
 
 _SUBJECT_MEMBERSHIP_REQUEST = lambda: _("New membership request (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
-Dear Avoindata.fi administrator
-
 User %(user)s (%(email)s) has requested membership to organization %(organization)s.
 
 %(link)s
@@ -31,8 +29,6 @@ valtori@avoindata.fi
 
 _SUBJECT_MEMBERSHIP_APPROVED = lambda: _("Organization membership approved (%(organization)s)")
 _MESSAGE_MEMBERSHIP_APPROVED = lambda: _("""\
-Dear %(user)s
-
 Your membership request to organization %(organization)s with %(role)s access has been approved.
 
 Best regards
@@ -43,8 +39,6 @@ valtori@avoindata.fi
 
 _SUBJECT_MEMBERSHIP_REJECTED = lambda: _("Organization membership rejected (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REJECTED = lambda: _("""\
-Dear %(user)s
-
 Your membership request to organization %(organization)s with %(role)s access has been rejected.
 
 Best regards
@@ -113,7 +107,6 @@ def _mail_process_status(locale, member_user, approve, group_name, capacity):
         'organization': group_name
     }
     message = message_template % {
-        'user': member_user.name,
         'role': role_name,
         'organization': group_name
     }

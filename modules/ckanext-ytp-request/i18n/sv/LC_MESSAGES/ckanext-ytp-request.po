@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-13 09:30+0200\n"
-"PO-Revision-Date: 2015-03-13 07:48+0000\n"
+"POT-Creation-Date: 2015-03-13 12:49+0200\n"
+"PO-Revision-Date: 2015-03-13 10:52+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -56,8 +56,6 @@ msgstr "Ny medlemskapsansökan (%(organization)s)"
 #: ckanext/ytp/request/logic.py:19
 #, python-format
 msgid ""
-"Dear Avoindata.fi administrator\n"
-"\n"
 "User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n"
 "\n"
 "%(link)s\n"
@@ -66,67 +64,63 @@ msgid ""
 "\n"
 "Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
-msgstr "Hej Avoindata.fi administratör\n\nAnvändaren%(user)s (%(email)s) har ansökt medlemskap i organisationen %(organization)s.\n\n%(link)s\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+msgstr "Användaren%(user)s (%(email)s) har ansökt medlemskap i organisationen %(organization)s.\n\n%(link)s\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
 
-#: ckanext/ytp/request/logic.py:32
+#: ckanext/ytp/request/logic.py:30
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
 msgstr "Medlemskapsansökan godkändes (%(organization)s)"
 
-#: ckanext/ytp/request/logic.py:33
+#: ckanext/ytp/request/logic.py:31
 #, python-format
 msgid ""
-"Dear %(user)s\n"
-"\n"
 "Your membership request to organization %(organization)s with %(role)s access has been approved.\n"
 "\n"
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
-msgstr "Hej %(user)s\n\nDin ansökan till organisationen %(organization)s med användarrollen %(role)s har godkänts.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+msgstr "Din ansökan till organisationen %(organization)s med användarrollen %(role)s har godkänts.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
 
-#: ckanext/ytp/request/logic.py:44
+#: ckanext/ytp/request/logic.py:40
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
 msgstr "Medlemskapsansökan till organisationen har förkastats (%(organization)s)"
 
-#: ckanext/ytp/request/logic.py:45
+#: ckanext/ytp/request/logic.py:41
 #, python-format
 msgid ""
-"Dear %(user)s\n"
-"\n"
 "Your membership request to organization %(organization)s with %(role)s access has been rejected.\n"
 "\n"
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
 "valtori@avoindata.fi\n"
-msgstr "Hej %(user)s\n\nDin medlemskapsansökan till organisationen %(organization)s med användarrollen  %(role)s har fökastats.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+msgstr "Din medlemskapsansökan till organisationen %(organization)s med användarrollen  %(role)s har fökastats.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
 
-#: ckanext/ytp/request/logic.py:154
+#: ckanext/ytp/request/logic.py:147
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
 msgstr "Roll"
 
-#: ckanext/ytp/request/logic.py:154
+#: ckanext/ytp/request/logic.py:147
 msgid "As a sysadmin, you already have access to all organizations"
 msgstr "Som huvudanvändare har du redan tillgång till alla organisationer"
 
-#: ckanext/ytp/request/logic.py:163
+#: ckanext/ytp/request/logic.py:156
 msgid "You already have a pending request to the organization"
 msgstr "Du har redan en avvaktande ansökan till organisationen"
 
-#: ckanext/ytp/request/logic.py:165
+#: ckanext/ytp/request/logic.py:158
 msgid "You are already part of the organization"
 msgstr "Du är redan medlem i organisationen"
 
-#: ckanext/ytp/request/logic.py:167
+#: ckanext/ytp/request/logic.py:160
 msgid "Duplicate organization request"
 msgstr "En avvaktande ansökan existerar redan"
 
-#: ckanext/ytp/request/logic.py:167
+#: ckanext/ytp/request/logic.py:160
 #: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30
