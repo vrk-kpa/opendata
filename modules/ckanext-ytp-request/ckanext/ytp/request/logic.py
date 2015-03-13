@@ -15,10 +15,9 @@ from pylons import i18n
 
 log = logging.getLogger(__name__)
 
-_SITE_NAME = "Avoindata.fi"
 _SUBJECT_MEMBERSHIP_REQUEST = lambda: _("New membership request (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
-Dear %(site)s administrator
+Dear Avoindata.fi administrator
 
 User %(user)s (%(email)s) has requested membership to organization %(organization)s".
 
@@ -26,7 +25,7 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 
 Best regards
 
-%(site)s support
+Avoindata.fi support
 valtori@avoindata.fi
 """)
 
@@ -38,7 +37,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-%(site)s support
+Avoindata.fi support
 valtori@avoindata.fi
 """)
 
@@ -50,7 +49,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-%(site)s support
+Avoindata.fi support
 valtori@avoindata.fi
 """)
 
@@ -84,7 +83,6 @@ def _mail_new_membership_request(locale, admin, group_name, url, user_name, user
         'organization': group_name
     }
     message = _MESSAGE_MEMBERSHIP_REQUEST() % {
-        'site': _SITE_NAME,
         'user': user_name,
         'email': user_email,
         'organization': group_name,
@@ -115,7 +113,6 @@ def _mail_process_status(locale, member_user, approve, group_name, capacity):
         'organization': group_name
     }
     message = message_template % {
-        'site': _SITE_NAME,
         'user': member_user.name,
         'role': role_name,
         'organization': group_name
