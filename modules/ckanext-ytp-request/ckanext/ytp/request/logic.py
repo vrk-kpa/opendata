@@ -119,7 +119,6 @@ def _mail_process_status(locale, member_user, approve, group_name, capacity):
     }
 
     try:
-        log.info("message %s" % message)
         mail_user(member_user, subject, message)
     except MailerException, e:
         log.error(e)
