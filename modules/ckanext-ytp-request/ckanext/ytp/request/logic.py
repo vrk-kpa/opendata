@@ -15,6 +15,44 @@ from pylons import i18n
 
 log = logging.getLogger(__name__)
 
+_SUBJECT_MEMBERSHIP_REQUEST = lambda: _("New membership request (%(organization)s)")
+_MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
+Dear Avoindata.fi administrator
+
+User %(user)s (%(email)s) has requested membership to organization %(organization)s.
+
+%(link)s
+
+Best regards
+
+Avoindata.fi support
+valtori@avoindata.fi
+""")
+
+_SUBJECT_MEMBERSHIP_APPROVED = lambda: _("Organization membership approved (%(organization)s)")
+_MESSAGE_MEMBERSHIP_APPROVED = lambda: _("""\
+Dear %(user)s
+
+Your membership request to organization %(organization)s with %(role)s access has been approved.
+
+Best regards
+
+Avoindata.fi support
+valtori@avoindata.fi
+""")
+
+_SUBJECT_MEMBERSHIP_REJECTED = lambda: _("Organization membership rejected (%(organization)s)")
+_MESSAGE_MEMBERSHIP_REJECTED = lambda: _("""\
+Dear %(user)s
+
+Your membership request to organization %(organization)s with %(role)s access has been rejected.
+
+Best regards
+
+Avoindata.fi support
+valtori@avoindata.fi
+""")
+
 
 def _get_default_locale():
     return config.get('ckan.locale_default', 'en')
@@ -41,8 +79,15 @@ def _mail_new_membership_request(locale, admin, group_name, url, user_name, user
         _reset_lang()
     else:
         set_lang(locale)
-    subject = _("New membership request (%s)") % group_name
-    message = _("User '%s' (%s) has requested membership to organization '%s'.\n\n%s") % (user_name, user_email, group_name, url)
+    subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
+        'organization': group_name
+    }
+    message = _MESSAGE_MEMBERSHIP_REQUEST() % {
+        'user': user_name,
+        'email': user_email,
+        'organization': group_name,
+        'link': url
+    }
 
     try:
         mail_user(admin, subject, message)
@@ -61,15 +106,17 @@ def _mail_process_status(locale, member_user, approve, group_name, capacity):
 
     role_name = _(capacity)
 
-    if approve:
-        subject = _('Organization membership approved (%s)')
-        message = _("Your membership request to organization '%s' with '%s' access has been approved.")
-    else:
-        subject = _('Organization membership rejected (%s)')
-        message = _("Your membership request to organization '%s' with '%s' access has been rejected.")
+    subject_template = _SUBJECT_MEMBERSHIP_APPROVED() if approve else _SUBJECT_MEMBERSHIP_REJECTED()
+    message_template = _MESSAGE_MEMBERSHIP_APPROVED() if approve else _MESSAGE_MEMBERSHIP_REJECTED()
 
-    subject = subject % group_name
-    message = message % (group_name, role_name)
+    subject = subject_template % {
+        'organization': group_name
+    }
+    message = message_template % {
+        'user': member_user.name,
+        'role': role_name,
+        'organization': group_name
+    }
 
     try:
         mail_user(member_user, subject, message)
