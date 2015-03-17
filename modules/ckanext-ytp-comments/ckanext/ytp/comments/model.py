@@ -57,7 +57,7 @@ class CommentThread(Base):
 
     @classmethod
     def from_url(cls, threadurl):
-        u = cls.clean_url(threadurl)
+
 
         # Look for CommentThread for that URL or create it.
         thread = model.Session.query(cls). \
