@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-17 14:45+0200\n"
-"PO-Revision-Date: 2015-03-17 12:48+0000\n"
+"POT-Creation-Date: 2015-03-17 15:09+0200\n"
+"PO-Revision-Date: 2015-03-17 13:13+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -223,6 +223,7 @@ msgstr "Redigera eller lägg till språkversioner"
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:33
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/members.html:43
 #: ckanext/ytp/organizations/templates/organization/user_list.html:52
@@ -471,6 +472,7 @@ msgstr "Organisationer"
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/dataset/templates/package/search.html:4
 #: ckanext/ytp/dataset/templates/package/search.html:7
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:4
 #: ckanext/ytp/organizations/templates/organization/read.html:4
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
@@ -658,7 +660,7 @@ msgid "Last Modified"
 msgstr "Senast redigerad"
 
 #: ckanext/ytp/dataset/templates/package/search.html:58
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:36
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:37
 msgid "Popular"
 msgstr ""
 
@@ -853,14 +855,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:49
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:50
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:51
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:52
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
 msgstr ""
@@ -993,20 +995,22 @@ msgid "Included this"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_item.html:55
-msgid "No description for this related item"
-msgstr ""
+msgid "No description for this related component"
+msgstr "Ingen beskrivning för denna relaterade komponent"
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:2
-msgid "Related media"
-msgstr ""
+msgid "Related Components"
+msgstr "Relaterad komponenter"
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:4
-msgid "Add Related Item"
-msgstr ""
+msgid "Add Related Component"
+msgstr "Lägg till relaterad komponent"
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:18
-msgid " <p class=\"empty\">This dataset has no related media "
-msgstr ""
+msgid ""
+" <p class=\"empty\">Do you know apps based on this dataset? Add them by "
+"logging in. "
+msgstr "<p class=\"empty\">Vet du appar baserade på denna dataset? Lägg dem genom att logga in."
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:89
@@ -1089,10 +1093,47 @@ msgstr "<p class=\"empty\">Datasetet innehåller ingen data, <a href=\"%(url)s\"
 msgid "Languages"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:12
+msgid "Related Form"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:20
+msgid "What are related components?"
+msgstr "Vilka är de relaterade komponenter?"
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:22
+msgid ""
+" <p>Related Component is any app, article, visualisation or idea related to "
+"this dataset.</p> <p>For example, it could be a custom visualisation, "
+"pictograph or bar chart, an app using all or part of the data or even a news"
+" story that references this dataset.</p> "
+msgstr "<p>Relaterad Komponent är valfri app, artikel, visualisering eller idé som är relaterad till detta dataset.</p> <p>Det kan till exempel vara en egen visualisering, bildtecken, stapeldiagram, en app som använder hela datamängden eller varför inte nyhetsartiklar som refererar till detta dataset.</p>"
+
+#: ckanext/ytp/dataset/templates/related/edit.html:3
+msgid "Edit related component"
+msgstr "Redigera relaterad komponent"
+
+#: ckanext/ytp/dataset/templates/related/edit.html:6
+msgid "Edit Related"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:8
+msgid "Edit Related Component"
+msgstr "Redigera relaterad komponent"
+
+#: ckanext/ytp/dataset/templates/related/new.html:3
+msgid "Create a related component"
+msgstr "Skapa en relaterad komponent"
+
+#: ckanext/ytp/dataset/templates/related/new.html:5
+#: ckanext/ytp/dataset/templates/related/new.html:7
+msgid "Create Related Component"
+msgstr "Skapa relaterad komponent"
+
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:12
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:14
-msgid "My Related Item"
-msgstr ""
+msgid "My Related Component"
+msgstr "Mitt relaterade komponent"
 
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:17
 msgid "http://example.com/"
@@ -1122,6 +1163,10 @@ msgstr "Detta inkluderar"
 msgid "Type"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:32
+msgid "Are you sure you want to delete this related component?"
+msgstr "Är du säker på att du vill ta bort denna relaterade komponent?"
+
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:72
 msgid "More"
 msgstr "Visa mera"
@@ -1142,7 +1187,7 @@ msgstr "Ingen licens angiven"
 msgid "This dataset satisfies the Open Definition."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:30
 #, python-format
 msgid " <span class=\"pull-right\"> %(count)s comment</span> "
 msgid_plural " <span class=\"pull-right\"> %(count)s comments</span> "

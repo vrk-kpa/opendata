@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-17 14:45+0200\n"
+"POT-Creation-Date: 2015-03-17 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,6 +216,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:33
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/members.html:43
 #: ckanext/ytp/organizations/templates/organization/user_list.html:52
@@ -464,6 +465,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/dataset/templates/package/search.html:4
 #: ckanext/ytp/dataset/templates/package/search.html:7
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:4
 #: ckanext/ytp/organizations/templates/organization/read.html:4
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
@@ -651,7 +653,7 @@ msgid "Last Modified"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:58
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:36
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:37
 msgid "Popular"
 msgstr ""
 
@@ -846,14 +848,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:49
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:50
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:51
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:52
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
 msgstr ""
@@ -986,19 +988,21 @@ msgid "Included this"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_item.html:55
-msgid "No description for this related item"
+msgid "No description for this related component"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:2
-msgid "Related media"
+msgid "Related Components"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:4
-msgid "Add Related Item"
+msgid "Add Related Component"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:18
-msgid " <p class=\"empty\">This dataset has no related media "
+msgid ""
+" <p class=\"empty\">Do you know apps based on this dataset? Add them by "
+"logging in. "
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
@@ -1082,9 +1086,46 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:12
+msgid "Related Form"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:20
+msgid "What are related components?"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:22
+msgid ""
+" <p>Related Component is any app, article, visualisation or idea related to "
+"this dataset.</p> <p>For example, it could be a custom visualisation, "
+"pictograph or bar chart, an app using all or part of the data or even a news "
+"story that references this dataset.</p> "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:3
+msgid "Edit related component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:6
+msgid "Edit Related"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:8
+msgid "Edit Related Component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/new.html:3
+msgid "Create a related component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/new.html:5
+#: ckanext/ytp/dataset/templates/related/new.html:7
+msgid "Create Related Component"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:12
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:14
-msgid "My Related Item"
+msgid "My Related Component"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:17
@@ -1115,6 +1156,10 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:32
+msgid "Are you sure you want to delete this related component?"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:72
 msgid "More"
 msgstr ""
@@ -1135,7 +1180,7 @@ msgstr ""
 msgid "This dataset satisfies the Open Definition."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:30
 #, python-format
 msgid " <span class=\"pull-right\"> %(count)s comment</span> "
 msgid_plural " <span class=\"pull-right\"> %(count)s comments</span> "
