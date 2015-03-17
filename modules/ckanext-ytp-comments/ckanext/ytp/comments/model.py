@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey
+from sqlalchemy import Column, MetaData, ForeignKey, func
 from sqlalchemy import types
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
@@ -70,8 +70,79 @@ class CommentThread(Base):
         return thread
 
     @classmethod
+    def count_from_url(cls, threadurl):
+
+        u = cls.clean_url(threadurl)
+
+        # Look for CommentThread for that URL or return 0
+        thread = model.Session.query(cls). \
+            filter(cls.url == u).first()
+        if not thread:
+            return 0
+
+        thread_dict = thread.as_dict()
+        children = model.Session.query(
+            Comment.id,
+            Comment.parent_id,
+            Comment.thread_id)\
+            .cte(name='children', recursive=True)
+
+        children = children.union_all(
+            model.Session.query(
+                Comment.id,
+                Comment.parent_id,
+                Comment.thread_id
+            )\
+            .filter(Comment.id == children.c.parent_id)
+        )
+
+        q = model.Session.query(func.count('*').label('comment_count'), children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()
+        t = model.Session.query(func.sum(q.c.comment_count)).group_by(q.c.thread_id).filter(q.c.thread_id == thread_dict['id'])
+
+        count = t.scalar()
+
+        if count:
+            return count
+
+        return 0
+
+    @classmethod
     def get(cls, id):
         return model.Session.query(cls).filter(cls.id == id).first()
+
+    @classmethod
+    def count(cls, id):
+
+        thread = model.Session.query(cls).filter(cls.id == id).first()
+        if not thread:
+            return 0
+
+        thread_dict = thread.as_dict()
+
+        children = model.Session.query(
+            Comment.id,
+            Comment.parent_id,
+            Comment.thread_id) \
+            .cte(name='children', recursive=True)
+
+        children = children.union_all(
+            model.Session.query(
+                Comment.id,
+                Comment.parent_id,
+                Comment.thread_id
+            ) \
+            .filter(Comment.id == children.c.parent_id)
+        )
+
+        q = model.Session.query(func.count('*').label('comment_count'), children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()
+        t = model.Session.query(func.sum(q.c.comment_count)).group_by(q.c.thread_id).filter(q.c.thread_id == thread_dict['id'])
+
+        count = t.scalar()
+
+        if count:
+            return count
+
+        return 0
 
     @classmethod
     def get_or_create(cls, obj, id):

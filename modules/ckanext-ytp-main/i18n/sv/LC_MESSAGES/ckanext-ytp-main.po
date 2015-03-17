@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-12 09:55+0200\n"
-"PO-Revision-Date: 2015-03-12 08:14+0000\n"
+"POT-Creation-Date: 2015-03-17 15:09+0200\n"
+"PO-Revision-Date: 2015-03-17 13:13+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -660,7 +660,7 @@ msgid "Last Modified"
 msgstr "Senast redigerad"
 
 #: ckanext/ytp/dataset/templates/package/search.html:58
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:37
 msgid "Popular"
 msgstr ""
 
@@ -855,14 +855,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:42
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:50
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:44
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:52
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
 msgstr ""
@@ -1186,6 +1186,13 @@ msgstr "Ingen licens angiven"
 #: ckanext/ytp/dataset/templates/snippets/license.html:28
 msgid "This dataset satisfies the Open Definition."
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:30
+#, python-format
+msgid " <span class=\"pull-right\"> %(count)s comment</span> "
+msgid_plural " <span class=\"pull-right\"> %(count)s comments</span> "
+msgstr[0] "<span class=\"pull-right\"> %(count)s kommentar</span>"
+msgstr[1] "<span class=\"pull-right\"> %(count)s kommentarer</span>"
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
 #, python-format
