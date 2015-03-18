@@ -25,13 +25,14 @@ Example:
         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
         {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
       </h3>
-          {% set comment_count = h.get_comment_count_for_dataset(package.name)%}
+        <a href="{{ h.url_for(controller='package', action='read', id=package.name, anchor='comments') }}">
+        {% set comment_count = h.get_comment_count_for_dataset(package.name)%}
           {% trans count = comment_count %}
             <span class="pull-right"> {{ count }} comment</span>
           {% pluralize %}
             <span class="pull-right"> {{ count }} comments</span>
           {% endtrans %}
-
+        </a>
       {% if banner %}
         <span class="banner">{{ _('Popular') }}</span>
       {% endif %}
