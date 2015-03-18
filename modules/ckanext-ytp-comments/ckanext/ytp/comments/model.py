@@ -85,6 +85,7 @@ class CommentThread(Base):
             Comment.id,
             Comment.parent_id,
             Comment.thread_id)\
+            .filter(Comment.state == 'active')\
             .cte(name='children', recursive=True)
 
         children = children.union_all(
