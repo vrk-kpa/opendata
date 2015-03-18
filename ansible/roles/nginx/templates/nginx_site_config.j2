@@ -6,7 +6,8 @@ map $http_cookie $no_cache {
 }
 
 server {
-    listen [::]:80;
+    listen 80;
+    server_name {{ item.server_name }};
     return 301 https://$host$request_uri;
 }
 
@@ -194,4 +195,9 @@ server {
         expires max;
         log_not_found off;
     }
+}
+
+server {
+    server_name .yhteentoimivuus.fi;
+    rewrite ^ https://www.avoindata.fi/data/fi/dataset?collection_type=Interoperability+Tools permanent;
 }
