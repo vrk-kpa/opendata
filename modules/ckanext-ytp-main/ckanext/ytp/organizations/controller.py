@@ -3,6 +3,7 @@ from ckan.common import c, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort
+from ckan.logic import check_access
 
 import logging
 
@@ -20,6 +21,7 @@ class YtpOrganizationController(OrganizationController):
             )
             c.group_dict = self._action('group_show')(context, {'id': id})
 
+            check_access('group_update', context, {'id': id})
             context['keep_email'] = True
             context['auth_user_obj'] = c.userobj
             context['return_minimal'] = True
