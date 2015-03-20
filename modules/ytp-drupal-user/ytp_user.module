@@ -166,3 +166,9 @@ function ytp_user_form_alter(&$form, $form_state, $form_id) {
 function ytp_user_user_logout($account) {
     user_cookie_save(array('ytp.logoff' => '1'));
 }
+
+function ytp_user_mail_alter(&$message){
+    $site_name = variable_get('site_name', 'Drupal');
+    $site_mail = variable_get('site_mail', '');
+    $message['from'] = $message['headers']['From'] = '"' . $site_name . '" <'. $site_mail . '>';
+}
