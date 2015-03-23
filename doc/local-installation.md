@@ -90,6 +90,18 @@ Simply re-run the provision:
 
     vagrant provision
     
+Vagrant may fail to mount shared folders and following error shows up:
+
+"Failed to mount folders in Linux guest. This is usually because
+    the "vboxsf" file system is not available."
+
+The workaround is to access guest machine (vagrant ssh) and run the following command:
+
+sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+
+The run vagrant reload to correctly mount the folders
+
+
 # Local Installation (Windows)
 
 Install Virtualbox and Vagrant in Windows and clone ytp repo.
