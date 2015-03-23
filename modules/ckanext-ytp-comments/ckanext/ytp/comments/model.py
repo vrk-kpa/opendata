@@ -93,11 +93,12 @@ class CommentThread(Base):
                 Comment.id,
                 Comment.parent_id,
                 Comment.thread_id
-            )\
+            )
             .filter(Comment.id == children.c.parent_id)
         )
 
-        q = model.Session.query(func.count('*').label('comment_count'), children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()
+        q = model.Session.query(func.count('*').label('comment_count'),
+                                children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()  # noqa
         t = model.Session.query(func.sum(q.c.comment_count)).group_by(q.c.thread_id).filter(q.c.thread_id == thread_dict['id'])
 
         count = t.scalar()
@@ -131,11 +132,12 @@ class CommentThread(Base):
                 Comment.id,
                 Comment.parent_id,
                 Comment.thread_id
-            ) \
+            )
             .filter(Comment.id == children.c.parent_id)
         )
 
-        q = model.Session.query(func.count('*').label('comment_count'), children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()
+        q = model.Session.query(func.count('*').label('comment_count'),
+                                children.c.thread_id).group_by(children.c.thread_id).filter(children.c.parent_id == None).subquery()  # noqa
         t = model.Session.query(func.sum(q.c.comment_count)).group_by(q.c.thread_id).filter(q.c.thread_id == thread_dict['id'])
 
         count = t.scalar()

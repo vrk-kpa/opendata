@@ -81,11 +81,11 @@ def comment_show(context, data_dict):
 
     return comment.as_dict()
 
+
 def comment_count(context, data_dict):
 
-
     # For now everybody is allowed to view count
-    #logic.check_access('comment_count', context, data_dict)
+    # logic.check_access('comment_count', context, data_dict)
     url = data_dict.get('url')
     id = data_dict.get('id')
     count = None

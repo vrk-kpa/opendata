@@ -2,20 +2,20 @@ import urllib2
 
 from ckan.lib.base import c
 from ckan import model
-from ckan.model import Session, Package
+from ckan.model import Session
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
 
-from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestGatherError,
-                                    HarvestObjectError, HarvestObjectExtra)
+from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestObjectExtra)
 
 import logging
 log = logging.getLogger(__name__)
 
 from ckanext.harvest.harvesters.base import HarvesterBase
 
-DELETE="delete"
+DELETE = "delete"
+
 
 class HRIHarvester(HarvesterBase):
     '''
@@ -37,18 +37,18 @@ class HRIHarvester(HarvesterBase):
 
     def _get_content(self, url):
         http_request = urllib2.Request(
-            url = url,
+            url=url,
         )
 
-        api_key = self.config.get('api_key',None)
+        api_key = self.config.get('api_key', None)
         if api_key:
-            http_request.add_header('Authorization',api_key)
+            http_request.add_header('Authorization', api_key)
 
         try:
             http_response = urllib2.urlopen(http_request)
         except urllib2.URLError, e:
             raise ContentFetchError(
-                'Could not fetch url: %s, error: %s' % 
+                'Could not fetch url: %s, error: %s' %
                 (url, str(e))
             )
         return http_response.read()
@@ -59,7 +59,7 @@ class HRIHarvester(HarvesterBase):
             content = self._get_content(url)
             return json.loads(content)
         except (ContentFetchError, ValueError):
-            log.debug('Could not fetch/decode remote group');
+            log.debug('Could not fetch/decode remote group')
             raise RemoteResourceError('Could not fetch/decode remote group')
 
     def _get_organization(self, base_url, org_name):
@@ -69,10 +69,10 @@ class HRIHarvester(HarvesterBase):
             content_dict = json.loads(content)
             return content_dict['result']
         except (ContentFetchError, ValueError, KeyError):
-            log.debug('Could not fetch/decode remote group');
+            log.debug('Could not fetch/decode remote group')
             raise RemoteResourceError('Could not fetch/decode remote organization')
 
-    def _set_config(self,config_str):
+    def _set_config(self, config_str):
         if config_str:
             self.config = json.loads(config_str)
             if 'api_version' in self.config:
@@ -87,10 +87,10 @@ class HRIHarvester(HarvesterBase):
             'name': 'hri',
             'title': 'HRI',
             'description': 'Harvests hri.fi',
-            'form_config_interface':'Text'
+            'form_config_interface': 'Text'
         }
 
-    def validate_config(self,config):
+    def validate_config(self, config):
         if not config:
             return config
 
@@ -104,39 +104,39 @@ class HRIHarvester(HarvesterBase):
                     raise ValueError('api_version must be an integer')
 
             if 'default_tags' in config_obj:
-                if not isinstance(config_obj['default_tags'],list):
+                if not isinstance(config_obj['default_tags'], list):
                     raise ValueError('default_tags must be a list')
 
             if 'default_groups' in config_obj:
-                if not isinstance(config_obj['default_groups'],list):
+                if not isinstance(config_obj['default_groups'], list):
                     raise ValueError('default_groups must be a list')
 
                 # Check if default groups exist
-                context = {'model':model,'user':c.user}
+                context = {'model': model, 'user': c.user}
                 for group_name in config_obj['default_groups']:
                     try:
-                        group = get_action('group_show')(context,{'id':group_name})
-                    except NotFound,e:
+                        get_action('group_show')(context, {'id': group_name})
+                    except NotFound, e:
                         raise ValueError('Default group not found')
 
             if 'default_extras' in config_obj:
-                if not isinstance(config_obj['default_extras'],dict):
+                if not isinstance(config_obj['default_extras'], dict):
                     raise ValueError('default_extras must be a dictionary')
 
             if 'user' in config_obj:
                 # Check if user exists
-                context = {'model':model,'user':c.user}
+                context = {'model': model, 'user': c.user}
                 try:
-                    user = get_action('user_show')(context,{'id':config_obj.get('user')})
-                except NotFound,e:
+                    get_action('user_show')(context, {'id': config_obj.get('user')})
+                except NotFound, e:
                     raise ValueError('User not found')
 
-            for key in ('read_only','force_all', 'manage_deletions'):
+            for key in ('read_only', 'force_all', 'manage_deletions'):
                 if key in config_obj:
-                    if not isinstance(config_obj[key],bool):
+                    if not isinstance(config_obj[key], bool):
                         raise ValueError('%s must be boolean' % key)
 
-        except ValueError,e:
+        except ValueError, e:
             raise e
 
         return config
@@ -146,10 +146,10 @@ class HRIHarvester(HarvesterBase):
         Checks all packages on remote instance against ones existing, returns
         the difference
         """
-        #Prior to 2.0, https://github.com/okfn/ckan/pull/545 the api returns
-        #a 403 error. Deletions will appear in the list of revisions in the 
-        #gather stage but will error during the import stage. In order to
-        #harvest < 2.0 ckan instances I've written this mess.
+        # Prior to 2.0, https://github.com/okfn/ckan/pull/545 the api returns
+        # a 403 error. Deletions will appear in the list of revisions in the
+        # gather stage but will error during the import stage. In order to
+        # harvest < 2.0 ckan instances I've written this mess.
         try:
             content = self._get_content(url)
             remote_packages = json.loads(content)
@@ -159,8 +159,7 @@ class HRIHarvester(HarvesterBase):
             self._save_gather_error('Unable to decode JSON for URL: %s: %s' % (url, str(e)), harvest_job)
 
         existing_packages = model.Session.query(HarvestObject.guid) \
-                                  .filter(HarvestObject.current==True)\
-                                  .filter(HarvestObject.harvest_source_id==harvest_job.source_id)
+            .filter(HarvestObject.current == True).filter(HarvestObject.harvest_source_id == harvest_job.source_id)  # noqa
         if len(existing_packages.all()) == 0:
             return []
 
@@ -169,14 +168,14 @@ class HRIHarvester(HarvesterBase):
         deleted = []
         for package_id in deleted_ids:
             harvest_object = HarvestObject(job=harvest_job,
-                extras=[HarvestObjectExtra(key='status', value=DELETE)],
-                package_id=package_id
-            )
+                                           extras=[HarvestObjectExtra(key='status', value=DELETE)],
+                                           package_id=package_id)
+
             harvest_object.save()
             deleted.append(harvest_object.id)
         return deleted
 
-    def gather_stage(self,harvest_job):
+    def gather_stage(self, harvest_job):
         log.debug('In CKANHarvester gather_stage (%s)' % harvest_job.source.url)
         get_all_packages = True
         package_ids = []
@@ -185,11 +184,9 @@ class HRIHarvester(HarvesterBase):
 
         # Check if this source has been harvested before
         previous_job = Session.query(HarvestJob) \
-                        .filter(HarvestJob.source==harvest_job.source) \
-                        .filter(HarvestJob.gather_finished!=None) \
-                        .filter(HarvestJob.id!=harvest_job.id) \
-                        .order_by(HarvestJob.gather_finished.desc()) \
-                        .limit(1).first()
+            .filter(HarvestJob.source == harvest_job.source) \
+            .filter(HarvestJob.id != harvest_job.id) \
+            .filter(HarvestJob.gather_finished != None).order_by(HarvestJob.gather_finished.desc()).limit(1).first()  # noqa
 
         # Get source URL
         base_url = harvest_job.source.url.rstrip('/')
@@ -197,7 +194,7 @@ class HRIHarvester(HarvesterBase):
         base_search_url = base_url + self._get_search_api_offset()
 
         if (previous_job and not previous_job.gather_errors and not len(previous_job.objects) == 0):
-            if not self.config.get('force_all',False):
+            if not self.config.get('force_all', False):
                 get_all_packages = False
 
                 # Request only the packages modified since last harvest job
@@ -213,35 +210,33 @@ class HRIHarvester(HarvesterBase):
                             url = base_rest_url + '/revision/%s' % revision_id
                             try:
                                 content = self._get_content(url)
-                            except ContentFetchError,e:
-                                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)),harvest_job)
+                            except ContentFetchError, e:
+                                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
                                 continue
 
                             revision = json.loads(content)
                             for package_id in revision['packages']:
-                                if not package_id in package_ids:
+                                if package_id not in package_ids:
                                     package_ids.append(package_id)
                     else:
                         log.info('No packages have been updated on the remote CKAN instance since the last harvest job')
                         return []
 
-                except urllib2.HTTPError,e:
+                except urllib2.HTTPError, e:
                     if e.getcode() == 400:
                         log.info('CKAN instance %s does not suport revision filtering' % base_url)
                         get_all_packages = True
                     else:
-                        self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)),harvest_job)
+                        self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
                         return None
-
-
 
         if get_all_packages:
             # Request all remote packages
             url = base_rest_url + '/package'
             try:
                 content = self._get_content(url)
-            except ContentFetchError,e:
-                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)),harvest_job)
+            except ContentFetchError, e:
+                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
                 return None
 
             package_ids = json.loads(content)
@@ -256,7 +251,7 @@ class HRIHarvester(HarvesterBase):
             if len(package_ids):
                 for package_id in package_ids:
                     # Create a new HarvestObject for this identifier
-                    obj = HarvestObject(guid = package_id, job = harvest_job)
+                    obj = HarvestObject(guid=package_id, job=harvest_job)
                     obj.save()
                     object_ids.append(obj.id)
 
@@ -264,14 +259,12 @@ class HRIHarvester(HarvesterBase):
                 return object_ids
 
             else:
-               self._save_gather_error('No packages received for URL: %s' % url,
-                       harvest_job)
-               return None
+                self._save_gather_error('No packages received for URL: %s' % url, harvest_job)
+                return None
         except Exception, e:
-            self._save_gather_error('%r'%e.message,harvest_job)
+            self._save_gather_error('%r' % e.message, harvest_job)
 
-
-    def fetch_stage(self,harvest_object):
+    def fetch_stage(self, harvest_object):
         log.debug('In CKANHarvester fetch_stage')
 
         self._set_config(harvest_object.job.source.config)
@@ -289,9 +282,9 @@ class HRIHarvester(HarvesterBase):
         # Get contents
         try:
             content = self._get_content(url)
-        except ContentFetchError,e:
-            self._save_object_error('Unable to get content for package: %s: %r' % \
-                                        (url, e),harvest_object)
+        except ContentFetchError, e:
+            self._save_object_error('Unable to get content for package: %s: %r' %
+                                    (url, e), harvest_object)
             return None
 
         # Save the fetched contents in the HarvestObject
@@ -299,7 +292,7 @@ class HRIHarvester(HarvesterBase):
         harvest_object.save()
         return True
 
-    def import_stage(self,harvest_object):
+    def import_stage(self, harvest_object):
         log.debug('In CKANHarvester import_stage')
         if not harvest_object:
             log.error('No harvest object received')
@@ -307,7 +300,7 @@ class HRIHarvester(HarvesterBase):
 
         if harvest_object.content is None:
             self._save_object_error('Empty content for object %s' % harvest_object.id,
-                    harvest_object, 'Import')
+                                    harvest_object, 'Import')
             return False
 
         self._set_config(harvest_object.job.source.config)
@@ -323,18 +316,18 @@ class HRIHarvester(HarvesterBase):
                 return True
 
             # Set default tags if needed
-            default_tags = self.config.get('default_tags',[])
+            default_tags = self.config.get('default_tags', [])
             if default_tags:
-                if not 'tags' in package_dict:
+                if 'tags' not in package_dict:
                     package_dict['tags'] = []
                 package_dict['tags'].extend([t for t in default_tags if t not in package_dict['tags']])
 
             remote_groups = self.config.get('remote_groups', None)
-            if not remote_groups in ('only_local', 'create'):
+            if remote_groups not in ('only_local', 'create'):
                 # Ignore remote groups
                 package_dict.pop('groups', None)
             else:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
 
                 # check if remote groups exist locally, otherwise remove
@@ -373,12 +366,11 @@ class HRIHarvester(HarvesterBase):
 
             # Local harvest source organization
             source_dataset = get_action('package_show')(context, {'id': harvest_object.source.id})
-            local_org = source_dataset.get('owner_org')
+            source_dataset.get('owner_org')
 
-            remote_orgs = self.config.get('remote_orgs', None)
+            self.config.get('remote_orgs', None)
 
-
-            if not 'owner_org' in package_dict:
+            if 'owner_org' not in package_dict:
                 package_dict['owner_org'] = None
 
             # check if remote org exist locally, otherwise remove
@@ -404,7 +396,7 @@ class HRIHarvester(HarvesterBase):
             # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
             if default_groups:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
                 package_dict['groups'].extend([g for g in default_groups if g not in package_dict['groups']])
 
@@ -415,27 +407,27 @@ class HRIHarvester(HarvesterBase):
                 if not isinstance(package_dict['extras'][key], basestring):
                     try:
                         package_dict['extras'][key] = json.dumps(
-                                package_dict['extras'][key])
+                            package_dict['extras'][key])
                     except TypeError:
                         # If converting to a string fails, just delete it.
                         del package_dict['extras'][key]
 
             # Set default extras if needed
-            default_extras = self.config.get('default_extras',{})
+            default_extras = self.config.get('default_extras', {})
             if default_extras:
-                override_extras = self.config.get('override_extras',False)
-                if not 'extras' in package_dict:
+                override_extras = self.config.get('override_extras', False)
+                if 'extras' not in package_dict:
                     package_dict['extras'] = {}
-                for key,value in default_extras.iteritems():
-                    if not key in package_dict['extras'] or override_extras:
+                for key, value in default_extras.iteritems():
+                    if key not in package_dict['extras'] or override_extras:
                         # Look for replacement strings
-                        if isinstance(value,basestring):
+                        if isinstance(value, basestring):
                             value = value.format(harvest_source_id=harvest_object.job.source.id,
-                                     harvest_source_url=harvest_object.job.source.url.strip('/'),
-                                     harvest_source_title=harvest_object.job.source.title,
-                                     harvest_job_id=harvest_object.job.id,
-                                     harvest_object_id=harvest_object.id,
-                                     dataset_id=package_dict['id'])
+                                                 harvest_source_url=harvest_object.job.source.url.strip('/'),
+                                                 harvest_source_title=harvest_object.job.source.title,
+                                                 harvest_job_id=harvest_object.job.id,
+                                                 harvest_object_id=harvest_object.id,
+                                                 dataset_id=package_dict['id'])
 
                         package_dict['extras'][key] = value
 
@@ -449,15 +441,14 @@ class HRIHarvester(HarvesterBase):
             data_dict['id'] = package_dict['id']
             try:
                 existing_package_dict = get_action('package_show')(context, data_dict)
-                if 'metadata_modified' in package_dict and \
-                                package_dict['metadata_modified'] <= existing_package_dict.get('metadata_modified'):
+                if 'metadata_modified' in package_dict and package_dict['metadata_modified'] <= existing_package_dict.get('metadata_modified'):
                     return "unchanged"
             except NotFound:
                 pass
 
-            result = self._create_or_update_package(package_dict,harvest_object)
+            result = self._create_or_update_package(package_dict, harvest_object)
 
-            if result and self.config.get('read_only',False) == True:
+            if result and self.config.get('read_only', False) is True:
 
                 package = model.Package.get(package_dict['id'])
 
@@ -465,25 +456,26 @@ class HRIHarvester(HarvesterBase):
                 model.clear_user_roles(package)
 
                 # Setup harvest user as admin
-                user_name = self.config.get('user',u'harvest')
+                user_name = self.config.get('user', u'harvest')
                 user = model.User.get(user_name)
-                pkg_role = model.PackageRole(package=package, user=user, role=model.Role.ADMIN)
+                model.PackageRole(package=package, user=user, role=model.Role.ADMIN)
 
                 # Other users can only read
-                for user_name in (u'visitor',u'logged_in'):
+                for user_name in (u'visitor', u'logged_in'):
                     user = model.User.get(user_name)
-                    pkg_role = model.PackageRole(package=package, user=user, role=model.Role.READER)
-
+                    model.PackageRole(package=package, user=user, role=model.Role.READER)
 
             return True
-        except ValidationError,e:
+        except ValidationError, e:
             self._save_object_error('Invalid package with GUID %s: %r' % (harvest_object.guid, e.error_dict),
-                    harvest_object, 'Import')
+                                    harvest_object, 'Import')
         except Exception, e:
-            self._save_object_error('%r'%e,harvest_object,'Import')
+            self._save_object_error('%r' % e, harvest_object, 'Import')
+
 
 class ContentFetchError(Exception):
     pass
+
 
 class RemoteResourceError(Exception):
     pass
