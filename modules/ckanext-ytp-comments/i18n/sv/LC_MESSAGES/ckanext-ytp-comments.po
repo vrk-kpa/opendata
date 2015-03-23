@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-05 12:40+0200\n"
-"PO-Revision-Date: 2015-03-05 10:52+0000\n"
+"POT-Creation-Date: 2015-03-18 13:04+0200\n"
+"PO-Revision-Date: 2015-03-18 11:06+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -25,61 +25,61 @@ msgstr ""
 msgid "You must be logged in to add a comment"
 msgstr "Du måste vara inloggad för att lägga till en kommentar"
 
-#: ckanext/ytp/comments/logic/auth/delete.py:26
+#: ckanext/ytp/comments/logic/auth/delete.py:25
 #: ckanext/ytp/comments/logic/auth/update.py:23
 msgid "Comment does not exist"
 msgstr "Kommentar finns inte"
 
-#: ckanext/ytp/comments/logic/auth/delete.py:29
+#: ckanext/ytp/comments/logic/auth/delete.py:28
 #: ckanext/ytp/comments/logic/auth/update.py:26
 msgid "User is not the author of the comment"
 msgstr "Användaren är inte författaren till kommentaren"
 
-#: ckanext/ytp/comments/logic/auth/get.py:36
-msgid "You do not have permission to view this comment"
-msgstr "Du har inte behörighet att visa den här kommentaren"
-
 #: ckanext/ytp/comments/templates/package/comment_list.html:8
-#: ckanext/ytp/comments/templates/package/comment_list.html:82
+#: ckanext/ytp/comments/templates/package/comment_list.html:83
 msgid "Subject"
 msgstr "Ämne"
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:10
-#: ckanext/ytp/comments/templates/package/comment_list.html:85
+#: ckanext/ytp/comments/templates/package/comment_list.html:86
 msgid "Comment"
 msgstr "Kommentar"
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:15
-#: ckanext/ytp/comments/templates/package/comment_list.html:89
+#: ckanext/ytp/comments/templates/package/comment_list.html:90
 msgid "Save"
 msgstr "Spara"
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:16
-#: ckanext/ytp/comments/templates/package/comment_list.html:90
+#: ckanext/ytp/comments/templates/package/comment_list.html:91
 msgid "Clear"
 msgstr "Tömma"
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:33
-#: ckanext/ytp/comments/templates/package/comment_list.html:45
+#: ckanext/ytp/comments/templates/package/comment_list.html:34
+#: ckanext/ytp/comments/templates/package/comment_list.html:46
 msgid "This comment was deleted."
 msgstr "Denna kommentar togs bort."
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:38
+#: ckanext/ytp/comments/templates/package/comment_list.html:39
 msgid "Modified"
 msgstr "Redigerad"
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:50
+#: ckanext/ytp/comments/templates/package/comment_list.html:51
 msgid "Delete"
 msgstr "Ta bort"
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:54
+#: ckanext/ytp/comments/templates/package/comment_list.html:55
 msgid "Edit"
 msgstr "Redigera"
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:58
+#: ckanext/ytp/comments/templates/package/comment_list.html:59
 msgid "Reply"
 msgstr "Svara"
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:95
+#: ckanext/ytp/comments/templates/package/comment_list.html:74
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:96
 msgid "Login to comment."
 msgstr "Logga in till kommentera."

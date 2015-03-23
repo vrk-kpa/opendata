@@ -26,7 +26,8 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     def get_helpers(self):
         return {
-            'get_comment_thread': self._get_comment_thread
+            'get_comment_thread': self._get_comment_thread,
+            'get_comment_count_for_dataset': self._get_comment_count_for_dataset
         }
 
     def get_actions(self):
@@ -37,7 +38,8 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             "thread_show": get.thread_show,
             "comment_update": update.comment_update,
             "comment_show": get.comment_show,
-            "comment_delete": delete.comment_delete
+            "comment_delete": delete.comment_delete,
+            "comment_count": get.comment_count
         }
 
     def get_auth_functions(self):
@@ -47,7 +49,8 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             'comment_create': create.comment_create,
             'comment_update': update.comment_update,
             'comment_show': get.comment_show,
-            'comment_delete': delete.comment_delete
+            'comment_delete': delete.comment_delete,
+            "comment_count": get.comment_count
         }
     # IPackageController
 
@@ -74,3 +77,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         from ckan.logic import get_action
         url = '/dataset/%s' % dataset_name
         return get_action('thread_show')({'model': model, 'with_deleted': True}, {'url': url})
+
+    def _get_comment_count_for_dataset(self, dataset_name):
+        import ckan.model as model
+        from ckan.logic import get_action
+        url = '/dataset/%s' % dataset_name
+        count = get_action('comment_count')({'model': model}, {'url': url})
+        return count
