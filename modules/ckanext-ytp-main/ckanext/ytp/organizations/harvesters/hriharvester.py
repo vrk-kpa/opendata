@@ -458,7 +458,7 @@ class HRIHarvester(HarvesterBase):
                 # Setup harvest user as admin
                 user_name = self.config.get('user', u'harvest')
                 user = model.User.get(user_name)
-                pkg_role = model.PackageRole(package=package, user=user, role=model.Role.ADMIN)
+                model.PackageRole(package=package, user=user, role=model.Role.ADMIN)
 
                 # Other users can only read
                 for user_name in (u'visitor', u'logged_in'):
