@@ -2,12 +2,12 @@ import urllib2
 
 from ckan.lib.base import c
 from ckan import model
-from ckan.model import Session, Package
+from ckan.model import Session
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
 
-from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestGatherError, HarvestObjectError, HarvestObjectExtra)
+from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestObjectExtra)
 
 import logging
 log = logging.getLogger(__name__)
@@ -115,7 +115,7 @@ class HRIHarvester(HarvesterBase):
                 context = {'model': model, 'user': c.user}
                 for group_name in config_obj['default_groups']:
                     try:
-                        group = get_action('group_show')(context, {'id': group_name})
+                        get_action('group_show')(context, {'id': group_name})
                     except NotFound, e:
                         raise ValueError('Default group not found')
 
@@ -127,7 +127,7 @@ class HRIHarvester(HarvesterBase):
                 # Check if user exists
                 context = {'model': model, 'user': c.user}
                 try:
-                    user = get_action('user_show')(context, {'id': config_obj.get('user')})
+                    get_action('user_show')(context, {'id': config_obj.get('user')})
                 except NotFound, e:
                     raise ValueError('User not found')
 
@@ -366,9 +366,9 @@ class HRIHarvester(HarvesterBase):
 
             # Local harvest source organization
             source_dataset = get_action('package_show')(context, {'id': harvest_object.source.id})
-            local_org = source_dataset.get('owner_org')
+            source_dataset.get('owner_org')
 
-            remote_orgs = self.config.get('remote_orgs', None)
+            self.config.get('remote_orgs', None)
 
             if 'owner_org' not in package_dict:
                 package_dict['owner_org'] = None
@@ -463,7 +463,7 @@ class HRIHarvester(HarvesterBase):
                 # Other users can only read
                 for user_name in (u'visitor', u'logged_in'):
                     user = model.User.get(user_name)
-                    pkg_role = model.PackageRole(package=package, user=user, role=model.Role.READER)
+                    model.PackageRole(package=package, user=user, role=model.Role.READER)
 
             return True
         except ValidationError, e:
