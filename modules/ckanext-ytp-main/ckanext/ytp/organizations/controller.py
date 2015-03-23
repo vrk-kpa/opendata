@@ -3,6 +3,7 @@ from ckan.common import c, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort
+from ckan.logic import check_access
 
 import logging
 
@@ -20,21 +21,21 @@ class YtpOrganizationController(OrganizationController):
             )
             c.group_dict = self._action('group_show')(context, {'id': id})
 
+            check_access('group_update', context, {'id': id})
+            context['keep_email'] = True
+            context['auth_user_obj'] = c.userobj
+            context['return_minimal'] = True
+
             members = []
             for user_id, name, role in c.members:
-
-                user_context = {
-                    'model': model, 'session': model.Session,
-                    'user': user_id, 'auth_user_obj': c.userobj,
-                    'keep_email': True
-                }
                 user_dict = {'id': user_id}
-                data = get_action('user_show')(user_context, user_dict)
-                members.append((user_id, data['name'], role, data['email']))
+                data = get_action('user_show')(context, user_dict)
+                if data['state'] != 'deleted':
+                    members.append((user_id, data['name'], role, data['email']))
 
             c.members = members
         except NotAuthorized:
-            abort(401, _('Unauthorized to delete group %s') % '')
+            abort(401, _('Unauthorized to view group %s members') % id)
         except NotFound:
             abort(404, _('Group not found'))
         return self._render_template('group/members.html')
