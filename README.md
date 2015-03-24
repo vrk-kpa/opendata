@@ -29,7 +29,7 @@ Install the extension in your python environment
 ```
 $ . /usr/lib/ckan/default/bin/activate
 (pyenv) $ cd /usr/lib/ckan/default/src
-(pyenv) $ pip install -e "git+https://github.com/datagovuk/ckanext-hierarchy.git#ckanext-hierarchy"
+(pyenv) $ pip install -e "git+https://github.com/datagovuk/ckanext-hierarchy.git#egg=ckanext-hierarchy"
 ```
 Then change your CKAN ini file (e.g. development.ini or production.ini).  Note that hierarchy_display 
 should come before hierarchy_form
