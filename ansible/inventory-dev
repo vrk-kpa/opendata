@@ -1,0 +1,12 @@
+
+[webserver]
+gamma-web.avoindata.fi
+
+[webserver:vars]
+secret_variables=variables-gamma.yml
+
+[dbserver]
+gamma-database.avoindata.fi
+
+[dbserver:vars]
+secret_variables=variables-gamma.yml
