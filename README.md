@@ -1,22 +1,28 @@
 
-# Yhteentoimivuuspalvelut (YTP)
+## Yhteentoimivuuspalvelut / Avoindata.fi
 
-Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines three related subservices: a metadata catalog of open data, a catalog of interoperability tools and guidelines, and a catalog of public services. The first phase of the service is the open data catalog Avoindata.fi. A public beta release of the service is available at [beta.avoindata.fi](http://beta.avoindata.fi) or [beta.opendata.fi](http://beta.opendata.fi).
+Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines three related subservices:
 
-This repository contains:
+- [Avoindata.fi](https://www.avoindata.fi/), a search engine and metadata catalog for Finnish open data
+- A catalog of interoperability tools and guidelines
+- A prototype for a catalog of Finnish public services.
 
-- Automated Deployment ([Ansible](http://www.ansible.com))
-- Local Development Tools ([Vagrant](http://www.vagrantup.com))
-- Continuous Integration ([Travis](https://travis-ci.org/yhteentoimivuuspalvelut/ytp)) [![Build Status][travis-image]][travis-url]
-- Rest of the project code tied together as subtree modules under the _modules_ directory
+The service is publicly available at [Avoindata.fi](https://www.avoindata.fi/). Free registration is required for features such as commenting and publishing of datasets. A developer sandbox is also available at [beta.avoindata.fi](http://beta.avoindata.fi) or [beta.opendata.fi](http://beta.opendata.fi).
 
-## Getting started
+This source repository contains:
+
+- Configuration management scripts ([Ansible](http://www.ansible.com))
+- Tools for local development ([Vagrant](http://www.vagrantup.com))
+- Configuration for Continuous integration ([Travis](https://travis-ci.org/yhteentoimivuuspalvelut/ytp)) [![Build Status][travis-image]][travis-url]
+- Source code as subtree modules under the _modules_ directory
+
+### Getting started
 
 To try out the service, visit [beta.avoindata.fi](http://beta.avoindata.fi) and register a user account to create new datasets.
 
 To get started in developing the software, install a local development environment as described in the [documentation](doc/local-installation.md), and then see the [development documentation](doc/local-development.md).
 
-## Documentation
+### Documentation
 
 Please refer to the [documentation directory](doc). [API documentation](https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan) is currently under the ytp-tools project.
 
@@ -24,9 +30,9 @@ Please refer to the [documentation directory](doc). [API documentation](https://
 
 Please file [issues at Github](https://github.com/yhteentoimivuuspalvelut/ytp/issues) or join the discussion at [avoindata.net](http://avoindata.net/questions/suomen-avoimen-datan-portaalin-rakentaminen).
 
-## Copying and License
+### Copying and License
 
-This material is copyright (c) 2014 Valtori Government ICT Centre, Finland.
+This material is copyright (c) 2013-2015 Valtori Government ICT Centre, Finland.
 
 It is open and licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
