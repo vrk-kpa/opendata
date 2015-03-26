@@ -3,10 +3,10 @@
 dev-web.avoindata.fi
 
 [webserver:vars]
-secret_variables=variables-gamma.yml
+secret_variables=variables-dev.yml
 
 [dbserver]
 dev-database.avoindata.fi
 
 [dbserver:vars]
-secret_variables=variables-gamma.yml
+secret_variables=variables-dev.yml
