@@ -21,15 +21,25 @@ def five_stars(id=None):
 
     # take the maximum openness score among dataset resources to be the
     # overall dataset openness core
-    query = model.Session.query(model.Package.name, model.Package.title,
-                                model.Resource.id,
-                                model.TaskStatus.value.label('value'))\
-        .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
-        .join(model.Resource)\
-        .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-        .filter(model.TaskStatus.key==u'openness_score')\
-        .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value)\
-        .distinct()
+    if p.toolkit.check_ckan_version(min_version="2.3"):
+        query = model.Session.query(model.Package.name, model.Package.title,
+                                    model.Resource.id,
+                                    model.TaskStatus.value.label('value')) \
+            .join(model.Resource, model.Package.id == model.Resource.package_id) \
+            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
+            .filter(model.TaskStatus.key==u'openness_score') \
+            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
+            .distinct()
+    else:
+        query = model.Session.query(model.Package.name, model.Package.title,
+                                    model.Resource.id,
+                                    model.TaskStatus.value.label('value')) \
+            .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id) \
+            .join(model.Resource) \
+            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
+            .filter(model.TaskStatus.key==u'openness_score') \
+            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
+            .distinct()
 
     if id:
         query = query.filter(model.Package.id == pkg.id)
