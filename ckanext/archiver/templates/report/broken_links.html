@@ -60,9 +60,9 @@
               <td>${row_dict.get('status', 'not recorded')}</td>
               <td>${row_dict.get('reason', 'not recorded')}</td>
               <td>${row_dict.get('failure_count', 'not recorded')}</td>
-              <td>${row_dict.get('first_failure').strftime('%d/%m/%y  %H:%M') if row_dict.get('first_failure') else 'not recorded'}</td>
-              <td>${row_dict.get('last_updated').strftime('%d/%m/%y  %H:%M') if row_dict.get('last_updated') else 'not recorded'}</td>
-              <td>${row_dict.get('last_success').strftime('%d/%m/%y  %H:%M') if row_dict.get('last_success') else 'not recorded'}</td>
+              <td>${h.render_datetime(row_dict.get('first_failure')) if row_dict.get('first_failure') else 'not recorded'}</td>
+              <td>${h.render_datetime(row_dict.get('last_updated')) if row_dict.get('last_updated') else 'not recorded'}</td>
+              <td>${h.render_datetime(row_dict.get('last_success')) if row_dict.get('last_success') else 'not recorded'}</td>
             </tr>
           </tbody>
         </table>
