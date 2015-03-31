@@ -83,9 +83,7 @@ class YtpDatasetController(PackageController):
         package_type = self._get_package_type(id)
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author, 'auth_user_obj': c.userobj,
-                   'save': 'save' in request.params,
-                   'moderated': config.get('moderated'),
-                   'pending': True}
+                   'save': 'save' in request.params}
 
         if context['save'] and not data:
             return self._save_edit(id, context, package_type=package_type)
@@ -103,7 +101,7 @@ class YtpDatasetController(PackageController):
         except NotFound:
             abort(404, _('Dataset not found'))
         # are we doing a multiphase add?
-        if data.get('state', '').startswith('draft') and len(data.get('resources')) == 0:
+        if data.get('state', '').startswith('draft'):
             c.form_action = h.url_for(controller='package', action='new')
             c.form_style = 'new'
             return self.new(data=data, errors=errors,
@@ -114,15 +112,18 @@ class YtpDatasetController(PackageController):
 
         try:
             check_access('package_update', context)
-        except NotAuthorized:
+        except NotAuthorized, e:
             abort(401, _('User %r not authorized to edit %s') % (c.user, id))
         # convert tags if not supplied in data
         if data and not data.get('tag_string'):
             data['tag_string'] = ', '.join(h.dict_list_reduce(
                 c.pkg_dict.get('tags', {}), 'name'))
         errors = errors or {}
-        vars = {'data': data, 'errors': errors,
-                'error_summary': error_summary, 'action': 'edit'}
+        form_snippet = self._package_form(package_type=package_type)
+        form_vars = {'data': data, 'errors': errors,
+                     'error_summary': error_summary, 'action': 'edit',
+                     'dataset_type': package_type,
+                     }
         c.errors_json = h.json.dumps(errors)
 
         self._setup_template_variables(context, {'id': id},
@@ -130,20 +131,23 @@ class YtpDatasetController(PackageController):
         c.related_count = c.pkg.related_count
 
         # we have already completed stage 1
-        vars['stage'] = ['active']
-        if data.get('state', '').startswith('draft'):
-            vars['stage'] = ['active', 'complete']
+        form_vars['stage'] = ['active']
+        if data.get('state', '').startswith('draft') and len(data.get('resources')) == 0:
+            form_vars['stage'] = ['active', 'complete']
 
-        # TODO: This check is to maintain backwards compatibility with the
-        # old way of creating custom forms. This behaviour is now deprecated.
-        if hasattr(self, 'package_form'):
-            c.form = render(self.package_form, extra_vars=vars)
-        else:
-            c.form = render(self._package_form(package_type=package_type),
-                            extra_vars=vars)
-
-        return render(self._edit_template(package_type),
-                      extra_vars={'stage': vars['stage']})
+        edit_template = self._edit_template(package_type)
+        c.form = ckan.lib.render.deprecated_lazy_render(
+            edit_template,
+            form_snippet,
+            lambda: render(form_snippet, extra_vars=form_vars),
+            'use of c.form is deprecated. please see '
+            'ckan/templates/package/edit.html for an example '
+            'of the new way to include the form snippet'
+        )
+        return render(edit_template,
+                      extra_vars={'form_vars': form_vars,
+                                  'form_snippet': form_snippet,
+                                  'dataset_type': package_type})
 
     # original ckan new resource
     def new_resource(self, id, data=None, errors=None, error_summary=None):
