@@ -1,5 +1,4 @@
 import logging
-
 import ckan.plugins as p
 import ckan.logic as logic
 from ckanext.ytp.organizations.model import GroupTreeNode
@@ -8,15 +7,60 @@ from ckan import model
 log = logging.getLogger(__name__)
 
 
+def _fetch_all_organizations():
+    groups = model.Session.query(model.Group) \
+        .filter(model.Group.state == u'active') \
+        .filter(model.Group.is_organization.is_(True)) \
+        .all()
+    members = model.Session.query(model.Member) \
+        .join(model.Group, model.Member.table_id == model.Group.id) \
+        .filter(model.Group.state == u'active') \
+        .filter(model.Group.is_organization.is_(True)) \
+        .all()
+    extras = model.Session.query(model.GroupExtra.group_id, model.GroupExtra.key, model.GroupExtra.value) \
+        .join(model.Group, model.GroupExtra.group_id == model.Group.id) \
+        .filter(model.Group.state == u'active') \
+        .filter(model.Group.is_organization.is_(True)) \
+        .all()
+
+    groups_by_id = {g.id: g for g in groups}
+    parent_ids = {m.group_id for m in members}
+    child_ids = {m.table_id for m in members}
+    extras_by_group = {}
+    for group_id, key, value in extras:
+        group_extras = extras_by_group.get(group_id, {})
+        group_extras[key] = value
+        extras_by_group[group_id] = group_extras
+
+    # Set extras-dicts into a custom version of extras to avoid triggering SQLAlchemy queries
+    for group in groups:
+        group.custom_extras = extras_by_group.get(group.id, {})
+
+    parent_child_id_map = {pid: [m.table_id for m in members if m.group_id == pid] for pid in parent_ids}
+
+    def group_children(gid):
+        for child_id in parent_child_id_map.get(gid, []):
+            child = groups_by_id[child_id]
+            yield (child.id, child.name, child.title, gid, child.custom_extras)
+
+    children = {g.id: [c for c in group_children(g.id)] for g in groups}
+    roots = [g for g in groups if g.id not in child_ids]
+
+    return roots, children
+
+
 @logic.side_effect_free
 def group_tree(context, data_dict):
     '''Returns the full group tree hierarchy.
 
     :returns: list of top-level GroupTreeNodes
     '''
+    top_level_groups, children = _fetch_all_organizations()
     group_type = data_dict.get('type', 'group')
-    return [_group_tree_branch(group, type=group_type)
-            for group in model.Group.get_top_level_groups(type=group_type)]
+    sorted_top_level_groups = sorted(top_level_groups, key=lambda g: g.name)
+    result = [_group_tree_branch(group, type=group_type, children=children.get(group.id, []))
+              for group in sorted_top_level_groups]
+    return result
 
 
 @logic.side_effect_free
@@ -42,7 +86,7 @@ def group_tree_section(context, data_dict):
                               type=group_type)
 
 
-def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
+def _group_tree_branch(root_group, highlight_group_name=None, type='group', children=[]):
     '''Returns a branch of the group tree hierarchy, rooted in the given group.
 
     :param root_group_id: group object at the top of the part of the tree
@@ -55,17 +99,18 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
          'name': root_group.name,
          'title': root_group.title})
 
-    root_node.update(root_group.extras)
+    root_node.update(root_group.custom_extras)
     if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
         highlight_group_name = None
-    for group_id, group_name, group_title, parent_id in \
-            root_group.get_children_group_hierarchy(type=type):
+
+    sorted_children = sorted(children, key=lambda c: c[1])
+    for group_id, group_name, group_title, parent_id, extras in sorted_children:
         node = GroupTreeNode({'id': group_id,
                               'name': group_name,
                               'title': group_title})
-        group_object = model.Group.get(group_id)
-        node.update(group_object.extras)
+        if extras:
+            node.update(extras)
         nodes[parent_id].add_child_node(node)
         if highlight_group_name and group_name == highlight_group_name:
             node.highlight()
