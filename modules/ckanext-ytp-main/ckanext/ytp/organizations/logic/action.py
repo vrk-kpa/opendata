@@ -7,7 +7,7 @@ from ckan import model
 log = logging.getLogger(__name__)
 
 
-def _fetch_all_organizations():
+def _fetch_all_organizations(force_root_ids=None):
     groups = model.Session.query(model.Group) \
         .filter(model.Group.state == u'active') \
         .filter(model.Group.is_organization.is_(True)) \
@@ -40,12 +40,19 @@ def _fetch_all_organizations():
 
     def group_descendants(rid):
         for child_id in parent_child_id_map.get(rid, []):
-            child = groups_by_id[child_id]
+            child = groups_by_id.get(child_id)
+            if not child:
+                continue
+
             yield (child.id, child.name, child.title, rid, child.custom_extras)
             for descendant in group_descendants(child_id):
                 yield descendant
 
-    roots = [g for g in groups if g.id not in child_ids]
+    if not force_root_ids:
+        roots = [g for g in groups if g.id not in child_ids]
+    else:
+        roots = [g for g in groups if g.id in force_root_ids]
+
     children = {r.id: [c for c in group_descendants(r.id)] for r in roots}
 
     return roots, children
@@ -60,7 +67,7 @@ def group_tree(context, data_dict):
     top_level_groups, children = _fetch_all_organizations()
     group_type = data_dict.get('type', 'group')
     sorted_top_level_groups = sorted(top_level_groups, key=lambda g: g.name)
-    result = [_group_tree_branch(group, type=group_type, children=children.get(group.id, []))
+    result = [_group_tree_branch(group, children=children.get(group.id, []))
               for group in sorted_top_level_groups]
     return result
 
@@ -70,7 +77,7 @@ def group_tree_section(context, data_dict):
     '''Returns the section of the group tree hierarchy which includes the given
     group, from the top-level group downwards.
 
-    :param id: the id or name of the group to inclue in the tree
+    :param id: the id or name of the group to include in the tree
     :returns: the top GroupTreeNode of the tree section
     '''
     group = model.Group.get(data_dict['id'])
@@ -83,12 +90,12 @@ def group_tree_section(context, data_dict):
         raise p.toolkit.ValidationError(
             'Group type is "%s" not "%s" that %s' %
             (group.type, group_type, how_type_was_set))
-    root_group = (group.get_parent_group_hierarchy(type=group_type) or [group])[0]
-    return _group_tree_branch(root_group, highlight_group_name=group.name,
-                              type=group_type)
+
+    roots, children = _fetch_all_organizations(force_root_ids=[group.id])
+    return _group_tree_branch(roots[0], highlight_group_name=group.name, children=children.get(group.id, []))
 
 
-def _group_tree_branch(root_group, highlight_group_name=None, type='group', children=[]):
+def _group_tree_branch(root_group, highlight_group_name=None, children=[]):
     '''Returns a branch of the group tree hierarchy, rooted in the given group.
 
     :param root_group_id: group object at the top of the part of the tree
