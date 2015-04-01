@@ -39,13 +39,14 @@ def _fetch_all_organizations(force_root_ids=None):
     parent_child_id_map = {pid: [m.group_id for m in members if m.table_id == pid] for pid in parent_ids}
 
     def group_descendants(rid):
-        for child_id in parent_child_id_map.get(rid, []):
-            child = groups_by_id.get(child_id)
+        group_child_ids = (cid for cid in parent_child_id_map.get(rid, []) if cid in groups_by_id)
+        group_children = sorted((groups_by_id[cid] for cid in group_child_ids), key=lambda ch: ch.title)
+        for child in group_children:
             if not child:
                 continue
 
             yield (child.id, child.name, child.title, rid, child.custom_extras)
-            for descendant in group_descendants(child_id):
+            for descendant in group_descendants(child.id):
                 yield descendant
 
     if not force_root_ids:
@@ -65,7 +66,6 @@ def group_tree(context, data_dict):
     :returns: list of top-level GroupTreeNodes
     '''
     top_level_groups, children = _fetch_all_organizations()
-    group_type = data_dict.get('type', 'group')
     sorted_top_level_groups = sorted(top_level_groups, key=lambda g: g.name)
     result = [_group_tree_branch(group, children=children.get(group.id, []))
               for group in sorted_top_level_groups]
@@ -91,6 +91,7 @@ def group_tree_section(context, data_dict):
             'Group type is "%s" not "%s" that %s' %
             (group.type, group_type, how_type_was_set))
 
+    # An optimal solution would be a recursive SQL query just for this, but this is fast enough for <10k organizations
     roots, children = _fetch_all_organizations(force_root_ids=[group.id])
     return _group_tree_branch(roots[0], highlight_group_name=group.name, children=children.get(group.id, []))
 
@@ -113,15 +114,18 @@ def _group_tree_branch(root_group, highlight_group_name=None, children=[]):
         nodes[root_group.id].highlight()
         highlight_group_name = None
 
-    sorted_children = sorted(children, key=lambda c: c[1])
-    for group_id, group_name, group_title, parent_id, extras in sorted_children:
+    for group_id, group_name, group_title, parent_id, extras in children:
         node = GroupTreeNode({'id': group_id,
                               'name': group_name,
                               'title': group_title})
         if extras:
             node.update(extras)
+
         nodes[parent_id].add_child_node(node)
+
         if highlight_group_name and group_name == highlight_group_name:
             node.highlight()
+
         nodes[group_id] = node
+
     return root_node
