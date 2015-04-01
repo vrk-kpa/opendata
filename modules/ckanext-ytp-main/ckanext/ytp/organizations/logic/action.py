@@ -24,8 +24,8 @@ def _fetch_all_organizations():
         .all()
 
     groups_by_id = {g.id: g for g in groups}
-    parent_ids = {m.group_id for m in members}
-    child_ids = {m.table_id for m in members}
+    parent_ids = {m.table_id for m in members}
+    child_ids = {m.group_id for m in members}
     extras_by_group = {}
     for group_id, key, value in extras:
         group_extras = extras_by_group.get(group_id, {})
@@ -36,15 +36,17 @@ def _fetch_all_organizations():
     for group in groups:
         group.custom_extras = extras_by_group.get(group.id, {})
 
-    parent_child_id_map = {pid: [m.table_id for m in members if m.group_id == pid] for pid in parent_ids}
+    parent_child_id_map = {pid: [m.group_id for m in members if m.table_id == pid] for pid in parent_ids}
 
-    def group_children(gid):
-        for child_id in parent_child_id_map.get(gid, []):
+    def group_descendants(rid):
+        for child_id in parent_child_id_map.get(rid, []):
             child = groups_by_id[child_id]
-            yield (child.id, child.name, child.title, gid, child.custom_extras)
+            yield (child.id, child.name, child.title, rid, child.custom_extras)
+            for descendant in group_descendants(child_id):
+                yield descendant
 
-    children = {g.id: [c for c in group_children(g.id)] for g in groups}
     roots = [g for g in groups if g.id not in child_ids]
+    children = {r.id: [c for c in group_descendants(r.id)] for r in roots}
 
     return roots, children
 
