@@ -7,10 +7,7 @@ from ckan.lib.base import redirect, abort, render
 import ckan.lib.render
 from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_dict, parse_params, tuplize_dict, ValidationError
 
-from pylons import config
-
 import ckan.lib.navl.dictization_functions as dict_fns
-from genshi.template import MarkupTemplate
 
 import sqlalchemy
 
@@ -112,7 +109,7 @@ class YtpDatasetController(PackageController):
 
         try:
             check_access('package_update', context)
-        except NotAuthorized, e:
+        except NotAuthorized:
             abort(401, _('User %r not authorized to edit %s') % (c.user, id))
         # convert tags if not supplied in data
         if data and not data.get('tag_string'):
@@ -168,8 +165,7 @@ class YtpDatasetController(PackageController):
             # see if we have any data that we are trying to save
             data_provided = False
             for key, value in data.iteritems():
-                if ((value or isinstance(value, cgi.FieldStorage))
-                    and key != 'resource_type'):
+                if (value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type':
                     data_provided = True
                     break
 
@@ -333,7 +329,7 @@ class YtpDatasetController(PackageController):
         vars = {'data': data, 'errors': errors,
                 'error_summary': error_summary, 'action': 'new',
                 'resource_form_snippet': self._resource_form(package_type),
-                'dataset_type':package_type}
+                'dataset_type': package_type}
         return render('package/resource_edit.html', extra_vars=vars)
 
     def read(self, id, format='html'):
@@ -411,8 +407,7 @@ class YtpDatasetController(PackageController):
                           extra_vars={'dataset_type': package_type})
         except ckan.lib.render.TemplateNotFound:
             msg = _("Viewing {package_type} datasets in {format} format is "
-                    "not supported (template file {file} not found).".format(
-                package_type=package_type, format=format, file=template))
+                    "not supported (template file {file} not found).".format(package_type=package_type, format=format, file=template))
             abort(404, msg)
 
         assert False, "We should never get here"
