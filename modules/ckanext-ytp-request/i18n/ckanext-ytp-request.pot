@@ -1,15 +1,15 @@
 # Translations template for ckanext-ytp-request.
-# Copyright (C) 2014 ORGANIZATION
+# Copyright (C) 2015 ORGANIZATION
 # This file is distributed under the same license as the ckanext-ytp-request
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-11-03 12:56+0200\n"
+"POT-Creation-Date: 2015-03-13 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,66 +44,82 @@ msgstr ""
 msgid "Request not found"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:44
+#: ckanext/ytp/request/logic.py:18
 #, python-format
-msgid "New membership request (%s)"
+msgid "New membership request (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:45
+#: ckanext/ytp/request/logic.py:19
 #, python-format
 msgid ""
-"User '%s' (%s) has requested membership to organization '%s'.\n"
+"User %(user)s (%(email)s) has requested membership to organization "
+"%(organization)s.\n"
 "\n"
-"%s"
+"%(link)s\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:65
+#: ckanext/ytp/request/logic.py:30
 #, python-format
-msgid "Organization membership approved (%s)"
+msgid "Organization membership approved (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:66
-#, python-format
-msgid ""
-"Your membership request to organization '%s' with '%s' access has been "
-"approved."
-msgstr ""
-
-#: ckanext/ytp/request/logic.py:68
-#, python-format
-msgid "Organization membership rejected (%s)"
-msgstr ""
-
-#: ckanext/ytp/request/logic.py:69
+#: ckanext/ytp/request/logic.py:31
 #, python-format
 msgid ""
-"Your membership request to organization '%s' with '%s' access has been "
-"rejected."
+"Your membership request to organization %(organization)s with %(role)s access"
+" has been approved.\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:106
+#: ckanext/ytp/request/logic.py:40
+#, python-format
+msgid "Organization membership rejected (%(organization)s)"
+msgstr ""
+
+#: ckanext/ytp/request/logic.py:41
+#, python-format
+msgid ""
+"Your membership request to organization %(organization)s with %(role)s access"
+" has been rejected.\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
+msgstr ""
+
+#: ckanext/ytp/request/logic.py:147
 #: ckanext/ytp/request/templates/request/new_request_form.html:23
 #: ckanext/ytp/request/templates/request/show.html:50
 msgid "Role"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:106
+#: ckanext/ytp/request/logic.py:147
 msgid "As a sysadmin, you already have access to all organizations"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:115
+#: ckanext/ytp/request/logic.py:156
 msgid "You already have a pending request to the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:117
+#: ckanext/ytp/request/logic.py:158
 msgid "You are already part of the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:119
+#: ckanext/ytp/request/logic.py:160
 msgid "Duplicate organization request"
 msgstr ""
 
-#: ckanext/ytp/request/logic.py:119
+#: ckanext/ytp/request/logic.py:160
 #: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:30

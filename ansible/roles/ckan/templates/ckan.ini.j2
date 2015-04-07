@@ -43,7 +43,7 @@ ckan.site_id = {{ ckan_site_id }}
 
 ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }} {% if google_analytics -%}googleanalytics{%- endif %}
 
-ckan.site_title = CKAN
+ckan.site_title = Avoindata.fi
 ckan.site_logo = /base/images/ckan-logo.png
 ckan.site_description = 
 
@@ -64,7 +64,7 @@ error_email_from = {{ error_email_from }}
 
 smtp.server = {{ email_domain_access }}
 smtp.starttls = False
-smtp.mail_from = noreply
+smtp.mail_from = no-reply
 
 ckanext.ytp.drupal.connection = postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
 

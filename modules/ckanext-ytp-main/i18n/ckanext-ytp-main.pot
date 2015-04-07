@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-16 09:47+0200\n"
+"POT-Creation-Date: 2015-03-17 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,7 +80,7 @@ msgid "http://example.com/my-image.jpg"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:218
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:19
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
 #: ckanext/ytp/theme/translations.py:7
 msgid "Image URL"
 msgstr ""
@@ -191,7 +191,7 @@ msgstr ""
 msgid "You must be a sysadmin to create a featured related item"
 msgstr ""
 
-#: ckanext/ytp/dataset/auth.py:56
+#: ckanext/ytp/dataset/auth.py:56 ckanext/ytp/dataset/auth.py:59
 msgid "You must be logged in to add a related item"
 msgstr ""
 
@@ -216,8 +216,10 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_form.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:90
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:33
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/members.html:43
+#: ckanext/ytp/organizations/templates/organization/user_list.html:52
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:451
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 #: ckanext/ytp/user/templates/user/edit_user_form.html:54
@@ -303,7 +305,7 @@ msgstr ""
 msgid "Related item was successfully updated"
 msgstr ""
 
-#: ckanext/ytp/dataset/controller.py:472
+#: ckanext/ytp/dataset/controller.py:472 ckanext/ytp/user/controller.py:171
 msgid "Integrity Error"
 msgstr ""
 
@@ -348,12 +350,12 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:116 ckanext/ytp/dataset/plugin.py:126
-#: ckanext/ytp/dataset/plugin.py:131
+#: ckanext/ytp/dataset/plugin.py:115 ckanext/ytp/dataset/plugin.py:125
+#: ckanext/ytp/dataset/plugin.py:130
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:346 ckanext/ytp/dataset/plugin.py:361
+#: ckanext/ytp/dataset/plugin.py:345 ckanext/ytp/dataset/plugin.py:360
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -361,19 +363,19 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:362
+#: ckanext/ytp/dataset/plugin.py:346 ckanext/ytp/dataset/plugin.py:361
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:92
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
+#: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:362
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:181
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:349
+#: ckanext/ytp/dataset/plugin.py:348
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:128
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
@@ -381,20 +383,20 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:350 ckanext/ytp/dataset/plugin.py:364
+#: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:363
 #: ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:418
+#: ckanext/ytp/dataset/plugin.py:417
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:434
+#: ckanext/ytp/dataset/plugin.py:433
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:434
+#: ckanext/ytp/dataset/plugin.py:433
 msgid "Additional Info"
 msgstr ""
 
@@ -452,7 +454,8 @@ msgid "File upload too large"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
-#: ckanext/ytp/organizations/templates/organization/index.html:21
+#: ckanext/ytp/organizations/templates/organization/index.html:28
+#: ckanext/ytp/organizations/templates/organization/user_list.html:30
 #: ckanext/ytp/theme/menu.py:145
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:6
 msgid "Organizations"
@@ -462,6 +465,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/base.html:16
 #: ckanext/ytp/dataset/templates/package/search.html:4
 #: ckanext/ytp/dataset/templates/package/search.html:7
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:4
 #: ckanext/ytp/organizations/templates/organization/read.html:4
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
@@ -509,9 +513,10 @@ msgid "Manage"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_edit.html:10
-#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:48
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:62
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item.html:68
 #: ckanext/ytp/organizations/templates/organization/members.html:40
+#: ckanext/ytp/organizations/templates/organization/user_list.html:49
 msgid "Edit"
 msgstr ""
 
@@ -524,7 +529,7 @@ msgid "API Endpoint"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:44
-#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:51
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/dataset/templates/package/snippets/resource_item2.html:11
 msgid "Open"
 msgstr ""
@@ -549,7 +554,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:91
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:4
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:65
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:72
 msgid "Extra information"
 msgstr ""
 
@@ -576,7 +581,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/resource_read.html:104
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:52
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
@@ -597,7 +602,7 @@ msgid "Temporal Coverage"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:132
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:75
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:82
 msgid "Technical extra information"
 msgstr ""
 
@@ -648,33 +653,33 @@ msgid "Last Modified"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:58
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:29
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:37
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:77
+#: ckanext/ytp/dataset/templates/package/search.html:79
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:79
+#: ckanext/ytp/dataset/templates/package/search.html:81
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:80
+#: ckanext/ytp/dataset/templates/package/search.html:82
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:84
+#: ckanext/ytp/dataset/templates/package/search.html:86
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:95
+#: ckanext/ytp/dataset/templates/package/search.html:97
 #: ckanext/ytp/theme/templates/snippets/search_form.html:3
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
 msgid "Search datasets..."
@@ -741,7 +746,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:41
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:12
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:15
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:14
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:15
 #: ckanext/ytp/theme/translations.py:6
 msgid "Title"
@@ -755,7 +760,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:51
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:35
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:17
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:24
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:27
 #: ckanext/ytp/theme/translations.py:5
@@ -769,7 +774,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:55
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:43
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:20
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:19
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:26
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:31
 msgid "Description"
@@ -787,7 +792,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:86
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:54
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:61
 msgid "Copyright Notice"
 msgstr ""
 
@@ -796,7 +801,7 @@ msgid "Additional information concerning copyright"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:87
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:59
+#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:66
 msgid "Disclaimer of Warranty"
 msgstr ""
 
@@ -843,14 +848,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:171
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:42
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:50
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:86
 msgid "Draft"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:172
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/dataset/templates/snippets/package_item.html:44
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:52
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:87
 msgid "Deleted"
 msgstr ""
@@ -953,20 +958,51 @@ msgstr ""
 msgid "joe@example.com"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:41
-msgid "No description for this related item"
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:32
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Relates to this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:34
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Based on this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:36
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Modification of this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:38
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Supplements this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:40
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Included in"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:42
+msgid "Included this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/related_item.html:55
+msgid "No description for this related component"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:2
-msgid "Related media"
+msgid "Related Components"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:4
-msgid "Add Related Item"
+msgid "Add Related Component"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/related_list.html:18
-msgid " <p class=\"empty\">This dataset has no related media "
+msgid ""
+" <p class=\"empty\">Do you know apps based on this dataset? Add them by "
+"logging in. "
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:12
@@ -1050,57 +1086,78 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:12
+msgid "Related Form"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:20
+msgid "What are related components?"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/base_form_page.html:22
+msgid ""
+" <p>Related Component is any app, article, visualisation or idea related to "
+"this dataset.</p> <p>For example, it could be a custom visualisation, "
+"pictograph or bar chart, an app using all or part of the data or even a news "
+"story that references this dataset.</p> "
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:3
+msgid "Edit related component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:6
+msgid "Edit Related"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/edit.html:8
+msgid "Edit Related Component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/new.html:3
+msgid "Create a related component"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/new.html:5
+#: ckanext/ytp/dataset/templates/related/new.html:7
+msgid "Create Related Component"
+msgstr ""
+
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:12
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:15
-msgid "My Related Item"
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:14
+msgid "My Related Component"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Related by"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Choose"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Relates to this"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Based on this"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Modification of this"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Supplements this"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Included in"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:13
-msgid "Includes this"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:17
 msgid "http://example.com/"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:19
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
 msgid "http://example.com/image.png"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:20
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:19
 msgid "A little information about the item..."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:21
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Related by"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Choose"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:22
+msgid "Includes this"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:24
 msgid "Type"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/related/snippets/related_form.html:32
+msgid "Are you sure you want to delete this related component?"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/snippets/facet_list.html:72
@@ -1122,6 +1179,13 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/snippets/license.html:28
 msgid "This dataset satisfies the Open Definition."
 msgstr ""
+
+#: ckanext/ytp/dataset/templates/snippets/package_item.html:30
+#, python-format
+msgid " <span class=\"pull-right\"> %(count)s comment</span> "
+msgid_plural " <span class=\"pull-right\"> %(count)s comments</span> "
+msgstr[0] ""
+msgstr[1] ""
 
 #: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
 #, python-format
@@ -1304,11 +1368,21 @@ msgstr ""
 msgid "Membership Requests"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/index.html:26
+#: ckanext/ytp/organizations/templates/organization/index.html:19
+#: ckanext/ytp/organizations/templates/organization/user_list.html:4
+#: ckanext/ytp/theme/menu.py:135
+#: ckanext/ytp/user/templates/user/dashboard_datasets.html:4
+#: ckanext/ytp/user/templates/user/dashboard_organizations.html:4
+#: ckanext/ytp/user/templates/user/list.html:6
+#: ckanext/ytp/user/templates/user/list.html:14
+msgid "Users"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/index.html:33
 msgid "Search organizations..."
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/index.html:29
+#: ckanext/ytp/organizations/templates/organization/index.html:36
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:17
 msgid "Submit"
@@ -1332,6 +1406,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/member_new.html:44
 #: ckanext/ytp/organizations/templates/organization/members.html:23
+#: ckanext/ytp/organizations/templates/organization/user_list.html:31
 msgid "Role"
 msgstr ""
 
@@ -1349,16 +1424,19 @@ msgid "Add Member"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/members.html:21
+#: ckanext/ytp/organizations/templates/organization/user_list.html:28
 msgid "User"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/members.html:22
+#: ckanext/ytp/organizations/templates/organization/user_list.html:29
 #: ckanext/ytp/user/templates/user/edit_user_form.html:10
 #: ckanext/ytp/user/templates/user/read_base.html:33
 msgid "Username"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/members.html:24
+#: ckanext/ytp/organizations/templates/organization/user_list.html:32
 #: ckanext/ytp/user/templates/user/edit_user_form.html:18
 #: ckanext/ytp/user/templates/user/read_base.html:39
 msgid "Email"
@@ -1383,6 +1461,16 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/read_base.html:5
 msgid "Members"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/user_list.html:5
+#: ckanext/ytp/user/templates/user/list.html:3
+msgid "All Users"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/user_list.html:47
+#: ckanext/ytp/user/templates/user/edit_user_form.html:53
+msgid "Are you sure you want to delete this User?"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:4
@@ -1919,14 +2007,6 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
-#: ckanext/ytp/theme/menu.py:135
-#: ckanext/ytp/user/templates/user/dashboard_datasets.html:4
-#: ckanext/ytp/user/templates/user/dashboard_organizations.html:4
-#: ckanext/ytp/user/templates/user/list.html:6
-#: ckanext/ytp/user/templates/user/list.html:14
-msgid "Users"
-msgstr ""
-
 #: ckanext/ytp/theme/menu.py:154
 msgid "Postit"
 msgstr ""
@@ -1969,26 +2049,31 @@ msgid ""
 "again.</p> "
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:30
+#: ckanext/ytp/user/controller.py:34
 msgid "No user specified"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:36
+#: ckanext/ytp/user/controller.py:40
 msgid "Unauthorized to edit a user."
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:54
+#: ckanext/ytp/user/controller.py:58 ckanext/ytp/user/controller.py:167
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:56 ckanext/ytp/user/logic.py:171
+#: ckanext/ytp/user/controller.py:60 ckanext/ytp/user/controller.py:169
+#: ckanext/ytp/user/logic.py:171
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/user/controller.py:62
+#: ckanext/ytp/user/controller.py:65
 #, python-format
 msgid "User %s not authorized to edit %s"
+msgstr ""
+
+#: ckanext/ytp/user/controller.py:164
+msgid "Profile updated"
 msgstr ""
 
 #: ckanext/ytp/user/logic.py:174
@@ -2121,16 +2206,8 @@ msgstr ""
 msgid "Subscribe to notification emails"
 msgstr ""
 
-#: ckanext/ytp/user/templates/user/edit_user_form.html:53
-msgid "Are you sure you want to delete this User?"
-msgstr ""
-
 #: ckanext/ytp/user/templates/user/edit_user_form.html:58
 msgid "Update Profile"
-msgstr ""
-
-#: ckanext/ytp/user/templates/user/list.html:3
-msgid "All Users"
 msgstr ""
 
 #: ckanext/ytp/user/templates/user/read.html:14

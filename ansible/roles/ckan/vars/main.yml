@@ -7,7 +7,7 @@ celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats
 # order matters, when templates call super()
-ckan_plugins: multilingual_dataset harvest ckan_harvester spatial_metadata spatial_query csw_harvester drupal7 archiver qa ytp_comments ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
+ckan_plugins: multilingual_dataset harvest ckan_harvester hri_harvester spatial_metadata spatial_query csw_harvester drupal7 archiver qa ytp_comments ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
 
 ckan_extensions:
   - ckanext-drupal7
@@ -60,13 +60,12 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: "fix_hardcoded_languages.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/f772576d3c480f654c39ecaeb72feb423450f200.patch", file: "fix_invalid_date_indexing.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5e686b87289fbf9824dfa42468186b8cd7ba48a2.patch", file: "fix_multilingual_search.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9dd308b648cbf3de3211d4accac835ebcd5f71f1.patch", file: "upgrade_minified_jquery.patch" } # ckan 2.2.2
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7641df3acf1370642ea193c93be2a64fd4da261b.patch", file: "fix_collection_type_translation.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/77f966c54b578beb812e486372e768110a48cc98.patch", file: "fix_autocomplete_input_delay.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/c989a39ec9bd1657b6dfc5a9147ffb31f524ae33.patch", file: "upgrade_image-upload.js"} # from ckan, still only in master
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/c989a39ec9bd1657b6dfc5a9147ffb31f524ae33.patch", file: "upgrade_image-upload.js"} # in ckan 2.3
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b441619d98adafbfe5a1da33cec66614566949e5.patch", file: "fix-rdf.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7ad11f098bb03cefdf3639b6d96e3127a6d1c833.patch", file: "fix-group_show.patch"} # in ckan master
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/a98cb6c3ee3f82a8dc6b0fc40db1686b3c72e50a.patch", file: "refactor-multilingual-warnings.patch" } # in ckan master
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7ad11f098bb03cefdf3639b6d96e3127a6d1c833.patch", file: "fix-group_show.patch"} # in ckan 2.3
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/a98cb6c3ee3f82a8dc6b0fc40db1686b3c72e50a.patch", file: "refactor-multilingual-warnings.patch" } # in ckan 2.3
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8175a352f960d83027e2476489e5034cf79e43be.patch", file: "usability-fix-for-image-upload.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/81cf433a8f968f0f993da7c668699b485213f466.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/ae856c3dd9aa896163f80d330a3274636a5c4e74.patch", file: "fix-template-error-in-resources.patch"} # ytp specific

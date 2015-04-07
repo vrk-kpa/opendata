@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-comments 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-05 12:40+0200\n"
+"POT-Creation-Date: 2015-03-18 13:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,62 +23,62 @@ msgstr ""
 msgid "You must be logged in to add a comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/delete.py:26
+#: ckanext/ytp/comments/logic/auth/delete.py:25
 #: ckanext/ytp/comments/logic/auth/update.py:23
 msgid "Comment does not exist"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/delete.py:29
+#: ckanext/ytp/comments/logic/auth/delete.py:28
 #: ckanext/ytp/comments/logic/auth/update.py:26
 msgid "User is not the author of the comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/get.py:36
-msgid "You do not have permission to view this comment"
-msgstr ""
-
 #: ckanext/ytp/comments/templates/package/comment_list.html:8
-#: ckanext/ytp/comments/templates/package/comment_list.html:82
+#: ckanext/ytp/comments/templates/package/comment_list.html:83
 msgid "Subject"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:10
-#: ckanext/ytp/comments/templates/package/comment_list.html:85
+#: ckanext/ytp/comments/templates/package/comment_list.html:86
 msgid "Comment"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:15
-#: ckanext/ytp/comments/templates/package/comment_list.html:89
+#: ckanext/ytp/comments/templates/package/comment_list.html:90
 msgid "Save"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:16
-#: ckanext/ytp/comments/templates/package/comment_list.html:90
+#: ckanext/ytp/comments/templates/package/comment_list.html:91
 msgid "Clear"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:33
-#: ckanext/ytp/comments/templates/package/comment_list.html:45
+#: ckanext/ytp/comments/templates/package/comment_list.html:34
+#: ckanext/ytp/comments/templates/package/comment_list.html:46
 msgid "This comment was deleted."
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:38
+#: ckanext/ytp/comments/templates/package/comment_list.html:39
 msgid "Modified"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:50
+#: ckanext/ytp/comments/templates/package/comment_list.html:51
 msgid "Delete"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:54
+#: ckanext/ytp/comments/templates/package/comment_list.html:55
 msgid "Edit"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:58
+#: ckanext/ytp/comments/templates/package/comment_list.html:59
 msgid "Reply"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/package/comment_list.html:95
+#: ckanext/ytp/comments/templates/package/comment_list.html:74
+msgid "Comments"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:96
 msgid "Login to comment."
 msgstr ""
 
