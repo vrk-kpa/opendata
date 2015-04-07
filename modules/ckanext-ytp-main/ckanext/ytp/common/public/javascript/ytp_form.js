@@ -295,7 +295,7 @@ $(document).ready(function(){
             organizations.filter(function(index, element){
                 return element.textContent.toLowerCase().indexOf(search_str) >= 0
             }).each(function(index, element){
-                var text = $(element).find('a').get(0).innerText
+                var text = $(element).find('a').get(0).textContent;
                 var str_index = text.toLowerCase().indexOf(search_str);
                 if ( str_index >= 0){
                     count++;
