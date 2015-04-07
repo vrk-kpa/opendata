@@ -91,7 +91,7 @@
   - translation_table
 
 - name: Create translation page
-  script: translation_table.py "{{ cache_path }}" "{{ www_root }}/resources/translation-table.html" "{{ virtual_environment }}/src/ckan/ckan/i18n/!LANGUAGE!/LC_MESSAGES/ckan.po" "{{ cache_path }}/translations/ckan-2.2.!LANGUAGE!.po" "fi,sv"
+  script: translation_table.py "{{ cache_path }}" "{{ www_root }}/resources/translation-table.html" "{{ virtual_environment }}/src/ckan/ckan/i18n/!LANGUAGE!/LC_MESSAGES/ckan.po" "{{ cache_path }}/translations/ckan-{{ ckan_version }}.!LANGUAGE!.po" "fi,sv"
   tags:
   - translations
   - ckan

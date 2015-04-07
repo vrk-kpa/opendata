@@ -56,20 +56,16 @@ ckan_source_path: "{{ virtual_environment }}/src/ckan"
 spatial_source_path: "{{ virtual_environment }}/src/ckanext-spatial"
 
 ckan_patches:
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/6f77aea762cdbc4d66ad70af0b2f1524a3a64218.patch", file: "fix_multilingual.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0791caace461315d2cbffbcbf551ef878f23f76c.patch", file: "fix_hardcoded_languages.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/f772576d3c480f654c39ecaeb72feb423450f200.patch", file: "fix_invalid_date_indexing.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5e686b87289fbf9824dfa42468186b8cd7ba48a2.patch", file: "fix_multilingual_search.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7641df3acf1370642ea193c93be2a64fd4da261b.patch", file: "fix_collection_type_translation.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/77f966c54b578beb812e486372e768110a48cc98.patch", file: "fix_autocomplete_input_delay.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/c989a39ec9bd1657b6dfc5a9147ffb31f524ae33.patch", file: "upgrade_image-upload.js"} # in ckan 2.3
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b441619d98adafbfe5a1da33cec66614566949e5.patch", file: "fix-rdf.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7ad11f098bb03cefdf3639b6d96e3127a6d1c833.patch", file: "fix-group_show.patch"} # in ckan 2.3
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/a98cb6c3ee3f82a8dc6b0fc40db1686b3c72e50a.patch", file: "refactor-multilingual-warnings.patch" } # in ckan 2.3
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8175a352f960d83027e2476489e5034cf79e43be.patch", file: "usability-fix-for-image-upload.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/81cf433a8f968f0f993da7c668699b485213f466.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/ae856c3dd9aa896163f80d330a3274636a5c4e74.patch", file: "fix-template-error-in-resources.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/b39b1e8ac3eaaa013db4f2c4af804eadaad83e3f.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8f85ef4ad90df1c9df6dd553b21140d0b48916eb.patch", file: "enable-url-quoting"} # pullreq in ckan master
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/e7936fe8707a847387661248b5b0d9d3ddc526ae.patch", file: "fix_hardcoded_languages.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/4d596cca05a55fdcba9fbc2af1ecaf46b843b737.patch", file: "fix_invalid_date_indexing.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7367b56bc023da854aa31e05ff63ef8307c06f41.patch", file: "fix_multilingual_search.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9e80b58f24dea9d93ec84aac258f5436dfcfdd9c.patch", file: "fix_collection_type_translation.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5b7a63d86291987646ff5275c068f41eab21b128.patch", file: "fix_autocomplete_input_delay.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cbbca2047c68c377ef9408fc4df157b1acb1b02c.patch", file: "usability-fix-for-image-upload.patch" } # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8f7ec3f9fb6a35bb4a7e52784920ed99b7c7e245.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cde3c21a8b8612b88ef61b47488465b2926a6840.patch", file: "fix-template-error-in-resources.patch"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/eb59ffde3a702077ffbc8de8e3ff425b29974d6c.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9497130896c969982a3b8b5e9685295428fd7d2b.patch", file: "enable-url-quoting"} # pullreq in ckan master
+
 service_database_enabled: false
 auto_author_enabled: true
