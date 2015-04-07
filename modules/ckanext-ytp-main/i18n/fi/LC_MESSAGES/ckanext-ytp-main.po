@@ -813,11 +813,6 @@ msgid "Additional information concerning copyright"
 msgstr "Lisätietoja tekijänoikeuksista"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:87
-#: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:66
-msgid "Disclaimer of Warranty"
-msgstr "Tietoa takuista"
-
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:87
 msgid "Disclaimer on liability due to use of this dataset"
 msgstr "Tietoa käyttäjän vastuista"
 
