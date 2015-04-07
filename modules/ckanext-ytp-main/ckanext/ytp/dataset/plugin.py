@@ -165,9 +165,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
                            INTEROPERABILITY_TOOLS: ('package/new.html', 'package/new_package_form.html')}
 
-    _localized_fields = ['title', 'notes', 'copyright_notice', 'warranty_disclaimer']
+    _localized_fields = ['title', 'notes', 'copyright_notice']
 
-    _key_exclude = ['resources', 'organization', 'copyright_notice', 'warranty_disclaimer', 'license_url', 'name',
+    _key_exclude = ['resources', 'organization', 'copyright_notice', 'license_url', 'name',
                     'version', 'state', 'notes', 'tags', 'title', 'collection_type', 'license_title', 'extra_information',
                     'maintainer', 'author', 'owner', 'num_tags', 'owner_org', 'type', 'license_id', 'num_resources',
                     'temporal_granularity', 'temporal_coverage_from', 'temporal_coverage_to', 'update_frequency']
@@ -226,7 +226,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema = add_translation_modify_schema(schema)
 
         schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'warranty_disclaimer': [ignore_missing, unicode, convert_to_extras]})
         schema.update({'collection_type': [not_empty, unicode, convert_to_extras]})
         schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
         schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
@@ -280,7 +279,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
 
         schema.update({'copyright_notice': [convert_from_extras, ignore_missing]})
-        schema.update({'warranty_disclaimer': [convert_from_extras, ignore_missing]})
         schema.update({'collection_type': [convert_from_extras, ignore_missing]})
         schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
         schema.update({'valid_from': [convert_from_extras, ignore_missing]})

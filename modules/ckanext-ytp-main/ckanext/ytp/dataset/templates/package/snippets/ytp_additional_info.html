@@ -62,13 +62,8 @@
       <dd>{{ h.extra_translation(pkg_dict, 'copyright_notice', markdown=True) }}</dd>
     {% endif %}
 
-    {% if extra_dict.warranty_disclaimer %}
-      <dt>{{ _("Disclaimer of Warranty") }}</dt>
-      <dd>{{ h.extra_translation(pkg_dict, 'warranty_disclaimer', markdown=True) }}</dd>
-    {% endif %}
-
     {% set websites = extra_dict.extra_information %}
-    {% if websites|count > 0 %}
+    {% if websites|count > 0 %} 
         <dt>{{ _('Extra information') }}</dt>
         {% for site in websites %}
             <dd>{{ site|urlize }}</dd>
