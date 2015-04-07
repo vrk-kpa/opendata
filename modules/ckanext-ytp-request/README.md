@@ -6,7 +6,6 @@ CKAN extension that provides organization member requests and means to control t
 Features
 --------
 
-- Not ready for production!
 - Users can request to be part of organization
 - Organization admins and global admins can approve or reject request
 
@@ -21,3 +20,11 @@ Configuration
 -------------
 
 No configuration. See Install.
+
+
+Todo
+-------------
+
+- Add configuration options for the hard-coded email messages.
+- Better templates for request handling
+- View accepted/rejected requests in templates
