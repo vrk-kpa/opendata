@@ -7,10 +7,7 @@ from ckan.lib.base import redirect, abort, render
 import ckan.lib.render
 from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_dict, parse_params, tuplize_dict, ValidationError
 
-from pylons import config
-
 import ckan.lib.navl.dictization_functions as dict_fns
-from genshi.template import MarkupTemplate
 
 import sqlalchemy
 
@@ -112,7 +109,7 @@ class YtpDatasetController(PackageController):
 
         try:
             check_access('package_update', context)
-        except NotAuthorized, e:
+        except NotAuthorized:
             abort(401, _('User %r not authorized to edit %s') % (c.user, id))
         # convert tags if not supplied in data
         if data and not data.get('tag_string'):
