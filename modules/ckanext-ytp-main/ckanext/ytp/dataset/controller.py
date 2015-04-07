@@ -10,7 +10,6 @@ from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_
 from pylons import config
 
 import ckan.lib.navl.dictization_functions as dict_fns
-import ckan.lib.package_saver as package_saver
 from genshi.template import MarkupTemplate
 
 import sqlalchemy
@@ -84,9 +83,7 @@ class YtpDatasetController(PackageController):
         package_type = self._get_package_type(id)
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author, 'auth_user_obj': c.userobj,
-                   'save': 'save' in request.params,
-                   'moderated': config.get('moderated'),
-                   'pending': True}
+                   'save': 'save' in request.params}
 
         if context['save'] and not data:
             return self._save_edit(id, context, package_type=package_type)
@@ -115,15 +112,18 @@ class YtpDatasetController(PackageController):
 
         try:
             check_access('package_update', context)
-        except NotAuthorized:
+        except NotAuthorized, e:
             abort(401, _('User %r not authorized to edit %s') % (c.user, id))
         # convert tags if not supplied in data
         if data and not data.get('tag_string'):
             data['tag_string'] = ', '.join(h.dict_list_reduce(
                 c.pkg_dict.get('tags', {}), 'name'))
         errors = errors or {}
-        vars = {'data': data, 'errors': errors,
-                'error_summary': error_summary, 'action': 'edit'}
+        form_snippet = self._package_form(package_type=package_type)
+        form_vars = {'data': data, 'errors': errors,
+                     'error_summary': error_summary, 'action': 'edit',
+                     'dataset_type': package_type,
+                     }
         c.errors_json = h.json.dumps(errors)
 
         self._setup_template_variables(context, {'id': id},
@@ -131,20 +131,23 @@ class YtpDatasetController(PackageController):
         c.related_count = c.pkg.related_count
 
         # we have already completed stage 1
-        vars['stage'] = ['active']
-        if data.get('state', '').startswith('draft'):
-            vars['stage'] = ['active', 'complete']
+        form_vars['stage'] = ['active']
+        if data.get('state', '').startswith('draft') and len(data.get('resources')) == 0:
+            form_vars['stage'] = ['active', 'complete']
 
-        # TODO: This check is to maintain backwards compatibility with the
-        # old way of creating custom forms. This behaviour is now deprecated.
-        if hasattr(self, 'package_form'):
-            c.form = render(self.package_form, extra_vars=vars)
-        else:
-            c.form = render(self._package_form(package_type=package_type),
-                            extra_vars=vars)
-
-        return render(self._edit_template(package_type),
-                      extra_vars={'stage': vars['stage']})
+        edit_template = self._edit_template(package_type)
+        c.form = ckan.lib.render.deprecated_lazy_render(
+            edit_template,
+            form_snippet,
+            lambda: render(form_snippet, extra_vars=form_vars),
+            'use of c.form is deprecated. please see '
+            'ckan/templates/package/edit.html for an example '
+            'of the new way to include the form snippet'
+        )
+        return render(edit_template,
+                      extra_vars={'form_vars': form_vars,
+                                  'form_snippet': form_snippet,
+                                  'dataset_type': package_type})
 
     # original ckan new resource
     def new_resource(self, id, data=None, errors=None, error_summary=None):
@@ -165,7 +168,7 @@ class YtpDatasetController(PackageController):
             # see if we have any data that we are trying to save
             data_provided = False
             for key, value in data.iteritems():
-                if ((value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type'):
+                if (value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type':
                     data_provided = True
                     break
 
@@ -234,11 +237,7 @@ class YtpDatasetController(PackageController):
                 # add more resources
                 redirect(h.url_for(controller='package',
                                    action='new_resource', id=id))
-        errors = errors or {}
-        error_summary = error_summary or {}
-        vars = {'data': data, 'errors': errors,
-                'error_summary': error_summary, 'action': 'new'}
-        vars['pkg_name'] = id
+
         # get resources for sidebar
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author, 'auth_user_obj': c.userobj}
@@ -251,6 +250,15 @@ class YtpDatasetController(PackageController):
         except NotAuthorized:
             abort(401, _('Unauthorized to create a resource for this package'))
 
+        package_type = pkg_dict['type'] or 'dataset'
+
+        errors = errors or {}
+        error_summary = error_summary or {}
+        vars = {'data': data, 'errors': errors,
+                'error_summary': error_summary, 'action': 'new',
+                'resource_form_snippet': self._resource_form(package_type),
+                'dataset_type': package_type}
+        vars['pkg_name'] = id
         # required for nav menu
         vars['pkg_dict'] = pkg_dict
         template = 'package/new_resource_not_draft.html'
@@ -262,6 +270,7 @@ class YtpDatasetController(PackageController):
     # taken from original ckan resource edit
     def resource_edit(self, id, resource_id, data=None, errors=None,
                       error_summary=None):
+
         if request.method == 'POST' and not data:
             data = data or clean_dict(dict_fns.unflatten(tuplize_dict(parse_params(
                 request.POST))))
@@ -316,30 +325,30 @@ class YtpDatasetController(PackageController):
         if not data:
             data = resource_dict
 
+        package_type = pkg_dict['type'] or 'dataset'
+
         errors = errors or {}
         error_summary = error_summary or {}
         vars = {'data': data, 'errors': errors,
-                'error_summary': error_summary, 'action': 'new'}
+                'error_summary': error_summary, 'action': 'new',
+                'resource_form_snippet': self._resource_form(package_type),
+                'dataset_type': package_type}
         return render('package/resource_edit.html', extra_vars=vars)
 
     def read(self, id, format='html'):
-        ''' Copied and overriden from CKAN's package controller '''
-
         if not format == 'html':
-            ctype, extension, loader = \
+            ctype, extension = \
                 self._content_type_from_extension(format)
             if not ctype:
                 # An unknown format, we'll carry on in case it is a
                 # revision specifier and re-constitute the original id
                 id = "%s.%s" % (id, format)
-                ctype, format, loader = "text/html; charset=utf-8", "html", \
-                    MarkupTemplate
+                ctype, format = "text/html; charset=utf-8", "html"
         else:
-            ctype, format, loader = self._content_type_from_accept()
+            ctype, format = self._content_type_from_accept()
 
         response.headers['Content-Type'] = ctype
 
-        package_type = self._get_package_type(id.split('@')[0])
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author, 'for_view': True,
                    'auth_user_obj': c.userobj}
@@ -381,23 +390,27 @@ class YtpDatasetController(PackageController):
 
         # can the resources be previewed?
         for resource in c.pkg_dict['resources']:
+            # Backwards compatibility with preview interface
             resource['can_be_previewed'] = self._resource_preview(
                 {'resource': resource, 'package': c.pkg_dict})
 
+            resource_views = get_action('resource_view_list')(
+                context, {'id': resource['id']})
+            resource['has_views'] = len(resource_views) > 0
+
+        package_type = c.pkg_dict['type'] or 'dataset'
         self._setup_template_variables(context, {'id': id},
                                        package_type=package_type)
-
-        package_saver.PackageSaver().render_package(c.pkg_dict, context)
 
         template = self._read_template(package_type)
         template = template[:template.index('.') + 1] + format
 
         try:
-            return render(template, loader_class=loader)
+            return render(template,
+                          extra_vars={'dataset_type': package_type})
         except ckan.lib.render.TemplateNotFound:
             msg = _("Viewing {package_type} datasets in {format} format is "
-                    "not supported (template file {file} not found).".format(package_type=package_type,
-                                                                             format=format, file=template))
+                    "not supported (template file {file} not found).".format(package_type=package_type, format=format, file=template))
             abort(404, msg)
 
         assert False, "We should never get here"
