@@ -34,17 +34,17 @@ We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible 
 
 Download Vagrant latest 64-bit version for Ubuntu from [vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
 
-    sudo dpkg -i vagrant_1.6.2_x86_64.deb
+    sudo dpkg -i vagrant_1.7.2_x86_64.deb
 
 
 ## Ansible
 
-We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 1.5+ is required.
+We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 1.8+ is required.
 
-    sudo add-apt-repository ppa:rquillo/ansible
-    sudo apt-get update
-    sudo apt-get install ansible
-
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
 
 
 ### Run Vagrant and start Ansible installation
@@ -101,6 +101,7 @@ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGu
 
 The run vagrant reload to correctly mount the folders
 
+Sometimes it is needed to halt the vagrant machine and start it up again as some random error may occur
 
 # Local Installation (Windows)
 
