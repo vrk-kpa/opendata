@@ -10,7 +10,9 @@ import ckan.model as model
 
 import dbutil
 
-log = logging.getLogger('ckanext.googleanalytics')
+from pprint import pprint
+
+log = logging.getLogger(__name__)
 PACKAGE_URL = '/dataset/'  # XXX get from routes...
 DEFAULT_RESOURCE_URL_TAG = '/downloads/'
 
@@ -220,7 +222,7 @@ class LoadAnalytics(CkanCommand):
         while not completed:
             results = self.service.data().ga().get(ids='ga:%s' % self.profile_id,
                                  filters=query,
-                                 dimensions='ga:pagePath',
+                                 dimensions='ga:pagePath, ga:date',
                                  start_date=start_date,
                                  start_index=start_index,
                                  max_results=max_results,
@@ -279,11 +281,16 @@ class LoadAnalytics(CkanCommand):
             matches = RESOURCE_URL_REGEX.match(identifier)
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
+                pprint(resource_url)
                 resource = model.Session.query(model.Resource).autoflush(True)\
                            .filter_by(id=matches.group(1)).first()
+                pprint(matches.group(1))
+                pprint("Updating resource")
                 if not resource:
                     log.warning("Couldn't find resource %s" % resource_url)
                     continue
+
+                pprint("Updating resource %s" % resource.id)
                 dbutil.update_resource_visits(resource.id, recently, ever)
                 log.info("Updated %s with %s visits" % (resource.id, visits))
             else:
@@ -318,7 +325,7 @@ class LoadAnalytics(CkanCommand):
         results = self.service.data().ga().get(ids='ga:' + self.profile_id,
                                       start_date=from_date,
                                       end_date=to_date,
-                                      dimensions='ga:pagePath',
+                                      dimensions='ga:pagePath, ga:date',
                                       metrics=metrics,
                                       sort=sort,
                                       start_index=start_index,

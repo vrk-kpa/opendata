@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, MetaData
+from sqlalchemy import Table, Column, Integer, String, MetaData, DateTime
 from sqlalchemy.sql import select, text
 from sqlalchemy import func
 
@@ -14,26 +14,26 @@ def init_tables():
     package_stats = Table('package_stats', metadata,
                           Column('package_id', String(60),
                                  primary_key=True),
-                          Column('visits_recently', Integer),
-                          Column('visits_ever', Integer))
+                          Column('visits', Integer),
+                          Column('visit_date', DateTime))
     resource_stats = Table('resource_stats', metadata,
                            Column('resource_id', String(60),
                                   primary_key=True),
-                           Column('visits_recently', Integer),
-                           Column('visits_ever', Integer))
+                           Column('visits', Integer),
+                           Column('visit_date', DateTime))
     metadata.create_all(model.meta.engine)
 
 
 def get_table(name):
     if name not in cached_tables:
         meta = MetaData()
-        meta.reflect(bind=model.meta.engine)
+        meta.reflect(bind=model.meta.engine, only=[name])
         table = meta.tables[name]
         cached_tables[name] = table
     return cached_tables[name]
 
 
-def _update_visits(table_name, item_id, recently, ever):
+def _update_visits(table_name, item_id, visits, visit_date):
     stats = get_table(table_name)
     id_col_name = "%s_id" % table_name[:-len("_stats")]
     id_col = getattr(stats.c, id_col_name)
@@ -44,34 +44,34 @@ def _update_visits(table_name, item_id, recently, ever):
     if count and count[0]:
         connection.execute(stats.update()\
             .where(id_col == item_id)\
-            .values(visits_recently=recently,
-                    visits_ever=ever))
+            .values(visits=visits,
+                    visit_date=visit_date))
     else:
         values = {id_col_name: item_id,
-                  'visits_recently': recently,
-                  'visits_ever': ever}
+                  'visits': visits,
+                  'visit_date': visit_datedate}
         connection.execute(stats.insert()\
                            .values(**values))
 
 
-def update_resource_visits(resource_id, recently, ever):
+def update_resource_visits(resource_id, visits, visit_date):
     return _update_visits("resource_stats",
                           resource_id,
-                          recently,
-                          ever)
+                          visits,
+                          visit_date)
 
 
-def update_package_visits(package_id, recently, ever):
+def update_package_visits(package_id, visits, visit_date):
     return _update_visits("package_stats",
                           package_id,
-                          recently,
-                          ever)
+                          visits,
+                          visit_date)
 
 
 def get_resource_visits_for_url(url):
     connection = model.Session.connection()
     count = connection.execute(
-        text("""SELECT visits_ever FROM resource_stats, resource
+        text("""SELECT visits, visit_date FROM resource_stats, resource
         WHERE resource_id = resource.id
         AND resource.url = :url"""), url=url).fetchone()
     return count and count[0] or ""
