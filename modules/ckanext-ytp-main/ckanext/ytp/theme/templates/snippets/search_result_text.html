@@ -40,7 +40,6 @@ Example:
 {%- elif from == 'dataset' -%}
 {%set rss_url = '/data/feeds/dataset.atom' %}
 {%- endif -%}
-{{ from }}
 {% if query %}
   {%- if count -%}
     {{ text_query.format(number=h.localised_number(count), query=query) }}
