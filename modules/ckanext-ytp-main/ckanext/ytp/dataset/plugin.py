@@ -5,6 +5,7 @@ from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
+from ckan.model import Session
 
 from webhelpers.html import escape
 from pylons import config
@@ -524,6 +525,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         map = {'responsible-party': ['maintainer', 'author']}
 
+        harvester_context = {'model': model, 'session': Session, 'user': 'harvest'}
         for source, target in map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
@@ -532,13 +534,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                         for target_key in target:
                             package_dict[target_key] = value[0]['name']
 
-                    # find responsible party from orgs
-                    try:
-                        name = munge_title_to_name(value)
-                        group = get_action('group_show')(context, {name: name})
-                        package_dict['owner_org'] = group['id']
-                    except NotFound:
-                        pass
+                        # find responsible party from orgs
+                        try:
+                            name = munge_title_to_name(value[0]['name'])
+                            group = get_action('organization_show')(harvester_context, {'id': name})
+                            package_dict['owner_org'] = group['id']
+                        except NotFound:
+                            pass
 
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
