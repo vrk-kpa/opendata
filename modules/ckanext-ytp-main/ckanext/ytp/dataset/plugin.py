@@ -2,6 +2,8 @@ from ckan import plugins, model, logic
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
+from ckan.lib.munge import munge_title_to_name
+from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
 
 from webhelpers.html import escape
@@ -529,6 +531,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     if len(value):
                         for target_key in target:
                             package_dict[target_key] = value[0]['name']
+
+                    # find responsible party from orgs
+                    try:
+                        name = munge_title_to_name(value)
+                        group = get_action('group_show')(context, {name: name})
+                        package_dict['owner_org'] = group['id']
+                    except NotFound:
+                        pass
 
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
