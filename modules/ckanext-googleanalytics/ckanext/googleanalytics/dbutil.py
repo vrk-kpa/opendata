@@ -85,15 +85,15 @@ def get_top_packages(limit=20):
     connection = model.Session.connection()
     package_stats = get_table('package_stats')
     s = select([package_stats.c.package_id,
-                package_stats.c.visits_recently,
-                package_stats.c.visits_ever])\
-                .order_by(package_stats.c.visits_recently.desc())
+                package_stats.c.visits,
+                package_stats.c.visit_date])\
+                .order_by(package_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
-    for package_id, recent, ever in res:
+    for package_id, visits, visit_date in res:
         item = q.filter("package.id = '%s'" % package_id)
         if not item.count():
             continue
-        items.append((item.first(), recent, ever))
+        items.append((item.first(), visits, visit_date))
     return items
 
 
@@ -102,14 +102,14 @@ def get_top_resources(limit=20):
     connection = model.Session.connection()
     resource_stats = get_table('resource_stats')
     s = select([resource_stats.c.resource_id,
-                resource_stats.c.visits_recently,
-                resource_stats.c.visits_ever])\
-                .order_by(resource_stats.c.visits_recently.desc())
+                resource_stats.c.visits,
+                resource_stats.c.visit_date])\
+                .order_by(resource_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
-    for resource_id, recent, ever in res:
+    for resource_id, visits, visit_date in res:
         item = model.Session.query(model.Resource)\
                .filter("resource.id = '%s'" % resource_id)
         if not item.count():
             continue
-        items.append((item.first(), recent, ever))
+        items.append((item.first(), visits, visit_date))
     return items

@@ -281,7 +281,7 @@ class LoadAnalytics(CkanCommand):
             matches = RESOURCE_URL_REGEX.match(identifier)
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
-                pprint(resource_url)
+                pprint(matches.group(1))
                 resource = model.Session.query(model.Resource).autoflush(True)\
                            .filter_by(id=matches.group(1)).first()
                 pprint(matches.group(1))
