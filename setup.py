@@ -36,6 +36,7 @@ setup(
 
     [ckan.plugins]
     archiver = ckanext.archiver.plugin:ArchiverPlugin
+    testipipe = ckanext.archiver.plugin:TestIPipePlugin
 
     [ckan.celery_task]
     tasks = ckanext.archiver.celery_import:task_imports
