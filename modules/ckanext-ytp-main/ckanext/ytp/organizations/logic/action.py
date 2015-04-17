@@ -3,20 +3,47 @@ import ckan.plugins as p
 import ckan.logic as logic
 from ckanext.ytp.organizations.model import GroupTreeNode
 from ckan import model
+from sqlalchemy import func, or_
+from sqlalchemy.orm import aliased
 
 log = logging.getLogger(__name__)
 
 
+def _accumulate_dataset_counts(groups, members):
+    child_parents_map = {g.id: [m.table_id for m in members if m.group_id == g.id] for g in groups}
+    dataset_count_map = {g.id: 0 for g in groups}
+
+    def add_to_ancestors(id, value, counts):
+        counts[id] += value
+        parents = child_parents_map.get(id, [])
+        if parents:
+            for p in parents:
+                add_to_ancestors(p, value, counts)
+
+    for group in groups:
+        if group.dataset_count:
+            add_to_ancestors(group.id, group.dataset_count, dataset_count_map)
+
+    return dataset_count_map
+
 def _fetch_all_organizations(force_root_ids=None):
-    groups = model.Session.query(model.Group) \
+    groups_with_counts = model.Session.query(model.Group, func.count(model.Package.id)) \
+        .outerjoin(model.Package, model.Package.owner_org == model.Group.id) \
+        .filter(or_(model.Package.state == u'active', model.Package.state == None)) \
         .filter(model.Group.state == u'active') \
         .filter(model.Group.is_organization.is_(True)) \
+        .group_by(model.Group.id) \
         .all()
+
+    parent_group = aliased(model.Group)
     members = model.Session.query(model.Member) \
         .join(model.Group, model.Member.table_id == model.Group.id) \
+        .join(parent_group, model.Member.group_id == parent_group.id) \
         .filter(model.Group.state == u'active') \
         .filter(model.Group.is_organization.is_(True)) \
         .filter(model.Member.state == u'active')\
+        .filter(parent_group.state == u'active') \
+        .filter(parent_group.is_organization.is_(True)) \
         .all()
     extras = model.Session.query(model.GroupExtra.group_id, model.GroupExtra.key, model.GroupExtra.value) \
         .join(model.Group, model.GroupExtra.group_id == model.Group.id) \
@@ -24,6 +51,11 @@ def _fetch_all_organizations(force_root_ids=None):
         .filter(model.Group.is_organization.is_(True)) \
         .filter(model.GroupExtra.state == u'active')\
         .all()
+
+    groups = []
+    for group, count in groups_with_counts:
+        group.dataset_count = count
+        groups.append(group)
 
     groups_by_id = {g.id: g for g in groups}
     parent_ids = {m.table_id for m in members}
@@ -34,9 +66,14 @@ def _fetch_all_organizations(force_root_ids=None):
         group_extras[key] = value
         extras_by_group[group_id] = group_extras
 
-    # Set extras-dicts into a custom version of extras to avoid triggering SQLAlchemy queries
+    dataset_counts = _accumulate_dataset_counts(groups, members)
+
     for group in groups:
+        # Set extras-dicts into a custom version of extras to avoid triggering SQLAlchemy queries
         group.custom_extras = extras_by_group.get(group.id, {})
+
+        # Add subtree dataset counts to groups
+        group.subtree_dataset_count = dataset_counts.get(group.id, 0)
 
     parent_child_id_map = {pid: [m.group_id for m in members if m.table_id == pid] for pid in parent_ids}
 
@@ -47,7 +84,7 @@ def _fetch_all_organizations(force_root_ids=None):
             if not child:
                 continue
 
-            yield (child.id, child.name, child.title, rid, child.custom_extras)
+            yield (child.id, child.name, child.title, rid, child.subtree_dataset_count, child.custom_extras)
             for descendant in group_descendants(child.id):
                 yield descendant
 
@@ -109,17 +146,19 @@ def _group_tree_branch(root_group, highlight_group_name=None, children=[]):
     root_node = nodes[root_group.id] = GroupTreeNode(
         {'id': root_group.id,
          'name': root_group.name,
-         'title': root_group.title})
+         'title': root_group.title,
+         'dataset_count': root_group.subtree_dataset_count})
 
     root_node.update(root_group.custom_extras)
     if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
         highlight_group_name = None
 
-    for group_id, group_name, group_title, parent_id, extras in children:
+    for group_id, group_name, group_title, parent_id, dataset_count, extras in children:
         node = GroupTreeNode({'id': group_id,
                               'name': group_name,
-                              'title': group_title})
+                              'title': group_title,
+                              'dataset_count': dataset_count})
         if extras:
             node.update(extras)
 
