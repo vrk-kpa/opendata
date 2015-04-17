@@ -41,6 +41,7 @@ def _fetch_all_organizations(force_root_ids=None):
         .join(parent_group, model.Member.group_id == parent_group.id) \
         .filter(model.Group.state == u'active') \
         .filter(model.Group.is_organization.is_(True)) \
+        .filter(model.Member.state == u'active')\
         .filter(parent_group.state == u'active') \
         .filter(parent_group.is_organization.is_(True)) \
         .all()
