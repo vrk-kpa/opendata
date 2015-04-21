@@ -49,7 +49,7 @@ def _update_visits(table_name, item_id, visits, visit_date):
     else:
         values = {id_col_name: item_id,
                   'visits': visits,
-                  'visit_date': visit_datedate}
+                  'visit_date': visit_date}
         connection.execute(stats.insert()\
                            .values(**values))
 
@@ -57,15 +57,15 @@ def _update_visits(table_name, item_id, visits, visit_date):
 def update_resource_visits(resource_id, visits, visit_date):
     return _update_visits("resource_stats",
                           resource_id,
-                          visits,
-                          visit_date)
+                          visit_date,
+                          visits)
 
 
 def update_package_visits(package_id, visits, visit_date):
     return _update_visits("package_stats",
                           package_id,
-                          visits,
-                          visit_date)
+                          visit_date,
+                          visits)
 
 
 def get_resource_visits_for_url(url):

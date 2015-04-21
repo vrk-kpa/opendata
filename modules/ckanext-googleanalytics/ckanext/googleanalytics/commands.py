@@ -275,23 +275,18 @@ class LoadAnalytics(CkanCommand):
     def save_ga_data(self, packages_data):
         """Save tuples of packages_data to the database
         """
-        for identifier, visits in packages_data.items():
-            recently = visits.get('recent', 0)
-            ever = visits.get('ever', 0)
+        for identifier, visits_collection in packages_data.items():
+            visits = visits_collection.get('visits', 0)
+            visit_date = visits_collection.get('visit_date', 0)
             matches = RESOURCE_URL_REGEX.match(identifier)
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
-                pprint(matches.group(1))
                 resource = model.Session.query(model.Resource).autoflush(True)\
                            .filter_by(id=matches.group(1)).first()
-                pprint(matches.group(1))
-                pprint("Updating resource")
                 if not resource:
                     log.warning("Couldn't find resource %s" % resource_url)
                     continue
-
-                pprint("Updating resource %s" % resource.id)
-                dbutil.update_resource_visits(resource.id, recently, ever)
+                dbutil.update_resource_visits(resource.id, visit_date, visits)
                 log.info("Updated %s with %s visits" % (resource.id, visits))
             else:
                 package_name = identifier[len(PACKAGE_URL):]
@@ -302,7 +297,7 @@ class LoadAnalytics(CkanCommand):
                 if not item:
                     log.warning("Couldn't find package %s" % package_name)
                     continue
-                dbutil.update_package_visits(item.id, recently, ever)
+                dbutil.update_package_visits(item.id, visit_date, visits)
                 log.info("Updated %s with %s visits" % (item.id, visits))
         model.Session.commit()
 
@@ -340,7 +335,7 @@ class LoadAnalytics(CkanCommand):
 
         Returns a dictionary like::
 
-           {'identifier': {'recent':3, 'ever':6}}
+           {'identifier': {'visits':3, 'visit_date':<time>}}
         """
         now = datetime.datetime.now()
         recent_date = now - datetime.timedelta(14)
@@ -349,23 +344,30 @@ class LoadAnalytics(CkanCommand):
         packages = {}
         queries = ['ga:pagePath=~%s' % PACKAGE_URL]
         dates = {'recent': recent_date, 'ever': floor_date}
-        for date_name, date in dates.iteritems():
-            for query in queries:
-                results = self.ga_query(query_filter=query,
-                                        metrics='ga:uniquePageviews',
-                                        from_date=date)
-                if 'rows' in results:
-                    for result in results.get('rows'):
-                        package = result[0]
-                        if not package.startswith(PACKAGE_URL):
-                            package = '/' + '/'.join(package.split('/')[2:])
 
-                        count = result[1]
-                        # Make sure we add the different representations of the same
-                        # dataset /mysite.com & /www.mysite.com ...
-                        val = 0
-                        if package in packages and date_name in packages[package]:
-                            val += packages[package][date_name]
-                        packages.setdefault(package, {})[date_name] = \
-                            int(count) + val
+        for query in queries:
+            results = self.ga_query(query_filter=query,
+                                    metrics='ga:uniquePageviews',
+                                    from_date=floor_date)
+
+            if 'rows' in results:
+                for result in results.get('rows'):
+
+                    package = result[0]
+                    if not package.startswith(PACKAGE_URL):
+                        package = '/' + '/'.join(package.split('/')[2:])
+
+                    visit_date = datetime.datetime.strptime(result[1], "%Y%m%d").date()
+                    count = result[2]
+                    # Make sure we add the different representations of the same
+                    # dataset /mysite.com & /www.mysite.com ...
+
+                    val = 0
+                    if package in packages and "visits" in packages[package]:
+                        val += packages[package]["visits"]
+                    packages.setdefault(package, {})["visits"] = \
+                        int(count) + val
+                    packages.setdefault(package, {})["visit_date"] = \
+                        visit_date
+
         return packages
