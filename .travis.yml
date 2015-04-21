@@ -5,7 +5,7 @@ python:
 branches:
   only:
   - master
-  - ci-testing
+  - /^release-.*$/
 notifications:
   flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
 cache:

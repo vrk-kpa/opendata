@@ -21,7 +21,6 @@ import pylons
 import ast
 import datetime
 from ckanext.ytp.common.helpers import extra_translation
-import itertools
 
 from ckan.config.routing import SubMapper
 
