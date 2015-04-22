@@ -35,7 +35,7 @@ Example:
 
 {% if c.search_url_params %}
 {%set rss_url = '/data/feeds/custom.atom?'+c.search_url_params %}
-{%- elif from == 'organization' -%}
+{%- elif from == 'organization' and c.group_dict.name -%}
 {%set rss_url = '/data/feeds/organization/'+c.group_dict.name + '.atom' %}
 {%- elif from == 'dataset' -%}
 {%set rss_url = '/data/feeds/dataset.atom' %}
