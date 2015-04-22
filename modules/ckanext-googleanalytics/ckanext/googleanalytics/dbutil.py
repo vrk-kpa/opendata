@@ -73,8 +73,8 @@ def get_resource_visits_for_url(url):
     count = connection.execute(
         text("""SELECT visits, visit_date FROM resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.url = :url"""), url=url).fetchone()
-    return count and count[0] or ""
+        AND resource.url = :url"""), url=url).fetchall()
+    return count or []
 
 
 def get_top_packages(limit=20):

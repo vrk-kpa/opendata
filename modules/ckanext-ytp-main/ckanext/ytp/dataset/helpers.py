@@ -96,3 +96,20 @@ def get_license(license_id):
             return license_obj
 
     return None
+
+def get_visits_for_resource(url):
+    from ckanext.googleanalytics.dbutil import get_resource_visits_for_url
+
+    visits = get_resource_visits_for_url(url)
+    count = 0
+    visit_list = []
+    for sum, date in visits:
+        count += sum
+        visit_list.append((sum, date.isoformat()))
+
+    results = {
+        "visits": visit_list,
+        "count": count
+    }
+
+    return results

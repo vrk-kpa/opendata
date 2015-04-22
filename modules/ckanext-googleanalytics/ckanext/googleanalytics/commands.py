@@ -310,6 +310,8 @@ class LoadAnalytics(CkanCommand):
             to_date = now.strftime("%Y-%m-%d")
         if isinstance(from_date, datetime.date):
             from_date = from_date.strftime("%Y-%m-%d")
+        if isinstance(to_date, datetime.date):
+            to_date = to_date.strftime("%Y-%m-%d")
         if not metrics:
             metrics = 'ga:visits,ga:visitors,ga:newVisits,ga:uniquePageviews'
         if not sort:
@@ -340,34 +342,43 @@ class LoadAnalytics(CkanCommand):
         now = datetime.datetime.now()
         recent_date = now - datetime.timedelta(14)
         recent_date = recent_date.strftime("%Y-%m-%d")
-        floor_date = datetime.date(2005, 1, 1)
+        floor_date = datetime.date(2014, 1, 1)
         packages = {}
         queries = ['ga:pagePath=~%s' % PACKAGE_URL]
-        dates = {'recent': recent_date, 'ever': floor_date}
 
-        for query in queries:
-            results = self.ga_query(query_filter=query,
-                                    metrics='ga:uniquePageviews',
-                                    from_date=floor_date)
+        current_month = datetime.date(now.year, now.month, 1)
+        dates = []
+        while current_month > floor_date:
+            dates.append(current_month)
+            current_month = current_month - datetime.timedelta(30)
 
-            if 'rows' in results:
-                for result in results.get('rows'):
+        current = now.strftime("%Y-%m-%d")
+        for date in dates:
 
-                    package = result[0]
-                    if not package.startswith(PACKAGE_URL):
-                        package = '/' + '/'.join(package.split('/')[2:])
+            for query in queries:
+                results = self.ga_query(query_filter=query,
+                                        metrics='ga:uniquePageviews',
+                                        from_date=date,
+                                        to_date=current)
 
-                    visit_date = datetime.datetime.strptime(result[1], "%Y%m%d").date()
-                    count = result[2]
-                    # Make sure we add the different representations of the same
-                    # dataset /mysite.com & /www.mysite.com ...
+                if 'rows' in results:
+                    for result in results.get('rows'):
 
-                    val = 0
-                    if package in packages and "visits" in packages[package]:
-                        val += packages[package]["visits"]
-                    packages.setdefault(package, {})["visits"] = \
-                        int(count) + val
-                    packages.setdefault(package, {})["visit_date"] = \
-                        visit_date
+                        package = result[0]
+                        if not package.startswith(PACKAGE_URL):
+                            package = '/' + '/'.join(package.split('/')[2:])
 
+                        visit_date = datetime.datetime.strptime(result[1], "%Y%m%d").date()
+                        count = result[2]
+                        # Make sure we add the different representations of the same
+                        # dataset /mysite.com & /www.mysite.com ...
+
+                        val = 0
+                        if package in packages and "visits" in packages[package]:
+                            val += packages[package]["visits"]
+                        packages.setdefault(package, {})["visits"] = \
+                            int(count) + val
+                        packages.setdefault(package, {})["visit_date"] = \
+                            visit_date
+            current = date
         return packages

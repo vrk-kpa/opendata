@@ -7,6 +7,7 @@
   {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
   <meta property="og:title" content="{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
   <meta property="og:description" content="{{ description|forceescape }}">
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {% endblock -%}
 
 {% block subtitle %}{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }}{% endblock %}
@@ -153,5 +154,45 @@
   {% block resource_license %}
     {% snippet "snippets/social.html" %}
   {% endblock %}
+
+
+  <div id="chart_div"></div>
+
+  {% set visits =  h.get_visits_for_resource(res.url) %}
+
+  <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={
+              'modules':[{
+                'name':'visualization',
+                'version':'1',
+                'packages':['corechart']
+              }]
+            }"></script>
+
+  <script type="text/javascript">
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['Year', 'Downloads'],
+            {% for count, date in visits.visits %}
+            [new Date("{{ date }}"), {{ count }}],
+            {% endfor %}
+          ]);
+
+          var options = {
+            curveType: 'function',
+            legend: { position: 'bottom' }
+          };
+
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+          chart.draw(data, options);
+        }
+      </script>
+
+
+
+          {{ visits }}
 {% endblock %}
 
