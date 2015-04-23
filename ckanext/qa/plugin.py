@@ -7,7 +7,6 @@ from ckan.lib.celery_app import celery
 from ckan.model.types import make_uuid
 
 from ckanext.archiver.interfaces import IPipe
-from ckanext.report.interfaces import IReport
 
 
 log = logging.getLogger(__name__)
@@ -19,7 +18,6 @@ class QAPlugin(p.SingletonPlugin):
     p.implements(IPipe, inherit=True)
     p.implements(p.IActions)
     p.implements(p.IAuthFunctions)
-    p.implements(IReport)
 
     # IConfigurer
 
@@ -93,14 +91,6 @@ class QAPlugin(p.SingletonPlugin):
             'qa_package_broken_show': logic.qa_package_broken_show,
             'qa_package_openness_show': logic.qa_package_openness_show,
             }
-
-    # IReport
-
-    def register_reports(self):
-        """Register details of an extension's reports"""
-        from ckanext.qa import reports
-        return [reports.openness_report_info]
-
 
 def create_qa_update_package_task(package, queue):
     from pylons import config
