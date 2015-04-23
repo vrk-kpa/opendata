@@ -5,13 +5,7 @@ setup(
     version='0.1',
     packages=find_packages(),
     install_requires=[
-        'celery==2.4.2',
-        'kombu==2.1.3',
-        'kombu-sqlalchemy==1.1.0',
-        'SQLAlchemy>=0.6.6',
-        'requests==1.1.0',
-        'messytables>=0.1.4',
-        'flask==0.8'  # flask needed for tests
+       # Requirements defined in pip-requirements.txt
     ],
     author='Open Knowledge Foundation',
     author_email='info@okfn.org',

@@ -3,7 +3,7 @@ CKAN Archiver Extension
 
 **Status:** Production
 
-**CKAN Version:** release-1.7.1-dgu
+**CKAN Version:** release-1.5.1+
 
 
 Overview
@@ -27,7 +27,7 @@ Installation
 
 Install the extension source as usual, e.g. (from an activated virtualenv)::
 
-    $ pip install -e git+http://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
+    $ pip install -e git+http://github.com/yhteentoimivuuspalvelut/ckanext-archiver.git#egg=ckanext-archiver
 
 Or (primarily for developers) download the source, then from the ckanext-archiver directory run::
 
@@ -73,13 +73,6 @@ Configuration
 
     * ARCHIVE_DIR: path to the directory that archived files will be saved to
     * MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive
-
-   Alternatively, if you are running CKAN with this patch: 
-   https://github.com/datagovuk/ckan/commit/83dcaf3d875d622ee0cd7f3c1f65ec27a970cd10
-   then you can instead add the settings to the CKAN config file as normal:
-
-    * ckanext-archiver.archive_dir
-    * ckanext-archiver.max_content_length
 
 
 Using Archiver
