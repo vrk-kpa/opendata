@@ -5,7 +5,6 @@ from ckan import model
 from ckan.model.types import make_uuid
 from ckan import plugins as p
 from ckan.lib.celery_app import celery
-from ckanext.report.interfaces import IReport
 
 log = logging.getLogger(__name__)
 
@@ -17,7 +16,6 @@ class ArchiverPlugin(p.SingletonPlugin):
     """
     p.implements(p.IDomainObjectModification, inherit=True)
     p.implements(p.IResourceUrlChange)
-    p.implements(IReport)
     p.implements(p.IConfigurer, inherit=True)
 
     # IDomainObjectModification / IResourceUrlChange
@@ -42,14 +40,6 @@ class ArchiverPlugin(p.SingletonPlugin):
             # if operation is None, resource URL has been changed, as the
             # notify function in IResourceUrlChange only takes 1 parameter
             create_archiver_task(entity, 'priority')
-
-    # IReport
-
-    def register_reports(self):
-        """Register details of an extension's reports"""
-        from ckanext.archiver import reports
-        return [reports.broken_links_report_info,
-                ]
 
     # IConfigurer
 
