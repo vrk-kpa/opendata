@@ -11,7 +11,7 @@ import xlrd
 import magic
 import messytables
 
-from ckanext.dgu.lib.formats import Formats
+from ckanext.qa.formats import Formats
 
 def sniff_file_format(filepath, log):
     '''For a given filepath, work out what file format it is.

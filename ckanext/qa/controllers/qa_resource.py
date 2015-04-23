@@ -17,7 +17,7 @@ from ckanext.archiver.tasks import link_checker, LinkCheckerError
 from ckanext.qa.controllers.base import QAController
 try:
     # optional
-    from ckanext.dgu.lib import formats as formats_lib
+    from ckanext.qa import formats as formats_lib
 except ImportError:
     formats_lib = None
 
