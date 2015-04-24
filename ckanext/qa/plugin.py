@@ -1,209 +1,121 @@
-import json
-import datetime
 import logging
+import os
 
-from genshi.input import HTML
-from genshi.filters import Transformer
-from pylons import request, tmpl_context as c
-
-import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
-import ckan.lib.helpers as h
-import ckan.lib.celery_app as celery_app
-import ckan.plugins.toolkit as t
+from ckan.lib.celery_app import celery
 from ckan.model.types import make_uuid
-from ckanext.qa.lib import get_site_url, get_user_and_context
 
-import html
-import reports
-import logic
+from ckanext.archiver.interfaces import IPipe
+from ckanext.report.interfaces import IReport
 
-resource_dictize = model_dictize.resource_dictize
-send_task = celery_app.celery.send_task
 
 log = logging.getLogger(__name__)
 
+
 class QAPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
-    p.implements(p.IConfigurable)
-    p.implements(p.IGenshiStreamFilter)
     p.implements(p.IRoutes, inherit=True)
-    p.implements(p.IDomainObjectModification, inherit=True)
-    p.implements(p.IResourceUrlChange)
+    p.implements(IPipe, inherit=True)
     p.implements(p.IActions)
-    p.implements(p.ICachedReport)
+    p.implements(p.IAuthFunctions)
+    p.implements(IReport)
 
-    def configure(self, config):
-        self.site_url = get_site_url(config)
-        self.alter_resource_page_template = t.asbool(config.get('qa.alter_resource_page_template', True))
+    # IConfigurer
 
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
-        p.toolkit.add_public_directory(config, 'public')
+        # Update config gets called before the IRoutes methods
+        self.root_dir = config.get('ckanext.qa.url_root', '') # deprecated
+
+    # IRoutes
 
     def before_map(self, map):
-        home = 'ckanext.qa.controllers.qa_home:QAHomeController'
-        pkg = 'ckanext.qa.controllers.qa_package:QAPackageController'
-        org = 'ckanext.qa.controllers.qa_organisation:QAOrganisationController'
+        # Redirect from some old URLs
+        map.redirect('%s/qa' % self.root_dir,
+                     '/data/report')
+        map.redirect('%s/qa/dataset/{a:.*}' % self.root_dir,
+                     '/data/report')
+        map.redirect('%s/qa/organisation/{a:.*}' % self.root_dir,
+                     '/data/report')
+        map.redirect('/api/2/util/qa/{a:.*}',
+                     '/data/report')
+        map.redirect('%s/qa/organisation/broken_resource_links' % self.root_dir,
+                     '/data/report/broken-links')
+        map.redirect('%s/qa/organisation/broken_resource_links/:organization' % self.root_dir,
+                     '/data/report/broken-links/:organization')
+        map.redirect('%s/qa/organisation/scores' % self.root_dir,
+                     '/data/report/openness')
+        map.redirect('%s/qa/organisation/scores/:organization' % self.root_dir,
+                     '/data/report/openness/:organization')
+
+        # Link checker
         res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
-        api = 'ckanext.qa.controllers.qa_api:ApiController'
-
-        map.connect('qa', '/qa', controller=home, action='index')
-
-        map.connect('qa_dataset', '/qa/dataset/',
-                    controller=pkg, action='index')
-        map.connect('qa_dataset_action', '/qa/dataset/{action}',
-                    controller=pkg)
-
-        map.connect('qa_organisation', '/qa/organisation/',
-                    controller=org, action='index')
-        map.connect('qa_organisation_action', '/qa/organisation/{action}',
-                    controller=org)
-        map.connect('qa_organisation_action_id',
-                    '/qa/organisation/{action}/:id',
-                    controller=org)
-
         map.connect('qa_resource_checklink', '/qa/link_checker',
                     conditions=dict(method=['GET']),
                     controller=res,
                     action='check_link')
 
-        map.connect('qa_api', '/api/2/util/qa/{action}',
-                    conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resource_formatted',
-                    '/api/2/util/qa/{action}/:(id).:(format)',
-                    conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resources_formatted',
-                    '/api/2/util/qa/{action}/all.:(format)',
-                    conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resource', '/api/2/util/qa/{action}/:id',
-                    conditions=dict(method=['GET']),
-                    controller=api)
-        map.connect('qa_api_resources_available',
-                    '/api/2/util/qa/resources_available/{id}',
-                    conditions=dict(method=['GET']),
-                    controller=api,
-                    action='resources_available')
-
         return map
 
-    def notify(self, entity, operation=None):
-        if not isinstance(entity, model.Resource):
+    # IPipe
+
+    def receive_data(self, operation, queue, **params):
+        '''Receive notification from ckan-archiver that a resource has been archived.'''
+        if not operation == 'archived':
             return
+        resource_id = params['resource_id']
+        #cache_filepath = params['cached_filepath']
 
-        if operation:
-            if operation == model.DomainObjectOperation.new:
-                # Resource created
-                self._create_task(entity)
-        else:
-            # Resource URL has changed.
-            # If operation is None, resource URL has been changed because the
-            # notify function in IResourceUrlChange only takes 1 parameter
-            self._create_task(entity)
+        resource = model.Resource.get(resource_id)
+        assert resource
 
-    def _create_task(self, resource):
-        user, context = get_user_and_context(self.site_url)
+        create_qa_update_task(resource, queue=queue)
 
-        resource_dict = resource_dictize(resource, {'model': model})
-        pkg_id = resource.resource_group.package.id if resource.resource_group else None
-        resource_dict['package'] = pkg_id
-
-        related_packages = resource.related_packages()
-        if related_packages:
-            resource_dict['is_open'] = related_packages[0].isopen()
-
-        data = json.dumps(resource_dict)
-
-        task_id = make_uuid()
-        task_status = {
-            'entity_id': resource.id,
-            'entity_type': u'resource',
-            'task_type': u'qa',
-            'key': u'celery_task_id',
-            'value': task_id,
-            'error': u'',
-            'last_updated': datetime.datetime.now().isoformat()
-        }
-        task_context = {
-            'model': model,
-            'user': user.get('name'),
-        }
-
-        queue = 'priority'
-        p.toolkit.get_action('task_status_update')(task_context, task_status)
-        send_task('qa.update', args=[context, data], task_id=task_id, queue=queue)
-
-        log.debug('QA check for resource put into celery queue %s: %s url=%r',
-                  queue, resource.id, resource_dict.get('url'))
-
-    def filter(self, stream):
-	if not self.alter_resource_page_template:
-            return stream
-
-        routes = request.environ.get('pylons.routes_dict')
-
-        site_url = h.url('/', locale='default')
-        stream = stream | Transformer('head').append(
-            HTML(html.HEAD_CODE % site_url)
-        )
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'resource_read'):
-
-            star_html = self.get_star_html(c.resource.get('id'))
-            if star_html:
-                stream = stream | Transformer('body//div[@class="quick-info"]//dl')\
-                    .append(HTML(html.DL_HTML % star_html))
-
-        if (routes.get('controller') == 'package' and
-            routes.get('action') == 'read' and
-            c.pkg.id):
-
-            for resource in c.pkg_dict.get('resources', []):
-                resource_id = resource.get('id')
-                star_html = self.get_star_html(resource_id)
-                if star_html:
-                    stream = stream | Transformer('body//div[@id="%s"]//p[@class="extra-links"]' % resource_id)\
-                        .append(HTML(star_html))
-
-        return stream
-
-    def get_star_html(self, resource_id):
-        report = reports.resource_five_stars(resource_id)
-        stars = report.get('openness_score', -1)
-        if stars >= 0:
-            reason = report.get('openness_score_reason')
-            return html.get_star_html(stars, reason)
-        return None
+    # IActions
 
     def get_actions(self):
+        from ckanext.qa import logic_action as logic
         return {
             'search_index_update': logic.search_index_update,
+            'qa_resource_show': logic.qa_resource_show,
+            'qa_package_broken_show': logic.qa_package_broken_show,
+            'qa_package_openness_show': logic.qa_package_openness_show,
             }
 
+    # IAuthFunctions
+
+    def get_auth_functions(self):
+        from ckanext.qa import logic_auth as logic
+        return {
+            'search_index_update': logic.search_index_update,
+            'qa_resource_show': logic.qa_resource_show,
+            'qa_package_broken_show': logic.qa_package_broken_show,
+            'qa_package_openness_show': logic.qa_package_openness_show,
+            }
+
+    # IReport
+
     def register_reports(self):
-        """
-        This method will be called so that the plugin can register the
-        reports it wants run.  The reports will then be executed on a
-        24 hour schedule and the appropriate tasks called.
+        """Register details of an extension's reports"""
+        from ckanext.qa import reports
+        return [reports.openness_report_info]
 
-        This call should return a dictionary, where the key is a description
-        and the value should be the function to run. This function should
-        take no parameters and return nothing.
-        """
-        from ckanext.qa.reports import cached_reports
-        return { 'Cached QA Reports': cached_reports }
 
-    def list_report_keys(self):
-        """
-        Returns a list of the reports that the plugin can generate by
-        returning each key name as an item in a list.
-        """
-        return ['broken-link-report', 'broken-link-report-withsub',
-                'openness-report', 'openness-report-withsub',
-                'organisation_score_summaries',
-                'organisations_with_broken_resource_links']
+def create_qa_update_package_task(package, queue):
+    from pylons import config
+    task_id = '%s-%s' % (package.name, make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update_package', args=[ckan_ini_filepath, package.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of package put into celery queue %s: %s', queue, package.name)
+
+
+def create_qa_update_task(resource, queue):
+    from pylons import config
+    package = resource.resource_group.package
+    task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
