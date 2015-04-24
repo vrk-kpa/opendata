@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-
+{% set visits =  h.get_visits_for_resource(res.url) %}
 {% block head_extras -%}
   {{ super() }}
   {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
@@ -158,7 +158,7 @@
 
   <div id="chart_div"></div>
 
-  {% set visits =  h.get_visits_for_resource(res.url) %}
+  <span>{{ _('All time visits:' ) }} {{ visits.count }}</span>
 
   <script type="text/javascript"
             src="https://www.google.com/jsapi?autoload={
@@ -175,13 +175,22 @@
         function drawChart() {
           var data = google.visualization.arrayToDataTable([
             ['Year', 'Downloads'],
-            {% for count, date in visits.visits %}
-            [new Date("{{ date }}"), {{ count }}],
+            {% for year, month, day, count in visits.visits %}
+            [new Date({{ year }}, {{ month }}, {{ day }}), {{ count }}],
             {% endfor %}
           ]);
 
           var options = {
-            curveType: 'function',
+            hAxis: {
+              textPosition: 'none',
+              format: 'dd.MM.yyyy',
+              gridlines: {
+                count : 4
+              }
+            },
+            vAxis: {
+              minValue: 4
+            },
             legend: { position: 'bottom' }
           };
 
@@ -191,8 +200,5 @@
         }
       </script>
 
-
-
-          {{ visits }}
 {% endblock %}
 

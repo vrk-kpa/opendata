@@ -2,6 +2,7 @@ from pylons import config
 import json
 from ckan.common import c, request
 from ckan.logic import get_action
+import datetime
 
 
 def service_database_enabled():
@@ -103,13 +104,49 @@ def get_visits_for_resource(url):
     visits = get_resource_visits_for_url(url)
     count = 0
     visit_list = []
-    for sum, date in visits:
-        count += sum
-        visit_list.append((sum, date.isoformat()))
+
+    now = datetime.datetime(2014,8, 30)
+
+
+    for d in range(0, 30):
+        curr = now - datetime.timedelta(d)
+        visit_list.append((curr.year, curr.month, curr.day, 0))
+
+
+    from pprint import pprint
+
+    pprint(visits)
+
+    for t in visits:
+        if t[0] != None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        else:
+            count = t[1]
+
 
     results = {
-        "visits": visit_list,
+        "downloads": visit_list,
         "count": count
+    }
+
+    return results
+
+def get_visits_for_dataset(id):
+    from pprint import pprint
+
+    from ckanext.googleanalytics.dbutil import get_package_visits_for_id, get_resource_visits_for_package_id
+
+    visits = get_package_visits_for_id(id)
+    resource_visits = get_resource_visits_for_package_id(id)
+    pprint("foo")
+
+    pprint(visits)
+    pprint(resource_visits)
+
+    results = {
+        "visits": [],
+        "downloads": [],
+        "count": 0
     }
 
     return results

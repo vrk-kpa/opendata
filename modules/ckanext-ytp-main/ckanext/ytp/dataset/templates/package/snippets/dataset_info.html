@@ -105,6 +105,54 @@
 
     {% endblock %}
 
+    {% block stats %}
+
+        <div>
+            <h4 class="dataset-title sidebar-title">{{ _('Stats') }}</h4>
+            <div id="chart_div"></div>
+              {% set visits = h.get_visits_for_dataset(pkg.id) %}
+              <span>{{ _('All time visits:' ) }} {{ visits.count }}</span>
+
+              <script type="text/javascript"
+                        src="https://www.google.com/jsapi?autoload={
+                          'modules':[{
+                            'name':'visualization',
+                            'version':'1',
+                            'packages':['corechart']
+                          }]
+                        }"></script>
+
+              <script type="text/javascript">
+                    google.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+
+
+                      ]);
+
+                      var options = {
+                        hAxis: {
+                          textPosition: 'none',
+                          format: 'dd.MM.yyyy',
+                          gridlines: {
+                            count : 4
+                          }
+                        },
+                        vAxis: {
+                          minValue: 4
+                        },
+                        legend: { position: 'bottom' }
+                      };
+
+                      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+                      chart.draw(data, options);
+                    }
+                  </script>
+        </div>
+    {% endblock %}
+
     {% block changelog_info %}
         <div>
         <h4 class="dataset-title  sidebar-title">{{_('Change log')}}</h4>
@@ -119,4 +167,6 @@
     {% block related_info %}
         {# Related items deactivated until better defined and layouts updates #}
     {% endblock %}
+
+
 </section> 

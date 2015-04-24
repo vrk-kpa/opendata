@@ -5,6 +5,7 @@ from sqlalchemy import func
 import ckan.model as model
 from ckan.model.authz import PSEUDO_USER__VISITOR
 from ckan.lib.base import *
+import datetime
 
 cached_tables = {}
 
@@ -68,13 +69,54 @@ def update_package_visits(package_id, visits, visit_date):
                           visits)
 
 
+def get_package_visits_for_id(id):
+
+    connection = model.Session.connection()
+    result = connection.execute(text("""
+      select visits, visit_date from package_stats, package
+      where package.id = package_id
+      and package.id = :id and visit_date >= :date_filter
+      union all
+      select sum(visits), null from package_stats, package
+      where package.id = package_id
+
+    """), id=id, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+
+    if result == [(None, None)]:
+        result = []
+    return result
+
+def get_resource_visits_for_package_id(id):
+    connection = model.Session.connection()
+    result = connection.execute(text("""
+      select visits, visit_date, resource.url from resource_stats, resource, package
+      where resource_stats.resource_id = resource.id
+      and package.id = package_id
+      and package.id = :id and visit_date >= :date_filter
+      union all
+      select sum(visits), null, null from resource_stats, resource, package
+      where resource_stats.resource_id = resource.id
+      and package.id = package_id
+
+    """), id=id, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+
+    if result == [(None, None)]:
+        result = []
+    return result
+
 def get_resource_visits_for_url(url):
     connection = model.Session.connection()
     count = connection.execute(
-        text("""SELECT visits, visit_date FROM resource_stats, resource
+        text("""SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.url = :url"""), url=url).fetchall()
-    return count or []
+        AND resource.url = :url and visit_date >= :date_filter
+        UNION ALL
+        SELECT null, sum(visits) from resource_stats, resource
+        WHERE resource_id = resource.id
+        AND resource.url = :url"""), url=url, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+    if count == [(None, None)]:
+        count = []
+    return count
 
 
 def get_top_packages(limit=20):
