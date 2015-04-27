@@ -38,7 +38,6 @@ def broken_links_index(include_sub_organizations=False):
         num_resources = model.Session.query(model.Package)\
                 .filter_by(owner_org=org.id)\
                 .filter_by(state='active')\
-                .join(model.ResourceGroup)\
                 .join(model.Resource)\
                 .filter_by(state='active')\
                 .count()
@@ -197,7 +196,6 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
                         .count()
     num_resources = model.Session.query(model.Resource)\
                          .filter_by(state='active')\
-                         .join(model.ResourceGroup)\
                          .join(model.Package)\
                          .filter(model.Package.owner_org.in_(org_ids))\
                          .filter_by(state='active').count()
