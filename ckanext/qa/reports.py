@@ -11,6 +11,54 @@ import logging
 log = logging.getLogger(__name__)
 
 
+def five_stars(id=None):
+    """
+    FIXME: Remove if not needed. Using old functionality since it is not clear if the 
+    new interface presents something like this
+    Return a list of dicts: 1 for each dataset that has an openness score.
+    Each dict is of the form:
+        {'name': <string>, 'title': <string>, 'openness_score': <int>}
+    """
+    if id:
+        pkg = model.Package.get(id)
+        if not pkg:
+            return "Not found"
+
+    # take the maximum openness score among dataset resources to be the
+    # overall dataset openness core
+    if p.toolkit.check_ckan_version(min_version="2.3"):
+        query = model.Session.query(model.Package.name, model.Package.title,
+                                    model.Resource.id,
+                                    model.TaskStatus.value.label('value')) \
+            .join(model.Resource, model.Package.id == model.Resource.package_id) \
+            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
+            .filter(model.TaskStatus.key==u'openness_score') \
+            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
+            .distinct()
+    else:
+        query = model.Session.query(model.Package.name, model.Package.title,
+                                    model.Resource.id,
+                                    model.TaskStatus.value.label('value')) \
+            .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id) \
+            .join(model.Resource) \
+            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
+            .filter(model.TaskStatus.key==u'openness_score') \
+            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
+            .distinct()
+
+    if id:
+        query = query.filter(model.Package.id == pkg.id)
+
+    results = []
+    for row in query:
+        results.append({
+            'name': row.name,
+            'title': row.title + u' ' + row.id,
+            'openness_score': row.value
+        })
+
+    return results
+
 def openness_report(organization, include_sub_organizations=False):
     if organization is None:
         return openness_index(include_sub_organizations=include_sub_organizations)
