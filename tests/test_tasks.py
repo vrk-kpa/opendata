@@ -12,7 +12,7 @@ import ckanext.qa.tasks
 from ckanext.qa.tasks import resource_score, extension_variants
 import ckanext.archiver
 import ckanext.archiver.tasks
-from ckanext.dgu.lib.formats import Formats
+from ckanext.qa.formats import Formats
 from ckanext.qa import model as qa_model
 from ckanext.archiver import model as archiver_model
 from ckanext.archiver.model import Archival, Status
