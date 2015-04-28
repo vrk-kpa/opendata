@@ -179,9 +179,7 @@ class Archiver(CkanCommand):
         for package in packages:
             pkg_resources = \
                 [res for res in
-                    itertools.chain.from_iterable(
-                        (package.resources_all)
-                    )
+                    package.resources_all
                  if res.state == 'active']
             self.log.info('Queuing dataset %s (%s resources)',
                           package.name, len(pkg_resources))
