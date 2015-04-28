@@ -35,7 +35,7 @@
         </thead>
         <tbody>
           <tr py:for="row in c.data['table']">
-            <td>${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
+            <td>${h.link_to(row['organization_title'], report_relative_url_for(organization=row['organization_name']))}</td>
             <td>${row.get(None, 0)}</td>
             <td py:for="n in range(6)">${row.get(str(n), 0)}</td>
             <td>${row['total_stars']}</td>
