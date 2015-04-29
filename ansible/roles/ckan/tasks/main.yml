@@ -233,6 +233,27 @@
   tags:
   - ckan
 
+- name: Initialize analytics database
+  shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  when: google_analytics == True
+  tags:
+  - ckan
+  - google-analytics
+
+- name: Copy credentials token
+  copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"
+  when: google_analytics == True
+  tags:
+    - ckan
+    - google-analytics
+
+- name: Add analytics fetching to cron
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-google-analytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  when: google_analytics == True
+  tags:
+    - ckan
+    - google-analytics
+
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
   ignore_errors: True
