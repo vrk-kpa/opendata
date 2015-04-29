@@ -1,12 +1,13 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-
+{% set visits =  h.get_visits_for_resource(res.url) %}
 {% block head_extras -%}
   {{ super() }}
   {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
   <meta property="og:title" content="{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
   <meta property="og:description" content="{{ description|forceescape }}">
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {% endblock -%}
 
 {% block subtitle %}{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }}{% endblock %}
@@ -153,5 +154,51 @@
   {% block resource_license %}
     {% snippet "snippets/social.html" %}
   {% endblock %}
+
+  <h2 class="module-heading">{{ _('Downloads') }}</h2>
+  <div id="chart_div"></div>
+
+  <span>{{ _('All time visits:' ) }} {{ visits.count }}</span>
+
+  <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={
+              'modules':[{
+                'name':'visualization',
+                'version':'1',
+                'packages':['corechart']
+              }]
+            }"></script>
+
+  <script type="text/javascript">
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ["{{ _('Year') }}", "{{ _('Downloads') }}"],
+            {% for year, month, day, count in visits.downloads %}
+              [new Date({{ year }}, {{ month - 1 }}, {{ day }}), {{ count }}],
+            {% endfor %}
+          ]);
+
+          var options = {
+            hAxis: {
+              textPosition: 'none',
+              format: 'dd.MM.yyyy',
+              gridlines: {
+                count : 4
+              }
+            },
+            vAxis: {
+              minValue: 4
+            },
+            legend: { position: 'bottom' }
+          };
+
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+          chart.draw(data, options);
+        }
+      </script>
+
 {% endblock %}
 
