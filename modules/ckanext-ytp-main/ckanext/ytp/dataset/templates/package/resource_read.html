@@ -155,7 +155,7 @@
     {% snippet "snippets/social.html" %}
   {% endblock %}
 
-
+  <h2 class="module-heading">{{ _('Downloads') }}</h2>
   <div id="chart_div"></div>
 
   <span>{{ _('All time visits:' ) }} {{ visits.count }}</span>
@@ -174,9 +174,9 @@
 
         function drawChart() {
           var data = google.visualization.arrayToDataTable([
-            ['Year', 'Downloads'],
-            {% for year, month, day, count in visits.visits %}
-            [new Date({{ year }}, {{ month }}, {{ day }}), {{ count }}],
+            ["{{ _('Year') }}", "{{ _('Downloads') }}"],
+            {% for year, month, day, count in visits.downloads %}
+              [new Date({{ year }}, {{ month - 1 }}, {{ day }}), {{ count }}],
             {% endfor %}
           ]);
 

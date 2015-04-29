@@ -105,17 +105,15 @@ def get_visits_for_resource(url):
     count = 0
     visit_list = []
 
-    now = datetime.datetime(2014,8, 30)
+    now = datetime.datetime(2014,6, 30)
 
 
     for d in range(0, 30):
         curr = now - datetime.timedelta(d)
         visit_list.append((curr.year, curr.month, curr.day, 0))
 
-
     from pprint import pprint
 
-    pprint(visits)
 
     for t in visits:
         if t[0] != None:
@@ -138,15 +136,43 @@ def get_visits_for_dataset(id):
 
     visits = get_package_visits_for_id(id)
     resource_visits = get_resource_visits_for_package_id(id)
-    pprint("foo")
+
 
     pprint(visits)
     pprint(resource_visits)
 
+    visit_list = []
+    count = 0
+
+    download_count = 0
+
+    now = datetime.datetime.now()
+
+    for d in range(0, 30):
+        curr = now - datetime.timedelta(d)
+        visit_list.append((curr.year, curr.month, curr.day, 0, 0))
+
+    pprint(visit_list)
+    for t in visits:
+        if t[0] != None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        else:
+            count = t[1]
+
+
+
+
+    for t in resource_visits:
+        if t[0] != None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        elif t[1] != None:
+            download_count = t[1]
+
+
     results = {
-        "visits": [],
-        "downloads": [],
-        "count": 0
+        "visits": visit_list,
+        "count": count,
+        "download_count": download_count
     }
 
     return results

@@ -73,14 +73,14 @@ def get_package_visits_for_id(id):
 
     connection = model.Session.connection()
     result = connection.execute(text("""
-      select visits, visit_date from package_stats, package
+      select visit_date, visits from package_stats, package
       where package.id = package_id
       and package.id = :id and visit_date >= :date_filter
       union all
-      select sum(visits), null from package_stats, package
+      select null, sum(visits) from package_stats, package
       where package.id = package_id
-
-    """), id=id, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+      and package.id = :id
+    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
 
     if result == [(None, None)]:
         result = []
@@ -89,16 +89,16 @@ def get_package_visits_for_id(id):
 def get_resource_visits_for_package_id(id):
     connection = model.Session.connection()
     result = connection.execute(text("""
-      select visits, visit_date, resource.url from resource_stats, resource, package
+      select visit_date, visits, resource.url from resource_stats, resource, package
       where resource_stats.resource_id = resource.id
       and package.id = package_id
       and package.id = :id and visit_date >= :date_filter
       union all
-      select sum(visits), null, null from resource_stats, resource, package
+      select null, sum(visits), null from resource_stats, resource, package
       where resource_stats.resource_id = resource.id
       and package.id = package_id
-
-    """), id=id, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+      and package.id = :id
+    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
 
     if result == [(None, None)]:
         result = []
@@ -113,7 +113,7 @@ def get_resource_visits_for_url(url):
         UNION ALL
         SELECT null, sum(visits) from resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.url = :url"""), url=url, date_filter=datetime.datetime(2014,8, 30) - datetime.timedelta(30)).fetchall()
+        AND resource.url = :url"""), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
