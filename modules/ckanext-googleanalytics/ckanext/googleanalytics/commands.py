@@ -360,13 +360,15 @@ class LoadAnalytics(CkanCommand):
                                         metrics='ga:uniquePageviews',
                                         from_date=date,
                                         to_date=current)
-
                 if 'rows' in results:
                     for result in results.get('rows'):
 
                         package = result[0]
                         if not package.startswith(PACKAGE_URL):
                             package = '/' + '/'.join(package.split('/')[2:])
+                        if package.startswith('/fi/') or package.startswith('/sv/') or package.startswith('/en/'):
+                            package = '/' + '/'.join(package.split('/')[2:])
+
 
                         visit_date = datetime.datetime.strptime(result[1], "%Y%m%d").date()
                         count = result[2]
