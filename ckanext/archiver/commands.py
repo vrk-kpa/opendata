@@ -274,7 +274,7 @@ class Archiver(CkanCommand):
 
         archive_root = config.get('ckanext-archiver.archive_dir')
         if not archive_root:
-            log.error("Could not find archiver root")
+            self.log.error("Could not find archiver root")
             return
 
         # We'll use this to match the UUID part of the path
