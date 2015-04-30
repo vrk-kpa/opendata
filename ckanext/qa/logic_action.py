@@ -51,7 +51,7 @@ def qa_resource_show(context, data_dict):
 
     archival = Archival.get_for_resource(res_id)
     qa = QA.get_for_resource(res_id)
-    pkg = res.resource_group.package
+    pkg = res.package
     return {'name': pkg.name,
             'title': pkg.title,
             'id': res.id,
