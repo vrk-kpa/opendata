@@ -188,7 +188,7 @@ class Archiver(CkanCommand):
             time.sleep(0.1)  # to try to avoid Redis getting overloaded
 
         for resource in resources:
-            package = resource.resource_group.package
+            package = resource.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
             plugin.create_archiver_task(resource, self.options.queue)
             time.sleep(0.05)  # to try to avoid Redis getting overloaded
@@ -377,8 +377,8 @@ class Archiver(CkanCommand):
             # check the package isn't deleted
             # Need to refresh the resource's session
             resource = model.Session.query(model.Resource).get(resource.id)
-            if resource.resource_group and resource.resource_group.package:
-                if resource.resource_group.package.state == model.State.DELETED:
+            if resource.package:
+                if resource.package.state == model.State.DELETED:
                     print 'Package is deleted'
                     continue
 

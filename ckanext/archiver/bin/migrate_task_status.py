@@ -118,7 +118,7 @@ def migrate(options):
 
 
 def add_stat(outcome, res, stats, extra_info=None):
-    res_id = '%s %s' % (res.resource_group.package.name, res.id[:4])
+    res_id = '%s %s' % (res.package.name, res.id[:4])
     if extra_info:
         res_id += ' %s' % extra_info
     return '\n' + stats.add(outcome, res_id)

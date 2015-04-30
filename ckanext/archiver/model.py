@@ -144,9 +144,8 @@ class Archival(Base):
         # Find the package_id for the resource.
         q = """
             SELECT P.id from package P
-            INNER JOIN resource_group RG ON RG.package_id = P.id
-            INNER JOIN resource R ON R.resource_group_id = RG.id
-            WHERE R.id = '%s';
+            INNER JOIN resource R ON R.package_id = P.id
+            WHERE R.id = '%s'
         """
         row = model.Session.execute(q % c.resource_id).first()
         if not row or not row[0]:
