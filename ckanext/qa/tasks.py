@@ -109,7 +109,7 @@ def update(ckan_ini_filepath, resource_id):
                  resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
-        package = if resource.package else None
+        package = resource.package if resource.package else None
         if package:
             update_search_index(package.id, log)
         else:
