@@ -20,6 +20,9 @@ try:
 except ImportError:
     from ckanext.archiver import default_settings as settings
 from ckanext.archiver import interfaces as archiver_interfaces
+from celery.utils.log import get_task_logger
+
+log = get_task_logger(__name__)
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
@@ -81,7 +84,6 @@ def update(ckan_ini_filepath, resource_id, queue):
     '''
     Archive a resource.
     '''
-    log = update.get_logger()
     log.info('Starting update task: res_id=%r queue=%s', resource_id, queue)
 
     # HACK because of race condition #1481
@@ -122,7 +124,6 @@ def _update(ckan_ini_filepath, resource_id, queue):
         }
     If not successful, returns None.
     """
-    log = update.get_logger()
 
     load_config(ckan_ini_filepath)
     register_translator()
@@ -237,8 +238,6 @@ def download(context, resource, url_timeout=30,
     Returns a dict of results of a successful download:
       mimetype, size, hash, headers, saved_file, url_redirected_to
     '''
-
-    log = update.get_logger()
 
     url = resource['url']
 
@@ -610,7 +609,6 @@ def api_request(context, resource):
     and get a valid response. If it does it returns the response, otherwise
     Archives the response and stores what sort of request elicited it.
     '''
-    log = update.get_logger()
     # 'resource' holds the results of the download and will get saved. Only if
     # an API request is successful do we want to save the details of it.
     # However download() gets altered for these API requests. So only give
@@ -664,7 +662,6 @@ def clean():
     """
     Remove all archived resources.
     """
-    log = clean.get_logger()
     log.error("clean task not implemented yet")
 
 
@@ -685,7 +682,6 @@ def link_checker(context, data):
 
     Returns a json dict of the headers of the request
     """
-    log = update.get_logger()
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
 
