@@ -109,7 +109,7 @@ def update(ckan_ini_filepath, resource_id):
                  resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
-        package = resource.resource_group.package if resource.resource_group else None
+        package = if resource.package else None
         if package:
             update_search_index(package.id, log)
         else:
@@ -185,7 +185,7 @@ def resource_score(resource, log):
     # It is important we do this check after the link check, otherwise
     # the link checker won't get the chance to see if the resource
     # is broken.
-    if score > 0 and not resource.resource_group.package.isopen():
+    if score > 0 and not resource.package.isopen():
         score_reason = 'License not open'
         score = 0
 
