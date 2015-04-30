@@ -12,6 +12,9 @@ from ckanext.qa.json import DateTimeJsonEncoder
 from ckanext.qa.formats import Formats
 from ckanext.qa.sniff_format import sniff_file_format
 from ckanext.archiver.model import Archival, Status
+from celery.utils.log import get_task_logger
+
+log = get_task_logger(__name__)
 
 class QAError(Exception):
     pass
@@ -60,7 +63,6 @@ def update_package(ckan_ini_filepath, package_id):
 
     Returns None
     """
-    log = update_package.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -95,7 +97,6 @@ def update(ckan_ini_filepath, resource_id):
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
     """
-    log = update.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
