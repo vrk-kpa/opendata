@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-04 09:26+0300\n"
-"PO-Revision-Date: 2015-05-04 06:26+0000\n"
+"POT-Creation-Date: 2015-05-04 12:24+0300\n"
+"PO-Revision-Date: 2015-05-04 09:26+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -577,7 +577,7 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:165
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:166
 msgid "Created"
 msgstr "Skapad"
 
@@ -615,20 +615,29 @@ msgid "Technical extra information"
 msgstr "Teknisk tilläggsinformation"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/resource_read.html:177
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
-msgid "Downloads"
-msgstr "Nedladdningar"
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:111
+msgid "Stats"
+msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/resource_read.html:161
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:115
+#: ckanext/ytp/dataset/templates/package/resource_read.html:159
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:112
+msgid "Last 30 days, updated daily"
+msgstr "De senaste 30 dagarna, uppdateras dagligen"
+
+#: ckanext/ytp/dataset/templates/package/resource_read.html:162
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:116
 msgid "All time downloads:"
 msgstr "Totalt nedladdningar:"
 
-#: ckanext/ytp/dataset/templates/package/resource_read.html:177
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
+#: ckanext/ytp/dataset/templates/package/resource_read.html:178
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
 msgid "Year"
 msgstr "År"
+
+#: ckanext/ytp/dataset/templates/package/resource_read.html:178
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
+msgid "Downloads"
+msgstr "Nedladdningar"
 
 #: ckanext/ytp/dataset/templates/package/search.html:16
 #: ckanext/ytp/theme/menu.py:60
@@ -672,7 +681,7 @@ msgid "Name Descending"
 msgstr "Namn i nedstigande ordning"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:165
 msgid "Last Modified"
 msgstr "Senast redigerad"
 
@@ -724,23 +733,19 @@ msgid ""
 "unknown type."
 msgstr "Datasetets kvalitet är högsta klassificeringen av materiallänkarna. Den är automatiskt beräknad och om den är noll är materiallänkarna otillgängliga eller av okänd typ."
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:111
-msgid "Stats"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:115
 msgid "All time visits:"
 msgstr "Totalt sidvisningar:"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
 msgid "Visits"
 msgstr "Sidan visas"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
 msgid "Change log"
 msgstr "Versionshistorik"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:167
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:168
 msgid "Show change log"
 msgstr "Visa versionshistorik"
 

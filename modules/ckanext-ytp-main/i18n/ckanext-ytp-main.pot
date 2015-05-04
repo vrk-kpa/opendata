@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-04 09:26+0300\n"
+"POT-Creation-Date: 2015-05-04 12:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -569,7 +569,7 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:165
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:166
 msgid "Created"
 msgstr ""
 
@@ -607,19 +607,28 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/resource_read.html:177
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
-msgid "Downloads"
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:111
+msgid "Stats"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/resource_read.html:161
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:115
+#: ckanext/ytp/dataset/templates/package/resource_read.html:159
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:112
+msgid "Last 30 days, updated daily"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/resource_read.html:162
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:116
 msgid "All time downloads:"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/resource_read.html:177
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
+#: ckanext/ytp/dataset/templates/package/resource_read.html:178
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
 msgid "Year"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/resource_read.html:178
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
+msgid "Downloads"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:16
@@ -664,7 +673,7 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:165
 msgid "Last Modified"
 msgstr ""
 
@@ -716,23 +725,19 @@ msgid ""
 "unknown type."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:111
-msgid "Stats"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:115
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:132
 msgid "Visits"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:167
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:168
 msgid "Show change log"
 msgstr ""
 
