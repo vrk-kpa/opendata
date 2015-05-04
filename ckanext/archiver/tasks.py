@@ -211,7 +211,9 @@ def _update(ckan_ini_filepath, resource_id, queue):
     _save(Status.by_text('Archived successfully'), '', resource,
           download_result['url_redirected_to'], download_result, archive_result)
     # The return value is only used by tests. Serialized for Celery.
-    return dict(download_result, **archive_result)
+    from pprint import pprint
+    pprint(dict(download_result, **archive_result))
+    return json.dumps(dict(download_result, **archive_result))
 
 
 def download(context, resource, url_timeout=30,
