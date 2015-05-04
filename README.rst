@@ -3,7 +3,7 @@ CKAN Archiver Extension
 
 **Status:** Production
 
-**CKAN Version:** release-1.5.1+
+**CKAN Version:** 2.3+
 
 
 Overview
