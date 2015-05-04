@@ -276,8 +276,8 @@ class LoadAnalytics(CkanCommand):
         """Save tuples of packages_data to the database
         """
         for identifier, visits_collection in packages_data.items():
-            visits = visits_collection.get('visits', 0)
-            visit_date = visits_collection.get('visit_date', 0)
+            visits = visits_collection.get('visits', {})
+            #visit_date = visits_collection.get('visit_date', 0)
             matches = RESOURCE_URL_REGEX.match(identifier)
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
@@ -286,8 +286,9 @@ class LoadAnalytics(CkanCommand):
                 if not resource:
                     log.warning("Couldn't find resource %s" % resource_url)
                     continue
-                dbutil.update_resource_visits(resource.id, visit_date, visits)
-                log.info("Updated %s with %s visits" % (resource.id, visits))
+                for visit_date, count in visits.iteritems():
+                    dbutil.update_resource_visits(resource.id, visit_date, count)
+                    log.info("Updated %s with %s visits" % (resource.id, count))
             else:
                 package_name = identifier[len(PACKAGE_URL):]
                 if "/" in package_name:
@@ -297,8 +298,9 @@ class LoadAnalytics(CkanCommand):
                 if not item:
                     log.warning("Couldn't find package %s" % package_name)
                     continue
-                dbutil.update_package_visits(item.id, visit_date, visits)
-                log.info("Updated %s with %s visits" % (item.id, visits))
+                for visit_date, count in visits.iteritems():
+                    dbutil.update_package_visits(item.id, visit_date, count)
+                    log.info("Updated %s with %s visits" % (item.id, count))
         model.Session.commit()
 
     def ga_query(self, query_filter=None, from_date=None, to_date=None,
@@ -376,11 +378,17 @@ class LoadAnalytics(CkanCommand):
                         # dataset /mysite.com & /www.mysite.com ...
 
                         val = 0
+                        #if package in packages:
+                        #    if package == u'/dataset/valtion-budjettitalous':
+                        #        pprint(package)
+                        #        pprint(packages[package])
                         if package in packages and "visits" in packages[package]:
-                            val += packages[package]["visits"]
-                        packages.setdefault(package, {})["visits"] = \
-                            int(count) + val
-                        packages.setdefault(package, {})["visit_date"] = \
-                            visit_date
+                            if visit_date in packages[package]['visits']:
+                                val += packages[package]["visits"][visit_date]
+                        else:
+                            packages.setdefault(package, {})["visits"] = {}
+                        packages[package]['visits'][visit_date] =  int(count) + val
+                        #packages.setdefault(package, {})["visit_date"] = \
+                        #    visit_date
             current = date
         return packages
