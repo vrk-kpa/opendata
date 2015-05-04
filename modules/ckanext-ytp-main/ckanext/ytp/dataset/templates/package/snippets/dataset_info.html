@@ -109,6 +109,7 @@
 
         <div>
             <h4 class="dataset-title sidebar-title">{{ _('Stats') }}</h4>
+            <span>{{ _('Last 30 days, updated daily') }}</span>
             <div id="chart_div"></div>
               {% set visits = h.get_visits_for_dataset(pkg.id) %}
               <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
