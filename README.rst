@@ -18,8 +18,8 @@ Requirements
 
 Before installing ckanext-qa, make sure that you have installed the following:
 
-* CKAN 1.5.1+
-* ckanext-archiver (http://github.com/okfn/ckanext-archiver)
+* CKAN 2.3+
+* ckanext-archiver (http://github.com/yhteentoimivuuspalvelut/ckanext-archiver)
 
 
 Installation
@@ -52,8 +52,6 @@ You must also make sure that the following is set in your CKAN config:
 ::
 
     ckan.site_url = <URL to your CKAN instance>
-
-
 
 
 
