@@ -13,13 +13,11 @@ cached_tables = {}
 def init_tables():
     metadata = MetaData()
     package_stats = Table('package_stats', metadata,
-                          Column('package_id', String(60),
-                                 primary_key=True),
+                          Column('package_id', String(60)),
                           Column('visits', Integer),
                           Column('visit_date', DateTime))
     resource_stats = Table('resource_stats', metadata,
-                           Column('resource_id', String(60),
-                                  primary_key=True),
+                           Column('resource_id', String(60)),
                            Column('visits', Integer),
                            Column('visit_date', DateTime))
     metadata.create_all(model.meta.engine)
@@ -34,12 +32,15 @@ def get_table(name):
     return cached_tables[name]
 
 
-def _update_visits(table_name, item_id, visits, visit_date):
+def _update_visits(table_name, item_id, visit_date, visits):
     stats = get_table(table_name)
     id_col_name = "%s_id" % table_name[:-len("_stats")]
     id_col = getattr(stats.c, id_col_name)
-    s = select([func.count(id_col)],
-               id_col == item_id)
+    visit_date_col = getattr(stats.c, 'visit_date')
+    s = select([func.count(id_col)]).where(
+               id_col == item_id)\
+                .where(visit_date_col == visit_date)
+
     connection = model.Session.connection()
     count = connection.execute(s).fetchone()
     if count and count[0]:
@@ -55,14 +56,14 @@ def _update_visits(table_name, item_id, visits, visit_date):
                            .values(**values))
 
 
-def update_resource_visits(resource_id, visits, visit_date):
+def update_resource_visits(resource_id,  visit_date, visits):
     return _update_visits("resource_stats",
                           resource_id,
                           visit_date,
                           visits)
 
 
-def update_package_visits(package_id, visits, visit_date):
+def update_package_visits(package_id, visit_date, visits):
     return _update_visits("package_stats",
                           package_id,
                           visit_date,

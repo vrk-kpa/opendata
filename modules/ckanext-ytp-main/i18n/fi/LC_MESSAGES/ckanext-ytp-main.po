@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-05-04 09:26+0300\n"
-"PO-Revision-Date: 2015-05-04 06:26+0000\n"
+"PO-Revision-Date: 2015-05-04 08:41+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -628,7 +628,7 @@ msgstr "Latauksia"
 #: ckanext/ytp/dataset/templates/package/resource_read.html:161
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:115
 msgid "All time downloads:"
-msgstr "Latauksia yhteensä:"
+msgstr "Latauksia kaikkiaan:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:177
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
@@ -735,7 +735,7 @@ msgstr "Tilastot"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
 msgid "All time visits:"
-msgstr "Sivunäyttöjä yhteensä:"
+msgstr "Sivunäyttöjä kaikkiaan:"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:131
 msgid "Visits"
