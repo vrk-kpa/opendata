@@ -1,5 +1,4 @@
 import re
-import csv
 import zipfile
 import os
 from collections import defaultdict
@@ -12,6 +11,7 @@ import magic
 import messytables
 
 from ckanext.dgu.lib.formats import Formats
+
 
 def sniff_file_format(filepath, log):
     '''For a given filepath, work out what file format it is.
@@ -38,8 +38,9 @@ def sniff_file_format(filepath, log):
             format_ = get_xml_variant_including_xml_declaration(buf, log)
         elif mime_type == 'application/zip':
             format_ = get_zipped_format(filepath, log)
-        elif mime_type == 'application/msword':
-            # Magic gives this mime-type for other MS Office files too
+        elif mime_type in ('application/msword', 'application/vnd.ms-office'):
+            # In the past Magic gives the msword mime-type for Word and other
+            # MS Office files too, so use BSD File to be sure which it is.
             format_ = run_bsd_file(filepath, log)
             if not format_ and is_excel(filepath, log):
                 format_ = Formats.by_display_name()['XLS']
@@ -117,7 +118,7 @@ def sniff_file_format(filepath, log):
         # e.g. some MS Word files
         if not format_:
             format_ = run_bsd_file(filepath, log)
-                
+
     if not format_:
         log.warning('Could not detect format of file: %s', filepath)
     return format_
@@ -237,7 +238,7 @@ def _is_spreadsheet(table_set, format, log):
              '(%i cells, %i rows, %.1f cells per row)', \
              format, num_cells, num_rows, get_cells_per_row(num_cells, num_rows))
     return False
-    
+
 def is_html(buf, log):
     '''If this buffer is HTML, return that format type, else None.'''
     xml_re = '.{0,3}\s*(<\?xml[^>]*>\s*)?(<!doctype[^>]*>\s*)?<html[^>]*>'
@@ -254,7 +255,7 @@ def is_iati(buf, log):
     if match:
         log.info('IATI tag detected')
         return Formats.by_extension()['iati']
-    log.debug('Not IATI', buf)
+    log.debug('Not IATI')
 
 def is_xml_but_without_declaration(buf, log):
     '''Decides if this is a buffer of XML, but missing the usual <?xml ...?>
@@ -264,7 +265,7 @@ def is_xml_but_without_declaration(buf, log):
     if match:
         top_level_tag_name, top_level_tag_attributes = match.groups()[-2:]
         if 'xmlns:' not in top_level_tag_attributes and \
-               (len(top_level_tag_name) > 20 or \
+               (len(top_level_tag_name) > 20 or
                 len(top_level_tag_attributes) > 200):
             log.debug('Not XML (without declaration) - unlikely length first tag: <%s %s>',
                         top_level_tag_name, top_level_tag_attributes)
@@ -467,8 +468,8 @@ def turtle_regex():
          prefix:term  :blank_prefix
      does not support nested blank nodes, collection, sameas ('a' token)
     '''
+    global turtle_regex_
     if not turtle_regex_:
-        global turtle_regex_
         rdf_term = '(<[^ >]+>|_:\S+|".+?"(@\w+)?(\^\^\S+)?|\'.+?\'(@\w+)?(\^\^\S+)?|""".+?"""(@\w+)?(\^\^\S+)?|\'\'\'.+?\'\'\'(@\w+)?(\^\^\S+)?|[+-]?([0-9]+|[0-9]*\.[0-9]+)(E[+-]?[0-9]+)?|false|true)'
 
         # simple case is: triple_re = '^T T T \.$'.replace('T', rdf_term)

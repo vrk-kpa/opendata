@@ -1,13 +1,13 @@
 import os
 import logging
 
-from nose.tools import raises, assert_equal
+from nose.tools import assert_equal
 
-from ckan.tests import BaseCase
 from ckanext.qa.sniff_format import sniff_file_format, is_json, is_ttl, turtle_regex
 
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger('sniff')
+log = logging.getLogger('ckan.sniff')
+
 
 class TestSniffFormat:
     @classmethod
@@ -57,7 +57,7 @@ class TestSniffFormat:
         else:
             assert 0, format #Could not find fixture for format
         cls.assert_file_has_format_sniffed_correctly(format_extension, filepath)
-        
+
     def test_xls(self):
         self.check_format('xls', '10-p108-data-results')
     def test_xls1(self):

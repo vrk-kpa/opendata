@@ -22,7 +22,7 @@ setup(
         'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests==1.1.0',
-        'python-magic==0.4.3',
+        'python-magic==0.4.6',
         'xlrd>=0.8.0',
         'messytables>=0.8',
     ],
