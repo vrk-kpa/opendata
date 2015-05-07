@@ -8,7 +8,6 @@ from ckan.common import _
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.ytp.request.tools import get_user_member
 
-
 class YtpRequestController(base.BaseController):
     """ View controller for membership requests """
 
@@ -80,6 +79,7 @@ class YtpRequestController(base.BaseController):
     def show(self, member_id):
         """ Controller for viewing member request """
         try:
+            check_access('member_request_show', {'member': member_id})
             member = model.Session.query(model.Member).get(member_id)
             if not member or member.state != 'pending':
                 abort(404, _('Request not found'))

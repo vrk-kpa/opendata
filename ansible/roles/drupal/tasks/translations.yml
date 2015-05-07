@@ -21,7 +21,7 @@
   - drupal-translations
 
 - name: Install extra translations
-  command: drush language-import {{ item }} "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po" --replace chdir="{{ drupal_root }}"
+  command: drush language-import {{ item }} "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po" --replace --groups=default chdir="{{ drupal_root }}"
   with_items:
   - "fi"
   - "sv"
@@ -45,7 +45,7 @@
   - drupal-translations
 
 - name: Install drupal text group translations
-  command: drush language-import {{ item[1] }} "{{ translation_cache_path }}/drupal.{{ item[0] }}.{{ item[1] }}.temporary.po" --replace --group={{ item[0] }} chdir="{{ drupal_root }}"
+  command: drush language-import {{ item[1] }} "{{ translation_cache_path }}/drupal.{{ item[0] }}.{{ item[1] }}.temporary.po" --replace --groups={{ item[0] }} chdir="{{ drupal_root }}"
   with_nested:
     - translation_text_groups
     - translation_languages
