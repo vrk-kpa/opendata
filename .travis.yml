@@ -5,6 +5,7 @@ python:
 branches:
   only:
   - master
+  - beta
   - /^release-.*$/
 notifications:
   flowdock: 4c5e3d825b1a21302c14ae60aaf9e36c
