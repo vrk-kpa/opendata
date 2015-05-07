@@ -20,7 +20,7 @@ function blocks_feature_default_fe_block_settings() {
     'machine_name' => 'search_box',
     'module' => 'block',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
