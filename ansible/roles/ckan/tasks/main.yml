@@ -248,7 +248,7 @@
     - google-analytics
 
 - name: Add analytics fetching to cron
-  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-google-analytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
   when: google_analytics != false
   tags:
     - ckan
