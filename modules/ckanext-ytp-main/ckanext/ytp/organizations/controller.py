@@ -67,3 +67,18 @@ class YtpOrganizationController(OrganizationController):
             c.users = []
 
         return self._render_template('group/user_list.html')
+
+    def read(self, id, limit=20):
+        try:
+            context = {
+                'model': model,
+                'session': model.Session,
+                'user': c.user or c.author
+            }
+            check_access('group_show', context, {'id': id})
+        except NotAuthorized:
+            g = model.Session.query(model.Group).filter(model.Group.name == id).first()
+            if g is None or g.state != 'active':
+                return self._render_template('group/organization_not_found.html')
+
+        return OrganizationController.read(self, id, limit)

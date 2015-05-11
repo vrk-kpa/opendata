@@ -1628,8 +1628,9 @@ msgstr "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på web
 msgid "At least one of the main target groups must to be selected"
 msgstr "Åtminstone en målgrupp från huvudnivån måste väljas"
 
+#: ckanext/ytp/organizations/templates/organization/organization_not_found.html:9
 #: ckanext/ytp/service/plugin.py:201
-msgid "Organization does not exists"
+msgid "Organization does not exist"
 msgstr "Organisationen finns inte"
 
 #: ckanext/ytp/service/plugin.py:203
