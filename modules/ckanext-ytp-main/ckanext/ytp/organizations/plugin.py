@@ -311,6 +311,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         with SubMapper(map, controller=organization_controller) as m:
             m.connect('organization_members', '/organization/members/{id}',
                       action='members', ckan_icon='group')
+            m.connect('organization_read', '/organization/{id}',
+                      action='read', ckan_icon='group')
             m.connect('/user_list', action='user_list', ckan_icon='user')
         return map
 

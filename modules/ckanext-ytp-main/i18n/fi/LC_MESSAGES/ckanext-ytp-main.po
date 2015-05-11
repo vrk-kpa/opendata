@@ -1608,8 +1608,9 @@ msgstr "Jos palvelu on maksullinen, pitää sinun antaa hintatiedot verkossa tai
 msgid "At least one of the main target groups must to be selected"
 msgstr "Vähintään yksi päätason kohderyhmä on valittava"
 
+#: ckanext/ytp/organizations/templates/organization/organization_not_found.html:9
 #: ckanext/ytp/service/plugin.py:201
-msgid "Organization does not exists"
+msgid "Organization does not exist"
 msgstr "Organisaatiota ei ole"
 
 #: ckanext/ytp/service/plugin.py:203
