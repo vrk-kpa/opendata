@@ -187,7 +187,7 @@
   - modules
 
 - name: Ensure SqlAlchemy version
-  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall'
+  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall --timeout=30'
   tags:
   - ckan
   - spatial
