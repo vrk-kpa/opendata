@@ -394,7 +394,7 @@ msgstr "Sisältötyyppi"
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/theme/translations.py:10
 msgid "Organization"
-msgstr "Tiedon tuottaja"
+msgstr "Organisaatio"
 
 #: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:361
 #: ckanext/ytp/theme/translations.py:9
@@ -472,7 +472,7 @@ msgstr ""
 #: ckanext/ytp/theme/menu.py:145
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:6
 msgid "Organizations"
-msgstr "Tiedon tuottajat"
+msgstr "Organisaatiot"
 
 #: ckanext/ytp/dataset/templates/package/base.html:12
 #: ckanext/ytp/dataset/templates/package/base.html:16
@@ -828,7 +828,7 @@ msgstr "esim. talous, henkinen terveys, valtio"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:132
 #: ckanext/ytp/service/templates/package/ytp/service/package_producer_fields.html:31
 msgid "Select an organization..."
-msgstr "Valitse tiedon tuottaja..."
+msgstr "Valitse organisaatio..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:149
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:65
@@ -2134,7 +2134,7 @@ msgstr "Seuraamieni asioiden toiminta"
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:32
 msgid "You are not a member of any organizations."
-msgstr "Et ole minkään tiedontuottajaorganisaation jäsen."
+msgstr "Et ole minkään organisaation jäsen."
 
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:34
 #: ckanext/ytp/user/templates/user/read.html:16
