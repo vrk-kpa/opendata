@@ -140,6 +140,14 @@
   - ckan
   - spatial
 
+
+- name: Upgrade pip
+  pip: name=pip virtualenv="{{ virtual_environment }}" state=latest
+  tags:
+    - ckan
+    - qa
+    - pip
+
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
   tags:
