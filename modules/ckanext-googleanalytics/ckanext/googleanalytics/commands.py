@@ -10,7 +10,9 @@ import ckan.model as model
 
 import dbutil
 
-log = logging.getLogger('ckanext.googleanalytics')
+from pprint import pprint
+
+log = logging.getLogger(__name__)
 PACKAGE_URL = '/dataset/'  # XXX get from routes...
 DEFAULT_RESOURCE_URL_TAG = '/downloads/'
 
@@ -220,7 +222,7 @@ class LoadAnalytics(CkanCommand):
         while not completed:
             results = self.service.data().ga().get(ids='ga:%s' % self.profile_id,
                                  filters=query,
-                                 dimensions='ga:pagePath',
+                                 dimensions='ga:pagePath, ga:date',
                                  start_date=start_date,
                                  start_index=start_index,
                                  max_results=max_results,
@@ -273,9 +275,9 @@ class LoadAnalytics(CkanCommand):
     def save_ga_data(self, packages_data):
         """Save tuples of packages_data to the database
         """
-        for identifier, visits in packages_data.items():
-            recently = visits.get('recent', 0)
-            ever = visits.get('ever', 0)
+        for identifier, visits_collection in packages_data.items():
+            visits = visits_collection.get('visits', {})
+            #visit_date = visits_collection.get('visit_date', 0)
             matches = RESOURCE_URL_REGEX.match(identifier)
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
@@ -284,8 +286,9 @@ class LoadAnalytics(CkanCommand):
                 if not resource:
                     log.warning("Couldn't find resource %s" % resource_url)
                     continue
-                dbutil.update_resource_visits(resource.id, recently, ever)
-                log.info("Updated %s with %s visits" % (resource.id, visits))
+                for visit_date, count in visits.iteritems():
+                    dbutil.update_resource_visits(resource.id, visit_date, count)
+                    log.info("Updated %s with %s visits" % (resource.id, count))
             else:
                 package_name = identifier[len(PACKAGE_URL):]
                 if "/" in package_name:
@@ -295,8 +298,9 @@ class LoadAnalytics(CkanCommand):
                 if not item:
                     log.warning("Couldn't find package %s" % package_name)
                     continue
-                dbutil.update_package_visits(item.id, recently, ever)
-                log.info("Updated %s with %s visits" % (item.id, visits))
+                for visit_date, count in visits.iteritems():
+                    dbutil.update_package_visits(item.id, visit_date, count)
+                    log.info("Updated %s with %s visits" % (item.id, count))
         model.Session.commit()
 
     def ga_query(self, query_filter=None, from_date=None, to_date=None,
@@ -308,6 +312,8 @@ class LoadAnalytics(CkanCommand):
             to_date = now.strftime("%Y-%m-%d")
         if isinstance(from_date, datetime.date):
             from_date = from_date.strftime("%Y-%m-%d")
+        if isinstance(to_date, datetime.date):
+            to_date = to_date.strftime("%Y-%m-%d")
         if not metrics:
             metrics = 'ga:visits,ga:visitors,ga:newVisits,ga:uniquePageviews'
         if not sort:
@@ -318,7 +324,7 @@ class LoadAnalytics(CkanCommand):
         results = self.service.data().ga().get(ids='ga:' + self.profile_id,
                                       start_date=from_date,
                                       end_date=to_date,
-                                      dimensions='ga:pagePath',
+                                      dimensions='ga:pagePath, ga:date',
                                       metrics=metrics,
                                       sort=sort,
                                       start_index=start_index,
@@ -333,32 +339,56 @@ class LoadAnalytics(CkanCommand):
 
         Returns a dictionary like::
 
-           {'identifier': {'recent':3, 'ever':6}}
+           {'identifier': {'visits':3, 'visit_date':<time>}}
         """
         now = datetime.datetime.now()
         recent_date = now - datetime.timedelta(14)
         recent_date = recent_date.strftime("%Y-%m-%d")
-        floor_date = datetime.date(2005, 1, 1)
+        floor_date = datetime.date(2014, 1, 1)
         packages = {}
         queries = ['ga:pagePath=~%s' % PACKAGE_URL]
-        dates = {'recent': recent_date, 'ever': floor_date}
-        for date_name, date in dates.iteritems():
+
+        current_month = datetime.date(now.year, now.month, 1)
+        dates = []
+        while current_month > floor_date:
+            dates.append(current_month)
+            current_month = current_month - datetime.timedelta(30)
+
+        current = now.strftime("%Y-%m-%d")
+        for date in dates:
+
             for query in queries:
                 results = self.ga_query(query_filter=query,
                                         metrics='ga:uniquePageviews',
-                                        from_date=date)
+                                        from_date=date,
+                                        to_date=current)
                 if 'rows' in results:
                     for result in results.get('rows'):
+
                         package = result[0]
                         if not package.startswith(PACKAGE_URL):
                             package = '/' + '/'.join(package.split('/')[2:])
+                        if package.startswith('/fi/') or package.startswith('/sv/') or package.startswith('/en/'):
+                            package = '/' + '/'.join(package.split('/')[2:])
 
-                        count = result[1]
+
+                        visit_date = datetime.datetime.strptime(result[1], "%Y%m%d").date()
+                        count = result[2]
                         # Make sure we add the different representations of the same
                         # dataset /mysite.com & /www.mysite.com ...
+
                         val = 0
-                        if package in packages and date_name in packages[package]:
-                            val += packages[package][date_name]
-                        packages.setdefault(package, {})[date_name] = \
-                            int(count) + val
+                        #if package in packages:
+                        #    if package == u'/dataset/valtion-budjettitalous':
+                        #        pprint(package)
+                        #        pprint(packages[package])
+                        if package in packages and "visits" in packages[package]:
+                            if visit_date in packages[package]['visits']:
+                                val += packages[package]["visits"][visit_date]
+                        else:
+                            packages.setdefault(package, {})["visits"] = {}
+                        packages[package]['visits'][visit_date] =  int(count) + val
+                        #packages.setdefault(package, {})["visit_date"] = \
+                        #    visit_date
+            current = date
         return packages
