@@ -200,7 +200,7 @@
   - drupal
 
 - name: Download ckeditor
-  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }}"
+  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }} timeout=60"
   with_items:
     - 3.6.6.2
   tags:
