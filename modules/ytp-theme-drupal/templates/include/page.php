@@ -95,10 +95,10 @@
     <?php if (!empty($page['header'])): ?>
       <div class="row hidden-xs hidden-sm">
         <?php if (!empty($page['top_bar_secondary'])): ?>
-          <div class="col-lg-9">
+          <div class="col-lg-6">
             <?php print render($page['header']); ?>
           </div>
-          <div class="col-lg-3" id="infobox">
+          <div class="col-lg-6" id="tutorial-box">
             <?php print render($page['top_bar_secondary']); ?>
           </div>
         <?php else: ?>
@@ -120,11 +120,6 @@
     <?php endif; ?>
 
     <section<?php print $content_column_class; ?>>
-      <?php
-        if (isset($ytp_custom_top)) {
-          print $ytp_custom_top;
-        }
-      ?>
     <?php if (!user_is_logged_in()) { ?>
       <div id="responsive-login-panel" class="panel panel-default visible-xs visible-sm">
         <div class="panel-body">

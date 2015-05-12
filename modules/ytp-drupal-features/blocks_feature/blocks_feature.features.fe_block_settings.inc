@@ -12,6 +12,46 @@ function blocks_feature_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
+  $export['block-search_box'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'i18n_block_language' => array(),
+    'i18n_mode' => 0,
+    'machine_name' => 'search_box',
+    'module' => 'block',
+    'node_types' => array(),
+    'pages' => '<front>',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'bootstrap' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bootstrap',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'ytp_theme' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'ytp_theme',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
   $export['node-recent'] = array(
     'cache' => 1,
     'custom' => 0,
@@ -116,7 +156,7 @@ function blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'sidebar_second',
+        'region' => '',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -1,
