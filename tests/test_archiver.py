@@ -303,6 +303,26 @@ class TestArchiver(BaseCase):
         assert result
         assert_equal(result['url_redirected_to'], redirect_url)
 
+    @with_mock_url('?status=200&content=test&content-type=csv')
+    def test_ipipe_notified(self, url):
+        testipipe = plugins.get_plugin('testipipe')
+        testipipe.reset()
+
+        res_id = self._test_resource(url)
+
+        from ckanext.archiver.tasks import update
+        # celery.send_task doesn't respect CELERY_ALWAYS_EAGER
+        res = update.apply_async(args=[self.config, res_id, 'queue1'])
+        res.get()
+
+        assert len(testipipe.calls) == 1
+
+        operation, queue, params = testipipe.calls[0]
+        assert operation == 'archived'
+        assert queue == 'queue1'
+        assert params.get('dataset_id') == None
+        assert params.get('resource_id') == res_id
+
 
 class TestDownload(BaseCase):
     '''Tests of the download method (and things it calls).
