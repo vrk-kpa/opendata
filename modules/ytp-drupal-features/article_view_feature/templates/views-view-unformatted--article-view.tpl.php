@@ -4,7 +4,7 @@
     <?php endif; ?>
 
     <div class="row">
-        <div class="col-lg-2 article-list-header"><?php t('News') ?></div>
+        <div class="col-lg-2 article-list-header"><?php print t('News') ?></div>
     </div>
     <div class="article-list">
 
