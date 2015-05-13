@@ -155,13 +155,13 @@
   - spatial
 
 - name: Install requirements
-  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
 
 - name: Install spatial requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}"  extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
