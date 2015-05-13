@@ -199,8 +199,16 @@
   tags:
   - drupal
 
+
+- stat: path={{ drupal_root }}/sites/all/libraries/ckeditor
+  register: ckeditor_dir
+  tags:
+    - drupal
+
+
 - name: Download ckeditor
-  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }} timeout=60"
+  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }}"
+  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
   with_items:
     - 3.6.6.2
   tags:
@@ -208,11 +216,13 @@
 
 - name: Create ckeditor directory
   file: path="{{ drupal_root }}/sites/all/libraries" state=directory
+  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
   tags:
     - drupal
 
 - name: Unzip ckeditor
   unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries" copy=no
+  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
   with_items:
    - 3.6.6.2
   tags:
