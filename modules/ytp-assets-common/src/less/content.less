@@ -414,11 +414,32 @@ label.radio-inline:after, label.checkbox-inline:after{
   padding: 10px;
 }
 
+
+.article-list-header{
+  color: black;
+  font-size: 20px;
+  padding: 10px 0 10px 30px;
+  margin-left: 25px;
+  background-color: @background-hilight-primary;
+}
+.article-list{
+  background-color: @background-hilight-primary;
+  .row{
+    padding: 10px 10px 10px 10px;
+  }
+  .article{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
 .dataset-list{
   li{
     list-style: none;
     font-size: 20px;
-    font-weight: 750;
+    font-weight: 500;
+    .text-overflow();
     i[class^="icon-"]{
       font-size: 25px;
     }

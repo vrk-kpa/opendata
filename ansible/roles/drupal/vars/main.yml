@@ -16,8 +16,6 @@ extracted_features:
   - service_alert_feature
   - article_view_feature
   - blocks_feature
-  - frontpage_carousel_feature
-  - frontpage_infobox_feature
   - frontpage_tutorial
   - calendar_feature
 
