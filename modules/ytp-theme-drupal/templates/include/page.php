@@ -118,20 +118,24 @@
         <?php print render($page['sidebar_first']); ?>
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>
-
     <section<?php print $content_column_class; ?>>
-    <?php if (!user_is_logged_in()) { ?>
-      <div id="responsive-login-panel" class="panel panel-default visible-xs visible-sm">
-        <div class="panel-body">
-            <a href="<?php print url('user/login')?>"> <?php print t('Sign up or log in') ?></a>
-        </div>
-      </div>
-    <?php } ?>
+      <?php
+        if (isset($ytp_custom_top)) {
+          print $ytp_custom_top;
+        }
+      ?>
 
     <?php
         #if we are on the front page
         if (isset($ytp_custom_top)) {
     ?>
+        <?php if (!user_is_logged_in()) { ?>
+          <div id="responsive-login-panel" class="panel panel-default visible-xs visible-sm">
+            <div class="panel-body">
+              <a href="<?php print url('user/login')?>"> <?php print t('Sign up or log in') ?></a>
+            </div>
+          </div>
+        <?php } ?>
         <div id="responsive-browse-panel" class="panel panel-default visible-xs visible-sm">
           <div class="panel-body">
             <a href="<?php print "/data/" . $language->language . "/dataset" ?>"> <?php print t('Browse datasets') ?></a>
