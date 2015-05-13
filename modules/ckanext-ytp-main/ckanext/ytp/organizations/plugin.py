@@ -315,7 +315,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         map.connect('/organization/new', action='new', controller='organization')
         map.connect('organization_read', '/organization/{id}', controller=organization_controller,
-                  action='read', ckan_icon='group')
+                    action='read', ckan_icon='group')
         return map
 
 
