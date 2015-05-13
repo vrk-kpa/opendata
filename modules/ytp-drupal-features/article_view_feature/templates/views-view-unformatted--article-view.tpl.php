@@ -23,7 +23,7 @@
         <div class="row">
         <?php for($i = 1, $size = count($rows); $i < $size; ++$i) { ?>
 
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-md-6 col-sm-6 <?php if($i % 2 != 0):?>left <?php else: ?>right <?php endif ?>">
                 <div class="article">
                     <div<?php if ($classes_array[0]) { print ' class="' . $classes_array[0] .'"'; } ?>>
                         <?php print $rows[$i]; ?>
