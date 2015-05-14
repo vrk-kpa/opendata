@@ -362,7 +362,7 @@ def link_checker(context, data):
                 else:
                     error_message = "URL unobtainable: Server returned HTTP %s" % res.status_code
                 raise LinkHeadRequestError(error_message)
-    return json.dumps(headers)
+    return json.dumps(dict(headers))
 
 def archive_resource(context, resource, log, result=None, url_timeout = 30):
     """
