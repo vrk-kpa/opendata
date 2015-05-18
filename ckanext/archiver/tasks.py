@@ -251,7 +251,8 @@ def download(context, resource, url_timeout=30,
     # start the download - just get the headers
     # May raise DownloadException
     method_func = {'GET': requests.get, 'POST': requests.post}[method]
-    res = convert_requests_exceptions(log, method_func, url, timeout=url_timeout)
+    res = convert_requests_exceptions(log, method_func, url, timeout=url_timeout,
+                                      stream=True)
     url_redirected_to = res.url if url != res.url else None
     if not res.ok:  # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' %
@@ -292,6 +293,7 @@ def download(context, resource, url_timeout=30,
     # continue the download - stream the response body
     def get_content():
         return res.content
+    log.info('Downloading the body')
     content = convert_requests_exceptions(log, get_content)
 
     # APIs can return status 200, but contain an error message in the body
@@ -306,6 +308,7 @@ def download(context, resource, url_timeout=30,
                                   (content_length, max_content_length),
                                   url_redirected_to)
 
+    log.info('Saving resource')
     try:
         length, hash, saved_file_path = _save_resource(resource, res, max_content_length)
     except ChooseNotToDownload, e:
