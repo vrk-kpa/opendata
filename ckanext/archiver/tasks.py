@@ -15,6 +15,7 @@ import time
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
+from ckan import plugins
 try:
     from ckanext.archiver import settings
 except ImportError:
@@ -77,7 +78,7 @@ class CkanError(ArchiverError):
 
 
 @celery.task(name="archiver.update")
-def update(ckan_ini_filepath, resource_id, queue):
+def update(ckan_ini_filepath, resource_id, queue='bulk'):
     '''
     Archive a resource.
     '''

@@ -6,6 +6,7 @@ from ckan.model.types import make_uuid
 from ckan import plugins as p
 from ckan.lib.celery_app import celery
 from ckanext.report.interfaces import IReport
+from ckanext.archiver.interfaces import IPipe
 
 log = logging.getLogger(__name__)
 
@@ -64,3 +65,18 @@ def create_archiver_task(resource, queue):
     celery.send_task('archiver.update', args=[ckan_ini_filepath, resource.id, queue],
                      task_id=task_id, queue=queue)
     log.debug('Archival of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
+
+
+class TestIPipePlugin(p.SingletonPlugin):
+    """
+    """
+    p.implements(IPipe, inherit=True)
+
+    def __init__(self, *args, **kwargs):
+        self.calls = []
+
+    def reset(self):
+        self.calls = []
+
+    def receive_data(self, operation, queue, **params):
+        self.calls.append([operation, queue, params])
