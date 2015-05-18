@@ -1,0 +1,12 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Organization does not exist') }}{% endblock %}
+
+{% block breadcrumb_content %}
+<li class="active">{{ h.nav_link(_('Organizations'), controller='organization', action='index') }}</li>
+{% endblock %}
+{% block primary_content %}
+{{ _('Organization does not exist') }}
+{% endblock %}
+
+

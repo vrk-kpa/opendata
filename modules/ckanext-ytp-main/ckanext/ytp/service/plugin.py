@@ -198,7 +198,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             if owner_organization:
                 organization = model.Group.get(owner_organization)
                 if not organization:
-                    return {'success': False, 'msg': _('Organization does not exists')}
+                    return {'success': False, 'msg': _('Organization does not exist')}
                 if organization.extras.get('public_adminstration_organization', None) != 'true':
                     return {'success': False, 'msg': _('Invalid organization type')}
         return None
