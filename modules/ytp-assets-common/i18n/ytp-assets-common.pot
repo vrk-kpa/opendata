@@ -28,7 +28,7 @@ msgstr ""
 msgid "Data Repositories"
 msgstr ""
 
-msgid "Data Producers"
+msgid "Organizations"
 msgstr ""
 
 msgid "Publish Datasets"
