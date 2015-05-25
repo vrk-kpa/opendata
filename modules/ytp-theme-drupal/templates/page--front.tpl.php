@@ -176,7 +176,7 @@
                 $latest_datasets = $json["result"]['results'];
             ?>
 
-            <ul class="dataset-list">
+            <ul class="dataset-title-list">
             <?php foreach ($latest_datasets as $dataset): ?>
                 <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
             <?php endforeach ?>
@@ -201,7 +201,7 @@
                 $latest_datasets = $json["result"]['results'];
             ?>
 
-            <ul class="dataset-list">
+            <ul class="dataset-title-list">
             <?php foreach ($latest_datasets as $dataset): ?>
                 <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
             <?php endforeach ?>
