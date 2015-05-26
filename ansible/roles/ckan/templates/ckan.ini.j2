@@ -72,6 +72,7 @@ ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ redis_hostname }}
 ckan.harvest.mq.port = {{ redis_port }}
 ckan.harvest.mq.redis_db = {{ redis_harvest_database }}
+ckan.celery.queues = celery bulk priority
 
 ckanext.drupal7.domain = {{ hostname }},{{ secondary_hostname }}
 ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
