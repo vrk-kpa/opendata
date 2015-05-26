@@ -106,6 +106,7 @@ def get_license(license_id):
 
     return None
 
+
 def get_visits_for_resource(url):
     from ckanext.googleanalytics.dbutil import get_resource_visits_for_url
 
@@ -115,18 +116,15 @@ def get_visits_for_resource(url):
 
     now = datetime.datetime.now()
 
-
     for d in range(0, 30):
         curr = now - datetime.timedelta(d)
         visit_list.append((curr.year, curr.month, curr.day, 0))
 
-
     for t in visits:
-        if t[0] != None:
+        if t[0] is not None:
             visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
         else:
             count = t[1]
-
 
     results = {
         "downloads": visit_list,
@@ -134,6 +132,7 @@ def get_visits_for_resource(url):
     }
 
     return results
+
 
 def get_visits_for_dataset(id):
 
@@ -154,17 +153,18 @@ def get_visits_for_dataset(id):
         visit_list.append((curr.year, curr.month, curr.day, 0, 0))
 
     for t in visits:
-        if t[0] != None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        if t[0] is not None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
+                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
         else:
             count = t[1]
 
     for t in resource_visits:
-        if t[0] != None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        elif t[1] != None:
+        if t[0] is not None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], t[1])
+                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        elif t[1] is not None:
             download_count = t[1]
-
 
     results = {
         "visits": visit_list,

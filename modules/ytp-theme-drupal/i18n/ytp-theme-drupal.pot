@@ -87,3 +87,19 @@ msgstr ""
 
 msgid "By clicking Create new account, you agree with our <a href=\"/en/terms\" target=\"_blank\">Terms of Service</a>."
 msgstr ""
+
+msgid "Latest datasets"
+msgstr ""
+
+msgid "Most popular datasets"
+msgstr ""
+
+msgid "Open Data datasets"
+msgstr ""
+
+msgid "Interoperability Tools"
+msgstr ""
+
+msgid "Currently service has @dataset_count datasets and @organization_count organizations."
+msgstr ""
+

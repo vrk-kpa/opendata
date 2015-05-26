@@ -91,3 +91,18 @@ msgid ""
 "By clicking Create new account, you agree with our <a href=\"/en/terms\" "
 "target=\"_blank\">Terms of Service</a>."
 msgstr "Rekisteröitymällä hyväksyt lukeneesi <a href=\"/fi/terms\" target=\"_blank\">käyttöehdot</a> ja sitoudut noudattamaan niitä."
+
+msgid "Latest datasets"
+msgstr "Uusimmat tietoaineistot"
+
+msgid "Most popular datasets"
+msgstr "Suosituimmat tietoaineistot"
+
+msgid "Open Data datasets"
+msgstr "Avoindata -tietoaineistot"
+
+msgid "Interoperability Tools"
+msgstr "Yhteentoimivuuden aineistot"
+
+msgid "Currently service has @dataset_count datasets and @organization_count organizations."
+msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa, @organization_count organisaatiota."

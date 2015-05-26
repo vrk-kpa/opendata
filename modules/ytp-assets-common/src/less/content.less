@@ -136,7 +136,6 @@ h4 {
       margin-top: 0;
       padding: @line-height-computed (@grid-gutter-width/2);
       padding-left: (@grid-gutter-width/2 - 6px);
-      background-color: @background-hilight-primary;
       border-left: 6px solid @ytp-brand-primary;
       border-radius: @border-radius-large;
 
@@ -391,4 +390,63 @@ label.radio-inline:after, label.checkbox-inline:after{
 
 .alert a{
   font-weight: normal;
+}
+
+#search-box{
+  background-color: darken(@background-hilight, 2%);
+  padding: 10px;
+  .info{
+    margin: 0 -10px -10px -10px;
+    background-color: darken(@background-hilight, 7%);
+    h3{
+      margin-bottom: 0;
+      padding: 10px 10px 0 10px;
+    }
+    .info-footer{
+      padding: 10px;
+    }
+  }
+}
+
+#tutorial-box{
+  background-color: darken(@background-hilight, 2%);
+  padding: 10px;
+}
+
+
+.article-list-header{
+  color: black;
+  font-size: 20px;
+  padding: 10px 0 10px 30px;
+  margin-left: 25px;
+  background-color: @background-hilight-primary;
+}
+.article-list{
+  background-color: @background-hilight-primary;
+  .row{
+    padding: 10px 10px 10px 10px;
+  }
+  .left{
+    padding-right: 10px;
+  }
+  .right{
+    padding-left: 10px;
+  }
+  .article{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+.dataset-list{
+  li{
+    list-style: none;
+    font-size: 20px;
+    font-weight: 500;
+    .text-overflow();
+    i[class^="icon-"]{
+      font-size: 25px;
+    }
+  }
 }
