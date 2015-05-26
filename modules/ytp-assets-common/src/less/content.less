@@ -295,27 +295,7 @@ h4 {
       }
     }
   }
-  .tutorial-register {
-    margin-top: 10px;
-    font-size: 20px;
-    text-align: center;
-    color: @block-color;
-    border-radius: 5px;
-    a {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      color: @block-color;
-    }
-    background-color: @block-color-hilight;
-  }
-  .tutorial-signin {
-    margin-top: 10px;
-    a {
-      display: block;
-      padding-top: 4px;
-    }
-  }
+
 }
 
 .control-full.error-block {
@@ -409,8 +389,31 @@ label.radio-inline:after, label.checkbox-inline:after{
 }
 
 #tutorial-box{
-  background-color: darken(@background-hilight, 2%);
-  padding: 10px;
+  .tutorial-box-content{
+    padding: 10px;
+    background-color: darken(@background-hilight, 2%);
+    .tutorial-register {
+      margin-top: 10px;
+      font-size: 20px;
+      text-align: center;
+      color: @block-color;
+      border-radius: 5px;
+      a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        color: @block-color;
+      }
+      background-color: @block-color-hilight;
+    }
+    .tutorial-signin {
+      margin-top: 10px;
+      a {
+        display: block;
+        padding-top: 4px;
+      }
+    }
+  }
 }
 
 
@@ -418,7 +421,7 @@ label.radio-inline:after, label.checkbox-inline:after{
   color: black;
   font-size: 20px;
   padding: 10px 0 10px 30px;
-  margin-left: 25px;
+  margin-left: 15px;
   background-color: @background-hilight-primary;
 }
 .article-list{

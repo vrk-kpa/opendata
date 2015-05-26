@@ -159,6 +159,7 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
 
+        <div class="row">
         <div class="col-md-6">
      <div class="panel panel-default">
         <div class="panel-heading">
@@ -208,6 +209,7 @@
             </ul>
         </div>
      </div>
+    </div>
     </div>
       <?php print render($page['content']); ?>
     </section>
