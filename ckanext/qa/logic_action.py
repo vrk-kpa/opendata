@@ -141,6 +141,8 @@ def qa_package_openness_show(context, data_dict):
         best_score = 0
         best_score_reason = 'Dataset has no resources.'
         latest_update = None
+    if best_score is None:
+        best_score = 0
     return {'name': pkg.name,
             'title': pkg.title,
             'id': pkg.id,
