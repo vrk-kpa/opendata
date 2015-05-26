@@ -461,7 +461,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_remaining_facet_item_count': get_remaining_facet_item_count,
                 'sort_facet_items_by_name': sort_facet_items_by_name,
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
-                'calculate_datasets_stars': calculate_datasets_stars,
+                'calculate_dataset_stars': calculate_dataset_stars,
                 'is_sysadmin': self._is_sysadmin,
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
