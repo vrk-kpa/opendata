@@ -249,13 +249,13 @@
   - google-analytics
 
 - name: Initialize archiver database
-  shell: ./bin/paster --plugin=ckanext-archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  shell: ./bin/paster --plugin=ckanext-archiver archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
 
 - name: Initialize QA database
-  shell: ./bin/paster --plugin=ckanext-qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  shell: ./bin/paster --plugin=ckanext-qa qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
 
 - name: Initialize report database
-  shell: ./bin/paster --plugin=ckanext-report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  shell: ./bin/paster --plugin=ckanext-report report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
 
 - name: Copy credentials token
   copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"
