@@ -7,7 +7,7 @@ celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats
 # order matters, when templates call super()
-ckan_plugins: multilingual_dataset harvest ckan_harvester hri_harvester spatial_metadata spatial_query csw_harvester drupal7 archiver qa ytp_comments ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
+ckan_plugins: multilingual_dataset harvest ckan_harvester hri_harvester spatial_metadata spatial_query csw_harvester drupal7 report archiver qa ytp_comments ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
 
 ckan_extensions:
   - ckanext-drupal7

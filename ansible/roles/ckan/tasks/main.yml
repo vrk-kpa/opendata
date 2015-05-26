@@ -166,6 +166,11 @@
   - ckan
   - spatial
 
+- name: Install report requirements
+  pip: requirements="{{ virtual_environment }}/src/ckanext-report/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  tags:
+  - ckan
+
 - name: Install archiver requirements
   pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
