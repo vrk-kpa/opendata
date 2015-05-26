@@ -93,7 +93,7 @@
     {% block rating_info %}
         <div>
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
-            {% set stars = h.calculate_datasets_five_star_rating(pkg.id) %}
+            {% with stars,reason,last_updated = h.calculate_dataset_stars(pkg.id) %}
             {% for i in range(stars) %}
                 <span class="icon-star"></span>
             {% endfor %}
@@ -101,6 +101,7 @@
                 <span class="icon-star-empty"></span>
             {% endfor %}
             {% snippet "package/snippets/info_tooltip.html", title=_('Datasets Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type.') %}
+            {% endwith %}
         </div>
 
     {% endblock %}
