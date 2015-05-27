@@ -140,7 +140,11 @@
     <?php
       }
     ?>
-
+         <?php if (!empty($page['user_guide'])): ?>
+      <div id="user-guide" >
+        <?php print render($page['user_guide']); ?>
+      </div>
+    <?php endif; ?>
 
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>

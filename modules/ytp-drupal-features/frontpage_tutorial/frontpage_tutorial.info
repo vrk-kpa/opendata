@@ -1,6 +1,7 @@
 name = frontpage_tutorial
 core = 7.x
 package = Features
+dependencies[] = article_feature
 dependencies[] = ctools
 dependencies[] = fe_block
 dependencies[] = features
@@ -18,6 +19,7 @@ features[fe_block_settings][] = views-edd31d26be0b66ec9af4c7fd260f7efa
 features[features_api][] = api:2
 features[field_base][] = field_role
 features[field_instance][] = node-tutorial-body
+features[field_instance][] = node-tutorial-field_image
 features[field_instance][] = node-tutorial-field_role
 features[node][] = tutorial
 features[variable][] = comment_anonymous_tutorial
