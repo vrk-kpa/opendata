@@ -5,7 +5,7 @@ setup(
     version='0.1',
     packages=find_packages(),
     install_requires=[
-        # Requirements defined in pip-requirements.txt
+       # Requirements defined in pip-requirements.txt
     ],
     author='Open Knowledge Foundation',
     author_email='info@okfn.org',

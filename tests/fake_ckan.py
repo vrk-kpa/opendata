@@ -19,6 +19,15 @@ def task_status_update():
     })
     return 'ok'
 
+@app.route("/api/action/task_status_show", methods=['GET', 'POST'])
+def task_status_show():
+    request_store.append({
+        "data": request.json,
+        "headers": dict(request.headers)
+    })
+    return jsonify({'success': True,
+                    'result': {'value': '', 'error': '', 'stack': ''}})
+
 @app.route("/api/action/resource_update", methods=['GET', 'POST'])
 def resource_update():
     request_store.append({
