@@ -82,8 +82,8 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'user_guide',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ytp_theme',
         'weight' => -13,
       ),

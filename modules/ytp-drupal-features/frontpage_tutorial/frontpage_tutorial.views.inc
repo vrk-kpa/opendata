@@ -1,7 +1,6 @@
 <?php
 
 function frontpage_tutorial_views_pre_view(&$view, &$display_id, &$args) {
-
 	if ( $view->name == "frontpage_tutorial" ){
 		if ( $display_id == 'authenticated_view' ){
 			global $user;

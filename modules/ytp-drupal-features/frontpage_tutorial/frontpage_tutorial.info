@@ -5,6 +5,7 @@ dependencies[] = article_feature
 dependencies[] = ctools
 dependencies[] = fe_block
 dependencies[] = features
+dependencies[] = image
 dependencies[] = list
 dependencies[] = options
 dependencies[] = service_alert_feature

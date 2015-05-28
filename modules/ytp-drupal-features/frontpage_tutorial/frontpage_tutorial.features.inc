@@ -40,4 +40,3 @@ function frontpage_tutorial_node_info() {
   drupal_alter('node_info', $items);
   return $items;
 }
-
