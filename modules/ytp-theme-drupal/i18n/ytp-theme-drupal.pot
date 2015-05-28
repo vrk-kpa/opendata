@@ -112,23 +112,23 @@ msgstr ""
 msgid "If you do not yet have a user account, register now from the link below."
 msgstr ""
 
-msgid '<a href="/en/user/login">Sign in</a> <a class="pull-right" href="/en/user/password">Forgot your password?</a>'
+msgid "<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" href=\"/en/user/password\">Forgot your password?</a>"
 msgstr ""
 
-msgid 'Not yet a member of an organization?'
+msgid "Not yet a member of an organization?"
 msgstr ""
 
-msgid 'Join an organization in the <a href="/data/en/organization">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data.'
+msgid "Join an organization in the <a href=\"/data/en/organization\">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data."
 msgstr ""
 
-msgid 'Publish data'
+msgid "Publish data"
 msgstr ""
 
-msgid 'Publish data, tools and guidelines for others to use. You can also publish your applications.'
+msgid "Publish data, tools and guidelines for others to use. You can also publish your applications."
 msgstr ""
 
-msgid 'Start publishing data from the Publish data page.'
+msgid "Start publishing data from the Publish data page."
 msgstr ""
 
-msgid 'If you are interested in using a programmable interface, our API documentation will provide an introduction.'
+msgid "If you are interested in using a programmable interface, our API documentation will provide an introduction."
 msgstr ""
