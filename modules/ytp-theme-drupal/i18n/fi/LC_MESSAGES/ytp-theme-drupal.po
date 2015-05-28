@@ -106,3 +106,33 @@ msgstr "Yhteentoimivuuden aineistot"
 
 msgid "Currently service has @dataset_count datasets and @organization_count organizations."
 msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa, @organization_count organisaatiota."
+
+msgid "Getting started"
+msgstr "Rekisteröidy julkaistaksesi tietoaineistoja"
+
+msgid "Opendata.fi allows you to find open datasets, and to publish and manage your own."
+msgstr "Avoindata.fi-palvelussa voit etsiä muiden julkaisemia tietoaineistoja sekä julkaista ja hallinnoida omia avoimia tietoaineistojasi."
+
+msgid "If you do not yet have a user account, register now from the link below."
+msgstr "Jos sinulla ei ole vielä omaa käyttäjätunnusta,  rekisteröidy nyt alla olevasta linkistä."
+
+msgid '<a href="/en/user/login">Sign in</a> <a class="pull-right" href="/en/user/password">Forgot your password?</a>'
+msgstr '<a href="/fi/user/login">Kirjaudu sisään</a> <a class="pull-right" href="/fi/user/password">Tunnus tai salasana hukassa?</a>'
+
+msgid 'Not yet a member of an organization?'
+msgstr "Etkö ole vielä organisaation jäsen?"
+
+msgid 'Join an organization in the <a href="/data/en/organization">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data.'
+msgstr 'Liity organisaatioon <a href="/data/en/organization">Tiedon tuottajat</a> -sivulta, ja tarjoa dataa sekä yhteentoimivuuden kuvauksia ja ohjeita muiden käyttöön. Voit myös julkaista avoimeen dataan pohjautuvia julkisia palveluja tai toteuttamiasi sovelluksia.'
+
+msgid 'Publish data'
+msgstr "Julkaise tietoaineistoja"
+
+msgid 'Publish data, tools and guidelines for others to use. You can also publish your applications.'
+msgstr "Tarjoa dataa sekä yhteentoimivuuden kuvauksia ja ohjeita muiden käyttöön. Voit myös julkaista toteuttamiasi sovelluksia."
+
+msgid 'Start publishing data from the Publish data page.'
+msgstr "Siirry julkaisemaan dataa Julkaise dataa -sivulta."
+
+msgid 'If you are interested in using a programmable interface, our API documentation will provide an introduction.'
+msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu portaalin API-dokumentaatioon."
