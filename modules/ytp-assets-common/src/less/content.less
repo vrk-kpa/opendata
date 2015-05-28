@@ -375,9 +375,11 @@ label.radio-inline:after, label.checkbox-inline:after{
 #search-box{
   background-color: darken(@background-hilight, 2%);
   padding: 10px;
+  height: 240px;
   .info{
     margin: 0 -10px -10px -10px;
     background-color: darken(@background-hilight, 7%);
+    height: 125px;
     h3{
       margin-bottom: 0;
       padding: 10px 10px 0 10px;
@@ -392,6 +394,7 @@ label.radio-inline:after, label.checkbox-inline:after{
   .tutorial-box-content{
     padding: 10px;
     background-color: darken(@background-hilight, 2%);
+    height: 240px;
     .tutorial-register {
       margin-top: 10px;
       font-size: 20px;
@@ -408,10 +411,7 @@ label.radio-inline:after, label.checkbox-inline:after{
     }
     .tutorial-signin {
       margin-top: 10px;
-      a {
-        display: block;
-        padding-top: 4px;
-      }
+
     }
   }
 }
@@ -450,6 +450,15 @@ label.radio-inline:after, label.checkbox-inline:after{
     .text-overflow();
     i[class^="icon-"]{
       font-size: 25px;
+    }
+  }
+}
+
+#user-guide{
+  margin: 40px 0;
+  .views-row{
+    .col-xs-12, .col-sm-12 {
+      margin: 10px 0;
     }
   }
 }

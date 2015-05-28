@@ -16,7 +16,7 @@
             <p><?php print t('Opendata.fi allows you to find open datasets, and to publish and manage your own.') ?></p>
             <p><?php print t('If you do not yet have a user account, register now from the link below.') ?></p>
             <div class="tutorial-register"><?php print t('<a href="/en/user/register">Register</a>')?></div>
-            <div class="tutorial-signin"><?php print t('<a href="/en/user/login">Already registered? Sign in</a><a href="/en/user/password">Forgot your password?</a>') ?></div>
+            <div class="tutorial-signin"><?php print t('<a href="/en/user/login">Sign in</a> <a class="pull-right" href="/en/user/password">Forgot your password?</a>') ?></div>
         </div>
     </div>
     <?php
