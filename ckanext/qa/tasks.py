@@ -8,7 +8,7 @@ import os
 import traceback
 
 import ckan.lib.celery_app as celery_app
-from ckanext.qa.json import DateTimeJsonEncoder
+from ckanext.qa.datetimejson import DateTimeJsonEncoder
 from ckanext.qa.formats import Formats
 from ckanext.qa.sniff_format import sniff_file_format
 from ckanext.archiver.model import Archival, Status
