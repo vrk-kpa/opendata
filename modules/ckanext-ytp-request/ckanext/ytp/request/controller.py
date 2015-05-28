@@ -8,6 +8,7 @@ from ckan.common import _
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.ytp.request.tools import get_user_member
 
+
 class YtpRequestController(base.BaseController):
     """ View controller for membership requests """
 
