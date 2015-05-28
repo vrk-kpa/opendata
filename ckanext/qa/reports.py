@@ -1,282 +1,163 @@
-from collections import namedtuple
-from sqlalchemy import or_, and_, func
+from collections import Counter
+import copy
+
 import ckan.model as model
 import ckan.plugins as p
-import ckan.lib.dictization.model_dictize as model_dictize
+from ckan.lib.helpers import OrderedDict
+from ckanext.report import lib
 
-resource_dictize = model_dictize.resource_dictize
+import logging
+
+log = logging.getLogger(__name__)
 
 
-def five_stars(id=None):
-    """
-    Return a list of dicts: 1 for each dataset that has an openness score.
-
-    Each dict is of the form:
-        {'name': <string>, 'title': <string>, 'openness_score': <int>}
-    """
-    if id:
-        pkg = model.Package.get(id)
-        if not pkg:
-            return "Not found"
-
-    # take the maximum openness score among dataset resources to be the
-    # overall dataset openness core
-    if p.toolkit.check_ckan_version(min_version="2.3"):
-        query = model.Session.query(model.Package.name, model.Package.title,
-                                    model.Resource.id,
-                                    model.TaskStatus.value.label('value')) \
-            .join(model.Resource, model.Package.id == model.Resource.package_id) \
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
-            .filter(model.TaskStatus.key==u'openness_score') \
-            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
-            .distinct()
+def openness_report(organization, include_sub_organizations=False):
+    if organization is None:
+        return openness_index(include_sub_organizations=include_sub_organizations)
     else:
-        query = model.Session.query(model.Package.name, model.Package.title,
-                                    model.Resource.id,
-                                    model.TaskStatus.value.label('value')) \
-            .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id) \
-            .join(model.Resource) \
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
-            .filter(model.TaskStatus.key==u'openness_score') \
-            .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value) \
-            .distinct()
-
-    if id:
-        query = query.filter(model.Package.id == pkg.id)
-
-    results = []
-    for row in query:
-        results.append({
-            'name': row.name,
-            'title': row.title + u' ' + row.id,
-            'openness_score': row.value
-        })
-
-    return results
+        return openness_for_organization(organization=organization, include_sub_organizations=include_sub_organizations)
 
 
-def resource_five_stars(id):
-    """
-    Return a dict containing the QA results for a given resource
+def openness_index(include_sub_organizations=False):
+    '''Returns the counts of 5 stars of openness for all organizations.'''
 
-    Each dict is of the form:
-        {'openness_score': <int>, 'openness_score_reason': <string>, 'failure_count': <int>}
-    """
-    if id:
-        r = model.Resource.get(id)
-        if not r:
-            return {}  # Not found
-
-    context = {'model': model, 'session': model.Session}
-    data = {'entity_id': r.id, 'task_type': 'qa'}
-
-    try:
-        data['key'] = 'openness_score'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score = int(status.get('value'))
-        openness_score_updated = status.get('last_updated')
-
-        data['key'] = 'openness_score_reason'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score_reason = status.get('value')
-        openness_score_reason_updated = status.get('last_updated')
-
-        data['key'] = 'openness_score_failure_count'
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        openness_score_failure_count = int(status.get('value'))
-        openness_score_failure_count_updated = status.get('last_updated')
-
-        last_updated = max( 
-            openness_score_updated,
-            openness_score_reason_updated,
-            openness_score_failure_count_updated )
-
-        result = {
-            'openness_score': openness_score,
-            'openness_score_reason': openness_score_reason,
-            'openness_score_failure_count': openness_score_failure_count,
-            'openness_score_updated': openness_score_updated,
-            'openness_score_reason_updated': openness_score_reason_updated,
-            'openness_score_failure_count_updated': openness_score_failure_count_updated,
-            'openness_updated': last_updated
-        }
-    except p.toolkit.ObjectNotFound:
-        result = {}
-
-    return result
-
-
-def broken_resource_links_by_dataset():
-    """
-    Return a list of named tuples, one for each dataset that contains
-    broken resource links (defined as resources with an openness score of 0).
-
-    The named tuple is of the form:
-        (name (str), title (str), resources (list of dicts))
-    """
-    if p.toolkit.check_ckan_version(min_version="2.3"):
-        query = model.Session.query(model.Package.name, model.Package.title, model.Resource) \
-            .join(model.Resource, model.Package.id == model.Resource.package_id) \
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
-            .filter(model.TaskStatus.key == u'openness_score') \
-            .filter(model.TaskStatus.value == u'0') \
-            .distinct()
-    else:
-        query = model.Session.query(model.Package.name, model.Package.title, model.Resource)\
-            .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
-            .join(model.Resource)\
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-            .filter(model.TaskStatus.key == u'openness_score')\
-            .filter(model.TaskStatus.value == u'0')\
-            .distinct()
-
-    context = {'model': model, 'session': model.Session}
-    results = {}
-    for name, title, resource in query:
-        resource = resource_dictize(resource, context)
-
-        data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
-        status = p.toolkit.get_action('task_status_show')(context, data)
-        resource['openness_score_reason'] = status.get('value')
-
-        if name in results:
-            results[name].resources.append(resource)
-        else:
-            DatasetTuple = namedtuple('DatasetTuple', ['name', 'title', 'resources'])
-            results[name] = DatasetTuple(name, title or name, [resource])
-
-    return results.values()
-
-
-def broken_resource_links_by_dataset_for_organisation(organisation_id):
-    result = _get_broken_resource_links(organisation_id)
-    if result:
-        return {
-            'id': result.keys()[0][1],
-            'title': result.keys()[0][0],
-            'packages': result.values()[0]
-        }
-    else:
-        return {
-            'id': None,
-            'title': None,
-            'packages': []
+    context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+    total_score_counts = Counter()
+    counts = {}
+    # Get all the scores and build up the results by org
+    for org in model.Session.query(model.Group)\
+                          .filter(model.Group.type == 'organization')\
+                          .filter(model.Group.state == 'active').all():
+        scores = []
+        for pkg in org.packages():
+            try:
+                qa = p.toolkit.get_action('qa_package_openness_show')(context, {'id': pkg.id})
+            except p.toolkit.ObjectNotFound:
+                log.warning('No QA info for package %s', pkg.name)
+                return
+            scores.append(qa['openness_score'])
+        score_counts = Counter(scores)
+        total_score_counts += score_counts
+        counts[org.name] = {
+            'organization_title': org.title,
+            'score_counts': score_counts,
         }
 
+    counts_with_sub_orgs = copy.deepcopy(counts)  # new dict
+    if include_sub_organizations:
+        for org_name in counts_with_sub_orgs:
+            org = model.Group.by_name(org_name)
 
-def organisations_with_broken_resource_links_by_name():
-    result = _get_broken_resource_links().keys()
-    result.sort()
-    return result
-
-
-def organisations_with_broken_resource_links():
-    return _get_broken_resource_links()
-
-
-def _get_broken_resource_links(organisation_id=None):
-    organisation_id = None
-
-    if p.toolkit.check_ckan_version(min_version="2.3"):
-        query = model.Session.query(model.Package.name, model.Package.title,
-                                    model.PackageExtra.value, model.Resource) \
-            .join(model.PackageExtra) \
-            .join(model.Resource,  model.Package.id == model.Resource.package_id) \
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id) \
-            .filter(model.TaskStatus.key == u'openness_score') \
-            .filter(model.TaskStatus.value == u'0') \
-            .filter(or_(
-            and_(model.PackageExtra.key=='published_by',
-                 model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-            and_(model.PackageExtra.key=='published_via',
-                 model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-                )\
-            )\
-            .distinct()
-
+            for sub_org_id, sub_org_name, sub_org_title, sub_org_parent_id \
+                    in org.get_children_group_hierarchy(type='organization'):
+                if sub_org_name not in counts:
+                    # occurs only if there is an organization created since the last loop?
+                    continue
+                counts_with_sub_orgs[org_name]['score_counts'] += \
+                        counts[sub_org_name]['score_counts']
+        results = counts_with_sub_orgs
     else:
-        query = model.Session.query(model.Package.name, model.Package.title,
-                                    model.PackageExtra.value, model.Resource)\
-            .join(model.PackageExtra)\
-            .join(model.ResourceGroup, model.Package.id == model.ResourceGroup.package_id)\
-            .join(model.Resource)\
-            .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-            .filter(model.TaskStatus.key == u'openness_score')\
-            .filter(model.TaskStatus.value == u'0')\
-            .filter(or_(
-                and_(model.PackageExtra.key=='published_by',
-                     model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-                and_(model.PackageExtra.key=='published_via',
-                     model.PackageExtra.value.like('%%[%s]' % (organisation_id is None and '%' or organisation_id))),
-                )\
-            )\
-            .distinct()
+        results = counts
 
-    context = {'model': model, 'session': model.Session}
-    data = []
-    for row in query:
-        resource = resource_dictize(row.Resource, context)
-        task_data = {'entity_id': resource['id'], 'task_type': 'qa', 'key': 'openness_score_reason'}
-        status = p.toolkit.get_action('task_status_show')(context, task_data)
-        resource['openness_score'] = u'0'
-        resource['openness_score_reason'] = status.get('value')
+    table = []
+    for org_name, org_counts in sorted(results.iteritems(), key=lambda r: r[0]):
+        total_stars = sum([k*v for k, v in org_counts['score_counts'].items() if k])
+        num_pkgs_scored = sum([v for k, v in org_counts['score_counts'].items()
+                              if k is not None])
+        average_stars = round(float(total_stars) / num_pkgs_scored, 1) \
+                        if num_pkgs_scored else 0.0
+        row = OrderedDict((
+            ('organization_title', results[org_name]['organization_title']),
+            ('organization_name', org_name),
+            ('total_stars', total_stars),
+            ('average_stars', average_stars),
+            ))
+        row.update(jsonify_counter(org_counts['score_counts']))
+        table.append(row)
 
-        data.append([row.name, row.title, row.value, resource])
+    # Get total number of packages & resources
+    num_packages = model.Session.query(model.Package)\
+                        .filter_by(state='active')\
+                        .count()
+    return {'table': table,
+            'total_score_counts': jsonify_counter(total_score_counts),
+            'num_packages_scored': sum(total_score_counts.values()),
+            'num_packages': num_packages,
+            }
 
-    return _collapse(data, [_extract_publisher, _extract_dataset])
+def openness_for_organization(organization=None, include_sub_organizations=False):
+    org = model.Group.get(organization)
+    if not org:
+        raise p.toolkit.ObjectNotFound
 
-
-def _collapser(data, key_func=None):
-    result = {}
-    for row in data:
-        if key_func:
-            row = key_func(row)
-        key = row[0]
-        if len(row) == 2:
-            row = row[1]
-        else:
-            row = row[1:]
-        if key in result:
-            result[key].append(row)
-        else:
-            result[key] = [row]
-    return result
-
-
-def _collapse(data, fn):
-    first = _collapser(data, fn[0])
-    result = {}
-    for k, v in first.items():
-        result[k] = _collapser(v, fn[1])
-    return result
-
-
-def _extract_publisher(row):
-    """
-    Extract publisher info from a query result row.
-    Each row should be a list of the form [name, title, value, Resource]
-
-    Returns a list of the form:
-
-        [<publisher tuple>, <other elements in row tuple>]
-    """
-    publisher = row[2]
-    parts = publisher.split('[')
-    try:
-        pub_parts = (parts[0].strip(), parts[1][:-1])
-    except:
-        raise Exception('Could not get the ID from %r' % publisher)
+    if not include_sub_organizations:
+        orgs = [org]
     else:
-        return [pub_parts] + [row[0], row[1], row[3]]
+        orgs = lib.go_down_tree(org)
+
+    context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+    score_counts = Counter()
+    rows = []
+    num_packages = 0
+    for org in orgs:
+        pkgs = org.packages()
+        num_packages += len(pkgs)
+        for pkg in pkgs:
+            try:
+                qa = p.toolkit.get_action('qa_package_openness_show')(context, {'id': pkg.id})
+            except p.toolkit.ObjectNotFound:
+                log.warning('No QA info for package %s', pkg.name)
+                return
+            rows.append(OrderedDict((
+                ('dataset_name', pkg.name),
+                ('dataset_title', pkg.title),
+                ('dataset_notes', lib.dataset_notes(pkg)),
+                ('organization_name', org.name),
+                ('organization_title', org.title),
+                ('openness_score', qa['openness_score']),
+                ('openness_score_reason', qa['openness_score_reason']),
+                )))
+            score_counts[qa['openness_score']] += 1
+
+    total_stars = sum([k*v for k, v in score_counts.items() if k])
+    num_pkgs_with_stars = sum([v for k, v in score_counts.items()
+                               if k is not None])
+    average_stars = round(float(total_stars) / num_pkgs_with_stars, 1) \
+                    if num_pkgs_with_stars else 0.0
+
+    return {'table': rows,
+            'score_counts': jsonify_counter(score_counts),
+            'total_stars': total_stars,
+            'average_stars': average_stars,
+            'num_packages_scored': len(rows),
+            'num_packages': num_packages,
+            }
 
 
-def _extract_dataset(row):
-    """
-    Extract dataset info form a query result row.
-    Each row should be a list of the form [name, title, Resource]
+def openness_report_combinations():
+    for organization in lib.all_organizations(include_none=True):
+        for include_sub_organizations in (False, True):
+            yield {'organization': organization,
+                   'include_sub_organizations': include_sub_organizations}
 
-    Returns a list of the form:
 
-        [(name, title), Resource]
-    """
-    return [(row[0], row[1]), row[2]]
+openness_report_info = {
+    'name': 'openness',
+    'title': 'Openness (Five Stars)',
+    'description': 'Datasets graded on Tim Berners Lees\' Five Stars of Openness - openly licensed, openly accessible, structured, open format, URIs for entities, linked.',
+    'option_defaults': OrderedDict((('organization', None),
+                                    ('include_sub_organizations', False),
+                                    )),
+    'option_combinations': openness_report_combinations,
+    'generate': openness_report,
+    'template': 'report/openness.html',
+    }
+
+
+def jsonify_counter(counter):
+    # When counters are stored as JSON, integers become strings. Do the conversion
+    # here to ensure that when you run the report the first time, you get the same
+    # response as subsequent times that go through the cache/JSON.
+    return dict((str(k) if k is not None else k, v) for k, v in counter.items())
+
+
