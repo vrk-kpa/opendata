@@ -116,7 +116,7 @@ msgid "If you do not yet have a user account, register now from the link below."
 msgstr "Har du inte ännu registrerat dig? Du behöver att användarkonto för att publicera dataset."
 
 msgid "<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" href=\"/en/user/password\">Forgot your password?</a>"
-msgstr "<a href=\"/sv/user/login\">Logga dig in</a> <a class=\"pull-right\" href=\"/fi/user/password\">Glömt lösenordet?</a>"
+msgstr "<a href=\"/sv/user/login\">Logga dig in</a> <a class=\"pull-right\" href=\"/sv/user/password\">Glömt lösenordet?</a>"
 
 msgid "Not yet a member of an organization?"
 msgstr "Är du inte ännu en medlem av en organisation?"
