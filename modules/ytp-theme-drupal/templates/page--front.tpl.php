@@ -140,7 +140,11 @@
     <?php
       }
     ?>
-
+         <?php if (!empty($page['user_guide'])): ?>
+      <div id="user-guide" >
+        <?php print render($page['user_guide']); ?>
+      </div>
+    <?php endif; ?>
 
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
@@ -159,6 +163,7 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
 
+        <div class="row">
         <div class="col-md-6">
      <div class="panel panel-default">
         <div class="panel-heading">
@@ -176,7 +181,7 @@
                 $latest_datasets = $json["result"]['results'];
             ?>
 
-            <ul class="dataset-list">
+            <ul class="dataset-title-list">
             <?php foreach ($latest_datasets as $dataset): ?>
                 <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
             <?php endforeach ?>
@@ -201,13 +206,14 @@
                 $latest_datasets = $json["result"]['results'];
             ?>
 
-            <ul class="dataset-list">
+            <ul class="dataset-title-list">
             <?php foreach ($latest_datasets as $dataset): ?>
                 <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
             <?php endforeach ?>
             </ul>
         </div>
      </div>
+    </div>
     </div>
       <?php print render($page['content']); ?>
     </section>

@@ -17,7 +17,10 @@ function frontpage_tutorial_ctools_plugin_api($module = NULL, $api = NULL) {
  * Implements hook_views_api().
  */
 function frontpage_tutorial_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
+  return array("api" => "3.0",
+    'path' => drupal_get_path('module', 'frontpage_tutorial'),
+    'template path' => drupal_get_path('module', 'frontpage_tutorial'),);
+
 }
 
 /**
@@ -34,5 +37,7 @@ function frontpage_tutorial_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }
+
