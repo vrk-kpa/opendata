@@ -115,14 +115,14 @@ msgstr "I Avoindata.fi kan du söka öppna dataset och publicera dina egna datas
 msgid "If you do not yet have a user account, register now from the link below."
 msgstr "Har du inte ännu registrerat dig? Du behöver att användarkonto för att publicera dataset."
 
-msgid '<a href="/en/user/login">Sign in</a> <a class="pull-right" href="/en/user/password">Forgot your password?</a>'
-msgstr '<a href="/sv/user/login">Logga dig in</a> <a class="pull-right" href="/fi/user/password">Glömt lösenordet?</a>'
+msgid '<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" href=\"/en/user/password\">Forgot your password?</a>'
+msgstr '<a href=\"/sv/user/login\">Logga dig in</a> <a class=\"pull-right\" href=\"/fi/user/password\">Glömt lösenordet?</a>'
 
 msgid 'Not yet a member of an organization?'
 msgstr "Är du inte ännu en medlem av en organisation?"
 
-msgid 'Join an organization in the <a href="/data/en/organization">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data.'
-msgstr 'Gå med i en organisation på <a href="/data/sv/organization">Dataproducenter</a>-sidan och publicera data, verktyg och instruktioner. Du kan även publicera applikationer och tjänster som utnyttjar öppen data.'
+msgid 'Join an organization in the <a href=\"/data/en/organization\">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data.'
+msgstr 'Gå med i en organisation på <a href=\"/data/sv/organization\">Dataproducenter</a>-sidan och publicera data, verktyg och instruktioner. Du kan även publicera applikationer och tjänster som utnyttjar öppen data.'
 
 msgid 'Publish data'
 msgstr "Publicera data"
