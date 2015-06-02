@@ -392,7 +392,7 @@
   - cron
 
 - name: Ensure report cron job
-  cron: name="qa" minute="0" hour="7" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
+  cron: name="report" minute="0" hour="7" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
