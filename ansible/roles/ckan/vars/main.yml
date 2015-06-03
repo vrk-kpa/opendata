@@ -66,6 +66,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cde3c21a8b8612b88ef61b47488465b2926a6840.patch", file: "fix-template-error-in-resources.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/eb59ffde3a702077ffbc8de8e3ff425b29974d6c.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9497130896c969982a3b8b5e9685295428fd7d2b.patch", file: "enable-url-quoting"} # pullreq in ckan master
-
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/85ef19c73faa7e841e9e0b94ec1044dbb6fee389.patch", file: "enable-celery-queues"} # ytp specific
 service_database_enabled: false
 auto_author_enabled: true
