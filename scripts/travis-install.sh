@@ -46,7 +46,7 @@ mkdir -p /etc/ckan/default
 # Configure Solr (and Jetty)
 sudo sh -c 'echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nVERBOSE=yes\nJAVA_HOME=$JAVA_HOME" > /etc/default/jetty'
 
-sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
+sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 
 sudo service jetty restart
 
