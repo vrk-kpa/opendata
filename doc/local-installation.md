@@ -132,7 +132,7 @@ To install ansible, we need dependancies:
     
 Then we install ansible with pip:
 
-    sudo pip install ansible==1.9.1
+    sudo pip install ansible==1.6.10
     
 ### Generate SSH keys for ansible
 
