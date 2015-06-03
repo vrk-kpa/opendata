@@ -18,10 +18,7 @@ setup(
     namespace_packages=['ckanext', 'ckanext.ytp'],
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'polib',
-        'rdflib'
-    ],
+    install_requires=[],
     message_extractors={
         'ckanext': [
             ('**.py', 'python', None),
