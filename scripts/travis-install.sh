@@ -28,7 +28,7 @@ virtualenv --no-site-packages $VIRTUAL_ENVIRONMENT
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
 export PIP_USE_MIRRORS=true
-pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.3#egg=ckan'
+pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.2.1#egg=ckan'
 pip install --use-mirrors -r $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt --download-cache=$HOME/cache
 pip install --use-mirrors -r test_requirements.txt --download-cache=$HOME/cache
 
@@ -46,7 +46,7 @@ mkdir -p /etc/ckan/default
 # Configure Solr (and Jetty)
 sudo sh -c 'echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nVERBOSE=yes\nJAVA_HOME=$JAVA_HOME" > /etc/default/jetty'
 
-sudo cp $SOURCE_DIRECTORY/ansible/roles/jetty/templates/schema.xml.j2 /etc/solr/conf/schema.xml
+sudo cp /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema-2.0.xml /etc/solr/conf/schema.xml
 
 sudo service jetty restart
 
