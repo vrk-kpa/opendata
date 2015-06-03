@@ -28,7 +28,7 @@ virtualenv --no-site-packages $VIRTUAL_ENVIRONMENT
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
 export PIP_USE_MIRRORS=true
-pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.2.1#egg=ckan'
+pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.3#egg=ckan'
 pip install --use-mirrors -r $VIRTUAL_ENVIRONMENT/src/ckan/requirements.txt --download-cache=$HOME/cache
 pip install --use-mirrors -r test_requirements.txt --download-cache=$HOME/cache
 
