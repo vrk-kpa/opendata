@@ -19,6 +19,7 @@ var paths = {
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
     fonts: 'src/fonts/**/*',
+    scripts: 'src/scripts/**/*',
     bootstrap: 'src/less/upstream_bootstrap',
     root: 'src'
   },
@@ -76,6 +77,10 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(paths.dist+'/fonts'));
 });
 
+gulp.task('scripts', function() {
+    return gulp.src(paths.src.scripts)
+        .pipe(gulp.dest(paths.dist+'/scripts'));
+});
 asdfa = 2;
 
 gulp.task('bootstrap', function(){
@@ -102,7 +107,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'config', 'templates', 'static_pages', 'images', 'less', 'fonts'],
+              ['bootstrap', 'vendor', 'config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
               callback);
 });
 
