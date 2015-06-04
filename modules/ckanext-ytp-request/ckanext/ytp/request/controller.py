@@ -80,6 +80,7 @@ class YtpRequestController(base.BaseController):
     def show(self, member_id):
         """ Controller for viewing member request """
         try:
+            check_access('member_request_show', {'member': member_id})
             member = model.Session.query(model.Member).get(member_id)
             if not member or member.state != 'pending':
                 abort(404, _('Request not found'))

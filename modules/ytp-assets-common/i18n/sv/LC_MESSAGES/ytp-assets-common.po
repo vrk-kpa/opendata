@@ -31,7 +31,7 @@ msgstr "Framsida"
 msgid "Data Repositories"
 msgstr "Dataset"
 
-msgid "Data Producers"
+msgid "Organizations"
 msgstr "Organisationer"
 
 msgid "Publish Datasets"

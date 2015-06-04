@@ -122,7 +122,9 @@ function ytp_theme_preprocess_page(&$variables) {
 
     // Map CKAN-style 'came_from' redirects to use Drupal's 'destination' param
     if (isset($_GET['came_from'])) {
-      $loginform_query_string = array('destination' => $_GET['came_from']);
+      $url_parts = '/(?:[^\/]+:\/\/)?(?:[^\/]+)?(.*)/';
+      preg_match($url_parts, $_GET['came_from'], $matches);
+      $loginform_query_string = array('destination' => $matches[1]);
       $loginform['#action'] = url('user/login', array('query' => $loginform_query_string));
     }
 
@@ -430,3 +432,4 @@ function ytp_theme_process_element(&$element, &$form_state){
     }
   }
 }
+

@@ -18,8 +18,8 @@
 
     $class = '';
     $href = '/data/' . $lang . '/organization';
-    if ( ($uri ==  $href || $site_section == t("Data Producers")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href="' . $href . '">' . t("Data Producers") . '</a></li>';
+    if ( ($uri ==  $href || $site_section == t("Organizations")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href="' . $href . '">' . t("Organizations") . '</a></li>';
 
     $class = '';
     $href = '/' . $lang . '/publish';

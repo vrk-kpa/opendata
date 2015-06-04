@@ -1596,9 +1596,10 @@ msgstr "If there is a service charge, you must supply either the pricing informa
 msgid "At least one of the main target groups must to be selected"
 msgstr "At least one of the main target groups must to be selected"
 
+#: ckanext/ytp/organizations/templates/organization/organization_not_found.html:9
 #: ckanext/ytp/service/plugin.py:201
-msgid "Organization does not exists"
-msgstr "Organization does not exists"
+msgid "Organization does not exist"
+msgstr "Organization does not exist"
 
 #: ckanext/ytp/service/plugin.py:203
 msgid "Invalid organization type"
