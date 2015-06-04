@@ -23,11 +23,11 @@ class ArchiverPlugin(p.SingletonPlugin):
     # IDomainObjectModification / IResourceUrlChange
 
     def notify(self, entity, operation=None):
-        if not toolkit.check_ckan_version('2.3'):
+        if not p.toolkit.check_ckan_version('2.3'):
             self._notify(entity, operation)
 
     def notify_after_commit(self, entity, operation=None):
-        if toolkit.check_ckan_version('2.3'):
+        if p.toolkit.check_ckan_version('2.3'):
             self._notify(entity, operation)
 
     def _notify(self, entity, operation=None):
