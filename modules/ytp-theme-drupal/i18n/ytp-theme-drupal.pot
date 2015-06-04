@@ -100,7 +100,7 @@ msgstr ""
 msgid "Interoperability Tools"
 msgstr ""
 
-msgid "Currently service has @dataset_count datasets and @organization_count organizations."
+msgid "Currently service has @dataset_count datasets."
 msgstr ""
 
 msgid "Getting started"

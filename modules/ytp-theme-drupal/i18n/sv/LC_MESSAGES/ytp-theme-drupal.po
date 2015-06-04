@@ -98,13 +98,13 @@ msgid "Most popular datasets"
 msgstr "Mest populär dataseten"
 
 msgid "Open Data datasets"
-msgstr "Öppen Data dataseten"
+msgstr "Öppna data"
 
 msgid "Interoperability Tools"
 msgstr "Interoperabilitetsverktyg"
 
-msgid "Currently service has @dataset_count datasets and @organization_count organizations."
-msgstr "För närvarande tjänsten har @dataset_count dataseten och @organization_count organisationer."
+msgid "Currently service has @dataset_count datasets."
+msgstr "För närvarande tjänsten har @dataset_count dataseten."
 
 msgid "Getting started"
 msgstr "Kom igång"

@@ -22,14 +22,11 @@
             $json = drupal_json_decode($result->data);
             $dataset_count = $json["result"]['count'];
 
-            $url = "https://localhost/data/api/3/action/organization_list";
-            $result = drupal_http_request($url, $options);
-            $json = drupal_json_decode($result->data);
-            $organization_count = count($json['result'])
+
 
         ?>
         <div class="info-footer">
-            <?php print t('Currently service has @dataset_count datasets and @organization_count organizations.', array('@dataset_count' => $dataset_count, '@organization_count' => $organization_count)) ?>
+            <?php print t('Currently service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
         </div>
 
     </div>

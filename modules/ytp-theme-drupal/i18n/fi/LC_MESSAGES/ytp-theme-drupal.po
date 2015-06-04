@@ -99,13 +99,13 @@ msgid "Most popular datasets"
 msgstr "Suosituimmat tietoaineistot"
 
 msgid "Open Data datasets"
-msgstr "Avoindata -tietoaineistot"
+msgstr "Avoimet tietoainestot"
 
 msgid "Interoperability Tools"
 msgstr "Yhteentoimivuuden aineistot"
 
-msgid "Currently service has @dataset_count datasets and @organization_count organizations."
-msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa, @organization_count organisaatiota."
+msgid "Currently service has @dataset_count datasets."
+msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa."
 
 msgid "Getting started"
 msgstr "Rekisteröidy julkaistaksesi tietoaineistoja"
