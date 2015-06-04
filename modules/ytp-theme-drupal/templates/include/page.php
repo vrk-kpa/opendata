@@ -119,11 +119,7 @@
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>
     <section<?php print $content_column_class; ?>>
-      <?php
-        if (isset($ytp_custom_top)) {
-          print $ytp_custom_top;
-        }
-      ?>
+
 
     <?php
         #if we are on the front page
