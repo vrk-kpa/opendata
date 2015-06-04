@@ -450,6 +450,10 @@ label.radio-inline:after, label.checkbox-inline:after{
     font-size: 16px;
     font-weight: 500;
     .text-overflow();
+    // IE9 Fix
+    &:before{
+      content: '';
+    }
     i[class^="icon-"]{
       font-size: 19px;
       color: @btn-default-color;
