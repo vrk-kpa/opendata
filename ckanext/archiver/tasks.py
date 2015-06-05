@@ -27,7 +27,7 @@ HTTP_ERROR_CODES = {
     httplib.METHOD_NOT_ALLOWED: "405 Method Not Allowed"
 }
 
-DEFAULT_DATA_FORMATS = [ 
+DEFAULT_DATA_FORMATS = [
     'csv',
     'text/csv',
     'txt',
@@ -39,7 +39,7 @@ DEFAULT_DATA_FORMATS = [
     'xml',
     'xls',
     'application/ms-excel',
-    'application/vnd.ms-excel',    
+    'application/vnd.ms-excel',
     'application/xls',
     'text/xml',
     'tar',
@@ -68,11 +68,23 @@ class CkanError(Exception):
     pass
 
 def _clean_content_type(ct):
-    # For now we should remove the charset from the content type and 
+    # For now we should remove the charset from the content type and
     # handle it better, differently, later on.
     if 'charset' in ct:
         return ct[:ct.index(';')]
     return ct
+
+
+def _set_user_agent_string(headers):
+    '''
+    Update the passed headers object with a `User-Agent` key, if there is a
+    USER_AGENT_STRING option in settings.
+    '''
+    ua_str = settings.USER_AGENT_STRING
+    if ua_str is not None:
+        headers['User-Agent'] = ua_str
+    return headers
+
 
 def download(context, resource, url_timeout=30,
              max_content_length=settings.MAX_CONTENT_LENGTH,
@@ -85,9 +97,9 @@ def download(context, resource, url_timeout=30,
     If there is an error performing the download then
     DownloadError is raised.
     '''
-    
+
     log = update.get_logger()
-    
+
     url = resource['url']
 
     if (resource.get('resource_type') == 'file.upload' and
@@ -104,7 +116,7 @@ def download(context, resource, url_timeout=30,
 
     resource_format = resource['format'].lower()
     ct = _clean_content_type( headers.get('content-type', '').lower() )
-    cl = headers.get('content-length') 
+    cl = headers.get('content-length')
 
     resource_changed = False
 
@@ -120,25 +132,26 @@ def download(context, resource, url_timeout=30,
 
     # make sure resource content-length does not exceed our maximum
     if cl and int(cl) >= max_content_length:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is too large to archive
         log.warning('Resource too large to download: %s > max (%s). Resource: %s %r',
                  cl, max_content_length, resource['id'], url)
         raise ChooseNotToDownload("Content-length %s exceeds maximum allowed value %s" %
-            (cl, max_content_length))                                                      
+            (cl, max_content_length))
 
     # check that resource is a data file
     if data_formats != 'all' and not (resource_format in data_formats or ct.lower() in data_formats):
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         log.info('Resource wrong type to download: %s / %s. Resource: %s %r',
                  resource_format, ct.lower(), resource['id'], url)
-        raise ChooseNotToDownload('Of content type "%s" which is not a recognised data file for download' % ct) 
+        raise ChooseNotToDownload('Of content type "%s" which is not a recognised data file for download' % ct)
 
     # get the resource and archive it
+    request_headers = _set_user_agent_string({})
     try:
-        res = requests.get(url, timeout=url_timeout)
+        res = requests.get(url, timeout=url_timeout, headers=request_headers)
     except requests.exceptions.ConnectionError, e:
         raise DownloadError('Connection error: %s' % e)
     except requests.exceptions.HTTPError, e:
@@ -168,17 +181,17 @@ def download(context, resource, url_timeout=30,
     #
     # TODO: remove partially archived file in this case
     if length >= max_content_length:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is too large to archive
         log.warning('Resource found to be too large to archive: %s > max (%s). Resource: %s %r',
                  length, max_content_length, resource['id'], url)
-        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" % 
-            max_content_length)         
+        raise ChooseNotToDownload("Content-length after streaming reached maximum allowed value of %s" %
+            max_content_length)
 
     # zero length usually indicates a problem too
     if length == 0:
-        if resource_changed: 
+        if resource_changed:
             _update_resource(context, resource, log)
         # record fact that resource is zero length
         log.warning('Resource found was zero length - not archiving. Resource: %s %r',
@@ -219,7 +232,7 @@ def update(context, data):
     try:
         data = json.loads(data)
         context = json.loads(context)
-        result = _update(context, data) 
+        result = _update(context, data)
         return result
     except ArchiverError, e:
         log.error('Archive error during update: %s\nResource: %s',
@@ -301,6 +314,7 @@ def link_checker(context, data):
 
     Returns a json dict of the headers of the request
     """
+
     log = update.get_logger()
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
@@ -309,7 +323,7 @@ def link_checker(context, data):
     error_message = ''
     headers = {}
 
-    # Find out if it has unicode characters, and if it does, quote them 
+    # Find out if it has unicode characters, and if it does, quote them
     # so we are left with an ascii string
     url = data['url']
     try:
@@ -328,14 +342,15 @@ def link_checker(context, data):
         raise LinkInvalidError("Invalid url scheme")
     # check that query string is valid
     # see: http://trac.ckan.org/ticket/318
-    # TODO: check urls with a better validator? 
+    # TODO: check urls with a better validator?
     #       eg: ll.url (http://www.livinglogic.de/Python/url/Howto.html)?
     elif any(['/' in parsed_url.query, ':' in parsed_url.query]):
         raise LinkInvalidError("Invalid URL")
     else:
+        request_headers = _set_user_agent_string({})
         # Send a head request
         try:
-            res = requests.head(url, timeout=url_timeout)
+            res = requests.head(url, timeout=url_timeout, headers=request_headers)
             headers = res.headers
         except httplib.InvalidURL, ve:
             log.error("Could not make a head request to %r, error is: %s. Package is: %r. This sometimes happens when using an old version of requests on a URL which issues a 301 redirect. Version=%s", url, ve, data.get('package'), requests.__version__)
@@ -383,7 +398,7 @@ def archive_resource(context, resource, log, result=None, url_timeout = 30):
         shutil.move(result['saved_file'], saved_file)
         os.chmod(saved_file, 0644) # allow other users to read it
         log.info('Archived resource as: %s', saved_file)
-        
+
         # update the resource object: set cache_url and cache_last_updated
         if context.get('cache_url_root'):
             cache_url = urlparse.urljoin(
@@ -417,7 +432,7 @@ def _save_resource(resource, response, max_file_size, chunk_size = 1024*16):
 
     #tmp_resource_file = os.path.join(settings.ARCHIVE_DIR, 'archive_%s' % os.getpid())
     fd, tmp_resource_file_path = tempfile.mkstemp()
- 
+
     with open(tmp_resource_file_path, 'wb') as fp:
         for chunk in response.iter_content(chunk_size = chunk_size, decode_unicode=False):
             fp.write(chunk)
@@ -438,18 +453,19 @@ def _update_resource(context, resource, log):
     Use CKAN API to update the given resource.
     If cannot update, records this fact in the task_status table.
 
-    Returns the content of the response. 
-    
+    Returns the content of the response.
+
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/resource_update'
     resource['last_modified'] = datetime.now().isoformat()
     post_data = json.dumps(resource)
-    res = requests.post(
-        api_url, post_data,
-        headers = {'Authorization': context['apikey'],
-                   'Content-Type': 'application/json'}
-    )
-    
+    request_headers = {
+        'Authorization': context['apikey'],
+        'Content-Type': 'application/json'
+    }
+    request_headers = _set_user_agent_string(request_headers)
+    res = requests.post(api_url, post_data, headers=request_headers)
+
     if res.status_code == 200:
         log.info('Resource updated OK: %s', resource['id'])
         return res.content
@@ -466,16 +482,17 @@ def update_task_status(context, data, log):
     """
     Use CKAN API to update the task status. The data parameter
     should be a dict representing one row in the task_status table.
-    
-    Returns the content of the response. 
+
+    Returns the content of the response.
     """
     api_url = urlparse.urljoin(context['site_url'], 'api/action') + '/task_status_update'
     post_data = json.dumps(data)
-    res = requests.post(
-        api_url, post_data,
-        headers = {'Authorization': context['site_user_apikey'],
-                   'Content-Type': 'application/json'}
-    )
+    request_headers = {
+        'Authorization': context['site_user_apikey'],
+        'Content-Type': 'application/json'
+    }
+    request_headers = _set_user_agent_string(request_headers)
+    res = requests.post(api_url, post_data, headers=request_headers)
     if res.status_code == 200:
         log.info('Task status updated OK')
         return res.content

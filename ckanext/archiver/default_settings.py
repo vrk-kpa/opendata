@@ -10,7 +10,7 @@ MAX_CONTENT_LENGTH = int(config.get('ckanext-archiver.max_content_length', 50000
 
 # Only files with these mime-types or extensions will be archived.
 # To archive all files, set DATA_FORMATS = 'all'
-DEFAULT_DATA_FORMATS = [ 
+DEFAULT_DATA_FORMATS = [
     'csv',
     'text/csv',
     'txt',
@@ -22,7 +22,7 @@ DEFAULT_DATA_FORMATS = [
     'xml',
     'xls',
     'application/ms-excel',
-    'application/vnd.ms-excel',    
+    'application/vnd.ms-excel',
     'application/xls',
     'text/xml',
     'tar',
@@ -35,3 +35,5 @@ DEFAULT_DATA_FORMATS = [
     'application/octet-stream'
 ]
 DATA_FORMATS = config.get['ckanext-archiver.data_formats'].split() if 'ckan-archiver.data_formats' in config else DEFAULT_DATA_FORMATS
+
+USER_AGENT_STRING = config.get('ckanext.archiver.user_agent_string', None)
