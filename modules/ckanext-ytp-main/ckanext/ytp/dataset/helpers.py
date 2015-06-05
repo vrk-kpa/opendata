@@ -72,19 +72,19 @@ def calculate_dataset_stars(dataset_id):
     if not is_plugin_enabled('qa'):
         return (0, '', '')
     try:
-       context = {'model': model, 'session': model.Session}
-       qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
+        context = {'model': model, 'session': model.Session}
+        qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
     except NotFound:
-      return (0, '', '')
+        return (0, '', '')
     if not qa:
-      return (0, '', '')
+        return (0, '', '')
     return (qa['openness_score'],
-          qa['openness_score_reason'],
-          qa['updated'])
+            qa['openness_score_reason'],
+            qa['updated'])
 
 
 def is_plugin_enabled(plugin_name):
-     return plugin_name in config.get('ckan.plugins', '').split()
+    return plugin_name in config.get('ckan.plugins', '').split()
 
 
 def get_upload_size():
