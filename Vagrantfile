@@ -10,6 +10,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  config.ssh.insert_key = false
   config.vm.define "ytp" do |ytp|
     ytp.vm.box = "precise64"
     ytp.vm.box_url = "http://files.vagrantup.com/precise64.box"
