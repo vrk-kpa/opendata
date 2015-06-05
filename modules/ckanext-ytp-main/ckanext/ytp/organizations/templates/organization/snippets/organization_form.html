@@ -30,6 +30,18 @@
 
     {{ ytp_form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
 
+    {% if data.get('state', 'none') == 'deleted' %}
+        <div class="control-group">
+          <label for="field-state" class="control-label">{{ _('State') }}</label>
+          <div class="controls">
+            <select id="field-state" name="state">
+              <option value="active" {% if data.get('state', 'none') == 'active' %} selected="selected" {% endif %}>{{ _('Active') }}</option>
+              <option value="deleted" {% if data.get('state', 'none') == 'deleted' %} selected="selected" {% endif %}>{{ _('Deleted') }}</option>
+            </select>
+          </div>
+        </div>
+    {% endif %}
+
     {# YTP fields: #}
 
     {# Parent organization selector (from ckanext-hierarchy) #}
