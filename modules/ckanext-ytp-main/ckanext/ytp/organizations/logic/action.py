@@ -130,10 +130,14 @@ def group_tree_section(context, data_dict):
             'Group type is "%s" not "%s" that %s' %
             (group.type, group_type, how_type_was_set))
 
-    # An optimal solution would be a recursive SQL query just for this, but this is fast enough for <10k organizations
-    roots, children = _fetch_all_organizations(force_root_ids=[group.id])
-    return _group_tree_branch(roots[0], highlight_group_name=group.name, children=children.get(group.id, []))
-
+    if group.state == u'active':
+        # An optimal solution would be a recursive SQL query just for this, but this is fast enough for <10k organizations
+        roots, children = _fetch_all_organizations(force_root_ids=[group.id])
+        return _group_tree_branch(roots[0], highlight_group_name=group.name, children=children.get(group.id, []))
+    else:
+        group.subtree_dataset_count = 0
+        group.custom_extras = {}
+        return _group_tree_branch(group)
 
 def _group_tree_branch(root_group, highlight_group_name=None, children=[]):
     '''Returns a branch of the group tree hierarchy, rooted in the given group.
