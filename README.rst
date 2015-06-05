@@ -82,14 +82,18 @@ Configuration
         to.
         MAX_CONTENT_LENGTH: the maximum size (in bytes) of files to archive.
         DATA_FORMATS: the data formats that are archived.
+        USER_AGENT_STRING: the `User-Agent` header used when the archiver makes requests
 
-   Alternatively, if you are running CKAN with this patch:
-   https://github.com/datagovuk/ckan/commit/83dcaf3d875d622ee0cd7f3c1f65ec27a970cd10
-   then you can instead add the settings to the CKAN config file as normal:
+    Alternatively, if you are running CKAN with this patch:
+    https://github.com/datagovuk/ckan/commit/83dcaf3d875d622ee0cd7f3c1f65ec27a970cd10
+    then you can instead add the settings to the CKAN config file as normal:
 
-    * ckanext-archiver.archive_dir
-    * ckanext-archiver.max_content_length
-    * ckanext-archiver.data_formats  (space separated)
+    ::
+
+        ckanext-archiver.archive_dir
+        ckanext-archiver.max_content_length
+        ckanext-archiver.data_formats  (space separated)
+        ckanext.archiver.user_agent_string
 
 
 Using Archiver
