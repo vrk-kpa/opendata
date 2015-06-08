@@ -42,7 +42,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'sidebar_second',
+        'region' => 'user_guide',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -14,
@@ -82,8 +82,8 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'disabled',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ytp_theme',
         'weight' => -13,
       ),
@@ -122,7 +122,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'sidebar_second',
+        'region' => 'user_guide',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -13,

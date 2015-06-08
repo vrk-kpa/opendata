@@ -136,7 +136,6 @@ h4 {
       margin-top: 0;
       padding: @line-height-computed (@grid-gutter-width/2);
       padding-left: (@grid-gutter-width/2 - 6px);
-      background-color: @background-hilight-primary;
       border-left: 6px solid @ytp-brand-primary;
       border-radius: @border-radius-large;
 
@@ -296,27 +295,7 @@ h4 {
       }
     }
   }
-  .tutorial-register {
-    margin-top: 10px;
-    font-size: 20px;
-    text-align: center;
-    color: @block-color;
-    border-radius: 5px;
-    a {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      color: @block-color;
-    }
-    background-color: @block-color-hilight;
-  }
-  .tutorial-signin {
-    margin-top: 10px;
-    a {
-      display: block;
-      padding-top: 4px;
-    }
-  }
+
 }
 
 .control-full.error-block {
@@ -391,4 +370,102 @@ label.radio-inline:after, label.checkbox-inline:after{
 
 .alert a{
   font-weight: normal;
+}
+
+#search-box{
+  background-color: darken(@background-hilight, 2%);
+  padding: 10px;
+  height: 240px;
+  .info{
+    margin: 0 -10px -10px -10px;
+    background-color: darken(@background-hilight, 7%);
+    height: 125px;
+    h3{
+      margin-bottom: 0;
+      padding: 10px 10px 0 10px;
+    }
+    .info-footer{
+      padding: 10px;
+    }
+  }
+}
+
+#tutorial-box{
+  .tutorial-box-content{
+    padding: 10px;
+    background-color: darken(@background-hilight, 2%);
+    height: 240px;
+    .tutorial-register {
+      margin-top: 10px;
+      font-size: 20px;
+      text-align: center;
+      color: @block-color;
+      border-radius: 5px;
+      a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        color: @block-color;
+      }
+      background-color: @block-color-hilight;
+    }
+    .tutorial-signin {
+      margin-top: 10px;
+
+    }
+  }
+}
+
+
+.article-list-header{
+  color: black;
+  font-size: 20px;
+  padding: 10px 0 10px 30px;
+  margin-left: 25px;
+  background-color: @background-hilight-primary;
+}
+.article-list{
+  background-color: @background-hilight-primary;
+  .row{
+    padding: 10px 10px 10px 10px;
+  }
+  .left{
+    padding-right: 10px;
+  }
+  .right{
+    padding-left: 10px;
+  }
+  .article{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+.dataset-title-list{
+  padding-left: 10px;
+  color: @ytp-brand-primary;
+  li{
+    list-style: none;
+    font-size: 16px;
+    font-weight: 500;
+    .text-overflow();
+    // IE9 Fix
+    &:before{
+      content: '';
+    }
+    i[class^="icon-"]{
+      font-size: 19px;
+      color: @btn-default-color;
+    }
+  }
+}
+
+#user-guide{
+  margin: 40px 0;
+  .views-row{
+    .col-xs-12, .col-sm-12 {
+      margin: 10px 0;
+    }
+  }
 }

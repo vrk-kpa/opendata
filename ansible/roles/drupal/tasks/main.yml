@@ -213,12 +213,14 @@
     - 3.6.6.2
   tags:
   - drupal
+  - ckeditor
 
 - name: Create ckeditor directory
   file: path="{{ drupal_root }}/sites/all/libraries" state=directory
   when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
   tags:
     - drupal
+    - ckeditor
 
 - name: Unzip ckeditor
   unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries" copy=no
@@ -227,6 +229,7 @@
    - 3.6.6.2
   tags:
     - drupal
+    - ckeditor
 
 - name: Install wysiwyg module
   shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg" && cp -r "{{ cache_path }}/ytp-drupal-wysiwyg" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
