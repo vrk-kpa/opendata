@@ -32,7 +32,7 @@ msgstr "Etusivu"
 msgid "Data Repositories"
 msgstr "Tietoaineistot"
 
-msgid "Data Producers"
+msgid "Organizations"
 msgstr "Organisaatiot"
 
 msgid "Publish Datasets"

@@ -65,6 +65,16 @@
   - non-local
   - common
 
+- name: sshd configuration file update
+  template: src=sshd_config.j2 dest="/etc/ssh/sshd_config" 
+    mode=0644 owner=root group=root
+    backup=yes validate='/usr/sbin/sshd -T -f %s'
+  tags:
+  - non-local
+  - common
+  notify:
+  - restart sshd
+
 - name: Ensure ansible requirements
   action: apt pkg="{{ item }}" state=latest
   with_items:

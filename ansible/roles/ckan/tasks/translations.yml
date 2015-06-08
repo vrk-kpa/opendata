@@ -6,6 +6,13 @@
   - translations
   - ckan
 
+- name: Install polib
+  pip: name=polib virtualenv="{{ virtual_environment }}" state=latest
+  tags:
+  - translations
+  - ckan
+  - translation_table
+
 - name: Copy CKAN translations
   copy: src="i18n/{{ item }}/LC_MESSAGES/ckan.po" dest="{{ translation_cache_path }}/ckan-{{ ckan_version }}.{{ item }}.po"
   register: ckan_translations
@@ -83,17 +90,5 @@
   - ckan
   - translations
 
-- name: Install polib
-  apt: pkg="python-polib" state=latest
-  tags:
-  - translations
-  - ckan
-  - translation_table
 
-- name: Create translation page
-  script: translation_table.py "{{ cache_path }}" "{{ www_root }}/resources/translation-table.html" "{{ virtual_environment }}/src/ckan/ckan/i18n/!LANGUAGE!/LC_MESSAGES/ckan.po" "{{ cache_path }}/translations/ckan-{{ ckan_version }}.!LANGUAGE!.po" "fi,sv"
-  tags:
-  - translations
-  - ckan
-  - translation_table
 

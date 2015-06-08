@@ -13,7 +13,7 @@ Displays a tree of organzations
             {% endif %}
         <div class="organization-row">
             {% if show_dataset_count == true %}
-                <span class="badge">{{ h.get_dataset_count(node.name) }}</span>&nbsp;
+                <span class="badge">{{ node.dataset_count }}</span>&nbsp;
             {% endif %}
             <a href="{{ url_prefix }}{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
         </div>

@@ -140,6 +140,14 @@
   - ckan
   - spatial
 
+
+- name: Upgrade pip
+  pip: name=pip virtualenv="{{ virtual_environment }}" state=latest
+  tags:
+    - ckan
+    - qa
+    - pip
+
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
   tags:
@@ -147,25 +155,25 @@
   - spatial
 
 - name: Install requirements
-  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
 
 - name: Install spatial requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
 
 - name: Install archiver requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
 
 - name: Install qa requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  pip: requirements="{{ virtual_environment }}/src/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
@@ -187,7 +195,7 @@
   - modules
 
 - name: Ensure SqlAlchemy version
-  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall'
+  pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall --timeout=30'
   tags:
   - ckan
   - spatial
