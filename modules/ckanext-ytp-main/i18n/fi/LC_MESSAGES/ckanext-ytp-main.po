@@ -1522,11 +1522,26 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:8
 msgid ""
 " CKAN Organizations are used to create, manage and publish collections of "
-"datasets. Users can have different roles within an Organization, depending "
-"on their level of authorisation to create, edit and publish. Some of the "
-"organizations listed here are automatically created. To create a public "
-"administration organization, please contact admins. "
-msgstr "CKAN organisaatioita käytetään tietoaineistojen ja aineistokokoelmien luomiseen, hallinnointiin ja julkaisemiseen. Käyttäjillä voi olla organisaatioissa eri rooleja ja eri tasoisia käyttöoikeuksia tietoaineistojen luomiseen, muokkaamiseen ja julkaisemiseen. Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä ylläpitoon."
+"datasets. "
+msgstr "CKAN organisaatioita käytetään tietoaineistojen ja aineistokokoelmien luomiseen, hallinnointiin ja julkaisemiseen."
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:13
+msgid ""
+" Users can have different roles within an Organization, depending on their "
+"level of authorisation to create, edit and publish. "
+msgstr "Käyttäjillä voi olla organisaatioissa eri rooleja ja eri tasoisia käyttöoikeuksia tietoaineistojen luomiseen, muokkaamiseen ja julkaisemiseen."
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
+msgid ""
+" Some of the organizations listed here are automatically created. To create a"
+" public administration organization, please contact admins. "
+msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä ylläpitoon."
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23
+msgid ""
+" The number next to each organization depicts the total amount of datasets "
+"per organization and includes suborganizations. "
+msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 msgid "My Organization"
