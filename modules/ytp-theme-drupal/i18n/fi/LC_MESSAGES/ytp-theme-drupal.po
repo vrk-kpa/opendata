@@ -135,4 +135,4 @@ msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</
 msgstr "Siirry julkaisemaan dataa <a href=\"/fi/publish\">Julkaise aineistoja</a> -sivulta."
 
 msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
-msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu portaalin <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentaatioon.</a>"
+msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu palvelun <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentaatioon.</a>"
