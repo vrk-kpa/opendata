@@ -131,8 +131,8 @@ msgstr "Julkaise tietoaineistoja"
 msgid "Publish data, tools and guidelines for others to use. You can also publish your applications."
 msgstr "Tarjoa dataa sekä yhteentoimivuuden kuvauksia ja ohjeita muiden käyttöön. Voit myös julkaista toteuttamiasi sovelluksia."
 
-msgid "Start publishing data from the Publish data page."
-msgstr "Siirry julkaisemaan dataa Julkaise dataa -sivulta."
+msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</a> page."
+msgstr "Siirry julkaisemaan dataa <a href=\"/fi/publish\">Julkaise aineistoja</a> -sivulta."
 
-msgid "If you are interested in using a programmable interface, our API documentation will provide an introduction."
-msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu portaalin API-dokumentaatioon."
+msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
+msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu palvelun <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentaatioon.</a>"
