@@ -42,6 +42,7 @@ stopwaitsecs = 600
 ; so it starts first
 priority=998
 
+
 [program:celery_bulk]
 
 command={{ virtual_environment }}/bin/paster --plugin=ckan celeryd run -q bulk --config={{ ckan_ini }}
@@ -82,7 +83,6 @@ stopwaitsecs = 600
 ; if rabbitmq is supervised, set its priority higher
 ; so it starts first
 priority=998
-
 
 [program:celerybeat]
 
