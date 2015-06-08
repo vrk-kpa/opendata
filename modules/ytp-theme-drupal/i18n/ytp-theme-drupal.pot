@@ -127,8 +127,8 @@ msgstr ""
 msgid "Publish data, tools and guidelines for others to use. You can also publish your applications."
 msgstr ""
 
-msgid "Start publishing data from the Publish data page."
+msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</a> page."
 msgstr ""
 
-msgid "If you are interested in using a programmable interface, our API documentation will provide an introduction."
+msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
 msgstr ""
