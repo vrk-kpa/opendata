@@ -62,8 +62,8 @@
                 <h1 class="media-heading"><?php print t('Publish data') ?></h1>
 
                 <p><?php print t('Publish data, tools and guidelines for others to use. You can also publish your applications.') ?></p>
-                <p><?php print t('Start publishing data from the Publish data page.') ?></p>
-                <p><?php print t('If you are interested in using a programmable interface, our API documentation will provide an introduction.') ?></p>
+                <p><?php print t('Start publishing data from the <a href="/en/publish">Publish Datasets</a> page.') ?></p>
+                <p><?php print t('If you are interested in using a programmable interface, our <a href="https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan">API documentation</a> will provide an introduction.') ?></p>
             </div>
         </div>
 <?php

@@ -130,8 +130,8 @@ msgstr "Publicera data"
 msgid "Publish data, tools and guidelines for others to use. You can also publish your applications."
 msgstr "Publicera data, verktyg och instruktioner för andras bruk. Du kan även publicera dina egna applikationer."
 
-msgid "Start publishing data from the Publish data page."
-msgstr "Börja publicera data genom att gå på Publicera data -sidan."
+msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</a> page."
+msgstr "Börja publicera data genom att gå på <a href=\"/sv/publish\">Publicera Dataseten</a> -sidan."
 
-msgid "If you are interested in using a programmable interface, our API documentation will provide an introduction."
-msgstr "Om du är intresserad av att använda en API, ger vår API-dokumentation en inledning på hur du kommer igång."
+msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
+msgstr "Om du är intresserad av att använda en API, ger vår <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentation</a> en inledning på hur du kommer igång."
