@@ -40,14 +40,13 @@ def _update_visits(table_name, item_id, visit_date, visits):
     s = select([func.count(id_col)]).where(
                id_col == item_id)\
                 .where(visit_date_col == visit_date)
-
     connection = model.Session.connection()
     count = connection.execute(s).fetchone()
     if count and count[0]:
         connection.execute(stats.update()\
             .where(id_col == item_id)\
-            .values(visits=visits,
-                    visit_date=visit_date))
+            .where('visit_date' == visit_date)
+            .values(visits=visits))
     else:
         values = {id_col_name: item_id,
                   'visits': visits,
