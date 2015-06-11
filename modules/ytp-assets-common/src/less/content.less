@@ -374,12 +374,16 @@ label.radio-inline:after, label.checkbox-inline:after{
 
 #search-box{
   background-color: darken(@background-hilight, 2%);
-  padding: 10px;
-  height: 240px;
+  padding: 20px;
+  height: 250px;
+  h1{
+    font-weight: 600;
+  }
   .info{
-    margin: 0 -10px -10px -10px;
+    margin: 0 0 0 -20px;
     background-color: darken(@background-hilight, 7%);
     height: 125px;
+    width: 545px;
     h3{
       margin-bottom: 0;
       padding: 10px 10px 0 10px;
@@ -392,11 +396,15 @@ label.radio-inline:after, label.checkbox-inline:after{
 
 #tutorial-box{
   .tutorial-box-content{
-    padding: 10px;
+    padding: 20px;
     background-color: darken(@background-hilight, 2%);
-    height: 240px;
+    height: 250px;
+    h1{
+      font-weight: 600;
+      font-size: 17px;
+    }
     .tutorial-register {
-      margin-top: 10px;
+      margin-top: 20px;
       font-size: 20px;
       text-align: center;
       color: @block-color;
@@ -413,6 +421,9 @@ label.radio-inline:after, label.checkbox-inline:after{
       margin-top: 10px;
 
     }
+    .media-left{
+      padding-right: 20px;
+    }
   }
 }
 
@@ -426,6 +437,7 @@ label.radio-inline:after, label.checkbox-inline:after{
 }
 .article-list{
   background-color: @background-hilight-primary;
+
   .row{
     padding: 10px 10px 10px 10px;
   }
@@ -439,16 +451,23 @@ label.radio-inline:after, label.checkbox-inline:after{
     background-color: white;
     padding: 15px;
     margin-bottom: 10px;
+    h2{
+      margin-bottom: 15px;
+    }
+    .links.list-inline{
+      margin-top: 20px;
+    }
   }
 }
 
 .dataset-title-list{
-  padding-left: 10px;
+  padding-left: 0;
   color: @ytp-brand-primary;
   li{
     list-style: none;
     font-size: 16px;
     font-weight: 500;
+    line-height: 30px;
     .text-overflow();
     // IE9 Fix
     &:before{
@@ -456,13 +475,18 @@ label.radio-inline:after, label.checkbox-inline:after{
     }
     i[class^="icon-"]{
       font-size: 19px;
-      color: @btn-default-color;
+      color: @ytp-brand-primary;
+      margin-right: 5px;
     }
   }
 }
 
 #user-guide{
-  margin: 40px 0;
+  margin: 20px 0 40px 0;
+  padding: 0 5px;
+  .media-heading{
+    font-weight: 600;
+  }
   .views-row{
     .col-xs-12, .col-sm-12 {
       margin: 10px 0;
