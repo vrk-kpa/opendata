@@ -1541,7 +1541,7 @@ msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat lu
 msgid ""
 " The number next to each organization depicts the total amount of datasets "
 "per organization and includes suborganizations. "
-msgstr ""
+msgstr "Numero organisaation vieressä kuvaa tietoainestojen summaa organisaatiosta ja sen alaorganisaatioista."
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
 msgid "My Organization"
