@@ -90,3 +90,48 @@ msgid ""
 "By clicking Create new account, you agree with our <a href=\"/en/terms\" "
 "target=\"_blank\">Terms of Service</a>."
 msgstr "Genom att klicka på Skapa nytt konto godkänner du våra <a href=\"/sv/terms\" target=\"_blank\">användarvillkor</a>."
+
+msgid "Latest datasets"
+msgstr "Senaste dataseten"
+
+msgid "Most popular datasets"
+msgstr "Mest populär dataseten"
+
+msgid "Open Data datasets"
+msgstr "Öppna data"
+
+msgid "Interoperability Tools"
+msgstr "Interoperabilitetsverktyg"
+
+msgid "Currently service has @dataset_count datasets."
+msgstr "För närvarande tjänsten har @dataset_count dataseten."
+
+msgid "Getting started"
+msgstr "Kom igång"
+
+msgid "Opendata.fi allows you to find open datasets, and to publish and manage your own."
+msgstr "I Avoindata.fi kan du söka öppna dataset och publicera dina egna dataset."
+
+msgid "If you do not yet have a user account, register now from the link below."
+msgstr "Har du inte ännu registrerat dig? Du behöver att användarkonto för att publicera dataset."
+
+msgid "<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" href=\"/en/user/password\">Forgot your password?</a>"
+msgstr "<a href=\"/sv/user/login\">Logga dig in</a> <a class=\"pull-right\" href=\"/sv/user/password\">Glömt lösenordet?</a>"
+
+msgid "Not yet a member of an organization?"
+msgstr "Är du inte ännu en medlem av en organisation?"
+
+msgid "Join an organization in the <a href=\"/data/en/organization\">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data."
+msgstr "Gå med i en organisation på <a href=\"/data/sv/organization\">Dataproducenter</a>-sidan och publicera data, verktyg och instruktioner. Du kan även publicera applikationer och tjänster som utnyttjar öppen data."
+
+msgid "Publish data"
+msgstr "Publicera data"
+
+msgid "Publish data, tools and guidelines for others to use. You can also publish your applications."
+msgstr "Publicera data, verktyg och instruktioner för andras bruk. Du kan även publicera dina egna applikationer."
+
+msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</a> page."
+msgstr "Börja publicera data genom att gå på <a href=\"/sv/publish\">Publicera Dataseten</a> -sidan."
+
+msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
+msgstr "Om du är intresserad av att använda en API, ger vår <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentation</a> en inledning på hur du kommer igång."
