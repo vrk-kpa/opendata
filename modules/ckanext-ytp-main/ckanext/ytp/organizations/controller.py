@@ -76,6 +76,8 @@ class YtpOrganizationController(OrganizationController):
                 'user': c.user or c.author
             }
             check_access('group_show', context, {'id': id})
+        except NotFound:
+            abort(404, _('Group not found'))
         except NotAuthorized:
             g = model.Session.query(model.Group).filter(model.Group.name == id).first()
             if g is None or g.state != 'active':
