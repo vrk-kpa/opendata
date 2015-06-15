@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set visits =  h.get_visits_for_resource(res.url) %}
+{% set visits =  h.get_visits_for_resource(res.id) %}
 {% block head_extras -%}
   {{ super() }}
   {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
