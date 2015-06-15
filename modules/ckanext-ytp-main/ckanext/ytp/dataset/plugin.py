@@ -17,7 +17,8 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
-    sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_datasets_five_star_rating, get_upload_size, get_license
+    sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
+    get_visits_for_resource, get_visits_for_dataset
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
@@ -202,7 +203,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         # Mapping of new dataset is needed since, remapping on read overwrites it
         m.connect('add dataset', '/dataset/new', controller='package', action='new')
-
+        m.connect('/dataset/{id}.{format}', action='read', controller=controller)
         m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
@@ -461,11 +462,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_remaining_facet_item_count': get_remaining_facet_item_count,
                 'sort_facet_items_by_name': sort_facet_items_by_name,
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
-                'calculate_datasets_five_star_rating': calculate_datasets_five_star_rating,
+                'calculate_dataset_stars': calculate_dataset_stars,
                 'is_sysadmin': self._is_sysadmin,
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
-                'get_license': get_license}
+                'get_license': get_license,
+                'get_visits_for_resource': get_visits_for_resource,
+                'get_visits_for_dataset': get_visits_for_dataset}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -490,6 +493,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             content_types = pkg_dict['vocab_content_type']
             if content_types:
                 pkg_dict['vocab_content_type'] = [content_type.lower() for content_type in content_types]
+
+        if 'res_format' in pkg_dict:
+            res_formats = pkg_dict['res_format']
+            if res_formats:
+                pkg_dict['res_format'] = [res_format.lower() for res_format in res_formats]
 
         return pkg_dict
 

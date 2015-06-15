@@ -10,6 +10,7 @@
             <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
         </form>
     </div>
+    </div>
     <div class="info">
         <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data datasets")?></a></h3>
         <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Interoperability+Tools"><?php print t("Interoperability Tools")?></a></h3>
@@ -30,4 +31,4 @@
         </div>
 
     </div>
-</div>
+

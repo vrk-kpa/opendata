@@ -17,6 +17,9 @@ body.toolbar, body.toolbar-drawer {
 .navbar-inverse {
   background-color: transparent;
   border-color: transparent;
+  .navbar-collapse{
+    border-color: transparent;
+  }
 }
 
 .navbar-top {
@@ -143,7 +146,7 @@ body.toolbar, body.toolbar-drawer {
   background-repeat: repeat-x;
   min-height: 40px;
   margin: 0 -(@grid-gutter-width / 2);
-  margin-bottom: (@line-height-computed * 2 / 3);
+  margin-bottom: (@line-height-computed);
   .navbar-brand {
     padding: 10px;
   }
@@ -197,6 +200,7 @@ body.toolbar, body.toolbar-drawer {
   .navbar-collapse {
     padding-left: 0;
     padding-right: 0;
+
   }
 }
 
@@ -204,8 +208,8 @@ body.toolbar, body.toolbar-drawer {
   background-color: @body-color-background;
   background-image: none;
   border: 2px solid @block-color-hilight;
-  border-radius: @button-border-radius;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 0;
+  //box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: @block-color-hilight;
   padding: 2px;
   height: 54px;
@@ -228,16 +232,16 @@ body.toolbar, body.toolbar-drawer {
     }
     button.search-submit {
       border: none;
-      margin-right: 2px;
+      //margin-right: 2px;
       width: 60px;
-      height: 44px;
+      height: 50px;
       float: right;
       background: @block-color-hilight;
       color: @block-color;
-      border-radius: 10px;
+      //border-radius: 10px;
       position: absolute;
-      right: 1px;
-      top: 3px;
+      right: 0;
+      top: 0;
       i.icon-search {
         font-size: 28px;
         width: 25px;

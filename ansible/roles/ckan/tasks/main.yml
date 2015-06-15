@@ -14,6 +14,13 @@
   - packages
   - ckan
 
+- name: Upgrade setuptools
+  pip: name=setuptools state=latest
+  tags:
+    - ckan
+    - packages
+    - pip
+
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
@@ -155,13 +162,13 @@
   - spatial
 
 - name: Install requirements
-  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
 
 - name: Install spatial requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}"  extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - spatial
@@ -240,6 +247,42 @@
   shell: ./bin/paster --plugin=ckanext-ytp-comments initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
+
+- name: Initialize archiver database
+  shell: ./bin/paster --plugin=ckanext-archiver archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
+- name: Initialize QA database
+  shell: ./bin/paster --plugin=ckanext-qa qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
+- name: Initialize report database
+  shell: ./bin/paster --plugin=ckanext-report report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
+- name: Initialize analytics database
+  shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  when: google_analytics != false
+  tags:
+  - ckan
+  - google-analytics
+
+- name: Copy credentials token
+  copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"
+  when: google_analytics != false
+  tags:
+    - ckan
+    - google-analytics
+
+- name: Add analytics fetching to cron
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  when: google_analytics != false
+  tags:
+    - ckan
+    - google-analytics
 
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
@@ -357,6 +400,12 @@
 
 - name: Ensure qa cron job
   cron: name="qa" minute="0" hour="6" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+  tags:
+  - ckan
+  - cron
+
+- name: Ensure report cron job
+  cron: name="report" minute="0" hour="7" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
