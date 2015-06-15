@@ -161,7 +161,7 @@ def get_visits_for_dataset(id):
 
     for t in resource_visits:
         if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], t[1])
+            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
                           if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
         elif t[1] is not None:
             download_count = t[1]
