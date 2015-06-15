@@ -66,17 +66,25 @@ def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
         return sorted_items
 
 
-def calculate_datasets_five_star_rating(dataset_id):
-    from ckanext.qa.reports import five_stars
+def calculate_dataset_stars(dataset_id):
+    from ckan.logic import get_action, NotFound
+    from ckan import model
+    if not is_plugin_enabled('qa'):
+        return (0, '', '')
+    try:
+        context = {'model': model, 'session': model.Session}
+        qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
+    except NotFound:
+        return (0, '', '')
+    if not qa:
+        return (0, '', '')
+    return (qa['openness_score'],
+            qa['openness_score_reason'],
+            qa['updated'])
 
-    qa = five_stars(dataset_id)
 
-    stars = 0
-    for resource in qa:
-        if resource['openness_score'] > stars:
-            stars = resource['openness_score']
-
-    return int(stars)
+def is_plugin_enabled(plugin_name):
+    return plugin_name in config.get('ckan.plugins', '').split()
 
 
 def get_upload_size():

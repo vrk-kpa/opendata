@@ -9,8 +9,14 @@
 - name: Restart Fetch
   supervisorctl: name=ckan_fetch_consumer state=restarted
 
-- name: Restart Celery
-  supervisorctl: name=celery state=restarted
+- name: Restart Celery (default queue)
+  supervisorctl: name=celery_celery state=restarted
+
+- name: Restart Celery (bulk queue)
+  supervisorctl: name=celery_bulk state=restarted
+
+- name: Restart Celery (priority queue)
+  supervisorctl: name=celery_priority state=restarted
 
 - name: Restart Celerybeat
   supervisorctl: name=celerybeat state=restarted

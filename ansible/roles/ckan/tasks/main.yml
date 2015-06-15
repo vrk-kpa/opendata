@@ -166,6 +166,11 @@
   - ckan
   - spatial
 
+- name: Install report requirements
+  pip: requirements="{{ virtual_environment }}/src/ckanext-report/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w'
+  tags:
+  - ckan
+
 - name: Install archiver requirements
   pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
@@ -240,6 +245,15 @@
   shell: ./bin/paster --plugin=ckanext-ytp-comments initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
+
+- name: Initialize archiver database
+  shell: ./bin/paster --plugin=ckanext-archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+
+- name: Initialize QA database
+  shell: ./bin/paster --plugin=ckanext-qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+
+- name: Initialize report database
+  shell: ./bin/paster --plugin=ckanext-report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
 
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
@@ -357,6 +371,12 @@
 
 - name: Ensure qa cron job
   cron: name="qa" minute="0" hour="6" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+  tags:
+  - ckan
+  - cron
+
+- name: Ensure report cron job
+  cron: name="qa" minute="0" hour="7" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
