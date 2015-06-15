@@ -99,10 +99,10 @@ def get_license(license_id):
     return None
 
 
-def get_visits_for_resource(url):
-    from ckanext.googleanalytics.dbutil import get_resource_visits_for_url
+def get_visits_for_resource(id):
+    from ckanext.googleanalytics.dbutil import get_resource_visits_for_id
 
-    visits = get_resource_visits_for_url(url)
+    visits = get_resource_visits_for_id(id)
     count = 0
     visit_list = []
 

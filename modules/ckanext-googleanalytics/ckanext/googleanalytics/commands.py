@@ -378,10 +378,6 @@ class LoadAnalytics(CkanCommand):
                         # dataset /mysite.com & /www.mysite.com ...
 
                         val = 0
-                        #if package in packages:
-                        #    if package == u'/dataset/valtion-budjettitalous':
-                        #        pprint(package)
-                        #        pprint(packages[package])
                         if package in packages and "visits" in packages[package]:
                             if visit_date in packages[package]['visits']:
                                 val += packages[package]["visits"][visit_date]
