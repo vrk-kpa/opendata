@@ -3,6 +3,7 @@
 # 
 # Translators:
 # jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
