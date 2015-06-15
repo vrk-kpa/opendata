@@ -494,6 +494,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             if content_types:
                 pkg_dict['vocab_content_type'] = [content_type.lower() for content_type in content_types]
 
+        if 'res_format' in pkg_dict:
+            res_formats = pkg_dict['res_format']
+            if res_formats:
+                pkg_dict['res_format'] = [res_format.lower() for res_format in res_formats]
+
         return pkg_dict
 
     # IActions #
