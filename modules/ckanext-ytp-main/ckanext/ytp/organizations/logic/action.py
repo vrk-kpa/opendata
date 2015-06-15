@@ -141,6 +141,7 @@ def group_tree_section(context, data_dict):
         group.custom_extras = {}
         return _group_tree_branch(group)
 
+
 def _group_tree_branch(root_group, highlight_group_name=None, children=[]):
     '''Returns a branch of the group tree hierarchy, rooted in the given group.
 
