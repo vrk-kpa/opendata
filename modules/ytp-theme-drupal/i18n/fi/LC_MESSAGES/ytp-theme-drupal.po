@@ -117,7 +117,7 @@ msgid "If you do not yet have a user account, register now from the link below."
 msgstr "Jos sinulla ei ole vielä omaa käyttäjätunnusta,  rekisteröidy nyt alla olevasta linkistä."
 
 msgid "<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" href=\"/en/user/password\">Forgot your password?</a>"
-msgstr "<a href=\"/fi/user/login\">Kirjaudu sisään</a> <a class=\"pull-right\" href=\"/fi/user/password\">Tunnus tai salasana hukassa?</a>"
+msgstr "<a href=\"/fi/user/login\">Kirjaudu</a> <a class=\"pull-right\" href=\"/fi/user/password\">Tunnus tai salasana hukassa?</a>"
 
 msgid "Not yet a member of an organization?"
 msgstr "Etkö ole vielä organisaation jäsen?"
