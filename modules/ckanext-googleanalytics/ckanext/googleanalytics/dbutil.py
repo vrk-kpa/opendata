@@ -118,6 +118,19 @@ def get_resource_visits_for_url(url):
         count = []
     return count
 
+def get_resource_visits_for_id(id):
+    connection = model.Session.connection()
+    count = connection.execute(
+        text("""SELECT visit_date, visits FROM resource_stats, resource
+        WHERE resource_id = resource.id
+        AND resource.id = :id and visit_date >= :date_filter
+        UNION ALL
+        SELECT null, sum(visits) from resource_stats, resource
+        WHERE resource_id = resource.id
+        AND resource.id = :id"""), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    if count == [(None, None)]:
+        count = []
+    return count
 
 def get_top_packages(limit=20):
     items = []
