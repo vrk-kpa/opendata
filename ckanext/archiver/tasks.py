@@ -475,7 +475,7 @@ def _update_resource(context, resource, log):
         except:
             content = '<could not read request content to discover error>'
         log.error('ckan failed to update resource, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\nresource: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, resource, res, res.error, post_data, api_url))
+                        % (res.status_code, content, context, resource, res, res.reason, post_data, api_url))
         raise CkanError('ckan failed to update resource, status_code (%s), error %s'  % (res.status_code, content))
 
 def update_task_status(context, data, log):
@@ -502,6 +502,6 @@ def update_task_status(context, data, log):
         except:
             content = '<could not read request content to discover error>'
         log.error('ckan failed to update task_status, status_code (%s), error %s. Maybe the API key or site URL are wrong?.\ncontext: %r\ndata: %r\nres: %r\nres.error: %r\npost_data: %r\napi_url: %r'
-                        % (res.status_code, content, context, data, res, res.error, post_data, api_url))
+                        % (res.status_code, content, context, data, res, res.reason, post_data, api_url))
         raise CkanError('ckan failed to update task_status, status_code (%s), error %s'  % (res.status_code, content))
 
