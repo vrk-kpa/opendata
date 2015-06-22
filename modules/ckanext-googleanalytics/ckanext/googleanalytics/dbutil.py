@@ -45,7 +45,7 @@ def _update_visits(table_name, item_id, visit_date, visits):
     if count and count[0]:
         connection.execute(stats.update()\
             .where(id_col == item_id)\
-            .where('visit_date' == visit_date)
+            .where(visit_date_col == visit_date)
             .values(visits=visits))
     else:
         values = {id_col_name: item_id,
