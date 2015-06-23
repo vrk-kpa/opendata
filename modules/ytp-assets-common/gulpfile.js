@@ -41,6 +41,7 @@ gulp.task('less', function () {
     }))
     .pipe(prefixer('last 2 versions', 'ie 9'))
     .pipe(template({timestamp: timestamp}))
+    .pipe(MinCSS({keepBreaks: false}))
     .pipe(concat("main.css"))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/styles'));
