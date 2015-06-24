@@ -1,0 +1,23 @@
+{% import 'macros/form.html' as form %}
+{% resource "datarequest/edit_comment.js" %}
+
+<a name="form"></a>
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" action enctype="multipart/form-data">
+
+  {% block errors %}{{ form.errors(errors_summary) }}{% endblock %}
+
+  <input type="hidden" id="datarequest-id" name="datarequest-id" value="{{ datarequest.get('id', '') }}" />
+  <input type="hidden" id="comment-id" name="comment-id" value="" />
+
+  <div class="control-full control-large control-group {{ 'error' if errors and errors.get('Comment') }} editor">
+    <textarea id="field-comment" name="comment" cols="20" rows="3" placeholder="{{ _('Add a new Comment') }}">{{ comment if comment else '' }}</textarea>
+    <span class="editor-info-block">{{ _('You can reference datasets by adding their URLs') }}</span>
+  </div>
+
+  <div class="comment-actions">
+    <button id="datarequest-comment-add" class="btn" type="submit" name="add">{{ _('Add Comment') }}</button>
+    <button id="datarequest-comment-update-discard" class="btn btn-danger hide" name="discard">{{ _('Discard Changes') }}</button>
+    <button id="datarequest-comment-update" class="btn hide" type="submit" name="update">{{ _('Update Comment') }}</button>
+  </div>
+
+</form>

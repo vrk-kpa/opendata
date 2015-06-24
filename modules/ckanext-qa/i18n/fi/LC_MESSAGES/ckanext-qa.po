@@ -1,0 +1,69 @@
+# Translations template for ckanext-qa.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-qa project.
+# 
+# Translators:
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-11-11 10:05+0200\n"
+"PO-Revision-Date: 2014-11-11 08:31+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/qa/html.py:26
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:14
+msgid "Available under an open license."
+msgstr "Tarjolla avoimella lisenssillä."
+
+#: ckanext/qa/html.py:27
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:15
+msgid "Available as structured data (eg. Excel instead of a scanned table)."
+msgstr "Tarjolla rakenteisassa muodossa. (Esim. Excel skannatun taulukon sijaan)."
+
+#: ckanext/qa/html.py:28
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:16
+msgid "Uses non-proprietary formats (e.g., CSV instead of Excel)."
+msgstr "Käyttää avointa formaattia (esim. CSV Excelin sijaan)."
+
+#: ckanext/qa/html.py:29
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:17
+msgid "Uses URIs to identify things, so that people can link to it."
+msgstr "Käyttää URI:a asioiden identifioimiseen, jotta ihmiset voivat linkittää niihin."
+
+#: ckanext/qa/html.py:30
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:18
+msgid "Linked to other data to provide context."
+msgstr "Linkitetty toiseen dataan luomaan kontekstia."
+
+#: ckanext/qa/plugin.py:159
+msgid "Not Rated"
+msgstr "Ei arvioitu"
+
+#: ckanext/qa/templates_new/qa/base.html:3
+msgid "Quality Assurance"
+msgstr "Laadun varmistus"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:14
+msgid "Resource Quality"
+msgstr "Aineistolinkin laatu"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:16
+msgid "Rating"
+msgstr "Arvostelu"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "Hide rating info"
+msgstr "Piiloita arvostelutiedot"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "About these ratings…"
+msgstr "Lisätietoa arvosteluista"

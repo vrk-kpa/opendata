@@ -167,23 +167,7 @@
   - ckan
   - spatial
 
-- name: Install spatial requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}"  extra_args='--exists-action=w --timeout=30'
-  tags:
-  - ckan
-  - spatial
 
-- name: Install archiver requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
-  tags:
-  - ckan
-  - qa
-
-- name: Install qa requirements
-  pip: requirements="{{ virtual_environment }}/src/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
-  tags:
-  - ckan
-  - qa
 
 - name: Install python package to support SNI in requests
   pip: name=ndg-httpsclient virtualenv="{{ virtual_environment }}"
@@ -200,6 +184,24 @@
   tags:
   - ckan
   - modules
+
+- name: Install spatial requirements
+  pip: requirements="{{ cache_path }}/ckanext-spatial/pip-requirements.txt" virtualenv="{{ virtual_environment }}"  extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - spatial
+
+- name: Install archiver requirements
+  pip: requirements="{{ cache_path }}/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - qa
+
+- name: Install qa requirements
+  pip: requirements="{{ cache_path }}/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - qa
 
 - name: Ensure SqlAlchemy version
   pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall --timeout=30'

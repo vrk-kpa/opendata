@@ -1,0 +1,34 @@
+{% extends "page.html" %}
+
+{% block title %}{{ _('Reports') }} - {{ super() }}{% endblock %}
+
+{% block breadcrumb_content %}
+  {{ h.build_nav('reports', _('Reports')) }}
+{% endblock %}
+
+{% block primary_content_inner %}
+  <div class="dataset">
+    <div class="row">
+      {% for report in reports %}
+        {% if loop.index0%4==0 %}<div class="clearfix visible-lg"></div>{% endif %}
+        {% if loop.index0%3==0 %}<div class="clearfix visible-md clearfix-ie7"></div>{% endif %}
+        {% if loop.index0%2==0 %}<div class="clearfix visible-sm"></div>{% endif %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          {% set report_url=h.url_for('report', report_name=report.name, **h.report__explicit_default_options(report.name)) %}
+          <div class="report-summary">
+            <a href="{{ report_url }}" class="report-header">
+              <div class="report-title">{{ report.title }}</div>
+            </a>
+            <div class="report-body">
+              <div class="report-description">{{ report.description }}</div>
+              <div class="clearfix clearfix-ie7"> &nbsp;</div>
+              <a class="view-report-link" href="{{ report_url }}">
+                {{ _('View Report') }}
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock%}

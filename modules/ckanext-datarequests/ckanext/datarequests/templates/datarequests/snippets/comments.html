@@ -1,0 +1,17 @@
+<h2 class="page-heading">
+  {% block page_heading %}
+    {{ _('Current Discussion') }}
+  {% endblock %}
+</h2>
+
+{% if comments %}
+  <ul class="activity" data-module="activity-stream" data-module-more="False" data-module-context="user" data-module-id="" data-module-offset="0">
+    {% for comment in comments %}
+      {% snippet "datarequests/snippets/comment_item.html", comment=comment, datarequest=datarequest %}
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="empty">
+    {{ _('This data request has not been commented yet') }}
+  </p>
+{% endif %}

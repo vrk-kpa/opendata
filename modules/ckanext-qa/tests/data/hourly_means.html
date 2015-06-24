@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>
+Hourly Means inquiry form
+</title>
+
+<!-- static_header.html -->
+
+<script src="/scripts/open_win.js" type="text/javascript"></script>
+<script src="/spry/SpryAccordion.js" type="text/javascript"></script>
+<script src="/spry/lightbox.js" type="text/javascript"></script>
+
+<!--<meta name="description" content="National Geomagnetic Service, geomagnetic data products,
+models and services to industry and academia, educational resources">
+
+<meta name="keywords" content="geomagnetism, magnetic field, magnetic, magnetism, geomagnetic,
+earth's magnetic field, modelling, model, chart, space weather, hazard, tool, compass, navigation,
+grid magnetic angle, magnetogram, magnetometer, fluxgate, magnetic survey, observatories,
+observation, absolute observations, data, reversals, gic, geomagnetically induced currents,
+aurora, northern lights, pulsations, induction coil, satellite drag, world data centre,
+world data center, geomag, directional drilling, dynamo, magnetosphere, ionosphere,
+magnetospheric, ionospheric, geophysics, declination"> -->
+<link rel="stylesheet" href="/styles/bgs.css" type="text/css" />
+<link rel="stylesheet" href="/styles/lightbox.css" type="text/css" />
+<noscript>
+<h4>Warning!</h4>
+Javascript is disabled on this browser.<br />
+Javascript must be enabled for this website to display and function correctly.
+</noscript>
+
+
+</head>
+
+<body>
+<div align="center" id="centeringBox">
+<div id="widthBox">
+
+<!-- writes the banner -->
+<div id="header"><span style="float:left;width:10px;margin:0px;padding:0px;">
+<!-- start of shortcuts -->
+<a name="pageTop" title="Go to the top of this page" id="pageTop" accesskey="3" tabindex="-1"></a>
+<!-- site navigation -->
+<a accesskey="1" tabindex="1" href="/home.html" title="Open the BGS Home Page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Open the BGS Home Page (ALT+1, ENTER)" /></a><br />
+<a accesskey="2" tabindex="2" href="/About/home.html" title="Open the About BGS page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Open the About BGS page (ALT+2, ENTER)" /></a><br />
+<!-- page navigation-->
+<a tabindex="3" href="#pageTop" title="Go to the top of this page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Go to the top of this page (ALT+3, ENTER)" /></a><br />
+<a tabindex="4" href="#pageNav" title="Go to the navigation for this page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Go to the navigation for this page (ALT+4, ENTER)" /></a><br />
+<a tabindex="5" href="#PageContent" title="Go to the main content of this page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Go to the main content of this page (ALT+5, ENTER)" /></a><br />
+<a tabindex="6" href="#pageFoot" title="Go to the foot of this page"><img src="/images/f.gif" width="10" height="12" border="0" alt="Go to the foot of this page (ALT+6, ENTER)" /></a><br />
+
+<!-- searches -->
+<a accesskey="7" tabindex="7" title="Open the BGS Sitemap" href="/search/sitemap.cfm"><img src="/images/f.gif" width="10" height="12" border="0" alt="Open the BGS Sitemap (ALT+7, ENTER)" /></a><br />
+<a accesskey="8" tabindex="8" title="Open the BGS Search pages" href="/search/home.html"><img src="/images/f.gif" width="10" height="12" border="0" alt="Open the BGS Search pages (ALT+8, ENTER)" /></a><br />
+<a accesskey="9" tabindex="9" title="Find a contact at BGS" href="/contacts/home.html"><img src="/images/f.gif" width="10" height="16" border="0" alt="Find a contact at BGS (ALT+9, ENTER)" /></a><br />
+
+<!-- end of shortcuts -->
+</span>
+
+<img src="/images/bgs_Banner_foreground.png" alt="Aurora over the North of Scotland." name="bgs_Banner" width="946" height="112" border="0" usemap="#m_bgs_Banner" id="bgs_Banner" title="HOME" /><map name="m_bgs_Banner" id="m_bgs_Banner"><area shape="rect" coords="0,0,950,112" href="http://www.bgs.ac.uk" target="_blank" alt="HOME" title="HOME" /></map>
+</div>
+<div id="navigation"><a name="pageNav" title="Go to the main content of this page" id="pageNav" accesskey="4"></a>
+<div id="navLinks">
+	&nbsp;&nbsp;
+	<a href="/" class="navLink">Home</a>
+	&nbsp;|&nbsp;
+	<a href="/research/home.html" class="navLink">Research</a>
+	&nbsp;|&nbsp;
+	<a href="/operations/home.html" class="navLink">Operations</a>
+	&nbsp;|&nbsp;
+	<a href="/data_service/home.html" class="navLink">Data &amp; Services</a>
+	&nbsp;|&nbsp;	
+	<a href="/education/home.html" class="navLink">Education</a>
+
+</div>
+<div id="navLinks2">
+	<a href="/contactus/staff.html" class="navLink">Contact us</a>
+	&nbsp;&nbsp;
+</div>
+
+<div id="qSearch">
+    <form action="http://www.bgs.ac.uk/i/search/geomagnetism/geomagnetism_search.cfm" method="get" name="qSearchForm" id="qSearchForm">
+    <input name="qFileType" id="qFileType" type="hidden" value="" />
+    <input name="qCollection" id="qCollection" type="hidden" value="" />
+    <input name="qSearchText" id="qSearchText" type="text" value="Search" onclick="this.value=''" />
+    <input name="qSearchBtn" id="qSearchBtn" type="submit" title="Search" value="" />
+    </form>
+</div>    
+
+<br style="clear:both;" />
+</div>     <!-- navigation -->
+
+
+
+<div id="breadCrumbs">
+	<a href="/welcome.html" class="breadCrumbLink">Home</a>
+&nbsp;&raquo;&nbsp;
+<a href="/data_service/home.html" class="breadCrumbLink">Data Services</a>
+&nbsp;&raquo;&nbsp;
+<a href="/data_service/data/home.html" class="breadCrumbLink">Data</a>
+&nbsp;&raquo;&nbsp;
+<a href="/data_service/data/hourly_means.html" class="breadCrumbLink">Hourly Means</a>
+</div>     <!-- breadcrumbs -->
+
+<div id="leftCol">
+	<div class="sectionBox">
+		<div class="sectionHead"><strong><a href="/data_service/home.html" target="_self" class="menuTitle">Data and Services</a></strong></div>
+		<div class="sectionBody">
+			<div id="Accordion1" class="Accordion" tabindex="0">
+				<div class="AccordionPanel AccordionPanelOpen">
+					<div class="AccordionPanelTab">Data</div>
+					<div class="AccordionPanelContent">
+						<ul>
+							<li> <a href="/data_service/data/annual_means.shtml" target="_self" class="AccordionLink">Annual Means</a></li>
+							<li> <a href="/data_service/data/yearbooks/yearbooks.html" target="_self" class="AccordionLink">Yearbooks &amp; Articles</a></li>
+							<li> <a href="/data_service/data/surveydata.html" target="_self" class="AccordionLink">Global Survey Data</a></li>
+							<li><a href="/data_service/data/survey/observations.html" target="_self" class="AccordionLink">Historical Observation Records</a><br/>
+						    <br/></li>
+							<b>BGS Observatory Data</b> 
+							<li> <a href="/data_service/data/bulletins/bulletins.html" target="_self" class="AccordionLink">Bulletins</a></li>
+							<li><a href="/data_service/data/obs_data/hourly_means.html" target="_self" class="AccordionLink">Hourly Means</a><br/><br/></li>
+							<b>Magnetic Indices</b>
+							<li> <a href="/data_service/data/magnetic_indices/aaindex.html" target="_self" class="AccordionLink"><em>aa</em>-index</a></li>
+							<li> <a href="/data_service/data/magnetic_indices/apindex.html" target="_self" class="AccordionLink"><em>Ap</em>-index</a></li>
+							<li> <a href="/data_service/data/magnetic_indices/k_indices.html" target="_self" class="AccordionLink"><em>K</em>-indices</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="AccordionPanel AccordionPanelOpen">
+					<div class="AccordionPanelTab">Models & Compass Variation</div>
+					<div class="AccordionPanelContent">
+						<ul>
+							<li> <a href="/data_service/models_compass/gma_calc.html" target="_self" class="AccordionLink">Grid Magnetic Angle Calculator</a></li>
+							<li> <a href="/data_service/models_compass/wmm_calc.html" target="_self" class="AccordionLink">World Magnetic Model</a></li>
+							<li> <a href="/data_service/directionaldrilling/bggm.html" target="_self" class="AccordionLink">BGGM</a></li>
+							<li> <a href="/data_service/models_compass/igrf.html" target="_self" class="AccordionLink">IGRF Model</a></li>
+							<!--<li> <a href="/data_service/dummy.html" target="_self" class="AccordionLink">Model Coefficients</a></li> -->
+						</ul>
+					</div>
+				</div>
+<!--				<div class="AccordionPanel AccordionPanelOpen">
+					<div class="AccordionPanelTab">Charts and Navigation</div>
+					<div class="AccordionPanelContent">
+						<ul>
+							<li> <a href="/data_service/charts_navig/gma_calc.html" target="_self" class="AccordionLink">Grid Magnetic Angle Calculator</a></li>
+							<b>WMM Charts</b>
+							<li> <a href="/data_service/charts_navig/mercator.html" target="_self" class="AccordionLink">Mercator Projections</a></li>
+							<li> <a href="/data_service/charts_navig/polarnorth.html" target="_self" class="AccordionLink">North Pole</a></li>
+							<li> <a href="/data_service/charts_navig/polarsouth.html" target="_self" class="AccordionLink">South Pole</a></li>
+						</ul>
+					</div>
+				</div> -->
+				<div class="AccordionPanel AccordionPanelOpen">
+					<div class="AccordionPanelTab">Space Weather</div>
+					<div class="AccordionPanelContent">
+						<ul>
+							<li> <a href="/data_service/space_weather/solar.html" target="_self" class="AccordionLink">Solar & Geomagnetic Data</a></li>
+							<li> <a href="/data_service/space_weather/forecast.html" target="_self" class="AccordionLink">Solar & Geomagnetic Forecasts</a></li>
+							<li> <a href="/data_service/space_weather/pulsations.html" target="_self" class="AccordionLink">Geomagnetic Pulsations</a></li>
+							<li> <a href="/data_service/space_weather/alerts.html" target="_self" class="AccordionLink">Space Weather Alerts</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="AccordionPanel AccordionPanelOpen">
+					<div class="AccordionPanelTab">Directional Drilling</div>
+					<div class="AccordionPanelContent">
+						<ul>
+							<li> <a href="/documents/Geomag_Services_for_Oil_Gas_2012.pdf" target="_blank" class="AccordionLink">IFR/IIFR</a><span class="fileSizeComment"> 1MB pdf</span></li>
+							<li> <a href="/data_service/directionaldrilling/bggm.html" target="_self" class="AccordionLink">BGGM</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div id="midAndRightCol">
+	<div class="sectionBox">
+		<div class="sectionHeadSub"><strong>Hourly Means</strong></div>
+		<div class="sectionBody">
+
+            <b>Information about the observatory hourly mean data</b> 
+            <p> The hourly mean data are from the three UK observatories <a href="../../../operations/eskdale.html">Eskdalemuir</a>, 
+              <a href="../../../operations/lerwick.html">Lerwick</a> and <a href="../../../operations/hartland.html">Hartland</a>. Eskdalemuir data are available from 1911, 
+              Lerwick from 1926, Hartland from 1957 and all three are available 
+              up to yesterday's date. Values up to the end of 2003 have had final 
+              baseline corrections applied and are the definitive absolute hourly 
+              mean values. Data from 2004 onwards are all provisional and have 
+              not had final baseline corrections applied. 
+          <p>Values of declination (<em>D</em>), horizontal intensity (<em>H</em>) and vertical 
+              intensity (<em>Z</em>) are available. The units of declination are degrees. 
+              Declination is negative when west of true north. The units of horizontal 
+              intensity and vertical intensity are nT. Vertical intensity is positive 
+  in the downwards direction. </p>
+            Values from Abinger (1926-1956) are available <a href="http://www.bgs.ac.uk/staff/sendMail.cfm?id=4455">on 
+            request</a>.
+<p> Please note : 
+            <ul>
+              <li class="blueBullet">Although the provisional data can sometimes be missing (denoted 
+                by *****) when they are first made available, these gaps are usually 
+                filled no later than one week after the end of the month and often 
+                earlier than this. 
+              <li class="blueBullet">The following jumps have been applied to the data to correct 
+                for site changes. All the jump values are given as new values 
+                minus old values and have the units of minutes of arc for declination 
+                and nT for horizontal and vertical intensity.<br>
+                Eskdalemuir<br>
+                1990.0 - Dec. 0; Horiz. 11; Vert. 22<br>
+                1994.0 - Dec. 0; Horiz. -8; Vert. -23<br>
+                Lerwick<br>
+                1934.0 - Dec. 0; Horiz. 0; Vert. 144<br>
+                1990.0 - Dec. 0; Horiz. 5; Vert. -8<br>
+                1996.0 - Dec. 0; Horiz. 0; Vert. 8<br>
+                Hartland<br>
+                1980.0 - Dec. 0; Horiz. 0; Vert. -6<br>
+                1990.0 - Dec. 0; Horiz. -6; Vert. 23 
+            </ul>
+            <hr>
+            <form method="POST" action="/cgi-bin/hourly_means">
+              Please enter your name and email address 
+              <input size=50 name="name">
+              <p> 
+              <hr>
+              Observatory code: 
+              <select name="code" size=3>
+                <option selected>LER, Lerwick, Scotland, 60.133 / 358.816 
+                <option>ESK, Eskdalemuir, Scotland, 55.317 / 356.800 
+                <option>HAD, Hartland, England, 50.995 / 355.518 
+              </select>
+              <p> From Day of Month : 
+                <input size=2 name="dayi">
+                Month (e.g. 6 for June): 
+                <input size=2 name="monthi">
+                Year (e.g. 2010): 
+                <input size=4 name="yeari">
+              <p> To Day of Month : 
+                <input size=2 name="dayf">
+                Month :
+		<input size=2 name="monthf">
+                Year : 
+                <input size=4 name="yearf">
+              <p> To submit the query, press this button: 
+                <input type="submit" value="Submit Query">
+                . 
+              <p> To clear the form, press this button: 
+                <input type="reset" value="Clear Form">
+                . 
+            </form>
+
+</div>
+</div>
+</div>
+
+<div id="footer">
+<script type="text/javascript">
+docTitle=encodeURIComponent(document.title);
+if(location.search.length == 0){pageUrl=encodeURIComponent(location.href);}
+else{pageUrl=encodeURIComponent(location.href + location.search);}
+document.write('<div id="socialBookMarks" class="sharesb">');
+document.write('<ul>');
+document.write('<li>Bookmark with:&nbsp;</li>');
+document.write('<li class="delicious">');
+document.write('<a id="delicious" target="_blank" title="Post this page to Delicious" href="http://del.icio.us/post?url=' + pageUrl + '&amp;title=' + docTitle + '">Delicious</a>');
+document.write('</li>');
+document.write('<li class="digg">');
+document.write('<a id="digg" target="_blank" title="Post this page to Digg" href="http://digg.com/submit?url=' + pageUrl + '&amp;title=' + docTitle + '">Digg</a>');
+document.write('</li>');
+document.write('<li class="facebook">');
+document.write('<a id="facebook" target="_blank" title="Post this page to Facebook" href="http://www.facebook.com/sharer.php?u=' + pageUrl + '">Facebook</a>');
+document.write('</li>');
+document.write('<li class="reddit">');
+document.write('<a id="reddit" target="_blank" title="Post this page to reddit" href="http://reddit.com/submit?url=' + pageUrl + '&amp;title=' + docTitle + '">reddit</a>');
+document.write('</li>');
+document.write('<li class="stumbleupon">');
+document.write('<a id="stumbleupon" target="_blank" title="Post this page to StumbleUpon" href="http://www.stumbleupon.com/submit?url=' + pageUrl + '&amp;title=' + docTitle + '">StumbleUpon</a>');
+document.write('</li>');
+document.write('</ul>');
+document.write('</div>');
+</script><noscript>
+	<div id="socialBookMarks" class="sharesb">
+	<ul>
+	<li class="nojs">Bookmarking sites :&nbsp;</li>
+	<li class="delicious">
+	<a id="delicious" target="_blank" title="Go to the del.icio.us bookmarking website" href="http://del.icio.us/">Delicious</a>
+	</li>
+	<li class="digg">
+	<a id="digg" target="_blank" title="Go to the Digg bookmarking website" href="http://digg.com/">Digg</a>
+	</li>
+	<li class="facebook">
+	<a id="facebook" target="_blank" title="Post this page to Facebook" href="http://www.facebook.com/sharer.php?u=">Facebook</a>
+	</li>
+	<li class="reddit">
+	<a id="reddit" target="_blank" title="Go to the reddit bookmarking website" href="http://reddit.com/">reddit</a>
+	</li>
+	<li class="stumbleupon">
+	<a id="stumbleupon" target="_blank" title="Go to the StumbleUpon bookmarking website" href="http://www.stumbleupon.com/">StumbleUpon</a>
+	</li>
+	<li class="nojs">&nbsp;(javascript must be enabled for live bookmarks)</li>
+	</ul>
+	</div>
+</noscript>
+
+
+<div id="bgsFooter">
+<a name="pageFoot" accesskey="6" title="Go to the foot of this page"></a>
+<a title="This website &copy;NERC 2011" href="http://www.nerc.ac.uk/" target="_blank" class="footerLink" alt="&copy;NERC 2011 Natural Environment Research Council website - EXTERNAL LINK">&copy; NERC 2012</a>
+&nbsp;|&nbsp;
+<a title="How to acknowledge and licence BGS IPR material" href="http://www.bgs.ac.uk/about/copyright/home.html" target="_top" class="footerLink" alt="How to acknowledge and licence BGS IPR material">Copyright</a>
+&nbsp;|&nbsp;
+<a title="We welcome feedback from customers and stakeholders on the quality of the products and services that we offer." href="http://www.bgs.ac.uk/about/custfeed.html" alt="How to give feedback on our products and services" target="_top" class="footerLink">Feedback</a>
+&nbsp;|&nbsp;
+<a title="About BGS obligations under the Freedom of Information (FOI) Act 2000 and the Environmental Information Regulations (EIR) 2004" href="http://www.bgs.ac.uk/about/foi/home.html" alt="How to request information under The Freedom of Information Act and Environmental Information Regulations" target="_top" class="footerLink">FOI</a>
+&nbsp;|&nbsp;
+<a title="Read our Privacy Policy" href="http://www.bgs.ac.uk/help/privacy.html" target="_top" alt="BGS Privacy policy. How we use personal information according to Data protection Act, 1998" class="footerLink">Privacy</a>
+&nbsp;|&nbsp;
+<a title="Terms of use for this website" href="http://www.bgs.ac.uk/help/terms_of_use.html" alt="Terms of use for this website" target="_top" class="footerLink">Terms of use</a>
+&nbsp;|&nbsp;
+<a title="Contact the BGS webmaster" href="mailto:quakeweb@bgs.ac.uk" target="_top" alt="e-mail the BGS webmaster with feedback about the site. Report broken links or missing information" class="footerLink">Webmaster</a>
+</div>
+
+
+<!--
+<div id="bgsFooter">
+<a name="pageFoot" accesskey="6" title="Go to the foot of this page"></a>
+&copy; <a href="http://www.nerc.ac.uk/" target="_blank" class="footerLink">NERC</a> 2008
+&nbsp;|&nbsp;
+<a href="/about/custfeed.html" target="_top" class="footerLink">Feedback</a>
+&nbsp;|&nbsp;
+<a href="http://bgs.ac.uk/about/foi/home.html" target="_top" class="footerLink">Freedom of Information</a>
+&nbsp;|&nbsp;
+<a href="http://bgs.ac.uk/help/privacy.html" target="_top" class="footerLink">Privacy</a>
+&nbsp;|&nbsp;
+<a href="http://nora.nerc.ac.uk/" target="_blank" class="footerLink">Research archive</a>
+&nbsp;|&nbsp;
+<a href="http://bgs.ac.uk/help/terms_of_use.html" target="_top" class="footerLink">Terms of use</a>
+&nbsp;|&nbsp;
+<a href="mailto:quakeweb@bgs.ac.uk" target="_top" class="footerLink">Webmaster</a>
+</div> -->
+</div>     <!-- footer -->
+
+
+</div>   <!--width box-->
+</div>   <!--centering box-->
+<script type="text/javascript">
+<!--
+var Accordion1 = new Spry.Widget.Accordion("Accordion1",{duration:100,useFixedPanelHeights:false,defaultPanel:0});
+highlightMenuLink('/data_service/data/obs_data/hourly_means.html');
+//-->
+</script>
+</body>
+</html>

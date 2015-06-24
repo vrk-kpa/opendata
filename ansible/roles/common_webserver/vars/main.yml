@@ -12,6 +12,13 @@ modules:
   - ytp-theme-drupal
   - ytp-drupal-wysiwyg
   - ytp-drupal-user
+  - ckanext-qa
+  - ckanext-archiver
+  - ckanext-harvest
+  - ckanext-spatial
+  - ckanext-report
+  - ckanext-datarequests
+
 
 modules_path: ../modules
 
