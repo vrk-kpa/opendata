@@ -8,7 +8,7 @@
     - features
 
 - name: Tar extracted features
-  local_action: command tar cf "{{ local_cache }}/{{ item }}.tar" {{ item }} --exclude=.git  chdir="{{ ytp_features_path }}"
+  local_action: command tar -c --exclude=.git -f "{{ local_cache }}/{{ item }}.tar" {{ item }} chdir="{{ ytp_features_path }}"
   sudo: false
   with_items: extracted_features
   tags:
