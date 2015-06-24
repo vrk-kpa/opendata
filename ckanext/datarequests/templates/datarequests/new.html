@@ -1,0 +1,21 @@
+{% extends "datarequests/base.html" %}
+
+{% block subtitle %}{{ _('Create Data Request') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Data Requests'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li class="active"><a href="">{{ _('Create Data Request') }}</a></li>
+{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Create Data Request') }}{% endblock %}</h1>
+  {% snippet "datarequests/snippets/new_datarequest_form.html", data=c.datarequest, errors=c.errors, errors_summary=c.errors_summary, offering=c.offering %}
+{% endblock %}
+
+{% block secondary_content_additional_info %}
+  <p>
+    {{ _('To create a data request, fill the form and specify a title and a description for your request. Please, be as clear as you can in order to ease the task of accomplishing your request. Data requests can be created only to those organizations with maintainers.') }}
+  </p>
+{% endblock %}
+
+{% block page_header %}{% endblock %}

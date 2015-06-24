@@ -1,0 +1,6 @@
+{% ckan_extends %}
+
+{% block content_primary_nav %}
+  {{ super() }}
+  {{ h.build_nav_icon('organization_datarequests', _('Data Requests'), id=c.group_dict.name)}}
+{% endblock %}
