@@ -1,0 +1,1 @@
+../public/scripts/qa.js

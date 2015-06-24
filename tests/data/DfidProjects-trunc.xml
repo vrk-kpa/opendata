@@ -1,0 +1,14 @@
+﻿<ProjectData>
+  <Project RecordNumber="1" ProjectReference="100234" ProjectTitle="Admin Project for A0011 (Uganda- Admin)" ProjectPurpose="" StartDate="01/04/2002" EndDate="30/06/2099" ProjectStage="Operational" ProjectBudget="255567.93" ProjectSpend="240923.52" DFIDCountryCode="AC" DFIDCountryName="Administrative/Capital" DACCountryCode="998" DACCountryName="Bilateral Unallocated" DACContinentName="World Unallocated" DACRegionName="World Unallocated" DFIDDepartment="DFID Uganda" UrlToProjectDetail="http://projects.dfid.gov.uk/project.aspx?Project=100234" GenderEquality="Admin - Exempt" HivAids="Admin - Exempt">
+    <ProjectSector DACGroupCode="910" DACGroupName="Administrative costs of donors" DACSectorCode="91010" DACSectorName="Administrative costs" Percentage="100" />
+    <Component ComponentReference="100234-105" ComponentTitle="Consultancies" StartDate="01/04/2002" EndDate="30/06/2099" WhatsItFor="Procurement of services" DFIDCountryCode="NS" DFIDCountryName="Non Specific Country" DACCountryCode="998" DACCountryName="Bilateral Unallocated" DACContinentName="World Unallocated" DFIDDepartment="DFID Uganda">
+      <Financial TotalApprovedBudget="214323.02" ActualExpenditureToDate="203948.89">
+        <Annual FinancialYear="2008" Budget="214323.23" FinancialYearSpend="203948.89" QuarterOneSpend="0.00" QuarterTwoSpend="84843.62" QuarterThreeSpend="35368.62" QuarterFourSpend="83736.65" />
+        <Annual FinancialYear="2009" Budget="-0.21" FinancialYearSpend="0.00" QuarterOneSpend="18014.99" QuarterTwoSpend="30576.55" QuarterThreeSpend="60715.09" QuarterFourSpend="-109306.63" />
+      </Financial>
+      <ComponentSector ComponentDACGroupCode="910" ComponentDACGroupName="Administrative costs of donors" ComponentDACSectorCode="91010" ComponentDACSectorName="Administrative costs" ComponentPercentage="100" />
+      <Conditionality Conditions="No" />
+      <AidEffectivenessData DoesContributionFitSingleProgramFramework="N" IsContributionLedByHostCountry="N" IsThereProcessForCoordinatingDonors="N" AreAtLeastTwoPartnerCountrySystemsUsed="N" IsProgramBasedApproach="N" ArePartnerCountryBudgetSystemsUsed="N" ArePartnerCountryFinancialReportingSystemsUsed="N" ArePartnerCountryAuditSystemsUsed="N" AreAllThreePartnerCountryPublicFinancialManagementSystemsUsed="N" ArePartnerCountryProcurementSystemsUsed="" IsContributionAidToGovernmentSector="" />
+    </Component>
+  </Project>
+</ProjectData>
