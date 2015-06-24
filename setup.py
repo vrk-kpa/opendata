@@ -112,5 +112,7 @@ setup(
             ('**.js', 'javascript', None),
             ('**/templates/**.html', 'ckan', None),
         ],
-    }
+    },
+
+    namespace_packages=['ckanext', 'ckanext.archiver'],
 )
