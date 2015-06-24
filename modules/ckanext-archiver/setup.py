@@ -4,6 +4,7 @@ setup(
     name='ckanext-archiver',
     version='0.1',
     packages=find_packages(),
+    namespace_packages=['ckanext', 'ckanext.archiver'],
     install_requires=[
        # Requirements defined in pip-requirements.txt
     ],
