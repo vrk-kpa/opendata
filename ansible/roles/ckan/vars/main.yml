@@ -55,10 +55,6 @@ translation_projects:
   - "ckanext-ytp-comments"
   - "ckanext-qa"
   - "ckanext-datarequests"
-  - "ckanext-harvest"
-  - "ckanext-archiver"
-  - "ckanext-spatial"
-  - "ckanext-report"
 
 ckan_site_id: "default"
 

@@ -44,7 +44,6 @@
 - name: Join extension translations to source files
   command: msgcat "{{ translation_cache_path }}/{{ item[0] }}.{{ item[1] }}.po" "{{ translation_cache_path }}/ckan.{{ item[1] }}.temporary.po" --use-first -o "{{ translation_cache_path }}/ckan.{{ item[1] }}.temporary.po"
   with_nested:
-    - translated_extensions
     - translation_languages
   when: ckan_translations|changed or modules_copy|changed
   tags:
