@@ -1,0 +1,63 @@
+# Translations template for ckanext-qa.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-qa project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-qa 0.3\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-11-11 10:05+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: ckanext/qa/html.py:26 ckanext/qa/templates_new/qa/snippets/stars_info.html:14
+msgid "Available under an open license."
+msgstr ""
+
+#: ckanext/qa/html.py:27 ckanext/qa/templates_new/qa/snippets/stars_info.html:15
+msgid "Available as structured data (eg. Excel instead of a scanned table)."
+msgstr ""
+
+#: ckanext/qa/html.py:28 ckanext/qa/templates_new/qa/snippets/stars_info.html:16
+msgid "Uses non-proprietary formats (e.g., CSV instead of Excel)."
+msgstr ""
+
+#: ckanext/qa/html.py:29 ckanext/qa/templates_new/qa/snippets/stars_info.html:17
+msgid "Uses URIs to identify things, so that people can link to it."
+msgstr ""
+
+#: ckanext/qa/html.py:30 ckanext/qa/templates_new/qa/snippets/stars_info.html:18
+msgid "Linked to other data to provide context."
+msgstr ""
+
+#: ckanext/qa/plugin.py:159
+msgid "Not Rated"
+msgstr ""
+
+#: ckanext/qa/templates_new/qa/base.html:3
+msgid "Quality Assurance"
+msgstr ""
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:14
+msgid "Resource Quality"
+msgstr ""
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:16
+msgid "Rating"
+msgstr ""
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "Hide rating info"
+msgstr ""
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "About these ratings…"
+msgstr ""
+

@@ -1,0 +1,83 @@
+<http://opendatacommunities.org/id/IMD/2010/IMD-education-score/LSOA/E01018403>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "2010 IMD education score, Congleton 006D" ;
+      <http://opendatacommunities.org/def/IMD#IMD-education-score>
+                    5.82 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-education-score> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://opendatacommunities.org/id/geography/lsoa/E01018403> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
+
+<http://opendatacommunities.org/id/IMD/2010/IMD-education-score/LSOA/E01002477>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "2010 IMD education score, Hillingdon 001D" ;
+      <http://opendatacommunities.org/def/IMD#IMD-education-score>
+                    5.08 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-education-score> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://opendatacommunities.org/id/geography/lsoa/E01002477> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
+
+<http://opendatacommunities.org/id/IMD/2010/IMD-employment-rank/LA/E06000032>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "Local authorities ranked by average 2010 IMD employment rank, Luton" ;
+      <http://opendatacommunities.org/def/IMD#IMD-employment-rank>
+                    112 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-employment-rank-LA> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://data.ordnancesurvey.co.uk/id/7000000000037536> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
+
+<http://opendatacommunities.org/id/IMD/2010/IMD-employment-rank/LA/E07000130>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "Local authorities ranked by average 2010 IMD employment rank, Charnwood" ;
+      <http://opendatacommunities.org/def/IMD#IMD-employment-rank>
+                    242 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-employment-rank-LA> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://data.ordnancesurvey.co.uk/id/7000000000023452> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
+
+<http://opendatacommunities.org/id/IMD/2010/IMD-employment-rank/LA/E09000002>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "Local authorities ranked by average 2010 IMD employment rank, Barking and Dagenham" ;
+      <http://opendatacommunities.org/def/IMD#IMD-employment-rank>
+                    29 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-employment-rank-LA> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://data.ordnancesurvey.co.uk/id/7000000000010949> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
+
+<http://opendatacommunities.org/id/IMD/2010/IMD-employment-rank/LA/E07000012>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://purl.org/linked-data/cube#Observation> ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "Local authorities ranked by average 2010 IMD employment rank, South Cambridgeshire" ;
+      <http://opendatacommunities.org/def/IMD#IMD-employment-rank>
+                    316 ;
+      <http://purl.org/linked-data/cube#dataSet>
+                    <http://opendatacommunities.org/id/dataset/IMD/2010/IMD-employment-rank-LA> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refArea>
+                    <http://data.ordnancesurvey.co.uk/id/7000000000001303> ;
+      <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod>
+                    <http://reference.data.gov.uk/id/year/2010> .
