@@ -248,21 +248,27 @@
   tags:
   - ckan
 
+- name: Initialize archiver database
+  shell: ./bin/paster --plugin=ckanext-archiver archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
+- name: Initialize QA database
+  shell: ./bin/paster --plugin=ckanext-qa qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
+- name: Initialize report database
+  shell: ./bin/paster --plugin=ckanext-report report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+    - ckan
+
 - name: Initialize analytics database
   shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   when: google_analytics != false
   tags:
   - ckan
   - google-analytics
-
-- name: Initialize archiver database
-  shell: ./bin/paster --plugin=ckanext-archiver archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
-
-- name: Initialize QA database
-  shell: ./bin/paster --plugin=ckanext-qa qa init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
-
-- name: Initialize report database
-  shell: ./bin/paster --plugin=ckanext-report report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
 
 - name: Copy credentials token
   copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"

@@ -16,7 +16,7 @@ clamscan --recursive --suppress-ok-results --infected --exclude-dir=/sys --exclu
 echo -e '\n' >> $TEMPORARY_FILE
 df -h >> $TEMPORARY_FILE 
 
-if [ `grep Infected $TEMPORARY_FILE | grep -v 0 | wc -l` != 0 ]; then
+if [ `grep Infected $TEMPORARY_FILE | grep -vw 0 | wc -l` != 0 ]; then
     cat $TEMPORARY_FILE | mail -s "System virus detected at $HOST!" $EMAIL
 else
     cat $TEMPORARY_FILE | mail -s "Daily status log" $EMAIL

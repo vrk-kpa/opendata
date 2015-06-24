@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-08 09:06+0300\n"
+"POT-Creation-Date: 2015-06-15 12:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1527,10 +1527,25 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:8
 msgid ""
 " CKAN Organizations are used to create, manage and publish collections of "
-"datasets. Users can have different roles within an Organization, depending on"
-" their level of authorisation to create, edit and publish. Some of the "
-"organizations listed here are automatically created. To create a public "
-"administration organization, please contact admins. "
+"datasets. "
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:13
+msgid ""
+" Users can have different roles within an Organization, depending on their "
+"level of authorisation to create, edit and publish. "
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
+msgid ""
+" Some of the organizations listed here are automatically created. To create a"
+" public administration organization, please contact admins. "
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23
+msgid ""
+" The number next to each organization depicts the total amount of datasets "
+"per organization and includes suborganizations. "
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:16
