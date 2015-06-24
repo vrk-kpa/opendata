@@ -1,0 +1,1680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://inspire.wales.gov.uk:80/maps/schemas/wms/1.1.1/WMS_MS_Capabilities.dtd">
+<WMT_MS_Capabilities version="1.1.1" updateSequence="1194">
+  <Service>
+    <Name>OGC:WMS</Name>
+    <Title>Welsh Government WMS View Service</Title>
+    <Abstract>A compliant implementation of WMS plus most of the SLD extension (dynamic styling). Can also generate PDF, SVG, KML, GeoRSS</Abstract>
+    <KeywordList>
+      <Keyword>WFS</Keyword>
+      <Keyword>WMS</Keyword>
+      <Keyword>GEOSERVER</Keyword>
+    </KeywordList>
+    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://wales.gov.uk"/>
+    <ContactInformation>
+      <ContactPersonPrimary>
+        <ContactPerson>Simon Agass</ContactPerson>
+        <ContactOrganization>The Welsh Government INSPIRE Service</ContactOrganization>
+      </ContactPersonPrimary>
+      <ContactPosition>INSPIRE Manager</ContactPosition>
+      <ContactAddress>
+        <AddressType/>
+        <Address>Cathays Park</Address>
+        <City>Cardiff</City>
+        <StateOrProvince>Wales</StateOrProvince>
+        <PostCode>CF10 3NQ</PostCode>
+        <Country>United Kingdom</Country>
+      </ContactAddress>
+      <ContactVoiceTelephone/>
+      <ContactFacsimileTelephone/>
+      <ContactElectronicMailAddress>cartographics@wales.gsi.gov.uk</ContactElectronicMailAddress>
+    </ContactInformation>
+    <Fees>NONE</Fees>
+    <AccessConstraints>NONE</AccessConstraints>
+  </Service>
+  <Capability>
+    <Request>
+      <GetCapabilities>
+        <Format>application/vnd.ogc.wms_xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+            <Post>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetCapabilities>
+      <GetMap>
+        <Format>image/png</Format>
+        <Format>application/atom xml</Format>
+        <Format>application/atom+xml</Format>
+        <Format>application/openlayers</Format>
+        <Format>application/pdf</Format>
+        <Format>application/rss xml</Format>
+        <Format>application/rss+xml</Format>
+        <Format>application/vnd.google-earth.kml</Format>
+        <Format>application/vnd.google-earth.kml xml</Format>
+        <Format>application/vnd.google-earth.kml+xml</Format>
+        <Format>application/vnd.google-earth.kml+xml;mode=networklink</Format>
+        <Format>application/vnd.google-earth.kmz</Format>
+        <Format>application/vnd.google-earth.kmz xml</Format>
+        <Format>application/vnd.google-earth.kmz+xml</Format>
+        <Format>application/vnd.google-earth.kmz;mode=networklink</Format>
+        <Format>atom</Format>
+        <Format>image/geotiff</Format>
+        <Format>image/geotiff8</Format>
+        <Format>image/gif</Format>
+        <Format>image/gif;subtype=animated</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/png8</Format>
+        <Format>image/png; mode=8bit</Format>
+        <Format>image/svg</Format>
+        <Format>image/svg xml</Format>
+        <Format>image/svg+xml</Format>
+        <Format>image/tiff</Format>
+        <Format>image/tiff8</Format>
+        <Format>kml</Format>
+        <Format>kmz</Format>
+        <Format>openlayers</Format>
+        <Format>rss</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetMap>
+      <GetFeatureInfo>
+        <Format>text/plain</Format>
+        <Format>application/vnd.ogc.gml</Format>
+        <Format>application/vnd.ogc.gml/3.1.1</Format>
+        <Format>text/html</Format>
+        <Format>text/javascript</Format>
+        <Format>application/json</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+            <Post>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetFeatureInfo>
+      <DescribeLayer>
+        <Format>application/vnd.ogc.wms_xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </DescribeLayer>
+      <GetLegendGraphic>
+        <Format>image/png</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/gif</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetLegendGraphic>
+      <GetStyles>
+        <Format>application/vnd.ogc.sld+xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetStyles>
+    </Request>
+    <Exception>
+      <Format>application/vnd.ogc.se_xml</Format>
+      <Format>application/vnd.ogc.se_inimage</Format>
+    </Exception>
+    <UserDefinedSymbolization SupportSLD="1" UserLayer="1" UserStyle="1" RemoteWFS="1"/>
+    <Layer>
+      <Title>Welsh Government WMS View Service</Title>
+      <Abstract>A compliant implementation of WMS plus most of the SLD extension (dynamic styling). Can also generate PDF, SVG, KML, GeoRSS</Abstract>
+      <!--Limited list of EPSG projections:-->
+      <SRS>EPSG:2157</SRS>
+      <SRS>EPSG:25828</SRS>
+      <SRS>EPSG:25829</SRS>
+      <SRS>EPSG:25830</SRS>
+      <SRS>EPSG:25831</SRS>
+      <SRS>EPSG:25832</SRS>
+      <SRS>EPSG:25833</SRS>
+      <SRS>EPSG:25834</SRS>
+      <SRS>EPSG:25835</SRS>
+      <SRS>EPSG:25836</SRS>
+      <SRS>EPSG:25837</SRS>
+      <SRS>EPSG:25838</SRS>
+      <SRS>EPSG:25884</SRS>
+      <SRS>EPSG:27700</SRS>
+      <SRS>EPSG:29903</SRS>
+      <SRS>EPSG:3035</SRS>
+      <SRS>EPSG:3857</SRS>
+      <SRS>EPSG:4258</SRS>
+      <SRS>EPSG:4326</SRS>
+      <SRS>EPSG:900913</SRS>
+      <LatLonBoundingBox minx="-5.902930095159143" miny="50.97771820635703" maxx="-2.372042704899223" maxy="53.9380090555377"/>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>LNR</Name>
+        <Title>Local Nature Reserves</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>lnr</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.082604070589872" miny="51.17979185444105" maxx="-2.6525215914291502" maxy="53.60987433360176"/>
+        <BoundingBox SRS="EPSG:27700" minx="198342.25" miny="164529.421875" maxx="351397.25" maxy="394574.5625"/>
+        <Style>
+          <Name>OliveDrab Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a OliveDrab polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=LNR"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>MNR</Name>
+        <Title>Marine Nature Reserves</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>mnr</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.325139117969499" miny="51.67773517682056" maxx="-5.213795637440921" maxy="51.78907865734914"/>
+        <BoundingBox SRS="EPSG:27700" minx="170722.93" miny="206998.83" maxx="177953.699" maxy="210834.5"/>
+        <Style>
+          <Name>CCW Subtidal Polygon SS-SMu-Low</Name>
+          <Title>and</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=MNR"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>aonb</Name>
+        <Title>Areas of Outstanding Natural Beauty</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>aonb</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.871101608817866" miny="51.306729622818516" maxx="-2.5011301675429944" maxy="53.676701064093386"/>
+        <BoundingBox SRS="EPSG:27700" minx="210882.7" miny="184091.67" maxx="363741.53" maxy="395994.1"/>
+        <Style>
+          <Name>Pink Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Pink polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=aonb"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>biogenetic</Name>
+        <Title>Biogenetic Reserves</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>biogenetic</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.012124629103792" miny="52.818455459325804" maxx="-3.9601867690808574" maxy="52.870393319348736"/>
+        <BoundingBox SRS="EPSG:27700" minx="264714.21" miny="326918.0" maxx="267947.77" maxy="331650.305"/>
+        <Style>
+          <Name>Purple Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Purple polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=biogenetic"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>biosphere</Name>
+        <Title>Biospheric Reserves</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>biosphere</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.30710163119117" miny="52.19450336446761" maxx="-3.5054423946540796" maxy="52.9961626010047"/>
+        <BoundingBox SRS="EPSG:27700" minx="246075.367" miny="279359.903" maxx="296103.903" maxy="323620.304"/>
+        <Style>
+          <Name>Light Salmon Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Light Salmon polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=biosphere"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>cadw_designated_wrecks</Name>
+        <Title>CADW Designated Wrecks</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>cadw_designated_wrecks</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.813559518286905" miny="51.7191150923917" maxx="-3.4934044903624573" maxy="53.44073430217336"/>
+        <BoundingBox SRS="EPSG:27700" minx="146525.9359" miny="208647.193499999" maxx="297041.9862" maxy="394894.638900001"/>
+        <Style>
+          <Name>cadw_designated_wrecks</Name>
+          <Title>Default polygon style</Title>
+          <Abstract>A sample style that just draws out a solid gray interior with a black 1px outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=cadw_designated_wrecks"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>conservation_areas_wales_region</Name>
+        <Title>Conservation Areas Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>conservation_areas_wales_region</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.390093967577041" miny="51.347089125241084" maxx="-2.662726501612574" maxy="53.4372904821822"/>
+        <BoundingBox SRS="EPSG:27700" minx="174679.71875" miny="165865.59375" maxx="353983.09375" maxy="393614.8125"/>
+        <Style>
+          <Name>Goldenrod1 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod1 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=conservation_areas_wales_region"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>country_parks</Name>
+        <Title>Country Parks Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>country_park</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.069916890762537" miny="51.16564531306244" maxx="-2.6867673572505444" maxy="53.54879484657443"/>
+        <BoundingBox SRS="EPSG:27700" minx="198698.98" miny="166248.555" maxx="349094.16" maxy="384497.2"/>
+        <Style>
+          <Name>Dark Olive Green3 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Dark Olive Green3 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=country_parks"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>forestry_bww</Name>
+        <Title>Better Woodlands for Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>fcproduct_w_bww</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.4215971787385655" miny="50.97771820635703" maxx="-2.5726215958926084" maxy="53.826693789202984"/>
+        <BoundingBox SRS="EPSG:27700" minx="178111.296875" miny="166726.3125" maxx="354543.5625" maxy="394828.21875"/>
+        <Style>
+          <Name>Khaki1 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Khaki1 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_bww"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>forestry_w_awi</Name>
+        <Title>Ancient Woodlands Inventory</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_w_awi</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.370536912303433" miny="51.00514137608209" maxx="-2.589717057498924" maxy="53.7859612308866"/>
+        <BoundingBox SRS="EPSG:27700" minx="179564.515625" miny="166705.859375" maxx="355313.875" maxy="393297.53125"/>
+        <Style>
+          <Name>Khaki3 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Khaki3 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_w_awi"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>forestry_wales_crow_access_land</Name>
+        <Title>Forestry Crow Access Land</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>fcproduct_w_crow_access_land</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.959236812854545" miny="51.21382126590382" maxx="-2.6309922926351734" maxy="53.54206578612319"/>
+        <BoundingBox SRS="EPSG:27700" minx="204337.671875" miny="174976.53125" maxx="354684.3125" maxy="380111.625"/>
+        <Style>
+          <Name>Khaki3 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Khaki3 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_wales_crow_access_land"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>forestry_wales_dedication</Name>
+        <Title>Dedicated Woodlands</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_w_dedication</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.025085602912111" miny="51.19765084791651" maxx="-2.667260776299517" maxy="53.5554756745291"/>
+        <BoundingBox SRS="EPSG:27700" minx="201584.828125" miny="172152.65625" maxx="350543.15625" maxy="382773.90625"/>
+        <Style>
+          <Name>Khaki4 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Khaki4 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_wales_dedication"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="0">
+        <Name>forestry_wales_fla</Name>
+        <Title>Felling Licence Applications</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_w_fla</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.373622309356728" miny="51.014121970548246" maxx="-2.6071118119395007" maxy="53.780632467965475"/>
+        <BoundingBox SRS="EPSG:27700" minx="179284.71875" miny="168334.546875" maxx="354137.65625" maxy="392100.3125"/>
+        <Style>
+          <Name>Goldenrod1 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod1 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_wales_fla"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>forestry_wales_forest_blocks</Name>
+        <Title>Forest Blocks Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_fc_wales_forest_blocks</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.083927452439284" miny="51.110622102895874" maxx="-2.593670328905693" maxy="53.60087922642947"/>
+        <BoundingBox SRS="EPSG:27700" minx="199283.5" miny="170237.8125" maxx="353830.75" maxy="380112.90625"/>
+        <Style>
+          <Name>green</Name>
+          <Title>Green polygon</Title>
+          <Abstract>Green fill with black outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=forestry_wales_forest_blocks"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>heritage_coast</Name>
+        <Title>Heritage Coast</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>heritage_coasts</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.5906788466690776" miny="51.28253694136602" maxx="-3.360838994300472" maxy="53.51237679373462"/>
+        <BoundingBox SRS="EPSG:27700" minx="164340.125" miny="165460.521" maxx="302374.939" maxy="396442.033"/>
+        <Style>
+          <Name>line</Name>
+          <Title>Default Line</Title>
+          <Abstract>A sample style that draws a line</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=heritage_coast"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>historic_landscapes_areas</Name>
+        <Title>CADW Historic Landscapes Areas</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>historic_landscapes_areas</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.475959120165954" miny="51.36612951137469" maxx="-2.6154687027101584" maxy="53.44071367780915"/>
+        <BoundingBox SRS="EPSG:27700" minx="168975.9375" miny="168241.84375" maxx="357291.53125" maxy="393964.625"/>
+        <Style>
+          <Name>cadw_historic_landscape_areas</Name>
+          <Title>Default polygon style</Title>
+          <Abstract>A sample style that just draws out a solid gray interior with a black 1px outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=historic_landscapes_areas"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>national_forest_estate_legal_boundary_wales</Name>
+        <Title>National Forest Estate Legal Boundary Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>national_forest_estate_legal_boundary_wales</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.993029169680691" miny="51.180949858972895" maxx="-2.642440238451103" maxy="53.531538790202475"/>
+        <BoundingBox SRS="EPSG:27700" minx="202096.1875" miny="170238.875" maxx="353830.84375" maxy="380111.71875"/>
+        <Style>
+          <Name>Goldenrod4 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod4 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=national_forest_estate_legal_boundary_wales"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>national_forest_estate_ownership_wales</Name>
+        <Title>National Forest Estate Ownership Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>national_forest_estate_ownership_wales</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.937768779239522" miny="51.39732367612117" maxx="-2.66548703808893" maxy="53.315911435004914"/>
+        <BoundingBox SRS="EPSG:27700" minx="204247.015625" miny="170238.96875" maxx="353830.71875" maxy="380111.625"/>
+        <Style>
+          <Name>polygon</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A sample style that draws a polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=national_forest_estate_ownership_wales"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>national_forest_estate_roads_wales</Name>
+        <Title>National Forest Estate Roads Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>national_forest_estate_roads_wales</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.608490516528829" miny="51.43979412781749" maxx="-2.666145159274319" maxy="53.31300742881101"/>
+        <BoundingBox SRS="EPSG:27700" minx="226213.53125" miny="174169.96875" maxx="353820.71875" maxy="379788.625"/>
+        <Style>
+          <Name>line</Name>
+          <Title>Default Line</Title>
+          <Abstract>A sample style that draws a line</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=national_forest_estate_roads_wales"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>national_forest_estate_woodlands_wales</Name>
+        <Title>National Forest Estate Woodlands Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>national_forest_estate_woodlands_wales</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.630912585269981" miny="51.36821405757815" maxx="-2.6470090478960606" maxy="53.35211759495206"/>
+        <BoundingBox SRS="EPSG:27700" minx="226027.046875" miny="170237.8125" maxx="353763.125" maxy="380112.9375"/>
+        <Style>
+          <Name>polygon</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A sample style that draws a polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=national_forest_estate_woodlands_wales"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>national_parks</Name>
+        <Title>National Parks Wales</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>national_parks</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.799405586384703" miny="51.575354138704874" maxx="-2.9472125990996636" maxy="53.29990730170189"/>
+        <BoundingBox SRS="EPSG:27700" minx="146599.219" miny="192621.702" maxx="334531.997" maxy="378557.688"/>
+        <Style>
+          <Name>CCW Important Habitats Polygon SMGR</Name>
+          <Title>and</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=national_parks"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>nnr</Name>
+        <Title>National Nature Reserves</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>nnr</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.609758186561162" miny="51.43049879557787" maxx="-2.645020432292091" maxy="53.34626598569901"/>
+        <BoundingBox SRS="EPSG:27700" minx="159529.5" miny="175850.625" maxx="355303.125" maxy="383474.75"/>
+        <Style>
+          <Name>CCW Important Habitats Polygon IMUD</Name>
+          <Title>and</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=nnr"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>nnr_decl</Name>
+        <Title>National Nature Reserves Declared</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>nnr_decl</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.609758186561162" miny="51.43049879557787" maxx="-2.645020432292091" maxy="53.34626598569901"/>
+        <BoundingBox SRS="EPSG:27700" minx="159529.5" miny="175850.625" maxx="355303.125" maxy="383474.75"/>
+        <Style>
+          <Name>Firebrick2 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Firebrick2 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=nnr_decl"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>parks_gardens_essential_setting_mar11</Name>
+        <Title>CADW Parks and Gardens Essential Setting Mar11</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>essential_setting_mar11</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.387809039635037" miny="51.34837478369647" maxx="-2.6600043392251633" maxy="53.43659400055819"/>
+        <BoundingBox SRS="EPSG:27700" minx="174828.171875" miny="166002.25" maxx="354173.75" maxy="393535.46875"/>
+        <Style>
+          <Name>cadw_parksgardens_essential_setting</Name>
+          <Title>Default polygon style</Title>
+          <Abstract>A sample style that just draws out a solid gray interior with a black 1px outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=parks_gardens_essential_setting_mar11"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>ramsar</Name>
+        <Title>RAMSAR</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>ramsar</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.576812508141844" miny="51.14128062155168" maxx="-2.372438636733446" maxy="53.39718532617634"/>
+        <BoundingBox SRS="EPSG:27700" minx="228660.1" miny="140857.869" maxx="374055.472" maxy="388999.999"/>
+        <Style>
+          <Name>Medium Green Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a medium green polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=ramsar"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>sac</Name>
+        <Title>Special Areas of Conservation</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>sac</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.902930095159143" miny="51.108155001741494" maxx="-2.372042704899223" maxy="53.45163338637455"/>
+        <BoundingBox SRS="EPSG:27700" minx="140577.4375" miny="140857.859375" maxx="374083.15625" maxy="395057.5"/>
+        <Style>
+          <Name>Small Blue Stipple</Name>
+          <Title>and</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=sac"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>sam_jul11</Name>
+        <Title>CADW Scheduled and Ancient Monuments July 2011</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>sam_poly_jul11</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.4407462597018865" miny="51.33447990593407" maxx="-2.6622842540897254" maxy="53.45269563234"/>
+        <BoundingBox SRS="EPSG:27700" minx="171387.796875" miny="164607.4375" maxx="354002.5" maxy="395328.625"/>
+        <Style>
+          <Name>Plum2 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Plum2 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=sam_jul11"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>significant_view_mar11</Name>
+        <Title>CADW Significant Views March 2011</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>significant_view_mar11</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.385113234641385" miny="51.34882428930298" maxx="-2.667733318947582" maxy="53.43804533673529"/>
+        <BoundingBox SRS="EPSG:27700" minx="175015.6875" miny="166044.046875" maxx="353636.3125" maxy="393702.1875"/>
+        <Style>
+          <Name>cadw_whs_significant_view</Name>
+          <Title>1 px blue line</Title>
+          <Abstract>Default line style, 1 pixel wide blue</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=significant_view_mar11"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>spa</Name>
+        <Title>Special Protected Areas</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>spa</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.660473153721596" miny="51.11641907169945" maxx="-2.372438636733446" maxy="53.9380090555377"/>
+        <BoundingBox SRS="EPSG:27700" minx="159524.75" miny="140857.869" maxx="374055.472" maxy="449172.162"/>
+        <Style>
+          <Name>Yellow Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Yellow polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=spa"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>sssi</Name>
+        <Title>Site of Special Scientific Interest</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>sssi</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.764668403594832" miny="51.32437824412058" maxx="-2.6435006921044457" maxy="53.45285411994288"/>
+        <BoundingBox SRS="EPSG:27700" minx="149807.765625" miny="164494.21875" maxx="355308.90625" maxy="395333.71875"/>
+        <Style>
+          <Name>CCW Subtidal Polygon CR-HCR-Low</Name>
+          <Title>and</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=sssi"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>wales_coastal_path</Name>
+        <Title>Wales Coastal Path</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>wales_coastal_path</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.438592456802878" miny="51.34295374788009" maxx="-2.659628703737491" maxy="53.45174311100023"/>
+        <BoundingBox SRS="EPSG:27700" minx="171526.042" miny="165545.202" maxx="354195.775" maxy="395220.768"/>
+        <Style>
+          <Name>line</Name>
+          <Title>Default Line</Title>
+          <Abstract>A sample style that draws a line</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=wales_coastal_path"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>wales_wgs1</Name>
+        <Title>Woodland Grant Scheme 1</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>fcproduct_w_wgs1</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.2523348642888275" miny="51.08648280723866" maxx="-2.644038724507113" maxy="53.69477894702037"/>
+        <BoundingBox SRS="EPSG:27700" minx="185432.796875" miny="167861.296875" maxx="353522.3125" maxy="390815.625"/>
+        <Style>
+          <Name>Goldenrod1 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod1 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=wales_wgs1"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>wales_wgs2</Name>
+        <Title>Woodland Grant Scheme 2</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_w_wgs2</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.333994376876571" miny="51.35352780392035" maxx="-2.675513055383218" maxy="53.4447738863543"/>
+        <BoundingBox SRS="EPSG:27700" minx="178456.296875" miny="166417.359375" maxx="353098.40625" maxy="394456.125"/>
+        <Style>
+          <Name>Goldenrod3 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod3 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=wales_wgs2"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>wales_wgs3</Name>
+        <Title>Woodland Grant Scheme 3</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>features</Keyword>
+          <Keyword>fcproduct_w_wgs3</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-5.348217082604251" miny="51.35542086779163" maxx="-2.6549102665860267" maxy="53.44163853974554"/>
+        <BoundingBox SRS="EPSG:27700" minx="177491.96875" miny="166670.203125" maxx="354534.1875" maxy="394093.25"/>
+        <Style>
+          <Name>Goldenrod4 Poly Black Outline</Name>
+          <Title>Default Polygon</Title>
+          <Abstract>A style that draws a Goldenrod4 polygon</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=wales_wgs3"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <!--WKT definition of this CRS:
+PROJCS["OSGB 1936 / British National Grid", 
+  GEOGCS["OSGB 1936", 
+    DATUM["OSGB 1936", 
+      SPHEROID["Airy 1830", 6377563.396, 299.3249646, AUTHORITY["EPSG","7001"]], 
+      TOWGS84[446.448, -125.157, 542.06, 0.15, 0.247, 0.842, -20.489], 
+      AUTHORITY["EPSG","6277"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4277"]], 
+  PROJECTION["Transverse_Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -2.0], 
+  PARAMETER["latitude_of_origin", 49.0], 
+  PARAMETER["scale_factor", 0.9996012717], 
+  PARAMETER["false_easting", 400000.0], 
+  PARAMETER["false_northing", -100000.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","27700"]]-->
+      <Layer queryable="1">
+        <Name>world_heritage_sites_feb10</Name>
+        <Title>CADW World Heritage Sites 2010</Title>
+        <Abstract/>
+        <KeywordList>
+          <Keyword>world_heritage_sites_11022010</Keyword>
+          <Keyword>features</Keyword>
+        </KeywordList>
+        <SRS>EPSG:27700</SRS>
+        <LatLonBoundingBox minx="-4.2856350586365854" miny="51.730475320107054" maxx="-3.017400176195375" maxy="53.292195297630094"/>
+        <BoundingBox SRS="EPSG:27700" minx="247690.701252089" miny="205834.389774049" maxx="329857.073925479" maxy="377766.254789631"/>
+        <Style>
+          <Name>cadw_whs</Name>
+          <Title>Default polygon style</Title>
+          <Abstract>A sample style that just draws out a solid gray interior with a black 1px outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://inspire.wales.gov.uk:80/maps/Protected_sites/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=world_heritage_sites_feb10"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+    </Layer>
+  </Capability>
+</WMT_MS_Capabilities>
+
