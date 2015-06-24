@@ -1,0 +1,29 @@
+{% import 'macros/form.html' as form %}
+
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" action enctype="multipart/form-data">
+
+  {% block errors %}{{ form.errors(errors_summary) }}{% endblock %}
+
+  <input type="hidden" id="id" name="id" value="{{ datarequest.get('id', '') }}" />
+
+  {% block package_basic_fields_tags %}
+    <div class="control-group control-full">
+      <label class="control-label" for="field-accepted_dataset_id">{{ _("Accep. Dataset") }}</label>
+      <div class="controls">
+        <select id="field-accepted_dataset_id" name="accepted_dataset_id" data-module="autocomplete">
+    	  <option value="" selected="selected">No Dataset</option>
+          {% for dataset in datasets  %}
+            <option value="{{ dataset.get('name') }}">{{ dataset.get('title') }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block form_actions %}
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit" name="close">{{ _('Close Data Request') }}</button>
+    </div>
+  {% endblock %}
+
+</form>

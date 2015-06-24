@@ -1,0 +1,23 @@
+{% set title= _('No Data Requests found') if datarequest_count == 0 else '%s datarequest found' % datarequest_count %}
+
+<!--<h2>{{ title }}</h2>-->
+
+{% block datarequest_search_results_list %}
+  {% if datarequests %}
+    <ul class="dataset-list unstyled">
+      {% for datarequest in datarequests %}
+        {{ h.snippet('datarequests/snippets/datarequest_item.html', datarequest=datarequest, facet_titles=facet_titles) }}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">
+      {{ _('There are currently no Data Requests for this site') }}.
+      {% if h.check_access('datarequest_create') %}
+        {% link_for _('How about creating one?'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='new' %}</a>.
+      {% endif %}
+    </p>
+  {% endif %}
+{% endblock %}
+{% block page_pagination %}
+  {{ page.pager(q='') }}
+{% endblock %}

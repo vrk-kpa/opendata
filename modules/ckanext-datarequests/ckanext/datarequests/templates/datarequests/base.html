@@ -1,0 +1,27 @@
+{% extends "page.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="/datarequests.css" />
+{% endblock %}
+
+{% block subtitle %}{{ _('Data Requests') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Data Requests'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+{% endblock %}
+
+{% block secondary_content %}
+
+  <section class="module module-narrow module-shallow">
+    <h2 class="module-heading"><i class="icon-info-sign"></i>{% trans %}Data Request{% endtrans %}</h2>
+    <div class="module-content">
+      <p>
+        {{ _('Data Requests allow users to ask for data that is not published in the platform yet. If you want some specific data and you are not able to find it among all the published datasets, you can create a new data request specifying the data than you want to get.') }}
+      </p>
+      {% block secondary_content_additional_info %}
+      {% endblock %}
+    </div>
+  </section>
+  
+{% endblock %}
