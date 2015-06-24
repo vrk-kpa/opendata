@@ -1,0 +1,35 @@
+{#
+Report (snippet)
+
+table - main data, as a list of rows, each row is a dict
+data - other data values, as a dict
+#}
+<ul>
+    <li>Datasets without tags: {{ table|length }} / {{ data['num_packages'] }} ({{ data['packages_without_tags_percent'] }})</li>
+    <li>Average tags per package: {{ data['average_tags_per_package'] }} tags</li>
+</ul>
+
+<table class="table table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout:fixed; margin-top: 8px;">
+    <thead>
+      <tr>
+        <th>Dataset</th>
+        <th>Notes</th>
+        <th>User</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+        <tr>
+          <td>
+            <a href="{{ h.url_for(controller='package', action='view', id=row.name) }}">
+              {{ row.title }}
+            </a>
+          </td>
+          <td>{{ row.notes }}</td>
+          <td>{{ h.linked_user(row.user) }}</td>
+          <td>{{ h.report__render_datetime(row.created) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
