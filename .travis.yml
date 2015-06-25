@@ -14,7 +14,5 @@ cache:
     - /usr/lib/ckan/default/src/
     - $HOME/cache
   apt: true
-before_install:
-  - git submodule update --init --recursive
 install: ./scripts/travis-install.sh
 script: ./scripts/travis-test.sh
