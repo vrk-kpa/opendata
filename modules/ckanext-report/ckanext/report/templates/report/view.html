@@ -8,7 +8,11 @@
 {% endblock%}
 
 {% block primary_content_inner %}
-      <h1>{{ report.title }}</h1>
+    {% resource "ytp_resources/vendor/blue/style.css" %}
+    {% resource "ytp_resources/vendor/jquery.tablesorter.js" %}
+    {% resource "ytp_common_js/jquerysorting.js" %}
+
+    <h1>{{ report.title }}</h1>
       <p>{{ report.description }}</p>
       <p>
           {{ _('Generated') }}: {{ h.report__render_datetime(report_date, '%d/%m/%Y %H:%M') }}
@@ -59,21 +63,5 @@
 
 {% block scripts %}
     {{ super() }}
-    <!--! Tablesorter allows table sorting by clicking on each column -->
-    <script type="text/javascript" src="/scripts/vendor/jquery.tablesorter.min.js"></script>
-    <script type="text/javascript">
-      //<![CDATA[
-      $(document).ready(function()
-        {
-          $("#report-table").tablesorter({
-              dateFormat: "pt",
-          });
-          $(".js-auto-submit").change(function () {
-              $(this).closest("form").submit();
-          });
-        }
-      );
-    // ]]>
-    </script>
 {% endblock%}
 

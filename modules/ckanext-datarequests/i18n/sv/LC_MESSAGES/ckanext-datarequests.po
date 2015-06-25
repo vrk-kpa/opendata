@@ -1,0 +1,128 @@
+# Swedish translations for ckanext-datarequests.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the
+# ckanext-datarequests
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-datarequests 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-06-24 13:54+0300\n"
+"PO-Revision-Date: 2015-06-25 12:08+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: sv <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: ckanext/datarequests/validator.py:31
+#, python-format
+msgid "Title must be a maximum of %d characters long"
+msgstr ""
+
+#: ckanext/datarequests/validator.py:34
+msgid "Title cannot be empty"
+msgstr ""
+
+#: ckanext/datarequests/validator.py:45
+#, python-format
+msgid "Description must be a maximum of %d characters long"
+msgstr ""
+
+#: ckanext/datarequests/validator.py:75
+msgid "Data Request not found"
+msgstr ""
+
+#: ckanext/datarequests/validator.py:78
+msgid "Comments must be a minimum of 1 character long"
+msgstr ""
+
+#: ckanext/datarequests/validator.py:81
+#, python-format
+msgid "Comments must be a maximum of %d characters long"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:131
+#: ckanext/datarequests/tests/test_ui_controller.py:593
+msgid "State"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:136
+#: ckanext/datarequests/tests/test_ui_controller.py:595
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:142
+msgid "\"page\" parameter must be an integer"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:145
+msgid "Unauthorized to list Data Requests"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:197
+msgid "Unauthorized to create a Data Request"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:212
+#: ckanext/datarequests/controllers/ui_controller.py:235
+#: ckanext/datarequests/controllers/ui_controller.py:253
+#: ckanext/datarequests/controllers/ui_controller.py:322
+#: ckanext/datarequests/controllers/ui_controller.py:379
+#, python-format
+msgid "Data Request %s not found"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:215
+#, python-format
+msgid "You are not authorized to view the Data Request %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:238
+#, python-format
+msgid "You are not authorized to update the Data Request %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:250
+#: ckanext/datarequests/tests/test_ui_controller.py:637
+#, python-format
+msgid "Data Request %s deleted correctly"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:256
+#, python-format
+msgid "You are not authorized to delete the Data Request %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:304
+msgid "This data request is already closed"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:325
+#, python-format
+msgid "You are not authorized to close the Data Request %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:354
+#, python-format
+msgid "You are not authorized to %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:383
+#, python-format
+msgid "You are not authorized to list the comments of the Data Request %s"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:396
+#, python-format
+msgid "Comment %s not found"
+msgstr ""
+
+#: ckanext/datarequests/controllers/ui_controller.py:399
+msgid "You are not authorized to delete this comment"
+msgstr ""
+
