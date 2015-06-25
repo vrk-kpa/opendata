@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
+    MinJS = require('gulp-minify'),
     base64 = require('gulp-base64');
 
 var paths = {
@@ -101,6 +102,12 @@ gulp.task('vendor', function(){
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
+gulp.task('minify-vendor-javascript', function() {
+  return gulp.src(paths.dist + 'vendor/**/*.js')
+    .pipe(MinJS())
+    .pipe(gulp.dest(paths.dist + '/vendor'));
+});
+
 gulp.task('config', function(){
   return gulp.src(paths.src.root + '/resource.config')
     .pipe(gulp.dest(paths.dist));
@@ -108,7 +115,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
+              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
               callback);
 });
 
