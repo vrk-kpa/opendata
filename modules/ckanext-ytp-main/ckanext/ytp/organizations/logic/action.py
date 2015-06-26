@@ -3,7 +3,7 @@ import ckan.plugins as p
 import ckan.logic as logic
 from ckanext.ytp.organizations.model import GroupTreeNode
 from ckan import model
-from sqlalchemy import func, or_
+from sqlalchemy import func, or_, and_
 from sqlalchemy.orm import aliased
 
 log = logging.getLogger(__name__)
@@ -29,8 +29,7 @@ def _accumulate_dataset_counts(groups, members):
 
 def _fetch_all_organizations(force_root_ids=None):
     groups_with_counts = model.Session.query(model.Group, func.count(model.Package.id)) \
-        .outerjoin(model.Package, model.Package.owner_org == model.Group.id) \
-        .filter(or_(model.Package.state == u'active', model.Package.state == None)) \
+        .outerjoin(model.Package, and_(model.Package.owner_org == model.Group.id, model.Package.state == u'active')) \
         .filter(model.Group.state == u'active') \
         .filter(model.Group.is_organization.is_(True)) \
         .group_by(model.Group.id) \
