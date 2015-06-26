@@ -103,7 +103,7 @@ gulp.task('vendor', function(){
 });
 
 gulp.task('minify-vendor-javascript', function() {
-  return gulp.src(paths.dist + 'vendor/**/*.js')
+  return gulp.src(paths.dist + '/vendor/**/*.js')
     .pipe(MinJS())
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
