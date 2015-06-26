@@ -11,9 +11,11 @@ EXIT_STATUS=0
 
 echo "## install modules ##"
 for plugin in modules/*; do
+    if [ -f $plugin/setup.py ]; then
         cd $plugin
         sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py develop
         cd $SOURCE_DIRECTORY
+    fi
 done
 
 
