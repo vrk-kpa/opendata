@@ -102,7 +102,7 @@ def update(ckan_ini_filepath, resource_id, queue):
                   e, resource_id)
         raise
 
-def _update(ckan_ini_filepath, resource_id, queue):
+def _update(ckan_ini_filepath, resource_id, queue='bulk'):
     """
     Link check and archive the given resource.
     If successful, updates the archival table with the cache_url & hash etc.
@@ -211,6 +211,8 @@ def _update(ckan_ini_filepath, resource_id, queue):
     _save(Status.by_text('Archived successfully'), '', resource,
           download_result['url_redirected_to'], download_result, archive_result)
     # The return value is only used by tests. Serialized for Celery.
+
+    download_result['headers'] = dict(download_result['headers'])
     from pprint import pprint
     pprint(dict(download_result, **archive_result))
     return json.dumps(dict(download_result, **archive_result))
