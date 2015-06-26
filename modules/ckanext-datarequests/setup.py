@@ -37,6 +37,12 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     namespace_packages=['ckanext', 'ckanext.datarequests'],
     include_package_data=True,
+    message_extractors={
+        'ckanext/datarequests': [
+            ('**.py', 'python', None),
+            ('templates/**.html', 'ckan', None)
+        ]
+    },
     zip_safe=False,
     install_requires=[
         # -*- Extra requirements: -*-
