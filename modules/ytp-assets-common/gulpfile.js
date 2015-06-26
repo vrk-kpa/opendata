@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
-    MinJS = require('gulp-minify'),
+    uglify = require('gulp-uglify'),
     base64 = require('gulp-base64');
 
 var paths = {
@@ -97,14 +97,15 @@ gulp.task('bootstrap', function(){
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
-gulp.task('vendor', function(){
+gulp.task('vendor', function(cb){
   return gulp.src(paths.src.root + '/vendor/**/')
     .pipe(gulp.dest(paths.dist + '/vendor'));
+  cb(err);
 });
 
-gulp.task('minify-vendor-javascript', function() {
+gulp.task('minify-vendor-javascript', ['vendor'], function() {
   return gulp.src(paths.dist + '/vendor/**/*.js')
-    .pipe(MinJS())
+    .pipe(uglify())
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
