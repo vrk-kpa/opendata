@@ -4,6 +4,7 @@ import shutil
 import tempfile
 from functools import wraps
 import json
+import mock
 
 from urllib import quote_plus
 from pylons import config
@@ -318,6 +319,40 @@ class TestArchiver(BaseCase):
         # celery.send_task doesn't respect CELERY_ALWAYS_EAGER
         res = update.apply_async(args=[self.config, res_id, 'queue1'])
         res.get()
+
+        assert len(testipipe.calls) == 1
+
+        operation, queue, params = testipipe.calls[0]
+        assert operation == 'archived'
+        assert queue == 'queue1'
+        assert params.get('package_id') == None
+        assert params.get('resource_id') == res_id
+
+    @with_mock_url('?status=200&content=test&content-type=csv')
+    @mock.patch('ckan.lib.celery_app.celery.send_task')
+    def test_ipipe_notified2(self, url, send_task):
+        def _send_task(name, args, **kwargs):
+            if name == 'archiver.update':
+                from ckanext.archiver.tasks import update
+                res = update.apply_async(args=args)
+                res.get()
+                return res
+            else:
+                raise Exception('_send_task')
+
+        testipipe = plugins.get_plugin('testipipe')
+        testipipe.reset()
+
+        data_dict = self._test_resource(url)
+
+        send_task.side_effect = _send_task
+
+        data_dict['url'] = 'http://example.com/foo'
+        context = {'model': model, 
+                   'user': 'test',
+                   'ignore_auth': True,
+                   'session': model.Session}
+        result = get_action('resource_update')(context, data_dict)
 
         assert len(testipipe.calls) == 1
 
