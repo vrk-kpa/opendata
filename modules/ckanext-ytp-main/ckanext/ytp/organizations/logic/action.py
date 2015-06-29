@@ -3,7 +3,7 @@ import ckan.plugins as p
 import ckan.logic as logic
 from ckanext.ytp.organizations.model import GroupTreeNode
 from ckan import model
-from sqlalchemy import func, or_, and_
+from sqlalchemy import func, and_
 from sqlalchemy.orm import aliased
 
 log = logging.getLogger(__name__)
