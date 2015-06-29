@@ -80,7 +80,7 @@ class CkanError(ArchiverError):
 
 
 @celery.task(name="archiver.update")
-def update(ckan_ini_filepath, resource_id, queue):
+def update(ckan_ini_filepath, resource_id, queue='bulk'):
     '''
     Archive a resource.
     '''
@@ -102,7 +102,7 @@ def update(ckan_ini_filepath, resource_id, queue):
                   e, resource_id)
         raise
 
-def _update(ckan_ini_filepath, resource_id, queue='bulk'):
+def _update(ckan_ini_filepath, resource_id, queue):
     """
     Link check and archive the given resource.
     If successful, updates the archival table with the cache_url & hash etc.
@@ -213,8 +213,6 @@ def _update(ckan_ini_filepath, resource_id, queue='bulk'):
     # The return value is only used by tests. Serialized for Celery.
 
     download_result['headers'] = dict(download_result['headers'])
-    from pprint import pprint
-    pprint(dict(download_result, **archive_result))
     return json.dumps(dict(download_result, **archive_result))
 
 
@@ -725,6 +723,6 @@ def link_checker(context, data):
             error_message = 'Server returned HTTP error status: %s %s' % \
                 (res.status_code, res.reason)
             raise LinkHeadRequestError(error_message)
-    return json.dumps(headers)
+    return json.dumps(dict(headers))
 
 
