@@ -1,0 +1,3 @@
+recursive-include ckanext/datarequests/templates *
+recursive-include ckanext/datarequests/public *
+recursive-include ckanext/datarequests/fanstatic *

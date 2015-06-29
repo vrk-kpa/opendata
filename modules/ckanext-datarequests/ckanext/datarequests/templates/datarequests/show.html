@@ -1,0 +1,68 @@
+{% extends "datarequests/base.html" %}
+
+{% block title %}Data Request {{c.datarequest.get('title', '')}}{% endblock %}
+
+{% set datarequest_id = c.datarequest.get('id') %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Data Requests'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for c.datarequest.get('title'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=datarequest_id %}</li>
+{% endblock %}
+
+{% block content_action %}
+
+  {% if h.check_access('datarequest_update', {'id':datarequest_id }) %}
+    {% link_for _('Manage'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='update', id=datarequest_id, class_='btn', icon='wrench' %}
+  {% endif %}
+
+  {% if h.check_access('datarequest_close', {'id':datarequest_id }) and not c.datarequest.closed %}
+    {% link_for _('Close'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='close', id=datarequest_id, class_='btn btn-danger', icon='lock' %}
+  {% endif %}
+
+{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('datarequest_show', _('Data Request'), id=datarequest_id) }}
+
+  {% if h.show_comments_tab() %}
+    {{ h.build_nav_icon('datarequest_comment', _('Comments'), id=datarequest_id) }}
+  {% endif %}
+{% endblock %}
+
+{% block secondary_content %}
+  {{ super() }}
+
+  {% block package_social %}
+    {% snippet "snippets/social.html" %}
+  {% endblock %}
+
+{% endblock %}
+
+{% block primary_content_inner %}
+    {% if c.datarequest.closed %}
+      <span class="uppercase label label-closed pull-right">
+        <i class="icon-lock"></i>
+        {{ _('Closed') }}
+      </span>
+    {% else %}
+      <span class="uppercase label label-open pull-right">
+        <i class="icon-unlock"></i>
+        {{ _('Open') }}
+      </span>
+    {% endif %}
+
+  <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ c.datarequest.get('title') }}{% endblock %}</h1>
+
+  {% block datarequest_description %}
+    {% if c.datarequest.get('description') %}
+      <div class="notes embedded-content">
+        {{ h.render_markdown(c.datarequest.get('description')) }}
+      </div>
+    {% endif %}
+  {% endblock %}
+
+  {% block datarequest_additional_info %}
+    {% snippet "datarequests/snippets/additional_info.html", datarequest=c.datarequest %}
+  {% endblock %}
+
+{% endblock %}
