@@ -21,10 +21,13 @@ done
 
 echo "## nosetests ##"
 
-for plugin in modules/*; do
-    if [ -f $plugin/test.ini ]; then
+tested_plugins=(ckanext-archiver ckanext-ytp-main ckanext-ytp-request ckanext-ytp-tasks)
+untested_plugins=(ckanext-datarequests ckanext-googleanalytics ckanext-harvest ckanext-qa ckanext-spatial)
+
+for plugin in ${tested_plugins[*]}; do
+    if [ -f modules/$plugin/test.ini ]; then
         echo "Running nosetest for $plugin"
-        cd $plugin
+        cd modules/$plugin
         nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
         NOSE_EXIT=$?
         if [ "$NOSE_EXIT" != "0" ]; then
