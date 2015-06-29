@@ -101,6 +101,30 @@ def update(ckan_ini_filepath, resource_id, queue='bulk'):
                   e, resource_id)
         raise
 
+@celery.task(name="archiver.update_package")
+def update_package(ckan_ini_filepath, package, queue='bulk'):
+    '''
+    Archive a resource.
+    '''
+    log = update.get_logger()
+    log.info('Starting update_package task: package_id=%r queue=%s', package['id'], queue)
+
+    tasks = []
+    try:
+        for resource in package['resources']:
+            resource_id = resource['id']
+            update(ckan_ini_filepath, resource_id, queue)
+    except Exception, e:
+        if os.environ.get('DEBUG'):
+            raise
+        # Any problem at all is logged and reraised so that celery can log it too
+        log.error('Error occurred during archiving package: %s\nResource: %r',
+                  e, package['id'])
+        raise
+
+    notify_package(package, queue, ckan_ini_filepath)
+
+
 def _update(ckan_ini_filepath, resource_id, queue):
     """
     Link check and archive the given resource.
@@ -390,6 +414,16 @@ def notify(resource, queue, cache_filepath):
     '''
     archiver_interfaces.IPipe.send_data('archived',
                                         resource_id=resource['id'],
+                                        queue=queue, 
+                                        cache_filepath=cache_filepath)
+
+def notify_package(package, queue, cache_filepath):
+    '''
+    Broadcasts a notification that a package archival has taken place (or at least
+    the archival object is changed somehow). e.g. ckanext-qa listens for this
+    '''
+    archiver_interfaces.IPipe.send_data('package-archived',
+                                        package_id=package['id'],
                                         queue=queue, 
                                         cache_filepath=cache_filepath)
 
