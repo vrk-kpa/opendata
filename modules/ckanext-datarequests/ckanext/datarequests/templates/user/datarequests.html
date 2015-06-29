@@ -1,0 +1,17 @@
+{% extends "user/read_base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="/datarequests.css" />
+{% endblock %}
+
+{% block page_primary_action %}
+  {{ h.snippet('datarequests/snippets/datarequest_list.html', datarequest_count=c.datarequest_count, datarequests=c.datarequests, page=c.page)}}
+{% endblock %}
+
+{% block secondary_content %}
+  {{ super() }}
+  {% for facet in c.facet_titles %}
+    {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, extras={'id': c.user_dict.name}) }}
+  {% endfor %}
+{% endblock %}

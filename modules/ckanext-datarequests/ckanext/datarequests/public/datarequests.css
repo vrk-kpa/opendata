@@ -1,0 +1,22 @@
+.label-open {
+    background-color: #2db55d;
+}
+
+.label-closed {
+    background-color: #e0051e;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.comment-actions {
+	text-align: right;
+}
+
+.date-datarequests {
+    color: #999;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-top: 8px;
+}

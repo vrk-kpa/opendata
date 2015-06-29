@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><WMS_Capabilities xmlns="http://www.opengis.net/wms" xmlns:esri_wms="http://www.esri.com/wms" xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0" xmlns:inspire_vs="http://inspire.ec.europa.eu/schemas/inspire_vs/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.3.0" xsi:schemaLocation="http://inspire.ec.europa.eu/schemas/inspire_vs/1.0 http://webservices.spatialni.gov.uk/arcgisoutput/ifc/schema/networkservices/inspire_vs/1.0/inspire-wms-extension.xsd">
+	<Service>
+		<Name>WMS</Name>
+		<Title>Primary River Basin Catchments (INSPIRE View Service)</Title>
+		<Abstract>This vector dataset was generated from OSNI's 50m DTM using ESRI ArcView software in 1999. The boundaries represent the agreed delineation by the then Science Service, Rivers Agency and OSNI..</Abstract>
+		<KeywordList>
+			<Keyword>ESRI</Keyword>
+			<Keyword>INSPIRE View</Keyword>
+			
+			<Keyword>NI</Keyword>
+			
+			
+			<Keyword>Catchment</Keyword>
+			
+			<Keyword>Rivers Agency</Keyword>
+			<Keyword>INSPIRE:ViewService</Keyword>
+			
+			
+			
+			
+		<Keyword>WMS</Keyword><Keyword>INSPIRE</Keyword><Keyword>ViewService</Keyword><Keyword vocabulary="ISO">infoMapAccessService</Keyword><Keyword>LPS</Keyword><Keyword>AFBI</Keyword><Keyword>River</Keyword><Keyword>Basin</Keyword><Keyword>Catcment</Keyword><Keyword vocabulary="GEMET - INSPIRE themes">Hydrography</Keyword></KeywordList>
+		<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService" xlink:type="simple"/>
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson>GIS UNIT, AFESD</ContactPerson>
+				<ContactOrganization>Agri-Food and Biosciences Institute (AFBI)</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactPosition>PointOfContact</ContactPosition>
+			<ContactAddress>
+				<AddressType>Postal Address</AddressType>
+				<Address>Newforge Lane</Address>
+				<City>Belfast</City>
+				<StateOrProvince>[your state or province]</StateOrProvince>
+				<PostCode>BT9 5PX</PostCode>
+				<Country>Northern Ireland</Country>
+			</ContactAddress>
+			<ContactVoiceTelephone>[your telephone number]</ContactVoiceTelephone>
+			<ContactFacsimileTelephone>[your fax number]</ContactFacsimileTelephone>
+			<ContactElectronicMailAddress>info@info.com</ContactElectronicMailAddress>
+		</ContactInformation>
+		<Fees>conditions apply</Fees>
+		<AccessConstraints>license</AccessConstraints>
+		<MaxWidth>2048</MaxWidth>
+		<MaxHeight>2048</MaxHeight>
+	</Service>
+	<Capability>
+		<Request>
+			<GetCapabilities>
+				<Format>application/vnd.ogc.wms_xml</Format>
+				<Format>text/xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService" xlink:type="simple"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetCapabilities>
+			<GetMap>
+				<Format>image/bmp</Format>
+				<Format>image/jpeg</Format>
+				<Format>image/tiff</Format>
+				<Format>image/png</Format>
+				<Format>image/png8</Format>
+				<Format>image/png24</Format>
+				<Format>image/png32</Format>
+				<Format>image/gif</Format>
+				<Format>image/svg+xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService/ENG" xlink:type="simple"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetMap>
+			<GetFeatureInfo>
+				
+				
+				
+				<Format>text/xml</Format>
+				<Format>text/html</Format>
+				
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService/ENG" xlink:type="simple"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetFeatureInfo>
+			<esri_wms:GetStyles>
+				<Format>application/vnd.ogc.sld+xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService/ENG" xlink:type="simple"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</esri_wms:GetStyles>
+		</Request>
+		<Exception>
+			<Format>application/vnd.ogc.se_xml</Format>
+			
+			
+			<Format>text/xml</Format>
+			
+			
+		</Exception>
+		<inspire_vs:ExtendedCapabilities><inspire_common:ResourceLocator><inspire_common:URL>http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService</inspire_common:URL><inspire_common:MediaType>application/vnd.ogc.wms_xml</inspire_common:MediaType></inspire_common:ResourceLocator><inspire_common:ResourceType>service</inspire_common:ResourceType><inspire_common:TemporalReference><inspire_common:DateOfPublication>2012-05-23</inspire_common:DateOfPublication></inspire_common:TemporalReference><inspire_common:Conformity><inspire_common:Specification xsi:type="inspire_common:citationInspireInteroperabilityRegulation_eng"><inspire_common:Title>COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services</inspire_common:Title><inspire_common:DateOfPublication>2010-12-08</inspire_common:DateOfPublication><inspire_common:URI>OJ:L:2010:323:0011:0102:EN:PDF</inspire_common:URI><inspire_common:ResourceLocator><inspire_common:URL>http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2010:323:0011:0102:EN:PDF</inspire_common:URL><inspire_common:MediaType>application/pdf</inspire_common:MediaType></inspire_common:ResourceLocator></inspire_common:Specification><inspire_common:Degree>notEvaluated</inspire_common:Degree></inspire_common:Conformity><inspire_common:MetadataPointOfContact><inspire_common:OrganisationName>Agri-Food and Biosciences Institute (AFBI)</inspire_common:OrganisationName><inspire_common:EmailAddress>info@info.com</inspire_common:EmailAddress></inspire_common:MetadataPointOfContact><inspire_common:MetadataDate>2012-05-23</inspire_common:MetadataDate><inspire_common:SpatialDataServiceType>view</inspire_common:SpatialDataServiceType><inspire_common:MandatoryKeyword><inspire_common:KeywordValue>infoMapAccessService</inspire_common:KeywordValue></inspire_common:MandatoryKeyword><inspire_common:Keyword xsi:type="inspire_common:inspireTheme_eng"><inspire_common:OriginatingControlledVocabulary><inspire_common:Title>GEMET - INSPIRE themes</inspire_common:Title><inspire_common:DateOfPublication>2008-06-01</inspire_common:DateOfPublication></inspire_common:OriginatingControlledVocabulary><inspire_common:KeywordValue>Hydrography</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>WMS</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>INSPIRE</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>ViewService</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>LPS</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>AFBI</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>River</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>Basin</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:Keyword><inspire_common:KeywordValue>Catcment</inspire_common:KeywordValue></inspire_common:Keyword><inspire_common:SupportedLanguages><inspire_common:DefaultLanguage><inspire_common:Language>eng</inspire_common:Language></inspire_common:DefaultLanguage><inspire_common:SupportedLanguage><inspire_common:Language>eng</inspire_common:Language></inspire_common:SupportedLanguage></inspire_common:SupportedLanguages><inspire_common:ResponseLanguage><inspire_common:Language>eng</inspire_common:Language></inspire_common:ResponseLanguage><inspire_common:MetadataUrl><inspire_common:URL/><inspire_common:MediaType>application/vnd.iso.19139+xml</inspire_common:MediaType></inspire_common:MetadataUrl></inspire_vs:ExtendedCapabilities><Layer>
+			<Title>AFBI Primary River Basin Catchments of Northern Ireland</Title>
+			<CRS>CRS:84</CRS>
+			<CRS>EPSG:4326</CRS>
+			<CRS>EPSG:3395</CRS>
+			<CRS>EPSG:3857</CRS>
+			<CRS>EPSG:4258</CRS>
+			<CRS>EPSG:3034</CRS>
+			<CRS>EPSG:3035</CRS>
+			<CRS>EPSG:3042</CRS><CRS>EPSG:3043</CRS><CRS>EPSG:3044</CRS><CRS>EPSG:3045</CRS><CRS>EPSG:3046</CRS><CRS>EPSG:3047</CRS><CRS>EPSG:3048</CRS><CRS>EPSG:3049</CRS><CRS>EPSG:25830</CRS><CRS>EPSG:25831</CRS><CRS>EPSG:25832</CRS><CRS>EPSG:25833</CRS><CRS>EPSG:25834</CRS><CRS>EPSG:25835</CRS><CRS>EPSG:25836</CRS><CRS>EPSG:25837</CRS><CRS>EPSG:29902</CRS><EX_GeographicBoundingBox>
+				<westBoundLongitude>-8.33633565174996</westBoundLongitude>
+				<eastBoundLongitude>-5.29445906124993</eastBoundLongitude>
+				<southBoundLatitude>53.6983372926004</southBoundLatitude>
+				<northBoundLatitude>55.3898531296186</northBoundLatitude>
+			</EX_GeographicBoundingBox>
+			<BoundingBox CRS="EPSG:3042" maxx="6154357.156011522" maxy="361667.04205784376" minx="5948643.693992699" miny="146611.46963053657"/><BoundingBox CRS="EPSG:3043" maxx="6200103.135734631" maxy="-17522.980024662218" minx="5977605.46280373" miny="-248488.02837914752"/><BoundingBox CRS="EPSG:3044" maxx="6279210.37426428" maxy="-394622.61299522826" minx="6040419.687104235" miny="-640953.101491207"/><BoundingBox CRS="EPSG:3045" maxx="6392421.089157906" maxy="-767898.006885062" minx="6137817.823363421" miny="-1029043.7346626162"/><BoundingBox CRS="EPSG:3046" maxx="6540698.052947904" maxy="-1135286.75120992" minx="6270867.210543775" miny="-1410571.4786020818"/><BoundingBox CRS="EPSG:3047" maxx="6725116.037300509" maxy="-1494250.09979713" minx="6440887.486042207" miny="-1782722.5790646188"/><BoundingBox CRS="EPSG:3048" maxx="6946698.497382551" maxy="-1841615.9735243088" minx="6649317.0121637" miny="-2141861.824318792"/><BoundingBox CRS="EPSG:3049" maxx="7099972.912632905" maxy="-2173409.9997666045" minx="6897510.75835584" miny="-2351986.685691782"/><BoundingBox CRS="EPSG:25830" maxx="361667.04205784376" maxy="6154357.156011522" minx="146611.46963053657" miny="5948643.693992699"/><BoundingBox CRS="EPSG:25831" maxx="-17522.980024662218" maxy="6200103.135734631" minx="-248488.02837914752" miny="5977605.46280373"/><BoundingBox CRS="EPSG:25832" maxx="-394622.61299522826" maxy="6279210.37426428" minx="-640953.101491207" miny="6040419.687104235"/><BoundingBox CRS="EPSG:25833" maxx="-767898.006885062" maxy="6392421.089157906" minx="-1029043.7346626162" miny="6137817.823363421"/><BoundingBox CRS="EPSG:25834" maxx="-1135286.75120992" maxy="6540698.052947904" minx="-1410571.4786020818" miny="6270867.210543775"/><BoundingBox CRS="EPSG:25835" maxx="-1494250.09979713" maxy="6725116.037300509" minx="-1782722.5790646188" miny="6440887.486042207"/><BoundingBox CRS="EPSG:25836" maxx="-1841615.9735243088" maxy="6946698.497382551" minx="-2141861.824318792" miny="6649317.0121637"/><BoundingBox CRS="EPSG:25837" maxx="-2173409.9997666045" maxy="7099972.912632905" minx="-2351986.685691782" miny="6897510.75835584"/><BoundingBox CRS="EPSG:29902" maxx="378336.99538428313" maxy="463498.95001229603" minx="177828.91364346715" miny="271921.1741242628"/><BoundingBox CRS="CRS:84" maxx="-5.29445906124993" maxy="55.3898531296186" minx="-8.33633565174996" miny="53.6983372926004"/>
+			<BoundingBox CRS="EPSG:4326" maxx="55.3898531296186" maxy="-5.29445906124993" minx="53.6983372926004" miny="-8.33633565174996"/>
+			<BoundingBox CRS="EPSG:3395" maxx="-589376.486724175" maxy="7402406.46549477" minx="-927996.639834618" miny="7078482.50557624"/>
+			<BoundingBox CRS="EPSG:3857" maxx="-589376.486724175" maxy="7437602.1022553" minx="-927996.639834618" miny="7112943.69149108"/>
+			<BoundingBox CRS="EPSG:4258" maxx="55.3898531305" maxy="-5.29445906124993" minx="53.6983372935001" miny="-8.33633565174996"/>
+			<BoundingBox CRS="EPSG:3034" maxx="3067989.74469793" maxy="3303694.94383088" minx="2841308.79286159" miny="3083233.54984107"/>
+			<BoundingBox CRS="EPSG:3035" maxx="3360027.42424171" maxy="3734449.82843842" minx="3124997.27275533" miny="3505203.00609658"/>
+			<Layer queryable="1">
+				<Name>Primary_River_Basin_Catchments_of_Northern_Ireland</Name>
+				<Title>Primary River Basin Catchments of Northern Ireland</Title>
+				<Abstract>Layer Primary River Basin Catchments of Northern Ireland</Abstract>
+				<KeywordList>
+					<Keyword>ESRI</Keyword>
+					<Keyword>INSPIRE View</Keyword>
+					<Keyword>LPS</Keyword>
+					<Keyword>NI</Keyword>
+					<Keyword>River</Keyword>
+					<Keyword>Basin</Keyword>
+					<Keyword>Catchment</Keyword>
+					<Keyword>AFBI</Keyword>
+					<Keyword>Rivers Agency</Keyword>
+				</KeywordList>
+				<CRS>CRS:84</CRS>
+				<CRS>EPSG:4326</CRS>
+				<CRS>EPSG:3395</CRS>
+				<CRS>EPSG:3857</CRS>
+				<CRS>EPSG:4258</CRS>
+				<CRS>EPSG:3034</CRS>
+				<CRS>EPSG:3035</CRS>
+				<CRS>EPSG:32629</CRS>
+				<CRS>EPSG:3041</CRS>
+				<CRS>EPSG:25829</CRS>
+				<CRS>EPSG:4299</CRS>
+				<CRS>EPSG:29902</CRS>
+				<CRS>EPSG:3042</CRS><CRS>EPSG:3043</CRS><CRS>EPSG:3044</CRS><CRS>EPSG:3045</CRS><CRS>EPSG:3046</CRS><CRS>EPSG:3047</CRS><CRS>EPSG:3048</CRS><CRS>EPSG:3049</CRS><CRS>EPSG:25830</CRS><CRS>EPSG:25831</CRS><CRS>EPSG:25832</CRS><CRS>EPSG:25833</CRS><CRS>EPSG:25834</CRS><CRS>EPSG:25835</CRS><CRS>EPSG:25836</CRS><CRS>EPSG:25837</CRS><EX_GeographicBoundingBox>
+					<westBoundLongitude>-8.19806853399996</westBoundLongitude>
+					<eastBoundLongitude>-5.43272617899993</eastBoundLongitude>
+					<southBoundLatitude>53.7752243761012</southBoundLatitude>
+					<northBoundLatitude>55.3129660461178</northBoundLatitude>
+				</EX_GeographicBoundingBox>
+				<BoundingBox CRS="EPSG:3042" maxx="6144970.9310375545" maxy="351925.4949288231" minx="5957996.489881595" miny="156798.04181058536"/><BoundingBox CRS="EPSG:3043" maxx="6189969.0085885115" maxy="-27985.31107668788" minx="5987768.026692371" miny="-237573.96812422678"/><BoundingBox CRS="EPSG:3044" maxx="6268353.3434643475" maxy="-405775.89325319114" minx="6051372.57032141" miny="-629332.5581552966"/><BoundingBox CRS="EPSG:3045" maxx="6380867.3858807" maxy="-779712.6219928374" minx="6149544.1563206" miny="-1016738.795322767"/><BoundingBox CRS="EPSG:3046" maxx="6528480.457309111" maxy="-1147728.1889726082" minx="6283347.482193208" miny="-1397611.2716938914"/><BoundingBox CRS="EPSG:3047" maxx="6712280.281145324" maxy="-1507272.6946349298" minx="6454093.112729063" miny="-1769150.7745707487"/><BoundingBox CRS="EPSG:3048" maxx="6933310.905548214" maxy="-1855155.133370711" minx="6663202.399724328" miny="-2127746.2173099974"/><BoundingBox CRS="EPSG:3049" maxx="7092635.118125779" maxy="-2187372.4431456868" minx="6912003.583820589" miny="-2345737.059176015"/><BoundingBox CRS="EPSG:25830" maxx="351925.4949288231" maxy="6144970.9310375545" minx="156798.04181058536" miny="5957996.489881595"/><BoundingBox CRS="EPSG:25831" maxx="-27985.31107668788" maxy="6189969.0085885115" minx="-237573.96812422678" miny="5987768.026692371"/><BoundingBox CRS="EPSG:25832" maxx="-405775.89325319114" maxy="6268353.3434643475" minx="-629332.5581552966" miny="6051372.57032141"/><BoundingBox CRS="EPSG:25833" maxx="-779712.6219928374" maxy="6380867.3858807" minx="-1016738.795322767" miny="6149544.1563206"/><BoundingBox CRS="EPSG:25834" maxx="-1147728.1889726082" maxy="6528480.457309111" minx="-1397611.2716938914" miny="6283347.482193208"/><BoundingBox CRS="EPSG:25835" maxx="-1507272.6946349298" maxy="6712280.281145324" minx="-1769150.7745707487" miny="6454093.112729063"/><BoundingBox CRS="EPSG:25836" maxx="-1855155.133370711" maxy="6933310.905548214" minx="-2127746.2173099974" miny="6663202.399724328"/><BoundingBox CRS="EPSG:25837" maxx="-2187372.4431456868" maxy="7092635.118125779" minx="-2345737.059176015" miny="6912003.583820589"/><BoundingBox CRS="CRS:84" maxx="-5.43272617899993" maxy="55.3129660461178" minx="-8.19806853399996" miny="53.7752243761012"/>
+				<BoundingBox CRS="EPSG:4326" maxx="55.3129660461178" maxy="-5.43272617899993" minx="53.7752243761012" miny="-8.19806853399996"/>
+				<BoundingBox CRS="EPSG:3395" maxx="-604768.311865559" maxy="7387682.64913484" minx="-912604.814693234" miny="7093206.32193618"/>
+				<BoundingBox CRS="EPSG:3857" maxx="-604768.311865559" maxy="7422844.90176601" minx="-912604.814693234" miny="7127700.89198036"/>
+				<BoundingBox CRS="EPSG:4258" maxx="55.312966047" maxy="-5.43272617899993" minx="53.7752243770001" miny="-8.19806853399996"/>
+				<BoundingBox CRS="EPSG:3034" maxx="3057686.06506901" maxy="3293673.97137679" minx="2851612.47249052" miny="3093254.52229515"/>
+				<BoundingBox CRS="EPSG:3035" maxx="3349344.23553778" maxy="3724029.51833197" minx="3135680.46145926" miny="3515623.31620302"/>
+				<BoundingBox CRS="EPSG:32629" maxx="735045.266192107" maxy="6135416.29952156" minx="550897.731079997" miny="5958811.85121463"/>
+				<BoundingBox CRS="EPSG:3041" maxx="735045.266189597" maxy="6135416.29949555" minx="550897.731079433" miny="5958811.85119048"/>
+				<BoundingBox CRS="EPSG:25829" maxx="735045.266189597" maxy="6135416.29949555" minx="550897.731079433" miny="5958811.85119048"/>
+				<BoundingBox CRS="EPSG:4299" maxx="55.3130059032737" maxy="-5.43156772867745" minx="53.7750379967394" miny="-8.19733127199237"/>
+				<BoundingBox CRS="EPSG:29902" maxx="369297.268076835" maxy="454795.591960748" minx="186991.468098799" miny="280610.75339597"/>
+				<MetadataURL type="ISO19115"><Format>text/xml</Format><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://dgu-live.okfn.org/api/2/rest/harvestobject/6a2d1edb-7701-4cfc-94a6-4eca6f918834/xml" xlink:type="simple"/></MetadataURL><Style>
+					<Name>default</Name>
+					<Title>0</Title>
+					<LegendURL height="267" width="206">
+						<Format>image/png</Format>
+						<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://webservices.spatialni.gov.uk/arcgis/services/AFBI/AFBIPrimaryRiverBasinCatchments/MapServer/InspireViewService/ENG?request=GetLegendGraphic&amp;version=1.3.0&amp;format=image/png&amp;layer=0" xlink:type="simple"/>
+					</LegendURL>
+				</Style>
+			</Layer>
+		</Layer>
+	</Capability>
+</WMS_Capabilities>

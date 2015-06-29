@@ -17,6 +17,12 @@ ckan_extensions:
   - ckanext-ytp-main
   - ckanext-googleanalytics
   - ckanext-ytp-comments
+  - "ckanext-qa"
+  - "ckanext-datarequests"
+  - "ckanext-harvest"
+  - "ckanext-archiver"
+  - "ckanext-spatial"
+  - "ckanext-report"
 
 redis_harvest_database: 0
 redis_celery_database: 1
@@ -47,9 +53,8 @@ translation_projects:
   - "ytp-assets-common"
   - "ckanext-ytp-main"
   - "ckanext-ytp-comments"
-
-translated_extensions:
   - "ckanext-qa"
+  - "ckanext-datarequests"
 
 ckan_site_id: "default"
 
