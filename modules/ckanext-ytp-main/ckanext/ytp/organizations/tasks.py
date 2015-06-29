@@ -62,11 +62,12 @@ def organization_import(data):
                 values['name'] = item.pop('name')
                 values['title'] = item.pop('title')
                 values['description'] = item.pop('description', None)
-                values['extras'] = [{'key': key, 'value': value} for key, value in item.iteritems()]
+                for key, value in item.iteritems():
+                    values[key] = value
             values['id'] = values['name']
 
             if public_organization:
-                values['extras'] = [{'key': 'public_adminstration_organization', 'value': 'true'}]
+                values['public_adminstration_organization'] = 'true'
             try:
                 get_action('organization_show')(context, {'id': values['id']})
                 # Do not override organizations
