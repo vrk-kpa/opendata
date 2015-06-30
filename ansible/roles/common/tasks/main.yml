@@ -60,6 +60,7 @@
 
 - name: Update packages
   apt: upgrade=dist
+  when: travis != true
   tags:
   - packages
   - non-local

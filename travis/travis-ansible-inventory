@@ -1,5 +1,11 @@
 [webserver]
 localhost
 
+[webserver:vars]
+travis=true
+
 [dbserver]
 localhost
+
+[dbserver:vars]
+travis=true
