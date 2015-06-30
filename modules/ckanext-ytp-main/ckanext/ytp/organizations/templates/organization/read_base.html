@@ -6,3 +6,11 @@
     {% link_for _('Manage'), controller='organization', action='edit', id=c.group_dict.name, class_='btn', icon='wrench' %}
   {% endif %}
 {% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('organization_read', _('Datasets'), id=c.group_dict.name) }}
+  {% if h.check_access('organization_update', {'id': c.group_dict.id})%}
+    {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=c.group_dict.name) }}
+  {% endif %}
+  {{ h.build_nav_icon('organization_about', _('About'), id=c.group_dict.name) }}
+{% endblock %}
