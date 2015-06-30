@@ -15,5 +15,10 @@ cache:
     - /usr/lib/ckan/default/src/
     - $HOME/cache
   apt: true
-install: ./scripts/travis-install.sh
-script: ./scripts/travis-test.sh
+install:
+  - pip install ansible
+script:
+  - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --syntax-check"
+
+  # Run the role/playbook with ansible-playbook.
+  - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --connection=local --sudo"
