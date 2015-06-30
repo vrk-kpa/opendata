@@ -27,7 +27,7 @@ regions[user_guide] = 'User Guide'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
-stylesheets[all][] = 'bootstrap/dist/css/bootstrap.min.css'
+stylesheets[all][] = 'vendor/bootstrap.min.css'
 
 ; For information on choosing the desired method, please read the Drupal
 ; Bootstrap sub-theme "how-to" documentation:
