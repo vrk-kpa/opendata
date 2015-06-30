@@ -16,7 +16,7 @@ cache:
     - $HOME/cache
   apt: true
 before_install:
-  - sudo apt-get update && sudo apt-get upgrade
+  - sudo apt-get update && sudo apt-get upgrade -q -y
 install:
   - pip install ansible
 script:
