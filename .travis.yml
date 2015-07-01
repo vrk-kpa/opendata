@@ -34,4 +34,4 @@ script:
   - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --syntax-check"
 
   # Run the role/playbook with ansible-playbook.
-  - "ansible-playbook -i travis/travis-ansible-inventory -v ansible/single-server.yml --connection=local --sudo --skip-tags=has-hostname,non-local,firewall,database"
+  - "ansible-playbook -i travis/travis-ansible-inventory -v ansible/single-server.yml --connection=local --sudo --skip-tags=has-hostname,non-local,firewall,database,spatial"
