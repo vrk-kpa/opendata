@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-06-25 10:38+0300\n"
-"PO-Revision-Date: 2015-06-25 07:39+0000\n"
+"PO-Revision-Date: 2015-07-01 07:11+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -380,7 +380,7 @@ msgstr "Puuttuva arvo"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
-msgstr "Tietovaranto"
+msgstr "Tietoaineisto"
 
 #: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
