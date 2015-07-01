@@ -1,5 +1,14 @@
 <section class="module module-narrow additional-info dataset-sidebar col-lg-4">
 
+    {% block geospatial_map %}
+
+        {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
+        {% if dataset_extent %}
+            {% snippet "spatial/snippets/dataset_map_sidebar.html", extent=dataset_extent %}
+        {% endif %}
+
+    {% endblock %}
+
     {% block collection_type %}
         <div>
         <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
@@ -157,6 +166,9 @@
                     }
                   </script>
         </div>
+
+
+
     {% endblock %}
 
     {% block changelog_info %}

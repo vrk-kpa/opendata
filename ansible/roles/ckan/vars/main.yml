@@ -55,6 +55,7 @@ translation_projects:
   - "ckanext-ytp-comments"
   - "ckanext-qa"
   - "ckanext-datarequests"
+  - "ckanext-spatial"
 
 ckan_site_id: "default"
 
