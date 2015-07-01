@@ -17,6 +17,7 @@ cache:
   apt: true
 before_install:
   - sudo apt-get update
+  - sudo apt-get install postgresql-9.1-postgis
 install:
   - pip install ansible
 before_script:
@@ -25,6 +26,8 @@ before_script:
     - psql -c "create database ckan_default;" -U postgres
     - psql -c "create database drupal;" -U postgres
     - psql -c "create extension postgis;" -U postgres
+    - psql -d ckan_default -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql -U postgres
+    - psql -d ckan_default -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql -U postgres
     - psql -d "ckan_default" -c "ALTER TABLE spatial_ref_sys OWNER TO ckan_default;" -U postgres
     - psql -d "ckan_default" -c "ALTER TABLE geometry_columns OWNER TO ckan_default;" -U postgres
 
