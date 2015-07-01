@@ -22,9 +22,9 @@ install:
 before_script:
     - psql -c "create user ckan_default with password 'pass';" -U postgres
     - psql -c "create user drupal with password 'drupal';" -U postgres
-    - psql -c "create database ckan_default"; -U postgres
-    - psql -c "create database drupal"; -U postgres
-    - psql -c "create extension postgis" -U postgres
+    - psql -c "create database ckan_default;" -U postgres
+    - psql -c "create database drupal;" -U postgres
+    - psql -c "create extension postgis;" -U postgres
     - psql -d "ckan_default" -c "ALTER TABLE spatial_ref_sys OWNER TO ckan_default;" -U postgres
     - psql -d "ckan_default" -c "ALTER TABLE geometry_columns OWNER TO ckan_default;" -U postgres
 
