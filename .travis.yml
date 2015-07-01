@@ -17,7 +17,6 @@ cache:
   apt: true
 before_install:
   - sudo apt-get update
-  - sudo apt-get install postgresql-9.1-postgis
 install:
   - pip install ansible
 before_script:
