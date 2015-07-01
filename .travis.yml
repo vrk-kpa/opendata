@@ -19,8 +19,17 @@ before_install:
   - sudo apt-get update
 install:
   - pip install ansible
+before_script:
+    - psql -c "create user ckan_default with password 'pass';" -U postgres
+    - psql -c "create user drupal with password 'drupal';" -U postgres
+    - psql -c "create database ckan_default"; -U postgres
+    - psql -c "create database drupal"; -U postgres
+    - psql -c "create extension postgis" -U postgres
+    - psql -d "ckan_default" -c "ALTER TABLE spatial_ref_sys OWNER TO ckan_default;" -U postgres
+    - psql -d "ckan_default" -c "ALTER TABLE geometry_columns OWNER TO ckan_default;" -U postgres
+
 script:
   - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --syntax-check"
 
   # Run the role/playbook with ansible-playbook.
-  - "ansible-playbook -i travis/travis-ansible-inventory -v ansible/single-server.yml --connection=local --sudo --skip-tags=has-hostname,non-local,firewall"
+  - "ansible-playbook -i travis/travis-ansible-inventory -v ansible/single-server.yml --connection=local --sudo --skip-tags=has-hostname,non-local,firewall,database"
