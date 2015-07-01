@@ -21,49 +21,25 @@
   tags:
   - drupal
 
-- name: Fetch Bootstrap sources
-  get_url: url="https://github.com/twbs/bootstrap/archive/v{{ bootstrap_version }}.zip" dest="{{ cache_path }}/v{{ bootstrap_version }}.zip"
-  tags:
-  - drupal
-  - bootstrap
-
-- name: Extract Bootstrap source to theme
-  command: unzip "{{ cache_path }}/v{{ bootstrap_version }}.zip" chdir="{{ drupal_theme_path }}/ytp_theme" creates="{{ drupal_theme_path }}/ytp_theme/bootstrap-{{ bootstrap_version }}"
-  tags:
-  - drupal
-  - bootstrap
-
-- name: Symlink Boostrap version
-  command: ln -sf "bootstrap-{{ bootstrap_version }}" bootstrap chdir="{{ drupal_theme_path }}/ytp_theme"
-  tags:
-  - drupal
-
-- name: Remove packaged bootstrap css
-  command: rm "{{ drupal_theme_path }}/ytp_theme/bootstrap/dist/css/{{ item }}"
-  with_items:
-    - bootstrap.css
-    - bootstrap.min.css
-  tags:
-    - drupal
-
-- name: Symlink ytp bootstrap css
-  command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/bootstrap/dist/css/{{ item }}"
-  with_items:
-    - bootstrap.css
-    - bootstrap.min.css
-  tags:
-    - drupal
-
 - name: Create vendor js directory
   file: path="{{ drupal_theme_path }}/ytp_theme/vendor" state=directory
   tags:
     - drupal
+    
+- name: Symlink ytp bootstrap css
+  command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/vendor/{{ item }}"
+  with_items:
+    - bootstrap.min.css
+  tags:
+    - drupal
+
 
 - name: Symlink vendor js to drupal
   command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/vendor/{{ item }}"
   with_items:
     - moment-with-langs.js
     - bootstrap-datetimepicker.js
+    - bootstrap.min.js
   tags:
     - drupal
 

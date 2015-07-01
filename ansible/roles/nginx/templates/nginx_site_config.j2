@@ -144,7 +144,7 @@ server {
     location /resources {
         root /var/www;
         autoindex off;
-        expires max;
+        expires 30d;
         log_not_found off;
     }
 
@@ -191,8 +191,8 @@ server {
         try_files $uri @rewrite;
     }
 
-    location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-        expires max;
+    location ~* ^(?!/data|resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires 30d;
         log_not_found off;
     }
 }

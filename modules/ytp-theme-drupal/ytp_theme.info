@@ -27,9 +27,7 @@ regions[user_guide] = 'User Guide'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
-stylesheets[all][] = 'bootstrap/dist/css/bootstrap.min.css'
-stylesheets[all][] = 'css/overrides.css'
-stylesheets[all][] = 'css/style.css'
+stylesheets[all][] = 'vendor/bootstrap.min.css'
 
 ; For information on choosing the desired method, please read the Drupal
 ; Bootstrap sub-theme "how-to" documentation:
@@ -43,18 +41,7 @@ stylesheets[all][] = 'css/style.css'
 ; ;; Scripts
 ; ;;;;;;;;;;;;;;;;;;;;;
 ; 
-scripts[] = 'bootstrap/js/affix.js'
-scripts[] = 'bootstrap/js/alert.js'
-scripts[] = 'bootstrap/js/button.js'
-scripts[] = 'bootstrap/js/carousel.js'
-scripts[] = 'bootstrap/js/collapse.js'
-scripts[] = 'bootstrap/js/dropdown.js'
-scripts[] = 'bootstrap/js/modal.js'
-scripts[] = 'bootstrap/js/tooltip.js'
-scripts[] = 'bootstrap/js/popover.js'
-scripts[] = 'bootstrap/js/scrollspy.js'
-scripts[] = 'bootstrap/js/tab.js'
-scripts[] = 'bootstrap/js/transition.js'
+scripts[] = 'vendor/bootstrap.min.js'
 scripts[] = 'vendor/moment-with-langs.js'
 scripts[] = 'vendor/bootstrap-datetimepicker.js'
 ;
