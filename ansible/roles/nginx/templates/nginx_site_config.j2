@@ -144,7 +144,7 @@ server {
     location /resources {
         root /var/www;
         autoindex off;
-        expires max;
+        expires 30d;
         log_not_found off;
     }
 
@@ -192,7 +192,7 @@ server {
     }
 
     location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-        expires max;
+        expires 30d;
         log_not_found off;
     }
 }
