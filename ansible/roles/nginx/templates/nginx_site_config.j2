@@ -191,7 +191,7 @@ server {
         try_files $uri @rewrite;
     }
 
-    location ~* ^(?!/data|resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
+    location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
         expires 30d;
         log_not_found off;
     }
