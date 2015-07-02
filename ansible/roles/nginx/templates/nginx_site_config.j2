@@ -94,8 +94,10 @@ server {
     # Fix: Old CKAN file upload paths
     rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
 
-    # Disable CKAN main page. Redirect to Drupal main page. 
-    rewrite ^/data/(fi|en|sv)/$ /$1 permanent;
+    # Disable CKAN main page. Redirect to Drupal main page.
+    rewrite ^/data/?$ /fi permanent;
+    
+    rewrite ^/data/(fi|en|sv)/?$ /$1 permanent;
 
     location = /favicon.ico {
         log_not_found off;
