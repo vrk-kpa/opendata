@@ -20,7 +20,7 @@ before_install:
 install:
   - pip install ansible
   - pip install flake8
-  - pip install ./test_requirements.txt
+  - pip install -r ./test_requirements.txt
 before_script:
     - psql -c "create user ckan_default with password 'pass';" -U postgres
     - psql -c "create user ckan_test with password 'pass';" -U postgres
