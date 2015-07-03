@@ -7,6 +7,8 @@ VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
+pip install -r test_requirements.txt
+
 EXIT_STATUS=0
 
 echo "## nosetests ##"
