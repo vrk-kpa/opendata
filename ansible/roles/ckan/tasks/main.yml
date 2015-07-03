@@ -14,12 +14,6 @@
   - packages
   - ckan
 
-- name: Upgrade setuptools
-  pip: name=setuptools state=latest
-  tags:
-    - ckan
-    - packages
-    - pip
 
 - name: Ensure CKAN deb packages
   action: apt pkg="{{ item }}" state=latest
@@ -154,6 +148,22 @@
     - ckan
     - qa
     - pip
+
+- name: Upgrade setuptools
+  pip: name=setuptools virtualenv="{{ virtual_environment }}" state=latest
+  tags:
+    - ckan
+    - packages
+    - pip
+
+- name: Remove distribute
+  pip: name=distribute virtualenv="{{ virtual_environment }}" state=absent
+  ignore_errors: true
+  tags:
+    - ckan
+    - packages
+    - pip
+
 
 - name: Copy requirements file
   template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
