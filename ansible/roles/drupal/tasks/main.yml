@@ -179,7 +179,7 @@
     - i18nviews
     - l10n_update
     - admin_language
-    - wysiwyg
+    - ckeditor
     - fe_block
     - imce
     - imce_wysiwyg
