@@ -1,5 +1,0 @@
-name = YTP wysiwyg
-description = Module to enable wysiwyg editor
-package = YTP
-core = 7.x
-dependencies[] = wysiwyg

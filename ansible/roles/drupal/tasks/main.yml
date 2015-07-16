@@ -127,7 +127,7 @@
     - i18nviews
     - l10n_update
     - admin_language
-    - wysiwyg
+    - ckeditor
 
     - features_extra
     - imce
@@ -199,49 +199,6 @@
   tags:
   - drupal
 
-
-- stat: path={{ drupal_root }}/sites/all/libraries/ckeditor
-  register: ckeditor_dir
-  tags:
-    - drupal
-
-
-- name: Download ckeditor
-  get_url: url="http://download.cksource.com/CKEditor/CKEditor/CKEditor%20{{ item }}/ckeditor_{{ item }}.zip" dest="{{ cache_path }}"
-  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
-  with_items:
-    - 3.6.6.2
-  tags:
-  - drupal
-  - ckeditor
-
-- name: Create ckeditor directory
-  file: path="{{ drupal_root }}/sites/all/libraries" state=directory
-  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
-  tags:
-    - drupal
-    - ckeditor
-
-- name: Unzip ckeditor
-  unarchive: src="{{ cache_path }}/ckeditor_{{ item }}.zip" dest="{{ drupal_root }}/sites/all/libraries" copy=no
-  when: ckeditor_dir.stat.isdir is not defined or ckeditor_dir.stat.isdir == False
-  with_items:
-   - 3.6.6.2
-  tags:
-    - drupal
-    - ckeditor
-
-- name: Install wysiwyg module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg" && cp -r "{{ cache_path }}/ytp-drupal-wysiwyg" "{{ drupal_root }}/sites/all/modules/ytp_wysiwyg"
-  register: install_wysiwyg
-  tags:
-  - drupal
-
-- name: Enable wysiwyg module
-  command: drush en -y ytp_wysiwyg chdir="{{ drupal_root }}"
-  when: install_wysiwyg|changed
-  tags:
-  - drupal
 
 - name: Install YTP user module
   shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
@@ -378,18 +335,6 @@
   copy: src="{{ item }}" dest="{{ drupal_root }}/{{ item }}" owner="root" group="root" mode="0644"
   with_items:
     - "cancel-user.php"
-  tags:
-  - drupal
-
-- name: Copy imce scripts
-  copy: src="../modules/ytp-drupal-wysiwyg/imce_set_for_roles.drush" dest="{{ scripts_path }}/imce_set_for_roles.drush" owner=root group=root mode=750
-  register: copy_imce_scripts
-  tags:
-  - drupal
-
-- name: Apply imce scripts
-  command: "'{{ scripts_path }}/imce_set_for_roles.drush' '{{ drupal_editor_rolename }}' '{{ drupal_publisher_rolename }}' chdir='{{ drupal_root }}'"
-  when: copy_imce_scripts|changed
   tags:
   - drupal
 
