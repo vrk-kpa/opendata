@@ -130,8 +130,6 @@
     - ckeditor
 
     - features_extra
-    - imce
-    - imce_wysiwyg
     - google_analytics
 
     - views_bootstrap
@@ -182,7 +180,6 @@
     - ckeditor
     - fe_block
     - imce
-    - imce_wysiwyg
     - googleanalytics
 
     - views_bootstrap
