@@ -102,12 +102,21 @@ def update(ckan_ini_filepath, resource_id, queue='bulk'):
         raise
 
 @celery.task(name="archiver.update_package")
-def update_package(ckan_ini_filepath, package, queue='bulk'):
+def update_package(ckan_ini_filepath, package_id, queue='bulk'):
     '''
-    Archive a resource.
+    Archive a package.
     '''
+    from ckan import model
+    from ckan.logic import get_action
+
+    load_config(ckan_ini_filepath)
+    register_translator()
+
     log = update.get_logger()
-    log.info('Starting update_package task: package_id=%r queue=%s', package['id'], queue)
+    log.info('Starting update_package task: package_id=%r queue=%s', package_id, queue)
+
+    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}
+    package = get_action('package_show')(context_, {'id': package_id})
 
     tasks = []
     try:
@@ -262,7 +271,6 @@ def download(context, resource, url_timeout=30,
     Returns a dict of results of a successful download:
       mimetype, size, hash, headers, saved_file, url_redirected_to
     '''
-
     log = update.get_logger()
 
     url = resource['url']

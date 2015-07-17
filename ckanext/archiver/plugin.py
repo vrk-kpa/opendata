@@ -24,25 +24,12 @@ class ArchiverPlugin(p.SingletonPlugin):
     # IDomainObjectModification / IResourceUrlChange
 
     def notify(self, entity, operation=None):
-        if not isinstance(entity, model.Resource):
+        if not isinstance(entity, model.Package):
             return
 
-        log.debug('Notified of resource event: %s %s', entity.id, operation)
+        log.debug('Notified of package event: %s %s', entity.id, operation)
 
-        if operation:
-            # Only interested in 'new resource' events. Note that once this
-            # occurs, in tasks.py it will update the resource with the new
-            # cache_url, that will cause a 'change resource' notification,
-            # which we nee to ignore here.
-            if operation == model.DomainObjectOperation.new:
-                create_archiver_task(entity, 'priority')
-            else:
-                log.debug('Ignoring resource event because operation is: %s',
-                          operation)
-        else:
-            # if operation is None, resource URL has been changed, as the
-            # notify function in IResourceUrlChange only takes 1 parameter
-            create_archiver_task(entity, 'priority')
+        create_package_archiver_task(entity, 'priority')
 
     # IReport
 
@@ -66,6 +53,13 @@ def create_archiver_task(resource, queue):
                      task_id=task_id, queue=queue)
     log.debug('Archival of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
 
+def create_package_archiver_task(package, queue):
+    from pylons import config
+    task_id = '%s/%s' % (package.name, make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('archiver.update_package', args=[ckan_ini_filepath, package.id, queue],
+                     task_id=task_id, queue=queue)
+    log.debug('Archival of package put into celery queue %s: %s', queue, package.name)
 
 class TestIPipePlugin(p.SingletonPlugin):
     """

@@ -330,23 +330,8 @@ class TestArchiver(BaseCase):
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     @mock.patch('ckan.lib.celery_app.celery.send_task')
-    def test_ipipe_notified2(self, url, send_task):
-        def _send_task(name, args, **kwargs):
-            if name == 'archiver.update':
-                from ckanext.archiver.tasks import update
-                res = update.apply_async(args=args)
-                res.get()
-                return res
-            else:
-                raise Exception('_send_task')
-
-        testipipe = plugins.get_plugin('testipipe')
-        testipipe.reset()
-
+    def test_package_achived_when_resource_modified(self, url, send_task):
         data_dict = self._test_resource(url)
-
-        send_task.side_effect = _send_task
-
         data_dict['url'] = 'http://example.com/foo'
         context = {'model': model, 
                    'user': 'test',
@@ -354,13 +339,10 @@ class TestArchiver(BaseCase):
                    'session': model.Session}
         result = get_action('resource_update')(context, data_dict)
 
-        assert len(testipipe.calls) == 1
+        assert send_task.called == True
 
-        operation, queue, params = testipipe.calls[0]
-        assert operation == 'archived'
-        assert queue == 'queue1'
-        assert params.get('package_id') == None
-        assert params.get('resource_id') == res_id
+        args, kwargs = send_task.call_args
+        assert args == ('archiver.update_package',)
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_ipipe_notified_dataset(self, url):
@@ -371,7 +353,7 @@ class TestArchiver(BaseCase):
 
         from ckanext.archiver.tasks import update_package
         # celery.send_task doesn't respect CELERY_ALWAYS_EAGER
-        res = update_package.apply_async(args=[self.config, pkg, 'queue1'])
+        res = update_package.apply_async(args=[self.config, pkg['id'], 'queue1'])
         res.get()
 
         assert len(testipipe.calls) == 2, len(testipipe.calls)
