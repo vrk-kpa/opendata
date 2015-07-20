@@ -209,6 +209,13 @@
   tags:
   - drupal
 
+- name: Overwrites ckeditor configuration with our custom
+  copy: src="{{ item }}" dest="{{ drupal_root }}/sites/all/modules/ckeditor/{{ item }}"
+  with_items:
+  - "ckeditor.config.js"
+  tags:
+  - drupal
+
 - include: theme.yml
 
 - include: features.yml
