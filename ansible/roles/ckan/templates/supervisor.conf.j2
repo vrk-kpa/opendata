@@ -24,7 +24,7 @@ startsecs=10
 
 [program:celery_celery]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckan celeryd run -q celery --config={{ ckan_ini }}
+command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckan celeryd run concurrency=1 -q celery --config={{ ckan_ini }}
 user={{ celery_user }}
 
 numprocs=1
@@ -44,7 +44,7 @@ priority=998
 
 [program:celery_bulk]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckan celeryd run -q bulk --config={{ ckan_ini }}
+command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckan celeryd run concurrency=1 -q bulk --config={{ ckan_ini }}
 user={{ celery_user }}
 
 numprocs=1
@@ -65,7 +65,7 @@ priority=998
 
 [program:celery_priority]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckan celeryd run -q priority --config={{ ckan_ini }}
+command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckan celeryd run concurrency=1 -q priority --config={{ ckan_ini }}
 user={{ celery_user }}
 
 numprocs=1
