@@ -25,7 +25,7 @@ def group_tree_section(context, data_dict):
     '''Returns the section of the group tree hierarchy which includes the given
     group, from the top-level group downwards.
 
-    :param id: the id or name of the group to inclue in the tree
+    :param id: the id or name of the group to include in the tree
     :returns: the top GroupTreeNode of the tree section
     '''
     group_name_or_id = _get_or_bust(data_dict, 'id')
