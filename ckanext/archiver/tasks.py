@@ -15,7 +15,6 @@ import time
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
-from ckan import plugins
 try:
     from ckanext.archiver import settings
 except ImportError:
@@ -77,21 +76,22 @@ class CkanError(ArchiverError):
     pass
 
 
-@celery.task(name="archiver.update")
-def update(ckan_ini_filepath, resource_id, queue='bulk'):
+@celery.task(name="archiver.update_resource")
+def update_resource(ckan_ini_filepath, resource_id, queue='bulk'):
     '''
     Archive a resource.
     '''
-    log = update.get_logger()
-    log.info('Starting update task: res_id=%r queue=%s', resource_id, queue)
+    log = update_resource.get_logger()
+    log.info('Starting update_resource task: res_id=%r queue=%s', resource_id, queue)
 
     # HACK because of race condition #1481
     time.sleep(2)
 
     # Do all work in a sub-routine since it can then be tested without celery.
-    # Also put try/except around it since we don't trust celery to log errors well.
+    # Also put try/except around it is easier to monitor ckan's log rather than
+    # celery's task status.
     try:
-        result = _update(ckan_ini_filepath, resource_id, queue)
+        result = _update_resource(ckan_ini_filepath, resource_id, queue)
         return result
     except Exception, e:
         if os.environ.get('DEBUG'):
@@ -112,29 +112,31 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
     load_config(ckan_ini_filepath)
     register_translator()
 
-    log = update.get_logger()
+    log = update_package.get_logger()
     log.info('Starting update_package task: package_id=%r queue=%s', package_id, queue)
 
-    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}
-    package = get_action('package_show')(context_, {'id': package_id})
-
-    tasks = []
+    # Do all work in a sub-routine since it can then be tested without celery.
+    # Also put try/except around it is easier to monitor ckan's log rather than
+    # celery's task status.
     try:
+        context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}
+        package = get_action('package_show')(context_, {'id': package_id})
+
         for resource in package['resources']:
             resource_id = resource['id']
-            update(ckan_ini_filepath, resource_id, queue)
+            _update_resource(ckan_ini_filepath, resource_id, queue)
     except Exception, e:
         if os.environ.get('DEBUG'):
             raise
         # Any problem at all is logged and reraised so that celery can log it too
-        log.error('Error occurred during archiving package: %s\nResource: %r',
-                  e, package['id'])
+        log.error('Error occurred during archiving package: %s\nPackage: %r %r',
+                  e, package_id, package['name'] if package in dir() else '')
         raise
 
     notify_package(package, queue, ckan_ini_filepath)
 
 
-def _update(ckan_ini_filepath, resource_id, queue):
+def _update_resource(ckan_ini_filepath, resource_id, queue):
     """
     Link check and archive the given resource.
     If successful, updates the archival table with the cache_url & hash etc.
@@ -156,7 +158,7 @@ def _update(ckan_ini_filepath, resource_id, queue):
         }
     If not successful, returns None.
     """
-    log = update.get_logger()
+    log = update_resource.get_logger()
 
     load_config(ckan_ini_filepath)
     register_translator()
@@ -271,7 +273,7 @@ def download(context, resource, url_timeout=30,
     Returns a dict of results of a successful download:
       mimetype, size, hash, headers, saved_file, url_redirected_to
     '''
-    log = update.get_logger()
+    log = update_resource.get_logger()
 
     url = resource['url']
 
@@ -422,7 +424,7 @@ def notify(resource, queue, cache_filepath):
     '''
     archiver_interfaces.IPipe.send_data('archived',
                                         resource_id=resource['id'],
-                                        queue=queue, 
+                                        queue=queue,
                                         cache_filepath=cache_filepath)
 
 def notify_package(package, queue, cache_filepath):
@@ -656,7 +658,7 @@ def api_request(context, resource):
     and get a valid response. If it does it returns the response, otherwise
     Archives the response and stores what sort of request elicited it.
     '''
-    log = update.get_logger()
+    log = update_resource.get_logger()
     # 'resource' holds the results of the download and will get saved. Only if
     # an API request is successful do we want to save the details of it.
     # However download() gets altered for these API requests. So only give
@@ -731,7 +733,7 @@ def link_checker(context, data):
 
     Returns a json dict of the headers of the request
     """
-    log = update.get_logger()
+    log = update_resource.get_logger()
     data = json.loads(data)
     url_timeout = data.get('url_timeout', 30)
 

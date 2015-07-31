@@ -22,7 +22,8 @@ from ckanext.archiver.model import Archival
 settings.MAX_CONTENT_LENGTH = 1000000
 
 from ckanext.archiver.tasks import (link_checker,
-                                    update,
+                                    update_resource,
+                                    update_package,
                                     download,
                                     api_request,
                                     DownloadError,
@@ -31,7 +32,7 @@ from ckanext.archiver.tasks import (link_checker,
                                     LinkInvalidError,
                                     CkanError,
                                     response_is_an_api_error
-                                   )
+                                    )
 
 from mock_remote_server import MockEchoTestServer, MockWmsServer, MockWfsServer
 
@@ -40,7 +41,8 @@ from mock_remote_server import MockEchoTestServer, MockWmsServer, MockWfsServer
 log = logging.getLogger('ckanext.archiver.tasks')
 def get_logger():
     return log
-update.get_logger = get_logger
+update_resource.get_logger = get_logger
+update_package.get_logger = get_logger
 
 def with_mock_url(url=''):
     """
@@ -153,7 +155,7 @@ class TestLinkChecker(BaseCase):
 
 class TestArchiver(BaseCase):
     """
-    Tests for Archiver 'update' task
+    Tests for Archiver 'update_resource'/'update_package' tasks
     """
 
     @classmethod
@@ -195,20 +197,20 @@ class TestArchiver(BaseCase):
 
     def test_file_url(self):
         res_id = self._test_resource('file:///home/root/test.txt')['id'] # scheme not allowed
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Invalid url scheme', res_id)
 
     def test_bad_url(self):
         res_id = self._test_resource('http:host.com')['id'] # no slashes
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Failed to parse', res_id)
 
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_resource_hash_and_content_length(self, url):
         res_id = self._test_resource(url)['id']
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
         assert result['size'] == len('test')
         from hashlib import sha1
         assert result['hash'] == sha1('test').hexdigest(), result
@@ -217,7 +219,7 @@ class TestArchiver(BaseCase):
     @with_mock_url('?status=200&content=test&content-type=csv')
     def test_archived_file(self, url):
         res_id = self._test_resource(url)['id']
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
 
         assert result['cache_filepath']
         assert os.path.exists(result['cache_filepath'])
@@ -232,14 +234,14 @@ class TestArchiver(BaseCase):
     @with_mock_url('?content-type=application/foo&content=test')
     def test_update_url_with_unknown_content_type(self, url):
         res_id = self._test_resource(url, format='foo')['id'] # format has no effect
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
         assert result, result
         assert result['mimetype'] == 'application/foo' # stored from the header
 
     def test_wms_1_3(self):
         with MockWmsServer(wms_version='1.3').serve() as url:
             res_id = self._test_resource(url)['id']
-            result = json.loads(update(self.config, res_id))
+            result = json.loads(update_resource(self.config, res_id))
             assert result, result
             assert result['request_type'] == 'WMS 1.3'
         with open(result['cache_filepath']) as f:
@@ -251,21 +253,21 @@ class TestArchiver(BaseCase):
     def test_update_with_zero_length(self, url):
         # i.e. no content
         res_id = self._test_resource(url)['id']
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Content-length after streaming was 0', res_id)
 
     @with_mock_url('?status=404&content=test&content-type=csv')
     def test_file_not_found(self, url):
         res_id = self._test_resource(url)['id']
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Server reported status error: 404 Not Found', res_id)
 
     @with_mock_url('?status=500&content=test&content-type=csv')
     def test_server_error(self, url):
         res_id = self._test_resource(url)['id']
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Server reported status error: 500 Internal Server Error', res_id)
 
@@ -273,7 +275,7 @@ class TestArchiver(BaseCase):
     def test_file_too_large_1(self, url):
         # will stop after receiving the header
         res_id = self._test_resource(url)['id']
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Content-length 1000001 exceeds maximum allowed value 1000000', res_id)
 
@@ -281,14 +283,14 @@ class TestArchiver(BaseCase):
     def test_file_too_large_2(self, url):
         # no size info in headers - it stops only after downloading the content
         res_id = self._test_resource(url)['id']
-        result = update(self.config, res_id)
+        result = update_resource(self.config, res_id)
         assert not result, result
         self.assert_archival_error('Content-length 1000001 exceeds maximum allowed value 1000000', res_id)
 
     @with_mock_url('?status=200&content=content&length=abc&content-type=csv')
     def test_content_length_not_integer(self, url):
         res_id = self._test_resource(url)['id']
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
         assert result, result
 
     @with_mock_url('?status=200&content=content&repeat-length&content-type=csv')
@@ -296,7 +298,7 @@ class TestArchiver(BaseCase):
         # listing the Content-Length header twice causes requests to
         # store the value as a comma-separated list
         res_id = self._test_resource(url)['id']
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
         assert result, result
 
     @with_mock_url('')
@@ -304,7 +306,7 @@ class TestArchiver(BaseCase):
         redirect_url = url + u'?status=200&content=test&content-type=text/csv'
         url += u'?status=301&location=%s' % quote_plus(redirect_url)
         res_id = self._test_resource(url)['id']
-        result = json.loads(update(self.config, res_id))
+        result = json.loads(update_resource(self.config, res_id))
         assert result
         assert_equal(result['url_redirected_to'], redirect_url)
 
@@ -315,9 +317,8 @@ class TestArchiver(BaseCase):
 
         res_id = self._test_resource(url)['id']
 
-        from ckanext.archiver.tasks import update
         # celery.send_task doesn't respect CELERY_ALWAYS_EAGER
-        res = update.apply_async(args=[self.config, res_id, 'queue1'])
+        res = update_resource.apply_async(args=[self.config, res_id, 'queue1'])
         res.get()
 
         assert len(testipipe.calls) == 1
@@ -351,7 +352,6 @@ class TestArchiver(BaseCase):
 
         pkg = self._test_package(url)
 
-        from ckanext.archiver.tasks import update_package
         # celery.send_task doesn't respect CELERY_ALWAYS_EAGER
         res = update_package.apply_async(args=[self.config, pkg['id'], 'queue1'])
         res.get()
