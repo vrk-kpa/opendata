@@ -182,9 +182,10 @@ def _update_resource(ckan_ini_filepath, resource_id, queue):
                       reason, url_redirected_to,
                       download_result, archive_result,
                       log)
-        notify(resource,
-               queue,
-               archive_result.get('cache_filename') if archive_result else None)
+        notify_resource(
+            resource,
+            queue,
+            archive_result.get('cache_filename') if archive_result else None)
 
     # Download
     log.info("Attempting to download resource: %s" % resource['url'])
@@ -417,9 +418,9 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
             'cache_url': cache_url}
 
 
-def notify(resource, queue, cache_filepath):
+def notify_resource(resource, queue, cache_filepath):
     '''
-    Broadcasts a notification that an archival has taken place (or at least
+    Broadcasts a notification that an resource archival has taken place (or at least
     the archival object is changed somehow). e.g. ckanext-qa listens for this
     '''
     archiver_interfaces.IPipe.send_data('archived',
@@ -430,11 +431,11 @@ def notify(resource, queue, cache_filepath):
 def notify_package(package, queue, cache_filepath):
     '''
     Broadcasts a notification that a package archival has taken place (or at least
-    the archival object is changed somehow). e.g. ckanext-qa listens for this
+    the archival object is changed somehow). e.g. ckanext-packagezip listens for this
     '''
     archiver_interfaces.IPipe.send_data('package-archived',
                                         package_id=package['id'],
-                                        queue=queue, 
+                                        queue=queue,
                                         cache_filepath=cache_filepath)
 
 
