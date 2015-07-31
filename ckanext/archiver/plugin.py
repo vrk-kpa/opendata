@@ -10,6 +10,7 @@ from ckanext.archiver.interfaces import IPipe
 
 log = logging.getLogger(__name__)
 
+
 class ArchiverPlugin(p.SingletonPlugin):
     """
     Registers to be notified whenever CKAN resources are created or their URLs
@@ -17,11 +18,10 @@ class ArchiverPlugin(p.SingletonPlugin):
     resource.
     """
     p.implements(p.IDomainObjectModification, inherit=True)
-    p.implements(p.IResourceUrlChange)
     p.implements(IReport)
     p.implements(p.IConfigurer, inherit=True)
 
-    # IDomainObjectModification / IResourceUrlChange
+    # IDomainObjectModification
 
     def notify(self, entity, operation=None):
         if not isinstance(entity, model.Package):
