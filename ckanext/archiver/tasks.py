@@ -362,7 +362,7 @@ def download(context, resource, url_timeout=30,
     return {'mimetype': mimetype,
             'size': length,
             'hash': hash,
-            'headers': res.headers,
+            'headers': dict(res.headers),
             'saved_file': saved_file_path,
             'url_redirected_to': url_redirected_to,
             'request_type': method}
@@ -771,6 +771,6 @@ def link_checker(context, data):
             error_message = 'Server returned HTTP error status: %s %s' % \
                 (res.status_code, res.reason)
             raise LinkHeadRequestError(error_message)
-    return json.dumps(headers)
+    return json.dumps(dict(headers))
 
 
