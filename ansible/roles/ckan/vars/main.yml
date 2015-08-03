@@ -17,13 +17,13 @@ ckan_extensions:
   - ckanext-ytp-main
   - ckanext-googleanalytics
   - ckanext-ytp-comments
-  - "ckanext-qa"
-  - "ckanext-datarequests"
-  - "ckanext-harvest"
-  - "ckanext-archiver"
-  - "ckanext-spatial"
-  - "ckanext-report"
-  - "ckanext-dcat"
+  - ckanext-qa
+  - ckanext-datarequests
+  - ckanext-harvest
+  - ckanext-archiver
+  - ckanext-spatial
+  - ckanext-report
+  - ckanext-dcat
 
 redis_harvest_database: 0
 redis_celery_database: 1

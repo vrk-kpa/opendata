@@ -18,6 +18,7 @@ modules:
   - ckanext-spatial
   - ckanext-report
   - ckanext-datarequests
+  - ckanext-dcat
 
 
 modules_path: ../modules
