@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-25 10:38+0300\n"
+"POT-Creation-Date: 2015-07-01 13:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -356,7 +356,7 @@ msgid "Missing value"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:362
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:14
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
@@ -364,19 +364,19 @@ msgid "Collection Type"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:35
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:364
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:47
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
 msgid "Content Type"
 msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:350
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/theme/translations.py:10
@@ -578,7 +578,7 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:167
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Created"
 msgstr ""
 
@@ -588,7 +588,7 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:52
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:61
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
@@ -616,27 +616,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:112
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:121
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:113
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:122
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:117
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:126
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
 msgid "Downloads"
 msgstr ""
 
@@ -682,7 +682,7 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:166
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
 msgid "Last Modified"
 msgstr ""
 
@@ -719,34 +719,34 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:86
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
 msgid "License Not Specified"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:104
 msgid "Dataset Quality"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:103
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:112
 msgid ""
 "Datasets Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
 "unknown type."
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:116
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:125
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
 msgid "Visits"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:176
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:169
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:181
 msgid "Show change log"
 msgstr ""
 
