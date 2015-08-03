@@ -23,6 +23,7 @@ ckan_extensions:
   - "ckanext-archiver"
   - "ckanext-spatial"
   - "ckanext-report"
+  - "ckanext-dcat"
 
 redis_harvest_database: 0
 redis_celery_database: 1
@@ -74,6 +75,8 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/eb59ffde3a702077ffbc8de8e3ff425b29974d6c.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9497130896c969982a3b8b5e9685295428fd7d2b.patch", file: "enable-url-quoting"} # pullreq in ckan master
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/85ef19c73faa7e841e9e0b94ec1044dbb6fee389.patch", file: "enable-celery-queues"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/34382a3ff1cb0d16f31e9e00955a3feabbdd64f5.patch", file: "remove-main-debug-css"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0c973510ab7b77ac20e375cd263661eb190eaba5.patch", file: "remove-old-rdf-templates"} # ytp specific
 
 service_database_enabled: false
 auto_author_enabled: true
