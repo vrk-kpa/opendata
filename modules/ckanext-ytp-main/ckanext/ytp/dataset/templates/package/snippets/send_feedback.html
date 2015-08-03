@@ -12,7 +12,7 @@
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.maintainer_email, name=extra_dict.maintainer) }}</dd>
     {% else %}
-      {{{% trans %}
+      {% trans %}
                   <p class="empty">}}No possible to send feedback on this dataset since there is no valid maintainer.</p>
       {% endtrans %}
     {% endif %}
