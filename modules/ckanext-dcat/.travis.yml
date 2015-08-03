@@ -1,0 +1,17 @@
+language: python
+python:
+    - "2.7"
+env:
+    - CKANVERSION=master
+    - CKANVERSION=release-v2.2-latest
+    - CKANVERSION=release-v2.3-latest
+    - CKANVERSION=release-v2.4-latest
+install:
+    - bash bin/travis-build.bash
+services:
+    - redis-server
+script: sh bin/travis-run.sh
+before_install:
+    - pip install codecov
+after_success:
+    - codecov
