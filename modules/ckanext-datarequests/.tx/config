@@ -6,3 +6,4 @@ file_filter = i18n/<lang>/LC_MESSAGES/ckanext-datarequests.po
 source_file = i18n/ckanext-datarequests.pot
 source_lang = en
 type = PO
+
