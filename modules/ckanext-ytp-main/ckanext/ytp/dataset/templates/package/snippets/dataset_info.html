@@ -98,7 +98,9 @@
         {% endif %}
         </div>
     {% endblock %}
-
+    {% block package_feedback %}
+        {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
+    {% endblock %}
     {% block rating_info %}
         <div>
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
