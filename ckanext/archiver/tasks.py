@@ -259,7 +259,7 @@ def download(context, resource, url_timeout=30,
         raise DownloadError('Server reported status error: %s %s' %
                             (res.status_code, res.reason),
                             url_redirected_to)
-    log.info('GET succeeded. Content headers: %r', res.headers)
+    log.info('GET started successfully. Content headers: %r', res.headers)
 
     # record headers
     mimetype = _clean_content_type(res.headers.get('content-type', '').lower())
