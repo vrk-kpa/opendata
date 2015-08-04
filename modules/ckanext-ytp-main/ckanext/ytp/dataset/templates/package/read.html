@@ -35,9 +35,7 @@
         {% block package_resources %}
            {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
         {% endblock %}
-        {% block package_feedback %}
-           {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
-        {% endblock %}
+
         {% block package_related %}
            {% snippet "package/snippets/related_list.html", related_items=c.related_list, pkg_id=c.pkg.id, collection_type=pkg.collection_type %}
         {% endblock %}
