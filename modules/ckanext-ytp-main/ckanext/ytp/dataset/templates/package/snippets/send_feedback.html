@@ -1,7 +1,7 @@
 <!-- ckanext/ytp/dataset/templates/package/snippets/send_feedback.html -->
 
 <section class="dataset-send-feedback">
-  <h3>{{ _('Feedback') }}</h3>
+  <h3>{{ _('Send feedback about this dataset') }}</h3>
 
   {% block package_send_feedback %}
 
@@ -12,8 +12,8 @@
       <dt>{{ _("Maintainer") }}</dt>
       <dd>{{ h.mail_to(email_address=extra_dict.maintainer_email, name=extra_dict.maintainer) }}</dd>
     {% else %}
-      {{{% trans %}
-                  <p class="empty">}}No possible to send feedback on this dataset since there is no valid maintainer.</p>
+      {% trans %}
+                  <p class="empty">}}Not possible to send feedback on this dataset since there is no valid maintainer.</p>
       {% endtrans %}
     {% endif %}
 
