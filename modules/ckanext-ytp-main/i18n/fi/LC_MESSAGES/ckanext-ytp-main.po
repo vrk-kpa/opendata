@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-25 10:38+0300\n"
-"PO-Revision-Date: 2015-06-25 07:39+0000\n"
+"POT-Creation-Date: 2015-08-03 15:19+0300\n"
+"PO-Revision-Date: 2015-08-03 11:47+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -380,7 +380,7 @@ msgstr "Puuttuva arvo"
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
 msgid "Collection Type"
-msgstr "Tietovaranto"
+msgstr "Tietoaineisto"
 
 #: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
@@ -597,7 +597,7 @@ msgid "unknown"
 msgstr "tuntematon"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:167
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
 msgid "Created"
 msgstr "Luotu"
 
@@ -607,7 +607,7 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:52
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
@@ -635,27 +635,27 @@ msgid "Technical extra information"
 msgstr "Tekniset lisätiedot"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:112
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 msgid "Stats"
 msgstr "Tilastot"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:113
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:124
 msgid "Last 30 days, updated daily"
 msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:117
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:128
 msgid "All time downloads:"
 msgstr "Latauksia kaikkiaan:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
 msgid "Year"
 msgstr "Vuosi"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
 msgid "Downloads"
 msgstr "Latauksia"
 
@@ -701,7 +701,7 @@ msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:166
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:177
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
@@ -738,34 +738,38 @@ msgstr ""
 msgid "Search datasets..."
 msgstr "Etsi tietoaineistoista..."
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:86
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:54
+msgid "Content Link"
+msgstr "Sisältölinkki"
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:97
 msgid "License Not Specified"
 msgstr "Lisenssiä ei määritelty"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:106
 msgid "Dataset Quality"
 msgstr "Tietoaineiston laatu"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:103
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
 msgid ""
 "Datasets Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
 "unknown type."
 msgstr "Tietoaineiston laatu on korkein arvostelu aineistolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, aineistolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä."
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:116
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
 msgid "All time visits:"
 msgstr "Sivunäyttöjä kaikkiaan:"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:133
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
 msgid "Visits"
 msgstr "Sivunäytöt"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:175
 msgid "Change log"
 msgstr "Muutoshistoria"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:169
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:180
 msgid "Show change log"
 msgstr "Näytä muutoshistoria"
 
