@@ -141,6 +141,7 @@
 
     - recaptcha
     - honeypot
+    - node_expire
   tags:
   - drupal
 
@@ -192,6 +193,7 @@
 
     - recaptcha
     - honeypot
+    - node_expire
 
   tags:
   - drupal
