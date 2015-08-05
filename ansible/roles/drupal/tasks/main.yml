@@ -128,7 +128,7 @@
     - l10n_update
     - admin_language
     - ckeditor
-
+    - imce
     - features_extra
     - google_analytics
 
