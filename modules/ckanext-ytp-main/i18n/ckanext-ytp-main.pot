@@ -10,10 +10,14 @@ msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "POT-Creation-Date: 2015-07-01 13:39+0300\n"
 =======
 "POT-Creation-Date: 2015-08-03 15:19+0300\n"
 >>>>>>> YH-645
+=======
+"POT-Creation-Date: 2015-08-03 15:19+0300\n"
+>>>>>>> YH-673
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -583,10 +587,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
+>>>>>>> YH-673
 msgid "Created"
 msgstr ""
 
@@ -597,10 +605,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:61
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
+>>>>>>> YH-673
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
@@ -629,46 +641,66 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:121
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
+>>>>>>> YH-673
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:122
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:124
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:124
+>>>>>>> YH-673
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:126
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:128
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:128
+>>>>>>> YH-673
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
 <<<<<<< HEAD
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
-=======
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
->>>>>>> YH-645
-msgid "Year"
-msgstr ""
-
-#: ckanext/ytp/dataset/templates/package/resource_read.html:178
 <<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
+>>>>>>> YH-673
+msgid "Year"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/resource_read.html:178
+<<<<<<< HEAD
+<<<<<<< HEAD
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:142
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
+>>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
+>>>>>>> YH-673
 msgid "Downloads"
 msgstr ""
 
@@ -715,10 +747,14 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
 =======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:177
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:177
+>>>>>>> YH-673
 msgid "Last Modified"
 msgstr ""
 
@@ -756,6 +792,7 @@ msgid "Search datasets..."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
 msgid "License Not Specified"
 msgstr ""
@@ -780,12 +817,28 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
 >>>>>>> YH-645
+=======
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:54
+msgid "Content Link"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:97
+msgid "License Not Specified"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:106
+msgid "Dataset Quality"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:114
+>>>>>>> YH-673
 msgid ""
 "Datasets Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
 "unknown type."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:125
 msgid "All time visits:"
@@ -801,6 +854,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:181
 =======
+=======
+>>>>>>> YH-673
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
 msgid "All time visits:"
 msgstr ""
@@ -814,7 +869,10 @@ msgid "Change log"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:180
+<<<<<<< HEAD
 >>>>>>> YH-645
+=======
+>>>>>>> YH-673
 msgid "Show change log"
 msgstr ""
 
