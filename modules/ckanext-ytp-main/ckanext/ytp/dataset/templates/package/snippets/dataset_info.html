@@ -56,6 +56,17 @@
         </div>
     {% endblock %}
 
+    {% block material_link %}
+        {% set extra_dict = h.clean_extras(h.format_extras(pkg)) %}
+        {% if extra_dict.Guid %}
+        <div>
+        <h4 class="dataset-title sidebar-title">{{_('Content Link')}}</h4>
+            {% set material_link = h.get_geonetwork_link(extra_dict.Guid)%}
+            <a href="{{ material_link }}" class="licenseUrl">{{ material_link }}</a>
+        </div>
+        {% endif %}
+    {% endblock %}
+
     {% block license_info %}
         <div>
         <h4 class="dataset-title sidebar-title">{{_('License')}}</h4>
@@ -171,6 +182,10 @@
 
 
 
+    {% endblock %}
+
+    {% block dataset_social %}
+        {% snippet "package/snippets/dataset_social.html" %}
     {% endblock %}
 
     {% block changelog_info %}

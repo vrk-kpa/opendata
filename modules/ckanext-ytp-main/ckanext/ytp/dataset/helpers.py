@@ -1,6 +1,7 @@
 from pylons import config
 import json
 from ckan.common import c, request
+from ckan.lib import helpers
 from ckan.logic import get_action
 import datetime
 
@@ -173,3 +174,14 @@ def get_visits_for_dataset(id):
     }
 
     return results
+
+def get_geonetwork_link(uuid, lang=None):
+    if not lang:
+        try:
+            lang = helpers.lang()
+        except TypeError:
+            lang = "en"
+
+    link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
+
+    return link_stem.format(lang=lang, uuid=uuid)
