@@ -213,6 +213,12 @@
   - ckan
   - qa
 
+- name: Install dcat requirements
+  pip: requirements="{{ cache_path }}/ckanext-dcat/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - dcat
+
 - name: Ensure SqlAlchemy version
   pip: name="sqlalchemy" virtualenv="{{ virtual_environment }}" version="0.9.6" extra_args='--exists-action=w --upgrade --force-reinstall --timeout=30'
   tags:
