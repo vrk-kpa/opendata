@@ -9,7 +9,7 @@ setup(
         'kombu==2.1.3',
         'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
-        'requests==1.1.0',
+        'requests>=1.1.0',
         'flask==0.8'  # flask needed for tests
     ],
     author='Open Knowledge Foundation',

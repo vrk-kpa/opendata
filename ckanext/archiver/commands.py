@@ -185,14 +185,13 @@ class Archiver(CkanCommand):
                  if res.state == 'active']
             self.log.info('Queuing dataset %s (%s resources)',
                           package.name, len(pkg_resources))
-            for resource in pkg_resources:
-                plugin.create_archiver_task(resource, self.options.queue)
+            plugin.create_archiver_package_task(package, self.options.queue)
             time.sleep(0.1)  # to try to avoid Redis getting overloaded
 
         for resource in resources:
             package = resource.resource_group.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
-            plugin.create_archiver_task(resource, self.options.queue)
+            plugin.create_archiver_resource_task(resource, self.options.queue)
             time.sleep(0.05)  # to try to avoid Redis getting overloaded
 
         self.log.info('Completed queueing')
