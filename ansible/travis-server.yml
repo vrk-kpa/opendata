@@ -11,7 +11,7 @@
   vars_files:
     - "vars/common.yml"
     - ["vars/ytp-secrets/{{ secret_variables }}", "vars/none.yml"]
-    - ["vars/local.yml", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"] 
   roles:
     - common
     - firewall
