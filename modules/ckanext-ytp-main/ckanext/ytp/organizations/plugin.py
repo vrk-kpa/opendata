@@ -7,8 +7,11 @@ from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _, c
-from ckan.logic import NotFound
+from ckan.logic import NotFound, NotAuthorized
 from ckan.plugins import toolkit
+
+import ckan.lib.base as base
+abort = base.abort
 
 from ckanext.ytp.organizations.logic import action
 from ckanext.ytp.organizations import auth
@@ -83,7 +86,13 @@ def action_user_create(context, data_dict):
 
 
 def action_organization_show(context, data_dict):
-    result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+    try:
+        result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+    except NotFound:
+        abort(404, _('Organization not found'))
+    except NotAuthorized:
+        abort(401, _('Unauthorized to read organization %s') % id)
+
     result['display_name'] = extra_translation(result, 'title') or result.get('display_name', None) or result.get('name', None)
     return result
 
