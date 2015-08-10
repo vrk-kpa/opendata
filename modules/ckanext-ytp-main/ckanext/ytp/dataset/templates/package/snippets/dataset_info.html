@@ -1,5 +1,14 @@
 <section class="module module-narrow additional-info dataset-sidebar col-lg-4">
 
+    {% block geospatial_map %}
+
+        {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
+        {% if dataset_extent %}
+            {% snippet "spatial/snippets/dataset_map_sidebar.html", extent=dataset_extent %}
+        {% endif %}
+
+    {% endblock %}
+
     {% block collection_type %}
         <div>
         <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
@@ -89,7 +98,9 @@
         {% endif %}
         </div>
     {% endblock %}
-
+    {% block package_feedback %}
+        {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
+    {% endblock %}
     {% block rating_info %}
         <div>
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
@@ -157,14 +168,38 @@
                     }
                   </script>
         </div>
+
+
+
     {% endblock %}
 
     {% block changelog_info %}
+
+        <!-- Dataset Creation and Modification dates-->
+
         <div>
         <h4 class="dataset-title  sidebar-title">{{_('Change log')}}</h4>
+        <h5 class="sidebar-title">{{_('Dataset')}}</h5>
         
         <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
         <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
+
+        <!-- Resource Creation and Modification dates-->
+
+        {% set extra_dict = h.format_extras(pkg) %}
+
+        {% if "resource_modified" in extra_dict or "resource_created" in extra_dict %}
+        <h5 class="sidebar-title">{{_('Resource')}}</h5>
+        {% endif %}
+
+        {% if extra_dict.get("resource_modified") %}
+        <div>{{_('Last Modified')}}: {{ h.render_datetime(extra_dict.get("resource_modified"), "%d.%m.%Y") }}</div>
+        {% endif %}
+        {% if extra_dict.get("resource_created") %}
+        <div>{{_('Created')}}: {{ h.render_datetime(extra_dict.get("resource_created"), "%d.%m.%Y") }}</div>
+        {% endif %}
+
+        <br />
 
         <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
         </div>

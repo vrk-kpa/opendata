@@ -47,6 +47,7 @@ all_paths:
   - "{{ static_path }}"
 
 hostname: "{{ inventory_hostname }}"
+hostname_language: fi
 secondary_hostname: 127.0.0.1
 secondary_hostname_language: en
 base_hostname: ""

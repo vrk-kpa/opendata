@@ -48,10 +48,8 @@ server {
         return 503;
     }
 
-    # Secondary hostname is used with foreign language by default.
-    {% if item.root_redirect %}
+   # Secondary hostname is used with foreign language by default.
     rewrite ^/$ /{{ item.root_redirect }} permanent;
-    {% endif %}
 
     error_page 503 @maintenance;
 
@@ -94,8 +92,10 @@ server {
     # Fix: Old CKAN file upload paths
     rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
 
-    # Disable CKAN main page. Redirect to Drupal main page. 
-    rewrite ^/data/(fi|en|sv)/$ /$1 permanent;
+    # Disable CKAN main page. Redirect to Drupal main page.
+    rewrite ^/data/?$ /{{ item.root_redirect }} permanent;
+    
+    rewrite ^/data/(fi|en|sv)/?$ /$1 permanent;
 
     location = /favicon.ico {
         log_not_found off;
@@ -144,7 +144,7 @@ server {
     location /resources {
         root /var/www;
         autoindex off;
-        expires max;
+        expires 30d;
         log_not_found off;
     }
 
@@ -192,7 +192,7 @@ server {
     }
 
     location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-        expires max;
+        expires 30d;
         log_not_found off;
     }
 }

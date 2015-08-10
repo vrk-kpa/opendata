@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
     MinCSS = require('gulp-minify-css'),
+    uglify = require('gulp-uglify'),
     base64 = require('gulp-base64');
 
 var paths = {
@@ -41,6 +42,7 @@ gulp.task('less', function () {
     }))
     .pipe(prefixer('last 2 versions', 'ie 9'))
     .pipe(template({timestamp: timestamp}))
+    .pipe(MinCSS({keepBreaks: false}))
     .pipe(concat("main.css"))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/styles'));
@@ -95,8 +97,15 @@ gulp.task('bootstrap', function(){
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
-gulp.task('vendor', function(){
+gulp.task('vendor', function(cb){
   return gulp.src(paths.src.root + '/vendor/**/')
+    .pipe(gulp.dest(paths.dist + '/vendor'));
+  cb(err);
+});
+
+gulp.task('minify-vendor-javascript', ['vendor'], function() {
+  return gulp.src(paths.dist + '/vendor/**/*.js')
+    .pipe(uglify())
     .pipe(gulp.dest(paths.dist + '/vendor'));
 });
 
@@ -107,7 +116,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
+              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
               callback);
 });
 
