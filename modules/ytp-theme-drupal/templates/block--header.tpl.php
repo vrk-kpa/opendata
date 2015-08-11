@@ -1,14 +1,33 @@
+ <script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery("input[name$='searchtype']").click(function() {
+            var searchType = jQuery(this).val();
+            jQuery("div.navbar-search").hide();
+            jQuery("#search_" + searchType).show();
+         });
+    });
+</script>
 <?php
     global $language;
 ?>
 <div id="search-box">
-    <h1><?php print t('Search') ?></h1>
-    <div class="navbar navbar-search form-control" role="search">
-        <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
+    <div class="filtering">
+        <?php print t("Search datasets")?><input type="radio" name="searchtype" checked="checked" value="1"/>
+        <?php print t("Global search"?><input type="radio" name="searchtype" value="2"/>
+    </div>
+     <h1><?php print t('Search') ?></h1>
+    <div id="search_1" class="navbar navbar-search form-control" role="search">
+       <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
             <input class="search-term" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
             <button type="submit" class="search-submit" value="<?php t("Search")?>" ><i class="icon-search"></i><span><?php print t("Search")?></span></button>
             <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
         </form>
+    </div>
+    <div id="search_2" class="navbar navbar-search form-control" role="search" style="display: none;">
+         <?php
+             $block = module_invoke('search', 'block_view', 'search');
+             print render($block); 
+         ?>
     </div>
     </div>
     <div class="info">
