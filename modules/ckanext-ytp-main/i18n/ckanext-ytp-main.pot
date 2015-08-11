@@ -589,15 +589,8 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
-<<<<<<< HEAD
-<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:61
-=======
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
->>>>>>> YH-645
-=======
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
->>>>>>> YH-673
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
@@ -729,8 +722,6 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
 msgid "License Not Specified"
 msgstr ""
