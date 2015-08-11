@@ -106,7 +106,7 @@ msgstr "Öppna data"
 msgid "Interoperability Tools"
 msgstr "Interoperabilitetsverktyg"
 
-msgid "Currently service has @dataset_count datasets."
+msgid "Currently the service has @dataset_count datasets."
 msgstr "För närvarande tjänsten har @dataset_count dataseten."
 
 msgid "Getting started"

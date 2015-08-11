@@ -108,7 +108,7 @@ msgstr "Avoimet tietoaineistot"
 msgid "Interoperability Tools"
 msgstr "Yhteentoimivuuden aineistot"
 
-msgid "Currently service has @dataset_count datasets."
+msgid "Currently the service has @dataset_count datasets."
 msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa."
 
 msgid "Getting started"
