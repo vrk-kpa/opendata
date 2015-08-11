@@ -13,7 +13,7 @@
 <div id="search-box">
     <div class="filtering">
         <?php print t("Search datasets")?><input type="radio" name="searchtype" checked="checked" value="1"/>
-        <?php print t("Global search"?><input type="radio" name="searchtype" value="2"/>
+        <?php print t("Global search")?><input type="radio" name="searchtype" value="2"/>
     </div>
      <h1><?php print t('Search') ?></h1>
     <div id="search_1" class="navbar navbar-search form-control" role="search">
