@@ -18,14 +18,6 @@ label{
 </style>
 <?php
     global $language;
-
-/*
- *  Preprocess block-hader.tpl.php to inject the $search_box variable back into D7.
- */
-function MYTHEME_preprocess_page(&$variables){
-  $search_box = drupal_render(drupal_get_form('search_form'));
-  $variables['search_box'] = $search_box;
-}
 ?>
 <div id="search-box">
     <div class="filtering">
@@ -42,7 +34,8 @@ function MYTHEME_preprocess_page(&$variables){
     </div>
     <div id="search_2" class="navbar navbar-search form-control" role="search" style="display: none;">
          <?php
-             print $search_box; 
+             $block = module_invoke('search', 'block_view', 'search');
+             print render($block);
          ?>
     </div>
     </div>
