@@ -7,13 +7,30 @@
          });
     });
 </script>
+<style>
+label{
+     font-size:10px;
+     vertical-align: middle;
+    }
+    input[type="radio"]{
+     float:left;
+    }
+</style>
 <?php
     global $language;
+
+/*
+ *  Preprocess block-hader.tpl.php to inject the $search_box variable back into D7.
+ */
+function ytp_theme_preprocess_page(&$variables){
+  $search_box = drupal_render(drupal_get_form('search_form'));
+  $variables['search_box'] = $search_box;
+}
 ?>
 <div id="search-box">
     <div class="filtering">
-        <?php print t("Search datasets")?><input type="radio" name="searchtype" checked="checked" value="1"/>
-        <?php print t("Global search")?><input type="radio" name="searchtype" value="2"/>
+        <label><input type="radio" name="searchtype" checked="checked" value="1"/><?php print t("Search datasets")?></label>
+        <label><input type="radio" name="searchtype" value="2"/><?php print t("Global search")?></label>
     </div>
      <h1><?php print t('Search') ?></h1>
     <div id="search_1" class="navbar navbar-search form-control" role="search">
@@ -25,8 +42,7 @@
     </div>
     <div id="search_2" class="navbar navbar-search form-control" role="search" style="display: none;">
          <?php
-             $block = module_invoke('search', 'block_view', 'search');
-             print render($block); 
+             print $search_box; 
          ?>
     </div>
     </div>
@@ -41,9 +57,6 @@
             $result = drupal_http_request($url, $options);
             $json = drupal_json_decode($result->data);
             $dataset_count = $json["result"]['count'];
-
-
-
         ?>
         <div class="info-footer">
             <?php print t('Currently service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
