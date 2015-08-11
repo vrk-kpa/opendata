@@ -48,7 +48,7 @@ server {
         return 503;
     }
 
-    # Secondary hostname is used with foreign language by default.
+   # Secondary hostname is used with foreign language by default.
     rewrite ^/$ /{{ item.root_redirect }} permanent;
 
     error_page 503 @maintenance;

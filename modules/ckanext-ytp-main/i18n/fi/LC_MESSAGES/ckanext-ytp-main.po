@@ -26,10 +26,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-03 15:19+0300\n"
-"PO-Revision-Date: 2015-08-03 11:47+0000\n"
-"Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"POT-Creation-Date: 2015-08-10 15:35+0300\n"
+"PO-Revision-Date: 2015-08-10 12:40+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -365,7 +365,7 @@ msgid "Visualization"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:382
+#: ckanext/ytp/organizations/plugin.py:391
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
@@ -375,7 +375,7 @@ msgid "Missing value"
 msgstr "Puuttuva arvo"
 
 #: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:362
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:5
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:14
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
 #: ckanext/ytp/service/templates/package/ytp/service/package_basic_fields.html:7
@@ -383,19 +383,19 @@ msgid "Collection Type"
 msgstr "Tietoaineisto"
 
 #: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:26
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:35
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr "Aihe"
 
 #: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:364
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:38
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:47
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
 #: ckanext/ytp/dataset/plugin.py:350
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:13
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/organizations/templates/snippets/organization.html:21
 #: ckanext/ytp/theme/translations.py:10
@@ -486,7 +486,7 @@ msgstr "Organisaatiot"
 #: ckanext/ytp/dataset/templates/package/search.html:4
 #: ckanext/ytp/dataset/templates/package/search.html:7
 #: ckanext/ytp/dataset/templates/related/base_form_page.html:4
-#: ckanext/ytp/organizations/templates/organization/read.html:4
+#: ckanext/ytp/organizations/templates/organization/read_base.html:11
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/user/templates/user/read.html:5
 msgid "Datasets"
@@ -597,7 +597,8 @@ msgid "unknown"
 msgstr "tuntematon"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:178
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:185
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:199
 msgid "Created"
 msgstr "Luotu"
 
@@ -607,7 +608,7 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:61
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/dataset/templates/snippets/license.html:21
@@ -701,7 +702,8 @@ msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:177
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:184
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:196
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
@@ -738,11 +740,7 @@ msgstr ""
 msgid "Search datasets..."
 msgstr "Etsi tietoaineistoista..."
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:54
-msgid "Content Link"
-msgstr "Sisältölinkki"
-
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:97
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:95
 msgid "License Not Specified"
 msgstr "Lisenssiä ei määritelty"
 
@@ -765,11 +763,19 @@ msgstr "Sivunäyttöjä kaikkiaan:"
 msgid "Visits"
 msgstr "Sivunäytöt"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:175
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:181
 msgid "Change log"
 msgstr "Muutoshistoria"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:180
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:182
+msgid "Dataset"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:192
+msgid "Resource"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:204
 msgid "Show change log"
 msgstr "Näytä muutoshistoria"
 
@@ -1145,6 +1151,21 @@ msgid ""
 "add some?</a> "
 msgstr " <p class=\"empty\">Tietoaineistossa ei ole dataa, <a href=\"%(url)s\">mikset lisäisi dataa?</a> "
 
+#: ckanext/ytp/dataset/templates/package/snippets/send_feedback.html:3
+msgid "Send feedback about this dataset"
+msgstr "Anna palautetta tästä tietoaineistosta"
+
+#: ckanext/ytp/dataset/templates/package/snippets/send_feedback.html:9
+#: ckanext/ytp/dataset/templates/package/snippets/send_feedback.html:11
+msgid "Feedback"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/send_feedback.html:13
+msgid ""
+" <p class=\"empty\">Not possible to send feedback on this dataset since "
+"there is no valid maintainer.</p> "
+msgstr "<p class=\"empty\">Tietoaineistosta ei voi lähettää palautetta, koska aineistolla ei ole ylläpitäjää.</p>"
+
 #: ckanext/ytp/dataset/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
 msgstr ""
@@ -1289,7 +1310,16 @@ msgstr ""
 msgid "Group not found"
 msgstr ""
 
-#: ckanext/ytp/organizations/plugin.py:126
+#: ckanext/ytp/organizations/plugin.py:92
+msgid "Organization not found"
+msgstr ""
+
+#: ckanext/ytp/organizations/plugin.py:94
+#, python-format
+msgid "Unauthorized to read organization %s"
+msgstr ""
+
+#: ckanext/ytp/organizations/plugin.py:135
 msgid "Group title already exists in database"
 msgstr "Ryhmän otsikko löytyy jo tietokannasta"
 
@@ -1525,18 +1555,18 @@ msgstr ""
 msgid "Organization does not exist"
 msgstr "Organisaatiota ei ole"
 
-#: ckanext/ytp/organizations/templates/organization/read.html:6
-msgid "Activity Stream"
-msgstr ""
-
-#: ckanext/ytp/organizations/templates/organization/read.html:8
-#: ckanext/ytp/user/templates/user/edit_user_form.html:29
-msgid "About"
-msgstr "Tietoja"
-
 #: ckanext/ytp/organizations/templates/organization/read_base.html:5
 msgid "Members"
 msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/read_base.html:13
+msgid "Activity Stream"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/read_base.html:15
+#: ckanext/ytp/user/templates/user/edit_user_form.html:29
+msgid "About"
+msgstr "Tietoja"
 
 #: ckanext/ytp/organizations/templates/organization/user_list.html:5
 #: ckanext/ytp/user/templates/user/list.html:3
@@ -1567,8 +1597,8 @@ msgstr "Käyttäjillä voi olla organisaatioissa eri rooleja ja eri tasoisia kä
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
 msgid ""
 " Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact admins. "
-msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä ylläpitoon."
+"a public administration organization, please contact avoindata@valtori.fi. "
+msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä avoindata@valtori.fi."
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23
 msgid ""

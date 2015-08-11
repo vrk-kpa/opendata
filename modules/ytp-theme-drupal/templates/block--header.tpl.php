@@ -27,7 +27,7 @@
 
         ?>
         <div class="info-footer">
-            <?php print t('Currently service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
+            <?php print t('Currently the service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
         </div>
 
     </div>
