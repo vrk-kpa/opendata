@@ -7,7 +7,7 @@
     "custom_username_validation_hint": "Username can only contain characters a-z, 0-9 and _",
 
     "theme_default": "ytp_theme",
-
+    "search_default_module": "user",
     "language_negotiation_language": {
         "locale-url": {
             "callbacks": {
