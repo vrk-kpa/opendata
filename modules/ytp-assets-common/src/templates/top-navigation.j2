@@ -64,6 +64,14 @@
                   <li>
                       {{h.linked_user(c.userobj.name, 0, 0)}}
                   </li>
+                    {% set new_activities = h.new_activities() %}
+                  <li class="notifications {% if new_activities > 0 %}notifications-important{% endif %}">
+                    {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities) %}
+                    <a href="{{ h.url_for(controller='user', action='dashboard') }}" title="{{ notifications_tooltip }}">
+                      <i class="icon-dashboard"></i>
+                      <span>{{ new_activities }}</span>
+                    </a>
+                  </li>
                   <li>
                       <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }}</a>
                   </li>
