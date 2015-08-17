@@ -78,6 +78,7 @@
           ?>
       </a>
     </div>
+
     <div id="navbar-top-collapse" class="collapse navbar-collapse">
       <div class="visible-xs visible-sm">
           <ul class="nav navbar-nav user-nav">
@@ -90,12 +91,30 @@
           </ul>
       </div>
       <div class="hidden-xs hidden-sm">
+          <?php
+            $url = 'https://localhost/data/api/3/action/dashboard_new_activities_count';
+            $options = array(
+              'method' => 'GET'
+            );
+            $result = drupal_http_request($url, $options);
+            $json = drupal_json_decode($result->data);
+            $new_activities = $json["result"];
+        ?>
+
         <?php print render($page['top_navigation']); ?>
         <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
           <?php if (!user_is_logged_in()) { ?>
           <li class="user-login">
             <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?></a>
           </li>
+
+            <li class="notifications">
+                   <a href="<?php print url('dashboard') ?>">
+                      <i class="icon-dashboard"></i>
+                      <span><?php echo $new_activities; ?></span>
+                    </a>
+             </li>
+
           <?php } else { ?>
           <li class="user-info">
             <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>">
