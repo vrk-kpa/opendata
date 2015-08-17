@@ -21,21 +21,20 @@ label{
 ?>
 <div id="search-box">
     <div class="filtering">
-        <label><input type="radio" name="searchtype" checked="checked" value="1"/><?php print t("Search datasets")?></label>
-        <label><input type="radio" name="searchtype" value="2"/><?php print t("Global search")?></label>
+        <label><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("Search datasets")?></label>
+        <label><input type="radio" name="searchtype" value="content"/><?php print t("Global search")?></label>
     </div>
      <h1><?php print t('Search') ?></h1>
-    <div id="search_1" class="navbar navbar-search form-control" role="search">
+    <div id="search_datasets" class="navbar navbar-search form-control" role="search">
        <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
             <input class="search-term" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
             <button type="submit" class="search-submit" value="<?php t("Search")?>" ><i class="icon-search"></i><span><?php print t("Search")?></span></button>
             <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
         </form>
     </div>
-    <div id="search_2" class="navbar navbar-search form-control" role="search" style="display: none;">
+    <div id="search_content" class="navbar navbar-search form-control" role="search" style="display: none;">
          <?php
-             $block = module_invoke('search', 'block_view', 'search');
-             print render($block);
+              print $search_box;
          ?>
     </div>
     </div>
