@@ -27,6 +27,8 @@
   postgresql_user: user={{ item.user }} password={{ item.password }}
   with_items:
   - { user: "{{ ckan_database_username }}", password: "{{ ckan_database_password }}" }
+  - { user: "{{ datastore_database_username }}", password: "{{ datastore_database_password }}" }
+  - { user: "{{ datastore_username }}", password: "{{ datastore_password }}" }
   - { user: "{{ drupal_database_username }}", password: "{{ drupal_database_password }}" }
   tags:
   - database
@@ -36,6 +38,7 @@
   postgresql_db: "name={{ item.name }} owner={{ item.owner }} encoding={{ item.encoding }} lc_collate={{ item.collate }} lc_ctype={{ item.ctype }} template={{ item.template }}"
   with_items:
   - { name: "{{ ckan_database_name }}", owner: "{{ ckan_database_username }}", encoding: 'UTF-8', collate: 'en_US.UTF-8', ctype: 'en_US.UTF-8', template: 'template0' }
+  - { name: "{{ datastore_database_name }}", owner: "{{ datastore_database_username }}", encoding: 'UTF-8', collate: 'en_US.UTF-8', ctype: 'en_US.UTF-8', template: 'template0' }
   - { name: "{{ drupal_database_name }}", owner: "{{ drupal_database_username }}", encoding: 'UTF-8', collate: 'en_US.UTF-8', ctype: 'en_US.UTF-8', template: 'template0' }
   ignore_errors: True
   tags:
@@ -67,6 +70,25 @@
     - "ALTER TABLE geometry_columns OWNER TO {{ ckan_database_username }};"
   tags:
   - spatial
+
+- name: Datastore rights
+  sudo_user: postgres
+  command: psql -d "{{ datastore_database_name }}" -c "{{ item }}"
+  with_items:
+    - "REVOKE CREATE ON SCHEMA public FROM PUBLIC;"
+    - "REVOKE USAGE ON SCHEMA public FROM PUBLIC;"
+    - "GRANT CREATE ON SCHEMA public TO \"{{ ckan_database_username }}\";"
+    - "GRANT USAGE ON SCHEMA public TO \"{{ ckan_database_username }}\";"
+    - "GRANT CREATE ON SCHEMA public TO \"{{ datastore_database_username }}\";"
+    - "GRANT USAGE ON SCHEMA public TO \"{{ datastore_database_username }}\";"
+    - "REVOKE CONNECT ON DATABASE \"{{ ckan_database_name }}\" FROM \"{{ datastore_username }}\";"
+    - "GRANT CONNECT ON DATABASE \"{{ datastore_database_name }}\" TO \"{{ datastore_username }}\";"
+    - "GRANT USAGE ON SCHEMA public TO \"{{ datastore_username }}\";"
+    - "GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{ datastore_username }}\";"
+    - "ALTER DEFAULT PRIVILEGES FOR USER \"{{ datastore_database_username }}\" IN SCHEMA public GRANT SELECT ON TABLES TO \"{{ datastore_username }}\";"
+  tags:
+  - database
+  - datastore
 
 - name: Install database backup tools
   action: apt pkg="{{ item }}" state="present"
