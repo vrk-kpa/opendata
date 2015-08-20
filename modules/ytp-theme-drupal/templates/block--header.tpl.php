@@ -1,7 +1,7 @@
  <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery("input[name$='searchtype']").click(function() {
-            var searchType = jQuery(this).val();
+        jQuery("input[name$='searchtype']").parent().click(function() {
+            var searchType = jQuery(this).find('input').val();
             jQuery("div.navbar-search").hide();
             jQuery("#search_" + searchType).show();
          });
@@ -20,10 +20,7 @@ label{
     global $language;
 ?>
 <div id="search-box">
-    <div class="filtering">
-        <label><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("Search datasets")?></label>
-        <label><input type="radio" name="searchtype" value="content"/><?php print t("Global search")?></label>
-    </div>
+
      <h1><?php print t('Search') ?></h1>
     <div id="search_datasets" class="navbar navbar-search form-control" role="search">
        <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
@@ -36,6 +33,10 @@ label{
          <?php
               print $search_box;
          ?>
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active"><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("From datasets")?></label>
+        <label class="btn btn-primary"><input type="radio" name="searchtype" value="content"/><?php print t("From other content")?></label>
     </div>
     </div>
     <div class="info">
