@@ -150,3 +150,9 @@ msgid ""
 "If you are interested in using a programmable interface, our API "
 "documentation will provide an introduction."
 msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu portaalin API-dokumentaatioon."
+
+msgid "From datasets"
+msgstr "Tietoaineistoista"
+
+msgid "From other content"
+msgstr "Muusta sisällöstä"
