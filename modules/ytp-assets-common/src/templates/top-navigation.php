@@ -14,8 +14,8 @@
 
     $class = '';
     $href = '/data/' . $lang . '/dataset';
-    if ( ($uri ==  $href || $site_section == t("Data Repositories")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href="' . $href . '">' . t("Data Repositories") . '</a></li>';
+    if ( ($uri ==  $href || $site_section == t("Datasets")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href="' . $href . '">' . t("Datasets") . '</a></li>';
 
     $class = '';
     $href = '/data/' . $lang . '/organization';

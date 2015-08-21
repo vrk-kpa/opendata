@@ -29,7 +29,7 @@ msgstr "Oma muistilista"
 msgid "Home"
 msgstr "Etusivu"
 
-msgid "Data Repositories"
+msgid "Datasets"
 msgstr "Tietoaineistot"
 
 msgid "Organizations"

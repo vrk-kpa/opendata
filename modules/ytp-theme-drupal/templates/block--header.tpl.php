@@ -40,7 +40,7 @@ label{
     </div>
     </div>
     <div class="info">
-        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data datasets")?></a></h3>
+        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data")?></a></h3>
         <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Interoperability+Tools"><?php print t("Interoperability Tools")?></a></h3>
         <?php
             $url = 'https://localhost/data/api/3/action/package_search';
@@ -52,7 +52,7 @@ label{
             $dataset_count = $json["result"]['count'];
         ?>
         <div class="info-footer">
-            <?php print t('Currently service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
+            <?php print t('Currently the service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
         </div>
 
     </div>
