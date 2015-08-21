@@ -94,6 +94,7 @@ error_email_from: "error@{{ email_domain }}"
 
 admin_email: vagrant@localhost
 error_email: "{{ admin_email }}"
+client_email: vagrant@localhost
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
