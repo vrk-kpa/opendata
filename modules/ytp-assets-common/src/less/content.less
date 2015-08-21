@@ -379,6 +379,9 @@ label.radio-inline:after, label.checkbox-inline:after{
   h1{
     font-weight: 600;
   }
+  label:after{
+    content: '';
+  }
 }
 .info{
   background-color: darken(@background-hilight, 7%);
@@ -491,5 +494,32 @@ label.radio-inline:after, label.checkbox-inline:after{
   }
   .guide-box{
     padding: 0 5px;
+  }
+}
+#search_content{
+  padding: 0px;
+  input.form-control{
+    border: 0;
+    font-size: 18px;
+    padding: 10px 14px 9px 18px;
+    height: 44px;
+    &:focus{
+      border-color: #cccccc;
+      box-shadow: none;
+    }
+  }
+  .input-group-btn{
+    button {
+      border: none;
+      width: 60px;
+      height: 50px;
+      float: right;
+      background: #1467b6;
+      color: #fff;
+      right: 0;
+      top: 0;
+      border-radius: 0;
+      z-index: 3;
+    }
   }
 }

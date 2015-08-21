@@ -132,3 +132,9 @@ msgstr ""
 
 msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
 msgstr ""
+
+msgid "From datasets"
+msgstr ""
+
+msgid "From other content"
+msgstr ""
