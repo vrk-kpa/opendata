@@ -94,7 +94,7 @@ msgstr ""
 msgid "Most popular datasets"
 msgstr ""
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr ""
 
 msgid "Interoperability Tools"

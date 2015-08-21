@@ -100,7 +100,7 @@ msgstr "Senaste dataseten"
 msgid "Most popular datasets"
 msgstr "Mest populär dataseten"
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr "Öppna data"
 
 msgid "Interoperability Tools"
