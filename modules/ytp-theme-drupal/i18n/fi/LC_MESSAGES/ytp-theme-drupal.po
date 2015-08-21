@@ -102,7 +102,7 @@ msgstr "Uusimmat tietoaineistot"
 msgid "Most popular datasets"
 msgstr "Suosituimmat tietoaineistot"
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr "Avoimet tietoaineistot"
 
 msgid "Interoperability Tools"

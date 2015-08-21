@@ -40,7 +40,7 @@ label{
     </div>
     </div>
     <div class="info">
-        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data datasets")?></a></h3>
+        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data")?></a></h3>
         <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Interoperability+Tools"><?php print t("Interoperability Tools")?></a></h3>
         <?php
             $url = 'https://localhost/data/api/3/action/package_search';
