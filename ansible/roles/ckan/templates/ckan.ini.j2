@@ -28,6 +28,9 @@ sqlalchemy.url = postgres://{{ ckan_database_username }}:{{ ckan_database_passwo
 ckan.site_url = https://{{ hostname }}
 ckan.site_url_internally = https://{{ hostname }}/data/
 
+ckan.datastore.write_url = postgresql://{{ datastore_database_username }}:{{ datastore_database_password }}@{{ datastore_database_host }}/{{ datastore_database_name }}
+ckan.datastore.read_url = postgresql://{{ datastore_username }}:{{ datastore_password }}@{{ datastore_database_host }}/{{ datastore_database_name }}
+
 ckan.auth.anon_create_dataset = false
 ckan.auth.create_unowned_dataset = false
 ckan.auth.create_dataset_if_not_in_organization = false
