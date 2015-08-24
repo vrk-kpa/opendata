@@ -266,6 +266,11 @@
   tags:
   - ckan
 
+- name: Initialize request database
+  shell: ./bin/paster --plugin=ckanext-ytp-request initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
 - name: Initialize archiver database
   shell: ./bin/paster --plugin=ckanext-archiver archiver init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
@@ -286,6 +291,7 @@
   tags:
   - ckan
   - google-analytics
+
 
 - name: Copy credentials token
   copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"

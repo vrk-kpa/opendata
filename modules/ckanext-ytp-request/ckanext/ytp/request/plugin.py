@@ -1,40 +1,54 @@
-# -*- coding: utf-8 -*-
+import ckan.plugins as plugins
+from ckan.plugins import implements, toolkit
 
 import logging
 
-from ckan import plugins
-from ckan.plugins import toolkit
-from ckan.common import c, _
-
-from ckanext.ytp.request import auth, logic
-from ckan.lib import helpers
-from ckanext.ytp.request.tools import get_user_member
-from ckanext.ytp.request.model import setup
-
 log = logging.getLogger(__name__)
 
-
 class YtpRequestPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
-    plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IActions)
-    plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IConfigurable)
+    implements(plugins.IRoutes, inherit=True)
+    implements(plugins.IConfigurer, inherit=True)
+    implements(plugins.ITemplateHelpers, inherit=Ture)
+    implements(plugins.IActions, inherit=True)
+    implements(plugins.IAuthFunctions, inherit=True)
 
-    def _add_to_translation(self):
-        """ Include dynamic values to translation search. Never called. """
-        _("admin")
-        _("member")
-        _("editor")
+    # IConfigurer #
 
-    # IConfigurable #
+    def update_config(self, config):
+        toolkit.add_template_directory(config, 'templates')
+        toolkit.add_public_directory(config, 'public')
+        toolkit.add_resource('public/javascript/', 'ytp_request_js')
 
-    def configure(self, config):
-        setup()
+    #IActions
+    def get_actions(self):
+        from ckanext.ytp.request.logic.action import get, create, delete, update
+
+        return {
+            "request_create": create.comment_create,
+            "request_cancel": delete.comment_delete,
+            "request_approve": get.thread_show,
+            "request_reject": update.comment_update,
+            "requests_list": get.comment_show,
+            "comment_count": get.comment_count
+        }
+
+    #IAuthFunctions
+    def get_auth_functions(self):
+        from ckanext.ytp.request.logic.auth import get, create, delete, update
+
+        return {
+            'comment_create': create.comment_create,
+            'comment_update': update.comment_update,
+            'comment_show': get.comment_show,
+            'comment_delete': delete.comment_delete,
+            "comment_count": get.comment_count
+        }
+
+    # ITemplateHelpers #
+    def get_helpers(self):
+        return {'list_organizations': self._list_organizations, 'request_title_and_link': self._request_title_and_link}
 
     # IRoutes #
-
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
         controller = 'ckanext.ytp.request.controller:YtpRequestController'
@@ -48,28 +62,6 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect("member_request_show_organization", '/member-request/show-organization/{organization_id}', action='show_organization', controller=controller)
         m.connect("member_request_membership_cancel", '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller)
         return m
-
-    # IConfigurer #
-
-    def update_config(self, config):
-        toolkit.add_template_directory(config, 'templates')
-        toolkit.add_public_directory(config, 'public')
-        toolkit.add_resource('public/javascript/', 'ytp_request_js')
-
-    # IActions #
-
-    def _get_function_dictionary(self, module, prefix):
-        return {name: getattr(module, name) for name in dir(module) if name.startswith(prefix)}
-
-    def get_actions(self):
-        return self._get_function_dictionary(logic, "member_request_")
-
-    # IAuthFunctions #
-
-    def get_auth_functions(self):
-        return self._get_function_dictionary(auth, "member_request_")
-
-    # ITemplateHelpers #
 
     def _list_organizations(self):
         context = {'user': c.user}
@@ -96,5 +88,3 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
 
         return _(member.capacity), None
 
-    def get_helpers(self):
-        return {'list_organizations': self._list_organizations, 'request_title_and_link': self._request_title_and_link}
