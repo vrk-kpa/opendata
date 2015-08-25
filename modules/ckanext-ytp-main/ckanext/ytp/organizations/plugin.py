@@ -88,10 +88,8 @@ def action_user_create(context, data_dict):
 def action_organization_show(context, data_dict):
     try:
         result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
-    except NotFound:
-        abort(404, _('Organization not found'))
     except NotAuthorized:
-        abort(401, _('Unauthorized to read organization %s') % id)
+        raise NotFound
 
     result['display_name'] = extra_translation(result, 'title') or result.get('display_name', None) or result.get('name', None)
     return result
