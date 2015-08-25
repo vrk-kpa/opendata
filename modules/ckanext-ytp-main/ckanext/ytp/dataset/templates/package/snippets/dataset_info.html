@@ -9,6 +9,8 @@
 
     {% endblock %}
 
+
+
     {% block collection_type %}
         <div>
         <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
@@ -115,6 +117,10 @@
             {% endwith %}
         </div>
 
+    {% endblock %}
+
+    {% block package_info %}
+        {% snippet 'package/snippets/info.html', pkg=pkg %}
     {% endblock %}
 
     {% block stats %}

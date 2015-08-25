@@ -100,13 +100,13 @@ msgstr "Senaste dataseten"
 msgid "Most popular datasets"
 msgstr "Mest populär dataseten"
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr "Öppna data"
 
 msgid "Interoperability Tools"
 msgstr "Interoperabilitetsverktyg"
 
-msgid "Currently service has @dataset_count datasets."
+msgid "Currently the service has @dataset_count datasets."
 msgstr "För närvarande tjänsten har @dataset_count dataseten."
 
 msgid "Getting started"
@@ -150,3 +150,9 @@ msgid ""
 "If you are interested in using a programmable interface, our API "
 "documentation will provide an introduction."
 msgstr "Om du är intresserad av att använda en API, ger vår API-dokumentation en inledning på hur du kommer igång."
+
+msgid "From datasets"
+msgstr "Från dataseten"
+
+msgid "From other content"
+msgstr "Från annat innehåll"

@@ -25,7 +25,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-msgid "Data Repositories"
+msgid "Datasets"
 msgstr ""
 
 msgid "Organizations"

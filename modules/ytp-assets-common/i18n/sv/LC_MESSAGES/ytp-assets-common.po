@@ -28,7 +28,7 @@ msgstr "Egen minneslista"
 msgid "Home"
 msgstr "Framsida"
 
-msgid "Data Repositories"
+msgid "Datasets"
 msgstr "Dataset"
 
 msgid "Organizations"

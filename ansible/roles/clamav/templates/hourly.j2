@@ -1,6 +1,7 @@
 #!/bin/bash
 
 EMAIL="{{ admin_email }}"
+CLIENT_EMAIl="{{ client_email }}"
 LOG=/var/log/clamav/scan.log
 HOST=`hostname`
 TEMPORARY_FILE=`mktemp /tmp/virus-alert.XXXXX`
@@ -9,6 +10,7 @@ clamscan --remove --recursive --suppress-ok-results --infected --log=$LOG "{{ nf
 
 if [ `grep Infected $TEMPORARY_FILE | grep -vw 0 | wc -l` != 0 ]; then
     cat $TEMPORARY_FILE | mail -s "Virus detected (and removed) at $HOST!" $EMAIL
+    cat $TEMPORARY_FILE | mail -s "Virus detected (and removed) at $HOST!" $CLIENT_EMAIL
 fi
 
 rm $TEMPORARY_FILE

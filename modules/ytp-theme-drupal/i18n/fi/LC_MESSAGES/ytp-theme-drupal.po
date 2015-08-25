@@ -102,13 +102,13 @@ msgstr "Uusimmat tietoaineistot"
 msgid "Most popular datasets"
 msgstr "Suosituimmat tietoaineistot"
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr "Avoimet tietoaineistot"
 
 msgid "Interoperability Tools"
 msgstr "Yhteentoimivuuden aineistot"
 
-msgid "Currently service has @dataset_count datasets."
+msgid "Currently the service has @dataset_count datasets."
 msgstr "Palvelussa tällä hetkellä @dataset_count tietoaineistoa."
 
 msgid "Getting started"
@@ -150,3 +150,9 @@ msgid ""
 "If you are interested in using a programmable interface, our API "
 "documentation will provide an introduction."
 msgstr "Mikäli olet kiinnostunut julkaisemaan dataa ohjelmoitavan rajapinnan kautta, tutustu portaalin API-dokumentaatioon."
+
+msgid "From datasets"
+msgstr "Tietoaineistoista"
+
+msgid "From other content"
+msgstr "Muusta sisällöstä"

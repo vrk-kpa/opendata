@@ -52,7 +52,6 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/css/', 'ytp_css')
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
-        toolkit.add_resource('public/js/', 'ytp_js')
 
     # IConfigurable #
 
