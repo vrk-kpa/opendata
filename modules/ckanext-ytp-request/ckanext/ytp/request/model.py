@@ -32,6 +32,7 @@ class MemberRequest(Base):
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     member_id = Column(types.UnicodeText, ForeignKey('member.id')),
+    organization_id = Column(types.UnicodeText, ForeignKey('group.id'))
     request_date = Column(types.DateTime, default=datetime.datetime.now)
     handling_date = Column(types.DateTime)
     language = Column(types.UnicodeText)
