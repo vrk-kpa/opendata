@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block page_primary_action %}
-    {% set orgs =  h.organizations_available() %}
-    {% if orgs | count != 0 %}
+    {% if h.check_access('member_requests_list') %}
         <div class="btn-group">
             <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
         </div>

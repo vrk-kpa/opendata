@@ -8,7 +8,8 @@ import logging
 log = logging.getLogger(__name__)
 
 def member_requests_list(context, data_dict):
-    ''' List member requests to be approved by admin.
+    ''' Organization admins will see a list of member requests to be approved.
+       Users instead wil see a list of her member requests
     :param group: name of the group (optional)
     :type group: string
     '''
@@ -16,11 +17,11 @@ def member_requests_list(context, data_dict):
 
     user = context['user']
     user_object = model.User.get(user)
-    sysadmin = new_authz.is_sysadmin(user)
+    is_sysadmin = new_authz.is_sysadmin(user)
 
     query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.state == 'pending')
 
-    if not sysadmin:
+    if not is_sysadmin:
         admin_in_groups = model.Session.query(model.Member).filter(model.Member.state == "active").filter(model.Member.table_name == "user") \
             .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == user_object.id)
 

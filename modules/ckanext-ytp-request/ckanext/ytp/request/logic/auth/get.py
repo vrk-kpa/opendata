@@ -12,6 +12,6 @@ def member_request_show(context, data_dict):
     return _only_registered_user()
 
 def _only_registered_user():
-    if not new_authz.auth_is_registered_user():
+    if not new_authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
     return {'success': True}
