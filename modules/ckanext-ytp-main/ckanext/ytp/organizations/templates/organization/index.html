@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block page_primary_action %}
-    {% if h.check_access('member_requests_list') %}
+    {% if h.is_loggedinuser() %}
         <div class="btn-group">
             <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
         </div>
