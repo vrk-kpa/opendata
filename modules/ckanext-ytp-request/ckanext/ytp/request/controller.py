@@ -14,7 +14,7 @@ class YtpRequestController(BaseController):
     
     def list(self):
         """ Controller for listing member requests """
-        context = {'model': model, 'user': c.user or c.author}
+        context = {'user': c.user or c.author}
         try:
             member_requests = toolkit.get_action('member_requests_list')(context, {})
             extra_vars = {'member_requests': member_requests}
