@@ -4,7 +4,7 @@ from ckan import new_authz
 log = logging.getLogger(__name__)
 
 def member_requests_list(context, data_dict):
-""" Show request access check """
+	""" Show request access check """
     return _only_registered_user()
 
 def member_request_show(context, data_dict):
