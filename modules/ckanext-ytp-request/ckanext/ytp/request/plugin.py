@@ -34,7 +34,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     #IAuthFunctions
     def get_auth_functions(self):
         from ckanext.ytp.request.logic.auth import get, create, delete, update
-
+        
         return {
             "member_request_create": create.member_request_create,
             "member_request_cancel": delete.member_request_cancel,
