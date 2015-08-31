@@ -46,8 +46,8 @@ msgstr "Om oss"
 msgid "Files"
 msgstr "Filer"
 
-msgid "Feedback"
-msgstr "Ge feedback"
+msgid "Guide to Open Data"
+msgstr "Guide till Öppna Data"
 
 msgid "User Info"
 msgstr "Mina uppgifter"

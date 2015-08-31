@@ -47,8 +47,8 @@ msgstr "Tietoa palvelusta"
 msgid "Files"
 msgstr "Tiedostot"
 
-msgid "Feedback"
-msgstr "Anna palautetta"
+msgid "Guide to Open Data"
+msgstr "Avoin data -opas"
 
 msgid "User Info"
 msgstr "Omat tietoni"
