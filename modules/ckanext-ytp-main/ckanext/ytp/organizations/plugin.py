@@ -2,7 +2,7 @@
 
 import ckan.logic.schema
 
-from ckan import plugins, model, new_authz
+from ckan import plugins, model
 from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Invalid
@@ -302,15 +302,11 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
             return True
         return False
 
-    def _is_loggedinuser(self):
-        return new_authz.auth_is_loggedin_user()
-
     def get_helpers(self):
         return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 
                 'get_authorized_parents': self._get_authorized_parents,
                 'get_parent_organization_display_name': self._get_parent_organization_display_name,
-                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents,
-                'is_loggedinuser': self._is_loggedinuser,
+                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents
                 }
 
     def get_auth_functions(self):

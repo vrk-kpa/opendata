@@ -28,7 +28,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_request_process": update.member_request_process,
             "member_request_show": get.member_request_show,
-            "member_requests_list": get.member_requests_list
+            "member_requests_list": get.member_requests_list,
+            "member_requests_mylist": get.member_requests_mylist
         }
 
     #IAuthFunctions
@@ -41,7 +42,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_request_process": update.member_request_process,
             "member_request_show": get.member_request_show,
-            "member_requests_list": get.member_requests_list
+            "member_requests_list": get.member_requests_list,
+            "member_requests_mylist": get.member_requests_mylist
         }
 
 
@@ -50,6 +52,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
         controller = 'ckanext.ytp.request.controller:YtpRequestController'
         m.connect('member_request_create','/member-request/new', action='new', controller=controller)
+        m.connect('member_requests_mylist','/member-request/mylist', action='mylist', controller=controller)
         m.connect('member_requests_list','/member-request/list', action='list', controller=controller)
         m.connect('member_request_show', '/member-request/show/{request_id}', action='show', controller=controller)
         m.connect('member_request_reject','/member-request/reject/{request_id}', action='reject', controller=controller)
