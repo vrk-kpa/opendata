@@ -88,8 +88,8 @@ msgid ""
 "--  [site:name] team"
 msgstr "[user:name],\n\nKäyttäjätilisi sivustolla [site:name] on aktivoitu. Siirry asettamaan salasanasi klikkaamalla allaolevaa linkkiä tai kopioimalla sen selaimesi osoitekenttään:\n\n[user:one-time-login-url]\n\nAsetettuasi salasanasi voit jatkossa kirjautua sisään osoitteessa [site:login-url]\n\n-- [site:name] ylläpitotiimi"
 
-msgid "Next, you will get a confirmation email to your email address"
-msgstr "Saat seuraavaksi vahvistusviestin sähköpostiisi"
+msgid "Next, you will get a confirmation email to your email address. If the email does not arrive, please check your spam folder."
+msgstr "Saat seuraavaksi vahvistusviestin sähköpostiisi. Jos viestiä ei näy, tarkistaisitko roskapostikansiosi."
 
 msgid ""
 "By clicking Create new account, you agree with our <a href=\"/en/terms\" "
