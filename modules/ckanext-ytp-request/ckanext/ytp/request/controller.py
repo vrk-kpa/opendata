@@ -1,6 +1,7 @@
 import logging
 
 from ckan.lib.base import h, BaseController, render, abort, request
+from ckan.plugins import toolkit
 from ckan.common import c
 log = logging.getLogger(__name__)
 

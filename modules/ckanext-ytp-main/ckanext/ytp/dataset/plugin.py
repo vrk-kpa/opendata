@@ -1,4 +1,4 @@
-from ckan import plugins, model, logic, new_authz
+from ckan import plugins, model, logic
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
@@ -442,9 +442,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return c.userobj.sysadmin
         return False
 
-    def _is_loggedinuser(self):
-        return new_authz.auth_is_loggedin_user()
-
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -468,7 +465,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
                 'calculate_dataset_stars': calculate_dataset_stars,
                 'is_sysadmin': self._is_sysadmin,
-                'is_loggedinuser': self._is_loggedinuser,
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
                 'get_license': get_license,
