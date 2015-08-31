@@ -1,4 +1,4 @@
-from ckan import model, new_authz
+from ckan import model
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import NotFound, ValidationError, check_access

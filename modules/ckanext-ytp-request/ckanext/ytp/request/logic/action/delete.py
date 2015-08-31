@@ -1,3 +1,11 @@
+from ckan import model, logic
+from sqlalchemy.sql.expression import or_
+from ckan.lib.dictization import model_dictize
+from ckan.common import _, c
+
+import logging
+
+log = logging.getLogger(__name__)
 
 def member_request_cancel(context, data_dict):
     ''' Cancel own request. Member or organization_id must be provided.
@@ -19,7 +27,7 @@ def member_request_cancel(context, data_dict):
         member = query.first()
 
     if not member:
-        raise NotFound
+        raise logic.NotFound
 
     return _process_request(context, member, 'cancel')
 
@@ -36,7 +44,7 @@ def member_request_membership_cancel(context, data_dict):
     member = query.first()
 
     if not member:
-        raise NotFound
+        raise logic.NotFound
 
     return _process_request(context, member, 'cancel')
 

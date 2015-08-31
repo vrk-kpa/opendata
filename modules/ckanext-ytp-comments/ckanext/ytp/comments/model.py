@@ -21,7 +21,6 @@ COMMENT_PENDING = "pending"
 def make_uuid():
     return unicode(uuid.uuid4())
 
-
 def acceptable_comment_on(objtype):
     return objtype in ['package']
 

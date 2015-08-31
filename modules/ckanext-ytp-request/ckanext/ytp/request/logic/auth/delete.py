@@ -1,4 +1,4 @@
-from ckan import new_authz, model
+from ckan import model
 from ckan.common import _, c
 from sqlalchemy.sql.expression import or_
 from ckanext.ytp.request.helper import get_user_member

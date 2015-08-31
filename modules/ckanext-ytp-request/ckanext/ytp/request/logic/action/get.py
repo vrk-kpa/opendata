@@ -1,46 +1,30 @@
-from ckan import new_authz,model
+from ckan import model
 from ckan.logic import NotFound
 from ckan.lib.dictization import model_dictize
 
 import logic
 import logging
+import ckan.new_authz as authz
 
 log = logging.getLogger(__name__)
 
 def member_requests_mylist(context, data_dict):
-    ''' Users instead wil see a list of her member requests
-    :param group: name of the group (optional)
-    :type group: string
+    ''' Users wil see a list of her member requests
     '''
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context['user']
     user_object = model.User.get(user)
-    is_sysadmin = new_authz.is_sysadmin(user)
+    is_sysadmin = authz.is_sysadmin(user)
 
-    query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.state == 'pending')
-
-    if not is_sysadmin:
-        admin_in_groups = model.Session.query(model.Member).filter(model.Member.state == "active").filter(model.Member.table_name == "user") \
-            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == user_object.id)
-
-        if admin_in_groups.count() <= 0:
-            return []
-
-        query = query.filter(model.Member.group_id.in_(admin_in_groups.values(model.Member.group_id)))
-
-    group = data_dict.get('group', None)
-    if group:
-        group_object = model.Group.get(group)
-        if group_object:
-            query = query.filter(model.Member.group_id == group_object.id)
+    query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == user_object.id)
 
     members = query.all()
 
     return _member_list_dictize(members, context)
 
 def member_requests_list(context, data_dict):
-    ''' Organization admins will see a list of member requests to be approved.
+    ''' Organization admins/editors will see a list of member requests to be approved.
     :param group: name of the group (optional)
     :type group: string
     '''
@@ -48,7 +32,7 @@ def member_requests_list(context, data_dict):
 
     user = context['user']
     user_object = model.User.get(user)
-    is_sysadmin = new_authz.is_sysadmin(user)
+    is_sysadmin = authz.is_sysadmin(user)
 
     query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.state == 'pending')
 

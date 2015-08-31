@@ -1,4 +1,4 @@
-from ckan import model, new_authz
+from ckan import model
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import NotFound, ValidationError, check_access
@@ -9,15 +9,16 @@ from ckanext.ytp.request.model import MemberRequest
 from ckan.lib.helpers import url_for
 from ckanext.ytp.request.mail import mail_new_membership_request
 import logging
+import ckan.new_authz as authz
 
 log = logging.getLogger(__name__)
 
 def member_request_create(context, data_dict):
-    ''' Create new member request. User is taken from context.
+    ''' Create new member request. User is taken from context. 
     :param group: name of the group or organization
     :type group: string
     '''
-    check_access('member_request_create', context, data_dict)
+    check_access('member_request_create', context)
     member, _changed = _create_member_request(context, data_dict)
     return model_dictize.member_dictize(member, context)
 
@@ -32,7 +33,7 @@ def _create_member_request(context, data_dict):
 
     user = context['user']
 
-    if new_authz.is_sysadmin(user):
+    if authz.is_sysadmin(user):
         raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
 
     userobj = model.User.get(user)
