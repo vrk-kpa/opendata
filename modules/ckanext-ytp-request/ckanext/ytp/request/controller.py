@@ -9,13 +9,23 @@ log = logging.getLogger(__name__)
 
 class YtpRequestController(BaseController):
 
-    def new(self):
+    def _list_organizations(self,context):
+        data_dict = {}
+        data_dict['all_fields'] = True
+        data_dict['groups'] = []
+        data_dict['type'] = 'organization'
+        return toolkit.get_action('organization_list')(context,data_dict)
 
+    def new(self):
         context = {'user': c.user or c.author}
         try:
             logic.check_access('member_request_create', context)
-            extra_vars = {'selected_organization': request.params.get('selected_organization', None)}
-            return render("request/new.html", extra_vars=extra_vars)
+            organizations = self._list_organizations(context)
+            #FIXME: Dont send as request parameter selected organization. kinda weird
+            extra_vars = {'selected_organization': request.params.get('selected_organization', None),'organizations': organizations}
+            c.roles = self._get_available_roles()
+            c.form = render("request/new_request_form.html", extra_vars=extra_vars)
+            return render("request/new.html")
         except toolkit.NotAuthorized:
             abort(401, self.not_auth_message)
 
@@ -63,3 +73,10 @@ class YtpRequestController(BaseController):
             abort(401, self.not_auth_message)
         except NotFound:
             abort(404, _('Request not found'))
+
+    def _get_available_roles(self, user=None, context=None):
+        roles = []
+        for role in toolkit.get_action('member_roles_list')(context, {}):
+            if role['value'] != 'member':
+                roles.append(role)
+        return roles
