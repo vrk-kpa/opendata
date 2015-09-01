@@ -2,7 +2,7 @@ from ckan import model, logic
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.common import _, c
-from ckanext.ytp.request.helper import get_default_locale
+from ckanext.ytp.request.helper import get_default_locale, get_safe_locale
 
 import logging
 

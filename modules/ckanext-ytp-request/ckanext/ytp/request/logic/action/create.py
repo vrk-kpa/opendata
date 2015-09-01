@@ -9,6 +9,7 @@ from pylons import config
 from ckanext.ytp.request.model import MemberRequest
 from ckan.lib.helpers import url_for
 from ckanext.ytp.request.mail import mail_new_membership_request
+from ckanext.ytp.request.helper import get_safe_locale
 import logging
 import ckan.new_authz as authz
 
@@ -57,7 +58,7 @@ def _create_member_request(context, data_dict):
         member = model.Member(table_name="user", table_id=userobj.id, group_id=group.id, capacity=role, state='pending')
         changed = True
 
-    locale = _get_safe_locale()
+    locale = get_safe_locale()
 
     if member.state != 'pending' or changed:
         member.state = 'pending'

@@ -1,5 +1,6 @@
 from ckan import model
 from ckan.common import _, c
+from ckan.lib import helpers
 from sqlalchemy.sql.expression import or_
 from pylons import config
 
@@ -33,3 +34,9 @@ def get_ckan_admins():
 
 def get_default_locale():
     return config.get('ckan.locale_default', 'en')
+
+def get_safe_locale():
+    try:
+        return helpers.lang()
+    except:
+        return get_default_locale()

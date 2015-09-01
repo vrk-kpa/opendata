@@ -9,15 +9,14 @@ class YtpRequestController(BaseController):
 
     def new(self):
 
-        context = {'model': model, 'user': c.user}
+        context = {'user': c.user or c.author}
         try:
             check_access('member_request_create', context)
+            extra_vars = {'selected_organization': request.params.get('selected_organization', None)}
+            return render("request/new.html", extra_vars=extra_vars)
         except NotAuthorized:
             abort(401, self.not_auth_message)
 
-        extra_vars = {'selected_organization': request.params.get('selected_organization', None)}
-
-        return render("request/new.html")
 
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""
