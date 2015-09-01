@@ -8,7 +8,7 @@ def member_request_membership_cancel(context, data_dict):
         return {'success': False}
 
     organization_id = data_dict.get("organization_id")
-    member = _get_user_member(organization_id, 'active')
+    member = get_user_member(organization_id, 'active')
 
     if not member:
         return {'success': False}
@@ -20,18 +20,13 @@ def member_request_membership_cancel(context, data_dict):
 
 def member_request_cancel(context, data_dict):
     """ Cancel request access check.
-        data_dict expects member or organization_id. See `logic.member_request_cancel`.
+        data_dict expects organization_id. See `logic.member_request_cancel`.
     """
-
     if not c.userobj:
         return {'success': False}
-    member_id = data_dict.get("member", None)
-    member = None
-    if not member_id:
-        organization_id = data_dict.get("organization_id")
-        member = get_user_member(organization_id, 'pending')
-    else:
-        member = model.Member.get(member_id)
+
+    organization_id = data_dict.get("organization_id")
+    member = get_user_member(organization_id, 'pending')
 
     if not member:
         return {'success': False}

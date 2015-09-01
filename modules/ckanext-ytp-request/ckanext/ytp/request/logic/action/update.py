@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import NotFound, ValidationError, check_access
 from ckan.common import _, c
-from ckanext.ytp.request.helper import get_organization_admins, get_ckan_admins
+from ckanext.ytp.request.helper import get_default_locale
 from ckan.lib import helpers
 from pylons import config
 
@@ -47,8 +47,8 @@ def _process_request(context, member, action):
     member_user = model.Session.query(model.User).get(member.table_id)
     admin_user = model.User.get(user)
 
-    locale = member.extras.get('locale', None) or _get_default_locale()
-    _log_process(member_user, member.group.display_name, approve, admin_user)
-    _mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
+    locale = member.extras.get('locale', None) or get_default_locale()
+    #_log_process(member_user, member.group.display_name, approve, admin_user)
+    #_mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
 
     return model_dictize.member_dictize(member, context)

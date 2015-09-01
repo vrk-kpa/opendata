@@ -57,5 +57,6 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect('member_request_show', '/member-request/show/{request_id}', action='show', controller=controller)
         m.connect('member_request_reject','/member-request/reject/{request_id}', action='reject', controller=controller)
         m.connect('member_request_approve','/member-request/approve/{request_id}', action='approve', controller=controller)
-        m.connect('member_request_cancel','/member-request/cancel/{request_id}', action='cancel', controller=controller)
+        m.connect('member_request_cancel','/member-request/cancel/{organization_id}', action='cancel', controller=controller)
+        m.connect('member_request_membership_cancel', '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller)
         return m
