@@ -26,6 +26,7 @@ def member_request_cancel(context, data_dict):
 
     return _process_request(context, member, 'cancel')
 
+
 def member_request_membership_cancel(context, data_dict):
     ''' Cancel organization membership (not request) from logged in user. Organization_id must be provided.
     :param organization_id: id of the organization

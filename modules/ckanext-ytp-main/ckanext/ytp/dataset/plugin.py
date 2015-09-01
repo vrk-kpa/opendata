@@ -6,7 +6,7 @@ from ckan.lib.munge import munge_title_to_name
 from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
 from ckan.model import Session
-
+from ckan import new_authz as authz
 from webhelpers.html import escape
 from pylons import config
 
@@ -442,6 +442,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return c.userobj.sysadmin
         return False
 
+    def _is_loggedinuser(self):
+        return authz.auth_is_loggedin_user()
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -465,6 +467,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_sorted_facet_items_dict': get_sorted_facet_items_dict,
                 'calculate_dataset_stars': calculate_dataset_stars,
                 'is_sysadmin': self._is_sysadmin,
+                'is_loggedinuser': self._is_loggedinuser,
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
                 'get_license': get_license,

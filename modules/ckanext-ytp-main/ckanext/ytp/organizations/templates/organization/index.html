@@ -13,7 +13,7 @@
             <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
         </div>
     {% endif %}
-    {% if not h.is_sysadmin() %}
+    {% if not h.is_sysadmin() and h.is_loggedinuser() %}
         <div class="btn-group">
            <a href="/data/{{ h.lang() }}/member-request/mylist" class="btn btn-primary">{{ _('My membership requests') }}</a>
         </div>

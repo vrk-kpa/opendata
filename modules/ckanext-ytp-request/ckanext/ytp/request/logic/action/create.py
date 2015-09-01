@@ -1,4 +1,4 @@
-from ckan import model
+from ckan import model, logic
 from ckan.plugins import toolkit
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
@@ -20,10 +20,10 @@ def member_request_create(context, data_dict):
     :param group: name of the group or organization
     :type group: string
     '''
-    check_access('member_request_create', context)
+    logic.check_access('member_request_create', context, data_dict)
     member, _changed = _create_member_request(context, data_dict)
     return model_dictize.member_dictize(member, context)
-
+    
 def _create_member_request(context, data_dict):
     """ Helper to create member request """
     changed = False
