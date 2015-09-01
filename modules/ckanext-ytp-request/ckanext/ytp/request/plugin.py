@@ -52,8 +52,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
         controller = 'ckanext.ytp.request.controller:YtpRequestController'
         m.connect('member_request_create','/member-request/new', action='new', controller=controller)
-        #m.connect('member_requests_mylist','/member-request/mylist', action='mylist', controller=controller)
-        #m.connect('member_requests_list','/member-request/list', action='list', controller=controller)
+        m.connect('member_requests_mylist','/member-request/mylist', action='mylist', controller=controller)
+        m.connect('member_requests_list','/member-request/list', action='list', controller=controller)
         #m.connect('member_request_show', '/member-request/show/{request_id}', action='show', controller=controller)
         #m.connect('member_request_reject','/member-request/reject/{request_id}', action='reject', controller=controller)
         #m.connect('member_request_approve','/member-request/approve/{request_id}', action='approve', controller=controller)

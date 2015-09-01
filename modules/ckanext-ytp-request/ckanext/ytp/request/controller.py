@@ -1,8 +1,10 @@
-import logging
-
+from ckan import logic
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
 from ckan.common import c
+
+import logging
+
 log = logging.getLogger(__name__)
 
 class YtpRequestController(BaseController):
@@ -11,10 +13,10 @@ class YtpRequestController(BaseController):
 
         context = {'user': c.user or c.author}
         try:
-            check_access('member_request_create', context)
+            logic.check_access('member_request_create', context)
             extra_vars = {'selected_organization': request.params.get('selected_organization', None)}
             return render("request/new.html", extra_vars=extra_vars)
-        except NotAuthorized:
+        except toolkit.NotAuthorized:
             abort(401, self.not_auth_message)
 
 
