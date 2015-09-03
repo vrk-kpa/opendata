@@ -2,6 +2,8 @@ from ckan import model
 from ckan.common import _, c
 from sqlalchemy.sql.expression import or_
 from ckanext.ytp.request.helper import get_user_member
+import logging
+log = logging.getLogger(__name__)
 
 def member_request_membership_cancel(context, data_dict):
     if not c.userobj:

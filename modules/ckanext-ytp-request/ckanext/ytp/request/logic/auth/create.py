@@ -5,13 +5,10 @@ from ckan.common import _
 log = logging.getLogger(__name__)
 
 def member_request_create(context, data_dict):
-    """ Create request access check 
-    Sysadmin should not be "allowed" to create as he has full access already """
+    """ Create request access check """
     user = context.get('user',None)
     if not authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
-    if authz.is_sysadmin(user):
-    	return {'success': False, 'msg': _('Sysadmin has already full access to organizations')}
 
     organization_id = None if not data_dict else data_dict.get('organization_id', None)
     if organization_id:

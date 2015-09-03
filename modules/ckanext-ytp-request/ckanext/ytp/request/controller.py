@@ -2,7 +2,7 @@ from ckan import logic
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
 from ckan.common import c
-
+import ckan.lib.navl.dictization_functions as dict_fns
 import logging
 
 log = logging.getLogger(__name__)
@@ -17,18 +17,40 @@ class YtpRequestController(BaseController):
         return toolkit.get_action('organization_list')(context,data_dict)
 
     def new(self):
-        context = {'user': c.user or c.author}
+        context = {'user': c.user or c.author, 'save': 'save' in request.params}
         try:
             logic.check_access('member_request_create', context)
-            organizations = self._list_organizations(context)
-            #FIXME: Dont send as request parameter selected organization. kinda weird
-            extra_vars = {'selected_organization': request.params.get('selected_organization', None),'organizations': organizations}
-            c.roles = self._get_available_roles()
-            c.form = render("request/new_request_form.html", extra_vars=extra_vars)
-            return render("request/new.html")
         except toolkit.NotAuthorized:
             abort(401, self.not_auth_message)
+        
+        organizations = self._list_organizations(context)
 
+        if context.get('save'):
+          return self._save_new(context)
+
+        #FIXME: Dont send as request parameter selected organization. kinda weird
+        extra_vars = {'selected_organization': request.params.get('selected_organization', None),'organizations': organizations}
+        c.roles = self._get_available_roles()
+        c.form = render("request/new_request_form.html", extra_vars=extra_vars)
+        return render("request/new.html")
+
+
+    def _save_new(self, context):
+        try:
+            data_dict = logic.clean_dict(dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.params))))
+            data_dict['group'] = data_dict['organization']
+            member = toolkit.get_action('member_request_create')(context, data_dict)
+            helpers.redirect_to('organizations_index', id="newrequest", member_id=member['id'])
+        except logic.NotAuthorized:
+            abort(401, self.not_auth_message)
+        except logic.NotFound:
+            abort(404, _('Item not found'))
+        except dict_fns.DataError:
+            abort(400, _(u'Integrity Error'))
+        except logic.ValidationError, e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.new(data_dict, errors, error_summary)
 
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""

@@ -229,6 +229,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return tools.get_original_method('ckan.logic.auth.update', 'package_update')(context, data_dict)
 
     def _can_create_service(self, context, data_dict=None):
+        log.debug("Can create service")
         if 'auth_user_obj' not in context:
             return {'success': False, 'msg': _("Login required")}
         user_object = context['auth_user_obj']

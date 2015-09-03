@@ -1,7 +1,7 @@
 from ckan import model
-from ckan.logic import NotFound
+from ckan.logic import NotFound, ValidationError
 from ckan.lib.dictization import model_dictize
-
+from ckanext.ytp.request.model import MemberRequest
 import logic
 import logging
 import ckan.new_authz as authz
@@ -14,14 +14,15 @@ def member_requests_mylist(context, data_dict):
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context.get('user',None)
+    if authz.is_sysadmin(user):
+        raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
+        
     user_object = model.User.get(user)
-    is_sysadmin = authz.is_sysadmin(user)
-
-    query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == user_object.id)
-
-    members = query.all()
-    
-    return _member_list_dictize(members, context)
+    #TODO: throw exception in case of sysadmins is_sysadmin = authz.is_sysadmin(user)
+    #Return all pending or active memberships for all organizations for the user in context
+    requests = model.Session.query(MemberRequest).filter(MemberRequest.member_id == user_object.id).all()
+    log.debug(requests)
+    return requests
 
 def member_requests_list(context, data_dict):
     ''' Organization admins/editors will see a list of member requests to be approved.
@@ -30,7 +31,7 @@ def member_requests_list(context, data_dict):
     '''
     logic.check_access('member_requests_list', context, data_dict)
 
-    user = context['user']
+    user = context.get('user',None)
     user_object = model.User.get(user)
     is_sysadmin = authz.is_sysadmin(user)
 

@@ -5,6 +5,7 @@ log = logging.getLogger(__name__)
 
 def member_requests_mylist(context, data_dict):
 	""" Show request access check """
+	#TODO: Sysadmins dont have this functionality since it is pointless
 	return _only_registered_user()
 
 def member_requests_list(context, data_dict):

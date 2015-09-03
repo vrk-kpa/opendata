@@ -246,6 +246,11 @@
   tags:
   - ckan
 
+- name: Initialize request database
+  shell: ./bin/paster --plugin=ckanext-ytp-request initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
 - name: Initialize Harvester database
   shell: ./bin/paster --plugin=ckanext-harvest harvester initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
@@ -263,11 +268,6 @@
 
 - name: Initialize comment database
   shell: ./bin/paster --plugin=ckanext-ytp-comments initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
-  tags:
-  - ckan
-
-- name: Initialize request database
-  shell: ./bin/paster --plugin=ckanext-ytp-request initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
 
