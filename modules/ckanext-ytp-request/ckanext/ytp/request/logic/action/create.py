@@ -65,8 +65,8 @@ def _create_member_request(context, data_dict):
     revision.author = user
     revision.message = u'New member request'
     model.Session.add(member)
-
-    memberRequest = MemberRequest(member_id=member.id, language=locale, organization_id=group.id)
+   
+    memberRequest = MemberRequest(member_id=userobj.id, language=locale, organization_id=group.id)
     model.Session.add(memberRequest)
     model.repo.commit()
 

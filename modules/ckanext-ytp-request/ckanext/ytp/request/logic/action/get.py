@@ -18,10 +18,8 @@ def member_requests_mylist(context, data_dict):
         raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
         
     user_object = model.User.get(user)
-    #TODO: throw exception in case of sysadmins is_sysadmin = authz.is_sysadmin(user)
     #Return all pending or active memberships for all organizations for the user in context
     requests = model.Session.query(MemberRequest).filter(MemberRequest.member_id == user_object.id).all()
-    log.debug(requests)
     return requests
 
 def member_requests_list(context, data_dict):
