@@ -1,6 +1,5 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -10,7 +9,6 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
-
     # IConfigurer #
 
     def update_config(self, config):
@@ -29,7 +27,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_request_process": update.member_request_process,
             "member_request_show": get.member_request_show,
             "member_requests_list": get.member_requests_list,
-            "member_requests_mylist": get.member_requests_mylist
+            "member_requests_mylist": get.member_requests_mylist,
+            "get_available_roles": get.get_available_roles
         }
 
     #IAuthFunctions
@@ -45,7 +44,6 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist
         }
-
 
     # IRoutes #
     def before_map(self, m):

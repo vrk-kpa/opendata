@@ -2,9 +2,11 @@ from ckan import model
 from ckan.logic import NotFound, ValidationError
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
+from ckanext.ytp.request.helper import get_organization_admins
 import logic
 import logging
 import ckan.new_authz as authz
+
 
 log = logging.getLogger(__name__)
 
@@ -79,6 +81,24 @@ def member_request_show(context, data_dict):
 
     return data
 
+@logic.side_effect_free
+def get_available_roles(context, data_dict=None):    
+    roles = logic.get_action("member_roles_list")(context,{})
+
+    #Remove member role from the list
+    roles = [role for role in roles if role['value'] != 'member']
+    #If organization has no associated admin, then role editor is not available
+       
+    model = context['model']
+    organization_id = logic.get_or_bust(data_dict, 'organization_id')
+
+    if organization_id:
+        if get_organization_admins(organization_id):
+            roles = [role for role in roles if role['value'] != 'editor']
+        return roles
+    else:
+        return None
+
 def _member_request_list_dictize(obj_list, context, sort_key=lambda x: x['member_id'], reverse=False):
     """Helper to convert member requests list to dictionary """
     result_list = []
@@ -104,3 +124,4 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['user_name'] = user.name
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
+

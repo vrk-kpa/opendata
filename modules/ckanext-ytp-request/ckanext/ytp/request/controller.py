@@ -2,7 +2,6 @@ from ckan import logic
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
 from ckan.common import c
-from ckanext.ytp.request.helper import get_organization_admins
 import ckan.lib.navl.dictization_functions as dict_fns
 import logging
 
@@ -32,10 +31,9 @@ class YtpRequestController(BaseController):
         #FIXME: Dont send as request parameter selected organization. kinda weird
         selected_organization = request.params.get('selected_organization', None)
         extra_vars = {'selected_organization': selected_organization,'organizations': organizations}
-        for organization in organizations:
-            if organization['name'] == selected_organization:
-                organization_id = organization['id']
-        c.roles = self._get_available_roles(context,organization_id)
+        data_dict = {'organization_id': selected_organization}
+        c.roles = toolkit.get_action('get_available_roles')(context,data_dict)
+        c.user_role = 'admin'
         c.form = render("request/new_request_form.html", extra_vars=extra_vars)
         return render("request/new.html")
 
@@ -101,18 +99,5 @@ class YtpRequestController(BaseController):
         except NotFound:
             abort(404, _('Request not found'))
 
-    def _get_available_roles(self, context= None, organization_id=None):
-        roles = []
-        
-        for role in toolkit.get_action('member_roles_list')(context, {}):
-            if role['value'] != 'member':
-                roles.append(role)
-        #If organization has no associated admin, then role editor is not available
-        if organization_id:
-            if get_organization_admins(organization_id):
-                roles = [role for role in roles
-                    if role['value'] != 'editor']
-                return roles
-        else:
-            return None
+
         
