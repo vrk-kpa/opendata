@@ -20,21 +20,26 @@
     <div class="module-content">
       <h1>{% trans %}My own membership requests{% endtrans %}</h1>
 
-      {% if member_requests %}
+      {% if my_requests %}
       <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
              <th>{% trans %}User{% endtrans %}</th>
-             <th> </th>
+             <th>{% trans %}Request date{% endtrans %}</th>
+             <th>{% trans %}Status{% endtrans %}</th>
+             <th>{% trans %}Handling date{% endtrans %}</th>
           </tr>
         </thead>
         <tfoot> </tfoot>
         <tbody>
-        {% for member_request in own_requests %}
+        {% for mrequest in my_requests %}
           <tr>
-            <td>{{ member_request.group_name }}</td>
-            <td>{{ member_request.user_name }}</td>
+            <td>{{ mrequest.organization_name }}</td>
+            <td>{{ mrequest.member_name }}</td>
+            <td>{{ mrequest.request_date }}</td>
+            <td>{{ mrequest.sate }}</td>
+            <td>{{ mrequest.handling_date }}</td>
           </tr>
         {% endfor %}
         </tbody>

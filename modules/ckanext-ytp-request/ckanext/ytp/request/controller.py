@@ -2,6 +2,7 @@ from ckan import logic
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
 from ckan.common import c
+from ckanext.ytp.request.helper import get_organization_admins
 import ckan.lib.navl.dictization_functions as dict_fns
 import logging
 
@@ -29,8 +30,12 @@ class YtpRequestController(BaseController):
           return self._save_new(context)
 
         #FIXME: Dont send as request parameter selected organization. kinda weird
-        extra_vars = {'selected_organization': request.params.get('selected_organization', None),'organizations': organizations}
-        c.roles = self._get_available_roles()
+        selected_organization = request.params.get('selected_organization', None)
+        extra_vars = {'selected_organization': selected_organization,'organizations': organizations}
+        for organization in organizations:
+            if organization['name'] == selected_organization:
+                organization_id = organization['id']
+        c.roles = self._get_available_roles(context,organization_id)
         c.form = render("request/new_request_form.html", extra_vars=extra_vars)
         return render("request/new.html")
 
@@ -56,8 +61,8 @@ class YtpRequestController(BaseController):
         """" Lists own members requests (possibility to cancel and view current status)"""
         context = {'user': c.user or c.author}
         try:
-            own_requests = toolkit.get_action('member_requests_mylist')(context, {})
-            extra_vars = {'own_requests': own_requests}
+            my_requests = toolkit.get_action('member_requests_mylist')(context, {})
+            extra_vars = {'my_requests': my_requests}
             return render('request/mylist.html', extra_vars=extra_vars)
         except toolkit.NotAuthorized:
             abort(401, self.not_auth_message) 
@@ -96,9 +101,18 @@ class YtpRequestController(BaseController):
         except NotFound:
             abort(404, _('Request not found'))
 
-    def _get_available_roles(self, user=None, context=None):
+    def _get_available_roles(self, context= None, organization_id=None):
         roles = []
+        
         for role in toolkit.get_action('member_roles_list')(context, {}):
             if role['value'] != 'member':
                 roles.append(role)
-        return roles
+        #If organization has no associated admin, then role editor is not available
+        if organization_id:
+            if get_organization_admins(organization_id):
+                roles = [role for role in roles
+                    if role['value'] != 'editor']
+                return roles
+        else:
+            return None
+        

@@ -20,7 +20,7 @@ def member_requests_mylist(context, data_dict):
     user_object = model.User.get(user)
     #Return all pending or active memberships for all organizations for the user in context
     requests = model.Session.query(MemberRequest).filter(MemberRequest.member_id == user_object.id).all()
-    return requests
+    return _member_request_list_dictize(requests,context)
 
 def member_requests_list(context, data_dict):
     ''' Organization admins/editors will see a list of member requests to be approved.
@@ -78,6 +78,21 @@ def member_request_show(context, data_dict):
         data['user'] = model_dictize.user_dictize(member_user, context)
 
     return data
+
+def _member_request_list_dictize(obj_list, context, sort_key=lambda x: x['member_id'], reverse=False):
+    """Helper to convert member requests list to dictionary """
+    result_list = []
+    for obj in obj_list:
+        member_dict = {}
+        user = model.Session.query(model.User).get(obj.member_id)
+        member_dict['member_name'] = user.name
+        member_dict['organization_name'] = user.name
+        member_dict['state'] = obj.status
+        member_dict['request_date'] = obj.request_date
+        member_dict['handling_date'] = obj.handling_date
+        result_list.append(member_dict)
+    return result_list
+    #return sorted(result_list, key=sort_key, reverse=reverse)
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
     """ Helper to convert member list to dictionary """

@@ -49,7 +49,7 @@ def _create_member_request(context, data_dict):
             message = _("You already have a pending request to the organization")
         elif member.state == 'active':
             message = _("You are already part of the organization")
-        #Should never happen
+        #TODO: not sure what to do in case it is a deleted member? member.state = deleted
         else:
             message = _("Existing member with unknown status")
         raise ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
