@@ -158,4 +158,4 @@ msgid "From other content"
 msgstr "Muusta sisällöstä"
 
 msgid "Search from other content..."
-msgstr "Hae muusta sisällöstä..."
+msgstr "Etsi muusta sisällöstä..."
