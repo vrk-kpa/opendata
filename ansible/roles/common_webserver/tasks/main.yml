@@ -80,20 +80,32 @@
   tags:
   - resources
 
+- name: Ensure resource dependencies path is present
+  file: path={{ cache_path }}/resource-dependencies state=directory mode=0755 owner=root group=root
+  when: modules_copy|changed
+  tags:
+  - resources
+
+- name: Copy resource dependency base
+  shell: cp -R {{ cache_path }}/ytp-assets-common/* {{ cache_path }}/resource-dependencies
+  when: modules_copy|changed
+  tags:
+  - resources
+
 - name: Install resource dependencies
-  npm: path={{cache_path}}/ytp-assets-common state=present
+  npm: path={{cache_path}}/resource-dependencies state=present
   when: modules_copy|changed
   tags:
   - resources
 
 - name: Generate resources
-  command: "gulp chdir={{cache_path}}/ytp-assets-common"
+  command: "gulp chdir={{cache_path}}/resource-dependencies"
   when: modules_copy|changed
   tags:
   - resources
 
 - name: Copy resources
-  shell: cp -R {{ cache_path }}/ytp-assets-common/resources /var/www/resources
+  shell: cp -R {{ cache_path }}/resource-dependencies/resources /var/www/resources
   when: modules_copy|changed
   tags:
   - resources
