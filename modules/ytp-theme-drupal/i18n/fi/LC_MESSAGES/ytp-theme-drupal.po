@@ -156,3 +156,6 @@ msgstr "Tietoaineistoista"
 
 msgid "From other content"
 msgstr "Muusta sisällöstä"
+
+msgid "Search from other content..."
+msgstr "Hae muusta sisällöstä..."

@@ -381,7 +381,11 @@ label.radio-inline:after, label.checkbox-inline:after{
   label:after{
     content: '';
   }
+  label + label{
+    margin-left: 10px;
+  }
 }
+
 .info{
   background-color: darken(@background-hilight, 7%);
   height: 95px;
