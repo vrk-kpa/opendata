@@ -105,11 +105,15 @@ def _member_request_list_dictize(obj_list, context, sort_key=lambda x: x['member
     for obj in obj_list:
         member_dict = {}
         user = model.Session.query(model.User).get(obj.member_id)
+        organization = model.Session.query(model.Group).get(obj.organization_id)
         member_dict['member_name'] = user.name
-        member_dict['organization_name'] = user.name
+        member_dict['organization_name'] = organization.name
         member_dict['state'] = obj.status
-        member_dict['request_date'] = obj.request_date
-        member_dict['handling_date'] = obj.handling_date
+        member_dict['role'] = obj.role
+        member_dict['request_date'] = obj.request_date.strftime("%d - %b - %Y");
+        member_dict['handling_date'] = None
+        if obj.handling_date:
+            member_dict['handling_date'] = obj.handling_date.strftime("%d - %b - %Y");
         result_list.append(member_dict)
     return result_list
     #return sorted(result_list, key=sort_key, reverse=reverse)

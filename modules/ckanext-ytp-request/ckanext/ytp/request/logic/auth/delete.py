@@ -10,6 +10,9 @@ def member_request_membership_cancel(context, data_dict):
         return {'success': False}
 
     organization_id = data_dict.get("organization_id")
+    if not organization_id:
+        return {'success': False}
+
     member = get_user_member(organization_id, 'active')
 
     if not member:
@@ -28,6 +31,9 @@ def member_request_cancel(context, data_dict):
         return {'success': False}
 
     organization_id = data_dict.get("organization_id")
+    if not organization_id:
+        return {'success': False}
+
     member = get_user_member(organization_id, 'pending')
 
     if not member:

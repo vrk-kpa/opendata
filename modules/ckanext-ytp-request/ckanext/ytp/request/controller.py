@@ -1,7 +1,8 @@
 from ckan import logic
+from ckan.lib import helpers
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
-from ckan.common import c
+from ckan.common import c, _
 import ckan.lib.navl.dictization_functions as dict_fns
 import logging
 
@@ -9,14 +10,15 @@ log = logging.getLogger(__name__)
 
 class YtpRequestController(BaseController):
 
-    def _list_organizations(self,context):
+    def _list_organizations(context,errors=None,error_summary=None):
         data_dict = {}
         data_dict['all_fields'] = True
         data_dict['groups'] = []
         data_dict['type'] = 'organization'
-        return toolkit.get_action('organization_list')(context,data_dict)
+        #TODO: Filter our organizations where the user is already a member
+        return toolkit.get_action('organization_list')({},data_dict)
 
-    def new(self):
+    def new(self, errors=None, error_summary=None):
         context = {'user': c.user or c.author, 'save': 'save' in request.params}
         try:
             logic.check_access('member_request_create', context)
@@ -25,12 +27,12 @@ class YtpRequestController(BaseController):
         
         organizations = self._list_organizations(context)
 
-        if context.get('save'):
+        if context.get('save') and not errors:
           return self._save_new(context)
 
         #FIXME: Dont send as request parameter selected organization. kinda weird
         selected_organization = request.params.get('selected_organization', None)
-        extra_vars = {'selected_organization': selected_organization,'organizations': organizations}
+        extra_vars = {'selected_organization': selected_organization,'organizations': organizations, 'errors': errors or {}, 'error_summary': error_summary or {}}
         data_dict = {'organization_id': selected_organization}
         c.roles = toolkit.get_action('get_available_roles')(context,data_dict)
         c.user_role = 'admin'
@@ -53,7 +55,7 @@ class YtpRequestController(BaseController):
         except logic.ValidationError, e:
             errors = e.error_dict
             error_summary = e.error_summary
-            return self.new(data_dict, errors, error_summary)
+            return self.new(errors, error_summary)
 
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""
@@ -62,7 +64,7 @@ class YtpRequestController(BaseController):
             my_requests = toolkit.get_action('member_requests_mylist')(context, {})
             extra_vars = {'my_requests': my_requests}
             return render('request/mylist.html', extra_vars=extra_vars)
-        except toolkit.NotAuthorized:
+        except logic.NotAuthorized:
             abort(401, self.not_auth_message) 
 
     
@@ -73,7 +75,7 @@ class YtpRequestController(BaseController):
             member_requests = toolkit.get_action('member_requests_list')(context, {})
             extra_vars = {'member_requests': member_requests}
             return render('request/list.html', extra_vars=extra_vars)
-        except toolkit.NotAuthorized:
+        except logic.NotAuthorized:
             abort(401, self.not_auth_message)
 
     def cancel(self, organization_id):
@@ -81,23 +83,47 @@ class YtpRequestController(BaseController):
         context = {'user': c.user or c.author}
         try:
             toolkit.get_action('member_request_cancel')(context,{"organization_id": organization_id})
-            helpers.redirect_to('organizations_index')
-        except NotAuthorized:
+            extra_vars = {'message': _('Member request cancelled successfully')}
+            helpers.redirect_to('organizations_index', extra_vars=extra_vars)
+        except logic.NotAuthorized:
             abort(401, self.not_auth_message)
-        except NotFound:
+        except logic.NotFound:
             abort(404,_('Request not found'))
 
+    def reject(self, mrequest_id):
+        """ Controller to reject member request (only admins or group editors can do that """
+        return self._processbyadmin(mrequest_id, False)
+
+    def approve(self, mrequest_id):
+        """ Controller to approve member request (only admins or group editors can do that) """
+        return self._processbyadmin(mrequest_id, True)
 
     def membership_cancel(self, organization_id):
         """ Logged in user can cancel already approved/existing memberships """
         context = {'user': c.user or c.author}
         try:
             toolkit.get_action('member_request_membership_cancel')(context, {"organization_id": organization_id})
-            helpers.redirect_to('organizations_index')
+            extra_vars = {'message': _('Membership cancelled successfully')}
+            helpers.redirect_to('organizations_index', extra_vars=extra_vars)
+        except logic.NotAuthorized:
+            abort(401, self.not_auth_message)
+        except logic.NotFound:
+            abort(404, _('Request not found'))
+
+    def _processbyadmin(self, mrequest_id, approve):
+        context = { 'user': c.user or c.author}
+
+        data_dict = {"mrequest_id": mrequest_id}
+        try:
+            if approve:
+                toolkit.get_action('member_request_approve')(context, data_dict)
+            else:
+                toolkit.get_action('member_request_reject')(context, data_dict)
+            extra_vars = {'message': _('Member request processed successfully')}
+            helpers.redirect_to('member_request_list', extra_vars=extra_vars)
         except NotAuthorized:
             abort(401, self.not_auth_message)
         except NotFound:
-            abort(404, _('Request not found'))
-
+            abort(404, _('Member request not found'))
 
         

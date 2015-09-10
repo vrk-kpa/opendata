@@ -27,8 +27,10 @@ def member_request_create(context, data_dict):
     
 def _create_member_request(context, data_dict):
     """ Helper to create member request """
-    role = data_dict['role']
-    group = model.Group.get(data_dict['group'])
+    role = data_dict.get('role',None)
+    if not role:
+        raise NotFound
+    group = model.Group.get(data_dict.get('group',None))
 
     if not group or group.type != 'organization':
         raise NotFound
@@ -43,13 +45,13 @@ def _create_member_request(context, data_dict):
     member = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == userobj.id) \
         .filter(model.Member.group_id == group.id).first()
 
-    ## If there is a member for this organization...
-    if member:
+    ## If there is a member for this organization and it is NOT deleted...
+    if member and member.state != 'deleted':
         if member.state == 'pending':
             message = _("You already have a pending request to the organization")
         elif member.state == 'active':
             message = _("You are already part of the organization")
-        #TODO: not sure what to do in case it is a deleted member? member.state = deleted
+       #Unknown status. Should never happen..
         else:
             message = _("Existing member with unknown status")
         raise ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
@@ -66,7 +68,7 @@ def _create_member_request(context, data_dict):
     revision.message = u'New member request'
     model.Session.add(member)
    
-    memberRequest = MemberRequest(member_id=userobj.id, language=locale, organization_id=group.id)
+    memberRequest = MemberRequest(member_id=userobj.id, role= role, status="pending", language=locale, organization_id=group.id)
     model.Session.add(memberRequest)
     model.repo.commit()
 

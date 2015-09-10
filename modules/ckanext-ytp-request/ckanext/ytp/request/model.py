@@ -34,6 +34,7 @@ class MemberRequest(Base):
     member_id = Column(types.UnicodeText, ForeignKey(model.User.id))
     organization_id = Column(types.UnicodeText, ForeignKey(model.Group.id))
     request_date = Column(types.DateTime, default=datetime.datetime.now)
+    role = Column(types.UnicodeText)
     handling_date = Column(types.DateTime)
     language = Column(types.UnicodeText)
     status = Column(types.UnicodeText,default=u"pending")
