@@ -104,6 +104,7 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.member_id == obj.table_id).filter(MemberRequest.organization_id == obj.group_id ).first()
         member_dict['role'] = member_request.role
         member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
+        member_dict['mid'] = member_request.id
         user = model.Session.query(model.User).get(obj.table_id)
         member_dict['user_name'] = user.name
         result_list.append(member_dict)

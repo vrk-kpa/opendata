@@ -1,13 +1,15 @@
-from ckan import model
+from ckan import model, logic
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.logic import NotFound, ValidationError, check_access
+from ckanext.ytp.request.model import MemberRequest
 from ckan.common import _, c
 from ckanext.ytp.request.helper import get_default_locale
 from ckan.lib import helpers
 from pylons import config
 
 import logging
+import datetime 
 
 log = logging.getLogger(__name__)
 
@@ -34,15 +36,15 @@ def _process(context, action, data_dict):
     approve = action == 'approve'  # else 'reject'
     state = "active" if approve else "deleted"
     user = context.get("user")
-
+    log.debug("member request id %s",data_dict.get("mrequest_id"))
     member_request = model.Session.query(MemberRequest).get(data_dict.get("mrequest_id"))
-    member = model.Session.query(model.Member).filter(model.Member.table_id == member_request.member_id).filter(model.Member.group.id == member_request.organization.id).first()
+    member = model.Session.query(model.Member).filter(model.Member.table_id == member_request.member_id).filter(model.Member.group_id == member_request.organization_id).first()
 
     if not member or not member.group.is_organization:
         raise NotFound
     if member.state != 'pending':
         #TODO: throw better exception
-        raise logic.NotFound
+        raise logic.Not
 
     member.state = state
     revision = model.repo.new_revision()

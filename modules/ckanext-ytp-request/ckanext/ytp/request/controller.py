@@ -122,9 +122,9 @@ class YtpRequestController(BaseController):
                 toolkit.get_action('member_request_reject')(context, data_dict)
             extra_vars = {'message': _('Member request processed successfully')}
             helpers.redirect_to('member_request_list', extra_vars=extra_vars)
-        except NotAuthorized:
+        except logic.NotAuthorized:
             abort(401, self.not_auth_message)
-        except NotFound:
+        except logic.NotFound:
             abort(404, _('Member request not found'))
 
         

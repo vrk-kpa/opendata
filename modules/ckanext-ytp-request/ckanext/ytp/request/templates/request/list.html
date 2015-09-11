@@ -40,8 +40,8 @@
             <td>{{ member_request.user_name }}</td>
             <td>{{ member_request.role }}</td>
             <td>{{ member_request.request_date }}</td>
-            <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.id) }}" class="btn btn-primary">{% trans %}Approve{% endtrans %}</a></td>
-            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.id) }}" class="btn btn-primary">{% trans %}Reject{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Approve{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Reject{% endtrans %}</a></td>
           </tr>
         {% endfor %}
         </tbody>
