@@ -46,7 +46,7 @@ def _create_member_request(context, data_dict):
         .filter(model.Member.group_id == group.id).first()
 
     ## If there is a member for this organization and it is NOT deleted...
-    if member and member.state != 'deleted':
+    if member:
         if member.state == 'pending':
             message = _("You already have a pending request to the organization")
         elif member.state == 'active':
@@ -54,8 +54,8 @@ def _create_member_request(context, data_dict):
        #Unknown status. Should never happen..
         else:
             message = _("Existing member with unknown status")
-        raise ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
-
+        if member.state != 'deleted':
+            raise ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
     else:
         member = model.Member(table_name="user", table_id=userobj.id, group_id=group.id, capacity=role, state='pending')
 

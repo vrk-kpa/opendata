@@ -30,6 +30,7 @@
              <th>{% trans %}Request date{% endtrans %}</th>
              <th>{% trans %}Status{% endtrans %}</th>
              <th>{% trans %}Handling date{% endtrans %}</th>
+             <th>{% trans %}Action{% endtrans %}</th>
           </tr>
         </thead>
         <tfoot> </tfoot>
@@ -40,8 +41,22 @@
             <td>{{ mrequest.member_name }}</td>
             <td>{{ mrequest.role }}</td>
             <td>{{ mrequest.request_date }}</td>
-            <td>{{ mrequest.sate }}</td>
+            <td>{{ mrequest.state }}</td>
             <td>{{ mrequest.handling_date }}</td>
+            <td>{% if h.check_access('member_request_membership_cancel', {'organization_id': mrequest.organization_id}) %}
+              {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
+              <a class="btn btn-danger" href="{{ h.url_for('member_request_membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+              <i class="icon-circle-arrow-right"></i>
+                {% trans %}Cancel membership{% endtrans %}
+              </a>
+              {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
+              {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
+              <a class="btn btn-primary" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+              <i class="icon-circle-arrow-right"></i>
+                {% trans %}Cancel request{% endtrans %}
+              </a>
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
         </tbody>

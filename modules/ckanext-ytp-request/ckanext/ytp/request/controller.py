@@ -59,10 +59,11 @@ class YtpRequestController(BaseController):
 
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""
-        context = {'user': c.user or c.author}
+        context = {'user': c.user or c.author }
+
         try:
             my_requests = toolkit.get_action('member_requests_mylist')(context, {})
-            extra_vars = {'my_requests': my_requests}
+            extra_vars = {'my_requests': my_requests }
             return render('request/mylist.html', extra_vars=extra_vars)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message) 

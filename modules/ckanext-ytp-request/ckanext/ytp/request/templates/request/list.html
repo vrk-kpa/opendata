@@ -26,6 +26,9 @@
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
              <th>{% trans %}User{% endtrans %}</th>
+             <th>{% trans %}Role{% endtrans %}</th>
+             <th>{% trans %}Request date{% endtrans %}</th>
+             <th> </th>
              <th> </th>
           </tr>
         </thead>
@@ -35,7 +38,10 @@
           <tr>
             <td>{{ member_request.group_name }}</td>
             <td>{{ member_request.user_name }}</td>
-            <td><a href="{{ h.url_for('member_request_show', request_id=member_request.id) }}" class="btn btn-primary">{% trans %}Edit{% endtrans %}</a></td>
+            <td>{{ member_request.role }}</td>
+            <td>{{ member_request.request_date }}</td>
+            <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.id) }}" class="btn btn-primary">{% trans %}Approve{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.id) }}" class="btn btn-primary">{% trans %}Reject{% endtrans %}</a></td>
           </tr>
         {% endfor %}
         </tbody>
