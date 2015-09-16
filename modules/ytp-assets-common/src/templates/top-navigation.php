@@ -82,7 +82,7 @@
           */
 
           $current_lang = $language->language;
-          $host = "avoindata"; //isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'avoindata.fi';
+          $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'avoindata.fi';
 
           $logos_avoindata = array(
               "fi" => "avoindata_fi.png",
