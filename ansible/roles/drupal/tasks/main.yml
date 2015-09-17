@@ -287,7 +287,7 @@
   - drupal
 
 - name: Apply fix scripts
-  command: "drush'{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
+  command: "drush '{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
   when: copy_fix_scripts|changed
   with_items:
     - fix_language
