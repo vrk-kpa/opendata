@@ -156,3 +156,6 @@ msgstr "Från dataseten"
 
 msgid "From other content"
 msgstr "Från annat innehåll"
+
+msgid "Search from other content..."
+msgstr "Sök från annat innehåll"
