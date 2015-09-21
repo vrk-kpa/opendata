@@ -175,6 +175,7 @@ def get_visits_for_dataset(id):
 
     return results
 
+
 def get_geonetwork_link(uuid, lang=None):
     if not lang:
         try:
