@@ -469,7 +469,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
-                'get_geonetwork_link' : get_geonetwork_link}
+                'get_geonetwork_link': get_geonetwork_link}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
