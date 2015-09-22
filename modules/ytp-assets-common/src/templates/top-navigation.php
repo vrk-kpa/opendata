@@ -63,6 +63,8 @@
           // We want to get default domain or domain with last two items in it: example.com instead www.example.com.
           // Checking if host is ip using numeric start is not perfect but fast and good enough for our purposes. 
           $domain = null;
+
+          /*
           $logos = array(
                   "avoindata.fi" => "avoindata_fi.png",
                   "www.avoindata.fi" => "avoindata_fi.png",
@@ -74,8 +76,35 @@
                   "alpha.opendata.fi" => "opendata_fi.png",
                   "beta.opendata.fi" => "opendata_fi.png",
           );
+
           $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi.png';
           echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
+          */
+
+          $current_lang = $language->language;
+          $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'avoindata.fi';
+
+          $logos_avoindata = array(
+              "fi" => "avoindata_fi.png",
+              "en" => "avoindata_en.png",
+              "sv" => "avoindata_se.png",
+          );
+
+          $logos_opendata = array(
+              "fi" => "opendata_fi.png",
+              "en" => "opendata_en.png",
+              "sv" => "opendata_se.png",
+          );
+
+          // show a different logo depending on the domain and language used.
+          if (strpos($host,'avoindata') !== false) {
+            $logo_lang = isset($logos_avoindata[$current_lang]) ? $logos_avoindata[$current_lang] : 'avoindata_fi.png';
+          } elseif (strpos($host,'opendata') !== false) {
+            $logo_lang = isset($logos_opendata[$current_lang]) ? $logos_opendata[$current_lang] : 'opendata_en.png';
+          }
+
+          echo '<img src="/resources/images/logo/' . $logo_lang . '" class="site-logo" />';
+
           ?>
       </a>
     </div>

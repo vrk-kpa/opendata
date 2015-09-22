@@ -82,7 +82,7 @@ msgid ""
 "--  [site:name] team"
 msgstr ""
 
-msgid "Next, you will get a confirmation email to your email address"
+msgid "Next, you will get a confirmation email to your email address. If the email does not arrive, please check your spam folder."
 msgstr ""
 
 msgid "By clicking Create new account, you agree with our <a href=\"/en/terms\" target=\"_blank\">Terms of Service</a>."
@@ -137,4 +137,7 @@ msgid "From datasets"
 msgstr ""
 
 msgid "From other content"
+msgstr ""
+
+msgid "Search from other content..."
 msgstr ""

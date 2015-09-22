@@ -27,7 +27,7 @@
   - roles
 
 - name: Set role permissions
-  command: "{{ scripts_path }}/roles-add.drush {{ cache_path }}/drupal-roles.json chdir={{ drupal_root }}"
+  command: "drush {{ scripts_path }}/roles-add.drush {{ cache_path }}/drupal-roles.json chdir={{ drupal_root }}"
   when: drush_roles|changed
   tags:
   - drupal

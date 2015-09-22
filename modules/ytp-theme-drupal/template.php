@@ -31,6 +31,7 @@ function ytp_theme_links__locale_block(&$variables) {
 function ytp_theme_preprocess_block(&$variables){
     if ( in_array('block__header', $variables['theme_hook_suggestions'] ) ){
       $search_form = drupal_get_form('search_block_form');
+      $search_form['search_block_form']['#attributes']['placeholder'] = t('Search from other content...');
       $search_form_box = drupal_render($search_form);
       $variables['search_box'] = $search_form_box;
     }
@@ -282,7 +283,7 @@ function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
     }
     if ($form_id === 'user_register_form') {
         $form['actions']['submit']['#suffix'] = '<span class="help-block" style="display: inline;">'
-            . t('Next, you will get a confirmation email to your email address')
+            . t('Next, you will get a confirmation email to your email address. If the email does not arrive, please check your spam folder.')
             . '</span><p class="help-block">'
             . t('By clicking Create new account, you agree with our <a href="/en/terms" target="_blank">Terms of Service</a>.') . '</p>';
     }

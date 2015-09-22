@@ -86,8 +86,8 @@ msgid ""
 "--  [site:name] team"
 msgstr ""
 
-msgid "Next, you will get a confirmation email to your email address"
-msgstr "Till nästa får du ett bekräftelsemeddelande till din e-post"
+msgid "Next, you will get a confirmation email to your email address. If the email does not arrive, please check your spam folder."
+msgstr "Till nästa får du ett bekräftelsemeddelande till din e-post. Om e-post inte kommer fram, kontrollera din skräppostmapp. "
 
 msgid ""
 "By clicking Create new account, you agree with our <a href=\"/en/terms\" "
@@ -156,3 +156,6 @@ msgstr "Från dataseten"
 
 msgid "From other content"
 msgstr "Från annat innehåll"
+
+msgid "Search from other content..."
+msgstr "Sök från annat innehåll"
