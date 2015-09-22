@@ -78,6 +78,14 @@
 
 {% if userobj %}
 
+<form class="form" id="set-notifications-form" method="POST" action="{{ pkg_id }}/comments/subscribe">
+    <div class="form-controls">
+        <input type="checkbox" onclick="updateSubscription( '{{ pkg_id }}' )" id="notification-subscribe" class="form-control" name="checkbox"
+        {% if h.get_subscription_status(pkg_id, userobj.id) %}checked{% endif %}
+        />{{ _('Recieve notifications') }}
+    </div>
+</form>
+
 <form class="form" action="{{ pkg_id }}/comments/add" method="POST">
     <div class="form-controls">
         <label for="subject">{{ _('Subject') }}</label>
@@ -91,6 +99,8 @@
         <input type="reset" class="btn" value="{{ _('Clear') }}"/>
     </div>
 </form>
+
+
 
 {% else %}
     {{ _('Login to comment.') }}

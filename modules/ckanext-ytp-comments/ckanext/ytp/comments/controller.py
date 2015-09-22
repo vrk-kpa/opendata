@@ -122,3 +122,46 @@ class CommentController(BaseController):
         h.redirect_to(str('/dataset/%s' % c.pkg.name))
 
         return render("package/read.html")
+
+    def subscribe(self, dataset_id, subscribe):
+        '''
+
+        Enable/disable comment notifications for current user.
+
+        :param dataset_id:
+        :return:
+        '''
+
+        context = {'model': model, 'user': c.user}
+
+        try:
+            c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
+            c.pkg = context['package']
+        except:
+            abort(403)
+
+        if request.method == 'POST':
+            data_dict = clean_dict(unflatten(
+                tuplize_dict(parse_params(request.POST))))
+
+            success = False
+            try:
+                # subscribe or unsubscribe from the comment email notifications depending on the controller path
+                log.debug(bool(subscribe))
+                if subscribe == 'True':
+                    log.debug("HERE ADDED")
+                    res = get_action('add_comment_subscription')(context, data_dict)
+                else:
+                    res = get_action('remove_comment_subscription')(context, data_dict)
+                    log.debug("HERE REMOVED")
+                success = True
+            except ValidationError, ve:
+                log.debug(ve)
+            except Exception, e:
+                log.debug(e)
+                abort(403)
+
+        if success:
+            h.redirect_to(str('/dataset/%s' %(c.pkg.name)))
+
+        render("package/read.html")

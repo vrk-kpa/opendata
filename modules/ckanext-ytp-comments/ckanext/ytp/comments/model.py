@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey, func
+from sqlalchemy import Column, MetaData, ForeignKey, func, UniqueConstraint, and_
 from sqlalchemy import types
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
@@ -24,7 +24,6 @@ def make_uuid():
 
 def acceptable_comment_on(objtype):
     return objtype in ['package']
-
 
 class CommentThread(Base):
     """
@@ -271,6 +270,43 @@ class CommentBlockedUser(Base):
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
+
+
+class CommentSubscription(Base):
+    """
+    Store users that are subscribed to notifications.
+    """
+    __tablename__ = 'comment_subscribers'
+
+    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
+    dataset_id = Column(types.UnicodeText, ForeignKey(model.Package.id))
+    user_id = Column(types.UnicodeText, ForeignKey(model.User.id))
+
+    __table_args__ = (UniqueConstraint('dataset_id', 'user_id'),)
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    @classmethod
+    def get(cls, dataset_id, user_id):
+        return model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
+
+    @classmethod
+    def create(cls, dataset_id, user_id):
+        sbscrn = CommentSubscription(dataset_id=dataset_id, user_id=user_id)
+        model.Session.add(sbscrn)
+        model.Session.commit()
+        return sbscrn
+
+    @classmethod
+    def delete(cls, dataset_id, user_id):
+        sbscrn = model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
+        if sbscrn:
+            model.Session.delete(sbscrn)
+            model.Session.commit()
+            return True
+        return False
 
 
 def init_tables():

@@ -60,3 +60,22 @@ def comment_create(context, data_dict):
     model.Session.commit()
 
     return cmt.as_dict()
+
+def add_comment_subscription(context, data_dict):
+    model = context['model']
+    user = context['user']
+    package = context['package']
+
+    userobj = model.User.get(user)
+
+    dataset_id = package.id
+    user_id = userobj.id
+
+    # CHECK ACCESS HERE
+
+    # VALIDATE THE FIELDS HERE
+
+    # CREATE THE OBJECT
+    scrn = comment_model.CommentSubscription.create(dataset_id, user_id)
+
+    log.debug("ADDED SUBSCRIPTION")
