@@ -62,13 +62,11 @@ def comment_create(context, data_dict):
     # Send a notification mail to subscribed users
     package = context['package']
     users = comment_model.CommentSubscription.get_subscribers(package.id)
-    if users:
-        log.debug("Sending email to the following users:")
-        log.debug(users)
 
+    if users:
         for user in users:
-            log.debug("sending mail now to:" + str(user.name))
-            util.send_comment_notification_mail(user, package)
+            log.debug("Sending comment notification mail now to:" + str(user.name))
+            util.send_comment_notification_mail(user, package, cmt)
 
     return cmt.as_dict()
 
@@ -82,11 +80,15 @@ def add_comment_subscription(context, data_dict):
     dataset_id = package.id
     user_id = userobj.id
 
-    # CHECK ACCESS HERE
+    # only logged in user with dataset rights can subscribe
+    logic.check_access("add_comment_subscription", context, data_dict)
 
-    # VALIDATE THE FIELDS HERE
+    if not userobj.id:
+        logic.ValidationError("A valid user is required.")
+    if not package.id:
+        logic.ValidationError("A valid dataset is required.")
 
-    # CREATE THE OBJECT
     scrn = comment_model.CommentSubscription.create(dataset_id, user_id)
 
-    log.debug("ADDED SUBSCRIPTION")
+    log.debug("Successfully added comment subscription for user {user_id} in dataset {dataset_id}"
+              .format(user_id=user_id, dataset_id=dataset_id))

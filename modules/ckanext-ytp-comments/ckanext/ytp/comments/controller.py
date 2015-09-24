@@ -123,12 +123,12 @@ class CommentController(BaseController):
 
         return render("package/read.html")
 
-    def subscribe(self, dataset_id, subscribe):
+    def subscribe(self, dataset_id, subscribe=True):
         '''
-
         Enable/disable comment notifications for current user.
 
         :param dataset_id:
+        :param subscribe: boolean True or False depending on whether to subscribe or unsubscribe, respectively.
         :return:
         '''
 
@@ -147,13 +147,10 @@ class CommentController(BaseController):
             success = False
             try:
                 # subscribe or unsubscribe from the comment email notifications depending on the controller path
-                log.debug(bool(subscribe))
                 if subscribe == 'True':
-                    log.debug("HERE ADDED")
                     res = get_action('add_comment_subscription')(context, data_dict)
                 else:
                     res = get_action('remove_comment_subscription')(context, data_dict)
-                    log.debug("HERE REMOVED")
                 success = True
             except ValidationError, ve:
                 log.debug(ve)

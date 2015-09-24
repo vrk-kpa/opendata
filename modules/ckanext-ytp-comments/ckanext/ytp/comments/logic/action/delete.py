@@ -37,9 +37,14 @@ def remove_comment_subscription(context, data_dict):
     dataset_id = package.id
     user_id = userobj.id
 
-    # CHECK ACCESS HERE
+    # only subscriber can unsubscribe
+    logic.check_access("remove_comment_subscription", context, data_dict)
 
     # VALIDATE THE FIELDS HERE
+    if not userobj.id:
+        logic.ValidationError("A valid user is required.")
+    if not package.id:
+        logic.ValidationError("A valid dataset is required.")
 
     # CREATE THE OBJECT
     scrn = comment_model.CommentSubscription.delete(dataset_id, user_id)
