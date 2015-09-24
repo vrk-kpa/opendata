@@ -59,6 +59,17 @@ def comment_create(context, data_dict):
     model.Session.add(cmt)
     model.Session.commit()
 
+    # Send a notification mail to subscribed users
+    package = context['package']
+    users = comment_model.CommentSubscription.get_subscribers(package.id)
+    if users:
+        log.debug("Sending email to the following users:")
+        log.debug(users)
+
+        for user in users:
+            log.debug("sending mail now to:" + str(user.name))
+            util.send_comment_notification_mail(user, package)
+
     return cmt.as_dict()
 
 def add_comment_subscription(context, data_dict):

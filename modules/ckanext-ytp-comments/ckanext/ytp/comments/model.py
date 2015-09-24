@@ -274,7 +274,7 @@ class CommentBlockedUser(Base):
 
 class CommentSubscription(Base):
     """
-    Store users that are subscribed to notifications.
+    A single comment subscription object as a dataset_id / user_id pair
     """
     __tablename__ = 'comment_subscribers'
 
@@ -290,10 +290,44 @@ class CommentSubscription(Base):
 
     @classmethod
     def get(cls, dataset_id, user_id):
+        '''
+        Get the comment subscriber matching the dataset and user id's
+
+        :param dataset_id: dataset id
+        :param user_id: user id
+        :return: a CommentSubscription object or None
+        '''
+
         return model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
 
     @classmethod
+    def get_subscribers(cls, dataset_id):
+        '''
+        Fetch all comment subscribers
+
+        :param dataset_id: dataset id
+        :return: a list of User objects
+        '''
+
+        subscribers = model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id))
+        users = []
+        if subscribers:
+            for sub in subscribers:
+                user = model.Session.query(model.User).get(sub.user_id)
+                if user:
+                    users.append(user)
+
+        return users
+
+    @classmethod
     def create(cls, dataset_id, user_id):
+        '''
+        Create a new CommentSubscription and commit it to database
+
+        :param dataset_id:
+        :param user_id:
+        :return: a subscription object
+        '''
         sbscrn = CommentSubscription(dataset_id=dataset_id, user_id=user_id)
         model.Session.add(sbscrn)
         model.Session.commit()
@@ -301,6 +335,12 @@ class CommentSubscription(Base):
 
     @classmethod
     def delete(cls, dataset_id, user_id):
+        '''
+        Delete a single CommentSubscription that matches the given parameters
+        :param dataset_id: dataset id
+        :param user_id: user id
+        :return: True for a successful deletion, otherwise False
+        '''
         sbscrn = model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
         if sbscrn:
             model.Session.delete(sbscrn)
