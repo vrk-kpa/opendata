@@ -44,25 +44,6 @@ def send_comment_notification_mail(recipient, dataset, comment):
 
     from ckanext.ytp.comments import email_template
 
-    """
-    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    parent_id = Column(types.UnicodeText, ForeignKey('comment.id'))
-    children = relationship("Comment", lazy="joined", join_depth=10,
-                            backref=backref('parent', remote_side=[id]),
-                            order_by="asc(Comment.creation_date)")
-
-    thread_id = Column(types.UnicodeText, ForeignKey('comment_thread.id'), nullable=True)
-    user_id = Column(types.UnicodeText, ForeignKey(model.User.id), nullable=False)
-    subject = Column(types.UnicodeText)
-    comment = Column(types.UnicodeText)
-
-    creation_date = Column(types.DateTime, default=datetime.datetime.now)
-    modified_date = Column(types.DateTime)
-    approval_status = Column(types.UnicodeText)
-
-    state = Column(types.UnicodeText, default=u'active')
-    """
-
     # Locale fix
     current_locale = get_lang()
     locale = _get_safe_locale()
