@@ -84,11 +84,14 @@ def add_comment_subscription(context, data_dict):
     logic.check_access("add_comment_subscription", context, data_dict)
 
     if not userobj.id:
-        logic.ValidationError("A valid user is required.")
+        raise logic.ValidationError("A valid user is required.")
     if not package.id:
-        logic.ValidationError("A valid dataset is required.")
+        raise logic.ValidationError("A valid dataset is required.")
 
     scrn = comment_model.CommentSubscription.create(dataset_id, user_id)
+
+    if not scrn:
+        raise logic.ValidationError("Given dataset-user pair already exists in the database.")
 
     log.debug("Successfully added comment subscription for user {user_id} in dataset {dataset_id}"
               .format(user_id=user_id, dataset_id=dataset_id))

@@ -278,11 +278,13 @@ class CommentSubscription(Base):
     """
     __tablename__ = 'comment_subscribers'
 
+    # TODO: this is currently not working. Why?
+    __table_args__ = (UniqueConstraint('dataset_id', 'user_id', name="_dataset_user_uc"),)
+
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     dataset_id = Column(types.UnicodeText, ForeignKey(model.Package.id))
     user_id = Column(types.UnicodeText, ForeignKey(model.User.id))
 
-    __table_args__ = (UniqueConstraint('dataset_id', 'user_id'),)
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -328,6 +330,10 @@ class CommentSubscription(Base):
         :param user_id:
         :return: a subscription object
         '''
+
+        if CommentSubscription.get(dataset_id, user_id):
+            return False
+
         sbscrn = CommentSubscription(dataset_id=dataset_id, user_id=user_id)
         model.Session.add(sbscrn)
         model.Session.commit()
