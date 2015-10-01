@@ -41,8 +41,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             "comment_show": get.comment_show,
             "comment_delete": delete.comment_delete,
             "comment_count": get.comment_count,
-            "add_comment_subscription": create.add_comment_subscription,
-            "remove_comment_subscription": delete.remove_comment_subscription
+            "add_comment_subscription_dataset": create.add_comment_subscription_dataset,
+            "remove_comment_subscription_dataset": delete.remove_comment_subscription_dataset,
+            "add_comment_subscription_org": create.add_comment_subscription_org,
+            "remove_comment_subscription_org": delete.remove_comment_subscription_org
         }
 
     def get_auth_functions(self):
@@ -54,8 +56,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             'comment_show': get.comment_show,
             'comment_delete': delete.comment_delete,
             "comment_count": get.comment_count,
-            "add_comment_subscription": create.add_comment_subscription,
-            "remove_comment_subscription": delete.remove_comment_subscription
+            "add_comment_subscription_dataset": create.add_comment_subscription,
+            "remove_comment_subscription_dataset": delete.remove_comment_subscription,
+            "add_comment_subscription_org": create.add_comment_subscription_org,
+            "remove_comment_subscription_org": delete.remove_comment_subscription_org
         }
     # IPackageController
 
@@ -75,8 +79,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/edit', controller=controller, action='edit')
         map.connect('/dataset/{dataset_id}/comments/{parent_id}/reply', controller=controller, action='reply')
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/delete', controller=controller, action='delete')
-        map.connect('/dataset/{dataset_id}/comments/subscription/add', controller=controller, action='subscribe', subscribe=True)
-        map.connect('/dataset/{dataset_id}/comments/subscription/remove', controller=controller, action='subscribe', subscribe=False)
+        map.connect('single_comment_subscribe', '/dataset/{dataset_id}/subscription/add', controller=controller, action='subscribe', subscribe=True)
+        map.connect('single_comment_unsubscribe', '/dataset/{dataset_id}/subscription/remove', controller=controller, action='subscribe', subscribe=False)
+        map.connect('organization_comment_subscribe', '/organization/{organization_id}/subscription/add', controller=controller, action='subscribe', subscribe=True)
+        map.connect('organization_comment_unsubscribe', '/organization/{organization_id}/subscription/remove', controller=controller, action='subscribe', subscribe=False)
         return map
 
     def _get_comment_thread(self, dataset_name):
@@ -92,11 +98,11 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         count = get_action('comment_count')({'model': model}, {'url': url})
         return count
 
-    def _get_subscription_status(self, dataset_id, user_id):
+    def _get_subscription_status(self, dataset_or_org_id, user_id):
         import ckanext.ytp.comments.model as cmt_model
 
-        if isinstance(dataset_id, basestring) and isinstance(user_id, basestring):
-            status = cmt_model.CommentSubscription.get(dataset_id, user_id)
+        if isinstance(dataset_or_org_id, basestring) and isinstance(user_id, basestring):
+            status = cmt_model.CommentSubscription.get(dataset_or_org_id, user_id)
             if status:
                 return True
 

@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey, func, UniqueConstraint, and_
+from sqlalchemy import Column, MetaData, ForeignKey, func, UniqueConstraint, and_, or_, Enum
 from sqlalchemy import types
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
@@ -274,16 +274,19 @@ class CommentBlockedUser(Base):
 
 class CommentSubscription(Base):
     """
-    A single comment subscription object as a dataset_id / user_id pair
+    A single comment subscription object as a identifier / user_id pair
+    Identifier can be a dataset_id or an organization_id
+
     """
     __tablename__ = 'comment_subscribers'
 
     # TODO: this is currently not working. Why?
-    __table_args__ = (UniqueConstraint('dataset_id', 'user_id', name="_dataset_user_uc"),)
+    __table_args__ = (UniqueConstraint('identifier', 'user_id', name="_dataset_user_uc"),)
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    dataset_id = Column(types.UnicodeText, ForeignKey(model.Package.id))
-    user_id = Column(types.UnicodeText, ForeignKey(model.User.id))
+    identifier = Column(types.UnicodeText)
+    user_id = Column(types.UnicodeText)
+    subscription_type = Column(Enum("dataset", "organization", name="subscription_type"))
 
 
     def __init__(self, **kwargs):
@@ -291,27 +294,29 @@ class CommentSubscription(Base):
             setattr(self, k, v)
 
     @classmethod
-    def get(cls, dataset_id, user_id):
+    def get(cls, identifier, user_id):
         '''
         Get the comment subscriber matching the dataset and user id's
 
-        :param dataset_id: dataset id
+        :param identifier: dataset id
         :param user_id: user id
         :return: a CommentSubscription object or None
         '''
 
-        return model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
+        return model.Session.query(cls).filter(and_(cls.identifier == identifier, cls.user_id == user_id)).first()
 
     @classmethod
-    def get_subscribers(cls, dataset_id):
+    def get_subscribers(cls, package):
         '''
         Fetch all comment subscribers
 
-        :param dataset_id: dataset id
+        :param identifier: dataset id
         :return: a list of User objects
         '''
 
-        subscribers = model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id))
+        # query dataset specific AND organization wide subscribers
+        subscribers = model.Session.query(cls).filter(or_(cls.identifier == package.id, cls.identifier == package.owner_org))
+
         users = []
         if subscribers:
             for sub in subscribers:
@@ -322,32 +327,32 @@ class CommentSubscription(Base):
         return users
 
     @classmethod
-    def create(cls, dataset_id, user_id):
+    def create(cls, identifier, user_id, subscription_type="dataset"):
         '''
         Create a new CommentSubscription and commit it to database
 
-        :param dataset_id:
+        :param identifier:
         :param user_id:
         :return: a subscription object
         '''
 
-        if CommentSubscription.get(dataset_id, user_id):
+        if CommentSubscription.get(identifier, user_id):
             return False
 
-        sbscrn = CommentSubscription(dataset_id=dataset_id, user_id=user_id)
+        sbscrn = CommentSubscription(identifier=identifier, user_id=user_id, subscription_type=subscription_type)
         model.Session.add(sbscrn)
         model.Session.commit()
         return sbscrn
 
     @classmethod
-    def delete(cls, dataset_id, user_id):
+    def delete(cls, identifier, user_id):
         '''
         Delete a single CommentSubscription that matches the given parameters
-        :param dataset_id: dataset id
+        :param identifier: dataset id
         :param user_id: user id
         :return: True for a successful deletion, otherwise False
         '''
-        sbscrn = model.Session.query(cls).filter(and_(cls.dataset_id == dataset_id, cls.user_id == user_id)).first()
+        sbscrn = model.Session.query(cls).filter(and_(cls.identifier == identifier, cls.user_id == user_id)).first()
         if sbscrn:
             model.Session.delete(sbscrn)
             model.Session.commit()

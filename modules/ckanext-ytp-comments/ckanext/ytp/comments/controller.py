@@ -2,6 +2,7 @@ import logging
 
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan import model
+import ckanext.ytp.comments.model as comment_model
 from ckan.common import c
 from ckan.logic import check_access, get_action, clean_dict, tuplize_dict, ValidationError, parse_params
 from ckan.lib.navl.dictization_functions import unflatten
@@ -123,42 +124,49 @@ class CommentController(BaseController):
 
         return render("package/read.html")
 
-    def subscribe(self, dataset_id, subscribe=True):
+    def subscribe(self, dataset_id=None, organization_id=None, subscribe='True'):
         '''
-        Enable/disable comment notifications for current user.
+            Subscribe or unsubscribe comment notifications for a specific dataset or for all organization's datasets.
 
-        :param dataset_id:
-        :param subscribe: boolean True or False depending on whether to subscribe or unsubscribe, respectively.
-        :return:
+            One of these is required:
+            @param dataset_id: id of a dataset to subscribe to
+            @param organization_id: id of an organization to subscribe to
         '''
 
         context = {'model': model, 'user': c.user}
-
-        try:
-            c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
-            c.pkg = context['package']
-        except:
-            abort(403)
+        data_dict = {}
 
         if request.method == 'POST':
-            data_dict = clean_dict(unflatten(
-                tuplize_dict(parse_params(request.POST))))
-
-            success = False
             try:
-                # subscribe or unsubscribe from the comment email notifications depending on the controller path
-                if subscribe == 'True':
-                    res = get_action('add_comment_subscription')(context, data_dict)
-                else:
-                    res = get_action('remove_comment_subscription')(context, data_dict)
-                success = True
+                if dataset_id:
+                    data_dict["dataset_id"] = dataset_id
+                    pkg = get_action('package_show')(context, {'id': dataset_id})
+
+                    if subscribe == 'True':     # subscribe
+                        get_action('add_comment_subscription_dataset')(context, data_dict)
+                    else:                       # unsubscribe
+                        get_action('remove_comment_subscription_dataset')(context, data_dict)
+
+                if organization_id:
+                    data_dict["organization_id"] = organization_id
+
+                    org = get_action('organization_show')(context, {'id': organization_id})
+
+                    if subscribe == 'True':   # subscribe
+                        get_action('add_comment_subscription_org')(context, data_dict)
+                    else:           # unsubscribe
+                        get_action('remove_comment_subscription_org')(context, data_dict)
+
             except ValidationError, ve:
                 log.debug(ve)
+
             except Exception, e:
                 log.debug(e)
                 abort(403)
 
-        if success:
-            h.redirect_to(str('/dataset/%s' %(c.pkg.name)))
+            if dataset_id:
+                h.redirect_to(str('/dataset/%s' %(pkg["name"])))
+            else:
+                h.redirect_to(str('/organization/%s' %(org["name"])))
 
         render("package/read.html")
