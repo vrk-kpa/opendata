@@ -56,10 +56,8 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             'comment_show': get.comment_show,
             'comment_delete': delete.comment_delete,
             "comment_count": get.comment_count,
-            "add_comment_subscription_dataset": create.add_comment_subscription,
-            "remove_comment_subscription_dataset": delete.remove_comment_subscription,
-            "add_comment_subscription_org": create.add_comment_subscription_org,
-            "remove_comment_subscription_org": delete.remove_comment_subscription_org
+            "add_comment_subscription": create.add_comment_subscription,
+            "remove_comment_subscription": delete.remove_comment_subscription
         }
     # IPackageController
 
