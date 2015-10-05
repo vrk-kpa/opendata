@@ -76,7 +76,7 @@ def add_comment_subscription_dataset(context, data_dict):
     dataset_id = data_dict['dataset_id']
     userobj = model.User.get(user)
 
-    # logic.check_access("add_comment_subscription_dataset", context, data_dict)
+    logic.check_access("add_comment_subscription", context, data_dict)
 
     _subscribe(dataset_id, userobj.id, "dataset")
 
@@ -86,7 +86,7 @@ def add_comment_subscription_org(context, data_dict):
     org_id = data_dict['organization_id']
     userobj = model.User.get(user)
 
-    # logic.check_access("add_comment_subscription", context, data_dict)
+    logic.check_access("add_comment_subscription", context, data_dict)
 
     _subscribe(org_id, userobj.id, "organization")
 

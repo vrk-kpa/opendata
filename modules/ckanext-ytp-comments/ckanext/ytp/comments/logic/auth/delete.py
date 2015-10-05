@@ -39,9 +39,3 @@ def remove_comment_subscription(context, data_dict):
         return {'success': False, 'msg': _('You must be logged in to unsubscribe from comment notifications')}
 
     return {'success': True}
-
-def remove_comment_subscription_org(context, data_dict):
-
-    # TODO: implement
-
-    return {'success': True}

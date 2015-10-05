@@ -152,9 +152,9 @@ class CommentController(BaseController):
 
                     org = get_action('organization_show')(context, {'id': organization_id})
 
-                    if subscribe == 'True':   # subscribe
+                    if subscribe == 'True':     # subscribe
                         get_action('add_comment_subscription_org')(context, data_dict)
-                    else:           # unsubscribe
+                    else:                       # unsubscribe
                         get_action('remove_comment_subscription_org')(context, data_dict)
 
             except ValidationError, ve:

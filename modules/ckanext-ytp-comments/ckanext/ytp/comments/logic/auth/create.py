@@ -26,9 +26,3 @@ def add_comment_subscription(context, data_dict):
         return {'success': False, 'msg': _('You must be logged in to subscribe to comment notifications')}
 
     return {'success': True}
-
-def add_comment_subscription_org(context, data_dict):
-
-    # TODO: implement
-    
-    return {'success': True}

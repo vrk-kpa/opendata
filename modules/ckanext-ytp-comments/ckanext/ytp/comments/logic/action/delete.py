@@ -36,7 +36,7 @@ def remove_comment_subscription_dataset(context, data_dict):
 
     dataset_id = package.id
 
-    # logic.check_access("remove_comment_subscription", context, data_dict)
+    logic.check_access("remove_comment_subscription", context, data_dict)
 
     _unsubscribe(dataset_id, userobj.id, "dataset")
 
@@ -46,7 +46,7 @@ def remove_comment_subscription_org(context, data_dict):
     org_id = data_dict['organization_id']
     userobj = model.User.get(user)
 
-    # logic.check_access("add_comment_subscription", context, data_dict)
+    logic.check_access("remove_comment_subscription", context, data_dict)
 
     _unsubscribe(org_id, userobj.id, "organization")
 
