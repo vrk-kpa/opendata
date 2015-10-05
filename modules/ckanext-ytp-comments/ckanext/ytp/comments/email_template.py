@@ -8,13 +8,13 @@ subject = "New comment in dataset '%(dataset)s'"
 message = """\
 User %(user)s (%(email)s) has left a comment in dataset (%(dataset)s):
 
--- content --
+--
 Subject:
 %(comment_subject)s
 
 Message:
 %(comment)s
--------------
+--
 
 %(link)s
 
