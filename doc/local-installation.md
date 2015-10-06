@@ -146,7 +146,7 @@ Append generated key into authorized_keys:
     
 ### Ansible provision
 
-Run in /src (create directory if it doesn't exist)
+Run in /src
 Make sure you remember the passphrase you set for the key in previous step.
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
