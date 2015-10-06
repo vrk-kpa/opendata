@@ -1,5 +1,5 @@
 from lxml.html.clean import Cleaner, autolink_html
-from ckan.lib.mailer import mail_user, MailerException
+from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.lib import helpers
 from pylons import config
 import ckan.plugins.toolkit as toolkit
@@ -40,7 +40,7 @@ def _get_safe_locale():
     except:
         return config.get('ckan.locale_default', 'en')
 
-def send_comment_notification_mail(recipient, dataset, comment):
+def send_comment_notification_mail(recipient_name, recipient_email, dataset, comment):
 
     from ckanext.ytp.comments import email_template
 
@@ -58,14 +58,17 @@ def send_comment_notification_mail(recipient, dataset, comment):
     url = str(g.site_url) + toolkit.url_for(controller='package', action='read', id=dataset.id)
 
     if comment.user_id:
-        user_email = model.User.get(comment.user_id).email
+        userobj = model.User.get(comment.user_id)
+        commenter_email = userobj.email
+        commenter_name = userobj.name
 
     subject = _(email_template.subject) % {
         'dataset': dataset.title
     }
+
     message = _(email_template.message) % {
-        'user': recipient.name,
-        'email': user_email,
+        'user': commenter_name,
+        'email': commenter_email,
         'dataset': dataset.title,
         'link': url,
         'comment_subject': helpers.markdown_extract(comment.subject).strip(),
@@ -75,7 +78,7 @@ def send_comment_notification_mail(recipient, dataset, comment):
     # Finally mail the user and reset locale
 
     try:
-        mail_user(recipient, subject, message)
+        mail_recipient(recipient_name, recipient_email, subject, message)
     except MailerException, e:
         log.error(e)
     finally:

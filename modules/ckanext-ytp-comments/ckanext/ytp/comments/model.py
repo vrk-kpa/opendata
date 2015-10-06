@@ -310,7 +310,7 @@ class CommentSubscription(Base):
         '''
         Fetch all comment subscribers
 
-        :param identifier: dataset id
+        :param package: either dataset or organization package
         :return: a list of User objects
         '''
 
@@ -321,7 +321,7 @@ class CommentSubscription(Base):
         if subscribers:
             for sub in subscribers:
                 user = model.Session.query(model.User).get(sub.user_id)
-                if user:
+                if user and user not in users:
                     users.append(user)
 
         return users
