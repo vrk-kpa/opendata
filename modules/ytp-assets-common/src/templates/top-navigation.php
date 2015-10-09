@@ -101,8 +101,6 @@
             $logo_lang = isset($logos_avoindata[$current_lang]) ? $logos_avoindata[$current_lang] : 'avoindata_fi.png';
           } elseif (strpos($host,'opendata') !== false) {
             $logo_lang = isset($logos_opendata[$current_lang]) ? $logos_opendata[$current_lang] : 'opendata_en.png';
-          } else {
-              $logo_lang = 'opendata_fi.png';
           }
 
           echo '<img src="/resources/images/logo/' . $logo_lang . '" class="site-logo" />';
