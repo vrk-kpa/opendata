@@ -140,6 +140,17 @@
                     <?php
                 }
                 ?>
+
+                <div>
+                    <ul class="nav">
+                        <li><a href="<?php print "/" . $language->language . "/guide" ?>">Kartoita ja selvita</a></li>
+                        <li><a href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
+                        <li><a href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
+                        <li><a href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehita</a></li>
+                    </ul>
+
+                </div>
+
                 <a id="main-content"></a>
                 <?php print render($title_prefix); ?>
                 <?php if (!empty($title)): ?>
