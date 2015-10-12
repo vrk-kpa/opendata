@@ -50,9 +50,9 @@ class YtpDevelopMain(object):
     def develop_drupal_theme(self, name):
         """ Develop ytp-theme-drupal handler. """
         self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/src/modules/ytp-theme-drupal")
-        if not os.path.exists("/var/www/ytp/sites/all/themes/ytp_theme/bootstrap"):
-            subprocess.call(["unzip", "/srv/ytp/cache/v3.2.0.zip"], cwd="/var/www/ytp/sites/all/themes/ytp_theme")
-            subprocess.call(["mv", "bootstrap-3.2.0", "bootstrap"], cwd="/var/www/ytp/sites/all/themes/ytp_theme")
+        if not os.path.exists("/var/www/ytp/sites/all/themes/ytp_theme/vendor"):
+            subprocess.call(["mkdir", "/var/www/ytp/sites/all/themes/ytp_theme/vendor"])
+            subprocess.call(["cp", "-r", "/var/www/resources/vendor", "/var/www/ytp/sites/all/themes/ytp_theme/"])
         return 0
 
 
