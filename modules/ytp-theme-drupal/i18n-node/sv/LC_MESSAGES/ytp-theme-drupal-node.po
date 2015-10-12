@@ -2,15 +2,16 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
+# Alexis Troberg <alexis.troberg@gofore.com>, 2015
 # jpaakko <jari.paakko@gofore.com>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-06-26 13:58+0000\n"
-"PO-Revision-Date: 2014-06-26 15:44+0000\n"
-"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
+"PO-Revision-Date: 2015-09-28 15:36+0000\n"
+"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,7 +33,7 @@ msgctxt "type:article:description"
 msgid ""
 "Use <em>articles</em> for time-sensitive content like news, press releases "
 "or blog posts."
-msgstr "Använd <em>artiklar</em> för tidskänsligt innehåll såsom nyheter, pressreleaser eller blogginlägg."
+msgstr "Använd <em>artiklar</em> för tidskänsligt innehåll såsom nyheter, pressinlägg eller blogginlägg."
 
 #: node:type:page:name
 msgctxt "type:page:name"
@@ -49,7 +50,7 @@ msgctxt "type:page:description"
 msgid ""
 "Use <em>basic pages</em> for your static content, such as an 'About us' "
 "page."
-msgstr "Använd <em>enkla sidor</em> för ditt statiska innehåll, såsom en sida \"Om oss\"."
+msgstr "Använd <em>enkla sidor</em> för ditt statiska innehåll, t.ex. för en sida 'Om oss'"
 
 #: node:type:service_alert:name
 msgctxt "type:service_alert:name"

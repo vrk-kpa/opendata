@@ -589,7 +589,6 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:105
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:61
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:37
