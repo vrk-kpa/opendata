@@ -18,6 +18,7 @@ a request the entire request is deleted from the database. """
 REQUEST_PENDING = "pending"
 REQUEST_ACCEPTED = "accepted"
 REQUEST_REJECTED = "rejected"
+REQUEST_DELETED = "deleted"
 
 def make_uuid():
     return unicode(uuid.uuid4())

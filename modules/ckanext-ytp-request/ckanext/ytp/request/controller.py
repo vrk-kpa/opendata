@@ -79,9 +79,10 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
 
-    def cancel(self, organization_id):
+    def cancel(self):
         """ Logged in user can cancel pending requests not approved yet by admins/editors"""
         context = {'user': c.user or c.author}
+        organization_id = request.params.get('organization_id', None)
         try:
             toolkit.get_action('member_request_cancel')(context,{"organization_id": organization_id})
             extra_vars = {'message': _('Member request cancelled successfully')}

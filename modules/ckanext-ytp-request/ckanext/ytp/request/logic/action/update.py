@@ -1,7 +1,6 @@
 from ckan import model, logic
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
-from ckan.logic import NotFound, ValidationError, check_access
 from ckanext.ytp.request.model import MemberRequest
 from ckan.common import _, c
 from ckanext.ytp.request.helper import get_default_locale
@@ -18,12 +17,12 @@ def member_request_reject(context, data_dict):
         Difference is that this action should be logged and showed to the user. If a user cancels herself her own request can be safely
         deleted '''
     logic.check_access('member_request_reject', context, data_dict)
-    _process(context,'approve',data_dict)
+    _process(context,'reject',data_dict)
 
 def member_request_approve(context, data_dict):
     ''' Approve request (from admin or group editor). Member request must be provided since we need both organization/user'''
     logic.check_access('member_request_approve', context, data_dict)
-    _process(context,'reject',data_dict)
+    _process(context,'approve',data_dict)
 
 
 def _process(context, action, data_dict):
@@ -36,17 +35,17 @@ def _process(context, action, data_dict):
     approve = action == 'approve'  # else 'reject'
     state = "active" if approve else "deleted"
     user = context.get("user")
-    log.debug("member request id %s",data_dict.get("mrequest_id"))
     member_request = model.Session.query(MemberRequest).get(data_dict.get("mrequest_id"))
     member = model.Session.query(model.Member).filter(model.Member.table_id == member_request.member_id).filter(model.Member.group_id == member_request.organization_id).first()
 
     if not member or not member.group.is_organization:
-        raise NotFound
+        raise logic.NotFound
     if member.state != 'pending':
         #TODO: throw better exception
-        raise logic.Not
+        raise logic.ValidationError
 
     member.state = state
+    
     revision = model.repo.new_revision()
     revision.author = user
 
@@ -58,10 +57,10 @@ def _process(context, action, data_dict):
     revision.message = message
 
     member_request.status = state
-    member_request.handling_date = datetime.datetime.now
+    member_request.handling_date = datetime.datetime.utcnow()
     
     member.save()
-    member_request.save()
+
     model.repo.commit()
 
     member_user = model.Session.query(model.User).get(member.table_id)

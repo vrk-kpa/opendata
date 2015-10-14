@@ -63,9 +63,11 @@ def _create_member_request(context, data_dict):
 
     member.state = 'pending'
     member.capacity = role
+    
     revision = model.repo.new_revision()
     revision.author = user
     revision.message = u'New member request'
+
     model.Session.add(member)
    
     memberRequest = MemberRequest(member_id=userobj.id, role= role, status="pending", language=locale, organization_id=group.id)
