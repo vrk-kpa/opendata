@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-14 15:02+0300\n"
-"PO-Revision-Date: 2015-10-14 12:05+0000\n"
+"POT-Creation-Date: 2015-10-14 16:15+0300\n"
+"PO-Revision-Date: 2015-10-14 13:17+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -747,11 +747,11 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:108
 msgid "License Not Specified"
-msgstr "Lisenssiä ei määritelty"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:119
 msgid "Dataset Quality"
-msgstr "Tietoaineiston laatu"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 msgid "Resource Quality"
@@ -759,26 +759,27 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:137
 msgid "Metadata Quality"
-msgstr "Metatietojen laatu"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
-"Datasets Quality is the highest rating from the resources. It is "
+"Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
-"unknown type."
-msgstr "Tietoaineiston laatu on korkein arvostelu aineistolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, aineistolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä."
+"unknown type. Metadata Quality rating takes field completeness, visits, "
+"resource downloads, comments and translations into consideration."
+msgstr "Tietoaineiston laatu on korkein arvostelu aineistolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, aineistolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä. Metatietojen laatuluokitus ottaa huomioon täytettyjen tietokenttien määrän, sivukäynnit, tietoaineiston lataukset, kommentit ja käännökset."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
 msgid "All time visits:"
-msgstr "Sivunäyttöjä kaikkiaan:"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Visits"
-msgstr "Sivunäytöt"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
 msgid "Change log"
-msgstr "Muutoshistoria"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:221
 msgid "Dataset"
@@ -790,7 +791,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:243
 msgid "Show change log"
-msgstr "Näytä muutoshistoria"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_social.html:5
 msgid "Social"

@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-14 15:02+0300\n"
-"PO-Revision-Date: 2015-10-14 12:03+0000\n"
+"POT-Creation-Date: 2015-10-14 16:15+0300\n"
+"PO-Revision-Date: 2015-10-14 13:15+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -741,11 +741,11 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:108
 msgid "License Not Specified"
-msgstr "Ingen licens specifierad"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:119
 msgid "Dataset Quality"
-msgstr "Datasetets kvalitet"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 msgid "Resource Quality"
@@ -757,34 +757,35 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
-"Datasets Quality is the highest rating from the resources. It is "
+"Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
-"unknown type."
-msgstr "Datasetets kvalitet är högsta klassificeringen av materiallänkarna. Den är automatiskt beräknad och om den är noll är materiallänkarna otillgängliga eller av okänd typ."
+"unknown type. Metadata Quality rating takes field completeness, visits, "
+"resource downloads, comments and translations into consideration."
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
 msgid "All time visits:"
-msgstr "Sidvisningar totalt:"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Visits"
-msgstr "Sidvisningar"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
 msgid "Change log"
-msgstr "Versionshistorik"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:221
 msgid "Dataset"
-msgstr "Dataset"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:231
 msgid "Resource"
-msgstr "Resurs"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:243
 msgid "Show change log"
-msgstr "Visa versionshistorik"
+msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_social.html:5
 msgid "Social"
