@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-14 15:02+0300\n"
+"POT-Creation-Date: 2015-10-14 16:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -744,9 +744,10 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
-"Datasets Quality is the highest rating from the resources. It is "
+"Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
-"unknown type."
+"unknown type. Metadata Quality rating takes field completeness, visits, "
+"resource downloads, comments and translations into consideration."
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
