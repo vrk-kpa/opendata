@@ -13,12 +13,13 @@ log = __import__('logging').getLogger(__name__)
 Base = declarative_base()
 metadata = MetaData()
 
-"""No need for CANCEL state. If a member cancels
-a request the entire request is deleted from the database. """ 
+"""CANCEL state is equivalent to DELETE state in member table. 
+member - member_request is one to many relationship since we need to log all member_requests to facilitate admins and users
+what has happened with his previous requests """ 
 REQUEST_PENDING = "pending"
 REQUEST_ACCEPTED = "accepted"
 REQUEST_REJECTED = "rejected"
-REQUEST_DELETED = "deleted"
+REQUEST_CANCEL = "cancel"
 
 def make_uuid():
     return unicode(uuid.uuid4())
@@ -26,18 +27,21 @@ def make_uuid():
 class MemberRequest(Base):
     """
     Represents a member request containing request date, handled date, 
-    status (pending, approved,rejected) and language used by the member 
+    status (pending, approved,rejected, cancel) and language used by the member 
     so that a localized e-mail could be sent
+    Member request stores the request history while member table represents the current state a member has with 
+    a given organization
     """
     __tablename__ = 'member_request'
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    member_id = Column(types.UnicodeText, ForeignKey(model.User.id))
-    organization_id = Column(types.UnicodeText, ForeignKey(model.Group.id))
+    #Reference to the table containing the composite key for organization and user
+    membership_id = Column(types.UnicodeText, ForeignKey(model.Member.id))
     request_date = Column(types.DateTime, default=datetime.datetime.now)
     role = Column(types.UnicodeText)
     handling_date = Column(types.DateTime)
     language = Column(types.UnicodeText)
+    message = Column(types.UnicodeText)
     status = Column(types.UnicodeText,default=u"pending")
 
     def __init__(self, **kwargs):

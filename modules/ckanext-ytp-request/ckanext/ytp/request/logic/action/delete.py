@@ -62,6 +62,7 @@ def _process_request(context, organization_id, member):
 
     #Logical delete on table member
     member.state = 'deleted'
+    
     revision = model.repo.new_revision()
     revision.author = user
     revision.message = u'Member request deleted by user'

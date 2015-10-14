@@ -2,7 +2,6 @@ from ckan import model, logic
 from ckan.plugins import toolkit
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
-from ckan.logic import NotFound, ValidationError, check_access
 from ckan.common import _, c
 from ckan.lib import helpers
 from pylons import config
@@ -29,16 +28,16 @@ def _create_member_request(context, data_dict):
     """ Helper to create member request """
     role = data_dict.get('role',None)
     if not role:
-        raise NotFound
+        raise logic.NotFound
     group = model.Group.get(data_dict.get('group',None))
 
     if not group or group.type != 'organization':
-        raise NotFound
+        raise logic.NotFound
 
     user = context.get('user',None)
 
     if authz.is_sysadmin(user):
-        raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
+        raise logic.ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
 
     userobj = model.User.get(user)
 
@@ -52,10 +51,8 @@ def _create_member_request(context, data_dict):
         elif member.state == 'active':
             message = _("You are already part of the organization")
        #Unknown status. Should never happen..
-        else:
-            message = _("Existing member with unknown status")
-        if member.state != 'deleted':
-            raise ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
+        elif member.state != 'deleted':
+            raise logic.ValidationError({"organization": _("Duplicate organization request")}, {_("Organization"): message})
     else:
         member = model.Member(table_name="user", table_id=userobj.id, group_id=group.id, capacity=role, state='pending')
 
@@ -70,7 +67,7 @@ def _create_member_request(context, data_dict):
 
     model.Session.add(member)
    
-    memberRequest = MemberRequest(member_id=userobj.id, role= role, status="pending", language=locale, organization_id=group.id)
+    memberRequest = MemberRequest(membership_id=member.id, role= role, status="pending", language=locale)
     model.Session.add(memberRequest)
     model.repo.commit()
 
