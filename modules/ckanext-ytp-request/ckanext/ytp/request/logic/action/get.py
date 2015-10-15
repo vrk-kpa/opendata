@@ -21,9 +21,8 @@ def member_requests_mylist(context, data_dict):
         raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
         
     user_object = model.User.get(user)
-    #Return current state for memberships for all organizations for the user in context. (last request date)
-    #We need to use MemberRequest table since there is loss of semantics when using model.Member table as it is just DELETED there (CANCEL state is the same than REJECTED)
-    membership_requests = model.Session.query(MemberRequest).join(model.Member, MemberRequest.membership_id == model.Member.id).filter(model.Member.table_id == user_object.id)  
+    #Return current state for memberships for all organizations for the user in context. (last modified date)
+    membership_requests = model.Session.query(model.Member).filter(model.Member.table_id == user_object.id).all() 
     log.info("HELLO: %s",membership_requests)
     return _membeship_request_list_dictize(membership_requests, user_object, context)
 
@@ -84,16 +83,17 @@ def _membeship_request_list_dictize(obj_list, user, context):
     for obj in obj_list:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
-        #There can be only active or pending so this logic is valid (one-to-one in this case)
-        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).filter(MemberRequest.status == obj.state).first()
+        #Fetch the newest member_request associated to this membership (sort by last modified field)
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1)
         member_dict['member_name'] = user.name
         member_dict['organization_name'] = organization.name
         member_dict['organization_id'] = obj.group_id
-        member_dict['state'] = obj.state
+        #We use the member_request state since there is also rejected and cancel
+        member_dict['state'] = member_request.state
         member_dict['role'] = member_request.role
         member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
         member_dict['handling_date'] = None
-        if obj.handling_date:
+        if member_request.handling_date:
             member_dict['handling_date'] = member_request.handling_date.strftime("%d - %b - %Y")
         result_list.append(member_dict)
     return result_list
