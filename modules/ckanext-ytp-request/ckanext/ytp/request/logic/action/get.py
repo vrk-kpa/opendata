@@ -23,7 +23,6 @@ def member_requests_mylist(context, data_dict):
     user_object = model.User.get(user)
     #Return current state for memberships for all organizations for the user in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(model.Member.table_id == user_object.id).all() 
-    log.info("HELLO: %s",membership_requests)
     return _membeship_request_list_dictize(membership_requests, user_object, context)
 
 def member_requests_list(context, data_dict):
@@ -85,16 +84,18 @@ def _membeship_request_list_dictize(obj_list, user, context):
         organization = model.Session.query(model.Group).get(obj.group_id)
         #Fetch the newest member_request associated to this membership (sort by last modified field)
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1)
+        log.debug("%s",member_request.role)
         member_dict['member_name'] = user.name
         member_dict['organization_name'] = organization.name
         member_dict['organization_id'] = obj.group_id
         #We use the member_request state since there is also rejected and cancel
-        member_dict['state'] = member_request.state
+        member_dict['state'] = member_request.status
         member_dict['role'] = member_request.role
         member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
         member_dict['handling_date'] = None
         if member_request.handling_date:
             member_dict['handling_date'] = member_request.handling_date.strftime("%d - %b - %Y")
+            member_dict['handled_by'] = member_request.handled_by
         result_list.append(member_dict)
     return result_list
 
