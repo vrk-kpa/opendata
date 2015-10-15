@@ -46,7 +46,7 @@
  */
 ?>
 
-<div class="col-md-6 pull-right">
+<div class="col-md-6">
  <div id="<?php print $block_html_id; ?>" class="panel panel-default">
     <?php if ($title): ?>
     <div class="panel-heading">

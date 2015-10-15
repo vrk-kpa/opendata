@@ -112,7 +112,7 @@
   </header> <!-- /#page-header -->
 
   <?php if (!empty($page['feature_blocks'])): ?>
-    <div class="feature_blocks">
+    <div class="feature_blocks row">
       <?php print render($page['feature_blocks']); ?>
     </div> <!-- /#feature-blocks -->
   <?php endif; ?>
