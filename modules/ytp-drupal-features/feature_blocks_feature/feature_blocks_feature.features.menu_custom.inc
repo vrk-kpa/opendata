@@ -33,6 +33,5 @@ function feature_blocks_feature_menu_default_menu_custom() {
   t('Related sites');
   t('The <em>Management</em> menu contains links for administrative tasks.');
 
-
   return $menus;
 }
