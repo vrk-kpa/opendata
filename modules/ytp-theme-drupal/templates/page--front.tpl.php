@@ -111,6 +111,12 @@
 
   </header> <!-- /#page-header -->
 
+  <?php if (!empty($page['feature_blocks'])): ?>
+    <div class="feature_blocks row">
+      <?php print render($page['feature_blocks']); ?>
+    </div> <!-- /#feature-blocks -->
+  <?php endif; ?>
+
 
   <div class="row">
     <?php if (!empty($page['sidebar_first'])): ?>
@@ -146,57 +152,6 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
 
-        <div class="row">
-        <div class="col-md-6">
-     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?php print t('Latest datasets') ?></h3>
-        </div>
-        <div class="panel-body">
-            <?php
-                $url = 'https://localhost/data/api/3/action/package_search?sort=metadata_created+desc&rows=5';
-                $options = array(
-                    'method' => 'GET'
-                );
-
-                $result = drupal_http_request($url, $options);
-                $json = drupal_json_decode($result->data);
-                $latest_datasets = $json["result"]['results'];
-            ?>
-
-            <ul class="dataset-title-list">
-            <?php foreach ($latest_datasets as $dataset): ?>
-                <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
-            <?php endforeach ?>
-            </ul>
-        </div>
-     </div>
-    </div>
-    <div class="col-md-6">
-     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?php print t('Most popular datasets')?></h3>
-        </div>
-        <div class="panel-body">
-            <?php
-                $url = 'https://localhost/data/api/3/action/package_search?sort=views_recent+desc&rows=5';
-                $options = array(
-                    'method' => 'GET'
-                );
-
-                $result = drupal_http_request($url, $options);
-                $json = drupal_json_decode($result->data);
-                $latest_datasets = $json["result"]['results'];
-            ?>
-
-            <ul class="dataset-title-list">
-            <?php foreach ($latest_datasets as $dataset): ?>
-                <li><i class="icon-book icon-2x"></i><a href="/data/<?php print $language->language ?>/dataset/<?php print $dataset['name'] ?>"><?php print $dataset['title'] ?></a></li>
-            <?php endforeach ?>
-            </ul>
-        </div>
-     </div>
-    </div>
     </div>
       <?php print render($page['content']); ?>
     </section>
