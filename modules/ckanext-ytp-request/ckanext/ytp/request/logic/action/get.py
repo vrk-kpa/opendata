@@ -3,6 +3,7 @@ from ckan.logic import NotFound, ValidationError
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
+from sqlalchemy import or_
 import logic
 import logging
 import ckan.new_authz as authz
@@ -20,9 +21,11 @@ def member_requests_mylist(context, data_dict):
         raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
         
     user_object = model.User.get(user)
-    #Return all pending or active memberships for all organizations for the user in context
-    requests = model.Session.query(MemberRequest).filter(MemberRequest.member_id == user_object.id).all()
-    return _member_request_list_dictize(requests,context)
+    #Return current state for memberships for all organizations for the user in context. (last request date)
+    #We need to use MemberRequest table since there is loss of semantics when using model.Member table as it is just DELETED there (CANCEL state is the same than REJECTED)
+    membership_requests = model.Session.query(MemberRequest).join(model.Member, MemberRequest.membership_id == model.Member.id).filter(model.Member.table_id == user_object.id)  
+    log.info("HELLO: %s",membership_requests)
+    return _membeship_request_list_dictize(membership_requests, user_object, context)
 
 def member_requests_list(context, data_dict):
     ''' Organization admins/editors will see a list of member requests to be approved.
@@ -75,25 +78,25 @@ def get_available_roles(context, data_dict=None):
     else:
         return None
 
-def _member_request_list_dictize(obj_list, context, sort_key=lambda x: x['member_id'], reverse=False):
+def _membeship_request_list_dictize(obj_list, user, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
     for obj in obj_list:
         member_dict = {}
-        user = model.Session.query(model.User).get(obj.member_id)
-        organization = model.Session.query(model.Group).get(obj.organization_id)
+        organization = model.Session.query(model.Group).get(obj.group_id)
+        #There can be only active or pending so this logic is valid (one-to-one in this case)
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).filter(MemberRequest.status == obj.state).first()
         member_dict['member_name'] = user.name
         member_dict['organization_name'] = organization.name
-        member_dict['organization_id'] = obj.organization_id
-        member_dict['state'] = obj.status
-        member_dict['role'] = obj.role
-        member_dict['request_date'] = obj.request_date.strftime("%d - %b - %Y")
+        member_dict['organization_id'] = obj.group_id
+        member_dict['state'] = obj.state
+        member_dict['role'] = member_request.role
+        member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
         member_dict['handling_date'] = None
         if obj.handling_date:
-            member_dict['handling_date'] = obj.handling_date.strftime("%d - %b - %Y")
+            member_dict['handling_date'] = member_request.handling_date.strftime("%d - %b - %Y")
         result_list.append(member_dict)
     return result_list
-    #return sorted(result_list, key=sort_key, reverse=reverse)
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
     """ Helper to convert member list to dictionary """

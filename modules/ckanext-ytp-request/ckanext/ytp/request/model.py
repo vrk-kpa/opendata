@@ -40,6 +40,7 @@ class MemberRequest(Base):
     request_date = Column(types.DateTime, default=datetime.datetime.now)
     role = Column(types.UnicodeText)
     handling_date = Column(types.DateTime)
+    handled_by = Column(types.UnicodeText)
     language = Column(types.UnicodeText)
     message = Column(types.UnicodeText)
     status = Column(types.UnicodeText,default=u"pending")

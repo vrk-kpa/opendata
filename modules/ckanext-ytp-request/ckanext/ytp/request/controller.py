@@ -45,9 +45,9 @@ class YtpRequestController(BaseController):
             data_dict = logic.clean_dict(dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.params))))
             data_dict['group'] = data_dict['organization']
             member = toolkit.get_action('member_request_create')(context, data_dict)
-            helpers.redirect_to('organizations_index', id="newrequest", member_id=member['id'])
+            helpers.redirect_to('organizations_index', id="newrequest", membership_id=member['id'])
         except logic.NotAuthorized:
-            abort(401, self.not_auth_message)
+            abort(405, self.not_auth_message)
         except logic.NotFound:
             abort(404, _('Item not found'))
         except dict_fns.DataError:
