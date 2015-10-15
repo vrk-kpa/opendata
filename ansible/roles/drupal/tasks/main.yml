@@ -142,8 +142,6 @@
     - recaptcha
     - honeypot
     - node_expire
-
-    - twitter_block
   tags:
   - drupal
 
@@ -196,8 +194,6 @@
     - recaptcha
     - honeypot
     - node_expire
-
-    - twitter_block
 
   tags:
   - drupal
