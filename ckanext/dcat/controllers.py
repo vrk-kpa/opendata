@@ -31,8 +31,11 @@ class DCATController(BaseController):
 
         toolkit.response.headers.update(
             {'Content-type': CONTENT_TYPES[_format]})
-        return toolkit.get_action('dcat_dataset_show')({}, {'id': _id,
-                                                            'format': _format})
+
+        try:
+            return toolkit.get_action('dcat_dataset_show')({}, {'id': _id, 'format': _format})
+        except toolkit.NotAuthorized:
+            toolkit.abort(404, toolkit._("You are not authorized to view this content."))
 
     def dcat_json(self):
 
