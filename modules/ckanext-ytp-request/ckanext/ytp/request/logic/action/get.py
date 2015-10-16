@@ -106,12 +106,15 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
     result_list = []
     for obj in obj_list:
         member_dict = model_dictize.member_dictize(obj, context)
+        user = model.Session.query(model.User).get(obj.table_id)
+
         member_dict['group_name'] = obj.group.name
-        member_request = model.Session.query(MemberRequest).filter(MemberRequest.member_id == obj.table_id).filter(MemberRequest.organization_id == obj.group_id ).first()
+        #Member request must always exist since state is pending. Fetch just the latest
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).filter(MemberRequest.status == 'pending').order_by('request_date desc').limit(1).first()
         member_dict['role'] = member_request.role
         member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
         member_dict['mid'] = member_request.id
-        user = model.Session.query(model.User).get(obj.table_id)
+
         member_dict['user_name'] = user.name
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
