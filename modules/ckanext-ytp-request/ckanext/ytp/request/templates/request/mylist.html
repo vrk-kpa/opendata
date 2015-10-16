@@ -25,11 +25,11 @@
         <thead>
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
-             <th>{% trans %}User{% endtrans %}</th>
              <th>{% trans %}Role{% endtrans %}</th>
              <th>{% trans %}Request date{% endtrans %}</th>
              <th>{% trans %}Status{% endtrans %}</th>
              <th>{% trans %}Handling date{% endtrans %}</th>
+             <th>{% trans %}Handler{% endtrans %}<th>
              <th>{% trans %}Action{% endtrans %}</th>
           </tr>
         </thead>
@@ -38,11 +38,11 @@
         {% for mrequest in my_requests %}
           <tr>
             <td>{{ mrequest.organization_name }}</td>
-            <td>{{ mrequest.member_name }}</td>
             <td>{{ mrequest.role }}</td>
             <td>{{ mrequest.request_date }}</td>
             <td>{{ mrequest.state }}</td>
             <td>{{ mrequest.handling_date }}</td>
+            <td>{{ mrequest.handled_by }}</td>
             <td>{% if h.check_access('member_request_membership_cancel', {'organization_id': mrequest.organization_id}) %}
               {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
               <a class="btn btn-danger" href="{{ h.url_for('member_request_membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">

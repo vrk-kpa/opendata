@@ -23,7 +23,7 @@ def member_requests_mylist(context, data_dict):
     user_object = model.User.get(user)
     #Return current state for memberships for all organizations for the user in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(model.Member.table_id == user_object.id).all() 
-    return _membeship_request_list_dictize(membership_requests, user_object, context)
+    return _membeship_request_list_dictize(membership_requests, context)
 
 def member_requests_list(context, data_dict):
     ''' Organization admins/editors will see a list of member requests to be approved.
@@ -76,17 +76,17 @@ def get_available_roles(context, data_dict=None):
     else:
         return None
 
-def _membeship_request_list_dictize(obj_list, user, context):
+def _membeship_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
     for obj in obj_list:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
         #Fetch the newest member_request associated to this membership (sort by last modified field)
-        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1)
+        #TODO: Not sure if can be possible that exists member without member_request
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
         #Filter out those with cancel state as there is no need to show them to the end user
-        if member_request.status != 'cancel':
-           member_dict['member_name'] = user.name
+        if member_request != None and member_request.status != 'cancel':
            member_dict['organization_name'] = organization.name
            member_dict['organization_id'] = obj.group_id
            #We use the member_request state since there is also rejected and cancel
