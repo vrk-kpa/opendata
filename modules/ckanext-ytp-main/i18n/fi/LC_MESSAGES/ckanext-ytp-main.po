@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-10-14 16:15+0300\n"
-"PO-Revision-Date: 2015-10-14 13:17+0000\n"
+"PO-Revision-Date: 2015-10-16 10:33+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -751,7 +751,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:119
 msgid "Dataset Quality"
-msgstr ""
+msgstr "Tietoaineiston laatu"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 msgid "Resource Quality"
@@ -759,7 +759,7 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:137
 msgid "Metadata Quality"
-msgstr ""
+msgstr "Metatietojen laatu"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
