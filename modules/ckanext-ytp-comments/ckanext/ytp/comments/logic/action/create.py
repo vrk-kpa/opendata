@@ -1,6 +1,7 @@
 import datetime
 import ckanext.ytp.comments.model as comment_model
 import ckanext.ytp.comments.util as util
+from pylons import config
 from ckan import logic
 from pprint import pprint
 import logging
@@ -66,7 +67,13 @@ def comment_create(context, data_dict):
     if users:
         for user in users:
             log.debug("Sending comment notification mail now to:" + str(user.name))
-            util.send_comment_notification_mail(user, package, cmt)
+            util.send_comment_notification_mail(user.display_name, user.email, package, cmt)
+
+    # Always send a notification mail to website admin
+    admin_email = config.get("ckanext-comments.comment_notifications_admin_email", None)
+    if admin_email:
+        util.send_comment_notification_mail("Avoindata-admin", admin_email, package, cmt)
+
 
     return cmt.as_dict()
 
