@@ -117,17 +117,35 @@
     {% block rating_info %}
         <div>
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
+
             {% with stars,reason,last_updated = h.calculate_dataset_stars(pkg.id) %}
+            <div>
+            <span class="quality-label"> {{_('Resource Quality')}} </span>
             {% for i in range(stars) %}
                 <span class="icon-star"></span>
             {% endfor %}
             {% for i in range(5 - stars) %}
                 <span class="icon-star-empty"></span>
             {% endfor %}
-            {% snippet "package/snippets/info_tooltip.html", title=_('Datasets Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type.') %}
+            </div>
             {% endwith %}
-        </div>
+            
 
+
+            {% with stars = h.calculate_metadata_stars(pkg.id) %}
+            <div>
+            <span class="quality-label"> {{_('Metadata Quality')}} </span>
+            {% for i in range(stars) %}
+                <span class="icon-star"></span>
+            {% endfor %}
+            {% for i in range(5 - stars) %}
+                <span class="icon-star-empty"></span>
+            {% endfor %}
+            </div>
+            {% snippet "package/snippets/info_tooltip.html", title=_("Dataset's Resource Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type. Metadata Quality rating takes field completeness, visits, resource downloads, comments and translations into consideration.") %}
+            {% endwith %}
+
+        </div>
     {% endblock %}
 
     {% block package_info %}
