@@ -120,17 +120,17 @@
     
       <section<?php print $content_column_class; ?>>
   
-           <?php if (!empty($page['user_guide'])): ?>
-        <div id="user-guide" >
-          <?php print render($page['user_guide']); ?>
-        </div>
-      <?php endif; ?>
+        <?php if (!empty($page['user_guide'])): ?>
+          <div id="user-guide" >
+            <?php print render($page['user_guide']); ?>
+          </div> <!-- /#user-guide -->
+        <?php endif; ?>
   
-    <?php if (!empty($page['feature_blocks'])): ?>
-      <div class="feature_blocks row">
-        <?php print render($page['feature_blocks']); ?>
-      </div> <!-- /#feature-blocks -->
-    <?php endif; ?>
+        <?php if (!empty($page['feature_blocks'])): ?>
+          <div class="feature_blocks row">
+            <?php print render($page['feature_blocks']); ?>
+          </div> <!-- /#feature-blocks -->
+        <?php endif; ?>
   
         <a id="main-content"></a>
         <?php print render($title_prefix); ?>
