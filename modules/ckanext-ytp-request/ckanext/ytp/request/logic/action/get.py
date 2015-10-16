@@ -83,21 +83,22 @@ def _membeship_request_list_dictize(obj_list, context):
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
         #Fetch the newest member_request associated to this membership (sort by last modified field)
-        #TODO: Not sure if can be possible that exists member without member_request
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
         #Filter out those with cancel state as there is no need to show them to the end user
+        #If a user creates itself a organization has already a membership but doesnt have a member_request
+        member_dict['organization_name'] = organization.name
+        member_dict['organization_id'] = obj.group_id
+        member_dict['role'] = 'admin'
+        member_dict['state'] = 'active'
+        #We use the member_request state since there is also rejected and cancel
         if member_request != None and member_request.status != 'cancel':
-           member_dict['organization_name'] = organization.name
-           member_dict['organization_id'] = obj.group_id
-           #We use the member_request state since there is also rejected and cancel
            member_dict['state'] = member_request.status
            member_dict['role'] = member_request.role
            member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
-           member_dict['handling_date'] = None
            if member_request.handling_date:
                member_dict['handling_date'] = member_request.handling_date.strftime("%d - %b - %Y")
                member_dict['handled_by'] = member_request.handled_by
-           result_list.append(member_dict)
+        result_list.append(member_dict)
     return result_list
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
