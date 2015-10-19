@@ -71,18 +71,85 @@ def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
 def calculate_dataset_stars(dataset_id):
     from ckan.logic import get_action, NotFound
     from ckan import model
+
     if not is_plugin_enabled('qa'):
         return (0, '', '')
     try:
         context = {'model': model, 'session': model.Session}
         qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
+
     except NotFound:
         return (0, '', '')
     if not qa:
         return (0, '', '')
+
     return (qa['openness_score'],
             qa['openness_score_reason'],
             qa['updated'])
+
+
+def calculate_metadata_stars(dataset_id):
+    """
+        Calculate the metadata quality.
+
+        The rating is based on 4 criteria:
+            - Field completeness (required / optional) 5 + 5 points
+            - More than 50 visits 3 points
+            - More than 20 Resource downloads 2 points
+            - Comment count: 0,5 points per comment. Max 5 points
+            - English or Swedish translations for both title and description: 5 points
+
+    """
+
+    from ckan import model
+
+    score = 0.0
+
+    # Required fields, optional fields, and translated fields, that will be scored by completeness
+    required_fields = ['collection_type', 'title', 'notes', 'tags', 'license_id', 'organization', 'content_type']
+    optional_fields = ['valid_from', 'valid_till', 'extra_information', 'author', 'author_email', 'owner', 'maintainer', 'maintainer_email']
+    translation_fields_en = ['title_en', 'notes_en']
+    translation_fields_sv = ['title_sv', 'notes_sv']
+
+    context = {'model': model, 'session': model.Session}
+    data = get_action('package_show')(context, {'id': dataset_id})
+
+    # Check that all the required fields are present in the dataset
+    if all(data.get(field) for field in required_fields if field is not None):
+        score += 5
+
+    # how many optional fields have data?
+    optional_count = len(list(data.get(field) for field in optional_fields if data.get(field)))
+
+    # max 5 points from filled optional fields
+    score += (optional_count * 5.0 / len(optional_fields))
+
+    # visits from GA
+    visits = get_visits_for_dataset(dataset_id)
+    visit_count = visits.get("count", 0)
+    resource_download_count = visits.get("download_count", 0)
+
+    if visit_count > 50:
+        score += 2.5
+
+    if resource_download_count > 20:
+        score += 2.5
+
+    # amount of comments
+    url = '/dataset/%s' % data.get("name")
+    cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
+    score += min((cmnt_cnt/2.0), 5.0)
+
+    # extras?
+
+    # english translations
+    if all(data.get(field) for field in translation_fields_en if data.get(field)):
+        score += 5.0
+    # swedish translations
+    elif all(data.get(field) for field in translation_fields_sv if data.get(field)):
+        score += 5.0
+
+    return int(round((score / 5.0), 0))
 
 
 def is_plugin_enabled(plugin_name):

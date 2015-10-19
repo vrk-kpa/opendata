@@ -80,6 +80,8 @@ ckanext-archiver.archive_dir = /tmp/archive
 ckanext-archiver.max_content_length = 50000000
 ckan.celery.queues = celery bulk priority
 
+ckanext-comments.comment_notifications_admin_email = {{ client_email }}
+
 ckanext.drupal7.domain = {{ hostname }},{{ secondary_hostname }}
 ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
 ckanext.drupal7.connection = postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
