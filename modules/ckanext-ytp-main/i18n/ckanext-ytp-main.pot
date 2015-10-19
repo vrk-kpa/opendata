@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-14 16:15+0300\n"
+"POT-Creation-Date: 2015-10-05 11:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -579,8 +579,8 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:224
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:238
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:206
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
 msgid "Created"
 msgstr ""
 
@@ -618,27 +618,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Downloads"
 msgstr ""
 
@@ -684,8 +684,8 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
 msgid "Last Modified"
 msgstr ""
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "

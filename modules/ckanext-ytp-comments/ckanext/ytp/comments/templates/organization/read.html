@@ -1,0 +1,24 @@
+{% ckan_extends %}
+
+{% block page_primary_action %}
+
+  {{ super() }}
+
+  <!-- Begin Subscribe to comment notifications button -->
+
+  {% if c.userobj %}
+  {% resource "comments_js/notifications.js" %}
+  {% set org_id = c.group_dict.id %}
+
+  {% if h.get_subscription_status(org_id, c.userobj.id) %}
+  <div class="btn-group">
+    <a href="#" type="button" class="btn btn-danger" data-module="notification" data-module-id="{{ org_id }}" data-module-action="unsubscribe"><i class="icon-remove-sign"></i>{{ _('Unsubscribe from comments') }}</a>
+  </div>
+  {% else %}
+  <div class="btn-group">
+    <a href="#" type="button" class="btn btn-primary" data-module="notification" data-module-id="{{ org_id }}" data-module-action="subscribe"><i class="icon-plus-sign"></i>{{ _('Subscribe to comments') }}</a>
+  </div>
+  {% endif %}
+  {% endif %}
+
+{% endblock %}
