@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 15:59+0300\n"
-"PO-Revision-Date: 2015-10-05 13:00+0000\n"
+"POT-Creation-Date: 2015-10-19 15:02+0300\n"
+"PO-Revision-Date: 2015-10-19 10:45+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -44,12 +44,16 @@ msgstr "Användaren har inte skrivit kommentaren"
 msgid "You must be logged in to unsubscribe from comment notifications"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/organization/read.html:15
-msgid "Unsubscribe from comments"
+#: ckanext/ytp/comments/public/javascript/notifications.js:9
+#: ckanext/ytp/comments/templates/organization/read.html:19
+#: ckanext/ytp/comments/templates/package/comment_list.html:100
+msgid "Subscribe to comments"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/organization/read.html:19
-msgid "Subscribe to comments"
+#: ckanext/ytp/comments/public/javascript/notifications.js:10
+#: ckanext/ytp/comments/templates/organization/read.html:15
+#: ckanext/ytp/comments/templates/package/comment_list.html:98
+msgid "Unsubscribe from comments"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:10
@@ -96,14 +100,6 @@ msgstr "Svara"
 #: ckanext/ytp/comments/templates/package/comment_list.html:76
 msgid "Comments"
 msgstr "Kommentarer"
-
-#: ckanext/ytp/comments/templates/package/comment_list.html:98
-msgid "Unsubscribe"
-msgstr ""
-
-#: ckanext/ytp/comments/templates/package/comment_list.html:100
-msgid "Subscribe"
-msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:107
 msgid "Login to comment."
