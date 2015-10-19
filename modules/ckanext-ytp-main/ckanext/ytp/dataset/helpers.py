@@ -90,7 +90,7 @@ def calculate_dataset_stars(dataset_id):
 
 def calculate_metadata_stars(dataset_id):
     """
-        Calculate the metadata quality. 
+        Calculate the metadata quality.
 
         The rating is based on 4 criteria:
             - Field completeness (required / optional) 5 + 5 points
@@ -122,7 +122,7 @@ def calculate_metadata_stars(dataset_id):
     optional_count = len(list(data.get(field) for field in optional_fields if data.get(field)))
 
     # max 5 points from filled optional fields
-    score += (optional_count * 5.0 / len(optional_fields) )
+    score += (optional_count * 5.0 / len(optional_fields))
 
     # visits from GA
     visits = get_visits_for_dataset(dataset_id)
@@ -140,8 +140,8 @@ def calculate_metadata_stars(dataset_id):
     cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
     score += min((cmnt_cnt/2.0), 5.0)
 
-    # extras? 
-    
+    # extras?
+
     # english translations
     if all(data.get(field) for field in translation_fields_en if data.get(field)):
         score += 5.0

@@ -67,7 +67,7 @@ def _unsubscribe(identifier, user_id, subscription_type=None):
         elif subscription_type == "organization":
             raise logic.ValidationError("A valid organization id is required.")
 
-    scrn = comment_model.CommentSubscription.delete(identifier, user_id)
+    comment_model.CommentSubscription.delete(identifier, user_id)
 
     log.debug(("Successfully deleted comment subscription for user {user_id} in " + subscription_type + " {identifier}")
               .format(user_id=user_id, identifier=identifier))

@@ -43,15 +43,15 @@ def create_metadata_organization_and_dataset(meta_name, context):
 
     values_organization = {'name': meta_name, 'id': meta_name}
     values_dataset = {
-            'name': meta_name,
-            'owner_org': meta_name,
-            'license_id': ' ',
-            'notes': ' ',
-            'collection_type': ' ',
-            'title': meta_name,
-            'tag_string': ' ',
-            'content_type': ' ',
-            }
+        'name': meta_name,
+        'owner_org': meta_name,
+        'license_id': ' ',
+        'notes': ' ',
+        'collection_type': ' ',
+        'title': meta_name,
+        'tag_string': ' ',
+        'content_type': ' ',
+    }
 
     get_action('organization_create')(context, values_organization)
     get_action('package_create')(context, values_dataset)
