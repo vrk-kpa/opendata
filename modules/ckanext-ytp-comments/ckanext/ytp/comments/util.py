@@ -40,6 +40,7 @@ def _get_safe_locale():
     except:
         return config.get('ckan.locale_default', 'en')
 
+
 def send_comment_notification_mail(recipient_name, recipient_email, dataset, comment):
 
     from ckanext.ytp.comments import email_template

@@ -10,13 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2015-10-05 11:43+0300\n"
-"PO-Revision-Date: 2015-10-05 08:43+0000\n"
-=======
 "POT-Creation-Date: 2015-10-05 15:59+0300\n"
 "PO-Revision-Date: 2015-10-05 13:00+0000\n"
->>>>>>> origin/YH-717
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"

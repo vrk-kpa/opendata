@@ -29,6 +29,7 @@ def comment_delete(context, data_dict):
 
     return {'success': True}
 
+
 def remove_comment_subscription(context, data_dict):
     model = context['model']
     user = context['user']

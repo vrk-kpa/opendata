@@ -165,8 +165,8 @@ class CommentController(BaseController):
                 abort(403)
 
             if dataset_id and pkg["name"]:
-                h.redirect_to(str('/dataset/%s' %(pkg["name"])))
+                h.redirect_to(str('/dataset/%s' % (pkg["name"])))
             elif organization_id and org["name"]:
-                h.redirect_to(str('/organization/%s' %(org["name"])))
+                h.redirect_to(str('/organization/%s' % (org["name"])))
 
         render("package/read.html")
