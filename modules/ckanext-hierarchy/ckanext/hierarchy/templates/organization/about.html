@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block organization_description %}
+  {{ super() }}
+
+  {# TODO: Add JSTree #}
+
+  <div id="publisher-tree">
+     {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.get_action('group_tree_section', {'id': c.group_dict.id, 'type': c.group_dict.type})] %}
+  </div>
+{% endblock %}
