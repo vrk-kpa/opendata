@@ -44,7 +44,7 @@ def _create_member_request(context, data_dict):
     member = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == userobj.id) \
         .filter(model.Member.group_id == group.id).first()
 
-    ## If there is a member for this organization and it is NOT deleted...
+    ## If there is a member for this organization and it is NOT deleted. Reuse existing if deleted
     if member:
         if member.state == 'pending':
             message = _("You already have a pending request to the organization")
