@@ -1,0 +1,41 @@
+{% set url = h.url_for(organization.type ~ '_read', action='read', id=organization.name) %}
+
+<li>
+  {% block organization_actions %}
+    {# We cannot extend extended template so we check if apply gives result #}
+
+    <div class="pull-right">
+    {% set request_title_link = h.request_title_and_link(organization.id, organization.name) %}
+    {% if request_title_link %}
+        {% set request_title, request_link = request_title_link %} 
+
+        {% if request_link %}
+            <a href="{{ request_link }}">
+                <i class="icon-circle-arrow-right"></i>
+                {{ request_title }}
+            </a>
+        {% elif request_title %}
+            {{ request_title }}
+        {% endif %}
+    {% endif %}
+    </div>
+  {% endblock %}
+  {% block title %}
+    {% set organization_display_name = h.extra_translation(organization, 'title') or organization.name %}
+    <a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization_display_name) }}" class="">
+        <h4>{{ organization_display_name }}</h4>
+    </a>
+  {% endblock %}
+  {% block description %}
+    {% if organization.description %}
+      <p>{{ h.markdown_extract(organization.description, extract_length=80) }}</p>
+    {% endif %}
+  {% endblock %}
+  {% block datasets %}
+    {% if organization.packages %}
+      <strong class="count nonimportant-text">{{ ungettext('{num} Dataset', '{num} Datasets', organization.packages).format(num=organization.packages) }}</strong>
+    {% else %}
+      <span class="count nonimportant-text">{{ _('0 Datasets') }}</span>
+    {% endif %}
+  {% endblock %}
+</li>

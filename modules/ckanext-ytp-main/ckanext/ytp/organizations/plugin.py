@@ -104,6 +104,12 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
 
+    plugins.implements(plugins.IConfigurer, inherit=True)
+
+    # IConfigurer
+    def update_config(self, config):
+        plugins.toolkit.add_template_directory(config, 'templates')
+
     _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
                          'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
                          'street_address_unofficial_name', 'street_address_building_id', 'street_address_getting_there',
@@ -235,6 +241,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         return schema
 
+
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
         from pylons import tmpl_context
@@ -247,6 +254,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
             tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
+    
 
     def _get_dropdown_menu_contents(self, vocabulary_names):
         """ Gets vocabularies by name and mangles them to match data structure required by form.select """
@@ -327,6 +335,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
 
 # From ckanext-hierarchy
+"""
 class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
 
     plugins.implements(plugins.IConfigurer, inherit=True)
@@ -345,6 +354,7 @@ class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
         return {'group_tree': action.group_tree,
                 'group_tree_section': action.group_tree_section,
                 }
+"""
 
 
 def convert_to_list(key, data):
