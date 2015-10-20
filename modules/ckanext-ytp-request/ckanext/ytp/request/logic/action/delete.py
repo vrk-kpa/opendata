@@ -3,6 +3,7 @@ from ckanext.ytp.request.model import MemberRequest
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.common import _, c
+from sqlalchemy.sql import func
 from ckanext.ytp.request.helper import get_default_locale, get_safe_locale
 
 import logging
@@ -12,6 +13,7 @@ log = logging.getLogger(__name__)
 
 def member_request_cancel(context, data_dict):
     ''' Cancel own request (from logged in user). Organization_id must be provided.
+     We cannot rely on membership_id since existing memberships can be created also from different ways (e.g. a user creates an organization)
     :param organization_id: id of the organization
     :type member: string
     '''
@@ -27,7 +29,7 @@ def member_request_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    return _process_request(context, organization_id, member)
+    return _process_request(context, organization_id, member,'pending')
 
 
 def member_request_membership_cancel(context, data_dict):
@@ -46,23 +48,33 @@ def member_request_membership_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    return _process_request(context, organization_id, member)
+    return _process_request(context, organization_id, member,'active')
 
-def _process_request(context, organization_id, member):
+def _process_request(context, organization_id, member, status):
     ''' Cancel a member request or existing membership.
-        Delete from database the member request and set delete state in member table
+        Delete from database the member request (if existing) and set delete state in member table
     :param member: id of the member
     :type member: string
     '''
     user = context.get("user")
 
-    #Delete member request from table
-    model.Session.query(MemberRequest).filter(MemberRequest.member_id == c.userobj.id) \
-        .filter(MemberRequest.organization_id == organization_id).delete()
-
     #Logical delete on table member
     member.state = 'deleted'
-    
+
+    #Fetch the newest member_request associated to this membership (sort by last modified field)
+    member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+
+    #BFW: Even though member - member_request is one to many at db level, we use it 1 to 1 at DAO level for now. Simplifies things
+    message = u'MemberRequest cancelled by own user'
+    if member_request != None and member_request.status == status:
+        member_request.status = 'cancel'
+        member_request.handling_date = func.now()
+        member_request.handled_by = c.userobj.name
+        member_request.message = message
+    else:
+        memberRequest = MemberRequest(membership_id=member.id, role= member.role, status="cancel", language=locale, handling_date=func.now(), handled_by=c.userobj.name,message=message)
+        model.Session.add(memberRequest)
+
     revision = model.repo.new_revision()
     revision.author = user
     revision.message = u'Member request deleted by user'

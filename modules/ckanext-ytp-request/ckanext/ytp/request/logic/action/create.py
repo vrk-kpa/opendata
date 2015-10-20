@@ -66,7 +66,9 @@ def _create_member_request(context, data_dict):
     revision.message = u'New member request'
 
     model.Session.add(member)
-   
+    #We need to flush since we need membership_id (member.id) already
+    model.Session.flush()
+
     memberRequest = MemberRequest(membership_id=member.id, role= role, status="pending", language=locale)
     model.Session.add(memberRequest)
     model.repo.commit()
