@@ -85,7 +85,8 @@ def _membeship_request_list_dictize(obj_list, context):
         #Fetch the newest member_request associated to this membership (sort by last modified field)
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
         #Filter out those with cancel state as there is no need to show them to the end user
-        #If a user creates itself a organization has already a membership but doesnt have a member_request
+        #Show however those with 'rejected' state as user may want to know about them
+        #HUOM! If a user creates itself a organization has already a membership but doesnt have a member_request
         member_dict['organization_name'] = organization.name
         member_dict['organization_id'] = obj.group_id
         member_dict['role'] = 'admin'
@@ -98,7 +99,8 @@ def _membeship_request_list_dictize(obj_list, context):
            if member_request.handling_date:
                member_dict['handling_date'] = member_request.handling_date.strftime("%d - %b - %Y")
                member_dict['handled_by'] = member_request.handled_by
-        result_list.append(member_dict)
+        if member_request == None or member_request.status != 'cancel':
+            result_list.append(member_dict)
     return result_list
 
 def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], reverse=False):
@@ -109,11 +111,11 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         user = model.Session.query(model.User).get(obj.table_id)
 
         member_dict['group_name'] = obj.group.name
+        member_dict['role'] = obj.capacity
         #Member request must always exist since state is pending. Fetch just the latest
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).filter(MemberRequest.status == 'pending').order_by('request_date desc').limit(1).first()
-        member_dict['role'] = member_request.role
         member_dict['request_date'] = member_request.request_date.strftime("%d - %b - %Y")
-        member_dict['mid'] = member_request.id
+        member_dict['mid'] = obj.id
 
         member_dict['user_name'] = user.name
         result_list.append(member_dict)

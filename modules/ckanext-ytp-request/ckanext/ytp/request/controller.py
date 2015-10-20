@@ -15,7 +15,7 @@ class YtpRequestController(BaseController):
         data_dict['all_fields'] = True
         data_dict['groups'] = []
         data_dict['type'] = 'organization'
-        #TODO: Filter our organizations where the user is already a member
+        #TODO: Filter our organizations where the user is already a member or has a pending request 
         return toolkit.get_action('organization_list')({},data_dict)
 
     def new(self, errors=None, error_summary=None):
@@ -72,9 +72,14 @@ class YtpRequestController(BaseController):
     def list(self):
         """ Lists member requests to be approved by admins"""
         context = {'user': c.user or c.author}
+        id = request.params.get('id',None)
         try:
             member_requests = toolkit.get_action('member_requests_list')(context, {})
-            extra_vars = {'member_requests': member_requests}
+            message = None
+            if id:
+                message = _("Member request processed successfully")
+            log.debug("%s",message)
+            extra_vars = {'member_requests': member_requests, 'message': message}
             return render('request/list.html', extra_vars=extra_vars)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
@@ -85,8 +90,8 @@ class YtpRequestController(BaseController):
         organization_id = request.params.get('organization_id', None)
         try:
             toolkit.get_action('member_request_cancel')(context,{"organization_id": organization_id})
-            extra_vars = {'message': _('Member request cancelled successfully')}
-            helpers.redirect_to('organizations_index', extra_vars=extra_vars)
+            message = _('Member request cancelled successfully')
+            helpers.redirect_to('organizations_index', message=message)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
@@ -105,8 +110,8 @@ class YtpRequestController(BaseController):
         context = {'user': c.user or c.author}
         try:
             toolkit.get_action('member_request_membership_cancel')(context, {"organization_id": organization_id})
-            extra_vars = {'message': _('Membership cancelled successfully')}
-            helpers.redirect_to('organizations_index', extra_vars=extra_vars)
+            message= _('Membership cancelled successfully')
+            helpers.redirect_to('organizations_index', message=message)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
@@ -119,13 +124,16 @@ class YtpRequestController(BaseController):
         try:
             if approve:
                 toolkit.get_action('member_request_approve')(context, data_dict)
+                id = 'approved'
             else:
                 toolkit.get_action('member_request_reject')(context, data_dict)
-            extra_vars = {'message': _('Member request processed successfully')}
-            helpers.redirect_to('member_request_list', extra_vars=extra_vars)
+                id = 'rejected'
+            helpers.redirect_to("member_requests_list", id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
             abort(404, _('Member request not found'))
+        except logic.ValidationError:
+            abort(400, _('Member request is not in pending state'))
 
         

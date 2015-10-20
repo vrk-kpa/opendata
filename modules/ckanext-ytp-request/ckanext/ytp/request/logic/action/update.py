@@ -33,17 +33,23 @@ def _process(context, action, data_dict):
     :type accept: boolean
     '''
     approve = action == 'approve'  # else 'reject'
+    #Old table member we respect the existing states but we differentiate in between cancel and rejected in our new table
     state = "active" if approve else "deleted"
+    request_status = "active" if approve else "rejected"
     user = context.get("user")
-    member_request = model.Session.query(MemberRequest).get(data_dict.get("mrequest_id"))
-    member = model.Session.query(model.Member).filter(model.Member.table_id == member_request.member_id).filter(model.Member.group_id == member_request.organization_id).first()
+    mrequest_id = data_dict.get("mrequest_id")
+    
+    if not mrequest_id:
+        raise logic.NotFound
+
+    member = model.Session.query(model.Member).filter(model.Member.id == mrequest_id).first()
 
     if not member or not member.group.is_organization:
         raise logic.NotFound
     if member.state != 'pending':
-        #TODO: throw better exception
-        raise logic.ValidationError
+        raise logic.ValidationError("Membership request was not in pending state")
 
+    #Update existing member instance
     member.state = state
     
     revision = model.repo.new_revision()
@@ -55,10 +61,17 @@ def _process(context, action, data_dict):
         message = 'Member request rejected by admin'
     
     revision.message = message
+   
+    #TODO: Move this query to a helper method since it is widely used
+    #Fetch the newest member_request associated to this membership (sort by last modified field)
+    member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
 
-    member_request.status = state
+    #BFW: In case of pending state overwrite it since it is no final state
+    member_request.status = request_status
     member_request.handling_date = datetime.datetime.utcnow()
-    
+    member_request.handled_by = c.userobj.name
+    member_request.message = message
+
     member.save()
 
     model.repo.commit()
@@ -66,11 +79,11 @@ def _process(context, action, data_dict):
     member_user = model.Session.query(model.User).get(member.table_id)
     admin_user = model.User.get(user)
 
-    #locale = member_request.language or get_default_locale()
+    locale = member_request.language or get_default_locale()
     _log_process(member_user, member.group.display_name, approve, admin_user)
     #_mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
 
-    return model_dictize.member_dictize(member, context)
+    return True
 
 
 def _log_process(member_user, member_org, approve, admin_user):
