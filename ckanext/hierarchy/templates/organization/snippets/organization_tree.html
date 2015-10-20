@@ -1,32 +1,25 @@
 {#
 Displays a tree of organzations
-
-NB This template can be slow because it is recursive and uses link_for. At
-DGU we speeded up display of the tree 10 times (necessary as we have 1000 
-organizations) by replacing this template with a recursive code routine:
-https://github.com/datagovuk/ckanext-dgu/blob/5fb78b354517c2198245bdc9c98fb5d6c82c6bcc/ckanext/dgu/lib/helpers.py#L140 
-
-orgs    - List of organizations
-
-Example:
-
-  {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
-
 #}
-<ul>
-  {% for node in top_nodes recursive %}
-    <li id="node_{{ node.name }}">
-      {% if node.highlighted %}
-        <strong>
-      {% endif %}
-      {% link_for node.title, controller='organization', action='read', id=node.name %}
-      {% if node.highlighted %}
-        </strong>
-      {% endif %}
-
-      {% if node.children %}
-        <ul> {{ loop(node.children) }} </ul>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+{% set show_dataset_count = show_dataset_count or false %}
+{% set url_prefix = h.url_for(controller='organization', action='read', id='') %}
+{% resource 'ytp_common_js/ytp_form.js' %}
+<ul class="no-bullet organization-tree" data-organization-tree>
+    {% for node in top_nodes recursive %}
+        <li id="node_{{ node.name }}" class="organization">
+            {% if node.children %}
+                <button class="js-expand btn btn-primary btn-xs"><i class="icon-plus"></i></button>
+                <button class="js-collapse btn btn-gray btn-xs"><i class="icon-minus"></i></button>
+            {% endif %}
+        <div class="organization-row">
+            {% if show_dataset_count == true %}
+                <span class="badge">{{ node.dataset_count }}</span>&nbsp;
+            {% endif %}
+            <a href="{{ url_prefix }}{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
+        </div>
+        {% if node.children %}
+          <ul class="no-bullet organization-subtree js-collapsed"> {{ loop(node.children) }} </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
