@@ -68,7 +68,7 @@ def parse_tag_list(data_url, data_format, tag_limit):
         for label, label_pred, label_obj in graph.triples((concept, SKOS.prefLabel, None)):
             if len(tag_list) < tag_limit:
                 if label_obj.language == 'fi':
-                    tag_list.append(unicode(label_obj))
+                    tag_list.append(unicode(cleanup_tag(label_obj)))
             else:
                 break
     return tag_list
@@ -101,7 +101,7 @@ def tags_import(data):
     context = _create_context()
 
     args = json.loads(data)
-    max_number_of_tags = 500
+    max_number_of_tags = 40000
 
     # Attempt to create organization and dataset for the metadata.
     # This can fail gracefully if those already exist, but the
