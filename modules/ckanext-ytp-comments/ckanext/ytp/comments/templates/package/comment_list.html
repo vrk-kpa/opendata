@@ -1,21 +1,24 @@
 
 
 {% resource "comments_js/comments.js" %}
+{% resource "comments_js/notifications.js" %}
 
 {% macro comment_form(values={}, empty=False, hidden=True, prefix="", action="add") %}
-    <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/{% if values.id %}{{ values.id }}/{% endif %}{{ action }}" method="POST">
-        <div class="form-controls">
-            <label for="subject">{{ _('Subject') }}</label>
-            <input type="text" class="form-control" name="subject" {% if not empty %}value="{{ values.subject }}" {% endif %}/>
-            <label for="comment">{{ _('Comment') }}</label>
-            {% set unescaped_content = values.content.split('<br/>') %}
-            <textarea name="comment" class="form-control" rows="10">{% if not empty %}{% for line in unescaped_content %}{{ line | striptags }}{{'\n'}}{% endfor %}{% endif %}</textarea>
-        </div>
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
-            <input type="reset" class="btn" value="{{ _('Clear') }}"/>
-        </div>
-    </form>
+    <span class="comment-form-container">
+        <form id="{{ prefix + values.id }}" class="form {% if hidden %}hidden{% endif %}" action="{{ pkg_id }}/comments/{% if values.id %}{{ values.id }}/{% endif %}{{ action }}" method="POST">
+            <div class="form-controls">
+                <label for="subject">{{ _('Subject') }}</label>
+                <input type="text" class="form-control" name="subject" {% if not empty %}value="{{ values.subject }}" {% endif %}/>
+                <label for="comment">{{ _('Comment') }}</label>
+                {% set unescaped_content = values.content.split('<br/>') %}
+                <textarea name="comment" class="form-control" rows="10">{% if not empty %}{% for line in unescaped_content %}{{ line | striptags }}{{'\n'}}{% endfor %}{% endif %}</textarea>
+            </div>
+            <div class="form-actions">
+                <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
+                <input type="reset" class="btn" value="{{ _('Clear') }}"/>
+            </div>
+        </form>
+    </span>
 {% endmacro %}
 
 
@@ -59,7 +62,6 @@
                     <li><a onclick="ShowCommentForm('reply_{{ comment.id }}')">{{ _('Reply') }}</a> </li>
                     {{ comment_form(comment, empty=True, prefix='reply_', action='reply') }}
                 {% endif %}
-
             </ul>
             {% endif %}
             </div>
@@ -77,21 +79,32 @@
 </div>
 
 {% if userobj %}
+<div class="comment-form-container">
 
-<form class="form" action="{{ pkg_id }}/comments/add" method="POST">
-    <div class="form-controls">
-        <label for="subject">{{ _('Subject') }}</label>
-        <input type="text" class="form-control" name="subject"/>
+    <form class="form" action="{{ pkg_id }}/comments/add" method="POST">
+        <div class="form-controls">
+            <label for="subject">{{ _('Subject') }}</label>
+            <input type="text" class="form-control" name="subject"/>
 
-        <label for="comment">{{ _('Comment') }}</label>
-        <textarea name="comment" class="form-control" rows="10"></textarea>
-    </div>
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
-        <input type="reset" class="btn" value="{{ _('Clear') }}"/>
-    </div>
-</form>
+            <label for="comment">{{ _('Comment') }}</label>
+            <textarea name="comment" class="form-control" rows="10"></textarea>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="{{ _('Save') }}"/>
+            <input type="reset" class="btn" value="{{ _('Clear') }}"/>
+
+            <!-- Comment email notification subscription buttons -->
+            {% if h.get_subscription_status(pkg_id, userobj.id) %}
+            <button type="button" id="unsubscribe-button" class="btn btn-danger" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="unsubscribe"><i class="icon-remove-sign"></i>{{ _('Unsubscribe') }}</button>
+            {% else %}
+            <button type="button" id="subscribe-button" class="btn" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="subscribe"><i class="icon-plus-sign"></i>{{ _('Subscribe') }}</button>
+            {% endif %}
+
+        </div>
+    </form>
 
 {% else %}
     {{ _('Login to comment.') }}
 {% endif %}
+
+</div>

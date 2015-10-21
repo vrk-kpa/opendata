@@ -31,3 +31,11 @@ Init db
 ```
 paster --plugin=ckanext-ytp-comments initdb --config={ckan.ini}
 ```
+
+## Configuration
+
+Users can subscribe/unsubscribe to either organization's new comments (there's a subscribe button in /data/organization/<org_name>) or specific dataset's comments (there's a button in the bottom of dataset's comment box). However, you can also set up a site-wide email address to send comment notifications to.
+
+```
+ckanext-comments.comment_notifications_admin_email = admin@example.com
+```
