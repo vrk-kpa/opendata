@@ -18,6 +18,11 @@
 {% block primary_content %}
   <section class="module">
     <div class="module-content">
+      {% if message %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+      {% endif %}
       <h1>{% trans %}My memberships{% endtrans %}</h1>
 
       {% if my_requests %}

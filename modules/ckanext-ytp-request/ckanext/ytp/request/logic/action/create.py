@@ -72,6 +72,10 @@ def _create_member_request(context, data_dict):
     memberRequest = MemberRequest(membership_id=member.id, role= role, status="pending", language=locale)
     model.Session.add(memberRequest)
     model.repo.commit()
+    
+    url = config.get('ckan.site_url', "")
+    if url:
+        url = url + url_for('member_request_show', mrequest_id=member.id)
 
     if role == 'admin':
         for admin in _get_ckan_admins():

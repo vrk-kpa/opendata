@@ -6,6 +6,7 @@ from ckan.common import _, c
 from ckanext.ytp.request.helper import get_default_locale
 from ckan.lib import helpers
 from pylons import config
+from ckanext.ytp.request.mail import mail_process_status
 
 import logging
 import datetime 
@@ -38,10 +39,12 @@ def _process(context, action, data_dict):
     request_status = "active" if approve else "rejected"
     user = context.get("user")
     mrequest_id = data_dict.get("mrequest_id")
-    
+    role = data_dict.get("role",None)
     if not mrequest_id:
         raise logic.NotFound
-
+    if role != None and (role != 'admin' or role != 'editor'):
+        raise logic.ValidationError("Role is not a valid value")
+    
     member = model.Session.query(model.Member).filter(model.Member.id == mrequest_id).first()
 
     if not member or not member.group.is_organization:
@@ -51,15 +54,17 @@ def _process(context, action, data_dict):
 
     #Update existing member instance
     member.state = state
-    
+    if role:
+        member.capacity = role
     revision = model.repo.new_revision()
     revision.author = user
 
     if approve:
-        message = 'Member request approved by admin'
+        message = 'Member request approved by admin.'
     else:
-        message = 'Member request rejected by admin'
-    
+        message = 'Member request rejected by log.'
+    if role:
+        message = message + " Role changed"
     revision.message = message
    
     #TODO: Move this query to a helper method since it is widely used
@@ -71,7 +76,8 @@ def _process(context, action, data_dict):
     member_request.handling_date = datetime.datetime.utcnow()
     member_request.handled_by = c.userobj.name
     member_request.message = message
-
+    if role:
+        member_request.role = role
     member.save()
 
     model.repo.commit()
@@ -81,7 +87,8 @@ def _process(context, action, data_dict):
 
     locale = member_request.language or get_default_locale()
     _log_process(member_user, member.group.display_name, approve, admin_user)
-    #_mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
+    #TODO: Do we need to set a message in the UI if mail was not sent successfully?
+    mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
 
     return True
 

@@ -28,7 +28,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
-            "get_available_roles": get.get_available_roles
+            "get_available_roles": get.get_available_roles,
+            "member_request_show": get.member_request
         }
 
     #IAuthFunctions
@@ -42,7 +43,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
             "member_request_approve": update.member_request_approve,
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_requests_list": get.member_requests_list,
-            "member_requests_mylist": get.member_requests_mylist
+            "member_requests_mylist": get.member_requests_mylist,
+            "member_request_show": get.member_request
         }
 
     # IRoutes #
@@ -55,5 +57,6 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect('member_request_reject','/member-request/reject/{mrequest_id}', action='reject', controller=controller)
         m.connect('member_request_approve','/member-request/approve/{mrequest_id}', action='approve', controller=controller)
         m.connect('member_request_cancel','/member-request/cancel', action='cancel', controller=controller)
-        m.connect('member_request_membership_cancel', '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller)
+        m.connect('member_request_membership_cancel', '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller),
+        m.connect('member_request_show','/member-request/{mrequest_id}', action="show", controller=controller)
         return m

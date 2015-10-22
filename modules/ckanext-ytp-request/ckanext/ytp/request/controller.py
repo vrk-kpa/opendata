@@ -1,4 +1,4 @@
-from ckan import logic
+from ckan import logic, model
 from ckan.lib import helpers
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan.plugins import toolkit
@@ -30,11 +30,10 @@ class YtpRequestController(BaseController):
         if context.get('save') and not errors:
           return self._save_new(context)
 
-        #FIXME: Dont send as request parameter selected organization. kinda weird
+        #FIXME: Don't send as request parameter selected organization. kinda weird
         selected_organization = request.params.get('selected_organization', None)
         extra_vars = {'selected_organization': selected_organization,'organizations': organizations, 'errors': errors or {}, 'error_summary': error_summary or {}}
-        data_dict = {'organization_id': selected_organization}
-        c.roles = toolkit.get_action('get_available_roles')(context,data_dict)
+        c.roles = self._get_available_roles(context,selected_organization)
         c.user_role = 'admin'
         c.form = render("request/new_request_form.html", extra_vars=extra_vars)
         return render("request/new.html")
@@ -44,26 +43,46 @@ class YtpRequestController(BaseController):
         try:
             data_dict = logic.clean_dict(dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.params))))
             data_dict['group'] = data_dict['organization']
+            #TODO: Do we need info message at the UI level when e-mail could not be sent?
             member = toolkit.get_action('member_request_create')(context, data_dict)
             helpers.redirect_to('organizations_index', id="newrequest", membership_id=member['id'])
-        except logic.NotAuthorized:
-            abort(405, self.not_auth_message)
-        except logic.NotFound:
-            abort(404, _('Item not found'))
         except dict_fns.DataError:
             abort(400, _(u'Integrity Error'))
+        except logic.NotFound:
+            abort(404, _('Item not found'))
+        except logic.NotAuthorized:
+            abort(405, self.not_auth_message)
         except logic.ValidationError, e:
             errors = e.error_dict
             error_summary = e.error_summary
             return self.new(errors, error_summary)
 
+    def show(self, mrequest_id):
+        """" Shows a single member request. To be used by admins in case they want to modify granted role or accept via e-mail """
+        context = {'user': c.user or c.author }
+        try:    
+            membershipdto = toolkit.get_action('member_request_show')(context, {'mrequest_id': mrequest_id})
+            member_user = model.Session.query(model.User).get(membershipdto['user_id'])
+            context = {'user': member_user.name}
+            roles = self._get_available_roles(context, membershipdto['organization_name'])
+            extra_vars = {"membership": membershipdto, "member_user": member_user, "roles": roles}
+            return render('request/show.html', extra_vars=extra_vars)
+        except toolkit.ObjectNotFound:
+            abort(404, _('Request not found'))
+        except toolkit.NotAuthorized:
+            abort(401, self.not_auth_message)
+
+
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""
         context = {'user': c.user or c.author }
-
+        id = request.params.get('id',None)
         try:
             my_requests = toolkit.get_action('member_requests_mylist')(context, {})
-            extra_vars = {'my_requests': my_requests }
+            message = None
+            if id:
+                message = _("Member request processed successfully")
+            extra_vars = {'my_requests': my_requests, 'message': message }
             return render('request/mylist.html', extra_vars=extra_vars)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message) 
@@ -90,8 +109,8 @@ class YtpRequestController(BaseController):
         organization_id = request.params.get('organization_id', None)
         try:
             toolkit.get_action('member_request_cancel')(context,{"organization_id": organization_id})
-            message = _('Member request cancelled successfully')
-            helpers.redirect_to('organizations_index', message=message)
+            id = 'cancel'
+            helpers.redirect_to('member_requests_mylist', id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
@@ -110,17 +129,21 @@ class YtpRequestController(BaseController):
         context = {'user': c.user or c.author}
         try:
             toolkit.get_action('member_request_membership_cancel')(context, {"organization_id": organization_id})
-            message= _('Membership cancelled successfully')
-            helpers.redirect_to('organizations_index', message=message)
+            id = 'cancel'
+            helpers.redirect_to('member_requests_mylist', id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
             abort(404, _('Request not found'))
 
+    def _get_available_roles(self, context, organization_id):
+        data_dict = {'organization_id': organization_id}
+        return toolkit.get_action('get_available_roles')(context,data_dict)
+
     def _processbyadmin(self, mrequest_id, approve):
         context = { 'user': c.user or c.author}
-
-        data_dict = {"mrequest_id": mrequest_id}
+        role = request.params.get('role',None)
+        data_dict = {"mrequest_id": mrequest_id, 'role': role}
         try:
             if approve:
                 toolkit.get_action('member_request_approve')(context, data_dict)
@@ -133,7 +156,7 @@ class YtpRequestController(BaseController):
             abort(401, self.not_auth_message)
         except logic.NotFound:
             abort(404, _('Member request not found'))
-        except logic.ValidationError:
-            abort(400, _('Member request is not in pending state'))
+        except logic.ValidationError as e:
+            abort(400, str(e) )
 
         
