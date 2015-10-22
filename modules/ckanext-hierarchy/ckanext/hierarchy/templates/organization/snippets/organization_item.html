@@ -20,17 +20,20 @@
     {% endif %}
     </div>
   {% endblock %}
+  
   {% block title %}
     {% set organization_display_name = h.extra_translation(organization, 'title') or organization.name %}
     <a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization_display_name) }}" class="">
         <h4>{{ organization_display_name }}</h4>
     </a>
   {% endblock %}
+
   {% block description %}
     {% if organization.description %}
       <p>{{ h.markdown_extract(organization.description, extract_length=80) }}</p>
     {% endif %}
   {% endblock %}
+
   {% block datasets %}
     {% if organization.packages %}
       <strong class="count nonimportant-text">{{ ungettext('{num} Dataset', '{num} Datasets', organization.packages).format(num=organization.packages) }}</strong>
@@ -39,3 +42,4 @@
     {% endif %}
   {% endblock %}
 </li>
+
