@@ -23,7 +23,7 @@ Examples:
 
 - Serve command cannot reload all modification and need to restarted on some changes.
 - Serve cannot access asset files currently so the layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`. 
-- For ckanext project if setup.py is changed or if some files are inserted you need to re-execute `ytp-develop.py` (executes correct python setup.py develop).
+- For ckanext project if setup.py is changed or if some files are inserted you need to re-execute `ytp-develop.py` (executes correct python setup.py develop)a.
 
 ## Manually link Python packages (ckanext-*)
 

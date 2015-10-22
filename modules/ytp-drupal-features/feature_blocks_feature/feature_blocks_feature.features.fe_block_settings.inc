@@ -48,7 +48,7 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => -17,
       ),
     ),
-    'title' => 'Latest datasets',
+    'title' => t("Latest datasets"),
     'visibility' => 1,
   );
 
@@ -88,7 +88,7 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => -16,
       ),
     ),
-    'title' => 'Most popular datasets',
+    'title' => t("Most popular datasets"),
     'visibility' => 1,
   );
 
