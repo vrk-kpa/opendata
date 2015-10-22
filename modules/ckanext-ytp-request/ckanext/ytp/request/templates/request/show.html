@@ -1,11 +1,10 @@
 {% extends "request/page.html" %}
-
-{% import 'macros/form.html' as form %}
 {% resource  "request_js/request.js" %}
 
 {% block subtitle %}{{ _('Organization membership request') }}{% endblock %}
 
 {% block secondary_content %}
+
   <section class="module module-narrow">
     <h2 class="module-heading"><i class="icon-large icon-info-sign"></i> {{ _('Organization membership request') }}</h2>
     <div class="module-content">
@@ -19,7 +18,6 @@
 {% endblock %}
 
 {% block primary_content %}
-
   <section class="module">
     <div class="module-content">
       <h1>{% trans %}Organization membership request{% endtrans %}</h1>
@@ -64,10 +62,10 @@
       </table>
       <div class="form-actions">
       {% set locale = h.dump_json({'content': _('Are you sure you want approve this request?')}) %}
-     <a href="{{ h.url_for('member_request_approve', mrequest_id=membership.id) }}" class="btn btn-primary  pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
+     <a id="request_approve_url" href="{{ h.url_for('member_request_approve', mrequest_id=membership.id) }}" class="btn btn-primary  pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
       
       {% set locale = h.dump_json({'content': _('Are you sure you want reject this request?')}) %}
-          <a href="{{ h.url_for('member_request_reject', mrequest_id=membership.id) }}" class="btn btn-danger" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
+          <a id="request_reject_url" href="{{ h.url_for('member_request_reject', mrequest_id=membership.id) }}" class="btn btn-danger" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
 
      </div>
 
