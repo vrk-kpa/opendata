@@ -1,7 +1,7 @@
 import logging
 import ckan.plugins as p
 import ckan.logic as logic
-from ckanext.ytp.organizations.model import GroupTreeNode
+from ckanext.hierarchy.model import GroupTreeNode
 from ckan import model
 from sqlalchemy import func, and_
 from sqlalchemy.orm import aliased
