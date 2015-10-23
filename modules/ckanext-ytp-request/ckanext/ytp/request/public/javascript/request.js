@@ -3,8 +3,8 @@ $(document).ready(function() {
       var selected_role = $("#field-validroles option:selected").val();
       //Modify the URLs for accept case to add new role
       var approve_url_element = $('#request_approve_url');
-      var approve_url = approve_url_element.attr('href').split('&', 2);
-      newapp_url = approve_url[0] + '&role=' + selected_role;
+      var approve_url = approve_url_element.attr('href').split('?', 2);
+      newapp_url = approve_url[0] + '?role=' + selected_role;
       approve_url_element.attr('href', newapp_url);
     });
     
