@@ -1,10 +1,9 @@
-from ckan import model
-from ckan.logic import NotFound, ValidationError
+from ckan import logic, model
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
 from sqlalchemy import or_
-import logic
+
 import logging
 import ckan.new_authz as authz
 
@@ -16,15 +15,15 @@ def member_request(context, data_dict):
 
     membership = model.Session.query(model.Member).get(mrequest_id)
     if not membership or membership.state != 'pending':
-                abort(404, _('Request not found'))
+        raise logic.NotFound("Member request not found")
 
     #Return most current instance from memberrequest table 
     member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == mrequest_id).order_by('request_date desc').limit(1).first()
     if not member_request or member_request.status != 'pending':
-        abort(404, _('Request not found'))
+        raise logic.NotFound("Member request associated with membership not found")
 
     member_dict = {}
-    member_dict['id'] = member_request.id
+    member_dict['id'] = mrequest_id
     member_dict['organization_name'] = membership.group.name
     member_dict['group_id'] = membership.group_id
     member_dict['role'] = member_request.role
@@ -40,7 +39,7 @@ def member_requests_mylist(context, data_dict):
 
     user = context.get('user',None)
     if authz.is_sysadmin(user):
-        raise ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
+        raise logic.ValidationError({}, {_("Role"): _("As a sysadmin, you already have access to all organizations")})
         
     user_object = model.User.get(user)
     #Return current state for memberships for all organizations for the user in context. (last modified date)

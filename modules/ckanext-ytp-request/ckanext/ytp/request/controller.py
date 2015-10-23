@@ -63,13 +63,13 @@ class YtpRequestController(BaseController):
         try:    
             membershipdto = toolkit.get_action('member_request_show')(context, {'mrequest_id': mrequest_id})
             member_user = model.Session.query(model.User).get(membershipdto['user_id'])
-            context = {'user': member_user.name}
+            context = {'user': member_user.name }
             roles = self._get_available_roles(context, membershipdto['organization_name'])
             extra_vars = {"membership": membershipdto, "member_user": member_user, "roles": roles}
             return render('request/show.html', extra_vars=extra_vars)
-        except toolkit.ObjectNotFound:
-            abort(404, _('Request not found'))
-        except toolkit.NotAuthorized:
+        except logic.NotFound:
+            abort(404, _("Request not found"))
+        except logic.NotAuthorized:
             abort(401, self.not_auth_message)
 
 

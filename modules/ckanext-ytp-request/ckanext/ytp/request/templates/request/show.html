@@ -1,17 +1,17 @@
 {% extends "request/page.html" %}
-{% resource  "request_js/request.js" %}
 
 {% block subtitle %}{{ _('Organization membership request') }}{% endblock %}
 
 {% block secondary_content %}
+{% resource  "request_js/request.js" %}
 
   <section class="module module-narrow">
     <h2 class="module-heading"><i class="icon-large icon-info-sign"></i> {{ _('Organization membership request') }}</h2>
     <div class="module-content">
       <p>
-        {% trans -%}
+        {% trans %}
         This shows a given membership request. Only admins can approve, modify or reject requests.
-        {%- endtrans %}
+        {% endtrans %}
       </p>
     </div>
   </section>
