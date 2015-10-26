@@ -1,6 +1,5 @@
 from ckan.lib.i18n import set_lang, get_lang
-from ckan.lib.mailer import mail_user, MailerException
-from ckan.logic import NotAuthorized 
+from ckan.lib.mailer import mail_user
 from pylons import i18n
 from ckan.common import _
 import logging
@@ -78,7 +77,7 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
 
     try:
         mail_user(member_user, subject, message)
-    except Exception as e:
+    except Exception:
        log.exception("Mail could not be sent")
        #raise MailerException("Mail could not be sent")
     finally:
