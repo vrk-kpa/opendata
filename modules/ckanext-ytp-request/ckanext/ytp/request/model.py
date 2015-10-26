@@ -1,19 +1,17 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey, func
+from sqlalchemy import Column, MetaData, ForeignKey
 from sqlalchemy import types
-from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-from ckan.plugins import toolkit
-from ckan.lib.base import model, config
+from ckan.lib.base import model
 
 log = __import__('logging').getLogger(__name__)
 Base = declarative_base()
 metadata = MetaData()
 
-"""CANCEL state is equivalent to DELETE state in member table. 
+"""CANCEL state is equivalent to DELETE state in member table.
 member - member_request is one to many relationship since we need to log all member_requests to facilitate admins and users
 what has happened with his previous requests """
 REQUEST_PENDING = "pending"
@@ -29,7 +27,7 @@ def make_uuid():
 class MemberRequest(Base):
     """
     Represents a member request containing request date, handled date, 
-    status (pending, approved,rejected, cancel) and language used by the member 
+    status (pending, approved,rejected, cancel) and language used by the member
     so that a localized e-mail could be sent
     Member request stores the request history while member table represents the current state a member has with 
     a given organization

@@ -8,10 +8,10 @@ class InitDBCommand(CkanCommand):
     Initialises the database with the required tables
     Connects to the CKAN database and creates the member request tables
 
-    Usage: 
+    Usage:
 
-        paster initdb 
-           - Creates the database table member request 
+        paster initdb
+           - Creates the database table member request
     """
     summary = __doc__.split('\n')[0]
     usage = __doc__
@@ -29,7 +29,7 @@ class InitDBCommand(CkanCommand):
         #    print self.usage
         #    sys.exit(1)
 
-        #cmd = self.args[0]
+        # cmd = self.args[0]
         self._load_config()
 
         # Initialise logger after the config is loaded, so it is not disabled.
