@@ -14,16 +14,13 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
 
-    # IConfigurer
-
-    def configure(self, config):
-        log.debug("Configuring comments module")
-
+    #IConfigurer
     def update_config(self, config):
         toolkit.add_template_directory(config, "templates")
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript/', 'comments_js')
 
+    #ITemplateHelpers
     def get_helpers(self):
         return {
             'get_comment_thread': self._get_comment_thread,
@@ -31,6 +28,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             'get_subscription_status': self._get_subscription_status
         }
 
+    #IActions
     def get_actions(self):
         from ckanext.ytp.comments.logic.action import get, create, delete, update
 
@@ -46,7 +44,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             "add_comment_subscription_org": create.add_comment_subscription_org,
             "remove_comment_subscription_org": delete.remove_comment_subscription_org
         }
-
+    #IAuthFunctions
     def get_auth_functions(self):
         from ckanext.ytp.comments.logic.auth import get, create, delete, update
 
@@ -60,13 +58,11 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             "remove_comment_subscription": delete.remove_comment_subscription
         }
     # IPackageController
-
     def before_view(self, pkg_dict):
         # TODO: append comments from model to pkg_dict
         return pkg_dict
 
     # IRoutes
-
     def before_map(self, map):
         """
             /dataset/NAME/comments/reply/PARENT_ID

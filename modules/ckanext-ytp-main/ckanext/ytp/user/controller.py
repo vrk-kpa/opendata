@@ -7,7 +7,7 @@ import ckan.lib.navl.dictization_functions as dictization_functions
 from ckan.lib import helpers as h
 from ckan.controllers.user import UserController
 from ckan.lib.base import abort, validate, render
-import ckan.new_authz as new_authz
+import ckan.new_authz as authz
 
 
 import logging
@@ -61,7 +61,7 @@ class YtpUserController(UserController):
 
         user_obj = context.get('user_obj')
 
-        if not (new_authz.is_sysadmin(c.user) or c.user == user_obj.name):
+        if not (authz.is_sysadmin(c.user) or c.user == user_obj.name):
             abort(401, _('User %s not authorized to edit %s') %
                   (str(c.user), id))
 

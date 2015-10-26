@@ -17,6 +17,11 @@
 
 {% block primary_content %}
   <section class="module">
+   {% if message %}
+  <div class="alert alert-success" role="alert">
+      {{ message }}
+  </div>
+  {% endif %}
     <div class="module-content">
       <h1>{% trans %}Received membership requests{% endtrans %}</h1>
 
@@ -26,7 +31,9 @@
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
              <th>{% trans %}User{% endtrans %}</th>
-             <th> </th>
+             <th>{% trans %}Role{% endtrans %}</th>
+             <th>{% trans %}Request date{% endtrans %}</th>
+             <th colspan="3">{% trans %}Action{% endtrans %} </th>
           </tr>
         </thead>
         <tfoot> </tfoot>
@@ -35,7 +42,11 @@
           <tr>
             <td>{{ member_request.group_name }}</td>
             <td>{{ member_request.user_name }}</td>
-            <td><a href="{{ h.url_for('member_request_show', member_id=member_request.id) }}" class="btn btn-primary">{% trans %}Edit{% endtrans %}</a></td>
+            <td>{{ member_request.role }}</td>
+            <td>{{ member_request.request_date }}</td>
+            <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.mid) }}" class="btn btn-danger">{% trans %}Reject{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request_show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
           </tr>
         {% endfor %}
         </tbody>

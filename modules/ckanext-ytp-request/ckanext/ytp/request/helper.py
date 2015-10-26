@@ -1,7 +1,8 @@
-from sqlalchemy.sql.expression import or_
 from ckan import model
-from ckan.common import c
-
+from ckan.common import _, c
+from ckan.lib import helpers
+from sqlalchemy.sql.expression import or_
+from pylons import config
 
 def get_user_member(organization_id, state=None):
     """ Helper function to get member states """
@@ -21,12 +22,18 @@ def get_organization_admins(group_id):
                  filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
                  filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
 
-    admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
-
     return admins
-
 
 def get_ckan_admins():
     admins = set(model.Session.query(model.User).filter(model.User.sysadmin == True))  # noqa
 
     return admins
+
+def get_default_locale():
+    return config.get('ckan.locale_default', 'en')
+
+def get_safe_locale():
+    try:
+        return helpers.lang()
+    except:
+        return get_default_locale()
