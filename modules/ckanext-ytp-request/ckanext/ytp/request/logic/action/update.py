@@ -4,7 +4,6 @@ from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckan.common import _, c
 from ckanext.ytp.request.helper import get_default_locale
-from ckan.lib import helpers
 from pylons import config
 from ckanext.ytp.request.mail import mail_process_status
 
