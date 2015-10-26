@@ -15,14 +15,16 @@ metadata = MetaData()
 
 """CANCEL state is equivalent to DELETE state in member table. 
 member - member_request is one to many relationship since we need to log all member_requests to facilitate admins and users
-what has happened with his previous requests """ 
+what has happened with his previous requests """
 REQUEST_PENDING = "pending"
 REQUEST_ACCEPTED = "accepted"
 REQUEST_REJECTED = "rejected"
 REQUEST_CANCEL = "cancel"
 
+
 def make_uuid():
     return unicode(uuid.uuid4())
+
 
 class MemberRequest(Base):
     """
@@ -35,7 +37,8 @@ class MemberRequest(Base):
     __tablename__ = 'member_request'
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    #Reference to the table containing the composite key for organization and user
+    # Reference to the table containing the composite key for organization and
+    # user
     membership_id = Column(types.UnicodeText, ForeignKey(model.Member.id))
     request_date = Column(types.DateTime, default=datetime.datetime.now)
     role = Column(types.UnicodeText)
@@ -43,7 +46,7 @@ class MemberRequest(Base):
     handled_by = Column(types.UnicodeText)
     language = Column(types.UnicodeText)
     message = Column(types.UnicodeText)
-    status = Column(types.UnicodeText,default=u"pending")
+    status = Column(types.UnicodeText, default=u"pending")
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -52,6 +55,3 @@ class MemberRequest(Base):
 
 def init_tables():
     Base.metadata.create_all(model.meta.engine)
-
-
-
