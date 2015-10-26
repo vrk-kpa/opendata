@@ -6,7 +6,8 @@ import logging
 
 log = logging.getLogger(__name__)
 
-_SUBJECT_MEMBERSHIP_REQUEST = lambda: _("New membership request (%(organization)s)")
+_SUBJECT_MEMBERSHIP_REQUEST = lambda: _(
+    "New membership request (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
 User %(user)s (%(email)s) has requested membership to organization %(organization)s.
 %(link)s
@@ -15,7 +16,8 @@ Avoindata.fi support
 valtori@avoindata.fi
 """)
 
-_SUBJECT_MEMBERSHIP_APPROVED = lambda: _("Organization membership approved (%(organization)s)")
+_SUBJECT_MEMBERSHIP_APPROVED = lambda: _(
+    "Organization membership approved (%(organization)s)")
 _MESSAGE_MEMBERSHIP_APPROVED = lambda: _("""\
 Your membership request to organization %(organization)s with %(role)s access has been approved.
 Best regards
@@ -23,13 +25,15 @@ Avoindata.fi support
 valtori@avoindata.fi
 """)
 
-_SUBJECT_MEMBERSHIP_REJECTED = lambda: _("Organization membership rejected (%(organization)s)")
+_SUBJECT_MEMBERSHIP_REJECTED = lambda: _(
+    "Organization membership rejected (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REJECTED = lambda: _("""\
 Your membership request to organization %(organization)s with %(role)s access has been rejected.
 Best regards
 Avoindata.fi support
 valtori@avoindata.fi
 """)
+
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     current_locale = get_lang()
@@ -55,6 +59,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
     finally:
         set_lang(current_locale)
 
+
 def mail_process_status(locale, member_user, approve, group_name, capacity):
     current_locale = get_lang()
     if locale == 'en':
@@ -64,8 +69,10 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
 
     role_name = _(capacity)
 
-    subject_template = _SUBJECT_MEMBERSHIP_APPROVED() if approve else _SUBJECT_MEMBERSHIP_REJECTED()
-    message_template = _MESSAGE_MEMBERSHIP_APPROVED() if approve else _MESSAGE_MEMBERSHIP_REJECTED()
+    subject_template = _SUBJECT_MEMBERSHIP_APPROVED(
+    ) if approve else _SUBJECT_MEMBERSHIP_REJECTED()
+    message_template = _MESSAGE_MEMBERSHIP_APPROVED(
+    ) if approve else _MESSAGE_MEMBERSHIP_REJECTED()
 
     subject = subject_template % {
         'organization': group_name
@@ -78,10 +85,11 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
     try:
         mail_user(member_user, subject, message)
     except Exception:
-       log.exception("Mail could not be sent")
-       #raise MailerException("Mail could not be sent")
+        log.exception("Mail could not be sent")
+        #raise MailerException("Mail could not be sent")
     finally:
         set_lang(current_locale)
+
 
 def _reset_lang():
     try:

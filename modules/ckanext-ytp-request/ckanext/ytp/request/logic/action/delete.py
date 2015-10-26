@@ -20,15 +20,15 @@ def member_request_cancel(context, data_dict):
     logic.check_access('member_request_cancel', context, data_dict)
 
     organization_id = data_dict.get("organization_id")
- 
+
     query = model.Session.query(model.Member).filter(or_(model.Member.state == 'pending', model.Member.state == 'active')) \
-            .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id).filter(model.Member.group_id == organization_id)
+        .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id).filter(model.Member.group_id == organization_id)
     member = query.first()
 
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    return _process_request(context, organization_id, member,'pending')
+    return _process_request(context, organization_id, member, 'pending')
 
 
 def member_request_membership_cancel(context, data_dict):
@@ -46,7 +46,8 @@ def member_request_membership_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    return _process_request(context, organization_id, member,'active')
+    return _process_request(context, organization_id, member, 'active')
+
 
 def _process_request(context, organization_id, member, status):
     ''' Cancel a member request or existing membership.
@@ -56,20 +57,23 @@ def _process_request(context, organization_id, member, status):
     '''
     user = context.get("user")
 
-    #Logical delete on table member
+    # Logical delete on table member
     member.state = 'deleted'
-    #Fetch the newest member_request associated to this membership (sort by last modified field)
-    member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+    # Fetch the newest member_request associated to this membership (sort by
+    # last modified field)
+    member_request = model.Session.query(MemberRequest).filter(
+        MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
 
-    #BFW: Create a new instance every time membership status is changed
+    # BFW: Create a new instance every time membership status is changed
     message = u'MemberRequest cancelled by own user'
     locale = get_safe_locale()
     request_date = func.now()
     if member_request != None and member_request.status == status:
         locale = member_request.language
         request_date = member_request.request_date
-    
-    member_request = MemberRequest(membership_id=member.id, role= member.capacity, status="cancel", language=locale, handling_date=func.now(), handled_by=c.userobj.name,message=message)
+
+    member_request = MemberRequest(membership_id=member.id, role=member.capacity, status="cancel",
+                                   language=locale, handling_date=func.now(), handled_by=c.userobj.name, message=message)
     model.Session.add(member_request)
 
     revision = model.repo.new_revision()

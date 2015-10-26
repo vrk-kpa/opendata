@@ -8,21 +8,23 @@ from pylons import config
 from ckanext.ytp.request.mail import mail_process_status
 
 import logging
-import datetime 
+import datetime
 
 log = logging.getLogger(__name__)
+
 
 def member_request_reject(context, data_dict):
     ''' Cancel request (from admin or group editor). Member request must be provided since we need both organization/user
         Difference is that this action should be logged and showed to the user. If a user cancels herself her own request can be safely
         deleted '''
     logic.check_access('member_request_reject', context, data_dict)
-    _process(context,'reject',data_dict)
+    _process(context, 'reject', data_dict)
+
 
 def member_request_approve(context, data_dict):
     ''' Approve request (from admin or group editor). Member request must be provided since we need both organization/user'''
     logic.check_access('member_request_approve', context, data_dict)
-    _process(context,'approve',data_dict)
+    _process(context, 'approve', data_dict)
 
 
 def _process(context, action, data_dict):
@@ -33,25 +35,28 @@ def _process(context, action, data_dict):
     :type accept: boolean
     '''
     approve = action == 'approve'  # else 'reject'
-    #Old table member we respect the existing states but we differentiate in between cancel and rejected in our new table
+    # Old table member we respect the existing states but we differentiate in
+    # between cancel and rejected in our new table
     state = "active" if approve else "deleted"
     request_status = "active" if approve else "rejected"
     user = context.get("user")
     mrequest_id = data_dict.get("mrequest_id")
-    role = data_dict.get("role",None)
+    role = data_dict.get("role", None)
     if not mrequest_id:
         raise logic.NotFound
     if role != None and role != 'admin' and role != 'editor':
         raise logic.ValidationError("Role is not a valid value")
-    
-    member = model.Session.query(model.Member).filter(model.Member.id == mrequest_id).first()
+
+    member = model.Session.query(model.Member).filter(
+        model.Member.id == mrequest_id).first()
 
     if not member or not member.group.is_organization:
         raise logic.NotFound
     if member.state != 'pending':
-        raise logic.ValidationError("Membership request was not in pending state")
+        raise logic.ValidationError(
+            "Membership request was not in pending state")
 
-    #Update existing member instance
+    # Update existing member instance
     member.state = state
     if role:
         member.capacity = role
@@ -65,12 +70,14 @@ def _process(context, action, data_dict):
     if role:
         message = message + " Role changed"
     revision.message = message
-   
-    #TODO: Move this query to a helper method since it is widely used
-    #Fetch the newest member_request associated to this membership (sort by last modified field)
-    member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
 
-    #BFW: In case of pending state overwrite it since it is no final state
+    # TODO: Move this query to a helper method since it is widely used
+    # Fetch the newest member_request associated to this membership (sort by
+    # last modified field)
+    member_request = model.Session.query(MemberRequest).filter(
+        MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+
+    # BFW: In case of pending state overwrite it since it is no final state
     member_request.status = request_status
     member_request.handling_date = datetime.datetime.utcnow()
     member_request.handled_by = c.userobj.name
@@ -86,8 +93,10 @@ def _process(context, action, data_dict):
 
     locale = member_request.language or get_default_locale()
     _log_process(member_user, member.group.display_name, approve, admin_user)
-    #TODO: Do we need to set a message in the UI if mail was not sent successfully?
-    mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
+    # TODO: Do we need to set a message in the UI if mail was not sent
+    # successfully?
+    mail_process_status(locale, member_user, approve,
+                        member.group.display_name, member.capacity)
     return True
 
 
