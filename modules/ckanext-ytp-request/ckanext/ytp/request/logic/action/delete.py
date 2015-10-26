@@ -2,7 +2,7 @@ from ckan import model, logic
 from ckanext.ytp.request.model import MemberRequest
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
-from ckan.common import _, c
+from ckan.common import c
 from sqlalchemy.sql import func
 from ckanext.ytp.request.helper import get_safe_locale
 
@@ -18,7 +18,6 @@ def member_request_cancel(context, data_dict):
     :type member: string
     '''
     logic.check_access('member_request_cancel', context, data_dict)
-    user = context.get("user")
 
     organization_id = data_dict.get("organization_id")
  
@@ -39,7 +38,6 @@ def member_request_membership_cancel(context, data_dict):
     '''
     logic.check_access('member_request_membership_cancel', context, data_dict)
 
-    user = context.get("user")
     organization_id = data_dict.get("organization_id")
     query = model.Session.query(model.Member).filter(model.Member.state == 'active') \
         .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id).filter(model.Member.group_id == organization_id)

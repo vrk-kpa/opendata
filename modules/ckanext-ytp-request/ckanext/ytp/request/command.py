@@ -1,5 +1,4 @@
 import logging
-import sys
 
 from ckan.lib.cli import CkanCommand
 

@@ -2,7 +2,7 @@ from ckan import model, logic
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
-from ckan.common import _, c
+from ckan.common import c
 from ckanext.ytp.request.helper import get_default_locale
 from pylons import config
 from ckanext.ytp.request.mail import mail_process_status

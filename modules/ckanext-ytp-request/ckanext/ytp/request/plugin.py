@@ -51,12 +51,12 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
         controller = 'ckanext.ytp.request.controller:YtpRequestController'
-        m.connect('member_request_create','/member-request/new', action='new', controller=controller)
-        m.connect('member_requests_mylist','/member-request/mylist', action='mylist', controller=controller)
-        m.connect('member_requests_list','/member-request/list', action='list', controller=controller)
-        m.connect('member_request_reject','/member-request/reject/{mrequest_id}', action='reject', controller=controller)
-        m.connect('member_request_approve','/member-request/approve/{mrequest_id}', action='approve', controller=controller)
-        m.connect('member_request_cancel','/member-request/cancel', action='cancel', controller=controller)
+        m.connect('member_request_create', '/member-request/new', action='new', controller=controller)
+        m.connect('member_requests_mylist', '/member-request/mylist', action='mylist', controller=controller)
+        m.connect('member_requests_list', '/member-request/list', action='list', controller=controller)
+        m.connect('member_request_reject', '/member-request/reject/{mrequest_id}', action='reject', controller=controller)
+        m.connect('member_request_approve', '/member-request/approve/{mrequest_id}', action='approve', controller=controller)
+        m.connect('member_request_cancel', '/member-request/cancel', action='cancel', controller=controller)
         m.connect('member_request_membership_cancel', '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller),
-        m.connect('member_request_show','/member-request/{mrequest_id}', action="show", controller=controller)
+        m.connect('member_request_show', '/member-request/{mrequest_id}', action="show", controller=controller)
         return m
