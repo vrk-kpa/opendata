@@ -89,7 +89,6 @@ def _process(context, action, data_dict):
     _log_process(member_user, member.group.display_name, approve, admin_user)
     #TODO: Do we need to set a message in the UI if mail was not sent successfully?
     mail_process_status(locale, member_user, approve, member.group.display_name, member.capacity)
-
     return True
 
 
