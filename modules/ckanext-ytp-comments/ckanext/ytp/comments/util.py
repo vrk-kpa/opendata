@@ -5,7 +5,7 @@ from pylons import config
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.base import model
 from ckan.lib.i18n import set_lang, get_lang
-from ckan.common import _, c, g
+from ckan.common import _, g
 from pylons import i18n
 
 import logging
@@ -39,6 +39,7 @@ def _get_safe_locale():
         return helpers.lang()
     except:
         return config.get('ckan.locale_default', 'en')
+
 
 def send_comment_notification_mail(recipient_name, recipient_email, dataset, comment):
 

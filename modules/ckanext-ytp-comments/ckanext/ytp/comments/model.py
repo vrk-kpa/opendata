@@ -24,6 +24,7 @@ def make_uuid():
 def acceptable_comment_on(objtype):
     return objtype in ['package']
 
+
 class CommentThread(Base):
     """
     Represents a thread, or in this particular case a collection of
@@ -287,7 +288,6 @@ class CommentSubscription(Base):
     identifier = Column(types.UnicodeText)
     user_id = Column(types.UnicodeText)
     subscription_type = Column(Enum("dataset", "organization", name="subscription_type"))
-
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
