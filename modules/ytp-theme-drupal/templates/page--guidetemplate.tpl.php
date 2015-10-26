@@ -143,7 +143,7 @@
 
                 <div>
                     <ul class="nav">
-                        <li><a href="<?php print "/" . $language->language . "/guide" ?>">Kartoita ja selvita</a></li>
+                        <li><a href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvita</a></li>
                         <li><a href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
                         <li><a href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
                         <li><a href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehita</a></li>
