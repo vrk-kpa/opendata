@@ -144,6 +144,8 @@
     - node_expire
 
     - twitter_block
+    - draggableviews
+
   tags:
   - drupal
 
@@ -197,7 +199,10 @@
     - honeypot
     - node_expire
 
+
     - twitter_block
+    - draggableviews
+
 
   tags:
   - drupal

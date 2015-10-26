@@ -16,6 +16,7 @@ def comment_create(context, data_dict):
 
     return {'success': True}
 
+
 def add_comment_subscription(context, data_dict):
     user = context['user']
     model = context['model']

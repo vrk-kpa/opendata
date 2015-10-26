@@ -27,6 +27,7 @@ def comment_delete(context, data_dict):
 
     return {'success': True}
 
+
 def remove_comment_subscription_dataset(context, data_dict):
     model = context['model']
     user = context['user']
@@ -40,6 +41,7 @@ def remove_comment_subscription_dataset(context, data_dict):
 
     _unsubscribe(dataset_id, userobj.id, "dataset")
 
+
 def remove_comment_subscription_org(context, data_dict):
     model = context['model']
     user = context['user']
@@ -49,6 +51,7 @@ def remove_comment_subscription_org(context, data_dict):
     logic.check_access("remove_comment_subscription", context, data_dict)
 
     _unsubscribe(org_id, userobj.id, "organization")
+
 
 def _unsubscribe(identifier, user_id, subscription_type=None):
 
@@ -64,7 +67,7 @@ def _unsubscribe(identifier, user_id, subscription_type=None):
         elif subscription_type == "organization":
             raise logic.ValidationError("A valid organization id is required.")
 
-    scrn = comment_model.CommentSubscription.delete(identifier, user_id)
+    comment_model.CommentSubscription.delete(identifier, user_id)
 
     log.debug(("Successfully deleted comment subscription for user {user_id} in " + subscription_type + " {identifier}")
               .format(user_id=user_id, identifier=identifier))
