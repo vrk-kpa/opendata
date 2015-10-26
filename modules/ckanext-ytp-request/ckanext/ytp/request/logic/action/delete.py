@@ -67,12 +67,12 @@ def _process_request(context, organization_id, member, status):
     # BFW: Create a new instance every time membership status is changed
     message = u'MemberRequest cancelled by own user'
     locale = get_safe_locale()
-    request_date = func.now()
-    if member_request != None and member_request.status == status:
+    mrequest_date = func.now()
+    if member_request is not None and member_request.status == status:
         locale = member_request.language
-        request_date = member_request.request_date
+        mrequest_date = member_request.request_date
 
-    member_request = MemberRequest(membership_id=member.id, role=member.capacity, status="cancel",
+    member_request = MemberRequest(membership_id=member.id, role=member.capacity, status="cancel", request_date=mrequest_date,
                                    language=locale, handling_date=func.now(), handled_by=c.userobj.name, message=message)
     model.Session.add(member_request)
 

@@ -26,10 +26,10 @@ def make_uuid():
 
 class MemberRequest(Base):
     """
-    Represents a member request containing request date, handled date, 
+    Represents a member request containing request date, handled date,
     status (pending, approved,rejected, cancel) and language used by the member
     so that a localized e-mail could be sent
-    Member request stores the request history while member table represents the current state a member has with 
+    Member request stores the request history while member table represents the current state a member has with
     a given organization
     """
     __tablename__ = 'member_request'
