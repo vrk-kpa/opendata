@@ -50,7 +50,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
 
     try:
         mail_user(admin, subject, message)
-    except Exception, e:
+    except Exception:
         log.exception("Mail could not be sent")
     finally:
         set_lang(current_locale)
