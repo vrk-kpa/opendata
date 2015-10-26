@@ -86,7 +86,7 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
         mail_user(member_user, subject, message)
     except Exception:
         log.exception("Mail could not be sent")
-        #raise MailerException("Mail could not be sent")
+        # raise MailerException("Mail could not be sent")
     finally:
         set_lang(current_locale)
 

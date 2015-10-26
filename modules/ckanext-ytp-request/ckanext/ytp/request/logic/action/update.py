@@ -1,10 +1,7 @@
 from ckan import model, logic
-from sqlalchemy.sql.expression import or_
-from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckan.common import c
 from ckanext.ytp.request.helper import get_default_locale
-from pylons import config
 from ckanext.ytp.request.mail import mail_process_status
 
 import logging
@@ -44,13 +41,13 @@ def _process(context, action, data_dict):
     role = data_dict.get("role", None)
     if not mrequest_id:
         raise logic.NotFound
-    if role != None and role != 'admin' and role != 'editor':
+    if role is not None and role is not 'admin' and role is not 'editor':
         raise logic.ValidationError("Role is not a valid value")
 
     member = model.Session.query(model.Member).filter(
         model.Member.id == mrequest_id).first()
 
-    if not member or not member.group.is_organization:
+    if member is None or member.group.is_organization is None:
         raise logic.NotFound
     if member.state != 'pending':
         raise logic.ValidationError(

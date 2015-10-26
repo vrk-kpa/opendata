@@ -1,6 +1,6 @@
 from ckan import logic, model
 from ckan.lib import helpers
-from ckan.lib.base import h, BaseController, render, abort, request
+from ckan.lib.base import BaseController, render, abort, request
 from ckan.plugins import toolkit
 from ckan.common import c, _
 import ckan.lib.navl.dictization_functions as dict_fns
