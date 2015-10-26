@@ -142,6 +142,8 @@
     - recaptcha
     - honeypot
     - node_expire
+
+    - draggableviews
   tags:
   - drupal
 
@@ -194,6 +196,8 @@
     - recaptcha
     - honeypot
     - node_expire
+
+    - draggableviews
 
   tags:
   - drupal
