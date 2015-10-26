@@ -133,9 +133,10 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
 
         member_dict['group_name'] = obj.group.name
         member_dict['role'] = obj.capacity
-        #Member request must always exist since state is pending. Fetch just the latest
-        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id).filter(MemberRequest.status == 'pending').order_by('request_date desc').limit(1).first()
-        #This should never happen but..
+        # Member request must always exist since state is pending. Fetch just the latest
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id)
+           .filter(MemberRequest.status == 'pending').order_by('request_date desc').limit(1).first()
+        # This should never happen but..
         my_date = ""
         if member_request:
             my_date = member_request.request_date.strftime("%d - %b - %Y")
