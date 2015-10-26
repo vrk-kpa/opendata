@@ -1,25 +1,26 @@
+from ckan.common import _
 
 """
     A template file for comment notification emails.
 """
 
-subject = "New comment in dataset '%(dataset)s'"
+subject = _("New comment in dataset '{dataset}'")
 
-message = """\
-User %(user)s (%(email)s) has left a comment in dataset (%(dataset)s):
+message = _("""\
+User {user} ({email}) has left a comment in dataset ({dataset}):
 
 --
 Subject:
-%(comment_subject)s
+{comment_subject}
 
 Message:
-%(comment)s
+{comment}
 --
 
-%(link)s
+{link}
 
 Best regards
 
 Avoindata.fi support
 valtori@avoindata.fi
-"""
+""")

@@ -6,12 +6,13 @@
 # Translators:
 # Alexis Troberg <alexis.troberg@gofore.com>, 2015
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2015
+# Peter Kronström <peter.kronstrom@gofore.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-19 15:02+0300\n"
-"PO-Revision-Date: 2015-10-19 10:45+0000\n"
+"POT-Creation-Date: 2015-10-26 11:20+0200\n"
+"PO-Revision-Date: 2015-10-26 11:24+0000\n"
 "Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +21,30 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/ytp/comments/email_template.py:7
+msgid "New comment in dataset '{dataset}'"
+msgstr "En ny kommentar i dataset '{dataset}'"
+
+#: ckanext/ytp/comments/email_template.py:9
+msgid ""
+"User {user} ({email}) has left a comment in dataset ({dataset}):\n"
+"\n"
+"--\n"
+"Subject:\n"
+"{comment_subject}\n"
+"\n"
+"Message:\n"
+"{comment}\n"
+"--\n"
+"\n"
+"{link}\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
+msgstr "Användaren {user} ({email}) har lämnat en kommentar i dataseten ({dataset}):\n\n--\nÄmne:\n{comment_subject}\n\nMeddelande:\n{comment}\n--\n\n{link}\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
 
 #: ckanext/ytp/comments/logic/auth/create.py:15
 #: ckanext/ytp/comments/logic/auth/update.py:17
