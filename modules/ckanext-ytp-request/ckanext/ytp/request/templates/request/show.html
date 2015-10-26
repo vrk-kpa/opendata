@@ -49,13 +49,13 @@
               <tr>
                   <th>{% trans %}Role{% endtrans %}</th>
                   <td>
-                  <form class="dataset-form form-horizontal" method="post" action="{{ h.url_for('member_request_show', mrequest_id=membership.id) }}" data-module="basic-form">
-                      <select id="field-validroles" name="role" class="submit-on-change">
+ 
+                      <select id="field-validroles" name="role">
                       {% for option in roles %}
                           <option  value="{{ option.value }}"{% if option.value == membership.role %} selected="selected"{% endif %}>{{ option.text or option.value }}</option>
                       {% endfor %}
                       </select>
-                  </form>
+
                   </td>
               </tr>
           </tbody>
