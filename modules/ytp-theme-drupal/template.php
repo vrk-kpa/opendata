@@ -212,10 +212,6 @@ function ytp_theme_menu_link(&$variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
-  if (isset($element['#bid']) && ($element['#bid']['module'] == 'menu_block')) {
-      $element['#attributes']['class'][] = 'ytp-menulink';
-  }
-
   if ($element['#below']) {
 
     // Prevent dropdown functions from being added to management menu so it does not affect the navbar module.

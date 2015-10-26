@@ -33,6 +33,7 @@ translation_projects:
 translation_text_groups:
   - "field"
   - "node"
+  - "blocks"
 
 enable_email_verification: False
 drupal_error_level: "2"
