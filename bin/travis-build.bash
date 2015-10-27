@@ -27,6 +27,9 @@ cd ckan
 paster db init -c test-core.ini
 cd -
 
+echo "Installing dependency ckanext-report and its requirements..."
+pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
+
 echo "Installing ckanext-archiver and its requirements..."
 python setup.py develop
 #pip install -r dev-requirements.txt
