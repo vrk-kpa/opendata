@@ -31,8 +31,8 @@ echo "Installing ckanext-archiver and its requirements..."
 python setup.py develop
 #pip install -r dev-requirements.txt
 
-echo "Moving test.ini into a subdir..."
+echo "Moving test-core.ini into a subdir..."
 mkdir subdir
-mv test.ini subdir
+mv test-core.ini subdir
 
 echo "travis-build.bash is done."
