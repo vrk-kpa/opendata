@@ -10,6 +10,9 @@ log = logging.getLogger(__name__)
 
 
 class YtpRequestController(BaseController):
+      
+    not_auth_message = _('Unauthorized')
+    request_not_found_message = _('Request not found')
 
     def _list_organizations(context, errors=None, error_summary=None):
         data_dict = {}
@@ -81,7 +84,7 @@ class YtpRequestController(BaseController):
                           "member_user": member_user, "roles": roles}
             return render('request/show.html', extra_vars=extra_vars)
         except logic.NotFound:
-            abort(404, _("Request not found"))
+            abort(404, self.request_not_found_message)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
 
@@ -129,7 +132,7 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
-            abort(404, _('Request not found'))
+            abort(404, sef.request_nof_found_message)
 
     def reject(self, mrequest_id):
         """ Controller to reject member request (only admins or group editors can do that """
@@ -150,7 +153,7 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
-            abort(404, _('Request not found'))
+            abort(404, self.request_not_found_message)
 
     def _get_available_roles(self, context, organization_id):
         data_dict = {'organization_id': organization_id}
@@ -172,6 +175,6 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
-            abort(404, _('Member request not found'))
+            abort(404, request_not_found_message)
         except logic.ValidationError as e:
             abort(400, str(e))
