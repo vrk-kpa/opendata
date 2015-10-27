@@ -10,8 +10,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
+    
     # IConfigurer #
-
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_public_directory(config, 'public')
@@ -67,5 +67,5 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect('member_request_membership_cancel',
                   '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller),
         m.connect('member_request_show',
-                  '/member-request/{mrequest_id}', action="show", controller=controller)
+                  '/member-request/{mrequest_id}', action='show', controller=controller)
         return m
