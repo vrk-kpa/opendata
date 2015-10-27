@@ -293,6 +293,19 @@ function ytp_theme_form_alter(&$form, &$form_state, $form_id) {
     }
 }
 
+/* Pretty up search submit button */
+function ytp_theme_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+    // Disable Bootstrap styling to hide default search submit button
+    $form['search_block_form']['#theme_wrappers'] = array();
+
+    // Add custom search submit button
+    $form['actions']['submit'] = array('#markup' => '<button type="submit" class="search-submit" 
+                                                      value="' . t("Search") . '" >
+                                                        <i class="icon-search"></i>
+                                                        <span><?php print t("Search")?></span>
+                                                      </button>');
+}
+
 function ytp_theme_profile_form_submit($form, &$form_state) {
   global $language;
   $form_state['redirect'] = array('/data/' . $language->language . '/user/edit', array('external' => TRUE));
