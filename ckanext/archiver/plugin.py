@@ -7,6 +7,7 @@ from ckan import plugins as p
 from ckan.lib.celery_app import celery
 from ckanext.report.interfaces import IReport
 from ckanext.archiver.interfaces import IPipe
+import ckan.plugins.toolkit as toolkit
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class ArchiverPlugin(p.SingletonPlugin):
     # IConfigurer
 
     def update_config(self, config):
-        p.toolkit.add_template_directory(config, 'templates')
+        toolkit.add_template_directory(config, 'templates')
 
 def create_archiver_resource_task(resource, queue):
     from pylons import config
