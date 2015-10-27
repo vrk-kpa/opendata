@@ -10,7 +10,7 @@ def member_request(context, data_dict):
     if not c.userobj:
         return {'success': False}
 
-    if new_authz.is_sysadmin(c.userobj):
+    if new_authz.is_sysadmin(c.user):
         return {'success': True}
 
     membership = model.Member.get(data_dict.get("mrequest_id"))
