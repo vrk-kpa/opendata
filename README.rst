@@ -1,10 +1,25 @@
-CKAN Archiver Extension
-=======================
+.. You should enable this project on travis-ci.org and coveralls.io to make
+   these badges work. The necessary Travis and Coverage config files have been
+   generated for you.
 
-**Status:** Production
+.. image:: https://travis-ci.org/datagovuk/ckanext-archiver.svg?branch=master
+    :target: https://travis-ci.org/datagovuk/ckanext-archiver
 
-**CKAN Version:** release-1.7.1-dgu
+.. image:: https://pypip.in/py_versions/ckanext-archiver/badge.svg
+    :target: https://pypi.python.org/pypi/ckanext-archiver/
+    :alt: Supported Python versions
 
+.. image:: https://pypip.in/status/ckanext-archiver/badge.svg
+    :target: https://pypi.python.org/pypi/ckanext-archiver/
+    :alt: Development Status
+
+.. image:: https://pypip.in/license/ckanext-archiver/badge.svg
+    :target: https://pypi.python.org/pypi/ckanext-archiver/
+    :alt: License
+
+=============
+ckanext-archiver
+=============
 
 Overview
 --------
@@ -25,21 +40,32 @@ This means that the 'bulk' queue can happily run slowly, chugging through the do
 Installation
 ------------
 
-Install the extension source as usual, e.g. (from an activated virtualenv)::
+To install ckanext-archiver:
 
-    $ pip install -e git+http://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
+1. Activate your CKAN virtual environment, for example::
 
-Or (primarily for developers) download the source, then from the ckanext-archiver directory run::
+     . /usr/lib/ckan/default/bin/activate
 
-    $ pip install -e ./
+2. Install the ckanext-archiver Python package into your virtual environment::
 
-Whichever way you install the source, you now must create the database tables::
+     pip install -e git+http://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
 
-    $ paster --plugin=ckanext-archiver archiver init --config=ckan.ini
+3. Now create the database tables::
+
+     paster --plugin=ckanext-archiver archiver init --config=production.ini
+
+4. Add ``archiver`` to the ``ckan.plugins`` setting in your CKAN
+   config file (by default the config file is located at
+   ``/etc/ckan/default/production.ini``).
+
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+
+     sudo service apache2 reload
 
 
-Configuration
--------------
+
+Config settings
+---------------
 
 1.  Enabling Archiver to listen to resource changes
    
@@ -131,8 +157,6 @@ The Archiver can be used in two ways:
 Testing
 -------
 
-Tests should be run from the CKAN root directory (not the extension root).
+To run the tests, from the CKAN root directory (not the extension root) do::
 
-::
-
-    (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-archiver/tests/ --with-pylons=../ckanext-archiver/test.ini
+    (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-archiver/tests/ --with-pylons=../ckanext-archiver/test-core.ini
