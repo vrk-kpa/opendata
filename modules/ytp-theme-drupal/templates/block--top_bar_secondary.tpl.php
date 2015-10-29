@@ -34,47 +34,71 @@
             $json = drupal_json_decode($result->data);
             if ( count($json['result']) > 1 ){
                 $not_in_organization = false;
-            ?>
-
-
-
-            <?php }
+            }
         }
 
-            if ($not_in_organization == true){ ?>
-             <div class="media">
-                    <div class="media-left">
-                        <img src="/resources/images/frontpage/liity_organisaatioon_125x125.png" class="media-object"/>
-                    </div>
-                    <div class="media-body">
-                        <h1 class="media-heading"><?php print t('Not yet a member of an organization?') ?></h1>
-                        <p><?php print t('Join an organization in the <a href="/data/en/organization">Data Producers</a> page, and publish data, tools and guidelines. You can also publish applications or services that utilize open data.') ?></p>
-                    </div>
-                </div>
+        if ($not_in_organization == true){ 
 
-            <?php }
-            else{?>
+            $json = array();
+            $url = 'https://localhost/data/api/3/action/organization_list?all_fields=true';
+            $options = array(
+              'method' => 'GET'
+            );
+            $result = drupal_http_request($url, $options);
+            $json = drupal_json_decode($result->data);
+
+            $unjoinable_organizations = array("yksityishenkilo", "z_avoindatafi_metadata");
+
+            ?>
             <div class="media">
-            <div class="media-left">
-                <img src="/resources/images/frontpage/julkaise_aineistoja_125x125.png" class="media-object"/>
+                <div class="media-left">
+                    <img src="/resources/images/frontpage/liity_organisaatioon_125x125.png" 
+                        class="media-object"/>
+                </div>
+                <div class="media-body">
+                    <h1 class="media-heading">
+                        <?php print t('Not yet a member of an organization?') ?>
+                    </h1>
+                    <p><?php print t('Join an organization in the 
+                        <a href="/data/en/organization">Data Producers</a> page, and publish data, 
+                        tools and guidelines. You can also publish applications or services that 
+                        utilize open data.') ?></p>
+                    <form method="GET" action="/data/fi/member-request/new">
+                        <select name="selected_organization">
+                            <option value="">
+                                <?php print t('- choose an organization -'); ?>
+                            </option>
+                            <?php
+                            foreach ($json["result"] as $organization) { 
+                                if (!in_array($organization["name"], $unjoinable_organizations))
+                                {
+                                    print "<option value='".$organization["name"]."'>" 
+                                        . $organization["title"] . "</option>";
+                                }
+                            } ?>
+                        </select>
+                        <input type="submit" value="<?php print t("Continue"); ?>" />
+                    </form>
+                </div>
             </div>
-            <div class="media-body">
-                <h1 class="media-heading"><?php print t('Publish data') ?></h1>
 
-                <p><?php print t('Publish data, tools and guidelines for others to use. You can also publish your applications.') ?></p>
-                <p><?php print t('Start publishing data from the <a href="/en/publish">Publish Datasets</a> page.') ?></p>
-                <p><?php print t('If you are interested in using a programmable interface, our <a href="https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan">API documentation</a> will provide an introduction.') ?></p>
+            <?php
+        }
+        else { ?>
+            <div class="media">
+                <div class="media-left">
+                    <img src="/resources/images/frontpage/julkaise_aineistoja_125x125.png" class="media-object"/>
+                </div>
+                <div class="media-body">
+                    <h1 class="media-heading"><?php print t('Publish data') ?></h1>
+
+                    <p><?php print t('Publish data, tools and guidelines for others to use. You can also publish your applications.') ?></p>
+                    <p><?php print t('Start publishing data from the <a href="/en/publish">Publish Datasets</a> page.') ?></p>
+                    <p><?php print t('If you are interested in using a programmable interface, our <a href="https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan">API documentation</a> will provide an introduction.') ?></p>
+                </div>
             </div>
-        </div>
-<?php
-            }
-        ?>
-
-<?php }
-
-
-
-    ?>
-
+            <?php
+        }
+    } ?>
 
 </div>
