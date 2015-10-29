@@ -1,6 +1,6 @@
 ---
 
 - name: Set site into maintenance mode
-  file: path="/var/www/maintenance" state=touch mode=0644 owner=root group=root
+  file: path="/var/www/maintenance" state=touch mode="0644" owner=root group=root
   tags:
     - maintenance

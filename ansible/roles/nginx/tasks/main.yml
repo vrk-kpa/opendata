@@ -7,18 +7,18 @@
     - packages
 
 - name: Generate basic auth file
-  template: src=htpasswd.j2 dest="{{ basic_auth_path }}" mode=0640 owner=root group="{{ www_group }}"
+  template: src="htpasswd.j2" dest="{{ basic_auth_path }}" mode="0640" owner=root group="{{ www_group }}"
   when: basic_auth_path != false
   tags:
     - nginx
 
 - name: Copy base Nginx configuration
-  template: src="nginx.conf.j2" dest=/etc/nginx/nginx.conf mode=0644 owner=root group=root
+  template: src="nginx.conf.j2" dest="/etc/nginx/nginx.conf" mode="0644" owner=root group=root
   tags:
     - nginx
 
 - name: Copy Nginx sites
-  template: src={{ item.template }} dest=/etc/nginx/{{ item.destination }} mode=0644 owner=root group=root
+  template: src="{{ item.template }}" dest="/etc/nginx/{{ item.destination }}" mode="0644" owner=root group=root
   with_items:
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'ssl_crt': "{{ ssl_crt_primary }}", 'ssl_key': "{{ ssl_key_primary }}", 'server_name': "{{ hostname }}", 'root_redirect': "{{ hostname_language }}", 'base_hostname': "{{ base_hostname }}" }
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'ssl_crt': "{{ ssl_crt_secondary }}", 'ssl_key': "{{ ssl_key_secondary }}", 'server_name': "{{ secondary_hostname }}", 'root_redirect': "{{ secondary_hostname_language }}", 'base_hostname': "{{ secondary_base_hostname }}" }

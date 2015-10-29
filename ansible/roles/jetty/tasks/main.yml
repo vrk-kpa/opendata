@@ -28,7 +28,7 @@
   - jetty
 
 - name: Fetch Jetty packages
-  get_url: url="http://se.archive.ubuntu.com/ubuntu/pool/{{ item.path }}/{{ item.name }}" dest="{{ cache_path }}/debian/{{ item.name }}" mode=0644 owner=root group=root
+  get_url: url="http://se.archive.ubuntu.com/ubuntu/pool/{{ item.path }}/{{ item.name }}" dest="{{ cache_path }}/debian/{{ item.name }}" mode="0644" owner=root group=root
   with_items: solr_packages
   register: fetch_jetty_packages
   tags:
@@ -51,7 +51,7 @@
   - jetty
 
 - name: Copy CKAN Solr schema
-  template: src=schema.xml.j2 dest="{{ server_path }}/schema.xml" mode=0644 owner=root group=root
+  template: src=schema.xml.j2 dest="{{ server_path }}/schema.xml" mode="0644" owner=root group=root
   register: fetch_schema
   tags:
   - jetty
@@ -69,7 +69,7 @@
   - jetty
 
 - name: Setup Jetty
-  template: src=jetty.j2 dest=/etc/default/jetty mode=0644 owner=root group=root
+  template: src="jetty.j2" dest="/etc/default/jetty" mode="0644" owner=root group=root
   register: jetty_setup
   tags:
   - jetty
