@@ -1,13 +1,13 @@
 ---
 
 - name: Create SSL path
-  file: path="{{ certificates_path }}" state=directory mode=0755 owner=root group="{{ www_group }}"
+  file: path="{{ certificates_path }}" state=directory mode="0755" owner=root group="{{ www_group }}"
   tags:
     - nginx
     - ssl
 
 - name: Copy SSL files
-  copy: src="{{ ssl_path }}/{{ item }}" dest={{ certificates_path }}/{{ item }} owner=root group="{{ www_group }}" mode=640
+  copy: src="{{ ssl_path }}/{{ item }}" dest={{ certificates_path }}/{{ item }} owner=root group="{{ www_group }}" mode="0640"
   when: ssl_path != false
   with_items:
     - "{{ ssl_crt_primary }}"
