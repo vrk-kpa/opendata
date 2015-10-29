@@ -4,7 +4,7 @@
 - include: ../../nginx/tasks/maintenance-end.yml
 
 - name: Copy data import files
-  copy: src="{{ item }}" dest="{{ cache_path }}/{{ item }}" mode=0644 owner=root group=root
+  copy: src="{{ item }}" dest="{{ cache_path }}/{{ item }}" mode="0644" owner=root group=root
   with_items:
   - "organization_harvest.json"
   - "organization.json"

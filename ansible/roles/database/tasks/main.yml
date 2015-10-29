@@ -10,7 +10,7 @@
 
 # TODO These should be replaced with lineinfile or ini_file modules if possible
 - name: Copy Postgresql configurations
-  action: template src={{ item.file }} dest={{ item.dest }} owner=postgres group=postgres mode=0640
+  action: template src={{ item.file }} dest={{ item.dest }} owner=postgres group=postgres mode="0640"
   with_items:
   - { file: pg_hba.conf.j2, dest: /etc/postgresql/9.1/main/pg_hba.conf }
   - { file: postgresql.conf.j2, dest: /etc/postgresql/9.1/main/postgresql.conf }
@@ -101,14 +101,14 @@
   - non-local
 
 - name: Setup pre backup script
-  copy: src=pre-backup.bash dest="{{ scripts_path }}/pre-backup.bash" mode=0755 owner=root group=root
+  copy: src=pre-backup.bash dest="{{ scripts_path }}/pre-backup.bash" mode="0755" owner=root group=root
   tags:
   - database
   - backup
   - non-local
 
 - name: Setup database backup
-  template: src=autopostgresqlbackup.j2 dest=/etc/default/autopostgresqlbackup mode=0755 owner=root group=root
+  template: src=autopostgresqlbackup.j2 dest=/etc/default/autopostgresqlbackup mode="0755" owner=root group=root
   tags:
   - database
   - backup
@@ -122,7 +122,7 @@
   - non-local
 
 - name: Copy backup cleanup
-  template: src=clean_backups.sh.j2 dest="/etc/cron.daily/ytp_clean_backups" mode=0755 owner=root group=root
+  template: src=clean_backups.sh.j2 dest="/etc/cron.daily/ytp_clean_backups" mode="0755" owner=root group=root
   tags:
   - database
   - backup
