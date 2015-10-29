@@ -15,11 +15,9 @@ from ckan import plugins
 from ckan.tests import BaseCase
 from ckan.logic import get_action
 
-from ckanext.archiver import default_settings as settings
 from ckanext.archiver import model as archiver_model
 from ckanext.archiver.model import Archival
 
-settings.MAX_CONTENT_LENGTH = 1000000
 
 from ckanext.archiver.tasks import (link_checker,
                                     update_resource,

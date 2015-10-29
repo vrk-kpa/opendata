@@ -5,18 +5,6 @@
 .. image:: https://travis-ci.org/datagovuk/ckanext-archiver.svg?branch=master
     :target: https://travis-ci.org/datagovuk/ckanext-archiver
 
-.. image:: https://pypip.in/py_versions/ckanext-archiver/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-archiver/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-archiver/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-archiver/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-archiver/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-archiver/
-    :alt: License
-
 =============
 ckanext-archiver
 =============
