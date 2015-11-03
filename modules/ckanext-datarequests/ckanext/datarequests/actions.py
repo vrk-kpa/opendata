@@ -27,10 +27,9 @@ import logging
 import validator
 
 from ckan.lib.mailer import mail_recipient, MailerException
-from smtplib import SMTPRecipientsRefused
 from ckan.lib.i18n import set_lang, get_lang
 from ckan.lib import helpers
-from ckan.common import _, g
+from ckan.common import g
 from pylons import config
 from ckan import model
 
@@ -126,13 +125,13 @@ def _undictize_comment_basic(comment, data_dict):
     comment.comment = cgi.escape(data_dict.get('comment', ''))
     comment.datarequest_id = data_dict.get('datarequest_id', '')
 
+
 def _send_comment_notification_mail(recipient_name, recipient_email, data_dict, request_userobj):
     '''
         A helper function to send notification emails to given recipients
     '''
 
     from ckanext.datarequests import email_template
-
 
     request = data_dict.get('request', '')
     url = str(g.site_url) + tk.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=request.id)
@@ -176,9 +175,10 @@ def _send_comment_notification_mail(recipient_name, recipient_email, data_dict, 
     finally:
         set_lang(current_locale)
 
+
 def _reset_lang():
     try:
-        i18n.set_lang(None)
+        set_lang(None)
     except TypeError:
         pass
 
@@ -189,6 +189,7 @@ def _get_safe_locale():
     except:
         return config.get('ckan.locale_default', 'en')
 
+
 def _get_organization_admins(group_id):
     admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
                  filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
@@ -197,6 +198,7 @@ def _get_organization_admins(group_id):
     admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
 
     return admins
+
 
 def datarequest_create(context, data_dict):
     '''
@@ -277,7 +279,7 @@ def datarequest_show(context, data_dict):
     :param id: The id of the data request to be shown
     :type id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''
@@ -328,7 +330,7 @@ def datarequest_update(context, data_dict):
         organization.
     :type organization_id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''
@@ -371,7 +373,7 @@ def datarequest_update(context, data_dict):
 def datarequest_index(context, data_dict):
     '''
     Returns a list with the existing data requests. Rights access will be checked
-    before returning the results. If the user is not allowed, a NotAuthorized 
+    before returning the results. If the user is not allowed, a NotAuthorized
     exception will be risen.
 
     :param organization_id: This parameter is optional and allows users
@@ -443,9 +445,9 @@ def datarequest_index(context, data_dict):
 
     # Facets
     no_processed_organization_facet = {}
-    CLOSED = 'Closed'
-    OPEN = 'Open'
-    no_processed_state_facet = {CLOSED:0 , OPEN: 0}
+    CLOSED = 'Closed'   # noqa
+    OPEN = 'Open'       # noqa
+    no_processed_state_facet = {CLOSED: 0, OPEN: 0}
     for data_req in db_datarequests:
         if data_req.organization_id:
             # Facets
@@ -454,7 +456,7 @@ def datarequest_index(context, data_dict):
             else:
                 no_processed_organization_facet[data_req.organization_id] = 1
 
-        no_processed_state_facet[CLOSED if data_req.closed else OPEN] +=1
+        no_processed_state_facet[CLOSED if data_req.closed else OPEN] += 1
 
     # Format facets
     organization_facet = []
@@ -503,7 +505,7 @@ def datarequest_delete(context, data_dict):
     :param id: The id of the data request to be updated
     :type id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''
