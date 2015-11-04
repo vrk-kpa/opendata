@@ -3,7 +3,7 @@
 
     {% macro build_nav_bar(use_active_hilight) %}
         <li><a href="/{{ lang }}">{{ _('Home') }}</a></li>
-        <li {% if current_url.startswith("/dataset") and not current_url.startswith("/dataset/new") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset">{{ _('Data Repositories') }}</a></li>
+        <li {% if current_url.startswith("/dataset") and not current_url.startswith("/dataset/new") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/dataset">{{ _('Datasets') }}</a></li>
         <li {% if current_url.startswith("/organization") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/organization">{{ _('Organizations') }}</a></li>
         {# Link to different pages depending on if the user is logged in or not #}
         {% if c.userobj %}
@@ -63,6 +63,14 @@
                   {% else %}
                   <li>
                       {{h.linked_user(c.userobj.name, 0, 0)}}
+                  </li>
+                    {% set new_activities = h.new_activities() %}
+                  <li class="notifications {% if new_activities > 0 %}notifications-important{% endif %}">
+                    {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities) %}
+                    <a href="{{ h.url_for(controller='user', action='dashboard') }}" title="{{ notifications_tooltip }}">
+                      <i class="icon-dashboard"></i>
+                      <span>{{ new_activities }}</span>
+                    </a>
                   </li>
                   <li>
                       <a href="/{{ lang }}/user/logout" class="login">{{ _('Log out') }}</a>

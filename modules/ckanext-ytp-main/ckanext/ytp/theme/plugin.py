@@ -52,7 +52,6 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/css/', 'ytp_css')
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
-        toolkit.add_resource('public/js/', 'ytp_js')
 
     # IConfigurable #
 
@@ -109,7 +108,17 @@ class YtpThemePlugin(plugins.SingletonPlugin):
             return {}
 
     def _site_logo(self, hostname, default=None):
-        logo = self.logos.get(hostname, self.logos.get('default', None))
+
+        if "avoindata" in hostname:
+            hostname = "avoindata"
+        elif "opendata" in hostname:
+            hostname = "opendata"
+
+        lang = helpers.lang() if helpers.lang() else "default"
+        dict_key = hostname + "_" + lang
+
+        logo = self.logos.get(dict_key, self.logos.get('default', None))
+
         if logo:
             return literal('<img src="%s" class="site-logo" />' % helpers.url_for_static("/images/logo/%s" % logo))
         else:

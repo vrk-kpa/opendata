@@ -82,7 +82,7 @@ msgid ""
 "--  [site:name] team"
 msgstr ""
 
-msgid "Next, you will get a confirmation email to your email address"
+msgid "Next, you will get a confirmation email to your email address. If the email does not arrive, please check your spam folder."
 msgstr ""
 
 msgid "By clicking Create new account, you agree with our <a href=\"/en/terms\" target=\"_blank\">Terms of Service</a>."
@@ -94,13 +94,13 @@ msgstr ""
 msgid "Most popular datasets"
 msgstr ""
 
-msgid "Open Data datasets"
+msgid "Open Data"
 msgstr ""
 
 msgid "Interoperability Tools"
 msgstr ""
 
-msgid "Currently service has @dataset_count datasets."
+msgid "Currently the service has @dataset_count datasets."
 msgstr ""
 
 msgid "Getting started"
@@ -131,4 +131,13 @@ msgid "Start publishing data from the <a href=\"/en/publish\">Publish Datasets</
 msgstr ""
 
 msgid "If you are interested in using a programmable interface, our <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API documentation</a> will provide an introduction."
+msgstr ""
+
+msgid "From datasets"
+msgstr ""
+
+msgid "From other content"
+msgstr ""
+
+msgid "Search from other content..."
 msgstr ""

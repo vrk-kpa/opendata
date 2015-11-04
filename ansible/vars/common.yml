@@ -19,6 +19,13 @@ ckan_database_host: "{{ database_host }}"
 
 ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
 
+datastore_database_name: datastore_default
+datastore_database_username: datastore_database_default
+datastore_database_password: pass
+datastore_username: datastore_default
+datastore_password: pass
+datastore_database_host: "{{ database_host }}"
+
 drupal_database_name: drupal
 drupal_database_username: drupal
 drupal_database_password: drupal
@@ -94,6 +101,7 @@ error_email_from: "error@{{ email_domain }}"
 
 admin_email: vagrant@localhost
 error_email: "{{ admin_email }}"
+client_email: vagrant@localhost
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }

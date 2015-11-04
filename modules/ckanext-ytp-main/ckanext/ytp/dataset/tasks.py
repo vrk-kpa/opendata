@@ -7,7 +7,7 @@ from rdflib.namespace import SKOS, RDF
 import json
 import re
 from ckan import model, plugins
-from ckan.logic import get_action
+from ckan.logic import get_action, ValidationError
 from ckan.lib import celery_app
 from ckan.lib.cli import CkanCommand
 
@@ -42,15 +42,19 @@ def create_metadata_organization_and_dataset(meta_name, context):
     """Create an organization and a dataset to contain the preseeded tags."""
 
     values_organization = {'name': meta_name, 'id': meta_name}
-    values_dataset = {'name': meta_name, 'owner_org': meta_name}
+    values_dataset = {
+        'name': meta_name,
+        'owner_org': meta_name,
+        'license_id': ' ',
+        'notes': ' ',
+        'collection_type': ' ',
+        'title': meta_name,
+        'tag_string': ' ',
+        'content_type': ' ',
+    }
 
-    try:
-        get_action('organization_create')(context, values_organization)
-        get_action('package_create')(context, values_dataset)
-    except:
-        pass
-
-    return
+    get_action('organization_create')(context, values_organization)
+    get_action('package_create')(context, values_dataset)
 
 
 def parse_tag_list(data_url, data_format, tag_limit):
@@ -99,7 +103,15 @@ def tags_import(data):
     args = json.loads(data)
     max_number_of_tags = 500
 
-    create_metadata_organization_and_dataset(args['meta_name'], context)
+    # Attempt to create organization and dataset for the metadata.
+    # This can fail gracefully if those already exist, but the
+    # exception should be printed for other cases.
+    # Unfortunately, these cases are indistinguishable in code
+    # so we'll just print the exception in both
+    try:
+        create_metadata_organization_and_dataset(args['meta_name'], context)
+    except ValidationError as e:
+        print(repr(e))
 
     topic_tags = parse_tag_list(args['topic_url'], args['data_format'], max_number_of_tags)
     contenttype_tags = parse_tag_list(args['contenttype_url'], args['data_format'], max_number_of_tags)
@@ -107,4 +119,9 @@ def tags_import(data):
     # Update tags of meta dataset
     get_action('package_update')(context, {'id': args['meta_name'],
                                            'tags': map((lambda tag: {'name': tag}), topic_tags),
-                                           'content_type': reduce((lambda combined, next: combined + ',' + next), contenttype_tags)})
+                                           'content_type': reduce((lambda combined, next: combined + ',' + next), contenttype_tags),
+                                           'license_id': ' ',
+                                           'notes': ' ',
+                                           'collection_type': ' ',
+                                           'title': args['meta_name'],
+                                           })
