@@ -28,7 +28,6 @@ import validator
 
 from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.lib.i18n import set_lang, get_lang
-from ckan.lib import helpers
 from ckan.common import g
 from pylons import config
 from ckan import model
@@ -126,46 +125,24 @@ def _undictize_comment_basic(comment, data_dict):
     comment.datarequest_id = data_dict.get('datarequest_id', '')
 
 
-def _send_comment_notification_mail(recipient_name, recipient_email, data_dict, request_userobj):
+def _send_comment_notification_mail(recipient_name, recipient_email, data, lang="en"):
     '''
         A helper function to send notification emails to given recipients
     '''
 
+    current_locale = get_lang()
+    if lang:
+        set_lang(lang)
+
     from ckanext.datarequests import email_template
 
-    request = data_dict.get('request', '')
-    url = str(g.site_url) + tk.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=request.id)
+    # recreate the request url
+    url = str(g.site_url) + tk.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=data.get("request_id"))
+    data["link"] = url
 
-    requester_email = request_userobj.email
-    requester_name = request_userobj.name
-
-    if 'organization_id' in data_dict:
-        orgobj = model.Group.get(data_dict['organization_id'])
-        organization_name = orgobj.name
-
-    subject_vars = {
-        'organization': organization_name
-    }
-    subject = email_template.subject.format(**subject_vars)
-
-    message_vars = {
-        'user': requester_name,
-        'email': requester_email,
-        'organization': organization_name,
-        'link': url,
-        'request_title': data_dict['title'],
-        'request_description': data_dict['description']
-    }
-    message = email_template.message.format(**message_vars)
-
-    # Locale fix
-    current_locale = get_lang()
-    locale = _get_safe_locale()
-
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
+    # fill out the email template
+    subject = email_template.subject.format(**data)
+    message = email_template.message.format(**data)
 
     # Finally mail the user and reset locale
     try:
@@ -176,21 +153,10 @@ def _send_comment_notification_mail(recipient_name, recipient_email, data_dict, 
         set_lang(current_locale)
 
 
-def _reset_lang():
-    try:
-        set_lang(None)
-    except TypeError:
-        pass
-
-
-def _get_safe_locale():
-    try:
-        return helpers.lang()
-    except:
-        return config.get('ckan.locale_default', 'en')
-
-
 def _get_organization_admins(group_id):
+    '''
+        A helper function to fetch all the organization's admins.
+    '''
     admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
                  filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
                  filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
@@ -246,23 +212,32 @@ def datarequest_create(context, data_dict):
     session.add(data_req)
     session.commit()
 
-    log.debug("Sending datarequest notification email to organization admins")
-
     # SEND NOTIFICATION EMAIL
+    group_dict = tk.get_action('organization_show')({}, {'id': data_dict['organization_id']})
 
-    data_dict["request"] = data_req
+    # set up a data dict for filling out the email template
+    data = {
+        "email": context['auth_user_obj'].email,
+        "user": context['auth_user_obj'].name,
+        "request_title": data_dict.get("title"),
+        "request_description": data_dict.get("description"),
+        "request_id": data_req.id,
+        "organization": group_dict.get("display_name"),
+        "organization_lang": group_dict.get("original_language")
+    }
+
     admins = _get_organization_admins(data_dict.get('organization_id', ''))
-
     for admin in admins:
         if admin:
-            log.debug("Sending new datarequest notification mail now to:" + str(admin.name))
-            _send_comment_notification_mail(admin.display_name, admin.email, data_dict, context['auth_user_obj'])
+            lang = data.get("organization_lang", "en")  # send the mail in organization's default lang
+            _send_comment_notification_mail(admin.display_name, admin.email, data, lang)
 
     # Always send a notification mail to website admin
     admin_email = config.get("ckanext-datarequests.datarequest_notifications_admin_email", None)
-    # TODO: add entry to config
     if admin_email:
-        _send_comment_notification_mail("Avoindata-admin", admin_email, data_dict, context['auth_user_obj'])
+        # Add 4th parameter lang (fi/sv/en) for internationalizerd email templates
+        log.debug("Sending datarequest notification email to avoindata-admin")
+        _send_comment_notification_mail("Avoindata-admin", admin_email, data)
 
     return _dictize_datarequest(data_req)
 
