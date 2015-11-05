@@ -1,16 +1,13 @@
 CKAN Quality Assurance Extension
 ================================
 
-
-The ckanext-qa extension will check each of your package resources and give
-these resources an openness score based Tim Berners-Lee's five stars of openness
+The ckanext-qa extension will check each of your dataset resources in CKAN and give
+them an 'openness score' based Tim Berners-Lee's five stars of openness
 (http://lab.linkeddata.deri.ie/2010/star-scheme-by-example)
 
-It also provides a Dashboard that allows you to view broken links and openness scores.
+It provides a report that allows you to view broken links and openness scores.
 
-Once you have run the qa commands (see 'Using The QA Extension' below),
-resources and packages will have a set of openness key's stores in their
-extra properties. Alter your templates to display the score for each resource/dataset.
+TODO: Add display the score on the dataset / resource for the default CKAN templates.
 
 
 Requirements
@@ -18,86 +15,108 @@ Requirements
 
 Before installing ckanext-qa, make sure that you have installed the following:
 
-* CKAN 1.5.1+
-* ckanext-archiver (http://github.com/okfn/ckanext-archiver)
+* CKAN 2.1+
+* ckanext-archiver 2.0+ (http://github.com/okfn/ckanext-archiver)
 
 
 Installation
 ------------
 
-Install the plugin using pip. Download it, then from the ckanext-qa directory, run
+To install ckanext-qa, ensure you have previously installed ckanext-archiver and ckanext-report and then:
 
-::
+1. Activate your CKAN virtual environment, for example::
 
-    $ pip install -e ./
+     . /usr/lib/ckan/default/bin/activate
 
-This will register a plugin entry point, so you can now add the following
-to the ``[app:main]`` section of your CKAN .ini file:
+2. Install the ckanext-qa Python package into your virtual environment::
 
-::
+     pip install -e git+http://github.com/okfn/ckanext-qa.git#egg=ckanext-qa
 
-    ckan.plugins = qa <other-plugins>
+3. Now create the database tables::
 
-After you reload the site, the Quality Assurance plugin
-and openness score interface should be available at http://your-ckan-instance/qa
+     paster --plugin=ckanext-qa qa init --config=production.ini
 
+4. Add ``qa`` to the ``ckan.plugins`` setting in your CKAN
+   config file (by default the config file is located at
+   ``/etc/ckan/default/production.ini``).
+
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+
+     sudo service apache2 reload
+
+
+Upgrade from version 0.1 to 2.x
+-------------------------------
+
+NB You should upgrade ckanext-archiver and ckanext-qa from v0.1 to 2.x in one go. Upgrade them first and then carry out the following:
+
+1. Activate your CKAN virtual environment, for example::
+
+     . /usr/lib/ckan/default/bin/activate
+
+2. Upgrade the ckanext-qa Python package::
+
+     cd ckanext-qa
+     git pull
+     python setup.py develop
+
+3. Create the new database tables::
+
+     paster --plugin=ckanext-qa qa init --config=production.ini
+
+4. Install the developer dependencies::
+
+     pip install -r requirements-dev.txt
+
+5. Migrate your database to the new QA tables::
+
+     python ckanext/qa/bin/migrate_task_status.py --write production.ini
 
 Configuration
 -------------
 
-The QA extension now depends on the CKAN Archiver extension and CKAN 1.5 (with Celery).
-
-You must also make sure that the following is set in your CKAN config:
+You must make sure that the following is set in your CKAN config:
 
 ::
 
     ckan.site_url = <URL to your CKAN instance>
 
 
-
-
-
 Using The QA Extension
 ----------------------
 
-**QA**: analyze the results of the archiving step and calculating resource/package openness ratings.
+**QA**: score every dataset and resource against the 5 stars of openness.
 
-This step can be performed by running the associated ``paster`` command
-from the ckanext-qa directory.
+The QA runs when a dataset/resource is archived, or you can run it manually using a paster command::
 
-::
+    paster --plugin=ckanext-qa qa update [dataset] --config=production.ini
 
-    $ paster qa update|clean [package name/id] --config=<path to ckan config file>
+Here ``dataset`` is a CKAN dataset name or ID, or you can omit it to do the QA on all datasets.
 
-``update`` or ``clean`` will either update the package resources or remove everything changed by
-the QA Extension respectively.
+For a full list of manual commands run::
 
-The command can be run on just a single package by giving the package ``name`` or ``ID`` after the
-``update/clean`` subcommand. If no package name is given, the database is scanned
-for a list of all packages and the command is run on each one.
+    paster --plugin=ckanext-qa qa --help
 
-After you run the ``archive`` or ``qa`` commands, the QA results can be viewed
-at
+Once you've done some archiving you can generate an Openness report::
 
-::
+    paster --plugin=ckanext-report report generate openness --config=production.ini
 
-    http://your-ckan-instance/data/report
+And view it on your CKAN site at ``/report/openness``.
 
 
-Developers
-----------
+Tests
+-----
 
-You can run the test suite from the ckanext-qa directory.
-The tests require nose and mock, so install them first if you have not already
-done so:
+To run the tests:
 
-::
+1. Activate your CKAN virtual environment, for example::
 
-   $ pip install nose mock
+     . /usr/lib/ckan/default/bin/activate
 
-Then, run nosetests from the ckan directory
+2. If not done already, install the dev requirements::
 
-::
+    (pyenv)~/pyenv/src/ckan$ pip install ../ckanext-qa/requirements-dev.txt
 
-   $ nosetests --ckan <path to ckanext-qa>/tests --with-pylons=test-core.ini
+3. From the CKAN root directory (not the extension root) do::
 
+    (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-qa/tests/ --with-pylons=../ckanext-qa/test-core.ini
