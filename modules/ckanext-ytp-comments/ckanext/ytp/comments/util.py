@@ -5,7 +5,7 @@ from pylons import config
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.base import model
 from ckan.lib.i18n import set_lang, get_lang
-from ckan.common import _, g
+from ckan.common import g
 from pylons import i18n
 
 import logging
@@ -45,15 +45,6 @@ def send_comment_notification_mail(recipient_name, recipient_email, dataset, com
 
     from ckanext.ytp.comments import email_template
 
-    # Locale fix
-    current_locale = get_lang()
-    locale = _get_safe_locale()
-
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
-
     # Fill out the message template
 
     url = str(g.site_url) + toolkit.url_for(controller='package', action='read', id=dataset.id)
@@ -63,11 +54,12 @@ def send_comment_notification_mail(recipient_name, recipient_email, dataset, com
         commenter_email = userobj.email
         commenter_name = userobj.name
 
-    subject = _(email_template.subject) % {
+    subject_vars = {
         'dataset': dataset.title
     }
+    subject = email_template.subject.format(**subject_vars)
 
-    message = _(email_template.message) % {
+    message_vars = {
         'user': commenter_name,
         'email': commenter_email,
         'dataset': dataset.title,
@@ -75,10 +67,26 @@ def send_comment_notification_mail(recipient_name, recipient_email, dataset, com
         'comment_subject': helpers.markdown_extract(comment.subject).strip(),
         'comment': helpers.markdown_extract(comment.comment).strip()
     }
+    message = email_template.message.format(**message_vars)
 
+    log.debug(subject)
+    log.debug(message)
+
+    # Locale fix
+    current_locale = get_lang()
+    locale = _get_safe_locale()
+
+    if locale == 'en':
+        _reset_lang()
+    else:
+        set_lang(locale)
     # Finally mail the user and reset locale
 
     try:
+        log.debug("LOCALE: " + str(locale))
+        log.debug(subject)
+        log.debug(message)
+
         mail_recipient(recipient_name, recipient_email, subject, message)
     except MailerException, e:
         log.error(e)

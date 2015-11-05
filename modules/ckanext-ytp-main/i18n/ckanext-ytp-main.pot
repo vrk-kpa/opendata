@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 11:46+0300\n"
+"POT-Creation-Date: 2015-10-19 14:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,18 @@ msgstr ""
 #: ckanext/ytp/common/templates/macros/ytp_form.html:176
 #: ckanext/ytp/common/templates/package/ytp/modal.html:12
 msgid "Cancel"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:10
+msgid "Subscribe to comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:11
+msgid "Unsubscribe from comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:12
+msgid "asdasdtest"
 msgstr ""
 
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
