@@ -1,3 +1,4 @@
+sparqlwrapper == 1.7.2
 rdflib==4.1.2
 rdflib-jsonld==0.2
 git+git://github.com/geomet/geomet.git
