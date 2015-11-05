@@ -153,7 +153,7 @@ def _send_comment_notification_mail(recipient_name, recipient_email, data, lang=
         set_lang(current_locale)
 
 
-def _get_organization_admins(group_id):
+def _get_organization_admins(group_id, sysadmin=False):
     '''
         A helper function to fetch all the organization's admins.
     '''
@@ -161,7 +161,8 @@ def _get_organization_admins(group_id):
                  filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
                  filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
 
-    admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
+    if sysadmin:
+        admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
 
     return admins
 
