@@ -1,0 +1,12 @@
+{#
+Display a hierarchical tree of organizations
+
+
+Example:
+
+    {% snippet "organization/snippets/organization_list.html" %}
+
+#}
+<div id="publisher-tree">
+     {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}) %}
+</div>
