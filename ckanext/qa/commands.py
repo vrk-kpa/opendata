@@ -126,7 +126,7 @@ class QACommand(p.toolkit.CkanCommand):
                 response = self.make_post(url, data)
                 if not response.ok:
                     err = ('Failed to get package %s from url %r: %s' %
-                           (id, url, response.error))
+                           (id, url, response.reason))
                     self.log.error(err)
                     raise CkanApiError(err)
                 yield json.loads(response.content).get('result')
@@ -136,7 +136,7 @@ class QACommand(p.toolkit.CkanCommand):
             response = self.make_post(url, {'page': page, 'limit': limit})
             if not response.ok:
                 err = ('Failed to get package list with resources from url %r: %s' %
-                       (url, response.error))
+                       (url, response.reason))
                 self.log.error(err)
                 raise CkanApiError(err)
             chunk = json.loads(response.content).get('result')

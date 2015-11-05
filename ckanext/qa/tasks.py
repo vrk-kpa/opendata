@@ -133,7 +133,7 @@ def update(context, data):
         )
         if not response.ok:
             err = 'ckan failed to update task_status, error %s' \
-                  % response.error
+                  % response.reason
             log.error(err)
             raise CkanError(err)
         elif response.status_code != 200:
