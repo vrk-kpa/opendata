@@ -33,7 +33,7 @@ pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-r
 
 echo "Installing ckanext-archiver and its requirements..."
 python setup.py develop
-#pip install -r dev-requirements.txt
+pip install -r requirements-dev.txt
 
 echo "Moving test-core.ini into a subdir..."
 mkdir subdir

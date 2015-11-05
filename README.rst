@@ -12,7 +12,12 @@ ckanext-archiver
 Overview
 --------
 
-The CKAN Archiver Extension will download CKAN resources, which can be offered to the user as a 'cached' copy (TODO: insert this in the default CKAN template). In addition it provides a 'Broken Links' report showing which resource URLs don't work (TODO: link to this from the default CKAN templates).
+The CKAN Archiver Extension will download CKAN resources, which can be offered to the user as a 'cached' copy. In addition it provides a 'Broken Links' report showing which resource URLs don't work.
+
+TODO:
+* Link to the cached file from the dataset
+* Link to the reports (including Broken Links) from the main nav
+* Mark brokenness on the dataset & resource
 
 When a resource is archived, the information about the archival - if it failed, the filename on disk, file size etc - is stored in the Archival table. (In ckanext-archiver v0.1 it was stored in TaskStatus and on the Resource itself.)
 
@@ -42,7 +47,7 @@ To install ckanext-archiver:
 
 2. Install the ckanext-archiver and ckanext-report Python packages into your virtual environment::
 
-     pip install -e git+http://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
+     pip install -e git+http://github.com/okfn/ckanext-archiver.git#egg=ckanext-archiver
      pip install -e git+http://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
 
 3. Now create the database tables::
@@ -58,10 +63,12 @@ To install ckanext-archiver:
 
      sudo service apache2 reload
 
-Upgrade from version 0.1 to 2.x.x
----------------------------------
+Upgrade from version 0.1 to 2.x
+-------------------------------
 
-NB If upgrading ckanext-archiver and use ckanext-qa too, then you will need to upgrade ckanext-qa to version 2.x.x at the same time.
+NB If upgrading ckanext-archiver and use ckanext-qa too, then you will need to upgrade ckanext-qa to version 2.x at the same time.
+
+NB Previously you needed both ckanext-archiver and ckanext-qa to see the broken link report. This functionality has now moved to ckanext-archiver. So now you only need ckanext-qa if you want the 5 stars of openness functionality.
 
 1. Activate your CKAN virtual environment, for example::
 
@@ -85,7 +92,11 @@ NB If upgrading ckanext-archiver and use ckanext-qa too, then you will need to u
 
      paster --plugin=ckanext-archiver archiver init --config=production.ini
 
-4. Migrate your database::
+6. Install the developer dependencies::
+
+     pip install -r requirements-dev.txt
+
+7. Migrate your database to the new Archiver tables::
 
      python ckanext/archiver/bin/migrate_task_status.py --write production.ini
 
@@ -121,14 +132,29 @@ Config settings
 
     Add the settings to the CKAN config file:
 
-      * ckanext-archiver.archive_dir - path to the directory that archived files will be saved to
-      * ckanext-archiver.max_content_length - the maximum size (in bytes) of files to archive (default 50MB)
+      * ckanext-archiver.archive_dir - path to the directory that archived files will be saved to (e.g. ``/www/resource_cache``)
+      * ckanext-archiver.max_content_length - the maximum size (in bytes) of files to archive (default ``50000000`` =50MB)
 
 4.  Nightly report generation
 
     Configure the reports to be generated each night using cron. e.g.::
 
         0 6  * * *  www-data  /usr/lib/ckan/default/bin/paster --plugin=ckanext-report report generate --config=/etc/ckan/default/production.ini
+
+5.  Your web server should serve the files from the archive_dir.
+
+    With nginx you insert a new ``location`` after the ckan one. e.g. here we have configured ``ckanext-archiver.archive_dir`` to ``/www/resource_cache`` and serve these files at location ``/resource_cache`` (i.e. ``http://mysite.com/resource_cache`` )::
+
+        server {
+            # ckan
+            location / {
+                proxy_pass http://127.0.0.1:8080/;
+                ...
+            }
+            # archived files
+            location /resource_cache {
+                root /www/resource_cache;
+            }
 
 Legacy settings:
 
@@ -167,7 +193,7 @@ Here ``dataset`` is a CKAN dataset name or ID, or you can omit it to archive all
 
 For a full list of manual commands run::
 
-    paster archiver --help
+    paster --plugin=ckanext-archiver archiver --help
 
 Once you've done some archiving you can generate a Broken Links report::
 
