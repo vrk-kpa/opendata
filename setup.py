@@ -14,7 +14,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.2.0',
+    version='2.0.0',
 
     description='''Archives resources in CKAN (CKAN Extension)''',
     long_description=long_description,
@@ -69,7 +69,6 @@ setup(
         'kombu-sqlalchemy==1.1.0',
         'SQLAlchemy>=0.6.6',
         'requests>=1.1.0',
-        'flask==0.8'  # flask needed for tests
     ],
 
     # If there are data files included in your packages that need to be
