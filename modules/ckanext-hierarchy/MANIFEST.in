@@ -1,0 +1,2 @@
+recursive-include ckanext/hierarchy/templates *
+recursive-include ckanext/hierarchy/public *
