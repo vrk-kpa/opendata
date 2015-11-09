@@ -10,8 +10,11 @@ _SUBJECT_MEMBERSHIP_REQUEST = lambda: _(
     "New membership request (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
 User %(user)s (%(email)s) has requested membership to organization %(organization)s.
+
 %(link)s
+
 Best regards
+
 Avoindata.fi support
 valtori@avoindata.fi
 """)
@@ -20,7 +23,9 @@ _SUBJECT_MEMBERSHIP_APPROVED = lambda: _(
     "Organization membership approved (%(organization)s)")
 _MESSAGE_MEMBERSHIP_APPROVED = lambda: _("""\
 Your membership request to organization %(organization)s with %(role)s access has been approved.
+
 Best regards
+
 Avoindata.fi support
 valtori@avoindata.fi
 """)
@@ -29,7 +34,9 @@ _SUBJECT_MEMBERSHIP_REJECTED = lambda: _(
     "Organization membership rejected (%(organization)s)")
 _MESSAGE_MEMBERSHIP_REJECTED = lambda: _("""\
 Your membership request to organization %(organization)s with %(role)s access has been rejected.
+
 Best regards
+
 Avoindata.fi support
 valtori@avoindata.fi
 """)
