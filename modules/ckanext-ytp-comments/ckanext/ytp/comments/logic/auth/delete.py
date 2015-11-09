@@ -28,3 +28,15 @@ def comment_delete(context, data_dict):
         return {'success': False, 'msg': _('User is not the author of the comment')}
 
     return {'success': True}
+
+
+def remove_comment_subscription(context, data_dict):
+    model = context['model']
+    user = context['user']
+
+    userobj = model.User.get(user)
+
+    if not userobj:
+        return {'success': False, 'msg': _('You must be logged in to unsubscribe from comment notifications')}
+
+    return {'success': True}

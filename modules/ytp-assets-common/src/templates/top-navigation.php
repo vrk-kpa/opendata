@@ -2,6 +2,7 @@
   function buildMainNavBar($useActiveHiLight){
     global $language;
     global $site_section;
+    global $user;
 
     $uri = $_SERVER['REQUEST_URI'];
     $lang = $language->language;
@@ -13,8 +14,8 @@
 
     $class = '';
     $href = '/data/' . $lang . '/dataset';
-    if ( ($uri ==  $href || $site_section == t("Data Repositories")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href="' . $href . '">' . t("Data Repositories") . '</a></li>';
+    if ( ($uri ==  $href || $site_section == t("Datasets")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href="' . $href . '">' . t("Datasets") . '</a></li>';
 
     $class = '';
     $href = '/data/' . $lang . '/organization';
@@ -62,6 +63,8 @@
           // We want to get default domain or domain with last two items in it: example.com instead www.example.com.
           // Checking if host is ip using numeric start is not perfect but fast and good enough for our purposes. 
           $domain = null;
+
+          /*
           $logos = array(
                   "avoindata.fi" => "avoindata_fi.png",
                   "www.avoindata.fi" => "avoindata_fi.png",
@@ -73,11 +76,41 @@
                   "alpha.opendata.fi" => "opendata_fi.png",
                   "beta.opendata.fi" => "opendata_fi.png",
           );
+
           $logo = isset($logos[$_SERVER['HTTP_HOST']]) ? $logos[$_SERVER['HTTP_HOST']] : 'opendata_fi.png';
           echo '<img src="/resources/images/logo/' . $logo . '" class="site-logo" />';
+          */
+
+          $current_lang = $language->language;
+          $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'avoindata.fi';
+
+          $logos_avoindata = array(
+              "fi" => "avoindata_fi.png",
+              "en" => "avoindata_en.png",
+              "sv" => "avoindata_se.png",
+          );
+
+          $logos_opendata = array(
+              "fi" => "opendata_fi.png",
+              "en" => "opendata_en.png",
+              "sv" => "opendata_se.png",
+          );
+
+          // show a different logo depending on the domain and language used.
+          if (strpos($host,'avoindata') !== false) {
+            $logo_lang = isset($logos_avoindata[$current_lang]) ? $logos_avoindata[$current_lang] : 'avoindata_fi.png';
+          } elseif (strpos($host,'opendata') !== false) {
+            $logo_lang = isset($logos_opendata[$current_lang]) ? $logos_opendata[$current_lang] : 'opendata_en.png';
+          } else {
+              $logo_lang = 'opendata_fi.png';
+          }
+
+          echo '<img src="/resources/images/logo/' . $logo_lang . '" class="site-logo" />';
+
           ?>
       </a>
     </div>
+
     <div id="navbar-top-collapse" class="collapse navbar-collapse">
       <div class="visible-xs visible-sm">
           <ul class="nav navbar-nav user-nav">
@@ -90,12 +123,28 @@
           </ul>
       </div>
       <div class="hidden-xs hidden-sm">
+          <?php
+            $temp = user_load($user->uid);
+            $new_activities = 0;
+            if ( isset($temp->field_ckan_api_key['und']) && isset($temp->field_ckan_api_key['und'][0]) && isset($temp->field_ckan_api_key['und'][0]['value'])){
+              $url = 'https://localhost/data/api/3/action/dashboard_new_activities_count';
+              $options = array(
+                'method' => 'GET',
+                'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
+              );
+              $result = drupal_http_request($url, $options);
+              $json = drupal_json_decode($result->data);
+              $new_activities = $json["result"];
+            }
+        ?>
+
         <?php print render($page['top_navigation']); ?>
         <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
           <?php if (!user_is_logged_in()) { ?>
           <li class="user-login">
             <a href="/<?php echo $language->language; ?>/user/login" class="login"><?php echo t("Log in"); ?></a>
           </li>
+
           <?php } else { ?>
           <li class="user-info">
             <a href="/data/<?php echo $language->language; ?>/user/<?php global $user; print_r($user->name);?>">
@@ -111,6 +160,12 @@
               if (isset($fullname)) { print_r($fullname);}else{ print_r($user->name);} 
               ?>
             </a>
+          </li>
+          <li class="notifications">
+               <a href="/data/<?php echo $language->language; ?>/dashboard">
+                  <i class="icon-dashboard"></i>
+                  <span><?php echo $new_activities; ?></span>
+               </a>
           </li>
           <li>
             <a href="/<?php echo $language->language; ?>/user/logout" class="login"><?php echo t("Log out"); ?></a>

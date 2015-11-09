@@ -3,7 +3,7 @@ import httplib2
 from apiclient.discovery import build
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
-from oauth2client.tools import run
+from oauth2client.tools import run_flow
 
 from pylons import config
 
@@ -20,7 +20,7 @@ def _prepare_credentials(token_filename, credentials_filename):
         flow = flow_from_clientsecrets(credentials_filename,
                 scope='https://www.googleapis.com/auth/analytics.readonly',
                 message="Can't find the credentials file")
-        credentials = run(flow, storage)
+        credentials = run_flow(flow, storage)
 
     return credentials
 

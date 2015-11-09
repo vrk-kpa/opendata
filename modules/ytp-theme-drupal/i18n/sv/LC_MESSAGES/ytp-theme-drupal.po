@@ -2,6 +2,7 @@
 # 
 # Translators:
 # Translators:
+# Alexis Troberg <alexis.troberg@gofore.com>, 2015
 # jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2015-06-08 06:45+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/ytp/language/sv/)\n"
+"PO-Revision-Date: 2015-09-28 16:08+0000\n"
+"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,7 +55,7 @@ msgstr "<a href=\"/sv/user/register\">Registrera dig</a>"
 msgid ""
 "<a href=\"/en/user/login\">Already registered? Sign in</a>\n"
 "<a href=\"/en/user/password\">Forgot your password?</a>"
-msgstr "<a href=\"/sv/user/login\">Registrerad? Logga dig in</a>\n<a href=\"/sv/user/password\">Glömt lösenordet?</a>"
+msgstr "<a href=\"/sv/user/login\">Registrerad? Logga in</a>\n<a href=\"/sv/user/password\">Glömt lösenordet?</a>"
 
 #: /fi/admin/content
 msgid "previous"
@@ -65,7 +66,7 @@ msgid "Search datasets..."
 msgstr "Sök dataset..."
 
 msgid "Thank you for visiting. You are now logged out."
-msgstr ""
+msgstr "Tack för ditt besök. Du är nu utloggad."
 
 msgid ""
 "[user:name],\n"
@@ -84,10 +85,10 @@ msgid ""
 "password: Your password\n"
 "\n"
 "--  [site:name] team"
-msgstr ""
+msgstr "[user:name],\n\nDitt konto på [site:name] har aktiverats.\n\nDu kan nu logga in genom att trycka på länken nedan, eller genom att kopiera och klistra länken i webbläsaren:\n\n[user:one-time-login-url]\n\nLänken kan användas endast en gång för att lågga in. Den för till en sida där du kan välja ditt lösenord.\n\nEfter att du har valt lösenord kan du i framtiden logga in på [site:login-url] med följande information:\n\nanvändarnamn: [user:name]\nlösenord: ditt lösenord\n\n-- [site:name] team"
 
 msgid "Next, you will get a confirmation email to your email address"
-msgstr "Till nästa får du ett bekräftelsemeddelande till din e-post"
+msgstr "Till näst får du ett bekräftelsemeddelande till din e-post"
 
 msgid ""
 "By clicking Create new account, you agree with our <a href=\"/en/terms\" "
@@ -98,16 +99,16 @@ msgid "Latest datasets"
 msgstr "Senaste dataseten"
 
 msgid "Most popular datasets"
-msgstr "Mest populär dataseten"
+msgstr "Populäraste dataseten"
 
-msgid "Open Data datasets"
-msgstr "Öppna data"
+msgid "Open Data"
+msgstr "Öppen data"
 
 msgid "Interoperability Tools"
 msgstr "Interoperabilitetsverktyg"
 
-msgid "Currently service has @dataset_count datasets."
-msgstr "För närvarande tjänsten har @dataset_count dataseten."
+msgid "Currently the service has @dataset_count datasets."
+msgstr "För närvarande har tjänsten @dataset_count dataset."
 
 msgid "Getting started"
 msgstr "Kom igång"
@@ -115,16 +116,16 @@ msgstr "Kom igång"
 msgid ""
 "Opendata.fi allows you to find open datasets, and to publish and manage your"
 " own."
-msgstr "I Avoindata.fi kan du söka öppna dataset och publicera dina egna dataset."
+msgstr "I Avoindata.fi kan du söka öppna dataset samt publicera och redigera dina egna dataset."
 
 msgid ""
 "If you do not yet have a user account, register now from the link below."
-msgstr "Har du inte ännu registrerat dig? Du behöver att användarkonto för att publicera dataset."
+msgstr "Har du inte ännu registrerat dig? Du kan registerar dig från länken nedan."
 
 msgid ""
 "<a href=\"/en/user/login\">Sign in</a> <a class=\"pull-right\" "
 "href=\"/en/user/password\">Forgot your password?</a>"
-msgstr "<a href=\"/sv/user/login\">Logga dig in</a> <a class=\"pull-right\" href=\"/sv/user/password\">Glömt lösenordet?</a>"
+msgstr "<a href=\"/sv/user/login\">Logga in</a> <a class=\"pull-right\" href=\"/sv/user/password\">Glömt lösenordet?</a>"
 
 msgid "Not yet a member of an organization?"
 msgstr "Är du inte ännu en medlem av en organisation?"
@@ -143,10 +144,20 @@ msgid ""
 "your applications."
 msgstr "Publicera data, verktyg och instruktioner för andras bruk. Du kan även publicera dina egna applikationer."
 
-msgid "Start publishing data from the Publish data page."
-msgstr "Börja publicera data genom att gå på Publicera data -sidan."
+msgid ""
+"Start publishing data from the <a href=\"/en/publish\">Publish Datasets</a> "
+"page."
+msgstr "Börja publicera data på <a href=\"/sv/publish\">Publicera Dataset</a>-sidan."
 
 msgid ""
-"If you are interested in using a programmable interface, our API "
-"documentation will provide an introduction."
-msgstr "Om du är intresserad av att använda en API, ger vår API-dokumentation en inledning på hur du kommer igång."
+"If you are interested in using a programmable interface, our <a "
+"href=\"https://github.com/yhteentoimivuuspalvelut/ytp-"
+"tools/tree/master/api_ckan\">API documentation</a> will provide an "
+"introduction."
+msgstr "Om du är intresserad av programmeringsgränssnitt kan du bekanta dig med <a href=\"https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan\">API-dokumentationen</a>."
+
+msgid "From datasets"
+msgstr "Från dataseten"
+
+msgid "From other content"
+msgstr "Från annat innehåll"

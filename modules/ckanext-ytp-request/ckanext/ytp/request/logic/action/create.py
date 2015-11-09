@@ -60,6 +60,7 @@ def _create_member_request(context, data_dict):
         member = model.Member(table_name="user", table_id=userobj.id,
                               group_id=group.id, capacity=role, state='pending')
 
+    # TODO: Is there a way to get language associated to all admins. User table there is nothing as such stored
     locale = get_safe_locale()
 
     member.state = 'pending'
@@ -85,11 +86,11 @@ def _create_member_request(context, data_dict):
     if role == 'admin':
         for admin in _get_ckan_admins():
             mail_new_membership_request(
-                locale, admin, group.display_name, "", userobj.display_name, userobj.email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email)
     else:
         for admin in _get_organization_admins(group.id):
             mail_new_membership_request(
-                locale, admin, group.display_name, "", userobj.display_name, userobj.email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email)
 
     return member
 

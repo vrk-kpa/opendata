@@ -141,6 +141,7 @@
 
     - recaptcha
     - honeypot
+    - node_expire
   tags:
   - drupal
 
@@ -192,6 +193,7 @@
 
     - recaptcha
     - honeypot
+    - node_expire
 
   tags:
   - drupal
@@ -237,7 +239,7 @@
   - drupal
 
 - name: Set Drupal variables from file
-  command: "{{ scripts_path }}/multiple-variables.drush {{ cache_path }}/drupal.json chdir={{ drupal_root }}"
+  command: "drush {{ scripts_path }}/multiple-variables.drush {{ cache_path }}/drupal.json chdir={{ drupal_root }}"
   when: drush_variables|changed
   tags:
   - drupal-configuration
@@ -287,7 +289,7 @@
   - drupal
 
 - name: Apply fix scripts
-  command: "'{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
+  command: "drush '{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
   when: copy_fix_scripts|changed
   with_items:
     - fix_language

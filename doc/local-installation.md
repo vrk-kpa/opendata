@@ -103,9 +103,9 @@ The run vagrant reload to correctly mount the folders
 
 Sometimes it is needed to halt the vagrant machine and start it up again as some random error may occur
 
-# Local Installation (Windows)
+# Local Installation (Windows, OS X)
 
-Install Virtualbox and Vagrant in Windows and clone ytp repo.
+Install Virtualbox and Vagrant and clone ytp repo.
 
 ## Vagrant
     
@@ -147,5 +147,6 @@ Append generated key into authorized_keys:
 ### Ansible provision
 
 Run in /src
+Make sure you remember the passphrase you set for the key in previous step.
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local

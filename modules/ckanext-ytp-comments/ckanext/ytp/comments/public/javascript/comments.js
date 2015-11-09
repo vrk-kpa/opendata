@@ -1,3 +1,3 @@
 function ShowCommentForm(id){
-    $("#" + id).removeClass('hidden');
+    $("#" + id).toggleClass('hidden');
 }
