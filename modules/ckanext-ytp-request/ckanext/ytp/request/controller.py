@@ -132,7 +132,7 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
-            abort(404, sef.request_nof_found_message)
+            abort(404, self.request_nof_found_message)
 
     def reject(self, mrequest_id):
         """ Controller to reject member request (only admins or group editors can do that """
@@ -175,6 +175,6 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
-            abort(404, request_not_found_message)
+            abort(404, self.request_not_found_message)
         except logic.ValidationError as e:
             abort(400, str(e))
