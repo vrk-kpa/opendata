@@ -4,6 +4,8 @@ from ckan.common import c, request
 from ckan.lib import helpers
 from ckan.logic import get_action
 import datetime
+import logging
+log = logging.getLogger(__name__)
 
 
 def service_database_enabled():

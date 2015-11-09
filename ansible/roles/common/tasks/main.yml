@@ -10,7 +10,7 @@
 - include: timezone.yml
 
 - name: Set hostname
-  template: src=hostname.j2 dest="/etc/hostname" mode=0644 owner=root group=root
+  template: src="hostname.j2" dest="/etc/hostname" mode="0644" owner=root group=root
   register: hostname_update
   tags:
   - common
@@ -26,7 +26,7 @@
   - has-hostname
 
 - name: Copy environment
-  template: src=environment.j2 dest="/etc/environment" mode=0644 owner=root group=root
+  template: src="environment.j2" dest="/etc/environment" mode="0644" owner=root group=root
   tags:
   - common
 
@@ -38,7 +38,7 @@
   - cron
 
 - name: Copy apt sources.list
-  template: src=sources.list.j2 dest=/etc/apt/sources.list mode=0644 owner=root group=root
+  template: src="sources.list.j2" dest="/etc/apt/sources.list" mode="0644" owner=root group=root
   when: apt_source_url != false
   tags:
   - packages
@@ -67,7 +67,7 @@
 
 - name: sshd configuration file update
   template: src=sshd_config.j2 dest="/etc/ssh/sshd_config" 
-    mode=0644 owner=root group=root
+    mode="0644" owner=root group=root
     backup=yes validate='/usr/sbin/sshd -T -f %s'
   tags:
   - non-local

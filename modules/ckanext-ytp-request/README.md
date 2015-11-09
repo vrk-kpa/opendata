@@ -1,30 +1,29 @@
 ckanext-ytp-request
 ===================
 
-CKAN extension that provides organization member requests and means to control those.
+CKAN extension providing means to control organization member requests, requests history and related operations.
 
 Features
 --------
 
 - Users can request to be part of organization
 - Organization admins and global admins can approve or reject request
+- Request history log
 
-Install
--------
+## Compatibility
 
-Installed as CKAN extension: ytp_request
+Tested with CKAN 2.2 - 2.3
 
-[See how to install CKAN extensions.](http://docs.ckan.org/en/latest/extensions/tutorial.html#installing-the-extension)
+## Installation
 
-Configuration
--------------
+Install to you ckan virtual environment
 
-No configuration. See Install.
+```
+pip install -e  git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-request#egg=ckanext-ytp-request
+```
 
+Add to ckan.ini
 
-Todo
--------------
-
-- Add configuration options for the hard-coded email messages.
-- Better templates for request handling
-- View accepted/rejected requests in templates
+```
+ckan.plugins = ... ytp_request
+```

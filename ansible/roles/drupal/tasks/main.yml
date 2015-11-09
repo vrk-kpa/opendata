@@ -63,12 +63,12 @@
 
 # required by drush
 - name: Create root pgpass
-  template: src=pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
   tags:
   - drupal
 
 - name: Create Drupal installation script
-  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode=0700 owner=root group=root
+  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode="0700" owner=root group=root
   register: drupal_script
   tags:
   - drupal
@@ -90,7 +90,7 @@
   - drupal
 
 - name: Setup drushrc
-  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode=0644
+  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode="0644"
   tags:
   - drupal
 
@@ -142,6 +142,8 @@
     - recaptcha
     - honeypot
     - node_expire
+
+    - twitter_block
   tags:
   - drupal
 
@@ -194,6 +196,8 @@
     - recaptcha
     - honeypot
     - node_expire
+
+    - twitter_block
 
   tags:
   - drupal
@@ -280,7 +284,7 @@
   - non-local
 
 - name: Copy fix scripts
-  copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
+  copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode="0750"
   register: copy_fix_scripts
   with_items:
     - fix_language
@@ -345,7 +349,7 @@
   - drupal
 
 - name: Create upload paths
-  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775 state="directory"
+  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode="0775" state="directory"
   register: create_upload_paths
   with_items:
     - ""
@@ -356,7 +360,7 @@
   - drupal
 
 - name: Copy htaccess file
-  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode=644 owner=root group=root
+  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode="0644" owner=root group=root
   tags:
   - drupal
 

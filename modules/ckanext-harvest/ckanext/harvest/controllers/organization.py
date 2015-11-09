@@ -7,7 +7,7 @@ from ckan.lib.base import c, model, request, render, h, g
 from ckan.lib.base import abort
 import ckan.lib.maintain as maintain
 import ckan.lib.search as search
-import ckan.new_authz
+import ckan.new_authz as authz
 
 from ckan.controllers.group import GroupController
 
@@ -73,7 +73,7 @@ class OrganizationController(GroupController):
 
         # c.group_admins is used by CKAN's legacy (Genshi) templates only,
         # if we drop support for those then we can delete this line.
-        c.group_admins = ckan.new_authz.get_group_or_org_admin_ids(c.group.id)
+        c.group_admins = ckan.authz.get_group_or_org_admin_ids(c.group.id)
 
         try:
             page = int(request.params.get('page', 1))

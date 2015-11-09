@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 15:59+0300\n"
-"PO-Revision-Date: 2015-10-05 13:03+0000\n"
-"Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
+"POT-Creation-Date: 2015-11-09 15:34+0200\n"
+"PO-Revision-Date: 2015-11-09 13:48+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "You must be logged in to add a comment"
 msgstr "Sinun täytyy kirjautua sisään kommentoidaksesi"
 
-#: ckanext/ytp/comments/logic/auth/create.py:26
+#: ckanext/ytp/comments/logic/auth/create.py:27
 msgid "You must be logged in to subscribe to comment notifications"
 msgstr "Sinun täytyy kirjautua sisään tilataksesi uudet kommentit sähköpostiin"
 
@@ -40,10 +40,9 @@ msgstr "Kommenttia ei ole olemassa"
 msgid "User is not the author of the comment"
 msgstr "Käyttäjä ei ole kommentin kirjoittaja"
 
-#: ckanext/ytp/comments/logic/auth/delete.py:39
+#: ckanext/ytp/comments/logic/auth/delete.py:40
 msgid "You must be logged in to unsubscribe from comment notifications"
 msgstr "Sinun täytyy kirjautua sisään poistaaksesi uusien kommenttien sähköpostiviestit"
-
 
 #: ckanext/ytp/comments/templates/organization/read.html:15
 msgid "Unsubscribe from comments"

@@ -64,7 +64,7 @@
 # Web resources
 
 - name: Ensure www path is present
-  file: path=/var/www state=directory mode=0755 owner=root group=root
+  file: path="/var/www" state=directory mode="0755" owner=root group=root
   tags:
   - resources
 
@@ -81,7 +81,7 @@
   - resources
 
 - name: Ensure resource dependencies path is present
-  file: path={{ cache_path }}/resource-dependencies state=directory mode=0755 owner=root group=root
+  file: path={{ cache_path }}/resource-dependencies state=directory mode="0755" owner=root group=root
   when: modules_copy|changed
   tags:
   - resources

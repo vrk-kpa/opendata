@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 11:46+0300\n"
+"POT-Creation-Date: 2015-11-09 15:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -220,7 +220,7 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/member_new.html:49
 #: ckanext/ytp/organizations/templates/organization/members.html:43
 #: ckanext/ytp/organizations/templates/organization/user_list.html:52
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:464
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:456
 #: ckanext/ytp/service/templates/package/ytp/service/package_form.html:56
 #: ckanext/ytp/user/templates/user/edit_user_form.html:54
 msgid "Delete"
@@ -346,7 +346,7 @@ msgid "Visualization"
 msgstr ""
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:389
+#: ckanext/ytp/organizations/plugin.py:391
 msgid "Date format incorrect"
 msgstr ""
 
@@ -454,7 +454,7 @@ msgid "File upload too large"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/base.html:8
-#: ckanext/ytp/organizations/templates/organization/index.html:28
+#: ckanext/ytp/organizations/templates/organization/index.html:33
 #: ckanext/ytp/organizations/templates/organization/organization_not_found.html:6
 #: ckanext/ytp/organizations/templates/organization/user_list.html:30
 #: ckanext/ytp/theme/menu.py:145
@@ -479,7 +479,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/resource_edit_form.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:104
 #: ckanext/ytp/organizations/templates/organization/edit_base.html:5
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:467
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:459
 msgid "Close without saving"
 msgstr ""
 
@@ -579,8 +579,8 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:206
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:238
 msgid "Created"
 msgstr ""
 
@@ -618,27 +618,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Downloads"
 msgstr ""
 
@@ -684,8 +684,8 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
 msgid "Last Modified"
 msgstr ""
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -936,7 +936,7 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
 #: ckanext/ytp/organizations/templates/organization/about.html:47
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:137
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
 msgid "Period of validity"
 msgstr ""
 
@@ -944,8 +944,8 @@ msgstr ""
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:189
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:64
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:140
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:144
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:136
 msgid "YYYY-MM-DD"
 msgstr ""
 
@@ -1275,31 +1275,31 @@ msgid_plural " <span class=\"pull-right\"> %(count)s comments</span> "
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/ytp/organizations/auth.py:9 ckanext/ytp/organizations/auth.py:14
+#: ckanext/ytp/organizations/auth.py:10 ckanext/ytp/organizations/auth.py:15
 #, python-format
 msgid "User %s not authorized to create public organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:27
+#: ckanext/ytp/organizations/auth.py:28
 msgid "Only registered users can create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:39 ckanext/ytp/organizations/auth.py:67
+#: ckanext/ytp/organizations/auth.py:40 ckanext/ytp/organizations/auth.py:68
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:48
+#: ckanext/ytp/organizations/auth.py:49
 #, python-format
 msgid "User %s not authorized to create organizations"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:71
+#: ckanext/ytp/organizations/auth.py:72
 #, python-format
 msgid "User %s is not allowed to change the public organization option"
 msgstr ""
 
-#: ckanext/ytp/organizations/auth.py:76
+#: ckanext/ytp/organizations/auth.py:77
 #, python-format
 msgid "User %s not authorized to edit organization %s"
 msgstr ""
@@ -1319,42 +1319,42 @@ msgid "Group title already exists in database"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:13
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:107
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:99
 msgid "Civil Service"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:14
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:108
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:100
 msgid "Municipality / City"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:15
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:109
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:101
 msgid "Other Public Service"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:16
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:110
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
 msgid "Educational / Research Institute"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:17
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:111
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:103
 msgid "Company"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:18
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:112
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:104
 msgid "Individual"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:19
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:113
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:105
 msgid "Association"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:43
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:102
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:94
 msgid "Producer type"
 msgstr ""
 
@@ -1373,27 +1373,27 @@ msgid "Alternative name"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:59
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:150
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:142
 msgid "Contact info"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:63
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:153
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:145
 msgid "Street"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:63
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:153
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:145
 msgid "House number"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:63
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:153
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:145
 msgid "Staircase"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:63
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:153
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:145
 msgid "Apartment number"
 msgstr ""
 
@@ -1402,12 +1402,12 @@ msgid "P.O. box"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:65
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:157
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:149
 msgid "Zip code"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:66
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:160
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:152
 msgid "Place of Business"
 msgstr ""
 
@@ -1440,7 +1440,7 @@ msgid "Web address for public transport"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/about.html:74
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:177
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:169
 msgid "Homepage"
 msgstr ""
 
@@ -1456,13 +1456,17 @@ msgstr ""
 msgid "Organization hierarchy"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/index.html:13
+#: ckanext/ytp/organizations/templates/organization/index.html:14
 #: ckanext/ytp/organizations/templates/organization/members.html:7
 #: ckanext/ytp/user/templates/user/dashboard_organizations.html:17
 msgid "Membership Requests"
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/index.html:19
+msgid "My membership requests"
+msgstr ""
+
+#: ckanext/ytp/organizations/templates/organization/index.html:24
 #: ckanext/ytp/organizations/templates/organization/user_list.html:4
 #: ckanext/ytp/theme/menu.py:135
 #: ckanext/ytp/user/templates/user/dashboard_datasets.html:4
@@ -1472,11 +1476,11 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/index.html:33
+#: ckanext/ytp/organizations/templates/organization/index.html:38
 msgid "Search organizations..."
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/index.html:36
+#: ckanext/ytp/organizations/templates/organization/index.html:41
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:17
 msgid "Submit"
@@ -1546,7 +1550,7 @@ msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/organizations/templates/organization/organization_not_found.html:9
-#: ckanext/ytp/service/plugin.py:201
+#: ckanext/ytp/service/plugin.py:203
 msgid "Organization does not exist"
 msgstr ""
 
@@ -1639,31 +1643,31 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:118
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:110
 msgid "Select a producer type..."
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:152
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:144
 msgid "Address"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:152
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:144
 msgid "Example street 1 apartment 5"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:157
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:149
 msgid "12345"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:160
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:152
 msgid "Example City"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:177
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:169
 msgid "http://example.com"
 msgstr ""
 
-#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:463
+#: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:455
 msgid ""
 "Are you sure you want to delete this Organization? This will delete all the "
 "public and private datasets belonging to this organization."
@@ -1691,33 +1695,33 @@ msgstr ""
 msgid "There is no description for this organization"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:42
+#: ckanext/ytp/service/plugin.py:44
 msgid "Service charge must be supplied"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:52
+#: ckanext/ytp/service/plugin.py:54
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
 "web address for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:64
+#: ckanext/ytp/service/plugin.py:66
 msgid "At least one of the main target groups must to be selected"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:203
+#: ckanext/ytp/service/plugin.py:205
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:225
+#: ckanext/ytp/service/plugin.py:227
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:231
+#: ckanext/ytp/service/plugin.py:234
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/service/plugin.py:236 ckanext/ytp/service/plugin.py:244
+#: ckanext/ytp/service/plugin.py:239 ckanext/ytp/service/plugin.py:247
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr ""
