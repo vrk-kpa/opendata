@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def member_request(context, data_dict):
-    logic.check_access('member_request_show',context,data_dict)
+    logic.check_access('member_request_show', context, data_dict)
     mrequest_id = data_dict.get('mrequest_id', None)
 
     membership = model.Session.query(model.Member).get(mrequest_id)

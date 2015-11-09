@@ -10,7 +10,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
-    
+
     # IConfigurer #
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')

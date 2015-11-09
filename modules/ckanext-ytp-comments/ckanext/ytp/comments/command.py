@@ -20,7 +20,7 @@ class InitDBCommand(CkanCommand):
     def command(self):
 
         self._load_config()
-    
+
         # Initialise logger after the config is loaded, so it is not disabled.
         self.log = logging.getLogger(__name__)
 
