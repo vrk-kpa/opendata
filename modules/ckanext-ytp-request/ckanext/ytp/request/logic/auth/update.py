@@ -15,10 +15,10 @@ def member_request_reject(context, data_dict):
 
 def _check_admin_access(context, data_dict):
     """ Approve access check """
-    if new_authz.is_sysadmin(context.get('user',None)):
+    if new_authz.is_sysadmin(context.get('user', None)):
         return {'success': True}
 
-    user = model.User.get(context.get('user',None))
+    user = model.User.get(context.get('user', None))
     if not user:
         return {'success': False}
 

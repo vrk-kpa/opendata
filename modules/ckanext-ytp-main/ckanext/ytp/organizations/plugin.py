@@ -301,7 +301,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return False
 
     def get_helpers(self):
-        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 
+        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents,
                 'get_authorized_parents': self._get_authorized_parents,
                 'get_parent_organization_display_name': self._get_parent_organization_display_name,
                 'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents
