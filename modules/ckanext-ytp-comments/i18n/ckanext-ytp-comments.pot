@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-comments 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 15:59+0300\n"
+"POT-Creation-Date: 2015-11-09 15:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "You must be logged in to add a comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/create.py:26
+#: ckanext/ytp/comments/logic/auth/create.py:27
 msgid "You must be logged in to subscribe to comment notifications"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 msgid "User is not the author of the comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/delete.py:39
+#: ckanext/ytp/comments/logic/auth/delete.py:40
 msgid "You must be logged in to unsubscribe from comment notifications"
 msgstr ""
 
