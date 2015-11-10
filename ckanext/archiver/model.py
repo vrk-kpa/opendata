@@ -142,16 +142,15 @@ class Archival(Base):
         c.resource_id = resource_id
 
         # Find the package_id for the resource.
-        q = """
-            SELECT P.id from package P
-            INNER JOIN resource_group RG ON RG.package_id = P.id
-            INNER JOIN resource R ON R.resource_group_id = RG.id
-            WHERE R.id = '%s';
-        """
-        row = model.Session.execute(q % c.resource_id).first()
-        if not row or not row[0]:
-            raise Exception("Missing dataset")
-        c.package_id = row[0]
+        dataset = model.Session.query(model.Package)
+        if hasattr(model, 'ResourceGroup'):
+            # earlier CKANs had ResourceGroup
+            dataset = dataset.join(model.ResourceGroup)
+        dataset = dataset \
+            .join(model.Resource) \
+            .filter_by(id=resource_id) \
+            .one()
+        c.package_id = dataset.id
         return c
 
     @property
