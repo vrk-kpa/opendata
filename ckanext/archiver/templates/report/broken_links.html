@@ -19,8 +19,7 @@
        </thead>
        <tbody>
         <tr py:for="row in c.data['table']">
-         <!-- <td>${h.link_to(row['organization_title'], h.url_for(controller='ckanext.dgu.controllers.reports:ReportsController', action='view', report_name='broken_links', organization=row['organization_name'], **c.options))}</td>-->
-          <td>${h.link_to(row['organization_title'], h.relative_url_for(organization=row['organization_name']))}</td>
+          <td>${h.link_to(row['organization_title'], h.report__relative_url_for(organization=row['organization_name']))}</td>
           <td>${row['broken_package_count']}</td>
           <td>${row['broken_resource_count']}</td>
           <td>${row.get('broken_resource_percent')}</td>
