@@ -8,8 +8,12 @@ import pylons
 import ckan.lib.helpers as h
 import ckan.plugins as p
 import gasnippet
-from ckan.common import request
-from ckan.lib import helpers
+from routes.mapper import SubMapper, Mapper as _Mapper
+
+import urllib2
+
+import threading
+import Queue
 
 log = logging.getLogger('ckanext.googleanalytics')
 
@@ -17,6 +21,29 @@ log = logging.getLogger('ckanext.googleanalytics')
 class GoogleAnalyticsException(Exception):
     pass
 
+class AnalyticsPostThread(threading.Thread):
+    """Threaded Url POST"""
+    def __init__(self, queue):
+        threading.Thread.__init__(self)
+        self.queue = queue
+
+    def run(self):
+        while True:
+            # grabs host from queue
+            data_dict = self.queue.get()
+
+            data = urllib.urlencode(data_dict)
+            log.debug("Sending API event to Google Analytics: " + data)
+            # send analytics
+            urllib2.urlopen(
+                "http://www.google-analytics.com/collect",
+                data,
+                # timeout in seconds
+                # https://docs.python.org/2/library/urllib2.html#urllib2.urlopen
+                10)
+
+            # signals to queue job is done
+            self.queue.task_done()
 
 class GoogleAnalyticsPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurable, inherit=True)
@@ -39,17 +66,6 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
                 'googleanalytics.domain', 'auto')
         self.googleanalytics_javascript_url = h.url_for_static(
                 '/scripts/ckanext-googleanalytics.js')
-        self.googleanalytics_type = config.get('googleanalytics.type', 'classic')
-
-        if self.googleanalytics_type == 'universal':
-            self.analytics_html = 'googleanalytics/snippets/googleanalytics_header_ua.html'
-            self.analytics_js = 'ckanext-googleanalytics/googleanalytics_event_tracking_ua.js'
-        elif self.googleanalytics_type == 'classic':
-            self.analytics_html = 'googleanalytics/snippets/googleanalytics_header.html'
-            self.analytics_js = 'ckanext-googleanalytics/googleanalytics_event_tracking.js'
-        else:
-            raise GoogleAnalyticsException("Invalid 'googleanalytics.type' value '%s'. Should be "
-                                           "'classic' or 'universal'." % self.googleanalytics_type)
 
         # If resource_prefix is not in config file then write the default value
         # to the config dict, otherwise templates seem to get 'true' when they
@@ -68,6 +84,12 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         if not converters.asbool(config.get('ckan.legacy_templates', 'false')):
             p.toolkit.add_resource('fanstatic_library', 'ckanext-googleanalytics')
 
+        # spawn a pool of 5 threads, and pass them queue instance
+        for i in range(5):
+            t = AnalyticsPostThread(self.analytics_queue)
+            t.setDaemon(True)
+            t.start()
+
     def update_config(self, config):
         '''Change the CKAN (Pylons) environment configuration.
 
@@ -79,6 +101,55 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
             p.toolkit.add_public_directory(config, 'legacy_public')
         else:
             p.toolkit.add_template_directory(config, 'templates')
+
+        def before_map(self, map):
+        '''Add new routes that this extension's controllers handle.
+        See IRoutes.
+        '''
+        # Helpers to reduce code clutter
+        GET = dict(method=['GET'])
+        PUT = dict(method=['PUT'])
+        POST = dict(method=['POST'])
+        DELETE = dict(method=['DELETE'])
+        GET_POST = dict(method=['GET', 'POST'])
+        # intercept API calls that we want to capture analytics on
+        register_list = [
+            'package',
+            'dataset',
+            'resource',
+            'tag',
+            'group',
+            'related',
+            'revision',
+            'licenses',
+            'rating',
+            'user',
+            'activity'
+        ]
+        register_list_str = '|'.join(register_list)
+        # /api ver 3 or none
+        with SubMapper(map, controller='ckanext.googleanalytics.controller:GAApiController', path_prefix='/api{ver:/3|}',
+                    ver='/3') as m:
+            m.connect('/action/{logic_function}', action='action',
+                      conditions=GET_POST)
+
+        # /api ver 1, 2, 3 or none
+        with SubMapper(map, controller='ckanext.googleanalytics.controller:GAApiController', path_prefix='/api{ver:/1|/2|/3|}',
+                       ver='/1') as m:
+            m.connect('/search/{register}', action='search')
+
+        # /api/rest ver 1, 2 or none
+        with SubMapper(map, controller='ckanext.googleanalytics.controller:GAApiController', path_prefix='/api{ver:/1|/2|}',
+                       ver='/1', requirements=dict(register=register_list_str)
+                       ) as m:
+
+            m.connect('/rest/{register}', action='list', conditions=GET)
+            m.connect('/rest/{register}', action='create', conditions=POST)
+            m.connect('/rest/{register}/{id}', action='show', conditions=GET)
+            m.connect('/rest/{register}/{id}', action='update', conditions=PUT)
+            m.connect('/rest/{register}/{id}', action='update', conditions=POST)
+            m.connect('/rest/{register}/{id}', action='delete', conditions=DELETE)
+        return map
 
     def after_map(self, map):
         '''Add new routes that this extension's controllers handle.
@@ -172,28 +243,17 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
 
     def get_helpers(self):
         '''Return the CKAN 2.0 template helper functions this plugin provides.
-
         See ITemplateHelpers.
-
         '''
-        return {'googleanalytics_header': self.googleanalytics_header,
-                'googleanalytics_event_tracking': self.googleanalytics_event_tracking}
+        return {'googleanalytics_header': self.googleanalytics_header}
 
-    def googleanalytics_event_tracking(self):
-        '''Return correct event tracking resource for CKAN 2.0 templates.'''
-        return self.analytics_js
-
-    def googleanalytics_header(self):
+   def googleanalytics_header(self):
         '''Render the googleanalytics_header snippet for CKAN 2.0 templates.
-
         This is a template helper function that renders the
         googleanalytics_header jinja snippet. To be called from the jinja
         templates in this extension, see ITemplateHelpers.
-
         '''
-
-        domain = self.googleanalytics_domain if self.googleanalytics_domain != 'request' else request.environ['HTTP_HOST']
         data = {'googleanalytics_id': self.googleanalytics_id,
-                'googleanalytics_domain': domain}
-
-        return p.toolkit.render_snippet(self.analytics_html, data)
+                'googleanalytics_domain': self.googleanalytics_domain}
+        return p.toolkit.render_snippet(
+            'googleanalytics/snippets/googleanalytics_header.html', data)

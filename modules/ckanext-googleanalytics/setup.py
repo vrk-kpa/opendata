@@ -23,15 +23,14 @@ setup(
 		'gdata',
 		'google-api-python-client'
 	],
-	entry_points=\
-	"""
-        [ckan.plugins]
-	# Add plugins here, eg
-	googleanalytics=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
+	entry_points='''
+	[paste.paster_command]
+    loadanalytics = ckanext.googleanalytics.commands:LoadAnalytics
+    initdb = ckanext.googleanalytics.commands:InitDB
+    getauthtoken = ckanext.googleanalytics.commands:GetAuthToken
 
-        [paste.paster_command]
-        loadanalytics = ckanext.googleanalytics.commands:LoadAnalytics
-        initdb = ckanext.googleanalytics.commands:InitDB
-        getauthtoken = ckanext.googleanalytics.commands:GetAuthToken
-	""",
+    [ckan.plugins]
+	googleanalytics=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
+	'''
+	}
 )
