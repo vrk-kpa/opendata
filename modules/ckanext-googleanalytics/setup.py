@@ -32,5 +32,4 @@ setup(
     [ckan.plugins]
 	googleanalytics=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
 	'''
-	}
 )

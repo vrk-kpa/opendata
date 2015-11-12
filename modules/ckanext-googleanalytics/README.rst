@@ -5,7 +5,7 @@ CKAN Google Analytics Extension
 
 Acquiring token probably does not work.
 
-**CKAN Version:** >= 1.5.*
+**CKAN Version:** >= 1.7.*
 
 A CKAN extension that both sends tracking data to Google Analytics and
 retrieves statistics from Google Analytics and inserts them into CKAN pages.
