@@ -3,8 +3,6 @@ CKAN Google Analytics Extension
 
 **Status:** Production
 
-Acquiring token probably does not work.
-
 **CKAN Version:** >= 1.7.*
 
 A CKAN extension that both sends tracking data to Google Analytics and
@@ -25,22 +23,10 @@ Features
 
   *Only if* ``googleanalytics.track_events = true`` *is in your CKAN ini file.*
 
-  *CKAN 1.x only*.
-
 * Puts download stats into dataset pages, e.g. "[downloaded 4 times]".
-
-  *CKAN 1.x only.*
 
 * Provides a ``/analytics/dataset/top`` page that shows the most popular
   datasets and resources
-
-  *CKAN 1.x only*
-
-CKAN 1.x Support
-----------------
-
-To use ckanext-googleanalytics with CKAN 1.x, make sure you have
-``ckan.legacy_templates = true`` in your CKAN ini file.
 
 Installation
 ------------
@@ -113,7 +99,6 @@ Installation
 Setting Up Statistics Retrieval from Google Analytics
 -----------------------------------------------------
 
-*CKAN 1.x only*
 
 1. Run the following command from ``src/ckanext-googleanalytics`` to
    set up the required database tables (of course, altering the
@@ -159,8 +144,6 @@ Setting Up Statistics Retrieval from Google Analytics
 Authorization
 --------------
 
-*CKAN 1.x only*
-
 Before ckanext-googleanalytics can retrieve statistics from Google Analytics, you need to set up the OAUTH details which you can do by following the `instructions <https://developers.google.com/analytics/resources/tutorials/hello-analytics-api>`_ the outcome of which will be a file called credentials.json which should look like credentials.json.template with the relevant fields completed. These steps are below for convenience:
 
 1. Visit the `Google APIs Console <https://code.google.com/apis/console>`_
@@ -187,7 +170,6 @@ following command, which will store your oauth token in a file called token.dat 
 giving permission in the browser::
 
     $ paster getauthtoken --config=../ckan/development.ini
-
 
 
 Testing

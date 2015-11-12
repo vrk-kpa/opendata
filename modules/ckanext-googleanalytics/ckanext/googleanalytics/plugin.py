@@ -52,6 +52,8 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.ITemplateHelpers)
 
+    analytics_queue = Queue.Queue()
+
     def configure(self, config):
         '''Load config settings for this extension from config file.
 
@@ -102,9 +104,11 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         else:
             p.toolkit.add_template_directory(config, 'templates')
 
-        def before_map(self, map):
+    def before_map(self, map):
         '''Add new routes that this extension's controllers handle.
+        
         See IRoutes.
+
         '''
         # Helpers to reduce code clutter
         GET = dict(method=['GET'])
@@ -247,7 +251,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         '''
         return {'googleanalytics_header': self.googleanalytics_header}
 
-   def googleanalytics_header(self):
+    def googleanalytics_header(self):
         '''Render the googleanalytics_header snippet for CKAN 2.0 templates.
         This is a template helper function that renders the
         googleanalytics_header jinja snippet. To be called from the jinja
