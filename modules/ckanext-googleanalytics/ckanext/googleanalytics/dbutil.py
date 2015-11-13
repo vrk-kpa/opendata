@@ -3,7 +3,6 @@ from sqlalchemy.sql import select, text
 from sqlalchemy import func
 
 import ckan.model as model
-from ckan.model.authz import PSEUDO_USER__VISITOR
 from ckan.lib.base import *
 import datetime
 
@@ -134,9 +133,9 @@ def get_resource_visits_for_id(id):
 
 def get_top_packages(limit=20):
     items = []
-    authorizer = Authorizer()
-    q = authorizer.authorized_query(PSEUDO_USER__VISITOR,
-                                    model.Package)
+    # caveat emptor: the query below will not filter out private
+    # or deleted datasets (TODO)
+    q = model.Session.query(model.Package)
     connection = model.Session.connection()
     package_stats = get_table('package_stats')
     s = select([package_stats.c.package_id,
