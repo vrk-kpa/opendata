@@ -75,7 +75,7 @@ def get_package_visits_for_id(id):
         where package.id = package_id
         and package.id = :id
     """
-    result = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
 
     if result == [(None, None)]:
         result = []
@@ -93,7 +93,7 @@ def get_resource_visits_for_package_id(id):
       and package.id = package_id
       and package.id = :id
     """
-    result = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if result == [(None, None)]:
         result = []
     return result
@@ -108,7 +108,7 @@ def get_resource_visits_for_url(url):
         WHERE resource_id = resource.id
         AND resource.url = :url
     """
-    count = model.Session.execute(text(q), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    count = model.Session.connection().execute(text(q), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
@@ -123,7 +123,7 @@ def get_resource_visits_for_id(id):
         WHERE resource_id = resource.id
         AND resource.id = :id
     """
-    count = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    count = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
