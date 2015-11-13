@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 11:46+0300\n"
+"POT-Creation-Date: 2015-11-13 15:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,26 +75,41 @@ msgstr ""
 msgid "Save and close"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:217
+#: ckanext/ytp/common/templates/macros/ytp_form.html:193
+msgid ""
+" A list of predefined content types can be found below in Finnish. You may, "
+"however, add your own additional types if your content doesn't match any of "
+"the given types. "
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:202
+msgid "Content Types"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:211
+msgid "Close"
+msgstr ""
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:258
 msgid "http://example.com/my-image.jpg"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:218
+#: ckanext/ytp/common/templates/macros/ytp_form.html:259
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
 #: ckanext/ytp/theme/translations.py:7
 msgid "Image URL"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:219
+#: ckanext/ytp/common/templates/macros/ytp_form.html:260
 #: ckanext/ytp/theme/translations.py:8
 msgid "Image"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:232
+#: ckanext/ytp/common/templates/macros/ytp_form.html:273
 msgid "Clear Upload"
 msgstr ""
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:238
+#: ckanext/ytp/common/templates/macros/ytp_form.html:279
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
 msgstr ""
@@ -371,7 +386,8 @@ msgstr ""
 
 #: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:364
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:49
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr ""
 
@@ -579,8 +595,8 @@ msgid "unknown"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:206
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:238
 msgid "Created"
 msgstr ""
 
@@ -618,27 +634,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Downloads"
 msgstr ""
 
@@ -684,8 +700,8 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
 msgid "Last Modified"
 msgstr ""
 
@@ -742,7 +758,7 @@ msgstr ""
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -929,19 +945,23 @@ msgstr ""
 msgid "Deleted"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
+msgid "A list of predefined content types can be found here"
+msgstr ""
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
 msgid "e.g., Open Data"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:190
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
 #: ckanext/ytp/organizations/templates/organization/about.html:47
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:137
 msgid "Period of validity"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:185
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:189
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:193
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:197
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:64
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:140
@@ -949,11 +969,11 @@ msgstr ""
 msgid "YYYY-MM-DD"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:194
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:202
 msgid "Extra information at website"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:194
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:202
 msgid "http://www.example.com/"
 msgstr ""
 
