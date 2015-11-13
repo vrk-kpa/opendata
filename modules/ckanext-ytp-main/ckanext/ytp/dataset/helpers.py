@@ -5,6 +5,11 @@ from ckan.lib import helpers
 from ckan.logic import get_action
 import datetime
 
+import os
+
+import logging
+log = logging.getLogger(__name__)
+
 
 def service_database_enabled():
     return config.get('ckanext.ytp.dataset.service_database_enabled', 'true') == 'true'
@@ -17,6 +22,20 @@ def get_json_value(value):
     except:
         return value
 
+def get_tooltip_content_types(lang=None):
+    """ Fetches the  """
+    content_types_file = os.path.dirname(os.path.realpath(__file__)) + '/content_types.json'
+
+    if not lang:
+        try:
+            lang = helpers.lang()
+        except TypeError:
+            lang = "fi"
+
+    with open(content_types_file) as types:
+        ct = json.load(types)
+
+    return ct.get(lang)
 
 def sort_datasets_by_state_priority(datasets):
     """ Sorts the given list of datasets so that drafts appear first and deleted ones last. Also secondary sorts by modification date, latest first. """
