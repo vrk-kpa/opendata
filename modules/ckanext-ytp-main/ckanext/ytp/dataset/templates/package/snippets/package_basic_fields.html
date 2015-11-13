@@ -179,7 +179,7 @@
     <!-- Content types modal tooltip -->
 
     {% set content = h.get_tooltip_content_types(lang="fi") %}
-    {% set infolabel = 'A list of predefined content types can be found here' %}
+    {% set infolabel = _('A list of predefined content types can be found here') %}
     {{ ytp_form.modal_tooltip('content_type_tooltip', label=_('Content Type'), btnlabel=infolabel, content=content) }}
 
     <!-- End of Content types modal tooltip -->

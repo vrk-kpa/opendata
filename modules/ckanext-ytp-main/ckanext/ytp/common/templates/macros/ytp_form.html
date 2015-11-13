@@ -186,7 +186,7 @@
   <div class="modal fade in" role="dialog" aria-labelledby="{{ label }}" id="{{ id or name }}_modal" data-backdrop="true" data-keyboard="true">
     <div class="modal-header">
       <a class="close" data-dismiss="modal" href="javascript:void(0);">×</a>
-      <h3>{{ label }}</h3>
+      <h4>{{ label }}</h4>
     </div>
     <div class="modal-body">
       <p>
@@ -197,11 +197,15 @@
       {% endtrans %}
       </p>
       <br />
-      <div style="font-style:italic;">
+
+      {% if content %}
+      <h4>{{ _('Content Types') }}</h4>
+      <span style="font-style:italic;">
       {% for contype in content %}
         <span>{{ contype }}</span>{% if not loop.last %}, {% endif %}
       {% endfor %}
-      </div>
+      </span>
+      {% endif %}
     </div>
     <div class="modal-footer">
       <a class="btn btn-primary pull-right" data-dismiss="modal" href="javascript:void(0);">{{ _('Close') }}</a>
