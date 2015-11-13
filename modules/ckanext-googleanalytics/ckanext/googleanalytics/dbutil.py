@@ -6,6 +6,7 @@ import ckan.model as model
 from ckan.lib.base import *
 import datetime
 
+cached_tables = {}
 
 def init_tables(engine):
     metadata = MetaData()
@@ -18,6 +19,14 @@ def init_tables(engine):
                            Column('visits', Integer),
                            Column('visit_date', DateTime))
     metadata.create_all(engine)
+
+def get_table(name):
+    if name not in cached_tables:
+        meta = MetaData()
+        meta.reflect(bind=model.meta.engine)
+        table = meta.tables[name]
+        cached_tables[name] = table
+    return cached_tables[name]
 
 def _update_visits(table_name, item_id, visit_date, visits):
     stats = get_table(table_name)
