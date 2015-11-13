@@ -56,9 +56,10 @@ class InitDB(CkanCommand):
 
     def command(self):
         self._load_config()
+        #TODO: Not sure if we still need this workaround
         model.Session.remove()
         model.Session.configure(bind=model.meta.engine)
-        dbutil.init_tables()
+        dbutil.init_tables(model.meta.engine)
         log.info("Set up statistics tables in main database")
 
 

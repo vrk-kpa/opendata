@@ -7,7 +7,6 @@ import genshi
 import pylons
 import ckan.lib.helpers as h
 import ckan.plugins as p
-import gasnippet
 from routes.mapper import SubMapper, Mapper as _Mapper
 
 import urllib2
@@ -47,7 +46,6 @@ class AnalyticsPostThread(threading.Thread):
 
 class GoogleAnalyticsPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurable, inherit=True)
-    p.implements(p.IGenshiStreamFilter, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.ITemplateHelpers)
@@ -168,82 +166,6 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
             action='view'
         )
         return map
-
-    def filter(self, stream):
-        '''Insert Google Analytics code into legacy Genshi templates.
-
-        This is called by CKAN whenever any page is rendered, _if_ using old
-        CKAN 1.x legacy templates. If using new CKAN 2.0 Jinja templates, the
-        template helper methods below are used instead.
-
-        See IGenshiStreamFilter.
-
-        '''
-        log.info("Inserting Google Analytics code into template")
-
-        # Add the Google Analytics tracking code into the page header.
-        header_code = genshi.HTML(gasnippet.header_code
-            % (self.googleanalytics_id, self.googleanalytics_domain))
-        stream = stream | genshi.filters.Transformer('head').append(
-                header_code)
-
-        # Add the Google Analytics Event Tracking script into the page footer.
-        if self.track_events:
-            footer_code = genshi.HTML(
-                gasnippet.footer_code % self.googleanalytics_javascript_url)
-            stream = stream | genshi.filters.Transformer(
-                    'body/div[@id="scripts"]').append(footer_code)
-
-        routes = pylons.request.environ.get('pylons.routes_dict')
-        action = routes.get('action')
-        controller = routes.get('controller')
-
-        if ((controller == 'package' and
-             action in ['search', 'read', 'resource_read']) or
-            (controller == 'group' and action == 'read')):
-
-            log.info("Tracking of resource downloads")
-
-            # add download tracking link
-            def js_attr(name, event):
-                attrs = event[1][1]
-                href = attrs.get('href').encode('utf-8')
-                link = '%s%s' % (self.googleanalytics_resource_prefix,
-                                 urllib.quote(href))
-                js = "javascript: _gaq.push(['_trackPageview', '%s']);" % link
-                return js
-
-            # add some stats
-            def download_adder(stream):
-                download_html = '''<span class="downloads-count">
-                [downloaded %s times]</span>'''
-                count = None
-                for mark, (kind, data, pos) in stream:
-                    if mark and kind == genshi.core.START:
-                        href = data[1].get('href')
-                        if href:
-                            count = dbutil.get_resource_visits_for_url(href)
-                    if count and mark is genshi.filters.transform.EXIT:
-                        # emit count
-                        yield genshi.filters.transform.INSIDE, (
-                            genshi.core.TEXT,
-                            genshi.HTML(download_html % count), pos)
-                    yield mark, (kind, data, pos)
-
-            # perform the stream transform
-            stream = stream | genshi.filters.Transformer(
-                '//a[contains(@class, "resource-url-analytics")]').attr(
-                    'onclick', js_attr)
-
-            if (self.show_downloads and action == 'read' and
-                controller == 'package'):
-                stream = stream | genshi.filters.Transformer(
-                    '//a[contains(@class, "resource-url-analytics")]').apply(
-                        download_adder)
-                stream = stream | genshi.filters.Transformer('//head').append(
-                    genshi.HTML(gasnippet.download_style))
-
-        return stream
 
     def get_helpers(self):
         '''Return the CKAN 2.0 template helper functions this plugin provides.

@@ -3,7 +3,7 @@ CKAN Google Analytics Extension
 
 **Status:** Production
 
-**CKAN Version:** >= 1.7.*
+**CKAN Version:** 2.x+
 
 A CKAN extension that both sends tracking data to Google Analytics and
 retrieves statistics from Google Analytics and inserts them into CKAN pages.
@@ -60,19 +60,13 @@ Installation
    (If there are other plugins activated, add this to the list.  Each
    plugin should be separated with a space).
 
-4. If you are using this plugin with a version of CKAN < 2.0 then you should
-   also put the following in your ini file::
 
-       ckan.legacy_templates = true
-
-
-5. Finally, there are some optional configuration settings (shown here
+4. Finally, there are some optional configuration settings (shown here
    with their default settings)::
 
       googleanalytics_resource_prefix = /downloads/
       googleanalytics.domain = auto
       googleanalytics.track_events = false
-      googleanalytics.type = classic
 
    ``resource_prefix`` is an arbitrary identifier so that we can query
    for downloads in Google Analytics.  It can theoretically be any
@@ -88,11 +82,9 @@ Installation
    See `Google's documentation
    <http://code.google.com/apis/analytics/docs/gaJS/gaJSApiDomainDirectory.html#_gat.GA_Tracker_._setDomainName>`_
    for more info.
-   ``type`` defines if ``classic`` or newer ``universal`` analytics is
-   used.
 
    If ``track_events`` is set, Google Analytics event tracking will be
-   enabled. *CKAN 1.x only.* *Note that event tracking for resource downloads
+   enabled. *Note that event tracking for resource downloads
    is always enabled,* ``track_events`` *enables event tracking for other
    pages as well.*
 

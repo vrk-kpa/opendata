@@ -6,10 +6,8 @@ import ckan.model as model
 from ckan.lib.base import *
 import datetime
 
-cached_tables = {}
 
-
-def init_tables():
+def init_tables(engine):
     metadata = MetaData()
     package_stats = Table('package_stats', metadata,
                           Column('package_id', String(60)),
@@ -19,17 +17,7 @@ def init_tables():
                            Column('resource_id', String(60)),
                            Column('visits', Integer),
                            Column('visit_date', DateTime))
-    metadata.create_all(model.meta.engine)
-
-
-def get_table(name):
-    if name not in cached_tables:
-        meta = MetaData()
-        meta.reflect(bind=model.meta.engine, only=[name])
-        table = meta.tables[name]
-        cached_tables[name] = table
-    return cached_tables[name]
-
+    metadata.create_all(engine)
 
 def _update_visits(table_name, item_id, visit_date, visits):
     stats = get_table(table_name)
@@ -69,25 +57,23 @@ def update_package_visits(package_id, visit_date, visits):
 
 
 def get_package_visits_for_id(id):
-
-    connection = model.Session.connection()
-    result = connection.execute(text("""
-      select visit_date, visits from package_stats, package
-      where package.id = package_id
-      and package.id = :id and visit_date >= :date_filter
-      union all
-      select null, sum(visits) from package_stats, package
-      where package.id = package_id
-      and package.id = :id
-    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    q = """
+        select visit_date, visits from package_stats, package
+        where package.id = package_id
+        and package.id = :id and visit_date >= :date_filter
+        union all
+        select null, sum(visits) from package_stats, package
+        where package.id = package_id
+        and package.id = :id
+    """
+    result = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
 
     if result == [(None, None)]:
         result = []
     return result
 
 def get_resource_visits_for_package_id(id):
-    connection = model.Session.connection()
-    result = connection.execute(text("""
+    q = """
       select visit_date, visits, resource.url from resource_stats, resource, package
       where resource_stats.resource_id = resource.id
       and package.id = package_id
@@ -97,36 +83,38 @@ def get_resource_visits_for_package_id(id):
       where resource_stats.resource_id = resource.id
       and package.id = package_id
       and package.id = :id
-    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
-
+    """
+    result = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if result == [(None, None)]:
         result = []
     return result
 
 def get_resource_visits_for_url(url):
-    connection = model.Session.connection()
-    count = connection.execute(
-        text("""SELECT visit_date, visits FROM resource_stats, resource
+    q = """
+        SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
         AND resource.url = :url and visit_date >= :date_filter
         UNION ALL
         SELECT null, sum(visits) from resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.url = :url"""), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+        AND resource.url = :url
+    """
+    count = model.Session.execute(text(q), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
 
 def get_resource_visits_for_id(id):
-    connection = model.Session.connection()
-    count = connection.execute(
-        text("""SELECT visit_date, visits FROM resource_stats, resource
+    q = """
+        SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
         AND resource.id = :id and visit_date >= :date_filter
         UNION ALL
         SELECT null, sum(visits) from resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.id = :id"""), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+        AND resource.id = :id
+    """
+    count = model.Session.execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
