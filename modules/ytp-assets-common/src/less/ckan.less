@@ -197,8 +197,6 @@ article.module {
   top: 10%;
   width: 440px;
   margin-left: -220px;
-  overflow-y: auto;
-  max-height: 400px;
   @media (max-width: @screen-xs-min) {
     width: auto;
     left: 0;
@@ -208,7 +206,8 @@ article.module {
 }
 
 .modal-body {
-
+  max-height: 360px;
+  overflow-y: auto;
 }
 
 .modal-footer {
