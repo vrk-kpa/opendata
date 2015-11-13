@@ -137,7 +137,7 @@ def not_empty_or(item):
             raise StopOnError
     return callback
 
-_key_functions = {u'extras':  _parse_extras}
+_key_functions = {u'extras': _parse_extras}
 
 
 @logic.side_effect_free
@@ -514,9 +514,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         package_dict = data_dict['package_dict']
 
-        LIST_MAP = {'access_constraints': 'copyright_notice'}
+        list_map = {'access_constraints': 'copyright_notice'}
 
-        for source, target in LIST_MAP.iteritems():
+        for source, target in list_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
                     value = json.loads(extra['value'])
@@ -526,9 +526,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             'value': value[0]
                         })
 
-        VALUE_MAP = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email', 'author_email']}
 
-        for source, target in VALUE_MAP.iteritems():
+        for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:

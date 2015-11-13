@@ -22,6 +22,7 @@ def get_json_value(value):
     except:
         return value
 
+
 def get_tooltip_content_types(lang=None):
     """ Fetches the  """
     content_types_file = os.path.dirname(os.path.realpath(__file__)) + '/content_types.json'
@@ -36,6 +37,7 @@ def get_tooltip_content_types(lang=None):
         ct = json.load(types)
 
     return ct.get(lang)
+
 
 def sort_datasets_by_state_priority(datasets):
     """ Sorts the given list of datasets so that drafts appear first and deleted ones last. Also secondary sorts by modification date, latest first. """
@@ -157,7 +159,7 @@ def calculate_metadata_stars(dataset_id):
     # amount of comments
     url = '/dataset/%s' % data.get("name")
     cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
-    score += min((cmnt_cnt/2.0), 5.0)
+    score += min((cmnt_cnt / 2.0), 5.0)
 
     # extras?
 
