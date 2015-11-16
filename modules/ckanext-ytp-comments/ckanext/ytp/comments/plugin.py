@@ -75,6 +75,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/edit', controller=controller, action='edit')
         map.connect('/dataset/{dataset_id}/comments/{parent_id}/reply', controller=controller, action='reply')
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/delete', controller=controller, action='delete')
+
         map.connect('single_comment_subscribe', '/dataset/{dataset_id}/subscription/add',
                     controller=controller, action='subscribe', subscribe=True)
         map.connect('single_comment_unsubscribe', '/dataset/{dataset_id}/subscription/remove',

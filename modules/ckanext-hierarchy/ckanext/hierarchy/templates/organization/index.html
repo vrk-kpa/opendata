@@ -1,0 +1,47 @@
+{% ckan_extends %}
+
+{% block scripts %}
+  {{ super() }}
+{% endblock %}
+
+{% block primary_content_inner %}
+
+  <h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
+
+  {% block organizations_search_form %}
+      <form class="search-form no-bottom-border" method="get" data-module="select-switch">
+        <div class="search-input control-group search-giant">
+            <input data-organization-filter type="text" class="search" name="q" value="{{ c.q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
+            <button type="submit">
+                <i class="icon-search"></i>
+                <span>{{ _('Submit') }}</span>
+            </button>
+        </div>
+          {% block search_title %}
+
+                <h1>{% snippet 'snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='organization',from='organizations' %}</h1>
+
+          {% endblock %}
+      </form>
+  {% endblock %}
+
+  {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
+  {% block organizations_list %}
+    {% if c.q and c.page.items %}
+      {# Organizations found with query params, we should show a flatlist #}
+      <ul class="no-bullet">
+       {% for organization in c.page.items %}
+         {% snippet "organization/snippets/organization_item.html", organization=organization, position=loop.index %}
+       {% endfor %}
+      </ul>
+      {% block page_pagination %}
+        {{ c.page.pager(q=c.q) }}
+      {% endblock %}
+    {% elif not c.q and c.page.items %}
+      {# Organizations found but no query params were given, we should show a tree #}
+      <div id="publisher-tree">
+        {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.get_action('group_tree', {'type': 'organization'}), show_dataset_count=true%}
+      </div>
+    {% endif %}
+  {% endblock %}
+{% endblock %}

@@ -7,3 +7,5 @@ _('Link to a URL');
 _('This field is required');
 _('Confirm');
 _('Cancel');
+_('Subscribe to comments');
+_('Unsubscribe from comments');

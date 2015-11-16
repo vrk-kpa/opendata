@@ -2,7 +2,8 @@
 {% ckan_extends %}
 {% block body_extras %}
     {{ super() }}
-    {% resource "ytp_resources/vendor/bootstrap.js" %}
+    {# we already include bootstrap.js in ckan #}
+    {#% resource "ytp_resources/vendor/bootstrap.js" %#}
     {% resource "ytp_resources/vendor/moment-with-langs.js" %}
     {% resource "ytp_resources/vendor/bootstrap-datetimepicker.js" %}
     {% resource "ytp_resources/vendor/jstree/jstree.js" %}

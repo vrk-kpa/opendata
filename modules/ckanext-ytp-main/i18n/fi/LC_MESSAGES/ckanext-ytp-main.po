@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-09 15:19+0200\n"
-"PO-Revision-Date: 2015-11-09 13:46+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"POT-Creation-Date: 2015-11-13 15:31+0200\n"
+"PO-Revision-Date: 2015-11-13 13:35+0000\n"
+"Last-Translator: Peter Kronström <peter.kronstrom@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,6 +76,18 @@ msgstr "Vahvista"
 msgid "Cancel"
 msgstr "Peruuta"
 
+#: ckanext/ytp/common/public/javascript/translations.js:10
+msgid "Subscribe to comments"
+msgstr "Tilaa kommentit sähköpostiin"
+
+#: ckanext/ytp/common/public/javascript/translations.js:11
+msgid "Unsubscribe from comments"
+msgstr "Peruuta kommenttien tilaus"
+
+#: ckanext/ytp/common/public/javascript/translations.js:12
+msgid "asdasdtest"
+msgstr "asdasdasdasd"
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -94,26 +106,41 @@ msgstr "Valitse"
 msgid "Save and close"
 msgstr "Tallenna ja sulje"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:217
+#: ckanext/ytp/common/templates/macros/ytp_form.html:193
+msgid ""
+" A list of predefined content types can be found below in Finnish. You may, "
+"however, add your own additional types if your content doesn't match any of "
+"the given types. "
+msgstr "Voit valita sisältötyypit alla olevasta vakioitujen sisältötyyppien listasta. Voit halutessasi myös käyttää omia sisältötyyppejä."
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:202
+msgid "Content Types"
+msgstr "Sisältötyypit"
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:211
+msgid "Close"
+msgstr "Sulje"
+
+#: ckanext/ytp/common/templates/macros/ytp_form.html:258
 msgid "http://example.com/my-image.jpg"
 msgstr "http://example.com/my-image.jpg"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:218
+#: ckanext/ytp/common/templates/macros/ytp_form.html:259
 #: ckanext/ytp/dataset/templates/related/snippets/related_form.html:18
 #: ckanext/ytp/theme/translations.py:7
 msgid "Image URL"
 msgstr "Kuvan verkko-osoite"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:219
+#: ckanext/ytp/common/templates/macros/ytp_form.html:260
 #: ckanext/ytp/theme/translations.py:8
 msgid "Image"
 msgstr "Logo tai kuvituskuva"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:232
+#: ckanext/ytp/common/templates/macros/ytp_form.html:273
 msgid "Clear Upload"
-msgstr ""
+msgstr "Tyhjennä lataus"
 
-#: ckanext/ytp/common/templates/macros/ytp_form.html:238
+#: ckanext/ytp/common/templates/macros/ytp_form.html:279
 #, python-format
 msgid " Maximum file size is limited to %(size)s MB. "
 msgstr "Tiedoston enimmäiskoko on rajoitettu %(size)s megatavuun."
@@ -390,7 +417,8 @@ msgstr "Aihe"
 
 #: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:364
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:49
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
@@ -948,19 +976,23 @@ msgstr "Vedos"
 msgid "Deleted"
 msgstr "Poistettu"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:180
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
+msgid "A list of predefined content types can be found here"
+msgstr "Täältä löydät listan vakioiduista sisältötyypeistä"
+
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
 msgid "e.g., Open Data"
 msgstr "esim. Avoin data"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:190
 #: ckanext/ytp/dataset/templates/package/snippets/ytp_additional_info.html:12
 #: ckanext/ytp/organizations/templates/organization/about.html:47
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:129
 msgid "Period of validity"
 msgstr "Voimassaolo"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:185
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:189
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:193
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:197
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:64
 #: ckanext/ytp/dataset/templates/package/snippets/resource_form.html:68
 #: ckanext/ytp/organizations/templates/organization/snippets/organization_form.html:132
@@ -968,11 +1000,11 @@ msgstr "Voimassaolo"
 msgid "YYYY-MM-DD"
 msgstr "VVVV-KK-PP"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:194
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:202
 msgid "Extra information at website"
 msgstr "Lisätietoja verkkosivulla"
 
-#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:194
+#: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:202
 msgid "http://www.example.com/"
 msgstr "http://www.example.com/"
 
@@ -2193,7 +2225,7 @@ msgstr[1] ""
 
 #: ckanext/ytp/theme/templates/snippets/search_result_text.html:19
 msgid "No datasets found for \"{query}\""
-msgstr ""
+msgstr "Haulla \"{query}\" ei löytynyt tietoaineistoa"
 
 #: ckanext/ytp/theme/templates/snippets/search_result_text.html:20
 msgid "{number} dataset found"
@@ -2203,7 +2235,7 @@ msgstr[1] ""
 
 #: ckanext/ytp/theme/templates/snippets/search_result_text.html:21
 msgid "No datasets found"
-msgstr ""
+msgstr "Tietoaineistoja ei löytynyt"
 
 #: ckanext/ytp/theme/templates/snippets/search_result_text.html:24
 msgid "{number} group found for \"{query}\""

@@ -176,6 +176,14 @@
     <input type="hidden" id="field-state" name="state" value="{{ data.get('state')}}"></input>
     {# ### YTP extensions to dataset ### #}
 
+    <!-- Content types modal tooltip -->
+
+    {% set content = h.get_tooltip_content_types(lang="fi") %}
+    {% set infolabel = _('A list of predefined content types can be found here') %}
+    {{ ytp_form.modal_tooltip('content_type_tooltip', label=_('Content Type'), btnlabel=infolabel, content=content) }}
+
+    <!-- End of Content types modal tooltip -->
+
     {% set content_type_attrs = {'data-module': 'autocomplete', 'data-module-tags': 'content_type', 'data-module-source': '/ytp-api/1/util/tag/autocomplete?vocabulary_id=content_type&incomplete=?'} %}
     {{ form.input('content_type', id='field-content_type', label=_('Content Type'), placeholder=_('e.g., Open Data'), value=data.content_type, error=errors.content_type, classes=['control-full'], attrs=content_type_attrs, is_required=true) }}
 
