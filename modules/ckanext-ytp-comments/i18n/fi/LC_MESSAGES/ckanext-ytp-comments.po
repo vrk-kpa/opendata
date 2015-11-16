@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-09 15:34+0200\n"
-"PO-Revision-Date: 2015-11-09 13:48+0000\n"
+"PO-Revision-Date: 2015-11-16 09:26+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "Tilaa kommentit sähköpostiin"
 #: ckanext/ytp/comments/templates/organization/read.html:15
 #: ckanext/ytp/comments/templates/package/comment_list.html:98
 msgid "Unsubscribe from comments"
-msgstr "Peruuta kommenttien tilaus"
+msgstr "Peruuta kommenttien sähköpostitilaus"
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:10
 #: ckanext/ytp/comments/templates/package/comment_list.html:86
