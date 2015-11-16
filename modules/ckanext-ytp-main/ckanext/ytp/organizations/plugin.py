@@ -13,7 +13,6 @@ from ckan.plugins import toolkit
 import ckan.lib.base as base
 abort = base.abort
 
-from ckanext.ytp.organizations.logic import action
 from ckanext.ytp.organizations import auth
 from ckanext.ytp.common.tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
@@ -103,6 +102,12 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
+
+    plugins.implements(plugins.IConfigurer, inherit=True)
+
+    # IConfigurer
+    def update_config(self, config):
+        plugins.toolkit.add_template_directory(config, 'templates')
 
     _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
                          'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
@@ -235,6 +240,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         return schema
 
+
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
         from pylons import tmpl_context
@@ -247,6 +253,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
             tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
+    
 
     def _get_dropdown_menu_contents(self, vocabulary_names):
         """ Gets vocabularies by name and mangles them to match data structure required by form.select """
@@ -326,27 +333,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         map.connect('organization_read', '/organization/{id}', controller=organization_controller,
                     action='read', ckan_icon='group')
         return map
-
-
-# From ckanext-hierarchy
-class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
-
-    plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IActions, inherit=True)
-
-    # IConfigurer
-
-    def update_config(self, config):
-        plugins.toolkit.add_template_directory(config, 'templates')
-        plugins.toolkit.add_template_directory(config, 'public')
-        plugins.toolkit.add_resource('public/scripts/vendor/jstree', 'jstree')
-
-    # IActions
-
-    def get_actions(self):
-        return {'group_tree': action.group_tree,
-                'group_tree_section': action.group_tree_section,
-                }
 
 
 def convert_to_list(key, data):
