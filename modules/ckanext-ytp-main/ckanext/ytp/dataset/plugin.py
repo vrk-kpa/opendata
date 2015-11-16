@@ -18,7 +18,7 @@ import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
     sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
-    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars
+    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
@@ -137,7 +137,7 @@ def not_empty_or(item):
             raise StopOnError
     return callback
 
-_key_functions = {u'extras':  _parse_extras}
+_key_functions = {u'extras': _parse_extras}
 
 
 @logic.side_effect_free
@@ -474,7 +474,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
-                'get_geonetwork_link': get_geonetwork_link}
+                'get_geonetwork_link': get_geonetwork_link,
+                'get_tooltip_content_types': get_tooltip_content_types}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -517,9 +518,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         package_dict = data_dict['package_dict']
 
-        LIST_MAP = {'access_constraints': 'copyright_notice'}
+        list_map = {'access_constraints': 'copyright_notice'}
 
-        for source, target in LIST_MAP.iteritems():
+        for source, target in list_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
                     value = json.loads(extra['value'])
@@ -529,9 +530,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             'value': value[0]
                         })
 
-        VALUE_MAP = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email', 'author_email']}
 
-        for source, target in VALUE_MAP.iteritems():
+        for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:

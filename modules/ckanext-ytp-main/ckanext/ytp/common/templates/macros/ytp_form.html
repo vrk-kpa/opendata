@@ -181,6 +181,47 @@
   </div>
 {% endmacro %}
 
+{% macro modal_tooltip(name, id='', label='', btnlabel='', content='') %}
+
+  <div class="modal fade in" role="dialog" aria-labelledby="{{ label }}" id="{{ id or name }}_modal" data-backdrop="true" data-keyboard="true">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal" href="javascript:void(0);">×</a>
+      <h4>{{ label }}</h4>
+    </div>
+    <div class="modal-body">
+      <p>
+      {% trans %}
+      A list of predefined content types can be found below in Finnish.
+      You may, however, add your own additional types if your
+      content doesn't match any of the given types.
+      {% endtrans %}
+      </p>
+      <br />
+
+      {% if content %}
+      <h4>{{ _('Content Types') }}</h4>
+      <span style="font-style:italic;">
+      {% for contype in content %}
+        <span>{{ contype }}</span>{% if not loop.last %}, {% endif %}
+      {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-primary pull-right" data-dismiss="modal" href="javascript:void(0);">{{ _('Close') }}</a>
+    </div>
+  </div>
+
+  <!-- inline info-bubble and link -->
+  <span class="info-block info-inline">
+    <i class="icon-info-sign"></i>
+    <!--<a href="javascript:void(0);" data-toggle="modal" data-backdrop="true" data-target="#{{ id or name }}_modal">{{ btnlabel }}</a >-->
+    <!-- Bootstrap is loaded twice. Modal Fix. -->
+    <a href="javascript:void(0);" onclick="$('#{{ id or name }}_modal').modal();">{{ btnlabel }}</a>
+  </span>
+
+{% endmacro %}
+
 
 {%- macro tree(data, value='', attrs='{}') -%}
   <div data-tree attrs={{ attrs }} >
