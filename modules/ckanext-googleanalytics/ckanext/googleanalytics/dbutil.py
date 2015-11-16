@@ -8,7 +8,7 @@ import datetime
 
 cached_tables = {}
 
-def init_tables(engine):
+def init_tables():
     metadata = MetaData()
     package_stats = Table('package_stats', metadata,
                           Column('package_id', String(60)),
@@ -18,7 +18,7 @@ def init_tables(engine):
                            Column('resource_id', String(60)),
                            Column('visits', Integer),
                            Column('visit_date', DateTime))
-    metadata.create_all(engine)
+    metadata.create_all(model.meta.engine)
 
 def get_table(name):
     if name not in cached_tables:
@@ -128,6 +128,15 @@ def get_resource_visits_for_id(id):
         count = []
     return count
 
+def get_latest_update_date():
+    q = """
+        SELECT max(visit_date) from resource_stats
+        """
+    result = model.Session.connection().execute(text(q)).first()
+    if result == [(None, None)]:
+        result = []
+    return result[0].date()
+
 def get_top_packages(limit=20):
     items = []
     # caveat emptor: the query below will not filter out private
@@ -141,10 +150,14 @@ def get_top_packages(limit=20):
                 .order_by(package_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
     for package_id, visits, visit_date in res:
+        package_dict = {}
         item = q.filter("package.id = '%s'" % package_id)
         if not item.count():
             continue
-        items.append((item.first(), visits, visit_date))
+        package_dict['package'] = item.first()
+        package_dict['recent'] = visits
+        package_dict['ever'] = visit_date
+        items.append(package_dict)
     return items
 
 
@@ -158,9 +171,13 @@ def get_top_resources(limit=20):
                 .order_by(resource_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
     for resource_id, visits, visit_date in res:
+        resource_dict = {}
         item = model.Session.query(model.Resource)\
                .filter("resource.id = '%s'" % resource_id)
         if not item.count():
             continue
-        items.append((item.first(), visits, visit_date))
+        resource_dict['resource'] = item.first()
+        resource_dict['recent'] = visits
+        resource_dict['ever'] = visit_date
+        items.append(resource_dict)
     return items

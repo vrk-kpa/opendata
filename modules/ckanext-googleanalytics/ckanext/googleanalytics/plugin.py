@@ -81,8 +81,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         self.track_events = converters.asbool(
             config.get('googleanalytics.track_events', False))
 
-        if not converters.asbool(config.get('ckan.legacy_templates', 'false')):
-            p.toolkit.add_resource('fanstatic_library', 'ckanext-googleanalytics')
+        p.toolkit.add_resource('fanstatic_library', 'ckanext-googleanalytics')
 
         # spawn a pool of 5 threads, and pass them queue instance
         for i in range(5):
@@ -96,11 +95,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         See IConfigurer.
 
         '''
-        if converters.asbool(config.get('ckan.legacy_templates', 'false')):
-            p.toolkit.add_template_directory(config, 'legacy_templates')
-            p.toolkit.add_public_directory(config, 'legacy_public')
-        else:
-            p.toolkit.add_template_directory(config, 'templates')
+        p.toolkit.add_template_directory(config, 'templates')
 
     def before_map(self, map):
         '''Add new routes that this extension's controllers handle.

@@ -56,10 +56,10 @@ class InitDB(CkanCommand):
 
     def command(self):
         self._load_config()
-        #TODO: Not sure if we still need this workaround
+        #TODO: Try to send engine as parameter to init tables to avoid this ugly workaround
         model.Session.remove()
         model.Session.configure(bind=model.meta.engine)
-        dbutil.init_tables(model.meta.engine)
+        dbutil.init_tables()
         log.info("Set up statistics tables in main database")
 
 
@@ -169,7 +169,7 @@ class LoadAnalytics(CkanCommand):
 
     def bulk_import(self):
         if len(self.args) == 3:
-            # Get summeries from specified date
+            # Get summaries from specified date
             start_date = datetime.datetime.strptime(self.args[2], '%Y-%m-%d')
         else:
             # No date given. See when we last have data for and get data
@@ -343,17 +343,26 @@ class LoadAnalytics(CkanCommand):
            {'identifier': {'visits':3, 'visit_date':<time>}}
         """
         now = datetime.datetime.now()
-        recent_date = now - datetime.timedelta(14)
-        recent_date = recent_date.strftime("%Y-%m-%d")
-        floor_date = datetime.date(2014, 1, 1)
+
+        floor_date = start_date
+        #If there is no last valid value found from database then we make sure to grab all values from start. i.e. 2014
+        #We want to take minimum 2 days worth logs
+        if start_date is None:
+            floor_date = dbutil.get_latest_update_date() - datetime.timedelta(days=2)
+            if floor_date is None:
+               floor_date = datetime.date(2014, 1, 1)
         packages = {}
         queries = ['ga:pagePath=~%s' % PACKAGE_URL]
 
         current_month = datetime.date(now.year, now.month, 1)
         dates = []
-        while current_month > floor_date:
-            dates.append(current_month)
-            current_month = current_month - datetime.timedelta(30)
+
+        #If floor date and current month belong to the same month no need to add backward months
+        if current_month != datetime.date(floor_date.year,floor_date.month,1):
+            while current_month > floor_date:
+                dates.append(current_month)
+                current_month = current_month - datetime.timedelta(days=30)
+        dates.append(floor_date)
 
         current = now.strftime("%Y-%m-%d")
         for date in dates:
