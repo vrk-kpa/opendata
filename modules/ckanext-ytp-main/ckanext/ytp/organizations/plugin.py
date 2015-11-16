@@ -240,7 +240,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
 
         return schema
 
-
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
         from pylons import tmpl_context
@@ -253,7 +252,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
             tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
-    
 
     def _get_dropdown_menu_contents(self, vocabulary_names):
         """ Gets vocabularies by name and mangles them to match data structure required by form.select """
