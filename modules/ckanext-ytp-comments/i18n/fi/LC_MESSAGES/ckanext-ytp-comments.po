@@ -125,6 +125,14 @@ msgstr "Vastaa"
 msgid "Comments"
 msgstr "Kommentit"
 
+#: ckanext/ytp/comments/templates/package/comment_list.html:98
+msgid "Unsubscribe"
+msgstr "Peruuta tilaus"
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:100
+msgid "Subscribe"
+msgstr "Tilaa"
+
 #: ckanext/ytp/comments/templates/package/comment_list.html:107
 msgid "Login to comment."
 msgstr "Kirjaudu sisään kommentoidaksesi"

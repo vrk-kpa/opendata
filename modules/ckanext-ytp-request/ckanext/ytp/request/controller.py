@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 
 class YtpRequestController(BaseController):
-
+      
     not_auth_message = _('Unauthorized')
     request_not_found_message = _('Request not found')
 

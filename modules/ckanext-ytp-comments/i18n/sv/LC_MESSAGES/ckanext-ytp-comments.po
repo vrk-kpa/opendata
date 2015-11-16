@@ -126,6 +126,14 @@ msgstr "Svara"
 msgid "Comments"
 msgstr "Kommentarer"
 
+#: ckanext/ytp/comments/templates/package/comment_list.html:98
+msgid "Unsubscribe"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:100
+msgid "Subscribe"
+msgstr ""
+
 #: ckanext/ytp/comments/templates/package/comment_list.html:107
 msgid "Login to comment."
 msgstr "Logga in för att kommentera."

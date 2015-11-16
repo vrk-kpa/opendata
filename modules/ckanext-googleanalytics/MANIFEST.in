@@ -1,4 +1,2 @@
 recursive-include ckanext/googleanalytics/templates *
 recursive-include ckanext/googleanalytics/fanstatic_library *
-recursive-include ckanext/googleanalytics/legacy_public *
-recursive-include ckanext/googleanalytics/legacy_templates *
