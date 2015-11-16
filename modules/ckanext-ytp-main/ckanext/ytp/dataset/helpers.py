@@ -7,6 +7,11 @@ import datetime
 import logging
 log = logging.getLogger(__name__)
 
+import os
+
+import logging
+log = logging.getLogger(__name__)
+
 
 def service_database_enabled():
     return config.get('ckanext.ytp.dataset.service_database_enabled', 'true') == 'true'
@@ -18,6 +23,22 @@ def get_json_value(value):
         return json.loads(value)
     except:
         return value
+
+
+def get_tooltip_content_types(lang=None):
+    """ Fetches the  """
+    content_types_file = os.path.dirname(os.path.realpath(__file__)) + '/content_types.json'
+
+    if not lang:
+        try:
+            lang = helpers.lang()
+        except TypeError:
+            lang = "fi"
+
+    with open(content_types_file) as types:
+        ct = json.load(types)
+
+    return ct.get(lang)
 
 
 def sort_datasets_by_state_priority(datasets):
@@ -140,7 +161,7 @@ def calculate_metadata_stars(dataset_id):
     # amount of comments
     url = '/dataset/%s' % data.get("name")
     cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
-    score += min((cmnt_cnt/2.0), 5.0)
+    score += min((cmnt_cnt / 2.0), 5.0)
 
     # extras?
 
