@@ -118,7 +118,13 @@ def migrate(options):
 
 
 def add_stat(outcome, res, stats, extra_info=None):
-    res_id = '%s %s' % (res.resource_group.package.name, res.id[:4])
+    try:
+        # pre CKAN 2.3 model
+        package_name = res.resource_group.package.name
+    except AttributeError:
+        # CKAN 2.3+ model
+        package_name = res.package.name
+    res_id = '%s %s' % (package_name, res.id[:4])
     if extra_info:
         res_id += ' %s' % extra_info
     return '\n' + stats.add(outcome, res_id)
