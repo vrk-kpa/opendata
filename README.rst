@@ -92,9 +92,9 @@ NB Previously you needed both ckanext-archiver and ckanext-qa to see the broken 
 
      paster --plugin=ckanext-archiver archiver init --config=production.ini
 
-6. Install the developer dependencies::
+6. Install the developer dependencies, needed for the migration::
 
-     pip install -r requirements-dev.txt
+     pip install -r dev-requirements.txt
 
 7. Migrate your database to the new Archiver tables::
 
@@ -214,7 +214,7 @@ To run the tests:
 
 2. If not done already, install the dev requirements::
 
-    (pyenv)~/pyenv/src/ckan$ pip install ../ckanext-archiver/requirements-dev.txt
+    (pyenv)~/pyenv/src/ckan$ pip install ../ckanext-archiver/dev-requirements.txt
 
 3. From the CKAN root directory (not the extension root) do::
 
