@@ -70,6 +70,18 @@ msgstr "Bekräfta"
 msgid "Cancel"
 msgstr "Avbryt"
 
+#: ckanext/ytp/common/public/javascript/translations.js:10
+msgid "Subscribe to comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:11
+msgid "Unsubscribe from comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:12
+msgid "asdasdtest"
+msgstr ""
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -359,7 +371,7 @@ msgid "Visualization"
 msgstr "Visualisering"
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:391
+#: ckanext/ytp/organizations/plugin.py:389
 msgid "Date format incorrect"
 msgstr "Datumets format är felaktigt"
 
@@ -592,8 +604,8 @@ msgid "unknown"
 msgstr "okänd"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:224
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:238
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:206
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
 msgid "Created"
 msgstr "Skapad"
 
@@ -631,27 +643,27 @@ msgid "Technical extra information"
 msgstr "Teknisk tilläggsinformation"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
 msgid "Stats"
 msgstr "Statistik"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
 msgid "Last 30 days, updated daily"
 msgstr "Senaste 30 dagarna, uppdateras dagligen"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid "All time downloads:"
 msgstr "Totalt nedladdningar:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Year"
 msgstr "År"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Downloads"
 msgstr "Nedladdningar"
 
@@ -697,8 +709,8 @@ msgid "Name Descending"
 msgstr "Namn i nedstigande ordning"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
 msgid "Last Modified"
 msgstr "Senast redigerad"
 
@@ -783,7 +795,6 @@ msgstr ""
 msgid "Resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:243
 msgid "Show change log"
 msgstr ""
 

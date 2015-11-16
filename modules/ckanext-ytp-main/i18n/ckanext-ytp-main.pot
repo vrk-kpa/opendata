@@ -57,6 +57,18 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: ckanext/ytp/common/public/javascript/translations.js:10
+msgid "Subscribe to comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:11
+msgid "Unsubscribe from comments"
+msgstr ""
+
+#: ckanext/ytp/common/public/javascript/translations.js:12
+msgid "asdasdtest"
+msgstr ""
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "

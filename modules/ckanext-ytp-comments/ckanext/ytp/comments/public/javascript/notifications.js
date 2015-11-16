@@ -6,8 +6,8 @@ this.ckan.module('notification', function($, _) {
             loading: false,
             id: null,
             i18n: {
-                follow: _('Subscribe'),
-                unfollow: _('Unsubscribe')
+                subscribe: _('Subscribe to comments'),
+                unsubscribe: _('Unsubscribe from comments')
             }
         },
 
@@ -58,15 +58,15 @@ this.ckan.module('notification', function($, _) {
 
             if (options.action == 'subscribe') {
                 options.action = 'unsubscribe';
-                this.el.html('<i class="icon-remove-sign"></i> ' + this.i18n('Unsubscribe from comments')).addClass('btn-danger');
+                this.el.html('<i class="icon-remove-sign"></i> ' + this.i18n('unsubscribe')).addClass('btn-danger');
             } else {
                 options.action = 'subscribe';
-                this.el.html('<i class="icon-plus-sign"></i> ' + this.i18n('Subscribe to comments')).removeClass('btn-danger');
+                this.el.html('<i class="icon-plus-sign"></i> ' + this.i18n('subscribe')).removeClass('btn-danger');
             }
 
             console.log("done");
 
-            sandbox.publish('follow-' + options.action + '-' + options.id);
+            sandbox.publish('notification-' + options.action + '-' + options.id);
         }
     };
 });

@@ -76,6 +76,18 @@ msgstr "Vahvista"
 msgid "Cancel"
 msgstr "Peruuta"
 
+#: ckanext/ytp/common/public/javascript/translations.js:10
+msgid "Subscribe to comments"
+msgstr "Tilaa kommentit sähköpostiin"
+
+#: ckanext/ytp/common/public/javascript/translations.js:11
+msgid "Unsubscribe from comments"
+msgstr "Peruuta kommenttien tilaus"
+
+#: ckanext/ytp/common/public/javascript/translations.js:12
+msgid "asdasdtest"
+msgstr "asdasdasdasd"
+
 #: ckanext/ytp/common/templates/macros/ytp_form.html:88
 msgid ""
 "You can use <a href=\"/en/markdownsyntax\" target=\"_blank\">Markdown "
@@ -365,7 +377,7 @@ msgid "Visualization"
 msgstr "Visualisointi"
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:391
+#: ckanext/ytp/organizations/plugin.py:389
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
@@ -637,27 +649,27 @@ msgid "Technical extra information"
 msgstr "Tekniset lisätiedot"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
 msgid "Stats"
 msgstr "Tilastot"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
 msgid "Last 30 days, updated daily"
 msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid "All time downloads:"
 msgstr "Latauksia kaikkiaan:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Year"
 msgstr "Vuosi"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Downloads"
 msgstr "Latauksia"
 
@@ -703,8 +715,8 @@ msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
@@ -762,6 +774,7 @@ msgid "Metadata Quality"
 msgstr "Metatietojen laatu"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:127
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -769,27 +782,30 @@ msgid ""
 "resource downloads, comments and translations into consideration."
 msgstr "Tietoaineiston laatu on korkein arvostelu aineistolinkeistä. Se on automaattisesti laskettu ja jos se on nolla, aineistolinkit ovat saavuttamattomissa tai ovat tuntematonta tyyppiä. Metatietojen laatuluokitus ottaa huomioon täytettyjen tietokenttien määrän, sivukäynnit, tietoaineiston lataukset, kommentit ja käännökset."
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:144
 msgid "All time visits:"
 msgstr "Sivunäyttöjä kaikkiaan:"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
 msgid "Visits"
 msgstr "Sivunäytöt"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:202
 msgid "Change log"
 msgstr "Muutoshistoria"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:221
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:203
 msgid "Dataset"
 msgstr "Tietoaineisto"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:231
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:213
 msgid "Resource"
 msgstr "Aineistolinkki"
 
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:243
+
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:225
 msgid "Show change log"
 msgstr "Näytä muutoshistoria"
 
