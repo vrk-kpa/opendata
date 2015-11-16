@@ -45,6 +45,4 @@ class HierarchyForm(p.SingletonPlugin, DefaultOrganizationForm):
             c.allowable_parent_groups = \
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
-            c.allowable_parent_groups = model.Group.all(
-                                                group_type='organization')
-
+            c.allowable_parent_groups = model.Group.all(group_type='organization')
