@@ -134,6 +134,7 @@ Config settings
 
       * ckanext-archiver.archive_dir - path to the directory that archived files will be saved to (e.g. ``/www/resource_cache``)
       * ckanext-archiver.max_content_length - the maximum size (in bytes) of files to archive (default ``50000000`` =50MB)
+      * ckanext.archiver.user_agent_string - identifies the archiver to servers it archives from
 
 4.  Nightly report generation
 

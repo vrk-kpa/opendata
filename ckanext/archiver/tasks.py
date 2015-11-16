@@ -286,11 +286,13 @@ def download(context, resource, url_timeout=30,
             not url.startswith('http')):
         url = context['site_url'].rstrip('/') + url
 
+    headers = _set_user_agent_string({})
+
     # start the download - just get the headers
     # May raise DownloadException
     method_func = {'GET': requests.get, 'POST': requests.post}[method]
-    res = convert_requests_exceptions(log, method_func, url, timeout=url_timeout,
-                                      stream=True)
+    res = requests_wrapper(log, method_func, url, timeout=url_timeout,
+                           stream=True, headers=headers)
     url_redirected_to = res.url if url != res.url else None
     if not res.ok:  # i.e. 404 or something
         raise DownloadError('Server reported status error: %s %s' %
@@ -332,7 +334,7 @@ def download(context, resource, url_timeout=30,
     def get_content():
         return res.content
     log.info('Downloading the body')
-    content = convert_requests_exceptions(log, get_content)
+    content = requests_wrapper(log, get_content)
 
     # APIs can return status 200, but contain an error message in the body
     if response_is_an_api_error(content):
@@ -447,6 +449,17 @@ def _clean_content_type(ct):
     if 'charset' in ct:
         return ct[:ct.index(';')]
     return ct
+
+
+def _set_user_agent_string(headers):
+    '''
+    Update the passed headers object with a `User-Agent` key, if there is a
+    USER_AGENT_STRING option in settings.
+    '''
+    ua_str = settings.USER_AGENT_STRING
+    if ua_str is not None:
+        headers['User-Agent'] = ua_str
+    return headers
 
 
 def tidy_url(url):
@@ -581,13 +594,14 @@ def save_archival(resource, status_id, reason, url_redirected_to,
     log.info('Archival saved: %r', archival)
     model.repo.commit_and_remove()
 
-def convert_requests_exceptions(log, func, *args, **kwargs):
+
+def requests_wrapper(log, func, *args, **kwargs):
     '''
     Run a requests command, catching exceptions and reraising them as
     DownloadException. Status errors, such as 404 or 500 do not cause
     exceptions, instead exposed as not response.ok.
     e.g.
-    >>> convert_requests_exceptions(log, requests.get, url, timeout=url_timeout)
+    >>> requests_wrapper(log, requests.get, url, timeout=url_timeout)
     runs:
         res = requests.get(url, timeout=url_timeout)
     '''
