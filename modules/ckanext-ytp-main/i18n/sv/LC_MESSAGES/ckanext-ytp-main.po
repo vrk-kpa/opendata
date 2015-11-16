@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-09 15:19+0200\n"
-"PO-Revision-Date: 2015-11-09 13:33+0000\n"
+"PO-Revision-Date: 2015-11-16 09:24+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -72,11 +72,11 @@ msgstr "Avbryt"
 
 #: ckanext/ytp/common/public/javascript/translations.js:10
 msgid "Subscribe to comments"
-msgstr ""
+msgstr "Prenumerera på kommentarer"
 
 #: ckanext/ytp/common/public/javascript/translations.js:11
 msgid "Unsubscribe from comments"
-msgstr ""
+msgstr "Säg upp prenumeration"
 
 #: ckanext/ytp/common/public/javascript/translations.js:12
 msgid "asdasdtest"
@@ -371,7 +371,7 @@ msgid "Visualization"
 msgstr "Visualisering"
 
 #: ckanext/ytp/dataset/converters.py:15 ckanext/ytp/dataset/converters.py:25
-#: ckanext/ytp/organizations/plugin.py:389
+#: ckanext/ytp/organizations/plugin.py:391
 msgid "Date format incorrect"
 msgstr "Datumets format är felaktigt"
 
@@ -604,8 +604,8 @@ msgid "unknown"
 msgstr "okänd"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:99
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:206
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:238
 msgid "Created"
 msgstr "Skapad"
 
@@ -643,27 +643,27 @@ msgid "Technical extra information"
 msgstr "Teknisk tilläggsinformation"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:158
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:140
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:158
 msgid "Stats"
 msgstr "Statistik"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:159
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:141
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:159
 msgid "Last 30 days, updated daily"
 msgstr "Senaste 30 dagarna, uppdateras dagligen"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:162
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:163
 msgid "All time downloads:"
 msgstr "Totalt nedladdningar:"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Year"
 msgstr "År"
 
 #: ckanext/ytp/dataset/templates/package/resource_read.html:178
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Downloads"
 msgstr "Nedladdningar"
 
@@ -709,8 +709,8 @@ msgid "Name Descending"
 msgstr "Namn i nedstigande ordning"
 
 #: ckanext/ytp/dataset/templates/package/search.html:57
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:205
-#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:217
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:223
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:235
 msgid "Last Modified"
 msgstr "Senast redigerad"
 
@@ -749,23 +749,23 @@ msgstr "Sök i dataseten..."
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:65
 msgid "Content Link"
-msgstr ""
+msgstr "Innehållslink"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:108
 msgid "License Not Specified"
-msgstr ""
+msgstr "Ingen licens specifierad"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:119
 msgid "Dataset Quality"
-msgstr ""
+msgstr "Datasetets kvalitet"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:123
 msgid "Resource Quality"
-msgstr ""
+msgstr "Materiallänkskvalitet"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:137
 msgid "Metadata Quality"
-msgstr ""
+msgstr "Metadatas kvalitet"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:145
 msgid ""
@@ -777,15 +777,15 @@ msgstr ""
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:162
 msgid "All time visits:"
-msgstr ""
+msgstr "Sidvisningar totalt:"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:179
 msgid "Visits"
-msgstr ""
+msgstr "Sidvisningar"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:220
 msgid "Change log"
-msgstr ""
+msgstr "Versionshistorik"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:221
 msgid "Dataset"
@@ -795,8 +795,9 @@ msgstr ""
 msgid "Resource"
 msgstr ""
 
+#: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:243
 msgid "Show change log"
-msgstr ""
+msgstr "Visa versionshistorik"
 
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_social.html:5
 msgid "Social"
@@ -1488,7 +1489,7 @@ msgstr "Medlemsansökan"
 
 #: ckanext/ytp/organizations/templates/organization/index.html:19
 msgid "My membership requests"
-msgstr ""
+msgstr "Medlemsansökan"
 
 #: ckanext/ytp/organizations/templates/organization/index.html:24
 #: ckanext/ytp/organizations/templates/organization/user_list.html:4
