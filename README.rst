@@ -50,7 +50,11 @@ To install ckanext-archiver:
      pip install -e git+http://github.com/ckan/ckanext-archiver.git#egg=ckanext-archiver
      pip install -e git+http://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
 
-3. Now create the database tables::
+3. Install the archiver dependencies::
+
+     pip install -r ckanext-archiver/requirements.txt
+
+4. Now create the database tables::
 
      paster --plugin=ckanext-archiver archiver init --config=production.ini
      paster --plugin=ckanext-report report initdb --config=production.ini
@@ -88,15 +92,20 @@ NB Previously you needed both ckanext-archiver and ckanext-qa to see the broken 
      git pull
      python setup.py develop
 
+
 5. Create the new database tables::
 
      paster --plugin=ckanext-archiver archiver init --config=production.ini
 
-6. Install the developer dependencies, needed for the migration::
+6. Ensure the archiver dependencies are installed::
+
+     pip install -r requirements.txt
+
+7. Install the developer dependencies, needed for the migration::
 
      pip install -r dev-requirements.txt
 
-7. Migrate your database to the new Archiver tables::
+8. Migrate your database to the new Archiver tables::
 
      python ckanext/archiver/bin/migrate_task_status.py --write production.ini
 
