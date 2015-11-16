@@ -11,3 +11,4 @@ recursive-include ckanext/ytp/common/public *
 recursive-include ckanext/ytp/common/templates *
 recursive-include ckanext/ytp/service/public *
 recursive-include ckanext/ytp/service/templates *
+include ckanext/ytp/dataset/content_types.json
