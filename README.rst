@@ -1,13 +1,20 @@
-CKAN Quality Assurance Extension
-================================
+.. You should enable this project on travis-ci.org and coveralls.io to make
+   these badges work. The necessary Travis and Coverage config files have been
+   generated for you.
+
+.. image:: https://travis-ci.org/datagovuk/ckanext-qa.svg?branch=master
+    :target: https://travis-ci.org/datagovuk/ckanext-qa
+
+CKAN QA Extension (Quality Assurance)
+=====================================
 
 The ckanext-qa extension will check each of your dataset resources in CKAN and give
 them an 'openness score' based Tim Berners-Lee's five stars of openness
 (http://lab.linkeddata.deri.ie/2010/star-scheme-by-example)
 
-It provides a report that allows you to view broken links and openness scores.
+The openness score is displayed as stars on the dataset and resource pages.
 
-TODO: Add display the score on the dataset / resource for the default CKAN templates.
+It also provides a report that allows you to view the openness scores.
 
 
 Requirements
@@ -22,7 +29,7 @@ Before installing ckanext-qa, make sure that you have installed the following:
 Installation
 ------------
 
-To install ckanext-qa, ensure you have previously installed ckanext-archiver and ckanext-report and then:
+To install ckanext-qa, ensure you have previously installed ckanext-archiver (v2.0+) and ckanext-report and then:
 
 1. Activate your CKAN virtual environment, for example::
 
@@ -32,15 +39,19 @@ To install ckanext-qa, ensure you have previously installed ckanext-archiver and
 
      pip install -e git+http://github.com/okfn/ckanext-qa.git#egg=ckanext-qa
 
-3. Now create the database tables::
+3. Install the qa dependencies::
+
+     pip install -r ckanext-qa/requirements.txt
+
+4. Now create the database tables::
 
      paster --plugin=ckanext-qa qa init --config=production.ini
 
-4. Add ``qa`` to the ``ckan.plugins`` setting in your CKAN
+5. Add ``qa`` to the ``ckan.plugins`` setting BEFORE ``archiver`` in your CKAN
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+6. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
@@ -48,7 +59,7 @@ To install ckanext-qa, ensure you have previously installed ckanext-archiver and
 Upgrade from version 0.1 to 2.x
 -------------------------------
 
-NB You should upgrade ckanext-archiver and ckanext-qa from v0.1 to 2.x in one go. Upgrade them first and then carry out the following:
+NB You should upgrade ckanext-archiver and ckanext-qa from v0.1 to 2.x in one go. Upgrade ckanext-archiver first and then carry out the following:
 
 1. Activate your CKAN virtual environment, for example::
 
@@ -64,22 +75,30 @@ NB You should upgrade ckanext-archiver and ckanext-qa from v0.1 to 2.x in one go
 
      paster --plugin=ckanext-qa qa init --config=production.ini
 
-4. Install the developer dependencies::
+4. Install the normal and developer dependencies::
 
-     pip install -r requirements-dev.txt
+     pip install -r requirements.txt
+     pip install -r dev-requirements.txt
 
 5. Migrate your database to the new QA tables::
 
      python ckanext/qa/bin/migrate_task_status.py --write production.ini
 
+6. (Re)start the `paster celeryd2 run` processes described for ckanext-archiver.
+
+
 Configuration
 -------------
 
-You must make sure that the following is set in your CKAN config:
-
-::
+You must make sure that the following is set in your CKAN config::
 
     ckan.site_url = <URL to your CKAN instance>
+
+Optionally you can configure a different set of scores to award each resource format::
+
+    qa.resource_format_openness_scores_json = <filepath>
+
+The default value is `resource_format_openness_scores.json`)
 
 
 Using The QA Extension
@@ -115,8 +134,18 @@ To run the tests:
 
 2. If not done already, install the dev requirements::
 
-    (pyenv)~/pyenv/src/ckan$ pip install ../ckanext-qa/requirements-dev.txt
+    (pyenv)~/pyenv/src/ckan$ pip install ../ckanext-qa/dev-requirements.txt
 
 3. From the CKAN root directory (not the extension root) do::
 
     (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-qa/tests/ --with-pylons=../ckanext-qa/test-core.ini
+
+
+Questions
+---------
+
+The archiver info shows on the dataset/resource pages but the QA doesn't
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You need to ensure that in your ``ckan.plugins`` you have ``qa`` listed BEFORE ``archiver`` or else the template inheritance doesn't work and this happens.
+

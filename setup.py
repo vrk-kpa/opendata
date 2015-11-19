@@ -8,7 +8,7 @@ setup(
     long_description='',
     classifiers=[],
     keywords='',
-    author='Open Knowledge Foundation',
+    author='Open Knowledge Foundation, Cabinet Office & contributors',
     author_email='info@okfn.org',
     url='http://ckan.org/wiki/Extensions',
     license='mit',
@@ -17,14 +17,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'celery==2.4.2',
-        'kombu==2.1.3',
-        'kombu-sqlalchemy==1.1.0',
-        'SQLAlchemy>=0.6.6',
-        'requests>=1.1.0',
-        'python-magic==0.4.6',
-        'xlrd>=0.8.0',
-        'messytables>=0.8',
+        # Requirements defined in requirements.txt
     ],
     tests_require=[
         'nose',

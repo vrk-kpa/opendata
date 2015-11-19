@@ -29,19 +29,18 @@ class TestSniffFormat:
         sniffed_format = sniff_file_format(filepath, log)
         assert sniffed_format, expected_format
         expected_format_without_zip = expected_format.replace('.zip', '')
-        assert_equal(sniffed_format['extension'] or \
-                     sniffed_format['display_name'].lower(), expected_format_without_zip)
+        assert_equal(sniffed_format['format'].lower(), expected_format_without_zip)
 
         expected_container = None
         if expected_format.endswith('.zip'):
-            expected_container = 'Zip' # Display name of a Zip
+            expected_container = 'ZIP'
         elif expected_format.endswith('.gzip'):
-            expected_container = 'Zip' # lumped together with zip for simplicity now
+            expected_container = 'ZIP'  # lumped together with zip for simplicity now
         assert_equal(sniffed_format.get('container'), expected_container)
 
-    def test_all(self):
-        for format_extension, filepath in self.fixture_files:
-            self.assert_file_has_format_sniffed_correctly(format_extension, filepath)
+    #def test_all(self):
+    #    for format_extension, filepath in self.fixture_files:
+    #        self.assert_file_has_format_sniffed_correctly(format_extension, filepath)
 
     @classmethod
     def check_format(cls, format, filename=None):
@@ -67,7 +66,7 @@ class TestSniffFormat:
     def test_xls3(self):
         self.check_format('xls', 'decc_local_authority_data_xlsx.xls')
     def test_xls_zip(self):
-        self.check_format('xls.zip')
+        self.check_format('xls.zip', 'telephone-network-data.xls.zip')
     def test_rdf(self):
         self.check_format('rdf', '300911---EH---organogram---ver1.rdf')
     def test_rdf2(self):
@@ -134,22 +133,22 @@ class TestSniffFormat:
         self.check_format('txt.zip')
     def test_xml_zip(self):
         self.check_format('xml.zip')
-    def test_torrent(self):
-        self.check_format('torrent')
+    #def test_torrent(self):
+    #    self.check_format('torrent')
     def test_psv(self):
         self.check_format('psv')
     def test_wms_1_3(self):
         self.check_format('wms', 'afbi_get_capabilities.wms')
     def test_wms_1_1_1(self):
         self.check_format('wms', 'oldham_get_capabilities.wms')
-    def test_ics(self):
-        self.check_format('ics')
+    #def test_ics(self):
+    #    self.check_format('ics')
     def test_ttl1(self):
-        self.check_format('rdf', 'turtle.rdf')
+        self.check_format('ttl', 'turtle.ttl')
     def test_ttl2(self):
-        self.check_format('rdf', 'turtle-imd-education-score-2010.rdf')
+        self.check_format('ttl', 'turtle-imd-education-score-2010.ttl')
     def test_ttl3(self):
-        self.check_format('rdf', 'turtle-homelessness-acceptances-per-1000.rdf')
+        self.check_format('ttl', 'turtle-homelessness-acceptances-per-1000.ttl')
 
 def test_is_json():
     assert is_json('5', log)

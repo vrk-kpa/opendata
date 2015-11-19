@@ -4,31 +4,34 @@ import os
 from collections import defaultdict
 import subprocess
 import StringIO
-import copy
 
 import xlrd
 import magic
 import messytables
 
-from ckanext.dgu.lib.formats import Formats
+from ckanext.qa import lib
+from ckan.lib import helpers as ckan_helpers
 
 
 def sniff_file_format(filepath, log):
     '''For a given filepath, work out what file format it is.
-    Returns Format dict with a key to say if it is contained
-    in a zip or something.
-    e.g. {'display_name': 'CSV',
+
+    Returns a dict with format as a string, which is the format's canonical
+    shortname (as defined by ckan's resource_formats.json) and a key that says
+    if it is contained in a zip or something.
+
+    e.g. {'format': 'CSV',
           'container': 'zip',
-           ...}
+          }
     or None if it can\'t tell what it is.
 
-    Note, log is a logger, either a Celery one or a standard
-    Python logging one.
+    Note, log is a logger, either a Celery one or a standard Python logging
+    one.
     '''
     format_ = None
     log.info('Sniffing file format of: %s', filepath)
     filepath_utf8 = filepath.encode('utf8') if isinstance(filepath, unicode) \
-                    else filepath
+        else filepath
     mime_type = magic.from_file(filepath_utf8, mime=True)
     log.info('Magic detects file as: %s', mime_type)
     if mime_type:
@@ -43,11 +46,11 @@ def sniff_file_format(filepath, log):
             # MS Office files too, so use BSD File to be sure which it is.
             format_ = run_bsd_file(filepath, log)
             if not format_ and is_excel(filepath, log):
-                format_ = Formats.by_display_name()['XLS']
+                format_ = {'format': 'XLS'}
         elif mime_type == 'application/octet-stream':
             # Excel files sometimes come up as this
             if is_excel(filepath, log):
-                format_ = Formats.by_display_name()['XLS']
+                format_ = {'format': 'XLS'}
             else:
                 # e.g. Shapefile
                 format_ = run_bsd_file(filepath, log)
@@ -60,12 +63,14 @@ def sniff_file_format(filepath, log):
             with open(filepath) as f:
                 buf = f.read(100)
             if is_iati(buf, log):
-                format_ = Formats.by_display_name()['IATI']
-                
+                format_ = {'format': 'IATI'}
+
         if format_:
             return format_
-                
-        format_ = Formats.by_mime_type().get(mime_type)
+
+        format_tuple = ckan_helpers.resource_formats().get(mime_type)
+        if format_tuple:
+            format_ = {'format': format_tuple[1]}
 
         if not format_:
             if mime_type.startswith('text/'):
@@ -73,47 +78,49 @@ def sniff_file_format(filepath, log):
                 with open(filepath, 'rU') as f:
                     buf = f.read(10000)
                 if is_json(buf, log):
-                    format_ = Formats.by_extension()['json']
+                    format_ = {'format': 'JSON'}
                 # is it CSV?
                 elif is_csv(buf, log):
-                    format_ = Formats.by_extension()['csv']
+                    format_ = {'format': 'CSV'}
                 elif is_psv(buf, log):
-                    format_ = Formats.by_extension()['psv']
+                    format_ = {'format': 'PSV'}
 
         if not format_:
-            log.warning('Mimetype not recognised by CKAN as a data format: %s', mime_type)
-            
-        if format_:
-            log.info('Mimetype translates to filetype: %s', format_['display_name'])
+            log.warning('Mimetype not recognised by CKAN as a data format: %s',
+                        mime_type)
 
-            if format_['display_name'] == 'TXT':
+        if format_:
+            log.info('Mimetype translates to filetype: %s',
+                     format_['format'])
+
+            if format_['format'] == 'TXT':
                 # is it JSON?
                 with open(filepath, 'rU') as f:
                     buf = f.read(10000)
                 if is_json(buf, log):
-                    format_ = Formats.by_extension()['json']
+                    format_ = {'format': 'JSON'}
                 # is it CSV?
                 elif is_csv(buf, log):
-                    format_ = Formats.by_extension()['csv']
+                    format_ = {'format': 'CSV'}
                 elif is_psv(buf, log):
-                    format_ = Formats.by_extension()['psv']
+                    format_ = {'format': 'PSV'}
                 # XML files without the "<?xml ... ?>" tag end up here
                 elif is_xml_but_without_declaration(buf, log):
                     format_ = get_xml_variant_without_xml_declaration(buf, log)
                 elif is_ttl(buf, log):
-                    format_ = Formats.by_extension()['ttl']
+                    format_ = {'format': 'TTL'}
 
-            elif format_['display_name'] == 'HTML':
+            elif format_['format'] == 'HTML':
                 # maybe it has RDFa in it
                 with open(filepath) as f:
                     buf = f.read(100000)
                 if has_rdfa(buf, log):
-                    format_ = Formats.by_display_name()['RDFa']
+                    format_ = {'format': 'RDFa'}
 
     else:
         # Excel files sometimes not picked up by magic, so try alternative
         if is_excel(filepath, log):
-            format_ = Formats.by_display_name()['XLS']
+            format_ = {'format': 'XLS'}
         # BSD file picks up some files that Magic misses
         # e.g. some MS Word files
         if not format_:
@@ -183,7 +190,7 @@ def is_json(buf, log):
         if number_of_matches > 5:
             log.info('JSON detected: %i matches', number_of_matches)
             return True
-                                 
+
     log.info('JSON detected: %i matches', number_of_matches)
     return True
 
@@ -245,7 +252,7 @@ def is_html(buf, log):
     match = re.match(xml_re, buf, re.IGNORECASE)
     if match:
         log.info('HTML tag detected')
-        return Formats.by_extension()['html']
+        return {'format': 'HTML'}
     log.debug('Not HTML')
 
 def is_iati(buf, log):
@@ -254,7 +261,7 @@ def is_iati(buf, log):
     match = re.match(xml_re, buf, re.IGNORECASE)
     if match:
         log.info('IATI tag detected')
-        return Formats.by_extension()['iati']
+        return {'format': 'IATI'}
     log.debug('Not IATI')
 
 def is_xml_but_without_declaration(buf, log):
@@ -295,12 +302,13 @@ def get_xml_variant_without_xml_declaration(buf, log):
         top_level_tag_name = top_level_tag_name.replace('rdf:rdf', 'rdf')
         top_level_tag_name = top_level_tag_name.replace('wms_capabilities', 'wms')  # WMS 1.3
         top_level_tag_name = top_level_tag_name.replace('wmt_ms_capabilities', 'wms')  # WMS 1.1.1
-        if top_level_tag_name in Formats.by_extension():
-            format_ = Formats.by_extension()[top_level_tag_name]
-            log.info('XML variant detected: %s', format_['display_name'])
+        format_tuple = ckan_helpers.resource_formats().get(top_level_tag_name)
+        if format_tuple:
+            format_ = {'format': format_tuple[1]}
+            log.info('XML variant detected: %s', format_tuple[2])
             return format_
         log.warning('Did not recognise XML format: %s', top_level_tag_name)
-        return Formats.by_extension()['xml']
+        return {'format': 'XML'}
     log.debug('XML tags not found: %s', buf)
 
 def has_rdfa(buf, log):
@@ -349,29 +357,29 @@ def get_zipped_format(filepath, log):
     top_scoring_extension_counts = defaultdict(int) # extension: number_of_files
     for filename in filenames:
         extension = os.path.splitext(filename)[-1][1:].lower()
-        if extension in Formats.by_extension():
-            format_ = Formats.by_extension()[extension]
-            if format_['openness'] > top_score:
-                top_score = format_['openness']
+        format_tuple = ckan_helpers.resource_formats().get(extension)
+        if format_tuple:
+            score = lib.resource_format_scores().get(format_tuple[1])
+            if score is not None and score > top_score:
+                top_score = score
                 top_scoring_extension_counts = defaultdict(int)
-            if format_['openness'] == top_score:
+            if score == top_score:
                 top_scoring_extension_counts[extension] += 1
         else:
             log.info('Zipped file of unknown extension: "%s" (%s)', extension, filepath)
     if not top_scoring_extension_counts:
         log.info('Zip has no known extensions: %s', filepath)
-        return Formats.by_display_name()['Zip']
+        return {'format': 'ZIP'}
 
     top_scoring_extension_counts = sorted(top_scoring_extension_counts.items(),
                                           key=lambda x: x[1])
     top_extension = top_scoring_extension_counts[-1][0]
     log.info('Zip file\'s most popular extension is "%s" (All extensions: %r)',
              top_extension, top_scoring_extension_counts)
-    format_ = Formats.by_extension()[top_extension]
-    # take a copy of the format_ dict to avoid altering the copy held in Formats
-    format_ = copy.deepcopy(format_)
-    format_['container'] = Formats.by_display_name()['Zip']['display_name']
-    log.info('Zipped file format detected: %s', format_['display_name'])
+    format_tuple = ckan_helpers.resource_formats()[top_extension]
+    format_ = {'format': format_tuple[1],
+               'container': 'ZIP'}
+    log.info('Zipped file format detected: %s', format_tuple[2])
     return format_
 
 
@@ -402,7 +410,7 @@ def check_output(*popenargs, **kwargs):
 
 def run_bsd_file(filepath, log):
     '''Run the BSD command-line tool "file" to determine file type. Returns
-    a Format or None if it fails.'''
+    a format dict or None if it fails.'''
     result = check_output(['file', filepath])
     match = re.search('Name of Creating Application: ([^,]*),', result)
     if match:
@@ -416,15 +424,15 @@ def run_bsd_file(filepath, log):
                       }
         if app_name in format_map:
             extension = format_map[app_name]
-            format_ = Formats.by_extension()[extension]
+            format_tuple = ckan_helpers.resource_formats()[extension]
             log.info('"file" detected file format: %s',
-                     format_['display_name'])
-            return format_
+                     format_tuple[2])
+            return {'format': format_tuple[1]}
     match = re.search(': ESRI Shapefile', result)
     if match:
-        format_ = Formats.by_extension()['shp']
+        format_ = {'format': 'SHP'}
         log.info('"file" detected file format: %s',
-                 format_['display_name'])
+                 format_['format'])
         return format_
     log.info('"file" could not determine file format of "%s": %s',
              filepath, result)
