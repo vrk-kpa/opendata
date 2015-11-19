@@ -330,6 +330,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         map.connect('/organization/new', action='new', controller='organization')
         map.connect('organization_read', '/organization/{id}', controller=organization_controller,
                     action='read', ckan_icon='group')
+        map.connect('organization_embed', '/organization/{id}/embed', controller=organization_controller,
+            action='embed', ckan_icon='group')
         return map
 
 

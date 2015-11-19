@@ -2,8 +2,8 @@ from ckan import model
 from ckan.common import c, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
-from ckan.lib.base import abort
-from ckan.logic import check_access
+from ckan.lib.base import abort, render
+from ckan.logic import check_access, get_action
 
 import logging
 
@@ -84,3 +84,24 @@ class YtpOrganizationController(OrganizationController):
                 return self._render_template('group/organization_not_found.html')
 
         return OrganizationController.read(self, id, limit)
+
+    def embed(self, id, limit=10):
+
+        try:
+            context = {
+                'model': model,
+                'session': model.Session,
+                'user': c.user or c.author
+            }
+            check_access('group_show', context, {'id': id})
+        except NotFound:
+            abort(404, _('Group not found'))
+        except NotAuthorized:
+            g = model.Session.query(model.Group).filter(model.Group.name == id).first()
+            if g is None or g.state != 'active':
+                return self._render_template('group/organization_not_found.html')
+
+        group_type = 'organization'
+        OrganizationController.read(self, id, limit)
+
+        return render("organization/embed.html")
