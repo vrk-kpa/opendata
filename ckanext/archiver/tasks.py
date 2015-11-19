@@ -108,7 +108,6 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
     Archive a package.
     '''
     from ckan import model
-    from ckan.plugins import toolkit
 
     get_action = toolkit.get_action
 
@@ -133,7 +132,7 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
             raise
         # Any problem at all is logged and reraised so that celery can log it too
         log.error('Error occurred during archiving package: %s\nPackage: %r %r',
-                  e, package_id, package['name'] if package in dir() else '')
+                  e, package_id, package['name'] if 'package' in dir() else '')
         raise
 
     notify_package(package, queue, ckan_ini_filepath)
@@ -217,7 +216,7 @@ def _update_resource(ckan_ini_filepath, resource_id, queue):
     download_status_id = Status.by_text('Archived successfully')
     context = {
         'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
-        'cache_url_root': config.get('ckan.cache_url_root'),
+        'cache_url_root': config.get('ckanext-archiver.cache_url_root'),
         }
     try:
         download_result = download(context, resource)
@@ -438,7 +437,7 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
     if not context.get('cache_url_root'):
         log.warning('Not saved cache_url because no value for cache_url_root '
                     'in config')
-        raise ArchiveError('No value for cache_url_root in config')
+        raise ArchiveError('No value for ckanext-archiver.cache_url_root in config')
     cache_url = urlparse.urljoin(context['cache_url_root'],
                                  '%s/%s' % (relative_archive_path, file_name))
     return {'cache_filepath': saved_file,

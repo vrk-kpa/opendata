@@ -95,28 +95,33 @@ NB Previously you needed both ckanext-archiver and ckanext-qa to see the broken 
    should already have ``archiver``) (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Upgrade the ckanext-archiver Python package::
+4. Also in your CKAN config file, rename old config option keys if you have them:
+
+     * ``ckan.cache_url_root`` to ``ckanext-archiver.cache_url_root``
+     * ``ckanext.archiver.user_agent_string`` to ``ckanext-archiver.user_agent_string``
+
+5. Upgrade the ckanext-archiver Python package::
 
      cd ckanext-archiver
      git pull
      python setup.py develop
 
-
-5. Create the new database tables::
+6. Create the new database tables::
 
      paster --plugin=ckanext-archiver archiver init --config=production.ini
 
-6. Ensure the archiver dependencies are installed::
+7. Ensure the archiver dependencies are installed::
 
      pip install -r requirements.txt
 
-7. Install the developer dependencies, needed for the migration::
+8. Install the developer dependencies, needed for the migration::
 
      pip install -r dev-requirements.txt
 
-8. Migrate your database to the new Archiver tables::
+9. Migrate your database to the new Archiver tables::
 
      python ckanext/archiver/bin/migrate_task_status.py --write production.ini
+
 
 Installing a Celery queue backend
 ---------------------------------
@@ -164,9 +169,9 @@ When archiving resources on servers which use HTTPS, you might encounter this er
 
     requests.exceptions.SSLError: [Errno 1] _ssl.c:504: error:14077410:SSL routines:SSL23_GET_SERVER_HELLO:sslv3 alert handshake failure
 
-Whilst this could be a problem with the server, it is likely due to you needing to install SNI support on the machine that ckanext-archiver runs. Server Name Indication (SNL) is for when a server has multiple SSL certificates, which is a relatively new feature. This requires installing a recent version of OpenSSL plus the python libraries to make use of this feature..
+Whilst this could possibly be a problem with the server, it is most likely due to you needing to install SNI support on the machine that ckanext-archiver runs. Server Name Indication (SNI) is for when a server has multiple SSL certificates, which is a relatively new feature in HTTPS. This requires installing a recent version of OpenSSL plus the python libraries to make use of this feature.
 
-If you have SNI support installed then this should run without the error::
+If you have SNI support installed then this should command run without the above error::
 
     python -c 'import requests; requests.get("http://files.datapress.com")'
 
@@ -176,9 +181,11 @@ On Ubuntu 12.04 you can install SNI support by doing this::
     . /usr/lib/ckan/default/bin/activate
     pip install 'cryptography==0.9.3' pyOpenSSL ndg-httpsclient pyasn1
 
-You should also check your OpenSSL version is greater than 1.0.0. Apparently SNI was added in 0.9.8j but apparently there are reported problems with 0.9.8y, 0.9.8zc & 0.9.8zg so 1.0.0+ is recommended.
+You should also check your OpenSSL version is greater than 1.0.0::
 
     python -c "import ssl; print ssl.OPENSSL_VERSION"
+
+Apparently SNI was added into OpenSSL version 0.9.8j but apparently there are reported problems with 0.9.8y, 0.9.8zc & 0.9.8zg so 1.0.0+ is recommended.
 
 For more about enabling SNI in python requests see:
 
@@ -207,20 +214,19 @@ Config settings
 
     The following config variable should also be set in your CKAN config:
 
-    * ckan.site_url: URL to your CKAN instance
+    * ``ckan.site_url`` = URL to your CKAN instance
 
-    This is the URL that the archive process (in Celery) will use to access the CKAN API to update it about the cached URLs. If your internal network names your CKAN server differently, then specify this internal name in config option: ckan.site_url_internally
+    This is the URL that the archive process (in Celery) will use to access the CKAN API to update it about the cached URLs. If your internal network names your CKAN server differently, then specify this internal name in config option: ``ckan.site_url_internally``
 
-    * ckan.cache_url_root: URL that will be prepended to the file path and saved against the CKAN resource,
-      providing a full URL to the archived file.
 
 3.  Additional Archiver settings
 
     Add the settings to the CKAN config file:
 
-      * ckanext-archiver.archive_dir - path to the directory that archived files will be saved to (e.g. ``/www/resource_cache``)
-      * ckanext-archiver.max_content_length - the maximum size (in bytes) of files to archive (default ``50000000`` =50MB)
-      * ckanext.archiver.user_agent_string - identifies the archiver to servers it archives from
+      * ``ckanext-archiver.archive_dir`` = path to the directory that archived files will be saved to (e.g. ``/www/resource_cache``)
+      * ``ckanext-archiver.cache_url_root`` = URL where you will be publicly serving the cached files stored locally at ckanext-archiver.archive_dir.
+      * ``ckanext-archiver.max_content_length`` = the maximum size (in bytes) of files to archive (default ``50000000`` =50MB)
+      * ``ckanext-archiver.user_agent_string`` = identifies the archiver to servers it archives from
 
 4.  Nightly report generation
 
@@ -321,12 +327,7 @@ The archiver information is not appearing in the API (package_show)
 
 i.e. if you browse this path on your website: `/api/action/package_show?id=<package_name>` then you don't see the `archiver` key at the dataset level or resource level.
 
-Check the `paster archiver update` command completed ok. Check that the `paster celeryd2 run` has done the archiving ok. Check the dataset has at least one resource. If you have another extension with an IDatasetForm that customizes the form or schema, see the question below about this.
-
-My site has an IDatasetForm already - how can I include the archiver information?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you have another extension with an IDatasetForm for customizing the dataset form/schema, then you can simply add to it the schema customizations from this module - see this module's plugins.py in the section for IDatasetForm.
+Check the `paster archiver update` command completed ok. Check that the `paster celeryd2 run` has done the archiving ok. Check the dataset has at least one resource. Check that you have ``archiver`` in your ckan.plugins and have restarted CKAN.
 
 'SSL handshake' error
 ~~~~~~~~~~~~~~~~~~~~~
