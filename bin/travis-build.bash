@@ -31,8 +31,13 @@ cd -
 echo "Installing dependency ckanext-report and its requirements..."
 pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
 
-echo "Installing ckanext-archiver and its requirements..."
+echo "Installing dependency ckanext-archiver and its requirements..."
+pip install -e git+https://github.com/datagovuk/ckanext-archiver.git#egg=ckanext-archiver
+pip install -r ckanext-archiver/requirements.txt
+
+echo "Installing ckanext-qa and its requirements..."
 python setup.py develop
+pip install -r requirements.txt
 pip install -r dev-requirements.txt
 
 echo "Moving test-core.ini into a subdir..."
