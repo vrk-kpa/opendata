@@ -1,9 +1,11 @@
 from ckan import model
-from ckan.common import c, _
+from ckan.common import c, _, request
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort, render
 from ckan.logic import check_access, get_action
+import ckan.lib.helpers as h
+from urllib import urlencode
 
 import logging
 
@@ -85,7 +87,12 @@ class YtpOrganizationController(OrganizationController):
 
         return OrganizationController.read(self, id, limit)
 
-    def embed(self, id, limit=10):
+    def embed(self, id, limit=3):
+
+        def make_pager_url(q=None, page=None):
+            ctrlr = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
+            url = h.url_for(controller=ctrlr, action='embed', id=id)
+            return url + u'?page=' + str(page)
 
         try:
             context = {
@@ -102,6 +109,26 @@ class YtpOrganizationController(OrganizationController):
                 return self._render_template('group/organization_not_found.html')
 
         group_type = 'organization'
-        OrganizationController.read(self, id, limit)
+        page = OrganizationController._get_page_number(self, request.params)
+
+        data_dict = {
+            'rows': limit,
+            'start': (page - 1) * limit,
+            'extras': {}
+        }
+
+        query = get_action('package_search')(context, data_dict)
+
+        c.page = h.Page(
+            collection=query['results'],
+            page=page,
+            url=make_pager_url,
+            item_count=query['count'],
+            items_per_page=limit
+        )
+
+        c.page.items = query['results']
+
+        #OrganizationController.read(self, id, limit)
 
         return render("organization/embed.html")

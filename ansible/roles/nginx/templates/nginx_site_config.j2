@@ -165,9 +165,9 @@ server {
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
 
-        location ~ /data/(fi|en|sv)/organization/(.*)/embed$ {
+        location ~ /data/(fi|en|sv)/organization/(.*)/embed{
             # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
-            proxy_pass https://127.0.0.1:8080/data/$1/organization/$2/embed;
+            proxy_pass https://127.0.0.1:8080/data/$1/organization/$2/embed$is_args$args;
             add_header Bypass-Sameorigin-Policy 1;
         }
 
@@ -177,8 +177,6 @@ server {
             proxy_intercept_errors off;
         }
     }
-
-
 
     # Drupal
 
