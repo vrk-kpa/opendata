@@ -4,7 +4,6 @@ import logging
 from ckan import model
 from ckan.model.types import make_uuid
 from ckan import plugins as p
-import ckan.plugins.toolkit as toolkit
 from ckan.lib.celery_app import celery
 
 from ckanext.report.interfaces import IReport
@@ -16,7 +15,7 @@ from ckanext.archiver.model import Archival, aggregate_archivals_for_a_dataset
 log = logging.getLogger(__name__)
 
 
-class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
+class ArchiverPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
     """
     Registers to be notified whenever CKAN resources are created or their URLs
     change, and will create a new ckanext.archiver celery task to archive the
@@ -28,7 +27,7 @@ class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
     p.implements(p.IActions)
     p.implements(p.IAuthFunctions)
     p.implements(p.ITemplateHelpers)
-    p.implements(p.IDatasetForm, inherit=True)
+    #p.implements(p.IDatasetForm, inherit=True)
 
     # IDomainObjectModification
 
@@ -51,7 +50,7 @@ class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
     # IConfigurer
 
     def update_config(self, config):
-        toolkit.add_template_directory(config, 'templates')
+        p.toolkit.add_template_directory(config, 'templates')
 
     # IActions
 
@@ -75,6 +74,7 @@ class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
                     if callable(function) and name[0] != '_')
 
     # IDatasetForm
+
     def package_types(self):
         return ['dataset']
 
@@ -87,17 +87,17 @@ class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
         return True
 
     def update_package_schema(self):
-        schema = toolkit.DefaultDatasetForm.update_package_schema(self)
+        schema = p.toolkit.DefaultDatasetForm.update_package_schema(self)
         # don't save archiver info in the dataset, since it is stored in the
         # archival table instead, and the value added into the package_show
         # result in the show_package_schema
-        ignore = toolkit.get_validator('ignore')
+        ignore = p.toolkit.get_validator('ignore')
         schema['archiver'] = [ignore]
         schema['resources']['archiver'] = [ignore]
         return schema
 
     def show_package_schema(self):
-        schema = toolkit.DefaultDatasetForm.show_package_schema(self)
+        schema = p.toolkit.DefaultDatasetForm.show_package_schema(self)
         schema['archiver'] = [add_archival_information]
         return schema
 
@@ -121,8 +121,8 @@ def add_archival_information(key, data, errors, context):
             break
         res_id = data[res_id_key]
         archival = archivals_by_res_id.get(res_id)
-        archival_dict = archival.as_dict()
         if archival:
+            archival_dict = archival.as_dict()
             del archival_dict['id']
             del archival_dict['package_id']
             del archival_dict['resource_id']
