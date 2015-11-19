@@ -141,21 +141,23 @@
                 }
                 ?>
 
+                <?php if (!empty($title)): ?>
+                    <h1 class="page-header"><?php print $title; ?></h1>
+                <?php endif; ?>
+
                 <div>
-                    <ul class="nav">
-                        <li><a href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvita</a></li>
-                        <li><a href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
-                        <li><a href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
-                        <li><a href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehita</a></li>
+                    <ul class="guide-nav col-md-12">
+                        <li class="col-sm-12 col-md-6 col-lg-3"><a href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvita</a></span></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehita</a></li>
                     </ul>
 
                 </div>
 
                 <a id="main-content"></a>
                 <?php print render($title_prefix); ?>
-                <?php if (!empty($title)): ?>
-                    <h1 class="page-header"><?php print $title; ?></h1>
-                <?php endif; ?>
+
                 <?php print render($title_suffix); ?>
                 <?php print $messages; ?>
                 <?php if (!empty($tabs)): ?>
