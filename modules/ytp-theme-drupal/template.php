@@ -310,6 +310,14 @@ function ytp_theme_preprocess_node(&$variables){
     else{
       $author = $variables['name'];
     }
+
+
+    $alias_parts = explode('/', drupal_get_path_alias());
+    if (count($alias_parts) && $alias_parts[0] == 'guide') {
+      $variables['display_submitted'] = false;
+      hide($variables['content']['sharethis']);
+    }
+
     $variables['submitted'] = t('updated') . ' ' . t('!datetime | !username', array('!username' => $author, '!datetime' =>$date));
 }
 
