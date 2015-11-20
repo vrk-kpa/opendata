@@ -14,6 +14,12 @@ from ckan import model
 from ckan import plugins
 from ckan.tests import BaseCase
 from ckan.logic import get_action
+try:
+    from ckan.tests.helpers import reset_db
+    from ckan.tests import factories as ckan_factories
+except ImportError:
+    from ckan.new_tests.helpers import reset_db
+    from ckan.new_tests import factories as ckan_factories
 
 from ckanext.archiver import model as archiver_model
 from ckanext.archiver.model import Archival
@@ -62,6 +68,7 @@ class TestLinkChecker(BaseCase):
 
     @classmethod
     def setup_class(cls):
+        reset_db()
         plugins.unload_all()
         cls._saved_plugins_config = config.get('ckan.plugins', '')
         config['ckan.plugins'] = 'archiver'
@@ -158,6 +165,7 @@ class TestArchiver(BaseCase):
 
     @classmethod
     def setup_class(cls):
+        reset_db()
         archiver_model.init_tables(model.meta.engine)
 
         cls.temp_dir = tempfile.mkdtemp()
@@ -176,11 +184,10 @@ class TestArchiver(BaseCase):
             model.repo.commit_and_remove()
 
     def _test_package(self, url, format=None):
-        context = {'model': model, 'ignore_auth': True, 'session': model.Session, 'user': 'test'}
-        pkg = {'name': 'testpkg', 'resources': [
+        pkg = {'resources': [
             {'url': url, 'format': format or 'TXT', 'description': 'Test'}
             ]}
-        pkg = get_action('package_create')(context, pkg)
+        pkg = ckan_factories.Dataset(**pkg)
         return pkg
 
     def _test_resource(self, url, format=None):
@@ -375,6 +382,7 @@ class TestDownload(BaseCase):
     '''
     @classmethod
     def setup_class(cls):
+        reset_db()
         config
         cls.fake_context = {
             'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
