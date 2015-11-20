@@ -49,4 +49,6 @@ echo "Moving test-core.ini into a subdir..."
 mkdir subdir
 mv test-core.ini subdir
 
+python -c 'import sys; sys.getfilesystemencoding()'
+
 echo "travis-build.bash is done."
