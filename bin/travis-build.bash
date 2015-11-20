@@ -34,9 +34,11 @@ pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-r
 
 echo "Installing dependency ckanext-archiver and its requirements..."
 git clone https://github.com/datagovuk/ckanext-archiver.git
+cd ckanext-archiver
 git checkout archiver-2.0
-pip install -e ckanext-archiver
-pip install -r ckanext-archiver/requirements.txt
+pip install -e .
+pip install -r requirements.txt
+cd -
 
 echo "Installing ckanext-qa and its requirements..."
 python setup.py develop
