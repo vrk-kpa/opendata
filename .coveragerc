@@ -4,5 +4,5 @@ omit =
     */python?.?/*
     ckan/*
     ckanext/qa/tests/*
-include =
-    ckanext/qa/*
+#include =
+#    ckanext/qa/*
