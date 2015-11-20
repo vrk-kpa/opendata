@@ -14,7 +14,16 @@ them an 'openness score' based Tim Berners-Lee's five stars of openness
 
 The openness score is displayed as stars on the dataset and resource pages.
 
-It also provides a report that allows you to view the openness scores.
+.. image:: qa_dataset.png
+    :alt: Stars on the dataset
+
+.. image:: qa_resource.png
+    :alt: Stars spelled out on the resource
+
+It also provides a report that allows you to view the openness (stars ratings) across a publisher or across them all:
+
+.. image:: qa_report.png
+    :alt: Openness report (star ratings) for a publisher
 
 
 Requirements
