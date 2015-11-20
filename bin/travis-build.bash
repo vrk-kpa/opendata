@@ -33,7 +33,9 @@ echo "Installing dependency ckanext-report and its requirements..."
 pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
 
 echo "Installing dependency ckanext-archiver and its requirements..."
-pip install -e git+https://github.com/datagovuk/ckanext-archiver.git@archiver-2.0#egg=ckanext-archiver
+git clone https://github.com/datagovuk/ckanext-archiver.git
+git checkout archiver-2.0
+pip install -e ckanext-archiver
 pip install -r ckanext-archiver/requirements.txt
 
 echo "Installing ckanext-qa and its requirements..."
