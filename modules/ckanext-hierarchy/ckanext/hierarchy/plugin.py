@@ -1,6 +1,5 @@
 import ckan.plugins as p
 import ckanext.hierarchy.logic.action as action
-from ckan.lib.plugins import DefaultGroupForm
 from ckan.lib.plugins import DefaultOrganizationForm
 
 # This plugin is designed to work only these versions of CKAN
@@ -45,6 +44,4 @@ class HierarchyForm(p.SingletonPlugin, DefaultOrganizationForm):
             c.allowable_parent_groups = \
                 group.groups_allowed_to_be_its_parent(type='organization')
         else:
-            c.allowable_parent_groups = model.Group.all(
-                                                group_type='organization')
-
+            c.allowable_parent_groups = model.Group.all(group_type='organization')
