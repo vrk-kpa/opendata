@@ -4,4 +4,4 @@ kombu-sqlalchemy==1.1.0
 SQLAlchemy>=0.6.6
 requests>=1.1.0
 xlrd
-magic
+python-magic==0.4.6
