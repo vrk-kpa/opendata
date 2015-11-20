@@ -15,6 +15,7 @@ import time
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
+from ckan.lib.search.index import PackageSearchIndex
 try:
     from ckanext.archiver import settings
 except ImportError:
@@ -134,6 +135,15 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
         raise
 
     notify_package(package, queue, ckan_ini_filepath)
+
+    # Refresh the index for this dataset, so that it contains the latest
+    # archive info
+    package_index = PackageSearchIndex()
+    # need to re-get the package to avoid using the cache
+    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session,
+                'use_cache': False, 'validate': False}
+    package = get_action('package_show')(context_, {'id': package_id})
+    package_index.index_package(package, defer_commit=False)
 
 
 def _update_resource(ckan_ini_filepath, resource_id, queue):
