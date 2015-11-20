@@ -3,9 +3,8 @@ from ckan.common import c, _, request
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
 from ckan.lib.base import abort, render
-from ckan.logic import check_access, get_action
+from ckan.logic import check_access
 import ckan.lib.helpers as h
-from urllib import urlencode
 
 import logging
 
@@ -13,6 +12,7 @@ log = logging.getLogger(__name__)
 
 
 class YtpOrganizationController(OrganizationController):
+
     def members(self, id):
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
@@ -87,7 +87,11 @@ class YtpOrganizationController(OrganizationController):
 
         return OrganizationController.read(self, id, limit)
 
-    def embed(self, id, limit=3):
+    def embed(self, id, limit=5):
+        """
+            Fetch given organization's packages and show them in an embeddable list view.
+            See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
+        """
 
         def make_pager_url(q=None, page=None):
             ctrlr = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
@@ -108,7 +112,6 @@ class YtpOrganizationController(OrganizationController):
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html')
 
-        group_type = 'organization'
         page = OrganizationController._get_page_number(self, request.params)
 
         data_dict = {
@@ -128,7 +131,5 @@ class YtpOrganizationController(OrganizationController):
         )
 
         c.page.items = query['results']
-
-        #OrganizationController.read(self, id, limit)
 
         return render("organization/embed.html")
