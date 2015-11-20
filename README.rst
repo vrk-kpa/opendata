@@ -12,14 +12,22 @@ ckanext-archiver
 Overview
 --------
 
-The CKAN Archiver Extension will download CKAN resources, which can be offered to the user as a 'cached' copy. In addition it provides a 'Broken Links' report showing which resource URLs don't work.
+The CKAN Archiver Extension will download all of a CKAN's resources, for three purposes:
+
+1. offer the user it as a 'cached' copy, in case the link becomes broken
+2. tell the user (and publishers) if the link is broken, on both the dataset/resource and in a 'Broken Links' report
+3. the downloaded file can be analysed by other extensions, such as ckanext-qa or ckanext-pacakgezip.
+
+Compatibility: Requires CKAN version 2.1 or later
 
 TODO:
-* Link to the cached file from the dataset
 * Link to the reports (including Broken Links) from the main nav
-* Mark brokenness on the dataset & resource
+* Mark brokenness on the dataset
 
-When a resource is archived, the information about the archival - if it failed, the filename on disk, file size etc - is stored in the Archival table. (In ckanext-archiver v0.1 it was stored in TaskStatus and on the Resource itself.)
+Operation
+---------
+
+When a resource is archived, the information about the archival - if it failed, the filename on disk, file size etc - is stored in the Archival table. (In ckanext-archiver v0.1 it was stored in TaskStatus and on the Resource itself.) This is added to dataset during the package_show call (using a schema key), so the information is also available over the API.
 
 Other extensions can subscribe to the archiver's ``IPipe`` interface to hear about datasets being archived. e.g. ckanext-qa will detect its file type and give it an openness score, or ckanext-packagezip will create a zip of the files in a dataset.
 
@@ -34,7 +42,6 @@ By default, two queues are used:
 
 This means that the 'bulk' queue can happily run slowly, archiving large quantities slowly, such as re-archiving every single resource once a week. And meanwhile, if a new resource is put into CKAN then it can be downloaded straight away via the 'priority' queue.
 
-Compatibility: Requires CKAN version 2.1 or later (but can be easily adapted for older versions).
 
 Installation
 ------------
@@ -271,3 +278,24 @@ To run the tests:
 3. From the CKAN root directory (not the extension root) do::
 
     (pyenv)~/pyenv/src/ckan$ nosetests --ckan ../ckanext-archiver/tests/ --with-pylons=../ckanext-archiver/test-core.ini
+
+
+Questions
+---------
+
+The archiver information is not appearing on the resource page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check that it is appearing in the API for the dataset - see question below.
+
+The archiver information is not appearing in the API (package_show)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+i.e. if you browse this path on your website: `/api/action/package_show?id=<package_name>` then you don't see the `archiver` key at the dataset level or resource level.
+
+Check the `paster archiver update` command completed ok. Check that the `paster celeryd2 run` has done the archiving ok. Check the dataset has at least one resource. If you have another extension with an IDatasetForm that customizes the form or schema, see the question below about this.
+
+My site has an IDatasetForm already - how can I include the archiver information?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you have another extension with an IDatasetForm for customizing the dataset form/schema, then you can simply add to it the schema customizations from this module - see this module's plugins.py in the section for IDatasetForm.

@@ -102,7 +102,7 @@ class ArchiverPlugin(p.SingletonPlugin, toolkit.DefaultDatasetForm):
         return schema
 
 
-# this is a validator
+# this is a validator/converter
 def add_archival_information(key, data, errors, context):
     archivals = Archival.get_for_package(data[('id',)])
     # dataset

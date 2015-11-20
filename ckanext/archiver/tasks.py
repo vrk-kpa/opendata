@@ -15,7 +15,7 @@ import time
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
-from ckan.lib.search.index import PackageSearchIndex
+from ckan.plugins import toolkit
 try:
     from ckanext.archiver import settings
 except ImportError:
@@ -108,7 +108,9 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
     Archive a package.
     '''
     from ckan import model
-    from ckan.logic import get_action
+    from ckan.plugins import toolkit
+
+    get_action = toolkit.get_action
 
     load_config(ckan_ini_filepath)
     register_translator()
@@ -138,12 +140,21 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
 
     # Refresh the index for this dataset, so that it contains the latest
     # archive info
+    _update_search_index(package_id, log)
+
+
+def _update_search_index(package_id, log):
+    '''
+    Tells CKAN to update its search index for a given package.
+    '''
+    from ckan import model
+    from ckan.lib.search.index import PackageSearchIndex
     package_index = PackageSearchIndex()
-    # need to re-get the package to avoid using the cache
     context_ = {'model': model, 'ignore_auth': True, 'session': model.Session,
                 'use_cache': False, 'validate': False}
-    package = get_action('package_show')(context_, {'id': package_id})
+    package = toolkit.get_action('package_show')(context_, {'id': package_id})
     package_index.index_package(package, defer_commit=False)
+    log.info('Reindexed %s', package['name'])
 
 
 def _update_resource(ckan_ini_filepath, resource_id, queue):
@@ -174,8 +185,10 @@ def _update_resource(ckan_ini_filepath, resource_id, queue):
     register_translator()
 
     from ckan import model
-    from ckan.logic import get_action
     from pylons import config
+    from ckan.plugins import toolkit
+
+    get_action = toolkit.get_action
 
     assert is_id(resource_id), resource_id
     context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}

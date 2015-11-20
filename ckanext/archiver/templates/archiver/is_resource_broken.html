@@ -1,0 +1,70 @@
+{#
+Displays whether the resource is broken or not
+
+Variable passed-in include:
+
+"resource": {}
+
+and all the Archival.as_dict() info from the package_show's resource['archiver'] e.g.
+
+"status_id": 0,
+"status": "Archived successfully",
+"is_broken": false,
+"is_broken_printable": "Downloaded OK",
+"reason": "",
+"url_redirected_to": null,
+
+# Details of last successful archival
+"cache_filepath": "/tmp/archive/ad/ad30c8f3-b3c7-4d5c-928f-df89f2cd7855/hospitals",
+"cache_url": "http://localhost:4050/ad/ad30c8f3-b3c7-4d5c-928f-df89f2cd7855/hospitals",
+"size": "7695"
+"mimetype": "text/html",
+"hash": "5466f7a55a2fc24fab4466c84fcde73d6d31c82a",
+
+# History
+"first_failure": null,
+"last_success": "2015-11-17T10:28:00.018577",
+"failure_count": 0,
+
+"created": "2015-11-16T18:15:14.391913",
+"updated": "2015-11-17T10:28:00.018577",
+
+"resource_timestamp": "2015-10-29T11:09:07.258784",
+
+#}
+<div class="archiver {% if is_broken %}link-broken{% elif is_broken == None %}link-not-sure{% else %}link-not-broken{% endif %}">
+  {%- if is_broken == True -%}
+    <span class="icon icon-exclamation-sign text-error"></span>
+    Link is broken<br>
+    {% if reason %}
+      - {{ reason }}<br>
+    {% endif %}
+    {% if failure_count == 1 %}
+      <span>This is a one-off failure</span><br>
+    {% else %}
+      <span>This resource has failed {{ failure_count }} times in a row since it first failed: {{ h.render_datetime(first_failure) }}</span><br>
+    {% endif %}
+    {% if last_success %}
+      <span>This resource was last ok: {{ h.render_datetime(last_success) }}</span><br>
+    {% else %}
+      <span>We do not have a past record of it working since the first check: {{ h.render_datetime(created) }}</span><br>
+    {% endif %}
+  {%- elif is_broken == None -%}
+    Link check is not conclusive<br>
+    {% if reason %}
+      - {{ reason }}<br>
+    {% endif %}
+  {%- else-%}
+    Link is ok<br>
+    {% if reason %}
+      - {{ reason }}<br>
+    {% endif %}
+  {%- endif -%}
+ {# doesn't work
+  {% if resource_timestamp != resource['revision_timestamp'] %}
+      This was tested with an older version of this resource. An update should occur soon.<!-- resource_timestamp {{resource_timestamp}} revision_timestamp {{resource['revision_timestamp']}}--> <br>
+  {% endif %}
+ #}
+  <span>Link checked: {{ h.render_datetime(updated) }}</span><br>
+</div>
+
