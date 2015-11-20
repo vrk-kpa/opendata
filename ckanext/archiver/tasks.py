@@ -15,12 +15,14 @@ import time
 from requests.packages import urllib3
 
 from ckan.lib.celery_app import celery
-from ckan.plugins import toolkit
+from ckan import plugins as p
 try:
     from ckanext.archiver import settings
 except ImportError:
     from ckanext.archiver import default_settings as settings
 from ckanext.archiver import interfaces as archiver_interfaces
+
+toolkit = p.toolkit
 
 ALLOWED_SCHEMES = set(('http', 'https', 'ftp'))
 
@@ -138,8 +140,12 @@ def update_package(ckan_ini_filepath, package_id, queue='bulk'):
     notify_package(package, queue, ckan_ini_filepath)
 
     # Refresh the index for this dataset, so that it contains the latest
-    # archive info
-    _update_search_index(package_id, log)
+    # archive info. However skip it if there are downstream plugins that will
+    # do this anyway, since it is an expensive step to duplicate.
+    if 'qa' not in get_plugins_waiting_on_ipipe():
+        _update_search_index(package_id, log)
+    else:
+        log.info('Search index skipped %s', package['name'])
 
 
 def _update_search_index(package_id, log):
@@ -153,7 +159,7 @@ def _update_search_index(package_id, log):
                 'use_cache': False, 'validate': False}
     package = toolkit.get_action('package_show')(context_, {'id': package_id})
     package_index.index_package(package, defer_commit=False)
-    log.info('Reindexed %s', package['name'])
+    log.info('Search indexed %s', package['name'])
 
 
 def _update_resource(ckan_ini_filepath, resource_id, queue):
@@ -269,8 +275,6 @@ def _update_resource(ckan_ini_filepath, resource_id, queue):
     _save(Status.by_text('Archived successfully'), '', resource,
           download_result['url_redirected_to'], download_result, archive_result)
     # The return value is only used by tests. Serialized for Celery.
-    print download_result
-    print archive_result
     return json.dumps(dict(download_result, **archive_result))
 
 
@@ -446,23 +450,30 @@ def archive_resource(context, resource, log, result=None, url_timeout=30):
 
 def notify_resource(resource, queue, cache_filepath):
     '''
-    Broadcasts a notification that an resource archival has taken place (or at least
-    the archival object is changed somehow). e.g. ckanext-qa listens for this
+    Broadcasts an IPipe notification that an resource archival has taken place
+    (or at least the archival object is changed somehow).
     '''
     archiver_interfaces.IPipe.send_data('archived',
                                         resource_id=resource['id'],
                                         queue=queue,
                                         cache_filepath=cache_filepath)
 
+
 def notify_package(package, queue, cache_filepath):
     '''
-    Broadcasts a notification that a package archival has taken place (or at least
-    the archival object is changed somehow). e.g. ckanext-packagezip listens for this
+    Broadcasts an IPipe notification that a package archival has taken place
+    (or at least the archival object is changed somehow). e.g.
+    ckanext-packagezip listens for this
     '''
     archiver_interfaces.IPipe.send_data('package-archived',
                                         package_id=package['id'],
                                         queue=queue,
                                         cache_filepath=cache_filepath)
+
+
+def get_plugins_waiting_on_ipipe():
+    return [observer.name for observer in
+            p.PluginImplementations(archiver_interfaces.IPipe)]
 
 
 def _clean_content_type(ct):
