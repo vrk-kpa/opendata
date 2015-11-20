@@ -80,7 +80,7 @@
             {% if h.check_access('package_create') %}
             {% set embed_url = h.url_for(controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='embed', id=c.group_dict.name) %}
             <dt>
-              {{ _('Embeddable link')}}
+              {{ _('Embed link')}}
             </dt>
             <dd>
               <a href="{{ embed_url }}">{{ embed_url }}</a>
