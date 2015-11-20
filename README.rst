@@ -63,7 +63,9 @@ To install ckanext-archiver:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+5. Install a Celery queue backend - see later section.
+
+6. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
@@ -108,6 +110,46 @@ NB Previously you needed both ckanext-archiver and ckanext-qa to see the broken 
 8. Migrate your database to the new Archiver tables::
 
      python ckanext/archiver/bin/migrate_task_status.py --write production.ini
+
+Installing a Celery queue backend
+---------------------------------
+
+Archiver uses Celery to manage its 'queues'. You need to install a queue back-end, such as Redis or RabbitMQ.
+
+Redis backend
+-------------
+
+Redis can be installed like this::
+
+    sudo apt-get install redis-server
+
+Install the python library into your python environment::
+
+    /usr/lib/ckan/default/bin/activate/pip install redis==2.10.1
+
+It must then be configured in your CKAN config (e.g. production.ini) by inserting a new section, e.g. before `[app:main]`::
+
+    [app:celery]
+    BROKER_BACKEND = redis
+    BROKER_HOST = redis://localhost/1
+    CELERY_RESULT_BACKEND = redis
+    REDIS_HOST = 127.0.0.1
+    REDIS_PORT = 6379
+    REDIS_DB = 0
+    REDIS_CONNECT_RETRY = True
+
+Number of items in the queue 'bulk'::
+
+    redis-cli -n 1 LLEN bulk
+
+See item 0 in the queue (which is the last to go on the queue & last to be processed)::
+
+    redis-cli -n 1 LINDEX bulk 0
+
+To delete all the items on the queue::
+
+    redis-cli -n 1 DEL bulk
+
 
 Config settings
 ---------------
@@ -183,11 +225,12 @@ Using Archiver
 
 First, make sure that Celery is running for each queue. For test/local use, you can run::
 
-    paster --plugin=ckan celeryd --queue=priority -c production.ini
+    paster --plugin=ckanext-archiver celeryd2 run all -c development.ini
 
-and in a separate terminal::
+However in production you'd run the priority and bulk queues separately, or else the priority queue will not have any priority over the bulk queue. This can be done by running these two commands in separate terminals::
 
-    paster --plugin=ckan celeryd --queue=bulk -c production.ini
+    paster --plugin=ckanext-archiver celeryd2 run priority -c production.ini
+    paster --plugin=ckanext-archiver celeryd2 run bulk -c production.ini
 
 For production use, we recommend setting up Celery to run with supervisord.
 For more information see:

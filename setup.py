@@ -82,6 +82,7 @@ setup(
     entry_points='''
         [paste.paster_command]
         archiver = ckanext.archiver.commands:Archiver
+        celeryd2 = ckanext.archiver.command_celery:CeleryCmd
 
         [ckan.plugins]
         archiver = ckanext.archiver.plugin:ArchiverPlugin
