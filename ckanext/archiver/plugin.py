@@ -1,106 +1,113 @@
 import logging
-from datetime import datetime
-import json
+
 from ckan import model
-from ckan.model.types import make_uuid
-from ckan.plugins import SingletonPlugin, implements, IDomainObjectModification, \
-    IResourceUrlChange, IConfigurable, toolkit
-from ckan.lib.dictization.model_dictize import resource_dictize
-from ckan.logic import get_action
-from ckan.lib.celery_app import celery
+from ckan import plugins as p
+
+from ckanext.report.interfaces import IReport
+from ckanext.archiver.interfaces import IPipe
+from ckanext.archiver.logic import action, auth
+from ckanext.archiver import helpers
+from ckanext.archiver import lib
+from ckanext.archiver.model import Archival, aggregate_archivals_for_a_dataset
 
 log = logging.getLogger(__name__)
 
-class ArchiverPlugin(SingletonPlugin):
-    """
-    Registers to be notified whenever CKAN resources are created or their URLs change,
-    and will create a new ckanext.archiver celery task to archive the resource.
-    """
-    implements(IDomainObjectModification, inherit=True)
-    implements(IResourceUrlChange)
-    implements(IConfigurable)
 
-    def configure(self, config):
-        self.site_url = config.get('ckan.site_url_internally') or config.get('ckan.site_url')
-        self.cache_url_root = config.get('ckan.cache_url_root')
+class ArchiverPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
+    """
+    Registers to be notified whenever CKAN resources are created or their URLs
+    change, and will create a new ckanext.archiver celery task to archive the
+    resource.
+    """
+    p.implements(p.IDomainObjectModification, inherit=True)
+    p.implements(IReport)
+    p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.IActions)
+    p.implements(p.IAuthFunctions)
+    p.implements(p.ITemplateHelpers)
+    p.implements(p.IPackageController, inherit=True)
+
+    # IDomainObjectModification
 
     def notify(self, entity, operation=None):
-        if not toolkit.check_ckan_version('2.3'):
-            self._notify(entity, operation)
-
-    def notify_after_commit(self, entity, operation=None):
-        if toolkit.check_ckan_version('2.3'):
-            self._notify(entity, operation)
-
-    def _notify(self, entity, operation=None):
-        if not isinstance(entity, model.Resource):
+        if not isinstance(entity, model.Package):
             return
 
-        log.debug('Notified of resource event: %s', entity.id)
+        log.debug('Notified of package event: %s %s', entity.id, operation)
 
-        if operation:
-            # Only interested in 'new resource' events, since that's what you
-            # get when you change the URL field. Note that once this occurs, in tasks.py
-            # it will update the resource with the new cache_url, that will cause a 
-            # 'change resource' notification, which we need to ignore here.
-            if operation == model.DomainObjectOperation.new:
-                self._create_archiver_task(entity)
-            else:
-                log.debug('Ignoring resource event because operation is: %s',
-                          operation)
-        else:
-            # if operation is None, resource URL has been changed, as the
-            # notify function in IResourceUrlChange only takes 1 parameter
-            self._create_archiver_task(entity)
+        lib.create_archiver_package_task(entity, 'priority')
 
-    def _create_archiver_task(self, resource):
-        from ckan.lib.base import c
-        site_user = get_action('get_site_user')(
-            {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
-        )
-        # If the code that triggers this is run from the command line, the c 
-        # stacked object proxy variable will not have been set up by the paste
-        # registry so will give an error saying no object has been registered
-        # for this thread. The easiest thing to do is to catch this, but it 
-        # would be nice to have a config option so that the behaviour can be 
-        # specified.
-        try:
-            c.user
-        except TypeError:
-            # This is no different from running the archiver from the command line:
-            # See https://github.com/okfn/ckanext-archiver/blob/master/ckanext/archiver/commands.py
-            username = site_user['name']
-            userapikey = site_user['apikey']
-        else:
-            user = model.User.by_name(c.user)
-            username = user.name
-            userapikey = user.apikey
-        context = json.dumps({
-            'site_url': self.site_url,
-            'apikey': userapikey,
-            'username': username,
-            'cache_url_root': self.cache_url_root,
-            'site_user_apikey': site_user['apikey']
-        })
-        res_dict = resource_dictize(resource, {'model': model})
-        data = json.dumps(res_dict)
+    # IReport
 
-        task_id = make_uuid()
-        archiver_task_status = {
-            'entity_id': resource.id,
-            'entity_type': u'resource',
-            'task_type': u'archiver',
-            'key': u'celery_task_id',
-            'value': task_id,
-            'error': u'',
-            'last_updated': datetime.now().isoformat()
-        }
-        archiver_task_context = {
-            'model': model,
-            'user': site_user['name'],
-            'ignore_auth': True
-        }
+    def register_reports(self):
+        """Register details of an extension's reports"""
+        from ckanext.archiver import reports
+        return [reports.broken_links_report_info,
+                ]
 
-        get_action('task_status_update')(archiver_task_context, archiver_task_status)
-        celery.send_task("archiver.update", args=[context, data], task_id=task_id)
-        log.debug('Archival of resource put into celery queue: %s url=%r user=%s site_user=%s site_url=%s', resource.id, res_dict.get('url'), username, site_user['name'], self.site_url)
+    # IConfigurer
+
+    def update_config(self, config):
+        p.toolkit.add_template_directory(config, 'templates')
+
+    # IActions
+
+    def get_actions(self):
+        return dict((name, function) for name, function
+                    in action.__dict__.items()
+                    if callable(function))
+
+    # IAuthFunctions
+
+    def get_auth_functions(self):
+        return dict((name, function) for name, function
+                    in auth.__dict__.items()
+                    if callable(function))
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        return dict((name, function) for name, function
+                    in helpers.__dict__.items()
+                    if callable(function) and name[0] != '_')
+
+    # IPackageController
+
+    def after_show(self, context, pkg_dict):
+        # Insert the archival info into the package_dict so that it is
+        # available on the API.
+        # When you edit the dataset, these values will not show in the form,
+        # it they will be saved in the resources (not the dataset). I can't see
+        # and easy way to stop this, but I think it is harmless. It will get
+        # overwritten here when output again.
+        archivals = Archival.get_for_package(pkg_dict['id'])
+        if not archivals:
+            return
+        # dataset
+        dataset_archival = aggregate_archivals_for_a_dataset(archivals)
+        pkg_dict['archiver'] = dataset_archival
+        # resources
+        archivals_by_res_id = dict((a.resource_id, a) for a in archivals)
+        for res in pkg_dict['resources']:
+            archival = archivals_by_res_id.get(res['id'])
+            if archival:
+                archival_dict = archival.as_dict()
+                del archival_dict['id']
+                del archival_dict['package_id']
+                del archival_dict['resource_id']
+                res['archiver'] = archival_dict
+
+
+class TestIPipePlugin(p.SingletonPlugin):
+    """
+    """
+    p.implements(IPipe, inherit=True)
+
+    def __init__(self, *args, **kwargs):
+        self.calls = []
+
+    def reset(self):
+        self.calls = []
+
+    def receive_data(self, operation, queue, **params):
+        self.calls.append([operation, queue, params])
