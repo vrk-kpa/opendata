@@ -8,6 +8,9 @@ echo "Installing the packages that CKAN requires..."
 sudo apt-get update -qq
 sudo apt-get install postgresql-$PGVERSION solr-jetty libcommons-fileupload-java:amd64=1.2.2-1
 
+aptitude search libmagic
+aptitude show libmagic1
+
 echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/datagovuk/ckan
 cd ckan
@@ -48,7 +51,5 @@ pip install -r dev-requirements.txt
 echo "Moving test-core.ini into a subdir..."
 mkdir subdir
 mv test-core.ini subdir
-
-python -c 'import sys; print sys.getfilesystemencoding()'
 
 echo "travis-build.bash is done."
