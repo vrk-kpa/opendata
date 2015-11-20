@@ -9,7 +9,7 @@ def archiver_resource_show(resource_id):
 def archiver_is_resource_broken_html(resource):
     archival = resource.get('archiver')
     if not archival:
-        return '<!-- No archival info for this resource -->'
+        return tk.literal('<!-- No archival info for this resource -->')
     extra_vars = {'resource': resource}
     extra_vars.update(archival)
     return tk.literal(
@@ -20,7 +20,7 @@ def archiver_is_resource_broken_html(resource):
 def archiver_is_resource_cached_html(resource):
     archival = resource.get('archiver')
     if not archival:
-        return '<!-- No archival info for this resource -->'
+        return tk.literal('<!-- No archival info for this resource -->')
     extra_vars = {'resource': resource}
     extra_vars.update(archival)
     return tk.literal(
