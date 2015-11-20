@@ -48,6 +48,7 @@ def set_sniffed_format(format_name):
         sniffed_format = None
 
 TODAY = datetime.datetime(year=2008, month=10, day=10)
+TODAY_STR = TODAY.isoformat()
 
 class TestTask(BaseCase):
 
@@ -130,7 +131,7 @@ class TestResourceScore(BaseCase):
         assert result['openness_score'] == 3, result
         assert 'Content of file appeared to be format "CSV"' in result['openness_score_reason'], result
         assert result['format'] == 'CSV', result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
 
     def test_not_archived(self):
         result = resource_score(self._test_resource(archived=False, cached=False, format=None), log)
@@ -148,7 +149,7 @@ class TestResourceScore(BaseCase):
         # falls back on previous QA data detailing failed attempts
         assert result['openness_score'] == 1, result
         assert result['format'] == None, result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
         assert 'This file had not been downloaded at the time of scoring it.' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL.' in result['openness_score_reason'], result
         assert 'Format field is blank.' in result['openness_score_reason'], result
@@ -158,7 +159,7 @@ class TestResourceScore(BaseCase):
         set_sniffed_format(None)
         result = resource_score(self._test_resource('http://site.com/filename.xls'), log)
         assert result['openness_score'] == 2, result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
         assert_equal(result['format'], 'XLS')
         assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'extension "xls" relates to format "XLS"' in result['openness_score_reason'], result
