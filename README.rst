@@ -18,9 +18,13 @@ The CKAN Archiver Extension will download all of a CKAN's resources, for three p
 2. tell the user (and publishers) if the link is broken, on both the dataset/resource and in a 'Broken Links' report
 3. the downloaded file can be analysed by other extensions, such as ckanext-qa or ckanext-pacakgezip.
 
-![Broken link check info and a cached copy offered on resource](archiver_resource.png)
+Demo:
 
-![Broken link report](archiver_report.png)
+.. image:: archiver_resource.png
+    :alt: Broken link check info and a cached copy offered on resource
+
+.. image:: archiver_report.png
+    :alt: Broken link report
 
 Compatibility: Requires CKAN version 2.1 or later
 
