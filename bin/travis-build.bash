@@ -13,7 +13,7 @@ echo "Upgrading libmagic for ckanext-qa..."
 sudo apt-get install libmagic1
 
 echo "Installing CKAN and its Python dependencies..."
-git clone https://github.com/datagovuk/ckan
+git clone https://github.com/ckan/ckan
 cd ckan
 #export latest_ckan_release_branch=`git branch --all | grep remotes/origin/release-v | sort -r | sed 's/remotes\/origin\///g' | head -n 1`
 export ckan_branch=master
