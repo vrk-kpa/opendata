@@ -378,7 +378,7 @@ class TestDownload(BaseCase):
         config
         cls.fake_context = {
             'site_url': config.get('ckan.site_url_internally') or config['ckan.site_url'],
-            'cache_url_root': config.get('ckan.cache_url_root'),
+            'cache_url_root': config.get('ckanext-archiver.cache_url_root'),
         }
 
     def teardown(self):
