@@ -1,0 +1,29 @@
+{#
+Displays 5 starts of openness for a resource or dataset
+
+Variable passed-in include all the QA.as_dict() info from the package_show's resource['qa'] e.g.
+
+"format": "CSV",
+"openness_score": 3,
+"openness_score_reason": "Content of file appeared to be format \"CSV\" which receives openness score: 3."
+"archival_timestamp": null,
+"resource_timestamp": null,
+"created": "2015-11-19T11:01:48.112153",
+"updated": "2015-11-19T16:54:49.436434",
+
+OR the package_show's package['qa'] e.g.
+
+"openness_score": 3
+"openness_score_reason": "Content of file appeared to be format \"CSV\" which receives openness score: 3.",
+"updated": "2015-11-19T16:54:49.480393",
+
+#}
+<div class="qa openness-{{ openness_score }}">
+  {% if openness_score != None %}
+    <span title="Reason: {{ openness_score_reason }} Checked: {{ h.render_datetime(updated) }}">
+    {% snippet "qa/stars.html", stars=openness_score %} <br>
+  {% else %}
+    No openness information yet
+  {% endif %}
+</div>
+

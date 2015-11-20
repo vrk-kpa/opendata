@@ -1,0 +1,8 @@
+[report]
+omit =
+    */site-packages/*
+    */python?.?/*
+    ckan/*
+    ckanext/qa/tests/*
+#include =
+#    ckanext/qa/*

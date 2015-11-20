@@ -1,14 +1,11 @@
-import datetime
-import json
-import requests
-import urlparse
 import logging
-from pylons import config
+import sys
 
 import ckan.plugins as p
 
+REQUESTS_HEADER = {'content-type': 'application/json',
+                   'User-Agent': 'ckanext-qa commands'}
 
-REQUESTS_HEADER = {'content-type': 'application/json'}
 
 class CkanApiError(Exception):
     pass
@@ -20,12 +17,28 @@ class QACommand(p.toolkit.CkanCommand):
 
     Usage::
 
-        paster qa [options] update [dataset name/id]
+        paster qa init
+           - Creates the database tables that QA expects for storing
+           results
+
+        paster qa [options] update [dataset/group name/id]
            - QA analysis on all resources in a given dataset, or on all
            datasets if no dataset given
 
+        paster qa sniff {filepath}
+           - Opens the file and determines its type by the contents
+
+        paster qa view [dataset name/id]
+           - See package score information
+
         paster qa clean
-            - Remove all package score information
+           - Remove all package score information
+
+        paster qa migrate1
+           - Migrates the way results are stored in task_status,
+             with commit 6f63ab9e 20th March 2013
+             (from key='openness_score'/'openness_score_failure_count' to
+              key='status')
 
     The commands should be run from the ckanext-qa directory and expect
     a development.ini file to be present. Most of the time you will
@@ -33,10 +46,17 @@ class QACommand(p.toolkit.CkanCommand):
 
         paster qa update --config=<path to CKAN config file>
     """
+
     summary = __doc__.split('\n')[0]
     usage = __doc__
-    max_args = 2
     min_args = 0
+
+    def __init__(self, name):
+        super(QACommand, self).__init__(name)
+        self.parser.add_option('-q', '--queue',
+                               action='store',
+                               dest='queue',
+                               help='Send to a particular queue')
 
     def command(self):
         """
@@ -53,105 +73,192 @@ class QACommand(p.toolkit.CkanCommand):
         # won't get disabled
         self.log = logging.getLogger('ckanext.qa')
 
-        from ckan import model
-        from ckan.model.types import make_uuid
-
-        # import tasks after load config so CKAN_CONFIG evironment variable
-        # can be set
-        import tasks
-
-        user = p.toolkit.get_action('get_site_user')(
-            {'model': model, 'ignore_auth': True}, {}
-        )
-        context = json.dumps({
-            'site_url': config['ckan.site_url'],
-            'apikey': user.get('apikey'),
-            'username': user.get('name'),
-        })
-
         if cmd == 'update':
-            for package in self._package_list():
-                self.log.info("QA on dataset being added to Celery queue: %s (%d resources)" % 
-                            (package.get('name'), len(package.get('resources', []))))
-
-                for resource in package.get('resources', []):
-                    resource['package'] = package['name']
-                    pkg = model.Package.get(package['id'])
-                    resource['is_open'] = pkg.isopen()
-                    data = json.dumps(resource) 
-                    task_id = make_uuid()
-                    task_status = {
-                        'entity_id': resource['id'],
-                        'entity_type': u'resource',
-                        'task_type': u'qa',
-                        'key': u'celery_task_id',
-                        'value': task_id,
-                        'error': u'',
-                        'last_updated': datetime.datetime.now().isoformat()
-                    }
-                    task_context = {
-                        'model': model,
-                        'user': user.get('name')
-                    }
-
-                    p.toolkit.get_action('task_status_update')(task_context, task_status)
-                    tasks.update.apply_async(args=[context, data], task_id=task_id)
-
+            self.update()
+        elif cmd == 'sniff':
+            self.sniff()
+        elif cmd == 'view':
+            if len(self.args) == 2:
+                self.view(self.args[1])
+            else:
+                self.view()
         elif cmd == 'clean':
-            self.log.error('Command "%s" not implemented' % (cmd,))
-
+            self.clean()
+        elif cmd == 'migrate1':
+            self.migrate1()
+        elif cmd == 'init':
+            self.init_db()
         else:
             self.log.error('Command "%s" not recognized' % (cmd,))
 
-    def make_post(self, url, data):
-            headers = {'Content-type': 'application/json',
-                       'Accept': 'text/plain'}
-            return requests.post(url, data=json.dumps(data), headers=headers)
+    def init_db(self):
+        import ckan.model as model
+        from ckanext.qa.model import init_tables
+        init_tables(model.meta.engine)
 
-    def _package_list(self):
-        """
-        Generate the package dicts as declared in self.args.
-
-        Make API calls for the packages declared in self.args, and generate
-        the package dicts.
-
-        If no packages are declared in self.args, then retrieve all the
-        packages from the catalogue.
-        """
-        api_url = urlparse.urljoin(config['ckan.site_url'], 'api/action')
+    def update(self):
+        from ckan import model
+        from ckanext.qa import lib
+        packages = []
+        resources = []
         if len(self.args) > 1:
-            for id in self.args[1:]:
-                data = {'id': unicode(id)}
-                url = api_url + '/package_show'
-                response = self.make_post(url, data)
-                if not response.ok:
-                    err = ('Failed to get package %s from url %r: %s' %
-                           (id, url, response.reason))
-                    self.log.error(err)
-                    raise CkanApiError(err)
-                yield json.loads(response.content).get('result')
+            for arg in self.args[1:]:
+                # try arg as a group id/name
+                group = model.Group.get(arg)
+                if group:
+                    packages.extend(group.packages())
+                    if not self.options.queue:
+                        self.options.queue = 'bulk'
+                    continue
+                # try arg as a package id/name
+                pkg = model.Package.get(arg)
+                if pkg:
+                    packages.append(pkg)
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
+                    continue
+                # try arg as a resource id
+                res = model.Resource.get(arg)
+                if res:
+                    resources.append(res)
+                    if not self.options.queue:
+                        self.options.queue = 'priority'
+                    continue
+                else:
+                    self.log.error('Could not recognize as a group, package '
+                                   'or resource: %r', arg)
+                    sys.exit(1)
         else:
-            page, limit = 1, 100
-            url = api_url + '/current_package_list_with_resources'
-            response = self.make_post(url, {'page': page, 'limit': limit})
-            if not response.ok:
-                err = ('Failed to get package list with resources from url %r: %s' %
-                       (url, response.reason))
-                self.log.error(err)
-                raise CkanApiError(err)
-            chunk = json.loads(response.content).get('result')
-            while(chunk):
-                page += 1
-                for p in chunk:
-                    yield p
-                url = api_url + '/current_package_list_with_resources'
-                response = self.make_post(url, {'page': page, 'limit': limit})
+            # all packages
+            pkgs = model.Session.query(model.Package)\
+                        .filter_by(state='active')\
+                        .order_by('name').all()
+            packages.extend(pkgs)
+            if not self.options.queue:
+                self.options.queue = 'bulk'
 
-                try:
-                    response.raise_for_status()
-                except requests.exceptions.RequestException, e:
-                    err = ('Failed to get package list with resources from url %r: %s' %
-                       (url, str(e)))
-                    self.log.error(err)
-                    raise CkanApiError(err)
-                chunk = json.loads(response.content).get('result')
+        if packages:
+            self.log.info('Datasets to QA: %d', len(packages))
+        if resources:
+            self.log.info('Resources to QA: %d', len(resources))
+        if not (packages or resources):
+            self.log.error('No datasets or resources to process')
+            sys.exit(1)
+
+        self.log.info('Queue: %s', self.options.queue)
+        for package in packages:
+            lib.create_qa_update_package_task(package, self.options.queue)
+            self.log.info('Queuing dataset %s (%s resources)',
+                          package.name, len(package.resources))
+
+        for resource in resources:
+            package = resource.resource_group.package
+            self.log.info('Queuing resource %s/%s', package.name, resource.id)
+            lib.create_qa_update_task(resource, self.options.queue)
+
+        self.log.info('Completed queueing')
+
+    def sniff(self):
+        from ckanext.qa.sniff_format import sniff_file_format
+
+        if len(self.args) < 2:
+            print 'Not enough arguments', self.args
+            sys.exit(1)
+        for filepath in self.args[1:]:
+            format_ = sniff_file_format(
+                filepath, logging.getLogger('ckanext.qa.sniffer'))
+            if format_:
+                print 'Detected as: %s - %s' % (format_['display_name'],
+                                                filepath)
+            else:
+                print 'ERROR: Could not recognise format of: %s' % filepath
+
+    def view(self, package_ref=None):
+        from ckan import model
+
+        q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
+        print 'QA records - %i TaskStatus rows' % q.count()
+        print '      across %i Resources' % q.distinct('entity_id').count()
+
+        if package_ref:
+            pkg = model.Package.get(package_ref)
+            print 'Package %s %s' % (pkg.name, pkg.id)
+            for res in pkg.resources:
+                print 'Resource %s' % res.id
+                for row in q.filter_by(entity_id=res.id):
+                    print '* %s = %r error=%r' % (row.key, row.value,
+                                                  row.error)
+
+    def clean(self):
+        from ckan import model
+
+        print 'Before:'
+        self.view()
+
+        q = model.Session.query(model.TaskStatus).filter_by(task_type='qa')
+        q.delete()
+        model.Session.commit()
+
+        print 'After:'
+        self.view()
+
+    def migrate1(self):
+        from ckan import model
+        from ckan.lib.helpers import json
+        q_status = model.Session.query(model.TaskStatus) \
+            .filter_by(task_type='qa') \
+            .filter_by(key='status')
+        print '* %s with "status" will be deleted e.g. %s' % (q_status.count(),
+                                                              q_status.first())
+        q_failures = model.Session.query(model.TaskStatus) \
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score_failure_count')
+        print '* %s with openness_score_failure_count to be deleted e.g.\n%s'\
+            % (q_failures.count(), q_failures.first())
+        q_score = model.Session.query(model.TaskStatus) \
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score')
+        print '* %s with openness_score to migrate e.g.\n%s' % \
+            (q_score.count(), q_score.first())
+        q_reason = model.Session.query(model.TaskStatus) \
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score_reason')
+        print '* %s with openness_score_reason to migrate e.g.\n%s' % \
+            (q_reason.count(), q_reason.first())
+        raw_input('Press Enter to continue')
+
+        q_status.delete()
+        model.Session.commit()
+        print '..."status" deleted'
+
+        q_failures.delete()
+        model.Session.commit()
+        print '..."openness_score_failure_count" deleted'
+
+        for task_status in q_score:
+            reason_task_status = q_reason \
+                .filter_by(entity_id=task_status.entity_id) \
+                .first()
+            if reason_task_status:
+                reason = reason_task_status.value
+                reason_task_status.delete()
+            else:
+                reason = None
+
+            task_status.key = 'status'
+            task_status.error = json.dumps({
+                'reason': reason,
+                'format': None,
+                'is_broken': None,
+                })
+            model.Session.commit()
+        print '..."openness_score" and "openness_score_reason" migrated'
+
+        count = q_reason.count()
+        q_reason.delete()
+        model.Session.commit()
+        print '... %i remaining "openness_score_reason" deleted' % count
+
+        model.Session.flush()
+        model.Session.remove()
+        print 'Migration succeeded'
