@@ -157,6 +157,34 @@ To delete all the items on the queue::
 
     redis-cli -n 1 DEL bulk
 
+Installing SNI support
+----------------------
+
+When archiving resources on servers which use HTTPS, you might encounter this error::
+
+    requests.exceptions.SSLError: [Errno 1] _ssl.c:504: error:14077410:SSL routines:SSL23_GET_SERVER_HELLO:sslv3 alert handshake failure
+
+Whilst this could be a problem with the server, it is likely due to you needing to install SNI support on the machine that ckanext-archiver runs. Server Name Indication (SNL) is for when a server has multiple SSL certificates, which is a relatively new feature. This requires installing a recent version of OpenSSL plus the python libraries to make use of this feature..
+
+If you have SNI support installed then this should run without the error::
+
+    python -c 'import requests; requests.get("http://files.datapress.com")'
+
+On Ubuntu 12.04 you can install SNI support by doing this::
+
+    sudo apt-get install libffi-dev
+    . /usr/lib/ckan/default/bin/activate
+    pip install 'cryptography==0.9.3' pyOpenSSL ndg-httpsclient pyasn1
+
+You should also check your OpenSSL version is greater than 1.0.0. Apparently SNI was added in 0.9.8j but apparently there are reported problems with 0.9.8y, 0.9.8zc & 0.9.8zg so 1.0.0+ is recommended.
+
+    python -c "import ssl; print ssl.OPENSSL_VERSION"
+
+For more about enabling SNI in python requests see:
+
+    * https://stackoverflow.com/questions/18578439/using-requests-with-tls-doesnt-give-sni-support/18579484#18579484
+    * https://github.com/kennethreitz/requests/issues/2022
+
 
 Config settings
 ---------------
@@ -299,3 +327,12 @@ My site has an IDatasetForm already - how can I include the archiver information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you have another extension with an IDatasetForm for customizing the dataset form/schema, then you can simply add to it the schema customizations from this module - see this module's plugins.py in the section for IDatasetForm.
+
+'SSL handshake' error
+~~~~~~~~~~~~~~~~~~~~~
+
+When archiving resources on servers which use HTTPS, you might encounter this error::
+
+    requests.exceptions.SSLError: [Errno 1] _ssl.c:504: error:14077410:SSL routines:SSL23_GET_SERVER_HELLO:sslv3 alert handshake failure
+
+This is probably because you don't have SNI support and requires installing OpenSSL - see section "Installing SNI support".

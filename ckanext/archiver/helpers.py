@@ -31,7 +31,7 @@ def archiver_is_resource_cached_html(resource):
 # Replacement for the core ckan helper 'format_resource_items'
 # but with our own blacklist
 def archiver_format_resource_items(items):
-    blacklist = ['archiver']
+    blacklist = ['archiver', 'qa']
     items_ = [item for item in items
               if item[0] not in blacklist]
     import ckan.lib.helpers as ckan_helpers
