@@ -29,8 +29,10 @@ Demo:
 Compatibility: Requires CKAN version 2.1 or later
 
 TODO:
-* Link to the reports (including Broken Links) from the main nav
-* Mark brokenness on the dataset
+
+* Show brokenness on the package page (not just the resources)
+* Prettify the html bits
+* Add brokenness to search facets using IFacet
 
 Operation
 ---------
