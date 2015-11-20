@@ -8,10 +8,11 @@ sudo apt-get update -qq
 sudo apt-get install postgresql-$PGVERSION solr-jetty libcommons-fileupload-java:amd64=1.2.2-1
 
 echo "Installing CKAN and its Python dependencies..."
-git clone https://github.com/datagovuk/ckan
+git clone https://github.com/ckan/ckan
 cd ckan
 #export latest_ckan_release_branch=`git branch --all | grep remotes/origin/release-v | sort -r | sed 's/remotes\/origin\///g' | head -n 1`
-export ckan_branch=release-v2.2-dgu
+#export ckan_branch=release-v2.2-dgu
+export ckan_branch=master
 echo "CKAN branch: $ckan_branch"
 git checkout $ckan_branch
 python setup.py develop
