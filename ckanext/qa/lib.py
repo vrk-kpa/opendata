@@ -1,9 +1,16 @@
 import os
 import json
 import re
+import logging
 
 from pylons import config
-import ckanext.qa.plugin
+
+from ckan import plugins as p
+from ckan.lib.celery_app import celery
+from ckan.model.types import make_uuid
+
+
+log = logging.getLogger(__name__)
 
 _RESOURCE_FORMAT_SCORES = None
 
@@ -25,6 +32,7 @@ def resource_format_scores():
     if not _RESOURCE_FORMAT_SCORES:
         _RESOURCE_FORMAT_SCORES = {}
         json_filepath = config.get('qa.resource_format_openness_scores_json')
+        import ckanext.qa.plugin
         if not json_filepath:
             json_filepath = os.path.join(
                 os.path.dirname(os.path.realpath(ckanext.qa.plugin.__file__)),
@@ -62,3 +70,27 @@ def munge_format_to_be_canonical(format_name):
     if format_name.startswith('.'):
         format_name = format_name[1:]
     return re.sub('[^a-z/+]', '', format_name)
+
+
+def create_qa_update_package_task(package, queue):
+    from pylons import config
+    task_id = '%s-%s' % (package.name, make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update_package', args=[ckan_ini_filepath, package.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of package put into celery queue %s: %s',
+              queue, package.name)
+
+
+def create_qa_update_task(resource, queue):
+    from pylons import config
+    if p.toolkit.check_ckan_version(max_version='2.2.99'):
+        package = resource.resource_group.package
+    else:
+        package = resource.package
+    task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
+    ckan_ini_filepath = os.path.abspath(config.__file__)
+    celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
+                     task_id=task_id, queue=queue)
+    log.debug('QA of resource put into celery queue %s: %s/%s url=%r',
+              queue, package.name, resource.id, resource.url)

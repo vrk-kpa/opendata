@@ -1,16 +1,14 @@
 import logging
-import os
 import types
 
 import ckan.model as model
 import ckan.plugins as p
-from ckan.lib.celery_app import celery
-from ckan.model.types import make_uuid
 
 from ckanext.archiver.interfaces import IPipe
 from ckanext.qa.logic import action, auth
 from ckanext.qa.model import QA, aggregate_qa_for_a_dataset
 from ckanext.qa import helpers
+from ckanext.qa import lib
 from ckanext.report.interfaces import IReport
 
 
@@ -56,7 +54,7 @@ class QAPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         resource = model.Resource.get(resource_id)
         assert resource
 
-        create_qa_update_task(resource, queue=queue)
+        lib.create_qa_update_task(resource, queue=queue)
 
     # IReport
 
@@ -105,30 +103,6 @@ class QAPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
                 del qa_dict['package_id']
                 del qa_dict['resource_id']
                 res['qa'] = qa_dict
-
-
-def create_qa_update_package_task(package, queue):
-    from pylons import config
-    task_id = '%s-%s' % (package.name, make_uuid()[:4])
-    ckan_ini_filepath = os.path.abspath(config.__file__)
-    celery.send_task('qa.update_package', args=[ckan_ini_filepath, package.id],
-                     task_id=task_id, queue=queue)
-    log.debug('QA of package put into celery queue %s: %s',
-              queue, package.name)
-
-
-def create_qa_update_task(resource, queue):
-    from pylons import config
-    if p.toolkit.check_ckan_version(max_version='2.2.99'):
-        package = resource.resource_group.package
-    else:
-        package = resource.package
-    task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
-    ckan_ini_filepath = os.path.abspath(config.__file__)
-    celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
-                     task_id=task_id, queue=queue)
-    log.debug('QA of resource put into celery queue %s: %s/%s url=%r',
-              queue, package.name, resource.id, resource.url)
 
 
 def get_functions(module):

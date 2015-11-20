@@ -117,12 +117,11 @@ def update(ckan_ini_filepath, resource_id):
         else:
             package = resource.package
         if package:
+            # Refresh the index for this dataset, so that it contains the latest
+            # qa info
             _update_search_index(package.id, log)
         else:
             log.warning('Resource not connected to a package. Res: %r', resource)
-        # Refresh the index for this dataset, so that it contains the latest
-        # qa info
-        _update_search_index(package.id, log)
         return json.dumps(qa_result) #, cls=DateTimeJsonEncoder)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s',
@@ -162,7 +161,7 @@ def resource_score(resource, log):
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
         'format': format of the data (string)
-        'archival_timestamp': time of the archival that this result is based on (datetime)
+        'archival_timestamp': time of the archival that this result is based on (iso string)
 
     Raises QAError for reasonable errors
     """
@@ -218,11 +217,13 @@ def resource_score(resource, log):
 
     log.info('Score: %s Reason: %s', score, score_reason)
 
+    archival_updated = archival.updated.isoformat() \
+        if archival and archival.updated else None
     result = {
         'openness_score': score,
         'openness_score_reason': score_reason,
         'format': format_,
-        'archival_timestamp': archival.updated if archival else None,
+        'archival_timestamp': archival_updated
     }
 
     return result
@@ -407,8 +408,8 @@ def _update_search_index(package_id, log):
     context_ = {'model': model, 'ignore_auth': True, 'session': model.Session,
                 'use_cache': False, 'validate': False}
     package = toolkit.get_action('package_show')(context_, {'id': package_id})
-    print package
     package_index.index_package(package, defer_commit=False)
+    log.info('Search indexed %s', package['name'])
 
 
 def save_qa_result(resource_id, qa_result, log):
