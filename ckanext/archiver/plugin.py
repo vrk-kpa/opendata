@@ -121,8 +121,8 @@ def add_archival_information(key, data, errors, context):
             break
         res_id = data[res_id_key]
         archival = archivals_by_res_id.get(res_id)
-        archival_dict = archival.as_dict()
         if archival:
+            archival_dict = archival.as_dict()
             del archival_dict['id']
             del archival_dict['package_id']
             del archival_dict['resource_id']
