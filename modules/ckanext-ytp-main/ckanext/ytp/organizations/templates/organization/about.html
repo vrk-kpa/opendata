@@ -25,7 +25,6 @@
         {% endif %}
     {% endfor %}
 
-
     <div id="OrgExtraInfo">
         <dl class="dl-horizontal">
 
@@ -77,6 +76,16 @@
             {% for info in address_info %}
                 {{ ytp_layout.value_list_item(info.0, info.1) }}
             {% endfor %}
+
+            {% if h.check_access('package_create') %}
+            {% set embed_url = h.url_for(controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='embed', id=c.group_dict.name) %}
+            <dt>
+              {{ _('Embeddable link')}}
+            </dt>
+            <dd>
+              <a href="{{ embed_url }}">{{ embed_url }}</a>
+            </dd>
+            {% endif %}
         </dl>
     </div>
 
