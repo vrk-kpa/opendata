@@ -158,6 +158,9 @@ function ytp_theme_preprocess_page(&$variables) {
   $alias_parts = explode('/', drupal_get_path_alias());
   if (count($alias_parts) && $alias_parts[0] == 'guide') {
     $variables['theme_hook_suggestions'][] = 'page__guidetemplate';
+    if( isset($alias_parts[1])) {
+      $variables['active_page'] = $alias_parts[1];
+    }
   }
 
 

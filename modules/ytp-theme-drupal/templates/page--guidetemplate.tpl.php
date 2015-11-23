@@ -145,12 +145,14 @@
                     <h1 class="page-header"><?php print $title; ?></h1>
                 <?php endif; ?>
 
+
+
                 <div>
                     <ul class="guide-nav col-md-12">
-                        <li class="col-sm-12 col-md-6 col-lg-3"><a href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvita</a></span></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehita</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><a <?php if ( isset($active_page) && $active_page == "survey" ) { ?> class="active" <?php } ?>  href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvitä</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a <?php if ( isset($active_page) && $active_page == "analyze" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a <?php if ( isset($active_page) && $active_page == "prepare" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><span class="icon-arrow-right"></span><a <?php if ( isset($active_page) && $active_page == "follow" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehitä</a></li>
                     </ul>
 
                 </div>
