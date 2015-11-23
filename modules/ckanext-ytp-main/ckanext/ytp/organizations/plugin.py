@@ -323,13 +323,12 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         organization_controller = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
 
         with SubMapper(map, controller=organization_controller) as m:
-            m.connect('organization_members', '/organization/members/{id}',
-                      action='members', ckan_icon='group')
+            m.connect('organization_members', '/organization/members/{id}', action='members', ckan_icon='group')
             m.connect('/user_list', action='user_list', ckan_icon='user')
 
         map.connect('/organization/new', action='new', controller='organization')
-        map.connect('organization_read', '/organization/{id}', controller=organization_controller,
-                    action='read', ckan_icon='group')
+        map.connect('organization_read', '/organization/{id}', controller=organization_controller, action='read', ckan_icon='group')
+        map.connect('organization_embed', '/organization/{id}/embed', controller=organization_controller, action='embed', ckan_icon='group')
         return map
 
 
