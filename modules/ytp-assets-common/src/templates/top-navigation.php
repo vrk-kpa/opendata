@@ -41,7 +41,7 @@
 
     $class = '';
     $href = '/' . $lang . '/guide';
-    if ( ($uri == $href || $site_section == t("Guide to Open Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    if ( (strpos($uri, $href) !== false || $site_section == t("Guide to Open Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
     echo '<li' . $class . '><a href='. $href . '>' . t("Guide to Open Data") . '</a></li>';
   }
 ?>
