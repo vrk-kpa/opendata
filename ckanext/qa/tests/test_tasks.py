@@ -7,12 +7,18 @@ from nose.tools import assert_equal
 from ckan import model
 from ckan.tests import BaseCase
 from ckan.logic import get_action
+import ckan.lib.helpers as ckan_helpers
+try:
+    from ckan.tests.helpers import reset_db
+    from ckan.tests import factories as ckan_factories
+except ImportError:
+    from ckan.new_tests.helpers import reset_db
+    from ckan.new_tests import factories as ckan_factories
 
 import ckanext.qa.tasks
 from ckanext.qa.tasks import resource_score, extension_variants
 import ckanext.archiver
 import ckanext.archiver.tasks
-from ckanext.qa.formats import Formats
 from ckanext.qa import model as qa_model
 from ckanext.archiver import model as archiver_model
 from ckanext.archiver.model import Archival, Status
@@ -33,24 +39,24 @@ sniffed_format = None
 def mock_sniff_file_format(filepath, log):
     return sniffed_format
 ckanext.qa.tasks.sniff_file_format = mock_sniff_file_format
-def set_sniffed_format(format_display_name):
+def set_sniffed_format(format_name):
     global sniffed_format
-    if format_display_name:
-        sniffed_format = Formats.by_display_name()[format_display_name]
+    if format_name:
+        format_tuple = ckan_helpers.resource_formats().get(format_name.lower())
+        sniffed_format = {'format': format_tuple[1]}
     else:
         sniffed_format = None
 
 TODAY = datetime.datetime(year=2008, month=10, day=10)
+TODAY_STR = TODAY.isoformat()
 
 class TestTask(BaseCase):
 
     @classmethod
     def setup_class(cls):
+        reset_db()
         archiver_model.init_tables(model.meta.engine)
         qa_model.init_tables(model.meta.engine)
-
-    def teardown(self):
-        model.repo.rebuild_db()
 
     def test_trigger_on_archival(cls):
         # create package
@@ -72,7 +78,7 @@ class TestTask(BaseCase):
 
         # create a send_data from ckanext-archiver, that gets picked up by
         # ckanext-qa to put a task on the queue
-        ckanext.archiver.tasks.notify(resource_dict, cache_filepath)
+        ckanext.archiver.tasks.notify_package(pkg, 'priority', cache_filepath)
         # this is useful on its own (without any asserts) because it checks
         # there are no exceptions when running it
 
@@ -83,6 +89,7 @@ class TestResourceScore(BaseCase):
 
     @classmethod
     def setup_class(cls):
+        reset_db()
         archiver_model.init_tables(model.meta.engine)
         qa_model.init_tables(model.meta.engine)
         cls.fake_resource = {
@@ -95,15 +102,12 @@ class TestResourceScore(BaseCase):
             'position': 2,
         }
 
-    def teardown(self):
-        model.repo.rebuild_db()
-
     def _test_resource(self, url='anything', format='TXT', archived=True, cached=True, license_id='uk-ogl'):
-        context = {'model': model, 'ignore_auth': True, 'session': model.Session, 'user': 'test'}
-        pkg = {'name': 'testpkg', 'license_id': license_id, 'resources': [
-            {'url': url, 'format': format, 'description': 'Test'}
-            ]}
-        pkg = get_action('package_create')(context, pkg)
+        pkg = {'license_id': license_id,
+               'resources': [
+                   {'url': url, 'format': format, 'description': 'Test'}
+               ]}
+        pkg = ckan_factories.Dataset(**pkg)
         res_id = pkg['resources'][0]['id']
         if archived:
             archival = Archival.create(res_id)
@@ -127,7 +131,7 @@ class TestResourceScore(BaseCase):
         assert result['openness_score'] == 3, result
         assert 'Content of file appeared to be format "CSV"' in result['openness_score_reason'], result
         assert result['format'] == 'CSV', result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
 
     def test_not_archived(self):
         result = resource_score(self._test_resource(archived=False, cached=False, format=None), log)
@@ -145,7 +149,7 @@ class TestResourceScore(BaseCase):
         # falls back on previous QA data detailing failed attempts
         assert result['openness_score'] == 1, result
         assert result['format'] == None, result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
         assert 'This file had not been downloaded at the time of scoring it.' in result['openness_score_reason'], result
         assert 'Could not determine a file extension in the URL.' in result['openness_score_reason'], result
         assert 'Format field is blank.' in result['openness_score_reason'], result
@@ -155,7 +159,7 @@ class TestResourceScore(BaseCase):
         set_sniffed_format(None)
         result = resource_score(self._test_resource('http://site.com/filename.xls'), log)
         assert result['openness_score'] == 2, result
-        assert result['archival_timestamp'] == TODAY, result
+        assert result['archival_timestamp'] == TODAY_STR, result
         assert_equal(result['format'], 'XLS')
         assert 'not recognized from its contents' in result['openness_score_reason'], result
         assert 'extension "xls" relates to format "XLS"' in result['openness_score_reason'], result
@@ -254,7 +258,7 @@ class TestExtensionVariants:
     def test_1_multiple(self):
         assert_equal(extension_variants('http://dept.gov.uk/coins.data.1996.csv.zip'),
                      ['csv.zip', 'zip'])
-            
+
     def test_2_parameter(self):
         assert_equal(extension_variants('http://dept.gov.uk/coins-data-1996.csv?callback=1'),
                      ['csv'])

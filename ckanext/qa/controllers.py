@@ -1,5 +1,5 @@
 """
-The QA Resource Controller
+Link Checker Controller - DEPRECATED
 
 This controller exposes only one action: check_link
 """
@@ -9,19 +9,13 @@ import posixpath
 import urllib
 import urlparse
 
-from ckan.lib.base import request
+from ckan.lib.base import request, BaseController
 from ckan.lib.helpers import parse_rfc_2822_date
+from ckan.lib import helpers as ckan_helpers
 
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
-from ckan.lib.base import BaseController
-try:
-    # optional
-    from ckanext.qa import formats as formats_lib
-except ImportError:
-    formats_lib = None
-
-class QAResourceController(BaseController):
+class LinkCheckerController(BaseController):
 
     def check_link(self):
         """
@@ -130,19 +124,17 @@ class QAResourceController(BaseController):
             formats.append(extension[1:].upper()) # strip leading '.' from extension
             base, extension = posixpath.splitext(base)
         if formats:
-            if formats_lib:
-                extension = '.'.join(formats[::-1]).lower()
-                format_ = formats_lib.Formats.by_extension().get(extension)
-                if format_:
-                    return format_['display_name']
+            extension = '.'.join(formats[::-1]).lower()
+            format_tuple = ckan_helpers.resource_formats().get(extension)
+            if format_tuple:
+                return format_tuple[1]
             return ' / '.join(formats[::-1])
 
         # No file extension found, attempt to extract format using the mimetype
         stripped_mimetype = self._extract_mimetype(headers) # stripped of charset
-        if formats_lib:
-            format_ = formats_lib.Formats.by_mime_type().get(stripped_mimetype)
-            if format_:
-                return format_['display_name']
+        format_tuple = ckan_helpers.resource_formats().get(stripped_mimetype)
+        if format_tuple:
+            return format_tuple[1]
 
         extension = mimetypes.guess_extension(stripped_mimetype)
         if extension:
@@ -166,4 +158,3 @@ class QAResourceController(BaseController):
         if dt and dt.tzinfo:
             dt = (dt - dt.utcoffset()).replace(tzinfo=None)
         return dt.isoformat() if dt else ''
-

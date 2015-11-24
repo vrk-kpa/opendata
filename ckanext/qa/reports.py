@@ -29,7 +29,13 @@ def openness_index(include_sub_organizations=False):
                           .filter(model.Group.type == 'organization')\
                           .filter(model.Group.state == 'active').all():
         scores = []
-        for pkg in org.packages():
+        # NB org.packages() misses out many - see:
+        # http://redmine.dguteam.org.uk/issues/1844
+        pkgs = model.Session.query(model.Package) \
+                    .filter_by(owner_org=org.id) \
+                    .filter_by(state='active') \
+                    .all()
+        for pkg in pkgs:
             try:
                 qa = p.toolkit.get_action('qa_package_openness_show')(context, {'id': pkg.id})
             except p.toolkit.ObjectNotFound:
@@ -100,7 +106,12 @@ def openness_for_organization(organization=None, include_sub_organizations=False
     rows = []
     num_packages = 0
     for org in orgs:
-        pkgs = org.packages()
+        # NB org.packages() misses out many - see:
+        # http://redmine.dguteam.org.uk/issues/1844
+        pkgs = model.Session.query(model.Package) \
+                    .filter_by(owner_org=org.id) \
+                    .filter_by(state='active') \
+                    .all()
         num_packages += len(pkgs)
         for pkg in pkgs:
             try:
