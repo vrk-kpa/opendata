@@ -1,0 +1,4 @@
+flask==0.8
+ProgressBar==2.3
+nose
+mock

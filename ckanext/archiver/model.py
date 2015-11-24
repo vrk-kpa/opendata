@@ -7,6 +7,7 @@ from sqlalchemy import types
 from sqlalchemy.ext.declarative import declarative_base
 
 import ckan.model as model
+from ckan.lib import dictization
 
 log = __import__('logging').getLogger(__name__)
 
@@ -74,6 +75,10 @@ class Status:
     def is_ok(cls, status_id):
         return status_id == 0
 
+broken_enum = {True: 'Broken',
+               None: 'Not sure if broken',
+               False: 'Downloaded OK'}
+
 
 class Archival(Base):
     """
@@ -116,7 +121,7 @@ class Archival(Base):
         package = model.Package.get(self.package_id)
         package_name = package.name if package else '?%s?' % self.package_id
         return '<Archival %s /dataset/%s/resource/%s %s>' % \
-            (broken_or_not[self.is_broken], package_name, self.resource_id,
+            (broken_enum[self.is_broken], package_name, self.resource_id,
              broken_details)
 
     @classmethod
@@ -142,15 +147,15 @@ class Archival(Base):
         c.resource_id = resource_id
 
         # Find the package_id for the resource.
-        q = """
-            SELECT P.id from package P
-            INNER JOIN resource R ON R.package_id = P.id
-            WHERE R.id = '%s'
-        """
-        row = model.Session.execute(q % c.resource_id).first()
-        if not row or not row[0]:
-            raise Exception("Missing dataset")
-        c.package_id = row[0]
+        dataset = model.Session.query(model.Package)
+        if hasattr(model, 'ResourceGroup'):
+            # earlier CKANs had ResourceGroup
+            dataset = dataset.join(model.ResourceGroup)
+        dataset = dataset \
+            .join(model.Resource) \
+            .filter_by(id=resource_id) \
+            .one()
+        c.package_id = dataset.id
         return c
 
     @property
@@ -158,6 +163,43 @@ class Archival(Base):
         if self.status_id is None:
             return None
         return Status.by_id(self.status_id)
+
+    def as_dict(self):
+        context = {'model': model}
+        archival_dict = dictization.table_dictize(self, context)
+        archival_dict['status'] = self.status
+        archival_dict['is_broken_printable'] = broken_enum[self.is_broken]
+        return archival_dict
+
+
+def aggregate_archivals_for_a_dataset(archivals):
+    '''Returns aggregated archival info for a dataset, given the archivals for
+    its resources (returned by get_for_package).
+
+    :param archivals: A list of the archivals for a dataset's resources
+    :type archivals: A list of Archival objects
+    :returns: Archival dict about the dataset, with keys:
+                status_id
+                status
+                reason
+                is_broken
+    '''
+    archival_dict = {'status_id': None, 'status': None,
+                     'reason': None, 'is_broken': None}
+    for archival in archivals:
+        # status_id takes the highest id i.e. pessimistic
+        # reason matches the status_id
+        if archival_dict['status_id'] is None or \
+                archival.status_id > archival_dict['status_id']:
+            archival_dict['status_id'] = archival.status_id
+            archival_dict['reason'] = archival.reason
+
+    if archivals:
+        archival_dict['status'] = Status.by_id(archival_dict['status_id'])
+        archival_dict['is_broken'] = \
+            Status.is_status_broken(archival_dict['status_id'])
+    return archival_dict
+
 
 def init_tables(engine):
     Base.metadata.create_all(engine)

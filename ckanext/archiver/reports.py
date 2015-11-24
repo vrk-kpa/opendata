@@ -32,15 +32,18 @@ def broken_links_index(include_sub_organizations=False):
         broken_resources = archivals.count()
         broken_datasets = archivals.distinct(model.Package.id).count()
         num_datasets = model.Session.query(model.Package)\
-                .filter_by(owner_org=org.id)\
-                .filter_by(state='active')\
-                .count()
+            .filter_by(owner_org=org.id)\
+            .filter_by(state='active')\
+            .count()
         num_resources = model.Session.query(model.Package)\
-                .filter_by(owner_org=org.id)\
-                .filter_by(state='active')\
-                .join(model.Resource)\
-                .filter_by(state='active')\
-                .count()
+            .filter_by(owner_org=org.id)\
+            .filter_by(state='active')
+        if hasattr(model, 'ResourceGroup'):
+            num_resources = num_resources.join(model.ResourceGroup)
+        num_resources = num_resources \
+            .join(model.Resource)\
+            .filter_by(state='active')\
+            .count()
         counts[org.name] = {
             'organization_title': org.title,
             'broken_packages': broken_datasets,
@@ -195,10 +198,13 @@ def broken_links_for_organization(organization, include_sub_organizations=False)
                         .filter_by(state='active')\
                         .count()
     num_resources = model.Session.query(model.Resource)\
-                         .filter_by(state='active')\
-                         .join(model.Package)\
-                         .filter(model.Package.owner_org.in_(org_ids))\
-                         .filter_by(state='active').count()
+                         .filter_by(state='active')
+    if hasattr(model, 'ResourceGroup'):
+        num_resources = num_resources.join(model.ResourceGroup)
+    num_resources = num_resources \
+        .join(model.Package)\
+        .filter(model.Package.owner_org.in_(org_ids))\
+        .filter_by(state='active').count()
 
     return {'organization_name': name,
             'organization_title': title,
