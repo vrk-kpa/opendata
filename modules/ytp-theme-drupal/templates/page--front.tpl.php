@@ -94,18 +94,12 @@
     <?php endif; ?>
     <?php if (!empty($page['header'])): ?>
       <div class="row">
-        <?php if (!empty($page['top_bar_secondary'])): ?>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <?php print render($page['header']); ?>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="tutorial-box">
-            <?php print render($page['top_bar_secondary']); ?>
-          </div>
-        <?php else: ?>
-          <div class="col-lg-12">
-            <?php print render($page['header']); ?>
-          </div>
-        <?php endif; ?>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <?php print render($page['header']); ?>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="tutorial-box">
+          <?php print render($page['top_bar_secondary']); ?>
+        </div>
       </div>
     <?php endif; ?>
 
