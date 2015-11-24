@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        # Requirements defined in requirements.txt
+        # Requirements defined in pip-requirements.txt
     ],
     tests_require=[
         'nose',
