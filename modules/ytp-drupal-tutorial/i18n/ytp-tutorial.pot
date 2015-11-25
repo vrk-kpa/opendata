@@ -1,0 +1,78 @@
+# Manual
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"POT-Creation-Date: 2015-11-24 16:55+0200\n"
+"PO-Revision-Date: 2015-11-24 16:55+0200\n"
+"Last-Translator: Meepu <meeri.panula@gofore.com>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Front page tutorial"
+msgstr ""
+
+msgid "Creates a tutorial block on front page. The block will determine if user is registered, belongs to an organization and/or has published data, and show matching instructions. User can opt out of seeing some views."
+msgstr ""
+
+msgid "Register"
+msgstr ""
+
+msgid "to get started"
+msgstr ""
+
+msgid "Opendata.fi allows you to find open datasets, and to publish and manage your own.'"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Join an organization"
+msgstr ""
+
+msgid "Publish data, tools and guidelines as"
+msgstr ""
+
+msgid "Don't ask me again"
+msgstr ""
+
+msgid "Publish data"
+msgstr ""
+
+msgid "Open data"
+msgstr ""
+
+msgid "Interoperability tools"
+msgstr ""
+
+msgid "Public service"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Your datasets"
+msgstr ""
+
+msgid "Your organizations"
+msgstr ""
+
+msgid "Your profile"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "- choose an organization -"
+msgstr ""

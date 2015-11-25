@@ -40,9 +40,7 @@ function ytp_tutorial_block_view($delta = '') {
  */
 function ytp_tutorial_help($path, $arg) {
     if ($path == 'admin/help#ytp_tutorial') {
-        return t('Creates a tutorial block on front page. The block will determine if user is 
-            registered, belongs to an organization and/or has published data, and show matching 
-            instructions. User can opt out of seeing some views.');
+        return t('Creates a tutorial block on front page. The block will determine if user is registered, belongs to an organization and/or has published data, and show matching instructions. User can opt out of seeing some views.');
     }
 }
 
