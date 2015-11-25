@@ -1,5 +1,24 @@
 @import "variables.less";
 
+body {
+  background: #f5f8fa url("../images/avoindata_bg.png?timestamp=<%= timestamp %>") no-repeat;
+  background-position: top center;
+}
+
+
+a {
+  color: @link-color;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+
 h1,
 h2,
 h3,
@@ -258,4 +277,8 @@ a {
   p{
     line-height: 24px;
   }
+}
+
+.icon-rss-sign, .icon-rss-sign:hover {
+  color: #FF9933;
 }
