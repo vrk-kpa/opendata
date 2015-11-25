@@ -1,26 +1,11 @@
-@import (reference) "upstream_bootstrap/mixins";
-@import "variables.less";
+@import (reference) "../upstream_bootstrap/mixins";
+@import "../variables.less";
 
-body {
-  background: #f5f8fa url("../images/avoindata_bg.png?timestamp=<%= timestamp %>") no-repeat;
-  background-position: top center;
-}
+@import "../navbars";
+@import "../common";
+@import "../responsive";
 
-body.toolbar, body.toolbar-drawer {
-  padding-top: 128px !important;
-}
 
-a {
-    color: @link-color;
-}
-
-h1, h2, h3 {
-    margin-top: 0;
-}
-
-h4 {
-    font-size: 18px;
-}
 
 .alert {
   margin-bottom: (@line-height-computed*2/3);
@@ -32,7 +17,7 @@ h4 {
     &:before {
       font-family: FontAwesome;
       top: 0;
-      left:- 5px;
+      left: -5px;
       padding-right: 0.5em;
       content: "\f06a";
     }
@@ -48,9 +33,7 @@ h4 {
     float: right;
 }
 
-.icon-rss-sign, .icon-rss-sign:hover {
-  color: #FF9933;
-}
+
 .icon-cart-navbar, .nav li .icon-cart-navbar {
     display: block;
     width: 21px;
@@ -297,24 +280,7 @@ h4 {
 
 }
 
-.control-full.error-block {
-  width: auto;
-}
 
-
-.form-inline .form-control{
-  width: 100%;
-}
-
-.form-horizontal{
-  .radio-inline, .checkbox-inline{
-    padding-top: 0;
-  }
-}
-
-label.radio-inline:after, label.checkbox-inline:after{
-  content: ""
-}
 
 // Drupal article tags
 .field-type-taxonomy-term-reference {
@@ -530,4 +496,53 @@ label.radio-inline:after, label.checkbox-inline:after{
       z-index: 3;
     }
   }
+<<<<<<< HEAD:modules/ytp-assets-common/src/less/content.less
+=======
+}
+
+a.tabledrag-handle{
+  .handle{
+    background: url(../../../misc/draggable.png) no-repeat 6px 9px;
+    margin: -0.4em 0.5em;
+    padding: 0.42em 0.6em;
+    height: 22px;
+    width: 22px;
+  }
+}
+
+.guide-nav{
+  list-style: none;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  li{
+    margin-bottom: 40px;
+    a {
+      padding: 15px 40px;
+      background-color: #eaf4fb;
+      border-radius: 20px;
+      &.active{
+        background-color: @ytp-brand-primary;
+        color: @button-inverse-text-color;
+      }
+      &:hover{
+        background-color: #267DD0;
+        color: @button-inverse-text-color;
+      }
+    }
+    span{
+      margin-left: -40px;
+      margin-right:  30px;
+    }
+  }
+}
+
+.content-box{
+  border: 1px dashed #8CAEDA;
+  background-color: #F8FBFE;
+  text-align: center;
+  [class^="icon-"],
+  [class*=" icon-"] {
+    color: #8CAEDA;
+  }
+>>>>>>> 078f72d... refactor styles:modules/ytp-assets-common/src/less/drupal/drupal.less
 }

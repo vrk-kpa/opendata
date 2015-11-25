@@ -16,10 +16,11 @@ var gulp = require('gulp'),
 var paths = {
   src: {
     images: 'src/images/**/*',
-    less: 'src/less',
+    ckan: 'src/less/ckan',
+    drupal: 'src/less/drupal',
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
-    fonts: 'src/font/**/*',
+    fonts: 'src/fonts/**/*',
     scripts: 'src/scripts/**/*',
     bootstrap: 'src/less/upstream_bootstrap',
     root: 'src'
@@ -34,19 +35,34 @@ gulp.task('clean', function(cb) {
   cb();
 });
 
-gulp.task('less', function () {
-  return gulp.src(paths.src.less+"/*.less")
+gulp.task('ckan', function () {
+  return gulp.src(paths.src.ckan+"/*.less")
     .pipe(sourcemaps.init())
     .pipe(less({
-      paths: [ paths.src.less ]
+      paths: [ paths.src.ckan ]
     }))
     .pipe(prefixer('last 2 versions', 'ie 9'))
     .pipe(template({timestamp: timestamp}))
     .pipe(MinCSS({keepBreaks: false}))
-    .pipe(concat("main.css"))
+    .pipe(concat("ckan.css"))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/styles'));
 });
+
+gulp.task('drupal', function () {
+  return gulp.src(paths.src.drupal+"/*.less")
+      .pipe(sourcemaps.init())
+      .pipe(less({
+        paths: [ paths.src.drupal ]
+      }))
+      .pipe(prefixer('last 2 versions', 'ie 9'))
+      .pipe(template({timestamp: timestamp}))
+      .pipe(MinCSS({keepBreaks: false}))
+      .pipe(concat("drupal.css"))
+      .pipe(sourcemaps.write('./maps'))
+      .pipe(gulp.dest(paths.dist+'/styles'));
+});
+
 
 gulp.task('images', function() {
   return gulp.src(paths.src.images)
@@ -76,7 +92,7 @@ gulp.task('static_pages', ['static_css'], function() {
 
 gulp.task('fonts', function() {
   return gulp.src(paths.src.fonts)
-    .pipe(gulp.dest(paths.dist+'/font'));
+    .pipe(gulp.dest(paths.dist+'/fonts'));
 });
 
 gulp.task('scripts', function() {
@@ -116,7 +132,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'less', 'fonts', 'scripts'],
+              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'scripts'],
               callback);
 });
 
