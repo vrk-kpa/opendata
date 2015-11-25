@@ -20,7 +20,7 @@ var paths = {
     drupal: 'src/less/drupal',
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
-    fonts: 'src/fonts/**/*',
+    fonts: 'src/font/**/*',
     scripts: 'src/scripts/**/*',
     bootstrap: 'src/less/upstream_bootstrap',
     root: 'src'
@@ -92,7 +92,7 @@ gulp.task('static_pages', ['static_css'], function() {
 
 gulp.task('fonts', function() {
   return gulp.src(paths.src.fonts)
-    .pipe(gulp.dest(paths.dist+'/fonts'));
+    .pipe(gulp.dest(paths.dist+'/font'));
 });
 
 gulp.task('scripts', function() {
