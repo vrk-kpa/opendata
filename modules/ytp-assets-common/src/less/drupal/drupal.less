@@ -5,8 +5,6 @@
 @import "../common";
 @import "../responsive";
 
-
-
 .alert {
   margin-bottom: (@line-height-computed*2/3);
 }
@@ -280,8 +278,6 @@
 
 }
 
-
-
 // Drupal article tags
 .field-type-taxonomy-term-reference {
   margin: 14px 0;
@@ -370,23 +366,55 @@
     background-color: darken(@background-hilight, 2%);
     min-height: 270px;
     h1{
-      font-weight: 600;
-      font-size: 17px;
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
     }
-    .tutorial-register {
-      margin-top: 20px;
+    h2 {
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: -10px;
+    }
+    .tutorial-action-button {
+      margin: 0;
+      padding: 10px 0;
       font-size: 20px;
       text-align: center;
       color: @block-color;
-      border-radius: 5px;
+      height: 45px;
+      display: block;
+      width: 100%;
+      border: 0;
       a {
         display: block;
         width: 100%;
-        padding: 10px;
         color: @block-color;
+      }
+      .icon-arrow-right {
+        display: block;
+        float: right;
+        margin-top: -10px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        background-color: @button-primary-hilight;
       }
       background-color: @block-color-hilight;
     }
+    .tools-link {
+      display: block;
+      width: 100%;
+      background-color: @block-color-light;
+      border-right: 10px solid lighten(@ytp-brand-primary, 45%);
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: lighten(@ytp-brand-primary, 10%);
+      height: 40px;
+      font-weight: 600;
+      padding: 10px;
+    }
+
     .tutorial-signin {
       margin-top: 10px;
 
@@ -394,6 +422,14 @@
     .media-left{
       padding-right: 20px;
     }
+  }
+  .ticked-list li {
+    list-style: none;
+    line-height: 200%;
+  }
+
+  .icon-ok {
+    color: @block-color-hilight;
   }
 }
 
@@ -470,6 +506,7 @@
     padding: 0 5px;
   }
 }
+
 #search_content{
   padding: 0px;
   input.form-control{

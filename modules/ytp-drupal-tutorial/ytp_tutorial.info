@@ -1,0 +1,5 @@
+name = YTP Tutorial
+description = Creates tutorial block on front page
+package = YTP
+core = 7.x
+files[] = ytp_tutorial.module

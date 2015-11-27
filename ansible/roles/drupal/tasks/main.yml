@@ -220,6 +220,18 @@
   tags:
   - drupal
 
+- name: Install YTP tutorial module
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_tutorial" && cp -r "{{ cache_path }}/ytp-drupal-tutorial" "{{ drupal_root }}/sites/all/modules/ytp_tutorial"
+  register: install_ytp_drupal_tutorial
+  tags:
+  - drupal
+
+- name: Enable ytp-drupal-tutorial module
+  command: drush en -y ytp_tutorial chdir="{{ drupal_root }}"
+  when: install_ytp_drupal_tutorial|changed
+  tags:
+  - drupal
+
 - name: Overwrites ckeditor configuration with our custom
   copy: src="{{ item }}" dest="{{ drupal_root }}/sites/all/modules/ckeditor/{{ item }}"
   with_items:

@@ -150,3 +150,10 @@ Run in /src
 Make sure you remember the passphrase you set for the key in previous step.
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
+
+# Local Installation, the easier way (Windows, OS X)
+
+1. Install Virtualbox, Vagrant and Ansible
+2. Clone ytp repo
+3. Navigate to ytp and run “vagrant up”. It will not error about provisioning.
+4. Profit

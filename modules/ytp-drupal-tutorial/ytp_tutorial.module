@@ -1,0 +1,494 @@
+<?php
+/**
+ * @file
+ * Creates tutorial block on front page
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function ytp_tutorial_block_info() {
+  $blocks = array();
+  $blocks['tutorial'] = array(
+    'info' => t('Front page tutorial'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ytp_tutorial_block_view($delta = '') {
+  if ($delta == 'tutorial') {
+    $data = ytp_tutorial_choose_view();
+
+    $block['content'] = array(
+      '#theme' => 'tutorial__ytp_tutorial', 
+      '#image_url' => $data['image_url'],
+      '#title' => $data['title'],
+      '#content' => $data['content'],
+    );
+
+    return $block;
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function ytp_tutorial_help($path, $arg) {
+    if ($path == 'admin/help#ytp_tutorial') {
+        return t('Creates a tutorial block on front page. The block will determine if user is registered, belongs to an organization and/or has published data, and show matching instructions. User can opt out of seeing some views.');
+    }
+}
+
+/**
+ * Implements hook_menu()
+ */
+function ytp_tutorial_menu() {
+
+  $items['tutorial/opt-out/%/ajax'] = array(
+    'page callback' => 'ytp_tutorial_optout',
+    'page arguments' => array(2, 3),
+    'access callback' => 'user_is_logged_in',
+    );
+
+  $items['tutorial/opt-out/%/nojs'] = array(
+    'page callback' => 'ytp_tutorial_optout',
+    'page arguments' => array(2, 3),
+    'access callback' => 'user_is_logged_in',
+    );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ytp_tutorial_theme($variables) {
+  return array(
+    'tutorial' => array(
+      'variables' => array(
+        'image_url' => NULL,
+        'title' => NULL,
+        'content' => NULL,
+      ),
+      'template' => 'ytp_tutorial',
+    ),
+  );
+}
+
+/**
+ * Determines which tutorial view should be shown
+ */
+function ytp_tutorial_choose_view() {
+  global $user;
+  $temp = user_load($user->uid);
+
+  if (!(bool) $user->uid){
+    $data = ytp_tutorial_get_data_not_logged_in();
+  }
+  elseif (ytp_tutorial_has_organization() == false && 
+    $temp->field_optout_organization['und'][0]['value'] != 1) {
+    $data = ytp_tutorial_get_data_no_organization();
+  }
+  elseif (ytp_tutorial_has_published_data() == false && 
+    $temp->field_optout_publish['und'][0]['value'] != 1) { 
+    $data = ytp_tutorial_get_data_no_published_datasets();
+  }
+  else {
+    $data = ytp_tutorial_get_data_tools();
+  }
+
+  return $data;
+}
+
+/*
+ * Determines if user belongs to any organizations
+ */
+function ytp_tutorial_has_organization() {
+  global $user;
+  $temp = user_load($user->uid);
+
+  $in_organization = false;
+
+  if ( isset($temp->field_ckan_api_key['und']) && 
+    isset($temp->field_ckan_api_key['und'][0]) && 
+    isset($temp->field_ckan_api_key['und'][0]['value'])){
+    $url = 'https://localhost/data/api/3/action/organization_list_for_user?permission=read';
+    $options = array(
+        'method' => 'GET',
+        'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
+    );
+    $result = drupal_http_request($url, $options);
+    $json = drupal_json_decode($result->data);
+
+    // Every user belongs to the default organization, 
+    // so leave one organization out
+    if ( count($json['result']) > 1 ){
+        $in_organization = true;
+    }
+  }
+
+  return $in_organization;
+}
+
+/*
+ * Determines if user has published any data
+ */
+function ytp_tutorial_has_published_data() {
+  global $user;
+  $temp = user_load($user->uid);
+
+  $published = false;
+
+  if ( isset($temp->field_ckan_api_key['und']) && 
+    isset($temp->field_ckan_api_key['und'][0]) && 
+    isset($temp->field_ckan_api_key['und'][0]['value'])){
+    $url = 'https://localhost/data/api/3/action/user_show?id=' . $temp->name;
+    $options = array(
+        'method' => 'GET',
+        'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
+    );
+    $result = drupal_http_request($url, $options);
+    $json = drupal_json_decode($result->data);
+
+    if ( count($json['result']['datasets']) > 0 ){
+        $published = true;
+    }
+  }  
+
+  return $published;
+}
+
+/**
+ * Tutorial block variables for not logged in users
+ */
+function ytp_tutorial_get_data_not_logged_in() {
+  return array(
+    'image_url' => '/resources/images/frontpage/rekisteroidy_125x125.png',
+    'title' => t('Register'),
+    'content' => array(
+      'heading2' => array(
+        '#prefix' => '<h2>',
+        '#markup' => t('to get started'),
+        '#suffix' => '</h2>',
+        '#attributes' => array(
+          'class' => array(
+            'media-heading2',
+          ),
+        ),
+      ),
+      'info' => array(
+        '#prefix' => '<p>',
+        '#markup' => t('Opendata.fi allows you to find open datasets, and to publish and manage your own.'),
+        '#suffix' => '</p>',
+      ),
+      'register' => array(
+        '#prefix' => '<div class="tutorial-action-button">',
+        'link' => array(
+          '#type' => 'link',
+          '#title' => t('Register') . '<i class="icon-arrow-right"></i>',
+          '#href' => 'user/register',
+          '#options' => array(
+            'html' => true,
+          ),
+        ),
+        '#suffix' => '</div>',
+      ),
+      'sign-in' => array(
+        '#prefix' => '<div class="tutorial-signin">',
+        'sign-in' => array(
+          '#type' => 'link',
+          '#title' => t('Sign in'),
+          '#href' => 'user/login',
+        ),
+        'forgotten-password' => array(
+          '#type' => 'link',
+          '#title' => t('Forgot your password?'),
+          '#href' => 'user/password',
+          '#attributes' => array(
+            'class' => array(
+              'pull-right',
+            ),
+          ),
+        ),
+        '#suffix' => '</div>',
+      ),
+    ),
+  );
+}
+
+/**
+ * Tutorial block variables for users not in organizations
+ */
+function ytp_tutorial_get_data_no_organization() {
+  global $language;
+  drupal_add_library('system', 'drupal.ajax');
+
+  return array(
+    'image_url' => '/resources/images/frontpage/liity_organisaatioon_125x125.png',
+    'title' => t('Join an organization'),
+    'content' =>  array(
+      'info' => array(
+        '#prefix' => '<p>',
+        '#markup' => t('Publish data, tools and guidelines as'),
+        '#suffix' => '</p>',
+      ),
+      'choose_organization' => drupal_get_form('ytp_tutorial_join_organization_form'),
+      'opt_out' => array(
+        '#prefix' => '<p>',
+          'link' => array(
+            '#type' => 'link',
+            '#title' => t('Don\'t ask me again'),
+            '#href' => 'tutorial/opt-out/organization/nojs',
+            '#attributes' => array(
+              'class' => array(
+                'use-ajax',
+                'pull-right',
+              ),
+            ),
+          ),
+        '#suffix' => '</p>',
+      ),
+    ),
+  );
+}
+
+/**
+ * Tutorial block variables for users with no published datasets
+ */
+function ytp_tutorial_get_data_no_published_datasets() {
+  drupal_add_library('system', 'drupal.ajax');
+
+  return array(
+    'image_url' => '/resources/images/frontpage/julkaise_aineistoja_125x125.png',
+    'title' => t('Publish data'),
+    'content' => array(
+      'datatypes' => array(
+        '#theme' => 'item_list',
+        '#type' => 'ul',
+        '#items' => array(
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Open data'),
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Interoperability tools'),
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Public service'),
+        ),
+        '#attributes' => array(
+          'class' => array(
+            'ticked-list',
+          ),
+        ),
+      ),
+      'continue' => array(
+        '#prefix' => '<div class="tutorial-action-button">',
+        'link' => array(
+          '#type' => 'link',
+          '#title' => t('Continue') . '<i class="icon-arrow-right"></i>',
+          '#href' => 'publish',
+          '#options' => array(
+            'html' => true,
+          ),
+        ),
+        '#suffix' => '</div>',
+      ),
+      'opt_out' => array(
+        '#prefix' => '<p>',
+          'link' => array(
+            '#type' => 'link',
+            '#title' => t('Don\'t ask me again'),
+            '#href' => 'tutorial/opt-out/publish/nojs',
+            '#attributes' => array(
+              'class' => array(
+                'use-ajax',
+                'pull-right',
+              ),
+            ),
+          ),
+        '#suffix' => '</p>',
+      ),
+    ),
+  );
+}
+
+/**
+ * Tutorial block variables for default tools view
+ */
+function ytp_tutorial_get_data_tools() {
+  global $language;
+  global $user;
+  $person = user_load($user->uid);
+
+  return array(
+    'image_url' => '/resources/images/frontpage/tyokalut_125x125.png',
+    'title' => t('Tools'),
+    'content' => array(
+      'datasets' => array(
+        '#type' => 'link',
+        '#title' => t('Your datasets'),
+        '#href' => '../data/' . $language->language . '/dashboard/datasets',
+        '#attributes' => array(
+          'class' => array(
+            'tools-link',
+          ),
+        ),
+      ),
+      'organizations' => array(
+        '#type' => 'link',
+        '#title' => t('Your organizations'),
+        '#href' => '../data/' . $language->language . '/dashboard/organizations',
+        '#attributes' => array(
+          'class' => array(
+            'tools-link',
+          ),
+        ),
+      ),
+      'user' => array(
+        '#type' => 'link',
+        '#title' => t('Your profile'),
+        '#href' => '../data/user/' . $person->name,
+        '#attributes' => array(
+          'class' => array(
+            'tools-link',
+          ),
+        ),
+      ),
+      'dashboard' => array(
+        '#type' => 'link',
+        '#title' => t('Dashboard'),
+        '#href' => '../data/' . $language->language . '/dashboard',
+        '#attributes' => array(
+          'class' => array(
+            'tools-link',
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+/**
+ * Creates form for joining an organization
+ */
+function ytp_tutorial_join_organization_form($form, &$form_state) {
+  global $language;
+
+  $form['#method'] = 'get';
+  $form['#action'] = '/data/' . $language->language . '/member-request/new';
+  $form['select'] = array(
+    '#type' => 'select',
+    '#name' => 'selected_organization',
+    '#options' => array_merge(
+      array(
+        '' => t('- choose an organization -')
+      ), 
+      ytp_tutorial_get_organization_list()
+    ),
+    '#default_value' => '',
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Continue')  . '<i class="icon-arrow-right"></i>',
+    '#attributes' => array(
+      'class' => array(
+        'tutorial-action-button'
+      ),
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Gets list of joinable organizations via CKAN API
+ * Returns array('machine-readable name' => 'human-readable name')
+ */
+function ytp_tutorial_get_organization_list() {
+  $organizations = array();
+  $unjoinable_organizations = array('yksityishenkilo', 'z_avoindatafi_metadata');
+
+  $url = 'https://localhost/data/api/3/action/organization_list?all_fields=true';
+  $options = array(
+    'method' => 'GET'
+  );
+
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+
+  foreach ($json['result'] as $organization) { 
+    if (!in_array($organization['name'], $unjoinable_organizations))
+    {
+        $organizations[$organization['name']] = $organization['title'];
+    }
+  }
+
+  return $organizations;
+}
+
+/**
+ * Permanently skips a certain part of the tutorial for authorized user
+ */
+function ytp_tutorial_optout($type, $call_method) {
+  global $user;
+  $account = user_load($user->uid);
+
+  // Opt out allowed for joining an organization and publishing data
+  switch ($type) {
+    case 'organization':
+      $edit = array(
+        'field_optout_organization' => array(
+          'und' => array(
+            0 => array(
+              'value' => 1,
+            )
+          )
+        )
+      );
+      user_save($account, $edit);
+      break;
+
+    case 'publish':
+      $edit = array(
+        'field_optout_publish' => array(
+          'und' => array(
+            0 => array(
+              'value' => 1,
+            )
+          )
+        )
+      );
+      user_save($account, $edit);
+      break;
+  }
+
+  switch ($call_method) {
+
+    // Replace block content with new values
+    case 'ajax':
+
+      $data = ytp_tutorial_choose_view();
+      $newcontent = theme('tutorial', array(
+        '#theme' => 'tutorial__ytp_tutorial', 
+        '#image_url' => $data['image_url'],
+        '#title' => $data['title'],
+        '#content' => $data['content'],
+      ));
+
+      $commands = array();   
+      $commands[] = ajax_command_replace('.tutorial-box-content', $newcontent);
+      ajax_deliver(array(
+        '#type' => 'ajax',
+        '#commands' => $commands,
+      ));
+
+      break;
+
+    // Show new content by reloading the whole page    
+    case 'nojs':
+      drupal_goto('<front>');
+
+      break;
+  }
+}
