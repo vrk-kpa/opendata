@@ -187,11 +187,14 @@ function ytp_tutorial_get_data_not_logged_in() {
         '#suffix' => '</p>',
       ),
       'register' => array(
-        '#prefix' => '<div class="tutorial-register">',
+        '#prefix' => '<div class="tutorial-action-button">',
         'link' => array(
           '#type' => 'link',
-          '#title' => t('Register'),
+          '#title' => t('Register') . '<i class="icon-arrow-right"></i>',
           '#href' => 'user/register',
+          '#options' => array(
+            'html' => true,
+          ),
         ),
         '#suffix' => '</div>',
       ),
@@ -244,6 +247,7 @@ function ytp_tutorial_get_data_no_organization() {
             '#attributes' => array(
               'class' => array(
                 'use-ajax',
+                'pull-right',
               ),
             ),
           ),
@@ -267,17 +271,25 @@ function ytp_tutorial_get_data_no_published_datasets() {
         '#theme' => 'item_list',
         '#type' => 'ul',
         '#items' => array(
-          t('Open data'),
-          t('Interoperability tools'),
-          t('Public service'),
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Open data'),
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Interoperability tools'),
+          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Public service'),
+        ),
+        '#attributes' => array(
+          'class' => array(
+            'ticked-list',
+          ),
         ),
       ),
       'continue' => array(
-        '#prefix' => '<div class="tutorial-register">',
+        '#prefix' => '<div class="tutorial-action-button">',
         'link' => array(
           '#type' => 'link',
-          '#title' => t('Continue'),
+          '#title' => t('Continue') . '<i class="icon-arrow-right"></i>',
           '#href' => 'publish',
+          '#options' => array(
+            'html' => true,
+          ),
         ),
         '#suffix' => '</div>',
       ),
@@ -290,6 +302,7 @@ function ytp_tutorial_get_data_no_published_datasets() {
             '#attributes' => array(
               'class' => array(
                 'use-ajax',
+                'pull-right',
               ),
             ),
           ),
@@ -377,7 +390,12 @@ function ytp_tutorial_join_organization_form($form, &$form_state) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Continue'),
+    '#value' => t('Continue')  . '<i class="icon-arrow-right"></i>',
+    '#attributes' => array(
+      'class' => array(
+        'tutorial-action-button'
+      ),
+    ),
   );
 
   return $form;

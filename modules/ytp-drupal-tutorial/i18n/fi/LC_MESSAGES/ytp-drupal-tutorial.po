@@ -24,7 +24,7 @@ msgid "Register"
 msgstr "Rekisteröidy"
 
 msgid "to get started"
-msgstr "julkaistaksesi tietoainestoja"
+msgstr "julkaistaksesi tietoaineistoja"
 
 msgid "Opendata.fi allows you to find open datasets, and to publish and manage your own.'"
 msgstr "Avoindata.fi-palvelussa voit etsiä muiden julkaisemia tietoaineistoja sekä julkaista ja hallinnoida omia avoimia tietoaineistojasi."
