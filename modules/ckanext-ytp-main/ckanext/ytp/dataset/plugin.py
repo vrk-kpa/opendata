@@ -349,7 +349,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         facets_dict.update({'vocab_content_type': _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
-        #BFW: source is not part of the schema. created artificially at before_index function
+        # BFW: source is not part of the schema. created artificially at before_index function
         facets_dict.update({'source': _('Source')})
         # add more dataset facets here
         return facets_dict
@@ -404,8 +404,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         if not user_id:
             return None
         else:
-           user = model.User.get(user_id)
-           return user.name
+            user = model.User.get(user_id)
+            return user.name
 
     def _get_user(self, user):
         if user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]:
@@ -514,16 +514,16 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             if res_formats:
                 pkg_dict['res_format'] = [res_format.lower() for res_format in res_formats]
 
-        #Converting from creator_user_id to source. Grouping users default and harvest into harvesters and manual to the rest
+        # Converting from creator_user_id to source. Grouping users default and harvest into harvesters and manual to the rest
         if 'creator_user_id' in pkg_dict:
             user_id = pkg_dict['creator_user_id']
             if user_id:
-               user_name = self._get_user_by_id(user_id)
-               accepted_harvesters = {'default', 'harvest'}
-               if user_name in accepted_harvesters:
-                  pkg_dict['source'] = _('External')
-               else:
-                  pkg_dict['source'] = _('Internal')
+                user_name = self._get_user_by_id(user_id)
+                accepted_harvesters = {'default', 'harvest'}
+                if user_name in accepted_harvesters:
+                    pkg_dict['source'] = _('External')
+                else:
+                    pkg_dict['source'] = _('Internal')
         return pkg_dict
 
     # IActions #
