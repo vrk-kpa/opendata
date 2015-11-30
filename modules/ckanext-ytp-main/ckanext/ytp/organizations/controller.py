@@ -114,7 +114,16 @@ class YtpOrganizationController(OrganizationController):
 
         page = OrganizationController._get_page_number(self, request.params)
 
+        group_dict = {'id': id}
+        group_dict['include_datasets'] = False
+        c.group_dict = self._action('group_show')(context, group_dict)
+        c.group = context['group']
+
+        q = c.q = request.params.get('q', '')
+        q += ' owner_org:"%s"' % c.group_dict.get('id')
+
         data_dict = {
+            'q': q,
             'rows': limit,
             'start': (page - 1) * limit,
             'extras': {}
