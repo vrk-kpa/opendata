@@ -10,9 +10,6 @@ a {
   color: @link-color;
 }
 
-h1, h2, h3 {
-  margin-top: 0;
-}
 
 h4 {
   font-size: 18px;
@@ -30,6 +27,12 @@ h6 {
   color: inherit;
   text-rendering: optimizelegibility;
 }
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+
 
 select {
   width: 220px;
@@ -281,4 +284,21 @@ a {
 
 .icon-rss-sign, .icon-rss-sign:hover {
   color: #FF9933;
+}
+
+.alert {
+  margin-bottom: (@line-height-computed*2/3);
+}
+.alert.alert-info {
+  a {
+    color: @alert-info-text;
+
+    &:before {
+      font-family: FontAwesome;
+      top: 0;
+      left: -5px;
+      padding-right: 0.5em;
+      content: "\f06a";
+    }
+  }
 }
