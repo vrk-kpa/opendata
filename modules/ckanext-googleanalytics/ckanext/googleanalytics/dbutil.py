@@ -3,12 +3,10 @@ from sqlalchemy.sql import select, text
 from sqlalchemy import func
 
 import ckan.model as model
-from ckan.model.authz import PSEUDO_USER__VISITOR
 from ckan.lib.base import *
 import datetime
 
 cached_tables = {}
-
 
 def init_tables():
     metadata = MetaData()
@@ -22,15 +20,13 @@ def init_tables():
                            Column('visit_date', DateTime))
     metadata.create_all(model.meta.engine)
 
-
 def get_table(name):
     if name not in cached_tables:
         meta = MetaData()
-        meta.reflect(bind=model.meta.engine, only=[name])
+        meta.reflect(bind=model.meta.engine)
         table = meta.tables[name]
         cached_tables[name] = table
     return cached_tables[name]
-
 
 def _update_visits(table_name, item_id, visit_date, visits):
     stats = get_table(table_name)
@@ -70,25 +66,23 @@ def update_package_visits(package_id, visit_date, visits):
 
 
 def get_package_visits_for_id(id):
-
-    connection = model.Session.connection()
-    result = connection.execute(text("""
-      select visit_date, visits from package_stats, package
-      where package.id = package_id
-      and package.id = :id and visit_date >= :date_filter
-      union all
-      select null, sum(visits) from package_stats, package
-      where package.id = package_id
-      and package.id = :id
-    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    q = """
+        select visit_date, visits from package_stats, package
+        where package.id = package_id
+        and package.id = :id and visit_date >= :date_filter
+        union all
+        select null, sum(visits) from package_stats, package
+        where package.id = package_id
+        and package.id = :id
+    """
+    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
 
     if result == [(None, None)]:
         result = []
     return result
 
 def get_resource_visits_for_package_id(id):
-    connection = model.Session.connection()
-    result = connection.execute(text("""
+    q = """
       select visit_date, visits, resource.url from resource_stats, resource, package
       where resource_stats.resource_id = resource.id
       and package.id = package_id
@@ -98,45 +92,56 @@ def get_resource_visits_for_package_id(id):
       where resource_stats.resource_id = resource.id
       and package.id = package_id
       and package.id = :id
-    """), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
-
+    """
+    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if result == [(None, None)]:
         result = []
     return result
 
 def get_resource_visits_for_url(url):
-    connection = model.Session.connection()
-    count = connection.execute(
-        text("""SELECT visit_date, visits FROM resource_stats, resource
+    q = """
+        SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
         AND resource.url = :url and visit_date >= :date_filter
         UNION ALL
         SELECT null, sum(visits) from resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.url = :url"""), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+        AND resource.url = :url
+    """
+    count = model.Session.connection().execute(text(q), url=url, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
 
 def get_resource_visits_for_id(id):
-    connection = model.Session.connection()
-    count = connection.execute(
-        text("""SELECT visit_date, visits FROM resource_stats, resource
+    q = """
+        SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
         AND resource.id = :id and visit_date >= :date_filter
         UNION ALL
         SELECT null, sum(visits) from resource_stats, resource
         WHERE resource_id = resource.id
-        AND resource.id = :id"""), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+        AND resource.id = :id
+    """
+    count = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
     if count == [(None, None)]:
         count = []
     return count
 
+def get_latest_update_date():
+    q = """
+        SELECT max(visit_date) from resource_stats
+        """
+    result = model.Session.connection().execute(text(q)).first()
+    if result == [(None, None)]:
+        result = []
+    return result[0].date()
+
 def get_top_packages(limit=20):
     items = []
-    authorizer = Authorizer()
-    q = authorizer.authorized_query(PSEUDO_USER__VISITOR,
-                                    model.Package)
+    # caveat emptor: the query below will not filter out private
+    # or deleted datasets (TODO)
+    q = model.Session.query(model.Package)
     connection = model.Session.connection()
     package_stats = get_table('package_stats')
     s = select([package_stats.c.package_id,
@@ -145,10 +150,14 @@ def get_top_packages(limit=20):
                 .order_by(package_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
     for package_id, visits, visit_date in res:
+        package_dict = {}
         item = q.filter("package.id = '%s'" % package_id)
         if not item.count():
             continue
-        items.append((item.first(), visits, visit_date))
+        package_dict['package'] = item.first()
+        package_dict['recent'] = visits
+        package_dict['ever'] = visit_date
+        items.append(package_dict)
     return items
 
 
@@ -162,9 +171,13 @@ def get_top_resources(limit=20):
                 .order_by(resource_stats.c.visit_date.desc())
     res = connection.execute(s).fetchmany(limit)
     for resource_id, visits, visit_date in res:
+        resource_dict = {}
         item = model.Session.query(model.Resource)\
                .filter("resource.id = '%s'" % resource_id)
         if not item.count():
             continue
-        items.append((item.first(), visits, visit_date))
+        resource_dict['resource'] = item.first()
+        resource_dict['recent'] = visits
+        resource_dict['ever'] = visit_date
+        items.append(resource_dict)
     return items
