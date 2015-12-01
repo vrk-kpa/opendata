@@ -108,7 +108,7 @@ Status: work in progress
 
     1. Block settings
       Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none> and 
-      region setting "YTP theme": "Feature blocks". For pages, choose "Only the listed pages": 
+      region setting "YTP theme": "Top Bar Secondary". For pages, choose "Only the listed pages": 
       "<front>".
 
   ### Editing
