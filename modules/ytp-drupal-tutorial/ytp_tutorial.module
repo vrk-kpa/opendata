@@ -9,7 +9,7 @@
  */
 function ytp_tutorial_block_info() {
   $blocks = array();
-  $blocks['tutorial'] = array(
+  $blocks['tutorial_block'] = array(
     'info' => t('Front page tutorial'),
     'cache' => DRUPAL_NO_CACHE,
   );
@@ -21,7 +21,7 @@ function ytp_tutorial_block_info() {
  * Implements hook_block_view().
  */
 function ytp_tutorial_block_view($delta = '') {
-  if ($delta == 'tutorial') {
+  if ($delta == 'tutorial_block') {
     $data = ytp_tutorial_choose_view();
 
     $block['content'] = array(
@@ -30,8 +30,8 @@ function ytp_tutorial_block_view($delta = '') {
       '#title' => $data['title'],
       '#content' => $data['content'],
     );
+  return $block;
 
-    return $block;
   }
 }
 
@@ -91,10 +91,14 @@ function ytp_tutorial_choose_view() {
     $data = ytp_tutorial_get_data_not_logged_in();
   }
   elseif (ytp_tutorial_has_organization() == false && 
+    isset($temp->field_optout_organization['und']) &&
+    isset($temp->field_optout_organization['und'][0]) && 
     $temp->field_optout_organization['und'][0]['value'] != 1) {
     $data = ytp_tutorial_get_data_no_organization();
   }
   elseif (ytp_tutorial_has_published_data() == false && 
+    isset($temp->field_optout_publish['und']) &&
+    isset($temp->field_optout_publish['und'][0]) && 
     $temp->field_optout_publish['und'][0]['value'] != 1) { 
     $data = ytp_tutorial_get_data_no_published_datasets();
   }

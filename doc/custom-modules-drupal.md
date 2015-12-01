@@ -48,7 +48,8 @@ Status: work in progress
         setting "YTP theme": "Feature blocks". For pages, choose "Only the listed pages": "<front>". 
         Make the block translatable. Set and translate the block title manually.
 
-        The block won't be shown unless there's at least one link in the menu. Go to Structure -> Menus -> Related sites to add links. All links should have language.
+        The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
+        Menus -> Related sites to add links. All links should have language.
 
       4. Block order
         See Structure -> Blocks.
@@ -91,6 +92,42 @@ Status: work in progress
 
   ### SERVICE_ALERT_FEATURE
   Work in progress
+
+## YTP-DRUPAL-TUTORIAL
+
+  Creates a tutorial block on front page. The block will determine if user is registered, belongs 
+  to an organization and/or has published data, and show matching instructions. User can opt out 
+  of seeing some views.
+
+  Dependencies: ytp-drupal-user (module reads and edits some fields created by ytp-drupal-user)
+                ytp-theme-drupal (for styling)
+
+  #### Initialization
+
+    0. The feature is installed by Ansible.
+
+    1. Block settings
+      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none> and 
+      region setting "YTP theme": "Feature blocks". For pages, choose "Only the listed pages": 
+      "<front>".
+
+  ### Editing
+
+    1. Content
+    Each view has a content function located in ytp_tutorial.module: 
+    ytp_tutorial_get_data_not_logged_in(), ytp_tutorial_get_data_no_organization(), 
+    ytp_tutorial_get_data_no_published_datasets(), ytp_tutorial_get_data_tools(). These functions
+    set three variables that are passed to template: title (translatable string), image_url 
+    (/path/to/file) and content (Drupal render array).
+
+    2. Translations
+    The module comes with its own .po and .pot files under directory "i18".
+
+    3. Theme
+    To edit the look of all the views, see ytp_tutorial.tpl.php.
+
+    To edit the CSS of the block, see ytp-assets-common/src/less/drupal/drupal.less. It can be 
+    accessed with selector #tutorial-box.
 
 ## YTP-DRUPAL-USER
 Work in progress
