@@ -39,6 +39,12 @@
   tags:
   - drupal
 
+- name: Set PHP max memory limit
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=memory_limit value=200M
+  tags:
+  - drupal
+
+
 - name: Set PHP socket (listen)
   ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
   tags:
