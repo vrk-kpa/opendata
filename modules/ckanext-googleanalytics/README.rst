@@ -35,7 +35,7 @@ Installation
 
     ::
 
-    $ pip install -e  git+https://github.com/ckan/ckanext-googleanalytics.git#egg=ckanext-googleanalytics
+    $ pip install -e  git+https://github.com/yhteentoimivuuspalvelut/ckanext-googleanalytics.git
 
 2. Edit your development.ini (or similar) to provide these necessary parameters:
 
