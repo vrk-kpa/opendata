@@ -1,7 +1,7 @@
 <div class="tutorial-box-content">
   <div class="media">
     <div class="media-left">
-      <img src="<?php print $image_url; ?>" class="media-object"/>
+      <img src="<?php print $image_url; ?>" class="media-object" alt=""/>
     </div>
     <div class="media-body">
       <h1 class="media-heading"><?php print $title; ?></h1>
