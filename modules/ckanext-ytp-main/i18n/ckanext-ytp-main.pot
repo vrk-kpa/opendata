@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-20 14:57+0200\n"
+"POT-Creation-Date: 2015-11-30 13:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -333,7 +333,7 @@ msgid "Integrity Error"
 msgstr ""
 
 #: ckanext/ytp/dataset/controller.py:502
-#: ckanext/ytp/dataset/templates/package/search.html:76
+#: ckanext/ytp/dataset/templates/package/search.html:77
 #: ckanext/ytp/dataset/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr ""
@@ -378,7 +378,7 @@ msgstr ""
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:362
+#: ckanext/ytp/dataset/plugin.py:347 ckanext/ytp/dataset/plugin.py:363
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:16
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:19
@@ -386,13 +386,13 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:363
+#: ckanext/ytp/dataset/plugin.py:348 ckanext/ytp/dataset/plugin.py:364
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:37
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:364
+#: ckanext/ytp/dataset/plugin.py:349 ckanext/ytp/dataset/plugin.py:365
 #: ckanext/ytp/dataset/templates/package/snippets/dataset_info.html:49
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
@@ -407,21 +407,34 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:351 ckanext/ytp/dataset/plugin.py:365
+#: ckanext/ytp/dataset/plugin.py:351 ckanext/ytp/dataset/plugin.py:366
 #: ckanext/ytp/theme/translations.py:9
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:419
+#: ckanext/ytp/dataset/plugin.py:353
+#: ckanext/ytp/dataset/templates/package/search.html:58
+msgid "Source"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:427
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:435
+#: ckanext/ytp/dataset/plugin.py:443
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/dataset/plugin.py:435
+#: ckanext/ytp/dataset/plugin.py:443
 msgid "Additional Info"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:524
+msgid "External"
+msgstr ""
+
+#: ckanext/ytp/dataset/plugin.py:526
+msgid "Internal"
 msgstr ""
 
 #: ckanext/ytp/dataset/translations.py:6
@@ -712,34 +725,34 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:58
+#: ckanext/ytp/dataset/templates/package/search.html:59
 #: ckanext/ytp/dataset/templates/snippets/package_item.html:37
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:77
+#: ckanext/ytp/dataset/templates/package/search.html:78
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:79
+#: ckanext/ytp/dataset/templates/package/search.html:80
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:80
+#: ckanext/ytp/dataset/templates/package/search.html:81
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:84
+#: ckanext/ytp/dataset/templates/package/search.html:85
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/package/search.html:95
+#: ckanext/ytp/dataset/templates/package/search.html:96
 #: ckanext/ytp/theme/templates/snippets/search_form.html:3
 #: ckanext/ytp/theme/templates/snippets/search_form_without_input.html:3
 msgid "Search datasets..."
@@ -1275,15 +1288,15 @@ msgstr ""
 msgid "Are you sure you want to delete this related component?"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:72
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:73
 msgid "More"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:74
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:75
 msgid "Less"
 msgstr ""
 
-#: ckanext/ytp/dataset/templates/snippets/facet_list.html:79
+#: ckanext/ytp/dataset/templates/snippets/facet_list.html:80
 msgid "No matches"
 msgstr ""
 
