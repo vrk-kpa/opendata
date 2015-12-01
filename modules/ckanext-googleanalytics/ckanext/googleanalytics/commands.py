@@ -20,21 +20,62 @@ RESOURCE_URL_REGEX = re.compile('/dataset/[a-z0-9-_]+/resource/([a-z0-9-_]+)')
 DATASET_EDIT_REGEX = re.compile('/dataset/edit/([a-z0-9-_]+)')
 
 
-class GetAuthToken(CkanCommand):
-    """ Get's the Google auth token
+class GACommand(p.toolkit.CkanCommand):
+   """" 
+    Google analytics command
 
-    Usage: paster getauthtoken <credentials_file>
+    Usage::
 
-    Where <credentials_file> is the file name containing the details
-    for the service (obtained from https://code.google.com/apis/console).
-    By default this is set to credentials.json
+       paster ga init
+         - Creates the database tables that Google analytics expects for storing
+         results
+
+       paster ga getauthtoken <credentials_file>
+         - Fetches the google auth token 
+           Where <credentials_file> is the file name containing the details
+          for the service (obtained from https://code.google.com/apis/console).
+           By default this is set to credentials.json
+
+       paster ga loadanalytics  <token_file> internal [date]
+         - Parses data from Google Analytics API and stores it in our database
+          <token_file> internal [date] use ckan internal tracking tables
+           token_file specifies the OAUTH token file
+          date specifies start date for retrieving analytics data YYYY-MM-DD format
     """
     summary = __doc__.split('\n')[0]
     usage = __doc__
-    max_args = 1
     min_args = 0
+    TEST_HOST = None
+    CONFIG = None
+
+    def __init__(self, name):
+        super(GACommand, self).__init__(name)
 
     def command(self):
+        """
+        Parse command line arguments and call appropiate method.
+        """
+        if not self.args or self.args[0] in ['--help', '-h', 'help']:
+            print QACommand.__doc__
+            return
+
+        cmd = self.args[0]
+        self._load_config()
+
+        # Now we can import ckan and create logger, knowing that loggers
+        # won't get disabled
+        self.log = logging.getLogger('ckanext.googleanalytics')
+
+        if cmd == 'init':
+            self.init()
+        elif cmd == 'getauthtoken':
+            self.getauthtoken(self.args)
+        elif cmd == 'loadanalytics'
+            self.loadanalytics(self.args)
+        else:
+            self.log.error('Command "%s" not recognized' %(cmd,))
+
+    def getauthtoken(self):
         """
         In this case we don't want a valid service, but rather just to
         force the user through the auth flow. We allow this to complete to
@@ -46,15 +87,10 @@ class GetAuthToken(CkanCommand):
                       self.args[0] if self.args else 'credentials.json')
 
 
-class InitDB(CkanCommand):
-    """Initialise the local stats database tables
-    """
-    summary = __doc__.split('\n')[0]
-    usage = __doc__
-    max_args = 0
-    min_args = 0
-
-    def command(self):
+    def init(self):
+        """
+        Initialise the local stats database tables
+        """
         self._load_config()
         #TODO: Try to send engine as parameter to init tables to avoid this ugly workaround
         model.Session.remove()
@@ -63,24 +99,11 @@ class InitDB(CkanCommand):
         log.info("Set up statistics tables in main database")
 
 
-class LoadAnalytics(CkanCommand):
-    """Parse data from Google Analytics API and store it
-    in a local database
-
-    Options:
-        <token_file> internal [date] use ckan internal tracking tables
-                        token_file specifies the OAUTH token file
-                        date specifies start date for retrieving
-                        analytics data YYYY-MM-DD format
-    """
-    summary = __doc__.split('\n')[0]
-    usage = __doc__
-    max_args = 3
-    min_args = 1
-    TEST_HOST = None
-    CONFIG = None
-
-    def command(self):
+    def load_analytics(self):
+        """
+        Parse data from Google Analytics API and store it
+        in a local database
+        """
         if not self.CONFIG:
             self._load_config()
             self.CONFIG = pylonsconfig
