@@ -67,7 +67,7 @@ class GACommand(p.toolkit.CkanCommand):
         self.log = logging.getLogger('ckanext.googleanalytics')
 
         if cmd == 'init':
-            self.init()
+            self.init_db()
         elif cmd == 'getauthtoken':
             self.getauthtoken(self.args)
         elif cmd == 'loadanalytics'
@@ -87,16 +87,10 @@ class GACommand(p.toolkit.CkanCommand):
                       self.args[0] if self.args else 'credentials.json')
 
 
-    def init(self):
-        """
-        Initialise the local stats database tables
-        """
-        self._load_config()
-        #TODO: Try to send engine as parameter to init tables to avoid this ugly workaround
-        model.Session.remove()
-        model.Session.configure(bind=model.meta.engine)
-        dbutil.init_tables()
-        log.info("Set up statistics tables in main database")
+    def init_db(self):
+        import ckan.model as model
+        from ckanext.googleanalytics.model import init_tables
+        init_tables(model.meta.engine)
 
 
     def load_analytics(self):
