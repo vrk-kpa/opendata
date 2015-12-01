@@ -20,6 +20,7 @@ var paths = {
     drupal: 'src/less/drupal',
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
+    font: 'src/font/**/*',
     fonts: 'src/fonts/**/*',
     scripts: 'src/scripts/**/*',
     bootstrap: 'src/less/upstream_bootstrap',
@@ -95,6 +96,11 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(paths.dist+'/fonts'));
 });
 
+gulp.task('font', function() {
+  return gulp.src(paths.src.font)
+      .pipe(gulp.dest(paths.dist+'/font'));
+});
+
 gulp.task('scripts', function() {
     return gulp.src(paths.src.scripts)
         .pipe(gulp.dest(paths.dist+'/scripts'));
@@ -132,7 +138,7 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'scripts'],
+              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'font', 'scripts'],
               callback);
 });
 

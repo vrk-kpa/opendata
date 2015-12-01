@@ -5,6 +5,7 @@
 @import "../common";
 @import "../responsive";
 
+@import "overrides";
 
 
 
@@ -436,10 +437,6 @@
   }
 }
 
-// for /organization/<id>/embed in ckanext-ytp-main
-.dataset-list-embed {
-  padding: 10px;
-}
 
 #user-guide{
   margin: 20px 0 40px 0;
@@ -481,8 +478,6 @@
       z-index: 3;
     }
   }
-<<<<<<< HEAD:modules/ytp-assets-common/src/less/content.less
-=======
 }
 
 a.tabledrag-handle{
@@ -530,5 +525,8 @@ a.tabledrag-handle{
       text-align: center;
     }
   }
->>>>>>> 078f72d... refactor styles:modules/ytp-assets-common/src/less/drupal/drupal.less
+}
+
+.captcha{
+  margin-bottom: 10px;
 }
