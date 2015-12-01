@@ -43,12 +43,11 @@ valtori@avoindata.fi
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
+    #Mail sent to admins should be sent with default locale, i.e. finnish not the locale defined by the user
     current_locale = get_lang()
 
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
+    #Set the locale to default 
+    _reset_lang()
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
     }
