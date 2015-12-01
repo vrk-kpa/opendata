@@ -314,6 +314,7 @@
   with_items:
     - { module: views, delta: service_alerts_view-block, region: highlighted }
     - { module: locale, delta: language, region: top_navigation }
+    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary }
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
