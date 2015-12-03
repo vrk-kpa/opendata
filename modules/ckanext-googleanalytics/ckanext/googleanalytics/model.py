@@ -13,12 +13,10 @@ log = __import__('logging').getLogger(__name__)
 
 Base = declarative_base()
 
-def make_uuid():
-    return unicode(uuid.uuid4())
 
 def init_tables():
     Base.metadata.create_all(model.meta.engine)
-
+    log.info('Google analytics database tables are set-up')
 
 class PackageStats(Base):
     """ 
@@ -27,7 +25,6 @@ class PackageStats(Base):
     """
     __tablename__ = 'package_stats'
 
-    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     package_id = Column(types.UnicodeText, nullable=False, index=True)
     visits = Column(types.Integer)
     visits_date = Column(types.DateTime, default=datetime.datetime.now)
@@ -36,65 +33,35 @@ class PackageStats(Base):
     def get(cls, id):
         return model.Session.query(cls).filter(cls.id == id).first()
 
-class ResourceStats(Base):
-    """ 
-    Contains stats for resource 
-    for GA tasks run against them
-    """
-    __tablename__ = 'resource_stats'
+    @classmethod
+    def update_visits(cls, package_id, visit_date, visits):
+        '''
+        Updates the number of visits for a certain package_id
 
-    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    resource_id = Column(types.UnicodeText, nullable=False, index=True)
-    visits = Column(types.Integer)
-    visits_date = Column(types.DateTime, default=datetime.datetime.now)
+        :param package_id: package_id
+        :param visit_date: last visit date
+        :param visits: number of visits until visit_date
+        :return: True for a successful update, otherwise False
+        '''
+        package = model.Session.query(cls).filter(cls.package_id == package_id).first()
+        if package is None:
+            package = PackageStats(package_id=package_id, visit_date=visit_date, visits=visits)
+            model.Session.add(package)
+        else:
+            package.visits = visits
+            package.visit_date = visit_date
+
+        log.debug("Number of visits updated for package id: %s",package_id)
+        model.Session.flush()
+        return True
 
     @classmethod
-    def get(cls, id):
-        return model.Session.query(cls).filter(cls.id == id).first()
-
-
-def _update_visits(table_name, item_id, visit_date, visits):
-    stats = get_table(table_name)
-    id_col_name = "%s_id" % table_name[:-len("_stats")]
-    id_col = getattr(stats.c, id_col_name)
-    visit_date_col = getattr(stats.c, 'visit_date')
-    s = select([func.count(id_col)]).where(
-               id_col == item_id)\
-                .where(visit_date_col == visit_date)
-    connection = model.Session.connection()
-    count = connection.execute(s).fetchone()
-    if count and count[0]:
-        connection.execute(stats.update()\
-            .where(id_col == item_id)\
-            .where(visit_date_col == visit_date)
-            .values(visits=visits))
-    else:
-        values = {id_col_name: item_id,
-                  'visits': visits,
-                  'visit_date': visit_date}
-        connection.execute(stats.insert()\
-                           .values(**values))
-
-
-def update_resource_visits(resource_id,  visit_date, visits):
-    return _update_visits("resource_stats",
-                          resource_id,
-                          visit_date,
-                          visits)
-
-
-def update_package_visits(package_id, visit_date, visits):
-    return _update_visits("package_stats",
-                          package_id,
-                          visit_date,
-                          visits)
-
-
-def get_package_visits_for_id(id):
+    def get_last_visits_by_id(cls, resource_id, num_days=30):
+        model.Session.query(cls).filter(cls.resource_id == resource_id)
     q = """
         select visit_date, visits from package_stats, package
         where package.id = package_id
-        and package.id = :id and visit_date >= :date_filter
+        and visit_date >= :date_filter
         union all
         select null, sum(visits) from package_stats, package
         where package.id = package_id
@@ -106,24 +73,107 @@ def get_package_visits_for_id(id):
         result = []
     return result
 
-def get_resource_visits_for_package_id(id):
-    q = """
-      select visit_date, visits, resource.url from resource_stats, resource, package
-      where resource_stats.resource_id = resource.id
-      and package.id = package_id
-      and package.id = :id and visit_date >= :date_filter
-      union all
-      select null, sum(visits), null from resource_stats, resource, package
-      where resource_stats.resource_id = resource.id
-      and package.id = package_id
-      and package.id = :id
+    @classmethod
+    def get_top(limit=20):
+        items = []
+        # caveat emptor: the query below will not filter out private
+        # or deleted datasets (TODO)
+        q = model.Session.query(model.Package)
+        connection = model.Session.connection()
+        package_stats = get_table('package_stats')
+        s = select([package_stats.c.package_id,
+                    package_stats.c.visits,
+                    package_stats.c.visit_date])\
+                    .order_by(package_stats.c.visit_date.desc())
+        res = connection.execute(s).fetchmany(limit)
+        for package_id, visits, visit_date in res:
+            package_dict = {}
+            item = q.filter("package.id = '%s'" % package_id)
+            if not item.count():
+                continue
+            package_dict['package'] = item.first()
+            package_dict['recent'] = visits
+            package_dict['ever'] = visit_date
+            items.append(package_dict)
+        return items
+
+
+
+
+class ResourceStats(Base):
+    """ 
+    Contains stats for resource 
+    for GA tasks run against them
     """
-    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    __tablename__ = 'resource_stats'
+
+    resource_id = Column(types.UnicodeText, nullable=False, index=True)
+    visits = Column(types.Integer)
+    visits_date = Column(types.DateTime, default=datetime.datetime.now)
+
+    @classmethod
+    def get(cls, id):
+        return model.Session.query(cls).filter(cls.id == id).first()
+
+    @classmethod
+    def update_visits(cls, resource_id, visit_date, visits):
+        '''
+        Updates the number of visits for a certain resource_id
+
+        :param resource_id: resource_id
+        :param visit_date: last visit date
+        :param visits: number of visits until visit_date
+        :return: True for a successful update, otherwise False
+        '''
+        resource = model.Session.query(cls).filter(cls.resource_id == resource_id).first()
+        if resource is None:
+            resource = ResourceStats(resource_id=resource_id, visit_date=visit_date, visits=visits)
+            model.Session.add(resource)
+        else:
+            resource.visits = visits
+            resource.visit_date = visit_date
+
+        log.debug("Number of visits updated for resource id: %s",resource_id)
+        model.Session.flush()
+        return True
+
+    @classmethod
+    def get_latest_update_date():
+    q = """
+        SELECT max(visit_date) from resource_stats
+        """
+    result = model.Session.connection().execute(text(q)).first()
     if result == [(None, None)]:
         result = []
-    return result
+    return result[0].date()
 
-def get_resource_visits_for_url(url):
+
+    @classmethod
+    def get_last_visits_by_id(resource_id, num_days):
+        '''
+        Gets the number of visits for a certain resource_id for the last num_days
+
+        :param resource_id: resource_id
+        :param num_days: number of days to filter the data
+        :return: resources matching this query
+        '''
+
+        q = """
+            SELECT visit_date, visits FROM resource_stats, resource
+            WHERE resource_id = resource.id
+            AND resource.id = :id and visit_date >= :date_filter
+            UNION ALL
+            SELECT null, sum(visits) from resource_stats, resource
+            WHERE resource_id = resource.id
+            AND resource.id = :id
+        """
+        count = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+        if count == [(None, None)]:
+            count = []
+        return count
+
+    @classmethod
+    def get_visits_by_url(url):
     q = """
         SELECT visit_date, visits FROM resource_stats, resource
         WHERE resource_id = resource.id
@@ -138,55 +188,9 @@ def get_resource_visits_for_url(url):
         count = []
     return count
 
-def get_resource_visits_for_id(id):
-    q = """
-        SELECT visit_date, visits FROM resource_stats, resource
-        WHERE resource_id = resource.id
-        AND resource.id = :id and visit_date >= :date_filter
-        UNION ALL
-        SELECT null, sum(visits) from resource_stats, resource
-        WHERE resource_id = resource.id
-        AND resource.id = :id
-    """
-    count = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
-    if count == [(None, None)]:
-        count = []
-    return count
 
-def get_latest_update_date():
-    q = """
-        SELECT max(visit_date) from resource_stats
-        """
-    result = model.Session.connection().execute(text(q)).first()
-    if result == [(None, None)]:
-        result = []
-    return result[0].date()
-
-def get_top_packages(limit=20):
-    items = []
-    # caveat emptor: the query below will not filter out private
-    # or deleted datasets (TODO)
-    q = model.Session.query(model.Package)
-    connection = model.Session.connection()
-    package_stats = get_table('package_stats')
-    s = select([package_stats.c.package_id,
-                package_stats.c.visits,
-                package_stats.c.visit_date])\
-                .order_by(package_stats.c.visit_date.desc())
-    res = connection.execute(s).fetchmany(limit)
-    for package_id, visits, visit_date in res:
-        package_dict = {}
-        item = q.filter("package.id = '%s'" % package_id)
-        if not item.count():
-            continue
-        package_dict['package'] = item.first()
-        package_dict['recent'] = visits
-        package_dict['ever'] = visit_date
-        items.append(package_dict)
-    return items
-
-
-def get_top_resources(limit=20):
+    @classmethod
+    def get_top(limit=20):
     items = []
     connection = model.Session.connection()
     resource_stats = get_table('resource_stats')
@@ -206,3 +210,27 @@ def get_top_resources(limit=20):
         resource_dict['ever'] = visit_date
         items.append(resource_dict)
     return items
+
+
+
+
+def get_resource_visits_for_package_id(id):
+    q = """
+      select visit_date, visits, resource.url from resource_stats, resource, package
+      where resource_stats.resource_id = resource.id
+      and package.id = package_id
+      and package.id = :id and visit_date >= :date_filter
+      union all
+      select null, sum(visits), null from resource_stats, resource, package
+      where resource_stats.resource_id = resource.id
+      and package.id = package_id
+      and package.id = :id
+    """
+    result = model.Session.connection().execute(text(q), id=id, date_filter=datetime.datetime.now() - datetime.timedelta(30)).fetchall()
+    if result == [(None, None)]:
+        result = []
+    return result
+
+
+
+
