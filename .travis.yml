@@ -30,7 +30,7 @@ before_script:
     - psql -c "create database ckan_test WITH OWNER ckan_default" -U postgres
     - psql -c "create database drupal;" -U postgres
     - psql -c "create extension postgis;" -U postgres
-    - psql -c "create role datastore_default;"
+    - psql -d "datastore_default" -c "create role datastore_default;"
     - psql -d ckan_default -f /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql -U postgres
     - psql -d ckan_default -f /usr/share/postgresql/9.3/contrib/postgis-2.1/spatial_ref_sys.sql -U postgres
     - psql -d "ckan_default" -c "ALTER VIEW geometry_columns OWNER TO ckan_default;" -U postgres
