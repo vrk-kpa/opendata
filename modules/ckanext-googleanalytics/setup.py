@@ -19,7 +19,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-          # -*- Extra requirements: -*-
+       # Requirements defined in pip-requirements.txt
     ],
     entry_points='''
     [paste.paster_command]
