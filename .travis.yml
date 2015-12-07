@@ -34,6 +34,18 @@ before_script:
     - psql -d ckan_default -f /usr/share/postgresql/9.3/contrib/postgis-2.1/spatial_ref_sys.sql -U postgres
     - psql -d "ckan_default" -c "ALTER VIEW geometry_columns OWNER TO ckan_default;" -U postgres
     - psql -d "ckan_default" -c "ALTER TABLE spatial_ref_sys OWNER TO ckan_default;" -U postgres
+    - psql -d "datastore_default " -c "REVOKE CREATE ON SCHEMA public FROM PUBLIC;"
+    - psql -d "datastore_default " -c "REVOKE USAGE ON SCHEMA public FROM PUBLIC;"
+    - psql -d "datastore_default " -c "GRANT CREATE ON SCHEMA public TO ckan_default;"
+    - psql -d "datastore_default " -c "GRANT USAGE ON SCHEMA public TO ckan_default;"
+    - psql -d "datastore_default " -c "GRANT CREATE ON SCHEMA public TO datastore_database_default;"
+    - psql -d "datastore_default " -c "GRANT USAGE ON SCHEMA public TO datastore_database_default;"
+    - psql -d "datastore_default " -c "REVOKE CONNECT ON DATABASE ckan_default FROM datastore_default;"
+    - psql -d "datastore_default " -c "GRANT CONNECT ON DATABASE datastore_default TO datastore_default;"
+    - psql -d "datastore_default " -c "GRANT USAGE ON SCHEMA public TO datastore_default;"
+    - psql -d "datastore_default " -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO datastore_default;"
+    - psql -d "datastore_default " -c "ALTER DEFAULT PRIVILEGES FOR USER datastore_database_default IN SCHEMA public GRANT SELECT ON TABLES TO datastore_default;"
+
 
 script:
   - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --syntax-check"
