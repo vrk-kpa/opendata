@@ -1,6 +1,7 @@
 import datetime
 import ckanext.ytp.comments.model as comment_model
 import ckanext.ytp.comments.util as util
+from pylons import config
 from ckan import logic
 from pprint import pprint
 import logging
@@ -59,4 +60,62 @@ def comment_create(context, data_dict):
     model.Session.add(cmt)
     model.Session.commit()
 
+    # Send a notification mail to subscribed users
+    package = context['package']
+    users = comment_model.CommentSubscription.get_subscribers(package)
+
+    if users:
+        for user in users:
+            log.debug("Sending comment notification mail now to:" + str(user.name))
+            util.send_comment_notification_mail(user.display_name, user.email, package, cmt)
+
+    # Always send a notification mail to website admin
+    admin_email = config.get("ckanext-comments.comment_notifications_admin_email", None)
+    if admin_email:
+        util.send_comment_notification_mail("Avoindata-admin", admin_email, package, cmt)
+
     return cmt.as_dict()
+
+
+def add_comment_subscription_dataset(context, data_dict):
+    model = context['model']
+    user = context['user']
+    dataset_id = data_dict['dataset_id']
+    userobj = model.User.get(user)
+
+    logic.check_access("add_comment_subscription", context, data_dict)
+
+    _subscribe(dataset_id, userobj.id, "dataset")
+
+
+def add_comment_subscription_org(context, data_dict):
+    model = context['model']
+    user = context['user']
+    org_id = data_dict['organization_id']
+    userobj = model.User.get(user)
+
+    logic.check_access("add_comment_subscription", context, data_dict)
+
+    _subscribe(org_id, userobj.id, "organization")
+
+
+def _subscribe(identifier, user_id, subscription_type=None):
+
+    if not user_id:
+        raise logic.ValidationError("A valid user is required.")
+
+    if subscription_type not in ["dataset", "organization"]:
+        raise logic.ValidationError("subscription_type parameter must be either 'dataset' or 'organization'")
+    if not identifier:
+        if subscription_type == "dataset":
+            raise logic.ValidationError("A valid dataset id is required.")
+        elif subscription_type == "organization":
+            raise logic.ValidationError("A valid organization id is required.")
+
+    scrn = comment_model.CommentSubscription.create(identifier, user_id, subscription_type)
+
+    if not scrn:
+        raise logic.ValidationError("Given identifier-user pair already exists in the database.")
+
+    log.debug(("Successfully added comment subscription for user {user_id} in " + subscription_type + " {identifier}")
+              .format(user_id=user_id, identifier=identifier))

@@ -26,6 +26,12 @@ import db
 import logging
 import validator
 
+from ckan.lib.mailer import mail_recipient, MailerException
+from ckan.lib.i18n import set_lang, get_lang
+from ckan.common import g
+from pylons import config
+from ckan import model
+
 c = plugins.toolkit.c
 log = logging.getLogger(__name__)
 tk = plugins.toolkit
@@ -119,6 +125,48 @@ def _undictize_comment_basic(comment, data_dict):
     comment.datarequest_id = data_dict.get('datarequest_id', '')
 
 
+def _send_comment_notification_mail(recipient_name, recipient_email, data, lang="en"):
+    '''
+        A helper function to send notification emails to given recipients
+    '''
+
+    current_locale = get_lang()
+    if lang:
+        set_lang(lang)
+
+    from ckanext.datarequests import email_template
+
+    # recreate the request url
+    url = str(g.site_url) + tk.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=data.get("request_id"))
+    data["link"] = url
+
+    # fill out the email template
+    subject = email_template.subject.format(**data)
+    message = email_template.message.format(**data)
+
+    # Finally mail the user and reset locale
+    try:
+        mail_recipient(recipient_name, recipient_email, subject, message)
+    except MailerException, e:
+        log.error(e)
+    finally:
+        set_lang(current_locale)
+
+
+def _get_organization_admins(group_id, sysadmin=False):
+    '''
+        A helper function to fetch all the organization's admins.
+    '''
+    admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
+                 filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
+                 filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
+
+    if sysadmin:
+        admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
+
+    return admins
+
+
 def datarequest_create(context, data_dict):
     '''
     Action to create a new data request. The function checks the access rights
@@ -165,6 +213,33 @@ def datarequest_create(context, data_dict):
     session.add(data_req)
     session.commit()
 
+    # SEND NOTIFICATION EMAIL
+    group_dict = tk.get_action('organization_show')({}, {'id': data_dict['organization_id']})
+
+    # set up a data dict for filling out the email template
+    data = {
+        "email": context['auth_user_obj'].email,
+        "user": context['auth_user_obj'].name,
+        "request_title": data_dict.get("title"),
+        "request_description": data_dict.get("description"),
+        "request_id": data_req.id,
+        "organization": group_dict.get("display_name"),
+        "organization_lang": group_dict.get("original_language")
+    }
+
+    admins = _get_organization_admins(data_dict.get('organization_id', ''))
+    for admin in admins:
+        if admin:
+            lang = data.get("organization_lang", "en")  # send the mail in organization's default lang
+            _send_comment_notification_mail(admin.display_name, admin.email, data, lang)
+
+    # Always send a notification mail to website admin
+    admin_email = config.get("ckanext-datarequests.datarequest_notifications_admin_email", None)
+    if admin_email:
+        # Add 4th parameter lang (fi/sv/en) for internationalizerd email templates
+        log.debug("Sending datarequest notification email to avoindata-admin")
+        _send_comment_notification_mail("Avoindata-admin", admin_email, data)
+
     return _dictize_datarequest(data_req)
 
 
@@ -180,7 +255,7 @@ def datarequest_show(context, data_dict):
     :param id: The id of the data request to be shown
     :type id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''
@@ -231,7 +306,7 @@ def datarequest_update(context, data_dict):
         organization.
     :type organization_id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''
@@ -274,7 +349,7 @@ def datarequest_update(context, data_dict):
 def datarequest_index(context, data_dict):
     '''
     Returns a list with the existing data requests. Rights access will be checked
-    before returning the results. If the user is not allowed, a NotAuthorized 
+    before returning the results. If the user is not allowed, a NotAuthorized
     exception will be risen.
 
     :param organization_id: This parameter is optional and allows users
@@ -346,9 +421,9 @@ def datarequest_index(context, data_dict):
 
     # Facets
     no_processed_organization_facet = {}
-    CLOSED = 'Closed'
-    OPEN = 'Open'
-    no_processed_state_facet = {CLOSED:0 , OPEN: 0}
+    CLOSED = 'Closed'   # noqa
+    OPEN = 'Open'       # noqa
+    no_processed_state_facet = {CLOSED: 0, OPEN: 0}
     for data_req in db_datarequests:
         if data_req.organization_id:
             # Facets
@@ -357,7 +432,7 @@ def datarequest_index(context, data_dict):
             else:
                 no_processed_organization_facet[data_req.organization_id] = 1
 
-        no_processed_state_facet[CLOSED if data_req.closed else OPEN] +=1
+        no_processed_state_facet[CLOSED if data_req.closed else OPEN] += 1
 
     # Format facets
     organization_facet = []
@@ -406,7 +481,7 @@ def datarequest_delete(context, data_dict):
     :param id: The id of the data request to be updated
     :type id: string
 
-    :returns: A dict with the data request (id, user_id, title, description, 
+    :returns: A dict with the data request (id, user_id, title, description,
         organization_id, open_time, accepted_dataset, close_time, closed)
     :rtype: dict
     '''

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 EMAIL="{{ admin_email }}"
+CLIENT_EMAIL="{{ client_email }}"
 LOG=/var/log/clamav/scan.log
 HOST=`hostname`
 TEMPORARY_FILE=`mktemp /tmp/virus-alert.XXXXX`
@@ -18,8 +19,10 @@ df -h >> $TEMPORARY_FILE
 
 if [ `grep Infected $TEMPORARY_FILE | grep -vw 0 | wc -l` != 0 ]; then
     cat $TEMPORARY_FILE | mail -s "System virus detected at $HOST!" $EMAIL
+    cat $TEMPORARY_FILE | mail -s "System virus detected at $HOST!" $CLIENT_EMAIL
 else
     cat $TEMPORARY_FILE | mail -s "Daily status log" $EMAIL
+    cat $TEMPORARY_FILE | mail -s "Daily status log" $CLIENT_EMAIL
 fi
 
 rm $TEMPORARY_FILE

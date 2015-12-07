@@ -19,7 +19,6 @@ http {
 
     # Need for long hostnames (such as in AWS)
     server_names_hash_bucket_size 128;
-    # server_name_in_redirect off;
 
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
@@ -30,12 +29,15 @@ http {
     gzip on;
     gzip_disable "msie6";
 
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_http_version 1.1;
+    gzip_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
     proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
     proxy_temp_path /tmp/nginx_proxy 1 2;
 
     include /etc/nginx/conf.d/*.conf;
     include /etc/nginx/sites-enabled/*;
 
-    # Always enforce same origin policy
-    add_header X-Frame-Options SAMEORIGIN;
 }

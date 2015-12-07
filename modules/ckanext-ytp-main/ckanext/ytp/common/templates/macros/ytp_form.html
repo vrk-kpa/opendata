@@ -151,7 +151,7 @@
   <input class="form-control date" id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" data-datepicker data-date-format="YYYY-MM-DD"/>
 {% endmacro %}
 
-{% macro modal(name, id='', label='', value='', treedata='', modalAttrs, inputAttrs, treeAttrs='{}', is_required=false) %}
+{% macro modal(name, id='', label='', value='', treedata='', modalAttrs='{}', inputAttrs='{}', treeAttrs='{}', is_required=false) %}
   {% resource 'ytp_common_js/ytp_form.js' %}
   <div class="control-group control-full{{ " error" if error }}">
     <label class="control-label" for="{{ for }}">{% if is_required %}<span title="{{ _("This field is required") }}" class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>
@@ -179,6 +179,47 @@
       </div>
     </div>
   </div>
+{% endmacro %}
+
+{% macro modal_tooltip(name, id='', label='', btnlabel='', content='') %}
+
+  <div class="modal fade in" role="dialog" aria-labelledby="{{ label }}" id="{{ id or name }}_modal" data-backdrop="true" data-keyboard="true">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal" href="javascript:void(0);">×</a>
+      <h4>{{ label }}</h4>
+    </div>
+    <div class="modal-body">
+      <p>
+      {% trans %}
+      A list of predefined content types can be found below in Finnish.
+      You may, however, add your own additional types if your
+      content doesn't match any of the given types.
+      {% endtrans %}
+      </p>
+      <br />
+
+      {% if content %}
+      <h4>{{ _('Content Types') }}</h4>
+      <span style="font-style:italic;">
+      {% for contype in content %}
+        <span>{{ contype }}</span>{% if not loop.last %}, {% endif %}
+      {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-primary pull-right" data-dismiss="modal" href="javascript:void(0);">{{ _('Close') }}</a>
+    </div>
+  </div>
+
+  <!-- inline info-bubble and link -->
+  <span class="info-block info-inline">
+    <i class="icon-info-sign"></i>
+    <!--<a href="javascript:void(0);" data-toggle="modal" data-backdrop="true" data-target="#{{ id or name }}_modal">{{ btnlabel }}</a >-->
+    <!-- Bootstrap is loaded twice. Modal Fix. -->
+    <a href="javascript:void(0);" onclick="$('#{{ id or name }}_modal').modal();">{{ btnlabel }}</a>
+  </span>
+
 {% endmacro %}
 
 

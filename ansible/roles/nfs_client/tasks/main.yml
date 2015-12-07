@@ -11,7 +11,7 @@
   - nfs_client
 
 - name: Make shared path
-  file: path="{{ files_root }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  file: path="{{ files_root }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
   tags:
   - nfs_client
 

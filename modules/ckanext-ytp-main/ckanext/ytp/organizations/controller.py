@@ -1,9 +1,10 @@
 from ckan import model
-from ckan.common import c, _
+from ckan.common import c, _, request
 from ckan.logic import get_action, NotFound, NotAuthorized
 from ckan.controllers.organization import OrganizationController
-from ckan.lib.base import abort
+from ckan.lib.base import abort, render
 from ckan.logic import check_access
+import ckan.lib.helpers as h
 
 import logging
 
@@ -11,6 +12,7 @@ log = logging.getLogger(__name__)
 
 
 class YtpOrganizationController(OrganizationController):
+
     def members(self, id):
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author}
@@ -84,3 +86,59 @@ class YtpOrganizationController(OrganizationController):
                 return self._render_template('group/organization_not_found.html')
 
         return OrganizationController.read(self, id, limit)
+
+    def embed(self, id, limit=5):
+        """
+            Fetch given organization's packages and show them in an embeddable list view.
+            See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
+        """
+
+        def make_pager_url(q=None, page=None):
+            ctrlr = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
+            url = h.url_for(controller=ctrlr, action='embed', id=id)
+            return url + u'?page=' + str(page)
+
+        try:
+            context = {
+                'model': model,
+                'session': model.Session,
+                'user': c.user or c.author
+            }
+            check_access('group_show', context, {'id': id})
+        except NotFound:
+            abort(404, _('Group not found'))
+        except NotAuthorized:
+            g = model.Session.query(model.Group).filter(model.Group.name == id).first()
+            if g is None or g.state != 'active':
+                return self._render_template('group/organization_not_found.html')
+
+        page = OrganizationController._get_page_number(self, request.params)
+
+        group_dict = {'id': id}
+        group_dict['include_datasets'] = False
+        c.group_dict = self._action('group_show')(context, group_dict)
+        c.group = context['group']
+
+        q = c.q = request.params.get('q', '')
+        q += ' owner_org:"%s"' % c.group_dict.get('id')
+
+        data_dict = {
+            'q': q,
+            'rows': limit,
+            'start': (page - 1) * limit,
+            'extras': {}
+        }
+
+        query = get_action('package_search')(context, data_dict)
+
+        c.page = h.Page(
+            collection=query['results'],
+            page=page,
+            url=make_pager_url,
+            item_count=query['count'],
+            items_per_page=limit
+        )
+
+        c.page.items = query['results']
+
+        return render("organization/embed.html")

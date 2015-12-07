@@ -18,15 +18,15 @@ This source repository contains:
 
 ### Getting started
 
-To try out the service, visit [beta.avoindata.fi](http://beta.avoindata.fi) and register a user account to create new datasets.
+To try out the service, visit the sandbox/development environment [beta.avoindata.fi](http://beta.avoindata.fi) or the production environment [avoindata.fi](http://avoindata.fi), and register a user account to create new datasets.
 
 To get started in developing the software, install a local development environment as described in the [documentation](doc/local-installation.md), and then see the [development documentation](doc/local-development.md).
 
 ### Documentation
 
-Please refer to the [documentation directory](doc). [API documentation](https://github.com/yhteentoimivuuspalvelut/ytp-tools/tree/master/api_ckan) is currently under the ytp-tools project.
+Please refer to the [documentation directory](doc) and [API documentation](https://github.com/yhteentoimivuuspalvelut/ytp-api).
 
-## Contact
+### Contact
 
 Please file [issues at Github](https://github.com/yhteentoimivuuspalvelut/ytp/issues) or join the discussion at [avoindata.net](http://avoindata.net/questions/suomen-avoimen-datan-portaalin-rakentaminen).
 

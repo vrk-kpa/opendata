@@ -7,7 +7,7 @@
     "custom_username_validation_hint": "Username can only contain characters a-z, 0-9 and _",
 
     "theme_default": "ytp_theme",
-
+    "search_default_module": "user",
     "language_negotiation_language": {
         "locale-url": {
             "callbacks": {
@@ -64,6 +64,19 @@
     "node_export_reset_path_article": 0,
     "node_export_reset_path_page": 0,
     "node_export_reset_path_service_alert": 0,
+
+    "node_expire_enabled_service_alert": 1,
+    "node_expire_service_alert": "+ 3 day",
+    "node_expire_required_service_alert": 1,
+
+    "node_expire_ntypes": {
+        "service_alert": {
+            "enabled": 1,
+            "default": "+ 3 day",
+            "max": "",
+            "required": 1
+        }
+    },
 
     "user_cancel_method": "user_cancel_block_unpublish",
     "anonymous": "Anonymous",

@@ -7,10 +7,12 @@ from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _, c
-from ckan.logic import NotFound
+from ckan.logic import NotFound, NotAuthorized
 from ckan.plugins import toolkit
 
-from ckanext.ytp.organizations.logic import action
+import ckan.lib.base as base
+abort = base.abort
+
 from ckanext.ytp.organizations import auth
 from ckanext.ytp.common.tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
@@ -83,7 +85,11 @@ def action_user_create(context, data_dict):
 
 
 def action_organization_show(context, data_dict):
-    result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+    try:
+        result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+    except NotAuthorized:
+        raise NotFound
+
     result['display_name'] = extra_translation(result, 'title') or result.get('display_name', None) or result.get('name', None)
     return result
 
@@ -96,6 +102,12 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
+
+    plugins.implements(plugins.IConfigurer, inherit=True)
+
+    # IConfigurer
+    def update_config(self, config):
+        plugins.toolkit.add_template_directory(config, 'templates')
 
     _localized_fields = ['title', 'description', 'alternative_name', 'street_address', 'street_address_pobox',
                          'street_address_zip_code', 'street_address_place_of_business', 'street_address_country',
@@ -294,9 +306,11 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         return False
 
     def get_helpers(self):
-        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents, 'get_authorized_parents': self._get_authorized_parents,
+        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents,
+                'get_authorized_parents': self._get_authorized_parents,
                 'get_parent_organization_display_name': self._get_parent_organization_display_name,
-                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents}
+                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents
+                }
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create, 'organization_update': auth.organization_update,
@@ -309,35 +323,13 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
         organization_controller = 'ckanext.ytp.organizations.controller:YtpOrganizationController'
 
         with SubMapper(map, controller=organization_controller) as m:
-            m.connect('organization_members', '/organization/members/{id}',
-                      action='members', ckan_icon='group')
+            m.connect('organization_members', '/organization/members/{id}', action='members', ckan_icon='group')
             m.connect('/user_list', action='user_list', ckan_icon='user')
 
         map.connect('/organization/new', action='new', controller='organization')
-        map.connect('organization_read', '/organization/{id}', controller=organization_controller,
-                    action='read', ckan_icon='group')
+        map.connect('organization_read', '/organization/{id}', controller=organization_controller, action='read', ckan_icon='group')
+        map.connect('organization_embed', '/organization/{id}/embed', controller=organization_controller, action='embed', ckan_icon='group')
         return map
-
-
-# From ckanext-hierarchy
-class YtpOrganizationsDisplayPlugin(plugins.SingletonPlugin):
-
-    plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IActions, inherit=True)
-
-    # IConfigurer
-
-    def update_config(self, config):
-        plugins.toolkit.add_template_directory(config, 'templates')
-        plugins.toolkit.add_template_directory(config, 'public')
-        plugins.toolkit.add_resource('public/scripts/vendor/jstree', 'jstree')
-
-    # IActions
-
-    def get_actions(self):
-        return {'group_tree': action.group_tree,
-                'group_tree_section': action.group_tree_section,
-                }
 
 
 def convert_to_list(key, data):

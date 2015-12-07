@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey, func
+from sqlalchemy import Column, MetaData, ForeignKey, func, UniqueConstraint, and_, or_, Enum
 from sqlalchemy import types
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
@@ -125,6 +125,7 @@ class CommentThread(Base):
             Comment.id,
             Comment.parent_id,
             Comment.thread_id) \
+            .filter(Comment.state == 'active')\
             .cte(name='children', recursive=True)
 
         children = children.union_all(
@@ -271,6 +272,93 @@ class CommentBlockedUser(Base):
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
+
+
+class CommentSubscription(Base):
+    """
+    A single comment subscription object as a identifier / user_id pair
+    Identifier can be a dataset_id or an organization_id
+
+    """
+    __tablename__ = 'comment_subscribers'
+
+    # TODO: this is currently not working. Why?
+    __table_args__ = (UniqueConstraint('identifier', 'user_id', name="_dataset_user_uc"),)
+
+    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
+    identifier = Column(types.UnicodeText)
+    user_id = Column(types.UnicodeText)
+    subscription_type = Column(Enum("dataset", "organization", name="subscription_type"))
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    @classmethod
+    def get(cls, identifier, user_id):
+        '''
+        Get the comment subscriber matching the dataset and user id's
+
+        :param identifier: dataset id
+        :param user_id: user id
+        :return: a CommentSubscription object or None
+        '''
+
+        return model.Session.query(cls).filter(and_(cls.identifier == identifier, cls.user_id == user_id)).first()
+
+    @classmethod
+    def get_subscribers(cls, package):
+        '''
+        Fetch all comment subscribers
+
+        :param package: either dataset or organization package
+        :return: a list of User objects
+        '''
+
+        # query dataset specific AND organization wide subscribers
+        subscribers = model.Session.query(cls).filter(or_(cls.identifier == package.id, cls.identifier == package.owner_org))
+
+        users = []
+        if subscribers:
+            for sub in subscribers:
+                user = model.Session.query(model.User).get(sub.user_id)
+                if user and user not in users:
+                    users.append(user)
+
+        return users
+
+    @classmethod
+    def create(cls, identifier, user_id, subscription_type="dataset"):
+        '''
+        Create a new CommentSubscription and commit it to database
+
+        :param identifier:
+        :param user_id:
+        :return: a subscription object
+        '''
+
+        if CommentSubscription.get(identifier, user_id):
+            return False
+
+        sbscrn = CommentSubscription(identifier=identifier, user_id=user_id, subscription_type=subscription_type)
+        model.Session.add(sbscrn)
+        model.Session.commit()
+        return sbscrn
+
+    @classmethod
+    def delete(cls, identifier, user_id):
+        '''
+        Delete a single CommentSubscription that matches the given parameters
+        :param identifier: dataset id
+        :param user_id: user id
+        :return: True for a successful deletion, otherwise False
+        '''
+        sbscrn = model.Session.query(cls).filter(and_(cls.identifier == identifier, cls.user_id == user_id)).first()
+        if sbscrn:
+            model.Session.delete(sbscrn)
+            model.Session.commit()
+            return True
+        return False
 
 
 def init_tables():

@@ -189,16 +189,25 @@ header.page-header {
 
 article.module {
   background: none !important;
-  background-color: @background-hilight;
 }
 
-.modal-header, .modal-body, .modal-footer {
-    left: 10%;
-    background-color: transparent;
-    position: relative;
-    width: 40%;
-    min-width: 350px;
-    top: 20%;
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  width: 440px;
+  margin-left: -220px;
+  @media (max-width: @screen-xs-min) {
+    width: auto;
+    left: 0;
+    top: 0;
+    margin: 20px;
+  }
+}
+
+.modal-body {
+  max-height: 360px;
+  overflow-y: auto;
 }
 
 .modal-footer {
@@ -944,4 +953,10 @@ dd {
   font-size: 11px;
   text-align: center;
   text-transform: uppercase;
+}
+
+// Dataset Quality labels
+.quality-label {
+  display: inline-block;
+  width: 140px;
 }

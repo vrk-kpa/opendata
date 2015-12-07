@@ -1,5 +1,16 @@
 <section class="module module-narrow additional-info dataset-sidebar col-lg-4">
 
+    {% block geospatial_map %}
+
+        {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
+        {% if dataset_extent %}
+            {% snippet "spatial/snippets/dataset_map_sidebar.html", extent=dataset_extent %}
+        {% endif %}
+
+    {% endblock %}
+
+
+
     {% block collection_type %}
         <div>
         <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
@@ -47,6 +58,17 @@
         </div>
     {% endblock %}
 
+    {% block material_link %}
+        {% set extra_dict = h.clean_extras(h.format_extras(pkg)) %}
+        {% if extra_dict.Guid %}
+        <div>
+        <h4 class="dataset-title sidebar-title">{{_('Content Link')}}</h4>
+            {% set material_link = h.get_geonetwork_link(extra_dict.Guid)%}
+            <a href="{{ material_link }}" class="licenseUrl">{{ material_link }}</a>
+        </div>
+        {% endif %}
+    {% endblock %}
+
     {% block license_info %}
         <div>
         <h4 class="dataset-title sidebar-title">{{_('License')}}</h4>
@@ -89,21 +111,45 @@
         {% endif %}
         </div>
     {% endblock %}
-
+    {% block package_feedback %}
+        {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
+    {% endblock %}
     {% block rating_info %}
         <div>
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
+
             {% with stars,reason,last_updated = h.calculate_dataset_stars(pkg.id) %}
+            <div>
+            <span class="quality-label"> {{_('Resource Quality')}} </span>
             {% for i in range(stars) %}
                 <span class="icon-star"></span>
             {% endfor %}
             {% for i in range(5 - stars) %}
                 <span class="icon-star-empty"></span>
             {% endfor %}
-            {% snippet "package/snippets/info_tooltip.html", title=_('Datasets Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type.') %}
+            </div>
             {% endwith %}
-        </div>
+            
 
+
+            {% with stars = h.calculate_metadata_stars(pkg.id) %}
+            <div>
+            <span class="quality-label"> {{_('Metadata Quality')}} </span>
+            {% for i in range(stars) %}
+                <span class="icon-star"></span>
+            {% endfor %}
+            {% for i in range(5 - stars) %}
+                <span class="icon-star-empty"></span>
+            {% endfor %}
+            </div>
+            {% snippet "package/snippets/info_tooltip.html", title=_("Dataset's Resource Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type. Metadata Quality rating takes field completeness, visits, resource downloads, comments and translations into consideration.") %}
+            {% endwith %}
+
+        </div>
+    {% endblock %}
+
+    {% block package_info %}
+        {% snippet 'package/snippets/info.html', pkg=pkg %}
     {% endblock %}
 
     {% block stats %}
@@ -157,14 +203,42 @@
                     }
                   </script>
         </div>
+
+
+
+    {% endblock %}
+
+    {% block dataset_social %}
+        {% snippet "package/snippets/dataset_social.html" %}
     {% endblock %}
 
     {% block changelog_info %}
+
+        <!-- Dataset Creation and Modification dates-->
+
         <div>
         <h4 class="dataset-title  sidebar-title">{{_('Change log')}}</h4>
+        <h5 class="sidebar-title">{{_('Dataset')}}</h5>
         
         <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
         <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
+
+        <!-- Resource Creation and Modification dates-->
+
+        {% set extra_dict = h.format_extras(pkg) %}
+
+        {% if "resource_modified" in extra_dict or "resource_created" in extra_dict %}
+        <h5 class="sidebar-title">{{_('Resource')}}</h5>
+        {% endif %}
+
+        {% if extra_dict.get("resource_modified") %}
+        <div>{{_('Last Modified')}}: {{ h.render_datetime(extra_dict.get("resource_modified"), "%d.%m.%Y") }}</div>
+        {% endif %}
+        {% if extra_dict.get("resource_created") %}
+        <div>{{_('Created')}}: {{ h.render_datetime(extra_dict.get("resource_created"), "%d.%m.%Y") }}</div>
+        {% endif %}
+
+        <br />
 
         <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
         </div>

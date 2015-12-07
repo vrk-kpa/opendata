@@ -7,7 +7,7 @@ celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats
 # order matters, when templates call super()
-ckan_plugins: multilingual_dataset harvest ckan_harvester hri_harvester spatial_metadata spatial_query csw_harvester drupal7 report archiver qa ytp_comments ytp_organizations ytp_organizations_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service
+ckan_plugins: multilingual_dataset harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report archiver qa ytp_comments ytp_organizations hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_request ytp_user ytp_service datastore
 
 ckan_extensions:
   - ckanext-drupal7
@@ -15,14 +15,16 @@ ckan_extensions:
   - ckanext-ytp-tasks
   - ckanext-ytp-request
   - ckanext-ytp-main
+  - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp-comments
-  - "ckanext-qa"
-  - "ckanext-datarequests"
-  - "ckanext-harvest"
-  - "ckanext-archiver"
-  - "ckanext-spatial"
-  - "ckanext-report"
+  - ckanext-qa
+  - ckanext-datarequests
+  - ckanext-harvest
+  - ckanext-archiver
+  - ckanext-spatial
+  - ckanext-report
+  - ckanext-dcat
 
 redis_harvest_database: 0
 redis_celery_database: 1
@@ -55,6 +57,7 @@ translation_projects:
   - "ckanext-ytp-comments"
   - "ckanext-qa"
   - "ckanext-datarequests"
+  - "ckanext-spatial"
 
 ckan_site_id: "default"
 
@@ -74,6 +77,8 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/eb59ffde3a702077ffbc8de8e3ff425b29974d6c.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9497130896c969982a3b8b5e9685295428fd7d2b.patch", file: "enable-url-quoting"} # pullreq in ckan master
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/85ef19c73faa7e841e9e0b94ec1044dbb6fee389.patch", file: "enable-celery-queues"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/34382a3ff1cb0d16f31e9e00955a3feabbdd64f5.patch", file: "remove-main-debug-css"} # ytp specific
+  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0c973510ab7b77ac20e375cd263661eb190eaba5.patch", file: "remove-old-rdf-templates"} # ytp specific
 
 service_database_enabled: false
 auto_author_enabled: true

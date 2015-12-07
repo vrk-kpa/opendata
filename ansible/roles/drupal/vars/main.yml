@@ -18,6 +18,7 @@ extracted_features:
   - blocks_feature
   - frontpage_tutorial
   - calendar_feature
+  - feature_blocks_feature
 
 ytp_features_path: "../modules/ytp-drupal-features"
 
