@@ -4,9 +4,7 @@ import urllib
 import urllib2
 
 import commands
-import dbutil
 import paste.deploy.converters as converters
-import pylons
 import ckan.lib.helpers as h
 import ckan.plugins as p
 from ckanext.report.interfaces import IReport

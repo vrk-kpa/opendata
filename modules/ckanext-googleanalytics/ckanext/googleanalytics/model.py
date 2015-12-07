@@ -80,9 +80,6 @@ class PackageStats(Base):
         package_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
         return package_stats
 
-    def get_package_by_id(id):
-        return model.Session.query(Package).filter(Package.id == id).first()
-
 
 class ResourceStats(Base):
     """ 
@@ -167,10 +164,6 @@ class ResourceStats(Base):
         result['tot_visits'] = total_visits
         visits.append(result)
         return visits
-
-    def get_resource_by_id(id):
-        return model.Session.query(Resource).filter(Resource.id == id).first()
-
 
     @classmethod
     def get_last_visits_by_url(cls, url, num_days=30):
