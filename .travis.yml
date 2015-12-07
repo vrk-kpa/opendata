@@ -22,9 +22,11 @@ install:
   - pip install flake8
 before_script:
     - psql -c "create user ckan_default with password 'pass';" -U postgres
+    - psql -c "create user datastore_database_default with password 'pass';" -U postgres
     - psql -c "create user ckan_test with password 'pass';" -U postgres
     - psql -c "create user drupal with password 'drupal';" -U postgres
     - psql -c "create database ckan_default WITH OWNER ckan_default;" -U postgres
+    - psql -c "create database datastore_default WITH OWNER datastore_database_default;" -U postgres
     - psql -c "create database ckan_test WITH OWNER ckan_default" -U postgres
     - psql -c "create database drupal;" -U postgres
     - psql -c "create extension postgis;" -U postgres
