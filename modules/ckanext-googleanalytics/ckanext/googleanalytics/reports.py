@@ -1,8 +1,3 @@
-'''
-Working examples - simple tag report.
-'''
-
-from ckanext.
 from ckan.lib.helpers import OrderedDict
 from ckanext.googleanalytics.model import PackageStats,ResourceStats
 
@@ -18,7 +13,7 @@ def google_analytics_report(last):
     return {
         'top_packages': top_packages,
         'top_resources': top_resources
-        }
+    }
 
 
 googleanalytics_report_info = {
@@ -27,5 +22,5 @@ googleanalytics_report_info = {
     'option_defaults': OrderedDict((('last',20)),
     'option_combinations': None,
     'generate': google_analytics_report,
-    'template': 'report/analytics.html',
+    'template': 'report/analytics.html'
     }

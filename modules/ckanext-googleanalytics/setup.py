@@ -23,9 +23,9 @@ setup(
     ],
     entry_points='''
     [paste.paster_command]
-    ga = ckanext.googleanalytics.commands:GACommand
+    googleanalytics = ckanext.googleanalytics.commands:GACommand
 
     [ckan.plugins]
-    ga=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
+    googleanalytics = ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
     '''
 )

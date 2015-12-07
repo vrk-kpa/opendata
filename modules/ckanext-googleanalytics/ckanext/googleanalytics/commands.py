@@ -26,17 +26,17 @@ class GACommand(p.toolkit.CkanCommand):
 
     Usage::
 
-       paster ga init
+       paster googleanalytics init
          - Creates the database tables that Google analytics expects for storing
          results
 
-       paster ga getauthtoken <credentials_file>
+       paster googleanalytics getauthtoken <credentials_file>
          - Fetches the google auth token 
            Where <credentials_file> is the file name containing the details
           for the service (obtained from https://code.google.com/apis/console).
            By default this is set to credentials.json
 
-       paster ga loadanalytics  <token_file> internal [date]
+       paster googleanalytics loadanalytics  <token_file> internal [date]
          - Parses data from Google Analytics API and stores it in our database
           <token_file> internal [date] use ckan internal tracking tables
            token_file specifies the OAUTH token file
