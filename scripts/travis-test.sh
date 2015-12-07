@@ -11,6 +11,16 @@ sudo pip install -r test_requirements.txt
 
 EXIT_STATUS=0
 
+echo "## install modules ##"
+for plugin in modules/*; do
+    if [ -f $plugin/setup.py ]; then
+        cd $plugin
+        sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py develop
+        cd $SOURCE_DIRECTORY
+    fi
+done
+
+
 echo "## nosetests ##"
 
 tested_plugins=(ckanext-archiver ckanext-ytp-main ckanext-ytp-request ckanext-ytp-tasks)
