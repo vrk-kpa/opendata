@@ -88,7 +88,6 @@ class GACommand(p.toolkit.CkanCommand):
 
 
     def init_db(self):
-        import ckan.model as model
         from ckanext.googleanalytics.model import init_tables
         init_tables(model.meta.engine)
 
@@ -106,14 +105,9 @@ class GACommand(p.toolkit.CkanCommand):
             'googleanalytics_resource_prefix',
             DEFAULT_RESOURCE_URL_TAG)
 
-        # funny dance we need to do to make sure we've got a
-        # configured session
-        model.Session.remove()
-        model.Session.configure(bind=model.meta.engine)
         self.parse_and_save()
 
     def internal_save(self, packages_data, summary_date):
-        engine = model.meta.engine
         # clear out existing data before adding new
         sql = '''DELETE FROM tracking_summary
                  WHERE tracking_date='%s'; ''' % summary_date
@@ -323,7 +317,8 @@ class GACommand(p.toolkit.CkanCommand):
 
     def ga_query(self, query_filter=None, from_date=None, to_date=None,
                  start_index=1, max_results=10000, metrics=None, sort=None):
-        """Execute a query against Google Analytics
+        """
+        Execute a query against Google Analytics
         """
         if not to_date:
             now = datetime.datetime.now()
@@ -362,8 +357,8 @@ class GACommand(p.toolkit.CkanCommand):
         now = datetime.datetime.now()
 
         floor_date = start_date
-        #If there is no last valid value found from database then we make sure to grab all values from start. i.e. 2014
-        #We want to take minimum 2 days worth logs
+        # If there is no last valid value found from database then we make sure to grab all values from start. i.e. 2014
+        # We want to take minimum 2 days worth logs
         if start_date is None:
             floor_date = dbutil.get_latest_update_date() - datetime.timedelta(days=2)
             if floor_date is None:
@@ -411,7 +406,5 @@ class GACommand(p.toolkit.CkanCommand):
                         else:
                             packages.setdefault(package, {})["visits"] = {}
                         packages[package]['visits'][visit_date] =  int(count) + val
-                        #packages.setdefault(package, {})["visit_date"] = \
-                        #    visit_date
             current = date
         return packages
