@@ -23,11 +23,9 @@ setup(
     ],
     entry_points='''
     [paste.paster_command]
-    loadanalytics = ckanext.googleanalytics.commands:LoadAnalytics
-    initdb = ckanext.googleanalytics.commands:InitDB
-    getauthtoken = ckanext.googleanalytics.commands:GetAuthToken
+    ga = ckanext.googleanalytics.commands:GACommand
 
     [ckan.plugins]
-    googleanalytics=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
+    ga=ckanext.googleanalytics.plugin:GoogleAnalyticsPlugin
     '''
 )
