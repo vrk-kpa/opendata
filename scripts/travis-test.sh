@@ -7,8 +7,6 @@ VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
-sudo pip install -r test_requirements.txt
-
 EXIT_STATUS=0
 
 echo "## install modules ##"
