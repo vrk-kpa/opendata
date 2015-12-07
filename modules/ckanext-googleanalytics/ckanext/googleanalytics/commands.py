@@ -8,7 +8,7 @@ from pylons import config as pylonsconfig
 from ckan.lib.cli import CkanCommand
 import ckan.model as model
 
-import dbutil
+import ckan.plugins as p
 
 from pprint import pprint
 
