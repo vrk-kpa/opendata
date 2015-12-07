@@ -21,7 +21,7 @@ DATASET_EDIT_REGEX = re.compile('/dataset/edit/([a-z0-9-_]+)')
 
 
 class GACommand(p.toolkit.CkanCommand):
-   """" 
+    """" 
     Google analytics command
 
     Usage::
@@ -70,7 +70,7 @@ class GACommand(p.toolkit.CkanCommand):
             self.init_db()
         elif cmd == 'getauthtoken':
             self.getauthtoken(self.args)
-        elif cmd == 'loadanalytics'
+        elif cmd == 'loadanalytics':
             self.loadanalytics(self.args)
         else:
             self.log.error('Command "%s" not recognized' %(cmd,))
