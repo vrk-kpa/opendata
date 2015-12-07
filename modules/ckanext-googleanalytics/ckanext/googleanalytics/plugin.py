@@ -1,10 +1,11 @@
 import logging
+
 import urllib
 import urllib2
+
 import commands
 import dbutil
 import paste.deploy.converters as converters
-import genshi
 import pylons
 import ckan.lib.helpers as h
 import ckan.plugins as p
@@ -45,6 +46,7 @@ class AnalyticsPostThread(threading.Thread):
             self.queue.task_done()
 
 class GoogleAnalyticsPlugin(p.SingletonPlugin):
+
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
@@ -150,7 +152,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         See IRoutes.
 
         '''
-        map.redirect("/analytics/package/top", "/data/report/analytics")
+        map.redirect("/analytics/dataset/top", "/data/report/analytics")
         map.connect(
             'analytics', '/analytics/dataset/top',
             controller='ckanext.googleanalytics.controller:GAController',
@@ -162,5 +164,5 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
     def register_reports(self):
         """Register details of an extension's reports"""
         from ckanext.googleanalytics import reports
-        return [reports.googleanalytics_report_info]
+        return [reports.google_analytics_report_info]
 
