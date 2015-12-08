@@ -15,12 +15,14 @@ def google_analytics_report(last):
         'top_resources': top_resources
     }
 
+def google_analytics_option_combinations():
+    return None
 
 googleanalytics_report_info = {
     'name': 'google-analytics',
     'description': 'Analytics showing resource views',
-    'option_defaults': OrderedDict((('last',20)),
-    'option_combinations': None,
+    'option_defaults': OrderedDict((('last',20),)),
+    'option_combinations': google_analytics_option_combinations,
     'generate': google_analytics_report,
-    'template': 'report/analytics.html'
+    'template': 'report/analytics.html',
     }
