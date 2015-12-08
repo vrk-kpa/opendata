@@ -30,6 +30,16 @@ class PackageStats(Base):
         result['visit_date'] = self.visit_date
         return result
 
+    def convert_to_dict(resource_stats, tot_visits):
+        visits = []
+        for resource in resource_stats:
+            visits.append(as_dict(resource))
+        result = {}
+        if tot_visits is not None:
+            result['tot_visits'] = tot_visits
+            visits.append(result)
+        return visits
+
     @classmethod
     def get(cls, id):
         return model.Session.query(cls).filter(cls.package_id == id).first()
@@ -63,15 +73,17 @@ class PackageStats(Base):
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id)
         
-        #Define right return 
-        return package_visits
+        visits = convert_to_dict(package_visits, total_visits)
+
+        return visits
+    
 
     @classmethod
     def get_top(cls, limit=20):
         # caveat emptor: the query below will not filter out private
         # or deleted datasets (TODO)
         package_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return package_stats
+        return convert_to_dict(package_stats,None)
 
 
 class ResourceStats(Base):
@@ -126,9 +138,8 @@ class ResourceStats(Base):
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id)
-        
-        #Define right return 
-        return package_visits
+        visits = convert_to_dict(resource_visits, total_visits)
+        return visits
 
     @classmethod
     def get_latest_update_date(cls):
@@ -141,9 +152,8 @@ class ResourceStats(Base):
 
     @classmethod
     def get_top(cls, limit=20):
-        items = []
         resource_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return resource_stats
+        return convert_to_dict(resource_stats,None)
 
     def as_dict(self):
         result = {}
@@ -157,8 +167,9 @@ class ResourceStats(Base):
         for resource in resource_stats:
             visits.append(as_dict(resource))
         result = {}
-        result['tot_visits'] = total_visits
-        visits.append(result)
+        if tot_visits is not None:
+            result['tot_visits'] = tot_visits
+            visits.append(result)
         return visits
 
     @classmethod
