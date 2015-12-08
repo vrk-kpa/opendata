@@ -54,7 +54,7 @@ class PackageStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id)
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id).first()
         
         visits = PackageStats.convert_to_dict(package_visits, total_visits)
 
@@ -132,7 +132,7 @@ class ResourceStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id)
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id).first()
         visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
         return visits
 
@@ -174,7 +174,7 @@ class ResourceStats(Base):
         resource = model.Session.query(model.Resource).filter(model.Resource.url == url).first()
         start_date = datetime.now() - timedelta(num_days)
         #Returns the total number of visits since the beggining of all times for the associated resource to the given url
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id)
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id).first()
         resource_stats = model.Session.query(cls).filter(cls.resource_id == resource.id).filter(cls.visit_date >= start_date).all()
         visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
@@ -189,7 +189,7 @@ class ResourceStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         resource_stats = model.Session.query(cls).filter(cls.resource_id.in_(subquery)).filter(cls.visit_date >= start_date).all()
         #TODO: missing url from resource
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery))
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery)).first()
         visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
         return visits

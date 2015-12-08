@@ -9,9 +9,6 @@ log = logging.getLogger(__name__)
 
 import os
 
-import logging
-log = logging.getLogger(__name__)
-
 
 def service_database_enabled():
     return config.get('ckanext.ytp.dataset.service_database_enabled', 'true') == 'true'
@@ -230,6 +227,7 @@ def get_visits_for_dataset(id):
     from ckanext.googleanalytics.model import PackageStats, ResourceStats
 
     visits = PackageStats.get_last_visits_by_id(id)
+    log.debug("Visits %s",visits)
     resource_visits = ResourceStats.get_last_visits_by_dataset_id(id)
 
     visit_list = []
