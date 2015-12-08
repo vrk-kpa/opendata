@@ -11,8 +11,6 @@ import ckan.model as model
 import ckan.plugins as p
 from ckanext.googleanalytics.model import PackageStats,ResourceStats
 
-from pprint import pprint
-
 PACKAGE_URL = '/dataset/'  # XXX get from routes...
 DEFAULT_RESOURCE_URL_TAG = '/downloads/'
 
