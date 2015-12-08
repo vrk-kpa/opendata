@@ -194,6 +194,67 @@ class ResourceStats(Base):
 
         return visits
 
+
+def get_all_visits_for_dataset(dataset_id):
+    visits = PackageStats.get_last_visits_by_id(dataset_id))
+    resource_visits = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
+
+    visit_list = []
+    count = 0
+
+    download_count = 0
+
+    now = datetime.datetime.now()
+
+    for d in range(0, 30):
+        curr = now - datetime.timedelta(d)
+        visit_list.append((curr.year, curr.month, curr.day, 0, 0))
+
+    for t in visits:
+        if t[0] is not None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
+                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        else:
+            count = t[1]
+
+    for t in resource_visits:
+        if t[0] is not None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
+                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        elif t[1] is not None:
+            download_count = t[1]
+
+    results = {
+        "visits": visit_list,
+        "count": count,
+        "download_count": download_count
+    }
+    return results
+
+def get_all_visits_for_dataset(dataset_id):
+    visits = ResourceStats.get_last_visits_by_id(id)
+    count = 0
+    visit_list = []
+
+    now = datetime.datetime.now()
+
+    for d in range(0, 30):
+        curr = now - datetime.timedelta(d)
+        visit_list.append((curr.year, curr.month, curr.day, 0))
+
+    for t in visits:
+        if t[0] is not None:
+            visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+        else:
+            count = t[1]
+
+    results = {
+        "downloads": visit_list,
+        "count": count
+    }
+
+    return results
+
 def init_tables(engine):
     Base.metadata.create_all(engine)
     log.info('Google analytics database tables are set-up')
