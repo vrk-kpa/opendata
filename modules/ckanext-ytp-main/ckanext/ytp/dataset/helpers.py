@@ -199,9 +199,9 @@ def get_license(license_id):
 
 
 def get_visits_for_resource(id):
-    from ckanext.googleanalytics.dbutil import get_resource_visits_for_id
+    from ckanext.googleanalytics.model import ResourceStats
 
-    visits = get_resource_visits_for_id(id)
+    visits = ResourceStats.get_last_visits_by_id(id)
     count = 0
     visit_list = []
 
@@ -227,10 +227,10 @@ def get_visits_for_resource(id):
 
 def get_visits_for_dataset(id):
 
-    from ckanext.googleanalytics.dbutil import get_package_visits_for_id, get_resource_visits_for_package_id
+    from ckanext.googleanalytics.model import PackageStats, ResourceStats
 
-    visits = get_package_visits_for_id(id)
-    resource_visits = get_resource_visits_for_package_id(id)
+    visits = PackageStats.get_last_visits_by_id(id)
+    resource_visits = ResourceStats.get_last_visits_by_dataset_id(id)
 
     visit_list = []
     count = 0

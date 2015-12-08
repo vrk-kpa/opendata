@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime,timedelta
 
 from sqlalchemy import Column
 from sqlalchemy import types, func
@@ -23,23 +23,6 @@ class PackageStats(Base):
     visit_date = Column(types.DateTime, default=datetime.now, primary_key=True)
     visits = Column(types.Integer)
    
-    def as_dict(self):
-        result = {}
-        result['package_id'] = self.package_id
-        result['visits'] = self.visits
-        result['visit_date'] = self.visit_date
-        return result
-
-    def convert_to_dict(resource_stats, tot_visits):
-        visits = []
-        for resource in resource_stats:
-            visits.append(as_dict(resource))
-        result = {}
-        if tot_visits is not None:
-            result['tot_visits'] = tot_visits
-            visits.append(result)
-        return visits
-
     @classmethod
     def get(cls, id):
         return model.Session.query(cls).filter(cls.package_id == id).first()
@@ -69,11 +52,11 @@ class PackageStats(Base):
     @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
         start_date = datetime.now() - timedelta(num_days)
-        package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= date_range).all()
+        package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id)
         
-        visits = convert_to_dict(package_visits, total_visits)
+        visits = PackageStats.convert_to_dict(package_visits, total_visits)
 
         return visits
     
@@ -83,7 +66,26 @@ class PackageStats(Base):
         # caveat emptor: the query below will not filter out private
         # or deleted datasets (TODO)
         package_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return convert_to_dict(package_stats,None)
+        return PackageStats.convert_to_dict(package_stats,None)
+
+    @classmethod
+    def as_dict(cls,res):
+        result = {}
+        result['package_id'] = res.package_id
+        result['visits'] = res.visits
+        result['visit_date'] = res.visit_date
+        return result
+
+    @classmethod
+    def convert_to_dict(cls,resource_stats, tot_visits):
+        visits = []
+        for resource in resource_stats:
+            visits.append(PackageStats.as_dict(resource))
+        result = {}
+        if tot_visits is not None:
+            result['tot_visits'] = tot_visits
+            visits.append(result)
+        return visits
 
 
 class ResourceStats(Base):
@@ -97,13 +99,6 @@ class ResourceStats(Base):
     resource_id = Column(types.UnicodeText, nullable=False, index=True, primary_key=True)
     visit_date = Column(types.DateTime, default=datetime.now, primary_key=True)
     visits = Column(types.Integer)
-
-    def as_dict(self):
-        result = {}
-        result['resource_id'] = self.resource_id
-        result['visits'] = self.visits
-        result['visit_date'] = self.visit_date
-        return result
 
     @classmethod
     def get(cls, id):
@@ -138,7 +133,7 @@ class ResourceStats(Base):
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id)
-        visits = convert_to_dict(resource_visits, total_visits)
+        visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
         return visits
 
     @classmethod
@@ -153,19 +148,21 @@ class ResourceStats(Base):
     @classmethod
     def get_top(cls, limit=20):
         resource_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return convert_to_dict(resource_stats,None)
+        return ResourceStats.convert_to_dict(resource_stats,None)
 
-    def as_dict(self):
+    @classmethod
+    def as_dict(cls,res):
         result = {}
-        result['resource_id'] = self.package_id
-        result['visits'] = self.visits
-        result['visit_date'] = self.visit_date
+        result['resource_id'] = res.package_id
+        result['visits'] = res.visits
+        result['visit_date'] = res.visit_date
         return result
 
-    def convert_to_dict(resource_stats, tot_visits):
+    @classmethod
+    def convert_to_dict(cls,resource_stats, tot_visits):
         visits = []
         for resource in resource_stats:
-            visits.append(as_dict(resource))
+            visits.append(ResourceStats.as_dict(resource))
         result = {}
         if tot_visits is not None:
             result['tot_visits'] = tot_visits
@@ -179,7 +176,7 @@ class ResourceStats(Base):
         #Returns the total number of visits since the beggining of all times for the associated resource to the given url
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id)
         resource_stats = model.Session.query(cls).filter(cls.resource_id == resource.id).filter(cls.visit_date >= start_date).all()
-        visits = convert_to_dict(resource_stats, total_visits)
+        visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
         return visits
     
@@ -187,13 +184,13 @@ class ResourceStats(Base):
     @classmethod
     def get_last_visits_by_dataset_id(cls, package_id, num_days=30):
         #Fetch all resources associated to this package id
-        subquery = model.Session.query(model.Resource.resource_id).filter(model.Resource.package_id == package_id).subquery()
+        subquery = model.Session.query(model.Resource.id).filter(model.Resource.package_id == package_id).subquery()
 
         start_date = datetime.now() - timedelta(num_days)
         resource_stats = model.Session.query(cls).filter(cls.resource_id.in_(subquery)).filter(cls.visit_date >= start_date).all()
         #TODO: missing url from resource
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery))
-        visits = convert_to_dict(resource_stats, total_visits)
+        visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
         return visits
 
