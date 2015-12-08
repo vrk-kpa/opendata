@@ -4,7 +4,6 @@ from ckan.lib.base import BaseController, c, render, request
 import urllib
 import urllib2
 
-import logging
 import ckan.logic as logic
 import hashlib
 import plugin
@@ -14,8 +13,6 @@ from webob.multidict import UnicodeMultiDict
 from paste.util.multidict import MultiDict
 
 from ckan.controllers.api import ApiController
-
-log = logging.getLogger('ckanext.googleanalytics')
 
 
 class GAApiController(ApiController):
@@ -52,7 +49,6 @@ class GAApiController(ApiController):
                     id = request_data['query']
                 self._post_analytics(c.user, logic_function, '', id)
         except Exception, e:
-            log.debug(e)
             pass
 
         return ApiController.action(self, logic_function, ver)
@@ -102,6 +98,5 @@ class GAApiController(ApiController):
             if 'query' in params.keys():
                 id = params['query']
         except ValueError, e:
-            log.debug(str(e))
             pass
         self._post_analytics(c.user, register, "search", id)

@@ -9,10 +9,10 @@ from ckan.lib.cli import CkanCommand
 import ckan.model as model
 
 import ckan.plugins as p
+from ckanext.googleanalytics.model import PackageStats,ResourceStats
 
 from pprint import pprint
 
-log = logging.getLogger(__name__)
 PACKAGE_URL = '/dataset/'  # XXX get from routes...
 DEFAULT_RESOURCE_URL_TAG = '/downloads/'
 
@@ -71,11 +71,11 @@ class GACommand(p.toolkit.CkanCommand):
         elif cmd == 'getauthtoken':
             self.getauthtoken(self.args)
         elif cmd == 'loadanalytics':
-            self.loadanalytics(self.args)
+            self.load_analytics(self.args)
         else:
             self.log.error('Command "%s" not recognized' %(cmd,))
 
-    def getauthtoken(self):
+    def getauthtoken(self, args):
         """
         In this case we don't want a valid service, but rather just to
         force the user through the auth flow. We allow this to complete to
@@ -84,7 +84,7 @@ class GACommand(p.toolkit.CkanCommand):
         """
         from ga_auth import init_service
         init_service('token.dat',
-                      self.args[0] if self.args else 'credentials.json')
+                      args[1] if args else 'credentials.json')
 
 
     def init_db(self):
@@ -92,7 +92,7 @@ class GACommand(p.toolkit.CkanCommand):
         init_tables(model.meta.engine)
 
 
-    def load_analytics(self):
+    def load_analytics(self, args):
         """
         Parse data from Google Analytics API and store it
         in a local database
@@ -105,7 +105,7 @@ class GACommand(p.toolkit.CkanCommand):
             'googleanalytics_resource_prefix',
             DEFAULT_RESOURCE_URL_TAG)
 
-        self.parse_and_save()
+        self.parse_and_save(args)
 
     def internal_save(self, packages_data, summary_date):
         # clear out existing data before adding new
@@ -179,7 +179,7 @@ class GACommand(p.toolkit.CkanCommand):
         engine.execute(sql)
 
     def bulk_import(self):
-        if len(self.args) == 3:
+        if len(self.args) == 4:
             # Get summaries from specified date
             start_date = datetime.datetime.strptime(self.args[2], '%Y-%m-%d')
         else:
@@ -207,7 +207,7 @@ class GACommand(p.toolkit.CkanCommand):
             # sleep to rate limit requests
             time.sleep(0.25)
             start_date = stop_date
-            log.info('%s received %s' % (len(packages_data), start_date))
+            self.log.info('%s received %s' % (len(packages_data), start_date))
             print '%s received %s' % (len(packages_data), start_date)
 
     def get_ga_data_new(self, start_date=None, end_date=None):
@@ -257,32 +257,33 @@ class GACommand(p.toolkit.CkanCommand):
             time.sleep(0.2)
         return packages
 
-    def parse_and_save(self):
+    def parse_and_save(self, args):
+        print("args %",args)
         """Grab raw data from Google Analytics and save to the database"""
         from ga_auth import (init_service, get_profile_id)
 
-        tokenfile = self.args[0]
+        tokenfile = args[1]
         if not os.path.exists(tokenfile):
-            raise Exception('Cannot find the token file %s' % self.args[0])
+            raise Exception('Cannot find the token file %s' % args[1])
 
         try:
-            self.service = init_service(self.args[0], None)
+            self.service = init_service(args[1], None)
         except TypeError:
             print ('Have you correctly run the getauthtoken task and '
                    'specified the correct file here')
             raise Exception('Unable to create a service')
         self.profile_id = get_profile_id(self.service)
 
-        if len(self.args) > 1:
-            if len(self.args) > 2 and self.args[1].lower() != 'internal':
-                raise Exception('Illegal argument %s' % self.args[1])
+        if len(args) > 2:
+            if len(args) > 3 and args[2].lower() != 'internal':
+                raise Exception('Illegal argument %s' % args[2])
             self.bulk_import()
         else:
             query = 'ga:pagePath=~%s,ga:pagePath=~%s' % \
                     (PACKAGE_URL, self.resource_url_tag)
             packages_data = self.get_ga_data(query_filter=query)
             self.save_ga_data(packages_data)
-            log.info("Saved %s records from google" % len(packages_data))
+            self.log.info("Saved %s records from google" % len(packages_data))
 
     def save_ga_data(self, packages_data):
         """Save tuples of packages_data to the database
@@ -296,23 +297,23 @@ class GACommand(p.toolkit.CkanCommand):
                 resource = model.Session.query(model.Resource).autoflush(True)\
                            .filter_by(id=matches.group(1)).first()
                 if not resource:
-                    log.warning("Couldn't find resource %s" % resource_url)
+                    self.log.warning("Couldn't find resource %s" % resource_url)
                     continue
                 for visit_date, count in visits.iteritems():
-                    dbutil.update_resource_visits(resource.id, visit_date, count)
-                    log.info("Updated %s with %s visits" % (resource.id, count))
+                    ResourceStats.update_visits(resource.id, visit_date, count)
+                    self.log.info("Updated %s with %s visits" % (resource.id, count))
             else:
                 package_name = identifier[len(PACKAGE_URL):]
                 if "/" in package_name:
-                    log.warning("%s not a valid package name" % package_name)
+                    self.log.warning("%s not a valid package name" % package_name)
                     continue
                 item = model.Package.by_name(package_name)
                 if not item:
-                    log.warning("Couldn't find package %s" % package_name)
+                    self.log.warning("Couldn't find package %s" % package_name)
                     continue
                 for visit_date, count in visits.iteritems():
-                    dbutil.update_package_visits(item.id, visit_date, count)
-                    log.info("Updated %s with %s visits" % (item.id, count))
+                    PackageStats.update_visits(item.id, visit_date, count)
+                    self.log.info("Updated %s with %s visits" % (item.id, count))
         model.Session.commit()
 
     def ga_query(self, query_filter=None, from_date=None, to_date=None,
@@ -360,7 +361,10 @@ class GACommand(p.toolkit.CkanCommand):
         # If there is no last valid value found from database then we make sure to grab all values from start. i.e. 2014
         # We want to take minimum 2 days worth logs
         if start_date is None:
-            floor_date = dbutil.get_latest_update_date() - datetime.timedelta(days=2)
+            latest_update_date = ResourceStats.get_latest_update_date()
+            floor_date = None
+            if latest_update_date is not None:
+                floor_date = latest_update_date - datetime.timedelta(days=2)
             if floor_date is None:
                floor_date = datetime.date(2014, 1, 1)
         packages = {}

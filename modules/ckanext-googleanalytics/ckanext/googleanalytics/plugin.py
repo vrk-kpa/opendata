@@ -64,9 +64,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         self.googleanalytics_id = config['googleanalytics.id']
         self.googleanalytics_domain = config.get(
                 'googleanalytics.domain', 'auto')
-        self.googleanalytics_javascript_url = h.url_for_static(
-                '/scripts/ckanext-googleanalytics.js')
-
+        
         # If resource_prefix is not in config file then write the default value
         # to the config dict, otherwise templates seem to get 'true' when they
         # try to read resource_prefix from config.

@@ -25,7 +25,7 @@ Features
 
 * Puts download stats into dataset pages, e.g. "[downloaded 4 times]".
 
-* Provides a ``/analytics/dataset/top`` page that shows the most popular
+* Provides a report page showing the most popular
   datasets and resources
 
 Installation
@@ -43,12 +43,7 @@ Installation
 
       googleanalytics.id = UA-1010101-1
       googleanalytics.account = Account name (i.e. data.gov.uk, see top level item at https://www.google.com/analytics)
-      googleanalytics.username = googleaccount@gmail.com
-      googleanalytics.password = googlepassword
-
-   Note that your password will probably be readable by other people;
-   so you may want to set up a new gmail account specifically for
-   accessing your gmail profile.
+      
 
 3. Edit again your configuration ini file to activate the plugin
    with:

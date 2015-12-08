@@ -7,16 +7,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 import ckan.model as model
 
-import datetime
-
 log = __import__('logging').getLogger(__name__)
 
 Base = declarative_base()
-
-
-def init_tables():
-    Base.metadata.create_all(model.meta.engine)
-    log.info('Google analytics database tables are set-up')
 
 class PackageStats(Base):
     """ 
@@ -26,10 +19,10 @@ class PackageStats(Base):
     """
     __tablename__ = 'package_stats'
 
-    package_id = Column(types.UnicodeText, nullable=False, index=True)
+    package_id = Column(types.UnicodeText, nullable=False, index=True, primary_key=True)
+    visit_date = Column(types.DateTime, default=datetime.now, primary_key=True)
     visits = Column(types.Integer)
-    visit_date = Column(types.DateTime, default=datetime.datetime.now)
-
+   
     def as_dict(self):
         result = {}
         result['package_id'] = self.package_id
@@ -65,7 +58,7 @@ class PackageStats(Base):
 
     @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
-        start_date = datetime.datetime.now() - datetime.timedelta(num_days)
+        start_date = datetime.now() - timedelta(num_days)
         package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= date_range).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id)
@@ -89,9 +82,9 @@ class ResourceStats(Base):
     """
     __tablename__ = 'resource_stats'
 
-    resource_id = Column(types.UnicodeText, nullable=False, index=True)
+    resource_id = Column(types.UnicodeText, nullable=False, index=True, primary_key=True)
+    visit_date = Column(types.DateTime, default=datetime.now, primary_key=True)
     visits = Column(types.Integer)
-    visits_date = Column(types.DateTime, default=datetime.datetime.now)
 
     def as_dict(self):
         result = {}
@@ -129,7 +122,7 @@ class ResourceStats(Base):
 
     @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
-        start_date = datetime.datetime.now() - datetime.timedelta(num_days)
+        start_date = datetime.now() - timedelta(num_days)
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id)
@@ -140,7 +133,10 @@ class ResourceStats(Base):
     @classmethod
     def get_latest_update_date(cls):
         result = model.Session.query(cls).order_by(cls.visit_date.desc()).first()
-        return result.visit_date
+        if result is None:
+            return None
+        else:
+            return result.visit_date
         
 
     @classmethod
@@ -168,7 +164,7 @@ class ResourceStats(Base):
     @classmethod
     def get_last_visits_by_url(cls, url, num_days=30):
         resource = model.Session.query(model.Resource).filter(model.Resource.url == url).first()
-        start_date = datetime.datetime.now() - datetime.timedelta(num_days)
+        start_date = datetime.now() - timedelta(num_days)
         #Returns the total number of visits since the beggining of all times for the associated resource to the given url
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id)
         resource_stats = model.Session.query(cls).filter(cls.resource_id == resource.id).filter(cls.visit_date >= start_date).all()
@@ -182,13 +178,16 @@ class ResourceStats(Base):
         #Fetch all resources associated to this package id
         subquery = model.Session.query(model.Resource.resource_id).filter(model.Resource.package_id == package_id).subquery()
 
-        start_date = datetime.datetime.now() - datetime.timedelta(num_days)
-        resource_stats = model.Session.query(cls).filter(cls.resource_id.in(subquery)).filter(cls.visit_date >= start_date).all()
+        start_date = datetime.now() - timedelta(num_days)
+        resource_stats = model.Session.query(cls).filter(cls.resource_id.in_(subquery)).filter(cls.visit_date >= start_date).all()
         #TODO: missing url from resource
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in(subquery))
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery))
         visits = convert_to_dict(resource_stats, total_visits)
 
         return visits
 
+def init_tables(engine):
+    Base.metadata.create_all(engine)
+    log.info('Google analytics database tables are set-up')
 
 
