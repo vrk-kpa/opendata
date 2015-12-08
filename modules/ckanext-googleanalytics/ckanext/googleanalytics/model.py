@@ -204,10 +204,10 @@ def get_all_visits_for_dataset(dataset_id):
 
     download_count = 0
 
-    now = datetime.datetime.now()
+    now = datetime.now()
 
     for d in range(0, 30):
-        curr = now - datetime.timedelta(d)
+        curr = now - timedelta(d)
         visit_list.append((curr.year, curr.month, curr.day, 0, 0))
 
     for t in visits:
@@ -236,10 +236,10 @@ def get_all_visits_for_dataset(dataset_id):
     count = 0
     visit_list = []
 
-    now = datetime.datetime.now()
+    now = datetime.now()
 
     for d in range(0, 30):
-        curr = now - datetime.timedelta(d)
+        curr = now - timedelta(d)
         visit_list.append((curr.year, curr.month, curr.day, 0))
 
     for t in visits:
