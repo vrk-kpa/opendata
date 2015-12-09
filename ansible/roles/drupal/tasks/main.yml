@@ -152,6 +152,8 @@
     - twitter_block
     - draggableviews
 
+    - commentsblock
+
   tags:
   - drupal
 
@@ -209,6 +211,7 @@
     - twitter_block
     - draggableviews
 
+    - commentsblock
 
   tags:
   - drupal
