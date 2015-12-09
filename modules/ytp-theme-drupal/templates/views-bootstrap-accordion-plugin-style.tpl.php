@@ -6,11 +6,9 @@
     <?php foreach ($rows as $key => $row): ?>
         <?php if (isset($titles[$key])): ?>
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" data-toggle="collapse" data-target="#collapse-<?php print $id . '-' . $key ?>">
                     <h4 class="panel-title">
-                        <a class="accordion-toggle"
-                           data-toggle="collapse"
-                           href="#collapse-<?php print $id . '-' . $key ?>">
+                        <a class="accordion-toggle">
                             <?php print $titles[$key] ?>
                         </a>
                     </h4>
