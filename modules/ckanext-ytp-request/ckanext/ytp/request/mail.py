@@ -43,7 +43,7 @@ valtori@avoindata.fi
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
-    #MTODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
+    # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
     current_locale = get_lang()
 
     _reset_lang()

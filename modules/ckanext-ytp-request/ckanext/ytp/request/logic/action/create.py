@@ -82,7 +82,7 @@ def _create_member_request(context, data_dict):
     url = config.get('ckan.site_url', "")
     if url:
         url = url + url_for('member_request_show', mrequest_id=member.id)
-    #Locale should be admin locale since mail is sent to admins
+    # Locale should be admin locale since mail is sent to admins
     if role == 'admin':
         for admin in _get_ckan_admins():
             mail_new_membership_request(
