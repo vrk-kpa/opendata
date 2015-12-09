@@ -1,0 +1,34 @@
+---
+
+# This playbook installs all roles on a single server in trvais
+
+- hosts: webserver
+  sudo: true
+  vars:
+    database_host: "127.0.0.1"
+    solr_host: "127.0.0.1"
+    database_ip_range: "127.0.0.1/8"
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/ytp-secrets/{{ secret_variables }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"] 
+  roles:
+    - common
+    - firewall
+    - users
+    - clean
+    - nfs_server
+    - nfs_client
+    - common_webserver
+    - ssl
+    - nginx
+    - postfix
+    - jetty
+    - redis
+    - ckan
+    - drupal
+    - clamav
+    - data
+  handlers:
+    - name: restart sshd
+      service: name=ssh state=restarted
