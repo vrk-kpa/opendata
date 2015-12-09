@@ -144,6 +144,7 @@
     - node_expire
 
     - draggableviews
+    - commentsblock
   tags:
   - drupal
 
@@ -198,7 +199,7 @@
     - node_expire
 
     - draggableviews
-
+    - commentsblock
   tags:
   - drupal
 
