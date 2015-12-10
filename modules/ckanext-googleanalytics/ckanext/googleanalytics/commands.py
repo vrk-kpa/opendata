@@ -150,6 +150,8 @@ class GACommand(p.toolkit.CkanCommand):
         """Grab raw data from Google Analytics and save to the database"""
         from ga_auth import (init_service, get_profile_id)
 
+        if len(args) == 1:
+            raise Exception("Missing token file")
         tokenfile = args[1]
         if not os.path.exists(tokenfile):
             raise Exception('Cannot find the token file %s' % args[1])
