@@ -1,6 +1,7 @@
 <div class="module-content">
   <h2>{% trans %}Most viewed datasets{% endtrans %}</h2> 
     {% if data['table'] %}
+    {{ data['table'] }}
     <table class="table table-condensed table-bordered table-striped">
 	  <tr>
 	    <th>{% trans %}Dataset{% endtrans %}</th>
@@ -9,9 +10,9 @@
 	  </tr>
       {% for toppackage in data['table'] %}
 	  <tr>
-		<td>{{ h.link_to(toppackage.package.title or toppackage.package.name, h.url_for(controller='package', action='read', id=toppackage.package.name)) }}</td>
-		<td>{{ toppackage.recent }}</td>
-		<td>{{ toppackage.ever }}</td>
+		<td>{{ h.link_to(toppackage.package_id, h.url_for(controller='package', action='read', id=toppackage.package_id)) }}</td>
+		<td>{{ toppackage.visit_date }}</td>
+		<td>{{ toppackage.visits }}</td>
 	   </tr>
       {% endfor %}
     </table>

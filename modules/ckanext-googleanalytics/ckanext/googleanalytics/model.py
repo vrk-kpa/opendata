@@ -54,9 +54,11 @@ class PackageStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id).first()
-        
-        visits = PackageStats.convert_to_dict(package_visits, total_visits)
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id).scalar()
+        visits = []
+
+        if total_visits is not None:
+            visits = PackageStats.convert_to_dict(package_visits, total_visits)
 
         return visits
     
@@ -66,7 +68,46 @@ class PackageStats(Base):
         # caveat emptor: the query below will not filter out private
         # or deleted datasets (TODO)
         package_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return PackageStats.convert_to_dict(package_stats,None)
+        dictat = PackageStats.convert_to_dict(package_stats,None)
+        return dictat
+
+    @classmethod
+    def get_all_visits(cls,dataset_id):
+
+        visits = PackageStats.get_last_visits_by_id(dataset_id)
+        resource_visits = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
+
+        visit_list = []
+        count = 0
+
+        download_count = 0
+
+        now = datetime.now()
+
+        for d in range(0, 30):
+            curr = now - timedelta(d)
+            visit_list.append((curr.year, curr.month, curr.day, 0, 0))
+
+        for t in visits:
+            if t[0] is not None:
+                visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
+                              if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+            else:
+                count = t[1]
+
+        for t in resource_visits:
+            if t[0] is not None:
+                visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
+                              if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+            elif t[1] is not None:
+                download_count = t[1]
+
+        results = {
+            "visits": visit_list,
+            "count": count,
+            "download_count": download_count
+        }
+        return results
 
     @classmethod
     def as_dict(cls,res):
@@ -132,8 +173,10 @@ class ResourceStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id).first()
-        visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id).scalar()
+        visits = []
+        if total_visits is not None:
+            visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
         return visits
 
     @classmethod
@@ -174,7 +217,7 @@ class ResourceStats(Base):
         resource = model.Session.query(model.Resource).filter(model.Resource.url == url).first()
         start_date = datetime.now() - timedelta(num_days)
         #Returns the total number of visits since the beggining of all times for the associated resource to the given url
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id).first()
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource.id).first().scalar()
         resource_stats = model.Session.query(cls).filter(cls.resource_id == resource.id).filter(cls.visit_date >= start_date).all()
         visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
@@ -189,71 +232,37 @@ class ResourceStats(Base):
         start_date = datetime.now() - timedelta(num_days)
         resource_stats = model.Session.query(cls).filter(cls.resource_id.in_(subquery)).filter(cls.visit_date >= start_date).all()
         #TODO: missing url from resource
-        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery)).first()
+        total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery)).scalar()
         visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
         return visits
 
+    @classmethod
+    def get_all_visits(cls,id):
+        visits = ResourceStats.get_last_visits_by_id(id)
+        log.debug("Visits..: %s",visits)
+        count = 0
+        visit_list = []
 
-def get_all_visits_for_dataset(dataset_id):
-    visits = PackageStats.get_last_visits_by_id(dataset_id))
-    resource_visits = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
+        now = datetime.now()
 
-    visit_list = []
-    count = 0
+        for d in range(0, 30):
+            curr = now - timedelta(d)
+            visit_list.append((curr.year, curr.month, curr.day, 0))
 
-    download_count = 0
+        for t in visits:
+            if t[0] is not None:
+                visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+            else:
+                count = t[1]
 
-    now = datetime.now()
+        results = {
+            "downloads": visit_list,
+            "count": count
+        }
 
-    for d in range(0, 30):
-        curr = now - timedelta(d)
-        visit_list.append((curr.year, curr.month, curr.day, 0, 0))
+        return results
 
-    for t in visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
-                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        else:
-            count = t[1]
-
-    for t in resource_visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
-                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        elif t[1] is not None:
-            download_count = t[1]
-
-    results = {
-        "visits": visit_list,
-        "count": count,
-        "download_count": download_count
-    }
-    return results
-
-def get_all_visits_for_dataset(dataset_id):
-    visits = ResourceStats.get_last_visits_by_id(id)
-    count = 0
-    visit_list = []
-
-    now = datetime.now()
-
-    for d in range(0, 30):
-        curr = now - timedelta(d)
-        visit_list.append((curr.year, curr.month, curr.day, 0))
-
-    for t in visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        else:
-            count = t[1]
-
-    results = {
-        "downloads": visit_list,
-        "count": count
-    }
-
-    return results
 
 def init_tables(engine):
     Base.metadata.create_all(engine)

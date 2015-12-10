@@ -34,7 +34,7 @@ class GACommand(p.toolkit.CkanCommand):
           for the service (obtained from https://code.google.com/apis/console).
            By default this is set to credentials.json
 
-       paster googleanalytics loadanalytics  <token_file> internal [date]
+       paster googleanalytics loadanalytics <token_file> internal [date]
          - Parses data from Google Analytics API and stores it in our database
           <token_file> internal [date] use ckan internal tracking tables
            token_file specifies the OAUTH token file
@@ -106,6 +106,7 @@ class GACommand(p.toolkit.CkanCommand):
         self.parse_and_save(args)
 
     def internal_save(self, packages_data, summary_date):
+        engine = model.meta.engine
         # clear out existing data before adding new
         sql = '''DELETE FROM tracking_summary
                  WHERE tracking_date='%s'; ''' % summary_date

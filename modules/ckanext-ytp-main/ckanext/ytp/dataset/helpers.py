@@ -197,16 +197,16 @@ def get_license(license_id):
 
 
 def get_visits_for_resource(id):
-    from ckanext.googleanalytics.model import get_all_visits_for_resource
+    from ckanext.googleanalytics.model import ResourceStats
 
-    return get_all_visits_for_resource(id)
+    return ResourceStats.get_all_visits(id)
 
 
 def get_visits_for_dataset(id):
 
-    from ckanext.googleanalytics.model import get_all_visits_for_dataset
+    from ckanext.googleanalytics.model import PackageStats
 
-    return get_all_visits_for_dataset(id)
+    return PackageStats.get_all_visits(id)
 
 
 def get_geonetwork_link(uuid, lang=None):
