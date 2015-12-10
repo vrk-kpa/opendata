@@ -80,8 +80,12 @@ class GACommand(p.toolkit.CkanCommand):
         assuming it is correct.
         """
         from ga_auth import init_service
-        init_service('token.dat',
-                      args[1] if args else 'credentials.json')
+        if len(args) > 2:
+            raise Exception('Too many arguments')
+        credentials_file = None
+        if len(args) == 2:
+           credentails_file = args[1]
+        init_service('token.dat', credentials_file if credentials_file else 'credentials.json')
 
 
     def init_db(self):
@@ -127,7 +131,7 @@ class GACommand(p.toolkit.CkanCommand):
 
         start_index = 1
         max_results = 10000
-        # data retrival is chunked
+
         print '%s -> %s' % (start_date, end_date)
         
         results = self.service.data().ga().get(ids='ga:%s' % self.profile_id,
@@ -174,8 +178,7 @@ class GACommand(p.toolkit.CkanCommand):
         """
         for identifier, visits_collection in packages_data.items():
             visits = visits_collection.get('visits', {})
-            #visit_date = visits_collection.get('visit_date', 0)
-            matches = RESOURCE_URL_REGEX.match(identifier)
+            matches = RESOURCE_URL_REGEX.match(identifier)      
             if matches:
                 resource_url = identifier[len(self.resource_url_tag):]
                 resource = model.Session.query(model.Resource).autoflush(True)\
