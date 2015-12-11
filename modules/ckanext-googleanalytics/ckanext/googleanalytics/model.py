@@ -38,7 +38,7 @@ class PackageStats(Base):
         :param visits: number of visits until visit_date
         :return: True for a successful update, otherwise False
         '''
-        package = model.Session.query(cls).filter(cls.item_id == package_id).filter(cls.visit_date == visit_date).first()
+        package = model.Session.query(cls).filter(cls.package_id == item_id).filter(cls.visit_date == visit_date).first()
         if package is None:
             package = PackageStats(package_id=item_id, visit_date=visit_date, visits=visits)
             model.Session.add(package)
@@ -88,19 +88,26 @@ class PackageStats(Base):
             curr = now - timedelta(d)
             visit_list.append((curr.year, curr.month, curr.day, 0, 0))
 
-        for t in visits:
-            if t[0] is not None:
-                visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
-                              if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-            else:
-                count = t[1]
+        #TODO: REFACTOR AND MAYBE REDO THE DTO
+        if visits is not None:
+            for t in visits:
+                if 'visit_date' in t:
+                    visit_date_str = t['visit_date']
+                    if visit_date_str is not None:
+                        visit_date = datetime.strptime(visit_date_str)
+                        visit_list = [(visit_date.year, visit_date.month, visit_date.day, t['visits'], 0)]
+               
+        count = t['tot_visits']
 
-        for t in resource_visits:
-            if t[0] is not None:
-                visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
-                              if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-            elif t[1] is not None:
-                download_count = t[1]
+
+        if resource_visits is not None:
+            for t in resource_visits:
+                visit_date_str = t['visit_date']
+                if visit_date_str is not None:
+                    visit_date = datetime.strptime(visit_date_str)
+                    visit_list = [(visit_date.year, visit_date.month, visit_date.day, 0, 0)]
+                elif t['visits'] is not None:
+                    download_count = t['visits']
 
         results = {
             "visits": visit_list,
@@ -114,7 +121,7 @@ class PackageStats(Base):
         result = {}
         result['package_id'] = res.package_id
         result['visits'] = res.visits
-        result['visit_date'] = res.visit_date
+        result['visit_date'] = res.visit_date.strftime("%d-%m-%Y")
         return result
 
     @classmethod
@@ -196,9 +203,9 @@ class ResourceStats(Base):
     @classmethod
     def as_dict(cls,res):
         result = {}
-        result['resource_id'] = res.package_id
+        result['resource_id'] = res.resource_id
         result['visits'] = res.visits
-        result['visit_date'] = res.visit_date
+        result['visit_date'] = res.visit_date.strftime("%d-%m-%Y")
         return result
 
     @classmethod
@@ -240,7 +247,6 @@ class ResourceStats(Base):
     @classmethod
     def get_all_visits(cls,id):
         visits = ResourceStats.get_last_visits_by_id(id)
-        log.debug("Visits..: %s",visits)
         count = 0
         visit_list = []
 
@@ -251,16 +257,17 @@ class ResourceStats(Base):
             visit_list.append((curr.year, curr.month, curr.day, 0))
 
         for t in visits:
-            if t[0] is not None:
-                visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
+            visit_date_str = t['visit_date']
+            if visit_date_str is not None:
+                visit_date = datetime.strptime(visit_date_str)
+                visit_list = [(visit_date.year, visit_date.month, visit_date.day, t['visits'])]
             else:
-                count = t[1]
+                count = t['visits']
 
         results = {
             "downloads": visit_list,
             "count": count
         }
-
         return results
 
 

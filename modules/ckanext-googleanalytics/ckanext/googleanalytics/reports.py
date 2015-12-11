@@ -11,7 +11,7 @@ def google_analytics_report(last):
     top_resources = ResourceStats.get_top(limit=last)
 
     return {
-        'table' : [ top_packages ]
+        'table' : top_packages 
     }
 
 def google_analytics_option_combinations():

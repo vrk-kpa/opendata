@@ -1,14 +1,13 @@
 <div class="module-content">
   <h2>{% trans %}Most viewed datasets{% endtrans %}</h2> 
     {% if data['table'] %}
-    {{ data['table'] }}
     <table class="table table-condensed table-bordered table-striped">
 	  <tr>
 	    <th>{% trans %}Dataset{% endtrans %}</th>
 	    <th>{% trans %}Unique views (last 14 days){% endtrans %}</th>
 	    <th>{% trans %}Unique views (since recording started){% endtrans %}</th>
 	  </tr>
-      {% for toppackage in data['table'] %}
+      {% for toppackage in table %}
 	  <tr>
 		<td>{{ h.link_to(toppackage.package_id, h.url_for(controller='package', action='read', id=toppackage.package_id)) }}</td>
 		<td>{{ toppackage.visit_date }}</td>
