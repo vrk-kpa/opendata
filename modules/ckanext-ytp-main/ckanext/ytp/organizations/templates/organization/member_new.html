@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="control-group control-medium">
-    {% set format_attrs = {'data-module': 'autocomplete'} %}
+    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-interval': '50'} %}
     {{ form.select('role', label=_('Role'), options=c.roles, selected=c.user_role, error='', attrs=format_attrs) }}
     </div>
     <div class="form-actions">
