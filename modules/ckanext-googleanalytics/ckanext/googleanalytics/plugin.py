@@ -158,5 +158,5 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
     def register_reports(self):
         """Register details of an extension's reports"""
         from ckanext.googleanalytics import reports
-        return [reports.googleanalytics_report_info]
+        return [reports.googleanalytics_dataset_report_info,reports.googleanalytics_resource_report_info]
 
