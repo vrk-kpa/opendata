@@ -160,6 +160,10 @@ function ytp_theme_preprocess_page(&$variables) {
     $variables['theme_hook_suggestions'][] = 'page__guidetemplate';
     if( isset($alias_parts[1])) {
       $variables['active_page'] = $alias_parts[1];
+      $variables['show_guide_nav'] = true;
+    }
+    else{
+      $variables['show_guide_nav'] = false;
     }
   }
 
