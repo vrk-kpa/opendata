@@ -1,0 +1,23 @@
+<div class="module-content">
+    <h2>{% trans %}Most downloaded resources{% endtrans %}</h2> 
+  {% if data['table'] %}
+       <table class="table table-condensed table-bordered table-striped">
+   <tr>
+     <th>{% trans %}Resource{% endtrans %}</th>
+     <th>{% trans %}Last accessed date{% endtrans %}</th>
+     <th>{% trans %}Downloads (since recording started){% endtrans %}</th>
+   </tr>
+      {% for topresource in table %}
+    <tr>
+       <td>{{ h.link_to(h.truncate(topresource.resource_name, length=50,whole_word=True) if topresource.resource_name, h.url_for(controller='package',action='resource_read',id=topresource.package_name,resource_id=topresource.resource_id)) }}<br />
+        <em>in {{ h.link_to(topresource.package_name, h.url_for(controller='package', action='read', id=topresource.package.name)) }}</em>
+      </td>
+      <td>{{ topresource.visit_date }}</td>
+      <td>{{ topresource.visits }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% else %}
+      <p>{% trans %}No statistics found for most downloaded resources.{% endtrans %}</p>
+  {% endif %}
+</div>

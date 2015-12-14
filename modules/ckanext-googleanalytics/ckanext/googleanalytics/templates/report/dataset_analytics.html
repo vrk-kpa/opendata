@@ -1,0 +1,24 @@
+<div class="module-content">
+  <h2>{% trans %}Most viewed datasets{% endtrans %}</h2> 
+    {% if data['table'] %}
+    <table class="table table-condensed table-bordered table-striped">
+	  <tr>
+	    <th>{% trans %}Dataset{% endtrans %}</th>
+	    <th>{% trans %}Last accessed date{% endtrans %}</th>
+	    <th>{% trans %}Number views (since recording started){% endtrans %}</th>
+	  </tr>
+      {% for toppackage in table %}
+	  <tr>
+		<td>{{ h.link_to(toppackage.package_name, h.url_for(controller='package', action='read', id=toppackage.package_id)) }}</td>
+		<td>{{ toppackage.visit_date }}</td>
+		<td>{{ toppackage.visits }}</td>
+	   </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p>{% trans %}No analytics found for most downloaded datasets.{% endtrans %}</p>
+    {% endif %}
+
+ </div>
+
+
