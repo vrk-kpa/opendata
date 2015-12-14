@@ -75,58 +75,67 @@
 ?>
 <?php include("/var/www/resources/templates/top-navigation.php"); /* YTP common top navigation */ ?>
 <div id="page_wrapper">
-<?php include("/var/www/resources/templates/body-navigation.php"); /* YTP common body navigation */ ?>
+  <?php include("/var/www/resources/templates/body-navigation.php"); /* YTP common body navigation */ ?>
 
-<?php if (!empty($page['highlighted'])): ?>
-  <div class="container">
-    <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
-  </div>
-<?php endif; ?>
-<?php if (!empty($breadcrumb)): ?>
-  <div class="container toolbar drupal-crumbs">
-    <?php print $breadcrumb; ?>
-  </div>
-<?php endif; ?>
-<div class="main-container container">
-  <header role="banner" id="page-header">
-    <?php if (!empty($site_slogan)): ?>
-      <p class="lead"><?php print $site_slogan; ?></p>
-    <?php endif; ?>
-    <?php if (!empty($page['header'])): ?>
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <?php print render($page['header']); ?>
+  <?php if (!empty($page['highlighted'])): ?>
+    <div class="container">
+      <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
+    </div>
+  <?php endif; ?>
+  <?php if (!empty($breadcrumb)): ?>
+    <div class="container toolbar drupal-crumbs">
+      <?php print $breadcrumb; ?>
+    </div>
+  <?php endif; ?>
+  <div class="main-container container">
+    <header role="banner" id="page-header">
+      <?php if (!empty($site_slogan)): ?>
+        <p class="lead"><?php print $site_slogan; ?></p>
+      <?php endif; ?>
+      <?php if (!empty($page['header'])): ?>
+        <div class="row">
+          <?php if (!empty($page['top_bar_secondary'])): ?>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <?php print render($page['header']); ?>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="tutorial-box">
+              <?php print render($page['top_bar_secondary']); ?>
+            </div>
+          <?php else: ?>
+            <div class="col-lg-12">
+              <?php print render($page['header']); ?>
+            </div>
+          <?php endif; ?>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="tutorial-box">
-          <?php print render($page['top_bar_secondary']); ?>
-        </div>
-      </div>
-    <?php endif; ?>
+      <?php endif; ?>
 
-  </header> <!-- /#page-header -->
+    </header> <!-- /#page-header -->
 
+    <div class="row">
+      <?php if (!empty($page['sidebar_first'])): ?>
+        <aside class="col-xs-12 col-sm-12 col-md-12 col-lg-3 ytp-nav" role="complementary">
+          <?php print render($page['sidebar_first']); ?>
+        </aside>  <!-- /#sidebar-first -->
+      <?php endif; ?>
 
-  <div class="row">
-    <?php if (!empty($page['sidebar_first'])): ?>
-      <aside class="col-xs-12 col-sm-12 col-md-12 col-lg-3 ytp-nav" role="complementary">
-        <?php print render($page['sidebar_first']); ?>
-      </aside>  <!-- /#sidebar-first -->
-    <?php endif; ?>
+      <section<?php print $content_column_class; ?>>
 
-    <section<?php print $content_column_class; ?>>
+        <?php if (!empty($page['user_guide'])): ?>
+          <div id="user-guide" >
+            <?php print render($page['user_guide']); ?>
+          </div> <!-- /#user-guide -->
+        <?php endif; ?>
 
+        <?php if (!empty($page['feature_blocks'])): ?>
+          <div class="feature_blocks row">
+            <?php print render($page['feature_blocks']); ?>
+          </div> <!-- /#feature-blocks -->
+        <?php endif; ?>
 
-
-         <?php if (!empty($page['user_guide'])): ?>
-      <div id="user-guide" >
-        <?php print render($page['user_guide']); ?>
-      </div>
-    <?php endif; ?>
-
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if (!empty($title)): ?>
-        <h1 class="page-header"><?php print $title; ?></h1>
+        <a id="main-content"></a>
+        <?php print render($title_prefix); ?>
+        <?php if (!empty($title)): ?>
+          <h1 class="page-header"><?php print $title; ?></h1>
         <?php endif; ?>
         <?php print render($title_suffix); ?>
         <?php print $messages; ?>
@@ -139,21 +148,20 @@
         <?php if (!empty($action_links)): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
-  
+
         <?php print render($page['content']); ?>
       </section>
-   
+
       <?php if (!empty($page['sidebar_second'])): ?>
         <aside class="col-sm-4" role="complementary">
           <?php print render($page['sidebar_second']); ?>
         </aside>  <!-- /#sidebar-second -->
       <?php endif; ?>
-  
+
     </div> <!-- /.row -->
   </div> <!-- /.main-container -->
 </div> <!-- /#page-wrapper -->
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
-
 
