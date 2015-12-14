@@ -9,8 +9,8 @@
    </tr>
       {% for topresource in table %}
     <tr>
-       <td>{{ h.link_to(h.truncate(topresource.resource_name, length=50,whole_word=True) if topresource.resource_name, h.url_for(controller='package',action='resource_read',id=topresource.package_name,resource_id=topresource.resource_id)) }}<br />
-        <em>in {{ h.link_to(topresource.package_name, h.url_for(controller='package', action='read', id=topresource.package.name)) }}</em>
+       <td>{{ h.link_to(h.truncate(topresource.resource_name, length=50,whole_word=True), h.url_for(controller='package',action='resource_read',id=topresource.package_id,resource_id=topresource.resource_id)) }}<br />
+        <em>in {{ h.link_to(topresource.package_name, h.url_for(controller='package', action='read', id=topresource.package_id)) }}</em>
       </td>
       <td>{{ topresource.visit_date }}</td>
       <td>{{ topresource.visits }}</td>

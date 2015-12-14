@@ -192,11 +192,13 @@ class ResourceStats(Base):
     def get_resource_info_by_id(cls, resource_id):
         resource = model.Session.query(model.Resource).filter(model.Resource.id == resource_id).first()
         res_name = None
-        res_package_name = None    
+        res_package_name = None
+        res_package_id = None    
         if resource is not None:
             res_package_name = resource.package.title or resource.package.name
+            res_package_id = resource.package.name
             res_name  = resource.description or resource.format
-        return [res_name, res_package_name]
+        return [res_name, res_package_name, res_package_id]
 
     @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
@@ -228,8 +230,9 @@ class ResourceStats(Base):
         result = {}
         res_info = ResourceStats.get_resource_info_by_id(res.resource_id)
         result['resource_name'] = res_info[0]
-        result['package_name'] = res_info[1]
         result['resource_id'] = res.resource_id
+        result['package_name'] = res_info[1]
+        result['package_id'] = res_info[2]
         result['visits'] = res.visits
         result['visit_date'] = res.visit_date.strftime("%d-%m-%Y")
         return result
@@ -278,7 +281,7 @@ class ResourceStats(Base):
         visits_dict = ResourceStats.get_last_visits_by_id(id)
         count = visits_dict.get('tot_visits',0)
         visits = visits_dict.get('resources',None)
-        visits_list = []
+        visit_list = []
 
         now = datetime.now()
 
@@ -286,7 +289,7 @@ class ResourceStats(Base):
         #If there is no entry for a certain date should return 0 visits
         for d in range(0, 30):
             curr = now - timedelta(d)
-            visits_list.append({'year': curr.year, 'month': curr.month, 'day': curr.day, 'visits': 0})
+            visit_list.append({'year': curr.year, 'month': curr.month, 'day': curr.day, 'visits': 0})
 
         
         for t in visits:
@@ -294,8 +297,7 @@ class ResourceStats(Base):
             if visit_date_str is not None:    
                 visit_date = datetime.strptime(visit_date_str, "%d-%m-%Y")
                 #Build temporary match 
-                visit_item = next((x for x in visits_list if x['year'] == visit_date.year and x['month'] == visit_date.month and x['day'] == visit_date.day), None)
-                print visit_item
+                visit_item = next((x for x in visit_list if x['year'] == visit_date.year and x['month'] == visit_date.month and x['day'] == visit_date.day), None)
                 if visit_item:
                     visit_item['visits'] = t['visits']
                 

@@ -20,7 +20,8 @@ def google_analytics_dataset_option_combinations():
 
 googleanalytics_dataset_report_info = {
     'name': 'google-analytics-dataset',
-    'description': 'Analytics showing top datasets with most views',
+    'title': 'Popular datasets',
+    'description': 'Google analytics showing top datasets with most views',
     'option_defaults': OrderedDict((('last',20),)),
     'option_combinations': google_analytics_dataset_option_combinations,
     'generate': google_analytics_dataset_report,
@@ -36,7 +37,7 @@ def google_analytics_resource_report(last):
     top_resources = ResourceStats.get_top(limit=last)
 
     return {
-        'table' : top_packages.get("resources")
+        'table' : top_resources.get("resources")
     }
 
 def google_analytics_resource_option_combinations():
@@ -46,7 +47,8 @@ def google_analytics_resource_option_combinations():
 
 googleanalytics_resource_report_info = {
     'name': 'google-analytics-resource',
-    'description': 'Analytics showing most downloaded resources',
+    'title': 'Popular resources',
+    'description': 'Google analytics showing most downloaded resources',
     'option_defaults': OrderedDict((('last',20),)),
     'option_combinations': google_analytics_resource_option_combinations,
     'generate': google_analytics_resource_report,
