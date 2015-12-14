@@ -75,18 +75,18 @@
 ?>
 <?php include("/var/www/resources/templates/top-navigation.php"); /* YTP common top navigation */ ?>
 <div id="page_wrapper">
-<?php include("/var/www/resources/templates/body-navigation.php"); /* YTP common body navigation */ ?>
+  <?php include("/var/www/resources/templates/body-navigation.php"); /* YTP common body navigation */ ?>
 
-<?php if (!empty($page['highlighted'])): ?>
-  <div class="container">
-    <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
-  </div>
-<?php endif; ?>
-<?php if (!empty($breadcrumb)): ?>
-  <div class="container toolbar drupal-crumbs">
-    <?php print $breadcrumb; ?>
-  </div>
-<?php endif; ?>
+  <?php if (!empty($page['highlighted'])): ?>
+    <div class="container">
+      <div class="alert alert-info" role="alert"><?php print render($page['highlighted']); ?></div>
+    </div>
+  <?php endif; ?>
+  <?php if (!empty($breadcrumb)): ?>
+    <div class="container toolbar drupal-crumbs">
+      <?php print $breadcrumb; ?>
+    </div>
+  <?php endif; ?>
   <div class="main-container container">
     <header role="banner" id="page-header">
       <?php if (!empty($site_slogan)): ?>
@@ -108,7 +108,7 @@
           <?php endif; ?>
         </div>
       <?php endif; ?>
-  
+
     </header> <!-- /#page-header -->
 
     <div class="row">
@@ -117,21 +117,21 @@
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
       <?php endif; ?>
-    
+
       <section<?php print $content_column_class; ?>>
-  
+
         <?php if (!empty($page['user_guide'])): ?>
           <div id="user-guide" >
             <?php print render($page['user_guide']); ?>
           </div> <!-- /#user-guide -->
         <?php endif; ?>
-  
+
         <?php if (!empty($page['feature_blocks'])): ?>
           <div class="feature_blocks row">
             <?php print render($page['feature_blocks']); ?>
           </div> <!-- /#feature-blocks -->
         <?php endif; ?>
-  
+
         <a id="main-content"></a>
         <?php print render($title_prefix); ?>
         <?php if (!empty($title)): ?>
@@ -148,21 +148,20 @@
         <?php if (!empty($action_links)): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
-  
+
         <?php print render($page['content']); ?>
       </section>
-   
+
       <?php if (!empty($page['sidebar_second'])): ?>
         <aside class="col-sm-4" role="complementary">
           <?php print render($page['sidebar_second']); ?>
         </aside>  <!-- /#sidebar-second -->
       <?php endif; ?>
-  
+
     </div> <!-- /.row -->
   </div> <!-- /.main-container -->
 </div> <!-- /#page-wrapper -->
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
-
 

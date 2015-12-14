@@ -70,7 +70,6 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/4d596cca05a55fdcba9fbc2af1ecaf46b843b737.patch", file: "fix_invalid_date_indexing.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7367b56bc023da854aa31e05ff63ef8307c06f41.patch", file: "fix_multilingual_search.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9e80b58f24dea9d93ec84aac258f5436dfcfdd9c.patch", file: "fix_collection_type_translation.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/5b7a63d86291987646ff5275c068f41eab21b128.patch", file: "fix_autocomplete_input_delay.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cbbca2047c68c377ef9408fc4df157b1acb1b02c.patch", file: "usability-fix-for-image-upload.patch" } # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8f7ec3f9fb6a35bb4a7e52784920ed99b7c7e245.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cde3c21a8b8612b88ef61b47488465b2926a6840.patch", file: "fix-template-error-in-resources.patch"} # ytp specific

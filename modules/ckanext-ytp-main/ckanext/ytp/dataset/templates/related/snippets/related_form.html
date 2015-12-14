@@ -8,7 +8,7 @@
     {% resource "ytp_dataset_js/related.js" %}
     {% set collection_type = c.pkg_dict.get('collection_type', None) %}
     {% if collection_type == 'Interoperability Tools' %}
-    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'SelectByName(e)', 'data-module-key': "name", 'data-module-label': "title"} %}
+    {% set format_attrs = {'data-module': 'autocomplete', 'data-module-interval': '50', 'data-module-source': '/api/util/dataset/autocomplete_by_collection_type?collection_type=' + collection_type + '&incomplete=?', 'data-module-allowempty': 'true', 'data-module-callback': 'SelectByName(e)', 'data-module-key': "name", 'data-module-label': "title"} %}
     {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('My Related Component'), value=data.title, error=errors.title, classes=['control-full'], attrs=format_attrs) }}
     {% else %}
         {{ ytp_form.input('title', label=_('Title'), id='field-title', placeholder=_('My Related Component'), value=data.title, error=errors.title, classes=['control-full']) }}

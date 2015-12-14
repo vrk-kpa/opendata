@@ -29,6 +29,7 @@ translation_languages:
 translation_projects:
   - "ytp-theme-drupal"
   - "ytp-assets-common"
+  - "ytp-drupal-tutorial"
 translation_text_groups:
   - "field"
   - "node"

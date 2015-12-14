@@ -15,5 +15,46 @@ cache:
     - /usr/lib/ckan/default/src/
     - $HOME/cache
   apt: true
-install: ./scripts/travis-install.sh
-script: ./scripts/travis-test.sh
+before_install:
+  - sudo apt-get update
+install:
+  - pip install ansible
+  - pip install flake8
+  - pip install coverage
+before_script:
+    - chmod +x ./scripts/travis-flake.sh
+    - ./scripts/travis-flake.sh
+    - psql -c "create user ckan_default with password 'pass';" -U postgres
+    - psql -c "create user datastore_database_default with password 'pass';" -U postgres
+    - psql -c "create user ckan_test with password 'pass';" -U postgres
+    - psql -c "create user drupal with password 'drupal';" -U postgres
+    - psql -c "create database ckan_default WITH OWNER ckan_default;" -U postgres
+    - psql -c "create database datastore_default WITH OWNER ckan_default;" -U postgres
+    - psql -c "create database ckan_test WITH OWNER ckan_default" -U postgres
+    - psql -c "create database drupal;" -U postgres
+    - psql -c "create extension postgis;" -U postgres
+    - psql -d "datastore_default" -c "create role datastore_default;"
+    - psql -d ckan_default -f /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql -U postgres
+    - psql -d ckan_default -f /usr/share/postgresql/9.3/contrib/postgis-2.1/spatial_ref_sys.sql -U postgres
+    - psql -d "ckan_default" -c "ALTER VIEW geometry_columns OWNER TO ckan_default;" -U postgres
+    - psql -d "ckan_default" -c "ALTER TABLE spatial_ref_sys OWNER TO ckan_default;" -U postgres
+    - psql -d "datastore_default" -c "REVOKE CREATE ON SCHEMA public FROM PUBLIC;"
+    - psql -d "datastore_default" -c "REVOKE USAGE ON SCHEMA public FROM PUBLIC;"
+    - psql -d "datastore_default" -c "GRANT CREATE ON SCHEMA public TO ckan_default;"
+    - psql -d "datastore_default" -c "GRANT USAGE ON SCHEMA public TO ckan_default;"
+    - psql -d "datastore_default" -c "GRANT CREATE ON SCHEMA public TO datastore_database_default;"
+    - psql -d "datastore_default" -c "GRANT USAGE ON SCHEMA public TO datastore_database_default;"
+    - psql -d "datastore_default" -c "REVOKE CONNECT ON DATABASE ckan_default FROM datastore_default;"
+    - psql -d "datastore_default" -c "GRANT CONNECT ON DATABASE datastore_default TO datastore_default;"
+    - psql -d "datastore_default" -c "GRANT USAGE ON SCHEMA public TO datastore_default;"
+    - psql -d "datastore_default" -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO datastore_default;"
+    - psql -d "datastore_default" -c "ALTER DEFAULT PRIVILEGES FOR USER datastore_database_default IN SCHEMA public GRANT SELECT ON TABLES TO datastore_default;"
+
+
+script:
+  - "ansible-playbook -i travis/travis-ansible-inventory ansible/single-server.yml --syntax-check"
+
+  # Run the role/playbook with ansible-playbook.
+  - "ansible-playbook -i travis/travis-ansible-inventory -v ansible/travis-server.yml --connection=local --sudo --skip-tags=has-hostname,non-local,firewall"
+
+  -  ./scripts/travis-test.sh
