@@ -144,8 +144,9 @@ class PackageStats(Base):
         
         results = {
            "packages": visits,
-           "tot_visits": tot_visits
         }
+        if tot_visits is not None:
+            results["tot_visits"] = tot_visits
         return results
 
 
@@ -240,9 +241,11 @@ class ResourceStats(Base):
             visits.append(ResourceStats.as_dict(resource))
 
         results = {
-           "resources": visits,
-           "tot_visits": tot_visits
+           "resources": visits
         }
+        if tot_visits is not None:
+            results['tot_visits'] = tot_visits
+
         return results
 
     @classmethod
