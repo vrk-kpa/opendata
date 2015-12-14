@@ -50,6 +50,14 @@ class PackageStats(Base):
         return True
 
     @classmethod
+    def get_package_name_by_id(cls, package_id):
+        package = model.Session.query(model.Package).filter(model.Package.id == package_id).first()
+        pack_name = []
+        if package is not None:
+            pack_name = package.name
+        return pack_name
+
+    @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
         start_date = datetime.now() - timedelta(num_days)
         package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= start_date).all()
@@ -74,40 +82,41 @@ class PackageStats(Base):
     @classmethod
     def get_all_visits(cls,dataset_id):
 
-        visits = PackageStats.get_last_visits_by_id(dataset_id)
-        resource_visits = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
+        visits_dict = PackageStats.get_last_visits_by_id(dataset_id)
+        resource_visits_dict = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
 
         visit_list = []
-        count = 0
+        visits = visits_dict.get('packages',None)
+        count = visits_dict.get('tot_visits', 0)
 
-        download_count = 0
+        resource_visits = resource_visits_dict.get('resources', 0)
+        download_count = resource_visits_dict.get('tot_visits', 0)
 
         now = datetime.now()
 
+        #Creates a date object for the last 30 days in the format (YEAR, MONTH, DAY)
         for d in range(0, 30):
             curr = now - timedelta(d)
-            visit_list.append((curr.year, curr.month, curr.day, 0, 0))
+            visit_list.append({'year': curr.year, 'month': curr.month, 'day': curr.day, 'visits': 0, "downloads": 0})
+            
+        for t in visits:
+            visit_date_str = t['visit_date']
+            if visit_date_str is not None:    
+                visit_date = datetime.strptime(visit_date_str, "%d-%m-%Y")
+                #Build temporary match 
+                visit_item = next((x for x in visit_list if x['year'] == visit_date.year and x['month'] == visit_date.month and x['day'] == visit_date.day), None)
+                if visit_item:
+                    visit_item['visits'] = t['visits']
+                
 
-        #TODO: REFACTOR AND MAYBE REDO THE DTO
-        if visits is not None:
-            for t in visits:
-                if 'visit_date' in t:
-                    visit_date_str = t['visit_date']
-                    if visit_date_str is not None:
-                        visit_date = datetime.strptime(visit_date_str)
-                        visit_list = [(visit_date.year, visit_date.month, visit_date.day, t['visits'], 0)]
-               
-        count = t['tot_visits']
-
-
-        if resource_visits is not None:
-            for t in resource_visits:
-                visit_date_str = t['visit_date']
-                if visit_date_str is not None:
-                    visit_date = datetime.strptime(visit_date_str)
-                    visit_list = [(visit_date.year, visit_date.month, visit_date.day, 0, 0)]
-                elif t['visits'] is not None:
-                    download_count = t['visits']
+        for r in resource_visits:
+            visit_date_str = r['visit_date']
+            if visit_date_str is not None:    
+                visit_date = datetime.strptime(visit_date_str, "%d-%m-%Y")
+                #Build temporary match 
+                visit_item = next((x for x in visit_list if x['year'] == visit_date.year and x['month'] == visit_date.month and x['day'] == visit_date.day), None)
+                if visit_item:
+                    visit_item['downloads'] = r['visits']
 
         results = {
             "visits": visit_list,
@@ -119,6 +128,9 @@ class PackageStats(Base):
     @classmethod
     def as_dict(cls,res):
         result = {}
+        package_name = PackageStats.get_package_name_by_id(res.package_id)
+        
+        result['package_name'] = package_name
         result['package_id'] = res.package_id
         result['visits'] = res.visits
         result['visit_date'] = res.visit_date.strftime("%d-%m-%Y")
@@ -129,11 +141,12 @@ class PackageStats(Base):
         visits = []
         for resource in resource_stats:
             visits.append(PackageStats.as_dict(resource))
-        result = {}
-        if tot_visits is not None:
-            result['tot_visits'] = tot_visits
-            visits.append(result)
-        return visits
+        
+        results = {
+           "packages": visits,
+           "tot_visits": tot_visits
+        }
+        return results
 
 
 class ResourceStats(Base):
@@ -174,6 +187,15 @@ class ResourceStats(Base):
         model.Session.flush()
         return True
 
+    @classmethod
+    def get_resource_info_by_id(cls, resource_id):
+        resource = model.Session.query(model.Resource).filter(model.Resource.id == resource_id).first()
+        res_name = None
+        res_package_name = None    
+        if resource is not None:
+            res_package_name = resource.package.title or resource.package.name
+            res_name  = resource.description or resource.format
+        return [res_name, res_package_name]
 
     @classmethod
     def get_last_visits_by_id(cls, resource_id, num_days=30):
@@ -203,6 +225,9 @@ class ResourceStats(Base):
     @classmethod
     def as_dict(cls,res):
         result = {}
+        res_info = ResourceStats.get_resource_info_by_id(res.resource_id)
+        result['resource_name'] = res_info[0]
+        result['package_name'] = res_info[1]
         result['resource_id'] = res.resource_id
         result['visits'] = res.visits
         result['visit_date'] = res.visit_date.strftime("%d-%m-%Y")
@@ -213,11 +238,12 @@ class ResourceStats(Base):
         visits = []
         for resource in resource_stats:
             visits.append(ResourceStats.as_dict(resource))
-        result = {}
-        if tot_visits is not None:
-            result['tot_visits'] = tot_visits
-            visits.append(result)
-        return visits
+
+        results = {
+           "resources": visits,
+           "tot_visits": tot_visits
+        }
+        return results
 
     @classmethod
     def get_last_visits_by_url(cls, url, num_days=30):
@@ -246,24 +272,30 @@ class ResourceStats(Base):
 
     @classmethod
     def get_all_visits(cls,id):
-        visits = ResourceStats.get_last_visits_by_id(id)
-        count = 0
-        visit_list = []
+        visits_dict = ResourceStats.get_last_visits_by_id(id)
+        count = visits_dict.get('tot_visits',0)
+        visits = visits_dict.get('resources',None)
+        visits_list = []
 
         now = datetime.now()
 
+        #Creates a temporary date object for the last 30 days in the format (YEAR, MONTH, DAY, #visits this day)
+        #If there is no entry for a certain date should return 0 visits
         for d in range(0, 30):
             curr = now - timedelta(d)
-            visit_list.append((curr.year, curr.month, curr.day, 0))
+            visits_list.append({'year': curr.year, 'month': curr.month, 'day': curr.day, 'visits': 0})
 
+        
         for t in visits:
             visit_date_str = t['visit_date']
-            if visit_date_str is not None:
-                visit_date = datetime.strptime(visit_date_str)
-                visit_list = [(visit_date.year, visit_date.month, visit_date.day, t['visits'])]
-            else:
-                count = t['visits']
-
+            if visit_date_str is not None:    
+                visit_date = datetime.strptime(visit_date_str, "%d-%m-%Y")
+                #Build temporary match 
+                visit_item = next((x for x in visits_list if x['year'] == visit_date.year and x['month'] == visit_date.month and x['day'] == visit_date.day), None)
+                print visit_item
+                if visit_item:
+                    visit_item['visits'] = t['visits']
+                
         results = {
             "downloads": visit_list,
             "count": count

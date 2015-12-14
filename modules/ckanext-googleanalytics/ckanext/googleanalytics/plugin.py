@@ -79,8 +79,6 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         self.track_events = converters.asbool(
             config.get('googleanalytics.track_events', False))
 
-        p.toolkit.add_resource('fanstatic_library', 'ckanext-googleanalytics')
-
         # spawn a pool of 5 threads, and pass them queue instance
         for i in range(5):
             t = AnalyticsPostThread(self.analytics_queue)
