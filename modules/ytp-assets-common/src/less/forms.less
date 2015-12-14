@@ -124,10 +124,29 @@ textarea {
   margin-left: 20px;
 }
 
-.control-full.error-block {
-  width: auto;
+
+.form-inline .form-control {
+  width: 100%;
 }
 
+.no-after:after {
+  content: '';
+}
+
+.control-full.error-block {
+  width: auto;
+
+}
+
+.form-horizontal{
+  .radio-inline, .checkbox-inline{
+    padding-top: 0;
+  }
+}
+
+label.radio-inline:after, label.checkbox-inline:after{
+  content: ""
+}
 
 .form-inline .form-control{
   width: 100%;
@@ -142,4 +161,3 @@ textarea {
 label.radio-inline:after, label.checkbox-inline:after{
   content: ""
 }
-

@@ -95,6 +95,7 @@
     - gettext
     - build-essential
     - nodejs
+    - libcurl4-openssl-dev
   tags:
   - packages
   - common
