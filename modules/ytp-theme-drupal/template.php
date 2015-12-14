@@ -207,7 +207,10 @@ function ytp_theme_menu_link(&$variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
-  if (isset($element['#bid']) && ($element['#bid']['module'] == 'menu_block')) {
+
+  $menuName = $variables['element']["#original_link"]["menu_name"];
+
+  if (isset($element['#bid']) && ($element['#bid']['module'] == 'menu_block') && $menuName == 'main-menu') {
       $element['#attributes']['class'][] = 'ytp-menulink';
   }
 
