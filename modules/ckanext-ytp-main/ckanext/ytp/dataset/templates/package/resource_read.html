@@ -176,7 +176,7 @@
         function drawChart() {
           var data = google.visualization.arrayToDataTable([
             ["{{ _('Year') }}", "{{ _('Downloads') }}"],
-            {% for v in visits.download %}
+            {% for v in visits.downloads %}
               [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}],
             {% endfor %}
           ]);
