@@ -1,3 +1,2 @@
 recursive-include ckanext/googleanalytics/templates *
 recursive-include ckanext/googleanalytics/fanstatic_library *
-include setup.py

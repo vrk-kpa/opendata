@@ -201,12 +201,6 @@
   - ckan
   - spatial
 
-- name: Install googleanalytics requirements
-  pip: requirements="{{ cache_path }}/ckanext-googleanalytics/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
-  tags:
-  - ckan
-  - google-analytics
-
 - name: Install archiver requirements
   pip: requirements="{{ cache_path }}/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
@@ -292,8 +286,8 @@
   tags:
     - ckan
 
-- name: Initialize googleanalytics database
-  shell: ./bin/paster --plugin=ckanext-googleanalytics googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+- name: Initialize analytics database
+  shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
   - google-analytics
@@ -307,7 +301,7 @@
     - google-analytics
 
 - name: Add analytics fetching to cron
-  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
   when: google_analytics != false
   tags:
     - ckan

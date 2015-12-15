@@ -34,5 +34,5 @@ setup(
 
         [paste.paster_command]
         initdb = ckanext.ytp.comments.command:InitDBCommand
-    '''
+    ''',
 )

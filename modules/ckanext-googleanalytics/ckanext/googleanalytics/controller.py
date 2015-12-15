@@ -1,9 +1,11 @@
 import logging
 from ckan.lib.base import BaseController, c, render, request
+import dbutil
 
 import urllib
 import urllib2
 
+import logging
 import ckan.logic as logic
 import hashlib
 import plugin
@@ -13,6 +15,16 @@ from webob.multidict import UnicodeMultiDict
 from paste.util.multidict import MultiDict
 
 from ckan.controllers.api import ApiController
+
+log = logging.getLogger('ckanext.googleanalytics')
+
+
+class GAController(BaseController):
+    def view(self):
+        # get package objects corresponding to popular GA content
+        c.top_packages = dbutil.get_top_packages(limit=10)
+        c.top_resources = dbutil.get_top_resources(limit=10)
+        return render('summary.html')
 
 
 class GAApiController(ApiController):
@@ -49,6 +61,7 @@ class GAApiController(ApiController):
                     id = request_data['query']
                 self._post_analytics(c.user, logic_function, '', id)
         except Exception, e:
+            log.debug(e)
             pass
 
         return ApiController.action(self, logic_function, ver)
@@ -98,5 +111,6 @@ class GAApiController(ApiController):
             if 'query' in params.keys():
                 id = params['query']
         except ValueError, e:
+            log.debug(str(e))
             pass
         self._post_analytics(c.user, register, "search", id)

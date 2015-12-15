@@ -49,6 +49,8 @@ setup(
     ],
     entry_points='''
         [ckan.plugins]
+        # Add plugins here, e.g.
+        # myplugin=ckanext.datarequests.plugin:PluginClass
         datarequests=ckanext.datarequests.plugin:DataRequestsPlugin
     ''',
 )
