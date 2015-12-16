@@ -286,8 +286,9 @@
   tags:
     - ckan
 
-- name: Initialize analytics database
-  shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+
+- name: Initialize googleanalytics database
+  shell: ./bin/paster --plugin=ckanext-googleanalytics googleanalytics init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
   - google-analytics
