@@ -1,0 +1,51 @@
+<http://opendatacommunities.org/data/homelessness-acceptances-per-1000>
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://rdfs.org/ns/void#Dataset> ;
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://www.w3.org/ns/dcat#Dataset> ;
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                    <http://publishmydata.com/def/dataset#Dataset> ;
+      <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "For each local authority, the number of households accepted as homeless, per 1000 households." ;
+      <http://www.w3.org/2000/01/rdf-schema#label>
+                    "Homelessness acceptances per 1000 households" ;
+      <http://publishmydata.com/def/dataset#contactEmail>
+                    <mailto:ODC@communities.gsi.gov.uk> ;
+      <http://publishmydata.com/def/dataset#graph>
+                    <http://opendatacommunities.org/graph/homelessness-acceptances-per-1000> ;
+      <http://purl.org/dc/terms/description>
+                    """The term \"Homelessness\" is often considered to apply only to people \"sleeping rough\". However, most of our statistics on homelessness relate to the statutorily homeless i.e. those households which meet specific criteria of priority need set out in legislation, and to whom a homelessness duty has been accepted by a local authority.
+
+Such households are rarely homeless in the literal sense of being without a roof over their heads, but are more likely to be threatened with the loss of, or are unable to continue with, their current accommodation.
+
+A detailed explanation of the responsibilities of local authorities in this area is available from the DCLG website, [here](http://www.communities.gov.uk/housing/housingresearch/housingstatistics/housingstatisticsby/homelessnessstatistics/notesdefinitions/).
+
+A \"main homelessness duty\" is owed where the authority is satisfied that the applicant is eligible for assistance, unintentionally homeless and falls within a specified priority need group. Such statutorily homeless households are referred to as \"acceptances\".
+
+This dataset provides statistics on the numbers of households accepted as statutorily homeless and presented in terms of acceptances per 1000 households in each local authority area. The total number of acceptances is broken down further according to ethnicity in the related dataset, [Homelessness Acceptances](http://opendatacommunities.org/datasets/homelessness-acceptances).  
+
+At present, data is provided for the third quarter of 2011 (July to September).  Data for other time periods will be added in due course.
+
+The numbers are presented in terms of households, not individuals. A household is defined as: one person living alone, or a group of people living at the same address who share common housekeeping or a living room.
+
+This data was derived from Table 784a, available for download as an [Excel spreadsheet](http://www.communities.gov.uk/documents/statistics/xls/2102108.xls).""" ;
+      <http://purl.org/dc/terms/issued>
+                    "2012-03-21T11:39:06Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+      <http://purl.org/dc/terms/license>
+                    <http://www.nationalarchives.gov.uk/doc/open-government-licence/> ;
+      <http://purl.org/dc/terms/modified>
+                    "2012-03-21T11:42:19Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+      <http://purl.org/dc/terms/publisher>
+                    <http://reference.data.gov.uk/id/department/dclg> ;
+      <http://purl.org/dc/terms/references>
+                    <http://opendatacommunities.org/docs> ;
+      <http://purl.org/dc/terms/subject>
+                    <http://opendatacommunities.org/def/themes/concept/housing> ;
+      <http://purl.org/dc/terms/title>
+                    "Homelessness acceptances per 1000 households" ;
+      <http://rdfs.org/ns/void#dataDump>
+                    <http://opendatacommunities.org/data/homelessness-acceptances-per-1000/dump> ;
+      <http://rdfs.org/ns/void#sparqlEndpoint>
+                    <http://opendatacommunities.org/sparql> ;
+      <http://www.w3.org/ns/dcat#theme>
+                    <http://opendatacommunities.org/def/themes/concept/housing> .

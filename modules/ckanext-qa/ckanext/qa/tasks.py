@@ -8,13 +8,12 @@ import os
 import traceback
 
 import ckan.lib.celery_app as celery_app
-from ckanext.qa.datetimejson import DateTimeJsonEncoder
-from ckanext.qa.formats import Formats
+from ckan.plugins import toolkit
+import ckan.lib.helpers as ckan_helpers
 from ckanext.qa.sniff_format import sniff_file_format
+from ckanext.qa import lib
 from ckanext.archiver.model import Archival, Status
-from celery.utils.log import get_task_logger
 
-log = get_task_logger(__name__)
 
 class QAError(Exception):
     pass
@@ -63,6 +62,7 @@ def update_package(ckan_ini_filepath, package_id):
 
     Returns None
     """
+    log = update_package.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -78,7 +78,10 @@ def update_package(ckan_ini_filepath, package_id):
                      resource.url)
             save_qa_result(resource.id, qa_result, log)
             log.info('CKAN updated with openness score')
-        update_search_index(package.id, log)
+
+        # Refresh the index for this dataset, so that it contains the latest
+        # qa info
+        _update_search_index(package.id, log)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s', e.__class__.__name__,  unicode(e))
         raise
@@ -97,6 +100,7 @@ def update(ckan_ini_filepath, resource_id):
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
     """
+    log = update.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -109,12 +113,18 @@ def update(ckan_ini_filepath, resource_id):
                  resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
-        package = resource.package if resource.package else None
+
+        if toolkit.check_ckan_version(max_version='2.2.99'):
+            package = resource.resource_group.package
+        else:
+            package = resource.package
         if package:
-            update_search_index(package.id, log)
+            # Refresh the index for this dataset, so that it contains the latest
+            # qa info
+            _update_search_index(package.id, log)
         else:
             log.warning('Resource not connected to a package. Res: %r', resource)
-        return json.dumps(qa_result, cls=DateTimeJsonEncoder)
+        return json.dumps(qa_result) #, cls=DateTimeJsonEncoder)
     except Exception, e:
         log.error('Exception occurred during QA update: %s: %s',
                   e.__class__.__name__,  unicode(e))
@@ -130,6 +140,20 @@ def get_qa_format(resource_id):
     return q.format
 
 
+def format_get(key):
+    '''Returns a resource format, as defined in ckan.
+
+    :param key: format extension / mimetype / title e.g. 'CSV',
+                'application/msword', 'Word document'
+    :param key: string
+    :returns: format string
+    '''
+    format_tuple = ckan_helpers.resource_formats().get(key.lower())
+    if not format_tuple:
+        return
+    return format_tuple[1]  # short name
+
+
 def resource_score(resource, log):
     """
     Score resource on Sir Tim Berners-Lee\'s five stars of openness.
@@ -138,8 +162,8 @@ def resource_score(resource, log):
 
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
-        'format': format of the data (display_name string)
-        'archival_timestamp': time of the archival that this result is based on (datetime)
+        'format': format of the data (string)
+        'archival_timestamp': time of the archival that this result is based on (iso string)
 
     Raises QAError for reasonable errors
     """
@@ -185,17 +209,23 @@ def resource_score(resource, log):
     # It is important we do this check after the link check, otherwise
     # the link checker won't get the chance to see if the resource
     # is broken.
-    if score > 0 and not resource.package.isopen():
+    if toolkit.check_ckan_version(max_version='2.2.99'):
+        package = resource.resource_group.package
+    else:
+        package = resource.package
+    if score > 0 and not package.isopen():
         score_reason = 'License not open'
         score = 0
 
     log.info('Score: %s Reason: %s', score, score_reason)
 
+    archival_updated = archival.updated.isoformat() \
+        if archival and archival.updated else None
     result = {
         'openness_score': score,
         'openness_score_reason': score_reason,
         'format': format_,
-        'archival_timestamp': archival.updated if archival else None,
+        'archival_timestamp': archival_updated
     }
 
     return result
@@ -238,7 +268,7 @@ def score_if_link_broken(archival, resource, score_reasons, log):
     Return values:
       * Returns a tuple: (score, format_)
       * score is an integer or None if it cannot be determined
-      * format_ is the display_name or None
+      * format_ is a string or None
       * is_broken is a boolean
     '''
     if archival and archival.is_broken:
@@ -256,8 +286,8 @@ def score_by_sniffing_data(archival, resource, score_reasons, log):
     It adds strings to score_reasons list about how it came to the conclusion.
 
     Return values:
-      * It returns a tuple: (score, format_display_name)
-      * If it cannot work out the format then format_display_name is None
+      * It returns a tuple: (score, format_string)
+      * If it cannot work out the format then format_string is None
       * If it cannot score it, then score is None
     '''
     if not archival or not archival.cache_filepath:
@@ -271,9 +301,11 @@ def score_by_sniffing_data(archival, resource, score_reasons, log):
     else:
         if filepath:
             sniffed_format = sniff_file_format(filepath, log)
+            score = lib.resource_format_scores().get(sniffed_format['format']) \
+                if sniffed_format else None
             if sniffed_format:
-                score_reasons.append('Content of file appeared to be format "%s" which receives openness score: %s.' % (sniffed_format['display_name'], sniffed_format['openness']))
-                return sniffed_format['openness'], sniffed_format['display_name']
+                score_reasons.append('Content of file appeared to be format "%s" which receives openness score: %s.' % (sniffed_format['format'], score))
+                return score, sniffed_format['format']
             else:
                 score_reasons.append('The format of the file was not recognized from its contents.')
                 return (None, None)
@@ -300,21 +332,25 @@ def score_by_url_extension(resource, score_reasons, log):
     It adds strings to score_reasons list about how it came to the conclusion.
 
     Return values:
-      * It returns a tuple: (score, format_display_name)
-      * If it cannot work out the format then format_display_name is None
+      * It returns a tuple: (score, format_string)
+      * If it cannot work out the format then format is None
       * If it cannot score it, then score is None
     '''
-    formats_by_extension = Formats.by_extension()
     extension_variants_ = extension_variants(resource.url.strip())
     if not extension_variants_:
         score_reasons.append('Could not determine a file extension in the URL.')
         return (None, None)
     for extension in extension_variants_:
-        if extension.lower() in formats_by_extension:
-            format_ = Formats.by_extension().get(extension.lower())
-            score = format_['openness']
-            score_reasons.append('URL extension "%s" relates to format "%s" and receives score: %s.' % (extension, format_['display_name'], score))
-            return score, format_['display_name']
+        format_ = format_get(extension)
+        if format_:
+            score = lib.resource_format_scores().get(format_)
+            if score:
+                score_reasons.append('URL extension "%s" relates to format "%s" and receives score: %s.' % (extension, format_, score))
+                return score, format_
+            else:
+                score = 1
+                score_reasons.append('URL extension "%s" relates to format "%s" but a score for that format is not configured, so giving it default score %s.' % (extension, format_, score))
+                return score, format_
         score_reasons.append('URL extension "%s" is an unknown format.' % extension)
     return (None, None)
 
@@ -345,34 +381,37 @@ def score_by_format_field(resource, score_reasons, log):
     It adds strings to score_reasons list about how it came to the conclusion.
 
     Return values:
-      * It returns a tuple: (score, format_display_name)
-      * If it cannot work out the format then format_display_name is None
+      * It returns a tuple: (score, format_string)
+      * If it cannot work out the format then format_string is None
       * If it cannot score it, then score is None
     '''
     format_field = resource.format or ''
     if not format_field:
         score_reasons.append('Format field is blank.')
         return (None, None)
-    format_ = Formats.by_display_name().get(format_field) or \
-              Formats.by_extension().get(format_field.lower()) or \
-              Formats.by_reduced_name().get(Formats.reduce(format_field))
-    if not format_:
+    format_tuple = ckan_helpers.resource_formats().get(format_field.lower()) or \
+        ckan_helpers.resource_formats().get(lib.munge_format_to_be_canonical(format_field))
+    if not format_tuple:
         score_reasons.append('Format field "%s" does not correspond to a known format.' % format_field)
         return (None, None)
-    score = format_['openness']
-    score_reasons.append('Format field "%s" receives score: %s.' % \
+    score = lib.resource_format_scores().get(format_tuple[1])
+    score_reasons.append('Format field "%s" receives score: %s.' %
                          (format_field, score))
-    return (score, format_['display_name'])
+    return (score, format_tuple[1])
 
 
-def update_search_index(package_id, log):
+def _update_search_index(package_id, log):
     '''
     Tells CKAN to update its search index for a given package.
     '''
     from ckan import model
-    from ckan.logic import get_action
-    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session}
-    get_action('search_index_update')(context_, {'id': package_id})
+    from ckan.lib.search.index import PackageSearchIndex
+    package_index = PackageSearchIndex()
+    context_ = {'model': model, 'ignore_auth': True, 'session': model.Session,
+                'use_cache': False, 'validate': False}
+    package = toolkit.get_action('package_show')(context_, {'id': package_id})
+    package_index.index_package(package, defer_commit=False)
+    log.info('Search indexed %s', package['name'])
 
 
 def save_qa_result(resource_id, qa_result, log):
@@ -399,4 +438,3 @@ def save_qa_result(resource_id, qa_result, log):
     model.Session.commit()
 
     log.info('QA results updated ok')
-
