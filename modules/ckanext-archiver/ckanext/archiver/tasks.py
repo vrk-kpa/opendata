@@ -80,7 +80,7 @@ class CkanError(ArchiverError):
 
 
 @celery.task(name="archiver.update")
-def update(ckan_ini_filepath, resource_id, queue='bulk'):
+def update(ckan_ini_filepath, resource_id, queue):
     '''
     Archive a resource.
     '''
@@ -391,12 +391,40 @@ def notify(resource, queue, cache_filepath):
                                         cache_filepath=cache_filepath)
 
 
+def notify_package(package, queue, cache_filepath):
+    '''
+    Broadcasts an IPipe notification that a package archival has taken place
+    (or at least the archival object is changed somehow). e.g.
+    ckanext-packagezip listens for this
+    '''
+    archiver_interfaces.IPipe.send_data('package-archived',
+                                        package_id=package['id'],
+                                        queue=queue,
+                                        cache_filepath=cache_filepath)
+
+
+def get_plugins_waiting_on_ipipe():
+    return [observer.name for observer in
+            p.PluginImplementations(archiver_interfaces.IPipe)]
+
+
 def _clean_content_type(ct):
     # For now we should remove the charset from the content type and
     # handle it better, differently, later on.
     if 'charset' in ct:
         return ct[:ct.index(';')]
     return ct
+
+
+def _set_user_agent_string(headers):
+    '''
+    Update the passed headers object with a `User-Agent` key, if there is a
+    USER_AGENT_STRING option in settings.
+    '''
+    ua_str = settings.USER_AGENT_STRING
+    if ua_str is not None:
+        headers['User-Agent'] = ua_str
+    return headers
 
 
 def tidy_url(url):

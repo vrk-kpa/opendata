@@ -1,57 +1,40 @@
 import logging
-import os
+import types
 
 import ckan.model as model
 import ckan.plugins as p
-from ckan.lib.celery_app import celery
-from ckan.model.types import make_uuid
 
 from ckanext.archiver.interfaces import IPipe
+from ckanext.qa.logic import action, auth
+from ckanext.qa.model import QA, aggregate_qa_for_a_dataset
+from ckanext.qa import helpers
+from ckanext.qa import lib
 from ckanext.report.interfaces import IReport
 
 
 log = logging.getLogger(__name__)
 
 
-class QAPlugin(p.SingletonPlugin):
-
+class QAPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(IPipe, inherit=True)
+    p.implements(IReport)
     p.implements(p.IActions)
     p.implements(p.IAuthFunctions)
-    p.implements(IReport)
+    p.implements(p.ITemplateHelpers)
+    p.implements(p.IPackageController, inherit=True)
 
     # IConfigurer
 
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
-        # Update config gets called before the IRoutes methods
-        self.root_dir = config.get('ckanext.qa.url_root', '') # deprecated
 
     # IRoutes
 
     def before_map(self, map):
-        # Redirect from some old URLs
-        map.redirect('%s/qa' % self.root_dir,
-                     '/data/report')
-        map.redirect('%s/qa/dataset/{a:.*}' % self.root_dir,
-                     '/data/report')
-        map.redirect('%s/qa/organisation/{a:.*}' % self.root_dir,
-                     '/data/report')
-        map.redirect('/api/2/util/qa/{a:.*}',
-                     '/data/report')
-        map.redirect('%s/qa/organisation/broken_resource_links' % self.root_dir,
-                     '/data/report/broken-links')
-        map.redirect('%s/qa/organisation/broken_resource_links/:organization' % self.root_dir,
-                     '/data/report/broken-links/:organization')
-        map.redirect('%s/qa/organisation/scores' % self.root_dir,
-                     '/data/report/openness')
-        map.redirect('%s/qa/organisation/scores/:organization' % self.root_dir,
-                     '/data/report/openness/:organization')
-
-        # Link checker
-        res = 'ckanext.qa.controllers.qa_resource:QAResourceController'
+        # Link checker - deprecated
+        res = 'ckanext.qa.controllers:LinkCheckerController'
         map.connect('qa_resource_checklink', '/qa/link_checker',
                     conditions=dict(method=['GET']),
                     controller=res,
@@ -62,38 +45,18 @@ class QAPlugin(p.SingletonPlugin):
     # IPipe
 
     def receive_data(self, operation, queue, **params):
-        '''Receive notification from ckan-archiver that a resource has been archived.'''
+
+        '''Receive notification from ckan-archiver that a resource has been
+        archived.
+        '''
         if not operation == 'archived':
             return
         resource_id = params['resource_id']
-        #cache_filepath = params['cached_filepath']
 
         resource = model.Resource.get(resource_id)
         assert resource
 
-        create_qa_update_task(resource, queue=queue)
-
-    # IActions
-
-    def get_actions(self):
-        from ckanext.qa import logic_action as logic
-        return {
-            'search_index_update': logic.search_index_update,
-            'qa_resource_show': logic.qa_resource_show,
-            'qa_package_broken_show': logic.qa_package_broken_show,
-            'qa_package_openness_show': logic.qa_package_openness_show,
-            }
-
-    # IAuthFunctions
-
-    def get_auth_functions(self):
-        from ckanext.qa import logic_auth as logic
-        return {
-            'search_index_update': logic.search_index_update,
-            'qa_resource_show': logic.qa_resource_show,
-            'qa_package_broken_show': logic.qa_package_broken_show,
-            'qa_package_openness_show': logic.qa_package_openness_show,
-            }
+        lib.create_qa_update_task(resource, queue=queue)
 
     # IReport
 
@@ -102,21 +65,50 @@ class QAPlugin(p.SingletonPlugin):
         from ckanext.qa import reports
         return [reports.openness_report_info]
 
+    # IActions
 
-def create_qa_update_package_task(package, queue):
-    from pylons import config
-    task_id = '%s-%s' % (package.name, make_uuid()[:4])
-    ckan_ini_filepath = os.path.abspath(config.__file__)
-    celery.send_task('qa.update_package', args=[ckan_ini_filepath, package.id],
-                     task_id=task_id, queue=queue)
-    log.debug('QA of package put into celery queue %s: %s', queue, package.name)
+    def get_actions(self):
+        return get_functions(action)
+
+    # IAuthFunctions
+
+    def get_auth_functions(self):
+        return get_functions(auth)
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        return get_functions(helpers)
+
+    # IPackageController
+
+    def after_show(self, context, pkg_dict):
+        # Insert the qa info into the package_dict so that it is
+        # available on the API.
+        # When you edit the dataset, these values will not show in the form,
+        # it they will be saved in the resources (not the dataset). I can't see
+        # and easy way to stop this, but I think it is harmless. It will get
+        # overwritten here when output again.
+        qa_objs = QA.get_for_package(pkg_dict['id'])
+        if not qa_objs:
+            return
+        # dataset
+        dataset_qa = aggregate_qa_for_a_dataset(qa_objs)
+        pkg_dict['qa'] = dataset_qa
+        # resources
+        qa_by_res_id = dict((a.resource_id, a) for a in qa_objs)
+        for res in pkg_dict['resources']:
+            qa = qa_by_res_id.get(res['id'])
+            if qa:
+                qa_dict = qa.as_dict()
+                del qa_dict['id']
+                del qa_dict['package_id']
+                del qa_dict['resource_id']
+                res['qa'] = qa_dict
 
 
-def create_qa_update_task(resource, queue):
-    from pylons import config
-    package = resource.package
-    task_id = '%s/%s/%s' % (package.name, resource.id[:4], make_uuid()[:4])
-    ckan_ini_filepath = os.path.abspath(config.__file__)
-    celery.send_task('qa.update', args=[ckan_ini_filepath, resource.id],
-                     task_id=task_id, queue=queue)
-    log.debug('QA of resource put into celery queue %s: %s/%s url=%r', queue, package.name, resource.id, resource.url)
+def get_functions(module):
+    return dict((name, function) for name, function
+                in module.__dict__.items()
+                if isinstance(function, types.FunctionType)
+                and name[0] != '_')

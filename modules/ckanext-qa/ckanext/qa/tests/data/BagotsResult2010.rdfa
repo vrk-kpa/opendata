@@ -1,0 +1,525 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11842860-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+ var INIT_SZ, MAX, MIN;
+ var init = function() {
+ 	MAX = 24;
+ 	MIN = 12;
+ 	var elem = document.getElementsByTagName('body');
+ 	elem[0].style.fontSize = 16;  
+    }
+ var enlarge = function() {    
+    var elem = document.getElementsByTagName('body');
+    var size = parseInt(elem[0].style.fontSize.replace("px", ""));
+     
+ if(size < MAX) {
+    elem[0].style.fontSize = (size + 1) + "px";
+        }
+    }
+    
+ var shrink = function() {    
+    var elem = document.getElementsByTagName('body');
+    var size = parseInt(elem[0].style.fontSize.replace("px", ""));
+    
+    if(size > MIN) {
+    elem[0].style.fontSize = (size - 1) + "px";
+        }
+    }
+</script>
+    <!-- include jQuery library -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<!-- include Cycle plugin -->
+<script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js"></script>
+<script type="text/javascript" src="http://www.eaststaffsbc.gov.uk/Style Library/ESBC.js"></script>
+<script type="text/javascript"> 
+$(document).ready(function() {
+    $('.slideshow_1').cycle({
+  speed:'800', fx: 'fade',timeout:'7000'  });
+});
+$(document).ready(function() {
+ $('.slideshow_2').cycle({
+  speed:'800', fx: 'fade',timeout:'6984' });
+});
+</script>
+<script type="text/javascript">
+document.title = 'Bagots Result 2010';
+</script>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en'
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript">if(typeof(MSOLayout_MakeInvisibleIfEmpty) == "function") {MSOLayout_MakeInvisibleIfEmpty();}</script>
+<script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+	<meta name="GENERATOR" content="Microsoft SharePoint" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta http-equiv="Expires" content="0" /><title>
+	
+	Bagots Result 2010
+
+</title><link rel="stylesheet" type="text/css" href="/Style%20Library/bluemenu.css"/>
+<link rel="stylesheet" type="text/css" href="/Style%20Library/en-US/Core%20Styles/ESBC_controls.css"/>
+<link rel="stylesheet" type="text/css" href="/Style%20Library/en-US/Core%20Styles/ESBC_Tabs.css"/>
+<link rel="stylesheet" type="text/css" href="/_layouts/1033/styles/HtmlEditorCustomStyles.css?rev=8SKxtNx33FmoDhbbfB27UA%3D%3D"/>
+<link rel="stylesheet" type="text/css" href="/_layouts/1033/styles/HtmlEditorTableFormats.css?rev=guYGdUBUxQit03E2jhSdvA%3D%3D"/>
+<link rel="stylesheet" type="text/css" href="/Style%20Library/zz1_ESBC.css"/>
+<link rel="stylesheet" type="text/css" href="/_layouts/1033/styles/core.css?rev=5msmprmeONfN6lJ3wtbAlA%3D%3D"/>
+<link rel="stylesheet" type="text/css" href="/Style%20Library/ESBC_CORE.CSS"/>
+
+	<!--Styles used for positioning, font and spacing definitions-->
+	<script type="text/javascript" language="javascript" src="/_layouts/1033/init.js?rev=qX%2BG3yl4pldKy9KbPLXf9w%3D%3D"></script>
+<script type="text/javascript" language="javascript" src="/_layouts/1033/search.js?rev=yqBjpvg%2Foi3KG5XVf%2FStmA%3D%3D"></script>
+<script type="text/javascript" language="javascript" src="/_layouts/1033/core.js?rev=CNBZRdV1h3pKuA7LsMXf3w%3D%3D"></script>
+<script type="text/javascript" language="javascript" src="/_layouts/1033/non_ie.js?rev=yfNry4hY0Gwa%2FPDNGrqXVg%3D%3D"></script>
+
+	<!--Placeholder for additional overrides-->
+	  
+	<style type="text/css">
+.style2 {
+	text-align: center;
+}
+.style7 {
+	margin-right: 9px;
+}
+</style>
+
+</head>
+
+<body onload="javascript:_spBodyOnLoadWrapper(); init();" style="background-attachment:fixed; background-repeat:repeat-x; background-image:url('/SiteCollectionImages/webbg.png')">
+	<form name="aspnetForm" method="post" action="BagotsResult2010.aspx" id="aspnetForm" class="style7">
+<input type="hidden" name="__SPSCEditMenu" id="__SPSCEditMenu" value="true" />
+<input type="hidden" name="MSOWebPartPage_PostbackSource" id="MSOWebPartPage_PostbackSource" value="" />
+<input type="hidden" name="MSOTlPn_SelectedWpId" id="MSOTlPn_SelectedWpId" value="" />
+<input type="hidden" name="MSOTlPn_View" id="MSOTlPn_View" value="0" />
+<input type="hidden" name="MSOTlPn_ShowSettings" id="MSOTlPn_ShowSettings" value="False" />
+<input type="hidden" name="MSOGallery_SelectedLibrary" id="MSOGallery_SelectedLibrary" value="" />
+<input type="hidden" name="MSOGallery_FilterString" id="MSOGallery_FilterString" value="" />
+<input type="hidden" name="MSOTlPn_Button" id="MSOTlPn_Button" value="none" />
+<input type="hidden" name="__REQUESTDIGEST" id="__REQUESTDIGEST" value="0x15480C427986D81ED73025E1EA434BC1F1D46A22E702C5FFAC1DEF2982BACCAD2C538DDDDD2B8ED3B4DF1D6C5CD1DD1A8B4557001E874C35941AC62937992B42,28 Sep 2012 14:16:02 -0000" />
+<input type="hidden" name="MSOAuthoringConsole_FormContext" id="MSOAuthoringConsole_FormContext" value="" />
+<input type="hidden" name="MSOAC_EditDuringWorkflow" id="MSOAC_EditDuringWorkflow" value="" />
+<input type="hidden" name="MSOSPWebPartManager_DisplayModeName" id="MSOSPWebPartManager_DisplayModeName" value="Browse" />
+<input type="hidden" name="MSOWebPartPage_Shared" id="MSOWebPartPage_Shared" value="" />
+<input type="hidden" name="MSOLayout_LayoutChanges" id="MSOLayout_LayoutChanges" value="" />
+<input type="hidden" name="MSOLayout_InDesignMode" id="MSOLayout_InDesignMode" value="" />
+<input type="hidden" name="MSOSPWebPartManager_OldDisplayModeName" id="MSOSPWebPartManager_OldDisplayModeName" value="Browse" />
+<input type="hidden" name="MSOSPWebPartManager_StartWebPartEditingName" id="MSOSPWebPartManager_StartWebPartEditingName" value="false" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUBMA9kFgJmD2QWBAICD2QWAgIHD2QWAmYPZBYCAgEPFgIeE1ByZXZpb3VzQ29udHJvbE1vZGULKYgBTWljcm9zb2Z0LlNoYXJlUG9pbnQuV2ViQ29udHJvbHMuU1BDb250cm9sTW9kZSwgTWljcm9zb2Z0LlNoYXJlUG9pbnQsIFZlcnNpb249MTIuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NzFlOWJjZTExMWU5NDI5YwFkAgQPZBYOAgYPZBYCAgEPZBYCAgEPFgIeB1Zpc2libGVoFgJmD2QWBAICD2QWAgIDDxYCHwFoZAIDDw8WAh4JQWNjZXNzS2V5BQEvZGQCCA9kFgJmD2QWAgIDDw8WAh8BZxYCHgVzdHlsZQUOZGlzcGxheTpibG9jaztkAgoPZBYCAgMPZBYCAgEPDxYCHwFnZBYEAgEPDxYCHwFoZBYcAgEPDxYCHwFoZGQCAw8WAh8BaGQCBQ8PFgIfAWhkZAIHDxYCHwFoZAIJDw8WAh8BaGRkAgsPDxYCHwFoZGQCDQ8PFgIfAWhkZAIPDw8WBB4HRW5hYmxlZGgfAWhkZAIRDw8WAh8BaGRkAhMPDxYEHwRoHwFoZGQCFQ8PFgIfAWhkZAIXDxYCHwFoZAIZDxYCHwFoZAIbDw8WAh8BZ2RkAgMPDxYCHwFnZBYGAgEPDxYCHwFnZGQCAw8PFgYeGHBlcnNpc3RlZEVycm9yQWN0aW9uVHJlZWQeG3BlcnNpc3RlZEVycm9yQWN0aW9uVHJlZUlkc2QfAWdkZAIFDw8WAh8BZ2RkAgwPZBYCAgEPZBYCZg9kFgJmDw9kFgIeBWNsYXNzBRhtcy1zYnRhYmxlIG1zLXNidGFibGUtZXhkAg4PZBYCZg8PZBYCHwcFGG1zLXNidGFibGUgbXMtc2J0YWJsZS1leGQCHg9kFgICAQ9kFgJmDw8WAh8BaGRkAh8PZBYSAgEPFgIfAAsrBAFkAgMPZBYCZg8PFgIfAWhkZAIFD2QWAmYPDxYCHwFoZGQCBw9kFgJmDw8WAh8BaGRkAgkPZBYCZg8PFgIfAWhkZAILD2QWAmYPDxYCHwFoZGQCDQ9kFgJmDw8WAh8BaGRkAg8PZBYCZg8PFgIfAWhkZAIRD2QWAmYPDxYCHwFoZGRkb3HdXYqGRYsYb1rKlfl5cQIShww=" />
+
+<script> var MSOWebPartPageFormName = 'aspnetForm';</script>
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAwKc17qaCALB6rXIBQKey+PaBT+fDVODpWaYU4C489Od5QWY14u/" />
+	<br/><br/>
+	<table cellpadding="0" cellspacing="0" class="master" style="width: 990px">
+	
+	<tr>
+	<td><img src="/SiteCollectionImages/tl.bmp" alt=""/></td>
+	<td></td>
+	<td><img src="/SiteCollectionImages/tr.bmp" alt=""/></td>
+	</tr>
+		<tr>
+		<td>&nbsp;</td>
+			<td valign="top">
+				<table cellpadding="0" cellspacing="0" width="100%" class="masterContent">
+				<tr style="height:0px"><td style="width: 235px">
+					
+</td></tr>
+				<tr>
+					<td colspan="2" class="authoringRegion">
+					
+						<div class="sharepointLogin">
+						<!--Authentication for Authors only-->
+							<table cellpadding="0" cellspacing="0" >
+								<tr>
+									<td class="ms-globallinks">
+									
+
+</td>
+								</tr>
+							</table>
+						</div>
+						<div class="console">
+							
+<!-- Console -->
+<span id="ctl00_ctl18_publishingContext1"></span>
+
+<!-- Console -->
+
+						</div>
+					</td>
+					
+				
+		</tr> <tr>
+					<td colspan="2" style="height: 83px; text-decoration: none; border=0">
+						<table cellpadding="0" cellspacing="0" width="100%" border="0">
+							<tr>
+								<td>
+<a href="http://www.eaststaffsbc.gov.uk/"><img src="/SiteCollectionImages/ESBC%20Colour%20JPG.bmp" alt="Back to ESBC Homepage"/></a>
+									
+								</td>
+								<td style="background: url(/SiteCollectionImages/header.jpg)">
+									<table><tr>
+									
+										<td style="width: 80%">&nbsp;</td>
+										<td> 
+											
+											<div id="searchLayout">
+    <div id="SRSB"> <div id="ctl00_SearchBox">
+	<table class="ms-sbtable ms-sbtable-ex" border="0">
+		<tr class="ms-sbrow">
+			<td class="ms-sbcell"><input name="ctl00$SearchBox$S6F789EBA_InputKeywords" type="text" value="Please enter your search" maxlength="200" id="ctl00_SearchBox_S6F789EBA_InputKeywords" accesskey="S" title="Enter search words" class="ms-sbplain" alt="Enter search words" onkeypress="javascript:return S6F789EBA_OSBEK(event);" onfocus="if (document.getElementById('ctl00_SearchBox_ctl03').value =='0') {this.value=''; document.getElementById('ctl00_SearchBox_ctl03').value=1;}" onblur="if (this.value =='') {this.value='Please enter your search';document.getElementById('ctl00_SearchBox_ctl03').value = '0'} else {document.getElementById('ctl00_SearchBox_ctl03').value='1';}" style="width:175px;" /></td><td class="ms-sbgo ms-sbcell"><a id="ctl00_SearchBox_S6F789EBA_go" title="Go Search" href="javascript:S6F789EBA_Submit()"><img title="Go Search" onmouseover="this.src='/images/searchgo1.bmp'" onmouseout="this.src='/images/searchgo1.bmp'" alt="Go Search" src="/images/searchgo1.bmp" border="0" /></a></td><td class="ms-sbLastcell"></td>
+		</tr>
+	</table><input name="ctl00$SearchBox$ctl03" type="hidden" id="ctl00_SearchBox_ctl03" value="0" />
+</div></div>
+</div>
+
+											</td>
+										</tr></table>
+											
+								</td>
+							</tr>
+							<tr>
+							<td colspan="2">
+							
+<table border="0" cellspacing="0" cellpadding="5" width="100%">
+<tr>
+<td style="background-color:#002a54; width: 52%;" valign="middle"><font face="TAHOMA" size="2.1em" color="white"><a accesskey="h" href="http://www.eaststaffsbc.gov.uk/"><font color="white">Home</font></a> | <a href="/pages/accessibility.aspx"><font color="white">Accessibility</font></a> | <a href="/pages/sitemap.aspx"><font color="white">Sitemap</font></a> 
+ | <a accesskey="8" href="/pages/contactus.aspx"><font color="white">Contact Us</font></a> | <a href="/Pages/Cookies.aspx"><font color="white">Cookies</font></a> | <a href="/pages/findmycouncillor.aspx"><font color="white">Find My Councillor</font></a> | <a accesskey="7" href="/Maps"> <font color="white">Find My Nearest</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:shrink();"><img src="/SiteCollectionImages/font-dec.jpg" alt="Decrease Font Size"/></a>
+<a href="javascript:enlarge();"><img src="/SiteCollectionImages/font-inc.jpg" alt="Increase Font Size"/></a>&nbsp; | &nbsp; <img src="/SiteCollectionImages/thunderlogo.jpg" alt="Thunder Screen Reader"/> <a href="http://download.webbie.org.uk/Thunder/ThunderScreenreader2-Installer.exe"><font color="white">Listen to this website</font></a> </font></td>
+
+				
+										
+											
+										
+
+</tr></table>							</td></tr>
+							
+							
+						</table>
+						
+						<div class="topNav2" style="width: 100%">
+						
+							<table border="0" style="width: 99%; height: 100%">
+						
+							
+<tr>
+<td align="center" style="width:195px;"><font color="white">A - Z of Council Services </font>&nbsp;</td>
+
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=A">A</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=B">B</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=C">C</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=D">D</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=E">E</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=F">F</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=G">G</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=H">H</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=I">I</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=J">J</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=K">K</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=L">L</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=M">M</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=N">N</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=O">O</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=P">P</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=Q">Q</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=R">R</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=S">S</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=T">T</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=U">U</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=V">V</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=W">W</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=X">X</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=Y">Y</a></td><td> | </td>
+<td><a href="/Services/Pages/Default.aspx?&amp;FilterField1=Filter&amp;FilterValue1=Z">Z</a></td><td> | </td><td><a href="/Services/Pages/Default.aspx">All Services</a></td>
+</tr>
+</table>
+						</div>
+					</td>
+				</tr> <!-- Last Edited </TR> tag 12:03 -->
+						<tr>
+						<td align="left"  class="bottomLinkBar1" style="height: 22px" colspan="2">&nbsp;&nbsp; Welcome to: 
+											<span id="ctl00_siteMapPath1"><font color="Black"><a href="#ctl00_siteMapPath1_SkipLink"><img alt="Skip Breadcrumb" height="0" width="0" src="/WebResource.axd?d=vBM2TABGN7fN-8Wg3kML8DlKciAQTHn5GMFMTXQMdLZpSV_k6bfTBk4S18lvJ1FvoyRQ2BaSHTyGLsYCS_JmujlUd4g1&amp;t=634777614762648750" border="0" /></a><span><a class="breadcrumbCKB" href="/Pages/Default.aspx">East Staffordshire Borough Council: Homepage</a></span><span> &gt; </span><span><a class="breadcrumbCKB" href="/SERVICES/Pages/Default.aspx">A - Z of Services</a></span><span> &gt; </span><span><a class="breadcrumbCKB" href="/Services/Elections/Pages/default.aspx">Elections</a></span><span> &gt; </span><span><a class="breadcrumbCurrentCKB" href="/Services/Elections/Pages/BagotsResult2010.aspx">Bagots Result 2010</a></span><a id="ctl00_siteMapPath1_SkipLink"></a></font></span>
+
+										</td>
+						</tr>
+				<tr>
+					<td valign="top" class="style2" style="width: 232px">
+
+						
+							
+
+						
+						
+								<!-- Current Navigation -->
+<table cellspacing="1" cellpadding="4">
+	
+	
+	
+	<tr>
+		<td id="MSOZoneCell_WebPartWPQ19" vAlign="top" align="left"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="width:211px">
+			<tr>
+				<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+					<td><div id="main">
+<div class="leftnav">
+			<h2><a href="/Services/Elections/Pages/default.aspx">Elections</a></h2>
+			<ul class="listnone">
+				<li><a href="/Services/Elections/Pages/BecomeACouncillor.aspx">Become a Councillor</a></li>
+				<li><a href="/Services/Elections/Pages/ElectoralRegister.aspx">Register to Vote</a></li>
+				<li><a href="/Services/Elections/PCCElections/Pages/default.aspx">PCC Elections</a></li>
+				<li><a href="/Services/Elections/Pages/PollingStations.aspx">Polling Stations</a></li>
+				<li><a href="/Services/Elections/Pages/ProxyandPostalVotes.aspx">Proxy and Postal Votes</a></li>
+				<li><a href="/Services/Elections/Pages/results.aspx">Publication of Results</a></li>
+				<li><a href="/Services/Elections/Pages/Voting.aspx">Voting</a></li>				
+				<li><a href="/Services/Elections/Pages/YoungPersons.aspx">Young Voters Guide</a></li>
+			</ul>
+			<br/>
+			<h2 class="followustitle"><a href="http://www.eaststaffsbc.gov.uk/Services/Pages/SocialMedia.aspx">Why Follow Us</a> </h2><br/>
+			<div class="followus"> 
+			<a href="http://twitter.com/eaststaffsbc"><img class="twitter" src="http://www.eaststaffsbc.gov.uk/SiteCollectionImages/twitter%20logo.jpg" alt="Follow us on Twitter"/></a>
+			</div>
+			<br/><br/>
+			<a href="http://www.facebook.com/home.php?#!/pages/Burton-upon-Trent-United-Kingdom/East-Staffordshire-Borough-Council/206454353634?ref=ts&amp;ajaxpipe=1&amp;_a=15"><img class="facebook" src="http://www.eaststaffsbc.gov.uk/SiteCollectionImages/facebook.jpg" alt="Follow us on Facebook"/></a> <br/><br/>
+			<a href="http://www.youfind.me.uk"><img src="http://www.eaststaffsbc.gov.uk/SiteCollectionImages/YouFind.jpg" alt="You Find me - Activities for Young People"/></a>
+			</div>
+			<br/>	
+</div>
+</td>
+</tr>
+</table></td>
+			</tr>
+				</table></td>
+			</tr></table>
+							
+
+			
+
+							
+						
+						<div class="style3">
+						
+						
+												
+						</div>
+						
+							
+						
+					</td>
+					<td valign="top" width="800px">
+						
+							
+								
+	
+
+		<table cellpadding="4" cellspacing="0" border="0" width="100%">
+				<tr>
+				    <td class="ESBC_CEWP_TD2" valign="top" style="padding:0" colspan="3">
+				        <div id="ctl00_PlaceHolderMain_PageContent__ControlWrapper_RichHtmlField" style="display:inline"></div>
+				    </td>
+				</tr>
+				<tr>
+					<td valign="top" style="padding:0; overflow: hidden;">
+						<table class="ESBC_CEWP_Table" cellpadding="4" cellspacing="0" border="0" width="100%">
+							<tr>
+								<td colspan="3" valign="top"> 
+								<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td id="MSOZoneCell_WebPartWPQ3" vAlign="top"><table TOPLEVEL border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td valign="top"><div WebPartID="28c6b19c-c4c8-45aa-8ff9-b0dd79d673a4" HasPers="false" id="WebPartWPQ3" width="100%" class="ms-WPBody" allowDelete="false" style="" ><?XML:NAMESPACE PREFIX = ASP /><ASP:LITERAL runat="server">
+<link rel=StyleSheet href="http://www.eaststaffsbc.gov.uk/Style Library/elections_result.css" type="text/css">
+<DIV id=electionMainContent xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:v="http://www.w3.org/2006/vcard/ns# " xmlns:cal="http://www.w3.org/2002/12/cal#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:openelection="http://openelectiondata.org/0.1/">
+<DIV id=content typeof="openelection:Poll" about="http://openelectiondata.org/id/polls/41UCGE/2010-05-06/member">
+<H1 rel="openelection:electionArea">2010 Election Results for <SPAN about="http://statistics.data.gov.uk/id/local-authority-ward/41UCGE">Bagots Ward</SPAN></H1>
+<P><STRONG>Election date:</STRONG> <SPAN content="2010-05-06" property="cal:dtstart" datatype="xsd:date">May 6, 2010</SPAN></P>
+<P><STRONG>Electorate:</STRONG> <SPAN property="openelection:electorate" datatype="xsd:integer"> 2125</SPAN></P>
+<P><STRONG>Ballot Papers Issued: </STRONG><SPAN property="openelection:ballotsIssued" datatype="xsd:integer"> 1606 </SPAN></P>
+<P><STRONG>Rejected Ballot Papers: </STRONG><SPAN property="openelection:rejectedBallots" datatype="xsd:integer"> 12 </SPAN></P>
+<P><STRONG>Turnout:</STRONG><SPAN class=odd>75.58%</SPAN></P>
+<TABLE width="90%" summary="2010 By-Election Results for Bagots Ward" border=0>
+<TBODY>
+<TR class=header>
+<TH class=header scope=col>Candidate's Name </TH>
+<TH class=header scope=col>Party</TH>
+<TH class=header scope=col>Votes</TH>
+<TH class=header scope=col>Percentage of Electorate </TH>
+<TH class=header scope=col>Elected? </TH></TR>
+<TR rel="openelection:candidacy">
+<TH class=odd scope=row rel="openelection:candidate"><SPAN property="foaf:givenName">Charles Dean</SPAN><SPAN property="foaf:familyName"> Young</SPAN> </TH>
+<TD class=odd rel="openelection:party" resource="http://openelectiondata.org/id/parties/26"><SPAN property="rdfs:label">Liberal Democrats</SPAN></TD>
+<TD class=odd property="openelection:candidateVoteCount" datatype="xsd:integer">414</TD>
+<TD class=odd>19.48%</TD>
+<TD class=odd content="false" property="openelection:elected" datatype="xsd:boolean">No</TD></TR>
+<TR rel="openelection:candidacy">
+<TH class=even scope=row rel="openelection:candidate"><SPAN property="foaf:givenName">Greg </SPAN><SPAN property="foaf:familyName">Hall </SPAN> </TH>
+<TD class=even rel="openelection:party" resource="http://openelectiondata.org/id/parties/25"><SPAN property="rdfs:label">Conservative</SPAN></TD>
+<TD class=even property="openelection:candidateVoteCount" datatype="xsd:integer">1177</TD>
+<TD class=even>55.38%</TD>
+<TD class=odd content="true" property="openelection:elected" datatype="xsd:boolean">Yes</TD></TR></TBODY></TABLE>
+<H3>Duly Elected:</H3>
+<P> Gregory William Hall (Conservative) </P>
+<P rel="foaf:isPrimaryTopicOf" resource="#content" rev="foaf:primaryTopic">Licence for election data: <A href="http://creativecommons.org/publicdomain/zero/1.0/" rel=license>Creative Commons CC0 1.0 Universal</A></P></DIV></DIV>
+</ASP:LITERAL></div></td>
+			</tr>
+		</table></td>
+	</tr>
+</table> </td>
+							</tr>
+							<tr>
+								<td class="ESBC_CEWP_TD2" colspan="3" valign="top" style="padding:0">
+									<table class="ESBC_CEWP_Table" cellpadding="4" cellspacing="0" width="100%">
+										<tr>
+											<td valign="top"> 
+											<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td id="MSOZoneCell_WebPartWPQ4" vAlign="top"><table TOPLEVEL border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td valign="top"><div WebPartID="7ec99783-5c8b-47ae-be13-696d1f2f52b4" HasPers="false" id="WebPartWPQ4" width="100%" class="ms-WPBody" allowDelete="false" style="" ><IMG style="BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid; BORDER-BOTTOM: 0px solid" alt="Open Election Data" src="http://www.eaststaffsbc.gov.uk/SiteCollectionImages/openelection.png" border=0></div></td>
+			</tr>
+		</table></td>
+	</tr>
+</table> </td>
+									                                        <td valign="top"> 
+																			 </td>
+										</tr>
+									</table>
+								</td>
+							</tr>							<tr>
+								<td class="ESBC_CEWP_TD1" valign="top"> 
+								 </td>
+								<td class="ESBC_CEWP_TD1" valign="top"> 
+								 </td>
+								<td class="ESBC_CEWP_TD1" valign="top"> 
+								 </td>
+							</tr>
+							<tr>
+								<td colspan="3" valign="top"> 
+								 </td>
+							</tr>
+						</table>
+					</td>
+					<td class="ESBC_CEWP_TD1" valign="top"> 
+					 </td>
+				</tr>
+				
+		</table>
+</td>
+				</tr>
+				
+			</table>
+			
+		</td>
+		
+	</tr>
+	</table>
+	<table cellspacing="0" cellpadding="0" width="943px" style="margin-right: auto; margin-left: auto;">
+	<tr>
+	<td style="height: 3px;">
+	
+	</td>
+	</tr>
+	<tr>
+	<td align="center">
+	<table width="990px" class="ms-WPBody">
+	<tr>
+	<td class="ms-WPBody" align="center"> <h2> Website Feedback </h2></td>
+	</tr>
+	<tr>
+	<td align="center" class="ms-WPBody"> <a href="http://www.eaststaffsbc.gov.uk/_layouts/FormServer.aspx?XsnLocation=/Services%20Forms/Positive.xsn&amp;OpenIn=browser"><img src="http://www.eaststaffsbc.gov.uk/PublishingImages/thumbsup.jpg" alt="Give a positive website rating"/></a>
+    <a href="http://www.eaststaffsbc.gov.uk/_layouts/FormServer.aspx?XsnLocation=/Services%20Forms/Average.xsn&amp;OpenIn=browser"><img src="http://www.eaststaffsbc.gov.uk/PublishingImages/thumbslevel.jpg" alt="Give an average website rating"/></a>
+	<a href="http://www.eaststaffsbc.gov.uk/_layouts/FormServer.aspx?XsnLocation=/Services%20Forms/Poor.xsn&amp;OpenIn=browser"><img src="http://www.eaststaffsbc.gov.uk/PublishingImages/thumbsdown.jpg" alt="Give a negative website rating"/></a> </td>
+	</tr>
+	</table>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td align="center" class="ms-WPBody">
+East Staffordshire Borough Council, The Maltsters, Wetmore Road, Burton upon Trent, DE14 1LS
+<br/>
+				Telephone: 01283 508 000, 9:00am - 5:00pm Monday to Friday <br/>
+				
+			
+			© 2008 East Staffordshire Borough Council <br/><br/>
+			<a href="http://www.w3.org/WAI/WCAG1AA-Conformance">
+			<img alt="Valid XHTML 1.0!" src="/SiteCollectionImages/w3cxhtml.jpg"/></a> <a href="http://jigsaw.w3.org/css-validator/"><img src="/SiteCollectionImages/w3ccss.JPG" alt="W3C CSS Checker"/></a> <a href="http://www.direct.gov.uk"><img src="/SiteCollectionImages/dg.gif" alt="Link to DirectGov Website"/></a>
+			<a href="http://www.disabledgo.com/en/org/east-staffordshire-borough-council"><img src="http://www.eaststaffsbc.gov.uk/PublishingImages/disabledgo.jpg" alt="Link to Disabled Go Website"/></a><br/><br/>
+Translate this website, select a country from below<br/><br/>
+			<div id="google_translate_element"> <a accesskey="0" href="http://www.eaststaffsbc.gov.uk/News/Pages/Default.aspx"></a> <a accesskey="1" href="http://www.eaststaffsbc.gov.uk/Services/Pages/CouncilTaxBenefits.aspx"></a> <a accesskey="2" href="http://www.eaststaffsbc.gov.uk/Pages/Environment.aspx"></a> <a accesskey="3" href="http://www.eaststaffsbc.gov.uk/Services/Planning/Pages/default.aspx"></a> <a accesskey="4" href="/pages/contactus.aspx"></a> <a accesskey="6" href="http://www.eaststaffsbc.gov.uk/Services/Pages/CouncilTax.aspx"></a><a accesskey="9" href="http://www.eaststaffsbc.gov.uk/Pages/LeisureandCulture.aspx"></a></div>
+
+<br/>
+			</td>
+
+
+
+</tr>
+
+
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	</tr>
+
+
+
+
+
+
+
+</table>
+</td></tr></table>
+
+		
+		
+	
+
+<script type="text/javascript">
+//<![CDATA[
+var __wpmExportWarning='This Web Part Page has been personalized. As a result, one or more Web Part properties may contain confidential information. Make sure the properties contain information that is safe for others to read. After exporting this Web Part, view properties in the Web Part description file (.WebPart) by using a text editor such as Microsoft Notepad.';var __wpmCloseProviderWarning='You are about to close this Web Part.  It is currently providing data to other Web Parts, and these connections will be deleted if this Web Part is closed.  To close this Web Part, click OK.  To keep this Web Part, click Cancel.';var __wpmDeleteWarning='You are about to permanently delete this Web Part.  Are you sure you want to do this?  To delete this Web Part, click OK.  To keep this Web Part, click Cancel.';//]]>
+</script>
+<script type="text/javascript" language="JavaScript" defer>
+<!--
+function S6F789EBA_Submit() {if (document.getElementById('ctl00_SearchBox_ctl03').value == '0') { document.getElementById('ctl00_SearchBox_S6F789EBA_InputKeywords').value=''; }GoSearch('ctl00_SearchBox_ctl03','ctl00_SearchBox_S6F789EBA_InputKeywords',null,true,false,null,null,null,null,'\u002fSearchCenter\u002fPages\u002fResults.aspx', 'This Site','This List', 'This Folder', 'Related Sites', '\u002fServices\u002fElections\u002f_layouts\u002fOSSSearchResults.aspx');if (document.getElementById('ctl00_SearchBox_ctl03').value == '0') { document.getElementById('ctl00_SearchBox_S6F789EBA_InputKeywords').value='Please enter your search'; }}
+// -->
+</script><script type="text/javascript" language="JavaScript" >
+// append an onload event handler
+var S6F789EBA__onload= document.body.onload;
+if(typeof document.body.onload == 'function')
+{
+ document.body.onload = function()
+ {
+S6F789EBA__onload();        
+  document.getElementById('ctl00_SearchBox_S6F789EBA_InputKeywords').name = 'InputKeywords';
+ }
+}
+else
+{
+ document.body.onload = function()
+ {
+  eval(S6F789EBA__onload);        
+  document.getElementById('ctl00_SearchBox_S6F789EBA_InputKeywords').name = 'InputKeywords';
+ }
+}
+
+function S6F789EBA_OSBEK(event1) { 
+if((event1.which == 10) || (event1.which == 13))
+{   
+S6F789EBA_Submit();
+}
+}
+// -->
+</script></form>
+ </body>
+</html>

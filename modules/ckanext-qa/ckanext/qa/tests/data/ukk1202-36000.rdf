@@ -1,0 +1,122 @@
+<rdf:RDF
+    xmlns:bwq-iss="http://environment.data.gov.uk/data/bathing-water-quality/in-season/slice/"
+    xmlns:org="http://www.w3.org/ns/org#"
+    xmlns:elda="http://www.epimorphics.com/vocabularies/lda#"
+    xmlns:sparql="http://purl.org/net/opmv/types/sparql#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:def-som="http://environment.data.gov.uk/def/bwq-som/"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:bwsp="http://location.data.gov.uk/so/ef/SamplingPoint/bwsp.eaew/"
+    xmlns:def-feature="http://location.data.gov.uk/def/ef/BathingWaterProfileFeature/"
+    xmlns:t="http://environment.data.gov.uk/api-bwq#"
+    xmlns:def-ef="http://location.data.gov.uk/def/ef/SamplingPoint/"
+    xmlns:doap="http://usefulinc.com/ns/doap#"
+    xmlns:dct="http://purl.org/dc/terms/"
+    xmlns:onsadmingeo="http://statistics.data.gov.uk/def/administrative-geography/"
+    xmlns:os="http://a9.com/-/spec/opensearch/1.1/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:geometry="http://data.ordnancesurvey.co.uk/ontology/geometry/"
+    xmlns:def-bw="http://environment.data.gov.uk/def/bathing-water/"
+    xmlns:def-geom="http://location.data.gov.uk/def/common/Geometry/"
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+    xmlns:api="http://purl.org/linked-data/api/vocab#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:bw="http://environment.data.gov.uk/id/bathing-water/"
+    xmlns:spatialrelations="http://data.ordnancesurvey.co.uk/ontology/spatialrelations/"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:void="http://rdfs.org/ns/void#"
+    xmlns:def-bwq="http://environment.data.gov.uk/def/bathing-water-quality/"
+    xmlns:osadmingeo="http://data.ordnancesurvey.co.uk/ontology/admingeo/"
+    xmlns:def-zoi="http://location.data.gov.uk/def/ef/ZoneOfInfluence/"
+    xmlns:interval="http://reference.data.gov.uk/def/intervals/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:opmv="http://purl.org/net/opmv/types/common#"
+    xmlns:version="http://environment.data.gov.uk/def/version/"
+    xmlns:xhv="http://www.w3.org/1999/xhtml/vocab#"
+    xmlns:qb="http://purl.org/linked-data/cube#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:dgu="http://reference.data.gov.uk/def/reference/"
+    xmlns:def-bwp="http://environment.data.gov.uk/def/bathing-water-profile/">
+  <api:Page rdf:about="http://environment.data.gov.uk/doc/bathing-water/ukk1202-36000.rdf">
+    <foaf:primaryTopic>
+      <def-bw:BathingWater rdf:about="http://environment.data.gov.uk/id/bathing-water/ukk1202-36000">
+        <def-bwq:latestComplianceAssessment>
+          <rdf:Description rdf:about="http://environment.data.gov.uk/data/bathing-water-quality/compliance/point/36000/year/2012">
+            <def-bwq:complianceClassification>
+              <rdf:Description rdf:about="http://environment.data.gov.uk/def/bwq-cc-2012/I">
+                <skos:prefLabel xml:lang="en">Minimum</skos:prefLabel>
+              </rdf:Description>
+            </def-bwq:complianceClassification>
+          </rdf:Description>
+        </def-bwq:latestComplianceAssessment>
+        <def-bwq:latestSampleAssessment>
+          <rdf:Description rdf:about="http://environment.data.gov.uk/data/bathing-water-quality/in-season/sample/point/36000/date/20120919/time/083800/recordDate/20120919">
+            <def-bwq:sampleClassification>
+              <rdf:Description rdf:about="http://environment.data.gov.uk/def/bwq-cc-2012/G">
+                <skos:prefLabel xml:lang="en">Higher</skos:prefLabel>
+              </rdf:Description>
+            </def-bwq:sampleClassification>
+          </rdf:Description>
+        </def-bwq:latestSampleAssessment>
+        <owl:sameAs rdf:resource="http://environment.data.gov.uk/id/bathing-water/clevedon-beach"/>
+        <onsadmingeo:country>
+          <rdf:Description rdf:about="http://data.ordnancesurvey.co.uk/id/country/england">
+            <skos:prefLabel xml:lang="en">England</skos:prefLabel>
+            <skos:prefLabel>England</skos:prefLabel>
+          </rdf:Description>
+        </onsadmingeo:country>
+        <onsadmingeo:district rdf:resource="http://statistics.data.gov.uk/id/statistical-geography/E06000024"/>
+        <def-geom:envelope>
+          <rdf:Description rdf:about="http://location.data.gov.uk/so/common/Envelope/bwpf.eaew/ukk1202-36000:1">
+            <rdfs:label xml:lang="en">Map bounds for Clevedon Beach</rdfs:label>
+          </rdf:Description>
+        </def-geom:envelope>
+        <rdf:type rdf:resource="http://environment.data.gov.uk/def/bathing-water/TransitionalBathingWater"/>
+        <def-bw:sedimentTypesPresent rdf:resource="http://environment.data.gov.uk/def/bathing-water/shingle-sediment"/>
+        <dgu:uriSet>
+          <rdf:Description rdf:about="http://environment.data.gov.uk/id/bathing-water/">
+            <rdfs:label xml:lang="en">Bathing waters monitored by the Environment Agency for England and Wales.</rdfs:label>
+          </rdf:Description>
+        </dgu:uriSet>
+        <def-bw:regionalOrganization>
+          <rdf:Description rdf:about="http://reference.data.gov.uk/id/public-body/environment-agency/unit/south-west-south-west-office">
+            <skos:prefLabel xml:lang="en">South West</skos:prefLabel>
+          </rdf:Description>
+        </def-bw:regionalOrganization>
+        <def-bw:yearDesignated rdf:resource="http://reference.data.gov.uk/id/year/1988"/>
+        <def-bwp:latestBathingWaterProfile rdf:resource="http://environment.data.gov.uk/data/bathing-water-profile/ukk1202-36000/2012:1"/>
+        <onsadmingeo:district>
+          <rdf:Description rdf:about="http://data.ordnancesurvey.co.uk/id/7000000000025504">
+            <skos:prefLabel>The District of North Somerset</skos:prefLabel>
+          </rdf:Description>
+        </onsadmingeo:district>
+        <skos:prefLabel xml:lang="en">Clevedon Beach</skos:prefLabel>
+        <def-bw:eubwidNotation rdf:datatype="http://environment.data.gov.uk/def/bathing-water/eubwid"
+        >ukk1202-36000</def-bw:eubwidNotation>
+        <def-bw:sedimentTypesPresent rdf:resource="http://environment.data.gov.uk/def/bathing-water/sand-sediment"/>
+        <def-bw:waterQualityImpactedByHeavyRain rdf:datatype=
+        "http://www.w3.org/2001/XMLSchema#boolean">true</def-bw:waterQualityImpactedByHeavyRain>
+        <def-zoi:zoneOfInfluence>
+          <rdf:Description rdf:about="http://location.data.gov.uk/so/ef/ZoneOfInfluence/bwzoi.eaew/ukk1202-36000:1">
+            <skos:prefLabel xml:lang="en">Zone of influence at Clevedon Beach</skos:prefLabel>
+          </rdf:Description>
+        </def-zoi:zoneOfInfluence>
+        <def-ef:samplingPoint>
+          <rdf:Description rdf:about="http://location.data.gov.uk/so/ef/SamplingPoint/bwsp.eaew/36000">
+            <skos:prefLabel xml:lang="en">Sampling point at Clevedon Beach</skos:prefLabel>
+            <spatialrelations:northing rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
+            >171322</spatialrelations:northing>
+            <geo:lat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
+            >51.44</geo:lat>
+            <spatialrelations:easting rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
+            >339914</spatialrelations:easting>
+            <geo:long rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
+            >-2.87</geo:long>
+          </rdf:Description>
+        </def-ef:samplingPoint>
+      </def-bw:BathingWater>
+    </foaf:primaryTopic>
+    <api:extendedMetadataVersion rdf:resource="http://environment.data.gov.uk/doc/bathing-water/ukk1202-36000.rdf?_metadata=all"/>
+    <api:definition rdf:resource="http://environment.data.gov.uk/meta/doc/bathing-water/_eubwid.rdf"/>
+  </api:Page>
+</rdf:RDF>
