@@ -104,7 +104,10 @@ def calculate_dataset_stars(dataset_id):
         return (0, '', '')
     if not qa:
         return (0, '', '')
+    if qa['openness_score'] is None:
+        return (0, '', '')
 
+    log.debug(qa);
     return (qa['openness_score'],
             qa['openness_score_reason'],
             qa['updated'])
