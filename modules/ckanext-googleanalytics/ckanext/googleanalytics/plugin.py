@@ -1,21 +1,20 @@
 import logging
+
 import urllib
+import urllib2
+
 import commands
-import dbutil
 import paste.deploy.converters as converters
-import genshi
-import pylons
 import ckan.lib.helpers as h
 import ckan.plugins as p
-from routes.mapper import SubMapper, Mapper as _Mapper
+from ckanext.report.interfaces import IReport
 
-import urllib2
+from routes.mapper import SubMapper, Mapper as _Mapper
 
 import threading
 import Queue
 
-log = logging.getLogger('ckanext.googleanalytics')
-
+log = logging.getLogger(__name__)
 
 class GoogleAnalyticsException(Exception):
     pass
@@ -45,10 +44,11 @@ class AnalyticsPostThread(threading.Thread):
             self.queue.task_done()
 
 class GoogleAnalyticsPlugin(p.SingletonPlugin):
+
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
-    p.implements(p.ITemplateHelpers)
+    p.implements(IReport)
 
     analytics_queue = Queue.Queue()
 
@@ -64,9 +64,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         self.googleanalytics_id = config['googleanalytics.id']
         self.googleanalytics_domain = config.get(
                 'googleanalytics.domain', 'auto')
-        self.googleanalytics_javascript_url = h.url_for_static(
-                '/scripts/ckanext-googleanalytics.js')
-
+        
         # If resource_prefix is not in config file then write the default value
         # to the config dict, otherwise templates seem to get 'true' when they
         # try to read resource_prefix from config.
@@ -87,12 +85,8 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
             t.setDaemon(True)
             t.start()
 
+    # IConfigurer
     def update_config(self, config):
-        '''Change the CKAN (Pylons) environment configuration.
-
-        See IConfigurer.
-
-        '''
         p.toolkit.add_template_directory(config, 'templates')
 
     def before_map(self, map):
@@ -152,19 +146,13 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         See IRoutes.
 
         '''
-        map.redirect("/analytics/package/top", "/analytics/dataset/top")
+        map.redirect("/analytics/dataset/top", "/data/report/analytics")
         map.connect(
             'analytics', '/analytics/dataset/top',
             controller='ckanext.googleanalytics.controller:GAController',
             action='view'
         )
         return map
-
-    def get_helpers(self):
-        '''Return the CKAN 2.0 template helper functions this plugin provides.
-        See ITemplateHelpers.
-        '''
-        return {'googleanalytics_header': self.googleanalytics_header}
 
 
     def register_reports(self):
