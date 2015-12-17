@@ -73,9 +73,23 @@ class PackageStats(Base):
 
     @classmethod
     def get_top(cls, limit=20):
-        # caveat emptor: the query below will not filter out private
-        # or deleted datasets (TODO)
-        package_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
+        package_stats = []
+        #TODO: Reimplement in more efficient manner if needed (using RANK OVER and PARTITION in raw sql)
+        unique_packages = model.Session.query(cls.package_id, func.count(cls.visits)).group_by(cls.package_id).order_by(func.count(cls.visits).desc()).limit(limit).all()
+        #Adding last date associated to this package stat and filtering out private and deleted packages 
+        if unique_packages is not None:
+            for package in unique_packages:
+                package_id = package[0]
+                visits = package[1]
+                
+                tot_package = model.Session.query(model.Package).filter(model.Package.id == package_id).filter_by(state='active').filter_by(private=False).first()
+                if tot_package is None:
+                    continue
+
+                last_date = model.Session.query(func.max(cls.visit_date)).filter(cls.package_id == package_id).first()
+
+                ps = PackageStats(package_id=package_id, visit_date=last_date[0], visits=visits)
+                package_stats.append(ps)
         dictat = PackageStats.convert_to_dict(package_stats,None)
         return dictat
 
@@ -129,7 +143,6 @@ class PackageStats(Base):
     def as_dict(cls,res):
         result = {}
         package_name = PackageStats.get_package_name_by_id(res.package_id)
-        
         result['package_name'] = package_name
         result['package_id'] = res.package_id
         result['visits'] = res.visits
@@ -225,6 +238,30 @@ class ResourceStats(Base):
         resource_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
         return ResourceStats.convert_to_dict(resource_stats,None)
 
+
+    @classmethod
+    def get_top(cls, limit=20):
+        resource_stats = []
+        #TODO: Reimplement in more efficient manner if needed (using RANK OVER and PARTITION in raw sql)
+        unique_resources = model.Session.query(cls.resource_id, func.count(cls.visits)).group_by(cls.resource_id).order_by(func.count(cls.visits).desc()).limit(limit).all()
+        #Adding last date associated to this package stat and filtering out private and deleted packages 
+        if unique_resources is not None:
+            for resource in unique_resources:
+                resource_id = resource[0]
+                visits = resource[1]
+                #TODO: Check if associated resource is private 
+                resource = model.Session.query(model.Resource).filter(model.Resource.id == resource_id).filter_by(state='active').first()
+                if resource is None:
+                    continue
+
+                last_date = model.Session.query(func.max(cls.visit_date)).filter(cls.resource_id == resource_id).first()
+
+                rs = ResourceStats(resource_id=resource_id, visit_date=last_date[0], visits=visits)
+                resource_stats.append(rs)
+        dictat = ResourceStats.convert_to_dict(resource_stats,None)
+        return dictat
+
+
     @classmethod
     def as_dict(cls,res):
         result = {}
@@ -270,7 +307,6 @@ class ResourceStats(Base):
 
         start_date = datetime.now() - timedelta(num_days)
         resource_stats = model.Session.query(cls).filter(cls.resource_id.in_(subquery)).filter(cls.visit_date >= start_date).all()
-        #TODO: missing url from resource
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id.in_(subquery)).scalar()
         visits = ResourceStats.convert_to_dict(resource_stats, total_visits)
 
