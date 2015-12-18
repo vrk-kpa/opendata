@@ -28,8 +28,8 @@ class ReportCommand(p.toolkit.CkanCommand):
       List all reports:
       $ paster report list
 
-      Generate two reports:
-      $ paster report generate openness-scores,broken-links
+      Generate three reports:
+      $ paster report generate openness,broken-links,google-analytics
 
       Generate report for one specified option value(s):
       $ paster report generate-for-options publisher-activity organization=cabinet-office

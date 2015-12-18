@@ -54,4 +54,3 @@ googleanalytics_resource_report_info = {
     'generate': google_analytics_resource_report,
     'template': 'report/resource_analytics.html'
 }
-
