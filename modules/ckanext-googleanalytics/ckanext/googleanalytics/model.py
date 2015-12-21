@@ -232,13 +232,6 @@ class ResourceStats(Base):
         else:
             return result.visit_date
         
-
-    @classmethod
-    def get_top(cls, limit=20):
-        resource_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return ResourceStats.convert_to_dict(resource_stats,None)
-
-
     @classmethod
     def get_top(cls, limit=20):
         resource_stats = []
