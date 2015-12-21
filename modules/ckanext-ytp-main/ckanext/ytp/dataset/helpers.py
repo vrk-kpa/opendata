@@ -146,7 +146,7 @@ def calculate_metadata_stars(dataset_id):
 
     # visits from GA
     visits = get_visits_for_dataset(dataset_id)
-    visit_count = visits.get("count", 0)
+    visit_count = visits.get("count",0)
     resource_download_count = visits.get("download_count", 0)
 
     if visit_count > 50:
