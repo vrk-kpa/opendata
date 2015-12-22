@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * Creates page footer to be used in both Drupal and CKAN
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function ytp_footer_block_info() {
+  $blocks = array();
+  $blocks['owner_info'] = array(
+    'info' => t('Site owner info'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ytp_footer_block_view($delta = '') {
+  global $language;
+  $owner_info = variable_get_value('ytp_footer_owner_info', 
+        array('language' => $language, 'default' => 'TODO tyhjennä'));
+
+  if ($delta == 'owner_info') {
+    $block = array(
+      'content' => $owner_info['value'],
+    );
+
+    return $block;
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function ytp_footer_help($path, $arg) {
+  if ($path == 'admin/help#ytp_footer') {
+      return t('Creates page footer that includes (1) an editable block for free text, (2) a menu block for links and (3) a block for social media buttons. The footer can be used in both Drupal and CKAN.');
+  }
+}
+
+/**
+ * Implements hook_menu()
+ */
+function ytp_footer_menu() {
+
+  $items['footer-links'] = array(
+    'title' => 'Footer links',
+    );
+
+  // $items['tutorial/opt-out/%/ajax'] = array(
+  //   'page callback' => 'ytp_tutorial_optout',
+  //   'page arguments' => array(2, 3),
+  //   'access callback' => 'user_is_logged_in',
+  //   );
+
+  // $items['tutorial/opt-out/%/nojs'] = array(
+  //   'page callback' => 'ytp_tutorial_optout',
+  //   'page arguments' => array(2, 3),
+  //   'access callback' => 'user_is_logged_in',
+  //   );
+
+  return $items;
+}
+
+/**
+ * Implements hook_variable_info().
+ */
+function ytp_footer_variable_info($options)
+{
+  $variables['ytp_footer_owner_info'] = array(
+    'type' => 'text_format',
+    'title' => t('Site owner info'),
+    'default' => '',
+    'description' => t('A block of text shown in footer. Should contain contact information.', array(), $options),
+    'localize' => 'TRUE',
+    );
+  return $variables;
+}
+
+
+// /**
+//  * Implements hook_theme().
+//  */
+// function ytp_tutorial_theme($variables) {
+//   return array(
+//     'tutorial' => array(
+//       'variables' => array(
+//         'image_url' => NULL,
+//         'title' => NULL,
+//         'content' => NULL,
+//       ),
+//       'template' => 'ytp_tutorial',
+//     ),
+//   );
+// }

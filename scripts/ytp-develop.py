@@ -65,6 +65,10 @@ class YtpDevelopMain(object):
         """ Develop ytp-drupal-tutorial handler. """
         return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_tutorial", "/src/modules/ytp-drupal-tutorial")
 
+    def develop_drupal_footer(self, name):
+        """ Develop ytp-drupal-footer handler. """
+        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_footer", "/src/modules/ytp-drupal-footer")
+
     def _get_projects(self):
         for project_name in os.listdir(self.source_path):
             if os.path.isdir(os.path.join(self.source_path, project_name)) and self._get_mapping(project_name):
@@ -107,6 +111,7 @@ class YtpDevelopMain(object):
                               u'ytp-theme-drupal': self.develop_drupal_theme,
                               u'ytp-drupal-user': self.develop_drupal_user,
                               u'ytp-drupal-tutorial': self.develop_drupal_tutorial,
+                              u'ytp-drupal-footer': self.develop_drupal_footer,
                               u'--list': self.list_projects,
                               u'--serve': self.paster_serve,
                               u'--all': self._execute_all}

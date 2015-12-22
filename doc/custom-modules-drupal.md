@@ -93,6 +93,33 @@ Status: work in progress
   ### SERVICE_ALERT_FEATURE
   Work in progress
 
+## YTP-DRUPAL-FOOTER
+
+  Creates content for page footer region. Contains (1) an editable block for free text, 
+  (2) a menu block for links and (3) a block for social media buttons.
+
+  Dependencies: 
+
+  ### Initialization
+
+    0. The feature is installed by Ansible.
+
+    1. Site owner info block
+      Make block content translatable: Configuration -> Regional and language -> 
+      Multilingual settings. Click on "Variables" tab. Select variable Other -> Site owner info and save.
+
+      Make text format translatable: Configuration -> Regional and language -> 
+      Multilingual settings. Click on "Strings" tab. Select text format you will use for the block
+      ("Filtered HTML" being default value) and save.
+
+      Set block title at Structure -> Blocks -> Site owner info. It should be "<none>". If you use
+      a block title, you can translate it here.
+
+      Set block content as variable at Configuration -> System -> Variables. The variable to 
+      translate is Other -> Site owner info.
+
+  ### Editing
+
 ## YTP-DRUPAL-TUTORIAL
 
   Creates a tutorial block on front page. The block will determine if user is registered, belongs 
@@ -102,14 +129,13 @@ Status: work in progress
   Dependencies: ytp-drupal-user (module reads and edits some fields created by ytp-drupal-user)
                 ytp-theme-drupal (for styling)
 
-  #### Initialization
+  ### Initialization
 
     0. The feature is installed by Ansible.
 
     1. Block settings
-      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none> and 
-      region setting "YTP theme": "Top Bar Secondary". For pages, choose "Only the listed pages": 
-      "<front>".
+      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none>. 
+      For pages, choose "Only the listed pages": "<front>".
 
   ### Editing
 
