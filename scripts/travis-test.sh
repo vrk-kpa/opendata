@@ -12,17 +12,19 @@ sudo pip install -r $VIRTUAL_ENVIRONMENT/src/ckan/dev-requirements.txt
 EXIT_STATUS=0
 
 echo "## install modules ##"
-for plugin in modules/*; do
+cd $SOURCE_DIRECTORY/modules
+for plugin in *; do
     if [ -f $plugin/setup.py ]; then
-        cd $plugin
+        sudo cp -r $plugin $VIRTUAL_ENVIRONMENT/src/
+        cd $VIRTUAL_ENVIRONMENT/src/$plugin
         sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py develop
         if [ -f dev-requirements.txt ]; then
             sudo pip install -r dev-requirements.txt
         fi
-        cd $SOURCE_DIRECTORY
+        cd $SOURCE_DIRECTORY/modules
     fi
 done
-
+cd  $SOURCE_DIRECTORY
 
 echo "## nosetests ##"
 
@@ -32,7 +34,7 @@ untested_plugins=(ckanext-datarequests ckanext-googleanalytics ckanext-harvest c
 for plugin in ${tested_plugins[*]}; do
     if [ -f modules/$plugin/test.ini ]; then
         echo "Running nosetest for $plugin"
-        cd modules/$plugin
+        cd $VIRTUAL_ENVIRONMENT/src/$plugin
         nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
         NOSE_EXIT=$?
         if [ "$NOSE_EXIT" != "0" ]; then
