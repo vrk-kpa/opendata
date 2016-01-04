@@ -197,7 +197,7 @@ class Archiver(CkanCommand):
             time.sleep(0.1)  # to try to avoid Redis getting overloaded
 
         for resource in resources:
-            package = resource.package
+            package = resource.resource_group.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
             lib.create_archiver_resource_task(resource, self.options.queue)
             time.sleep(0.05)  # to try to avoid Redis getting overloaded
@@ -368,7 +368,7 @@ class Archiver(CkanCommand):
             {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
         )
 
-        site_url_base = config['ckan.cache_url_root'].rstrip('/')
+        site_url_base = config['ckanext-archiver.cache_url_root'].rstrip('/')
         old_dir_regex = re.compile(r'(.*)/([a-f0-9\-]+)/([^/]*)$')
         new_dir_regex = re.compile(r'(.*)/[a-f0-9]{2}/[a-f0-9\-]{36}/[^/]*$')
         for resource in model.Session.query(model.Resource).\
@@ -386,8 +386,8 @@ class Archiver(CkanCommand):
             # check the package isn't deleted
             # Need to refresh the resource's session
             resource = model.Session.query(model.Resource).get(resource.id)
-            if resource.package:
-                if resource.package.state == model.State.DELETED:
+            if resource.resource_group and resource.resource_group.package:
+                if resource.resource_group.package.state == model.State.DELETED:
                     print 'Package is deleted'
                     continue
 
