@@ -326,7 +326,8 @@
     - { module: locale, delta: language, region: top_navigation, weight: 0 }
     - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
     - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
-    - { module: menu, delta: footer_links, region: footer, weight: 2 }
+    - { module: menu, delta: footer-links, region: footer, weight: 2 }
+    - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"

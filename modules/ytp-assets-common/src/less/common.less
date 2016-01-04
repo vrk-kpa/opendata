@@ -250,10 +250,28 @@ a {
 
 
 .footer {
+  width: 100%;
+
+  border: none;
   margin: 0;
   padding: 0;
-  border: none;
+
+  background-color: @footer-background;
+  color: @footer-text-color;
+
+   a, a:hover, a:active, a:focus, li a, li a:hover, li a:active, li a:focus {
+    background-color: @footer-background;
+    color: @footer-text-color;
+    text-decoration: none;
+  }
 }
+
+.region-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 30px;
+}
+
 
 .full-width {
   width: 100%;

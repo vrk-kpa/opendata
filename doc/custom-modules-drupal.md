@@ -106,19 +106,47 @@ Status: work in progress
 
     1. Site owner info block
       Make block content translatable: Configuration -> Regional and language -> 
-      Multilingual settings. Click on "Variables" tab. Select variable Other -> Site owner info and save.
+      Multilingual settings. Click on "Variables" tab. Select variable Other -> Site owner info 
+      and save.
 
       Make text format translatable: Configuration -> Regional and language -> 
       Multilingual settings. Click on "Strings" tab. Select text format you will use for the block
       ("Filtered HTML" being default value) and save.
 
-      Set block title at Structure -> Blocks -> Site owner info. It should be "<none>". If you use
-      a block title, you can translate it here.
+      Set block title to "<none>" at Structure -> Blocks -> Site owner info.
 
       Set block content as variable at Configuration -> System -> Variables. The variable to 
       translate is Other -> Site owner info.
 
+    2. Link block
+      Set block title to "<none>" at Structure -> Blocks -> Footer links.
+
+      Make the menu translatable at Structure -> Menus -> Footer links -> Multilingual options.
+
+      The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
+      Menus -> Footer links to add links. All links should have language.
+
+    3. Social media icons block
+      Get the HTML codes from your preferred social media sites. Go to Structure -> Blocks -> 
+      Social media icons, make sure to turn rich text editing off and switch text format to full 
+      HTML and paste your codes to the "Icon source code" box. This block will not be translated, 
+      so avoid writing any text. Block title should be set to "<none>".
+
   ### Editing
+
+    1. Site owner info block
+      Edit content at Configuration -> System -> Variables. The variable to edit is Other -> 
+      Site owner info.
+
+    2. Link block
+      Add or remove links at Structures -> Menus -> Footer links.
+
+    3. Social media icons block
+      Edit at Structure -> Blocks -> Social media icons. Make sure to turn off rich text editing 
+      and switch text format to full HTML.
+
+    4. General theme
+      TODO
 
 ## YTP-DRUPAL-TUTORIAL
 

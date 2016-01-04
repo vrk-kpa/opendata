@@ -12,25 +12,72 @@ function ytp_footer_block_info() {
   $blocks['owner_info'] = array(
     'info' => t('Site owner info'),
   );
+  $blocks['icons'] = array(
+    'info' => t('Social media icons'),
+  );
 
   return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function ytp_footer_block_configure($delta = '') {
+  $form = array();
+
+  switch ($delta) {
+    case 'icons':
+      $form['icons_content'] = array(
+        '#type' => 'text_format',
+        '#title' => t('Icon source code'),
+        '#default_value' => variable_get('ytp_footer_icons', ''),
+      );
+      break;
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function ytp_footer_block_save($delta = '', $edit = array()) {
+  switch($delta) {
+    case 'icons':
+      variable_set('ytp_footer_icons', $edit['icons_content']['value']);
+      break;
+  }
 }
 
 /**
  * Implements hook_block_view().
  */
 function ytp_footer_block_view($delta = '') {
-  global $language;
-  $owner_info = variable_get_value('ytp_footer_owner_info', 
-        array('language' => $language, 'default' => 'TODO tyhjennä'));
+  $block = array();
 
-  if ($delta == 'owner_info') {
-    $block = array(
-      'content' => $owner_info['value'],
-    );
+  switch ($delta) {
+    case 'owner_info':
+      global $language;
+      $owner_info = variable_get_value('ytp_footer_owner_info', 
+        array('language' => $language, 'default' => ''));
 
-    return $block;
+      $block = array(
+        'content' => $owner_info['value'],
+      );
+      break;
+
+    case 'icons':
+      $block = array(
+        'content' => array(
+          'icons' => array(
+            '#type' => 'markup',
+            '#markup' => variable_get('ytp_footer_icons', ''),
+          ),
+        ),
+      );
+      break;
   }
+
+  return $block;
 }
 
 /**
@@ -47,21 +94,11 @@ function ytp_footer_help($path, $arg) {
  */
 function ytp_footer_menu() {
 
-  $items['footer-links'] = array(
-    'title' => 'Footer links',
+  $items['api/footer/%'] = array( 
+    'page callback' => 'ytp_footer_get_footer',
+    'page arguments' => array(2),
+    'access callback' => true,
     );
-
-  // $items['tutorial/opt-out/%/ajax'] = array(
-  //   'page callback' => 'ytp_tutorial_optout',
-  //   'page arguments' => array(2, 3),
-  //   'access callback' => 'user_is_logged_in',
-  //   );
-
-  // $items['tutorial/opt-out/%/nojs'] = array(
-  //   'page callback' => 'ytp_tutorial_optout',
-  //   'page arguments' => array(2, 3),
-  //   'access callback' => 'user_is_logged_in',
-  //   );
 
   return $items;
 }
@@ -81,6 +118,33 @@ function ytp_footer_variable_info($options)
   return $variables;
 }
 
+/** 
+ * Returns footer HTML code. CKAN calls this function via menu API to display footer.
+ */
+function ytp_footer_get_footer($lang) {
+
+  # Set language for menu block
+  global $language;
+  $languages = language_list();
+  if (isset($languages[$lang])) {
+    $language = $languages[$lang];
+  }
+
+  # Get footer block contents
+  $owner_info = i18n_variable_get('ytp_footer_owner_info', $lang);
+  $footer_links = module_invoke('menu', 'block_view', 'footer-links');
+  $icons = module_invoke('ytp_footer', 'block_view', 'icons');
+
+#  var_dump(get_defined_vars());
+
+  $footer = array(
+    'footer' => render($owner_info['value']) . 
+                render($footer_links['content']) . 
+                render($icons['content']),
+  );
+
+  return drupal_json_output($footer);
+}
 
 // /**
 //  * Implements hook_theme().

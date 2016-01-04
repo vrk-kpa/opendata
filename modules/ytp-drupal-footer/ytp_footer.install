@@ -6,7 +6,7 @@
  */
 
 $footer_menu = array(
-  'menu_name' => 'footer_links',
+  'menu_name' => 'footer-links',
   'title' => t('Footer links'),
   'description' => t('Link menu for page footer section'),
 );
