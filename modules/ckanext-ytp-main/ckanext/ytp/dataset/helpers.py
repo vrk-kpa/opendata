@@ -3,12 +3,11 @@ import json
 from ckan.common import c, request
 from ckan.lib import helpers
 from ckan.logic import get_action
-import datetime
 import logging
 log = logging.getLogger(__name__)
 
 import os
-
+import datetime
 import logging
 log = logging.getLogger(__name__)
 
@@ -105,7 +104,10 @@ def calculate_dataset_stars(dataset_id):
         return (0, '', '')
     if not qa:
         return (0, '', '')
+    if qa['openness_score'] is None:
+        return (0, '', '')
 
+    log.debug(qa);
     return (qa['openness_score'],
             qa['openness_score_reason'],
             qa['updated'])

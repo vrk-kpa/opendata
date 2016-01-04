@@ -202,7 +202,7 @@
   - spatial
 
 - name: Install archiver requirements
-  pip: requirements="{{ cache_path }}/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-archiver/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa

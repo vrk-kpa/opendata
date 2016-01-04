@@ -7,6 +7,8 @@ VIRTUAL_ENVIRONMENT="/usr/lib/ckan/default"
 
 . $VIRTUAL_ENVIRONMENT/bin/activate
 
+sudo pip install -r $VIRTUAL_ENVIRONMENT/src/ckan/dev-requirements.txt
+
 EXIT_STATUS=0
 
 echo "## install modules ##"
@@ -14,6 +16,9 @@ for plugin in modules/*; do
     if [ -f $plugin/setup.py ]; then
         cd $plugin
         sudo $VIRTUAL_ENVIRONMENT/bin/python setup.py develop
+        if [ -f dev-requirements.txt ]; then
+            sudo pip install -r dev-requirements.txt
+        fi
         cd $SOURCE_DIRECTORY
     fi
 done

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-30 13:14+0200\n"
-"PO-Revision-Date: 2015-11-30 11:20+0000\n"
+"PO-Revision-Date: 2015-12-14 11:20+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -980,7 +980,7 @@ msgstr "Raderad"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:182
 msgid "A list of predefined content types can be found here"
-msgstr ""
+msgstr "En lista av angivna innehållstyper"
 
 #: ckanext/ytp/dataset/templates/package/snippets/package_basic_fields.html:188
 msgid "e.g., Open Data"

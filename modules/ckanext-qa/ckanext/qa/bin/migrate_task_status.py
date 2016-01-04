@@ -48,7 +48,7 @@ def migrate(options):
                                     .filter_by(key='status')\
                                     .first()
         if not qa_task_status:
-            print add_stat('No QA data', res, stats)
+            add_stat('No QA data', res, stats)
             continue
         qa_error = json.loads(qa_task_status.error)
         fields['openness_score'] = int(qa_task_status.value)
