@@ -98,7 +98,7 @@ Status: work in progress
   Creates content for page footer region. Contains (1) an editable block for free text, 
   (2) a menu block for links and (3) a block for social media buttons.
 
-  Dependencies: 
+  Dependencies: ytp-theme-drupal (for styling)
 
   ### Initialization
 
@@ -113,24 +113,23 @@ Status: work in progress
       Multilingual settings. Click on "Strings" tab. Select text format you will use for the block
       ("Filtered HTML" being default value) and save.
 
-      Set block title to "<none>" at Structure -> Blocks -> Site owner info.
-
       Set block content as variable at Configuration -> System -> Variables. The variable to 
       translate is Other -> Site owner info.
 
     2. Link block
-      Set block title to "<none>" at Structure -> Blocks -> Footer links.
-
       Make the menu translatable at Structure -> Menus -> Footer links -> Multilingual options.
 
       The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
       Menus -> Footer links to add links. All links should have language.
 
+      Note that you shouldn't place any links to restricted content (ie. admin pages) in the 
+      footer, as they won't be displayed in CKAN.
+
     3. Social media icons block
       Get the HTML codes from your preferred social media sites. Go to Structure -> Blocks -> 
       Social media icons, make sure to turn rich text editing off and switch text format to full 
       HTML and paste your codes to the "Icon source code" box. This block will not be translated, 
-      so avoid writing any text. Block title should be set to "<none>".
+      so avoid writing any text.
 
   ### Editing
 
@@ -146,7 +145,9 @@ Status: work in progress
       and switch text format to full HTML.
 
     4. General theme
-      TODO
+      CSS is located at ytp-assets-common/src/less/common.less.
+
+      To edit the look of all blocks, see ytp-theme-drupal/templates/block--footer.tpl.php.
 
 ## YTP-DRUPAL-TUTORIAL
 

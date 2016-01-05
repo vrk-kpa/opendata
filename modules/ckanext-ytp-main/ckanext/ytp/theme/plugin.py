@@ -134,13 +134,12 @@ class YtpThemePlugin(plugins.SingletonPlugin):
           # Call our custom Drupal API to get footer content
           hostname = config.get('ckan.site_url', '')
           response = urllib2.urlopen(hostname + '/api/footer/' + lang)
-          html = response.read()
-          footer = json.loads(html)
-          return footer['footer']
+          return response.read().decode("utf-8")
         except urllib2.HTTPError:
           return ''
         except:
           return ''
+
         return None
 
     def get_helpers(self):

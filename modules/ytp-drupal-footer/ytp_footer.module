@@ -123,41 +123,28 @@ function ytp_footer_variable_info($options)
  */
 function ytp_footer_get_footer($lang) {
 
-  # Set language for menu block
+  $content = block_get_blocks_by_region('footer') + array(
+    '#theme_wrappers' => array('region'),
+    '#region' => 'footer',
+  );
+
+  // Translation fix for owner info block:
+  // block_get_blocks_by_region() only returns the default value of an i18n variable.
+  // Find the correct translation and overwrite block content markup.
   global $language;
   $languages = language_list();
   if (isset($languages[$lang])) {
     $language = $languages[$lang];
   }
+  $translation = i18n_variable_get('ytp_footer_owner_info', $lang);
+  $content['ytp_footer_owner_info']['#markup'] = $translation['value'];
 
-  # Get footer block contents
-  $owner_info = i18n_variable_get('ytp_footer_owner_info', $lang);
-  $footer_links = module_invoke('menu', 'block_view', 'footer-links');
-  $icons = module_invoke('ytp_footer', 'block_view', 'icons');
+  // Our JSON must have key 'footer'
+  // <footer> container element is needed for CSS
+  $footer = "<footer class='footer container'>" . render($content) . "</footer>";
 
-#  var_dump(get_defined_vars());
+  drupal_add_http_header('Content-Type', 'text/plain');
+  print $footer;
+  drupal_exit(0);
 
-  $footer = array(
-    'footer' => render($owner_info['value']) . 
-                render($footer_links['content']) . 
-                render($icons['content']),
-  );
-
-  return drupal_json_output($footer);
 }
-
-// /**
-//  * Implements hook_theme().
-//  */
-// function ytp_tutorial_theme($variables) {
-//   return array(
-//     'tutorial' => array(
-//       'variables' => array(
-//         'image_url' => NULL,
-//         'title' => NULL,
-//         'content' => NULL,
-//       ),
-//       'template' => 'ytp_tutorial',
-//     ),
-//   );
-// }
