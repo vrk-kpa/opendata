@@ -6,7 +6,6 @@ from ckan.logic import get_action
 import logging
 
 import os
-import datetime
 
 log = logging.getLogger(__name__)
 
