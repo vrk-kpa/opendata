@@ -2,4 +2,13 @@
 
 # Changes that are required already installed system
 
+- name: Migrate archiver db
+  shell: ./bin/python "{{ cache_path }}/ckanext-archiver/ckanext/archiver/bin/migrate_task_status.py" --write {{ ckan_ini }} chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
 
+
+- name: Migrate qa db
+  shell: ./bin/python "{{ cache_path }}/ckanext-qa/ckanext/qa/bin/migrate_task_status.py" --write {{ ckan_ini }} chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
