@@ -39,13 +39,11 @@ class QAPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
                     conditions=dict(method=['GET']),
                     controller=res,
                     action='check_link')
-
         return map
 
     # IPipe
 
     def receive_data(self, operation, queue, **params):
-
         '''Receive notification from ckan-archiver that a resource has been
         archived.
         '''

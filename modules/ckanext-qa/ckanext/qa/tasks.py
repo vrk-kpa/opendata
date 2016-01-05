@@ -78,7 +78,6 @@ def update_package(ckan_ini_filepath, package_id):
                      resource.url)
             save_qa_result(resource.id, qa_result, log)
             log.info('CKAN updated with openness score')
-
         # Refresh the index for this dataset, so that it contains the latest
         # qa info
         _update_search_index(package.id, log)
@@ -113,7 +112,6 @@ def update(ckan_ini_filepath, resource_id):
                  resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
-
         if toolkit.check_ckan_version(max_version='2.2.99'):
             package = resource.resource_group.package
         else:

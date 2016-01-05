@@ -6,6 +6,7 @@ import ckan.plugins as p
 REQUESTS_HEADER = {'content-type': 'application/json',
                    'User-Agent': 'ckanext-qa commands'}
 
+
 class CkanApiError(Exception):
     pass
 
