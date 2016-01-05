@@ -28,8 +28,8 @@ cd  $SOURCE_DIRECTORY
 
 echo "## nosetests ##"
 
-tested_plugins=(ckanext-archiver ckanext-ytp-main ckanext-ytp-request ckanext-ytp-tasks)
-untested_plugins=(ckanext-datarequests ckanext-googleanalytics ckanext-harvest ckanext-qa ckanext-spatial)
+tested_plugins=(ckanext-archiver ckanext-ytp-main ckanext-ytp-request ckanext-ytp-tasks ckanext-qa)
+untested_plugins=(ckanext-datarequests ckanext-googleanalytics ckanext-harvest ckanext-spatial)
 
 for plugin in ${tested_plugins[*]}; do
     if [ -f modules/$plugin/test.ini ]; then
