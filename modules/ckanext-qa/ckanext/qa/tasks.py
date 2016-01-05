@@ -14,6 +14,9 @@ from ckanext.qa.sniff_format import sniff_file_format
 from ckanext.qa import lib
 from ckanext.archiver.model import Archival, Status
 
+import logging
+
+log = logging.getLogger(__name__)
 
 class QAError(Exception):
     pass
@@ -62,7 +65,6 @@ def update_package(ckan_ini_filepath, package_id):
 
     Returns None
     """
-    log = update_package.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -78,7 +80,6 @@ def update_package(ckan_ini_filepath, package_id):
                      resource.url)
             save_qa_result(resource.id, qa_result, log)
             log.info('CKAN updated with openness score')
-
         # Refresh the index for this dataset, so that it contains the latest
         # qa info
         _update_search_index(package.id, log)
@@ -100,7 +101,6 @@ def update(ckan_ini_filepath, resource_id):
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
     """
-    log = update.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -113,7 +113,6 @@ def update(ckan_ini_filepath, resource_id):
                  resource.url)
         save_qa_result(resource.id, qa_result, log)
         log.info('CKAN updated with openness score')
-
         if toolkit.check_ckan_version(max_version='2.2.99'):
             package = resource.resource_group.package
         else:

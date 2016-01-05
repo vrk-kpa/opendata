@@ -209,7 +209,7 @@
   - qa
 
 - name: Install qa requirements
-  pip: requirements="{{ cache_path }}/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
