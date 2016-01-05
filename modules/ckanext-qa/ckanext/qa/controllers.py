@@ -15,6 +15,7 @@ from ckan.lib import helpers as ckan_helpers
 
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
 
+
 class LinkCheckerController(BaseController):
 
     def check_link(self):

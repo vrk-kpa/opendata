@@ -44,7 +44,6 @@ def broken_links_index(include_sub_organizations=False):
             .join(model.Resource)\
             .filter_by(state='active')\
             .count()
-
         counts[org.name] = {
             'organization_title': org.title,
             'broken_packages': broken_datasets,

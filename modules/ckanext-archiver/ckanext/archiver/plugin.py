@@ -14,7 +14,6 @@ log = logging.getLogger(__name__)
 
 
 class ArchiverPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
-
     """
     Registers to be notified whenever CKAN resources are created or their URLs
     change, and will create a new ckanext.archiver celery task to archive the

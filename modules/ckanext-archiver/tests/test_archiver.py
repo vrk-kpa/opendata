@@ -14,7 +14,6 @@ from ckan import model
 from ckan import plugins
 from ckan.tests import BaseCase
 from ckan.logic import get_action
-
 try:
     from ckan.tests.helpers import reset_db
     from ckan.tests import factories as ckan_factories
@@ -40,6 +39,7 @@ from ckanext.archiver.tasks import (link_checker,
                                     )
 
 from mock_remote_server import MockEchoTestServer, MockWmsServer, MockWfsServer
+
 
 # enable celery logging for when you run nosetests -s
 log = logging.getLogger('ckanext.archiver.tasks')
