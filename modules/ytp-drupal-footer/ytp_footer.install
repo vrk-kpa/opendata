@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Create footer menu here, because using hook_menu() for creating link menus
+ * is frowned upon.
+ */
+
+$footer_menu = array(
+  'menu_name' => 'footer-links',
+  'title' => t('Footer links'),
+  'description' => t('Link menu for page footer section'),
+);
+
+menu_save($footer_menu);

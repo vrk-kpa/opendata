@@ -186,6 +186,10 @@
     - tokenvariables
     - transliteration
     - variable
+    - variable_realm
+    - variable_store
+    - variable_admin
+    - i18n_variable
     - ctools
     - i18nviews
     - l10n_update
@@ -217,27 +221,23 @@
   - drupal
 
 
-- name: Install YTP user module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
-  register: install_ytp_drupal_user
+- name: Install YTP modules
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}" && cp -r "{{ cache_path }}/ytp-drupal-{{ item }}" "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}"
+  register: install_ytp_drupal_modules
+  with_items:
+    - user
+    - tutorial
+    - footer
   tags:
   - drupal
 
-- name: Enable ytp-drupal-user module
-  command: drush en -y ytp_user chdir="{{ drupal_root }}"
-  when: install_ytp_drupal_user|changed
-  tags:
-  - drupal
-
-- name: Install YTP tutorial module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_tutorial" && cp -r "{{ cache_path }}/ytp-drupal-tutorial" "{{ drupal_root }}/sites/all/modules/ytp_tutorial"
-  register: install_ytp_drupal_tutorial
-  tags:
-  - drupal
-
-- name: Enable ytp-drupal-tutorial module
-  command: drush en -y ytp_tutorial chdir="{{ drupal_root }}"
-  when: install_ytp_drupal_tutorial|changed
+- name: Enable YTP modules
+  command: drush en -y ytp_{{ item }} chdir="{{ drupal_root }}"
+  when: install_ytp_drupal_modules|changed
+  with_items:
+    - user
+    - tutorial
+    - footer
   tags:
   - drupal
 
@@ -328,11 +328,14 @@
   - drupal
 
 - name: Move blocks
-  command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} chdir="{{ drupal_root }}"
+  command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} --weight={{ item.weight }} chdir="{{ drupal_root }}"
   with_items:
-    - { module: views, delta: service_alerts_view-block, region: highlighted }
-    - { module: locale, delta: language, region: top_navigation }
-    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary }
+    - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
+    - { module: locale, delta: language, region: top_navigation, weight: 0 }
+    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
+    - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
+    - { module: menu, delta: footer-links, region: footer, weight: 2 }
+    - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"

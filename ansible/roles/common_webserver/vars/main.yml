@@ -13,6 +13,7 @@ modules:
   - ytp-theme-drupal
   - ytp-drupal-user
   - ytp-drupal-tutorial
+  - ytp-drupal-footer
   - ckanext-qa
   - ckanext-archiver
   - ckanext-harvest
