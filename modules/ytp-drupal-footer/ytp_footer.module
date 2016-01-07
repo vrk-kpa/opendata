@@ -123,6 +123,12 @@ function ytp_footer_variable_info($options)
  */
 function ytp_footer_get_footer($lang) {
 
+  global $language;
+  $languages = language_list();
+  if (isset($languages[$lang])) {
+    $language = $languages[$lang];
+  }
+
   $content = block_get_blocks_by_region('footer') + array(
     '#theme_wrappers' => array('region'),
     '#region' => 'footer',
@@ -131,15 +137,9 @@ function ytp_footer_get_footer($lang) {
   // Translation fix for owner info block:
   // block_get_blocks_by_region() only returns the default value of an i18n variable.
   // Find the correct translation and overwrite block content markup.
-  global $language;
-  $languages = language_list();
-  if (isset($languages[$lang])) {
-    $language = $languages[$lang];
-  }
   $translation = i18n_variable_get('ytp_footer_owner_info', $lang);
   $content['ytp_footer_owner_info']['#markup'] = $translation['value'];
 
-  // Our JSON must have key 'footer'
   // <footer> container element is needed for CSS
   $footer = "<footer class='footer container'>" . render($content) . "</footer>";
 
