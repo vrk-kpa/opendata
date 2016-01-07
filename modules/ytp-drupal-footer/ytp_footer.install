@@ -11,4 +11,8 @@ $footer_menu = array(
   'description' => t('Link menu for page footer section'),
 );
 
-menu_save($footer_menu);
+// Don't overwrite menu, if it exists already
+$menus = menu_get_menus();
+if (!array_key_exists('footer-links', $menus)) {
+  menu_save($footer_menu);
+}
