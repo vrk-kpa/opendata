@@ -95,7 +95,7 @@ def calculate_dataset_stars(dataset_id):
     if not is_plugin_enabled('qa'):
         return (0, '', '')
     try:
-        context = {'model': model, 'session': model.Session}
+        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
         qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
 
     except NotFound:
