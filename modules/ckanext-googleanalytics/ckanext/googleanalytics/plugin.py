@@ -48,6 +48,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.ITemplateHelpers)
     p.implements(IReport)
 
     analytics_queue = Queue.Queue()
@@ -79,6 +80,8 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         self.track_events = converters.asbool(
             config.get('googleanalytics.track_events', False))
 
+        p.toolkit.add_resource('fanstatic_library', 'ckanext-googleanalytics')
+        
         # spawn a pool of 5 threads, and pass them queue instance
         for i in range(5):
             t = AnalyticsPostThread(self.analytics_queue)
@@ -138,6 +141,13 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
             m.connect('/rest/{register}/{id}', action='update', conditions=PUT)
             m.connect('/rest/{register}/{id}', action='update', conditions=POST)
             m.connect('/rest/{register}/{id}', action='delete', conditions=DELETE)
+
+        with SubMapper(map, controller='ckanext.googleanalytics.controller:GAResourceController') as m:
+            m.connect('/dataset/{id}/resource/{resource_id}/download',
+                    action='resource_download')
+            m.connect('/dataset/{id}/resource/{resource_id}/download/{filename}',
+                    action='resource_download')
+            
         return map
 
     def after_map(self, map):
@@ -153,6 +163,23 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
             action='view'
         )
         return map
+
+    def get_helpers(self):
+        '''Return the CKAN 2.0 template helper functions this plugin provides.
+        See ITemplateHelpers.
+        '''
+        return {'googleanalytics_header': self.googleanalytics_header}
+    
+    def googleanalytics_header(self):
+        '''Render the googleanalytics_header snippet for CKAN 2.0 templates.
+        This is a template helper function that renders the
+        googleanalytics_header jinja snippet. To be called from the jinja
+        templates in this extension, see ITemplateHelpers.
+        '''
+        data = {'googleanalytics_id': self.googleanalytics_id,
+                'googleanalytics_domain': self.googleanalytics_domain}
+        return p.toolkit.render_snippet(
+            'googleanalytics/snippets/googleanalytics_header.html', data)
 
 
     def register_reports(self):
