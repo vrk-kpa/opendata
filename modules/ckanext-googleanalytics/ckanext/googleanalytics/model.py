@@ -100,7 +100,7 @@ class PackageStats(Base):
         resource_visits_dict = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
 
         visit_list = []
-        visits = visits_dict.get('packages',None)
+        visits = visits_dict.get('packages', [])
         count = visits_dict.get('tot_visits', 0)
 
         resource_visits = resource_visits_dict.get('resources', 0)
