@@ -11,7 +11,7 @@ def comment_update(context, data_dict):
     model = context.get('model', None)
 
     if model is not None:
-       userobj = model.User.get(user)
+        userobj = model.User.get(user)
 
     if not userobj:
         log.debug("User is not logged in")
@@ -25,7 +25,5 @@ def comment_update(context, data_dict):
 
     if comment.user_id is userobj.id:
         return {'success': True}
-        
+
     return {'success': False, 'msg': _('User is not the author of the comment')}
-
-
