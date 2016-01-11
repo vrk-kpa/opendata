@@ -5,25 +5,29 @@ log = logging.getLogger(__name__)
 
 
 def comment_create(context, data_dict):
-    user = context['user']
-    model = context['model']
+    user = context.get('user', None)
+    model = context.get('model', None)
 
-    userobj = model.User.get(user)
+    if model is not None:
+        userobj = model.User.get(user)
 
-    if not userobj:
-        log.debug("User is not logged in")
-        return {'success': False, 'msg': _('You must be logged in to add a comment')}
+    if userobj:
+        return {'success': True}
+ 
+    log.debug("User is not logged in")
+    return {'success': False, 'msg': _('You must be logged in to add a comment')}
 
-    return {'success': True}
+
 
 
 def add_comment_subscription(context, data_dict):
-    user = context['user']
-    model = context['model']
+    user = context.get('user', None)
+    model = context.get('model', None)
 
-    userobj = model.User.get(user)
+    if model is not None:
+       userobj = model.User.get(user)
 
-    if not userobj:
-        return {'success': False, 'msg': _('You must be logged in to subscribe to comment notifications')}
-
-    return {'success': True}
+    if userobj:
+        return {'success': True}
+        
+    return {'success': False, 'msg': _('You must be logged in to subscribe to comment notifications')}

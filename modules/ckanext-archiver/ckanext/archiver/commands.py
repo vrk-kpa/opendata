@@ -359,7 +359,7 @@ class Archiver(CkanCommand):
             {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
         )
 
-        site_url_base = config['ckan.cache_url_root'].rstrip('/')
+        site_url_base = config.get('ckan.cache_url_root').rstrip('/')
         old_dir_regex = re.compile(r'(.*)/([a-f0-9\-]+)/([^/]*)$')
         new_dir_regex = re.compile(r'(.*)/[a-f0-9]{2}/[a-f0-9\-]{36}/[^/]*$')
         for resource in model.Session.query(model.Resource).\
@@ -387,7 +387,7 @@ class Archiver(CkanCommand):
                 continue
 
             # move the file
-            filepath_base = config['ckanext-archiver.archive_dir']
+            filepath_base = config.get('ckanext-archiver.archive_dir')
             old_path = os.path.join(filepath_base, resource.id)
             new_dir = os.path.join(filepath_base, resource.id[:2])
             new_path = os.path.join(filepath_base, resource.id[:2], resource.id)

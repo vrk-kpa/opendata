@@ -26,8 +26,11 @@ def harvest_source_show(context, data_dict):
     '''
     model = context.get('model')
     user = context.get('user')
-    source_id = data_dict['id']
+   
+    if not model or not source:
+        return {'success': False}
 
+    source_id = data_dict.get('id')
     pkg = model.Package.get(source_id)
     if not pkg:
         raise pt.ObjectNotFound(pt._('Harvest source not found'))
@@ -92,7 +95,11 @@ def harvest_job_list(context, data_dict):
         jobs
     '''
     user = context.get('user')
-    source_id = data_dict['source_id']
+
+    if not user:
+        return {'success': False, pt._('Not authorized to list jobs for source')}
+
+    source_id = data_dict.get('source_id')
 
     try:
         pt.check_access('harvest_source_update',
@@ -112,13 +119,6 @@ def harvest_object_show(context, data_dict):
         Authorization check for getting the contents of a harvest object
 
         Everybody can do it
-    '''
-    return {'success': True}
-
-
-def harvest_object_list(context, data_dict):
-    '''
-    TODO: remove
     '''
     return {'success': True}
 
