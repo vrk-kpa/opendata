@@ -59,7 +59,7 @@ def migrate(options):
                     or res.hash
                     or res.size
                     or res.mimetype):
-                print add_stat('No archive data', res, stats)
+                add_stat('No archive data', res, stats)
                 continue
             for field_name in ('status_id', 'is_broken', 'reason',
                                'last_success', 'first_failure',
@@ -118,7 +118,13 @@ def migrate(options):
 
 
 def add_stat(outcome, res, stats, extra_info=None):
-    res_id = '%s %s' % (res.package.name, res.id[:4])
+    try:
+        # pre CKAN 2.3 model
+        package_name = res.resource_group.package.name
+    except AttributeError:
+        # CKAN 2.3+ model
+        package_name = res.package.name
+    res_id = '%s %s' % (package_name, res.id[:4])
     if extra_info:
         res_id += ' %s' % extra_info
     return '\n' + stats.add(outcome, res_id)

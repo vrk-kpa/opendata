@@ -1,74 +1,75 @@
-<html xmlns:py="http://genshi.edgewall.org/"
-  xmlns:i18n="http://genshi.edgewall.org/i18n"
-  xmlns:xi="http://www.w3.org/2001/XInclude"
-  py:strip="">
+{% if c.options['organization'] == None %}
+  <ul>
+      <li>Broken datasets: {{ c.data['num_broken_packages'] }} / {{ c.data['num_packages'] }} ({{ c.data.get('broken_package_percent') }}%)</li>
+      <li>Broken links: {{ c.data['num_broken_resources'] }} / {{ c.data['num_resources'] }} ({{ c.data.get('broken_resource_percent') }}%)</li>
+  </ul>
+  <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table">
+    <thead>
+    <col style="width: 60%" />
+    <col style="width: 10%" />
+    <col style="width: 10%" />
+    <col style="width: 10%" />
+    <tr>
+      <th>Organization</th>
+      <th>Datasets with broken links</th>
+      <th>Broken links</th>
+      <th>% Broken links</th>
+    </tr>
+   </thead>
+   <tbody>
+    {% for row in c.data['table'] %}
+      <tr>
+        <td>{{ h.link_to(row['organization_title'], h.report__relative_url_for(organization=row['organization_name'])) }}</td>
+        <td>{{ row['broken_package_count'] }}</td>
+        <td>{{ row['broken_resource_count'] }}</td>
+        <td>{{ row.get('broken_resource_percent') }}</td>
+      </tr>
+    {% endfor %}
+   </tbody>
+  </table>
+{% endif %}
 
-    <py:if test="c.options['organization'] == None">
-      <ul>
-          <li>Broken datasets: ${c.data['num_broken_packages']} / ${c.data['num_packages']} (${c.data.get('broken_package_percent')}%)</li>
-          <li>Broken links: ${c.data['num_broken_resources']} / ${c.data['num_resources']} (${c.data.get('broken_resource_percent')}%)</li>
-      </ul>
-      <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table">
-       <thead>
-       <col style="width: 60%" />
-       <col style="width: 10%" />
-       <col style="width: 10%" />
-       <col style="width: 10%" />
+{% if c.options['organization'] != None %}
+  <ul>
+    <li>Broken datasets: {{ c.data['num_broken_packages'] }} / {{ c.data['num_packages'] }} ({{ c.data.get('broken_package_percent') }}%)</li>
+    <li>Broken links: {{ c.data['num_broken_resources'] }} / {{ c.data['num_resources'] }} ({{ c.data.get('broken_resource_percent') }}%)</li>
+  </ul>
+  <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout: fixed;">
+   <thead>
+      <tr class="js-tooltip" style="letter-spacing: -1px; font-size: 13px;">
+        <th style="width: 100px">Dataset</th>
+        <th style="width: 45px">Notes</th>
+        {% if c.options['include_sub_organizations'] %}
+          <th style="width: 85px">Publisher</th>
+        {% endif %}
+        <th style="width: 20px" title="Index/position of the resource in the dataset">Res</th>
+        <th style="width: 190px">URL</th>
+        <th style="width: 75px">Status</th>
+        <th style="width: 120px">Reason</th>
+        <th style="width: 25px" title="Failed download attempts">No. of fails</th>
+        <th style="width: 75px" title="First failed attempt">First fail</th>
+        <th style="width: 75px" title="Most recent failed attempt">Latest fail</th>
+        <th style="width: 75px" title="The last time it was successfully obtained">Last success</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for row_dict in c.data['table'] %}
         <tr>
-          <th>Organization</th>
-          <th>Datasets with broken links</th>
-          <th>Broken links</th>
-          <th>% Broken links</th>
+          <td><a href="{{ h.url_for(controller='package', action='read', id=row_dict['dataset_name']) }}">{{ row_dict['dataset_title'] }}</a></td>
+          <td>{{ row_dict['dataset_notes'] }}</td>
+          {% if c.options['include_sub_organizations'] %}
+            <td><a href="/publisher/{{ row_dict['organization_name'] }}">{{ row_dict['organization_title'] }}</a></td>
+          {% endif %}
+          <td><a href="/dataset/{{ row_dict['dataset_name'] }}/resource/{{ row_dict['resource_id'] }}">{{ row_dict['resource_position'] }}</a></td>
+          <td><a href="{{ row_dict['resource_url'] }}" style="word-wrap:break-word;">{{ row_dict['resource_url'] }}</a></td>
+          <td>{{ row_dict.get('status', 'not recorded') }}</td>
+          <td>{{ row_dict.get('reason', 'not recorded') }}</td>
+          <td>{{ row_dict.get('failure_count', 'not recorded') }}</td>
+          <td>{{ h.render_datetime(row_dict.get('first_failure')) if row_dict.get('first_failure') else 'not recorded' }}</td>
+          <td>{{ h.render_datetime(row_dict.get('last_updated')) if row_dict.get('last_updated') else 'not recorded' }}</td>
+          <td>{{ h.render_datetime(row_dict.get('last_success')) if row_dict.get('last_success') else 'not recorded' }}</td>
         </tr>
-       </thead>
-       <tbody>
-        <tr py:for="row in c.data['table']">
-          <td>${h.link_to(row['organization_title'], h.report__relative_url_for(organization=row['organization_name']))}</td>
-          <td>${row['broken_package_count']}</td>
-          <td>${row['broken_resource_count']}</td>
-          <td>${row.get('broken_resource_percent')}</td>
-        </tr>
-       </tbody>
-      </table>
-    </py:if>
-
-    <py:if test="c.options['organization'] != None">
-        <ul>
-          <li>Broken datasets: ${c.data['num_broken_packages']} / ${c.data['num_packages']} (${c.data.get('broken_package_percent')}%)</li>
-          <li>Broken links: ${c.data['num_broken_resources']} / ${c.data['num_resources']} (${c.data.get('broken_resource_percent')}%)</li>
-        </ul>
-        <table class="table table-striped table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout: fixed;">
-         <thead>
-            <tr class="js-tooltip" style="letter-spacing: -1px; font-size: 13px;">
-              <th style="width: 100px">Dataset</th>
-              <th style="width: 45px">Notes</th>
-              <th py:if="c.options['include_sub_organizations']" style="width: 85px">Publisher</th>
-              <th style="width: 20px" title="Index/position of the resource in the dataset">Res</th>
-              <th style="width: 190px">URL</th>
-              <th style="width: 75px">Status</th>
-              <th style="width: 120px">Reason</th>
-              <th style="width: 25px" title="Failed download attempts">No. of fails</th>
-              <th style="width: 75px" title="First failed attempt">First fail</th>
-              <th style="width: 75px" title="Most recent failed attempt">Latest fail</th>
-              <th style="width: 75px" title="The last time it was successfully obtained">Last success</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr py:for="row_dict in c.data['table']">
-              <td><a href="${h.url_for(controller='package', action='read', id=row_dict['dataset_name'])}">${row_dict['dataset_title']}</a></td>
-              <td>${row_dict['dataset_notes']}</td>
-              <td py:if="c.options['include_sub_organizations']"><a href="/publisher/${row_dict['organization_name']}">${row_dict['organization_title']}</a></td>
-              <td><a href="/dataset/${row_dict['dataset_name']}/resource/${row_dict['resource_id']}">${row_dict['resource_position']}</a></td>
-              <td><a href="${row_dict['resource_url']}" style="word-wrap:break-word;">${row_dict['resource_url']}</a></td>
-              <td>${row_dict.get('status', 'not recorded')}</td>
-              <td>${row_dict.get('reason', 'not recorded')}</td>
-              <td>${row_dict.get('failure_count', 'not recorded')}</td>
-              <td>${h.render_datetime(row_dict.get('first_failure')) if row_dict.get('first_failure') else 'not recorded'}</td>
-              <td>${h.render_datetime(row_dict.get('last_updated')) if row_dict.get('last_updated') else 'not recorded'}</td>
-              <td>${h.render_datetime(row_dict.get('last_success')) if row_dict.get('last_success') else 'not recorded'}</td>
-            </tr>
-          </tbody>
-        </table>
-    </py:if>
-</html>
-
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
