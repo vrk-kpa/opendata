@@ -93,6 +93,62 @@ Status: work in progress
   ### SERVICE_ALERT_FEATURE
   Work in progress
 
+## YTP-DRUPAL-FOOTER
+
+  Creates content for page footer region. Contains (1) an editable block for free text, 
+  (2) a menu block for links and (3) a block for social media buttons.
+
+  Dependencies: ytp-theme-drupal (for styling)
+
+  ### Initialization
+
+    0. The feature is installed by Ansible.
+
+    1. Site owner info block
+      Make block content translatable: Configuration -> Regional and language -> 
+      Multilingual settings. Click on "Variables" tab. Select variable Other -> Site owner info 
+      and save.
+
+      Make text format translatable: Configuration -> Regional and language -> 
+      Multilingual settings. Click on "Strings" tab. Select text format you will use for the block
+      ("Filtered HTML" being default value) and save.
+
+      Set block content as variable at Configuration -> System -> Variables. The variable to 
+      translate is Other -> Site owner info.
+
+    2. Link block
+      Make the menu translatable at Structure -> Menus -> Footer links -> Multilingual options.
+
+      The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
+      Menus -> Footer links to add links. All links should have language.
+
+      Note that you shouldn't place any links to restricted content (ie. admin pages) in the 
+      footer, as they won't be displayed in CKAN.
+
+    3. Social media icons block
+      Get the HTML codes from your preferred social media sites. Go to Structure -> Blocks -> 
+      Social media icons, make sure to turn rich text editing off and switch text format to full 
+      HTML and paste your codes to the "Icon source code" box. This block will not be translated, 
+      so avoid writing any text.
+
+  ### Editing
+
+    1. Site owner info block
+      Edit content at Configuration -> System -> Variables. The variable to edit is Other -> 
+      Site owner info.
+
+    2. Link block
+      Add or remove links at Structures -> Menus -> Footer links.
+
+    3. Social media icons block
+      Edit at Structure -> Blocks -> Social media icons. Make sure to turn off rich text editing 
+      and switch text format to full HTML.
+
+    4. General theme
+      CSS is located at ytp-assets-common/src/less/common.less.
+
+      To edit the look of all blocks, see ytp-theme-drupal/templates/block--footer.tpl.php.
+
 ## YTP-DRUPAL-TUTORIAL
 
   Creates a tutorial block on front page. The block will determine if user is registered, belongs 
@@ -102,14 +158,13 @@ Status: work in progress
   Dependencies: ytp-drupal-user (module reads and edits some fields created by ytp-drupal-user)
                 ytp-theme-drupal (for styling)
 
-  #### Initialization
+  ### Initialization
 
     0. The feature is installed by Ansible.
 
     1. Block settings
-      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none> and 
-      region setting "YTP theme": "Top Bar Secondary". For pages, choose "Only the listed pages": 
-      "<front>".
+      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none>. 
+      For pages, choose "Only the listed pages": "<front>".
 
   ### Editing
 

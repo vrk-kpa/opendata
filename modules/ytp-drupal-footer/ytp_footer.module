@@ -1,0 +1,150 @@
+<?php
+/**
+ * @file
+ * Creates page footer to be used in both Drupal and CKAN
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function ytp_footer_block_info() {
+  $blocks = array();
+  $blocks['owner_info'] = array(
+    'info' => t('Site owner info'),
+  );
+  $blocks['icons'] = array(
+    'info' => t('Social media icons'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function ytp_footer_block_configure($delta = '') {
+  $form = array();
+
+  switch ($delta) {
+    case 'icons':
+      $form['icons_content'] = array(
+        '#type' => 'text_format',
+        '#title' => t('Icon source code'),
+        '#default_value' => variable_get('ytp_footer_icons', ''),
+      );
+      break;
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function ytp_footer_block_save($delta = '', $edit = array()) {
+  switch($delta) {
+    case 'icons':
+      variable_set('ytp_footer_icons', $edit['icons_content']['value']);
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ytp_footer_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'owner_info':
+      global $language;
+      $owner_info = variable_get_value('ytp_footer_owner_info', 
+        array('language' => $language, 'default' => ''));
+
+      $block = array(
+        'content' => $owner_info['value'],
+      );
+      break;
+
+    case 'icons':
+      $block = array(
+        'content' => array(
+          'icons' => array(
+            '#type' => 'markup',
+            '#markup' => variable_get('ytp_footer_icons', ''),
+          ),
+        ),
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_help().
+ */
+function ytp_footer_help($path, $arg) {
+  if ($path == 'admin/help#ytp_footer') {
+      return t('Creates page footer that includes (1) an editable block for free text, (2) a menu block for links and (3) a block for social media buttons. The footer can be used in both Drupal and CKAN.');
+  }
+}
+
+/**
+ * Implements hook_menu()
+ */
+function ytp_footer_menu() {
+
+  $items['api/footer/%'] = array( 
+    'page callback' => 'ytp_footer_get_footer',
+    'page arguments' => array(2),
+    'access callback' => true,
+    );
+
+  return $items;
+}
+
+/**
+ * Implements hook_variable_info().
+ */
+function ytp_footer_variable_info($options)
+{
+  $variables['ytp_footer_owner_info'] = array(
+    'type' => 'text_format',
+    'title' => t('Site owner info'),
+    'default' => '',
+    'description' => t('A block of text shown in footer. Should contain contact information.', array(), $options),
+    'localize' => 'TRUE',
+    );
+  return $variables;
+}
+
+/** 
+ * Returns footer HTML code. CKAN calls this function via menu API to display footer.
+ */
+function ytp_footer_get_footer($lang) {
+
+  global $language;
+  $languages = language_list();
+  if (isset($languages[$lang])) {
+    $language = $languages[$lang];
+  }
+
+  $content = block_get_blocks_by_region('footer') + array(
+    '#theme_wrappers' => array('region'),
+    '#region' => 'footer',
+  );
+
+  // Translation fix for owner info block:
+  // block_get_blocks_by_region() only returns the default value of an i18n variable.
+  // Find the correct translation and overwrite block content markup.
+  $translation = i18n_variable_get('ytp_footer_owner_info', $lang);
+  $content['ytp_footer_owner_info']['#markup'] = $translation['value'];
+
+  // <footer> container element is needed for CSS
+  $footer = "<footer class='footer container'>" . render($content) . "</footer>";
+
+  drupal_add_http_header('Content-Type', 'text/plain');
+  print $footer;
+  drupal_exit(0);
+
+}

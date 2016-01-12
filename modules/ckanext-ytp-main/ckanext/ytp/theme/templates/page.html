@@ -30,7 +30,7 @@
 {% endblock %}
 
 {%- block footer %}
-{# We do not want drupal footer. #}
+  {{ h.drupal_footer()|safe }}
 {% endblock -%}
 
 {% block header %}

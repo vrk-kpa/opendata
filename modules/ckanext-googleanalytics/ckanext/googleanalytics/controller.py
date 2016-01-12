@@ -1,11 +1,9 @@
 import logging
 from ckan.lib.base import BaseController, c, render, request
-import dbutil
 
 import urllib
 import urllib2
 
-import logging
 import ckan.logic as logic
 import hashlib
 import plugin
@@ -15,17 +13,9 @@ from webob.multidict import UnicodeMultiDict
 from paste.util.multidict import MultiDict
 
 from ckan.controllers.api import ApiController
+from ckan.controllers.package import PackageController
 
 log = logging.getLogger('ckanext.googleanalytics')
-
-
-class GAController(BaseController):
-    def view(self):
-        # get package objects corresponding to popular GA content
-        c.top_packages = dbutil.get_top_packages(limit=10)
-        c.top_resources = dbutil.get_top_resources(limit=10)
-        return render('summary.html')
-
 
 class GAApiController(ApiController):
     # intercept API calls to record via google analytics
@@ -111,6 +101,33 @@ class GAApiController(ApiController):
             if 'query' in params.keys():
                 id = params['query']
         except ValueError, e:
-            log.debug(str(e))
             pass
         self._post_analytics(c.user, register, "search", id)
+
+        return ApiController.search(self, ver, register)
+        
+
+class GAResourceController(PackageController):
+    # intercept API calls to record via google analytics
+    def _post_analytics(
+            self, user, request_obj_type, request_function, request_id):
+        if config.get('googleanalytics.id'):
+            data_dict = {
+                "v": 1,
+                "tid": config.get('googleanalytics.id'),
+                "cid": hashlib.md5(user).hexdigest(),
+                # customer id should be obfuscated
+                "t": "event",
+                "dh": c.environ['HTTP_HOST'],
+                "dp": c.environ['PATH_INFO'],
+                "dr": c.environ.get('HTTP_REFERER', ''),
+                "ec": "CKAN Resource Download Request",
+                "ea": request_obj_type+request_function,
+                "el": request_id,
+            }
+            plugin.GoogleAnalyticsPlugin.analytics_queue.put(data_dict)
+
+    def resource_download(self, id, resource_id, filename=None):
+        self._post_analytics(c.user, "Resource", "Download", resource_id)
+        return PackageController.resource_download(self, id, resource_id,
+                                                   filename)
