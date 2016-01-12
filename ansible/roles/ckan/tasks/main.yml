@@ -88,6 +88,12 @@
   - apache
   - ckan
 
+- name: Enable mod_headers
+  command: a2enmod headers
+  tags:
+  - apache
+  - ckan
+
 - name: Copy Apache configuration
   template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp" mode="0644" owner=root group=root
   tags:

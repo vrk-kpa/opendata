@@ -20,6 +20,9 @@ WSGISocketPrefix /var/run/wsgi
     SSLCertificateFile      {{ certificates_path }}/{{ssl_crt_primary}}
     SSLCertificateKeyFile   {{ certificates_path }}/{{ssl_key_primary}}
 
+    # allow CORS
+    Header set Access-Control-Allow-Origin "*"
+
 </VirtualHost>
 
 {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
