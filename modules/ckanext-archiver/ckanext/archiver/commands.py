@@ -17,8 +17,8 @@ class Archiver(CkanCommand):
     '''
     Download and save copies of all package resources.
 
-    The result of each download attempt is saved to the CKAN task_status table,
-    so the information can be used later for QA analysis.
+    The result of each download attempt is saved to the CKAN task_status table, so the
+    information can be used later for QA analysis.
 
     Usage:
 
@@ -124,7 +124,7 @@ class Archiver(CkanCommand):
 
     def update(self):
         from ckan import model
-        from ckanext.archiver import lib
+        from ckanext.archiver import plugin
         packages = []
         resources = []
         if len(self.args) > 1:
@@ -134,7 +134,7 @@ class Archiver(CkanCommand):
                 if group:
                     if group.is_organization:
                         packages.extend(
-                            model.Session.query(model.Package)
+                            model.Session.query(model.Package)\
                                  .filter_by(owner_org=group.id))
                     else:
                         packages.extend(group.packages(with_private=True))
@@ -178,28 +178,20 @@ class Archiver(CkanCommand):
 
         self.log.info('Queue: %s', self.options.queue)
         for package in packages:
-            if hasattr(model, 'ResourceGroup'):
-                # earlier CKANs had ResourceGroup
-                pkg_resources = \
-                    [res for res in
-                        itertools.chain.from_iterable(
-                            (rg.resources_all
-                             for rg in package.resource_groups_all)
-                        )
-                     if res.state == 'active']
-            else:
-                pkg_resources = \
-                    [res for res in package.resources_all
-                     if res.state == 'active']
+            pkg_resources = \
+                [res for res in
+                    package.resources_all
+                 if res.state == 'active']
             self.log.info('Queuing dataset %s (%s resources)',
                           package.name, len(pkg_resources))
-            lib.create_archiver_package_task(package, self.options.queue)
+            for resource in pkg_resources:
+                plugin.create_archiver_task(resource, self.options.queue)
             time.sleep(0.1)  # to try to avoid Redis getting overloaded
 
         for resource in resources:
-            package = resource.resource_group.package
+            package = resource.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
-            lib.create_archiver_resource_task(resource, self.options.queue)
+            plugin.create_archiver_task(resource, self.options.queue)
             time.sleep(0.05)  # to try to avoid Redis getting overloaded
 
         self.log.info('Completed queueing')
@@ -368,7 +360,7 @@ class Archiver(CkanCommand):
             {'model': model, 'ignore_auth': True, 'defer_commit': True}, {}
         )
 
-        site_url_base = config['ckanext-archiver.cache_url_root'].rstrip('/')
+        site_url_base = config.get('ckan.cache_url_root').rstrip('/')
         old_dir_regex = re.compile(r'(.*)/([a-f0-9\-]+)/([^/]*)$')
         new_dir_regex = re.compile(r'(.*)/[a-f0-9]{2}/[a-f0-9\-]{36}/[^/]*$')
         for resource in model.Session.query(model.Resource).\
@@ -386,8 +378,8 @@ class Archiver(CkanCommand):
             # check the package isn't deleted
             # Need to refresh the resource's session
             resource = model.Session.query(model.Resource).get(resource.id)
-            if resource.resource_group and resource.resource_group.package:
-                if resource.resource_group.package.state == model.State.DELETED:
+            if resource.package:
+                if resource.package.state == model.State.DELETED:
                     print 'Package is deleted'
                     continue
 
@@ -396,7 +388,7 @@ class Archiver(CkanCommand):
                 continue
 
             # move the file
-            filepath_base = config['ckanext-archiver.archive_dir']
+            filepath_base = config.get('ckanext-archiver.archive_dir')
             old_path = os.path.join(filepath_base, resource.id)
             new_dir = os.path.join(filepath_base, resource.id[:2])
             new_path = os.path.join(filepath_base, resource.id[:2], resource.id)

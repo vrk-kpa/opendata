@@ -3,7 +3,6 @@ from ckan.plugins import toolkit as pt
 from ckanext.harvest.logic.auth import get_job_object
 
 
-
 def auth_allow_anonymous_access(auth_function):
     '''
         Local version of the auth_allow_anonymous_access decorator that only
@@ -26,8 +25,11 @@ def harvest_source_show(context, data_dict):
     '''
     model = context.get('model')
     user = context.get('user')
-    source_id = data_dict['id']
+   
+    if not model or not user:
+        return {'success': False}
 
+    source_id = data_dict.get('id')
     pkg = model.Package.get(source_id)
     if not pkg:
         raise pt.ObjectNotFound(pt._('Harvest source not found'))
@@ -92,7 +94,11 @@ def harvest_job_list(context, data_dict):
         jobs
     '''
     user = context.get('user')
-    source_id = data_dict['source_id']
+
+    if not user:
+        return {'success': False, pt._('Not authorized to list jobs for source')}
+
+    source_id = data_dict.get('source_id')
 
     try:
         pt.check_access('harvest_source_update',

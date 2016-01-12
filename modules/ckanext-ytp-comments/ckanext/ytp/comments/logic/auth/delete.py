@@ -10,10 +10,12 @@ log = logging.getLogger(__name__)
 
 
 def comment_delete(context, data_dict):
-    model = context['model']
-    user = context['user']
+    model = context.get('model', None)
+    user = context.get('user', None)
 
-    userobj = model.User.get(user)
+    if model is not None:
+       userobj = model.User.get(user)
+
     # If sysadmin.
     if authz.is_sysadmin(user):
         return {'success': True}
@@ -24,19 +26,19 @@ def comment_delete(context, data_dict):
     if not comment:
         return {'success': False, 'msg': _('Comment does not exist')}
 
-    if comment.user_id is not userobj.id:
-        return {'success': False, 'msg': _('User is not the author of the comment')}
+    if userobj is not None and comment.user_id is userobj.id:
+        return {'success': True}
 
-    return {'success': True}
-
+    return {'success': False, 'msg': _('User is not the author of the comment')}
 
 def remove_comment_subscription(context, data_dict):
-    model = context['model']
-    user = context['user']
+    model = context.get('model', None)
+    user = context.get('user', None)
 
-    userobj = model.User.get(user)
+    if model is not None:
+        userobj = model.User.get(user)
 
-    if not userobj:
-        return {'success': False, 'msg': _('You must be logged in to unsubscribe from comment notifications')}
+    if userobj:
+        return {'success': True}
 
-    return {'success': True}
+    return {'success': False, 'msg': _('You must be logged in to unsubscribe from comment notifications')}

@@ -62,7 +62,7 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         if 'googleanalytics.id' not in config:
             msg = "Missing googleanalytics.id in config"
             raise GoogleAnalyticsException(msg)
-        self.googleanalytics_id = config['googleanalytics.id']
+        self.googleanalytics_id = config.get('googleanalytics.id')
         self.googleanalytics_domain = config.get(
                 'googleanalytics.domain', 'auto')
         

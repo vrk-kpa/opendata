@@ -8,7 +8,7 @@ from ckan.plugins import PluginImplementations
 from ckanext.harvest.interfaces import IHarvester
 
 import ckan.plugins as p
-from ckan.logic import NotFound, check_access, side_effect_free
+from ckan.logic import NotFound, side_effect_free
 
 from ckanext.harvest import model as harvest_model
 
@@ -33,7 +33,6 @@ def harvest_source_show(context,data_dict):
     :returns: harvest source metadata
     :rtype: dictionary
     '''
-
 
     source_dict = logic.get_action('package_show')(context, data_dict)
 
@@ -60,7 +59,6 @@ def harvest_source_show_status(context, data_dict):
     '''
 
     p.toolkit.check_access('harvest_source_show_status', context, data_dict)
-
 
     model = context.get('model')
 
@@ -108,10 +106,10 @@ def harvest_source_list(context, data_dict):
     TODO: Use package search
     '''
 
-    check_access('harvest_source_list',context,data_dict)
+    p.toolkit.check_access('harvest_source_list', context, data_dict)
 
-    model = context['model']
-    session = context['session']
+    model = context.get('model')
+    session = context.get('session')
     user = context.get('user','')
 
     sources = _get_sources_for_user(context, data_dict)
@@ -128,8 +126,8 @@ def harvest_source_for_a_dataset(context, data_dict):
     '''For a given dataset, return the harvest source that
     created or last updated it, otherwise NotFound.'''
 
-    model = context['model']
-    session = context['session']
+    model = context.get('model')
+    session = context.get('session')
 
     dataset_id = data_dict.get('id')
 
@@ -147,7 +145,7 @@ def harvest_source_for_a_dataset(context, data_dict):
 @side_effect_free
 def harvest_job_show(context,data_dict):
 
-    check_access('harvest_job_show',context,data_dict)
+    p.toolkit.check_access('harvest_job_show', context, data_dict)
 
     id = data_dict.get('id')
     attr = data_dict.get('attr',None)
@@ -161,7 +159,7 @@ def harvest_job_show(context,data_dict):
 @side_effect_free
 def harvest_job_report(context, data_dict):
 
-    check_access('harvest_job_show', context, data_dict)
+    p.toolkit.check_access('harvest_job_show', context, data_dict)
 
     model = context['model']
     id = data_dict.get('id')
@@ -223,7 +221,7 @@ def harvest_job_report(context, data_dict):
 @side_effect_free
 def harvest_job_list(context,data_dict):
 
-    check_access('harvest_job_list',context,data_dict)
+    p.toolkit.check_access('harvest_job_list', context, data_dict)
 
     model = context['model']
     session = context['session']
@@ -278,13 +276,14 @@ def harvest_object_show(context,data_dict):
 
     return harvest_object_dictize(obj, context)
 
+
 @side_effect_free
 def harvest_object_list(context,data_dict):
 
-    check_access('harvest_object_list',context,data_dict)
+    p.toolkit.check_access('harvest_object_list', context, data_dict)
 
-    model = context['model']
-    session = context['session']
+    model = context.get('model')
+    session = context.get('session')
 
     only_current = data_dict.get('only_current',True)
     source_id = data_dict.get('source_id',False)
@@ -304,7 +303,7 @@ def harvest_object_list(context,data_dict):
 @side_effect_free
 def harvesters_info_show(context,data_dict):
 
-    check_access('harvesters_info_show',context,data_dict)
+    p.toolkit.check_access('harvesters_info_show', context, data_dict)
 
     available_harvesters = []
     for harvester in PluginImplementations(IHarvester):
@@ -319,8 +318,8 @@ def harvesters_info_show(context,data_dict):
 
 def _get_sources_for_user(context,data_dict):
 
-    model = context['model']
-    session = context['session']
+    model = context.get('model')
+    session = context.get('session')
     user = context.get('user','')
 
     only_active = data_dict.get('only_active',False)

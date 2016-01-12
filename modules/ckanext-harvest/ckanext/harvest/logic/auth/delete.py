@@ -11,7 +11,7 @@ def harvest_source_delete(context, data_dict):
     '''
     model = context.get('model')
     user = context.get('user')
-    source_id = data_dict['id']
+    source_id = data_dict.get('id')
 
     pkg = model.Package.get(source_id)
     if not pkg:
