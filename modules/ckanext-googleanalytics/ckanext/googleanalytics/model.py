@@ -162,6 +162,13 @@ class PackageStats(Base):
             results["tot_visits"] = tot_visits
         return results
 
+    @classmethod
+    def get_latest_update_date(cls):
+        result = model.Session.query(cls).order_by(cls.visit_date.desc()).first()
+        if result is None:
+            return None
+        else:
+            return result.visit_date
 
 class ResourceStats(Base):
     """ 
@@ -189,7 +196,7 @@ class ResourceStats(Base):
         :param visits: number of visits until visit_date
         :return: True for a successful update, otherwise False
         '''
-        resource = model.Session.query(cls).filter(cls.resource_id == item_id).first()
+        resource = model.Session.query(cls).filter(cls.resource_id == item_id).filter(cls.visit_date == visit_date).first()
         if resource is None:
             resource = ResourceStats(resource_id=item_id, visit_date=visit_date, visits=visits)
             model.Session.add(resource)
@@ -224,13 +231,6 @@ class ResourceStats(Base):
             visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
         return visits
 
-    @classmethod
-    def get_latest_update_date(cls):
-        result = model.Session.query(cls).order_by(cls.visit_date.desc()).first()
-        if result is None:
-            return None
-        else:
-            return result.visit_date
         
 
     @classmethod
