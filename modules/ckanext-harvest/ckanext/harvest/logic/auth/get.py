@@ -3,7 +3,6 @@ from ckan.plugins import toolkit as pt
 from ckanext.harvest.logic.auth import get_job_object
 
 
-
 def auth_allow_anonymous_access(auth_function):
     '''
         Local version of the auth_allow_anonymous_access decorator that only
@@ -27,7 +26,7 @@ def harvest_source_show(context, data_dict):
     model = context.get('model')
     user = context.get('user')
    
-    if not model or not source:
+    if not model or not user:
         return {'success': False}
 
     source_id = data_dict.get('id')
@@ -119,6 +118,13 @@ def harvest_object_show(context, data_dict):
         Authorization check for getting the contents of a harvest object
 
         Everybody can do it
+    '''
+    return {'success': True}
+
+
+def harvest_object_list(context, data_dict):
+    '''
+    TODO: remove
     '''
     return {'success': True}
 

@@ -278,6 +278,30 @@ def harvest_object_show(context,data_dict):
 
     return harvest_object_dictize(obj, context)
 
+
+@side_effect_free
+def harvest_object_list(context,data_dict):
+
+    check_access('harvest_object_list',context,data_dict)
+
+    model = context.get('model')
+    session = context.get('session')
+
+    only_current = data_dict.get('only_current',True)
+    source_id = data_dict.get('source_id',False)
+
+    query = session.query(HarvestObject)
+
+    if source_id:
+        query = query.filter(HarvestObject.source_id==source_id)
+
+    if only_current:
+        query = query.filter(HarvestObject.current==True)
+
+    objects = query.all()
+
+    return [getattr(obj,'id') for obj in objects]
+
 @side_effect_free
 def harvesters_info_show(context,data_dict):
 
