@@ -209,6 +209,9 @@
 
     - twitter_block
 
+    - variable_translation
+    - variable_admin
+
   tags:
   - drupal
 
