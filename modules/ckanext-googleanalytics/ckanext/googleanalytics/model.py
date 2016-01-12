@@ -63,7 +63,7 @@ class PackageStats(Base):
         package_visits = model.Session.query(cls).filter(cls.package_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.package_id == resource_id).scalar()
-        visits = []
+        visits = {}
 
         if total_visits is not None:
             visits = PackageStats.convert_to_dict(package_visits, total_visits)
@@ -100,7 +100,7 @@ class PackageStats(Base):
         resource_visits_dict = ResourceStats.get_last_visits_by_dataset_id(dataset_id)
 
         visit_list = []
-        visits = visits_dict.get('packages',None)
+        visits = visits_dict.get('packages', [])
         count = visits_dict.get('tot_visits', 0)
 
         resource_visits = resource_visits_dict.get('resources', 0)
@@ -226,7 +226,7 @@ class ResourceStats(Base):
         resource_visits = model.Session.query(cls).filter(cls.resource_id == resource_id).filter(cls.visit_date >= start_date).all()
         #Returns the total number of visits since the beggining of all times
         total_visits = model.Session.query(func.sum(cls.visits)).filter(cls.resource_id == resource_id).scalar()
-        visits = []
+        visits = {}
         if total_visits is not None:
             visits = ResourceStats.convert_to_dict(resource_visits, total_visits)
         return visits
