@@ -207,7 +207,7 @@ class GACommand(p.toolkit.CkanCommand):
 
     def get_ga_data(self, start_date=None):
         """
-        Get raw data from Google Analtyics for packages and
+        Get raw data from Google Analytics for packages and
         resources for the start date given as parameter or last time since database was updated and 2 days more
 
         Returns a dictionary like::
@@ -224,8 +224,7 @@ class GACommand(p.toolkit.CkanCommand):
         if start_date is not None:
             floor_date = start_date
         
-        if floor_date is None:
-            latest_date = ResourceStats.get_latest_update_date()
+        latest_date = PackageStats.get_latest_update_date()
         
         if latest_date is not None:
             floor_date = latest_date - datetime.timedelta(days=2)
