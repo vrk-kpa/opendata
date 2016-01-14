@@ -15,6 +15,10 @@ from ckanext.qa import lib
 from ckanext.archiver.model import Archival, Status
 
 
+import logging
+
+log = logging.getLogger(__name__)
+
 class QAError(Exception):
     pass
 
@@ -62,7 +66,6 @@ def update_package(ckan_ini_filepath, package_id):
 
     Returns None
     """
-    log = update_package.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
@@ -99,7 +102,6 @@ def update(ckan_ini_filepath, resource_id):
         'openness_score': score (int)
         'openness_score_reason': the reason for the score (string)
     """
-    log = update.get_logger()
     load_config(ckan_ini_filepath)
     register_translator()
     from ckan import model
