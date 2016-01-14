@@ -88,6 +88,12 @@
   - apache
   - ckan
 
+- name: Enable mod_rewrite
+  command: a2enmod rewrite
+  tags:
+  - apache
+  - ckan
+
 - name: Enable mod_headers
   command: a2enmod headers
   tags:
