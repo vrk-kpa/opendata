@@ -18,7 +18,7 @@ cache:
 before_install:
   - sudo apt-get update
 install:
-  - pip install ansible
+  - pip install ansible==1.6.10
   - pip install flake8
   - pip install coverage
 before_script:
