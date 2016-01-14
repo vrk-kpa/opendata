@@ -1,18 +1,16 @@
 import urllib2
-
 from ckan.lib.base import c
 from ckan import model
 from ckan.model import Session
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
-
 from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestObjectExtra)
-
 import logging
+from ckanext.harvest.harvesters.base import HarvesterBase
+
 log = logging.getLogger(__name__)
 
-from ckanext.harvest.harvesters.base import HarvesterBase
 
 DELETE = "delete"
 
