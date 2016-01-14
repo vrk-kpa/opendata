@@ -1,2 +1,2 @@
-recursive-include ckanext/qa *.html *.json *.js *.less *.css
+recursive-include ckanext/qa/templates *
 include setup.py

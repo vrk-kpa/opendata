@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
 import ckan.logic.schema
-
 from ckan import plugins, model
 from ckan.lib.plugins import DefaultOrganizationForm
 from ckan.lib.navl import dictization_functions
@@ -9,22 +6,19 @@ from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _, c
 from ckan.logic import NotFound, NotAuthorized
 from ckan.plugins import toolkit
-
 import ckan.lib.base as base
-abort = base.abort
-
 from ckanext.ytp.organizations import auth
 from ckanext.ytp.common.tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
 import json
-
 import logging
 import pylons
 import ast
 import datetime
 from ckanext.ytp.common.helpers import extra_translation
-
 from ckan.config.routing import SubMapper
+
+abort = base.abort
 
 log = logging.getLogger(__name__)
 

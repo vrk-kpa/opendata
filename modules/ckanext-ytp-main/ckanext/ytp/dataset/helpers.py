@@ -3,12 +3,10 @@ import json
 from ckan.common import c, request
 from ckan.lib import helpers
 from ckan.logic import get_action
-import logging
-log = logging.getLogger(__name__)
-
 import os
 import datetime
 import logging
+
 log = logging.getLogger(__name__)
 
 
