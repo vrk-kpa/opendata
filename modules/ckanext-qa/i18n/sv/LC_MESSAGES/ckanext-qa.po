@@ -1,0 +1,71 @@
+# Translations template for ckanext-qa.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-qa project.
+# 
+# Translators:
+# Alexis Troberg <alexis.troberg@gofore.com>, 2015
+# jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-11-11 10:05+0200\n"
+"PO-Revision-Date: 2015-09-28 15:31+0000\n"
+"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/qa/html.py:26
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:14
+msgid "Available under an open license."
+msgstr "Tillgänglig under öppen licens."
+
+#: ckanext/qa/html.py:27
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:15
+msgid "Available as structured data (eg. Excel instead of a scanned table)."
+msgstr "Tillgänglig som strukturerad data (t.ex. som en Excel-fil i stället för en skannad tabell)."
+
+#: ckanext/qa/html.py:28
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:16
+msgid "Uses non-proprietary formats (e.g., CSV instead of Excel)."
+msgstr "Använder öppna format (t.ex. en CSV-fil i stället för en Excel-fil)."
+
+#: ckanext/qa/html.py:29
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:17
+msgid "Uses URIs to identify things, so that people can link to it."
+msgstr "Använder URI:n för att identifiera saker så att människor kan länka till dem."
+
+#: ckanext/qa/html.py:30
+#: ckanext/qa/templates_new/qa/snippets/stars_info.html:18
+msgid "Linked to other data to provide context."
+msgstr "Länkad till annan data för att skapa kontext."
+
+#: ckanext/qa/plugin.py:159
+msgid "Not Rated"
+msgstr "Oklassificerad"
+
+#: ckanext/qa/templates_new/qa/base.html:3
+msgid "Quality Assurance"
+msgstr "Kvalitetssäkring"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:14
+msgid "Resource Quality"
+msgstr "Materiallänkskvalitet"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:16
+msgid "Rating"
+msgstr "Klassificering"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "Hide rating info"
+msgstr "Göm klassificeringsinformationen"
+
+#: ckanext/qa/templates_new/qa/snippets/stars_module.html:18
+msgid "About these ratings…"
+msgstr "Tilläggsinformation om klassificeringen"
