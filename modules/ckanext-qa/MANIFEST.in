@@ -1,0 +1,2 @@
+recursive-include ckanext/qa/templates *
+include setup.py
