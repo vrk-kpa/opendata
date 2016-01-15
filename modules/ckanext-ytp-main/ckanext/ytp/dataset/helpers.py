@@ -95,12 +95,14 @@ def calculate_dataset_stars(dataset_id):
     if not is_plugin_enabled('qa'):
         return (0, '', '')
     try:
-        context = {'model': model, 'session': model.Session}
+        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
         qa = get_action('qa_package_openness_show')(context, {'id': dataset_id})
 
     except NotFound:
         return (0, '', '')
     if not qa:
+        return (0, '', '')
+    if qa['openness_score'] is None:
         return (0, '', '')
 
     return (qa['openness_score'],
@@ -196,71 +198,16 @@ def get_license(license_id):
 
 
 def get_visits_for_resource(id):
-    from ckanext.googleanalytics.dbutil import get_resource_visits_for_id
+    from ckanext.googleanalytics.model import ResourceStats
 
-    visits = get_resource_visits_for_id(id)
-    count = 0
-    visit_list = []
-
-    now = datetime.datetime.now()
-
-    for d in range(0, 30):
-        curr = now - datetime.timedelta(d)
-        visit_list.append((curr.year, curr.month, curr.day, 0))
-
-    for t in visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, t[1]) if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        else:
-            count = t[1]
-
-    results = {
-        "downloads": visit_list,
-        "count": count
-    }
-
-    return results
+    return ResourceStats.get_all_visits(id)
 
 
 def get_visits_for_dataset(id):
 
-    from ckanext.googleanalytics.dbutil import get_package_visits_for_id, get_resource_visits_for_package_id
+    from ckanext.googleanalytics.model import PackageStats
 
-    visits = get_package_visits_for_id(id)
-    resource_visits = get_resource_visits_for_package_id(id)
-
-    visit_list = []
-    count = 0
-
-    download_count = 0
-
-    now = datetime.datetime.now()
-
-    for d in range(0, 30):
-        curr = now - datetime.timedelta(d)
-        visit_list.append((curr.year, curr.month, curr.day, 0, 0))
-
-    for t in visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, t[1], 0)
-                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        else:
-            count = t[1]
-
-    for t in resource_visits:
-        if t[0] is not None:
-            visit_list = [(t[0].year, t[0].month, t[0].day, e[3], e[4] + t[1])
-                          if e[0] == t[0].year and e[1] == t[0].month and e[2] == t[0].day else e for e in visit_list]
-        elif t[1] is not None:
-            download_count = t[1]
-
-    results = {
-        "visits": visit_list,
-        "count": count,
-        "download_count": download_count
-    }
-
-    return results
+    return PackageStats.get_all_visits(id)
 
 
 def get_geonetwork_link(uuid, lang=None):
