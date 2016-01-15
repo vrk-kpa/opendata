@@ -3,28 +3,27 @@ from ckan.common import _
 
 log = logging.getLogger(__name__)
 
+
 def comment_create(context, data_dict):
-    user = context.get('user', None)
-    model = context.get('model', None)
+    user = context['user']
+    model = context['model']
 
-    if model is not None:
-        userobj = model.User.get(user)
-        
-    if userobj:
-        return {'success': True}
+    userobj = model.User.get(user)
 
-    log.debug("User is not logged in")
-    return {'success': False, 'msg': _('You must be logged in to add a comment')}
+    if not userobj:
+        log.debug("User is not logged in")
+        return {'success': False, 'msg': _('You must be logged in to add a comment')}
+
+    return {'success': True}
 
 
 def add_comment_subscription(context, data_dict):
-    user = context.get('user', None)
-    model = context.get('model', None)
+    user = context['user']
+    model = context['model']
 
-    if model is not None:
-        userobj = model.User.get(user)
+    userobj = model.User.get(user)
 
-    if userobj:
-        return {'success': True}
+    if not userobj:
+        return {'success': False, 'msg': _('You must be logged in to subscribe to comment notifications')}
 
-    return {'success': False, 'msg': _('You must be logged in to subscribe to comment notifications')}
+    return {'success': True}

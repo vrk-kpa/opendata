@@ -16,8 +16,8 @@ def report_data_get(context=None, data_dict=None):
     report = ReportRegistry.instance().get_report(id)
 
     if hasattr(report, 'authorize'):
-        user = context.get('auth_user_obj',None)
-        options = data_dict.get('options',None)
+        user = context['auth_user_obj']
+        options = data_dict['options']
         if not report.authorize(user, options):
             return {'success': False}
 

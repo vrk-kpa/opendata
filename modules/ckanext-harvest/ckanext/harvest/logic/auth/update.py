@@ -12,11 +12,8 @@ def harvest_source_update(context, data_dict):
     '''
     model = context.get('model')
     user = context.get('user')
+    source_id = data_dict['id']
 
-    if not model or not user:
-        return {'success': False, 'msg': pt._('Not authorized to update harvest source')}
-
-    source_id = data_dict.get('id')
     pkg = model.Package.get(source_id)
     if not pkg:
         raise pt.ObjectNotFound(pt._('Harvest source not found'))

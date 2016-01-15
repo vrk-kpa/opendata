@@ -7,11 +7,8 @@ def user_is_sysadmin(context):
 
         rtype: boolean
     '''
-    model = context.get('model',None)
-    user = context.get('user',None)
-    if not model or not user:
-        return False
-
+    model = context['model']
+    user = context['user']
     user_obj = model.User.get(user)
     if not user_obj:
         raise pt.Objectpt.ObjectNotFound('User {0} not found').format(user)
@@ -29,7 +26,7 @@ def _get_object(context, data_dict, name, class_name):
         if not obj:
             raise pt.ObjectNotFound
     else:
-        obj = context.get(name)
+        obj = context[name]
     return obj
 
 def get_source_object(context, data_dict = {}):

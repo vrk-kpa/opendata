@@ -7,11 +7,10 @@ log = logging.getLogger(__name__)
 
 
 def comment_update(context, data_dict):
-    user = context.get('user', None)
-    model = context.get('model', None)
+    user = context['user']
+    model = context['model']
 
-    if model is not None:
-        userobj = model.User.get(user)
+    userobj = model.User.get(user)
 
     if not userobj:
         log.debug("User is not logged in")
@@ -23,7 +22,7 @@ def comment_update(context, data_dict):
     if not comment:
         return {'success': False, 'msg': _('Comment does not exist')}
 
-    if comment.user_id is userobj.id:
-        return {'success': True}
+    if comment.user_id != userobj.id:
+        return {'success': False, 'msg': _('User is not the author of the comment')}
 
-    return {'success': False, 'msg': _('User is not the author of the comment')}
+    return {'success': True}

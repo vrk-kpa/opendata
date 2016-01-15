@@ -26,10 +26,8 @@ def harvest_job_create(context, data_dict):
         It forwards the checks to package_update, ie the user can only create
         new jobs if she is allowed to edit the harvest source dataset.
     '''
-    model = context.get('model',None)
-    if not model:
-        raise pt.ObjectNotFound
-    source_id = data_dict.get('source_id',None)
+    model = context['model']
+    source_id = data_dict['source_id']
 
     pkg = model.Package.get(source_id)
     if not pkg:
