@@ -96,7 +96,7 @@ def harvest_job_list(context, data_dict):
     user = context.get('user')
 
     if not user:
-        return {'success': False, 'msg': pt._('Not authorized to list jobs for source')}
+        return {'success': False, pt._('Not authorized to list jobs for source')}
 
     source_id = data_dict.get('source_id')
 
