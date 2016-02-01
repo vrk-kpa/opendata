@@ -88,6 +88,18 @@
   - apache
   - ckan
 
+- name: Enable mod_rewrite
+  command: a2enmod rewrite
+  tags:
+  - apache
+  - ckan
+
+- name: Enable mod_headers
+  command: a2enmod headers
+  tags:
+  - apache
+  - ckan
+
 - name: Copy Apache configuration
   template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp" mode="0644" owner=root group=root
   tags:
@@ -202,6 +214,12 @@
   - ckan
   - spatial
 
+- name: Install googleanalytics requirements
+  pip: requirements="{{ cache_path }}/ckanext-googleanalytics/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - google-analytics
+
 - name: Install archiver requirements
   pip: requirements="{{ cache_path }}/ckanext-archiver/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
@@ -302,7 +320,7 @@
     - google-analytics
 
 - name: Add analytics fetching to cron
-  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
   when: google_analytics != false
   tags:
     - ckan
