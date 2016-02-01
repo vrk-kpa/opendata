@@ -308,8 +308,8 @@ class ResourceStats(Base):
     @classmethod
     def get_all_visits(cls,id):
         visits_dict = ResourceStats.get_last_visits_by_id(id)
-        count = visits_dict.get('tot_visits',0)
-        visits = visits_dict.get('resources',None)
+        count = visits_dict.get('tot_visits', 0)
+        visits = visits_dict.get('resources', [])
         visit_list = []
 
         now = datetime.now()
