@@ -521,9 +521,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 user_name = self._get_user_by_id(user_id)
                 accepted_harvesters = {'default', 'harvest'}
                 if user_name in accepted_harvesters:
-                    pkg_dict['source'] = _('External')
+                    pkg_dict['source'] = 'External'
                 else:
-                    pkg_dict['source'] = _('Internal')
+                    pkg_dict['source'] = 'Internal'
         return pkg_dict
 
     # IActions #
