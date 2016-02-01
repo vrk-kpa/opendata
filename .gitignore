@@ -51,3 +51,6 @@ vars/ytp-secrets/
 .idea/
 .vagrant
 ansible/vars/private
+
+*.sublime-project
+*.sublime-workspace
