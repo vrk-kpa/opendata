@@ -6,9 +6,14 @@ import logging
 
 log = logging.getLogger(__name__)
 
-_SUBJECT_MEMBERSHIP_REQUEST = lambda: _(
-    "New membership request (%(organization)s)")
-_MESSAGE_MEMBERSHIP_REQUEST = lambda: _("""\
+
+def _SUBJECT_MEMBERSHIP_REQUEST():
+    return _(
+            "New membership request (%(organization)s)")
+
+
+def _MESSAGE_MEMBERSHIP_REQUEST():
+    return _("""\
 User %(user)s (%(email)s) has requested membership to organization %(organization)s.
 
 %(link)s
@@ -19,9 +24,14 @@ Avoindata.fi support
 valtori@avoindata.fi
 """)
 
-_SUBJECT_MEMBERSHIP_APPROVED = lambda: _(
-    "Organization membership approved (%(organization)s)")
-_MESSAGE_MEMBERSHIP_APPROVED = lambda: _("""\
+
+def _SUBJECT_MEMBERSHIP_APPROVED():
+    return _(
+            "Organization membership approved (%(organization)s)")
+
+
+def _MESSAGE_MEMBERSHIP_APPROVED():
+    return _("""\
 Your membership request to organization %(organization)s with %(role)s access has been approved.
 
 Best regards
@@ -30,9 +40,14 @@ Avoindata.fi support
 valtori@avoindata.fi
 """)
 
-_SUBJECT_MEMBERSHIP_REJECTED = lambda: _(
-    "Organization membership rejected (%(organization)s)")
-_MESSAGE_MEMBERSHIP_REJECTED = lambda: _("""\
+
+def _SUBJECT_MEMBERSHIP_REJECTED():
+    return _(
+            "Organization membership rejected (%(organization)s)")
+
+
+def _MESSAGE_MEMBERSHIP_REJECTED():
+    return _("""\
 Your membership request to organization %(organization)s with %(role)s access has been rejected.
 
 Best regards

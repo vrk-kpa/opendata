@@ -8,7 +8,6 @@ import urllib2
 from webhelpers.html.builder import literal
 import re
 from ckan.lib import helpers
-import json
 import pylons.config as config
 
 
@@ -128,19 +127,20 @@ class YtpThemePlugin(plugins.SingletonPlugin):
             return self._short_domain(hostname, default)
 
     def _drupal_footer(self):
-        lang = helpers.lang() if helpers.lang() else "fi" # Finnish as default language
+        lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
 
         try:
-          # Call our custom Drupal API to get footer content
-          hostname = config.get('ckan.site_url', '')
-          response = urllib2.urlopen(hostname + '/api/footer/' + lang)
-          return response.read().decode("utf-8")
+            # Call our custom Drupal API to get footer content
+            hostname = config.get('ckan.site_url', '')
+            response = urllib2.urlopen(hostname + '/api/footer/' + lang)
+            return response.read().decode("utf-8")
         except urllib2.HTTPError:
-          return ''
+            return ''
         except:
-          return ''
+            return ''
 
         return None
 
     def get_helpers(self):
-        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page, 'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer }
+        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
+                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer}

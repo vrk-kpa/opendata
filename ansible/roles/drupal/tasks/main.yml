@@ -217,6 +217,9 @@
 
     - commentsblock
 
+    - variable_translation
+    - variable_admin
+
   tags:
   - drupal
 
