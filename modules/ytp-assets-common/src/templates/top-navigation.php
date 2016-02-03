@@ -46,8 +46,6 @@
   }
 ?>
 
-<meta property="og:image" content="/resources/images/logo/avoindata_fb_<?php echo $language->language; ?>_600x600.jpg"" />
-
 <!--
     Top navbar
 -->
