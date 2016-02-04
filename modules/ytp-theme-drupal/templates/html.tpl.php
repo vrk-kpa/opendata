@@ -53,6 +53,8 @@ global $base_url; // For OpenGraph default image
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:image" content="<?php print $base_url; ?>/resources/images/logo/avoindata_fb_<?php echo $language->language; ?>_600x600.jpg" />
+  <meta property="og:image:width" content="600" />
+  <meta property="og:image:height" content="600" />  
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
