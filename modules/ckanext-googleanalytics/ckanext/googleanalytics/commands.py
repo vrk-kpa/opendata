@@ -237,7 +237,7 @@ class GACommand(p.toolkit.CkanCommand):
 
         #If floor date and current month belong to the same month no need to add backward months
         if current_month != datetime.date(floor_date.year,floor_date.month,1):
-            while current_month > floor_date:
+            while current_month > datetime.date(floor_date.year, floor_date.month, floor_date.day):
                 dates.append(current_month)
                 current_month = current_month - datetime.timedelta(days=30)
         dates.append(floor_date)
