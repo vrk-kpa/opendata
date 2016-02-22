@@ -282,9 +282,7 @@ msgid "Organization membership request"
 msgstr "Organisaation jäsenhakemus"
 
 #: ckanext/ytp/request/templates/request/show.html:12
-msgid ""
-" This shows a given membership request. Only admins can approve, modify or "
-"reject requests. "
+msgid "This shows a given membership request. Only admins can approve, modify or reject requests."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:46
