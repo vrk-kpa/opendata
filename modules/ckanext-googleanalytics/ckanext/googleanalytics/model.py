@@ -106,7 +106,7 @@ class PackageStats(Base):
         resource_visits = resource_visits_dict.get('resources', 0)
         download_count = resource_visits_dict.get('tot_visits', 0)
 
-        now = datetime.now() - datetime.timedelta(days=1)
+        now = datetime.now() - timedelta(days=1)
 
         #Creates a date object for the last 30 days in the format (YEAR, MONTH, DAY)
         for d in range(0, 30):
@@ -312,7 +312,7 @@ class ResourceStats(Base):
         visits = visits_dict.get('resources', [])
         visit_list = []
 
-        now = datetime.now() - datetime.timedelta(days=1)
+        now = datetime.now() -timedelta(days=1)
 
         #Creates a temporary date object for the last 30 days in the format (YEAR, MONTH, DAY, #visits this day)
         #If there is no entry for a certain date should return 0 visits
