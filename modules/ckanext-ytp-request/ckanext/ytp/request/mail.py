@@ -64,7 +64,6 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
     }
 
     try:
-        log.exception(message)      
         mail_user(admin, subject, message)
     except Exception:
         log.exception("Mail could not be sent")
