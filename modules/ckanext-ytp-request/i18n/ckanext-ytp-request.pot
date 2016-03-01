@@ -45,7 +45,16 @@ msgstr ""
 
 #: ckanext/ytp/request/mail.py:11
 #, python-format
-msgid "User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n\n%(link)s\n\nBest regards\n\nAvoindata.fi support\nvaltori@avoindata.fi\n"
+msgid ""
+"User %(user)s (%(email)s) has requested membership to organization "
+"%(organization)s.\n"
+"\n"
+"%(link)s\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
 msgstr ""
 
 #: ckanext/ytp/request/mail.py:22

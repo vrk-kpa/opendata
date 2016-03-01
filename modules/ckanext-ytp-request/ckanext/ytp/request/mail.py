@@ -51,8 +51,7 @@ valtori@avoindata.fi
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
     current_locale = get_lang()
-
-    _reset_lang()
+    i18n.set_lang("fi");
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
@@ -65,6 +64,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
     }
 
     try:
+        log.exception(message)      
         mail_user(admin, subject, message)
     except Exception:
         log.exception("Mail could not be sent")
