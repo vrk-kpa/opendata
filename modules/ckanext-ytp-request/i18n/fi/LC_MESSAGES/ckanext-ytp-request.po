@@ -6,17 +6,20 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
 # Ilja Pyykkönen, 2014
+# Ilja Pyykkönen, 2014
 # Jaakko Salonen <jaakko.salonen@iki.fi>, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014-2015
+# jpaakko <jari.paakko@gofore.com>, 2014
+# Meeri Panula <meeri.panula@gmail.com>, 2016
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-09 14:53+0200\n"
-"PO-Revision-Date: 2015-11-09 13:30+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"PO-Revision-Date: 2016-02-25 14:42+0000\n"
+"Last-Translator: Meeri Panula <meeri.panula@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/avoindata/ytp/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,15 +55,7 @@ msgstr "Uusi jäsenhakemus (%(organization)s)"
 
 #: ckanext/ytp/request/mail.py:11
 #, python-format
-msgid ""
-"User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n"
-"\n"
-"%(link)s\n"
-"\n"
-"Best regards\n"
-"\n"
-"Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+msgid "User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n\n%(link)s\n\nBest regards\n\nAvoindata.fi support\nvaltori@avoindata.fi\n"
 msgstr "Käyttäjä %(user)s (%(email)s) on hakenut jäseneksi organisaatioon %(organization)s.\n\nHyväksy tai hylkää hakemus klikkaamalla seuraavaa linkkiä:\n\n%(link)s\n\nHuomaa, että sinun tulee olla kirjautunut Avoindata.fi palveluun hyväksyessäsi hakemuksen.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin\n\nAvoindata.fi tuki\nvaltori@avoindata.fi\n"
 
 #: ckanext/ytp/request/mail.py:22
@@ -283,7 +278,7 @@ msgstr "Organisaation jäsenhakemus"
 
 #: ckanext/ytp/request/templates/request/show.html:12
 msgid "This shows a given membership request. Only admins can approve, modify or reject requests."
-msgstr ""
+msgstr "Tässä näytetään jäsenhakemus. Organisaation pääkäyttäjänä voit hyväksyä tai hylätä hakemuksen tai muokata sitä."
 
 #: ckanext/ytp/request/templates/request/show.html:46
 msgid "State"

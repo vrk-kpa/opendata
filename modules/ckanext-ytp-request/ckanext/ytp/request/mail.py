@@ -13,16 +13,7 @@ def _SUBJECT_MEMBERSHIP_REQUEST():
 
 
 def _MESSAGE_MEMBERSHIP_REQUEST():
-    return _("""\
-User %(user)s (%(email)s) has requested membership to organization %(organization)s.
-
-%(link)s
-
-Best regards
-
-Avoindata.fi support
-valtori@avoindata.fi
-""")
+    return _("User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n\n%(link)s\n\nBest regards\n\nAvoindata.fi support\nvaltori@avoindata.fi\n")
 
 
 def _SUBJECT_MEMBERSHIP_APPROVED():
