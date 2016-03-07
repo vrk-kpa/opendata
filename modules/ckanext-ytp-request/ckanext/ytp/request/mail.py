@@ -13,16 +13,7 @@ def _SUBJECT_MEMBERSHIP_REQUEST():
 
 
 def _MESSAGE_MEMBERSHIP_REQUEST():
-    return _("""\
-User %(user)s (%(email)s) has requested membership to organization %(organization)s.
-
-%(link)s
-
-Best regards
-
-Avoindata.fi support
-valtori@avoindata.fi
-""")
+    return _("User %(user)s (%(email)s) has requested membership to organization %(organization)s.\n\n%(link)s\n\nBest regards\n\nAvoindata.fi support\nvaltori@avoindata.fi\n")
 
 
 def _SUBJECT_MEMBERSHIP_APPROVED():
@@ -60,8 +51,7 @@ valtori@avoindata.fi
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
     current_locale = get_lang()
-
-    _reset_lang()
+    i18n.set_lang("fi");
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name

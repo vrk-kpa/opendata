@@ -6,15 +6,18 @@
 # Translators:
 # Alexis Troberg <alexis.troberg@gofore.com>, 2015
 # Ilja Pyykkönen, 2014
+# Ilja Pyykkönen, 2014
 # jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
+# Meeri Panula <meeri.panula@gmail.com>, 2016
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-09 14:53+0200\n"
-"PO-Revision-Date: 2015-11-09 13:07+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"PO-Revision-Date: 2016-02-25 14:41+0000\n"
+"Last-Translator: Meeri Panula <meeri.panula@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -280,10 +283,8 @@ msgid "Organization membership request"
 msgstr "Medlemskapsansökan till organisationen"
 
 #: ckanext/ytp/request/templates/request/show.html:12
-msgid ""
-" This shows a given membership request. Only admins can approve, modify or "
-"reject requests. "
-msgstr ""
+msgid "This shows a given membership request. Only admins can approve, modify or reject requests."
+msgstr "Här visas medlemskapsansökningen. Om du är organisationens huvudanvändare kan du godkänna eller förkasta ansökningen."
 
 #: ckanext/ytp/request/templates/request/show.html:46
 msgid "State"
