@@ -5,6 +5,8 @@ env:
     - CKANVERSION=master
     - CKANVERSION=2.2
     - CKANVERSION=2.3
+    - CKANVERSION=2.4
+    - CKANVERSION=2.5
 services:
     - redis-server
 install:

@@ -20,7 +20,7 @@ from ckanext.harvest.logic.dictization import (harvest_source_dictize,
 log = logging.getLogger(__name__)
 
 @side_effect_free
-def harvest_source_show(context,data_dict):
+def harvest_source_show(context, data_dict):
     '''
     Returns the metadata of a harvest source
 
@@ -30,10 +30,22 @@ def harvest_source_show(context,data_dict):
     :param id: the id or name of the harvest source
     :type id: string
 
+    :param url: url of the harvest source (as an alternative to the id)
+    :type url: string
+
     :returns: harvest source metadata
     :rtype: dictionary
     '''
+    model = context.get('model')
 
+    # Find the source by URL
+    if data_dict.get('url') and not data_dict.get('id'):
+        source = model.Session.query(harvest_model.HarvestSource) \
+                      .filter_by(url=data_dict.get('url')) \
+                      .first()
+        if not source:
+            raise NotFound
+        data_dict['id'] = source.id
 
     source_dict = logic.get_action('package_show')(context, data_dict)
 
@@ -116,33 +128,8 @@ def harvest_source_list(context, data_dict):
 
     sources = _get_sources_for_user(context, data_dict)
 
-    context.update({'detailed':False})
     return [harvest_source_dictize(source, context) for source in sources]
 
-@side_effect_free
-def harvest_source_for_a_dataset(context, data_dict):
-    '''
-    TODO: Deprecated, harvest source id is added as an extra to each dataset
-    automatically
-    '''
-    '''For a given dataset, return the harvest source that
-    created or last updated it, otherwise NotFound.'''
-
-    model = context['model']
-    session = context['session']
-
-    dataset_id = data_dict.get('id')
-
-    query = session.query(HarvestSource)\
-            .join(HarvestObject)\
-            .filter_by(package_id=dataset_id)\
-            .order_by(HarvestObject.gathered.desc())
-    source = query.first() # newest
-
-    if not source:
-        raise NotFound
-
-    return harvest_source_dictize(source,context)
 
 @side_effect_free
 def harvest_job_show(context,data_dict):
@@ -222,6 +209,11 @@ def harvest_job_report(context, data_dict):
 
 @side_effect_free
 def harvest_job_list(context,data_dict):
+    '''Returns a list of jobs and details of objects and errors.
+
+    :param status: filter by e.g. "New" or "Finished" jobs
+    :param source_id: filter by a harvest source
+    '''
 
     check_access('harvest_job_list',context,data_dict)
 
@@ -303,6 +295,7 @@ def harvest_object_list(context,data_dict):
 
 @side_effect_free
 def harvesters_info_show(context,data_dict):
+    '''Returns details of the installed harvesters.'''
 
     check_access('harvesters_info_show',context,data_dict)
 
