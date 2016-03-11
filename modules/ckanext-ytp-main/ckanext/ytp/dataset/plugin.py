@@ -575,6 +575,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                         except NotFound:
                             pass
 
+        config_obj = json.loads(data_dict['harvest_object'].source.config)
+        license_from_source = config_obj.get("license", None)
+
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
                     if extra['value'] == 'dataset':
@@ -594,20 +597,23 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
                     package_dict = unflatten(flattened)
 
-            if extra['key'] == 'licence':
-                value = json.loads(extra['value'])
-                if len(value):
-                    package_dict['license'] = value
-                    urls = []
-                    for i in value:
-                        urls += re.findall(r'(https?://\S+)', i)
-                    if len(urls):
-                        if urls[0].endswith('.'):
-                            urls[0] = urls[0][:-1]
-                        package_dict['extras'].append({
-                            "key": 'license_url',
-                            'value': urls[0]
-                        })
+            if license_from_source is None:
+                if extra['key'] == 'licence':
+                    value = json.loads(extra['value'])
+                    if len(value):
+                        package_dict['license'] = value
+                        urls = []
+                        for i in value:
+                            urls += re.findall(r'(https?://\S+)', i)
+                        if len(urls):
+                            if urls[0].endswith('.'):
+                                urls[0] = urls[0][:-1]
+                            package_dict['extras'].append({
+                                "key": 'license_url',
+                                'value': urls[0]
+                            })
+            else:
+                package_dict['license_id'] = license_from_source
 
             if extra['key'] == 'dataset-reference-date' and len(extra['value']):
                 value = json.loads(extra['value'])
@@ -627,5 +633,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             "key": 'resource_modified',
                             'value': dates.get("value")
                         })
+
+
+        # topic category for syke
+
+        topic_categories = data_dict['iso_values'].get('topic-category')
+        if topic_categories:
+            for category in topic_categories:
+                category = category[:50] if len(category) > 50 else category
+                package_dict['tags'].append({'name': category})
 
         return package_dict
