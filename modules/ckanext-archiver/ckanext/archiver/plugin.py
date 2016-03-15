@@ -88,14 +88,15 @@ class ArchiverPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         pkg_dict['archiver'] = dataset_archival
         # resources
         archivals_by_res_id = dict((a.resource_id, a) for a in archivals)
-        for res in pkg_dict['resources']:
-            archival = archivals_by_res_id.get(res['id'])
-            if archival:
-                archival_dict = archival.as_dict()
-                del archival_dict['id']
-                del archival_dict['package_id']
-                del archival_dict['resource_id']
-                res['archiver'] = archival_dict
+        if pkg_dict.get('resources', None):
+            for res in pkg_dict['resources']:
+                archival = archivals_by_res_id.get(res['id'])
+                if archival:
+                    archival_dict = archival.as_dict()
+                    del archival_dict['id']
+                    del archival_dict['package_id']
+                    del archival_dict['resource_id']
+                    res['archiver'] = archival_dict
 
 
 class TestIPipePlugin(p.SingletonPlugin):
