@@ -326,7 +326,7 @@ ul.dataset-list {
   padding-left: 0px;
 
   li.dataset-item {
-    padding-bottom: 14px;
+    padding-bottom: 25px;
     margin: 25px 0;
     border-bottom: 1px solid #dddddd;
 
@@ -984,15 +984,41 @@ dd {
   font-weight: 400;
   padding: 0.3em 0.8em 0.3em 0.8em;
   font-size: 100%;
-  margin: 3px;
-  border-radius: 0.3em;
+  margin: 0px;
+  border-radius: 4px;
 
   a {
-    color: @button-inverse-text-color;
+    color: #1467b6;
   }
 }
 
 // for /organization/<id>/embed in ckanext-ytp-main
 .dataset-list-embed {
   padding: 10px;
+}
+
+/* Added new styles to redesign the search page at 22032016 */
+
+.label-tag {
+  border: 1px solid #1467b6 !important;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.file-tag {
+  color: #444;
+  background-color: white;
+  border: none;
+}
+
+.file-tag::before {
+  content: '.';
+}
+
+.organization-line {
+  color: #A7A7A7 !important;
+}
+
+.organization-line a {
+  color: #A7A7A7 !important;
 }

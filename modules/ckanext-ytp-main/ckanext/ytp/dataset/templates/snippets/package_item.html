@@ -44,7 +44,7 @@ Example:
 
   <div class="dataset-item-meta">
     {% if package.collection_type -%}
-      <span class="collection-type label label-default"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
+      <span class="collection-type label label-default label-tag"><a href="/data/{{ h.lang() }}/dataset?collection_type={{ package.collection_type }}" >{{ _(package.collection_type) }}</a> </span>
     {%- endif -%}
     {% if package.get('state', '').startswith('draft') %}
       <span class="collection-type draft label label-info">{{ _('Draft') }}</span>
@@ -55,12 +55,12 @@ Example:
     {%- if package.get('resources') -%}
       {% set formats = h.unique_formats(package.get('resources')) %}
         {%- for format in formats -%}
-          <span class="format label label-info pull-right">{{_(format)}}</span>
+          <span class="format label label-info pull-right file-tag">{{_(format)}}</span>
         {%- endfor -%}
         &nbsp;
     {%- endif -%}
 
-    <span class="organization byline-dataset">
+    <span class="organization byline-dataset organization-line">
       {{ h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") }}
       {% if package.organization -%}
         <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name') }}">
