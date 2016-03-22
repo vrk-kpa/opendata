@@ -40,7 +40,7 @@
     echo '<li' . $class . '><a href='. $href . '>' . t("About us") . '</a></li>';
 
     $class = '';
-    $href = '/' . $lang . '/guide';
+    $href = '/' . $lang . '/opas';
     if ( (strpos($uri, $href) !== false || $site_section == t("Guide to Open Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
     echo '<li' . $class . '><a href='. $href . '>' . t("Guide to Open Data") . '</a></li>';
   }
