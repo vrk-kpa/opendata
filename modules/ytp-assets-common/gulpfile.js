@@ -93,7 +93,7 @@ gulp.task('static_pages', ['static_css'], function() {
 
 gulp.task('fonts', function() {
   return gulp.src(paths.src.fonts)
-    .pipe(gulp.dest(paths.dist+'/font'));
+    .pipe(gulp.dest(paths.dist+'/fonts'));
 });
 
 gulp.task('font', function() {
