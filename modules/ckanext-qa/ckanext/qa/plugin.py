@@ -95,14 +95,15 @@ class QAPlugin(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         pkg_dict['qa'] = dataset_qa
         # resources
         qa_by_res_id = dict((a.resource_id, a) for a in qa_objs)
-        for res in pkg_dict['resources']:
-            qa = qa_by_res_id.get(res['id'])
-            if qa:
-                qa_dict = qa.as_dict()
-                del qa_dict['id']
-                del qa_dict['package_id']
-                del qa_dict['resource_id']
-                res['qa'] = qa_dict
+        if pkg_dict.get('resources', None):
+            for res in pkg_dict['resources']:
+                qa = qa_by_res_id.get(res['id'])
+                if qa:
+                    qa_dict = qa.as_dict()
+                    del qa_dict['id']
+                    del qa_dict['package_id']
+                    del qa_dict['resource_id']
+                    res['qa'] = qa_dict
 
 
 def get_functions(module):
