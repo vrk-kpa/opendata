@@ -149,10 +149,10 @@
                 <?php if ($show_guide_nav == true) { ?>
                 <div class="row">
                     <ul class="guide-nav col-md-12">
-                        <li class="col-sm-12 col-md-6 col-lg-3"><a <?php if ( isset($active_page) && $active_page == "survey" ) { ?> class="active" <?php } ?>  href="<?php print "/" . $language->language . "/guide/survey" ?>">Kartoita ja selvitä</a></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "analyze" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/analyze" ?>">Arvioi ja valitse</a></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "prepare" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/prepare" ?>">Valmistele ja avaa</a></li>
-                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "follow" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/guide/follow" ?>">Seuraa ja kehitä</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><a <?php if ( isset($active_page) && $active_page == "kartoita" ) { ?> class="active" <?php } ?>  href="<?php print "/" . $language->language . "/opas/kartoita" ?>">Kartoita ja selvitä</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "analysoi" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/opas/analysoi" ?>">Arvioi ja valitse</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "valmistele" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/opas/valmistele" ?>">Valmistele ja avaa</a></li>
+                        <li class="col-sm-12 col-md-6 col-lg-3"><i class="icon-arrow-right"></i><a <?php if ( isset($active_page) && $active_page == "seuraa" ) { ?> class="active" <?php } ?> href="<?php print "/" . $language->language . "/opas/seuraa" ?>">Seuraa ja kehitä</a></li>
                     </ul>
 
                 </div>
