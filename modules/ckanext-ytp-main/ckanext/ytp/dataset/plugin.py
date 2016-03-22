@@ -634,7 +634,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             'value': dates.get("value")
                         })
 
-
         # topic category for syke
 
         topic_categories = data_dict['iso_values'].get('topic-category')
