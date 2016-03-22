@@ -7,10 +7,13 @@ modules:
   - ckanext-ytp-tasks
   - ckanext-ytp-request
   - ckanext-ytp-main
+  - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp-comments
   - ytp-theme-drupal
   - ytp-drupal-user
+  - ytp-drupal-tutorial
+  - ytp-drupal-footer
   - ckanext-qa
   - ckanext-archiver
   - ckanext-harvest

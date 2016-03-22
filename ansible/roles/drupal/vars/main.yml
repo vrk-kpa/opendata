@@ -19,6 +19,7 @@ extracted_features:
   - frontpage_tutorial
   - calendar_feature
   - guide_feature
+  - feature_blocks_feature
 
 ytp_features_path: "../modules/ytp-drupal-features"
 
@@ -29,6 +30,7 @@ translation_languages:
 translation_projects:
   - "ytp-theme-drupal"
   - "ytp-assets-common"
+  - "ytp-drupal-tutorial"
 translation_text_groups:
   - "field"
   - "node"

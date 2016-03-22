@@ -7,7 +7,7 @@
   - nfs_server
 
 - name: Make shared path
-  file: path="{{ nfs_shared_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  file: path="{{ nfs_shared_path }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
   tags:
   - nfs_server
 
@@ -17,7 +17,7 @@
   - nfs_server
 
 - name: Copy configuration
-  template: src=exports.j2 dest=/etc/exports mode=0644 owner=root group=root
+  template: src="exports.j2" dest="/etc/exports" mode="0644" owner=root group=root
   register: nfs_exports
   tags:
   - nfs_server

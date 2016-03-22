@@ -5,6 +5,7 @@
 @ytp-brand-decorative: #00519b; // Decorative secondary color
 @ytp-brand-complementary: #3F3D37;
 @ytp-brand-gray:       darken(#908B7C, 20%); //#88827A; // Neutral grayish elements
+@ytp-brand-dark:       #333333; // Secondary background color
 @ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
 @ytp-brand-info:       #5bc0de; // Notification color, important but not critical
 @ytp-brand-warning:    #f0ad4e; // Slightly dangerous and important element
@@ -35,6 +36,11 @@
 @alert-info-bg: @ytp-brand-decorative; //lighten(@ytp-brand-primary, 30%);
 @alert-info-border: @ytp-brand-decorative;
 @alert-info-text: lighten(@ytp-brand-decorative, 54%); //@ytp-brand-primary;
+@alert-link-font-weight: 500;
+
+//Color and background for FAVORITE datasets
+@popularTextColor: white;
+@popularBackgroundColor: #FFBB44;
 
 // Light border lines that separate UI areas
 @section-border-color: lighten(@ytp-brand-gray, 35%);
@@ -49,6 +55,7 @@
 @block-color-background: @ytp-brand-primary;
 @block-color: @button-inverse-text-color;
 @block-color-hilight: lighten(@ytp-brand-primary, 0%);
+@block-color-light: #FFF;
 
 // Tweak Bootstrap brand colors (label, button etc.)
 @label-default-bg: @ytp-brand-gray;
@@ -74,6 +81,10 @@
 @menu-hover-color: @ytp-brand-decorative;
 
 @body-color-background: white;
+
+// Footer colors
+@footer-background: @ytp-brand-dark;
+@footer-text-color:      #fff;
 
 // Drupal article tags
 // TODO where is this used

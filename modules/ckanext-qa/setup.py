@@ -8,7 +8,7 @@ setup(
     long_description='',
     classifiers=[],
     keywords='',
-    author='Open Knowledge Foundation',
+    author='Open Knowledge Foundation, Cabinet Office & contributors',
     author_email='info@okfn.org',
     url='http://ckan.org/wiki/Extensions',
     license='mit',
@@ -17,19 +17,12 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-	# requirements defined in pip-requirements.txt
+        # Requirements defined in requirements.txt
     ],
     tests_require=[
         'nose',
         'mock',
     ],
-    message_extractors={
-        'ckanext': [
-            ('**.py', 'python', None),
-            ('qa/templates/**.html', 'ckan', None),
-            ('**.js', 'javascript', None)
-        ]
-    },
     entry_points='''
     [paste.paster_command]
     qa=ckanext.qa.commands:QACommand

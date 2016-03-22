@@ -6,6 +6,10 @@
 @import "../responsive";
 
 
+<<<<<<< HEAD:modules/ytp-assets-common/src/less/drupal/drupal.less
+=======
+@import "overrides";
+>>>>>>> master:modules/ytp-assets-common/src/less/drupal/drupal.less
 
 
 
@@ -355,23 +359,55 @@
     background-color: darken(@background-hilight, 2%);
     min-height: 270px;
     h1{
-      font-weight: 600;
-      font-size: 17px;
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
     }
-    .tutorial-register {
-      margin-top: 20px;
+    h2 {
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: -10px;
+    }
+    .tutorial-action-button {
+      margin: 0;
+      padding: 10px 0;
       font-size: 20px;
       text-align: center;
       color: @block-color;
-      border-radius: 5px;
+      height: 45px;
+      display: block;
+      width: 100%;
+      border: 0;
       a {
         display: block;
         width: 100%;
-        padding: 10px;
         color: @block-color;
+      }
+      .icon-arrow-right {
+        display: block;
+        float: right;
+        margin-top: -10px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        background-color: @button-primary-hilight;
       }
       background-color: @block-color-hilight;
     }
+    .tools-link {
+      display: block;
+      width: 100%;
+      background-color: @block-color-light;
+      border-right: 10px solid lighten(@ytp-brand-primary, 45%);
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: lighten(@ytp-brand-primary, 10%);
+      height: 40px;
+      font-weight: 600;
+      padding: 10px;
+    }
+
     .tutorial-signin {
       margin-top: 10px;
 
@@ -379,6 +415,14 @@
     .media-left{
       padding-right: 20px;
     }
+  }
+  .ticked-list li {
+    list-style: none;
+    line-height: 200%;
+  }
+
+  .icon-ok {
+    color: @block-color-hilight;
   }
 }
 
@@ -436,10 +480,6 @@
   }
 }
 
-// for /organization/<id>/embed in ckanext-ytp-main
-.dataset-list-embed {
-  padding: 10px;
-}
 
 #user-guide{
   margin: 20px 0 40px 0;
@@ -455,6 +495,7 @@
     padding: 0 5px;
   }
 }
+
 #search_content{
   padding: 0px;
   input.form-control{
@@ -512,7 +553,7 @@ a.tabledrag-handle{
         color: @button-inverse-text-color;
       }
     }
-    span, i{
+    span{
       margin-left: -40px;
       margin-right:  30px;
     }
@@ -528,4 +569,13 @@ a.tabledrag-handle{
       text-align: center;
     }
   }
+}
+
+.captcha{
+  margin-bottom: 10px;
+}
+
+/* Used at Tietoa palvelusta -> Sanasto -> Metatietokentät */
+.metadata-table td {
+  padding: 3px;
 }

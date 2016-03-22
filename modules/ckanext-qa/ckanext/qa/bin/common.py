@@ -18,17 +18,20 @@ def register_translator():
     registry=Registry()
     registry.prepare()
     global translator_obj
-    translator_obj=MockTranslator() 
-    registry.register(translator, translator_obj) 
+    translator_obj=MockTranslator()
+    registry.register(translator, translator_obj)
 
 def get_resources(state='active', publisher_ref=None, resource_id=None, dataset_name=None):
     ''' Returns all active resources, or filtered by the given criteria. '''
     from ckan import model
     resources = model.Session.query(model.Resource) \
-                .filter_by(state=state) \
-                .join(model.ResourceGroup) \
-                .join(model.Package) \
-                .filter_by(state='active')
+        .filter_by(state=state)
+    if hasattr(model, 'ResourceGroup'):
+        # earlier CKANs had ResourceGroup
+        resources = resources.join(model.ResourceGroup)
+    resources = resources \
+        .join(model.Package) \
+        .filter_by(state='active')
     criteria = [state]
     if publisher_ref:
         publisher = model.Group.get(publisher_ref)
@@ -44,4 +47,3 @@ def get_resources(state='active', publisher_ref=None, resource_id=None, dataset_
     resources = resources.all()
     print '%i resources (%s)' % (len(resources), ' '.join(criteria))
     return resources
-

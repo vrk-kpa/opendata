@@ -39,6 +39,12 @@
   tags:
   - drupal
 
+- name: Set PHP max memory limit
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=memory_limit value=200M
+  tags:
+  - drupal
+
+
 - name: Set PHP socket (listen)
   ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
   tags:
@@ -63,12 +69,12 @@
 
 # required by drush
 - name: Create root pgpass
-  template: src=pgpass.j2 dest=/root/.pgpass mode=0600 owner=root group=root
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
   tags:
   - drupal
 
 - name: Create Drupal installation script
-  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode=0700 owner=root group=root
+  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode="0700" owner=root group=root
   register: drupal_script
   tags:
   - drupal
@@ -90,7 +96,7 @@
   - drupal
 
 - name: Setup drushrc
-  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode=0644
+  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode="0644"
   tags:
   - drupal
 
@@ -145,6 +151,9 @@
 
     - draggableviews
     - commentsblock
+
+    - twitter_block
+
   tags:
   - drupal
 
@@ -177,6 +186,10 @@
     - tokenvariables
     - transliteration
     - variable
+    - variable_realm
+    - variable_store
+    - variable_admin
+    - i18n_variable
     - ctools
     - i18nviews
     - l10n_update
@@ -200,19 +213,32 @@
 
     - draggableviews
     - commentsblock
+    - twitter_block
+
+    - variable_translation
+    - variable_admin
+
   tags:
   - drupal
 
 
-- name: Install YTP user module
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_user" && cp -r "{{ cache_path }}/ytp-drupal-user" "{{ drupal_root }}/sites/all/modules/ytp_user"
-  register: install_ytp_drupal_user
+- name: Install YTP modules
+  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}" && cp -r "{{ cache_path }}/ytp-drupal-{{ item }}" "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}"
+  register: install_ytp_drupal_modules
+  with_items:
+    - user
+    - tutorial
+    - footer
   tags:
   - drupal
 
-- name: Enable ytp-drupal-user module
-  command: drush en -y ytp_user chdir="{{ drupal_root }}"
-  when: install_ytp_drupal_user|changed
+- name: Enable YTP modules
+  command: drush en -y ytp_{{ item }} chdir="{{ drupal_root }}"
+  when: install_ytp_drupal_modules|changed
+  with_items:
+    - user
+    - tutorial
+    - footer
   tags:
   - drupal
 
@@ -285,7 +311,7 @@
   - non-local
 
 - name: Copy fix scripts
-  copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode=750
+  copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode="0750"
   register: copy_fix_scripts
   with_items:
     - fix_language
@@ -303,10 +329,14 @@
   - drupal
 
 - name: Move blocks
-  command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} chdir="{{ drupal_root }}"
+  command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} --weight={{ item.weight }} chdir="{{ drupal_root }}"
   with_items:
-    - { module: views, delta: service_alerts_view-block, region: highlighted }
-    - { module: locale, delta: language, region: top_navigation }
+    - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
+    - { module: locale, delta: language, region: top_navigation, weight: 0 }
+    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
+    - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
+    - { module: menu, delta: footer-links, region: footer, weight: 2 }
+    - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
@@ -350,7 +380,7 @@
   - drupal
 
 - name: Create upload paths
-  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode=0775 state="directory"
+  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode="0775" state="directory"
   register: create_upload_paths
   with_items:
     - ""
@@ -361,7 +391,7 @@
   - drupal
 
 - name: Copy htaccess file
-  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode=644 owner=root group=root
+  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode="0644" owner=root group=root
   tags:
   - drupal
 

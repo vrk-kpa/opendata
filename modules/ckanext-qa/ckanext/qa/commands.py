@@ -1,14 +1,11 @@
-import requests
-import urlparse
 import logging
 import sys
-
-from pylons import config
 
 import ckan.plugins as p
 
 REQUESTS_HEADER = {'content-type': 'application/json',
                    'User-Agent': 'ckanext-qa commands'}
+
 
 class CkanApiError(Exception):
     pass
@@ -101,7 +98,7 @@ class QACommand(p.toolkit.CkanCommand):
 
     def update(self):
         from ckan import model
-        from ckanext.qa import plugin
+        from ckanext.qa import lib
         packages = []
         resources = []
         if len(self.args) > 1:
@@ -150,14 +147,14 @@ class QACommand(p.toolkit.CkanCommand):
 
         self.log.info('Queue: %s', self.options.queue)
         for package in packages:
-            plugin.create_qa_update_package_task(package, self.options.queue)
+            lib.create_qa_update_package_task(package, self.options.queue)
             self.log.info('Queuing dataset %s (%s resources)',
                           package.name, len(package.resources))
 
         for resource in resources:
             package = resource.resource_group.package
             self.log.info('Queuing resource %s/%s', package.name, resource.id)
-            plugin.create_qa_update_task(resource, self.options.queue)
+            lib.create_qa_update_task(resource, self.options.queue)
 
         self.log.info('Completed queueing')
 
@@ -168,9 +165,11 @@ class QACommand(p.toolkit.CkanCommand):
             print 'Not enough arguments', self.args
             sys.exit(1)
         for filepath in self.args[1:]:
-            format_ = sniff_file_format(filepath, logging.getLogger('ckanext.qa.sniffer'))
+            format_ = sniff_file_format(
+                filepath, logging.getLogger('ckanext.qa.sniffer'))
             if format_:
-                print 'Detected as: %s - %s' % (format_['display_name'], filepath)
+                print 'Detected as: %s - %s' % (format_['display_name'],
+                                                filepath)
             else:
                 print 'ERROR: Could not recognise format of: %s' % filepath
 
@@ -187,7 +186,8 @@ class QACommand(p.toolkit.CkanCommand):
             for res in pkg.resources:
                 print 'Resource %s' % res.id
                 for row in q.filter_by(entity_id=res.id):
-                    print '* %s = %r error=%r' % (row.key, row.value, row.error)
+                    print '* %s = %r error=%r' % (row.key, row.value,
+                                                  row.error)
 
     def clean(self):
         from ckan import model
@@ -206,25 +206,25 @@ class QACommand(p.toolkit.CkanCommand):
         from ckan import model
         from ckan.lib.helpers import json
         q_status = model.Session.query(model.TaskStatus) \
-                   .filter_by(task_type='qa') \
-                   .filter_by(key='status')
+            .filter_by(task_type='qa') \
+            .filter_by(key='status')
         print '* %s with "status" will be deleted e.g. %s' % (q_status.count(),
                                                               q_status.first())
         q_failures = model.Session.query(model.TaskStatus) \
-                     .filter_by(task_type='qa') \
-                     .filter_by(key='openness_score_failure_count')
-        print '* %s with openness_score_failure_count to be deleted e.g.\n%s' % \
-              (q_failures.count(), q_failures.first())
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score_failure_count')
+        print '* %s with openness_score_failure_count to be deleted e.g.\n%s'\
+            % (q_failures.count(), q_failures.first())
         q_score = model.Session.query(model.TaskStatus) \
-                  .filter_by(task_type='qa') \
-                  .filter_by(key='openness_score')
-        print '* %s with openness_score to migrate e.g.\n%s' % (q_score.count(),
-                                                                q_score.first())
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score')
+        print '* %s with openness_score to migrate e.g.\n%s' % \
+            (q_score.count(), q_score.first())
         q_reason = model.Session.query(model.TaskStatus) \
-                  .filter_by(task_type='qa') \
-                  .filter_by(key='openness_score_reason')
-        print '* %s with openness_score_reason to migrate e.g.\n%s' % (q_reason.count(),
-                                                                       q_reason.first())
+            .filter_by(task_type='qa') \
+            .filter_by(key='openness_score_reason')
+        print '* %s with openness_score_reason to migrate e.g.\n%s' % \
+            (q_reason.count(), q_reason.first())
         raw_input('Press Enter to continue')
 
         q_status.delete()
@@ -236,7 +236,9 @@ class QACommand(p.toolkit.CkanCommand):
         print '..."openness_score_failure_count" deleted'
 
         for task_status in q_score:
-            reason_task_status = q_reason.filter_by(entity_id=task_status.entity_id).first()
+            reason_task_status = q_reason \
+                .filter_by(entity_id=task_status.entity_id) \
+                .first()
             if reason_task_status:
                 reason = reason_task_status.value
                 reason_task_status.delete()

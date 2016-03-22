@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1'
+version = '0.2'
 
 setup(
     name='ckanext-ytp-request',
@@ -27,7 +27,11 @@ setup(
         ]
     },
     include_package_data=True,
-    entry_points="""
+    entry_points='''
         [ckan.plugins]
         ytp_request=ckanext.ytp.request.plugin:YtpRequestPlugin
-    """,)
+
+        [paste.paster_command]
+        initdb = ckanext.ytp.request.command:InitDBCommand
+    '''
+)

@@ -161,7 +161,6 @@
               {% set visits = h.get_visits_for_dataset(pkg.id) %}
               <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
               <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
-
               <script type="text/javascript"
                         src="https://www.google.com/jsapi?autoload={
                           'modules':[{
@@ -177,8 +176,8 @@
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                             ["{{ _('Year') }}", "{{ _('Visits') }}", "{{ _('Downloads') }}"],
-                            {% for year, month, day, count, downloads in visits.visits %}
-                                [new Date({{ year }}, {{ month - 1 }}, {{ day }}), {{ count }}, {{ downloads }}],
+                            {% for v in visits.visits %}
+                                [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}, {{ v.downloads }}],
                             {% endfor %}
 
                       ]);

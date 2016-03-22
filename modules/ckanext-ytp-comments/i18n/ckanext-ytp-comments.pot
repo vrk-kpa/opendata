@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-comments 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-05 15:59+0300\n"
+"POT-Creation-Date: 2015-11-09 15:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+#: ckanext/ytp/comments/email_template.py:7
+msgid "New comment in dataset '{dataset}'"
+msgstr ""
+
+#: ckanext/ytp/comments/email_template.py:9
+msgid ""
+"User {user} ({email}) has left a comment in dataset ({dataset}):\n"
+"\n"
+"--\n"
+"Subject:\n"
+"{comment_subject}\n"
+"\n"
+"Message:\n"
+"{comment}\n"
+"--\n"
+"\n"
+"{link}\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
+msgstr ""
+
 #: ckanext/ytp/comments/logic/auth/create.py:15
 #: ckanext/ytp/comments/logic/auth/update.py:17
 msgid "You must be logged in to add a comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/create.py:26
+#: ckanext/ytp/comments/logic/auth/create.py:27
 msgid "You must be logged in to subscribe to comment notifications"
 msgstr ""
 
@@ -37,16 +61,20 @@ msgstr ""
 msgid "User is not the author of the comment"
 msgstr ""
 
-#: ckanext/ytp/comments/logic/auth/delete.py:39
+#: ckanext/ytp/comments/logic/auth/delete.py:40
 msgid "You must be logged in to unsubscribe from comment notifications"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/organization/read.html:15
-msgid "Unsubscribe from comments"
+#: ckanext/ytp/comments/public/javascript/notifications.js:9
+#: ckanext/ytp/comments/templates/organization/read.html:19
+#: ckanext/ytp/comments/templates/package/comment_list.html:100
+msgid "Subscribe to comments"
 msgstr ""
 
-#: ckanext/ytp/comments/templates/organization/read.html:19
-msgid "Subscribe to comments"
+#: ckanext/ytp/comments/public/javascript/notifications.js:10
+#: ckanext/ytp/comments/templates/organization/read.html:15
+#: ckanext/ytp/comments/templates/package/comment_list.html:98
+msgid "Unsubscribe from comments"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:10
@@ -92,14 +120,6 @@ msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:76
 msgid "Comments"
-msgstr ""
-
-#: ckanext/ytp/comments/templates/package/comment_list.html:98
-msgid "Unsubscribe"
-msgstr ""
-
-#: ckanext/ytp/comments/templates/package/comment_list.html:100
-msgid "Subscribe"
 msgstr ""
 
 #: ckanext/ytp/comments/templates/package/comment_list.html:107

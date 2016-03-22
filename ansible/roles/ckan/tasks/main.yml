@@ -41,7 +41,7 @@
 - include: patch.yml
 
 - name: Create CKAN files path
-  file: path="{{ ckan_files_path }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  file: path="{{ ckan_files_path }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
   tags:
   - ckan
 
@@ -77,24 +77,37 @@
     - default
     - default-ssl
     - ckan_default
+    - ckan_default.conf
   tags:
   - apache
   - ckan
 
 - name: Copy ports configuration
-  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf mode=0644 owner=root group=root
+  template: src="ports.conf.j2" dest="/etc/apache2/ports.conf" mode="0644" owner=root group=root
+  tags:
+  - apache
+  - ckan
+
+- name: Enable mod_rewrite
+  command: a2enmod rewrite
+  tags:
+  - apache
+  - ckan
+
+- name: Enable mod_headers
+  command: a2enmod headers
   tags:
   - apache
   - ckan
 
 - name: Copy Apache configuration
-  template: src=apache2.j2 dest=/etc/apache2/sites-available/ytp mode=0644 owner=root group=root
+  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp" mode="0644" owner=root group=root
   tags:
   - apache
   - ckan
 
 - name: Enable Apache configuration
-  file: src=/etc/apache2/sites-available/ytp dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
+  file: src="/etc/apache2/sites-available/ytp" dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
   notify: Restart Apache
   tags:
   - apache
@@ -107,7 +120,7 @@
   - ckan
 
 - name: Setup CKAN configuration
-  template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode=0640 owner=root group="{{ www_group }}"
+  template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode="0640" owner=root group="{{ www_group }}"
   register: ckan_configuration
   tags:
   - ckan
@@ -120,7 +133,7 @@
   - packages
 
 - name: Copy libxml2-2.9 packages
-  copy: src="{{ item }}" dest="{{ cache_path }}/debian/{{ item }}" mode=0644 owner=root group=root
+  copy: src="{{ item }}" dest="{{ cache_path }}/debian/{{ item }}" mode="0644" owner=root group=root
   register: copy_libxml2
   with_items:
     - "libxml2_2.9.1+dfsg1-3_amd64.deb"
@@ -166,7 +179,7 @@
 
 
 - name: Copy requirements file
-  template: src=requirements.txt.j2 dest="{{ cache_path }}/requirements.txt" mode=0644 owner=root group=root
+  template: src="requirements.txt.j2" dest="{{ cache_path }}/requirements.txt" mode="0644" owner=root group=root
   tags:
   - ckan
   - spatial
@@ -201,14 +214,20 @@
   - ckan
   - spatial
 
+- name: Install googleanalytics requirements
+  pip: requirements="{{ cache_path }}/ckanext-googleanalytics/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  tags:
+  - ckan
+  - google-analytics
+
 - name: Install archiver requirements
-  pip: requirements="{{ cache_path }}/ckanext-archiver/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-archiver/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
 
 - name: Install qa requirements
-  pip: requirements="{{ cache_path }}/ckanext-qa/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
@@ -243,6 +262,11 @@
 
 - name: Upgrade CKAN filestore
   shell: ./bin/paster --plugin=ckan db migrate-filestore "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+
+- name: Initialize request database
+  shell: ./bin/paster --plugin=ckanext-ytp-request initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
 
@@ -281,21 +305,22 @@
   tags:
     - ckan
 
-- name: Initialize analytics database
-  shell: ./bin/paster --plugin=ckanext-googleanalytics initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+- name: Initialize googleanalytics database
+  shell: ./bin/paster --plugin=ckanext-googleanalytics googleanalytics init "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
   - google-analytics
 
+
 - name: Copy credentials token
-  copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode=0644 owner=root group="{{ www_group }}"
+  copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode="0644" owner=root group="{{ www_group }}"
   when: google_analytics != false
   tags:
     - ckan
     - google-analytics
 
 - name: Add analytics fetching to cron
-  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
   when: google_analytics != false
   tags:
     - ckan
@@ -319,7 +344,7 @@
   - ckan
 
 - name: Copy data structures for CKAN UI options
-  copy: src="{{ item }}" dest="{{ ckan_files_path }}/{{ item }}" mode=0644 owner=root group="{{ www_group }}"
+  copy: src="{{ item }}" dest="{{ ckan_files_path }}/{{ item }}" mode="0644" owner=root group="{{ www_group }}"
   register: copy_ckan_ui_data
   with_items:
     - license.json
@@ -339,7 +364,7 @@
 - include: translations.yml
 
 - name: re-minify CKAN javascript files
-  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript/modules "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
   - ckan
   - translations
@@ -361,12 +386,12 @@
   - ckan
 
 - name: Copy celery configuration
-  template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode=0640 owner=root group="{{ www_group }}"
+  template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode="0640" owner=root group="{{ www_group }}"
   tags:
   - ckan
 
 - name: Copy supervisor configuration
-  template: src="supervisor.conf.j2" dest="/etc/supervisor/conf.d/ytp.conf" mode=0644 owner=root group=root
+  template: src="supervisor.conf.j2" dest="/etc/supervisor/conf.d/ytp.conf" mode="0644" owner=root group=root
   register: supervisor_configuration
   notify:
   - Restart Gather

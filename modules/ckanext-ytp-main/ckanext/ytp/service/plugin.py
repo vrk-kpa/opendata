@@ -1,4 +1,4 @@
-from ckan import plugins, model, new_authz
+from ckan import plugins, model
 from ckan.plugins import toolkit
 from ckan.common import c, request, _
 
@@ -13,6 +13,8 @@ from ckan.lib.dictization import model_dictize
 from ckan.logic import auth
 from ckanext.harvest.model import HarvestObject
 from ckan.lib.navl.dictization_functions import missing, Invalid
+
+import ckan.new_authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -227,6 +229,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return tools.get_original_method('ckan.logic.auth.update', 'package_update')(context, data_dict)
 
     def _can_create_service(self, context, data_dict=None):
+        log.debug("Can create service")
         if 'auth_user_obj' not in context:
             return {'success': False, 'msg': _("Login required")}
         user_object = context['auth_user_obj']
@@ -255,7 +258,7 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         user = context['user']
 
         toolkit.check_access('organization_list_for_user', context, data_dict)
-        sysadmin = new_authz.is_sysadmin(user)
+        sysadmin = authz.is_sysadmin(user)
 
         orgs_q = model.Session.query(model.Group) \
             .filter(model.Group.is_organization == True) \
@@ -266,11 +269,11 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
             permission = data_dict.get('permission', 'edit_group')
 
-            roles = new_authz.get_roles_with_permission(permission)
+            roles = authz.get_roles_with_permission(permission)
 
             if not roles:
                 return []
-            user_id = new_authz.get_user_id_for_username(user, allow_none=True)
+            user_id = authz.get_user_id_for_username(user, allow_none=True)
             if not user_id:
                 return []
 

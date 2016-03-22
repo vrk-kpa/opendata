@@ -18,15 +18,19 @@ class InitDBCommand(CkanCommand):
         super(InitDBCommand, self).__init__(name)
 
     def command(self):
-        log = logging.getLogger(__name__)
-        log.info("starting command")
+
         self._load_config()
+
+        # Initialise logger after the config is loaded, so it is not disabled.
+        self.log = logging.getLogger(__name__)
+
+        self.log.info("starting command")
 
         import ckan.model as model
         model.Session.remove()
         model.Session.configure(bind=model.meta.engine)
 
         import ckanext.ytp.comments.model as cmodel
-        log.info("Initializing tables")
+        self.log.info("Initializing tables")
         cmodel.init_tables()
-        log.info("DB tables are setup")
+        self.log.info("DB tables are setup")

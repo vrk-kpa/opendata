@@ -29,7 +29,6 @@
 
     <div class="comment-wrapper">
     {% for comment in thread.comments %}
-        {{ comment.id }}
         <div class="comment">
             {% if comment.state != 'deleted' %}
                 <h3>{{ comment.subject }}</h3>
@@ -95,16 +94,16 @@
 
             <!-- Comment email notification subscription buttons -->
             {% if h.get_subscription_status(pkg_id, userobj.id) %}
-            <button type="button" id="unsubscribe-button" class="btn btn-danger" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="unsubscribe"><i class="icon-remove-sign"></i>{{ _('Unsubscribe') }}</button>
+            <button type="button" id="unsubscribe-button" class="btn btn-danger" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="unsubscribe"><i class="icon-remove-sign"></i>{{ _('Unsubscribe from comments') }}</button>
             {% else %}
-            <button type="button" id="subscribe-button" class="btn" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="subscribe"><i class="icon-plus-sign"></i>{{ _('Subscribe') }}</button>
+            <button type="button" id="subscribe-button" class="btn" style="float:left;" data-module="notification" data-module-id="{{ pkg_id }}" data-module-action="subscribe"><i class="icon-plus-sign"></i>{{ _('Subscribe to comments') }}</button>
             {% endif %}
 
         </div>
     </form>
-
+</div>
 {% else %}
     {{ _('Login to comment.') }}
 {% endif %}
 
-</div>
+

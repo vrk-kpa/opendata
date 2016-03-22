@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{%- block page -%}
+
+<style type="text/css">
+	body { background: none !important }
+</style>
+
+<div class="dataset-list-embed">
+	{% if c.page.items %}
+	{{ h.snippet('snippets/package_list.html', packages=c.page.items, list_class="dataset-list unstyled", item_class="dataset-item" ) }}
+	{% endif %}
+</div>
+
+{{ c.page.pager() }}
+
+{%- endblock -%}
+
+{%- block scripts %}
+    {% resource 'base/main' %}
+    {% resource 'base/ckan' %}
+    {% if g.tracking_enabled %}
+      {% resource 'base/tracking.js' %}
+    {% endif %}
+  {{ super() }}
+{% endblock -%}

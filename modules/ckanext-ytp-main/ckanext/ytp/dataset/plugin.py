@@ -6,7 +6,7 @@ from ckan.lib.munge import munge_title_to_name
 from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
 from ckan.model import Session
-
+from ckan import new_authz as authz
 from webhelpers.html import escape
 from pylons import config
 
@@ -18,7 +18,7 @@ import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_remaining_facet_item_count, \
     sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
-    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars
+    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
@@ -137,7 +137,7 @@ def not_empty_or(item):
             raise StopOnError
     return callback
 
-_key_functions = {u'extras':  _parse_extras}
+_key_functions = {u'extras': _parse_extras}
 
 
 @logic.side_effect_free
@@ -349,7 +349,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         facets_dict.update({'vocab_content_type': _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
-
+        # BFW: source is not part of the schema. created artificially at before_index function
+        facets_dict.update({'source': _('Source')})
         # add more dataset facets here
         return facets_dict
 
@@ -399,6 +400,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def _current_user(self):
         return c.userobj
 
+    def _get_user_by_id(self, user_id):
+        if not user_id:
+            return None
+        else:
+            user = model.User.get(user_id)
+            return user.name
+
     def _get_user(self, user):
         if user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]:
             return user
@@ -442,6 +450,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return c.userobj.sysadmin
         return False
 
+    def _is_loggedinuser(self):
+        return authz.auth_is_loggedin_user()
+
     def get_helpers(self):
         return {'current_user': self._current_user,
                 'dataset_licenses': self._dataset_licenses,
@@ -465,12 +476,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'calculate_dataset_stars': calculate_dataset_stars,
                 'calculate_metadata_stars': calculate_metadata_stars,
                 'is_sysadmin': self._is_sysadmin,
+                'is_loggedinuser': self._is_loggedinuser,
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
-                'get_geonetwork_link': get_geonetwork_link}
+                'get_geonetwork_link': get_geonetwork_link,
+                'get_tooltip_content_types': get_tooltip_content_types}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -501,6 +514,16 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             if res_formats:
                 pkg_dict['res_format'] = [res_format.lower() for res_format in res_formats]
 
+        # Converting from creator_user_id to source. Grouping users default and harvest into harvesters and manual to the rest
+        if 'creator_user_id' in pkg_dict:
+            user_id = pkg_dict['creator_user_id']
+            if user_id:
+                user_name = self._get_user_by_id(user_id)
+                accepted_harvesters = {'default', 'harvest'}
+                if user_name in accepted_harvesters:
+                    pkg_dict['source'] = 'External'
+                else:
+                    pkg_dict['source'] = 'Internal'
         return pkg_dict
 
     # IActions #
@@ -513,9 +536,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         package_dict = data_dict['package_dict']
 
-        LIST_MAP = {'access_constraints': 'copyright_notice'}
+        list_map = {'access_constraints': 'copyright_notice'}
 
-        for source, target in LIST_MAP.iteritems():
+        for source, target in list_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
                     value = json.loads(extra['value'])
@@ -525,9 +548,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                             'value': value[0]
                         })
 
-        VALUE_MAP = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email', 'author_email']}
 
-        for source, target in VALUE_MAP.iteritems():
+        for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:

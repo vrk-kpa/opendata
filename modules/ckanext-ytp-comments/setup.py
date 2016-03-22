@@ -24,7 +24,8 @@ setup(
     message_extractors={
         'ckanext/ytp/comments': [
             ('**.py', 'python', None),
-            ('templates/**.html', 'ckan', None)
+            ('templates/**.html', 'ckan', None),
+            ('**.js', 'javascript', None)
         ]
     },
     entry_points='''

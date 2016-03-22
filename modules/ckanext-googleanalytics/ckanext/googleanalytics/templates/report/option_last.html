@@ -1,0 +1,15 @@
+{#
+Option snippet - last
+
+value - Value of this option
+default - Default value for this option
+#}
+
+<span class="form-select control-group control-organization">
+    <label for="option-last"> {{ _('Records to be shown:') }} </label>
+    <select id="option-last" name="last" class="inline js-auto-submit">
+        {% for total in ['20','25','30','35','40','45','50'] %}
+            <option value="{{total}}" {% if value == total %}selected="selected" {% endif %}> {{total}} </option>
+       {% endfor %}
+    </select>
+</span>

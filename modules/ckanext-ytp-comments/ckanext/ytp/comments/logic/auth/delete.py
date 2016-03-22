@@ -1,7 +1,7 @@
 import logging
 from pylons.i18n import _
 
-import ckan.new_authz as new_authz
+import ckan.new_authz as authz
 from ckan import logic
 import ckanext.ytp.comments.model as comment_model
 
@@ -15,7 +15,7 @@ def comment_delete(context, data_dict):
 
     userobj = model.User.get(user)
     # If sysadmin.
-    if new_authz.is_sysadmin(user):
+    if authz.is_sysadmin(user):
         return {'success': True}
 
     cid = logic.get_or_bust(data_dict, 'id')

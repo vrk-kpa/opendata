@@ -11,12 +11,19 @@
   - nfs_client
 
 - name: Make shared path
-  file: path="{{ files_root }}" state=directory mode=0770 owner="{{ www_user }}" group="{{ www_group }}"
+  file: path="{{ files_root }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
   tags:
   - nfs_client
 
 - name: Ensure shared path is mounted
   mount: name="{{ files_root }}" src="{{ database_host }}:{{ nfs_shared_path }}" fstype=nfs state=mounted
+  when: travis is not defined
+  tags:
+  - nfs_client
+
+- name: Ensure shared path is linked
+  command: ln -sf "{{ files_root}}" {{ nfs_shared_path }}
+  when: travis is defined
   tags:
   - nfs_client
 

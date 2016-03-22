@@ -43,6 +43,12 @@
   tags:
     - drupal
 
+- name: Symlink vendor fonts to drupal
+  command: ln -s "/var/www/resources/fonts/" "{{ drupal_theme_path }}/ytp_theme/fonts"
+  tags:
+    - drupal
+
+
 - name: Enable YTP theme
   command: drush en -y ytp_theme chdir="{{ drupal_root }}"
   tags:

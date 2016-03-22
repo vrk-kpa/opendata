@@ -25,7 +25,6 @@
         {% endif %}
     {% endfor %}
 
-
     <div id="OrgExtraInfo">
         <dl class="dl-horizontal">
 
@@ -77,6 +76,16 @@
             {% for info in address_info %}
                 {{ ytp_layout.value_list_item(info.0, info.1) }}
             {% endfor %}
+
+            {% if h.check_access('package_create') %}
+            {% set embed_url = h.url_for(controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='embed', id=c.group_dict.name) %}
+            <dt>
+              {{ _('Embed link')}}
+            </dt>
+            <dd>
+              <a href="{{ embed_url }}">{{ embed_url }}</a>
+            </dd>
+            {% endif %}
         </dl>
     </div>
 
@@ -121,11 +130,9 @@
         </div>
     {% endif %}
 
-    {# Display organization hierarchy #}
-    {# TODO: Add JSTree #}
-
     <h2>{{_('Organization hierarchy')}}</h2>
     <div id="publisher-tree">
-        {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.get_action('group_tree_section', {'id': c.group_dict.id, 'type': c.group_dict.type})], show_dataset_count=true %}
+       {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.get_action('group_tree_section', {'id': c.group_dict.id, 'type': c.group_dict.type})] %}
     </div>
+
 {% endblock %}

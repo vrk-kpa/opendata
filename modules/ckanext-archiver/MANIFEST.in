@@ -1,1 +1,2 @@
-recursive-include ckanext/archiver/templates *
+include README.rst
+recursive-include ckanext/archiver *.html *.json *.js *.less *.css
