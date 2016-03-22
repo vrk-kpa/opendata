@@ -150,6 +150,7 @@
     - node_expire
 
     - twitter_block
+
     - draggableviews
 
     - commentsblock
@@ -211,11 +212,11 @@
     - honeypot
     - node_expire
 
+    - draggableviews
+    - commentsblock
 
     - twitter_block
-    - draggableviews
 
-    - commentsblock
 
     - variable_translation
     - variable_admin
