@@ -42,7 +42,7 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'feature_blocks',
+        'region' => 'content_grid_right',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -17,
@@ -82,7 +82,7 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'feature_blocks',
+        'region' => 'content_grid_right',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -16,
@@ -122,7 +122,7 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'feature_blocks',
+        'region' => 'content_grid_right',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -15,
@@ -162,13 +162,13 @@ function feature_blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'feature_blocks',
+        'region' => 'content_grid_left',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -18,
       ),
     ),
-    'title' => '<none>',
+    'title' => 'Twitter @avoindatafi',
     'visibility' => 1,
   );
 

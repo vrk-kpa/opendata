@@ -46,15 +46,13 @@
  */
 ?>
 
-<div class="col-md-6">
- <div id="<?php print $block_html_id; ?>" class="panel panel-default">
-    <?php if ($title): ?>
-    <div class="panel-heading">
-        <h3 class="panel-title"><?php print $title; ?></h3>
-    </div>
-    <?php endif; ?>
-    <div class="panel-body">
-      <?php print $content; ?>
-    </div>
- </div>
-</div> <!-- /.block -->
+<div id="<?php print $block_html_id; ?>" class="panel panel-default <?php print $classes; ?>">
+  <?php if ($title): ?>
+  <div class="panel-heading">
+      <h3 class="panel-title"><i class="fa fa-<?php print $icon; ?> title-icon"></i><?php print $title; ?></h3>
+  </div>
+  <?php endif; ?>
+  <div class="panel-body">
+    <?php print $content; ?>
+  </div>
+</div>

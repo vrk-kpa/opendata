@@ -20,7 +20,7 @@ Status: work in progress
 
   ### FEATURE_BLOCKS_FEATURE
 
-    Creates features region on front page, consisting of
+    Creates following front page features:
       - Twitter feed
       - list of recent datasets
       - list of popular datasets
@@ -37,16 +37,20 @@ Status: work in progress
         [Twitter widgets](https://twitter.com/settings/widgets) as logged in Twitter user.
 
         Go to Structure -> Blocks -> Add Twitter block. Fill required fields. For region settings, 
-        choose "YTP theme": "Feature blocks". For pages, choose "Only the listed pages": "<front>".
+        choose "YTP theme": "Front Page Content Grid Left Side". For pages, choose "Only the listed pages": "<front>".
+
+        On Structure -> Blocks page, ensure Twitter block is located under news view block.
 
       2. New/popular datasets
         Should be good to go. If a block is empty, going to Structure -> Blocks -> (block name) -> 
         Configure and saving the configuration should fix it.
 
       3. Related links
-        Go to Structure -> Blocks -> Add menu block. Select "Menu": "Related links" and region 
-        setting "YTP theme": "Feature blocks". For pages, choose "Only the listed pages": "<front>". 
-        Make the block translatable. Set and translate the block title manually.
+        Go to Structure -> Blocks -> Add menu block. Set "Title": "Twitter @avoindatafi". Select 
+        all checkboxes under "Chrome". Set "Tweet limit": 2. Select "Menu": "Related sites" and 
+        region setting "YTP theme": "Front Page Content Grid Right Side". For pages, choose "Only 
+        the listed pages": "<front>". Make the block translatable. Set and translate the block 
+        title manually.
 
         The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
         Menus -> Related sites to add links. All links should have language.

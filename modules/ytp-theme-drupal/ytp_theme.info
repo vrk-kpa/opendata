@@ -9,10 +9,9 @@ base theme = bootstrap
 ;;;;;;;;;;;;;;;;;;;;;
 
 regions[navigation]     = 'Navigation'
-regions[header]         = 'Top Bar'
 regions[highlighted]    = 'Highlighted'
+regions[header]         = 'Header'
 regions[help]           = 'Help'
-regions[feature_blocks] = 'Feature blocks'
 regions[content]        = 'Content'
 regions[sidebar_first]  = 'Primary'
 regions[sidebar_second] = 'Secondary'
@@ -21,8 +20,12 @@ regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
 regions[top_navigation] = 'Top navigation'
 
-regions[top_bar_secondary] = 'Top Bar Secondary'
-regions[user_guide] = 'User Guide'
+;; Front page custom regions
+regions[top_bar_primary] = 'Front Page Top Bar Left Side'
+regions[top_bar_secondary] = 'Front Page Top Bar Right Side'
+regions[content_grid_left] = 'Front Page Content Grid Left Side'
+regions[content_grid_right] = 'Front Page Content Grid Left Right Side'
+regions[content_grid_left_lower] = 'Front Page Content Grid Lower Left Side'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets

@@ -1,0 +1,46 @@
+<?php
+/**
+ * @file
+ * Creates following blocks on front page:
+ * * news
+ * * Twitter feed
+ * * latest datasets
+ * * popular datasets
+ * * related sites
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function ytp_frontpage_block_info() {
+  $blocks = array();
+  $blocks['latest_datasets'] = array(
+    'info' => t('Latest datasets'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ytp_frontpage_block_view($delta = '') {
+  if ($delta == 'latest_datasets') {
+    $block['title'] = t('Latest datasets');
+    $block['icon'] = 'file-text';
+    $block['content'] = 'So this would be content yeah';
+  return $block;
+
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function ytp_frontpage_help($path, $arg) {
+    if ($path == 'admin/help#ytp_frontpage') {
+        return t('Creates blocks for front page. The blocks will display news, Twitter feed, 
+          latest datasets, most popular datasets and related sites.');
+    }
+}

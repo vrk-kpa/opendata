@@ -8,8 +8,6 @@
 
 @import "overrides";
 
-
-
 .input-block-level {
       display: block;
       width: 100%;
@@ -574,7 +572,63 @@ a.tabledrag-handle{
   margin-bottom: 10px;
 }
 
-/* Used at Tietoa palvelusta -> Sanasto -> Metatietokentät */
+/****************************************************/
+/* FRONT PAGE */
+/****************************************************/
+
+/* */
+@media (max-width: @screen-xs-max) {
+  .main-container {
+    padding: 0;
+  }
+  .region-top-bar-primary .block, .region-top-bar-secondary .block,
+  .region-content-grid-left .block, .region-content-grid-right .block,
+  .region-content-grid-left-lower .block {
+    padding: 5px 12.5px;
+  }
+}
+
+.title-icon {
+  margin-right: 10px;
+}
+
+/* News */
+.region-content-grid-left .block {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @media (min-width: @screen-sm-min) {
+    border-bottom: 1px solid darken(@background-hilight, 3%);
+  }
+}
+.region-content-grid-left .views-row {
+  margin-top: 8px;
+  clear: both;
+}
+.region-content-grid-left .views-field-created {
+  color: @nonimportant-text-color;
+
+  @media (min-width: @screen-lg-min) {
+    float: left;
+    margin-right: 5px;
+  }
+}
+
+/* Twitter feed */
+.block-twitter-block {
+  @media (max-width: @screen-xs-max) {
+    background-color: @background-hilight;
+    border: 1px solid darken(@background-hilight, 3%);
+  }
+}
+
+/****************************************************/
+/* HELP PAGES */
+/****************************************************/
+
+/* Tietoa palvelusta -> Sanasto -> Metatietokentät */
 .metadata-table td {
   padding: 3px;
 }
+
+
