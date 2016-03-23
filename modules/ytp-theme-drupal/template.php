@@ -302,7 +302,7 @@ function ytp_theme_form_search_block_form_alter(&$form, &$form_state, $form_id) 
     $form['search_block_form']['#theme_wrappers'] = array();
 
     // Add custom search submit button
-    $form['actions']['submit'] = array('#markup' => '<button type="submit" class="search-submit" 
+    $form['actions']['visible_submit'] = array('#markup' => '<button type="submit" class="search-submit"
                                                       value="' . t("Search") . '" >
                                                         <i class="icon-search"></i>
                                                         <span><?php print t("Search")?></span>
