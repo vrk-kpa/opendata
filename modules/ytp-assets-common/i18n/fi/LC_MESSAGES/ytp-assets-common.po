@@ -62,3 +62,9 @@ msgstr "Koulutukset"
 
 msgid "Data Repositories"
 msgstr "Tietoaineistot"
+
+msgid "Availability"
+msgstr "Saatavuus"
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr "Tietoaineisto on saatavilla osoitteessa http://www.syke.fi/avointieto"

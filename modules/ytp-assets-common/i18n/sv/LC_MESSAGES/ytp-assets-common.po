@@ -61,3 +61,9 @@ msgstr "Träning"
 
 msgid "Data Repositories"
 msgstr "Dataset"
+
+msgid "Availability"
+msgstr "Tillgänglighet"
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr ""
