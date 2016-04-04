@@ -51,3 +51,9 @@ msgstr ""
 
 msgid "Training"
 msgstr ""
+
+msgid "Availability"
+msgstr ""
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr ""
