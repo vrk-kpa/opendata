@@ -66,4 +66,4 @@ msgid "Availability"
 msgstr "Tillgänglighet"
 
 msgid "Dataset is available at http://www.syke.fi/avointieto"
-msgstr ""
+msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
