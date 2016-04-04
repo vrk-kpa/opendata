@@ -69,6 +69,11 @@
             <dd>{{ site|urlize }}</dd>
         {% endfor %}
     {% endif %}
+
+    {% if extra_dict.availability %}
+      <dt>{{ _("Availability") }} </dt>
+      <dd>{{ _(extra_dict.availability) }}</dd>
+    {% endif %}
     </dl>
 
     {% set extra_dict = h.clean_extras(extra_dict) %}

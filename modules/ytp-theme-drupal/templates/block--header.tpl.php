@@ -37,7 +37,7 @@ label{
          ?>
     </div>
     <div class="btn-group btn-group-sm" data-toggle="buttons">
-        <label class="btn btn-primary active"><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("From datasets")?></label>
+        <label class="btn btn-primary"><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("From datasets")?></label>
         <label class="btn btn-default"><input type="radio" name="searchtype" value="content"/><?php print t("From other content")?></label>
     </div>
     </div>
