@@ -68,7 +68,7 @@ body.toolbar, body.toolbar-drawer {
     .hidden-xs, .hidden-sm {
       .navbar-nav.lang-select, .navbar-nav.user-nav {
         a {
-          color: #fff;
+          color: #B2CEE8;
           margin: 10px 0 10px 0px;
           padding: 0px;
         }
@@ -77,13 +77,16 @@ body.toolbar, body.toolbar-drawer {
           padding-left: 16px;
           display: inline-block;
         }
-        li a:after {
+        
+        /* Remove the unnecessary '|' from the lang-selectors in nav */
+        /* li a:after {
           display: inline-block;
           padding-left: 16px;
           color: @navbar-color-text;
           content: '|';
           text-decoration: none !important;
-        }
+        } */
+
         li a.locale-untranslated:after {
           text-decoration: none !important;
         }
@@ -252,7 +255,7 @@ body.toolbar, body.toolbar-drawer {
 }
 
 button.search-submit:hover {
-  opacity: 0.6;
+  opacity: 0.9;
 }
 
 // The ytp-menulink class is only applied to list items inside menu blocks in Drupal.

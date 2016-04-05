@@ -1,58 +1,68 @@
+import urllib
 import urllib2
+import httplib
+import datetime
+import socket
+
+from sqlalchemy import exists
+
 from ckan.lib.base import c
 from ckan import model
-from ckan.model import Session
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
-from ckanext.harvest.model import (HarvestJob, HarvestObject, HarvestObjectExtra)
-import logging
-from ckanext.harvest.harvesters.base import HarvesterBase
+from ckan.plugins import toolkit
 
+from ckanext.harvest.model import HarvestJob, HarvestObject, HarvestGatherError
+
+import logging
 log = logging.getLogger(__name__)
 
-
-DELETE = "delete"
+from ckanext.harvest.harvesters.base import HarvesterBase
 
 
 class HRIHarvester(HarvesterBase):
     '''
-    A Harvester for HRI.fi
+    A Harvester for CKAN instances
     '''
     config = None
 
     api_version = 2
     action_api_version = 3
 
-    def _get_rest_api_offset(self):
-        return '/api/%d/rest' % self.api_version
-
     def _get_action_api_offset(self):
         return '/api/%d/action' % self.action_api_version
 
     def _get_search_api_offset(self):
-        return '/api/%d/search' % self.api_version
+        return '%s/package_search' % self._get_action_api_offset()
 
     def _get_content(self, url):
-        http_request = urllib2.Request(
-            url=url,
-        )
+        http_request = urllib2.Request(url=url)
 
-        api_key = self.config.get('api_key', None)
+        api_key = self.config.get('api_key')
         if api_key:
             http_request.add_header('Authorization', api_key)
 
         try:
             http_response = urllib2.urlopen(http_request)
+        except urllib2.HTTPError, e:
+            if e.getcode() == 404:
+                raise ContentNotFoundError('HTTP error: %s' % e.code)
+            else:
+                raise ContentFetchError('HTTP error: %s' % e.code)
         except urllib2.URLError, e:
-            raise ContentFetchError(
-                'Could not fetch url: %s, error: %s' %
-                (url, str(e))
-            )
+            raise ContentFetchError('URL error: %s' % e.reason)
+        except httplib.HTTPException, e:
+            raise ContentFetchError('HTTP Exception: %s' % e)
+        except socket.error, e:
+            raise ContentFetchError('HTTP socket error: %s' % e)
+        except Exception, e:
+            raise ContentFetchError('HTTP general exception: %s' % e)
         return http_response.read()
 
     def _get_group(self, base_url, group_name):
-        url = base_url + self._get_rest_api_offset() + '/group/' + munge_name(group_name)
+        url = base_url + self._get_action_api_offset() + '/group_show?id=' + \
+              munge_name(group_name)
         try:
             content = self._get_content(url)
             return json.loads(content)
@@ -61,14 +71,16 @@ class HRIHarvester(HarvesterBase):
             raise RemoteResourceError('Could not fetch/decode remote group')
 
     def _get_organization(self, base_url, org_name):
-        url = base_url + self._get_action_api_offset() + '/organization_show?id=' + org_name
+        url = base_url + self._get_action_api_offset() + \
+              '/organization_show?id=' + org_name
         try:
             content = self._get_content(url)
             content_dict = json.loads(content)
             return content_dict['result']
         except (ContentFetchError, ValueError, KeyError):
             log.debug('Could not fetch/decode remote group')
-            raise RemoteResourceError('Could not fetch/decode remote organization')
+            raise RemoteResourceError(
+                'Could not fetch/decode remote organization')
 
     def _set_config(self, config_str):
         if config_str:
@@ -129,7 +141,7 @@ class HRIHarvester(HarvesterBase):
                 except NotFound, e:
                     raise ValueError('User not found')
 
-            for key in ('read_only', 'force_all', 'manage_deletions'):
+            for key in ('read_only', 'force_all'):
                 if key in config_obj:
                     if not isinstance(config_obj[key], bool):
                         raise ValueError('%s must be boolean' % key)
@@ -139,172 +151,230 @@ class HRIHarvester(HarvesterBase):
 
         return config
 
-    def _get_deleted_packages(self, url, harvest_job):
-        """
-        Checks all packages on remote instance against ones existing, returns
-        the difference
-        """
-        # Prior to 2.0, https://github.com/okfn/ckan/pull/545 the api returns
-        # a 403 error. Deletions will appear in the list of revisions in the
-        # gather stage but will error during the import stage. In order to
-        # harvest < 2.0 ckan instances I've written this mess.
-        try:
-            content = self._get_content(url)
-            remote_packages = json.loads(content)
-        except urllib2.URLError, e:
-            self._save_gather_error('Unable to get all packages for URL: %s: %s' % (url, str(e)), harvest_job)
-        except ValueError, e:
-            self._save_gather_error('Unable to decode JSON for URL: %s: %s' % (url, str(e)), harvest_job)
-
-        existing_packages = model.Session.query(HarvestObject.guid) \
-            .filter(HarvestObject.current == True).filter(HarvestObject.harvest_source_id == harvest_job.source_id)  # noqa
-        if len(existing_packages.all()) == 0:
-            return []
-
-        deleted_ids = set(zip(*existing_packages.all())[0]) - set(remote_packages)
-
-        deleted = []
-        for package_id in deleted_ids:
-            harvest_object = HarvestObject(job=harvest_job,
-                                           extras=[HarvestObjectExtra(key='status', value=DELETE)],
-                                           package_id=package_id)
-
-            harvest_object.save()
-            deleted.append(harvest_object.id)
-        return deleted
 
     def gather_stage(self, harvest_job):
-        log.debug('In CKANHarvester gather_stage (%s)' % harvest_job.source.url)
+        log.debug('In HRIHarvester gather_stage (%s)',
+                  harvest_job.source.url)
+        toolkit.requires_ckan_version(min_version='2.0')
         get_all_packages = True
-        package_ids = []
 
         self._set_config(harvest_job.source.config)
 
-        # Check if this source has been harvested before
-        previous_job = Session.query(HarvestJob) \
-            .filter(HarvestJob.source == harvest_job.source) \
-            .filter(HarvestJob.id != harvest_job.id) \
-            .filter(HarvestJob.gather_finished != None).order_by(HarvestJob.gather_finished.desc()).limit(1).first()  # noqa
-
         # Get source URL
-        base_url = harvest_job.source.url.rstrip('/')
-        base_rest_url = base_url + self._get_rest_api_offset()
-        base_search_url = base_url + self._get_search_api_offset()
+        remote_ckan_base_url = harvest_job.source.url.rstrip('/')
 
-        if (previous_job and not previous_job.gather_errors and not len(previous_job.objects) == 0):
-            if not self.config.get('force_all', False):
-                get_all_packages = False
+        # Filter in/out datasets from particular organizations
+        fq_terms = []
+        org_filter_include = self.config.get('organizations_filter_include', [])
+        org_filter_exclude = self.config.get('organizations_filter_exclude', [])
+        if org_filter_include:
+            fq_terms.append(' OR '.join(
+                'organization:%s' % org_name for org_name in org_filter_include))
+        elif org_filter_exclude:
+            fq_terms.extend(
+                '-organization:%s' % org_name for org_name in org_filter_exclude)
 
-                # Request only the packages modified since last harvest job
-                last_time = previous_job.gather_finished.isoformat()
-                url = base_search_url + '/revision?since_time=%s' % last_time
+        # Ideally we can request from the remote CKAN only those datasets
+        # modified since the last completely successful harvest.
+        last_error_free_job = self._last_error_free_job(harvest_job)
+        log.debug('Last error-free job: %r', last_error_free_job)
+        if (last_error_free_job and
+                not self.config.get('force_all', False)):
+            get_all_packages = False
 
-                try:
-                    content = self._get_content(url)
+            # Request only the datasets modified since
+            last_time = last_error_free_job.gather_started
+            # Note: SOLR works in UTC, and gather_started is also UTC, so
+            # this should work as long as local and remote clocks are
+            # relatively accurate. Going back a little earlier, just in case.
+            get_changes_since = \
+                (last_time - datetime.timedelta(hours=1)).isoformat()
+            log.info('Searching for datasets modified since: %s UTC',
+                     get_changes_since)
 
-                    revision_ids = json.loads(content)
-                    if len(revision_ids):
-                        for revision_id in revision_ids:
-                            url = base_rest_url + '/revision/%s' % revision_id
-                            try:
-                                content = self._get_content(url)
-                            except ContentFetchError, e:
-                                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
-                                continue
+            fq_since_last_time = 'metadata_modified:[{since}Z TO *]' \
+                .format(since=get_changes_since)
 
-                            revision = json.loads(content)
-                            for package_id in revision['packages']:
-                                if package_id not in package_ids:
-                                    package_ids.append(package_id)
-                    else:
-                        log.info('No packages have been updated on the remote CKAN instance since the last harvest job')
-                        return []
+            try:
+                pkg_dicts = self._search_for_datasets(
+                    remote_ckan_base_url,
+                    fq_terms + [fq_since_last_time])
+            except SearchError, e:
+                log.info('Searching for datasets changed since last time '
+                         'gave an error: %s', e)
+                get_all_packages = True
 
-                except urllib2.HTTPError, e:
-                    if e.getcode() == 400:
-                        log.info('CKAN instance %s does not suport revision filtering' % base_url)
-                        get_all_packages = True
-                    else:
-                        self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
-                        return None
+            if not get_all_packages and not pkg_dicts:
+                log.info('No datasets have been updated on the remote '
+                         'CKAN instance since the last harvest job %s',
+                         last_time)
+                return None
 
+        # Fall-back option - request all the datasets from the remote CKAN
         if get_all_packages:
             # Request all remote packages
-            url = base_rest_url + '/package'
             try:
-                content = self._get_content(url)
-            except ContentFetchError, e:
-                self._save_gather_error('Unable to get content for URL: %s: %s' % (url, str(e)), harvest_job)
+                pkg_dicts = self._search_for_datasets(remote_ckan_base_url,
+                                                      fq_terms)
+            except SearchError, e:
+                log.info('Searching for all datasets gave an error: %s', e)
+                self._save_gather_error(
+                    'Unable to search remote CKAN for datasets:%s url:%s'
+                    'terms:%s' % (e, remote_ckan_base_url, fq_terms),
+                    harvest_job)
                 return None
+        if not pkg_dicts:
+            self._save_gather_error(
+                'No datasets found at CKAN: %s' % remote_ckan_base_url,
+                harvest_job)
+            return None
 
-            package_ids = json.loads(content)
-
+        # Create harvest objects for each dataset
         try:
+            package_ids = set()
             object_ids = []
-            if self.config.get('manage_deletions', False):
-                missing_ids = self._get_deleted_packages(base_rest_url + '/package', harvest_job)
-                if missing_ids:
-                    object_ids.extend(missing_ids)
+            for pkg_dict in pkg_dicts:
+                if pkg_dict['id'] in package_ids:
+                    log.info('Discarding duplicate dataset %s - probably due '
+                             'to datasets being changed at the same time as '
+                             'when the harvester was paging through',
+                             pkg_dict['id'])
+                    continue
+                package_ids.add(pkg_dict['id'])
 
-            if len(package_ids):
-                for package_id in package_ids:
-                    # Create a new HarvestObject for this identifier
-                    obj = HarvestObject(guid=package_id, job=harvest_job)
-                    obj.save()
-                    object_ids.append(obj.id)
+                log.debug('Creating HarvestObject for %s %s',
+                          pkg_dict['name'], pkg_dict['id'])
+                obj = HarvestObject(guid=pkg_dict['id'],
+                                    job=harvest_job,
+                                    content=json.dumps(pkg_dict))
+                obj.save()
+                object_ids.append(obj.id)
 
-            if package_ids or missing_ids:
-                return object_ids
-
-            else:
-                self._save_gather_error('No packages received for URL: %s' % url, harvest_job)
-                return None
+            return object_ids
         except Exception, e:
             self._save_gather_error('%r' % e.message, harvest_job)
 
+    def _search_for_datasets(self, remote_ckan_base_url, fq_terms=None):
+        '''Does a dataset search on a remote CKAN and returns the results.
+        Deals with paging to return all the results, not just the first page.
+        '''
+        base_search_url = remote_ckan_base_url + self._get_search_api_offset()
+        params = {'rows': '100', 'start': '0'}
+        # There is the worry that datasets will be changed whilst we are paging
+        # through them.
+        # * In SOLR 4.7 there is a cursor, but not using that yet
+        #   because few CKANs are running that version yet.
+        # * However we sort, then new names added or removed before the current
+        #   page would cause existing names on the next page to be missed or
+        #   double counted.
+        # * Another approach might be to sort by metadata_modified and always
+        #   ask for changes since (and including) the date of the last item of
+        #   the day before. However if the entire page is of the exact same
+        #   time, then you end up in an infinite loop asking for the same page.
+        # * We choose a balanced approach of sorting by ID, which means
+        #   datasets are only missed if some are removed, which is far less
+        #   likely than any being added. If some are missed then it is assumed
+        #   they will harvested the next time anyway. When datasets are added,
+        #   we are at risk of seeing datasets twice in the paging, so we detect
+        #   and remove any duplicates.
+        params['sort'] = 'id asc'
+        if fq_terms:
+            params['fq'] = ' '.join(fq_terms)
+
+        pkg_dicts = []
+        pkg_ids = set()
+        previous_content = None
+        while True:
+            url = base_search_url + '?' + urllib.urlencode(params)
+            log.debug('Searching for CKAN datasets: %s', url)
+            try:
+                content = self._get_content(url)
+            except ContentFetchError, e:
+                raise SearchError(
+                    'Error sending request to search remote '
+                    'CKAN instance %s using URL %r. Error: %s' %
+                    (remote_ckan_base_url, url, e))
+
+            if previous_content and content == previous_content:
+                raise SearchError('The paging doesn\'t seem to work. URL: %s' %
+                                  url)
+            try:
+                response_dict = json.loads(content)
+            except ValueError:
+                raise SearchError('Response from remote CKAN was not JSON: %r'
+                                  % content)
+            try:
+                pkg_dicts_page = response_dict.get('result', {}).get('results',
+                                                                     [])
+            except ValueError:
+                raise SearchError('Response JSON did not contain '
+                                  'result/results: %r' % response_dict)
+
+            # Weed out any datasets found on previous pages (should datasets be
+            # changing while we page)
+            ids_in_page = set(p['id'] for p in pkg_dicts_page)
+            duplicate_ids = ids_in_page & pkg_ids
+            if duplicate_ids:
+                pkg_dicts_page = [p for p in pkg_dicts_page
+                                  if p['id'] not in duplicate_ids]
+            pkg_ids |= ids_in_page
+
+            pkg_dicts.extend(pkg_dicts_page)
+
+            if len(pkg_dicts_page) == 0:
+                break
+
+            params['start'] = str(int(params['start']) + int(params['rows']))
+
+        return pkg_dicts
+
+    @classmethod
+    def _last_error_free_job(cls, harvest_job):
+        # TODO weed out cancelled jobs somehow.
+        # look for jobs with no gather errors
+        jobs = \
+            model.Session.query(HarvestJob) \
+                .filter(HarvestJob.source == harvest_job.source) \
+                .filter(HarvestJob.gather_started != None) \
+                .filter(HarvestJob.status == 'Finished') \
+                .filter(HarvestJob.id != harvest_job.id) \
+                .filter(
+                ~exists().where(
+                    HarvestGatherError.harvest_job_id == HarvestJob.id)) \
+                .order_by(HarvestJob.gather_started.desc())
+        # now check them until we find one with no fetch/import errors
+        # (looping rather than doing sql, in case there are lots of objects
+        # and lots of jobs)
+        for job in jobs:
+            for obj in job.objects:
+                if obj.current is False and \
+                                obj.report_status != 'not modified':
+                    # unsuccessful, so go onto the next job
+                    break
+            else:
+                return job
+
     def fetch_stage(self, harvest_object):
-        log.debug('In CKANHarvester fetch_stage')
-
-        self._set_config(harvest_object.job.source.config)
-
-        for extra in harvest_object.extras:
-            if extra.key == 'status' and extra.value == DELETE:
-                harvest_object.content = DELETE
-                harvest_object.save()
-                return True
-
-        # Get source URL
-        url = harvest_object.source.url.rstrip('/')
-        url = url + self._get_rest_api_offset() + '/package/' + harvest_object.guid
-
-        # Get contents
-        try:
-            content = self._get_content(url)
-        except ContentFetchError, e:
-            self._save_object_error('Unable to get content for package: %s: %r' %
-                                    (url, e), harvest_object)
-            return None
-
-        # Save the fetched contents in the HarvestObject
-        harvest_object.content = content
-        harvest_object.save()
+        # Nothing to do here - we got the package dict in the search in the
+        # gather stage
         return True
 
     def import_stage(self, harvest_object):
-        log.debug('In CKANHarvester import_stage')
+        log.debug('In HRIHarvester import_stage')
+
+        context = {'model': model, 'session': model.Session,
+                   'user': self._get_user_name()}
         if not harvest_object:
             log.error('No harvest object received')
             return False
 
         if harvest_object.content is None:
-            self._save_object_error('Empty content for object %s' % harvest_object.id,
+            self._save_object_error('Empty content for object %s' %
+                                    harvest_object.id,
                                     harvest_object, 'Import')
             return False
 
         self._set_config(harvest_object.job.source.config)
-
-        if harvest_object.content == DELETE:
-            return self._delete_package(harvest_object)
 
         try:
             package_dict = json.loads(harvest_object.content)
@@ -316,21 +386,21 @@ class HRIHarvester(HarvesterBase):
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
             if default_tags:
-                if 'tags' not in package_dict:
+                if not 'tags' in package_dict:
                     package_dict['tags'] = []
-                package_dict['tags'].extend([t for t in default_tags if t not in package_dict['tags']])
+                package_dict['tags'].extend(
+                    [t for t in default_tags if t not in package_dict['tags']])
 
             remote_groups = self.config.get('remote_groups', None)
-            if remote_groups not in ('only_local', 'create'):
+            if not remote_groups in ('only_local', 'create'):
                 # Ignore remote groups
                 package_dict.pop('groups', None)
             else:
-                if 'groups' not in package_dict:
+                if not 'groups' in package_dict:
                     package_dict['groups'] = []
 
                 # check if remote groups exist locally, otherwise remove
                 validated_groups = []
-                context = {'model': model, 'session': Session, 'user': 'harvest'}
 
                 for group_name in package_dict['groups']:
                     try:
@@ -341,18 +411,19 @@ class HRIHarvester(HarvesterBase):
                         else:
                             validated_groups.append(group['id'])
                     except NotFound, e:
-                        log.info('Group %s is not available' % group_name)
+                        log.info('Group %s is not available', group_name)
                         if remote_groups == 'create':
                             try:
                                 group = self._get_group(harvest_object.source.url, group_name)
                             except RemoteResourceError:
-                                log.error('Could not get remote group %s' % group_name)
+                                log.error('Could not get remote group %s', group_name)
                                 continue
 
                             for key in ['packages', 'created', 'users', 'groups', 'tags', 'extras', 'display_name']:
                                 group.pop(key, None)
+
                             get_action('group_create')(context, group)
-                            log.info('Group %s has been newly created' % group_name)
+                            log.info('Group %s has been newly created', group_name)
                             if self.api_version == 1:
                                 validated_groups.append(group['name'])
                             else:
@@ -360,19 +431,10 @@ class HRIHarvester(HarvesterBase):
 
                 package_dict['groups'] = validated_groups
 
-            context = {'model': model, 'session': Session, 'user': 'harvest'}
-
-            # Local harvest source organization
-            source_dataset = get_action('package_show')(context, {'id': harvest_object.source.id})
-            source_dataset.get('owner_org')
-
-            self.config.get('remote_orgs', None)
-
+            # Find if remote org exists locally, otherwise don't import dataset
             if 'owner_org' not in package_dict:
                 package_dict['owner_org'] = None
 
-            # check if remote org exist locally, otherwise remove
-            validated_org = None
             remote_org = None
             if package_dict.get('organization'):
                 remote_org = package_dict['organization']['name']
@@ -381,7 +443,7 @@ class HRIHarvester(HarvesterBase):
                 try:
                     data_dict = {'id': remote_org}
                     org = get_action('organization_show')(context, data_dict)
-                    validated_org = org['id']
+                    package_dict['owner_org'] = org['id']
                 except NotFound:
                     log.info('No organization exist, not importing dataset')
                     return "unchanged"
@@ -389,91 +451,78 @@ class HRIHarvester(HarvesterBase):
                 log.info('No organization in harvested dataset')
                 return "unchanged"
 
-            package_dict['owner_org'] = validated_org
 
-            # Set default groups if needed
+                # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
             if default_groups:
-                if 'groups' not in package_dict:
+                if not 'groups' in package_dict:
                     package_dict['groups'] = []
-                package_dict['groups'].extend([g for g in default_groups if g not in package_dict['groups']])
-
-            # Find any extras whose values are not strings and try to convert
-            # them to strings, as non-string extras are not allowed anymore in
-            # CKAN 2.0.
-            for key in package_dict['extras'].keys():
-                if not isinstance(package_dict['extras'][key], basestring):
-                    try:
-                        package_dict['extras'][key] = json.dumps(
-                            package_dict['extras'][key])
-                    except TypeError:
-                        # If converting to a string fails, just delete it.
-                        del package_dict['extras'][key]
+                package_dict['groups'].extend(
+                    [g for g in default_groups
+                     if g not in package_dict['groups']])
 
             # Set default extras if needed
             default_extras = self.config.get('default_extras', {})
+            def get_extra(key, package_dict):
+                for extra in package_dict.get('extras', []):
+                    if extra['key'] == key:
+                        return extra
             if default_extras:
                 override_extras = self.config.get('override_extras', False)
-                if 'extras' not in package_dict:
+                if not 'extras' in package_dict:
                     package_dict['extras'] = {}
                 for key, value in default_extras.iteritems():
-                    if key not in package_dict['extras'] or override_extras:
-                        # Look for replacement strings
-                        if isinstance(value, basestring):
-                            value = value.format(harvest_source_id=harvest_object.job.source.id,
-                                                 harvest_source_url=harvest_object.job.source.url.strip('/'),
-                                                 harvest_source_title=harvest_object.job.source.title,
-                                                 harvest_job_id=harvest_object.job.id,
-                                                 harvest_object_id=harvest_object.id,
-                                                 dataset_id=package_dict['id'])
+                    existing_extra = get_extra(key, package_dict)
+                    if existing_extra and not override_extras:
+                        continue  # no need for the default
+                    if existing_extra:
+                        package_dict['extras'].remove(existing_extra)
+                    # Look for replacement strings
+                    if isinstance(value, basestring):
+                        value = value.format(
+                            harvest_source_id=harvest_object.job.source.id,
+                            harvest_source_url=
+                            harvest_object.job.source.url.strip('/'),
+                            harvest_source_title=
+                            harvest_object.job.source.title,
+                            harvest_job_id=harvest_object.job.id,
+                            harvest_object_id=harvest_object.id,
+                            dataset_id=package_dict['id'])
 
-                        package_dict['extras'][key] = value
+                    package_dict['extras'].append({'key': key, 'value': value})
 
-            # Clear remote url_type for resources (eg datastore, upload) as we
-            # are only creating normal resources with links to the remote ones
             for resource in package_dict.get('resources', []):
+                # Clear remote url_type for resources (eg datastore, upload) as
+                # we are only creating normal resources with links to the
+                # remote ones
                 resource.pop('url_type', None)
 
-            # Check if package exists
-            data_dict = {}
-            data_dict['id'] = package_dict['id']
-            try:
-                existing_package_dict = get_action('package_show')(context, data_dict)
-                if 'metadata_modified' in package_dict and package_dict['metadata_modified'] <= existing_package_dict.get('metadata_modified'):
-                    return "unchanged"
-            except NotFound:
-                pass
+                # Clear revision_id as the revision won't exist on this CKAN
+                # and saving it will cause an IntegrityError with the foreign
+                # key.
+                resource.pop('revision_id', None)
 
-            result = self._create_or_update_package(package_dict, harvest_object)
+            result = self._create_or_update_package(
+                package_dict, harvest_object, package_dict_form='package_show')
 
-            if result and self.config.get('read_only', False) is True:
-
-                package = model.Package.get(package_dict['id'])
-
-                # Clear default permissions
-                model.clear_user_roles(package)
-
-                # Setup harvest user as admin
-                user_name = self.config.get('user', u'harvest')
-                user = model.User.get(user_name)
-                model.PackageRole(package=package, user=user, role=model.Role.ADMIN)
-
-                # Other users can only read
-                for user_name in (u'visitor', u'logged_in'):
-                    user = model.User.get(user_name)
-                    model.PackageRole(package=package, user=user, role=model.Role.READER)
-
-            return True
+            return result
         except ValidationError, e:
-            self._save_object_error('Invalid package with GUID %s: %r' % (harvest_object.guid, e.error_dict),
+            self._save_object_error('Invalid package with GUID %s: %r' %
+                                    (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
         except Exception, e:
-            self._save_object_error('%r' % e, harvest_object, 'Import')
+            self._save_object_error('%s' % e, harvest_object, 'Import')
 
 
 class ContentFetchError(Exception):
     pass
 
+class ContentNotFoundError(ContentFetchError):
+    pass
 
 class RemoteResourceError(Exception):
+    pass
+
+
+class SearchError(Exception):
     pass

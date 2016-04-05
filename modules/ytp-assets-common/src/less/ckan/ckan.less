@@ -326,8 +326,8 @@ ul.dataset-list {
   padding-left: 0px;
 
   li.dataset-item {
-    padding-bottom: 14px;
-    margin-bottom: 10px;
+    padding-bottom: 25px;
+    margin: 25px 0;
     border-bottom: 1px solid #dddddd;
 
     .dataset-item-meta {
@@ -827,10 +827,10 @@ dd {
       button {
         border: none;
         border-radius: 0px;
-        width: 60px;
-        height: 44px;
-        margin-top: -22px;
-        margin-right: -10px;
+        width: 46px;
+        height: 46px;
+        margin-top: -23px;
+        margin-right: -12px;
         background: @block-color-hilight;
         color: @block-color;
         i.icon-search {
@@ -872,6 +872,10 @@ dd {
     }
   }
 }
+
+        .search-input button:hover {
+          opacity: 0.9;
+        }
 
 .wrapper.no-nav {
   h1.content-heading {
@@ -980,11 +984,11 @@ dd {
   font-weight: 400;
   padding: 0.3em 0.8em 0.3em 0.8em;
   font-size: 100%;
-  margin: 3px;
-  border-radius: 0.3em;
+  margin: 0px;
+  border-radius: 4px;
 
   a {
-    color: @button-inverse-text-color;
+    color: #fff;
   }
 }
 
@@ -992,3 +996,46 @@ dd {
 .dataset-list-embed {
   padding: 10px;
 }
+
+/* Added new styles and custom classes to redesign the search page visuals at 22032016 */
+
+.label-tag {
+  border: 1px solid #1467b6 !important;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.label-tag a {
+  color: #1467b6;
+}
+
+.file-tag {
+  color: #444;
+  background-color: white;
+  border: none;
+}
+
+.file-tag::before {
+  content: '.';
+}
+
+.organization-line {
+  color: #A7A7A7 !important;
+}
+
+.organization-line a {
+  color: #A7A7A7 !important;
+}
+
+/* Added new styles and custom classes to redesign the search page left side filtering at 23032016 */
+
+.sidebar-sort-header {
+  color: #777;
+  font-size: 15px;
+}
+
+.sidebar-sort-content a {
+  color: #A7A7A7;
+  font-size: 13px;
+}
+
