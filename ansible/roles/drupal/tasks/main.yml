@@ -334,6 +334,7 @@
     - { module: menu, delta: footer-links, region: footer, weight: 2 }
     - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
     - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0} 
+    - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1} 
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"

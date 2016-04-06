@@ -18,6 +18,10 @@ function ytp_frontpage_block_info() {
     'info' => t('Latest datasets'),
     'cache' => DRUPAL_NO_CACHE,
   );
+  $blocks['popular_datasets'] = array(
+    'info' => t('Most popular datasets'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
 
   return $blocks;
 }
@@ -28,10 +32,17 @@ function ytp_frontpage_block_info() {
 function ytp_frontpage_block_view($delta = '') {
   if ($delta == 'latest_datasets') {
     $block['title'] = t('Latest datasets');
-    $block['icon'] = 'file-text';
-    $block['content'] = 'So this would be content yeah';
-  return $block;
-
+    $block['content'] = theme('dataset_list_short', array(
+      'datasets' => get_datasets('latest', 'desc', 5),
+    ));
+    return $block;
+  }
+  elseif ($delta == 'popular_datasets') {
+    $block['title'] = t('Most popular datasets');
+    $block['content'] = theme('dataset_list_short', array(
+      'datasets' => get_datasets('popular', 'desc', 5),
+    ));
+    return $block;
   }
 }
 
@@ -43,4 +54,67 @@ function ytp_frontpage_help($path, $arg) {
         return t('Creates blocks for front page. The blocks will display news, Twitter feed, 
           latest datasets, most popular datasets and related sites.');
     }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ytp_frontpage_theme() {
+  return array(
+    'dataset_list_short' => array());
+}
+
+/**
+ * Use CKAN package_search to get datasets
+ * Parameters
+ *  - $type: sort type: 'latest' or 'popular' (defaults to 'relevance')
+ *  - $order: sort order: 'desc' or 'asc' (defaults to 'asc')
+ *  - $amount: amount of datasets shown: integer
+ */
+function get_datasets($type, $order, $amount) {
+
+  // Figure out sort type
+  $sort = 'relevance'; // default solr sort
+  switch ($type) {
+    case 'latest':
+      $sort = 'metadata_created';
+      break;
+
+    case 'popular':
+      $sort = 'views_recent';
+      break;
+  }
+
+  // Figure out sort order
+  if ($order != 'desc') {
+    $order = 'asc'; // default solr sort order
+  }
+
+  // Figure out amount of datasets shown
+  $amount = is_int($amount) ? $amount : 5; // default: get 5 datasets
+
+  $url = 'https://localhost/data/api/3/action/package_search?sort=' . $sort . '+' . $order . '&rows=' . $amount;
+  $options = array(
+    'method' => 'GET'
+  );
+
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+
+  return $json["result"]['results'];
+}
+
+/** 
+ * Theme function to format front page dataset lists
+ */
+function theme_dataset_list_short($variables) {
+  global $language;
+  $output = '<ul class="dataset-title-list">';
+
+  foreach ($variables['datasets'] as $dataset) {
+    $output .= '<li><i class="icon-book icon-2x"></i><a href="/data/' . $language->language . '/dataset/' . $dataset['name'] . '">' . $dataset['title'] . '</a></li>';
+  }
+
+  $output .= '</ul>';
+  return $output;
 }
