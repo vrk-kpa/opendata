@@ -459,5 +459,5 @@
   poll: "{{ 0 if Reindex == true else 10 }}"
   tags:
   - ckan
-  #- non-local
+  - non-local
   - test
