@@ -283,31 +283,12 @@
   margin-left: 18px;
 }
 
-.comment-container{
-  padding: 10px;
-  background-color: @background-hilight;
-  .comment-wrapper {
-    background-color: @background-hilight;
-    border-radius: 4px;
-    padding: 10px 0 10px 15px;
 
-    .links {
-      margin: 16px 0 10px 0;
-    }
-
-    h3 {
-      display: inline-block;
-    }
-
-    .submitted {
-      float: right;
-      margin: 4px 0;
-    }
-  }
-
+.comment-wrapper {
   .comment {
-    border-bottom: 1px solid @content-border;
-    margin: 12px 0;
+    border-bottom: 1px solid #f6f5f3;
+    margin: 25px 0;
+    padding-bottom: 20px;
   }
 
 }
@@ -546,6 +527,7 @@ a.tabledrag-handle{
       padding: 15px 40px;
       background-color: #eaf4fb;
       border-radius: 20px;
+      text-decoration: underline;
       &.active{
         background-color: @ytp-brand-primary;
         color: @button-inverse-text-color;
@@ -555,7 +537,7 @@ a.tabledrag-handle{
         color: @button-inverse-text-color;
       }
     }
-    span{
+    span, i{
       margin-left: -40px;
       margin-right:  30px;
     }
@@ -565,6 +547,8 @@ a.tabledrag-handle{
 .content-box{
   border: 1px dashed #8CAEDA;
   background-color: #F8FBFE;
+  padding: 25px;
+  margin: 25px 0;
   table {
     [class^="icon-"],
     [class*=" icon-"] {
@@ -572,6 +556,34 @@ a.tabledrag-handle{
     }
   }
 }
+
+.forward-button {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 20px;
+  text-align: center;
+  color: @block-color;
+  height: 45px;
+  display: block;
+  width: 100%;
+  border: 0;
+  a {
+    display: block;
+    width: 100%;
+    color: @block-color;
+  }
+  .icon-arrow-right {
+    display: block;
+    float: right;
+    margin-top: -10px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    background-color: @button-primary-hilight;
+  }
+  background-color: @block-color-hilight;
+}
+
 
 .captcha{
   margin-bottom: 10px;

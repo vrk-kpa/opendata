@@ -43,7 +43,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-msgid "Feedback"
+msgid "Guide to Open Data"
 msgstr ""
 
 msgid "User Info"
