@@ -149,7 +149,11 @@
     - honeypot
     - node_expire
 
+    - draggableviews
+    - commentsblock
+
     - twitter_block
+
   tags:
   - drupal
 
@@ -207,6 +211,8 @@
     - honeypot
     - node_expire
 
+    - draggableviews
+    - commentsblock
     - twitter_block
 
     - variable_translation

@@ -155,6 +155,18 @@ function ytp_theme_preprocess_page(&$variables) {
 
   }
 
+  $alias_parts = explode('/', drupal_get_path_alias());
+  if (count($alias_parts) && $alias_parts[0] == 'opas') {
+    $variables['theme_hook_suggestions'][] = 'page__guidetemplate';
+    if( isset($alias_parts[1]) && $alias_parts[1] != 'jatko') {
+      $variables['active_page'] = $alias_parts[1];
+      $variables['show_guide_nav'] = true;
+    }
+    else{
+      $variables['show_guide_nav'] = false;
+    }
+  }
+
 
 }
 
@@ -325,6 +337,14 @@ function ytp_theme_preprocess_node(&$variables){
     else{
       $author = $variables['name'];
     }
+
+
+    $alias_parts = explode('/', drupal_get_path_alias());
+    if (count($alias_parts) && $alias_parts[0] == 'guide') {
+      $variables['display_submitted'] = false;
+      hide($variables['content']['sharethis']);
+    }
+
     $variables['submitted'] = t('updated') . ' ' . t('!datetime | !username', array('!username' => $author, '!datetime' =>$date));
 }
 

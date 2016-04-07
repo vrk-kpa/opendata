@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Guide Feature feature.
+ */
+
+include_once 'guide_feature.features.inc';
