@@ -456,6 +456,7 @@
   shell: touch "{{ files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}" creates="{{ files_root }}/.solr-reindex"
   async: 1200
   poll: 0
+  when: Reindex == True
   tags:
   - ckan
   - non-local
