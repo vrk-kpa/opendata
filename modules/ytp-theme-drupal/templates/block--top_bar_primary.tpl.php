@@ -33,7 +33,9 @@ label{
     </div>
     <div id="search_content" class="navbar navbar-search form-control" role="search" style="display: none;">
          <?php
-              print $search_box;
+              if (isset($search_box)) {
+                print $search_box;
+              }
          ?>
     </div>
     <div class="btn-group btn-group-sm" data-toggle="buttons">
