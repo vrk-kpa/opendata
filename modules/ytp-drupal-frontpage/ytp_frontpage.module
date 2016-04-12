@@ -22,6 +22,10 @@ function ytp_frontpage_block_info() {
     'info' => t('Most popular datasets'),
     'cache' => DRUPAL_NO_CACHE,
   );
+  $blocks['twitter_feed'] = array(
+    'info' => t('Twitter @avoindatafi'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
 
   return $blocks;
 }
@@ -44,6 +48,39 @@ function ytp_frontpage_block_view($delta = '') {
     ));
     return $block;
   }
+  elseif ($delta == 'twitter_feed') {
+    // Code based on https://www.drupal.org/project/twitter_block
+    $block['content'] = array(
+      '#theme' => 'link',
+      '#text' => 'Twitter @avoindatafi',
+      '#path' => 'https://twitter.com/avoindatafi',
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('twitter-timeline'),
+          'data-widget-id' => variable_get('twitter_widget_id', ''),
+          'data-theme' => 'ytp_theme',
+#          'data-link-color' => !empty($data['link_color']) ? '#' . $data['link_color'] : $data['link_color'],
+#          'width' => $data['width'],
+#          'height' => $data['height'],
+#          'data-chrome' => !empty($data['chrome']) ? implode(' ', array_keys($data['chrome'])) : $data['chrome'],
+#          'data-border-color' => !empty($data['border_color']) ? '#' . $data['border_color'] : $data['border_color'],
+ #         'lang' => $data['language'],
+          'data-tweet-limit' => 2,
+#          'data-related' => $data['related'],
+#          'aria-polite' => $data['polite'],
+        ),
+        'html' => FALSE,
+      ),
+      '#attached' => array(
+        'js' => array(
+          'https://platform.twitter.com/widgets.js' => array(
+            'type' => 'external',
+          ),
+        ),
+      ),
+    );
+    return $block;
+  }
 }
 
 /**
@@ -62,6 +99,21 @@ function ytp_frontpage_help($path, $arg) {
 function ytp_frontpage_theme() {
   return array(
     'dataset_list_short' => array());
+}
+
+/**
+ * Implements hook_variable_info().
+ */
+function ytp_frontpage_variable_info($options)
+{
+  $variables['twitter_widget_id'] = array(
+    'type' => 'string',
+    'title' => t('Twitter widget ID'),
+    'default' => '',
+    'description' => t('Twitter widget ID for displaying tweets on front page', array(), $options),
+    'localize' => 'FALSE',
+    );
+  return $variables;
 }
 
 /**
@@ -112,7 +164,7 @@ function theme_dataset_list_short($variables) {
   $output = '<ul class="dataset-title-list">';
 
   foreach ($variables['datasets'] as $dataset) {
-    $output .= '<li><i class="icon-book icon-2x"></i><a href="/data/' . $language->language . '/dataset/' . $dataset['name'] . '">' . $dataset['title'] . '</a></li>';
+    $output .= '<li><a href="/data/' . $language->language . '/dataset/' . $dataset['name'] . '">' . $dataset['title'] . '</a></li>';
   }
 
   $output .= '</ul>';
