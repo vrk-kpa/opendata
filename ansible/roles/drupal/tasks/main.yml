@@ -149,7 +149,6 @@
     - honeypot
     - node_expire
 
-    - twitter_block
   tags:
   - drupal
 
@@ -206,8 +205,6 @@
     - recaptcha
     - honeypot
     - node_expire
-
-    - twitter_block
 
     - variable_translation
     - variable_admin
@@ -337,6 +334,7 @@
     - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1} 
     - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
     - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
+    - { module: views, delta: news-block, region: content_grid_left, weight: 0}
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
