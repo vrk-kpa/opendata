@@ -23,7 +23,6 @@ label{
 ?>
 <div id="search-box">
 
-     <h1><?php print t('Search') ?></h1>
     <div id="search_datasets" class="navbar navbar-search form-control" role="search">
        <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
             <input class="search-term" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
@@ -42,22 +41,9 @@ label{
         <label class="btn btn-primary active"><input type="radio" name="searchtype" checked="checked" value="datasets"/><?php print t("From datasets")?></label>
         <label class="btn btn-default"><input type="radio" name="searchtype" value="content"/><?php print t("From other content")?></label>
     </div>
+    <div class="collection-links">
+        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data")?> &gt;</a></h3>
+        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Interoperability+Tools"><?php print t("Interoperability Tools")?> &gt;</a></h3>
     </div>
-    <div class="info">
-        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Open+Data"><?php print t("Open Data")?></a></h3>
-        <h3><a href="/data/<?php print $language->language ?>/dataset?collection_type=Interoperability+Tools"><?php print t("Interoperability Tools")?></a></h3>
-        <?php
-            $url = 'https://localhost/data/api/3/action/package_search';
-            $options = array(
-              'method' => 'GET'
-            );
-            $result = drupal_http_request($url, $options);
-            $json = drupal_json_decode($result->data);
-            $dataset_count = $json["result"]['count'];
-        ?>
-        <div class="info-footer">
-            <?php print t('Currently the service has @dataset_count datasets.', array('@dataset_count' => $dataset_count)) ?>
-        </div>
-
-    </div>
+  </div>
 
