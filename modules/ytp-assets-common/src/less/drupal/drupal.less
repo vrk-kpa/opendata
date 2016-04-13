@@ -423,61 +423,6 @@
   }
 }
 
-
-.article-list-header{
-  color: black;
-  font-size: 20px;
-  padding: 10px 0 10px 30px;
-  margin-left: 25px;
-  background-color: @background-hilight-primary;
-}
-.article-list{
-  background-color: @background-hilight-primary;
-
-  .row{
-    padding: 10px 10px 10px 10px;
-  }
-  .left{
-    padding-right: 10px;
-  }
-  .right{
-    padding-left: 10px;
-  }
-  .article{
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    h2{
-      margin-bottom: 15px;
-    }
-    .links.list-inline{
-      margin-top: 20px;
-    }
-  }
-}
-
-.dataset-title-list{
-  padding-left: 0;
-  color: @ytp-brand-primary;
-  li{
-    list-style: none;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 30px;
-    .text-overflow();
-    // IE9 Fix
-    &:before{
-      content: '';
-    }
-    i[class^="icon-"]{
-      font-size: 19px;
-      color: @ytp-brand-primary;
-      margin-right: 5px;
-    }
-  }
-}
-
-
 #user-guide{
   margin: 20px 0 40px 0;
   .media-heading{
@@ -576,7 +521,6 @@ a.tabledrag-handle{
 /* FRONT PAGE */
 /****************************************************/
 
-/* */
 @media (max-width: @screen-xs-max) {
   .main-container {
     padding: 0;
@@ -584,8 +528,13 @@ a.tabledrag-handle{
   .region-top-bar-primary .block, .region-top-bar-secondary .block,
   .region-content-grid-left .block, .region-content-grid-right .block,
   .region-content-grid-left-lower .block {
-    padding: 5px 12.5px;
+    padding: 5px;
   }
+}
+
+.region-content-grid-left .block,
+.region-content-grid-right .block {
+  padding: 20px 12.5px;
 }
 
 .title-icon {
@@ -594,15 +543,12 @@ a.tabledrag-handle{
 
 /* News */
 .region-content-grid-left .block {
-  padding-top: 20px;
-  padding-bottom: 20px;
-
   @media (min-width: @screen-sm-min) {
     border-bottom: 1px solid darken(@background-hilight, 3%);
   }
 }
 .region-content-grid-left .views-row {
-  margin-top: 8px;
+  margin-bottom: 8px;
   clear: both;
 }
 .region-content-grid-left .views-field-created {
@@ -619,6 +565,82 @@ a.tabledrag-handle{
   @media (max-width: @screen-xs-max) {
     background-color: @background-hilight;
     border: 1px solid darken(@background-hilight, 3%);
+  }
+}
+
+/* Latest and popular datasets */
+@media (min-width: @screen-sm-min) {
+  #block-ytp-frontpage-latest-datasets,
+  #block-ytp-frontpage-popular-datasets {
+    background-color: @background-hilight;
+    border-left: 1px solid darken(@background-hilight, 3%);
+    border-right: 1px solid darken(@background-hilight, 3%);
+  }
+  #block-ytp-frontpage-latest-datasets {
+    border-top: 1px solid darken(@background-hilight, 3%);    
+  }
+  #block-ytp-frontpage-popular-datasets {
+    border-bottom: 1px solid darken(@background-hilight, 3%);
+  }
+}
+@media (min-width: @screen-lg-min) {
+  #block-ytp-frontpage-latest-datasets {
+    border-bottom: 1px solid darken(@background-hilight, 3%);
+  }
+  #block-ytp-frontpage-popular-datasets {
+    border-top: 1px solid darken(@background-hilight, 3%);
+  }
+}
+@media (max-width: @screen-xs-max) {
+  #block-ytp-frontpage-latest-datasets {
+    padding-bottom: 10px;
+  }
+  #block-ytp-frontpage-popular-datasets {
+    padding-top: 10px;
+  }
+}
+.dataset-title-list{
+  padding-left: 0;
+  color: @ytp-brand-primary;
+  li{
+    margin-bottom: 8px;
+    list-style: none;
+    .text-overflow();
+    // IE9 Fix
+    &:before{
+      content: '';
+    }
+  }
+}
+
+/* Related sites */
+#block-menu-related-sites {
+  background-color: @background-hilight;
+  border-top: 1px solid darken(@background-hilight, 3%);    
+  border-bottom: 1px solid darken(@background-hilight, 3%);    
+
+  ul {
+    padding: 10px 10px 10px 0;
+  }
+
+  li {
+    margin-bottom: 8px;    
+  }
+
+  a {
+    display: inline;
+    padding: 0;
+  }
+
+  a:hover {
+    background: inherit;
+    text-decoration: underline;
+  }
+
+  @media (min-width: @screen-sm-min) {
+    margin-top: 20px;
+    border-left: 1px solid darken(@background-hilight, 3%);
+    border-right: 1px solid darken(@background-hilight, 3%);
   }
 }
 
