@@ -1,0 +1,5 @@
+name = YTP Front Page
+description = Creates following blocks for front page: news, Twitter feed, latest datasets, popular datasets, related sites
+package = YTP
+core = 7.x
+files[] = ytp_frontpage.module

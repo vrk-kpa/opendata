@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Create related sites menu
+ */
+
+$related_sites_menu = array(
+  'menu_name' => 'related-sites',
+  'title' => t('Related sites'),
+  'description' => t('Links to related sites, displayed on front page'),
+);
+
+// If menu exists already, don't overwrite
+$menus = menu_get_menus();
+if (!array_key_exists('related-sites', $menus)) {
+  menu_save($related_sites_menu);
+}

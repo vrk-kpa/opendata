@@ -27,8 +27,8 @@ function ytp_tutorial_block_view($delta = '') {
     $block['content'] = array(
       '#theme' => 'tutorial__ytp_tutorial', 
       '#image_url' => $data['image_url'],
-      '#title' => $data['title'],
       '#content' => $data['content'],
+      '#heading' => $data['heading'],
     );
   return $block;
 
@@ -72,7 +72,7 @@ function ytp_tutorial_theme($variables) {
     'tutorial' => array(
       'variables' => array(
         'image_url' => NULL,
-        'title' => NULL,
+        'heading' => NULL,
         'content' => NULL,
       ),
       'template' => 'ytp_tutorial',
@@ -91,15 +91,15 @@ function ytp_tutorial_choose_view() {
     $data = ytp_tutorial_get_data_not_logged_in();
   }
   elseif (ytp_tutorial_has_organization() == false && 
-    isset($temp->field_optout_organization['und']) &&
-    isset($temp->field_optout_organization['und'][0]) && 
-    $temp->field_optout_organization['und'][0]['value'] != 1) {
+    (!isset($temp->field_optout_organization['und']) ||
+    !isset($temp->field_optout_organization['und'][0]) || 
+    $temp->field_optout_organization['und'][0]['value'] != 1)) {
     $data = ytp_tutorial_get_data_no_organization();
   }
   elseif (ytp_tutorial_has_published_data() == false && 
-    isset($temp->field_optout_publish['und']) &&
-    isset($temp->field_optout_publish['und'][0]) && 
-    $temp->field_optout_publish['und'][0]['value'] != 1) { 
+    (!isset($temp->field_optout_publish['und']) ||
+    !isset($temp->field_optout_publish['und'][0]) || 
+    $temp->field_optout_publish['und'][0]['value'] != 1)) { 
     $data = ytp_tutorial_get_data_no_published_datasets();
   }
   else {
@@ -173,53 +173,25 @@ function ytp_tutorial_has_published_data() {
 function ytp_tutorial_get_data_not_logged_in() {
   return array(
     'image_url' => '/resources/images/frontpage/rekisteroidy_125x125.png',
-    'title' => t('Register'),
-    'content' => array(
-      'heading2' => array(
-        '#prefix' => '<h2>',
-        '#markup' => t('to get started'),
-        '#suffix' => '</h2>',
-        '#attributes' => array(
-          'class' => array(
-            'media-heading2',
-          ),
-        ),
-      ),
-      'info' => array(
-        '#prefix' => '<p>',
-        '#markup' => t('Opendata.fi allows you to find open datasets, and to publish and manage your own.'),
-        '#suffix' => '</p>',
-      ),
+    'heading' => array(
       'register' => array(
         '#prefix' => '<div class="tutorial-action-button">',
         'link' => array(
           '#type' => 'link',
-          '#title' => t('Register') . '<i class="icon-arrow-right"></i>',
+          '#title' => t('Register'),
           '#href' => 'user/register',
           '#options' => array(
             'html' => true,
           ),
         ),
         '#suffix' => '</div>',
-      ),
-      'sign-in' => array(
-        '#prefix' => '<div class="tutorial-signin">',
-        'sign-in' => array(
-          '#type' => 'link',
-          '#title' => t('Sign in'),
-          '#href' => 'user/login',
-        ),
-        'forgotten-password' => array(
-          '#type' => 'link',
-          '#title' => t('Forgot your password?'),
-          '#href' => 'user/password',
-          '#attributes' => array(
-            'class' => array(
-              'pull-right',
-            ),
-          ),
-        ),
-        '#suffix' => '</div>',
+      ),      
+    ),
+    'content' => array(
+      'info' => array(
+        '#prefix' => '<p>',
+        '#markup' => t('Opendata.fi allows you to find open datasets, and to publish and manage your own.'),
+        '#suffix' => '</p>',
       ),
     ),
   );
@@ -234,29 +206,32 @@ function ytp_tutorial_get_data_no_organization() {
 
   return array(
     'image_url' => '/resources/images/frontpage/liity_organisaatioon_125x125.png',
-    'title' => t('Join an organization'),
-    'content' =>  array(
-      'info' => array(
-        '#prefix' => '<p>',
-        '#markup' => t('Publish data, tools and guidelines as'),
-        '#suffix' => '</p>',
-      ),
-      'choose_organization' => drupal_get_form('ytp_tutorial_join_organization_form'),
+    'heading' => array(
       'opt_out' => array(
-        '#prefix' => '<p>',
-          'link' => array(
-            '#type' => 'link',
-            '#title' => t('Don\'t ask me again'),
-            '#href' => 'tutorial/opt-out/organization/nojs',
-            '#attributes' => array(
-              'class' => array(
-                'use-ajax',
-                'pull-right',
-              ),
+        'link' => array(
+          '#type' => 'link',
+          '#title' => '<i class="fa fa-times" aria-hidden="true"></i>' . t('Close'),
+          '#href' => 'tutorial/opt-out/organization/nojs',
+          '#attributes' => array(
+            'class' => array(
+              'use-ajax',
+              'pull-right',
+              'opt-out',
             ),
           ),
-        '#suffix' => '</p>',
+          '#options' => array(
+            'html' => TRUE
+          ),            
+        ),
       ),
+      'join' => array(
+        '#prefix' => '<h1>',
+        '#markup' => t('Join an organization'),
+        '#suffix' => '</h1>',
+      ),
+    ),
+    'content' =>  array(
+      'choose_organization' => drupal_get_form('ytp_tutorial_join_organization_form'),
     ),
   );
 }
@@ -269,27 +244,29 @@ function ytp_tutorial_get_data_no_published_datasets() {
 
   return array(
     'image_url' => '/resources/images/frontpage/julkaise_aineistoja_125x125.png',
-    'title' => t('Publish data'),
-    'content' => array(
-      'datatypes' => array(
-        '#theme' => 'item_list',
-        '#type' => 'ul',
-        '#items' => array(
-          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Open data'),
-          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Interoperability tools'),
-          '<i class="icon-ok"></i>&nbsp;&nbsp;' . t('Public service'),
-        ),
-        '#attributes' => array(
-          'class' => array(
-            'ticked-list',
+    'heading' => array(
+      'opt_out' => array(
+        'link' => array(
+          '#type' => 'link',
+          '#title' => '<i class="fa fa-times" aria-hidden="true"></i>' . t('Close'),
+          '#href' => 'tutorial/opt-out/publish/nojs',
+          '#attributes' => array(
+            'class' => array(
+              'use-ajax',
+              'pull-right',
+              'opt-out',
+            ),
           ),
+          '#options' => array(
+            'html' => TRUE
+          ),            
         ),
       ),
       'continue' => array(
         '#prefix' => '<div class="tutorial-action-button">',
         'link' => array(
           '#type' => 'link',
-          '#title' => t('Continue') . '<i class="icon-arrow-right"></i>',
+          '#title' => t('Publish data'),
           '#href' => 'publish',
           '#options' => array(
             'html' => true,
@@ -297,19 +274,11 @@ function ytp_tutorial_get_data_no_published_datasets() {
         ),
         '#suffix' => '</div>',
       ),
-      'opt_out' => array(
+    ),
+    'content' => array(
+      'datatypes' => array(
         '#prefix' => '<p>',
-          'link' => array(
-            '#type' => 'link',
-            '#title' => t('Don\'t ask me again'),
-            '#href' => 'tutorial/opt-out/publish/nojs',
-            '#attributes' => array(
-              'class' => array(
-                'use-ajax',
-                'pull-right',
-              ),
-            ),
-          ),
+        '#markup' => t('Open data and interoperability tools.'),
         '#suffix' => '</p>',
       ),
     ),
@@ -326,7 +295,11 @@ function ytp_tutorial_get_data_tools() {
 
   return array(
     'image_url' => '/resources/images/frontpage/tyokalut_125x125.png',
-    'title' => t('Tools'),
+    'heading' => array(
+      '#prefix' => '<h1>',
+      '#markup' => t('Tools'),
+      '#suffix' => '</h1>',
+    ),
     'content' => array(
       'datasets' => array(
         '#type' => 'link',
@@ -394,10 +367,10 @@ function ytp_tutorial_join_organization_form($form, &$form_state) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Continue')  . '<i class="icon-arrow-right"></i>',
+    '#value' => t('Join'),
     '#attributes' => array(
       'class' => array(
-        'tutorial-action-button'
+        'tutorial-join-button'
       ),
     ),
   );
@@ -476,7 +449,7 @@ function ytp_tutorial_optout($type, $call_method) {
       $newcontent = theme('tutorial', array(
         '#theme' => 'tutorial__ytp_tutorial', 
         '#image_url' => $data['image_url'],
-        '#title' => $data['title'],
+        '#heading' => $data['heading'],
         '#content' => $data['content'],
       ));
 
