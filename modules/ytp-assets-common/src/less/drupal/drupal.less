@@ -321,79 +321,6 @@
   font-weight: normal;
 }
 
-#tutorial-box{
-  .tutorial-box-content {
-    padding: 20px;
-    background-color: darken(@background-hilight, 0%);
-    min-height: 270px;
-
-    h1 {
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    h2 {
-      font-weight: 700;
-      font-size: 16px;
-      margin-top: -10px;
-    }
-    .tutorial-action-button {
-      margin: 0;
-      padding: 10px 0;
-      font-size: 20px;
-      text-align: center;
-      color: @block-color;
-      height: 45px;
-      display: block;
-      width: 100%;
-      border: 0;
-      a {
-        display: block;
-        width: 100%;
-        color: @block-color;
-        text-decoration: none;
-      }
-      .icon-arrow-right {
-        display: block;
-        float: right;
-        margin-top: -10px;
-        width: 45px;
-        height: 45px;
-        line-height: 45px;
-        background-color: @button-primary-hilight;
-      }
-      background-color: @block-color-hilight;
-    }
-    .tools-link {
-      display: block;
-      width: 100%;
-      background-color: @block-color-light;
-      border-right: 10px solid lighten(@ytp-brand-primary, 45%);
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: lighten(@ytp-brand-primary, 10%);
-      height: 40px;
-      font-weight: 600;
-      padding: 10px;
-    }
-
-    .tutorial-signin {
-      margin-top: 10px;
-
-    }
-    .media-left{
-      padding-right: 20px;
-    }
-  }
-  .ticked-list li {
-    list-style: none;
-    line-height: 200%;
-  }
-
-  .icon-ok {
-    color: @block-color-hilight;
-  }
-}
-
 #user-guide{
   margin: 20px 0 40px 0;
   .media-heading{
@@ -492,6 +419,7 @@ a.tabledrag-handle{
 /* FRONT PAGE */
 /****************************************************/
 
+/* Block spacing */
 @media (max-width: @screen-xs-max) {
   .main-container {
     padding: 0;
@@ -502,12 +430,10 @@ a.tabledrag-handle{
     padding: 5px;
   }
 }
-
 .region-content-grid-left .block,
 .region-content-grid-right .block {
   padding: 20px 12.5px;
 }
-
 .title-icon {
   margin-right: 10px;
 }
@@ -547,6 +473,92 @@ a.tabledrag-handle{
     position: relative;
     width: 50%;
     text-align: right;
+  }
+}
+
+/* Tutorial */
+#tutorial-box{
+  .tutorial-box-content {
+    padding: 20px 12.5px;
+    margin: 0;
+
+    @media (max-width: @screen-xs-max) {
+      background-color: @background-hilight;
+      border-top: 1px solid darken(@background-hilight, 3%);
+      border-bottom: 1px solid darken(@background-hilight, 3%);
+    } 
+
+    .media-icon{
+      padding-right: 20px;
+      width: 95px;
+      float: left;
+      position: relative;
+      @media (min-width: @screen-lg-min) {
+        width: 145px;
+      }
+      img {
+        @media (max-width: @screen-md-max) {
+          /* Overwrite responsive.less so image and layout use same breakpoint */
+          width: 75px;
+        }
+      }
+    }
+    .media-heading {
+      width: calc(~'100% - 100px');
+      float: left;
+      position: relative;
+      @media (min-width: @screen-lg-min) {
+        width: calc(~'100% - 150px');
+      }
+    }
+    h1 {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .tutorial-action-button {
+      padding: 12px;
+      font-size: 20px;
+      text-align: center;
+      display: block;
+      border: 2px solid @block-color-hilight;
+      background-color: #FFF;
+      max-width: 75%;
+    }
+    .form-select {
+      max-width: 75%;
+      float: left;
+    }
+    .tutorial-join-button {
+      padding: 3px 6px;
+      margin-left: 10px;
+      text-align: center;
+      display: block;
+      float: left;
+      position: relative;
+      border: 2px solid @block-color-hilight;
+      background-color: #FFF;
+    }
+    .tutorial-action-button a, 
+    .tutorial-join-button a {
+      display: block;
+      color: @block-color-hilight;
+      text-decoration: none;
+    }
+    .media-body {
+      padding-top: 10px;
+      @media (max-width: @screen-md-max) {
+        display: block;
+        width: 100%;
+        clear: both;
+        padding-top: 5px;
+      }
+    }
+    .tools-link {
+      display: block;
+      float: left;
+      width: 45%;
+      color: lighten(@ytp-brand-primary, 10%);
+    }
   }
 }
 
@@ -653,6 +665,13 @@ a.tabledrag-handle{
     margin-top: 20px;
     border-left: 1px solid darken(@background-hilight, 3%);
     border-right: 1px solid darken(@background-hilight, 3%);
+  }
+}
+
+/* User guide */
+.view-frontpage-tutorial img {
+  @media (max-width: @screen-md-max) {
+    width: 75px;
   }
 }
 
