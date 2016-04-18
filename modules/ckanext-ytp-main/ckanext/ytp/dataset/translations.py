@@ -25,5 +25,6 @@ def _translations():
     _('External')
     _('Internal')
 
+
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]

@@ -337,8 +337,8 @@ class HRIHarvester(HarvesterBase):
             .filter(HarvestJob.status == 'Finished') \
             .filter(HarvestJob.id != harvest_job.id) \
             .filter(
-            ~exists().where(
-                HarvestGatherError.harvest_job_id == HarvestJob.id)) \
+                    ~exists().where(
+                                    HarvestGatherError.harvest_job_id == HarvestJob.id)) \
             .order_by(HarvestJob.gather_started.desc())
         # now check them until we find one with no fetch/import errors
         # (looping rather than doing sql, in case there are lots of objects
