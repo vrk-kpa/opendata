@@ -21,6 +21,8 @@ def _translations():
     # Missing from CKAN translation
     _('File upload too large')
 
+    _('External')
+    _('Internal')
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
