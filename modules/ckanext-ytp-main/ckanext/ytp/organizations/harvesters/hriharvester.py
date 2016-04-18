@@ -14,11 +14,10 @@ from ckan.lib.munge import munge_name
 from ckan.plugins import toolkit
 
 from ckanext.harvest.model import HarvestJob, HarvestObject, HarvestGatherError
+from ckanext.harvest.harvesters.base import HarvesterBase
 
 import logging
 log = logging.getLogger(__name__)
-
-from ckanext.harvest.harvesters.base import HarvesterBase
 
 
 class HRIHarvester(HarvesterBase):
@@ -150,7 +149,6 @@ class HRIHarvester(HarvesterBase):
             raise e
 
         return config
-
 
     def gather_stage(self, harvest_job):
         log.debug('In HRIHarvester gather_stage (%s)',
@@ -334,14 +332,14 @@ class HRIHarvester(HarvesterBase):
         # look for jobs with no gather errors
         jobs = \
             model.Session.query(HarvestJob) \
-                .filter(HarvestJob.source == harvest_job.source) \
-                .filter(HarvestJob.gather_started != None) \
-                .filter(HarvestJob.status == 'Finished') \
-                .filter(HarvestJob.id != harvest_job.id) \
-                .filter(
-                ~exists().where(
-                    HarvestGatherError.harvest_job_id == HarvestJob.id)) \
-                .order_by(HarvestJob.gather_started.desc())
+            .filter(HarvestJob.source == harvest_job.source) \
+            .filter(HarvestJob.gather_started is not None) \
+            .filter(HarvestJob.status == 'Finished') \
+            .filter(HarvestJob.id != harvest_job.id) \
+            .filter(
+            ~exists().where(
+                HarvestGatherError.harvest_job_id == HarvestJob.id)) \
+            .order_by(HarvestJob.gather_started.desc())
         # now check them until we find one with no fetch/import errors
         # (looping rather than doing sql, in case there are lots of objects
         # and lots of jobs)
@@ -386,17 +384,17 @@ class HRIHarvester(HarvesterBase):
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
             if default_tags:
-                if not 'tags' in package_dict:
+                if 'tags' not in package_dict:
                     package_dict['tags'] = []
                 package_dict['tags'].extend(
                     [t for t in default_tags if t not in package_dict['tags']])
 
             remote_groups = self.config.get('remote_groups', None)
-            if not remote_groups in ('only_local', 'create'):
+            if remote_groups not in ('only_local', 'create'):
                 # Ignore remote groups
                 package_dict.pop('groups', None)
             else:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
 
                 # check if remote groups exist locally, otherwise remove
@@ -451,11 +449,10 @@ class HRIHarvester(HarvesterBase):
                 log.info('No organization in harvested dataset')
                 return "unchanged"
 
-
                 # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
             if default_groups:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
                 package_dict['groups'].extend(
                     [g for g in default_groups
@@ -463,13 +460,14 @@ class HRIHarvester(HarvesterBase):
 
             # Set default extras if needed
             default_extras = self.config.get('default_extras', {})
+
             def get_extra(key, package_dict):
                 for extra in package_dict.get('extras', []):
                     if extra['key'] == key:
                         return extra
             if default_extras:
                 override_extras = self.config.get('override_extras', False)
-                if not 'extras' in package_dict:
+                if 'extras' not in package_dict:
                     package_dict['extras'] = {}
                 for key, value in default_extras.iteritems():
                     existing_extra = get_extra(key, package_dict)
@@ -481,10 +479,8 @@ class HRIHarvester(HarvesterBase):
                     if isinstance(value, basestring):
                         value = value.format(
                             harvest_source_id=harvest_object.job.source.id,
-                            harvest_source_url=
-                            harvest_object.job.source.url.strip('/'),
-                            harvest_source_title=
-                            harvest_object.job.source.title,
+                            harvest_source_url=harvest_object.job.source.url.strip('/'),
+                            harvest_source_title=harvest_object.job.source.title,
                             harvest_job_id=harvest_object.job.id,
                             harvest_object_id=harvest_object.id,
                             dataset_id=package_dict['id'])
@@ -517,8 +513,10 @@ class HRIHarvester(HarvesterBase):
 class ContentFetchError(Exception):
     pass
 
+
 class ContentNotFoundError(ContentFetchError):
     pass
+
 
 class RemoteResourceError(Exception):
     pass
