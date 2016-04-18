@@ -300,21 +300,6 @@
   font-weight: normal;
 }
 
-#user-guide{
-  margin: 20px 0 40px 0;
-  .media-heading{
-    font-weight: 600;
-  }
-  .views-row{
-    .col-xs-12, .col-sm-12 {
-      margin: 10px 0;
-    }
-  }
-  .guide-box{
-    padding: 0 5px;
-  }
-}
-
 #search_content{
   padding: 0px;
   input.form-control{
@@ -679,10 +664,23 @@ a.tabledrag-handle{
 }
 
 /* User guide */
-.view-frontpage-tutorial img {
-  @media (max-width: @screen-md-max) {
-    width: 75px;
-    height: 75px;
+#user-guide{
+  margin: 20px 0 40px 0;
+  clear: left;
+  .media-heading{
+    font-weight: 600;
+  }
+  .views-row{
+    margin: 10px 0;
+  }
+  .guide-box{
+    padding: 0 5px;
+  }
+  .view-frontpage-tutorial img {
+    @media (max-width: @screen-md-max) {
+      width: 75px;
+      height: 75px;
+    }
   }
 }
 
