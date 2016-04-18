@@ -42,7 +42,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'user_guide',
+        'region' => 'content_grid_left_lower',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -14,
@@ -122,7 +122,7 @@ function frontpage_tutorial_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'user_guide',
+        'region' => 'content_grid_left_lower',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => -13,

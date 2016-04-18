@@ -41,22 +41,16 @@ msgstr "Gå med i en organisation"
 msgid "Publish data, tools and guidelines as"
 msgstr "Publicera data, verktyg och instruktioner under"
 
-msgid "Don't ask me again"
-msgstr "Visa inte den här guide igen"
+msgid "Close"
+msgstr "Stäng av"
 
 msgid "Publish data"
 msgstr "Publicera data"
 
-msgid "Open data"
-msgstr "Öppen data"
+msgid "Open data and interoperability tools."
+msgstr "Öppen data och interoperabilitetsverktyg."
 
-msgid "Interoperability tools"
-msgstr "Interoperabilitetsverktyg"
-
-msgid "Public service"
-msgstr "Offentlig tjänst"
-
-msgid "Continue"
+msgid "Join"
 msgstr "Fortsätta"
 
 msgid "Tools"
