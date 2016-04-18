@@ -27,7 +27,7 @@ msgid "to get started"
 msgstr "julkaistaksesi tietoaineistoja"
 
 msgid "Opendata.fi allows you to find open datasets, and to publish and manage your own.'"
-msgstr "Avoindata.fi-palvelussa voit etsiä muiden julkaisemia tietoaineistoja sekä julkaista ja hallinnoida omia avoimia tietoaineistojasi."
+msgstr "Palvelussa voit etsiä muiden julkaisemia tietoaineistoja sekä julkaista ja hallinnoida omia avoimia tietoaineistojasi."
 
 msgid "Sign in"
 msgstr "Kirjaudu sisään"
@@ -41,23 +41,17 @@ msgstr "Liity organisaatioon"
 msgid "Publish data, tools and guidelines as"
 msgstr "Julkaise avoimen datan ja yhteentoimivuuden aineistoja organisaation nimissä"
 
-msgid "Don't ask me again"
-msgstr "En halua nähdä tätä enää"
+msgid "Close"
+msgstr "Sulje"
 
 msgid "Publish data"
 msgstr "Julkaise aineistoja"
 
-msgid "Open data"
-msgstr "Avoin data"
+msgid "Open data and interoperability tools."
+msgstr "Avoin data, yhteentoimivuuden kuvaukset ja ohjeet."
 
-msgid "Interoperability tools"
-msgstr "Yhteentoimivuuden kuvaukset ja ohjeet"
-
-msgid "Public service"
-msgstr "Julkinen palvelu"
-
-msgid "Continue"
-msgstr "Jatka"
+msgid "Join"
+msgstr "Liity"
 
 msgid "Tools"
 msgstr "Työkalut"

@@ -41,22 +41,16 @@ msgstr ""
 msgid "Publish data, tools and guidelines as"
 msgstr ""
 
-msgid "Don't ask me again"
+msgid "Close"
 msgstr ""
 
 msgid "Publish data"
 msgstr ""
 
-msgid "Open data"
+msgid "Open data and interoperability tools."
 msgstr ""
 
-msgid "Interoperability tools"
-msgstr ""
-
-msgid "Public service"
-msgstr ""
-
-msgid "Continue"
+msgid "Join"
 msgstr ""
 
 msgid "Tools"
