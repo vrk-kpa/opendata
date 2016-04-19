@@ -1,4 +1,5 @@
 
+
 def _translations():
     """ Does nothing but hints message extractor to extract missing strings. """
     from ckan.common import _
@@ -20,6 +21,9 @@ def _translations():
 
     # Missing from CKAN translation
     _('File upload too large')
+
+    _('External')
+    _('Internal')
 
 
 def facet_translations():

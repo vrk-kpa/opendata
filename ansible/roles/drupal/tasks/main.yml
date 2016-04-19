@@ -152,8 +152,6 @@
     - draggableviews
     - commentsblock
 
-    - twitter_block
-
   tags:
   - drupal
 
@@ -213,7 +211,6 @@
 
     - draggableviews
     - commentsblock
-    - twitter_block
 
     - variable_translation
     - variable_admin
@@ -229,6 +226,7 @@
     - user
     - tutorial
     - footer
+    - frontpage
   tags:
   - drupal
 
@@ -239,6 +237,7 @@
     - user
     - tutorial
     - footer
+    - frontpage
   tags:
   - drupal
 
@@ -331,12 +330,17 @@
 - name: Move blocks
   command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} --weight={{ item.weight }} chdir="{{ drupal_root }}"
   with_items:
-    - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
     - { module: locale, delta: language, region: top_navigation, weight: 0 }
-    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
-    - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
+    - { module: menu, delta: related-sites, region: content_grid_right, weight: 2} 
     - { module: menu, delta: footer-links, region: footer, weight: 2 }
+    - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
     - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
+    - { module: ytp_frontpage, delta: twitter_feed, region: content_grid_left, weight: 1}
+    - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0} 
+    - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1} 
+    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
+    - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
+    - { module: views, delta: news-block, region: content_grid_left, weight: 0}
 
 - name: Disable blocks
   command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
