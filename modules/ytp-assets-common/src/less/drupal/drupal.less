@@ -419,15 +419,20 @@ a.tabledrag-handle{
   .main-container {
     padding: 0;
   }
-  .region-top-bar-primary .block, .region-top-bar-secondary .block,
+  .region-top-bar-primary .block, 
   .region-content-grid-left .block, .region-content-grid-right .block,
   .region-content-grid-left-lower .block {
     padding: 5px;
   }
 }
+@media (min-width: @screen-sm-min) {
+  .main-container > :first-child {
+    margin-bottom: 25px;
+  }
+}
 .region-content-grid-left .block,
 .region-content-grid-right .block {
-  padding: 20px 12.5px;
+  padding: 20px;
 }
 .title-icon {
   margin-right: 10px;
@@ -435,7 +440,7 @@ a.tabledrag-handle{
 
 /* Search */
 #search-box {
-  padding: 20px 20px 10px 20px;
+  padding: 20px;
   .navbar {
     margin-bottom: 3px;
   }
@@ -474,13 +479,13 @@ a.tabledrag-handle{
 /* Tutorial */
 #tutorial-box{
   .tutorial-box-content {
-    padding: 20px 12.5px;
+    padding: 20px;
     margin: 0;
 
     @media (max-width: @screen-xs-max) {
       background-color: @background-hilight;
-      border-top: 1px solid darken(@background-hilight, 3%);
-      border-bottom: 1px solid darken(@background-hilight, 3%);
+      border-top: 1px solid #E8E8E8;
+      border-bottom: 1px solid #E8E8E8;
     } 
 
     .media-icon{
@@ -558,7 +563,7 @@ a.tabledrag-handle{
 }
 
 /* News */
-.region-content-grid-left .block {
+.region-content-grid-left .block-views {
   @media (min-width: @screen-sm-min) {
     border-bottom: 1px solid darken(@background-hilight, 3%);
   }
@@ -581,9 +586,15 @@ a.tabledrag-handle{
 
 /* Twitter feed */
 #block-ytp-frontpage-twitter-feed {
+  border-bottom: 1px solid darken(@background-hilight, 3%);
+
+  /* limit content width to make Twitter scale font size to 14px (or smaller) */
+  /* this hack may have to be updated as Twitter changes their CSS */
+  padding-right: calc(~'100% - 430px');
+
   @media (max-width: @screen-xs-max) {
     background-color: @background-hilight;
-    border: 1px solid darken(@background-hilight, 3%);
+    border: 1px solid #E8E8E8;
   }
 }
 
@@ -592,8 +603,8 @@ a.tabledrag-handle{
   #block-ytp-frontpage-latest-datasets,
   #block-ytp-frontpage-popular-datasets {
     background-color: @background-hilight;
-    border-left: 1px solid darken(@background-hilight, 3%);
-    border-right: 1px solid darken(@background-hilight, 3%);
+    border-left: 1px solid #E8E8E8;
+    border-right: 1px solid #E8E8E8;
   }
   #block-ytp-frontpage-latest-datasets {
     border-top: 1px solid darken(@background-hilight, 3%);    
@@ -635,8 +646,8 @@ a.tabledrag-handle{
 /* Related sites */
 #block-menu-related-sites {
   background-color: @background-hilight;
-  border-top: 1px solid darken(@background-hilight, 3%);    
-  border-bottom: 1px solid darken(@background-hilight, 3%);    
+  border-top: 1px solid #E8E8E8;    
+  border-bottom: 1px solid #E8E8E8;    
 
   ul {
     padding: 10px 10px 10px 0;
@@ -692,5 +703,4 @@ a.tabledrag-handle{
 .metadata-table td {
   padding: 3px;
 }
-
 
