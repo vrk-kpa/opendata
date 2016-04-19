@@ -8,13 +8,13 @@ abort = base.abort
 class YtpThemeController(base.BaseController):
     def new_template(self):
         if asbool(config.get('ckanext.ytp.theme.show_postit_demo', True)):
-            return render('postit/new.html')
+            return render('postit_templates/new.html')
         else:
             return abort(404)
 
-    def return_tempalte(self):
+    def return_template(self):
         if asbool(config.get('ckanext.ytp.theme.show_postit_demo', True)):
-            return render('postit/return.html')
+            return render('postit_templates/return.html')
         else:
             return abort(404)
 

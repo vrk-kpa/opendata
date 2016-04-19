@@ -45,8 +45,8 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         m.redirect('/data/*(url)', '/{url}', _redirect_code='301 Moved Permanently')
 
         controller = 'ckanext.ytp.theme.controller:YtpThemeController'
-        m.connect('/postit/new.html', controller=controller, action='new_template')
-        m.connect('/postit/return.html', controller=controller, action='return_template')
+        m.connect('/postit/new', controller=controller, action='new_template')
+        m.connect('/postit/return', controller=controller, action='return_template')
 
         return m
 
@@ -59,6 +59,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript', 'theme_javascript')
+        toolkit.add_template_directory(config, 'postit')
 
     # IConfigurable #
 
