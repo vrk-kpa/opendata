@@ -118,3 +118,5 @@ recaptcha_public_key: "6Lcq_vsSAAAAAAQfNLinsdOD0JbGLbOzZqRlavlB"
 recaptcha_private_key: "6Lcq_vsSAAAAADKfbYWkYGV53s2_4UWyuVpMP89X"
 
 Reindex: false
+
+show_postit_demo: true
