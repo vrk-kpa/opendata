@@ -22,7 +22,7 @@
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'"
   ignore_errors: True
   with_items:
-  - { name: "paikkatietohakemisto", url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw", type: "csw", title: "Paikkatietohakemisto", organization: "maanmittauslaitos", configuration: '{"require_keywords": ["avoindata.fi"], "default_extras":{"collection_type":"Open Data"}}' }
+  - { name: "paikkatietohakemisto", url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw", type: "csw", title: "Paikkatietohakemisto", organization: "paikkatietohakemisto", configuration: '{"require_keywords": ["avoindata.fi"], "default_extras":{"collection_type":"Open Data"}}' }
   tags:
   - data
   - non-local
