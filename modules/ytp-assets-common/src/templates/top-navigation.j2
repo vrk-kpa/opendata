@@ -39,6 +39,8 @@
                 {% if c.userobj %}
                     <li class="user-info"><a href="/data/{{ lang }}/user/{{ c.userobj.name }}"> {{ _('User Info') }}</a></li>
                     <li class="user-info"><a href="/{{ lang }}/user/logout"> {{ _('Log out') }}</a></li>
+                {% else %}
+                    <li class="user-info"><a href="/{{ lang }}/user/login"> {{ _('Log in') }}</a></li>
                 {% endif %}
                 <ul class="nav navbar-nav lang-select">
                     <li class="list-item-class first"><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>

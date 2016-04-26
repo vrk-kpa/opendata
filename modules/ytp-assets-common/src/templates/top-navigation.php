@@ -118,6 +118,8 @@
                <?php if (user_is_logged_in()) { ?>
                <li><a href="<?php print url('user') ?>"> <?php print t('User Info') ?></a></li>
                <li><a href="<?php print url('user/logout') ?>"> <?php print t('Log out') ?></a></li>;
+               <?php } else { ?>
+               <li><a href="<?php print url('user/login') ?>"> <?php print t('Log in') ?></a></li>;
                <?php } ?>
                <?php print render($page['top_navigation']); ?>
           </ul>
