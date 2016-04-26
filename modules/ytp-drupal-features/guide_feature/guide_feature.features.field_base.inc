@@ -10,7 +10,7 @@
 function guide_feature_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_phase'
+  // Exported field_base: 'field_phase'.
   $field_bases['field_phase'] = array(
     'active' => 1,
     'cardinality' => 1,

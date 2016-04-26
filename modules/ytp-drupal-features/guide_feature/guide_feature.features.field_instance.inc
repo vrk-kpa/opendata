@@ -10,7 +10,7 @@
 function guide_feature_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-guide_accordion-body'
+  // Exported field_instance: 'node-guide_accordion-body'.
   $field_instances['node-guide_accordion-body'] = array(
     'bundle' => 'guide_accordion',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function guide_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-guide_accordion-field_phase'
+  // Exported field_instance: 'node-guide_accordion-field_phase'.
   $field_instances['node-guide_accordion-field_phase'] = array(
     'bundle' => 'guide_accordion',
     'default_value' => array(
