@@ -212,7 +212,9 @@ def get_visits_for_dataset(id):
 def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
     
-    if organization == "paikkatietohakemisto":
+    if organization == "suomen-ymparistokeskus":
+        link_stem = "http://metatieto.ymparisto.fi:8080/geoportal/catalog/search/resource/details.page?uuid={uuid}"
+    elif:
         if not lang:
             try:
                 lang = helpers.lang()
@@ -220,7 +222,5 @@ def get_geonetwork_link(uuid, organization, lang=None):
                 lang = "en"
 
         link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
-    elif organization == "suomen-ymparistokeskus":
-        link_stem = "http://metatieto.ymparisto.fi:8080/geoportal/catalog/search/resource/details.page?uuid={uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
