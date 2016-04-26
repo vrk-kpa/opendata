@@ -209,13 +209,18 @@ def get_visits_for_dataset(id):
     return PackageStats.get_all_visits(id)
 
 
-def get_geonetwork_link(uuid, lang=None):
-    if not lang:
-        try:
-            lang = helpers.lang()
-        except TypeError:
-            lang = "en"
+def get_geonetwork_link(uuid, organization, lang=None):
+    link_stem = ""
+    
+    if organization == "paikkatietohakemisto":
+        if not lang:
+            try:
+                lang = helpers.lang()
+            except TypeError:
+                lang = "en"
 
-    link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
+        link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
+    elif organization == "suomen-ymparistokeskus":
+        link_stem = "http://metatieto.ymparisto.fi:8080/geoportal/catalog/search/resource/details.page?uuid={uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
