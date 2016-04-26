@@ -14,7 +14,8 @@ function blocks_feature_default_fe_block_boxes() {
   $fe_block_boxes->info = 'Search Box';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'search_box';
-  $fe_block_boxes->body = '<p>Frontpage search box</p>';
+  $fe_block_boxes->body = '<p>Frontpage search box</p>
+';
 
   $export['search_box'] = $fe_block_boxes;
 
