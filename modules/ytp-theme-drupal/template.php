@@ -9,7 +9,7 @@ function ytp_theme_links__locale_block(&$variables) {
       $href = isset($info['href']) ? $info['href'] : '';
       $li_classes = array('list-item-class');
       if($lang === $language->language){
-            // $li_classes[] = 'active';
+            $li_classes[] = 'hidden';
       }
       $options = array('attributes' => array(), 'language' => $info['language'], 'html' => true);
       if (!$href) {

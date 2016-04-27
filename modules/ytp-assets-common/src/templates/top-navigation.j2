@@ -43,18 +43,30 @@
                     <li class="user-info"><a href="/{{ lang }}/user/login"> {{ _('Log in') }}</a></li>
                 {% endif %}
                 <ul class="nav navbar-nav lang-select">
-                    <li class="list-item-class first"><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
-                    <li class="list-item-class"><a href="{% url_for current_url, locale='en' %}">In English</a></li>
-                    <li class="list-item-class"><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+                    {% if lang != "fi" %}
+                        <li class="list-item-class first"><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
+                    {% endif %}
+                    {% if lang != "en" %}
+                        <li class="list-item-class"><a href="{% url_for current_url, locale='en' %}">In English</a></li>
+                    {% endif %}
+                    {% if lang != "sv" %}
+                        <li class="list-item-class"><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+                    {% endif %}
                 </ul>
             </ul>
           </div>
           <div class="hidden-xs hidden-sm">
             <ul class="nav navbar-nav lang-select">
               <li></li>
-              <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
-              <li><a href="{% url_for current_url, locale='en' %}">In English</a></li>
-              <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+              {% if lang != "fi" %}
+                  <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
+              {% endif %}
+              {% if lang != "en" %}
+                  <li><a href="{% url_for current_url, locale='en' %}">In English</a></li>
+              {% endif %}
+              {% if lang != "sv" %}
+                  <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+              {% endif %}
             </ul>
             <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
 
