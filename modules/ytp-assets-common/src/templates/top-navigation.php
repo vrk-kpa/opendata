@@ -109,10 +109,19 @@
 
           ?>
       </a>
+
     </div>
 
-    <div id="navbar-top-collapse" class="collapse navbar-collapse">
+    <div id="navbar-top-collapse" class="collapse navbar-collapse">      
       <div class="visible-xs visible-sm">
+        <div class="btn-primary active search-small" role="search">
+           <form class="" action="/data/<?php print $language->language ?>/dataset">
+                <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
+                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
+            </form>
+        </div>
+
           <ul class="nav navbar-nav user-nav">
                <?php buildMainNavBar(false); ?>
                <?php if (user_is_logged_in()) { ?>
@@ -140,7 +149,6 @@
             }
         ?>
 
-        <?php print render($page['top_navigation']); ?>
         <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
           <?php if (!user_is_logged_in()) { ?>
           <li class="user-login">
@@ -175,6 +183,14 @@
           <?php } ?>
           <!-- <li><a href="#"><span class="icon icon-cart-navbar"></span> <?php echo t("Own checklist"); ?> (0)</a></li> -->
         </ul>
+        <div class="btn-primary active search-small" role="search">
+           <form class="" action="/data/<?php print $language->language ?>/dataset">
+                <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
+                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
+            </form>
+        </div>
+        <?php print render($page['top_navigation']); ?>
       </div>
     </div><!--/.nav-collapse -->
   </div>
