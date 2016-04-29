@@ -42,7 +42,7 @@ function blocks_feature_default_fe_block_settings() {
         'weight' => 0,
       ),
       'ytp_theme' => array(
-        'region' => 'header',
+        'region' => 'top_bar_primary',
         'status' => 1,
         'theme' => 'ytp_theme',
         'weight' => 0,
