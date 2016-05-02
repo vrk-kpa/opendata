@@ -5,6 +5,7 @@ from paste.deploy.converters import asbool
 render = base.render
 abort = base.abort
 
+
 class YtpThemeController(base.BaseController):
     def new_template(self):
         if asbool(config.get('ckanext.ytp.theme.show_postit_demo', True)):
@@ -17,4 +18,3 @@ class YtpThemeController(base.BaseController):
             return render('postit_templates/return.html')
         else:
             return abort(404)
-
