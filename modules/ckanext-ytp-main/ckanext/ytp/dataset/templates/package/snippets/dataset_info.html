@@ -59,14 +59,19 @@
     {% endblock %}
 
     {% block material_link %}
-        {% set extra_dict = h.clean_extras(h.format_extras(pkg)) %}
-        {% if extra_dict.Guid %}
-        <div>
-        <h4 class="dataset-title sidebar-title">{{_('Content Link')}}</h4>
-            {% set material_link = h.get_geonetwork_link(extra_dict.Guid)%}
-            <a href="{{ material_link }}" class="licenseUrl">{{ material_link }}</a>
-        </div>
+        {% set extra_dict = h.format_extras(pkg) %}
+        {% if extra_dict.guid %}
+            {% set material_link = h.get_geonetwork_link(extra_dict.guid, pkg.organization.name)%}
+        {% elif extra_dict.original_url %}
+            {% set material_link = extra_dict.original_url %}
         {% endif %}
+        {% if material_link %}
+            <div>
+            <h4 class="dataset-title sidebar-title">{{_('Content Link')}}</h4>
+                <a href="{{ material_link }}" class="licenseUrl">{{ material_link }}</a>
+            </div>
+        {% endif %}
+
     {% endblock %}
 
     {% block license_info %}
