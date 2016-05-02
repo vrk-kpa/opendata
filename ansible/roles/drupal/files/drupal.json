@@ -36,8 +36,6 @@
     "node_options_service_alert": ["status", "promote"],
     "node_options_page": ["status", "promote"],
 
-    "site_frontpage": "",
-
     "language_content_type_article": "2",
     "language_content_type_page": "2",
     "language_content_type_service_alert": "2",
