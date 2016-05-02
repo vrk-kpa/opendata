@@ -20,7 +20,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide',
+    'pages' => 'opas/kartoita',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -60,7 +60,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/analyze',
+    'pages' => 'opas/analysoi',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -89,7 +89,7 @@ function guide_feature_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   $export['views-guide_view-block_2'] = array(
@@ -100,7 +100,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/prepare',
+    'pages' => 'opas/valmistele',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -129,7 +129,7 @@ function guide_feature_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   $export['views-guide_view-block_3'] = array(
@@ -140,7 +140,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/follow',
+    'pages' => 'opas/seuraa',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -169,7 +169,7 @@ function guide_feature_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   return $export;
