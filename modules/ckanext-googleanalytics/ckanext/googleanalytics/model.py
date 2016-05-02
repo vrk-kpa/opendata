@@ -232,13 +232,6 @@ class ResourceStats(Base):
         return visits
 
         
-
-    @classmethod
-    def get_top(cls, limit=20):
-        resource_stats = model.Session.query(cls).order_by(cls.visit_date.desc()).limit(limit).all()
-        return ResourceStats.convert_to_dict(resource_stats,None)
-
-
     @classmethod
     def get_top(cls, limit=20):
         resource_stats = []
@@ -315,8 +308,8 @@ class ResourceStats(Base):
     @classmethod
     def get_all_visits(cls,id):
         visits_dict = ResourceStats.get_last_visits_by_id(id)
-        count = visits_dict.get('tot_visits',0)
-        visits = visits_dict.get('resources',[])
+        count = visits_dict.get('tot_visits', 0)
+        visits = visits_dict.get('resources', [])
         visit_list = []
 
         now = datetime.now() -timedelta(days=1)

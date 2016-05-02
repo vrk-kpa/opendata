@@ -300,6 +300,7 @@
   tags:
     - ckan
 
+
 - name: Initialize report database
   shell: ./bin/paster --plugin=ckanext-report report initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:

@@ -186,4 +186,3 @@ class GoogleAnalyticsPlugin(p.SingletonPlugin):
         """Register details of an extension's reports"""
         from ckanext.googleanalytics import reports
         return [reports.googleanalytics_dataset_report_info,reports.googleanalytics_resource_report_info]
-
