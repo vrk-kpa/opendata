@@ -43,6 +43,11 @@ class YtpThemePlugin(plugins.SingletonPlugin):
     def before_map(self, m):
         """ Redirect data-path in stand-alone environment directly to CKAN. """
         m.redirect('/data/*(url)', '/{url}', _redirect_code='301 Moved Permanently')
+
+        controller = 'ckanext.ytp.theme.controller:YtpThemeController'
+        m.connect('/postit/new', controller=controller, action='new_template')
+        m.connect('/postit/return', controller=controller, action='return_template')
+
         return m
 
     # IConfigurer #
@@ -51,9 +56,10 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_template_directory(config, '/var/www/resources/templates')
         toolkit.add_public_directory(config, '/var/www/resources')
-        toolkit.add_public_directory(config, 'public')
-        toolkit.add_resource('public/css/', 'ytp_css')
         toolkit.add_resource('/var/www/resources', 'ytp_resources')
+        toolkit.add_public_directory(config, 'public')
+        toolkit.add_resource('public/javascript', 'theme_javascript')
+        toolkit.add_template_directory(config, 'postit')
 
     # IConfigurable #
 
