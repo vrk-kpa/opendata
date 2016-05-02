@@ -85,7 +85,7 @@ function blocks_feature_default_fe_block_settings() {
         'region' => 'content',
         'status' => 1,
         'theme' => 'ytp_theme',
-        'weight' => -21,
+        'weight' => -15,
       ),
     ),
     'title' => '',
