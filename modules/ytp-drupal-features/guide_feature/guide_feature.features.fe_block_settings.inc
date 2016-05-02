@@ -60,7 +60,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/analysoi',
+    'pages' => 'opas/analysoi',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -100,7 +100,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/valmistele',
+    'pages' => 'opas/valmistele',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -140,7 +140,7 @@ function guide_feature_default_fe_block_settings() {
     'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
-    'pages' => 'guide/seuraa',
+    'pages' => 'opas/seuraa',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
