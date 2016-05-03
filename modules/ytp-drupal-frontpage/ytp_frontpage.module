@@ -91,21 +91,27 @@ function ytp_frontpage_help($path, $arg) {
  * Implements hook_preprocess_block().
  */
 function ytp_frontpage_preprocess_block(&$variables, $hook) {
-  // Add icon to block title
+  global $language;
+
   $icon = "";
+  $url = "";
 
   switch ($variables['block']->delta) {
     case 'news-block':
       $icon = 'newspaper-o';
+      $url = $language->language . '/articles';
       break;
     case 'twitter_feed':
       $icon = 'twitter';
+      $url = 'https://twitter.com/avoindatafi';
       break;
     case 'latest_datasets':
       $icon = 'file-text';
+      $url = '../data/' . $language->language . '/dataset?q=&sort=metadata_created+desc';
       break;
     case 'popular_datasets':
       $icon = 'star';
+      $url = '../data/' . $language->language . '/dataset?q=&sort=views_recent+desc';
       break;
     case 'related-sites':
       $icon = 'link';
@@ -116,6 +122,10 @@ function ytp_frontpage_preprocess_block(&$variables, $hook) {
     $variables['block']->subject = '<i class="fa fa-' . $icon . ' title-icon"></i> ' . $variables['block']->subject;
   }
 
+  if ($url) {
+    $variables['block']->subject = '<a href="' . $url . '">' . $variables['block']->subject . '</a>';
+  }
+
 }
 
 /**
@@ -123,7 +133,8 @@ function ytp_frontpage_preprocess_block(&$variables, $hook) {
  */
 function ytp_frontpage_theme() {
   return array(
-    'dataset_list_short' => array());
+    'dataset_list_short' => array(),
+  );
 }
 
 /**
