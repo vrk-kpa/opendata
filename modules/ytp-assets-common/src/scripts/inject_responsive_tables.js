@@ -1,17 +1,19 @@
 var injectResponsiveTables = function (next) {
   document.onreadystatechange = function () {
     if (document.readyState == "interactive") {
-      var article = document.getElementById("block-system-main");
-      if(article !== null) {
-        var tables = article.getElementsByTagName("table");
-        for (var i = 0; i < tables.length; ++i) {
-          var wrapper = document.createElement("div");
-          if(tables[i].border === "0") {
+      var content = document.getElementsByClassName("region-content");
+      if (content.length != 0) {
+        var sections = content[0].getElementsByTagName("section");
+        for ( var j = 0; j < sections.length; j++) {
+          var tables = sections[j].getElementsByTagName("table");
+          for (var i = 0; i < tables.length; ++i) {
+            var wrapper = document.createElement("div");
+
             tables[i].classList.add("table");
+            wrapper.classList.add("table-responsive");
+            tables[i].parentElement.insertBefore(wrapper, tables[i]);
+            wrapper.appendChild(tables[i]);
           }
-          wrapper.classList.add("table-responsive");
-          tables[i].parentElement.insertBefore(wrapper, tables[i]);
-          wrapper.appendChild(tables[i]);
         }
       }
     }
