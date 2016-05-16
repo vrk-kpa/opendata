@@ -218,6 +218,11 @@ $(document).ready(function() {
      });
 });
 
+function toggleClass(classToToggle) {
+    $('.' + classToToggle).toggle();
+    console.log("Woohoo");
+}
+
 $(document).ready(function() {
     /* Loop through all elements with the data-ytp-visible-after-element attribute */
     $('[data-ytp-visible-after-element]').each(function() {

@@ -51,6 +51,11 @@ def sort_datasets_by_state_priority(datasets):
     return sorted_datasets
 
 
+def get_facet_item_count(facet):
+    items = c.search_facets.get(facet)['items']
+    return len(items)
+
+
 def get_remaining_facet_item_count(facet, limit=10):
     items = c.search_facets.get(facet)['items']
     return len(items) - 1 - limit
@@ -63,7 +68,13 @@ def sort_facet_items_by_name(items):
     return sorted_items
 
 
-def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
+def sort_facet_items_by_count(items):
+    sorted_items = []
+    sorted_items.extend(sorted([item for item in items], key=lambda item: (-item['count'], item['display_name'])))
+    return sorted_items
+
+
+def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
     if not c.search_facets or \
             not c.search_facets.get(facet) or \
             not c.search_facets.get(facet).get('items'):
@@ -80,8 +91,7 @@ def get_sorted_facet_items_dict(facet, limit=10, exclude_active=False):
     sorted_items.extend(sorted([item for item in facets if item['active'] is True], key=lambda item: item['display_name'].lower()))
     sorted_items.extend(sorted([item for item in facets if item['active'] is False], key=lambda item: item['display_name'].lower()))
 
-    if c.search_facets_limits:
-        limit = c.search_facets_limits.get(facet)
+    ## Use function default limit instead of c.search_facets_limits
     if limit:
         return sorted_items[:limit]
     else:
