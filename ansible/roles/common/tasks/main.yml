@@ -31,7 +31,7 @@
   - common
 
 - name: Reboot weekly on Sundays
-  cron: name="reboot" weekday="0" minute="0" hour="5" job="/sbin/shutdown -r +5"
+  cron: name="reboot" weekday="0" minute="50" hour="21" job="/sbin/shutdown -r +5"
   tags:
   - non-local
   - ckan
