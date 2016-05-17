@@ -611,17 +611,18 @@ ul.no-bullet {
   float: right;
 }
 
-[role=main] .primary{
-  float: left;
-  width: 100%;
-  padding-left: 0;
-}
+@media (min-width: @screen-sm-min) {
+  [role=main] .primary{
+    float: left;
+    width: 100%;
+    padding-left: 0;
+  }
 
-
-[role=main] .secondary ~ .primary{
-  float: left;
-  width: 75%;
-  padding-left: 0;
+  [role=main] .secondary ~ .primary{
+    float: left;
+    width: 75%;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: @screen-xs-max) {
