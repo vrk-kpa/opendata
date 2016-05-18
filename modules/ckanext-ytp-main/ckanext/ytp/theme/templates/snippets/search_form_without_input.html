@@ -52,24 +52,33 @@
     {% endif %}
   {% endblock %}
 
+  <p class="visible-xs">
+      <button class="btn btn-primary" data-toggle="offcanvas" type="button">
+          {% block primary_toggle_offcanvas %}
+              <i class="icon-align-justify"></i> {{ _('Toggle menu') }}
+          {% endblock %}                
+      </button>
+  </p>
   {% block search_facets %}
     {% if facets %}
-      <p class="filter-list">
+      <div class="filter-list visible-xs">
         {% for field in facets.fields %}
           {% set search_facets_items = facets.search.get(field)['items'] %}
-          <span class="facet">{{ facets.titles.get(field) }}:</span>
-          {% for value in facets.fields[field] %}
-            <span class="filtered pill">
-              {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
-                {{ facets.translated_fields[(field,value)] }}
-              {%- else -%}
-                {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
-              {%- endif %}
-              <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="icon-remove"></i></a>
-            </span>
-          {% endfor %}
+          <div class="facet-wrapper">
+            <span class="facet">{{ facets.titles.get(field) }}:</span>
+            {% for value in facets.fields[field] %}
+              <span class="filtered pill">
+                {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
+                  {{ facets.translated_fields[(field,value)] }}
+                {%- else -%}
+                  {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+                {%- endif %}
+                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="icon-remove"></i></a>
+              </span>
+            {% endfor %}
+          </div>
         {% endfor %}
-      </p>
+      </div>
     {% endif %}
   {% endblock %}
 
