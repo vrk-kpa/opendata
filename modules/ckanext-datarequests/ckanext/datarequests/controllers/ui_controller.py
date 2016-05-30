@@ -258,7 +258,13 @@ class DataRequestsUI(base.BaseController):
 
     def organization_datarequests(self, id):
         context = self._get_context()
-        c.group_dict = tk.get_action('organization_show')(context, {'id': id})
+
+        try:
+          c.group_dict = tk.get_action('organization_show')(context, {'id': id})
+        except tk.ObjectNotFound as e:
+            log.warn(e)
+            tk.abort(404, tk._('Organization was not found'))
+
         url_func = functools.partial(org_datarequest_url, id=id)
         return self._show_index(None, id, False, url_func, 'organization/datarequests.html')
 
