@@ -1,6 +1,4 @@
     {% set current_url = request.environ.CKAN_CURRENT_URL %}
-    {% set path_info = request.environ.PATH_INFO %}
-    {% set qs = request.environ.QUERY_STRING %}
     {% set lang = h.lang() %}
 
     {% macro build_nav_bar(use_active_hilight) %}
