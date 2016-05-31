@@ -68,7 +68,7 @@ body.toolbar, body.toolbar-drawer {
     .hidden-xs, .hidden-sm {
       .navbar-nav.lang-select, .navbar-nav.user-nav {
         a {
-          color: #B2CEE8;
+          color: #FFF;
           margin: 10px 0 10px 0px;
           padding: 0px;
         }
@@ -77,15 +77,6 @@ body.toolbar, body.toolbar-drawer {
           padding-left: 16px;
           display: inline-block;
         }
-        
-        /* Remove the unnecessary '|' from the lang-selectors in nav */
-        /* li a:after {
-          display: inline-block;
-          padding-left: 16px;
-          color: @navbar-color-text;
-          content: '|';
-          text-decoration: none !important;
-        } */
 
         li a.locale-untranslated:after {
           text-decoration: none !important;
@@ -98,6 +89,29 @@ body.toolbar, body.toolbar-drawer {
           display: none;
         }
       }
+
+      .navbar-nav.user-nav li.user-login:last-child a {
+        border: 1px solid #FFF;
+        padding: 5px;
+      }
+
+      .search-small, .region-top-navigation, .user-nav {
+        float: right;
+      }
+
+      .search-small {
+        width: 200px;
+        margin: 5px 25px;
+      }
+
+      .region-top-navigation {
+        min-width: 250px;
+      }
+      .navbar-nav {
+        float: right;
+        margin-right: 10px;
+      }
+
     }
   }
 
@@ -106,6 +120,12 @@ body.toolbar, body.toolbar-drawer {
       font-size: 14px;
       font-weight: normal;
       padding: 0px (@grid-gutter-width/2);
+
+      a {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
     }
     .navbar-nav.lang-select {
       margin: 0;
@@ -314,4 +334,23 @@ li.ytp-menulink.active > a.active {
 
 .menu-name-main-menu {
   margin-left: 0px;
+}
+
+// Navbar search
+.navbar-collapse .btn-primary.active {
+  border: 0;
+  height: 30px;
+  padding: 0 2px;
+}
+.search-small-submit {
+  float: right;  
+}
+.search-small input {
+  width: calc(~"100% - 35px");
+}
+
+@media (min-width: @screen-lg-min) {
+  #main-navigation-links a {
+    text-transform: uppercase;
+  }
 }

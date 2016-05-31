@@ -34,30 +34,39 @@
         </div>
         <div id="navbar-top-collapse" class="collapse navbar-collapse">
           <div class="visible-xs visible-sm">
+            <div class="btn-primary active search-small" role="search">
+               <form class="" action="/data/{{ lang }}/dataset">
+                    <input class="btn-primary active" type="text" name="q" placeholder="{{ _('Search datasets...') }}">
+                    <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                    <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
+                </form>
+            </div>            
             <ul class="nav navbar-nav user-nav">
                 {{ build_nav_bar(false) }}
                 {% if c.userobj %}
                     <li class="user-info"><a href="/data/{{ lang }}/user/{{ c.userobj.name }}"> {{ _('User Info') }}</a></li>
                     <li class="user-info"><a href="/{{ lang }}/user/logout"> {{ _('Log out') }}</a></li>
+                {% else %}
+                    <li class="user-info"><a href="/{{ lang }}/user/login"> {{ _('Log in') }}</a></li>
                 {% endif %}
                 <ul class="nav navbar-nav lang-select">
-                    <li class="list-item-class first"><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
-                    <li class="list-item-class"><a href="{% url_for current_url, locale='en' %}">In English</a></li>
-                    <li class="list-item-class"><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+                    {% if lang != "fi" %}
+                        <li class="list-item-class first"><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
+                    {% endif %}
+                    {% if lang != "en" %}
+                        <li class="list-item-class"><a href="{% url_for current_url, locale='en' %}">In English</a></li>
+                    {% endif %}
+                    {% if lang != "sv" %}
+                        <li class="list-item-class"><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+                    {% endif %}
                 </ul>
             </ul>
           </div>
           <div class="hidden-xs hidden-sm">
-            <ul class="nav navbar-nav lang-select">
-              <li></li>
-              <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
-              <li><a href="{% url_for current_url, locale='en' %}">In English</a></li>
-              <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
-            </ul>
             <ul class="nav navbar-nav user-nav navbar-right user-nav-large">
 
                   {% if not c.userobj %}
-                  <li>
+                  <li class="user-login">
                       <a href="/{{ lang }}/user/login" class="login">{{ _('Log in') }}</a>
                   </li>
                   {% else %}
@@ -78,6 +87,25 @@
                   {% endif %}
 
               <!-- <li><a href="#"><span class="icon icon-cart-navbar"></span> {{ _('Own checklist') }} (0)</a></li> -->
+            </ul>
+            <div class="btn-primary active search-small" role="search">
+               <form class="" action="/data/{{ lang }}/dataset">
+                    <input class="btn-primary active" type="text" name="q" placeholder="{{ _('Search datasets...') }}">
+                    <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                    <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
+                </form>
+            </div>            
+            <ul class="nav navbar-nav lang-select">
+              <li></li>
+              {% if lang != "fi" %}
+                  <li><a href="{% url_for current_url, locale='fi' %}">Suomeksi</a></li>
+              {% endif %}
+              {% if lang != "en" %}
+                  <li><a href="{% url_for current_url, locale='en' %}">In English</a></li>
+              {% endif %}
+              {% if lang != "sv" %}
+                  <li><a href="{% url_for current_url, locale='sv' %}">På Svenska</a></li>
+              {% endif %}
             </ul>
           </div>
         </div><!--/.nav-collapse -->
