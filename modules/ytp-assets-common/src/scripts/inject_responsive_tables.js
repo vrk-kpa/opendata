@@ -1,6 +1,6 @@
 var injectResponsiveTables = function (next) {
   document.onreadystatechange = function () {
-    if (document.readyState == "interactive") {
+    if (document.readyState == "interactive" || document.readyState == 'complete') {
       var article = document.getElementById("block-system-main");
       if(article !== null) {
         var tables = article.getElementsByTagName("table");
