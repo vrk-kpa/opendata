@@ -365,6 +365,54 @@ a.tabledrag-handle{
   }
 }
 
+.guide-info{
+  border-radius: 10px;
+  background-color: #F8FBFE;
+  border: solid #C9E0F8 1px;
+  padding: 10px 10px 10px 70px;
+  position: relative;
+  width: 350px;
+  float: right;
+  &:before{
+    font-family: FontAwesome;
+    content: '\f0eb';
+    vertical-align: bottom;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(50%);
+    left: 10px;
+    font-size: 3em;
+  }
+
+  a:before{
+    content: "> ";
+  }
+
+  &.video{
+    &:before{
+      content: '\f144';
+      left: 0;
+    }
+    background-color: #DEF4FC;
+    border: solid #BFEBF7 1px;
+  }
+
+  &.link{
+    &:before{
+      content: '\f08e';
+      left: 0;
+      font-size: 2.5em;
+    }
+    background-color: #F6F5F3;
+    border: solid #DDD 1px;
+  }
+  
+  &.left{
+    float: left;
+  }
+}
+
+
 .content-box{
   border: 1px dashed #8CAEDA;
   background-color: #F8FBFE;
