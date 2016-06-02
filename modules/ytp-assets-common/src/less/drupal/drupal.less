@@ -476,6 +476,11 @@ a.tabledrag-handle{
   }
 }
 
+.header-search { 
+    color: #FFF;
+    border: 1px solid red;
+}
+
 /* Tutorial */
 #tutorial-box{
   .tutorial-box-content {
@@ -523,6 +528,9 @@ a.tabledrag-handle{
       border: 2px solid @block-color-hilight;
       background-color: #FFF;
       max-width: 75%;
+    }
+    .tutorial-action-button:hover {
+      opacity: 0.7;
     }
     .form-select {
       max-width: 75%;
@@ -602,7 +610,7 @@ a.tabledrag-handle{
 @media (min-width: @screen-sm-min) {
   #block-ytp-frontpage-latest-datasets,
   #block-ytp-frontpage-popular-datasets {
-    background-color: @background-hilight;
+    background-color: #F5F8FA;
     border-left: 1px solid #E8E8E8;
     border-right: 1px solid #E8E8E8;
   }
