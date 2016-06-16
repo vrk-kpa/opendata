@@ -430,25 +430,25 @@
   - ckan
 
 - name: Ensure harvester cron job
-  cron: name="harvest" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
+  cron: name="harvest" minute="*/5" hour="22-2" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
 
 - name: Ensure tracking cron job
-  cron: name="tracking" minute="0" hour="0" job="{{ virtual_environment }}/bin/paster --plugin=ckan tracking update --config={{ ckan_ini }} && {{ virtual_environment }}/bin/paster --plugin=ckan search-index rebuild -r --config={{ ckan_ini }}"
+  cron: name="tracking" minute="0" hour="22" job="{{ virtual_environment }}/bin/paster --plugin=ckan tracking update --config={{ ckan_ini }} && {{ virtual_environment }}/bin/paster --plugin=ckan search-index rebuild -r --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
 
 - name: Ensure qa cron job
-  cron: name="qa" minute="0" hour="6" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+  cron: name="qa" minute="0" hour="2" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
 
 - name: Ensure report cron job
-  cron: name="report" minute="0" hour="7" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
+  cron: name="report" minute="0" hour="3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron

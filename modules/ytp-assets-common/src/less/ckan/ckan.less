@@ -611,17 +611,18 @@ ul.no-bullet {
   float: right;
 }
 
-[role=main] .primary{
-  float: left;
-  width: 100%;
-  padding-left: 0;
-}
+@media (min-width: @screen-sm-min) {
+  [role=main] .primary{
+    float: left;
+    width: 100%;
+    padding-left: 0;
+  }
 
-
-[role=main] .secondary ~ .primary{
-  float: left;
-  width: 75%;
-  padding-left: 0;
+  [role=main] .secondary ~ .primary{
+    float: left;
+    width: 75%;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: @screen-xs-max) {
@@ -1029,13 +1030,74 @@ dd {
 
 /* Added new styles and custom classes to redesign the search page left side filtering at 23032016 */
 
-.sidebar-sort-header {
+.module h2.sidebar-sort-header {
   color: #777;
   font-size: 15px;
+  border-radius: @border-radius-base;
+  padding: 5px!important;
 }
 
-.sidebar-sort-content a {
+.module h2.sidebar-sort-header:hover {
+  color: #fff;
+  background-color: #00519b;
+  cursor: pointer;
+}
+
+.sidebar-sort-content span {
   color: #A7A7A7;
   font-size: 13px;
 }
 
+.search-form .search-input.search-sm {
+  margin-bottom: 10px;
+}
+
+.sidebar-sort-content .nav-item {
+  padding: 3px;  
+}
+
+.sidebar-sort-content .nav-item.active {
+  font-weight: normal;
+  border: 1px solid @brand-primary;
+  background-color: #cbe7ff;
+  border-radius: @border-radius-base;
+}
+
+.sidebar-sort-content .nav-item.active>span {
+  background-color: inherit;  
+  font-weight: normal;
+  color: #1467B6;
+}
+
+.sidebar-sort-content .nav-item:hover>span {
+  color: #FFF;
+}
+
+.sidebar-sort-content .nav-item {
+  border: 1px solid #FFF;
+}
+
+.sidebar-sort-content .nav-item:hover {
+  border: 1px solid @brand-primary;
+  background-color: #00519b;
+  border-radius: @border-radius-base;
+  cursor: pointer;
+}
+
+/* Fix checkbox placing */
+input[type=checkbox], input[type=radio] {
+  position: static;
+}
+.nav-item>span {
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile facet search */
+.filter-list .facet-wrapper {
+  margin-bottom: 5px;
+}
+.btn-slide-left {
+  margin-left: -40px;
+  margin-top: 10px;
+}
