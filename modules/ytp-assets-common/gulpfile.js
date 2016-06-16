@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     del = require('del'),
     template = require('gulp-template'),
     inlineCss = require('gulp-inline-css'),
-    MinCSS = require('gulp-clean-css'),
+    MinCSS = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
     base64 = require('gulp-base64');
 
