@@ -91,7 +91,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
     sorted_items.extend(sorted([item for item in facets if item['active'] is True], key=lambda item: item['display_name'].lower()))
     sorted_items.extend(sorted([item for item in facets if item['active'] is False], key=lambda item: item['display_name'].lower()))
 
-    ## Use function default limit instead of c.search_facets_limits
+    # Use function default limit instead of c.search_facets_limits
     if limit:
         return sorted_items[:limit]
     else:
@@ -238,6 +238,6 @@ def get_geonetwork_link(uuid, organization, lang=None):
 
 
 def unquote_url(url):
-  from urllib import unquote
+    from urllib import unquote
 
-  return unquote(url)
+    return unquote(url)
