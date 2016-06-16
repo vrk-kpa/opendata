@@ -235,3 +235,9 @@ def get_geonetwork_link(uuid, organization, lang=None):
         link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
+
+
+def unquote_url(url):
+  from urllib import unquote
+
+  return unquote(url)

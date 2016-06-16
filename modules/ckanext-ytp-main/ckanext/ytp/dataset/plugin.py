@@ -17,8 +17,9 @@ import types
 import re
 import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, \
-    sort_facet_items_by_name, sort_facet_items_by_count, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
-    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types
+    sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
+    get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, \
+    unquote_url
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
@@ -485,7 +486,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
                 'get_geonetwork_link': get_geonetwork_link,
-                'get_tooltip_content_types': get_tooltip_content_types}
+                'get_tooltip_content_types': get_tooltip_content_types,
+                'unquote_url': unquote_url}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
