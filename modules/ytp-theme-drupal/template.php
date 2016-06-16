@@ -29,7 +29,7 @@ function ytp_theme_links__locale_block(&$variables) {
 
 
 function ytp_theme_preprocess_block(&$variables){
-    if ( in_array('block__header', $variables['theme_hook_suggestions'] ) ){
+    if ( in_array('block__top_bar_primary', $variables['theme_hook_suggestions'] ) ){
       $search_form = drupal_get_form('search_block_form');
       $search_form['search_block_form']['#attributes']['placeholder'] = t('Search from other content...');
       $search_form_box = drupal_render($search_form);
