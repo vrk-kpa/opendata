@@ -93,7 +93,7 @@
 {% endblock %}
 
 {% block secondary_content %}
-  {{ h.snippet('snippets/search_input.html', query=c.q, search_class="search-sm col-xs-12", placeholder=_('Search datasets...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+  {{ h.snippet('snippets/search_input.html', query=c.q, search_class="search-sm", placeholder=_('Search datasets...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
   {% for facet in c.facet_titles %}
     {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
   {% endfor %}
