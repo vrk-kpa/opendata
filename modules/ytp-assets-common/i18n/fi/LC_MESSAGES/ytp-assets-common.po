@@ -52,7 +52,7 @@ msgid "Files"
 msgstr "Tiedostot"
 
 msgid "Guide to Open Data"
-msgstr "Avoin data -opas"
+msgstr "Avoimen datan opas"
 
 msgid "User Info"
 msgstr "Omat tietoni"
