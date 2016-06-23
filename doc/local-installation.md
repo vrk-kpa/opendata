@@ -151,7 +151,7 @@ Make sure you remember the passphrase you set for the key in previous step.
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
 
-# Local Installation, the easier way (Windows, OS X)
+# Local Installation, the easier way (OS X)
 
 1. Install Virtualbox, Vagrant and Ansible
 2. Clone ytp repo
