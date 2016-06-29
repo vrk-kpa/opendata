@@ -54,3 +54,5 @@ ansible/vars/private
 
 *.sublime-project
 *.sublime-workspace
+
+token.dat

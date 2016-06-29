@@ -32,6 +32,11 @@ function guide_feature_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'views_bootstrap_accordion_plugin_style';
   $handler->display->display_options['style_options']['title_field'] = 'title';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<div class="pull-right"><a href="#" class="btn btn-default openall">Avaa kaikki</a> <a href="#" class="btn btn-default closeall">Sulje kaikki</a></div><div class="clearfix"></div>';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
