@@ -472,6 +472,18 @@ function ytp_theme_preprocess_page(&$variables) {
 }
 
 
+/** 
+ * Implements template_preprocess_views_view().
+ * Inject JS for guide view.
+ */
+function ytp_theme_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+  if ($view->name == 'guide_view') {
+    drupal_add_js(drupal_get_path('theme', 'ytp_theme') . '/scripts/accordion-buttons.js');
+  }
+}
+
+
 function ytp_theme_process_element(&$element, &$form_state){
 
   if (isset($element['#type']) && $element['#type'] === 'text_format'){
@@ -483,7 +495,7 @@ function ytp_theme_process_element(&$element, &$form_state){
 
 
 /**
- * Implements hook_process_page().
+ * Implements template_process_page().
  *
  * @see page.tpl.php
  */
