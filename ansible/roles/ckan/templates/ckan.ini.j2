@@ -122,6 +122,10 @@ googleanalytics.type = {{ google_analytics.type }}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
 
+ckanext.spatial.common_map.type = custom
+ckanext.spatial.common_map.custom.url = https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
+ckanext.spatial.common_map.attribution = Maps &copy; <a href="http://www.wikimedia.org">Wikimedia Foundation</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>
+
 solr_url = http://{{ solr_host }}:{{ solr_port }}/solr
 
 ckan.tracking_enabled = true
