@@ -79,7 +79,7 @@
         <h4 class="dataset-title sidebar-title">{{_('License')}}</h4>
         {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
             {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
-            {% if pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
+            {% if pkg.organization and pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
                   {% snippet 'package/snippets/license_rdf.html', 
                   license_id=pkg.license_id, 
                   content_title=pkg.title, 
