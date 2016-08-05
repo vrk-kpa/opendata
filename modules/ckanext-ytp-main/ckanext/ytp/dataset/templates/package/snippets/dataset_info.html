@@ -86,7 +86,7 @@
                   creator=creator_user.display_name, 
                   creator_url=creator_user.url, 
                   attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
-            {% else %}
+            {% elif pkg.organization %}
                 {% snippet 'package/snippets/license_rdf.html', 
                 license_id=pkg.license_id, 
                 content_title=pkg.title, 
