@@ -60,8 +60,8 @@ def get_facet_item_count(facet):
 
 def get_remaining_facet_item_count(facet, limit=10):
     if c.search_facets.get(facet):
-      items = c.search_facets.get(facet)['items']
-      return len(items) - 1 - limit
+        items = c.search_facets.get(facet)['items']
+        return len(items) - 1 - limit
     return 0
 
 
@@ -256,7 +256,7 @@ def unquote_url(url):
         unquoted.decode('ascii')
     except UnicodeEncodeError:
         # re-quote characters that should not be in a query string
-        unquoted = quote(unquote(unquoted).encode('utf8'),'=&?')
+        unquoted = quote(unquote(unquoted).encode('utf8'), '=&?')
     else:
         unquoted = unquoted.encode('ascii')
 
