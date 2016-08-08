@@ -60,6 +60,10 @@ class YtpDevelopMain(object):
         """ Develop ytp-drupal-user handler. """
         return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_user", "/src/modules/ytp-drupal-user")
 
+    def develop_drupal_features(self, name):
+        """ Develop ytp-drupal-features handler. """
+        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_features", "/src/modules/ytp-drupal-features")
+
     def develop_drupal_tutorial(self, name):
         """ Develop ytp-drupal-tutorial handler. """
         return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_tutorial", "/src/modules/ytp-drupal-tutorial")
@@ -113,6 +117,7 @@ class YtpDevelopMain(object):
                               u'ytp-assets-common': self.develop_assets,
                               u'ytp-theme-drupal': self.develop_drupal_theme,
                               u'ytp-drupal-user': self.develop_drupal_user,
+                              u'ytp-drupal-features': self.develop_drupal_features,
                               u'ytp-drupal-tutorial': self.develop_drupal_tutorial,
                               u'ytp-drupal-footer': self.develop_drupal_footer,
                               u'ytp-drupal-frontpage': self.develop_drupal_frontpage,
