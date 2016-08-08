@@ -52,13 +52,17 @@ def sort_datasets_by_state_priority(datasets):
 
 
 def get_facet_item_count(facet):
-    items = c.search_facets.get(facet)['items']
-    return len(items)
+    if c.search_facets.get(facet):
+        items = c.search_facets.get(facet)['items']
+        return len(items)
+    return 0
 
 
 def get_remaining_facet_item_count(facet, limit=10):
-    items = c.search_facets.get(facet)['items']
-    return len(items) - 1 - limit
+    if c.search_facets.get(facet):
+      items = c.search_facets.get(facet)['items']
+      return len(items) - 1 - limit
+    return 0
 
 
 def sort_facet_items_by_name(items):

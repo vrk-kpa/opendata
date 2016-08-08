@@ -220,7 +220,6 @@ $(document).ready(function() {
 
 function toggleClass(classToToggle) {
     $('.' + classToToggle).toggle();
-    console.log("Woohoo");
 }
 
 $(document).ready(function() {
