@@ -242,6 +242,22 @@ def get_geonetwork_link(uuid, organization, lang=None):
 
 
 def unquote_url(url):
-    from urllib import unquote
+    from urllib import quote, unquote
 
-    return unquote(url)
+    # leading slash may be interpreted as unicode marker, so remove temporarily
+    if url[0:1] == '/':
+        url = url[1:]
+
+    unquoted = unquote(url)
+    if not isinstance(unquoted, unicode):
+        unquoted = unquoted.decode('utf8')
+
+    try:
+        unquoted.decode('ascii')
+    except UnicodeEncodeError:
+        # re-quote characters that should not be in a query string
+        unquoted = quote(unquote(unquoted).encode('utf8'),'=&?')
+    else:
+        unquoted = unquoted.encode('ascii')
+
+    return "/" + unquoted
