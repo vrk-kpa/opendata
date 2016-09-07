@@ -70,6 +70,35 @@ class YtpOrganizationController(OrganizationController):
 
         return self._render_template('group/user_list.html')
 
+    def admin_list(self):
+        if c.userobj and c.userobj.sysadmin:
+
+            q = model.Session.query(model.Group, model.Member, model.User). \
+                filter(model.Member.group_id == model.Group.id). \
+                filter(model.Member.table_id == model.User.id). \
+                filter(model.Member.table_name == 'user'). \
+                filter(model.Member.capacity == 'admin'). \
+                filter(model.User.name != 'harvest'). \
+                filter(model.User.name != 'default'). \
+                filter(model.User.state == 'active')
+
+            users = []
+
+            for group, member, user in q.all():
+                users.append({
+                    'user_id': user.id,
+                    'username': user.name,
+                    'organization': group.title,
+                    'role': member.capacity,
+                    'email': user.email
+                })
+
+            c.users = users
+        else:
+            c.users = []
+
+        return self._render_template('group/admin_list.html')
+
     def read(self, id, limit=20):
         try:
             context = {
