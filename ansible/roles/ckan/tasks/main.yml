@@ -430,7 +430,7 @@
   - ckan
 
 - name: Ensure harvester cron job
-  cron: name="harvest" minute="*/5" hour="22-2" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
+  cron: name="harvest" minute="*/5" hour="22-23,0-2" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
