@@ -1,4 +1,4 @@
-{{ ckan_extends }}
+{% ckan_extends %}
 
 {% block page_primary_action %}
 <!-- Begin Add Dataset split button -->
@@ -26,4 +26,5 @@
 </div>
 {% endif %}
 <!-- End Add Dataset split button -->
+{{super()}}
 {% endblock %}
