@@ -3,7 +3,7 @@ Displays a tree of organzations
 #}
 {% set show_dataset_count = show_dataset_count or false %}
 {% set url_prefix = h.url_for(controller='organization', action='read', id='') %}
-{% resource 'ytp_common_js/ytp_form.js' %}
+{% resource 'hierarchy/form.js' %}
 <ul class="no-bullet organization-tree" data-organization-tree>
     {% for node in top_nodes recursive %}
     {% if show_dataset_count == false or (show_dataset_count == true and node.dataset_count != 0 ) %}
