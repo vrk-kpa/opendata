@@ -6,20 +6,22 @@ Displays a tree of organzations
 {% resource 'ytp_common_js/ytp_form.js' %}
 <ul class="no-bullet organization-tree" data-organization-tree>
     {% for node in top_nodes recursive %}
-        <li id="node_{{ node.name }}" class="organization">
-            {% if node.children %}
-                <button class="js-expand btn btn-primary btn-xs"><i class="icon-plus"></i></button>
-                <button class="js-collapse btn btn-gray btn-xs"><i class="icon-minus"></i></button>
-            {% endif %}
+    {% if show_dataset_count == false or (show_dataset_count == true and node.dataset_count != 0 ) %}
+    <li id="node_{{ node.name }}" class="organization">
+        {% if node.children %}
+        <button class="js-expand btn btn-primary btn-xs"><i class="icon-plus"></i></button>
+        <button class="js-collapse btn btn-gray btn-xs"><i class="icon-minus"></i></button>
+        {% endif %}
         <div class="organization-row">
             {% if show_dataset_count == true %}
-                <span class="badge">{{ node.dataset_count }}</span>&nbsp;
+            <span class="badge">{{ node.dataset_count }}</span>&nbsp;
             {% endif %}
             <a href="{{ url_prefix }}{{ node.name }}">{{ h.extra_translation(node, 'title') or node.name }}</a>
         </div>
         {% if node.children %}
-          <ul class="no-bullet organization-subtree js-collapsed"> {{ loop(node.children) }} </ul>
+        <ul class="no-bullet organization-subtree js-collapsed"> {{ loop(node.children) }} </ul>
         {% endif %}
-      </li>
+    </li>
+    {% endif %}
     {% endfor %}
-  </ul>
+</ul>
