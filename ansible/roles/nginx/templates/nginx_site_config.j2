@@ -30,7 +30,7 @@ server {
 
     server_name {{ item.server_name }};
     root /var/www/ytp;
-    client_max_body_size 100M;
+    client_max_body_size {{ckan_max_resource_size}}M;
     gzip_static on;
 
     {% if basic_auth_path -%}

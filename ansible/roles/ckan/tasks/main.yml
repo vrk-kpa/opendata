@@ -233,7 +233,7 @@
   - qa
 
 - name: Install dcat requirements
-  pip: requirements="{{ cache_path }}/ckanext-dcat/pip-requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-dcat/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - dcat

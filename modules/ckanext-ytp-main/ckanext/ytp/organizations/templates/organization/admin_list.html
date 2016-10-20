@@ -2,7 +2,7 @@
 
 {% block breadcrumb_content %}
     <li>{{ h.nav_link(_('Users'), controller='user', action='index') }}</li>
-    <li class="active">{{ h.nav_link(_('All Users'), controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='user_list') }}</li>
+    <li class="active">{{ h.nav_link(_('All Users'), controller='ckanext.ytp.organizations.controller:YtpOrganizationController', action='admin_list') }}</li>
 {% endblock %}
 
 {% block primary_content %}
@@ -15,8 +15,8 @@
     {% resource "ytp_resources/vendor/bootstrap-table.css" %}
     {% resource "ytp_resources/vendor/bootstrap-table.js" %}
     {% resource "ytp_common_js/table.js" %}
-    <h3 class="page-heading">{{ _('{0} users'.format(c.users|length)) }}</h3>
-    <div><a href="admin_list">{{ _('Show admins only') }}</a></div>
+    <h3 class="page-heading">{{ _('{0} admins'.format(c.users|length)) }}</h3>
+    <div><a href="user_list">{{ _('Show all users') }}</a></div>
     <table class="table table-header table-hover table-bordered" data-toggle="table" data-sort-order="asc" data-sort-name="username">
         <col style="width: 20%" />
         <col style="width: 10%" />
