@@ -2,7 +2,6 @@ from ckan import plugins, model, logic
 from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
-from ckan.lib.base import abort
 from ckan.lib.munge import munge_title_to_name
 from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
@@ -144,10 +143,7 @@ _key_functions = {u'extras': _parse_extras}
 
 @logic.side_effect_free
 def action_package_show(context, data_dict):
-    try:
-        result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
-    except NotFound:
-        abort(404, _('The dataset {id} could not be found.').format(id=id))
+    result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
     organization_data = result.get('organization', None)
     if organization_data:
         organization_id = organization_data.get('id', None)

@@ -35,7 +35,7 @@
   - drupal
 
 - name: Set PHP max file upload size
-  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=upload_max_filesize value=50M
+  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=upload_max_filesize value={{ ckan_max_resource_size }}M
   tags:
   - drupal
 

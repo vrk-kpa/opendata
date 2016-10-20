@@ -3,7 +3,7 @@ import json
 
 import nose
 
-from rdflib import Graph, URIRef, Literal
+from rdflib import Graph, URIRef, BNode, Literal
 from rdflib.namespace import RDF
 
 from ckan.plugins import toolkit
@@ -14,13 +14,20 @@ except ImportError:
     from ckan.new_tests import helpers
 
 from ckanext.dcat.processors import RDFParser
-from ckanext.dcat.profiles import DCAT, DCT, ADMS
+from ckanext.dcat.profiles import (DCAT, DCT, ADMS, LOCN, SKOS, GSP, RDFS,
+                                   GEOJSON_IMT)
 
 eq_ = nose.tools.eq_
 assert_true = nose.tools.assert_true
 
 
-class TestEuroDCATAPProfileParsing(object):
+class BaseParseTest(object):
+
+    def _extras(self, dataset):
+        extras = {}
+        for extra in dataset.get('extras'):
+            extras[extra['key']] = extra['value']
+        return extras
 
     def _get_file_contents(self, file_name):
         path = os.path.join(os.path.dirname(__file__),
@@ -28,6 +35,9 @@ class TestEuroDCATAPProfileParsing(object):
                             file_name)
         with open(path, 'r') as f:
             return f.read()
+
+
+class TestEuroDCATAPProfileParsing(BaseParseTest):
 
     def test_dataset_all_fields(self):
 
@@ -69,7 +79,6 @@ class TestEuroDCATAPProfileParsing(object):
         eq_(_get_extra_value('issued'), u'2012-05-10')
         eq_(_get_extra_value('modified'), u'2012-05-10T21:04:00')
         eq_(_get_extra_value('identifier'), u'9df8df51-63db-37a8-e044-0003ba9b0d98')
-        eq_(_get_extra_value('alternate_identifier'), u'alternate-identifier-x343')
         eq_(_get_extra_value('version_notes'), u'New schema added')
         eq_(_get_extra_value('temporal_start'), '1905-03-01')
         eq_(_get_extra_value('temporal_end'), '2013-01-05')
@@ -82,6 +91,9 @@ class TestEuroDCATAPProfileParsing(object):
         eq_(_get_extra_value('publisher_type'), 'http://purl.org/adms/publishertype/NonProfitOrganisation')
         eq_(_get_extra_value('contact_name'), 'Point of Contact')
         eq_(_get_extra_value('contact_email'), 'mailto:contact@some.org')
+        eq_(_get_extra_value('access_rights'), 'public')
+        eq_(_get_extra_value('provenance'), 'Some statement about provenance')
+        eq_(_get_extra_value('dcat_type'), 'test-type')
 
         #  Lists
         eq_(sorted(_get_extra_value_as_list('language')), [u'ca', u'en', u'es'])
@@ -89,6 +101,18 @@ class TestEuroDCATAPProfileParsing(object):
                                                         u'http://eurovoc.europa.eu/100142',
                                                         u'http://eurovoc.europa.eu/209065'])
         eq_(sorted(_get_extra_value_as_list('conforms_to')), [u'Standard 1', u'Standard 2'])
+
+        eq_(sorted(_get_extra_value_as_list('alternate_identifier')), [u'alternate-identifier-1', u'alternate-identifier-2'])
+        eq_(sorted(_get_extra_value_as_list('documentation')), [u'http://dataset.info.org/doc1',
+                                                                u'http://dataset.info.org/doc2'])
+        eq_(sorted(_get_extra_value_as_list('related_resource')), [u'http://dataset.info.org/related1',
+                                                                   u'http://dataset.info.org/related2'])
+        eq_(sorted(_get_extra_value_as_list('has_version')), [u'https://data.some.org/catalog/datasets/derived-dataset-1',
+                                                              u'https://data.some.org/catalog/datasets/derived-dataset-2'])
+        eq_(sorted(_get_extra_value_as_list('is_version_of')), [u'https://data.some.org/catalog/datasets/original-dataset'])
+        eq_(sorted(_get_extra_value_as_list('source')), [u'https://data.some.org/catalog/datasets/source-dataset-1',
+                                                         u'https://data.some.org/catalog/datasets/source-dataset-2'])
+        eq_(sorted(_get_extra_value_as_list('sample')), [u'https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98/sample'])
 
         # Dataset URI
         eq_(_get_extra_value('uri'), u'https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98')
@@ -106,6 +130,17 @@ class TestEuroDCATAPProfileParsing(object):
         eq_(resource['issued'], u'2012-05-11')
         eq_(resource['modified'], u'2012-05-01T00:04:06')
         eq_(resource['status'], u'http://purl.org/adms/status/Completed')
+
+        eq_(resource['hash'], u'4304cf2e751e6053c90b1804c89c0ebb758f395a')
+        eq_(resource['hash_algorithm'], u'http://spdx.org/rdf/terms#checksumAlgorithm_sha1')
+
+        # Lists
+        for item in [
+            ('documentation', [u'http://dataset.info.org/distribution1/doc1', u'http://dataset.info.org/distribution1/doc2']),
+            ('language', [u'ca', u'en', u'es']),
+            ('conforms_to', [u'Standard 1', u'Standard 2']),
+        ]:
+            eq_(sorted(json.loads(resource[item[0]])), item[1])
 
         # These two are likely to need clarification
         eq_(resource['license'], u'http://creativecommons.org/licenses/by/3.0/')
@@ -387,6 +422,35 @@ class TestEuroDCATAPProfileParsing(object):
         else:
             eq_(resource['format'], u'Comma Separated Values')
 
+    def test_distribution_format_IMT_field(self):
+        g = Graph()
+
+        dataset1 = URIRef("http://example.org/datasets/1")
+        g.add((dataset1, RDF.type, DCAT.Dataset))
+
+        distribution1_1 = URIRef("http://example.org/datasets/1/ds/1")
+
+        imt = BNode()
+
+        g.add((imt, RDF.type, DCT.IMT))
+        g.add((imt, RDF.value, Literal('text/turtle')))
+        g.add((imt, RDFS.label, Literal('Turtle')))
+
+        g.add((distribution1_1, RDF.type, DCAT.Distribution))
+        g.add((distribution1_1, DCT['format'], imt))
+        g.add((dataset1, DCAT.distribution, distribution1_1))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        resource = datasets[0]['resources'][0]
+
+        eq_(resource['format'], u'Turtle')
+        eq_(resource['mimetype'], u'text/turtle')
+
     def test_catalog_xml_rdf(self):
 
         contents = self._get_file_contents('catalog.rdf')
@@ -480,3 +544,248 @@ class TestEuroDCATAPProfileParsing(object):
         eq_(_get_extra_value('dcat_publisher_name'), 'Publishing Organization for dataset 1')
         eq_(_get_extra_value('dcat_publisher_email'), 'contact@some.org')
         eq_(_get_extra_value('language'), 'ca,en,es')
+
+
+class TestEuroDCATAPProfileParsingSpatial(BaseParseTest):
+
+    def test_spatial_multiple_dct_spatial_instances(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        location_ref = BNode()
+        g.add((location_ref, RDF.type, DCT.Location))
+        g.add((dataset, DCT.spatial, location_ref))
+        g.add((location_ref,
+               LOCN.geometry,
+               Literal('{"type": "Point", "coordinates": [23, 45]}', datatype=GEOJSON_IMT)))
+
+        location_ref = BNode()
+        g.add((location_ref, RDF.type, DCT.Location))
+        g.add((dataset, DCT.spatial, location_ref))
+        g.add((location_ref, SKOS.prefLabel, Literal('Newark')))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial_uri'], 'http://geonames/Newark')
+        eq_(extras['spatial_text'], 'Newark')
+        eq_(extras['spatial'], '{"type": "Point", "coordinates": [23, 45]}')
+
+    def test_spatial_one_dct_spatial_instance(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        g.add((spatial_uri, RDF.type, DCT.Location))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('{"type": "Point", "coordinates": [23, 45]}', datatype=GEOJSON_IMT)))
+        g.add((spatial_uri, SKOS.prefLabel, Literal('Newark')))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial_uri'], 'http://geonames/Newark')
+        eq_(extras['spatial_text'], 'Newark')
+        eq_(extras['spatial'], '{"type": "Point", "coordinates": [23, 45]}')
+
+    def test_spatial_one_dct_spatial_instance_no_uri(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        location_ref = BNode()
+        g.add((dataset, DCT.spatial, location_ref))
+
+        g.add((location_ref, RDF.type, DCT.Location))
+        g.add((location_ref,
+               LOCN.geometry,
+               Literal('{"type": "Point", "coordinates": [23, 45]}', datatype=GEOJSON_IMT)))
+        g.add((location_ref, SKOS.prefLabel, Literal('Newark')))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        assert_true('spatial_uri' not in extras)
+        eq_(extras['spatial_text'], 'Newark')
+        eq_(extras['spatial'], '{"type": "Point", "coordinates": [23, 45]}')
+
+
+    def test_spatial_rdfs_label(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        g.add((spatial_uri, RDF.type, DCT.Location))
+        g.add((spatial_uri, RDFS.label, Literal('Newark')))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial_text'], 'Newark')
+
+    def test_spatial_both_geojson_and_wkt(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        g.add((spatial_uri, RDF.type, DCT.Location))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('{"type": "Point", "coordinates": [23, 45]}', datatype=GEOJSON_IMT)))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('POINT (67 89)', datatype=GSP.wktLiteral)))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial'], '{"type": "Point", "coordinates": [23, 45]}')
+
+    def test_spatial_wkt_only(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        g.add((spatial_uri, RDF.type, DCT.Location))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('POINT (67 89)', datatype=GSP.wktLiteral)))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+        # NOTE: geomet returns floats for coordinates on WKT -> GeoJSON
+        eq_(extras['spatial'], '{"type": "Point", "coordinates": [67.0, 89.0]}')
+
+    def test_spatial_wrong_geometries(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+
+        g.add((spatial_uri, RDF.type, DCT.Location))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('Not GeoJSON', datatype=GEOJSON_IMT)))
+        g.add((spatial_uri,
+               LOCN.geometry,
+               Literal('Not WKT', datatype=GSP.wktLiteral)))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        assert_true('spatial' not in extras)
+
+    def test_spatial_literal_only(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        g.add((dataset, DCT.spatial, Literal('Newark')))
+
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial_text'], 'Newark')
+        assert_true('spatial_uri' not in extras)
+        assert_true('spatial' not in extras)
+
+    def test_spatial_uri_only(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+
+        spatial_uri = URIRef('http://geonames/Newark')
+        g.add((dataset, DCT.spatial, spatial_uri))
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        extras = self._extras(datasets[0])
+
+        eq_(extras['spatial_uri'], 'http://geonames/Newark')
+        assert_true('spatial_text' not in extras)
+        assert_true('spatial' not in extras)
+
+    def test_tags_with_commas(self):
+        g = Graph()
+
+        dataset = URIRef('http://example.org/datasets/1')
+        g.add((dataset, RDF.type, DCAT.Dataset))
+        g.add((dataset, DCAT.keyword, Literal('Tree, forest, shrub')))
+        p = RDFParser(profiles=['euro_dcat_ap'])
+
+        p.g = g
+
+        datasets = [d for d in p.datasets()]
+
+        eq_(len(datasets[0]['tags']), 3)
