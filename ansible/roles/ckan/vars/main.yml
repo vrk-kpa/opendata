@@ -42,7 +42,7 @@ baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
 app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
 
 ckan_files_path: "{{ files_root }}/ckan"
-ckan_max_resource_size: 50
+ckan_max_resource_size: 150
 translation_cache_path: "{{ cache_path }}/translations"
 translation_languages:
   - "fi"
