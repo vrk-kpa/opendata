@@ -7,6 +7,7 @@ from pkg_resources import iter_entry_points
 from pylons import config
 
 import rdflib
+import rdflib.parser
 from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDF
 
@@ -75,13 +76,16 @@ class RDFProcessor(object):
         profiles = []
         loaded_profiles_names = []
 
-        for profile in iter_entry_points(group=RDF_PROFILES_ENTRY_POINT_GROUP):
-            if profile.name in profile_names:
+        for profile_name in profile_names:
+            for profile in iter_entry_points(
+                    group=RDF_PROFILES_ENTRY_POINT_GROUP,
+                    name=profile_name):
                 profile_class = profile.load()
                 # Set a reference to the profile name
                 profile_class.name = profile.name
                 profiles.append(profile_class)
                 loaded_profiles_names.append(profile.name)
+                break
 
         unknown_profiles = set(profile_names) - set(loaded_profiles_names)
         if unknown_profiles:
@@ -110,6 +114,16 @@ class RDFParser(RDFProcessor):
         for dataset in self.g.subjects(RDF.type, DCAT.Dataset):
             yield dataset
 
+    def next_page(self):
+        '''
+        Returns the URL of the next page or None if there is no next page
+        '''
+        for pagination_node in self.g.subjects(RDF.type, HYDRA.PagedCollection):
+            for o in self.g.objects(pagination_node, HYDRA.nextPage):
+                return unicode(o)
+        return None
+
+
     def parse(self, data, _format=None):
         '''
         Parses and RDF graph serialization and into the class graph
@@ -125,14 +139,29 @@ class RDFParser(RDFProcessor):
 
         Returns nothing.
         '''
+
+        _format = url_to_rdflib_format(_format)
+        if _format == 'pretty-xml':
+            _format = 'xml'
+
         try:
             self.g.parse(data=data, format=_format)
         # Apparently there is no single way of catching exceptions from all
         # rdflib parsers at once, so if you use a new one and the parsing
         # exceptions are not cached, add them here.
-        except (SyntaxError, xml.sax.SAXParseException), e:
+        # PluginException indicates that an unknown format was passed.
+        except (SyntaxError, xml.sax.SAXParseException,
+                rdflib.plugin.PluginException, TypeError), e:
 
             raise RDFParserException(e)
+
+    def supported_formats(self):
+        '''
+        Returns a list of all formats supported by this processor.
+        '''
+        return sorted([plugin.name
+                       for plugin
+                       in rdflib.plugin.plugins(kind=rdflib.parser.Parser)])
 
     def datasets(self):
         '''

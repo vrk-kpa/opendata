@@ -1,6 +1,6 @@
 # ckanext-dcat
 
-[![Build Status](https://travis-ci.org/ckan/ckanext-dcat.png)](https://travis-ci.org/ckan/ckanext-dcat)
+[![Build Status](https://travis-ci.org/ckan/ckanext-dcat.svg?branch=master)](https://travis-ci.org/ckan/ckanext-dcat)
 [![Code Coverage](http://codecov.io/github/ckan/ckanext-dcat/coverage.svg?branch=master)](http://codecov.io/github/ckan/ckanext-dcat?branch=master)
 
 
@@ -12,10 +12,11 @@ This extension provides plugins that allow CKAN to expose and consume metadata f
 
 - [Overview](#overview)
 - [Installation](#installation)
-- [RDF DCAT Endpoints](#rdf-dcat-endpoints)
-    - [Dataset Endpoints](#dataset-endpoints)
-    - [Catalog Endpoints](#catalog-endpoints)
+- [RDF DCAT endpoints](#rdf-dcat-endpoints)
+    - [Dataset endpoints](#dataset-endpoints)
+    - [Catalog endpoints](#catalog-endpoints)
     - [URIs](#uris)
+    - [Content negotiation](#content-negotiation)
 - [RDF DCAT harvester](#rdf-dcat-harvester)
     - [Extending the RDF harvester](#extending-the-rdf-harvester)
 - [JSON DCAT harvester](#json-dcat-harvester)
@@ -48,7 +49,7 @@ In terms of CKAN features, this extension offers:
 
 These are implemented internally using:
 
-* A base [mapping](#rdf-dcat-to-ckan-dataset-mapping) between DCAT and CKAN datasets and viceversa.
+* A base [mapping](#rdf-dcat-to-ckan-dataset-mapping) between DCAT and CKAN datasets and viceversa (compatible with [DCAT-AP v1.1](https://joinup.ec.europa.eu/asset/dcat_application_profile/asset_release/dcat-ap-v11)).
 
 * An [RDF Parser](#rdf-dcat-parser) that allows to read RDF serializations in different formats and extract CKAN dataset dicts, using customizable [profiles](#profiles).
 
@@ -80,7 +81,7 @@ When the `dcat` plugin is enabled, the following RDF endpoints are available on 
 
 RDF representations of a particular dataset can accessed using the following endpoint:
 
-    https://{ckan-instance-host}/datasets/{dataset-id}.{format}
+    https://{ckan-instance-host}/dataset/{dataset-id}.{format}
 
 The extension will determine the RDF serialization format returned. The currently supported values are:
 
@@ -123,6 +124,12 @@ Additionally to the individual dataset representations, the extension also offer
 
     https://{ckan-instance-host}/catalog.{format}?[page={page}]&[modified_date={date}]
 
+This endpoint can be customized if necessary using the `ckanext.dcat.catalog_endpoint` configuration option, eg:
+
+    ckanext.dcat.catalog_endpoint = /dcat/catalog/{_format}
+
+The custom endpoint **must** start with a backslash (`/`) and contain the `{_format}` placeholder.
+
 As described previously, the extension will determine the RDF serialization format returned.
 
 * http://demo.ckan.org/catalog.rdf
@@ -160,6 +167,8 @@ The catalog endpoint also supports a `modified_date` parameter to restrict datas
 
 http://demo.ckan.org/catalog.xml?modified_since=2015-07-24
 
+
+
 ### URIs
 
 Whenever possible, URIs are generated for the relevant entities. To try to generate them, the extension will use the first found of the following for each entity:
@@ -181,6 +190,27 @@ Whenever possible, URIs are generated for the relevant entities. To try to gener
 Note that if you are using the [RDF DCAT harvester](#rdf-dcat-harvester) to import datasets from other catalogs and these define a proper URI for each dataset or resource, these will be stored as `uri` fields in your instance, and thus used when generating serializations for them.
 
 
+### Content negotiation
+
+The extension supports returning different representations of the datasets based on the value of the `Accept` header ([Content negotiation](https://en.wikipedia.org/wiki/Content_negotiation)).
+
+When enabled, client applications can request a particular format via the `Accept` header on requests to the main dataset page, eg:
+
+    curl https://{ckan-instance-host}/dataset/{dataset-id} -H Accept:text/turtle
+
+    curl https://{ckan-instance-host}/dataset/{dataset-id} -H Accept:"application/rdf+xml; q=1.0, application/ld+json; q=0.6"
+
+This is also supported on the [catalog endpoint](#catalog-endpoint), in this case when making a request to the CKAN root URL (home page). This won't support the pagination and filter parameters:
+
+    curl https://{ckan-instance-host} -H Accept:text/turtle
+
+Note that this feature overrides the CKAN core home page and dataset page controllers, so you probably don't want to enable it if your own extension is also doing it.
+
+To enable content negotiation, set the following configuration option on your ini file:
+
+    ckanext.dcat.enable_content_negotiation = True
+
+
 ## RDF DCAT harvester
 
 The RDF parser described in the previous section has been integrated into a harvester,
@@ -191,7 +221,11 @@ to allow automatic import of datasets from remote sources. To enable the RDF har
 The harvester will download the remote file, extract all datasets using the parser and create or update actual CKAN datasets based on that.
 It will also handle deletions, ie if a dataset is not present any more in the DCAT dump anymore it will get deleted from CKAN.
 
-*TODO*: configure formats and profiles.
+The harvester will look at the `content-type` HTTP header field to determine the used RDF format. Any format understood by the [RDFLib](https://rdflib.readthedocs.org/en/stable/plugin_parsers.html) library can be parsed. It is possible to override this functionality and provide a specific format using the harvester configuration. This is useful when the server does not return the correct `content-type` or when harvesting a file on the local file system without a proper extension. The harvester configuration is a JSON object that you fill into the harvester configuration form field.
+
+    {"rdf_format":"text/turtle"}
+
+*TODO*: configure profiles.
 
 ### Extending the RDF harvester
 
@@ -220,6 +254,8 @@ the DCAT publisher property with a CKAN dataset author, maintainer or organizati
 and may depend on a particular instance needs. When mapping from CKAN metadata to DCAT though, there are in some cases fallback fields
 that are used if the default field is not present (see [RDF Serializer](#rdf-dcat-serializer) for more details on this.
 
+This mapping is compatible with the [DCAT-AP v1.1](https://joinup.ec.europa.eu/asset/dcat_application_profile/asset_release/dcat-ap-v11).
+
 
 | DCAT class        | DCAT property          | CKAN dataset field                        | CKAN fallback fields           | Stored as |                                                                                                                                                               |
 |-------------------|------------------------|-------------------------------------------|--------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -238,6 +274,14 @@ that are used if the default field is not present (see [RDF Serializer](#rdf-dca
 | dcat:Dataset      | dcat:landingPage       | url                                       |                                | text      |                                                                                                                                                               |
 | dcat:Dataset      | dct:accrualPeriodicity | extra:frequency                           |                                | text      |                                                                                                                                                               |
 | dcat:Dataset      | dct:conformsTo         | extra:conforms_to                         |                                | list      | See note about lists                                                                                                                                          |
+| dcat:Dataset      | dct:accessRights       | extra:access_rights                       |                                | text      |                                                                                                                                                               |
+| dcat:Dataset      | foaf:page              | extra:documentation                       |                                | list      | See note about lists                                                                                                                                          |
+| dcat:Dataset      | dct:provenance         | extra:provenance                          |                                | text      |                                                                                                                                                               |
+| dcat:Dataset      | dct:type               | extra:dcat_type                           |                                | text      | As of DCAT-AP v1.1 there's no controlled vocabulary for this field                                                                                            |
+| dcat:Dataset      | dct:hasVersion         | extra:has_version                         |                                | list      | See note about lists. It is assumed that these are one or more URIs referring to another dcat:Dataset                                                         |
+| dcat:Dataset      | dct:isVersionOf        | extra:is_version_of                       |                                | list      | See note about lists. It is assumed that these are one or more URIs referring to another dcat:Dataset                                                         |
+| dcat:Dataset      | dct:source             | extra:source                              |                                | list      | See note about lists. It is assumed that these are one or more URIs referring to another dcat:Dataset                                                         |
+| dcat:Dataset      | adms:sample            | extra:sample                              |                                | list      | See note about lists. It is assumed that these are one or more URIs referring to dcat:Distribution instances                                                  |
 | dcat:Dataset      | dct:spatial            | extra:spatial_uri                         |                                | text      | If the RDF provides them, profiles should store the textual and geometric representation of the location in extra:spatial_text and extra:spatial respectively |
 | dcat:Dataset      | dct:temporal           | extra:temporal_start + extra:temporal_end |                                | text      | None, one or both extras can be present                                                                                                                       |
 | dcat:Dataset      | dct:publisher          | extra:publisher_uri                       |                                | text      | See note about URIs                                                                                                                                           |
@@ -262,7 +306,11 @@ that are used if the default field is not present (see [RDF Serializer](#rdf-dca
 | dcat:Distribution | dct:issued             | resource:issued                           |                                | text      |                                                                                                                                                               |
 | dcat:Distribution | dct:modified           | resource:modified                         |                                | text      |                                                                                                                                                               |
 | dcat:Distribution | dct:rights             | resource:rights                           |                                | text      |                                                                                                                                                               |
-
+| dcat:Distribution | foaf:page              | resource:documentation                    |                                | list      | See note about lists                                                                                                                                          |
+| dcat:Distribution | dct:language           | resource:language                         |                                | list      | See note about lists                                                                                                                                          |
+| dcat:Distribution | dct:conformsTo         | resource:conforms_to                      |                                | list      | See note about lists                                                                                                                                          |
+| spdx:Checksum     | spdx:checksumValue     | resource:hash                             |                                | text      |                                                                                                                                                               |
+| spdx:Checksum     | spdx:algorithm         | resource:hash_algorithm                   |                                | text      |                                                                                                                                                               |
 
 *Notes*
 
@@ -358,6 +406,57 @@ that are used if the default field is not present (see [RDF Serializer](#rdf-dca
         ],
     }
     ```
+
+* The following formats for `dct:spatial` are supported by the default [parser](#rdf-dcat-parser). Note that the default [serializer](#rdf-dcat-serializer) will return the single `dct:spatial` instance form by default.
+
+    - One `dct:spatial` instance, URI only
+
+        ```xml
+        <dct:spatial rdf:resource="http://geonames/Newark"/>
+        ```
+
+    - One `dct:spatial` instance with text (this should not be used anyway)
+
+        ```xml
+        <dct:spatial>Newark</dct:spatial>
+        ```
+
+    - One `dct:spatial` instance with label and/or geometry
+
+        ```xml
+        <dct:spatial rdf:resource="http://geonames/Newark">
+            <dct:Location>
+                <locn:geometry rdf:datatype="https://www.iana.org/assignments/media-types/application/vnd.geo+json">
+                    {"type": "Polygon", "coordinates": [[[175.0, 17.5], [-65.5, 17.5], [-65.5, 72.0], [175.0, 72.0], [175.0, 17.5]]]}
+                </locn:geometry>
+                <locn:geometry rdf:datatype="http://www.opengis.net/ont/geosparql#wktLiteral">
+                    POLYGON ((175.0000 17.5000, -65.5000 17.5000, -65.5000 72.0000, 175.0000 72.0000, 175.0000 17.5000))
+                </locn:geometry>
+                <skos:prefLabel>Newark</skos:prefLabel>
+            </dct:Location>
+        </dct:spatial>
+        ```
+
+    - Multiple `dct:spatial` instances (as in GeoDCAT-AP)
+
+        ```xml
+        <dct:spatial rdf:resource="http://geonames/Newark"/>
+        <dct:spatial>
+            <dct:Location>
+                <locn:geometry rdf:datatype="https://www.iana.org/assignments/media-types/application/vnd.geo+json">
+                    {"type": "Polygon", "coordinates": [[[175.0, 17.5], [-65.5, 17.5], [-65.5, 72.0], [175.0, 72.0], [175.0, 17.5]]]}
+                </locn:geometry>
+                <locn:geometry rdf:datatype="http://www.opengis.net/ont/geosparql#wktLiteral">
+                    POLYGON ((175.0000 17.5000, -65.5000 17.5000, -65.5000 72.0000, 175.0000 72.0000, 175.0000 17.5000))
+                </locn:geometry>
+            </dct:Location>
+        </dct:spatial>
+        <dct:spatial>
+            <dct:Location rdf:nodeID="N8c2a57d92e2d48fca3883053f992f0cf">
+                <skos:prefLabel>Newark</skos:prefLabel>
+            </dct:Location>
+        </dct:spatial>
+        ```
 
 
 ## RDF DCAT Parser
@@ -494,8 +593,7 @@ In most cases the default profile will provide a good mapping that will cover mo
 need custom logic, you can write a custom to profile that extends or replaces the default one.
 
 The default profile is mostly based in the
-[DCAT application profile for data portals in Europe](https://joinup.ec.europa.eu/asset/dcat_application_profile/description),
-but as mentioned before it should be generic enough for most DCAT based representations.
+[DCAT application profile for data portals in Europe](https://joinup.ec.europa.eu/asset/dcat_application_profile/description). It is actually fully-compatible with [DCAT-AP v1.1](https://joinup.ec.europa.eu/asset/dcat_application_profile/asset_release/dcat-ap-v11). As mentioned before though, it should be generic enough for most DCAT based representations.
 
 
 To define which profiles to use you can:

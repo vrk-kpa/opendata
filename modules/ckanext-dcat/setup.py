@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1'
+version = '0.0.4'
 
 setup(
     name='ckanext-dcat',
@@ -42,5 +42,14 @@ setup(
     [paste.paster_command]
     generate_static = ckanext.dcat.commands:GenerateStaticDCATCommand
 
+    [babel.extractors]
+    ckan = ckan.lib.extract:extract_ckan
     ''',
+    message_extractors={
+        'ckanext': [
+            ('**.py', 'python', None),
+            ('**.js', 'javascript', None),
+            ('**/templates/**.html', 'ckan', None),
+        ],
+    },
 )

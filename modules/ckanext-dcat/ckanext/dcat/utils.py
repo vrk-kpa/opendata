@@ -4,6 +4,9 @@ import uuid
 from pylons import config
 
 from ckan import model
+import ckan.plugins.toolkit as toolkit
+
+_ = toolkit._
 
 log = logging.getLogger(__name__)
 
@@ -15,6 +18,43 @@ CONTENT_TYPES = {
     'ttl': 'text/turtle',
     'jsonld': 'application/ld+json',
 }
+
+
+def field_labels():
+    '''
+    Returns a dict with the user friendly translatable field labels that
+    can be used in the frontend.
+    '''
+
+    return {
+        'uri': _('URI'),
+        'guid': _('GUID'),
+        'theme': _('Theme'),
+        'identifier': _('Identifier'),
+        'alternate_identifier': _('Alternate identifier'),
+        'issued': _('Issued'),
+        'modified': _('Modified'),
+        'version_notes': _('Version notes'),
+        'language': _('Language'),
+        'frequency': _('Frequency'),
+        'conforms_to': _('Conforms to'),
+        'spatial_uri': _('Spatial URI'),
+        'temporal_start': _('Start of temporal extent'),
+        'temporal_end': _('End of temporal extent'),
+        'publisher_uri': _('Publisher URI'),
+        'publisher_name': _('Publisher name'),
+        'publisher_email': _('Publisher email'),
+        'publisher_url': _('Publisher URL'),
+        'publisher_type': _('Publisher type'),
+        'contact_name': _('Contact name'),
+        'contact_email': _('Contact email'),
+        'contact_uri': _('Contact URI'),
+        'download_url': _('Download URL'),
+        'mimetype': _('Media type'),
+        'size': _('Size'),
+        'rights': _('Rights'),
+        'created': _('Created'),
+    }
 
 
 def catalog_uri():
@@ -76,7 +116,7 @@ def dataset_uri(dataset_dict):
     uri = dataset_dict.get('uri')
     if not uri:
         for extra in dataset_dict.get('extras', []):
-            if extra['key'] == 'uri':
+            if extra['key'] == 'uri' and extra['value'] != 'None':
                 uri = extra['value']
                 break
     if not uri and dataset_dict.get('id'):
@@ -100,7 +140,8 @@ def resource_uri(resource_dict):
     The value will be the first found of:
 
         1. The value of the `uri` field
-        2. `catalog_uri()` + '/dataset/' + `package_id` + '/resource/' + `id` field
+        2. `catalog_uri()` + '/dataset/' + `package_id` + '/resource/'
+            + `id` field
 
     Check the documentation for `catalog_uri()` for the recommended ways of
     setting it.
@@ -109,7 +150,7 @@ def resource_uri(resource_dict):
     '''
 
     uri = resource_dict.get('uri')
-    if not uri:
+    if not uri or uri == 'None':
         dataset_id = dataset_id_from_resource(resource_dict)
 
         uri = '{0}/dataset/{1}/resource/{2}'.format(catalog_uri().rstrip('/'),
@@ -192,3 +233,58 @@ def rdflib_to_url_format(_format):
         _format = 'jsonld'
 
     return _format
+
+import re
+import operator
+# For parsing {name};q=x and {name} style fields from the accept header
+accept_re = re.compile("^(?P<ct>[^;]+)[ \t]*(;[ \t]*q=(?P<q>[0-9.]+)){0,1}$")
+
+
+def parse_accept_header(accept_header=''):
+    '''
+    Parses the supplied accept header and tries to determine
+    which content types we can provide in the response.
+
+    We will always provide html as the default if we can't see anything else
+    but we will also need to take into account the q score.
+
+    Returns the format string if there is a suitable RDF format to return, None
+    otherwise.
+    '''
+    if accept_header is None:
+        accept_header = ''
+
+    accepted_media_types = dict((value, key)
+                                for key, value
+                                in CONTENT_TYPES.iteritems())
+
+    accepted_media_types_wildcard = {}
+    for media_type, _format in accepted_media_types.iteritems():
+        _type = media_type.split('/')[0]
+        if _type not in accepted_media_types_wildcard:
+            accepted_media_types_wildcard[_type] = _format
+
+    acceptable = {}
+    for typ in accept_header.split(','):
+        m = accept_re.match(typ)
+        if m:
+            key = m.groups(0)[0].strip()
+            qscore = m.groups(0)[2] or 1.0
+            acceptable[key] = float(qscore)
+
+    for media_type in sorted(acceptable.iteritems(),
+                             key=operator.itemgetter(1),
+                             reverse=True):
+
+        if media_type[0] == 'text/html':
+            return None
+
+        if media_type[0] in accepted_media_types:
+            return accepted_media_types[media_type[0]]
+
+        if '/' in media_type[0] and media_type[0].split('/')[1] == '*':
+            _type = media_type[0].split('/')[0]
+            if _type in accepted_media_types_wildcard:
+                return accepted_media_types_wildcard[_type]
+
+    return None
