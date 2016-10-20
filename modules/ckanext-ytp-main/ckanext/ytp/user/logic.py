@@ -202,6 +202,12 @@ def auth_user_list(context, data_dict):
     return {'success': True}
 
 
+def auth_admin_list(context, data_dict):
+    if not c.user:
+        return {'success': False, 'msg': _('Have to be logged in to list admins')}
+    return {'success': True}
+
+
 def action_user_update(context, data_dict):
     ''' Modified from CKAN: user_update
 
