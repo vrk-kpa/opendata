@@ -1,6 +1,6 @@
 ---
 
-ckan_package: python-ckan_{{ ckan_version }}_amd64.deb
+ckan_package: python-ckan_{{ ckan_version }}-precise_amd64.deb
 
 harvester_user: "{{ www_user }}"
 celery_user: "{{ www_user }}"
