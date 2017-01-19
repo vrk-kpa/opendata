@@ -54,7 +54,7 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
 msgstr ""
 
 #: ckanext/ytp/request/mail.py:22
@@ -71,7 +71,7 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
 msgstr ""
 
 #: ckanext/ytp/request/mail.py:33
@@ -88,7 +88,7 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
 msgstr ""
 
 #: ckanext/ytp/request/logic/action/create.py:39

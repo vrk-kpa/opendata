@@ -1655,8 +1655,8 @@ msgstr "Käyttäjillä voi olla organisaatioissa eri rooleja ja eri tasoisia kä
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
 msgid ""
 " Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact avoindata@valtori.fi. "
-msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä avoindata@valtori.fi."
+"a public administration organization, please contact avoindata@vrk.fi. "
+msgstr "Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda julkishallinnon organisaation, ota yhteyttä avoindata@vrk.fi."
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23
 msgid ""

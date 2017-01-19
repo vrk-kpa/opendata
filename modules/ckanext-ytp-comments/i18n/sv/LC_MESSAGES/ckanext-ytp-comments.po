@@ -43,8 +43,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Användaren {user} ({email}) har lämnat en kommentar i dataseten ({dataset}):\n\n--\nÄmne:\n{comment_subject}\n\nMeddelande:\n{comment}\n--\n\n{link}\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Användaren {user} ({email}) har lämnat en kommentar i dataseten ({dataset}):\n\n--\nÄmne:\n{comment_subject}\n\nMeddelande:\n{comment}\n--\n\n{link}\n\nBästa hälsningar\n\nAvoindata.fi stöd\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/comments/logic/auth/create.py:15
 #: ckanext/ytp/comments/logic/auth/update.py:17

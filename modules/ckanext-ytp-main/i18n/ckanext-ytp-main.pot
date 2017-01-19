@@ -1636,7 +1636,7 @@ msgstr ""
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
 msgid ""
 " Some of the organizations listed here are automatically created. To create a"
-" public administration organization, please contact avoindata@valtori.fi. "
+" public administration organization, please contact avoindata@vrk.fi. "
 msgstr ""
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23

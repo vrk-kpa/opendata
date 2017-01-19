@@ -39,7 +39,7 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
 msgstr ""
 
 #: ckanext/ytp/comments/logic/auth/create.py:15

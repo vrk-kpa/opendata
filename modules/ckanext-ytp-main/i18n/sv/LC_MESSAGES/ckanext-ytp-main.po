@@ -1650,8 +1650,8 @@ msgstr "Användare kan ha olika roller inom en organisation, beroende på deras 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:18
 msgid ""
 " Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact avoindata@valtori.fi. "
-msgstr "Några av de organisationer som anges här har skapats automatiskt. Kontakta avoindata@valtori.fi för att skapa offentliga sektorns organisationer."
+"a public administration organization, please contact avoindata@vrk.fi. "
+msgstr "Några av de organisationer som anges här har skapats automatiskt. Kontakta avoindata@vrk.fi för att skapa offentliga sektorns organisationer."
 
 #: ckanext/ytp/organizations/templates/organization/snippets/helper.html:23
 msgid ""
