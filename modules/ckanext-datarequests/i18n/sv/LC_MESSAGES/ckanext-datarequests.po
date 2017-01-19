@@ -43,8 +43,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Användaren {user} ({email}) har lämnat en databegär i organisation ({organization}):\n\n--\nTitel:\n{request_title}\n\nBeskrivning:\n{request_description}\n--\n\n{link}\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Användaren {user} ({email}) har lämnat en databegär i organisation ({organization}):\n\n--\nTitel:\n{request_title}\n\nBeskrivning:\n{request_description}\n--\n\n{link}\n\nBästa hälsningar\n\nAvoindata.fi stöd\navoindata@vrk.fi\n"
 
 #: ckanext/datarequests/validator.py:31
 #, python-format

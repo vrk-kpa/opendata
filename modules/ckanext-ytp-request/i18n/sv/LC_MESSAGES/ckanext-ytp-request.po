@@ -61,8 +61,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Användaren %(user)s (%(email)s) har ansökt medlemskap i organisationen %(organization)s.\n\n%(link)s\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Användaren %(user)s (%(email)s) har ansökt medlemskap i organisationen %(organization)s.\n\n%(link)s\n\nBästa hälsningar\n\nAvoindata.fi stöd\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/mail.py:22
 #, python-format
@@ -77,8 +77,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Din ansökan till organisationen %(organization)s med användarrollen %(role)s har godkänts.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Din ansökan till organisationen %(organization)s med användarrollen %(role)s har godkänts.\n\nBästa hälsningar\n\nAvoindata.fi stöd\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/mail.py:33
 #, python-format
@@ -93,8 +93,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Din medlemskapsansökan till organisationen %(organization)s med användarrollen  %(role)s godkändes ej.\n\nBästa hälsningar\n\nAvoindata.fi stöd\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Din medlemskapsansökan till organisationen %(organization)s med användarrollen  %(role)s godkändes ej.\n\nBästa hälsningar\n\nAvoindata.fi stöd\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/logic/action/create.py:39
 #: ckanext/ytp/request/logic/action/get.py:47

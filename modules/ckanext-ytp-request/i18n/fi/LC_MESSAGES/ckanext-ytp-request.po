@@ -63,8 +63,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Käyttäjä %(user)s (%(email)s) on hakenut jäseneksi organisaatioon %(organization)s.\n\nHyväksy tai hylkää hakemus klikkaamalla seuraavaa linkkiä:\n\n%(link)s\n\nHuomaa, että sinun tulee olla kirjautunut Avoindata.fi palveluun hyväksyessäsi hakemuksen.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin\n\nAvoindata.fi tuki\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Käyttäjä %(user)s (%(email)s) on hakenut jäseneksi organisaatioon %(organization)s.\n\nHyväksy tai hylkää hakemus klikkaamalla seuraavaa linkkiä:\n\n%(link)s\n\nHuomaa, että sinun tulee olla kirjautunut Avoindata.fi palveluun hyväksyessäsi hakemuksen.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin\n\nAvoindata.fi tuki\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/mail.py:22
 #, python-format
@@ -79,8 +79,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Hakemuksesi organisaatioon %(organization)s käyttäjäroolilla %(role)s on hyväksytty.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin\n\nAvoindata.fi tuki\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Hakemuksesi organisaatioon %(organization)s käyttäjäroolilla %(role)s on hyväksytty.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin\n\nAvoindata.fi tuki\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/mail.py:33
 #, python-format
@@ -95,8 +95,8 @@ msgid ""
 "Best regards\n"
 "\n"
 "Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
-msgstr "Hakemuksesi organisaatioon %(organization)s käyttäjäroolilla  %(role)s on hylätty.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin,\n\nAvoindata.fi tuki\nvaltori@avoindata.fi\n"
+"avoindata@vrk.fi\n"
+msgstr "Hakemuksesi organisaatioon %(organization)s käyttäjäroolilla  %(role)s on hylätty.\n\nJos sinulla on kysymyksiä tästä aiheesta, ota yhteyttä Avoindata.fi tukeen.\n\nYstävällisin terveisin,\n\nAvoindata.fi tuki\navoindata@vrk.fi\n"
 
 #: ckanext/ytp/request/logic/action/create.py:39
 #: ckanext/ytp/request/logic/action/get.py:47

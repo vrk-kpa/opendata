@@ -22,5 +22,5 @@ Description:
 Best regards
 
 Avoindata.fi support
-valtori@avoindata.fi
+avoindata@vrk.fi
 """)

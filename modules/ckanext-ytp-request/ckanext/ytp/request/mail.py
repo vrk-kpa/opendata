@@ -21,7 +21,7 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 Best regards
 
 Avoindata.fi support
-valtori@avoindata.fi
+avoindata@vrk.fi
 """)
 
 
@@ -37,7 +37,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 Best regards
 
 Avoindata.fi support
-valtori@avoindata.fi
+avoindata@vrk.fi
 """)
 
 
@@ -53,7 +53,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 Best regards
 
 Avoindata.fi support
-valtori@avoindata.fi
+avoindata@vrk.fi
 """)
 
 
