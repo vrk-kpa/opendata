@@ -127,7 +127,7 @@ It might ask about installing grup, just hit enter and don't install.
 
 To install ansible, we need dependancies:
 
-    sudo apt-get install python-setuptools python-dev
+    sudo apt-get install python-setuptools python-dev build-essential libssl-dev libffi-dev 
     sudo easy_install pip
     
 Then we install ansible with pip:
