@@ -30,8 +30,8 @@
   tags:
   - common
 
-- name: Reboot weekly on Sundays
-  cron: name="reboot" weekday="0" minute="50" hour="21" job="/sbin/shutdown -r +5"
+- name: Remove reboots
+  cron: name="reboot" state=absent
   tags:
   - non-local
   - ckan
