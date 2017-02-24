@@ -163,7 +163,7 @@
     - pip
 
 - name: Upgrade setuptools
-  pip: name=setuptools virtualenv="{{ virtual_environment }}" state=latest
+  pip: name=setuptools version=33.1.1 virtualenv="{{ virtual_environment }}"
   tags:
     - ckan
     - packages
@@ -192,8 +192,13 @@
 
 
 
-- name: Install python package to support SNI in requests
-  pip: name=ndg-httpsclient virtualenv="{{ virtual_environment }}"
+- name: Install python packages to support SNI in requests
+  pip: name={{ item }} virtualenv="{{ virtual_environment }}"
+  with_items:
+    - cryptography
+    - pyOpenSSL
+    - ndg-httpsclient
+    - pyasn1
   tags:
   - ckan
   - qa
@@ -227,13 +232,13 @@
   - qa
 
 - name: Install qa requirements
-  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
 
 - name: Install dcat requirements
-  pip: requirements="{{ cache_path }}/ckanext-dcat/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-dcat/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - dcat

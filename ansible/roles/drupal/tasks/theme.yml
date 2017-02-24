@@ -4,7 +4,7 @@
   command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
   register: download_themes
   with_items:
-    - bootstrap
+    - bootstrap-7.x-3.10
   tags:
   - drupal
 

@@ -417,9 +417,10 @@
   - drupal
 
 - name: Update Drupal
-  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}"
+  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}" --lock=bootstrap
   tags:
   - drupal
+
 
 - name: Clear Drupal cache
   command: drush cache-clear all -y chdir="{{ drupal_root }}"
