@@ -421,6 +421,15 @@
   tags:
   - drupal
 
+
+- name: Downgrade bootstrap theme
+  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
+  with_items:
+    - bootstrap-7.x-3.10
+  tags:
+    - drupal
+
+
 - name: Clear Drupal cache
   command: drush cache-clear all -y chdir="{{ drupal_root }}"
   tags:
