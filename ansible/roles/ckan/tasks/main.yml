@@ -195,7 +195,7 @@
 - name: Install python packages to support SNI in requests
   pip: name={{ item }} virtualenv="{{ virtual_environment }}"
   with_items:
-    - cryptography==0.9.3
+    - cryptography
     - pyOpenSSL
     - ndg-httpsclient
     - pyasn1
@@ -232,13 +232,13 @@
   - qa
 
 - name: Install qa requirements
-  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-qa/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - qa
 
 - name: Install dcat requirements
-  pip: requirements="{{ cache_path }}/ckanext-dcat/requirements.txt" virtualenv="{{ virtual_environment }}" state=latest extra_args='--exists-action=w --timeout=30'
+  pip: requirements="{{ cache_path }}/ckanext-dcat/requirements.txt" virtualenv="{{ virtual_environment }}" extra_args='--exists-action=w --timeout=30'
   tags:
   - ckan
   - dcat
