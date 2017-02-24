@@ -45,11 +45,27 @@
   - common
 
 
-- name: Add nodejs repository
-  apt_repository: repo='ppa:chris-lea/node.js'
+- name: Add NodeSource GPG key
+  apt_key:
+    data: "{{ lookup('file', 'nodesource.gpg.key') }}"
   tags:
-  - packages
-  - common
+   - packages
+   - common
+
+
+- name: Add NodeSource APT repository
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_0.12 {{ ansible_distribution_release }} main'
+  tags:
+     - packages
+     - common
+
+
+#- name: Add nodejs repository
+#  apt_repository: repo='ppa:chris-lea/node.js'
+#  tags:
+#  - packages
+#  - common
 
 
 - name: Update package cache
