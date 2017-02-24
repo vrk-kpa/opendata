@@ -192,8 +192,13 @@
 
 
 
-- name: Install python package to support SNI in requests
-  pip: name=ndg-httpsclient virtualenv="{{ virtual_environment }}"
+- name: Install python packages to support SNI in requests
+  pip: name={{ item }} virtualenv="{{ virtual_environment }}"
+  with_items:
+    - cryptography==0.9.3
+    - pyOpenSSL
+    - ndg-httpsclient
+    - pyasn1
   tags:
   - ckan
   - qa
