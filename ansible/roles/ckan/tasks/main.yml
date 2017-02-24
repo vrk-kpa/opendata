@@ -163,7 +163,7 @@
     - pip
 
 - name: Upgrade setuptools
-  pip: name=setuptools virtualenv="{{ virtual_environment }}" state=latest
+  pip: name=setuptools version=33.1.1 virtualenv="{{ virtual_environment }}"
   tags:
     - ckan
     - packages
