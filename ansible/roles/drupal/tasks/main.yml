@@ -417,17 +417,9 @@
   - drupal
 
 - name: Update Drupal
-  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}"
+  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}" --lock=bootstrap
   tags:
   - drupal
-
-
-- name: Downgrade bootstrap theme
-  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/themes/{{ item }}/"
-  with_items:
-    - bootstrap-7.x-3.10
-  tags:
-    - drupal
 
 
 - name: Clear Drupal cache
