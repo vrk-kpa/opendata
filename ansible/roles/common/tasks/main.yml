@@ -126,7 +126,7 @@
 # TODO: Move path creation where paths are used even those are duplicate
 - name: Create common paths
   file: path="{{ item }}" state=directory
-  with_items: all_paths
+  with_items: "{{ all_paths }}"
   tags:
   - common
 

@@ -9,7 +9,7 @@
 - name: Fetch CKAN patches
   get_url: url="{{ item.patch }}" dest="{{ patches_cache_path }}/{{ item.file }}"
   register: fetch_patches
-  with_items: ckan_patches
+  with_items: "{{ ckan_patches }}"
   tags:
   - ckan
   - patch_ckan
@@ -20,7 +20,7 @@
   shell: patch -s -N -p1 < "{{ patches_cache_path }}/{{ item.file }}" chdir="{{ ckan_source_path }}"
   when: fetch_patches|changed
   ignore_errors: True
-  with_items: ckan_patches
+  with_items: "{{ ckan_patches }}"
   tags:
   - ckan
   - patch_ckan
