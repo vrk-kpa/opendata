@@ -11,8 +11,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "ytp" do |ytp|
-    ytp.vm.box = "precise64"
-    ytp.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    ytp.vm.box = "bento/ubuntu-16.04"
 
     ytp.vm.network :private_network, ip: "10.10.10.10"
 
