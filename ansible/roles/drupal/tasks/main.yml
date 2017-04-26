@@ -5,11 +5,11 @@
 - name: Ensure Drupal packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - php5-pgsql
-    - php5-gd
-    - php5-fpm
-    - php5-cli
-    - php5
+    - php-pgsql
+    - php-gd
+    - php-fpm
+    - php-cli
+    - php
   tags:
   - packages
   - drupal
