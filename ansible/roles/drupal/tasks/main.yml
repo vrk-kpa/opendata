@@ -367,13 +367,13 @@
 - name: Add default editor user
   command: drush user-create "{{ item.username }}" --mail="{{ item.email }}" --password="{{ item.password }}" chdir="{{ drupal_root }}"
   ignore_errors: True
-  with_items: ytp_users
+  with_items: "{{ ytp_users }}"
   tags:
   - drupal
 
 - name: Set user roles
   command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
-  with_items: drupal_roles
+  with_items: "{{ drupal_roles }}"
   tags:
   - drupal
 

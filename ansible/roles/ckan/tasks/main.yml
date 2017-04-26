@@ -208,7 +208,7 @@
   when: modules_copy|changed
   register: modules_install
   with_flattened:
-    - ckan_extensions
+    - "{{ ckan_extensions }}"
   tags:
   - ckan
   - modules
@@ -336,16 +336,16 @@
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ virtual_environment }}
   ignore_errors: True
   with_flattened:
-    - ytp_users
-    - harvest_user
-    - admin
+    - "{{ ytp_users }}"
+    - "{{ harvest_user }}"
+    - "{{ admin }}"
   tags:
   - ckan
 
 - name: Add CKAN sysadmins
   shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}"
   ignore_errors: True
-  with_items: ckan_admins
+  with_items: "{{ ckan_admins }}"
   tags:
   - ckan
 
@@ -415,7 +415,7 @@
   shell: supervisorctl add {{ item }}
   when: supervisor_configuration|changed
   with_flattened:
-    - supervisor_services
+    - "{{ supervisor_services }}"
   tags:
   - ckan
 
@@ -423,14 +423,14 @@
   supervisorctl: name={{ item }} state=restarted
   when: supervisor_configuration|changed or modules_install|changed or ckan_configuration|changed
   with_flattened:
-    - supervisor_services
+    - "{{ supervisor_services }}"
   tags:
   - ckan
 
 - name: Ensure supervisor services are started
   supervisorctl: name={{ item }} state=started
   with_flattened:
-    - supervisor_services
+    - "{{ supervisor_services }}"
   tags:
   - ckan
 

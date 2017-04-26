@@ -10,7 +10,7 @@
 - name: Tar extracted features
   local_action: command tar -c --exclude=.git -f "{{ local_cache }}/{{ item }}.tar" {{ item }} chdir="{{ ytp_features_path }}"
   sudo: false
-  with_items: extracted_features
+  with_items: "{{ extracted_features }}"
   tags:
     - drupal
     - features
@@ -24,7 +24,7 @@
 - name: Copy and install extracted features
   unarchive: src="{{ local_cache }}/{{ item }}.tar" dest="{{ features_module_path }}"
   register: extracted_features_copy
-  with_items: extracted_features
+  with_items: "{{ extracted_features }}"
   tags:
     - drupal
     - features
@@ -32,8 +32,8 @@
 - name: Disable features
   command: drush dis -y "{{ item.item }}" chdir="{{drupal_root}}"
   when: extracted_features_copy|changed and item.changed
-  with_flattened:
-    - "extracted_features_copy.results"
+  with_items:
+    - "{{extracted_features_copy.results}}"
   tags:
     - drupal
     - features
@@ -41,8 +41,8 @@
 - name: Enable features
   command: drush en -y "{{ item.item }}" chdir="{{ drupal_root }}"
   when: extracted_features_copy|changed and item.changed
-  with_flattened:
-    - extracted_features_copy.results
+  with_items:
+    - "{{extracted_features_copy.results}}"
   tags:
   - drupal
   - features

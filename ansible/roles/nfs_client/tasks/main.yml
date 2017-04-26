@@ -16,8 +16,8 @@
   - nfs_client
 
 - name: Ensure shared path is mounted
-  mount: name="{{ files_root }}" src="{{ database_host }}:{{ nfs_shared_path }}" fstype=nfs state=mounted
-  when: travis is not defined
+  mount: name="{{ files_root }}" src="{{ database_host }}:{{ nfs_shared_path }}" fstype=nfs state=mounted opts=v3
+  when: travis is not defined and vagrant is not defined
   tags:
   - nfs_client
 
