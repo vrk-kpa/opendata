@@ -68,18 +68,12 @@
 #  - common
 
 
-- name: Update package cache
-  apt: update_cache=yes
-  tags:
-  - packages
-  - common
 
 - name: Update packages
-  apt: upgrade=dist
+  apt: upgrade=dist update_cache=yes
   when: travis is not defined
   tags:
   - packages
-  - non-local
   - common
 
 - name: sshd configuration file update
@@ -111,16 +105,18 @@
     - gettext
     - build-essential
     - nodejs
+    - npm
+    - nodejs-legacy
     - libcurl4-openssl-dev
   tags:
   - packages
   - common
 
-- name: Upgrade npm
-  command: 'npm -g install npm@2.1.12'
-  tags:
-  - packages
-  - common
+#- name: Upgrade npm
+#  command: 'npm -g install npm@2.1.12'
+#  tags:
+#  - packages
+#  - common
 
 
 # TODO: Move path creation where paths are used even those are duplicate

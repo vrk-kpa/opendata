@@ -53,7 +53,7 @@ all_paths:
   - "{{ log_path }}"
   - "{{ static_path }}"
 
-hostname: "{{ inventory_hostname }}"
+hostname: 10.10.10.10
 hostname_language: fi
 secondary_hostname: 127.0.0.1
 secondary_hostname_language: en
@@ -89,10 +89,11 @@ ckan_admins:
 
 ckan_ini: /etc/ckan/default/production.ini
 virtual_environment: /usr/lib/ckan/default
+ckan_who_ini: /etc/ckan/default/who.ini
 
 harvest_sources: false
 
-ckan_version: "2.3"
+ckan_version: "2.3.5"
 
 email_domain: "localhost"
 email_domain_access: "localhost"

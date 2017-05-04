@@ -1,7 +1,7 @@
 ---
 
 - name: Set localtime timezone
-  command: /bin/cp "/usr/share/zoneinfo/{{ timezone }}" /etc/localtime
+  command: /bin/ln -sf "/usr/share/zoneinfo/{{ timezone }}" /etc/localtime
   tags:
     - common
     - timezone

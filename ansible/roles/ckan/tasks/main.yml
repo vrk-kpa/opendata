@@ -5,11 +5,14 @@
 - name: Ensure CKAN common packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - python-pip
-    - supervisor
-    - python-dev 
+    - gcc
+    - libpq-dev
     - libxslt1-dev
-    - libgeos-c1
+    - python-dev
+    - python-virtualenv
+    - zlib1g-dev
+    - libgeos-c1v5
+    - supervisor
   tags:
   - packages
   - ckan
@@ -26,22 +29,43 @@
   - packages
   - ckan
 
-- name: Download CKAN package
-  get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
-  register: download_ckan_package
-  tags:
-  - ckan
 
-- name: Install CKAN package
-  command: dpkg -i "{{ cache_path }}/{{ ckan_package }}"
-  when: download_ckan_package|changed
+- name: Download CKAN
+  git:
+    repo: https://github.com/ckan/ckan.git
+    dest: "{{ cache_path }}/ckan.git"
+    bare: yes
   tags:
-  - ckan
+    - ckan
+
+- name: Install CKAN
+  pip: name="git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan" virtualenv={{ virtual_environment }} extra_args=--exists-action=s
+  tags:
+      - ckan
+
+- name: Install CKAN requirements
+  pip: requirements={{ virtual_environment }}/src/ckan/requirements.txt virtualenv={{ virtual_environment }}
+  tags:
+      - ckan
+#- name: Download CKAN package
+#  get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
+#  register: download_ckan_package
+#  tags:
+#  - ckan
+
+#- name: Install CKAN package
+#  command: dpkg -i "{{ cache_path }}/{{ ckan_package }}"
+#  when: download_ckan_package|changed
+#  tags:
+#  - ckan
 
 - include: patch.yml
 
 - name: Create CKAN files path
-  file: path="{{ ckan_files_path }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
+  file: path={{ item }} state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
+  with_items:
+    - "/etc/ckan/default"
+    - "{{ ckan_files_path }}"
   tags:
   - ckan
 
@@ -74,10 +98,8 @@
 - name: Disable Apache sites
   file: path="/etc/apache2/sites-enabled/{{ item }}" state=absent
   with_items:
-    - default
-    - default-ssl
-    - ckan_default
-    - ckan_default.conf
+    - 000-default.conf
+    - default-ssl.conf
   tags:
   - apache
   - ckan
@@ -101,13 +123,13 @@
   - ckan
 
 - name: Copy Apache configuration
-  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp" mode="0644" owner=root group=root
+  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp.conf" mode="0644" owner=root group=root
   tags:
   - apache
   - ckan
 
 - name: Enable Apache configuration
-  file: src="/etc/apache2/sites-available/ytp" dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
+  file: src="/etc/apache2/sites-available/ytp.conf" dest=/etc/apache2/sites-enabled/ytp.conf state=link owner=root group=root
   notify: Restart Apache
   tags:
   - apache
@@ -155,27 +177,27 @@
   - spatial
 
 
-- name: Upgrade pip
-  pip: name=pip virtualenv="{{ virtual_environment }}" state=latest
-  tags:
-    - ckan
-    - qa
-    - pip
+#- name: Upgrade pip
+#  pip: name=pip virtualenv="{{ virtual_environment }}" state=latest
+#  tags:
+#    - ckan
+#    - qa
+#    - pip
 
-- name: Upgrade setuptools
-  pip: name=setuptools version=33.1.1 virtualenv="{{ virtual_environment }}"
-  tags:
-    - ckan
-    - packages
-    - pip
+#- name: Upgrade setuptools
+#  pip: name=setuptools version=33.1.1 virtualenv="{{ virtual_environment }}"
+#  tags:
+#    - ckan
+#    - packages
+#    - pip
 
-- name: Remove distribute
-  pip: name=distribute virtualenv="{{ virtual_environment }}" state=absent
-  ignore_errors: true
-  tags:
-    - ckan
-    - packages
-    - pip
+#- name: Remove distribute
+#  pip: name=distribute virtualenv="{{ virtual_environment }}" state=absent
+#  ignore_errors: true
+#  tags:
+#    - ckan
+#    - packages
+#    - pip
 
 
 - name: Copy requirements file
@@ -202,6 +224,17 @@
   tags:
   - ckan
   - qa
+
+
+- name: Copy CKAN configuration files
+
+  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  with_items:
+    - { src: ckan.py, dest: /usr/bin/ckan, mode: "0755", owner: root, group: root }
+    - { src: apache.wsgi, dest: /etc/ckan/default/apache.wsgi, mode: "0640", owner: root, group: "{{ www_group }}" }
+    - { src: who.ini, dest: "{{ ckan_who_ini }}", mode: "0644", owner: root, group: "{{ www_group }}"}
+  tags:
+    - ckan
 
 - name: Install modules
   pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest

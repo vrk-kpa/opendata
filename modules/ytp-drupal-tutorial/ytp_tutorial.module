@@ -121,7 +121,7 @@ function ytp_tutorial_has_organization() {
   if ( isset($temp->field_ckan_api_key['und']) && 
     isset($temp->field_ckan_api_key['und'][0]) && 
     isset($temp->field_ckan_api_key['und'][0]['value'])){
-    $url = 'https://localhost/data/api/3/action/organization_list_for_user?permission=read';
+    $url = 'http://localhost:8080/data/api/3/action/organization_list_for_user?permission=read';
     $options = array(
         'method' => 'GET',
         'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
@@ -151,7 +151,7 @@ function ytp_tutorial_has_published_data() {
   if ( isset($temp->field_ckan_api_key['und']) && 
     isset($temp->field_ckan_api_key['und'][0]) && 
     isset($temp->field_ckan_api_key['und'][0]['value'])){
-    $url = 'https://localhost/data/api/3/action/user_show?id=' . $temp->name;
+    $url = 'http://localhost:8080/data/api/3/action/user_show?id=' . $temp->name;
     $options = array(
         'method' => 'GET',
         'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
@@ -386,7 +386,7 @@ function ytp_tutorial_get_organization_list() {
   $organizations = array();
   $unjoinable_organizations = array('yksityishenkilo', 'z_avoindatafi_metadata');
 
-  $url = 'https://localhost/data/api/3/action/organization_list?all_fields=true';
+  $url = 'http://localhost:8080/data/api/3/action/organization_list?all_fields=true';
   $options = array(
     'method' => 'GET'
   );

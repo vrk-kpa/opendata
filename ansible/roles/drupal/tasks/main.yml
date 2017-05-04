@@ -5,11 +5,12 @@
 - name: Ensure Drupal packages
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - php5-pgsql
-    - php5-gd
-    - php5-fpm
-    - php5-cli
-    - php5
+    - php-pgsql
+    - php-gd
+    - php-fpm
+    - php-cli
+    - php
+    - php-xml
   tags:
   - packages
   - drupal
@@ -30,40 +31,40 @@
   - drupal
 
 - name: Set PHP pathinfo
-  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
   tags:
   - drupal
 
 - name: Set PHP max file upload size
-  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=upload_max_filesize value={{ ckan_max_resource_size }}M
+  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=upload_max_filesize value={{ ckan_max_resource_size }}M
   tags:
   - drupal
 
 - name: Set PHP max memory limit
-  ini_file: dest=/etc/php5/fpm/php.ini section=PHP option=memory_limit value=200M
+  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=memory_limit value=200M
   tags:
   - drupal
 
 
 - name: Set PHP socket (listen)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
   tags:
   - drupal
 
 # The listen.owner, listen.group, and listen.mode options are used for setting the permissions so that
 # nginx does not return 502 Bad Gateway (because of permission denied)
 - name: Set PHP socket (listen owner)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
   tags:
   - drupal
 
 - name: Set PHP socket (listen group)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
   tags:
   - drupal
 
 - name: Set PHP socket (listen mode)
-  ini_file: dest=/etc/php5/fpm/pool.d/www.conf section=www option=listen.mode value=0660
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
   tags:
   - drupal
 
@@ -358,7 +359,7 @@
 - include: translations.yml
 
 - name: Ensure PHP-FPM is restarted
-  service: name=php5-fpm state=restarted
+  service: name=php7.0-fpm state=restarted
   tags:
   - drupal
 

@@ -109,3 +109,6 @@
   when: modules_copy|changed
   tags:
   - resources
+
+
+- include: pip.yml

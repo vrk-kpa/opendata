@@ -16,7 +16,7 @@ import getpass
 class YtpDevelopMain(object):
     """ Dynamic handler class that replaces sources from static location. Hides complexity of package installation. """
 
-    source_path = "/src/modules"
+    source_path = "/vagrant/modules"
     virtual_environment = "/usr/lib/ckan/default"
     _mappings = None
 

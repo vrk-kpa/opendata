@@ -5,7 +5,7 @@
 if [ ! `psql -h {{ database_host }} -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'" {{ drupal_database_name }} {{ drupal_database_username }}` ]; then
 
     # Download Drupal and copy default settings
-    drush dl drupal --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
+    drush dl drupal-7.x --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
     mkdir -p {{ drupal_root }}/sites/default/files
     chown {{ www_user }}:{{ www_group }} {{ drupal_root }}/sites/default/files
 

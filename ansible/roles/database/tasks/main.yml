@@ -3,7 +3,7 @@
 - name: Install postgresql
   action: apt pkg="{{ item }}" state=latest
   with_items:
-    - postgresql
+    - postgresql-9.5
   tags:
   - packages
   - database
@@ -12,10 +12,21 @@
 - name: Copy Postgresql configurations
   action: template src={{ item.file }} dest={{ item.dest }} owner=postgres group=postgres mode="0640"
   with_items:
-  - { file: pg_hba.conf.j2, dest: /etc/postgresql/9.1/main/pg_hba.conf }
-  - { file: postgresql.conf.j2, dest: /etc/postgresql/9.1/main/postgresql.conf }
+  - { file: pg_hba.conf.j2, dest: /etc/postgresql/9.5/main/pg_hba.conf }
+  - { file: postgresql.conf.j2, dest: /etc/postgresql/9.5/main/postgresql.conf }
   tags:
   - database
+
+- name: Generate self-signed SSL certificate
+  command: openssl req -new -nodes -x509 -subj "/C=FI/ST=Helsinki/L=Helsinki/O=IT/CN={{ hostname }}" -days 3650 -keyout "/var/lib/postgresql/9.5/main/server.key" -out "/var/lib/postgresql/9.5/main/server.crt" -extensions v3_ca creates="/var/lib/postgresql/9.5/main/server.crt"
+  tags:
+    - database
+
+- name: Set certificate file ownership and mode
+  shell: chmod 600 /var/lib/postgresql/9.5/main/server.* && chown "postgres:postgres" /var/lib/postgresql/9.5/main/server.*
+  tags:
+      - database
+
 
 - name: Restart postgres
   service: name=postgresql state=restarted
@@ -23,7 +34,7 @@
   - database
 
 - name: Setup Postgresql users
-  sudo_user: postgres
+  become_user: postgres
   postgresql_user: user={{ item.user }} password={{ item.password }}
   with_items:
   - { user: "{{ ckan_database_username }}", password: "{{ ckan_database_password }}" }
@@ -48,7 +59,7 @@
   apt: pkg="{{ item }}" state=present
   register: postgis_installed
   with_items:
-    - postgresql-9.1-postgis
+    - postgresql-9.5-postgis-2.2
   tags:
   - packages
   - spatial
@@ -57,8 +68,8 @@
   command: sudo -u postgres psql -d "{{ ckan_database_name }}" -f "{{ item }}"
   when: postgis_installed|changed
   with_items:
-    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql"
-    - "/usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql"
+    - "/usr/share/postgresql/9.5/contrib/postgis-2.2/postgis.sql"
+    - "/usr/share/postgresql/9.5/contrib/postgis-2.2/spatial_ref_sys.sql"
   tags:
   - spatial
 
