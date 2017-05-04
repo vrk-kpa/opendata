@@ -138,7 +138,7 @@
             $temp = user_load($user->uid);
             $new_activities = 0;
             if ( isset($temp->field_ckan_api_key['und']) && isset($temp->field_ckan_api_key['und'][0]) && isset($temp->field_ckan_api_key['und'][0]['value'])){
-              $url = 'https://localhost/data/api/3/action/dashboard_new_activities_count';
+              $url = 'http://localhost:8080/data/api/3/action/dashboard_new_activities_count';
               $options = array(
                 'method' => 'GET',
                 'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])

@@ -269,7 +269,7 @@ function get_datasets($type, $order, $amount) {
   // Figure out amount of datasets shown
   $amount = is_int($amount) ? $amount : 5; // default: get 5 datasets
 
-  $url = 'https://localhost/data/api/3/action/package_search?sort=' . $sort . '+' . $order . '&rows=' . $amount;
+  $url = 'http://localhost:8080/data/api/3/action/package_search?sort=' . $sort . '+' . $order . '&rows=' . $amount;
   $options = array(
     'method' => 'GET'
   );
