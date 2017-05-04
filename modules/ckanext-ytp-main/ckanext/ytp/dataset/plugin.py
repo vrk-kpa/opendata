@@ -6,7 +6,7 @@ from ckan.lib.munge import munge_title_to_name
 from ckan.logic import get_action, NotFound
 from ckan.common import _, c, request
 from ckan.model import Session
-from ckan import new_authz as authz
+from ckan import authz as authz
 from webhelpers.html import escape
 from pylons import config
 

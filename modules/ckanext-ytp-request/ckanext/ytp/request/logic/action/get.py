@@ -5,7 +5,7 @@ from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
 
 import logging
-import ckan.new_authz as authz
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 

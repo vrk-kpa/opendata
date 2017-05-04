@@ -7,7 +7,7 @@ from ckan.lib.helpers import url_for
 from ckanext.ytp.request.mail import mail_new_membership_request
 from ckanext.ytp.request.helper import get_safe_locale
 import logging
-import ckan.new_authz as authz
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 

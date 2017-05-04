@@ -14,7 +14,7 @@ from ckan.logic import auth
 from ckanext.harvest.model import HarvestObject
 from ckan.lib.navl.dictization_functions import missing, Invalid
 
-import ckan.new_authz as authz
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 
