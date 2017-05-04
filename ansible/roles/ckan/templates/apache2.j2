@@ -16,9 +16,9 @@ WSGISocketPrefix /var/run/wsgi
     ErrorLog /var/log/apache2/ckan_default.error.log
     CustomLog /var/log/apache2/ckan_default.custom.log combined
 
-    SSLEngine on
-    SSLCertificateFile      {{ certificates_path }}/{{ssl_crt_primary}}
-    SSLCertificateKeyFile   {{ certificates_path }}/{{ssl_key_primary}}
+    #SSLEngine on
+    #SSLCertificateFile      {{ certificates_path }}/{{ssl_crt_primary}}
+    #SSLCertificateKeyFile   {{ certificates_path }}/{{ssl_key_primary}}
 
     # allow CORS
     Header always set Access-Control-Allow-Origin "*"
@@ -32,6 +32,9 @@ WSGISocketPrefix /var/run/wsgi
     RewriteCond %{REQUEST_METHOD} OPTIONS
     RewriteRule ^(.*)$ $1 [R=200,L]
 
+    <Directory "/etc/ckan/default">
+        Require all granted
+    </Directory>
 </VirtualHost>
 
 {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
