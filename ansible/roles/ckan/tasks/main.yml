@@ -98,10 +98,8 @@
 - name: Disable Apache sites
   file: path="/etc/apache2/sites-enabled/{{ item }}" state=absent
   with_items:
-    - default
-    - default-ssl
-    - ckan_default
-    - ckan_default.conf
+    - 000-default.conf
+    - default-ssl.conf
   tags:
   - apache
   - ckan
@@ -125,13 +123,13 @@
   - ckan
 
 - name: Copy Apache configuration
-  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp" mode="0644" owner=root group=root
+  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp.conf" mode="0644" owner=root group=root
   tags:
   - apache
   - ckan
 
 - name: Enable Apache configuration
-  file: src="/etc/apache2/sites-available/ytp" dest=/etc/apache2/sites-enabled/ytp state=link owner=root group=root
+  file: src="/etc/apache2/sites-available/ytp.conf" dest=/etc/apache2/sites-enabled/ytp.conf state=link owner=root group=root
   notify: Restart Apache
   tags:
   - apache
@@ -228,8 +226,13 @@
   - qa
 
 
-- name: Copy CKAN executable
-  copy: src=ckan.py dest=/usr/bin/ckan mode="0755" owner=root group=root
+- name: Copy CKAN configuration files
+
+  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  with_items:
+    - { src: ckan.py, dest: /usr/bin/ckan, mode: "0755", owner: root, group: root }
+    - { src: apache.wsgi, dest: /etc/ckan/default/apache.wsgi, mode: "0640", owner: root, group: "{{ www_group }}" }
+    - { src: who.ini, dest: "{{ ckan_who_ini }}", mode: "0644", owner: root, group: "{{ www_group }}"}
   tags:
     - ckan
 
