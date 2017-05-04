@@ -59,7 +59,7 @@
 #  tags:
 #  - ckan
 
-- include: patch.yml
+#- include: patch.yml
 
 - name: Create CKAN files path
   file: path={{ item }} state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
