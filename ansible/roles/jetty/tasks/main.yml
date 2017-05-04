@@ -54,7 +54,7 @@
   - jetty
 
 - name: Setup Jetty
-  template: src="jetty.j2" dest="/etc/default/jetty" mode="0644" owner=root group=root
+  template: src="jetty.j2" dest="/etc/default/jetty8" mode="0644" owner=root group=root
   register: jetty_setup
   tags:
   - jetty
