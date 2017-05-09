@@ -1,7 +1,7 @@
 import logging
 from pylons.i18n import _
 
-import ckan.new_authz as authz
+import ckan.authz as authz
 from ckan import logic
 import ckanext.ytp.comments.model as comment_model
 

@@ -7,7 +7,7 @@ import ckan.lib.navl.dictization_functions as dictization_functions
 from ckan.lib import helpers as h
 from ckan.controllers.user import UserController
 from ckan.lib.base import abort, validate, render
-import ckan.new_authz as authz
+import ckan.authz as authz
 
 
 import logging

@@ -1,5 +1,5 @@
 import logging
-from ckan import model, new_authz
+from ckan import model, authz
 from ckan.common import c, _
 
 log = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ def member_request(context, data_dict):
     if not c.userobj:
         return {'success': False}
 
-    if new_authz.is_sysadmin(c.user):
+    if authz.is_sysadmin(c.user):
         return {'success': True}
 
     membership = model.Member.get(data_dict.get("mrequest_id"))
@@ -38,6 +38,6 @@ def member_requests_list(context, data_dict):
 
 
 def _only_registered_user():
-    if not new_authz.auth_is_loggedin_user():
+    if not authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
     return {'success': True}
