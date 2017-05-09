@@ -1,3 +1,6 @@
 [submodule "modules/ckanext-report"]
 	path = modules/ckanext-report
 	url = https://github.com/6aika/ckanext-report.git
+[submodule "modules/ckanext-harvest"]
+	path = modules/ckanext-harvest
+	url = https://github.com/ckan/ckanext-harvest.git
