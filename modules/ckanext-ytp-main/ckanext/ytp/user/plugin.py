@@ -29,8 +29,6 @@ def helper_is_pseudo(user):
 
 def helper_linked_user(user, maxlength=0, avatar=20):
     """ Return user as HTML item """
-    if helper_is_pseudo(user):
-        return user
     if not isinstance(user, model.User):
         user_name = unicode(user)
         user = model.User.get(user_name)

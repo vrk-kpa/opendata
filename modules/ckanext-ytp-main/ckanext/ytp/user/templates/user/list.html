@@ -23,7 +23,6 @@
         <ul class="user-list">
           {% block users_list_inner %}
             {% for user in c.page.items %}
-              {% if not h.is_pseudo(user['name']) %}
               <li>
                 {{ h.linked_user(user['name'], maxlength=20, avatar=60) }}
                 <p>
@@ -38,7 +37,6 @@
                 {{ main_organization }}
                 </p>
               </li>
-              {% endif %}
             {% endfor %}
           {% endblock %}
         </ul>
