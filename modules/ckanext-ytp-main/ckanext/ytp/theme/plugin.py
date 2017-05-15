@@ -128,7 +128,7 @@ class YtpThemePlugin(plugins.SingletonPlugin):
         logo = self.logos.get(dict_key, self.logos.get('default', None))
 
         if logo:
-            return literal('<img src="%s" class="site-logo" />' % helpers.url_for_static("/resources/images/logo/%s" % logo))
+            return literal('<img src="%s" class="site-logo" />' % helpers.url_for_static("/images/logo/%s" % logo))
         else:
             return self._short_domain(hostname, default)
 
