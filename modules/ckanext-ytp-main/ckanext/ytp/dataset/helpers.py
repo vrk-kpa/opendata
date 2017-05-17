@@ -3,6 +3,7 @@ import json
 from ckan.common import c, request
 from ckan.lib import helpers
 from ckan.logic import get_action
+from ckan.plugins import toolkit
 
 import os
 import logging

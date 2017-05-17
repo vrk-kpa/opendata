@@ -208,7 +208,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
-        m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        #m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type', controller=controller)
         return m
 
@@ -409,8 +409,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
             return user.name
 
     def _get_user(self, user):
-        if user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]:
-            return user
         if not isinstance(user, model.User):
             user_name = unicode(user)
             user = model.User.get(user_name)
