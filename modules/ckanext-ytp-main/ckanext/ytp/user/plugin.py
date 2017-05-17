@@ -99,7 +99,10 @@ class YtpUserPlugin(plugins.SingletonPlugin):
         return {'user_update': logic.auth_user_update, 'user_list': logic.auth_user_list, 'admin_list': logic.auth_admin_list}
 
     def get_actions(self):
-        return {'user_update': logic.action_user_update, 'user_show': logic.action_user_show, 'user_list': logic.action_user_list}
+        return {
+            'user_update': logic.action_user_update,
+            #'user_show': logic.action_user_show,
+             'user_list': logic.action_user_list}
 
     def before_map(self, map):
         # Remap user edit to our user controller
@@ -108,6 +111,6 @@ class YtpUserPlugin(plugins.SingletonPlugin):
             m.connect('/user/edit', action='edit')
             m.connect('/user/edit/{id:.*}', action='edit')
             m.connect('/user/me', action='me')
-            m.connect('/user/{id}', action='read')
+            #m.connect('/user/{id}', action='read')
 
         return map

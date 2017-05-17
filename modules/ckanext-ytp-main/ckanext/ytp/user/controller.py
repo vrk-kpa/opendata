@@ -6,9 +6,10 @@ from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_
 import ckan.lib.navl.dictization_functions as dictization_functions
 from ckan.lib import helpers as h
 from ckan.controllers.user import UserController
-from ckan.lib.base import abort, validate, render
+from ckan.lib.base import abort, render
 import ckan.authz as authz
 
+from paste.deploy.converters import asbool
 
 import logging
 
@@ -37,7 +38,7 @@ class YtpUserController(UserController):
         try:
             check_access('user_update', context, data_dict)
         except NotAuthorized:
-            abort(401, _('Unauthorized to edit a user.'))
+            abort(403, _('Unauthorized to edit a user.'))
 
         if (context['save']) and not data:
             return self._save_edit(id, context)
@@ -47,7 +48,8 @@ class YtpUserController(UserController):
 
             schema = self._db_to_edit_form_schema()
             if schema:
-                old_data, errors = validate(old_data, schema)
+                old_data, errors = \
+                    dictization_functions.validate(old_data, schema, context)
 
             c.display_name = old_data.get('display_name')
             c.user_name = old_data.get('name')
@@ -55,14 +57,15 @@ class YtpUserController(UserController):
             data = data or old_data
 
         except NotAuthorized:
-            abort(401, _('Unauthorized to edit user %s') % '')
+            abort(403, _('Unauthorized to edit user %s') % '')
         except NotFound:
             abort(404, _('User not found'))
 
         user_obj = context.get('user_obj')
 
-        if not (authz.is_sysadmin(c.user) or c.user == user_obj.name):
-            abort(401, _('User %s not authorized to edit %s') %
+        if not (authz.is_sysadmin(c.user)
+                or c.user == user_obj.name):
+            abort(403, _('User %s not authorized to edit %s') %
                   (str(c.user), id))
 
         errors = errors or {}
@@ -70,11 +73,11 @@ class YtpUserController(UserController):
 
         self._setup_template_variables({'model': model,
                                         'session': model.Session,
-                                        'user': c.user or c.author},
+                                        'user': c.user},
                                        data_dict)
 
         c.is_myself = True
-        c.show_email_notifications = h.asbool(
+        c.show_email_notifications = asbool(
             config.get('ckan.activity_streams_email_notifications'))
         c.form = render(self.edit_user_form, extra_vars=vars)
 
@@ -122,7 +125,7 @@ class YtpUserController(UserController):
             h.flash_success(_('Profile updated'))
             h.redirect_to('home')
         except NotAuthorized:
-            abort(401, _('Unauthorized to edit user %s') % id)
+            abort(403, _('Unauthorized to edit user %s') % id)
         except NotFound, e:
             abort(404, _('User not found'))
         except DataError:
