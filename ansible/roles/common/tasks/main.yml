@@ -10,20 +10,20 @@
 - include: timezone.yml
 
 - name: Set hostname
-  template: src="hostname.j2" dest="/etc/hostname" mode="0644" owner=root group=root
+  command: hostname {{ hostname }}
   register: hostname_update
   tags:
   - common
   - non-local
   - has-hostname
 
-- name: Update hostname
-  command: service hostname start
-  when: hostname_update|changed
-  tags:
-  - common
-  - non-local
-  - has-hostname
+#- name: Update hostname
+#  command: service hostname start
+#  when: hostname_update|changed
+#  tags:
+#  - common
+#  - non-local
+#  - has-hostname
 
 - name: Copy environment
   template: src="environment.j2" dest="/etc/environment" mode="0644" owner=root group=root
