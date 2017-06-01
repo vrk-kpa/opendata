@@ -1,6 +1,6 @@
 import logging
 
-from ckan import new_authz, model
+from ckan import authz, model
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ def member_request_reject(context, data_dict):
 
 def _check_admin_access(context, data_dict):
     """ Approve access check """
-    if new_authz.is_sysadmin(context.get('user', None)):
+    if authz.is_sysadmin(context.get('user', None)):
         return {'success': True}
 
     user = model.User.get(context.get('user', None))

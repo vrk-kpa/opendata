@@ -19,7 +19,7 @@
 
   {% set translate_data = data %}
   {% if not data.translations %}
-    {% set translate_data = h.get_action('package_show', {'id': pkg_name}) %}
+    {% set translate_data = h.get_package( pkg_name) %}
   {% endif %}
 
   {{ h.snippet('package/ytp/language_bar.html', data=translate_data) }}

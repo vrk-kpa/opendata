@@ -1,5 +1,5 @@
 from ckanext.ytp.request.helper import get_user_member
-from ckan import new_authz
+from ckan import authz
 import logging
 from ckan.common import _
 log = logging.getLogger(__name__)
@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 
 def member_request_create(context, data_dict):
     """ Only allow to logged in users """
-    if not new_authz.auth_is_loggedin_user():
+    if not authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
 
     organization_id = None if not data_dict else data_dict.get(

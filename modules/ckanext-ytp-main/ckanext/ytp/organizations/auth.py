@@ -1,6 +1,6 @@
 from ckan import model
 from ckan.common import _, c
-import ckan.new_authz as authz
+import ckan.authz as authz
 import ckan.logic.auth as logic_auth
 
 

@@ -28,7 +28,7 @@ def get_original_method(module_name, method_name):
 
 def get_locales():
     """ Return all available locales strings. """
-    return [locale.language for locale in helpers.get_available_locales()]
+    return [locale.language for locale in helpers.i18n.get_available_locales()]
 
 
 def add_translation_modify_schema(schema):
