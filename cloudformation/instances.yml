@@ -1,0 +1,205 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: opendata application infrastructure
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: infratest
+    AllowedValues:
+      - infratest
+      - dev
+      - alpha
+      - beta
+      - gamma
+  InstanceType:
+    Description: EC2 instance type for the application servers
+    Type: String
+    Default: t2.small
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+    ConstraintDescription: "Must be one of the following EC2 instance types: t2.micro, t2.small, t2.medium, t2.large"
+  DatabaseSecurityGroup:
+    Description: Security group of the RDS database
+    Type: AWS::EC2::SecurityGroup::Id
+    MinLength: 1
+  EFSFileSystem:
+    Description: Name of the EFS filesystem
+    Type: String
+    MinLength: 1
+  EFSSecurityGroup:
+    Description: Security group of the EFS filesystem
+    Type: AWS::EC2::SecurityGroup::Id
+    MinLength: 1
+  HostedZoneId:
+    Description: Zone ID for the DNS record
+    Type: AWS::Route53::HostedZone::Id
+    Default: Z3MUEH1DAIWOFS
+    MinLength: 1
+  WhitelistedIpAddress:
+    Type: String
+    Default: 193.64.225.83/32
+    MinLength: 1
+  GitBranch:
+    Description: Git branch to checkout
+    Type: String
+    Default: master
+    MinLength: 1
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-c0cff0a6 # Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
+      KeyName: ytp-seeding-key
+      IamInstanceProfile: !Ref InstanceProfile
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp2
+            VolumeSize: 20
+            DeleteOnTermination: true
+      Tags:
+        - Key: Name
+          Value: !Sub avoindata-${EnvironmentName}
+      UserData: !Base64
+        "Fn::Sub": |
+          #!/bin/bash
+
+          export HOME=/root
+          export DEBIAN_FRONTEND=noninteractive
+
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install libssl-dev libffi-dev python-dev python-pip git nfs-common
+          pip install pip setuptools --upgrade
+          pip install awscli ansible markupsafe
+
+          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >>/etc/fstab
+          echo '/mnt/var_lib_acme /var/lib/acme none defaults,bind 0 0' >>/etc/fstab
+          echo '/mnt/opt_datacatalog_data_ckan /opt/datacatalog/data/ckan none defaults,bind 0 0' >>/etc/fstab
+          mount -a -t nfs4
+          mkdir -p /var/lib/acme /opt/datacatalog/data/ckan
+          mount /var/lib/acme
+          mount /opt/datacatalog/data/ckan
+
+          cd /root
+          git clone -b ${GitBranch} https://github.com/yhteentoimivuuspalvelut/ytp.git
+
+          cd /root/ytp/cloudformation/bootstrap
+          ansible-playbook -i localhost, deploy.yml
+
+          cd /root/ytp
+          git submodule update --init --recursive
+
+          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/google_analytics_credentials.json /root/avoindata-secrets/${EnvironmentName}/google_analytics_credentials.json
+          chmod -R go-rwx /root/avoindata-secrets/*
+
+          cd /root/ytp/ansible
+          ansible-playbook -i inventories/${EnvironmentName} single-server.yml
+
+          echo "Bootstrap done."
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and HTTP
+      SecurityGroupIngress:
+        - FromPort: 22
+          ToPort: 22
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddress
+        - FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+        - FromPort: 443
+          ToPort: 443
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+        - FromPort: 8983
+          ToPort: 8983
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddress
+
+  DatabaseIngressRule:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 5432
+      ToPort: 5432
+      GroupId: !Ref DatabaseSecurityGroup
+      SourceSecurityGroupName: !Ref InstanceSecurityGroup
+
+
+  EFSIngressRule:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 2049
+      ToPort: 2049
+      GroupId: !Ref EFSSecurityGroup
+      SourceSecurityGroupName: !Ref InstanceSecurityGroup
+
+  ElasticAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref EC2Instance
+
+  DomainName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Name: !Sub ${EnvironmentName}.avoindata.fi.
+      Type: A
+      TTL: 300
+      HostedZoneId: !Ref HostedZoneId
+      ResourceRecords:
+        - !Ref ElasticAddress
+
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: ec2.amazonaws.com
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:aws:s3:::avoindata-secrets/${EnvironmentName}/*"
+              - Effect: Allow
+                Action: "*"
+                Resource:
+                  - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
+                  - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets/*"
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref InstanceRole
+
+Outputs:
+  InstanceId:
+    Value: !Ref EC2Instance
+  PublicDNS:
+    Value: !GetAtt EC2Instance.PublicDnsName
+  SiteURL:
+    Value: !Sub https://${EnvironmentName}.avoindata.fi
+  AZ:
+    Value: !GetAtt EC2Instance.AvailabilityZone
+  PublicIP:
+    Value: !GetAtt EC2Instance.PublicIp

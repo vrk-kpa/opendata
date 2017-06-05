@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - "vars/common.yml"
+  roles:
+    - ssh
