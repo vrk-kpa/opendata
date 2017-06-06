@@ -23,7 +23,7 @@ who.config_file = %(here)s/who.ini
 who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
-sqlalchemy.url = postgres://{{ ckan_database_username }}:{{ ckan_database_password }}@{{ ckan_database_host }}/{{ ckan_database_name }}
+sqlalchemy.url = postgres://{{ postgres.users.ckan.username }}:{{ postgres.users.ckan.password }}@{{ postgres.server.host }}/{{ postgres.databases.ckan.name }}
 
 ckan.site_url = https://{{ hostname }}
 ckan.site_url_internally = https://{{ hostname }}/data/
@@ -31,8 +31,8 @@ ckan.site_url_internally = https://{{ hostname }}/data/
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
-ckan.datastore.write_url = postgresql://{{ datastore_database_username }}:{{ datastore_database_password }}@{{ datastore_database_host }}/{{ datastore_database_name }}
-ckan.datastore.read_url = postgresql://{{ datastore_username }}:{{ datastore_password }}@{{ datastore_database_host }}/{{ datastore_database_name }}
+ckan.datastore.write_url = postgresql://{{ postgres.users.ckan.username }}:{{ postgres.users.ckan.password }}@{{ postgres.server.host }}/{{ postgres.databases.ckan_datastore.name }}
+ckan.datastore.read_url = postgresql://{{ postgres.users.ckan_datastore.username }}:{{ postgres.users.ckan_datastore.password }}@{{ postgres.server.host }}}/{{ postgres.databases.ckan_datastore.name }}
 
 ckan.auth.anon_create_dataset = false
 ckan.auth.create_unowned_dataset = false
@@ -72,7 +72,7 @@ smtp.server = {{ email_domain_access }}
 smtp.starttls = False
 smtp.mail_from = no-reply
 
-ckanext.ytp.drupal.connection = postgres://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+ckanext.ytp.drupal.connection = postgres://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ redis_hostname }}
@@ -88,7 +88,7 @@ ckanext-datarequests.datarequest_notifications_admin_email = None
 
 ckanext.drupal7.domain = {{ hostname }},{{ secondary_hostname }}
 ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
-ckanext.drupal7.connection = postgresql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ database_host }}/{{ drupal_database_name }}
+ckanext.drupal7.connection = postgres://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }}
 ckanext.drupal7.allow_edit = true
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json

@@ -1,14 +1,8 @@
 local all postgres peer
-host {{ ckan_database_name }} {{ ckan_database_username }} {{ database_ip_range }} md5
-host {{ ckan_database_name }} {{ ckan_database_username }} 127.0.0.0/8 md5
-host {{ datastore_database_name }} {{ datastore_database_username }} {{ database_ip_range }} md5
-host {{ datastore_database_name }} {{ datastore_database_username }} 127.0.0.0/8 md5
-host {{ datastore_database_name }} {{ datastore_username }} {{ database_ip_range }} md5
-host {{ datastore_database_name }} {{ datastore_username }} 127.0.0.0/8 md5
-host {{ drupal_database_name }} {{ drupal_database_username }} {{ database_ip_range }} password
-host {{ drupal_database_name }} {{ drupal_database_username }} 127.0.0.0/8 password
-{% if vagrant is defined -%}
-local {{ ckan_test_database.name }} {{ ckan_test_database.username }} md5
-host {{ ckan_test_database.name }} {{ ckan_test_database.username }} 127.0.0.0/8 md5
-host postgres {{ drupal_database_username }} {{ database_ip_range }} password
-{%- endif %}
+local all all peer
+host all all 127.0.0.1/32 md5
+host all all ::1/128 md5
+host {{ postgres.databases.ckan.name }} {{ postgres.users.ckan.username }} {{ postgres.server.trusted_ip_range }} md5
+host {{ postgres.databases.ckan_datastore.name }} {{ postgres.users.ckan.username }} {{ postgres.server.trusted_ip_range }} md5
+host {{ postgres.databases.ckan_datastore.name }} {{ postgres.users.ckan_datastore.username }} {{ postgres.server.trusted_ip_range }} md5
+host {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }} {{ postgres.server.trusted_ip_range }} md5

@@ -1,10 +1,5 @@
 ---
 
-# Database hostname is the first database under dbserver group in Ansible inventory file
-database_host: "{{ hostvars[groups['dbserver'][0]]['inventory_hostname'] }}"
-# Database is expected to be in the same subnet as the webservers
-database_ip_range: "{% if vagrant is defined %}10.0.0.0/8{% else %}172.16.0.0/12{% endif %}"
-database_port: 5432
 
 solr_host: "{{ database_host }}"
 solr_port: "8983"
@@ -12,23 +7,11 @@ solr_port: "8983"
 redis_hostname: "{{ database_host }}"
 redis_port: "6379"
 
-ckan_database_name: ckan_default
-ckan_database_username: ckan_default
-ckan_database_password: pass
-ckan_database_host: "{{ database_host }}"
 
 ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
 
-datastore_database_name: datastore_default
-datastore_database_username: datastore_database_default
-datastore_database_password: pass
-datastore_username: datastore_default
-datastore_password: pass
-datastore_database_host: "{{ database_host }}"
 
-drupal_database_name: drupal
-drupal_database_username: drupal
-drupal_database_password: drupal
+
 
 www_root: /var/www
 www_user: www-data
@@ -121,3 +104,39 @@ recaptcha_private_key: "6Lcq_vsSAAAAADKfbYWkYGV53s2_4UWyuVpMP89X"
 Reindex: false
 
 show_postit_demo: true
+
+
+postgres:
+  users:
+    ckan:
+      username: ckan_default
+      password: "{{ secret.database_ckan_password }}"
+    ckan_datastore:
+      username: datastore_default
+      password: "{{ secret.database_ckan_datastore_password }}"
+    drupal:
+      username: drupal
+      password: "{{ secret.database_drupal_password }}"
+
+  server:
+    installed_locally: true
+    host: 127.0.0.1
+    port: 5432
+    admin_user: postgres
+    admin_password:
+    trusted_ip_range: 10.0.0.0/8
+  databases:
+    ckan:
+      name: ckan_default
+      owner: ckan_default
+    ckan_datastore:
+      name: datastore_default
+      owner: ckan_default
+    drupal:
+      name: drupal
+      owner: drupal
+
+secret:
+  database_ckan_password: pass
+  database_ckan_datastore_password: pass
+  database_drupal_password: pass
