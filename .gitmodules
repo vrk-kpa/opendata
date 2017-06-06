@@ -10,3 +10,7 @@
 [submodule "modules/ckanext-hierarchy"]
 	path = modules/ckanext-hierarchy
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-hierarchy.git
+[submodule "modules/ckanext-spatial"]
+	path = modules/ckanext-spatial
+	url = https://github.com/yhteentoimivuuspalvelut/ckanext-spatial.git
+	branch = ytp
