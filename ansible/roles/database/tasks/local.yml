@@ -66,7 +66,7 @@
   - spatial
 
 - name: Spatial table references
-  command: sudo -u postgres psql -d "{{ ckan_database_name }}" -f "{{ item }}"
+  command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -f "{{ item }}"
   when: postgis_installed|changed
   with_items:
     - "/usr/share/postgresql/9.5/contrib/postgis-2.2/postgis.sql"
@@ -80,7 +80,7 @@
   with_items: "{{ sql_files_to_execute }}"
 
 - name: Spatial table rights
-  command: sudo -u postgres psql -d "{{ postgres.users.ckan.username }}" -c "{{ item }}"
+  command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -c "{{ item }}"
   when: postgis_installed|changed
   with_items:
     - "ALTER TABLE spatial_ref_sys OWNER TO {{ postgres.users.ckan.username }};"
