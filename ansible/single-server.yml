@@ -2,7 +2,7 @@
 
 # This playbook installs all roles on a single server
 
-- hosts: webserver
+- hosts: mainserver
   sudo: true
   vars:
     database_host: "127.0.0.1"
