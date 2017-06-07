@@ -1,0 +1,6 @@
+[mainserver]
+localhost ansible_ssh_user=ubuntu
+
+[mainserver:vars]
+deployment_environment_id=Infratest
+secrets_file_path="../../avoindata-secrets/Infratest/secrets.yml"
