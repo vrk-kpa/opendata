@@ -1,5 +1,5 @@
 [mainserver]
-localhost ansible_ssh_user=ubuntu
+localhost ansible_ssh_user=ubuntu ansible_connection=local
 
 [mainserver:vars]
 deployment_environment_id=Infratest
