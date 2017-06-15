@@ -6,7 +6,6 @@
     - postgresql-client
 
 - name: Setup postgres users
-  become_user: postgres
   postgresql_user:
     db: postgres
     user: "{{ item.value.username }}"
@@ -29,7 +28,6 @@
   with_dict: "{{ postgres.users }}"
 
 - name: Setup postgres databases
-  become_user: postgres
   postgresql_db:
     name: "{{ item.value.name }}"
     owner: "{{ item.value.owner }}"
@@ -48,7 +46,6 @@
   with_items: "{{ sql_files_to_execute }}"
 
 - name: Execute SQL files
-  become_user: postgres
   shell: cat /tmp/{{ item }} | psql -d datastore_default -h "{{ postgres.server.host }}" -U "{{ postgres.server.admin_user }}" --set ON_ERROR_STOP=1
   with_items: "{{ sql_files_to_execute }}"
   environment:
