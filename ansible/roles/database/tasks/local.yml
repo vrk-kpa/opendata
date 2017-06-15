@@ -114,7 +114,8 @@
   - non-local
 
 - name: Run backup now
-  command: /usr/sbin/autopostgresqlbackup
+  command: /usr/sbin/autopostgresqlbackup chdir='/tmp'
+  become_user: postgres
   tags:
   - database
   - backup
