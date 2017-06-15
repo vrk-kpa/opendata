@@ -98,6 +98,8 @@ Resources:
           git submodule update --init --recursive
 
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
+
           chmod -R go-rwx /root/avoindata-secrets/*
 
           cd /root/ytp/ansible
