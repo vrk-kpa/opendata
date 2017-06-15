@@ -15,7 +15,7 @@ if [ ! `psql -h {{ database_host }} -tAc "SELECT 1 FROM pg_tables WHERE schemana
     # Install Drupal
     cd {{ drupal_root }}
     drush site-install -y standard --account-name={{ admin.username }} --account-pass={{ admin.password }} \
-        --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }}
+        --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ secret.database_drupal_password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }}
 
     cd -
 fi
