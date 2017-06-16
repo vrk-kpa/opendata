@@ -140,3 +140,5 @@ secret:
   database_ckan_password: pass
   database_ckan_datastore_password: pass
   database_drupal_password: pass
+
+rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
