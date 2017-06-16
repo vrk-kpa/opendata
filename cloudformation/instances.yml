@@ -81,12 +81,9 @@ Resources:
           pip install awscli ansible markupsafe
 
           echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >>/etc/fstab
-          echo '/mnt/var_lib_acme /var/lib/acme none defaults,bind 0 0' >>/etc/fstab
-          echo '/mnt/opt_datacatalog_data_ckan /opt/datacatalog/data/ckan none defaults,bind 0 0' >>/etc/fstab
+          echo '/mnt/ytp_shared /srv/ytp/shared none defaults,bind 0 0' >>/etc/fstab
           mount -a -t nfs4
-          mkdir -p /var/lib/acme /opt/datacatalog/data/ckan
-          mount /var/lib/acme
-          mount /opt/datacatalog/data/ckan
+          mount /srv/ytp/shared
 
           cd /root
           git clone -b ${GitBranch} https://github.com/yhteentoimivuuspalvelut/ytp.git
