@@ -18,8 +18,8 @@
     - users
     - clean
     - database
-    - nfs_server
-    - nfs_client
+    #- nfs_server
+    #- nfs_client
     - common_webserver
     - ssl
     - nginx
