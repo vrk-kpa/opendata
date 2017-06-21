@@ -74,6 +74,13 @@
   tags:
   - drupal
 
+
+- name: Download Drupal
+  command: drush dl -n drupal-7.x --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
+
+- name: Copy  settings
+  template: src=settings.php.j2 dest={{ drupal_root }}/sites/default/settings.php owner={{ www_user }} group={{ www_group }}
+
 - name: Create Drupal installation script
   template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode="0700" owner=root group=root
   register: drupal_script

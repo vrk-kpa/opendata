@@ -2,7 +2,7 @@
 
 # Installs Drupal if there is no existing content in the Drupal database
 # Warning/TODO: if psql check fails then this will reinstall Drupal.
-if [ ! `PGPASSWORD={{secret.database_drupal_password}} psql -h {{ postgres.server.host }} -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'" {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}` ]; then
+if [ ! `PGPASSWORD={{ postgres.users.drupal.password }} psql -h {{ postgres.server.host }} -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'" {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}` ]; then
 
     # Download Drupal and copy default settings
     drush dl drupal-7.x --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
@@ -15,7 +15,7 @@ if [ ! `PGPASSWORD={{secret.database_drupal_password}} psql -h {{ postgres.serve
     # Install Drupal
     cd {{ drupal_root }}
     drush site-install -y standard --account-name={{ admin.username }} --account-pass={{ admin.password }} \
-        --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ secret.database_drupal_password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }}
+        --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }}
 
     cd -
 fi

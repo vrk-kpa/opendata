@@ -136,9 +136,13 @@ postgres:
       name: drupal
       owner: drupal
 
+drupal:
+  hash_salt: "{{ secret.drupal_hash_salt }}"
+
 secret:
   database_ckan_password: pass
   database_ckan_datastore_password: pass
   database_drupal_password: pass
+  drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
