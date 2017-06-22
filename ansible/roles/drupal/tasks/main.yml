@@ -216,7 +216,7 @@
 
     - recaptcha
     - honeypot
-    - node_expire
+    #- node_expire
 
     - draggableviews
     - commentsblock
