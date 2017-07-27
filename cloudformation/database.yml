@@ -35,6 +35,7 @@ Resources:
       Engine: postgres
       BackupRetentionPeriod: 7
       DBInstanceClass: db.t2.small
+      EngineVersion: 9.5.7
       MultiAZ: false
       StorageType: gp2
       DBInstanceIdentifier: !Sub avoindata-${EnvironmentName}
