@@ -74,24 +74,44 @@
   tags:
   - drupal
 
+- name: Check if drupal root is created
+  stat: path="{{ drupal_root }}"
+  register: drupal_dir
+
+- name: Check if site is already installed.
+  command: "drush --root={{ drupal_root }} status bootstrap"
+  args:
+    chdir: "{{ drupal_root }}"
+  register: drupal_site_installed
+  failed_when: "drupal_site_installed.stdout is undefined"
+  changed_when: false
+  when: drupal_dir.stat.isdir is defined and drupal_dir.stat.isdir
 
 - name: Download Drupal
   command: drush dl -n drupal-7.x --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
+  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
 
-- name: Copy  settings
+- name: Copy settings
   template: src=settings.php.j2 dest={{ drupal_root }}/sites/default/settings.php owner={{ www_user }} group={{ www_group }}
+  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
 
-- name: Create Drupal installation script
-  template: src=install-drupal.sh.j2 dest="{{ cache_path }}/install-drupal.sh" mode="0700" owner=root group=root
-  register: drupal_script
-  tags:
-  - drupal
+- name: Check if drupal is already initialized on database
+  command: >
+    psql -h {{ postgres.server.host }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
+    {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
+  register: drupal_database_initialized
 
-- name: Install Drupal
-  command: ./install-drupal.sh chdir="{{ cache_path }}"
-  when: drupal_script|changed
-  tags:
-  - drupal
+
+- name: Dump drupal db
+  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal_root }}" creates=/tmp/dump.sql
+  when: "(drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout) and '1' in drupal_database_initialized.stdout"
+  register: drupal_database_dumped
+
+
+- name: Install drupal (drops drupal db)
+  command: drush site-install -y standard --account-name={{ admin.username }} --account-pass={{ admin.password }} --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }} chdir={{ drupal_root }}
+  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout or drupal_database_dumped|changed"
 
 - name: Set robots.txt
   copy: src="{{ search_engine_robots_filename }}" dest="{{ drupal_root }}/robots.txt"
@@ -423,6 +443,16 @@
   when: create_upload_paths|changed
   tags:
   - drupal
+
+
+
+- name: Restore drupal database from dump
+  shell: drush sql-cli < /tmp/dump.sql chdir="{{ drupal_root}}"
+  when: drupal_database_dumped|changed
+
+- name: Remove drupal dump
+  file: path=/tmp/dump.sql state=absent
+
 
 - name: Update Drupal
   command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}" --lock=bootstrap
