@@ -38,6 +38,11 @@ Parameters:
     Type: AWS::Route53::HostedZone::Id
     Default: Z3MUEH1DAIWOFS
     MinLength: 1
+  HostedZoneIdAlternate:
+      Description: Zone ID for the DNS record
+      Type: AWS::Route53::HostedZone::Id
+      Default: Z3MUEH1DAIWOFS
+      MinLength: 1
   WhitelistedIpAddress:
     Type: String
     Default: 193.64.225.83/32
@@ -165,6 +170,16 @@ Resources:
       ResourceRecords:
         - !Ref ElasticAddress
 
+  DomainName:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        Name: !Sub ${EnvironmentName}.opendata.fi.
+        Type: A
+        TTL: 300
+        HostedZoneId: !Ref HostedZoneIdAlternate
+        ResourceRecords:
+          - !Ref ElasticAddress
+
   InstanceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -202,6 +217,8 @@ Outputs:
     Value: !GetAtt EC2Instance.PublicDnsName
   SiteURL:
     Value: !Sub https://${EnvironmentName}.avoindata.fi
+  SiteURLAlternate:
+    Value: !Sub https://${EnvironmentName}.opendata.fi
   AZ:
     Value: !GetAtt EC2Instance.AvailabilityZone
   PublicIP:
