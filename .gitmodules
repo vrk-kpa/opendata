@@ -14,3 +14,6 @@
 	path = modules/ckanext-spatial
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-spatial.git
 	branch = ytp
+[submodule "modules/ckanext-cloudstorage"]
+	path = modules/ckanext-cloudstorage
+	url = https://github.com/6aika/ckanext-cloudstorage.git

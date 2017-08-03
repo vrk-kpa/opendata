@@ -22,6 +22,7 @@ modules:
   - ckanext-report
   - ckanext-datarequests
   - ckanext-dcat
+  - ckanext-cloudstorage
 
 
 modules_path: ../modules

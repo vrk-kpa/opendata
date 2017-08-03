@@ -153,3 +153,12 @@ secret:
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
+
+
+AWS:
+  enabled: false
+  region: S3_EU_WEST
+  use_iam_role: false
+  access_key: somekey
+  secret_access_key: somesecret
+  ckan_s3_bucket: somebucket
