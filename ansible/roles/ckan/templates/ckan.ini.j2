@@ -117,7 +117,7 @@ ckanext.cloudstorage.driver_options = {}
 {%- endif %}
 
 {% if not AWS.use_iam_role -%}
-ckanext.cloudstorage.driver_options = {"key": "{{ AWS.access_key }}", "secret": "{{ AWS.secret_access_key }}"}
+ckanext.cloudstorage.driver_options = {"key": "{{ AWS.access_key }}", "secret": "{{ AWS.secret_access_key }}", "token": ""}
 
 {%- endif %}
 {%- endif %}
