@@ -350,6 +350,12 @@
   - ckan
   - google-analytics
 
+- name: Initialize cloudstorage database
+  shell: ./bin/paster --plugin=ckanext-cloudstorage cloudstorage initdb "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
+  tags:
+  - ckan
+  - google-analytics
+
 
 - name: Copy credentials token
   copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode="0644" owner=root group="{{ www_group }}"
