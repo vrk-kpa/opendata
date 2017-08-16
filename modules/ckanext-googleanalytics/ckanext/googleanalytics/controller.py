@@ -15,6 +15,13 @@ from paste.util.multidict import MultiDict
 from ckan.controllers.api import ApiController
 from ckan.controllers.package import PackageController
 
+try:
+    from ckanext.cloudstorage.controller import StorageController
+    cloudstorage_imported = True
+except:
+    cloudstorage_imported = False
+    pass
+
 log = logging.getLogger('ckanext.googleanalytics')
 
 class GAApiController(ApiController):
@@ -129,5 +136,8 @@ class GAResourceController(PackageController):
 
     def resource_download(self, id, resource_id, filename=None):
         self._post_analytics(c.user, "Resource", "Download", resource_id)
-        return PackageController.resource_download(self, id, resource_id,
+        if cloudstorage_imported:
+            return StorageController.resource_download(self, id, resource_id, filename)
+        else:
+            return PackageController.resource_download(self, id, resource_id,
                                                    filename)
