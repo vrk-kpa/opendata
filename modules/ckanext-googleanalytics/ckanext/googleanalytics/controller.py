@@ -14,12 +14,14 @@ from paste.util.multidict import MultiDict
 
 from ckan.controllers.api import ApiController
 from ckan.controllers.package import PackageController
+from ckan.plugins import toolkit
 
 try:
-    from ckanext.cloudstorage.controller import StorageController
-    cloudstorage_imported = True
-except:
     cloudstorage_imported = False
+    if toolkit.plugin_loaded('cloudstorage'):
+        from ckanext.cloudstorage.controller import StorageController
+        cloudstorage_imported = True
+except:
     pass
 
 log = logging.getLogger('ckanext.googleanalytics')
