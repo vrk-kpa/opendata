@@ -16,13 +16,6 @@ from ckan.controllers.api import ApiController
 from ckan.controllers.package import PackageController
 from ckan.plugins import toolkit
 
-try:
-    cloudstorage_imported = False
-    if toolkit.plugin_loaded('cloudstorage'):
-        from ckanext.cloudstorage.controller import StorageController
-        cloudstorage_imported = True
-except:
-    pass
 
 log = logging.getLogger('ckanext.googleanalytics')
 
@@ -138,8 +131,5 @@ class GAResourceController(PackageController):
 
     def resource_download(self, id, resource_id, filename=None):
         self._post_analytics(c.user, "Resource", "Download", resource_id)
-        if cloudstorage_imported:
-            return StorageController.resource_download(self, id, resource_id, filename)
-        else:
-            return PackageController.resource_download(self, id, resource_id,
+        return PackageController.resource_download(self, id, resource_id,
                                                    filename)
