@@ -109,6 +109,9 @@ class GAApiController(ApiController):
         return ApiController.search(self, ver, register)
 
 
+# Ugly hack since ckanext-cloudstorage replaces resource_download action
+# and we can't inherit from the correct controller,
+# googleanalytics needs to before cloudstorage in plugin list
 OptionalController = PackageController
 if p.plugin_loaded('cloudstorage'):
     from ckanext.cloudstorage.controller import StorageController
