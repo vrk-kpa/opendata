@@ -109,16 +109,13 @@ class GAApiController(ApiController):
         return ApiController.search(self, ver, register)
 
 
-BaseClass = PackageController
-try:
-    if p.plugin_loaded('cloudstorage'):
-        from ckanext.cloudstorage.controller import StorageController
-        BaseClass = StorageController
-except:
-    pass
+OptionalController = PackageController
+if p.plugin_loaded('cloudstorage'):
+    from ckanext.cloudstorage.controller import StorageController
+    OptionalController = StorageController
 
 
-class GAResourceController(BaseClass):
+class GAResourceController(OptionalController):
     # intercept API calls to record via google analytics
     def _post_analytics(
             self, user, request_obj_type, request_function, request_id):
@@ -140,5 +137,5 @@ class GAResourceController(BaseClass):
 
     def resource_download(self, id, resource_id, filename=None):
         self._post_analytics(c.user, "Resource", "Download", resource_id)
-        return PackageController.resource_download(self, id, resource_id,
+        return OptionalController.resource_download(self, id, resource_id,
                                                    filename)
