@@ -20,3 +20,11 @@ index 9a519b4..7e0183f 100644
 
  def translate_data_dict(data_dict):
      '''Return the given dict (e.g. a dataset dict) with as many of its fields
+@@ -273,7 +273,7 @@ class MultilingualDataset(SingletonPlugin):
+         for lang in lang_set:
+             query_fields += ' title_%s^2 text_%s' % (lang, lang)
+
+-        search_params['qf'] = query_fields
++        search_params['qf'] = query_fields + "name^4 title^4 tags^2 groups^2 text"
+
+         return search_params
