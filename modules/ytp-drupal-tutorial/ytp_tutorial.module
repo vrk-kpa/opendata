@@ -151,7 +151,7 @@ function ytp_tutorial_has_published_data() {
   if ( isset($temp->field_ckan_api_key['und']) && 
     isset($temp->field_ckan_api_key['und'][0]) && 
     isset($temp->field_ckan_api_key['und'][0]['value'])){
-    $url = 'http://localhost:8080/data/api/3/action/user_show?id=' . $temp->name;
+    $url = 'http://localhost:8080/data/api/3/action/user_show?id=' . $temp->name . '&include_datasets=true';
     $options = array(
         'method' => 'GET',
         'headers' => array('Authorization' => $temp->field_ckan_api_key['und'][0]['value'])
