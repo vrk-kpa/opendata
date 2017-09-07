@@ -11,7 +11,7 @@ Parameters:
       - dev
       - alpha
       - beta
-      - gamma
+      - www
 
   DatabaseSubnets:
     Description: Database and EFS mount target subnets
