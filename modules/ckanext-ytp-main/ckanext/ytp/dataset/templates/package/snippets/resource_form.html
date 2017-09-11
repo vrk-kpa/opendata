@@ -1,6 +1,5 @@
 {% import 'macros/form.html' as form %}
 {% import 'macros/ytp_form.html' as ytp_form %}
-{% resource 'ytp_dataset_js/package.js' %}
 
 {% set data = data or {} %}
 {% set errors = errors or {} %}
@@ -108,8 +107,7 @@
       </div>
 
       <div class="pull-right outer-form">
-        <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Save as draft') }}</button>
-        <button class="btn btn-success" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Publish') }}{% endblock %}</button>
+        <button class="btn btn-success" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Save') }}{% endblock %}</button>
       </div>
 
     {% endif %}

@@ -1,6 +1,5 @@
 {% import 'macros/form.html' as form %}
 {% set action = c.form_action or '' %}
-{% resource 'ytp_dataset_js/package.js' %}
 
 {# This provides a full page that renders a form for adding a dataset. It can
 then itself be extended to add/remove blocks of functionality. #}
@@ -56,26 +55,7 @@ then itself be extended to add/remove blocks of functionality. #}
         </div>
       {% endblock %}
       {% block save_button %}
-
-        {% set state = data.get('state', None) %}
-        {% if state =='active' or state == 'deleted' or state == 'draft' and data.get('resources', 'none') | length != 0 %}
-          <button class="btn btn-primary" type="submit" name="save" onclick="SaveAsDraft()">{{ _('Save as draft') }}</button>
-        {% endif %}
-        {%  set resources = data.get('resources', None) %}
-          <button class="btn
-        {% if state == None or state == 'none' or (state == 'draft' and resources | length == 0) %}
-          btn-primary
-        {% else %}
-          btn-success
-        {% endif %}
-        " type="submit" name="save" id="save-button" onclick="
-        {% if state == None or state == 'none' or (state == 'draft' and resources | length == 0)%}
-          SaveAsDraft()
-        {% else %}
-          SaveAsActive()
-        {% endif %}
-          ">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</button>
-
+        <button class="btn" type="submit" name="save" id="save-button">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</button>
       {% endblock %}
       {{ form.required_message() }}
     </div>
