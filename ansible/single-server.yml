@@ -26,7 +26,12 @@
     - postfix
     - jetty
     - redis
+    - ckan-extensions
     - ckan
+    - ckan-config
+    - ckan-database
+    - ckan-data
+    - ckan-restart
     - drupal
     - clamav
     - data
