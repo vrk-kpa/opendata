@@ -16,14 +16,6 @@
 
 - name: Ensure supervisor services are restarted
   supervisorctl: name={{ item }} state=restarted
-  when: supervisor_configuration|changed or modules_install|changed or ckan_configuration|changed
-  with_flattened:
-    - "{{ supervisor_services }}"
-  tags:
-  - ckan
-
-- name: Ensure supervisor services are started
-  supervisorctl: name={{ item }} state=started
   with_flattened:
     - "{{ supervisor_services }}"
   tags:
