@@ -5,4 +5,5 @@
 vagrant=true
 secrets_file_path=does_not_exist
 deployment_environment_id=vagrant
+ssl_path=/vagrant
 
