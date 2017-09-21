@@ -1,0 +1,7 @@
+{% set licenses = h.license_options() %}
+
+{%- for license_id, license_desc in licenses -%}
+    {%- if license_id == data[field.field_name] -%}
+        {{ license_desc }}
+    {%- endif -%}
+{%- endfor -%}

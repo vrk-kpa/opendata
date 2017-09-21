@@ -23,6 +23,8 @@ modules:
   - ckanext-datarequests
   - ckanext-dcat
   - ckanext-cloudstorage
+  - ckanext-scheming
+  - ckanext-fluent
 
 
 modules_path: ../modules

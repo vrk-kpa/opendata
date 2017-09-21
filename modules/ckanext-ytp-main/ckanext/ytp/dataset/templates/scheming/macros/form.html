@@ -1,0 +1,24 @@
+{% import 'macros/form.html' as form %}
+
+{% macro input_multiple(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false) %}
+    {% resource 'ytp_dataset_js/form.js' %}
+    {% do classes.append('control-medium') %}
+    {%- set extra_html = caller() if caller -%}
+    {% call form.input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required) %}
+    <div class="multiple-values">
+        {% if value %}
+        {% set values = value if value.append else [value] %}
+        {% for value_item in values %}
+        {% if value_item %}
+        <div class="multiple-value-group">
+            <input id="{{ id or name }}-{{ loop.index }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <div class="multiple-value-group">
+            <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
+        </div>
+    </div>
+    {% endcall %}
+{% endmacro %}

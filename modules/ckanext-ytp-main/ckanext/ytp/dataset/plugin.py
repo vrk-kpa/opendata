@@ -19,12 +19,15 @@ import logging
 from ckanext.ytp.dataset.helpers import service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, \
     get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, \
     get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, \
-    unquote_url, sort_facet_items_by_count
+    unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, \
+    call_toolkit_function
 from ckanext.ytp.common.tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method
 from ckanext.ytp.common.helpers import extra_translation, render_date
 from paste.deploy.converters import asbool
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.ytp.dataset import auth
+
+import validators
 
 import json
 
@@ -40,6 +43,41 @@ OPEN_DATA = 'Open Data'
 INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
+
+def create_vocabulary(name):
+    user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
+    context = {'user': user['name']}
+
+    try:
+        data = {'id': name}
+        v = toolkit.get_action('vocabulary_show')(context, data)
+        log.info( name + " vocabulary already exists, skipping.")
+    except NotFound:
+        log.info("Creating vocab '" + name + "'")
+        data = {'name': name}
+        v = toolkit.get_action('vocabulary_create')(context, data)
+
+    return v
+
+def create_tag_to_vocabulary(tag, vocab):
+    user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
+    context = {'user': user['name']}
+
+    try:
+        data = {'id': vocab}
+        v = toolkit.get_action('vocabulary_show')(context, data)
+
+    except NotFound:
+        log.info("Creating vocab '" + vocab + "'")
+        data = {'name': vocab}
+        v = toolkit.get_action('vocabulary_create')(context, data)
+
+    data = {
+        "name": tag,
+        "vocabulary_id": v['id']}
+
+    context['defer_commit'] = True
+    toolkit.get_action('tag_create')(context, data)
 
 def _escape(value):
     return escape(unicode(value))
@@ -165,6 +203,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(ISpatialHarvester, inherit=True)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IValidators)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -485,7 +524,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_visits_for_dataset': get_visits_for_dataset,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
-                'unquote_url': unquote_url}
+                'unquote_url': unquote_url,
+                'scheming_field_only_default_required': scheming_field_only_default_required,
+                'add_locale_to_source': add_locale_to_source,
+                'scheming_language_text_or_empty': scheming_language_text_or_empty,
+                'get_lang_prefix': get_lang_prefix,
+                'call_toolkit_function': call_toolkit_function}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -645,3 +689,21 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 package_dict['tags'].append({'name': category})
 
         return package_dict
+
+
+    # IValidators
+    def get_validators(self):
+        return {
+            'lower_if_exists': validators.lower_if_exists,
+            'upper_if_exists': validators.upper_if_exists,
+            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
+            'create_tags': validators.create_tags,
+            'create_fluent_tags': validators.create_fluent_tags,
+            'set_private_if_not_admin': validators.set_private_if_not_admin,
+            'list_to_string': validators.list_to_string,
+            'convert_to_list': validators.convert_to_list,
+            'tag_list_output': validators.tag_list_output,
+            'repeating_text': validators.repeating_text,
+            'repeating_text_output': validators.repeating_text_output,
+            'only_default_lang_required': validators.only_default_lang_required
+        }

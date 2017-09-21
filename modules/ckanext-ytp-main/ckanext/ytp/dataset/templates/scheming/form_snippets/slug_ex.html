@@ -1,0 +1,63 @@
+{% import 'macros/form.html' as form %}
+
+
+{% macro prepend_ex(name, id='', label='', prepend='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, final=False) %}
+  {# We manually append the error here as it needs to be inside the .input-prepend block #}
+  {% set classes = (classes|list) %}
+  {% do classes.append('error') if error %}
+  {%- set extra_html = caller() if caller -%}
+  {% call form.input_block(id or name, label or name, error='', classes=classes, extra_html=extra_html, is_required=is_required) %}
+    <div class="input-prepend">
+      {% if prepend %}<span class="add-on">{{ prepend }}</span>{%- endif -%}
+      {% if final and value and value != "" %}
+        <input type="{{ type }}" value="{{ value | empty_and_escape }}" {{ form.attributes(attrs) }} placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} readonly disabled />
+        <input id="{{ id or name }}" type="hidden" name="{{ name }}" value="{{ value | empty_and_escape }}" />
+      {% else %}
+        <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+      {% endif %}
+      {% if error and error is iterable %}<span class="error-block">{{ error|join(', ') }}</span>{% endif %}
+    </div>
+  {% endcall %}
+{% endmacro %}
+
+
+{%- if entity_type == 'dataset' %}
+    {%- set controller = 'package' -%}
+    {%- set module_placeholder = '<dataset>' -%}
+{%- elif entity_type == 'organization' %}
+    {%- set controller = 'organization' -%}
+    {%- set module_placeholder = '<organization>' -%}
+{%- elif entity_type == 'group' -%}
+    {%- set controller = 'group' -%}
+    {%- set module_placeholder = '<group>' -%}
+{%- elif entity_type == 'collection' -%}
+    {%- set controller = 'ckanext.collection.controller:CollectionController' -%}
+    {%- set module_placeholder = '<collection>' -%}
+{%- endif -%}
+
+{%- set prefix = h.url_for(controller=controller, action='read', id='') -%}
+{%- set domain = h.url_for(controller=controller, action='read', id='',
+    qualified=true) -%}
+{%- set domain = domain|replace("http://", "")|replace("https://", "") -%}
+{%- set attrs = {
+    'data-module': 'slug-preview-slug',
+    'data-module-prefix': domain,
+    'data-module-placeholder': module_placeholder } -%}
+
+{{ prepend_ex(
+    field.field_name,
+    id='field-' + field.field_name,
+    label=h.scheming_language_text(field.label),
+    prepend=prefix,
+    classes=['control-maybe-final'],
+    placeholder=h.scheming_language_text(field.form_placeholder),
+    value=data[field.field_name],
+    error=errors[field.field_name],
+    final=field.final if 'final' in field else False,
+    attrs=attrs,
+    is_required=h.scheming_field_required(field)
+    ) }}
+
+<div class="field-assistive-text">
+  {{ _(field.description) }}
+</div>

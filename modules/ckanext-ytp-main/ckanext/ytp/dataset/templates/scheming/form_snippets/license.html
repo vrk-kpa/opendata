@@ -1,0 +1,38 @@
+{% import 'macros/form.html' as form %}
+
+{% set licenses = h.license_options() %}
+
+{%- set options=[] -%}
+{%- if field.get('form_include_blank_choice', false) -%}
+    {%- do options.append({
+        'value': '',
+        'text': ''}) -%}
+{%- endif -%}
+{%- if field.get('sorted_choices', true) -%}
+    {%- set licenses = licenses|sort -%}
+{%- endif -%}
+{%- for license_id, license_desc in licenses -%}
+    {%- if license_id or not h.scheming_field_required(field) -%}
+        {%- do options.append({
+            'value': license_id,
+            'text': license_desc}) -%}
+    {%- endif -%}
+{%- endfor -%}
+
+{% call form.select(
+    field.field_name,
+    id='field-' + field.field_name,
+    label=h.scheming_language_text(field.label),
+    options=options,
+    selected=data.get(field.field_name, field.get('default', 'notspecified')),
+    error=errors[field.field_name],
+    classes=['control-medium'],
+    attrs=field.form_attrs if 'form_attrs' in field else {},
+    is_required=h.scheming_field_required(field),
+    )
+%}
+    {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
+{% endcall %}
+<div class="field-assistive-text">
+    {{ _(field.description) }}
+</div>
