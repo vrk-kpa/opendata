@@ -146,25 +146,6 @@
       "form_snippet": "license.html",
       "display_snippet": "license.html",
       "required": true
-    },
-    {
-      "field_name": "reminder",
-      "label": "Reminder date",
-      "preset": "date",
-      "display_snippet": null,
-      "description": "A date when a reminder will be sent to a specified email address reminding to check this dataset. The email address can be changed in the CKAN admin config page."
-    },
-    {
-      "field_name": "global_id",
-      "label": "Global ID",
-      "description": "An Id that is used in other services, so that this dataset can be matched to dataset in other service."
-    },
-    {
-      "field_name": "search_synonyms",
-      "label": "Search Synonyms",
-      "display_snippet": null,
-      "description": "Synonyms for package search",
-      "form_snippet": "textarea.html"
     }
   ],
   "resource_fields": [
