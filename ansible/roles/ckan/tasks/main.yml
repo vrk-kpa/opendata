@@ -39,7 +39,7 @@
     - ckan
 
 - name: Install CKAN
-  pip: name="git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan" virtualenv={{ virtual_environment }} extra_args=--exists-action=s
+  pip: name="git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan" virtualenv={{ virtual_environment }} extra_args="--exists-action=s -e"
   tags:
       - ckan
 
@@ -47,6 +47,13 @@
   pip: requirements={{ virtual_environment }}/src/ckan/requirements.txt virtualenv={{ virtual_environment }}
   tags:
       - ckan
+
+- name: Copy override requirements
+  copy: src="override-requirements.txt" dest="{{ cache_path }}/override-requirements" mode="0644" owner=root group=root
+
+- name: Install override requirements
+  pip: requirements="{{ cache_path }}/override-requirements" virtualenv={{ virtual_environment }}
+
 #- name: Download CKAN package
 #  get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
 #  register: download_ckan_package

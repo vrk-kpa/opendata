@@ -52,4 +52,4 @@
   when: devrequirements.stat.exists and deployment_environment_id == "build"
 
 - name: Install extension {{item}}
-  pip: name={{ ckanext_sync_path }}/{{ item }} virtualenv={{ virtual_environment }} extra_args=-e state=latest
+  pip: name={{ ckanext_sync_path }}/{{ item }} virtualenv={{ virtual_environment }} extra_args=-e #state=latest

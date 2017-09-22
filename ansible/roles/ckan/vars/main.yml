@@ -20,12 +20,12 @@ ckan_extensions:
   - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp-comments
-  - ckanext-qa
   - ckanext-datarequests
   - ckanext-harvest
+  - ckanext-report
   - ckanext-archiver
   - ckanext-spatial
-  - ckanext-report
+  - ckanext-qa
   - ckanext-dcat
   - ckanext-cloudstorage
 

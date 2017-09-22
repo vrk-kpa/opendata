@@ -1,4 +1,0 @@
-ProgressBar==2.3
-nose
-mock
-flask
