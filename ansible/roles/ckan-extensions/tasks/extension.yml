@@ -3,7 +3,7 @@
 # On servers, create an archive of the current sources, upload and unarchive
 - block:
   - name: "Archive extension {{ item }}"
-    local_action: command zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="../ckanext"
+    local_action: command zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="../modules"
     become: false
 
   - name: "Remove possible existing extension {{ item }}"

@@ -101,6 +101,7 @@
   with_items:
     - libpq5
     - git-core
+    - zip
     - unzip
     - gettext
     - build-essential
