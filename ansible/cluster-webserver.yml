@@ -16,7 +16,12 @@
     - nfs_client
     - nginx
     - postfix
+    - ckan-extensions
     - ckan
+    - ckan-config
+    - ckan-database
+    - ckan-data
+    - ckan-restart
     - drupal
     - data
   handlers:
