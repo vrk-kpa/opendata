@@ -76,7 +76,7 @@ ckan_who_ini: /etc/ckan/default/who.ini
 
 harvest_sources: false
 
-ckan_version: "2.7.0"
+ckan_version: "2.7.1"
 
 email_domain: "localhost"
 email_domain_access: "localhost"
