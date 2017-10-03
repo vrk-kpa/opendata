@@ -86,9 +86,7 @@ ckan_patches:
 
 
 new_ckan_patches:
-  - { file: "FixRootPathMiddleware" }
   - { file: "FixMultilingual" }
-  - { file: "redirect_fix" }
 
 service_database_enabled: false
 auto_author_enabled: true
