@@ -23,3 +23,6 @@
 [submodule "modules/ckanext-archiver"]
 	path = modules/ckanext-archiver
 	url = https://github.com/ckan/ckanext-archiver.git
+[submodule "modules/ckanext-showcase"]
+	path = modules/ckanext-showcase
+	url = https://github.com/ckan/ckanext-showcase.git
