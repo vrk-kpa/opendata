@@ -41,5 +41,6 @@ setup(
 
         [paste.paster_command]
         ytp-facet-translations = ckanext.ytp.dataset.commands:YtpFacetTranslations
+        ytp-dataset = ckanext.ytp.dataset.commands:ytp_dataset_group
     ''',
 )

@@ -146,6 +146,22 @@
       "form_snippet": "license.html",
       "display_snippet": "license.html",
       "required": true
+    },
+    {
+      "field_name": "collection_type",
+      "label": "Collection Type",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "Open Data",
+          "label": "Open Data"
+        },
+        {
+          "value": "Interoperability Tools",
+          "label": "Interoperability Tools"
+        }
+      ],
+      "required": true
     }
   ],
   "resource_fields": [

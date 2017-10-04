@@ -8,6 +8,19 @@ import glob
 from ckanext.ytp.dataset.translations import facet_translations
 
 
+from ckan.plugins.toolkit import config as c
+
+import click
+
+from ckan.lib.cli import (
+    load_config,
+    parse_db_config,
+    paster_click_group,
+    click_config_option,
+)
+
+import ast
+
 class YtpFacetTranslations(CkanCommand):
     """ Command to add task to schedule table """
     max_args = None
@@ -65,3 +78,63 @@ class YtpFacetTranslations(CkanCommand):
         for locale, term, translation in translated:
             if translation:
                 self._add_term(context, locale, term, translation)
+
+
+ytp_dataset_group = paster_click_group(
+    summary=u'Dataset related commands.'
+)
+
+
+@ytp_dataset_group.command(
+    u'migrate',
+    help=u'Migrates datasets to scheming based model'
+)
+@click_config_option
+@click.pass_context
+def migrate(ctx, config):
+    load_config(config or ctx.obj['config'])
+
+    context = {'ignore_auth': True,
+               'all_fields': True,
+               'include_extras': True}
+
+
+    default_lang = c.get('ckan.locale_default', 'en')
+
+
+    datasets = get_action('package_list')(context, {})
+
+
+
+
+    for dataset in datasets:
+        data_dict = {'id': dataset}
+        old_package_dict = get_action('package_show')(context, data_dict)
+
+        extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
+
+        original_language = default_lang
+        if extras.get('original_language'):
+            original_language = extras.get('original_language')
+
+        langs = []
+        if extras.get('translations'):
+            langs = ast.literal_eval(extras.get('translations'))
+
+        new_package_dict = {
+            'id': old_package_dict['id'],
+            'title_translated': {
+                original_language: old_package_dict['title']
+            },
+            'notes_translated':{
+                original_language: old_package_dict['notes']
+            },
+            'collection_type': extras.get('collection_type', 'Open Data')
+        }
+
+        for lang in langs:
+            new_package_dict['title_translated'][u'' + lang] = extras.get('title_' + lang)
+            new_package_dict['notes_translated'][u''+ lang] = extras.get('notes_' + lang)
+        print(new_package_dict)
+
+    print(datasets)
