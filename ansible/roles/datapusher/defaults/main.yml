@@ -1,0 +1,1 @@
+datapusher_max_content_length: "{{ 500 * 1024 * 1024 }}" #500MB
