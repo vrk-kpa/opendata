@@ -4222,7 +4222,7 @@ msgstr "Uutisvirta"
 #: ckan/templates/user/dashboard.html:20
 #: ckan/templates/user/dashboard_datasets.html:12
 msgid "My Datasets"
-msgstr "Minun tietoaineistot"
+msgstr "Minun tietoaineistoni"
 
 #: ckan/templates/user/dashboard.html:21
 #: ckan/templates/user/dashboard_organizations.html:12
