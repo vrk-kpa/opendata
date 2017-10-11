@@ -25,4 +25,4 @@
 	url = https://github.com/ckan/ckanext-archiver.git
 [submodule "modules/ckanext-showcase"]
 	path = modules/ckanext-showcase
-	url = https://github.com/ckan/ckanext-showcase.git
+	url = https://github.com/vrk-kpa/ckanext-showcase.git
