@@ -248,6 +248,8 @@
     - variable_admin
 
     - xmlsitemap
+    - xmlsitemap_node
+    - xmlsitemap_menu
 
   tags:
   - drupal
@@ -477,3 +479,6 @@
   tags:
   - drupal
   - drupal-translations
+
+- name: Regenerate sitemap
+  command: drush xmlsitemap-regenerate chdir="{{ drupal_root }}"
