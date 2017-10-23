@@ -172,7 +172,7 @@ server {
         }
 
         location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
-            proxy_pass http://127.0.0.1:8080/data/$1$2$3;
+            proxy_pass http://127.0.0.1:8080/data/$1$2$3?$args;
 
             # Do not show nginx's 404 error page for the API
             proxy_intercept_errors off;
