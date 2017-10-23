@@ -19,9 +19,9 @@
   <li class="active"><a href="">{{ h.resource_display_name(res)| truncate(30) }}</a></li>
 {% endblock %}
 
-{% block pre_primary %}
+{#{% block pre_primary %}
 
-{% endblock %}
+{% endblock %}#}
 
 {% block primary_content %}
   {% block resource %}
@@ -80,9 +80,6 @@
         {% endblock %}
         </div>
       </div>
-      {% block data_preview %}
-        {# Data preview is disabled due to bugs and problems with preview extensions, and because they add little value. #}
-      {% endblock %}
     </section>
   {% endblock %}
   {% block resource_additional_information %}
