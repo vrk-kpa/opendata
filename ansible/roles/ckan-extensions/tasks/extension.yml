@@ -3,7 +3,7 @@
 # On servers, create an archive of the current sources, upload and unarchive
 - block:
   - name: "Archive extension {{ item }}"
-    local_action: command zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="../ckanext"
+    local_action: command zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="../modules"
     become: false
 
   - name: "Remove possible existing extension {{ item }}"
@@ -52,4 +52,4 @@
   when: devrequirements.stat.exists and deployment_environment_id == "build"
 
 - name: Install extension {{item}}
-  pip: name={{ ckanext_sync_path }}/{{ item }} virtualenv={{ virtual_environment }} extra_args=-e state=latest
+  pip: name={{ ckanext_sync_path }}/{{ item }} virtualenv={{ virtual_environment }} extra_args=-e #state=latest

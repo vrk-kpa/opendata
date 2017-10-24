@@ -74,6 +74,10 @@
   tags:
   - spatial
 
+- name: Copy SQL files
+  template: src={{ item }} dest=/tmp/{{ item }} owner=postgres group=postgres mode="0640"
+  with_items: "{{ sql_files_to_execute }}"
+
 - name: Execute SQL files
   become_user: postgres
   shell: cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1

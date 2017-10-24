@@ -7,7 +7,8 @@ celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats scheming_datasets fluent
 # order matters, when templates call super()
-ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report qa archiver ytp_organizations ytp_comments ytp_request hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_user ytp_service datastore
+ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report qa archiver ytp_organizations ytp_comments ytp_request hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_user ytp_service datastore showcase
+
 
 ckan_aws_plugins: cloudstorage
 
@@ -20,16 +21,17 @@ ckan_extensions:
   - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp-comments
-  - ckanext-qa
   - ckanext-datarequests
   - ckanext-harvest
+  - ckanext-report
   - ckanext-archiver
   - ckanext-spatial
-  - ckanext-report
+  - ckanext-qa
   - ckanext-dcat
   - ckanext-cloudstorage
   - ckanext-scheming
   - ckanext-fluent
+  - ckanext-showcase
 
 
 redis_harvest_database: 0
@@ -87,9 +89,7 @@ ckan_patches:
 
 
 new_ckan_patches:
-  - { file: "FixRootPathMiddleware" }
   - { file: "FixMultilingual" }
-  - { file: "redirect_fix" }
 
 service_database_enabled: false
 auto_author_enabled: true
