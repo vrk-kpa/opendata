@@ -113,19 +113,6 @@
       "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
     },
     {
-      "field_name": "date_released",
-      "label": "Created",
-      "preset": "date",
-      "required": true,
-      "description": "The date which will be shown as the publish date for this dataset."
-    },
-    {
-      "field_name": "date_updated",
-      "label": "Updated",
-      "preset": "date",
-      "description": "The date which will be shown as the last modified date for this dataset."
-    },
-    {
       "field_name": "update_frequency",
       "label": "Update Frequency",
       "form_placeholder":"eg. every second week",
