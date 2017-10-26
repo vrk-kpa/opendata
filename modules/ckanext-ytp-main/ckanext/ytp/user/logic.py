@@ -17,6 +17,16 @@ import sqlalchemy.sql
 from ckanext.ytp.common.converters import to_list_json
 from ckanext.ytp.common.tools import add_languages_modify, add_translation_modify_schema
 
+from paste.deploy.converters import asbool
+
+
+_select = sqlalchemy.sql.select
+_or_ = sqlalchemy.or_
+_and_ = sqlalchemy.and_
+_func = sqlalchemy.func
+_desc = sqlalchemy.desc
+_case = sqlalchemy.case
+
 log = logging.getLogger(__name__)
 
 
@@ -315,78 +325,85 @@ def action_user_update(context, data_dict):
 @logic.side_effect_free
 def action_user_list(context, data_dict):
     '''Return a list of the site's user accounts.
-
     :param q: restrict the users returned to those whose names contain a string
       (optional)
     :type q: string
     :param order_by: which field to sort the list by (optional, default:
-      ``'name'``)
+      ``'name'``). Can be any user field or ``edits`` (i.e. number_of_edits).
     :type order_by: string
-
-    :rtype: list of dictionaries
-
+    :param all_fields: return full user dictionaries instead of just names.
+      (optional, default: ``True``)
+    :type all_fields: boolean
+    :rtype: list of user dictionaries. User properties include:
+      ``number_of_edits`` which counts the revisions by the user and
+      ``number_created_packages`` which excludes datasets which are private
+      or draft state.
     '''
-    #  Modiefed from ckan/controlers/user.py: user_list
     model = context['model']
 
     toolkit.check_access('user_list', context, data_dict)
 
     q = data_dict.get('q', '')
     order_by = data_dict.get('order_by', 'name')
+    all_fields = asbool(data_dict.get('all_fields', True))
 
-    query = model.Session.query(
-        model.User,
-        model.User.name.label('name'),
-        model.User.fullname.label('fullname'),
-        model.User.about.label('about'),
-        model.User.about.label('email'),
-        model.User.created.label('created'),
-        sqlalchemy.sql.select([sqlalchemy.func.count(model.Revision.id)], sqlalchemy.or_(model.Revision.author == model.User.name,
-                                                                                         model.Revision.author == model.User.openid
-                                                                                         )
-                              ).label('number_of_edits'),
-        sqlalchemy.sql.select([sqlalchemy.func.count(model.UserObjectRole.id)], sqlalchemy.and_(
-            model.UserObjectRole.user_id == model.User.id,
-            model.UserObjectRole.context == 'Package',
-            model.UserObjectRole.role == 'admin')
-        ).label('number_administered_packages')
-    )
+    if all_fields:
+        query = model.Session.query(
+            model.User,
+            model.User.name.label('name'),
+            model.User.fullname.label('fullname'),
+            model.User.about.label('about'),
+            model.User.about.label('email'),
+            model.User.created.label('created'),
+            _select([_func.count(model.Revision.id)],
+                    _or_(
+                        model.Revision.author == model.User.name,
+                        model.Revision.author == model.User.openid
+                    )).label('number_of_edits'),
+            _select([_func.count(model.Package.id)],
+                    _and_(
+                        model.Package.creator_user_id == model.User.id,
+                        model.Package.state == 'active',
+                        model.Package.private == False,
+                        )).label('number_created_packages')
+        )
+    else:
+        query = model.Session.query(model.User.name)
 
     if q:
         query = model.User.search(q, query, user_name=context.get('user'))
 
     if order_by == 'edits':
-        query = query.order_by(sqlalchemy.desc(
-            sqlalchemy.sql.select([sqlalchemy.func.count(model.Revision.id)], sqlalchemy.or_(
-                model.Revision.author == model.User.name,
-                model.Revision.author == model.User.openid
-                ))
-        ))
-    elif order_by == 'created':
-        query = query.order_by(model.User.created)
+        query = query.order_by(_desc(
+            _select([_func.count(model.Revision.id)],
+                    _or_(
+                        model.Revision.author == model.User.name,
+                        model.Revision.author == model.User.openid))))
     else:
         query = query.order_by(
-            sqlalchemy.case([(sqlalchemy.or_(model.User.fullname == None, model.User.fullname == ''), model.User.name)], else_=model.User.fullname)  # noqa
-        )
+            _case([(
+                _or_(model.User.fullname == None,
+                     model.User.fullname == ''),
+                model.User.name)],
+                else_=model.User.fullname))
 
     # Filter deleted users
     query = query.filter(model.User.state != model.State.DELETED)
 
-    # # hack for pagination
+    ## hack for pagination
     if context.get('return_query'):
         return query
 
     users_list = []
 
-    for user in query.all():
-        result_dict = model_dictize.user_dictize(user[0], context)
-        result_dict = _add_user_extras(user[0], result_dict)
-        result_dict.pop('password', None)
-        result_dict.pop('reset_key', None)
-        result_dict.pop('apikey', None)
-        result_dict.pop('email', None)
-        result_dict.pop('sysadmin', None)
-        result_dict.pop('email_hash', None)
-        users_list.append(result_dict)
+    if all_fields:
+        for user in query.all():
+            result_dict = model_dictize.user_dictize(user[0], context)
+            result_dict.pop('email_hash', None)
+            users_list.append(result_dict)
+
+    else:
+        for user in query.all():
+            users_list.append(user[0])
 
     return users_list
