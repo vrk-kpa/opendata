@@ -87,6 +87,7 @@ ckan_patches:
 
 new_ckan_patches:
   - { file: "FixMultilingual" }
+  - { file: "bs3-modal" }
 
 service_database_enabled: false
 auto_author_enabled: true
