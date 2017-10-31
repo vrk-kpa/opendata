@@ -19,10 +19,6 @@
   <li class="active"><a href="">{{ h.resource_display_name(res)| truncate(30) }}</a></li>
 {% endblock %}
 
-{% block pre_primary %}
-
-{% endblock %}
-
 {% block primary_content %}
   {% block resource %}
     <section class="module module-resource col-xs-12">
@@ -81,7 +77,63 @@
         </div>
       </div>
       {% block data_preview %}
-        {# Data preview is disabled due to bugs and problems with preview extensions, and because they add little value. #}
+      {% block resource_view %}
+        {% block resource_view_nav %}
+          {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+          {% snippet "package/snippets/resource_views_list.html",
+             views=resource_views,
+             pkg=pkg,
+             is_edit=false,
+             view_id=current_resource_view['id'],
+             resource_preview=resource_preview,
+             resource=c.resource,
+             extra_class="nav-tabs-plain"
+           %}
+        {% endblock %}
+          {% block resource_view_content %}
+            <div class="resource-view">
+              {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+              {% set views_created = res.has_views or resource_preview %}
+              {% if views_created %}
+                {% if resource_preview and not current_resource_view %}
+                  {{ h.resource_preview(c.resource, c.package) }}
+                {% else %}
+                  {% for resource_view in resource_views %}
+                    {% if resource_view == current_resource_view %}
+                      {% snippet 'package/snippets/resource_view.html',
+                         resource_view=resource_view,
+                         resource=c.resource,
+                         package=c.package
+                       %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% else %}
+                {# Views not created #}
+                <div class="data-viewer-info">
+                  <p>{{ _("There are no views created for this resource yet.") }}</p>
+                  {% if h.check_access('resource_view_create', {'resource_id': c.resource.id}) %}
+                    <p class="text-muted">
+                      <i class="fa fa-info-circle"></i>
+                      {{ _("Not seeing the views you were expecting?")}}
+                      <a href="javascript:void(0);" data-toggle="collapse" data-target="#data-view-info">
+                        {{ _('Click here for more information.') }}</a>
+                    </p>
+                    <div id="data-view-info" class="collapse">
+                      <p>{{ _('Here are some reasons you may not be seeing expected views:') }}</p>
+                      <ul>
+                        <li>{{ _("No view has been created that is suitable for this resource")}}</li>
+                        <li>{{ _("The site administrators may not have enabled the relevant view plugins")}}</li>
+                        <li>{{ _("If a view requires the DataStore, the DataStore plugin may not be enabled, or the data may not have been pushed to the DataStore, or the DataStore hasn't finished processing the data yet")}}</li>
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endblock %}
+        </div>
+      {% endblock %}
       {% endblock %}
     </section>
   {% endblock %}

@@ -1,0 +1,35 @@
+diff --git a/ckan/public/base/javascript/modules/confirm-action.js b/ckan/public/base/javascript/modules/confirm-action.js
+index 7ee99fc2f..bd5b823be 100644
+--- a/ckan/public/base/javascript/modules/confirm-action.js
++++ b/ckan/public/base/javascript/modules/confirm-action.js
+@@ -23,7 +23,9 @@ this.ckan.module('confirm-action', function (jQuery) {
+       },
+ 
+       template: [
+-        '<div class="modal">',
++        '<div class="modal fade">',
++        '<div class="modal-dialog">',
++        '<div class="modal-content">',
+         '<div class="modal-header">',
+         '<button type="button" class="close" data-dismiss="modal">├ù</button>',
+         '<h3></h3>',
+@@ -33,6 +35,8 @@ this.ckan.module('confirm-action', function (jQuery) {
+         '<button class="btn btn-cancel"></button>',
+         '<button class="btn btn-primary"></button>',
+         '</div>',
++        '</div>',
++        '</div>',
+         '</div>'
+       ].join('\n')
+     },
+@@ -96,8 +100,8 @@ this.ckan.module('confirm-action', function (jQuery) {
+ 
+         element.find('h3').text(this._('Please Confirm Action'));
+         var content = this.options.content ||
+-                      this.options.i18n.content || /* Backwards-compatibility */
+-                      this._('Are you sure you want to perform this action?');
++          this.options.i18n.content || /* Backwards-compatibility */
++          this._('Are you sure you want to perform this action?');
+         element.find('.modal-body').text(content);
+         element.find('.btn-primary').text(this._('Confirm'));
+         element.find('.btn-cancel').text(this._('Cancel'));
