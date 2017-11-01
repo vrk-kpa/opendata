@@ -21,6 +21,8 @@ from ckan.lib.cli import (
 
 import ast
 
+from ckan.lib.munge import munge_title_to_name
+
 class YtpFacetTranslations(CkanCommand):
     """ Command to add task to schedule table """
     max_args = None
@@ -110,31 +112,83 @@ def migrate(ctx, config):
     for dataset in datasets:
         data_dict = {'id': dataset}
         old_package_dict = get_action('package_show')(context, data_dict)
+        if old_package_dict.get('title_translated'):
+            extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
 
-        extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
+            original_language = default_lang
+            if extras.get('original_language'):
+                original_language = extras.get('original_language')
 
-        original_language = default_lang
-        if extras.get('original_language'):
-            original_language = extras.get('original_language')
+            langs = []
+            if extras.get('translations'):
+                langs = ast.literal_eval(extras.get('translations'))
 
-        langs = []
-        if extras.get('translations'):
-            langs = ast.literal_eval(extras.get('translations'))
+            new_package_dict = {
+                'id': old_package_dict['id'],
+                'name': munge_title_to_name(old_package_dict['title']),
+                'title_translated': {
+                    original_language: old_package_dict['title']
+                },
+                'notes_translated':{
+                    original_language: old_package_dict['notes']
+                },
+                'collection_type': extras.get('collection_type', 'Open Data'),
+                'keywords': {'fi': []},
+                'content_type': {'fi': []},
+                'copyright_notice_translated':{
+                    original_language: extras.get('copyright_notice', '')
+                },
+                'external_urls': extras.get('extra_information', []),
+                'owner': old_package_dict.get('owner', ''),
+                'owner_org': old_package_dict['owner_org'],
+                'valid_from': old_package_dict.get('valid_from'),
+                'valid_till': old_package_dict.get('valid_till'),
+                'license_id': old_package_dict['license_id'],
+                'maintainer_email': old_package_dict.get('maintainer_email', ''),
+                'resources': []
+            }
 
-        new_package_dict = {
-            'id': old_package_dict['id'],
-            'title_translated': {
-                original_language: old_package_dict['title']
-            },
-            'notes_translated':{
-                original_language: old_package_dict['notes']
-            },
-            'collection_type': extras.get('collection_type', 'Open Data')
-        }
+            for lang in langs:
+                new_package_dict['title_translated'][u'' + lang] = extras.get('title_' + lang)
+                new_package_dict['notes_translated'][u''+ lang] = extras.get('notes_' + lang)
+                new_package_dict['copyright_notice_translated'][u''+ lang] = extras.get('copyright_notice_' + lang)
 
-        for lang in langs:
-            new_package_dict['title_translated'][u'' + lang] = extras.get('title_' + lang)
-            new_package_dict['notes_translated'][u''+ lang] = extras.get('notes_' + lang)
-        print(new_package_dict)
+
+            new_package_dict['keywords']['fi'] = [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ]
+            new_package_dict['content_type']['fi'] = [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is not None ]
+
+            for resource in old_package_dict.get('resources', []):
+                new_resource = {
+                    'name_translated': {
+                        original_language: resource['name']
+                    },
+                    'description_translated': {
+                        original_language: resource.get('description')
+                    },
+                    'temporal_granularity': {
+                        original_language: resource.get('temporal_granularity')
+                    },
+                    'temporal_coverage_to': resource.get('temporal_coverage_to'),
+                    'temporal_coverage_from': resource.get('temporal_coverage_from'),
+                    'update_frequency': {
+                        original_language: resource.get('update_frequency')
+                    },
+                    'format': resource.get('format'),
+                    'created': resource.get('created'),
+                    'url': resource.get('url'),
+                    'modified': resource.get('modified')
+
+                }
+
+                for lang in langs:
+                    new_resource['name_translated'][u'' + lang] = resource.get('name_' + lang)
+                    new_resource['description_translated'][u''+ lang] = resource.get('description_' + lang)
+                    new_resource['temporal_granularity'][u''+ lang] = resource.get('temporal_granularity_' + lang)
+                    new_resource['update_frequency'][u''+ lang] = resource.get('update_frequency_' + lang)
+
+                new_package_dict['resources'].append(new_resource)
+            print(new_package_dict)
+            created_dataset = get_action('package_create')({}, new_package_dict)
+            print(new_package_dict)
 
     print(datasets)

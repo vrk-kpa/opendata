@@ -49,7 +49,9 @@
         <h4 class="dataset-title sidebar-title">{{_('Content Type')}}</h4>
         
         {% if pkg.get( 'content_type') %}
-            {% set con_list = pkg.get( 'content_type').split(',') %}
+
+            {% set lang = h.get_lang_prefix() %}
+            {% set con_list = pkg.get( 'content_type' ).get(lang) %}
             {%- for content in con_list -%}
                 <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}
