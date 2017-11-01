@@ -20,10 +20,6 @@ WSGISocketPrefix /var/run/wsgi
     #SSLCertificateFile      {{ certificates_path }}/{{ssl_crt_primary}}
     #SSLCertificateKeyFile   {{ certificates_path }}/{{ssl_key_primary}}
 
-    # allow CORS
-    Header always set Access-Control-Allow-Origin "*"
-    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-    Header always set Access-Control-Allow-Headers "X-CKAN-API-KEY, Content-Type"
 
     # Respond to all OPTIONS requests with 200 OK
     # This could be done in the webapp
