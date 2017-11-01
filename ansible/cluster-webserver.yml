@@ -24,6 +24,7 @@
     - ckan-restart
     - drupal
     - data
+    - datapusher
   handlers:
     - name: restart sshd
       service: name=ssh state=restarted
