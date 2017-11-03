@@ -105,6 +105,8 @@ class YtpOrganizationController(OrganizationController):
         return self._render_template('group/admin_list.html')
 
     def read(self, id, limit=20):
+        group_type = self._ensure_controller_matches_group_type(
+            id.split('@')[0])
         try:
             context = {
                 'model': model,
@@ -117,7 +119,7 @@ class YtpOrganizationController(OrganizationController):
         except NotAuthorized:
             g = model.Session.query(model.Group).filter(model.Group.name == id).first()
             if g is None or g.state != 'active':
-                return self._render_template('group/organization_not_found.html')
+                return self._render_template('group/organization_not_found.html', group_type=group_type)
 
         return OrganizationController.read(self, id, limit)
 
