@@ -26,3 +26,6 @@
 [submodule "modules/ckanext-showcase"]
 	path = modules/ckanext-showcase
 	url = https://github.com/vrk-kpa/ckanext-showcase.git
+[submodule "modules/ckanext-geoview"]
+	path = modules/ckanext-geoview
+	url = https://github.com/ckan/ckanext-geoview.git
