@@ -61,6 +61,12 @@ Resources:
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
       AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+            - GET
+            AllowedOrigins:
+              - "*"
 
   DatasetBucketPolicy:
     Type: AWS::S3::BucketPolicy
