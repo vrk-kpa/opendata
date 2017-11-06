@@ -29,3 +29,6 @@
 [submodule "modules/ckanext-geoview"]
 	path = modules/ckanext-geoview
 	url = https://github.com/ckan/ckanext-geoview.git
+[submodule "modules/ckanext-pdfview"]
+	path = modules/ckanext-pdfview
+	url = https://github.com/ckan/ckanext-pdfview.git
