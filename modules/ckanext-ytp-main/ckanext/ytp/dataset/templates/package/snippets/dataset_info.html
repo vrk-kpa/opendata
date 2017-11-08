@@ -51,7 +51,12 @@
         {% if pkg.get( 'content_type') %}
 
             {% set lang = h.get_lang_prefix() %}
-            {% set con_list = pkg.get( 'content_type' ).get(lang) %}
+            {% set con_list = pkg.get( 'content_type' ) %}
+            {% if con_list is mapping %}
+             {% set con_list = con_list.get(lang) %}
+            {% else %}
+                {% set con_list = con_list.split(',') %}
+            {% endif %}
             {%- for content in con_list -%}
                 <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
                 {%- if not loop.last %} <br /> {% endif -%}

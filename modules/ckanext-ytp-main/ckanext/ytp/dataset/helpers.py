@@ -12,6 +12,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+from pylons.i18n import gettext
 
 def service_database_enabled():
     return config.get('ckanext.ytp.dataset.service_database_enabled', 'true') == 'true'
