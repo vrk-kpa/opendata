@@ -113,15 +113,15 @@ def migrate(ctx, config):
         data_dict = {'id': dataset}
         old_package_dict = get_action('package_show')(context, data_dict)
 
-        extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
+        #extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
 
         original_language = default_lang
-        if extras.get('original_language'):
-            original_language = extras.get('original_language')
+        if old_package_dict.get('original_language'):
+            original_language = old_package_dict.get('original_language')
 
         langs = []
-        if extras.get('translations'):
-            langs = ast.literal_eval(extras.get('translations'))
+        if old_package_dict.get('translations'):
+            langs = old_package_dict.get('translations')
 
         print langs
         old_package_dict['title_translated'] =  {
@@ -135,16 +135,18 @@ def migrate(ctx, config):
         old_package_dict['keywords'] =  { 'fi':  [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ] }
         old_package_dict['content_type'] = {'fi': [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is not None ] }
         old_package_dict['copyright_notice_translated'] ={
-            original_language: extras.get('copyright_notice', '')
+            original_language: old_package_dict.get('copyright_notice', '')
         }
-        old_package_dict['external_urls'] = extras.get('extra_information', [])
+        old_package_dict['external_urls'] = old_package_dict.get('extra_information', [])
 
 
         for lang in langs:
-            old_package_dict['title_translated'][u'' + lang] = extras.get('title_' + lang)
-            old_package_dict['notes_translated'][u''+ lang] = extras.get('notes_' + lang)
-            old_package_dict['copyright_notice_translated'][u''+ lang] = extras.get('copyright_notice_' + lang)
+            old_package_dict['title_translated'][lang] = old_package_dict.get('title_' + lang)
+            old_package_dict['notes_translated'][lang] = old_package_dict.get('notes_' + lang)
+            old_package_dict['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang)
 
+
+        #get_action('package_patch')({}, old_package_dict)
 
         for resource in old_package_dict.get('resources', []):
             resource['name_translated'] = {
@@ -158,17 +160,21 @@ def migrate(ctx, config):
             }
             resource['update_frequency'] = {
                 original_language: resource.get('update_frequency')
-            },
-
+            }
 
             for lang in langs:
-                resource['name_translated'][u'' + lang] = resource.get('name_' + lang)
-                resource['description_translated'][u''+ lang] = resource.get('description_' + lang)
-                resource['temporal_granularity'][u''+ lang] = resource.get('temporal_granularity_' + lang)
-                resource['update_frequency'][u''+ lang] = resource.get('update_frequency_' + lang)
+                resource['name_translated'][lang] = resource.get('name_' + lang)
+                resource['description_translated'][lang] = resource.get('description_' + lang)
+                resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang)
+                resource['update_frequency'][lang] = resource.get('update_frequency_' + lang)
+            
+            #print resource
+            #get_action('resource_patch')({}, resource)
+        import json
+        print(json.dumps(old_package_dict))
 
-        print(old_package_dict)
+        get_action('package_patch')({}, old_package_dict)
+
         #created_dataset = get_action('package_create')({}, new_package_dict)
-        #print(new_package_dict)
 
     print(datasets)
