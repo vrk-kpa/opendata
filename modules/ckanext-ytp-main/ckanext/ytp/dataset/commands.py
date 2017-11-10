@@ -99,32 +99,19 @@ ytp_dataset_group = paster_click_group(
 def migrate(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
 
-    context = {'ignore_auth': True,
-               'all_fields': True,
-               'include_extras': True}
-
-
     default_lang = c.get('ckan.locale_default', 'en')
-
-
-
 
     package_patches = []
     resource_patches = []
 
-
     for old_package_dict in package_generator('*:*', 1000):
-        
-        if  old_package_dict.get('title_translated') is not None:
+
+        if 'title_translated' in old_package_dict:
             continue
 
-        original_language = default_lang
-        if old_package_dict.get('original_language'):
-            original_language = old_package_dict.get('original_language')
+        original_language = old_package_dict.get('original_language', default_lang)
 
-        langs = []
-        if old_package_dict.get('translations'):
-            langs = old_package_dict.get('translations')
+        langs = old_package_dict.get('translations', [])
 
         patch = {
             'id': old_package_dict['id'],
@@ -149,8 +136,7 @@ def migrate(ctx, config, dryrun):
             patch['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang)
 
 
-        if old_package_dict.get('resources'):
-            patch['resources'] = old_package_dict.get('resources')
+        patch['resources'] = old_package_dict.get('resources')
 
         for resource in patch.get('resources', []):
             resource['name_translated'] = {
@@ -173,9 +159,7 @@ def migrate(ctx, config, dryrun):
                 resource['description_translated'][lang] = resource.get('description_' + lang)
                 resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang)
                 resource['update_frequency'][lang] = resource.get('update_frequency_' + lang)
-            
-            #print resource
-            #get_action('resource_patch')({}, resource)
+
         package_patches.append(patch)
 
     if dryrun:
@@ -184,11 +168,6 @@ def migrate(ctx, config, dryrun):
 
     else:
         apply_patches(package_patches, resource_patches)
-
-        #get_action('package_patch')({}, old_package_dict)
-
-        #created_dataset = get_action('package_create')({}, new_package_dict)
-
 
 
 def apply_patches(package_patches, resource_patches):
