@@ -99,4 +99,4 @@ def flatten(x, children):
             yield cx
 
 def resource_formats(datasets):
-    return ', '.join(r['format'] for d in datasets for r in d['resources'] if r['format'])
+    return ', '.join({r['format'] for d in datasets for r in d['resources'] if r['format']})
