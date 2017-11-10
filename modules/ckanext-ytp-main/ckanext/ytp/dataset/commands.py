@@ -23,6 +23,8 @@ import ast
 
 from ckan.lib.munge import munge_title_to_name
 
+import itertools
+
 class YtpFacetTranslations(CkanCommand):
     """ Command to add task to schedule table """
     max_args = None
@@ -92,8 +94,9 @@ ytp_dataset_group = paster_click_group(
     help=u'Migrates datasets to scheming based model'
 )
 @click_config_option
+@click.option(u'--dryrun', is_flag=True)
 @click.pass_context
-def migrate(ctx, config):
+def migrate(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
 
     context = {'ignore_auth': True,
@@ -106,14 +109,16 @@ def migrate(ctx, config):
 
     datasets = get_action('package_list')(context, {})
 
-
+    package_patches = []
+    resource_patches = []
 
 
     for dataset in datasets:
         data_dict = {'id': dataset}
         old_package_dict = get_action('package_show')(context, data_dict)
 
-        #extras = {x['key']: x['value'] for x in old_package_dict.get('extras', {})}
+        if old_package_dict.get('title_translated'):
+            continue
 
         original_language = default_lang
         if old_package_dict.get('original_language'):
@@ -123,32 +128,34 @@ def migrate(ctx, config):
         if old_package_dict.get('translations'):
             langs = old_package_dict.get('translations')
 
-        print langs
-        old_package_dict['title_translated'] =  {
-            original_language: old_package_dict['title']
+        patch = {
+            'id': old_package_dict['id'],
+            'title_translated': {
+                original_language: old_package_dict['title']
+            },
+            'notes_translated':  {
+                original_language: old_package_dict['notes']
+            },
+            'keywords': { 'fi': [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ] },
+            'content_type': {'fi': [ s for s in old_package_dict.get('content_type', "").split(',')]},
+            'copyright_notice_translated': {
+                original_language: old_package_dict.get('copyright_notice', '')
+            },
+            'external_urls': old_package_dict.get('extra_information', [])
         }
 
-        old_package_dict['notes_translated'] =  {
-            original_language: old_package_dict['notes']
-        }
-
-        old_package_dict['keywords'] =  { 'fi':  [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ] }
-        old_package_dict['content_type'] = {'fi': [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is not None ] }
-        old_package_dict['copyright_notice_translated'] ={
-            original_language: old_package_dict.get('copyright_notice', '')
-        }
-        old_package_dict['external_urls'] = old_package_dict.get('extra_information', [])
 
 
         for lang in langs:
-            old_package_dict['title_translated'][lang] = old_package_dict.get('title_' + lang)
-            old_package_dict['notes_translated'][lang] = old_package_dict.get('notes_' + lang)
-            old_package_dict['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang)
+            patch['title_translated'][lang] = old_package_dict.get('title_' + lang)
+            patch['notes_translated'][lang] = old_package_dict.get('notes_' + lang)
+            patch['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang)
 
 
-        #get_action('package_patch')({}, old_package_dict)
+        if old_package_dict.get('resources'):
+            patch['resources'] = old_package_dict.get('resources')
 
-        for resource in old_package_dict.get('resources', []):
+        for resource in patch.get('resources', []):
             resource['name_translated'] = {
                 original_language: resource['name']
             }
@@ -170,11 +177,42 @@ def migrate(ctx, config):
             
             #print resource
             #get_action('resource_patch')({}, resource)
-        import json
-        print(json.dumps(old_package_dict))
+        package_patches.append(patch)
 
-        get_action('package_patch')({}, old_package_dict)
+    if dryrun:
+        print '\n'.join('%s' % p for p in package_patches)
+        print '\n'.join('%s' % p for p in resource_patches)
+
+    else:
+        apply_patches(package_patches, resource_patches)
+
+        #get_action('package_patch')({}, old_package_dict)
 
         #created_dataset = get_action('package_create')({}, new_package_dict)
 
-    print(datasets)
+
+
+def apply_patches(package_patches, resource_patches):
+    if not package_patches and not resource_patches:
+        print 'Nothing to do.'
+    else:
+        package_patch = get_action('package_patch')
+        resource_patch = get_action('resource_patch')
+        context = {'ignore_auth': True}
+        for patch in package_patches:
+            package_patch(context, patch)
+        for patch in resource_patches:
+            resource_patch(context, patch)
+
+
+def package_generator(query, page_size):
+    context = {'ignore_auth': True}
+    package_search = get_action('package_search')
+
+    for index in itertools.count(start=0, step=page_size):
+        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
+        packages = package_search(context, data_dict).get('results', [])
+        for package in packages:
+            yield package
+        else:
+            return
