@@ -108,7 +108,7 @@
       "form_placeholder": "joe@example.com",
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
-      "display_email_name_field": "maintainer",
+      "display_email_name_field": "maintainer"
     },
     {
       "field_name": "maintainer_website",
