@@ -35,6 +35,7 @@ setup(
         ytp_theme=ckanext.ytp.theme.plugin:YtpThemePlugin
         ytp_dataset=ckanext.ytp.dataset.plugin:YTPDatasetForm
         ytp_service=ckanext.ytp.service.plugin:YTPServiceForm
+        ytp_report=ckanext.ytp.report.plugin:YtpReportPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.common.celery_import:task_imports

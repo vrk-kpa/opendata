@@ -1,0 +1,23 @@
+<table class="table table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout:fixed; margin-top: 8px;">
+    <thead>
+      <tr>
+        <th>Administrative branch</th>
+        <th>Dataset count</th>
+        <th>New datasets last month</th>
+        <th>New datasets last year</th>
+        <th>Data formats</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+        <tr>
+          <td>{{ row.organization.name }}</td>
+          <td>{{ row.dataset_count }}</td>
+          <td>{{ row.new_datasets_month }}</td>
+          <td>{{ row.new_datasets_year }}</td>
+          <td>{{ row.resource_formats }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
