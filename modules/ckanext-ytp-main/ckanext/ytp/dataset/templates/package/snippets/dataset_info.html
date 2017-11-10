@@ -53,7 +53,7 @@
             {% set lang = h.get_lang_prefix() %}
             {% set con_list = pkg.get( 'content_type' ) %}
             {% if con_list is mapping %}
-             {% set con_list = con_list.get(lang) %}
+             {% set con_list = con_list.get(lang, []) %}
             {% else %}
                 {% set con_list = con_list.split(',') %}
             {% endif %}

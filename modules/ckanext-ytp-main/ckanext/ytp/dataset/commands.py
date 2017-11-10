@@ -117,7 +117,7 @@ def migrate(ctx, config, dryrun):
         data_dict = {'id': dataset}
         old_package_dict = get_action('package_show')(context, data_dict)
 
-        if old_package_dict.get('title_translated'):
+        if  old_package_dict.get('title_translated') is not None:
             continue
 
         original_language = default_lang
@@ -137,13 +137,12 @@ def migrate(ctx, config, dryrun):
                 original_language: old_package_dict['notes']
             },
             'keywords': { 'fi': [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ] },
-            'content_type': {'fi': [ s for s in old_package_dict.get('content_type', "").split(',')]},
+            'content_type': {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] },
             'copyright_notice_translated': {
                 original_language: old_package_dict.get('copyright_notice', '')
             },
             'external_urls': old_package_dict.get('extra_information', [])
         }
-
 
 
         for lang in langs:
@@ -162,12 +161,14 @@ def migrate(ctx, config, dryrun):
             resource['description_translated'] = {
                 original_language: resource.get('description')
             }
-            resource['temporal_granularity'] = {
-                original_language: resource.get('temporal_granularity')
-            }
-            resource['update_frequency'] = {
-                original_language: resource.get('update_frequency')
-            }
+            if type(resource.get('temporal_granularity')) is not dict:
+                resource['temporal_granularity'] = {
+                    original_language: resource.get('temporal_granularity')
+                }
+            if type(resource.get('update_frequency')) is not dict:
+                resource['update_frequency'] = {
+                    original_language: resource.get('update_frequency')
+                }
 
             for lang in langs:
                 resource['name_translated'][lang] = resource.get('name_' + lang)
