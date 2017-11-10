@@ -107,16 +107,14 @@ def migrate(ctx, config, dryrun):
     default_lang = c.get('ckan.locale_default', 'en')
 
 
-    datasets = get_action('package_list')(context, {})
+
 
     package_patches = []
     resource_patches = []
 
 
-    for dataset in datasets:
-        data_dict = {'id': dataset}
-        old_package_dict = get_action('package_show')(context, data_dict)
-
+    for old_package_dict in package_generator('*:*', 1000):
+        
         if  old_package_dict.get('title_translated') is not None:
             continue
 
