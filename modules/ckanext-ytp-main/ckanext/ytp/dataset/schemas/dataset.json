@@ -109,7 +109,6 @@
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
       "display_email_name_field": "maintainer",
-      "required": true
     },
     {
       "field_name": "maintainer_website",

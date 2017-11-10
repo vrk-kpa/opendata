@@ -6,7 +6,7 @@ import os
 import re
 import glob
 from ckanext.ytp.dataset.translations import facet_translations
-
+from ckan.logic import ValidationError
 
 from ckan.plugins.toolkit import config as c
 
@@ -121,7 +121,7 @@ def migrate(ctx, config, dryrun):
             'notes_translated':  {
                 original_language: old_package_dict['notes']
             },
-            'keywords': { 'fi': [ tag['name'] for tag in old_package_dict['tags'] if tag['vocabulary_id'] is None ] },
+            'keywords': { 'fi': [ tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None ] },
             'content_type': {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] },
             'copyright_notice_translated': {
                 original_language: old_package_dict.get('copyright_notice', '')
@@ -178,10 +178,15 @@ def apply_patches(package_patches, resource_patches):
         resource_patch = get_action('resource_patch')
         context = {'ignore_auth': True}
         for patch in package_patches:
-            package_patch(context, patch)
+            try:
+                package_patch(context, patch)
+            except ValidationError:
+                print "Migration failed for package %s", patch['id']
         for patch in resource_patches:
-            resource_patch(context, patch)
-
+            try:
+                resource_patch(context, patch)
+            except ValidationError:
+                print "Migration failed for resource %s", patch['id']
 
 def package_generator(query, page_size):
     context = {'ignore_auth': True}
