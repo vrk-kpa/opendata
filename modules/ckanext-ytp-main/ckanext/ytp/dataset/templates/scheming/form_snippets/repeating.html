@@ -1,0 +1,15 @@
+{% import 'scheming/macros/form.html' as form %}
+
+{{ form.input_multiple(
+    field.field_name,
+    id='field-' + field.field_name,
+    label=h.scheming_language_text(field.label),
+    value=data[field.field_name],
+    placeholder=h.scheming_language_text(field.form_placeholder),
+    error=errors[field.field_name],
+    attrs=field.form_attrs if 'form_attrs' in field else {},
+    is_required=h.scheming_field_required(field),
+    classes=['control-medium']) }}
+<div class="field-assistive-text">
+    {{ _(field.description) }}
+</div>

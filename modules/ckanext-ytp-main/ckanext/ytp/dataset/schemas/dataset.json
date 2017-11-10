@@ -1,0 +1,296 @@
+{
+  "scheming_version": 1,
+  "dataset_type": "dataset",
+  "about": "API catalog service/interface schema",
+  "about_url": "http://github.com/vrk-kpa/api-catalog",
+  "dataset_fields": [
+    {
+      "field_name": "title_translated",
+      "label": "Title",
+      "preset": "fluent_core_title_translated",
+      "form_languages": ["fi", "en", "sv"],
+      "form_placeholder":"eg. A descriptive title",
+      "only_default_lang_required": true,
+      "description": "A short and descriptive title for the dataset. Do not utilize dates in the title but instead add multiple time-specific resources to the dataset in the next stage."
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "preset": "dataset_slug_ex",
+      "form_placeholder": "eg. my-dataset",
+      "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases."
+    },
+    {
+      "field_name": "keywords",
+      "label": "Tags",
+      "form_placeholder":"eg. every second week",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "only_default_lang_required fluent_tags create_fluent_tags(keywords)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
+      },
+      "only_default_lang_required": true,
+      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+    },
+    {
+      "field_name": "content_type",
+      "label": "Content type",
+      "form_placeholder":"eg. every second week",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "only_default_lang_required fluent_tags create_fluent_tags(content_type)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=content_type"
+      },
+      "only_default_lang_required": true,
+      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+    },
+    {
+      "field_name": "geographical_coverage",
+      "label": "Geographical Coverage",
+      "form_placeholder":"eg. tampere",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=geographical_coverage"
+      },
+      "description": "Select the municipalities from which the dataset contains data."
+    },
+    {
+      "field_name": "notes_translated",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "label": "Description",
+      "display_snippet": null,
+      "only_default_lang_required": true,
+      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
+    },
+    {
+      "field_name": "external_urls",
+      "preset": "repeating_text",
+      "label": "Links to additional information",
+      "form_blanks": 1,
+      "display_snippet": "repeating_link.html",
+      "form_snippet": "repeating.html",
+      "description": "Links to additional information concerning the dataset."
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Organization",
+      "preset": "dataset_organization_ex",
+      "description": "The organization which owns the dataset."
+    },
+    {
+      "field_name": "url",
+      "label": "Source",
+      "form_placeholder": "http://example.com/dataset.json",
+      "display_property": "foaf:homepage",
+      "display_snippet": "link.html",
+      "description": "The origin of the dataset."
+    },
+    {
+      "field_name": "maintainer",
+      "label": "Maintainer",
+      "form_placeholder": "Joe Bloggs",
+      "display_property": "dc:contributor"
+    },
+    {
+      "field_name": "maintainer_email",
+      "label": "Maintainer Email",
+      "form_placeholder": "joe@example.com",
+      "display_property": "dc:contributor",
+      "display_snippet": "email.html",
+      "display_email_name_field": "maintainer",
+      "required": true
+    },
+    {
+      "field_name": "maintainer_website",
+      "label": "Maintainer Website",
+      "form_placeholder": "http://www.example.com",
+      "display_property": "dc:contributor",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "author",
+      "label": "Author",
+      "form_placeholder": "Joe Bloggs",
+      "display_property": "dc:creator"
+    },
+    {
+      "field_name": "author_email",
+      "label": "Author Email",
+      "form_placeholder": "joe@example.com",
+      "display_property": "dc:creator",
+      "display_snippet": "email.html",
+      "display_email_name_field": "author"
+    },
+    {
+      "field_name": "owner",
+      "label": "Owner",
+      "form_placeholder": "Joe Bloggs"
+    },
+    {
+      "field_name": "private",
+      "label": "Visibility",
+      "form_snippet": "private.html",
+      "display_snippet": null,
+      "validators": "boolean_validator set_private_if_not_admin",
+      "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
+    },
+    {
+      "field_name": "update_frequency",
+      "label": "Update Frequency",
+      "form_placeholder":"eg. every second week",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(update_frequency)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=update_frequency"
+      },
+      "description": "A short description of how frequently the dataset will get updated."
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "preset": "sixodp_licence",
+      "form_snippet": "license.html",
+      "display_snippet": "license.html",
+      "required": true
+    },
+    {
+      "field_name": "copyright_notice_translated",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "label": "Copyright Notice",
+      "display_snippet": null,
+      "only_default_lang_required": true,
+      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
+    },
+    {
+      "field_name": "collection_type",
+      "label": "Collection Type",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "Open Data",
+          "label": "Open Data"
+        },
+        {
+          "value": "Interoperability Tools",
+          "label": "Interoperability Tools"
+        }
+      ],
+      "required": true
+    },
+    {
+      "field_name": "valid_from",
+      "label": "Valid From",
+      "preset": "date"
+    },
+    {
+      "field_name": "valid_till",
+      "label": "Valid till",
+      "preset": "date"
+    }
+  ],
+  "resource_fields": [
+    {
+      "field_name": "name_translated",
+      "label": "Name",
+      "preset": "fluent_core_translated_extended",
+      "form_languages": ["fi", "en", "sv"],
+      "form_placeholder":"eg. January 2011 Gold Prices",
+      "only_default_lang_required": true,
+      "description": "A short and descriptive name for the resource."
+    },
+    {
+      "field_name": "url",
+      "label": "URL",
+      "preset": "resource_url_upload",
+      "description": "A file or url which describes the location of the desired resource file."
+    },
+    {
+      "field_name": "file_size",
+      "label": "Size",
+      "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded."
+    },
+    {
+      "field_name": "format",
+      "label": "Format",
+      "preset": "sixodp_resource_format_autocomplete",
+      "description": "File format of the selected resource."
+    },
+    {
+      "field_name": "description_translated",
+      "label": "Description",
+      "preset": "fluent_core_markdown_translated",
+      "validators": "fluent_text",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "description": "An universal, compact and easy to understand description of the added resource."
+    },
+    {
+      "field_name": "position_info",
+      "label": "Position coordinates",
+      "description": "Coordinates which describe the area which the added resource is associated with."
+    },
+    {
+      "field_name": "time_series_start",
+      "label": "Time series start",
+      "preset": "date",
+      "display_snippet": "date.html",
+      "description": "A moment in time after which the data is relevant."
+    },
+    {
+      "field_name": "time_series_end",
+      "label": "Time series end",
+      "preset": "date",
+      "display_snippet": "date.html",
+      "description": "A moment in time after which the data is no longer relevant."
+    },
+    {
+      "field_name": "time_series_precision",
+      "label": "Time Series Precision",
+      "form_placeholder":"eg. 2 weeks",
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(time_series_precision)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=time_series_precision"
+      },
+      "description": "A string which describes the precision of the entered time series."
+    },
+    {
+      "field_name": "temporal_granularity",
+      "label": "Temporal Granularity",
+      "preset": "fluent_text"
+    },
+    {
+      "field_name": "update_frequency",
+      "label": "Update Frequency",
+      "preset": "fluent_text"
+    },
+    {
+      "field_name": "temporal_coverage_to",
+      "label": "Temporal Coverage To",
+      "preset": "date"
+    },
+    {
+      "field_name": "temporal_coverage_from",
+      "label": "Temporal Coverage from",
+      "preset": "date"
+    }
+  ]
+}

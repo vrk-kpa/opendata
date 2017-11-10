@@ -1,0 +1,28 @@
+{% import 'macros/form.html' as form %}
+
+{% macro input_ex(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, final=false) %}
+  {%- set extra_html = caller() if caller -%}
+
+  {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
+  <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {% if final and value and value != "" %}readonly{% endif %} "{{ form.attributes(attrs) }} />
+  {% endcall %}
+{% endmacro %}
+
+{% call input_ex(
+    field.field_name,
+    id='field-' + field.field_name,
+    label=h.scheming_language_text(field.label),
+    placeholder=h.scheming_language_text(field.form_placeholder),
+    final=field.final if 'final' in field else False,
+    value=data[field.field_name],
+    error=errors[field.field_name],
+    classes=['control-medium', 'control-maybe-final'],
+    attrs=field.form_attrs if 'form_attrs' in field else {},
+    is_required=h.scheming_field_required(field)
+    )
+%}
+    {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
+{% endcall %}
+<div class="field-assistive-text">
+  {{ _(field.description) }}
+</div>

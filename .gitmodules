@@ -17,6 +17,12 @@
 [submodule "modules/ckanext-cloudstorage"]
 	path = modules/ckanext-cloudstorage
 	url = https://github.com/6aika/ckanext-cloudstorage.git
+[submodule "modules/ckanext-scheming"]
+	path = modules/ckanext-scheming
+	url = https://github.com/ckan/ckanext-scheming.git
+[submodule "modules/ckanext-fluent"]
+	path = modules/ckanext-fluent
+	url = https://github.com/ckan/ckanext-fluent.git
 [submodule "modules/ckanext-qa"]
 	path = modules/ckanext-qa
 	url = https://github.com/ckan/ckanext-qa.git

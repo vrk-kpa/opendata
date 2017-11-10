@@ -1,0 +1,6 @@
+{% import 'macros/form.html' as form %}
+
+{{ form.hidden(
+name=field.field_name,
+value=data[field.field_name],
+) }}

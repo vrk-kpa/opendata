@@ -1,0 +1,18 @@
+{% set value = data[field.field_name] %}
+<section class="tags">
+    {% block tag_list %}
+    <ul class="tag-list">
+        {% for tag in value %}
+        {% set tag_dict = dict({
+            'controller': 'package',
+            'action': 'search',
+            'vocab_' + field.field_name: tag}) %}
+
+        <li>
+            <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">{{
+                h.truncate(tag, 22) }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
+    <section class="tags">

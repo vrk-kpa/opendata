@@ -1,0 +1,6 @@
+{%- set values = data[field.field_name] -%}
+<ol>
+{%- for element in values -%}
+  <li>{{ h.link_to(element, element, rel=field.display_property, target='_blank') }}</li>
+{%- endfor -%}
+</ol>
