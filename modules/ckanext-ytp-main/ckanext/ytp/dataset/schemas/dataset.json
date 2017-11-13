@@ -26,13 +26,12 @@
       "form_placeholder":"eg. every second week",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "only_default_lang_required fluent_tags create_fluent_tags(keywords)",
+      "validators": "fluent_tags create_fluent_tags(keywords)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
       },
-      "only_default_lang_required": true,
       "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
     },
     {
@@ -41,13 +40,12 @@
       "form_placeholder":"eg. every second week",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "only_default_lang_required fluent_tags create_fluent_tags(content_type)",
+      "validators": "fluent_tags create_fluent_tags(content_type)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=content_type"
       },
-      "only_default_lang_required": true,
       "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
     },
     {

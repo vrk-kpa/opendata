@@ -121,44 +121,49 @@ def migrate(ctx, config, dryrun):
             'notes_translated':  {
                 original_language: old_package_dict['notes']
             },
-            'keywords': { 'fi': [ tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None ] },
-            'content_type': {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] },
             'copyright_notice_translated': {
                 original_language: old_package_dict.get('copyright_notice', '')
             },
             'external_urls': old_package_dict.get('extra_information', [])
         }
 
+        if old_package_dict.get('tags'):
+            patch['keywords'] = { 'fi': [ tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None ] }
+
+        if old_package_dict.get('content_type'):
+            patch['content_type'] = {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] }
 
         for lang in langs:
-            patch['title_translated'][lang] = old_package_dict.get('title_' + lang)
-            patch['notes_translated'][lang] = old_package_dict.get('notes_' + lang)
-            patch['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang)
+            patch['title_translated'][lang] = old_package_dict.get('title_' + lang, '')
+            patch['notes_translated'][lang] = old_package_dict.get('notes_' + lang, '')
+            patch['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang, '')
 
 
         patch['resources'] = old_package_dict.get('resources')
 
         for resource in patch.get('resources', []):
             resource['name_translated'] = {
-                original_language: resource['name']
+                original_language: resource.get('name', '')
             }
             resource['description_translated'] = {
-                original_language: resource.get('description')
+                original_language: resource.get('description', '')
             }
-            if type(resource.get('temporal_granularity')) is not dict:
+            if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
                 resource['temporal_granularity'] = {
                     original_language: resource.get('temporal_granularity')
                 }
-            if type(resource.get('update_frequency')) is not dict:
+            if resource.get('update_frequency') and type(resource.get('update_frequency')) is not dict:
                 resource['update_frequency'] = {
                     original_language: resource.get('update_frequency')
                 }
 
             for lang in langs:
-                resource['name_translated'][lang] = resource.get('name_' + lang)
-                resource['description_translated'][lang] = resource.get('description_' + lang)
-                resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang)
-                resource['update_frequency'][lang] = resource.get('update_frequency_' + lang)
+                resource['name_translated'][lang] = resource.get('name_' + lang, '')
+                resource['description_translated'][lang] = resource.get('description_' + lang, '')
+                if resource.get('temporal_granularity_' + lang ):
+                    resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang )
+                if resource.get('temporal_granularity_' + lang):
+                    resource['update_frequency'][lang] = resource.get('update_frequency_' + lang)
 
         package_patches.append(patch)
 
@@ -180,13 +185,15 @@ def apply_patches(package_patches, resource_patches):
         for patch in package_patches:
             try:
                 package_patch(context, patch)
-            except ValidationError:
-                print "Migration failed for package %s", patch['id']
+            except ValidationError as e:
+                print "Migration failed for package %s reason:", patch['id']
+                print e
         for patch in resource_patches:
             try:
                 resource_patch(context, patch)
-            except ValidationError:
-                print "Migration failed for resource %s", patch['id']
+            except ValidationError as e:
+                print "Migration failed for resource %s, reason", patch['id']
+                print e
 
 def package_generator(query, page_size):
     context = {'ignore_auth': True}
