@@ -109,7 +109,7 @@
         "form_snippet": "fluent_markdown_ex.html",
         "display_snippet": "fluent_markdown.html",
         "error_snippet": "fluent_text.html",
-        "validators": "only_default_lang_required fluent_text",
+        "validators": "fluent_text",
         "output_validators": "fluent_core_translated_output"
       }
     },

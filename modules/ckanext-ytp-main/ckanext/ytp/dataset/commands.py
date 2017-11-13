@@ -146,10 +146,10 @@ def migrate(ctx, config, dryrun):
 
         for resource in patch.get('resources', []):
             resource['name_translated'] = {
-                original_language: resource.get('name', '')
+                original_language: resource.get('name', '') or ''
             }
             resource['description_translated'] = {
-                original_language: resource.get('description', '')
+                original_language: resource.get('description', '') or ''
             }
             if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
                     resource['temporal_granularity'] = {

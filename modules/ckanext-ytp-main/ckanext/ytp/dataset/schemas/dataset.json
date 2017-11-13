@@ -171,7 +171,6 @@
       "form_languages": ["fi", "en", "sv"],
       "label": "Copyright Notice",
       "display_snippet": null,
-      "only_default_lang_required": true,
       "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
     },
     {
