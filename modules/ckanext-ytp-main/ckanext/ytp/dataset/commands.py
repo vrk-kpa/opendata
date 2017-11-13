@@ -148,11 +148,11 @@ def migrate(ctx, config, dryrun):
             resource['description_translated'] = {
                 original_language: resource.get('description', '')
             }
-            if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
+            if resource.get('temporal_granularity') and resource.get('temporal_granularity') is not '' and type(resource.get('temporal_granularity')) is not dict:
                 resource['temporal_granularity'] = {
                     original_language: resource.get('temporal_granularity')
                 }
-            if resource.get('update_frequency') and type(resource.get('update_frequency')) is not dict:
+            if resource.get('update_frequency') and resource.get('update_frequency') is not '' and type(resource.get('update_frequency')) is not dict:
                 resource['update_frequency'] = {
                     original_language: resource.get('update_frequency')
                 }

@@ -208,7 +208,6 @@
       "preset": "fluent_core_translated_extended",
       "form_languages": ["fi", "en", "sv"],
       "form_placeholder":"eg. January 2011 Gold Prices",
-      "only_default_lang_required": true,
       "description": "A short and descriptive name for the resource."
     },
     {
