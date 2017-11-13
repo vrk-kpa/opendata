@@ -133,6 +133,9 @@ def migrate(ctx, config, dryrun):
         if old_package_dict.get('content_type'):
             patch['content_type'] = {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] }
 
+        if old_package_dict.get('license_id') is None:
+            patch['license_id'] = 'other'
+
         for lang in langs:
             patch['title_translated'][lang] = old_package_dict.get('title_' + lang, '')
             patch['notes_translated'][lang] = old_package_dict.get('notes_' + lang, '')
@@ -148,14 +151,19 @@ def migrate(ctx, config, dryrun):
             resource['description_translated'] = {
                 original_language: resource.get('description', '')
             }
-            if resource.get('temporal_granularity') and resource.get('temporal_granularity') is not '' and type(resource.get('temporal_granularity')) is not dict:
-                resource['temporal_granularity'] = {
-                    original_language: resource.get('temporal_granularity')
-                }
-            if resource.get('update_frequency') and resource.get('update_frequency') is not '' and type(resource.get('update_frequency')) is not dict:
-                resource['update_frequency'] = {
-                    original_language: resource.get('update_frequency')
-                }
+            if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
+                    resource['temporal_granularity'] = {
+                        original_language: resource.get('temporal_granularity')
+                    }
+            else:
+                del resource['temporal_granularity']
+            if resource.get('update_frequency') and type(resource.get('update_frequency')) is not dict:
+                    resource['update_frequency'] = {
+                        original_language: resource.get('update_frequency')
+                    }
+            else:
+                del resource['update_frequency']
+
 
             for lang in langs:
                 resource['name_translated'][lang] = resource.get('name_' + lang, '')
