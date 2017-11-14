@@ -1,20 +1,24 @@
 <table class="table table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout:fixed; margin-top: 8px;">
     <thead>
       <tr>
-        <th>Administrative branch</th>
-        <th>Dataset count</th>
-        <th>Dataset count (1 year ago)</th>
-        <th>Dataset count (2 years ago)</th>
-        <th>Dataset count (3 years ago)</th>
-        <th>New datasets last month</th>
-        <th>New datasets last year</th>
-        <th>Data formats</th>
+        <th rowspan="2">Administrative branch</th>
+        <th colspan="4">Dataset count</th>
+        <th colspan="2">New datasets</th>
+        <th rowspan="2">Data formats</th>
+      </tr>
+      <tr>
+        <th>Current</th>
+        <th>1 year ago</th>
+        <th>2 years ago</th>
+        <th>3 years ago</th>
+        <th>Last month</th>
+        <th>Last year</th>
       </tr>
     </thead>
     <tbody>
       {% for row in table %}
         <tr>
-          <td style="padding-left: {{ row.level + 1 }}em">{{ row.organization.name }}</td>
+          <td style="padding-left: {{ row.level + 1 }}em">{{ row.organization.title }}</td>
           <td>{{ row.dataset_count }}</td>
           <td>{{ row.dataset_count_1yr }}</td>
           <td>{{ row.dataset_count_2yr }}</td>
