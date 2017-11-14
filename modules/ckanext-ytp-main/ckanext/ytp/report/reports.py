@@ -3,6 +3,10 @@ from ckan.logic import get_action, NotFound, NotAuthorized
 import itertools
 from datetime import timedelta, datetime
 
+import logging
+
+log = logging.getLogger(__name__)
+
 def test_report():
     return {
         'table' : [
@@ -36,24 +40,44 @@ def administrative_branch_summary_report():
             ]
 
     context = {}
+
+    # Optimization opportunity: Could fetch all orgs here and manually create the hierarchy
     orgs = get_action('organization_list')(context, {'organizations': org_names, 'all_fields': True})
-    orgs_by_name = {org['name']: org for org in orgs}
 
     org_trees = [get_action('group_tree_section')(context, {'id': org['id'], 'type': 'organization'})
                  for org in orgs]
-    org_ids_by_tree = {r['name']: [x['id'] for x in flatten(r, lambda x: x['children'])]
-        for r in org_trees}
-    datasets_by_tree = {k: list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context))
-            for k, v in org_ids_by_tree.iteritems()}
+
+    def children(dataset):
+        return dataset['children']
+
+    org_levels = {
+            org['name']: level
+            for t in org_trees
+            for org, level in hierarchy_levels(t, children)}
+
+    flat_orgs = (org for t in org_trees for org in flatten(t, children))
+    root_tree_ids_pairs = (
+            (r, [x['id'] for x in flatten(r, children)])
+            for r in flat_orgs)
+
+    # Optimization opportunity: Prefetch datasets for all related orgs in one go
+    root_datasets_pairs = (
+            (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
+            for k, v in root_tree_ids_pairs)
+
     return {
         'table' : [{
-            'organization': orgs_by_name[org_name],
+            'organization': org,
+            'level': org_levels[org['name']],
             'dataset_count': len(datasets),
+            'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
+            'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
+            'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
             'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
             'new_datasets_year': glen(d for d in datasets if age(d) <= timedelta(365)),
             'resource_formats': resource_formats(datasets)
             }
-            for org_name, datasets in datasets_by_tree.iteritems()
+            for org, datasets in root_datasets_pairs
             ]
     }
 
@@ -97,6 +121,15 @@ def flatten(x, children):
     for child in children(x):
         for cx in flatten(child, children):
             yield cx
+
+def hierarchy_levels(x, children, level=0):
+    '''
+    Provide hierarchy levels for nodes in a hierarchy
+    '''
+    yield(x, level)
+    for child in children(x):
+        for cx, cl in hierarchy_levels(child, children, level + 1):
+            yield (cx, cl)
 
 def resource_formats(datasets):
     return ', '.join({r['format'] for d in datasets for r in d['resources'] if r['format']})

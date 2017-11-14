@@ -7,7 +7,7 @@ celery_user: "{{ www_user }}"
 
 ckan_plugins_default: stats scheming_datasets fluent
 # order matters, when templates call super()
-ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report qa archiver ytp_organizations ytp_comments ytp_request hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_user ytp_service datastore showcase datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view
+ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report qa archiver ytp_organizations ytp_comments ytp_request ytp_report hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_user ytp_service datastore showcase datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view
 
 
 ckan_aws_plugins: cloudstorage

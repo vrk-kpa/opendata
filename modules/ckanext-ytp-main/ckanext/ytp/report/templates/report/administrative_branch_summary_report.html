@@ -3,6 +3,9 @@
       <tr>
         <th>Administrative branch</th>
         <th>Dataset count</th>
+        <th>Dataset count (1 year ago)</th>
+        <th>Dataset count (2 years ago)</th>
+        <th>Dataset count (3 years ago)</th>
         <th>New datasets last month</th>
         <th>New datasets last year</th>
         <th>Data formats</th>
@@ -11,8 +14,11 @@
     <tbody>
       {% for row in table %}
         <tr>
-          <td>{{ row.organization.name }}</td>
+          <td style="padding-left: {{ row.level + 1 }}em">{{ row.organization.name }}</td>
           <td>{{ row.dataset_count }}</td>
+          <td>{{ row.dataset_count_1yr }}</td>
+          <td>{{ row.dataset_count_2yr }}</td>
+          <td>{{ row.dataset_count_3yr }}</td>
           <td>{{ row.new_datasets_month }}</td>
           <td>{{ row.new_datasets_year }}</td>
           <td>{{ row.resource_formats }}</td>
