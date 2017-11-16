@@ -74,8 +74,9 @@ def administrative_branch_summary_report():
             'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
             'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
             'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
-            'new_datasets_year': glen(d for d in datasets if age(d) <= timedelta(365)),
-            'resource_formats': resource_formats(datasets)
+            'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
+            'resource_formats': resource_formats(datasets),
+            'openness_score_avg': openness_score_avg(context, datasets)
             }
             for org, datasets in root_datasets_pairs
             ]
@@ -133,3 +134,16 @@ def hierarchy_levels(x, children, level=0):
 
 def resource_formats(datasets):
     return ', '.join({r['format'] for d in datasets for r in d['resources'] if r['format']})
+
+def openness_score_avg(context, datasets):
+    openness_score = get_action('qa_package_openness_show')
+    scores = (openness_score(context, {"id": d['id']}) for d in datasets)
+    total, count = reduce(tuple_sum, (
+        (s['openness_score'], 1)
+        for s in scores
+        if s.get('openness_score') is not None),
+        (0, 0))
+    return total / count if count > 0 else None
+
+def tuple_sum(*xs):
+    return tuple(sum(x) for x in zip(*xs))

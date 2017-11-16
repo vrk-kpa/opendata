@@ -1,9 +1,10 @@
-<table class="table table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout:fixed; margin-top: 8px;">
+<table class="table table-condensed tablesorter" id="report-table">
     <thead>
       <tr>
         <th rowspan="2">Administrative branch</th>
         <th colspan="4">Dataset count</th>
         <th colspan="2">New datasets</th>
+        <th rowspan="2">Avg. openness score</th>
         <th rowspan="2">Data formats</th>
       </tr>
       <tr>
@@ -12,7 +13,7 @@
         <th>2 years ago</th>
         <th>3 years ago</th>
         <th>Last month</th>
-        <th>Last year</th>
+        <th>Last 6 months</th>
       </tr>
     </thead>
     <tbody>
@@ -24,7 +25,8 @@
           <td>{{ row.dataset_count_2yr }}</td>
           <td>{{ row.dataset_count_3yr }}</td>
           <td>{{ row.new_datasets_month }}</td>
-          <td>{{ row.new_datasets_year }}</td>
+          <td>{{ row.new_datasets_6_months }}</td>
+          <td>{{ row.openness_score_avg }}</td>
           <td>{{ row.resource_formats }}</td>
         </tr>
       {% endfor %}
