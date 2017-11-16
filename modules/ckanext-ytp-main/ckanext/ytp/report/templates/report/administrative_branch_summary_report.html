@@ -26,7 +26,7 @@
           <td>{{ row.dataset_count_3yr }}</td>
           <td>{{ row.new_datasets_month }}</td>
           <td>{{ row.new_datasets_6_months }}</td>
-          <td>{{ row.openness_score_avg }}</td>
+          <td>{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
           <td>{{ row.resource_formats }}</td>
         </tr>
       {% endfor %}
