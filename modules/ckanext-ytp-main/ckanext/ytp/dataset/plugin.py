@@ -201,7 +201,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IConfigurable)
-    plugins.implements(ISpatialHarvester, inherit=True)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IValidators)
 
@@ -576,6 +575,29 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     def get_actions(self):
         return {'package_show': action_package_show}
 
+
+
+    # IValidators
+    def get_validators(self):
+        return {
+            'lower_if_exists': validators.lower_if_exists,
+            'upper_if_exists': validators.upper_if_exists,
+            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
+            'create_tags': validators.create_tags,
+            'create_fluent_tags': validators.create_fluent_tags,
+            'set_private_if_not_admin': validators.set_private_if_not_admin,
+            'list_to_string': validators.list_to_string,
+            'convert_to_list': validators.convert_to_list,
+            'tag_list_output': validators.tag_list_output,
+            'repeating_text': validators.repeating_text,
+            'repeating_text_output': validators.repeating_text_output,
+            'only_default_lang_required': validators.only_default_lang_required
+        }
+
+
+class YTPSpatialHarvester(plugins.SingletonPlugin):
+    plugins.implements(ISpatialHarvester, inherit=True)
+
     # ISpatialHarvester
 
     def get_package_dict(self, context, data_dict):
@@ -690,20 +712,3 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         return package_dict
 
-
-    # IValidators
-    def get_validators(self):
-        return {
-            'lower_if_exists': validators.lower_if_exists,
-            'upper_if_exists': validators.upper_if_exists,
-            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
-            'create_tags': validators.create_tags,
-            'create_fluent_tags': validators.create_fluent_tags,
-            'set_private_if_not_admin': validators.set_private_if_not_admin,
-            'list_to_string': validators.list_to_string,
-            'convert_to_list': validators.convert_to_list,
-            'tag_list_output': validators.tag_list_output,
-            'repeating_text': validators.repeating_text,
-            'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required
-        }
