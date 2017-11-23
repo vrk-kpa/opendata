@@ -50,7 +50,7 @@
     },
     {
       "field_name": "geographical_coverage",
-      "label": "Geographical Coverage",
+      "label": "Geographical coverage",
       "form_placeholder":"eg. tampere",
       "preset": "vocabulary_with_autocomplete",
       "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
@@ -102,7 +102,7 @@
     },
     {
       "field_name": "maintainer_email",
-      "label": "Maintainer Email",
+      "label": "Maintainer email",
       "form_placeholder": "joe@example.com",
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
@@ -110,7 +110,7 @@
     },
     {
       "field_name": "maintainer_website",
-      "label": "Maintainer Website",
+      "label": "Maintainer website",
       "form_placeholder": "http://www.example.com",
       "display_property": "dc:contributor",
       "display_snippet": "link.html"
@@ -123,7 +123,7 @@
     },
     {
       "field_name": "author_email",
-      "label": "Author Email",
+      "label": "Author email",
       "form_placeholder": "joe@example.com",
       "display_property": "dc:creator",
       "display_snippet": "email.html",
@@ -144,7 +144,7 @@
     },
     {
       "field_name": "update_frequency",
-      "label": "Update Frequency",
+      "label": "Update frequency",
       "form_placeholder":"eg. every second week",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
@@ -169,29 +169,29 @@
       "preset": "fluent_core_markdown_translated",
       "form_placeholder": "eg. A detailed description",
       "form_languages": ["fi", "en", "sv"],
-      "label": "Copyright Notice",
+      "label": "Copyright notice",
       "display_snippet": null,
       "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
     },
     {
       "field_name": "collection_type",
-      "label": "Collection Type",
+      "label": "Collection type",
       "preset": "select",
       "choices": [
         {
           "value": "Open Data",
-          "label": "Open Data"
+          "label": "Open data"
         },
         {
           "value": "Interoperability Tools",
-          "label": "Interoperability Tools"
+          "label": "Interoperability tools"
         }
       ],
       "required": true
     },
     {
       "field_name": "valid_from",
-      "label": "Valid From",
+      "label": "Valid from",
       "preset": "date"
     },
     {
@@ -256,7 +256,7 @@
     },
     {
       "field_name": "time_series_precision",
-      "label": "Time Series Precision",
+      "label": "Time series precision",
       "form_placeholder":"eg. 2 weeks",
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(time_series_precision)",
@@ -269,22 +269,22 @@
     },
     {
       "field_name": "temporal_granularity",
-      "label": "Temporal Granularity",
+      "label": "Temporal granularity",
       "preset": "fluent_text"
     },
     {
       "field_name": "update_frequency",
-      "label": "Update Frequency",
+      "label": "Update frequency",
       "preset": "fluent_text"
     },
     {
       "field_name": "temporal_coverage_to",
-      "label": "Temporal Coverage To",
+      "label": "Temporal coverage to",
       "preset": "date"
     },
     {
       "field_name": "temporal_coverage_from",
-      "label": "Temporal Coverage from",
+      "label": "Temporal coverage from",
       "preset": "date"
     }
   ]

@@ -34,6 +34,7 @@ setup(
         hri_harvester=ckanext.ytp.organizations.harvesters.hriharvester:HRIHarvester
         ytp_theme=ckanext.ytp.theme.plugin:YtpThemePlugin
         ytp_dataset=ckanext.ytp.dataset.plugin:YTPDatasetForm
+        ytp_spatial=ckanext.ytp.dataset.plugin:YTPSpatialHarvester
         ytp_service=ckanext.ytp.service.plugin:YTPServiceForm
         ytp_report=ckanext.ytp.report.plugin:YtpReportPlugin
 

@@ -1,20 +1,32 @@
-<table class="table table-bordered table-condensed tablesorter" id="report-table" style="width: 100%; table-layout:fixed; margin-top: 8px;">
+<table class="table table-condensed tablesorter" id="report-table">
     <thead>
       <tr>
-        <th>Administrative branch</th>
-        <th>Dataset count</th>
-        <th>New datasets last month</th>
-        <th>New datasets last year</th>
-        <th>Data formats</th>
+        <th rowspan="2">Administrative branch</th>
+        <th colspan="4">Dataset count</th>
+        <th colspan="2">New datasets</th>
+        <th rowspan="2">Avg. openness score</th>
+        <th rowspan="2">Data formats</th>
+      </tr>
+      <tr>
+        <th>Current</th>
+        <th>1 year ago</th>
+        <th>2 years ago</th>
+        <th>3 years ago</th>
+        <th>Last month</th>
+        <th>Last 6 months</th>
       </tr>
     </thead>
     <tbody>
       {% for row in table %}
         <tr>
-          <td>{{ row.organization.name }}</td>
+          <td style="padding-left: {{ row.level + 1 }}em">{{ row.organization.title }}</td>
           <td>{{ row.dataset_count }}</td>
+          <td>{{ row.dataset_count_1yr }}</td>
+          <td>{{ row.dataset_count_2yr }}</td>
+          <td>{{ row.dataset_count_3yr }}</td>
           <td>{{ row.new_datasets_month }}</td>
-          <td>{{ row.new_datasets_year }}</td>
+          <td>{{ row.new_datasets_6_months }}</td>
+          <td>{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
           <td>{{ row.resource_formats }}</td>
         </tr>
       {% endfor %}
