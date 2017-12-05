@@ -21,18 +21,104 @@
       "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases."
     },
     {
+      "field_name": "notes_translated",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "label": "Description",
+      "display_snippet": null,
+      "only_default_lang_required": true,
+      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
+    },
+    {
       "field_name": "keywords",
       "label": "Tags",
       "form_placeholder":"eg. every second week",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(keywords)",
+      "validators": "only_default_lang_required fluent_tags create_fluent_tags(keywords)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
       },
-      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag.",
+      "only_default_lang_required": true
+    },
+    {
+      "field_name": "collection_type",
+      "label": "Collection type",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "Open Data",
+          "label": "Open data"
+        },
+        {
+          "value": "Interoperability Tools",
+          "label": "Interoperability tools"
+        }
+      ],
+      "required": true
+    },
+    {
+      "field_name": "maintainer",
+      "label": "Maintainer",
+      "form_placeholder": "Joe Bloggs",
+      "display_property": "dc:contributor",
+      "required": true
+    },
+    {
+      "field_name": "maintainer_email",
+      "label": "Maintainer email",
+      "form_placeholder": "joe@example.com",
+      "display_property": "dc:contributor",
+      "display_snippet": "email.html",
+      "display_email_name_field": "maintainer",
+      "required": true
+    },
+    {
+      "field_name": "maintainer_website",
+      "label": "Maintainer website",
+      "form_placeholder": "http://www.example.com",
+      "display_property": "dc:contributor",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "private",
+      "label": "Visibility",
+      "form_snippet": "private.html",
+      "display_snippet": null,
+      "validators": "boolean_validator set_private_if_not_admin",
+      "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Organization",
+      "preset": "dataset_organization_ex",
+      "description": "The organization which owns the dataset."
+    },
+    {
+      "field_name": "owner",
+      "label": "Owner",
+      "form_placeholder": "Joe Bloggs"
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "preset": "sixodp_licence",
+      "form_snippet": "license.html",
+      "display_snippet": "license.html",
+      "required": true
+    },
+    {
+      "field_name": "copyright_notice_translated",
+      "preset": "fluent_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "label": "Copyright notice",
+      "display_snippet": null,
+      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
     },
     {
       "field_name": "content_type",
@@ -62,16 +148,6 @@
       "description": "Select the municipalities from which the dataset contains data."
     },
     {
-      "field_name": "notes_translated",
-      "preset": "fluent_core_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
-      "form_languages": ["fi", "en", "sv"],
-      "label": "Description",
-      "display_snippet": null,
-      "only_default_lang_required": true,
-      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
-    },
-    {
       "field_name": "external_urls",
       "preset": "repeating_text",
       "label": "Links to additional information",
@@ -80,12 +156,7 @@
       "form_snippet": "repeating.html",
       "description": "Links to additional information concerning the dataset."
     },
-    {
-      "field_name": "owner_org",
-      "label": "Organization",
-      "preset": "dataset_organization_ex",
-      "description": "The organization which owns the dataset."
-    },
+
     {
       "field_name": "url",
       "label": "Source",
@@ -94,27 +165,7 @@
       "display_snippet": "link.html",
       "description": "The origin of the dataset."
     },
-    {
-      "field_name": "maintainer",
-      "label": "Maintainer",
-      "form_placeholder": "Joe Bloggs",
-      "display_property": "dc:contributor"
-    },
-    {
-      "field_name": "maintainer_email",
-      "label": "Maintainer email",
-      "form_placeholder": "joe@example.com",
-      "display_property": "dc:contributor",
-      "display_snippet": "email.html",
-      "display_email_name_field": "maintainer"
-    },
-    {
-      "field_name": "maintainer_website",
-      "label": "Maintainer website",
-      "form_placeholder": "http://www.example.com",
-      "display_property": "dc:contributor",
-      "display_snippet": "link.html"
-    },
+
     {
       "field_name": "author",
       "label": "Author",
@@ -130,19 +181,6 @@
       "display_email_name_field": "author"
     },
     {
-      "field_name": "owner",
-      "label": "Owner",
-      "form_placeholder": "Joe Bloggs"
-    },
-    {
-      "field_name": "private",
-      "label": "Visibility",
-      "form_snippet": "private.html",
-      "display_snippet": null,
-      "validators": "boolean_validator set_private_if_not_admin",
-      "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
-    },
-    {
       "field_name": "update_frequency",
       "label": "Update frequency",
       "form_placeholder":"eg. every second week",
@@ -156,39 +194,8 @@
       },
       "description": "A short description of how frequently the dataset will get updated."
     },
-    {
-      "field_name": "license_id",
-      "label": "License",
-      "preset": "sixodp_licence",
-      "form_snippet": "license.html",
-      "display_snippet": "license.html",
-      "required": true
-    },
-    {
-      "field_name": "copyright_notice_translated",
-      "preset": "fluent_core_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
-      "form_languages": ["fi", "en", "sv"],
-      "label": "Copyright notice",
-      "display_snippet": null,
-      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
-    },
-    {
-      "field_name": "collection_type",
-      "label": "Collection type",
-      "preset": "select",
-      "choices": [
-        {
-          "value": "Open Data",
-          "label": "Open data"
-        },
-        {
-          "value": "Interoperability Tools",
-          "label": "Interoperability tools"
-        }
-      ],
-      "required": true
-    },
+
+
     {
       "field_name": "valid_from",
       "label": "Valid from",

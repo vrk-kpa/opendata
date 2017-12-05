@@ -102,7 +102,9 @@ def add_to_vocab(context, tags, vocab):
     except ObjectNotFound:
         v = plugin.create_vocabulary(vocab)
 
-    context['vocabulary'] = model.Vocabulary.get(v.get('id'))
+
+    if isinstance(tags, basestring):
+        tags = [tags]
 
     for tag in tags:
         validators.tag_length_validator(tag, context)
@@ -232,14 +234,14 @@ def only_default_lang_required(field, schema):
                 errors[key].append(_('expecting JSON object'))
                 return
 
-            if value.get(default_lang) is None:
+            if field.get('only_default_lang_required') is not None and value.get(default_lang) is None:
                 errors[key].append(_('Required language "%s" missing') % default_lang)
             return
 
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        if extras.get(prefix + default_lang) == '':
-            errors[key[:-1] + (key[-1] + '-' + default_lang,)] = [_('Missing value')]
+        if extras.get(prefix + default_lang) == '' or extras.get(prefix + default_lang) is None:
+            errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return  validator
