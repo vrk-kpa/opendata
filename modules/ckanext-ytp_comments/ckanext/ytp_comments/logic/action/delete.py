@@ -3,7 +3,7 @@ import ckan.logic as logic
 
 from ckan.lib.base import abort
 
-import ckanext.ytp.comments.model as comment_model
+import ckanext.ytp_comments.model as comment_model
 
 log = logging.getLogger(__name__)
 

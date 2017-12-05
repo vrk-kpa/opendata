@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 version = '0.0'
 
 setup(
-    name='ckanext-ytp-comments',
+    name='ckanext-ytp_comments',
     version=version,
     description="",
     long_description='''
@@ -15,14 +15,14 @@ setup(
     url='',
     license='',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-    namespace_packages=['ckanext', 'ckanext.ytp', 'ckanext.ytp.comments'],
+    namespace_packages=['ckanext', 'ckanext.ytp_comments'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
         # -*- Extra requirements: -*-
     ],
     message_extractors={
-        'ckanext/ytp/comments': [
+        'ckanext/ytp_comments': [
             ('**.py', 'python', None),
             ('templates/**.html', 'ckan', None),
             ('**.js', 'javascript', None)
@@ -30,9 +30,9 @@ setup(
     },
     entry_points='''
         [ckan.plugins]
-        ytp_comments=ckanext.ytp.comments.plugin:YtpCommentsPlugin
+        ytp_comments=ckanext.ytp_comments.plugin:YtpCommentsPlugin
 
         [paste.paster_command]
-        initdb = ckanext.ytp.comments.command:InitDBCommand
+        initdb = ckanext.ytp_comments.command:InitDBCommand
     '''
 )

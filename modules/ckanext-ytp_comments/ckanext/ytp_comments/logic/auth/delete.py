@@ -3,7 +3,7 @@ from pylons.i18n import _
 
 import ckan.authz as authz
 from ckan import logic
-import ckanext.ytp.comments.model as comment_model
+import ckanext.ytp_comments.model as comment_model
 
 
 log = logging.getLogger(__name__)

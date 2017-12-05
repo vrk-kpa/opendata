@@ -30,7 +30,7 @@ class InitDBCommand(CkanCommand):
         model.Session.remove()
         model.Session.configure(bind=model.meta.engine)
 
-        import ckanext.ytp.comments.model as cmodel
+        import ckanext.ytp_comments.model as cmodel
         self.log.info("Initializing tables")
         cmodel.init_tables()
         self.log.info("DB tables are setup")

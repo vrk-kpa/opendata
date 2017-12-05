@@ -24,6 +24,14 @@
 
   when: deployment_environment_id == "vagrant"
 
+- name: Compile extension translations
+  command: "{{ virtual_environment }}/bin/python setup.py compile_catalog"
+  ignore_errors: True # Not all extensions have translations, try anyway
+  args:
+    chdir: "{{ ckanext_sync_path }}/{{ item }}"
+  tags:
+    - translations
+
 # Install dependencies for the extension. Depending on the extension, deps
 # are listed either in requirements.txt or pip-requirements.txt. Both are covered here.
 
