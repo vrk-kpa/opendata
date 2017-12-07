@@ -193,7 +193,7 @@ def action_package_show(context, data_dict):
     return result
 
 
-class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, DefaultTranslation):
+class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
@@ -204,7 +204,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, Defaul
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IValidators)
-    plugins.implements(plugins.ITranslation)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
