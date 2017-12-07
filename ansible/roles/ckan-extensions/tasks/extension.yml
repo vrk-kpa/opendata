@@ -26,7 +26,7 @@
 
 - name: Compile extension translations
   command: "{{ virtual_environment }}/bin/python setup.py compile_catalog"
-  ignore_errors: True # Not all extensions have translations, try anyway
+  when: item in extensions_with_translations
   args:
     chdir: "{{ ckanext_sync_path }}/{{ item }}"
   tags:
