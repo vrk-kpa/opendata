@@ -1,6 +1,6 @@
 import logging
 
-import ckanext.ytp.comments.model as comment_model
+import ckanext.ytp_comments.model as comment_model
 from ckan.lib.base import abort
 from ckan import logic
 

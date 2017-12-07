@@ -43,7 +43,7 @@ def _get_safe_locale():
 
 def send_comment_notification_mail(recipient_name, recipient_email, dataset, comment):
 
-    from ckanext.ytp.comments import email_template
+    from ckanext.ytp_comments import email_template
 
     # Fill out the message template
 

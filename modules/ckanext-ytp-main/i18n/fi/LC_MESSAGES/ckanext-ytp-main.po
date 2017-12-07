@@ -2502,3 +2502,6 @@ msgstr "Järjestä rekisteröitymisen mukaan"
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:21
 msgid "Clear search"
 msgstr "Tyhjennä haku"
+
+msgid "Geographical coverage"
+msgstr "Maantieteellinen kattavuus"

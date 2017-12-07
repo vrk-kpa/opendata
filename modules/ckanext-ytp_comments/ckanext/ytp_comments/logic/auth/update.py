@@ -1,7 +1,7 @@
 import logging
 from ckan.common import _
 from ckan import logic
-import ckanext.ytp.comments.model as comment_model
+import ckanext.ytp_comments.model as comment_model
 
 log = logging.getLogger(__name__)
 
