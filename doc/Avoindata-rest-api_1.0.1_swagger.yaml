@@ -1,0 +1,738 @@
+---
+swagger: "2.0"
+info:
+  description: "Simple API to manage open data sets in avoindata.fi\n\n# Important\
+    \ note\nThis is not a traditional rest API in the strict sense. **It does not\
+    \ use PUT or DELETE http methods**. Instead, it does everything with GET or POST\
+    \ methods. This means that the color coding in the (swagger) documentation is\
+    \ misleading. \n\n# Open and limited access functions \n\nFunctions which can\
+    \ be used **without authorization are grouped under _consumers_**. \nSome API\
+    \ functions **require authorization (grouped under _admins_)**. With these methods\
+    \ you will need API key provided by CKAN system. \n\n**In every API call you need\
+    \ to provide APInf platform specific API-key**. You can get that by creating account.\
+    \ After logging in, your API key is visible in every API profile page (top right\
+    \ corner). \n<center>\n![Imgur](https://i.imgur.com/bEGmr2s.png)\n</center>\n\n\
+    # A few simple examples\n\n**Simple example to list datasets** is: \n\n``curl\
+    \ -X GET \"https://kokeilu.apinf.io:3002/avoindatabeta/package_list\" -H  \"X-API-Key:\
+    \ YOUR APINF API KEY\"`` \n\nwhich returns JSON formatted list of datasets.\n\n\
+    **Simple example to view details of one dataset** is:\n\n``curl -X GET \"https://kokeilu.apinf.io:3002/avoindatabeta/package_show?id=digiroad\"\
+    \ -H  \"X-API-Key: YOUR APINF API KEY\"``\n\nwhich returns JSON formatted detailed\
+    \ infomation about identified dataset.\n\n\n# Authentication and API keys\n\n\
+    There's two kind of keys: \n- **X-API-Key**. APInf Platform API key used in analytics.\
+    \ This required in all API calls. You can get that by creating account. After\
+    \ logging in, your API key is visible in every API profile page (right top corner).\
+    \ \n- **Authorization**. To authorize user to do admin operations in CKAN system.\
+    \ This key can be obtained by signing up to https://beta.avoindata.fi. \n\nSome\
+    \ API functions require authorization (grouped under _admins_). The API uses the\
+    \ same authorization functions and configuration as the web interface, so if a\
+    \ user is authorized to do something in the web interface they’ll be authorized\
+    \ to do it via the API as well.\n\nWhen calling an API function that requires\
+    \ authorization, you must authenticate yourself by providing your API key with\
+    \ your HTTP request. To find your API key, login to the CKAN site using its web\
+    \ interface and visit your user profile page. In SwaggerUI, you need to input\
+    \ CKAN authorization API-key to _Authorization_ value field. Open authentication\
+    \ dialog by clicking _Authorize_ button.\n\n# Datamodels\n\nAll datamodels used\
+    \ are defined in separate service. LINKS HERE!\n"
+  version: "1.0.0"
+  title: "Avoindata.fi API"
+  contact:
+    email: "you@your-company.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+- name: "consumers"
+  description: "Operations available to regular consumers"
+- name: "admins"
+  description: "Secured Admin-only calls"
+schemes:
+- "https"
+paths:
+  /package_list:
+    get:
+      tags:
+      - "consumers"
+      summary: "List all datasets within given limit"
+      description: "List or search all datasets\n"
+      operationId: "listInventory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "when limit is given, the offset to start returning packages\
+          \ from"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        description: "if given, the list of datasets will be broken into pages of\
+          \ at most limit datasets per page and only one page will be returned at\
+          \ a time (optional)"
+        required: false
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InventoryItem"
+        400:
+          description: "bad input parameter"
+  /package_search:
+    get:
+      tags:
+      - "consumers"
+      summary: "Search among all datasets"
+      description: "List or search all datasets\n"
+      operationId: "searchInventory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "q"
+        in: "query"
+        description: "the solr query. For example ``name:pdf-testi``"
+        required: false
+        type: "string"
+        default: "*:*"
+      - name: "fq"
+        in: "query"
+        description: "any filter queries to apply. Note: +site_id:{ckan_site_id} is\
+          \ added to this string prior to the query being executed.\n"
+        required: false
+        type: "string"
+      - name: "sort"
+        in: "query"
+        description: "sorting of the search results. Optional. **Default: 'relevance\
+          \ asc, metadata_modified desc'**. As per the solr documentation, this is\
+          \ a comma-separated string of field names and sort-orderings.\n"
+        required: false
+        type: "string"
+        default: "relevance asc, metadata_modified desc"
+      - name: "rows"
+        in: "query"
+        description: "the number of matching rows to return. There is a hard limit\
+          \ of 1000 datasets per query."
+        required: false
+        type: "integer"
+      - name: "start"
+        in: "query"
+        description: "the offset in the complete result for where the set of returned\
+          \ datasets should begin."
+        required: false
+        type: "integer"
+      - name: "include_drafts"
+        in: "query"
+        description: "if True, draft datasets will be included in the results. A user\
+          \ will only be returned their own draft datasets, and a sysadmin will be\
+          \ returned all draft datasets. Optional, the default is False."
+        required: false
+        type: "boolean"
+        default: false
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InventoryItem"
+        400:
+          description: "bad input parameter"
+        409:
+          description: "Conflict (can result e.g. from incorrectly formatted solr\
+            \ query)"
+  /package_show:
+    get:
+      tags:
+      - "consumers"
+      summary: "Get details of one package"
+      description: "List or search all datasets\n"
+      operationId: "showInventory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "the id or name of the dataset"
+        required: true
+        type: "string"
+      - name: "include_tracking"
+        in: "query"
+        description: "add tracking information to dataset and resources (default:\
+          \ False)\n"
+        required: false
+        type: "boolean"
+        default: false
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InventoryItem"
+        400:
+          description: "bad input parameter"
+  /organization_list:
+    get:
+      tags:
+      - "consumers"
+      summary: "List all groups within given parameters"
+      description: "List or search all datasets\n"
+      operationId: "listOrgs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sort"
+        in: "query"
+        description: "sorting of the search results. Optional. Default: “name asc”\
+          \ string of field name and sort-order. The allowed fields are ‘name’, ‘\
+          package_count’ and ‘title’\n"
+        required: false
+        type: "string"
+        default: "name asc"
+      - name: "limit"
+        in: "query"
+        description: "if given, the list of organizations will be broken into pages\
+          \ of at most limit organizations per page and only one page will be returned\
+          \ at a time (optional)\n"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "offset"
+        in: "query"
+        description: "when limit is given, the offset to start returning organizations\
+          \ from\n"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "organizations"
+        in: "query"
+        description: "a list of names of the groups to return, if given only groups\
+          \ whose names are in this list will be returned (optional)\n"
+        required: false
+        type: "string"
+      - name: "all_fields"
+        in: "query"
+        description: "return group dictionaries instead of just names. Only core fields\
+          \ are returned - get some more using the include_* options. Returning a\
+          \ list of packages is too expensive, so the packages property for each group\
+          \ is deprecated, but there is a count of the packages in the package_count\
+          \ property. (optional, default: False)\n"
+        required: false
+        type: "boolean"
+      - name: "include_dataset_count"
+        in: "query"
+        description: "if all_fields, include the full package_count (optional, default:\
+          \ True)\n"
+        required: false
+        type: "boolean"
+        default: true
+      - name: "include_extras"
+        in: "query"
+        description: "if all_fields, include the organization extra fields (optional,\
+          \ default: False)\n"
+        required: false
+        type: "boolean"
+        default: false
+      - name: "include_tags"
+        in: "query"
+        description: "if all_fields, include the organization tags (optional, default:\
+          \ False)\n"
+        required: false
+        type: "boolean"
+        default: false
+      - name: "include_groups"
+        in: "query"
+        description: "if all_fields, include the organizations the organizations are\
+          \ in (optional, default: False)\n"
+        required: false
+        type: "boolean"
+        default: false
+      - name: "include_users"
+        in: "query"
+        description: "if all_fields, include the organization users (optional, default:\
+          \ False).\n"
+        required: false
+        type: "boolean"
+        default: false
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InventoryItem"
+        400:
+          description: "bad input parameter"
+  /package_create:
+    post:
+      tags:
+      - "admins"
+      summary: "Create a new dataset (package)"
+      description: "Creates a new dataset (package) to the system. You must be authorized\
+        \ to create new datasets. If you specify any groups for the new dataset, you\
+        \ must also be authorized to edit these groups."
+      operationId: "addDataset"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventoryItem"
+        description: "Inventory item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/dataset_package_create"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing item already exists"
+      security:
+      - ckanapikey: []
+  /package_update:
+    post:
+      tags:
+      - "admins"
+      summary: "Update a dataset (package)."
+      description: "Update a dataset (package). You must be authorized to edit the\
+        \ dataset and the groups that it belongs to."
+      operationId: "updateDataset"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventoryItem"
+        description: "Inventory item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/dataset_package_update"
+      responses:
+        200:
+          description: "OK, dataset updated."
+        400:
+          description: "Invalid input, object invalid."
+        404:
+          description: "Object not found for update."
+      security:
+      - ckanapikey: []
+  /package_delete:
+    post:
+      tags:
+      - "admins"
+      summary: "Delete a dataset (package)"
+      description: "This makes the dataset disappear from all web & API views, apart\
+        \ from the trash."
+      operationId: "deleteDataset"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "id"
+        description: "id (string) – the id or name of the dataset to delete."
+        required: false
+        schema:
+          $ref: "#/definitions/delete"
+      responses:
+        200:
+          description: "OK, dataset deleted."
+        404:
+          description: "=bject not found for deletion."
+      security:
+      - ckanapikey: []
+  /organization_create:
+    post:
+      tags:
+      - "admins"
+      summary: "Create a new organization."
+      description: "Create a new organization. You must be authorized to create organizations."
+      operationId: "addOrg"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventoryItem"
+        description: "Inventory item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/dataset_organization_create"
+      responses:
+        201:
+          description: "Organization created"
+        400:
+          description: "Invalid input, object invalid"
+        409:
+          description: "An existing item already exists"
+      security:
+      - ckanapikey: []
+  /organization_update:
+    post:
+      tags:
+      - "admins"
+      summary: "Update a organization."
+      description: "Update a organization. You must be authorized to edit the organization."
+      operationId: "updateOrg"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventoryItem"
+        description: "Inventory item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/dataset_organization_update"
+      responses:
+        200:
+          description: "OK, updated."
+        400:
+          description: "Invalid input, object invalid"
+        404:
+          description: "Organization not found for update."
+      security:
+      - ckanapikey: []
+  /organization_delete:
+    post:
+      tags:
+      - "admins"
+      summary: "Delete an organization."
+      description: "Delete an organization. You must be authorized to delete the organization."
+      operationId: "deleteOrg"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "id"
+        description: "id (string) – the id or name of the organization to delete"
+        required: false
+        schema:
+          $ref: "#/definitions/delete"
+      responses:
+        200:
+          description: "OK, organization deleted."
+        400:
+          description: "Invalid input, object invalid."
+        404:
+          description: "Organization not found for deletion."
+      security:
+      - ckanapikey: []
+  /user_list:
+    get:
+      tags:
+      - "admins"
+      summary: "List users"
+      description: "Return a list of the site’s user accounts."
+      operationId: "listUsers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "q"
+        in: "query"
+        description: "Restrict the users returned to those whose names contain a string.\
+          \ Optional."
+        required: false
+        type: "string"
+        default: "*"
+      - name: "order_by"
+        in: "query"
+        description: "Which field to sort the list by. Can be any user field or edits\
+          \ (i.e. number_of_edits). Optional."
+        required: false
+        type: "string"
+        default: "*"
+      - name: "all_fields"
+        in: "query"
+        description: "Return full user dictionaries instead of just names.  Optional."
+        required: false
+        type: "boolean"
+        default: true
+      responses:
+        200:
+          description: "Returns a list of users. if there is no match, empty list\
+            \ is returned."
+          examples:
+            application/json:
+              help: "https://beta.avoindata.fi/data/api/3/action/help_show?name=user_list"
+              success: true
+              result:
+              - openid: null
+                about: null
+                apikey: "916f7088-5828-4e25-a0da-f5fcad281af2"
+                display_name: "makkonenmakkonen"
+                name: "etunimi sukunimi"
+                created: "2017-10-31T15:05:59.402582"
+                email: "esa.merkki@apinf.io"
+                sysadmin: false
+                activity_streams_email_notifications: false
+                state: "active"
+                number_of_edits: 3
+                fullname: null
+                id: "9d886b53-2f4a-4ed8-8482-bd2cb9d0d5fe"
+                number_created_packages: 3
+        400:
+          description: "invalid input, object invalid."
+        403:
+          description: "Forbidden, authorization key missing."
+        409:
+          description: "Item already exists."
+      security:
+      - ckanapikey: []
+securityDefinitions:
+  ckanapikey:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  delete:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "id-to-delete"
+        description: "Id to delete\n"
+  dataset_package_create:
+    type: "object"
+    required:
+    - "collection_type"
+    - "keywords"
+    - "license_id"
+    - "maintainer"
+    - "maintainer_email"
+    - "name"
+    - "notes_translated"
+    - "owner_org"
+    - "title_translated"
+    properties:
+      name:
+        type: "string"
+        example: "name"
+        description: "the name of the new dataset, must be between 2 and 100 characters\
+          \ long and contain only lowercase alphanumeric characters, - and _, e.g.\
+          \ 'warandpeace'\n"
+      collection_type:
+        type: "string"
+        example: "Open Data"
+        description: "'Open Data' or 'Interoperability Tools' values allowed\n"
+        default: "Open Data"
+      license_id:
+        type: "string"
+        example: "EUPL"
+        description: "License\n"
+      owner_org:
+        type: "string"
+        example: "yksityishenkilo"
+        description: "Owner; 'yksityishenkilo' value allowed at the moment\n"
+      keywords:
+        type: "object"
+        example:
+          fi:
+          - "eka"
+          - "toka"
+          - "kolmas"
+        description: "Localised keywords\n"
+        properties: {}
+      title_translated:
+        type: "object"
+        example:
+          fi: "Aihe suomeksi"
+          de: "Thema in Deutsche"
+        description: "list of localised titles\n"
+        properties: {}
+      notes_translated:
+        type: "object"
+        example:
+          fi: "Muistiinpanot suomeksi"
+          de: "Notiz in Deutsche"
+        description: "list of localised notes\n"
+        properties: {}
+      maintainer:
+        type: "string"
+        example: "Jarkko Pöntiö"
+        description: "Maintainer of this data\n"
+      maintainer_email:
+        type: "string"
+        example: "jarkko.pontio@somedomainhere.com"
+        description: "Maintainer email\n"
+  dataset_package_update:
+    type: "object"
+    required:
+    - "collection_type"
+    - "id"
+    - "license_id"
+    - "name"
+    - "owner_org"
+    properties:
+      id:
+        type: "string"
+        example: "example id"
+        description: "the name or id of the dataset to update\n"
+      name:
+        type: "string"
+        example: "organization"
+        description: "name of the package to update"
+      license_id:
+        type: "string"
+        example: "ididididid"
+        description: "id of the licence"
+      collection_type:
+        type: "string"
+        example: "Open Data"
+        description: "'Open Data' or 'Interoperability Tools' values allowed\n"
+        default: "Open Data"
+      owner_org:
+        type: "string"
+        example: "yksityishenkilo"
+        description: "Owner; 'yksityishenkilo' value allowed at the moment\n"
+  dataset_organization_create:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "nameofanorganization"
+        description: "Name (string) – the name of the organization, a string between\
+          \ 2 and 100 characters long, containing only lowercase alphanumeric characters,\
+          \ - and _  \n"
+      id:
+        type: "string"
+        example: "ididididid"
+        description: "ID of the organization (optional)\n"
+      title:
+        type: "string"
+        example: "title"
+        description: "the title of the organization (optional)\n"
+      description:
+        type: "string"
+        example: "great organization"
+        description: "Description of the organization\n"
+      image_url:
+        type: "string"
+        example: "http://image.url.com/exxaample.gif"
+        description: "the URL to an image to be displayed on the organization’s page\
+          \ (optional)\n"
+      state:
+        type: "string"
+        example: "active"
+        description: "the current state of the organization, e.g. 'active' or 'deleted',\
+          \ only active organizations show up in search results and other lists of\
+          \ organizations, this parameter will be ignored if you are not authorized\
+          \ to change the state of the organization (optional, default: 'active')\n"
+      approval_status:
+        type: "string"
+        example: "status description"
+        description: "(string) – (optional)\n"
+      extras:
+        type: "object"
+        example:
+        - value:
+          - "value1"
+          key:
+          - "key1"
+          active:
+          - "false"
+        description: "(list of dataset extra dictionaries) – the organization’s extras\
+          \ (optional), extras are arbitrary (key: value) metadata items that can\
+          \ be added to organizations, each extra dictionary should have keys 'key'\
+          \ (a string), 'value' (a string), and optionally 'deleted'\n"
+        properties: {}
+      packages:
+        type: "object"
+        example:
+        - id: "8de6e388-20c1-dddd-df3d-c445f447f1cg"
+          title: "title"
+        description: "(list of dictionaries) – the datasets (packages) that belong\
+          \ to the organization, a list of dictionaries each with keys 'name' (string,\
+          \ the id or name of the dataset) and optionally 'title' (string, the title\
+          \ of the dataset)\n"
+        properties: {}
+      users:
+        type: "object"
+        example:
+        - name: "mikko"
+          capacity: "capacity manager"
+        - name: "suusanna"
+        description: "(list of dictionaries) – the datasets (packages) that belong\
+          \ to the organization, a list of dictionaries each with keys 'name' (string,\
+          \ the id or name of the dataset) and optionally 'title' (string, the title\
+          \ of the dataset)\n"
+        properties: {}
+  dataset_organization_update:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      name:
+        type: "string"
+        example: "nameofanorganization"
+        description: "Name (string) – the name of the organization, a string between\
+          \ 2 and 100 characters long, containing only lowercase alphanumeric characters,\
+          \ - and _  \n"
+      id:
+        type: "string"
+        example: "ididididid"
+        description: "ID of the organization\n"
+  InventoryItem:
+    type: "object"
+    required:
+    - "id"
+    - "manufacturer"
+    - "name"
+    - "releaseDate"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      name:
+        type: "string"
+        example: "Widget Adapter"
+      releaseDate:
+        type: "string"
+        format: "int32"
+        example: "2016-08-29T09:12:33.001Z"
+      manufacturer:
+        $ref: "#/definitions/Manufacturer"
+    example:
+      releaseDate: "2016-08-29T09:12:33.001Z"
+      name: "Widget Adapter"
+      id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      manufacturer:
+        phone: "408-867-5309"
+        name: "ACME Corporation"
+        homePage: "https://www.acme-corp.com"
+  Manufacturer:
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "ACME Corporation"
+      homePage:
+        type: "string"
+        format: "url"
+        example: "https://www.acme-corp.com"
+      phone:
+        type: "string"
+        example: "408-867-5309"
+    example:
+      phone: "408-867-5309"
+      name: "ACME Corporation"
+      homePage: "https://www.acme-corp.com"
+
