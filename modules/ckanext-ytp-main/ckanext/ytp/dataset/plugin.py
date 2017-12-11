@@ -3,7 +3,7 @@ from ckan.plugins import toolkit
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.logic import get_action, NotFound
+from ckan.logic import get_action, NotFound, ValidationError
 from ckan.common import _, c, request
 from ckan.model import Session
 from ckan import authz as authz
@@ -77,7 +77,10 @@ def create_tag_to_vocabulary(tag, vocab):
         "vocabulary_id": v['id']}
 
     context['defer_commit'] = True
-    toolkit.get_action('tag_create')(context, data)
+    try:
+        toolkit.get_action('tag_create')(context, data)
+    except ValidationError:
+        pass
 
 def _escape(value):
     return escape(unicode(value))
@@ -650,17 +653,18 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             if extra['key'] == 'resource-type' and len(extra['value']):
                     if extra['value'] == 'dataset':
                         value = 'paikkatietoaineisto'
+                        package_dict['collection_type'] = 'Open Data'
                     elif extra['value'] == 'series':
                         value = 'paikkatietoaineistosarja'
+                        package_dict['collection_type'] = 'Open Data'
                     elif extra['value'] == 'service':
                         value = 'paikkatietopalvelu'
-                        for temp_extra in package_dict['extras']:
-                            if temp_extra['key'] == 'collection_type':
-                                temp_extra['value'] = 'Interoperability Tools'
+                        package_dict['collection_type'] = 'Interoperability Tools'
+
                     else:
                         continue
 
-                    package_dict['content_type'] = value
+                    package_dict['content_type'] = {"fi": [value]}
                     flattened = flatten_dict(package_dict)
                     convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
                     package_dict = unflatten(flattened)
@@ -680,6 +684,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                                 "key": 'license_url',
                                 'value': urls[0]
                             })
+                package_dict['license_id'] = 'other'
+
             else:
                 package_dict['license_id'] = license_from_source
 
@@ -704,11 +710,19 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         # topic category for syke
 
+        package_dict['keywords'] = {'fi': []}
+
         topic_categories = data_dict['iso_values'].get('topic-category')
         if topic_categories:
             for category in topic_categories:
                 category = category[:50] if len(category) > 50 else category
-                package_dict['tags'].append({'name': category})
+                package_dict['keywords']['fi'].append(category)
+
+
+
+        package_dict['notes_translated'] = {"fi": package_dict['notes']}
+        package_dict['title_translated'] = {"fi": package_dict['title']}
+
 
         return package_dict
 
