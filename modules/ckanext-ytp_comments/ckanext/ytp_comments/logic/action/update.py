@@ -1,6 +1,6 @@
 import datetime
-import ckanext.ytp.comments.model as comment_model
-import ckanext.ytp.comments.util as util
+import ckanext.ytp_comments.model as comment_model
+import ckanext.ytp_comments.util as util
 from ckan import logic
 from ckan.lib.base import abort
 import logging

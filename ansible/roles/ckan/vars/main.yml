@@ -20,7 +20,7 @@ ckan_extensions:
   - ckanext-ytp-main
   - ckanext-hierarchy
   - ckanext-googleanalytics
-  - ckanext-ytp-comments
+  - ckanext-ytp_comments
   - ckanext-datarequests
   - ckanext-harvest
   - ckanext-report
@@ -64,7 +64,7 @@ translation_projects:
   - "ckanext-ytp-drupal"
   - "ytp-assets-common"
   - "ckanext-ytp-main"
-  - "ckanext-ytp-comments"
+  - "ckanext-ytp_comments"
   - "ckanext-qa"
   - "ckanext-datarequests"
   - "ckanext-spatial"

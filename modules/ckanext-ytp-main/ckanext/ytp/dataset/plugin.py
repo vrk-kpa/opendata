@@ -1,5 +1,6 @@
 from ckan import plugins, model, logic
 from ckan.plugins import toolkit
+from ckan.lib.plugins import DefaultTranslation
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name

@@ -1,4 +1,5 @@
 import ckan.plugins as plugins
+from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import implements, toolkit
 
 import logging
@@ -6,13 +7,14 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class YtpCommentsPlugin(plugins.SingletonPlugin):
+class YtpCommentsPlugin(plugins.SingletonPlugin, DefaultTranslation):
     implements(plugins.IRoutes, inherit=True)
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IPackageController, inherit=True)
     implements(plugins.ITemplateHelpers, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
+    implements(plugins.ITranslation)
 
     # IConfigurer
     def update_config(self, config):
@@ -30,7 +32,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     # IActions
     def get_actions(self):
-        from ckanext.ytp.comments.logic.action import get, create, delete, update
+        from ckanext.ytp_comments.logic.action import get, create, delete, update
 
         return {
             "comment_create": create.comment_create,
@@ -47,7 +49,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
 
     # IAuthFunctions
     def get_auth_functions(self):
-        from ckanext.ytp.comments.logic.auth import get, create, delete, update
+        from ckanext.ytp_comments.logic.auth import get, create, delete, update
 
         return {
             'comment_create': create.comment_create,
@@ -70,7 +72,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
             /dataset/NAME/comments/reply/PARENT_ID
             /dataset/NAME/comments/add
         """
-        controller = 'ckanext.ytp.comments.controller:CommentController'
+        controller = 'ckanext.ytp_comments.controller:CommentController'
         map.connect('/dataset/{dataset_id}/comments/add', controller=controller, action='add')
         map.connect('/dataset/{dataset_id}/comments/{comment_id}/edit', controller=controller, action='edit')
         map.connect('/dataset/{dataset_id}/comments/{parent_id}/reply', controller=controller, action='reply')
@@ -97,7 +99,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin):
         return count
 
     def _get_subscription_status(self, dataset_or_org_id, user_id):
-        import ckanext.ytp.comments.model as cmt_model
+        import ckanext.ytp_comments.model as cmt_model
 
         if isinstance(dataset_or_org_id, basestring) and isinstance(user_id, basestring):
             status = cmt_model.CommentSubscription.get(dataset_or_org_id, user_id)
