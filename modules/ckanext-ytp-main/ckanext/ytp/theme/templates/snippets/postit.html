@@ -2,7 +2,7 @@
 {% resource 'theme_javascript/jspdf.js' %}
 <div class="module">
   <div class="module-content">
-    <form id="postForm" action="https://asiointitili.suomi.fi/message/post" method="post" role="form" class="form-horizontal">
+    <form id="postForm" action="https://viestilomake.suomi.fi/form" method="post" role="form" class="form-horizontal">
       <div class="form-group">
         <label for="serviceLocation" class="col-sm-2 control-label">Asiakaspalvelupiste</label>
         <div class="col-sm-9">
@@ -61,13 +61,13 @@
           <textarea id="Description" placeholder="Asiankuvaus.." class="form-control"></textarea>
         </div>
       </div>
-      <input type="hidden" name="ViranomaisTunnus" id="ViranomaisTunnus" value="email_valtori.fi" />
-      <input type="hidden" name="PalveluTunnus" id="PalveluTunnus" value="email_valtori.fi" />
+      <input type="hidden" name="ViranomaisTunnus" id="ViranomaisTunnus" value="email_vrk.fi" />
+      <input type="hidden" name="PalveluTunnus" id="PalveluTunnus" value="email_vrk.fi" />
       <input type="hidden" name="Nimeke" id="Nimeke" value="Etäpalveluajan varaaminen asiakaspalvelupisteestä" />
       <input type="hidden" name="Kuvausteksti" id="Kuvausteksti" value="Varattu palveluaika asiakaspalvelupisteessä." />
       <input type="hidden" name="Paluuosoite" id="Paluuosoite" value="{{ h.full_current_url()[:-4] }}/return" />
       <input type="hidden" name="PalaaAutomaattisesti" id="PalaaAutomaattisesti" value="1" />
-      <input type="hidden" name="ViranomaisenEmail" id="ViranomaisenEmail" value="asiointitili@valtori.fi" />
+      <input type="hidden" name="ViranomaisenEmail" id="ViranomaisenEmail" value="lasse.pynnonen@vrk.fi" />
       <input type="hidden" name="TiedostoNimi_1" id="TiedostoNimi_1" value="varaus.pdf" />
       <input type="hidden" name="TiedostoSisalto_1" id="TiedostoSisalto_1" value="" />
       <input type="hidden" name="TiedostoMuoto_1" id="TiedostoMuoto_1" value="application/pdf" />
