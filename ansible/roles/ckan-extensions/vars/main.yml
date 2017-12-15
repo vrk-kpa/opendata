@@ -1,6 +1,3 @@
 ---
 
 ckanext_sync_path: "{{ server_path }}"
-
-extensions_with_translations:
-  - ckanext-ytp_comments
