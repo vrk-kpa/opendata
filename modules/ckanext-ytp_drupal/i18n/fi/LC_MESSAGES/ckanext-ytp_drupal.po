@@ -1,0 +1,50 @@
+# Translations template for ckanext-ytp-drupal.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ytp-drupal
+# project.
+# 
+# Translators:
+# Ilja Pyykkönen, 2014
+# jpaakko <jari.paakko@gofore.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-08-07 17:32+0300\n"
+"PO-Revision-Date: 2014-08-07 14:36+0000\n"
+"Last-Translator: jpaakko <jari.paakko@gofore.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/ytp/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/ytp_drupal/controller.py:30
+msgid "Unauthorized to delete user"
+msgstr "Ei riittäviä oikeuksia käyttäjän poistamiseen"
+
+#: ckanext/ytp_drupal/templates/user/delete_me.html:3
+#: ckanext/ytp_drupal/templates/user/delete_me.html:8
+#: ckanext/ytp_drupal/templates/user/delete_me.html:14
+msgid "Delete account"
+msgstr "Poista käyttäjätili"
+
+#: ckanext/ytp_drupal/templates/user/delete_me.html:6
+msgid "Users"
+msgstr ""
+
+#: ckanext/ytp_drupal/templates/user/delete_me.html:16
+msgid ""
+"By deleting your account, you can't login again. Your data will not be "
+"removed, so if you want to delete your data, please do it manually."
+msgstr "Käyttäjätilin poistamisen jälkeen et voi kirjautua enää sisään. Luomiasi tietoja ei poisteta, joten jos haluat poistaa tiedot, tee se manuaalisesti."
+
+#: ckanext/ytp_drupal/templates/user/delete_me.html:21
+msgid "Are you sure you want delete your account?"
+msgstr "Oletko varma, että haluat poistaa käyttäjätilisi?"
+
+#: ckanext/ytp_drupal/templates/user/delete_me.html:23
+msgid "Yes. Delete my account."
+msgstr "Kyllä. Poista käyttäjätilini."

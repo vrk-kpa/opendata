@@ -26,7 +26,7 @@
   - ckan
 
 - name: Initialize request database
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-request initdb --config='{{ ckan_ini }}' chdir='{{ virtual_environment }}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_request initdb --config='{{ ckan_ini }}' chdir='{{ virtual_environment }}'"
   tags:
   - ckan
 
@@ -36,7 +36,7 @@
   - ckan
 
 - name: Initialize task database
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-tasks-initialize-database '--config={{ ckan_ini }}' chdir='{{ virtual_environment }}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp_tasks-initialize-database '--config={{ ckan_ini }}' chdir='{{ virtual_environment }}'"
   tags:
   - ckan
 

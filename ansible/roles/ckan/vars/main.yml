@@ -14,10 +14,10 @@ ckan_aws_plugins: cloudstorage
 
 ckan_extensions:
   - ckanext-drupal7
-  - ckanext-ytp-drupal
-  - ckanext-ytp-tasks
-  - ckanext-ytp-request
-  - ckanext-ytp-main
+  - ckanext-ytp_drupal
+  - ckanext-ytp_tasks
+  - ckanext-ytp_request
+  - ckanext-ytp_main
   - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp_comments
@@ -60,10 +60,10 @@ translation_languages:
 
 translation_projects:
   - "ckanext-drupal7"
-  - "ckanext-ytp-request"
-  - "ckanext-ytp-drupal"
+  - "ckanext-ytp_request"
+  - "ckanext-ytp_drupal"
   - "ytp-assets-common"
-  - "ckanext-ytp-main"
+  - "ckanext-ytp_main"
   - "ckanext-ytp_comments"
   - "ckanext-qa"
   - "ckanext-datarequests"
