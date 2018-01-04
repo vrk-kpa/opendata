@@ -1,0 +1,42 @@
+---
+
+### Ensure directories ###
+
+- name: Create Drupal root directory if it doesn't exist
+  become: true
+  file:
+    path: "{{ drupal_root }}"
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+### Install Composer ###
+
+- name: Download Composer
+  script: install_composer.sh
+  tags:
+    - composer
+
+- name: Move Composer globally
+  become: true
+  command: mv composer.phar /usr/local/bin/composer
+  tags:
+    - composer
+
+- name: Set Composer permissions
+  become: true
+  file:
+    path: /usr/local/bin/composer
+    mode: "a+x"
+  tags:
+    - composer
+
+### Composer magic ###
+
+- name: Install Drupal with all the gimmicks
+  composer:
+    command: create-project
+    arguments: drupal-composer/drupal-project:8.x-dev "{{ drupal_root }}"
+    working_dir: "{{ drupal_root }}"
+    prefer_dist: yes
