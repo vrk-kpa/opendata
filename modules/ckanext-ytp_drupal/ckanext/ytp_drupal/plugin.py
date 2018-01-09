@@ -5,6 +5,7 @@ import sqlalchemy
 from ckan.common import c
 from ckan.logic import NotFound
 from ckan.lib import helpers
+from ckan.lib.plugins import DefaultTranslation
 
 from pylons import request
 
@@ -22,12 +23,13 @@ def user_delete_me(context, data_dict):
     return {'success': True}
 
 
-class YtpDrupalPlugin(plugins.SingletonPlugin):
+class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IAuthFunctions, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.ITranslation)
 
     _config_template = "ckanext.ytp.drupal.%s"
     _node_type = 'service_alert'

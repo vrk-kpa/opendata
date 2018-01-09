@@ -61,6 +61,12 @@ INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
 
+
+class YtpMainTranslation(DefaultTranslation):
+
+    def i18n_domain(self):
+        return "ckanext-ytp_main"
+
 def create_vocabulary(name):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
@@ -209,7 +215,7 @@ def action_package_show(context, data_dict):
     return result
 
 
-class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
+class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
@@ -220,6 +226,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.ITranslation)
 
     _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
                            OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
@@ -243,6 +250,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def configure(self, config):
         self.auto_author = asbool(config.get('ckanext.ytp.auto_author', False))
+
+    # ITranslation #
+
+    def i18n_domain(self):
+        return "ckanext-ytp_main"
 
     # IRoutes #
 
@@ -794,7 +806,7 @@ def action_organization_show(context, data_dict):
     return result
 
 
-class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
+class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, YtpMainTranslation):
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IGroupForm, inherit=True)
     plugins.implements(plugins.IConfigurable)
@@ -802,6 +814,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.ITranslation)
 
     plugins.implements(plugins.IConfigurer, inherit=True)
 
@@ -1074,9 +1087,10 @@ def date_validator(value, context):
     except (TypeError, ValueError):
         raise Invalid(_('Date format incorrect'))
 
-class YtpReportPlugin(plugins.SingletonPlugin):
+class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(IReport)
     plugins.implements(plugins.IConfigurer, inherit=True)
+    plugins.implements(plugins.ITranslation)
 
     # IReport
 
@@ -1371,11 +1385,12 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 'get_dict_tree_from_json': get_dict_tree_from_json}
 
 
-class YtpThemePlugin(plugins.SingletonPlugin):
+class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITranslation)
 
     default_domain = None
     logos = {}
@@ -1575,13 +1590,14 @@ def get_image_upload_size():
     return config.get('ckan.max_image_size', 2)
 
 
-class YtpUserPlugin(plugins.SingletonPlugin):
+class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.ITranslation)
 
     default_domain = None
 

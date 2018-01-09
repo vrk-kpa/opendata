@@ -1,15 +1,17 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
+from ckan.lib.plugins import DefaultTranslation
 import logging
 
 log = logging.getLogger(__name__)
 
 
-class YtpRequestPlugin(plugins.SingletonPlugin):
+class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
     implements(plugins.IRoutes, inherit=True)
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
+    implements(plugins.ITranslation)
 
     # IConfigurer #
     def update_config(self, config):
