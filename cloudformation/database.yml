@@ -26,6 +26,13 @@ Parameters:
     Type: String
     NoEcho: true
     MinLength: 8
+  SnapshotIdentifier:
+    Description: Optional snapshot to restore
+    Type: String
+    Default: ""
+
+Conditions:
+  UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
 
 Resources:
   RDSInstance:
@@ -39,6 +46,7 @@ Resources:
       MultiAZ: false
       StorageType: gp2
       DBInstanceIdentifier: !Sub avoindata-${EnvironmentName}
+      DBSnapshotIdentifier: !If [ UseDBSnapshot, !Ref SnapshotIdentifier, !Ref "AWS::NoValue" ]
       MasterUsername: !Ref AdminUsername
       MasterUserPassword: !Ref AdminPassword
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
