@@ -1,0 +1,1 @@
+recursive-include ckanext/ytp_drupal/templates *

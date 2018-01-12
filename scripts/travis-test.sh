@@ -28,7 +28,7 @@ cd  $SOURCE_DIRECTORY
 
 echo "## nosetests ##"
 
-tested_plugins=(ckanext-archiver ckanext-ytp-main ckanext-ytp-request ckanext-ytp-tasks ckanext-qa)
+tested_plugins=(ckanext-archiver ckanext-ytp_main ckanext-ytp_request ckanext-ytp_tasks ckanext-qa)
 untested_plugins=(ckanext-datarequests ckanext-googleanalytics ckanext-harvest ckanext-spatial)
 
 for plugin in ${tested_plugins[*]}; do

@@ -1,0 +1,22 @@
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'ytp_tasks-execute-all-hourly': {
+        'task': 'ckanext.ytp_tasks.execute_all',
+        'schedule': crontab(minute=0),
+        'args': ('HOURLY',)
+    },
+    'ytp_tasks-execute-all-daily': {
+        'task': 'ckanext.ytp_tasks.execute_all',
+        'schedule': crontab(hour=2, minute=0),
+        'args': ('DAILY',)
+    },
+    'ytp_tasks-execute-all-weekly': {
+        'task': 'ckanext.ytp_tasks.execute_all',
+        'schedule': crontab(hour=2, minute=0, day_of_week=0),
+        'args': ('WEEKLY',)
+    },
+}
+
+BROKER_URL = "redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}"
+CELERY_RESULT_BACKEND = "redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}"

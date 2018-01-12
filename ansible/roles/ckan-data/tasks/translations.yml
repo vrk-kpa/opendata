@@ -60,13 +60,6 @@
   - ckan
   notify: Restart Apache
 
-- name: Add facet translations
-  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp-main ytp-facet-translations "{{ cache_path }}/ckanext-ytp-main/i18n" -c /etc/ckan/default/production.ini
-  when: modules_copy|changed
-  tags:
-  - translations
-  - ckan
-
 - name: Generate Javascript translation files
   shell: ./bin/paster --plugin=ckan trans js "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
   tags:
