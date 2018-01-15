@@ -7,7 +7,7 @@ if [ "$0" != "./scripts/update.sh" ]; then
     exit 1
 fi
 
-for module in ckanext-ytp-main ytp-drupal-user; do
+for module in ckanext-ytp_main ytp-drupal-user; do
     git remote add $module https://github.com/yhteentoimivuuspalvelut/$module.git
     git fetch $module
     git subtree push --prefix=modules/$module $module master

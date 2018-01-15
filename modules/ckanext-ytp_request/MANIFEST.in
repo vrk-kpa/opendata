@@ -1,0 +1,2 @@
+recursive-include ckanext/ytp_request/templates *
+recursive-include ckanext/ytp_request/public *

@@ -1,7 +1,7 @@
 ---
 
 - name: Import harvest organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization_harvest.json\"}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization_harvest.json\"}'"
   when: harvest_sources != False
   ignore_errors: True
   tags:

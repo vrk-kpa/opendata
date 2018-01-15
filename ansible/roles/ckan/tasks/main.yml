@@ -250,7 +250,7 @@
   - ckan
 
 - name: Copy celery configuration
-  template: src="../modules/ckanext-ytp-tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode="0640" owner=root group="{{ www_group }}"
+  template: src="../modules/ckanext-ytp_tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode="0640" owner=root group="{{ www_group }}"
   tags:
   - ckan
 

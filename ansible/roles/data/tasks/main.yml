@@ -15,7 +15,7 @@
 - include: harvest.yml
 
 - name: Import dataset tags
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_dataset_tags ckanext.ytp.dataset.tags_import manual '{\"topic_url\": \"http://api.finto.fi/rest/v1/juho/data\", \"contenttype_url\": \"http://dev.finto.fi/rest/v1/avoindata-ct/data\", \"data_format\": \"n3\", \"meta_name\": \"z_avoindatafi_metadata\"}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp-task-add -c {{ ckan_ini }} --execute import_dataset_tags ckanext.ytp.dataset.tags_import manual '{\"topic_url\": \"http://api.finto.fi/rest/v1/juho/data\", \"contenttype_url\": \"http://dev.finto.fi/rest/v1/avoindata-ct/data\", \"data_format\": \"n3\", \"meta_name\": \"z_avoindatafi_metadata\"}'"
   when: import_finto_tags != False
   tags:
   - data
@@ -23,7 +23,7 @@
 
 
 - name: Import base organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp-tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization.json\", \"public_organization\": \"true\"}'"
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp-task-add -c {{ ckan_ini }} --execute import_base_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization.json\", \"public_organization\": \"true\"}'"
   when: import_base_organizations != False
   tags:
   - data

@@ -3,10 +3,10 @@
 modules:
   - ytp-assets-common
   - ckanext-drupal7
-  - ckanext-ytp-drupal
-  - ckanext-ytp-tasks
-  - ckanext-ytp-request
-  - ckanext-ytp-main
+  - ckanext-ytp_drupal
+  - ckanext-ytp_tasks
+  - ckanext-ytp_request
+  - ckanext-ytp_main
   - ckanext-hierarchy
   - ckanext-googleanalytics
   - ckanext-ytp_comments
