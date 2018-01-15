@@ -73,27 +73,26 @@ def create_vocabulary(name):
 
     try:
         data = {'id': name}
-        v = toolkit.get_action('vocabulary_show')(context, data)
+        return toolkit.get_action('vocabulary_show')(context, data)
         log.info( name + " vocabulary already exists, skipping.")
     except NotFound:
-        log.info("Creating vocab '" + name + "'")
-        data = {'name': name}
-        v = toolkit.get_action('vocabulary_create')(context, data)
+        pass
 
-    return v
+    log.info("Creating vocab '" + name + "'")
+    data = {'name': name}
+    try:
+        context['defer_commit'] = True
+        return toolkit.get_action('vocabulary_create')(context, data)
+    except Exception, e:
+        log.error('%s' % e)
+
 
 def create_tag_to_vocabulary(tag, vocab):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
 
-    try:
-        data = {'id': vocab}
-        v = toolkit.get_action('vocabulary_show')(context, data)
-
-    except NotFound:
-        log.info("Creating vocab '" + vocab + "'")
-        data = {'name': vocab}
-        v = toolkit.get_action('vocabulary_create')(context, data)
+    data = {'id': vocab}
+    v = toolkit.get_action('vocabulary_show')(context, data)
 
     data = {
         "name": tag,
