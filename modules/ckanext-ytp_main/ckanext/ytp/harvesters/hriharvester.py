@@ -12,6 +12,7 @@ from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
 from ckan.plugins import toolkit
+from pylons import config as ckan_config
 
 from ckanext.harvest.model import HarvestJob, HarvestObject, HarvestGatherError
 from ckanext.harvest.harvesters.base import HarvesterBase
@@ -381,6 +382,43 @@ class HRIHarvester(HarvesterBase):
                 log.warn('Remote dataset is a harvest source, ignoring...')
                 return True
 
+            # Set default translations
+            lang = ckan_config['ckan.locale_default']
+
+            def translated_field(name):
+                translated = package_dict.get('%s_translated' % name, {})
+                translated[lang] = translated.get(lang, package_dict[name])
+                # Process translations added as extras
+                translated.update((e['key'].split('_', 2)[1], e['value'])
+                        for e in package_dict.get('extras', [])
+                        if e['key'].startswith('%s_' % name))
+                return translated
+
+            def translated_extra_list(name):
+                translated = {lang: []}
+                for x in package_dict.get('extras', []):
+                    if x['key'] == name and len(x['value']) > 2:
+                        translated[lang] = [x['value']]
+
+                package_dict['extras'] = [x for x in package_dict.get('extras', []) if x['key'] != name]
+                return translated
+
+            package_dict['title_translated'] = translated_field('title')
+            package_dict['notes_translated'] = translated_field('notes')
+            package_dict['update_frequency'] = translated_extra_list('update_frequency')
+
+
+            # Set default values for required fields
+            default_values = {
+                    'maintainer': package_dict.get('author', '(not set)'),
+                    'maintainer_email': package_dict.get('author_email', '(not set)'),
+                    }
+            missing_values = (
+                    (k, v) for k, v in default_values.iteritems() 
+                    if not package_dict.get(k))
+            package_dict.update(missing_values)
+
+
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
             if default_tags:
@@ -388,6 +426,10 @@ class HRIHarvester(HarvesterBase):
                     package_dict['tags'] = []
                 package_dict['tags'].extend(
                     [t for t in default_tags if t not in package_dict['tags']])
+
+            keywords = package_dict.get('keywords', {})
+            keywords[lang] = keywords.get(lang, [x['name'] for x in package_dict['tags']])
+            package_dict['keywords'] = keywords
 
             remote_groups = self.config.get('remote_groups', None)
             if remote_groups not in ('only_local', 'create'):
@@ -487,6 +529,18 @@ class HRIHarvester(HarvesterBase):
 
                     package_dict['extras'].append({'key': key, 'value': value})
 
+            # Move extras to fields
+            extras_to_fields_keys = ['collection_type']
+            extras_to_fields = [
+                    x for x in package_dict.get('extras', [])
+                    if x['key'] in extras_to_fields_keys
+                    and x['key'] not in package_dict]
+
+            for x in extras_to_fields:
+                package_dict[x['key']] = x['value']
+
+            package_dict['extras'] = [x for x in package_dict.get('extras', []) if x['key'] not in extras_to_fields_keys]
+
             for resource in package_dict.get('resources', []):
                 # Clear remote url_type for resources (eg datastore, upload) as
                 # we are only creating normal resources with links to the
@@ -503,10 +557,12 @@ class HRIHarvester(HarvesterBase):
 
             return result
         except ValidationError, e:
+            log.error('Validation error harvesting: %s' % e)
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
         except Exception, e:
+            log.error('Error harvesting: %s' % e)
             self._save_object_error('%s' % e, harvest_object, 'Import')
 
 
