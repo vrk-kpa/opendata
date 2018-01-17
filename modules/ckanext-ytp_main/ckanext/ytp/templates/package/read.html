@@ -10,7 +10,7 @@
        {% endblock %}
     <h1 class="dataset-title">
         {% block page_heading %}
-            {{ h.extra_translation(pkg, 'title') or pkg.name }}
+            {{ h.get_translated(pkg, 'title') or pkg.name }}
         {% endblock %}
     </h1>
     {% snippet "package/snippets/subtitle_byline.html", pkg=pkg %}
