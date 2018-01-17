@@ -19,7 +19,7 @@
 	url = https://github.com/6aika/ckanext-cloudstorage.git
 [submodule "modules/ckanext-scheming"]
 	path = modules/ckanext-scheming
-	url = https://github.com/ckan/ckanext-scheming.git
+	url = https://github.com/vrk-kpa/ckanext-scheming.git
 [submodule "modules/ckanext-fluent"]
 	path = modules/ckanext-fluent
 	url = https://github.com/ckan/ckanext-fluent.git
