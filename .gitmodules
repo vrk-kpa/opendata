@@ -6,7 +6,7 @@
 	url = https://github.com/ckan/ckanext-harvest.git
 [submodule "modules/ckanext-dcat"]
 	path = modules/ckanext-dcat
-	url = https://github.com/ckan/ckanext-dcat.git
+	url = https://github.com/vrk-kpa/ckanext-dcat.git
 [submodule "modules/ckanext-hierarchy"]
 	path = modules/ckanext-hierarchy
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-hierarchy.git
