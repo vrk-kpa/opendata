@@ -108,6 +108,9 @@ def convert_to_tags_string(vocab):
 
         context['vocabulary'] = v
 
+        if len(tags) > 0 and data.get(('tags',)) == []:
+            del data[('tags',)]
+
         for num, tag in zip(count(current_index + 1), tags):
             data[('tags', num, 'name')] = tag
             data[('tags', num, 'vocabulary_id')] = v.id
