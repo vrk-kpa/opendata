@@ -89,7 +89,7 @@
       "label": "Visibility",
       "form_snippet": "private.html",
       "display_snippet": null,
-      "validators": "boolean_validator set_private_if_not_admin",
+      "validators": "boolean_validator",
       "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
     },
     {
