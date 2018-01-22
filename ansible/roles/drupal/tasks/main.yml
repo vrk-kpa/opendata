@@ -102,7 +102,7 @@
     group=vagrant
 
 - name: Install a clean Drupal database
-  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-mail="admin@example.com" --account-name=admin --account-pass=some_admin_password --site-mail="admin@example.com" --site-name="Site-Install"
+  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
   args:
     chdir: "{{ drupal_root }}/web"
 
