@@ -112,6 +112,9 @@
   become: true
   service: name=php7.0-fpm state=restarted
 
+- name: Deploy favicon
+  copy: src="favicon.ico" dest="{{ drupal_root }}/web/favicon.ico"
+
 - name: Take site out of maintenance mode
   become: true
   file:
