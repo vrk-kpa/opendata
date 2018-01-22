@@ -29,7 +29,7 @@ server {
     ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
 
     server_name {{ item.server_name }};
-    root /var/www/ytp;
+    root /var/www/ytp/web;
     client_max_body_size {{ckan_max_resource_size}}M;
     gzip_static on;
 
