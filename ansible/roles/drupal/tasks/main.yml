@@ -1,8 +1,14 @@
 ---
 
-### Ensure directories ###
+### Composer needs an existing, empty directory for project creating ###
 
-- name: Create Drupal root directory if it doesn't exist
+- name: Destroy Drupal root directory
+  become: true
+  file:
+    state: absent
+    path: "{{ drupal_root }}"
+
+- name: Create Drupal root directory
   become: true
   file:
     path: "{{ drupal_root }}"
@@ -10,6 +16,43 @@
     owner: vagrant
     group: vagrant
     mode: 0755
+
+### Get PHP ###
+
+- name: Get PHP and required extensions
+  become: true
+  action: apt
+    pkg="{{ item }}"
+    state=latest
+  with_items:
+    - php
+    - php-fpm
+    - php-gd
+    - php-pgsql
+    - php-xml # installs "dom"
+    - php7.0-mbstring
+
+### Socket setup ###
+
+- name: Set PHP pathinfo
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+
+- name: Set socket to listen
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+
+- name: Set socket listen owner
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+
+- name: Set socket listen group
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+
+- name: Set socket listen mode
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
 
 ### Install Composer ###
 
@@ -34,9 +77,44 @@
 
 ### Composer magic ###
 
-- name: Install Drupal with all the gimmicks
+- name: Install dependencies for dependency management (>.<)
+  composer:
+    command: require
+    global_command: yes
+    arguments: alchemy/zippy:0.4.3
+
+- name: Get all the Drupal gimmicks
   composer:
     command: create-project
-    arguments: drupal-composer/drupal-project:8.x-dev "{{ drupal_root }}"
+    arguments: drupal-composer/drupal-project:8.x-dev 
+      "{{ drupal_root }}"
     working_dir: "{{ drupal_root }}"
     prefer_dist: yes
+
+### Drupal installation ###
+
+- name: Copy Drupal settings
+  become: true
+  become_user: vagrant
+  template: src=settings.php.j2 
+    dest={{ drupal_root }}/web/sites/default/settings.php
+    owner=vagrant
+    group=vagrant
+
+- name: Install a clean Drupal database
+  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-mail="admin@example.com" --account-name=admin --account-pass=some_admin_password --site-mail="admin@example.com" --site-name="Site-Install"
+  args:
+    chdir: "{{ drupal_root }}/web"
+
+### Finishing touches ###
+
+- name: Restart PHP-FPM
+  become: true
+  service: name=php7.0-fpm state=restarted
+
+- name: Take site out of maintenance mode
+  become: true
+  file:
+    state: absent
+    path: /var/www/maintenance
+
