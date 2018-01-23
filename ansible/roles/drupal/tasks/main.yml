@@ -1,119 +1,122 @@
 ---
 
-### Composer needs an existing, empty directory for project creating ###
+# ### Composer needs an existing, empty directory for project creating ###
 
-- name: Destroy Drupal root directory
-  become: true
-  file:
-    state: absent
-    path: "{{ drupal_root }}"
+# - name: Destroy Drupal root directory
+#   become: true
+#   file:
+#     state: absent
+#     path: "{{ drupal_root }}"
 
-- name: Create Drupal root directory
-  become: true
-  file:
-    path: "{{ drupal_root }}"
-    state: directory
-    owner: vagrant
-    group: vagrant
-    mode: 0755
+# - name: Create Drupal root directory
+#   become: true
+#   file:
+#     path: "{{ drupal_root }}"
+#     state: directory
+#     owner: vagrant
+#     group: vagrant
+#     mode: 0755
 
-### Get PHP ###
+# ### Get PHP ###
 
-- name: Get PHP and required extensions
-  become: true
-  action: apt
-    pkg="{{ item }}"
-    state=latest
-  with_items:
-    - php
-    - php-fpm
-    - php-gd
-    - php-pgsql
-    - php-xml # installs "dom"
-    - php7.0-mbstring
+# - name: Get PHP and required extensions
+#   become: true
+#   action: apt
+#     pkg="{{ item }}"
+#     state=latest
+#   with_items:
+#     - php
+#     - php-fpm
+#     - php-gd
+#     - php-pgsql
+#     - php-xml # installs "dom"
+#     - php7.0-mbstring
 
-### Socket setup ###
+# ### Socket setup ###
 
-- name: Set PHP pathinfo
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+# - name: Set PHP pathinfo
+#   become: true
+#   ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
 
-- name: Set socket to listen
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+# - name: Set socket to listen
+#   become: true
+#   ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
 
-- name: Set socket listen owner
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+# - name: Set socket listen owner
+#   become: true
+#   ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
 
-- name: Set socket listen group
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+# - name: Set socket listen group
+#   become: true
+#   ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
 
-- name: Set socket listen mode
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
+# - name: Set socket listen mode
+#   become: true
+#   ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
 
-### Install Composer ###
+# ### Install Composer ###
 
-- name: Download Composer
-  script: install_composer.sh
-  tags:
-    - composer
+# - name: Download Composer
+#   script: install_composer.sh
+#   tags:
+#     - composer
 
-- name: Move Composer globally
-  become: true
-  command: mv composer.phar /usr/local/bin/composer
-  tags:
-    - composer
+# - name: Move Composer globally
+#   become: true
+#   command: mv composer.phar /usr/local/bin/composer
+#   tags:
+#     - composer
 
-- name: Set Composer permissions
-  become: true
-  file:
-    path: /usr/local/bin/composer
-    mode: "a+x"
-  tags:
-    - composer
+# - name: Set Composer permissions
+#   become: true
+#   file:
+#     path: /usr/local/bin/composer
+#     mode: "a+x"
+#   tags:
+#     - composer
 
-### Composer magic ###
+# ### Composer magic ###
 
-- name: Install dependencies for dependency management (>.<)
-  composer:
-    command: require
-    global_command: yes
-    arguments: alchemy/zippy:0.4.3
+# - name: Install dependencies for dependency management (>.<)
+#   composer:
+#     command: require
+#     global_command: yes
+#     arguments: alchemy/zippy:0.4.3
 
-- name: Get all the Drupal gimmicks
-  composer:
-    command: create-project
-    arguments: drupal-composer/drupal-project:8.x-dev 
-      "{{ drupal_root }}"
-    working_dir: "{{ drupal_root }}"
-    prefer_dist: yes
+# - name: Get all the Drupal gimmicks
+#   composer:
+#     command: create-project
+#     arguments: drupal-composer/drupal-project:8.x-dev 
+#       "{{ drupal_root }}"
+#     working_dir: "{{ drupal_root }}"
+#     prefer_dist: yes
 
-### Drupal installation ###
+# ### Drupal installation ###
 
-- name: Copy Drupal settings
-  become: true
-  become_user: vagrant
-  template: src=settings.php.j2 
-    dest={{ drupal_root }}/web/sites/default/settings.php
-    owner=vagrant
-    group=vagrant
+# - name: Copy Drupal settings
+#   become: true
+#   become_user: vagrant
+#   template: src=settings.php.j2 
+#     dest={{ drupal_root }}/web/sites/default/settings.php
+#     owner=vagrant
+#     group=vagrant
 
-- name: Install a clean Drupal database
-  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
-  args:
-    chdir: "{{ drupal_root }}/web"
+# - name: Install a clean Drupal database
+#   command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
+#   args:
+#     chdir: "{{ drupal_root }}/web"
 
-### Finishing touches ###
+# ### Finishing touches ###
 
-- name: Restart PHP-FPM
-  become: true
-  service: name=php7.0-fpm state=restarted
+# - name: Restart PHP-FPM
+#   become: true
+#   service: name=php7.0-fpm state=restarted
 
-- name: Deploy favicon
-  copy: src="favicon.ico" dest="{{ drupal_root }}/web/favicon.ico"
+# - name: Deploy favicon
+#   copy: src="favicon.ico" dest="{{ drupal_root }}/web/favicon.ico"
+
+- name: Deploy robots.txt
+  copy: src="{{ search_engine_robots_filename }}" dest="{{ drupal_root }}/web/robots.txt"
 
 - name: Take site out of maintenance mode
   become: true
