@@ -423,6 +423,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict.update({'res_format': _('Formats')})
         # BFW: source is not part of the schema. created artificially at before_index function
         facets_dict.update({'source': _('Source')})
+        facets_dict.update({'license_id': _('License')})
         # add more dataset facets here
         return facets_dict
 
