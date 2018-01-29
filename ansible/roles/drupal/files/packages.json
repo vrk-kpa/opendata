@@ -1,0 +1,11 @@
+{
+    "package": {
+        "name": "vrk-kpa/drupal-project",
+        "version": "1.0.0",
+        "source": {
+          "url": "/srv/ytp/cache/drupal/.git",
+          "type": "git",
+          "reference": "8.x"
+        }
+    }
+}

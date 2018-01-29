@@ -8,14 +8,17 @@
     state: absent
     path: "{{ drupal_root }}"
 
-- name: Create Drupal root directory
+- name: Create Drupal installation directories if they don't exist
   become: true
   file:
-    path: "{{ drupal_root }}"
+    path: "{{ item }}"
     state: directory
     owner: vagrant
     group: vagrant
     mode: 0755
+  with_items:
+    - "{{ drupal_root }}"
+    - "{{ cache_path }}/drupal"
 
 ### Get PHP ###
 
@@ -83,11 +86,23 @@
     global_command: yes
     arguments: alchemy/zippy:0.4.3
 
-- name: Get all the Drupal gimmicks
+- name: Get Drupal dependency configuration
+  become: true
+  git:
+    repo: 'https://github.com/vrk-kpa/drupal-project.git'
+    dest: "{{ cache_path }}/drupal"
+    version: 8.x
+
+- name: Copy packages.json
+  copy: src="packages.json" 
+    dest={{ cache_path }}/drupal
+
+- name: Install Drupal dependencies
   composer:
     command: create-project
-    arguments: drupal-composer/drupal-project:8.x-dev 
+    arguments: vrk-kpa/drupal-project
       "{{ drupal_root }}"
+      --repository={{ cache_path }}/drupal/packages.json
     working_dir: "{{ drupal_root }}"
     prefer_dist: yes
 
