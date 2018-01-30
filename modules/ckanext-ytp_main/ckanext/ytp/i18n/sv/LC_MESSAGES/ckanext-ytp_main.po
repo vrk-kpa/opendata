@@ -2497,3 +2497,24 @@ msgstr "Sortera enligt registreringsdatum"
 #: ckanext/ytp/user/templates/user/snippets/user_search.html:21
 msgid "Clear search"
 msgstr "Töm sökningen"
+
+msgid "Geographical coverage"
+msgstr "Geographical coverage"
+
+msgid "Collection type"
+msgstr "Collection type"
+
+msgid "Maintainer website"
+msgstr "Maintainer website"
+
+msgid "Links to additional information"
+msgstr "Links to additional information"
+
+msgid "Update frequency"
+msgstr "Update frequency"
+
+msgid "Show More"
+msgstr "Show More"
+
+msgid "Show Only Popular"
+msgstr "Show Only Popular"

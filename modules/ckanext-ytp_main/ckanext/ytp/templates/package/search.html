@@ -1,6 +1,11 @@
 {% extends "page.html" %}
 {% import 'macros/form.html' as form %}
 
+{% block meta %}
+{{ super() }}
+<meta name="robots" content="noindex, follow" />
+{% endblock %}
+
 {% block subtitle %}{{ _("Datasets") }}{% endblock %}
 
 {% block breadcrumb_content %}

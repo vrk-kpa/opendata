@@ -2518,3 +2518,8 @@ msgstr "Lisätietoa verkossa"
 msgid "Update frequency"
 msgstr "Päivitystiheys"
 
+msgid "Show More"
+msgstr "Näytä lisää"
+
+msgid "Show Only Popular"
+msgstr "Näytä suositut"
