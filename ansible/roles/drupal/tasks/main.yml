@@ -110,7 +110,6 @@
 
 - name: Copy Drupal settings
   become: true
-  become_user: vagrant
   template: src=settings.php.j2 
     dest={{ drupal_root }}/web/sites/default/settings.php
     owner=vagrant
