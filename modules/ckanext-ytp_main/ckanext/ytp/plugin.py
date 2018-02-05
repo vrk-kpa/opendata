@@ -44,6 +44,8 @@ from converters import to_list_json, from_json_list, is_url, convert_to_tags_str
 from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function
 from tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method, create_system_context, get_original_method, add_translation_show_schema, add_languages_show, add_translation_modify_schema, add_languages_modify
 
+from ckan.logic.validators import tag_length_validator, tag_name_validator
+
 try:
     from collections import OrderedDict  # 2.7
 except ImportError:
@@ -738,9 +740,26 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                             'value': dates.get("value")
                         })
 
+        package_dict['keywords'] = {'fi': []}
+
+        # Map tags to keywords
+
+        tags = package_dict.get('tags')
+
+        for tag in tags:
+            try:
+                tag_name_validator(tag.get('name'), context)
+                tag_length_validator(tag.get('name'), context)
+                package_dict['keywords']['fi'].append(tag.get('name'))
+            except Invalid:
+                log.info("Invalid tag found %s, skipping..", tag.get('name'))
+                pass
+
+        # Remove tags
+        package_dict.pop('tags')
+
         # topic category for syke
 
-        package_dict['keywords'] = {'fi': []}
 
         topic_categories = data_dict['iso_values'].get('topic-category')
         if topic_categories:
