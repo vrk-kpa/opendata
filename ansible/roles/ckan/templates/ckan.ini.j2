@@ -50,6 +50,7 @@ ckan.site_id = {{ ckan_site_id }}
 ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }} {% if google_analytics -%}googleanalytics{%- endif %} {% if AWS.enabled -%} {{ ckan_aws_plugins }} {%- endif %}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
+                           ckanext.sixodp_showcase.schemas:showcase.json
 scheming.presets = ckanext.ytp.schemas:presets.json
                    ckanext.scheming:presets.json
                    ckanext.fluent:presets.json

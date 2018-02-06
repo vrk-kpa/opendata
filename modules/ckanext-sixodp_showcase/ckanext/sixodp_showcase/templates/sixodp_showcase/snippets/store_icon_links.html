@@ -1,0 +1,25 @@
+<ul class="horizontal-list">
+  {% for item in store_links %}
+    {% if item | length > 0 %}
+      <li>
+        {% if 'itunes.apple.com' in item %}
+          <a href="{{item}}">
+            <img src="{{ h.url_for_static('/images/apple-app-store-badge-' + h.get_lang_prefix() + '.svg') }}"> 
+          </a>
+        {% elif 'play.google.com' in item %}
+          <a href="{{item}}">
+            <img src="{{ h.url_for_static('/images/google-play-badge-' + h.get_lang_prefix() + '.png') }}"> 
+          </a>
+        {% elif 'microsoft.com' in item %}
+          <a href="{{item}}">
+            <img src="{{ h.url_for_static('/images/microsoft-store-badge-' + h.get_lang_prefix() + '.png') }}"> 
+          </a>
+        {% else %}
+          <a href="{{item}}">
+            <img src="{{ h.url_for_static('/images/website-badge-' + h.get_lang_prefix() + '.png') }}"> 
+          </a>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>

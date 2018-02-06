@@ -1,0 +1,54 @@
+{% ckan_extends %}
+
+{% block primary_content_inner %}
+  {% if h.check_access('ckanext_showcase_update', {'id':pkg.id }) %}
+    <div class="actions">
+    {% link_for _('Manage'), controller='ckanext.showcase.controller:ShowcaseController', action='edit', id=pkg.name, class_='btn', icon='wrench' %}
+    </div>
+  {% endif %}
+  {% block package_description %}
+    {% if pkg.private %}
+      <span class="dataset-private label label-inverse pull-right">
+        <i class="icon-lock"></i>
+        {{ _('Private') }}
+      </span>
+    {% endif %}
+    <h1 class="page-heading">
+      {% block page_heading %}
+        {{ name }}
+        {% if pkg.state.startswith('draft') %}
+          [{{ _('Draft') }}]
+        {% endif %}
+      {% endblock %}
+    </h1>
+
+    {% if pkg.image_display_url %}
+      <p class="ckanext-showcase-image-container"><img src="{{ pkg.image_display_url }}" alt="{{ name }}" class="media-image ckanext-showcase-image"></p>
+    {% endif %}
+
+    {% block package_notes %}
+      {% if pkg.showcase_notes_formatted %}
+        <div class="notes embedded-content ckanext-showcase-notes">
+          {{ pkg.showcase_notes_formatted }}
+        </div>
+      {% endif %}
+    {% endblock %}
+
+    {% if pkg.url %}
+      <p><a class="btn btn-primary ckanext-showcase-launch" href="{{ pkg.url }}" target="_blank"><i class="icon-external-link"></i> {{ _('Launch website') }}</a></p>
+    {% endif %}
+
+  {% endblock %}
+
+  {% block package_tags %}
+    {% snippet "showcase/snippets/tags.html", tags=pkg.tags %}
+  {% endblock %}
+
+  {% block package_comments %}
+    {{ h.disqus_comments() }}
+  {% endblock %}
+
+  {% block package_search_results_list %}
+  {% endblock %}
+
+{% endblock %}

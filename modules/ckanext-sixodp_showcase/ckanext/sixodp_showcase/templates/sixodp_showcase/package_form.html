@@ -1,0 +1,7 @@
+{% extends "scheming/package/snippets/package_form.html" %}
+
+{% block stages %}{% endblock %}
+
+{% block save_button %}
+    <button class="btn btn-primary" type="submit" name="save" formenctype="multipart/form-data">{% block save_button_text %}{% if form_style != 'edit' %}{{ _('Create Showcase') }}{% else %}{{ _('Update Showcase') }}{% endif %}{% endblock %}</button>
+{% endblock %}

@@ -1,0 +1,31 @@
+{#
+Displays a sidebard module with information for given package
+
+pkg    - The showcase package dict that owns the resources.
+
+Example:
+
+{% snippet "package/snippets/info.html", pkg=pkg %}
+
+#}
+{% block package_info %}
+  {% if pkg %}
+    <section class="module module-narrow">
+      <div class="module context-info">
+        <div class="module-content">
+          {% block package_info_inner %}
+            {% block heading %}{% endblock %}
+
+            {% if pkg.url %}
+              <div class="info">
+                <a class="btn btn-primary" href="{{ pkg.url }}" target="_blank">
+                  <i class="icon-external-link"></i> {{ _('Launch website') }}
+                </a>
+              </div>
+            {% endif %}
+          {% endblock %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

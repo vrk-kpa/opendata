@@ -6,7 +6,7 @@ $(document).ready(function(){
         listContainer.children('div').each(function(valueIndex) {
             if (valueIndex == 0) {
                 // We are adding the 'add link' only to the first child
-                var addLink = $('<a href="javascript:void(0);" class="add-input"><span class="icon-plus-sign-alt icon-2x"></span></a>');
+                var addLink = $('<a href="javascript:void(0);" class="add-input"><span class="fa fa-plus"></span></a>');
                 var inputContainer = $(this);
                 inputContainer.append(addLink);
 

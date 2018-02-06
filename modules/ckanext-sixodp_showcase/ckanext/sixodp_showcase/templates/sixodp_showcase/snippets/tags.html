@@ -1,0 +1,20 @@
+{% set lang = h.get_lang_prefix() %}
+{% if tags.get(lang) %}
+  <section class="tags">
+    {% block tag_list %}
+      <ul class="tag-list">
+        {% for tag in tags.get(lang) %}
+          {% set tag_dict = dict({
+              'controller': 'ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController',
+              'action': 'search',
+              'vocab_keywords_' + lang: tag }) %}
+          <li>
+            <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">
+              {{ h.truncate(tag, 22) }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endblock %}
+  </section>
+{%- endif -%}

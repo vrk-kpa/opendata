@@ -1,0 +1,208 @@
+{
+  "scheming_version": 1,
+  "dataset_type": "showcase",
+  "about": "Sixodp Showcase schema",
+  "about_url": "http://github.com/6aika/sixodp",
+  "dataset_fields": [
+    {
+      "field_name": "title",
+      "label": "Title",
+      "preset": "title",
+      "form_placeholder":"eg. A descriptive title",
+      "description": "A short and descriptive title for the showcase.",
+      "required": true
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "preset": "dataset_slug_ex",
+      "form_placeholder": "eg. my-dataset",
+      "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases.",
+      "required": true
+    },
+    {
+      "field_name": "category",
+      "label": "Category",
+      "form_placeholder":"eg. visualization",
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(category)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=category"
+      },
+      "description": "Category which represents showcase."
+    },
+    {
+      "field_name": "platform",
+      "label": "Platform",
+      "form_placeholder":"eg. android",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "convert_to_list create_tags(platform)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
+      },
+      "description": "Platforms of the showcase."
+    },
+    {
+      "field_name": "keywords",
+      "label": "Tags",
+      "form_placeholder":"eg. every second week",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(keywords)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
+      },
+      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+    },
+    {
+      "field_name": "owner_org",
+      "validators": "ignore",
+      "display_snippet": null,
+      "form_snippet": null
+    },
+    {
+      "field_name": "author",
+      "label": "Author",
+      "form_placeholder": "Joe Bloggs",
+      "required": true
+    },
+    {
+      "field_name": "author_website",
+      "label": "Author Website",
+      "form_placeholder": "http://www.example.com",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "application_website",
+      "label": "Application Website",
+      "form_placeholder": "http://www.example.com",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "store_urls",
+      "preset": "repeating_text",
+      "label": "Links to stores",
+      "form_blanks": 1,
+      "display_snippet": "repeating_link.html",
+      "form_snippet": "repeating.html",
+      "description": "Links to stores",
+      "validators": "repeating_text"
+    },
+    {
+      "field_name": "notes_translated",
+      "label": "Description",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "description": "An universal, compact and easy to understand description of the added resource.",
+      "only_default_lang_required": true
+    },
+    {
+      "field_name": "featured",
+      "label": "Featured",
+      "preset": "select",
+      "choices":[
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "required": true,
+      "validators": "boolean_validator"
+    },
+    {
+      "field_name": "icon",
+      "label": "Icon",
+      "preset": "showcase_url_upload",
+      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "upload_field": "icon_upload",
+      "upload_clear": "clear_icon_upload",
+      "upload_label": "Icon"
+    },
+    {
+      "field_name": "featured_image",
+      "label": "Featured Image",
+      "preset": "showcase_url_upload",
+      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "upload_field": "featured_image_upload",
+      "upload_clear": "clear_featured_image_upload",
+      "upload_label": "Featured Image",
+      "description": "Image size xx times xx."
+    },
+    {
+      "field_name": "image_1",
+      "label": "Image 1",
+      "preset": "showcase_url_upload",
+      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "upload_field": "image_1_upload",
+      "upload_clear": "clear_image_1_upload",
+      "upload_label": "Image 1"
+    },
+    {
+      "field_name": "image_2",
+      "label": "Image 2",
+      "preset": "showcase_url_upload",
+      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "upload_field": "image_2_upload",
+      "upload_clear": "clear_image_2_upload",
+      "upload_label": "Image 2"
+    },
+    {
+      "field_name": "image_3",
+      "label": "Image 3",
+      "preset": "showcase_url_upload",
+      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "upload_field": "image_3_upload",
+      "upload_clear": "clear_image_3_upload",
+      "upload_label": "Image 3"
+    },
+    {
+      "field_name": "archived",
+      "label": "Archived",
+      "preset": "select",
+      "choices":[
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "required": true,
+      "validators": "boolean_validator"
+    },
+    {
+      "field_name": "notifier",
+      "label": "Notifier",
+      "form_placeholder": "Joe Bloggs",
+      "display_snippet": null,
+      "required": true
+    },
+    {
+      "field_name": "notifier_email",
+      "label": "Notifier Email",
+      "form_placeholder": "joe@example.com",
+      "display_snippet": null,
+      "required": true
+    },
+    {
+      "field_name": "private",
+      "label": "Visibility",
+      "form_snippet": "private.html",
+      "display_snippet": null,
+      "validators": "boolean_validator set_private_if_not_admin"
+    }
+  ]
+}
