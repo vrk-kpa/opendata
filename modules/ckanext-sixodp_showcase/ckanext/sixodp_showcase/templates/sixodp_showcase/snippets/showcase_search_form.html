@@ -1,0 +1,7 @@
+{% extends "snippets/search_form_without_input.html" %}
+
+{% block search_title %}
+{% if not no_title %}
+  <h4>{% snippet 'sixodp_showcase/snippets/showcase_search_result_text.html', query=query, count=count, type=type %}</h4>
+{% endif %}
+{% endblock %}
