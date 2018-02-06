@@ -3,7 +3,7 @@
 	url = https://github.com/6aika/ckanext-report.git
 [submodule "modules/ckanext-harvest"]
 	path = modules/ckanext-harvest
-	url = https://github.com/ckan/ckanext-harvest.git
+	url = https://github.com/vrk-kpa/ckanext-harvest.git
 [submodule "modules/ckanext-dcat"]
 	path = modules/ckanext-dcat
 	url = https://github.com/vrk-kpa/ckanext-dcat.git

@@ -8,4 +8,3 @@ apt_source_url: "http://fi.archive.ubuntu.com"
 # Ubuntu 16.04
 ubuntu_codename: xenial
 
-search_engine_robots_filename: "robots_disallowed.txt"

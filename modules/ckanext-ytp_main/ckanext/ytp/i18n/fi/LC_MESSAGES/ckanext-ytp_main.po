@@ -2193,7 +2193,7 @@ msgstr "Valinnat"
 
 #: ckanext/ytp/theme/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
-msgstr ""
+msgstr "Etusivu"
 
 #: ckanext/ytp/theme/templates/snippets/search_form.html:14
 #: ckanext/ytp/theme/templates/snippets/search_input.html:17
@@ -2518,3 +2518,8 @@ msgstr "Lisätietoa verkossa"
 msgid "Update frequency"
 msgstr "Päivitystiheys"
 
+msgid "Show More"
+msgstr "Näytä lisää"
+
+msgid "Show Only Popular"
+msgstr "Näytä suositut"

@@ -9,7 +9,7 @@
             'vocab_' + field.field_name: tag}) %}
 
         <li>
-            <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">{{
+            <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}" rel="nofollow">{{
                 h.truncate(tag, 22) }}</a>
         </li>
         {% endfor %}
