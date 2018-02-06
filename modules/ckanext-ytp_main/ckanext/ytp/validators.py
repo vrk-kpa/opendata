@@ -28,6 +28,10 @@ Invalid = df.Invalid
 
 import plugin
 
+import logging
+
+log = logging.getLogger(__name__)
+
 ObjectNotFound = toolkit.ObjectNotFound
 c = toolkit.c
 
@@ -102,7 +106,7 @@ def add_to_vocab(context, tags, vocab):
     except ObjectNotFound:
         v = plugin.create_vocabulary(vocab)
 
-
+    context['vocabulary'] = model.Vocabulary.get(v.get('id'))
     if isinstance(tags, basestring):
         tags = [tags]
 

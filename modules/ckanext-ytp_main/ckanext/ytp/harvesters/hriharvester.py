@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import urllib
 import urllib2
 import httplib
 import datetime
 import socket
+import re
 
 from sqlalchemy import exists
 
@@ -20,6 +23,22 @@ from ckanext.harvest.harvesters.base import HarvesterBase
 import logging
 log = logging.getLogger(__name__)
 
+VALID_TAG_CHARACTERS = u'abcdefghijklmnopqrstuvwxyzåäö ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890-_.'
+IS_INVALID_TAG_CHARACTER = re.compile('[^%s]' % VALID_TAG_CHARACTERS)
+IS_VALID_TAG = re.compile('^"?([%s]*)"?$' % VALID_TAG_CHARACTERS)
+IS_TAG_SET = re.compile('^{(.*)}$')
+MINIMUM_TAG_LENGTH = 3
+DATETIME_FORMATS = [
+        '%Y-%m-%dT%H:%M:%S.%f%z',
+        '%Y-%m-%dT%H:%M:%S%z',
+        '%Y-%m-%dT%H:%M:%S',
+        '%Y-%m-%dT%H:%M',
+        '%Y-%m-%dT%H',
+        '%Y-%m-%d',
+        '%Y-%m',
+        '%Y',
+        ]
+
 
 class HRIHarvester(HarvesterBase):
     '''
@@ -29,6 +48,44 @@ class HRIHarvester(HarvesterBase):
 
     api_version = 2
     action_api_version = 3
+
+    def _parse_tag(self, tag_string):
+        if len(tag_string) < MINIMUM_TAG_LENGTH:
+            return ''
+
+        valid = IS_VALID_TAG.match(tag_string)
+        if valid:
+            return valid.group(1)
+
+        modified = IS_INVALID_TAG_CHARACTER.sub('', tag_string)
+        if len(modified) < MINIMUM_TAG_LENGTH:
+            return ''
+        else:
+            return modified
+
+
+    def _parse_tag_string(self, tag_string):
+        tag_set = IS_TAG_SET.match(tag_string)
+        if tag_set:
+            tags = (t for t in tag_set.group(1).split(',') if t)
+        else:
+            tags = [tag_string]
+        return [self._parse_tag(t) for t in tags]
+
+    def _parse_datetime(self, datetime_string):
+        if not datetime_string:
+            return None
+
+        for fmt in DATETIME_FORMATS:
+            try:
+                result = datetime.datetime.strptime(datetime_string, fmt)
+            except:
+                continue
+            return result
+
+        log.debug('Invalid datetime string: "%s"' % datetime_string)
+        return None
+
 
     def _get_action_api_offset(self):
         return '/api/%d/action' % self.action_api_version
@@ -407,17 +464,15 @@ class HRIHarvester(HarvesterBase):
             package_dict['notes_translated'] = translated_field('notes')
             package_dict['update_frequency'] = translated_extra_list('update_frequency')
 
-
             # Set default values for required fields
             default_values = {
-                    'maintainer': package_dict.get('author', '(not set)'),
-                    'maintainer_email': package_dict.get('author_email', '(not set)'),
+                    'maintainer': package_dict.get('author') or '(not set)',
+                    'maintainer_email': package_dict.get('author_email') or '(not set)',
                     }
             missing_values = (
                     (k, v) for k, v in default_values.iteritems() 
                     if not package_dict.get(k))
             package_dict.update(missing_values)
-
 
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
@@ -491,7 +546,7 @@ class HRIHarvester(HarvesterBase):
                 log.info('No organization in harvested dataset')
                 return "unchanged"
 
-                # Set default groups if needed
+            # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
             if default_groups:
                 if 'groups' not in package_dict:
@@ -499,6 +554,27 @@ class HRIHarvester(HarvesterBase):
                 package_dict['groups'].extend(
                     [g for g in default_groups
                      if g not in package_dict['groups']])
+
+            # Map fields
+            fields_to_map = [('url', 'maintainer_website')]
+            for key_from, key_to in fields_to_map:
+                if key_to not in package_dict and key_from in package_dict:
+                    package_dict[key_to] = package_dict[key_from]
+
+            # Rename extras
+            extras_to_rename_keys = {
+                    'geographic_coverage': 'geographical_coverage',
+                    'temporal_coverage-from': 'valid_from',
+                    'temporal_coverage-to': 'valid_till',
+                    'source': 'owner'
+                    }
+            def map_extra(e):
+                result = {}
+                result.update(e)
+                result['key'] = extras_to_rename_keys.get(e['key'], e['key'])
+                return result
+
+            package_dict['extras'] = [map_extra(e) for e in package_dict.get('extras', [])]
 
             # Set default extras if needed
             default_extras = self.config.get('default_extras', {})
@@ -529,8 +605,20 @@ class HRIHarvester(HarvesterBase):
 
                     package_dict['extras'].append({'key': key, 'value': value})
 
+            # Convert extras from strings to datetimes
+            extras_to_datetimes = ['valid_from', 'valid_till']
+            def map_extra_to_date(e):
+                if e['key'] not in extras_to_datetimes:
+                    return e
+                result = {}
+                result.update(e)
+                result['value'] = self._parse_datetime(e['value'])
+                return result
+
+            package_dict['extras'] = [map_extra_to_date(e) for e in package_dict.get('extras', [])]
+
             # Move extras to fields
-            extras_to_fields_keys = ['collection_type']
+            extras_to_fields_keys = ['collection_type', 'geographical_coverage', 'valid_from', 'valid_till', 'owner']
             extras_to_fields = [
                     x for x in package_dict.get('extras', [])
                     if x['key'] in extras_to_fields_keys
@@ -552,17 +640,23 @@ class HRIHarvester(HarvesterBase):
                 # key.
                 resource.pop('revision_id', None)
 
+            # Ensure imported tags are valid
+            tag_string_fields = ['geographical_coverage']
+            for field in tag_string_fields:
+                package_dict[field] = [t
+                        for t in self._parse_tag_string(package_dict.get(field, ''))
+                        if t]
+
+            # Create or update package
             result = self._create_or_update_package(
                 package_dict, harvest_object, package_dict_form='package_show')
 
             return result
         except ValidationError, e:
-            log.error('Validation error harvesting: %s' % e)
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
         except Exception, e:
-            log.error('Error harvesting: %s' % e)
             self._save_object_error('%s' % e, harvest_object, 'Import')
 
 

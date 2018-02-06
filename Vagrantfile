@@ -35,6 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ytp.vm.provider "virtualbox" do |vbox|
       vbox.memory = 3000
+      vbox.cpus = 2
     end
   end
 
