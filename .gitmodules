@@ -38,3 +38,6 @@
 [submodule "modules/ckanext-pdfview"]
 	path = modules/ckanext-pdfview
 	url = https://github.com/ckan/ckanext-pdfview.git
+[submodule "drupal8"]
+	path = drupal8
+	url = https://github.com/vrk-kpa/drupal-project.git
