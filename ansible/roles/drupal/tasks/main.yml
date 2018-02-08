@@ -88,23 +88,14 @@
 
 - name: Get Drupal dependency configuration
   become: true
-  git:
-    repo: 'https://github.com/vrk-kpa/drupal-project.git'
-    dest: "{{ cache_path }}/drupal"
-    version: 8.x
-
-- name: Copy packages.json
-  copy: src="packages.json" 
-    dest={{ cache_path }}/drupal
+  become_user: vagrant
+  copy: src="/drupal8"
+    dest="{{ drupal_root }}"
 
 - name: Install Drupal dependencies
   composer:
-    command: create-project
-    arguments: vrk-kpa/drupal-project
-      "{{ drupal_root }}"
-      --repository={{ cache_path }}/drupal/packages.json
+    command: install
     working_dir: "{{ drupal_root }}"
-    prefer_dist: yes
 
 ### Drupal installation ###
 
@@ -131,6 +122,14 @@
     - content_translation
     - language
     - locale
+
+- name: Add additional languages
+  command: ../vendor/drush/drush/drush language-add -y {{ item }}
+  args: 
+    chdir: "{{ drupal_root }}/web"
+  with_items:
+    - fi
+    - sv
 
 ### Finishing touches ###
 
