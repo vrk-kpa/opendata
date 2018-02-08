@@ -1,5 +1,9 @@
 ---
 
+
+- name: Create translation cache path
+  file: path="{{ translation_cache_path }}" state=directory
+
 - name: Create temporary drupal translation files
   command: touch  "{{ translation_cache_path }}/drupal.{{ item }}.temporary.po"
   with_items: "{{ translation_languages }}"
