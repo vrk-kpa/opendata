@@ -7,24 +7,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-def test_report():
-    return {
-        'table' : [
-            {str(d): (n*8 + d)**2 for d in range(8)}
-            for n in range(8)
-            ]
-    }
-
-test_report_info = {
-    'name': 'test-report',
-    'title': 'Test Report',
-    'description': 'Most Testy Reportie',
-    'option_defaults': None,
-    'option_combinations': None,
-    'generate': test_report,
-    'template': 'report/test_report.html',
-}
-
 def administrative_branch_summary_report():
     org_names = [
             'liikenne-ja-viestintaministerio',

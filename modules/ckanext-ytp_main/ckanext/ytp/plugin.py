@@ -1127,7 +1127,7 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def register_reports(self):
         import reports
-        return [reports.test_report_info, reports.administrative_branch_summary_report_info]
+        return [reports.administrative_branch_summary_report_info]
 
     def update_config(self, config):
         from ckan.plugins import toolkit
