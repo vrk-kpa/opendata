@@ -86,11 +86,18 @@
     global_command: yes
     arguments: alchemy/zippy:0.4.3
 
-- name: Get Drupal dependency configuration
-  become: true
-  become_user: vagrant
-  copy: src="/drupal8"
-    dest="{{ drupal_root }}"
+- name: Synchronize drupal8 project
+  synchronize:
+    src: ../drupal8
+    dest: "{{ drupal_root }}"
+  when: deployment_environment_id != "vagrant"
+
+- name: Symlink drupal8 project
+  synchronize:
+    src: /vagrant/drupal8
+    dest: "{{ drupal_root }}"
+  when: deployment_environment_id == "vagrant"
+
 
 - name: Install Drupal dependencies
   composer:
