@@ -131,6 +131,11 @@
     - fi
     - sv
 
+- name: Make Finnish default language
+  command: ../vendor/drush/drush/drush language-default -y fi
+  args: 
+    chdir: "{{ drupal_root }}/web"
+
 ### Finishing touches ###
 
 - name: Restart PHP-FPM
