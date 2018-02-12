@@ -17,7 +17,7 @@ www_root: /var/www
 www_user: www-data
 www_group: www-data
 
-drupal_name: ytp
+
 
 server_path: /srv/ytp
 cache_path: "{{ server_path }}/cache"
