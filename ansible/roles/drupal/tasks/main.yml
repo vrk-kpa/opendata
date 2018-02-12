@@ -116,12 +116,12 @@
 
 ### Drupal installation ###
 
-- name: Copy Drupal settings
-  become: true
-  template: src=settings.php.j2 
-    dest={{ drupal8_root }}/web/sites/default/settings.php
-    owner=vagrant
-    group=vagrant
+#- name: Copy Drupal settings
+#  become: true
+#  template: src=settings.php.j2
+#    dest={{ drupal8_root }}/web/sites/default/settings.php
+#    owner=vagrant
+#    group=vagrant
 
 - name: Install a clean Drupal database
   command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
@@ -143,7 +143,7 @@
 - name: Patch drush_language so default language can be set
   patch:
     src: drush_language_hook_names.patch
-    basedir: /var/www/ytp/drush/contrib/drush_language
+    basedir: "{{ drupal8_root }}/drush/contrib/drush_language"
     strip: 1
 
 - name: Add additional languages
@@ -157,7 +157,7 @@
 - name: Make Finnish default language
   command: ../vendor/drush/drush/drush language-default -y fi
   args: 
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 ### Finishing touches ###
 
