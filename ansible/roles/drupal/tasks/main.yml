@@ -13,11 +13,13 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: vagrant
-    group: vagrant
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
     mode: 0755
   with_items:
     - "{{ cache_path }}/drupal"
+    - "/var/www/.composer"
+    - "{{ drupal8_root }}"
 
 ### Get PHP ###
 
@@ -86,18 +88,10 @@
     arguments: alchemy/zippy:0.4.3
 
 - name: Synchronize drupal8 project
+  become_user: "{{ www_user }}"
   synchronize:
-    src: ../drupal8
-    dest: "{{ drupal8_root }}"
-  when: deployment_environment_id != "vagrant"
-
-- name: Symlink drupal8 project
-  file:
-    src: /vagrant/drupal8
-    dest: "{{ drupal8_root }}"
-    state: link
-  when: deployment_environment_id == "vagrant"
-
+    src: ../drupal8/
+    dest: "{{ drupal8_root }}/"
 
 - name: Install Drupal dependencies
   become_user: "{{ www_user }}"
@@ -130,7 +124,7 @@
     group=vagrant
 
 - name: Install a clean Drupal database
-  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
+  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
   args:
     chdir: "{{ drupal8_root }}/web"
 

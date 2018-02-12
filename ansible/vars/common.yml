@@ -118,6 +118,9 @@ postgres:
     drupal:
       username: drupal
       password: "{{ secret.database_drupal_password }}"
+    drupal8:
+      username: drupal8
+      password: "{{ secret.database_drupal8_password }}"
 
   server:
     installed_locally: "{{ postgres_conf.installed_locally }}"
@@ -136,6 +139,9 @@ postgres:
     drupal:
       name: drupal
       owner: drupal
+    drupal8:
+          name: drupal8
+          owner: drupal8
 
 drupal:
   hash_salt: "{{ secret.drupal_hash_salt }}"
@@ -151,6 +157,7 @@ secret:
   database_ckan_password: pass
   database_ckan_datastore_password: pass
   database_drupal_password: pass
+  database_drupal8_password: pass
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
