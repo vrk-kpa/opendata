@@ -96,7 +96,7 @@
   synchronize:
     src: /vagrant/drupal8/
     dest: "{{ drupal_root }}/"
-  when: deployment_environment_id == "vagrant"
+  # when: deployment_environment_id == "vagrant"
 
 - name: Install Drupal dependencies
   composer:
@@ -146,6 +146,13 @@
 - name: Make Finnish default language
   command: ../vendor/drush/drush/drush language-default -y fi
   args: 
+    chdir: "{{ drupal_root }}/web"
+
+### Theme ###
+
+- name: Enable base theme
+  command: ../vendor/drush/drush/drush en -y bootstrap
+  args:
     chdir: "{{ drupal_root }}/web"
 
 ### Finishing touches ###
