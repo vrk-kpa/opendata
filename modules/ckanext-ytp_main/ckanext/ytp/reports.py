@@ -9,6 +9,8 @@ log = logging.getLogger(__name__)
 
 def administrative_branch_summary_report():
     org_names = [
+            'ulkoministerio',
+            'sisaministerio',
             'liikenne-ja-viestintaministerio',
             'maa-ja-metsatalousministerio',
             'oikeusministerio',
@@ -38,9 +40,19 @@ def administrative_branch_summary_report():
             for org, level in hierarchy_levels(t, children)}
 
     flat_orgs = (org for t in org_trees for org in flatten(t, children))
+
+    def with_totals(orgs):
+        for org in orgs:
+            if org_levels[org['name']] == 0:
+                total_org = org.copy()
+                total_org['total_org'] = True
+                yield total_org
+            org['total_org'] = False
+            yield org
+
     root_tree_ids_pairs = (
-            (r, [x['id'] for x in flatten(r, children)])
-            for r in flat_orgs)
+            (r, [x['id'] for x in (flatten(r, children) if r['total_org'] else [r])])
+            for r in with_totals(flat_orgs))
 
     # Optimization opportunity: Prefetch datasets for all related orgs in one go
     root_datasets_pairs = (
@@ -51,6 +63,7 @@ def administrative_branch_summary_report():
         'table' : [{
             'organization': org,
             'level': org_levels[org['name']],
+            'total': org['total_org'],
             'dataset_count': len(datasets),
             'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
             'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),

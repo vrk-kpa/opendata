@@ -2523,3 +2523,39 @@ msgstr "Näytä lisää"
 
 msgid "Show Only Popular"
 msgstr "Näytä suositut"
+
+msgid "Administrative branch"
+msgstr "Hallinnonala"
+
+msgid "Dataset count"
+msgstr "Aineistojen määrä"
+
+msgid "New datasets"
+msgstr "Uusia aineistoja"
+
+msgid "Avg. openness score"
+msgstr "Avoimuusarvosana"
+
+msgid "Data formats"
+msgstr "Tiedostomuodot"
+
+msgid "Current"
+msgstr "Nyt"
+
+msgid "1 year ago"
+msgstr "1v sitten"
+
+msgid "2 years ago"
+msgstr "2v sitten"
+
+msgid "3 years ago"
+msgstr "3v sitten"
+
+msgid "Last month"
+msgstr "Viime kuussa"
+
+msgid "Last 6 months"
+msgstr "Viim. 6 kk"
+
+msgid "Administrative Branch Summary"
+msgstr "Kooste hallinnonaloittain"

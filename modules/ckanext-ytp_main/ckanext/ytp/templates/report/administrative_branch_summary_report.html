@@ -1,35 +1,61 @@
-<table class="table table-condensed tablesorter" id="report-table">
-    <thead>
-      <tr>
-        <th rowspan="2">Administrative branch</th>
-        <th colspan="4">Dataset count</th>
-        <th colspan="2">New datasets</th>
-        <th rowspan="2">Avg. openness score</th>
-        <th rowspan="2">Data formats</th>
-      </tr>
-      <tr>
-        <th>Current</th>
-        <th>1 year ago</th>
-        <th>2 years ago</th>
-        <th>3 years ago</th>
-        <th>Last month</th>
-        <th>Last 6 months</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in table %}
-        <tr>
-          <td style="padding-left: {{ row.level + 1 }}em">{{ row.organization.title }}</td>
-          <td>{{ row.dataset_count }}</td>
-          <td>{{ row.dataset_count_1yr }}</td>
-          <td>{{ row.dataset_count_2yr }}</td>
-          <td>{{ row.dataset_count_3yr }}</td>
-          <td>{{ row.new_datasets_month }}</td>
-          <td>{{ row.new_datasets_6_months }}</td>
-          <td>{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
-          <td>{{ row.resource_formats }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-</table>
+{#{% resource "ytp_dataset_js/Chart.bundle.js" %}#}
+{% resource "ytp_dataset_js/d3.js" %}
+{% resource "ytp_dataset_js/administrative_branch_summary.js" %}
 
+<script>
+  var chartData = [
+    {% for row in table %}
+      {
+        organization: "{{ row.organization.title }}",
+        datasetCount: {{ row.dataset_count }},
+        newDatasetCount: {{ row.new_datasets_6_months }},
+        total: {% if row.total %}true{% else %}false{% endif %}
+      },
+    {% endfor %}];
+</script>
+
+<div data-module="chartData-doughnut"
+  data-module-field="datasetCount"
+  data-module-title="{{ _("Dataset count") }}"
+  id="datasetsChart"
+  class="report-pie-chart"></div>
+<div data-module="chartData-doughnut"
+  data-module-field="newDatasetCount"
+  data-module-title="{{ _("New datasets") }}"
+  id="newDatasetsChart"
+  class="report-pie-chart"></div>
+
+<table class="table table-condensed tablesorter" id="report-table">
+  <thead>
+    <tr>
+      <th rowspan="2">{{ _("Administrative branch") }}</th>
+      <th colspan="4">{{ _("Dataset count") }}</th>
+      <th colspan="2">{{ _("New datasets") }}</th>
+      <th rowspan="2">{{ _("Avg. openness score") }}</th>
+      <th rowspan="2">{{ _("Data formats") }}</th>
+    </tr>
+    <tr>
+      <th>{{ _("Current") }}</th>
+      <th>{{ _("1 year ago") }}</th>
+      <th>{{ _("2 years ago") }}</th>
+      <th>{{ _("3 years ago") }}</th>
+      <th>{{ _("Last month") }}</th>
+      <th>{{ _("Last 6 months") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in table %}
+    <tr style="{% if row.total %}font-weight: bold{% endif %}">
+      <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">{{ row.organization.title }}</td>
+      <td>{{ row.dataset_count }}</td>
+      <td>{{ row.dataset_count_1yr }}</td>
+      <td>{{ row.dataset_count_2yr }}</td>
+      <td>{{ row.dataset_count_3yr }}</td>
+      <td>{{ row.new_datasets_month }}</td>
+      <td>{{ row.new_datasets_6_months }}</td>
+      <td>{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
+      <td>{{ row.resource_formats }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
