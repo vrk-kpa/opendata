@@ -24,37 +24,37 @@
   data-module-title="{{ _("New datasets") }}"
   id="newDatasetsChart"
   class="report-pie-chart"></div>
-
-<table class="table table-condensed tablesorter" id="report-table">
+<hr class="page-break">
+<table class="table table-condensed tablesorter" id="report-table" class="avoid-page-break">
   <thead>
     <tr>
       <th rowspan="2">{{ _("Administrative branch") }}</th>
       <th colspan="4">{{ _("Dataset count") }}</th>
       <th colspan="2">{{ _("New datasets") }}</th>
       <th rowspan="2">{{ _("Avg. openness score") }}</th>
-      <th rowspan="2">{{ _("Data formats") }}</th>
+      <th rowspan="2" class="print-hidden">{{ _("Data formats") }}</th>
     </tr>
     <tr>
       <th>{{ _("Current") }}</th>
       <th>{{ _("1 year ago") }}</th>
-      <th>{{ _("2 years ago") }}</th>
-      <th>{{ _("3 years ago") }}</th>
-      <th>{{ _("Last month") }}</th>
+      <th class="print-hidden">{{ _("2 years ago") }}</th>
+      <th class="print-hidden">{{ _("3 years ago") }}</th>
+      <th class="print-hidden">{{ _("Last month") }}</th>
       <th>{{ _("Last 6 months") }}</th>
     </tr>
   </thead>
   <tbody>
     {% for row in table %}
-    <tr style="{% if row.total %}font-weight: bold{% endif %}">
+    <tr class="{% if row.total %}report-total-row{% else %}report-sub-row{% endif %}">
       <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">{{ row.organization.title }}</td>
       <td>{{ row.dataset_count }}</td>
       <td>{{ row.dataset_count_1yr }}</td>
-      <td>{{ row.dataset_count_2yr }}</td>
-      <td>{{ row.dataset_count_3yr }}</td>
-      <td>{{ row.new_datasets_month }}</td>
+      <td class="print-hidden">{{ row.dataset_count_2yr }}</td>
+      <td class="print-hidden">{{ row.dataset_count_3yr }}</td>
+      <td class="print-hidden">{{ row.new_datasets_month }}</td>
       <td>{{ row.new_datasets_6_months }}</td>
       <td>{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
-      <td>{{ row.resource_formats }}</td>
+      <td class="print-hidden">{{ row.resource_formats }}</td>
     </tr>
     {% endfor %}
   </tbody>

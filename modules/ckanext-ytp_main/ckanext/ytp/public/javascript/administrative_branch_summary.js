@@ -26,7 +26,7 @@ function initChart(element, title, data, getValue, getLegend, getLabel) {
     var width = element.clientWidth,
       height = element.clientHeight,
       legendWidth = 250,
-      radius = Math.min(width - legendWidth, height / 2);
+      radius = Math.min((width - legendWidth)/2, height / 2);
 
     var strokeColor = d3.scaleOrdinal()
       .range(hslLerp(
@@ -162,7 +162,7 @@ function initChart(element, title, data, getValue, getLegend, getLabel) {
   }
 
   render();
-  window.addEventListener("resize", render);
+  //window.addEventListener("resize", render);
 }
 function hslLerp(h0, s0, l0, a0, h1, s1, l1, a1, n, striped) {
   let result = [];

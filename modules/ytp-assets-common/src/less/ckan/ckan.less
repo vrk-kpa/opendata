@@ -1136,11 +1136,38 @@ input[type=checkbox], input[type=radio] {
   color: #333;
 }
 
+.avoid-page-break {
+  page-break-inside: avoid;
+}
+
 .report-pie-chart {
-  min-height: 400px;
-  min-width:  800px;
+  min-height: 350px;
 
   .title {
     font-size: 18pt;
   }
 }
+
+.report-total-row {
+  font-weight: bold;
+}
+.report-sub-row {
+  font-size: normal;
+}
+@media print {
+  .report-controls, .report-options, .report-options-title,
+  .report-download-controls, .report-results-title {
+    display: none;
+  }
+
+  .print-hidden {
+    display: none;
+  }
+  .report-total-row {
+    font-weight: normal;
+  }
+  .report-sub-row {
+    font-size: smaller;
+  }
+}
+
