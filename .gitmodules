@@ -41,3 +41,6 @@
 [submodule "drupal8"]
 	path = drupal8
 	url = https://github.com/vrk-kpa/drupal-project.git
+[submodule "modules/avoindata-drupal-theme"]
+	path = modules/avoindata-drupal-theme
+	url = https://github.com/vrk-kpa/avoindata-drupal-theme

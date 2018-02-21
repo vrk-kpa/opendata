@@ -159,6 +159,35 @@
   args: 
     chdir: "{{ drupal8_root }}/web"
 
+### Theme ###
+
+- name: Enable base theme
+  command: ../vendor/drush/drush/drush en -y bootstrap
+  args:
+    chdir: "{{ drupal_root }}/web"
+
+- name: Synchronize custom theme
+  synchronize:
+    src: ../modules/avoindata-drupal-theme
+    dest: "{{ drupal_root }}/web/themes/avoindata"
+  when: deployment_environment_id != "vagrant"
+
+- name: Symlink custom theme
+  synchronize:
+    src: ../modules/avoindata-drupal-theme
+    dest: "{{ drupal_root }}/web/themes/avoindata"
+  when: deployment_environment_id == "vagrant"
+
+- name: Enable custom theme
+  command: ../vendor/drush/drush/drush en -y avoindata
+  args:
+    chdir: "{{ drupal_root }}/web"
+
+- name: Set default theme
+  command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
+  args:
+    chdir: "{{ drupal_root }}/web"
+
 ### Finishing touches ###
 
 - name: Restart PHP-FPM
