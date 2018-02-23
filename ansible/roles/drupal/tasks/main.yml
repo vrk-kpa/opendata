@@ -157,13 +157,13 @@
 
 - name: Synchronize custom theme
   synchronize:
-    src: ../modules/avoindata-drupal-theme
+    src: ../modules/avoindata-drupal-theme/
     dest: "{{ drupal_root }}/web/themes/avoindata"
   when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
   synchronize:
-    src: ../modules/avoindata-drupal-theme
+    src: ../modules/avoindata-drupal-theme/
     dest: "{{ drupal_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
