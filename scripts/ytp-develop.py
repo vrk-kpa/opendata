@@ -49,32 +49,32 @@ class YtpDevelopMain(object):
 
     def develop_drupal_theme(self, name):
         """ Develop ytp-theme-drupal handler. """
-        self._replace_with_link("/var/www/ytp/sites/all/themes/ytp_theme", "/vagrant/modules/ytp-theme-drupal")
-        if not os.path.exists("/var/www/ytp/sites/all/themes/ytp_theme/vendor"):
-            subprocess.call(["mkdir", "/var/www/ytp/sites/all/themes/ytp_theme/vendor"])
-            subprocess.call(["cp", "-r", "/var/www/resources/vendor", "/var/www/ytp/sites/all/themes/ytp_theme/"])
+        self._replace_with_link("/var/www/ytp/web/themes/avoindata", "/vagrant/modules/avoindata-drupal-theme")
+        if not os.path.exists("/var/www/ytp/web/themes/avoindata/vendor"):
+            subprocess.call(["mkdir", "/var/www/ytp/web/themes/avoindata/vendor"])
+            subprocess.call(["cp", "-r", "/var/www/resources/vendor", "/var/www/ytp/web/themes/avoindata/"])
         return 0
 
 
     def develop_drupal_user(self, name):
         """ Develop ytp-drupal-user handler. """
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_user", "/vagrant/modules/ytp-drupal-user")
+        return self._replace_with_link("/var/www/ytp/web/modules/ytp_user", "/vagrant/modules/ytp-drupal-user")
 
     def develop_drupal_features(self, name):
         """ Develop ytp-drupal-features handler. """
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_features", "/vagrant/modules/ytp-drupal-features")
+        return self._replace_with_link("/var/www/ytp/web/modules/ytp_features", "/vagrant/modules/ytp-drupal-features")
 
     def develop_drupal_tutorial(self, name):
         """ Develop ytp-drupal-tutorial handler. """
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_tutorial", "/vagrant/modules/ytp-drupal-tutorial")
+        return self._replace_with_link("/var/www/ytp/web/modules/ytp_tutorial", "/vagrant/modules/ytp-drupal-tutorial")
 
     def develop_drupal_footer(self, name):
         """ Develop ytp-drupal-footer handler. """
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_footer", "/vagrant/modules/ytp-drupal-footer")
+        return self._replace_with_link("/var/www/ytp/web/modules/ytp_footer", "/vagrant/modules/ytp-drupal-footer")
 
     def develop_drupal_frontpage(self, name):
         """ Develop ytp-drupal-frontpage handler. """
-        return self._replace_with_link("/var/www/ytp/sites/all/modules/ytp_frontpage", "/vagrant/modules/ytp-drupal-frontpage")
+        return self._replace_with_link("/var/www/ytp/web/modules/ytp_frontpage", "/vagrant/modules/ytp-drupal-frontpage")
 
     def _get_projects(self):
         for project_name in os.listdir(self.source_path):
@@ -115,7 +115,7 @@ class YtpDevelopMain(object):
         if self._mappings is None:
             self._mappings = {re.compile(u'^ckanext-.+'): self.develop_ckanext,
                               u'ytp-assets-common': self.develop_assets,
-                              u'ytp-theme-drupal': self.develop_drupal_theme,
+                              u'avoindata-drupal-theme': self.develop_drupal_theme,
                               u'ytp-drupal-user': self.develop_drupal_user,
                               u'ytp-drupal-features': self.develop_drupal_features,
                               u'ytp-drupal-tutorial': self.develop_drupal_tutorial,
