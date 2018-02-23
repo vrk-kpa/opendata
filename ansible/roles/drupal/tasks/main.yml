@@ -94,10 +94,16 @@
     arguments: alchemy/zippy:0.4.3
 
 - name: Synchronize drupal8 project
-  become_user: "{{ www_user }}"
   synchronize:
     src: ../drupal8/
     dest: "{{ drupal8_root }}/"
+
+- name: Ensure drupal root ownership
+  file:
+    path: "{{ drupal8_root }}"
+    owner: "{{ www_user }}"
+    group: "{{ www_group" }}
+    mode: 0755
 
 - name: Install Drupal dependencies
   become_user: "{{ www_user }}"
