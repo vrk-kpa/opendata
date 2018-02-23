@@ -157,7 +157,7 @@
     with_items:
       - "upgrade_d7_user_role"
       - "upgrade_d7_user"
-  when: "'1' in drupal_database_initialized.stdout"
+  when: "'1' in drupal7_database_initialized.stdout"
 
 ### Translations ###
 
