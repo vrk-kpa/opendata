@@ -115,6 +115,9 @@
 
 ### Database backup
 
+- name: Create root pgpass
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
+
 - name: Check if drupal 7 is already initialized on database
   command: >
     psql -h {{ postgres.server.host }}
