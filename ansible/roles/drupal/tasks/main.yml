@@ -104,6 +104,7 @@
     owner: "{{ www_user }}"
     group: "{{ www_group }}"
     mode: 0755
+    recurse: yes
 
 - name: Install Drupal dependencies
   become_user: "{{ www_user }}"
