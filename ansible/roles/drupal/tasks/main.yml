@@ -1,5 +1,11 @@
 ---
 
+
+- name: Remove old drush6 modules
+  file:
+    state: absent
+    path: "/root/.drush"
+
 ### Composer needs an existing, empty directory for project creating ###
 
 - name: Destroy Drupal root directory
@@ -102,17 +108,17 @@
 
 ### Database backup
 
-- name: Check if drupal is already initialized on database
+- name: Check if drupal 7 is already initialized on database
   command: >
     psql -h {{ postgres.server.host }}
     -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
     {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
-  register: drupal_database_initialized
+  register: drupal7_database_initialized
 
-- name: Dump drupal db
-  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
-  when: "'1' in drupal_database_initialized.stdout"
-  register: drupal_database_dumped
+#- name: Dump drupal db
+#  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
+#  when: "'1' in drupal_database_initialized.stdout"
+#  register: drupal_database_dumped
 
 ### Drupal installation ###
 
@@ -127,6 +133,31 @@
   command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
   args:
     chdir: "{{ drupal8_root }}/web"
+
+- block:
+  - name: Enable migration modules
+    command: ../vendor/drush/drush/drush en -y {{ item }}
+    args:
+      chdir: "{{ drupal8_root }}/web"
+    with_items:
+        - migrate_plus
+        - migrate_upgrade
+        - migrate_tools
+
+
+  - name: Configure Drupal 7 database migration
+    command: ../vendor/drush/drush/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
+    args:
+      chdir: "{{ drupal8_root }}/web"
+
+  - name: Migrate Drupal 7 Database
+    command: ../vendor/drush/drush/drush migrate-import {{ item }}
+    args:
+      chdir: "{{ drupal8_root }}/web"
+    with_items:
+      - "upgrade_d7_user_role"
+      - "upgrade_d7_user"
+  when: "'1' in drupal_database_initialized.stdout"
 
 ### Translations ###
 
@@ -164,29 +195,29 @@
 - name: Enable base theme
   command: ../vendor/drush/drush/drush en -y bootstrap
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 - name: Synchronize custom theme
   synchronize:
     src: ../modules/avoindata-drupal-theme
-    dest: "{{ drupal_root }}/web/themes/avoindata"
+    dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
   synchronize:
     src: ../modules/avoindata-drupal-theme
-    dest: "{{ drupal_root }}/web/themes/avoindata"
+    dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush en -y avoindata
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 - name: Set default theme
   command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 ### Finishing touches ###
 
