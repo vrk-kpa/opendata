@@ -17,7 +17,7 @@ var paths = {
   src: {
     images: 'src/images/**/*',
     ckan: 'src/less/ckan',
-    drupal: 'src/less/drupal',
+    drupal: '../avoindata-drupal-theme/less/style.less',
     templates: 'src/templates/**/*',
     static_pages: 'src/static_pages',
     font: 'src/font/**/*',
@@ -50,8 +50,10 @@ gulp.task('ckan', function () {
     .pipe(gulp.dest(paths.dist+'/styles'));
 });
 
+// Compiles Less files in Drupal theme directory
+// Output destination is also in Drupal theme directory
 gulp.task('drupal', function () {
-  return gulp.src(paths.src.drupal+"/*.less")
+  return gulp.src(paths.src.drupal)
       .pipe(sourcemaps.init())
       .pipe(less({
         paths: [ paths.src.drupal ]
@@ -59,9 +61,9 @@ gulp.task('drupal', function () {
       .pipe(prefixer('last 2 versions', 'ie 9'))
       .pipe(template({timestamp: timestamp}))
       .pipe(MinCSS({keepBreaks: false}))
-      .pipe(concat("drupal.css"))
+      .pipe(concat("style.css"))
       .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest(paths.dist+'/styles'));
+      .pipe(gulp.dest('../avoindata-drupal-theme/css'));
 });
 
 
