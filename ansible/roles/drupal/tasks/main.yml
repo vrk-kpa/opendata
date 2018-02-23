@@ -1,24 +1,31 @@
 ---
 
+
+- name: Remove old drush6 modules
+  file:
+    state: absent
+    path: "/root/.drush"
+
 ### Composer needs an existing, empty directory for project creating ###
 
 - name: Destroy Drupal root directory
   become: true
   file:
     state: absent
-    path: "{{ drupal_root }}"
+    path: "{{ drupal8_root }}"
 
 - name: Create Drupal installation directories if they don't exist
   become: true
   file:
     path: "{{ item }}"
     state: directory
-    owner: vagrant
-    group: vagrant
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
     mode: 0755
   with_items:
-    - "{{ drupal_root }}"
     - "{{ cache_path }}/drupal"
+    - "/var/www/.composer"
+    - "{{ drupal8_root }}"
 
 ### Get PHP ###
 
@@ -87,42 +94,77 @@
     arguments: alchemy/zippy:0.4.3
 
 - name: Synchronize drupal8 project
+  become_user: "{{ www_user }}"
   synchronize:
     src: ../drupal8/
-    dest: "{{ drupal_root }}/"
-  when: deployment_environment_id != "vagrant"
-
-- name: Symlink drupal8 project
-  synchronize:
-    src: /vagrant/drupal8/
-    dest: "{{ drupal_root }}/"
-  when: deployment_environment_id == "vagrant"
+    dest: "{{ drupal8_root }}/"
 
 - name: Install Drupal dependencies
+  become_user: "{{ www_user }}"
   composer:
     command: install
-    working_dir: "{{ drupal_root }}"
+    working_dir: "{{ drupal8_root }}"
+
+
+### Database backup
+
+- name: Check if drupal 7 is already initialized on database
+  command: >
+    psql -h {{ postgres.server.host }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
+    {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
+  register: drupal7_database_initialized
+
+#- name: Dump drupal db
+#  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
+#  when: "'1' in drupal_database_initialized.stdout"
+#  register: drupal_database_dumped
 
 ### Drupal installation ###
 
-- name: Copy Drupal settings
-  become: true
-  template: src=settings.php.j2 
-    dest={{ drupal_root }}/web/sites/default/settings.php
-    owner=vagrant
-    group=vagrant
+#- name: Copy Drupal settings
+#  become: true
+#  template: src=settings.php.j2
+#    dest={{ drupal8_root }}/web/sites/default/settings.php
+#    owner=vagrant
+#    group=vagrant
 
 - name: Install a clean Drupal database
-  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
+  command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
+
+- block:
+  - name: Enable migration modules
+    command: ../vendor/drush/drush/drush en -y {{ item }}
+    args:
+      chdir: "{{ drupal8_root }}/web"
+    with_items:
+        - migrate_plus
+        - migrate_upgrade
+        - migrate_tools
+
+
+  - name: Configure Drupal 7 database migration
+    command: ../vendor/drush/drush/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
+    args:
+      chdir: "{{ drupal8_root }}/web"
+
+  - name: Migrate Drupal 7 Database
+    command: ../vendor/drush/drush/drush migrate-import {{ item }}
+    args:
+      chdir: "{{ drupal8_root }}/web"
+    with_items:
+      - "upgrade_d7_user_role"
+      - "upgrade_d7_user"
+  when: "'1' in drupal_database_initialized.stdout"
 
 ### Translations ###
 
 - name: Enable Drupal language modules
   command: ../vendor/drush/drush/drush en -y {{ item }}
   args: 
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
   with_items:
     - config_translation
     - content_translation
@@ -132,13 +174,13 @@
 - name: Patch drush_language so default language can be set
   patch:
     src: drush_language_hook_names.patch
-    basedir: /var/www/ytp/drush/contrib/drush_language
+    basedir: "{{ drupal8_root }}/drush/contrib/drush_language"
     strip: 1
 
 - name: Add additional languages
   command: ../vendor/drush/drush/drush language-add -y {{ item }}
   args: 
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
   with_items:
     - fi
     - sv
@@ -146,36 +188,36 @@
 - name: Make Finnish default language
   command: ../vendor/drush/drush/drush language-default -y fi
   args: 
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 ### Theme ###
 
 - name: Enable base theme
   command: ../vendor/drush/drush/drush en -y bootstrap
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 - name: Synchronize custom theme
   synchronize:
     src: ../modules/avoindata-drupal-theme/
-    dest: "{{ drupal_root }}/web/themes/avoindata"
+    dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
   synchronize:
     src: ../modules/avoindata-drupal-theme/
-    dest: "{{ drupal_root }}/web/themes/avoindata"
+    dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush en -y avoindata
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 - name: Set default theme
   command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
   args:
-    chdir: "{{ drupal_root }}/web"
+    chdir: "{{ drupal8_root }}/web"
 
 ### Finishing touches ###
 
@@ -185,11 +227,11 @@
 
 - name: Deploy favicon
   copy: src="favicon.ico" 
-    dest={{ drupal_root }}/web/favicon.ico
+    dest={{ drupal8_root }}/web/favicon.ico
 
 - name: Deploy robots.txt
   copy: src={{ search_engine_robots_filename }}
-    dest={{ drupal_root }}/web/robots.txt
+    dest={{ drupal8_root }}/web/robots.txt
 
 - name: Take site out of maintenance mode
   become: true

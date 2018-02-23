@@ -1,3 +1,12 @@
 ---
 
 search_engine_robots_filename: "robots_disallowed.txt"
+
+drupal_name: ytp
+drupal8_name: opendata
+
+
+drupal_site_name: avoindata.fi
+drupal_root: "{{ www_root }}/{{ drupal_name }}"
+drupal8_root: "{{ www_root }}/{{ drupal8_name }}"
+
