@@ -28,7 +28,7 @@
 <table class="table table-condensed tablesorter" id="report-table" class="avoid-page-break">
   <thead>
     <tr>
-      <th rowspan="2">{{ _("Administrative branch") }}</th>
+      <th rowspan="2">{{ _("Organization") }}</th>
       <th colspan="4">{{ _("Dataset count") }}</th>
       <th colspan="2">{{ _("New datasets") }}</th>
       <th rowspan="2">{{ _("Avg. openness score") }}</th>
@@ -36,9 +36,9 @@
     </tr>
     <tr>
       <th>{{ _("Current") }}</th>
-      <th>{{ _("1 year ago") }}</th>
-      <th class="print-hidden">{{ _("2 years ago") }}</th>
-      <th class="print-hidden">{{ _("3 years ago") }}</th>
+      <th>{{ data.yrs_ago_1 }}</th>
+      <th class="print-hidden">{{ data.yrs_ago_2 }}</th>
+      <th class="print-hidden">{{ data.yrs_ago_3 }}</th>
       <th class="print-hidden">{{ _("Last month") }}</th>
       <th>{{ _("Last 6 months") }}</th>
     </tr>
@@ -46,7 +46,9 @@
   <tbody>
     {% for row in table %}
     <tr class="{% if row.total %}report-total-row{% else %}report-sub-row{% endif %}">
-      <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">{{ row.organization.title }}</td>
+      <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">
+        {{ row.organization.title }}{% if row.total %}{{ _("'s administrative branch") }}{% endif %}
+      </td>
       <td>{{ row.dataset_count }}</td>
       <td>{{ row.dataset_count_1yr }}</td>
       <td class="print-hidden">{{ row.dataset_count_2yr }}</td>
@@ -58,4 +60,5 @@
     </tr>
     {% endfor %}
   </tbody>
+  <p>{{ _('Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>.') }}</p>
 </table>
