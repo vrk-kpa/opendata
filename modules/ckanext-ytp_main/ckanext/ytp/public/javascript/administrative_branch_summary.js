@@ -6,14 +6,12 @@ ckan.module('chartData-doughnut', function ($) {
     initialize: function($) {
       var field = this.options.field;
       var data = chartData
-        .filter(function(x) { return x.total });
-      data.sort(function(a, b) { return b[field] - a[field] });
       var sum = data.reduce(function(sum, x) { return sum + x[field]; }, 0);
       data = data.map(function(x) {
         x.ratio = x[field] / sum;
         return x;
       });
-      var chart = initChart(this.el[0], this.options.title, data,
+      var chart = initChart(this.el[0], this.options.title, this.options.legend, data,
         function(x) { return x[field]; },
         function(x) { return x.organization; },
         function(x) { return x[field] + " (" + x.ratio.toPrecision(1) * 100 + "%)"; });
@@ -21,12 +19,14 @@ ckan.module('chartData-doughnut', function ($) {
   }
 });
 
-function initChart(element, title, data, getValue, getLegend, getLabel) {
+function initChart(element, title, showLegend, data, getValue, getLegend, getLabel) {
   function render() {
-    var width = element.clientWidth,
-      height = element.clientHeight,
-      legendWidth = 380,
-      radius = Math.min((width - legendWidth)/2, height / 2);
+    var height = element.clientHeight,
+      leftPadding = 50,
+      rightPadding = 50,
+      legendWidth = leftPadding + (showLegend ? 250 : 0),
+      radius = 3 * height / 7,
+      width = radius * 2 + legendWidth + rightPadding;
 
     var strokeColor = d3.scaleOrdinal()
       .range(hslLerp(
@@ -60,7 +60,7 @@ function initChart(element, title, data, getValue, getLegend, getLabel) {
     var titleText = svg.append("text")
       .attr("text-anchor", "middle")
       .attr("class", "title")
-      .attr("transform", "translate(" + (legendWidth + radius) + "," + radius * 0.1 + ")")
+      .attr("transform", "translate(" + (legendWidth + radius) + ",18)")
       .text(title)
 
     var sum = data.reduce(function(sum, x) { return sum + getValue(x); }, 0);
@@ -137,27 +137,30 @@ function initChart(element, title, data, getValue, getLegend, getLabel) {
         return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
       });
 
-    var legend = svg.selectAll(".legend")
-      .data(data)
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr('transform', function(d, i) {
-        var h = 16 + 4;
-        var x = 0;
-        var y = i * h + height/2 + - data.length/2 * h ;
-        return 'translate(' + x + ',' + y + ')';
-      });
+    if(showLegend) {
+      var legend = svg.selectAll(".legend")
+        .data(data)
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr('transform', function(d, i) {
+          var h = 10 + 4;
+          var x = 0;
+          var y = i * h + height/2 + - data.length/2 * h ;
+          return 'translate(' + x + ',' + y + ')';
+        });
 
-    legend.append('rect')
-      .attr('width', 16)
-      .attr('height', 16)
-      .style('fill', function(d, i) { return fillColor(i); })
-      .style('stroke', function(d, i) { return strokeColor(i); });
+      legend.append('rect')
+        .attr('width', 10)
+        .attr('height', 10)
+        .style('fill', function(d, i) { return fillColor(i); })
+        .style('stroke', function(d, i) { return strokeColor(i); });
 
-    legend.append('text')
-      .attr('x', 16 + 8)
-      .attr('y', 16 - 4)
-      .text(getLegend);
+      legend.append('text')
+        .attr('x', 10 + 8)
+        .attr('y', 10 - 1)
+        .attr('font-size', 10)
+        .text(getLegend);
+    }
 
   }
 

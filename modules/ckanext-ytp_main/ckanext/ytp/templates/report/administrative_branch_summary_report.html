@@ -5,24 +5,29 @@
 <script>
   var chartData = [
     {% for row in table %}
+      {% if row.total %}
       {
         organization: "{{ row.organization }}",
         datasetCount: {{ row.dataset_count }},
-        newDatasetCount: {{ row.new_datasets_6_months }},
+        datasetCountOneYearAgo: {{ row.dataset_count_1yr }},
+        datasetCountTwoYearsAgo: {{ row.dataset_count_2yr }},
         total: {% if row.total %}true{% else %}false{% endif %}
       },
+      {% endif %}
     {% endfor %}];
+    chartData.sort(function(a, b) { return b['datasetCount'] - a['datasetCount'] });
 </script>
 
 <div data-module="chartData-doughnut"
   data-module-field="datasetCount"
   data-module-title="{{ _("Dataset count") }}"
+  data-module-legend="true"
   id="datasetsChart"
   class="report-pie-chart"></div>
 <div data-module="chartData-doughnut"
-  data-module-field="newDatasetCount"
-  data-module-title="{{ _("New datasets") }}"
-  id="newDatasetsChart"
+  data-module-field="datasetCountOneYearAgo"
+  data-module-title="{{ data.yrs_ago_1 }}"
+  id="datasetsChart1yr"
   class="report-pie-chart"></div>
 <hr class="page-break">
 <table class="table table-condensed tablesorter" id="report-table" class="avoid-page-break">
@@ -60,5 +65,5 @@
     </tr>
     {% endfor %}
   </tbody>
-  <p>{{ _('Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>.')|safe}}</p>
 </table>
+<p>{{ _('Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>.')|safe}}</p>
