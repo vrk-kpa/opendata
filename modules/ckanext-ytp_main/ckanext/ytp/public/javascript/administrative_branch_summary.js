@@ -25,7 +25,7 @@ function initChart(element, title, data, getValue, getLegend, getLabel) {
   function render() {
     var width = element.clientWidth,
       height = element.clientHeight,
-      legendWidth = 250,
+      legendWidth = 380,
       radius = Math.min((width - legendWidth)/2, height / 2);
 
     var strokeColor = d3.scaleOrdinal()

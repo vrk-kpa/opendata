@@ -1,8 +1,7 @@
-from ckan.common import OrderedDict
+from ckan.common import OrderedDict, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 import itertools
 from datetime import timedelta, datetime
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -64,7 +63,7 @@ def administrative_branch_summary_report():
             'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
             'table' : [{
-                'organization': org['title'],
+                'organization': org['title'] if not org['total_org'] else org['title'] + _("'s administrative branch"),
                 'level': org_levels[org['name']],
                 'total': org['total_org'],
                 'dataset_count': len(datasets),

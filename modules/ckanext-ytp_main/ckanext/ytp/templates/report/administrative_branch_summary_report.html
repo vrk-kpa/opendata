@@ -47,7 +47,7 @@
     {% for row in table %}
     <tr class="{% if row.total %}report-total-row{% else %}report-sub-row{% endif %}">
       <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">
-        {{ row.organization }}{% if row.total %}{{ _("'s administrative branch") }}{% endif %}
+        {{ row.organization }}
       </td>
       <td>{{ row.dataset_count }}</td>
       <td>{{ row.dataset_count_1yr }}</td>
@@ -60,5 +60,5 @@
     </tr>
     {% endfor %}
   </tbody>
-  <p>{{ _('Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>.') }}</p>
+  <p>{{ _('Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>.')|safe}}</p>
 </table>
