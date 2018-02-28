@@ -6,7 +6,7 @@
   var chartData = [
     {% for row in table %}
       {
-        organization: "{{ row.organization.title }}",
+        organization: "{{ row.organization }}",
         datasetCount: {{ row.dataset_count }},
         newDatasetCount: {{ row.new_datasets_6_months }},
         total: {% if row.total %}true{% else %}false{% endif %}
@@ -47,7 +47,7 @@
     {% for row in table %}
     <tr class="{% if row.total %}report-total-row{% else %}report-sub-row{% endif %}">
       <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">
-        {{ row.organization.title }}{% if row.total %}{{ _("'s administrative branch") }}{% endif %}
+        {{ row.organization }}{% if row.total %}{{ _("'s administrative branch") }}{% endif %}
       </td>
       <td>{{ row.dataset_count }}</td>
       <td>{{ row.dataset_count_1yr }}</td>

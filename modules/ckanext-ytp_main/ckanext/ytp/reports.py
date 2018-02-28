@@ -64,7 +64,7 @@ def administrative_branch_summary_report():
             'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
             'table' : [{
-                'organization': org,
+                'organization': org['title'],
                 'level': org_levels[org['name']],
                 'total': org['total_org'],
                 'dataset_count': len(datasets),
