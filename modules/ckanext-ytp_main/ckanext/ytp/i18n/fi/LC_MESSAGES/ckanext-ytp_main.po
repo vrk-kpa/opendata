@@ -2558,13 +2558,10 @@ msgid "Last 6 months"
 msgstr "Viim. 6 kk"
 
 msgid "Administrative Branch Summary"
-msgstr "Hallinnonalaraportti"
+msgstr "Kooste hallinnonaloittain"
 
 msgid "'s administrative branch"
 msgstr "n hallinnonala"
 
 msgid "Dataset counts are based on submission statistics from avoindata.fi. Open data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 for evaluating open data. More information on the metric is available at <a href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr "Tietoaineistot on laskettu avoindata.fi-palvelusta löytyvien tietoaineistojen mukaan. Avoimen datan laatupisteitys perustuu Tim Berners-Leen vuonna 2010 kehittämään avoimen datan luokitteluun. Tästä on saatavissa lisätietoja esimerkiksi verkko-osoitteesta <a href=\"http://5stardata.info\">http://5stardata.info</a>."
-
-msgid "Dataset statistics by administrative branch summary"
-msgstr "Tietoaineistotilastoja hallinnonaloittain"
