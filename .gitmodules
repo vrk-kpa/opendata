@@ -44,3 +44,6 @@
 [submodule "modules/avoindata-drupal-theme"]
 	path = modules/avoindata-drupal-theme
 	url = https://github.com/vrk-kpa/avoindata-drupal-theme
+[submodule "modules/ckanext-drupal8"]
+	path = modules/ckanext-drupal8
+	url = https://github.com/vrk-kpa/ckanext-drupal8.git
