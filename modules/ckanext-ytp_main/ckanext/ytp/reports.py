@@ -1,8 +1,7 @@
-from ckan.common import OrderedDict
+from ckan.common import OrderedDict, _
 from ckan.logic import get_action, NotFound, NotAuthorized
 import itertools
 from datetime import timedelta, datetime
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -60,22 +59,25 @@ def administrative_branch_summary_report():
             for k, v in root_tree_ids_pairs)
 
     return {
-        'table' : [{
-            'organization': org,
-            'level': org_levels[org['name']],
-            'total': org['total_org'],
-            'dataset_count': len(datasets),
-            'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
-            'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
-            'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
-            'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
-            'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
-            'resource_formats': resource_formats(datasets),
-            'openness_score_avg': openness_score_avg(context, datasets)
+            'yrs_ago_1': (datetime.today() - timedelta(1 * 365)).strftime('%d.%m.%Y'),
+            'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
+            'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
+            'table' : [{
+                'organization': org['title'] if not org['total_org'] else org['title'] + _("'s administrative branch"),
+                'level': org_levels[org['name']],
+                'total': org['total_org'],
+                'dataset_count': len(datasets),
+                'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
+                'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
+                'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
+                'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
+                'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
+                'resource_formats': resource_formats(datasets),
+                'openness_score_avg': openness_score_avg(context, datasets)
+                }
+                for org, datasets in root_datasets_pairs
+                ]
             }
-            for org, datasets in root_datasets_pairs
-            ]
-    }
 
 administrative_branch_summary_report_info = {
     'name': 'administrative-branch-summary-report',
