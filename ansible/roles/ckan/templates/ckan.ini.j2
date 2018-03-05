@@ -95,10 +95,10 @@ ckan.celery.queues = celery bulk priority
 ckanext-comments.comment_notifications_admin_email = {{ client_email }}
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
-ckanext.drupal7.domain = {{ hostname }},{{ secondary_hostname }}
-ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
-ckanext.drupal7.connection = postgres://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }}
-ckanext.drupal7.allow_edit = true
+ckanext.drupal8.domain = {{ hostname }},{{ secondary_hostname }}
+ckanext.drupal8.sysadmin_role = {{ drupal_ckan_admin_rolename }}
+ckanext.drupal8.connection = postgres://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal8.name }}
+ckanext.drupal8.allow_edit = true
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json
 service_classes_options_url = file://{{ ckan_files_path }}/service_classes.json
