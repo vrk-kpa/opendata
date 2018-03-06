@@ -144,6 +144,8 @@
   args:
     chdir: "{{ drupal8_root }}/web"
 
+### Migrate Drupal 7, if present ###
+
 - block:
   - name: Enable migration modules
     command: ../vendor/drush/drush/drush en -y {{ item }}
@@ -153,7 +155,6 @@
         - migrate_plus
         - migrate_upgrade
         - migrate_tools
-
 
   - name: Configure Drupal 7 database migration
     command: ../vendor/drush/drush/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
@@ -214,8 +215,9 @@
   when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
-  synchronize:
-    src: ../modules/avoindata-drupal-theme/
+  file:
+    state: link
+    src: /vagrant/modules/avoindata-drupal-theme/
     dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
