@@ -2568,3 +2568,39 @@ msgstr "Tietoaineistot on laskettu avoindata.fi-palvelusta löytyvien tietoainei
 
 msgid "Dataset statistics by administrative branch summary"
 msgstr "Tietoaineistotilastoja hallinnonaloittain"
+
+msgid "Log in"
+msgstr "Kirjaudu"
+
+msgid "Log out"
+msgstr "Kirjaudu ulos"
+
+msgid "Own checklist"
+msgstr "Oma muistilista"
+
+msgid "Publish Datasets"
+msgstr "Julkaise aineistoja"
+
+msgid "News"
+msgstr "Ajankohtaista"
+
+msgid "About us"
+msgstr "Tietoa palvelusta"
+
+msgid "Files"
+msgstr "Tiedostot"
+
+msgid "Guide to Open Data"
+msgstr "Avoimen datan opas"
+
+msgid "User Info"
+msgstr "Omat tietoni"
+
+msgid "Training"
+msgstr "Koulutukset"
+
+msgid "Data Repositories"
+msgstr "Tietoaineistot"
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr "Tietoaineisto on saatavilla osoitteessa http://www.syke.fi/avointieto"

@@ -2518,3 +2518,39 @@ msgstr "Show More"
 
 msgid "Show Only Popular"
 msgstr "Show Only Popular"
+
+msgid "Log in"
+msgstr "Logga in"
+
+msgid "Log out"
+msgstr "Logga ut"
+
+msgid "Own checklist"
+msgstr "Egen minneslista"
+
+msgid "Publish Datasets"
+msgstr "Publicera dataseten"
+
+msgid "News"
+msgstr "Aktuellt"
+
+msgid "About us"
+msgstr "Om oss"
+
+msgid "Files"
+msgstr "Filer"
+
+msgid "Guide to Open Data"
+msgstr "Guide till Öppna Data"
+
+msgid "User Info"
+msgstr "Mina uppgifter"
+
+msgid "Training"
+msgstr "Träning"
+
+msgid "Data Repositories"
+msgstr "Dataset"
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"

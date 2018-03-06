@@ -27,10 +27,12 @@ translation_languages:
   - "fi"
   - "sv"
 translation_projects:
-  - "ytp-theme-drupal"
-  - "ytp-assets-common"
-  - "ytp-drupal-tutorial"
-  - "ytp-drupal-frontpage"
+  - name: "ytp-theme-drupal"
+  - name: "ckanext-ytp_main"
+    path: "/ckanext/ytp"
+  - name: "ytp-drupal-tutorial"
+  - name: "ytp-drupal-frontpage"
+
 translation_text_groups:
   - "field"
   - "node"

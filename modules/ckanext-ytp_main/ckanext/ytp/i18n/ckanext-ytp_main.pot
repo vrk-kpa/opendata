@@ -2482,3 +2482,35 @@ msgstr ""
 msgid "Clear search"
 msgstr ""
 
+msgid "Log in"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Own checklist"
+msgstr ""
+
+msgid "Publish Datasets"
+msgstr ""
+
+msgid "News"
+msgstr ""
+
+msgid "About us"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Guide to Open Data"
+msgstr ""
+
+msgid "User Info"
+msgstr ""
+
+msgid "Training"
+msgstr ""
+
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr ""
