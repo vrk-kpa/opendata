@@ -181,12 +181,7 @@
     - content_translation
     - language
     - locale
-
-- name: Patch drush_language so default language can be set
-  patch:
-    src: drush_language_hook_names.patch
-    basedir: "{{ drupal8_root }}/drush/contrib/drush_language"
-    strip: 1
+    - drush_language
 
 - name: Add additional languages
   command: ../vendor/drush/drush/drush language-add -y {{ item }}
