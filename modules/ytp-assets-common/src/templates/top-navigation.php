@@ -117,7 +117,7 @@
         <div class="btn-primary active search-small" role="search">
            <form class="" action="/data/<?php print $language->language ?>/dataset">
                 <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
-                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                 <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
             </form>
         </div>
@@ -186,7 +186,7 @@
         <div class="btn-primary active search-small" role="search">
            <form class="" action="/data/<?php print $language->language ?>/dataset">
                 <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
-                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                 <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
             </form>
         </div>
