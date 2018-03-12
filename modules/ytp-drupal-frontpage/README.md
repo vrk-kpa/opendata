@@ -1,4 +1,6 @@
-ytp-drupal-tutorial
+ytp-drupal-frontpage
 ================
 
-Creates a tutorial block used on front page of avoindata.fi
+Drupal module. Assumes a working CKAN installation is available on localhost.
+
+Creates following blocks for front page: categories of open data, news, Twitter feed, latest datasets, popular datasets, related sites.

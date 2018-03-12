@@ -16,3 +16,6 @@ msgstr ""
 
 msgid "Latest datasets"
 msgstr "Uusimmat tietoaineistot"
+
+msgid "Categories of open data"
+msgstr "Avoimen datan kategoriat"
