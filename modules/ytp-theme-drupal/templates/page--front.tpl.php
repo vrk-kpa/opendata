@@ -99,6 +99,12 @@
     </div> <!-- /.row -->
 
     <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <?php print render($page['content_grid_top']); ?>
+      </div>
+    </div> <!-- /.row -->
+
+    <div class="row">
       <div class="col-sm-6 col-sm-6">
         <?php print render($page['content_grid_left']); ?>
       </div>
