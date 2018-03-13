@@ -2554,3 +2554,9 @@ msgstr "Dataset"
 
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
+
+msgid "Read more"
+msgstr "Läs mer"
+
+msgid "Apps"
+msgstr "Apps"

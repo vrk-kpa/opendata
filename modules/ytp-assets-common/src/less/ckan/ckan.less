@@ -1109,26 +1109,40 @@ input[type=checkbox], input[type=radio] {
 
 /* ckanext-sixodp_showcase temporary styles */
 .image-slider {
-  margin: 3em 0;
+  padding: 10px;
+  background-color: #f2f2f2;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  margin: 2em 0;
+
+  li {
+    flex: auto;
+    display: inline;
+  }
+
+  img {
+    max-width: 256px;
+    max-height: 256px;
+  }
 }
 
-.image-slider > li {
-  display: inline;
+.appstore-links {
+  margin: 2em 0;
 }
 
-.image-slider img {
-  max-width: 256px;
-  max-height: 256px;
-}
-
-.horizontal-list > li {
-  display: inline;
-  margin-right: 2%;
-}
-
-.horizontal-list img {
+.horizontal-list {
+  padding: 0;
+  li {
+    display: inline;
+    margin-right: 2%;
+  }
+  img {
     height: 3em;
+  }
 }
+
 
 .page-subheading {
   font-size: 1em;
@@ -1172,3 +1186,16 @@ input[type=checkbox], input[type=radio] {
   }
 }
 
+.page-heading-container {
+  margin-top: 10px;
+  display: flex;
+
+  .heading-icon {
+    flex: initial;
+  }
+
+  .headings-wrapper {
+    flex: auto;
+  }
+
+}
