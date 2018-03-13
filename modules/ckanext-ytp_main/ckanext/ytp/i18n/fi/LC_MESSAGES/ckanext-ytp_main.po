@@ -2604,3 +2604,9 @@ msgstr "Tietoaineistot"
 
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr "Tietoaineisto on saatavilla osoitteessa http://www.syke.fi/avointieto"
+
+msgid "Read more"
+msgstr "Lue lisää"
+
+msgid "Apps"
+msgstr "Sovellukset"

@@ -29,9 +29,9 @@
 
 
     $class = '';
-    $href = '/' . $lang . '/training';
-    if ( ($uri == $href || $site_section == t("Training")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href='. $href . '>' . t("Training") . '</a></li>';
+    $href = '/data/' . $lang . '/showcase';
+    if ( ($uri == $href || $site_section == t("Apps")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href='. $href . '>' . t("Apps") . '</a></li>';
 
 
     $class = '';

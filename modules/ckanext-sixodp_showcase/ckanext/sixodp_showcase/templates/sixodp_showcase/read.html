@@ -25,8 +25,8 @@
 
 {% block breadcrumb_content %}
   {% set showcase = pkg.title or pkg.name %}
-  <li>{{ h.nav_link(_('Showcases'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
-  <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), controller='ckanext.showcase.controller:ShowcaseController', action='read', id=pkg.name %}</li>
+  <li>{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+  <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=pkg.name %}</li>
 {% endblock %}
 
 {% block page_header %}
@@ -85,14 +85,14 @@
           {% snippet "rating/snippets/rating_single.html", package=pkg, enable_input="true" %}
         {% endblock %}
       </div>
-    </div>
     #}
+    </div>
     <div class="image-slider-wrapper">
       <ol class="image-slider">
-        {% if pkg.image_1_display_url %}<li><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></li>{% endif %}
-        {% if pkg.image_2_display_url %}<li><img class="image-modal-open" alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></li>{% endif %}
-        {% if pkg.image_3_display_url %}<li><img class="image-modal-open" alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></li>{% endif %}
-        {% if pkg.image_4_display_url %}<li><img class="image-modal-open" alt="{{ pkg.image_4 }}" src="{{ pkg.image_4_display_url }}"></li>{% endif %}
+        {% if pkg.image_1_display_url %}<li><a href="{{ pkg.image_1_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
+        {% if pkg.image_2_display_url %}<li><a href="{{ pkg.image_2_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
+        {% if pkg.image_3_display_url %}<li><a href="{{ pkg.image_3_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
+        {% if pkg.image_4_display_url %}<li><a href="{{ pkg.image_4_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_4 }}" src="{{ pkg.image_4_display_url }}"></a></li>{% endif %}
       </ol>
     </div>
 
