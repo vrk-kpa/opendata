@@ -87,6 +87,7 @@
       </div>
     #}
     </div>
+    {% if pkg.image_1_display_url or pkg.image_2_display_url or pkg.image_3_display_url or pkg.image_4_display_url %}
     <div class="image-slider-wrapper">
       <ol class="image-slider">
         {% if pkg.image_1_display_url %}<li><a href="{{ pkg.image_1_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
@@ -95,6 +96,7 @@
         {% if pkg.image_4_display_url %}<li><a href="{{ pkg.image_4_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_4 }}" src="{{ pkg.image_4_display_url }}"></a></li>{% endif %}
       </ol>
     </div>
+    {% endif %}
 
     {# {% snippet 'sixodp_showcase/snippets/photoswipe.html' %} #}
     {% block offcanvas_button %}{% endblock %}

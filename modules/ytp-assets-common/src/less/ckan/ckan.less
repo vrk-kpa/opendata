@@ -1116,15 +1116,17 @@ input[type=checkbox], input[type=radio] {
   display: flex;
   align-items: center;
   margin: 2em 0;
+  list-style: none;
 
   li {
     flex: auto;
-    display: inline;
-  }
+    text-align: center;
 
-  img {
-    max-width: 256px;
-    max-height: 256px;
+    img {
+      max-width: 256px;
+      max-height: 256px;
+      vertical-align: middle;
+    }
   }
 }
 
@@ -1192,6 +1194,11 @@ input[type=checkbox], input[type=radio] {
 
   .heading-icon {
     flex: initial;
+    margin-right: 1em;
+    img {
+      max-width: 10em;
+      max-height: 10em;
+    }
   }
 
   .headings-wrapper {
