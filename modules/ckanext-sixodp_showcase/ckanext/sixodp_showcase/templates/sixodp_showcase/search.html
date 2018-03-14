@@ -4,7 +4,7 @@
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Showcases'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block pre_primary %}
@@ -70,6 +70,6 @@
       {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
     {% endfor %}
   </div>
-  <a class="close no-text hide-filters"><i class="icon-remove-sign"></i><span class="text">close</span></a>
+  <!--<a class="close no-text hide-filters"><i class="icon-remove-sign"></i><span class="text">close</span></a>-->
 </div>
 {% endblock %}

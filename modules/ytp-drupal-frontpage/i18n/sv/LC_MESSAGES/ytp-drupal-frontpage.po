@@ -16,3 +16,6 @@ msgstr ""
 
 msgid "Latest datasets"
 msgstr "Senaste dataseten"
+
+msgid "Categories of open data"
+msgstr "Kategorier av öppna data"
