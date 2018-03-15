@@ -607,7 +607,7 @@ msgstr "Sovellukset"
 
 #: ckanext/ytp/translations.py:51
 msgid "Add to group"
-msgstr ""
+msgstr "Lisää kategoriaan"
 
 #: ckanext/ytp/translations.py:52
 msgid "There are no groups associated with this dataset"
@@ -615,15 +615,15 @@ msgstr "Tietoaineistoon ei ole liitetty kategorioita"
 
 #: ckanext/ytp/translations.py:53
 msgid "Remove dataset from this group"
-msgstr ""
+msgstr "Poista tietoaineisto tästä kategoriasta"
 
 #: ckanext/ytp/translations.py:54
 msgid "Associate this group with this dataset"
-msgstr ""
+msgstr "Liitä kategoria tähän tietoaineistoon"
 
 #: ckanext/ytp/translations.py:55
 msgid "Add Group"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: ckanext/ytp/translations.py:56
 msgid "There are currently no groups for this site"

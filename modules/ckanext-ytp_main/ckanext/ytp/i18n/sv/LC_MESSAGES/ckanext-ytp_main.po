@@ -615,7 +615,7 @@ msgstr "Apps"
 
 #: ckanext/ytp/translations.py:51
 msgid "Add to group"
-msgstr ""
+msgstr "Lägg till till kategorin"
 
 #: ckanext/ytp/translations.py:52
 msgid "There are no groups associated with this dataset"
@@ -623,15 +623,15 @@ msgstr "Det finns inga kategorier kopplade till detta dataset"
 
 #: ckanext/ytp/translations.py:53
 msgid "Remove dataset from this group"
-msgstr ""
+msgstr "Ta bort dataset från denna kategori"
 
 #: ckanext/ytp/translations.py:54
 msgid "Associate this group with this dataset"
-msgstr ""
+msgstr "Koppla denna kategori till detta dataset"
 
 #: ckanext/ytp/translations.py:55
 msgid "Add Group"
-msgstr ""
+msgstr "Lägg till kategori"
 
 #: ckanext/ytp/translations.py:56
 msgid "There are currently no groups for this site"
