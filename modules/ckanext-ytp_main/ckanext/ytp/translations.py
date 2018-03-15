@@ -34,7 +34,7 @@ def _translations():
 
     _('Fullname')
 
-    # Assetts common terms
+    # Assets common terms
     _('Log in')
     _('Log out')
     _('Publish Datasets')
@@ -46,6 +46,16 @@ def _translations():
     _('Training')
     _('Dataset is available at http://www.syke.fi/avointieto')
     _('Apps')
+
+    # Group renaming
+    _('Add to group')
+    _('There are no groups associated with this dataset')
+    _('Remove dataset from this group')
+    _('Associate this group with this dataset')
+    _('Add Group')
+    _('There are currently no groups for this site')
+    _('Search groups...')
+    
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]

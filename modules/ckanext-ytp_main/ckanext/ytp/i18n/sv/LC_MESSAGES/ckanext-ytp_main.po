@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-14 09:55+0200\n"
+"POT-Creation-Date: 2018-03-15 09:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -612,6 +612,34 @@ msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
 #: ckanext/ytp/translations.py:48
 msgid "Apps"
 msgstr "Apps"
+
+#: ckanext/ytp/translations.py:51
+msgid "Add to group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:52
+msgid "There are no groups associated with this dataset"
+msgstr "Det finns inga kategorier kopplade till detta dataset"
+
+#: ckanext/ytp/translations.py:53
+msgid "Remove dataset from this group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:54
+msgid "Associate this group with this dataset"
+msgstr ""
+
+#: ckanext/ytp/translations.py:55
+msgid "Add Group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:56
+msgid "There are currently no groups for this site"
+msgstr "Det finns för närvarande inga kategorier för denna site"
+
+#: ckanext/ytp/translations.py:57
+msgid "Search groups..."
+msgstr "Sök kategorier..."
 
 #: ckanext/ytp/validators.py:158
 msgid "expecting list of strings"

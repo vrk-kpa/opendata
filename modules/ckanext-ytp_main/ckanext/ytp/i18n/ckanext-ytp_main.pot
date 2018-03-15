@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-14 09:55+0200\n"
+"POT-Creation-Date: 2018-03-15 09:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,6 +589,34 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:48
 msgid "Apps"
+msgstr ""
+
+#: ckanext/ytp/translations.py:51
+msgid "Add to group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:52
+msgid "There are no groups associated with this dataset"
+msgstr ""
+
+#: ckanext/ytp/translations.py:53
+msgid "Remove dataset from this group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:54
+msgid "Associate this group with this dataset"
+msgstr ""
+
+#: ckanext/ytp/translations.py:55
+msgid "Add Group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:56
+msgid "There are currently no groups for this site"
+msgstr ""
+
+#: ckanext/ytp/translations.py:57
+msgid "Search groups..."
 msgstr ""
 
 #: ckanext/ytp/validators.py:158
