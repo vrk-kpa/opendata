@@ -62,6 +62,19 @@
       "required": true
     },
     {
+      "field_name": "high_value_dataset_category",
+      "label": "High value dataset category",
+      "form_placeholder":"eg. Maps",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "ignore_missing convert_to_list create_tags(high_value_dataset_category)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=high_value_dataset_category"
+      },
+      "description": "Select high value dataset categories which this dataset belongs to"
+    },
+    {
       "field_name": "maintainer",
       "label": "Maintainer",
       "form_placeholder": "Joe Bloggs",

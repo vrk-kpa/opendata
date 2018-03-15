@@ -184,20 +184,6 @@
       "validators": "boolean_validator"
     },
     {
-      "field_name": "notifier",
-      "label": "Notifier",
-      "form_placeholder": "Joe Bloggs",
-      "display_snippet": null,
-      "required": true
-    },
-    {
-      "field_name": "notifier_email",
-      "label": "Notifier Email",
-      "form_placeholder": "joe@example.com",
-      "display_snippet": null,
-      "required": true
-    },
-    {
       "field_name": "private",
       "label": "Visibility",
       "form_snippet": "private.html",

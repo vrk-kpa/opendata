@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-14 13:02+0200\n"
+"POT-Creation-Date: 2018-03-14 13:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,6 +62,80 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/plugin.py:103
 msgid "Platform"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:4
+msgid ""
+"An URL-address which refers to the dataset. The automatically filled option "
+"derived from the title is the best option in most cases."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:5
+msgid "Category which represents showcase."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:6
+msgid "Platforms of the showcase."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:7
+msgid ""
+"Keywords or tags through which users are able to find this dataset easily "
+"through the search page or other datasets which have the same tag."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:8
+msgid "Author Website"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:9
+msgid "Application Website"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:10
+msgid "Links to stores"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:11
+msgid "Kuvaus"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:12
+msgid ""
+"An universal, compact and easy to understand description of the added "
+"resource."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:13
+msgid "Featured"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:14
+msgid "Icon"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:15
+msgid "Featured Image"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:16
+msgid "Image 1"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:17
+msgid "Image 2"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:18
+msgid "Image 3"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:19
+msgid "Notifier"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:20
+msgid "Notifier Email"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6

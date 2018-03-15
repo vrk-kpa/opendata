@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 function createRemoveLink(inputContainer) {
     // The remove link with the icon
-    var removeLink = $('<a href="javascript:void(0);" class="add-input"><span class="icon-minus-sign-alt icon-2x"></span></a>');
+    var removeLink = $('<a href="javascript:void(0);" class="add-input"><span class="fa fa-minus"></span></a>');
     // Add an event listener for removing the input field container
     removeLink.click(function() {
         // Remove the value inside the container's input field
