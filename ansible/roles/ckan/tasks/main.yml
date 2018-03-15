@@ -78,7 +78,7 @@
   - ckan
 
 - name: Ensure path ownerships
-  file: path="{{ item }}" state="directory" recurse="yes" chown="{{ www_user }}:{{ www_group }}"
+  file: path="{{ item }}" state="directory" recurse="yes" owner="{{ www_user }}" group="{{ www_group }}"
   with_items:
     - "{{ ckan_files_path }}"
     - "/etc/ckan/default"
