@@ -833,7 +833,7 @@ def action_user_create(context, data_dict):
 
     return result
 
-
+@logic.side_effect_free
 def action_organization_show(context, data_dict):
     try:
         result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
