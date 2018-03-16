@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-16 09:43+0200\n"
+"POT-Creation-Date: 2018-03-16 13:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -572,123 +572,212 @@ msgstr "Korkean lisäarvon tietoaineistokategoria"
 msgid "eg. Maps"
 msgstr "esim. Kartat"
 
+#: ckanext/ytp/translations.py:38
+msgid ""
+"A short and descriptive title for the dataset. Do not utilize dates in the "
+"title but instead add multiple time-specific resources to the dataset in the"
+" next stage."
+msgstr ""
+"Lyhyt ja kuvaava otsikko tietoaineistolle. Vältä aikamääreitä otsikossa. "
+"Lisää sen sijaan tietoaineistoon useita aikarajattuja resursseja."
+
+#: ckanext/ytp/translations.py:39 ckanext/ytp/translations.py:50
+msgid ""
+"An universal, compact and easy to understand description of the added "
+"dataset. Use as confining terms as possible to assist the user to understand"
+" what types of data, meters and dimensions the dataset contains."
+msgstr ""
+"Yleinen, tiivis ja helppotajuinen kuvaus lisätystä tietoaineistosta. Käytä "
+"mahdollisimman rajaavia termejä helpottamaan tietoaineiston sisällön, kuten "
+"raakatiedon, mittareiden ja ulottuvuuksien ymmärtämistä."
+
 #: ckanext/ytp/translations.py:40
+msgid "eg. A detailed description"
+msgstr "esim. Yksityiskohtainen kuvaus"
+
+#: ckanext/ytp/translations.py:41
+msgid "eg. every second week"
+msgstr "esim. joka toinen viikko"
+
+#: ckanext/ytp/translations.py:42
+msgid "Collection type"
+msgstr "Tietoaineiston tyyppi"
+
+#: ckanext/ytp/translations.py:43
+msgid "Maintainer email"
+msgstr "Ylläpitäjän sähköpostiosoite"
+
+#: ckanext/ytp/translations.py:44
+msgid "Author email"
+msgstr "Laatijan sähköpostiosoite"
+
+#: ckanext/ytp/translations.py:45
+msgid "Maintainer website"
+msgstr "Ylläpitäjän verkkosivu"
+
+#: ckanext/ytp/translations.py:46
+msgid "Select high value dataset categories which this dataset belongs to"
+msgstr ""
+"Valitse korkean lisäarvon tietoaineistokategoriat joihin tämä tietoaineisto "
+"kuuluu"
+
+#: ckanext/ytp/translations.py:47
+msgid ""
+"Private datasets will only be seen by the logged in users of the dataset's "
+"organization. Public datasets will be listed publicly through the search."
+msgstr ""
+"Yksityiset tietoaineistot näkyvät vain saman organisaation kirjautuneille "
+"käyttäjille. Julkiset tietoaineistot näytetään kaikille käyttäjille."
+
+#: ckanext/ytp/translations.py:48
+msgid "The organization which owns the dataset."
+msgstr "Tietoaineiston omistava organisaatio"
+
+#: ckanext/ytp/translations.py:49
+msgid "Copyright notice"
+msgstr "Tekijänoikeusilmoitus"
+
+#: ckanext/ytp/translations.py:51
+msgid "Geographical coverage"
+msgstr "Maantieteellinen kattavuus"
+
+#: ckanext/ytp/translations.py:52
+msgid "Select the municipalities from which the dataset contains data."
+msgstr "Valitse kunnat joita tietoaineisto koskee"
+
+#: ckanext/ytp/translations.py:53
+msgid "Links to additional information"
+msgstr "Lisätietoa verkossa"
+
+#: ckanext/ytp/translations.py:54
+msgid "Links to additional information concerning the dataset."
+msgstr "Linkkejä lisätietoon aiheesta verkossa"
+
+#: ckanext/ytp/translations.py:55
+msgid "Update frequency"
+msgstr "Päivitystiheys"
+
+#: ckanext/ytp/translations.py:56
+msgid "A short description of how frequently the dataset will get updated."
+msgstr "Lyhyt kuvaus tietoaineiston päivitystiheydestä"
+
+#: ckanext/ytp/translations.py:59
 msgid "Log in"
 msgstr "Kirjaudu"
 
-#: ckanext/ytp/translations.py:41
+#: ckanext/ytp/translations.py:60
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
-#: ckanext/ytp/translations.py:42
+#: ckanext/ytp/translations.py:61
 msgid "Publish Datasets"
 msgstr "Julkaise aineistoja"
 
-#: ckanext/ytp/translations.py:43
+#: ckanext/ytp/translations.py:62
 msgid "News"
 msgstr "Ajankohtaista"
 
-#: ckanext/ytp/translations.py:44
+#: ckanext/ytp/translations.py:63
 msgid "About us"
 msgstr "Tietoa palvelusta"
 
-#: ckanext/ytp/translations.py:45
+#: ckanext/ytp/translations.py:64
 msgid "Files"
 msgstr "Tiedostot"
 
-#: ckanext/ytp/translations.py:46
+#: ckanext/ytp/translations.py:65
 msgid "Guide to Open Data"
 msgstr "Avoimen datan opas"
 
-#: ckanext/ytp/translations.py:47
+#: ckanext/ytp/translations.py:66
 msgid "User Info"
 msgstr "Omat tietoni"
 
-#: ckanext/ytp/translations.py:48
+#: ckanext/ytp/translations.py:67
 msgid "Training"
 msgstr "Koulutukset"
 
-#: ckanext/ytp/translations.py:49
+#: ckanext/ytp/translations.py:68
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr "Tietoaineisto on saatavilla osoitteessa http://www.syke.fi/avointieto"
 
-#: ckanext/ytp/translations.py:50
+#: ckanext/ytp/translations.py:69
 msgid "Apps"
 msgstr "Sovellukset"
 
-#: ckanext/ytp/translations.py:53
+#: ckanext/ytp/translations.py:72
 msgid "Add to group"
 msgstr "Lisää kategoriaan"
 
-#: ckanext/ytp/translations.py:54
+#: ckanext/ytp/translations.py:73
 msgid "There are no groups associated with this dataset"
 msgstr "Tietoaineistoon ei ole liitetty kategorioita"
 
-#: ckanext/ytp/translations.py:55
+#: ckanext/ytp/translations.py:74
 msgid "Remove dataset from this group"
 msgstr "Poista tietoaineisto tästä kategoriasta"
 
-#: ckanext/ytp/translations.py:56
+#: ckanext/ytp/translations.py:75
 msgid "Associate this group with this dataset"
 msgstr "Liitä kategoria tähän tietoaineistoon"
 
-#: ckanext/ytp/translations.py:57
+#: ckanext/ytp/translations.py:76
 msgid "Add Group"
 msgstr "Lisää kategoria"
 
-#: ckanext/ytp/translations.py:58
+#: ckanext/ytp/translations.py:77
 msgid "There are currently no groups for this site"
 msgstr "Sivulla ei ole tällä hetkellä kategorioita."
 
-#: ckanext/ytp/translations.py:59
+#: ckanext/ytp/translations.py:78
 msgid "Search groups..."
 msgstr "Etsi kategorioita..."
 
-#: ckanext/ytp/translations.py:62
+#: ckanext/ytp/translations.py:81
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr "Liikenne- ja viestintäministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:63
+#: ckanext/ytp/translations.py:82
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr "Maa- ja metsätalousministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:64
+#: ckanext/ytp/translations.py:83
 msgid "Oikeusministeriö's administrative branch"
 msgstr "Oikeusministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:65
+#: ckanext/ytp/translations.py:84
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr "Opetus- ja kulttuuriministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:66
+#: ckanext/ytp/translations.py:85
 msgid "Puolustusministeriö's administrative branch"
 msgstr "Puolustusministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:67
+#: ckanext/ytp/translations.py:86
 msgid "Sisäministeriö's administrative branch"
 msgstr "Sisäministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:68
+#: ckanext/ytp/translations.py:87
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr "Sosiaali- ja terveysministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:69
+#: ckanext/ytp/translations.py:88
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr "Työ- ja elinkeinoministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:70
+#: ckanext/ytp/translations.py:89
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr "Valtioneuvoston kanslian hallinnonala"
 
-#: ckanext/ytp/translations.py:71
+#: ckanext/ytp/translations.py:90
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr "Valtiovarainministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:72
+#: ckanext/ytp/translations.py:91
 msgid "Ympäristöministeriö's administrative branch"
 msgstr "Ympäristöministeriön hallinnonala"
 
-#: ckanext/ytp/translations.py:73
+#: ckanext/ytp/translations.py:92
 msgid "Ulkoministeriö's administrative branch"
 msgstr "Ulkoministeriön hallinnonala"
 
