@@ -2590,31 +2590,31 @@ msgstr "Haluatko varmasti poistaa tämän liittyvän komponentin?"
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:22
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:36
 msgid "Dataset count"
-msgstr ""
+msgstr "Tietoaineistojen lukumäärä"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:37
 msgid "New datasets"
-msgstr ""
+msgstr "Uusia tietoaineistoja"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:38
 msgid "Avg. openness score"
-msgstr ""
+msgstr "Laatu"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:39
 msgid "Data formats"
-msgstr ""
+msgstr "Aineistossa käytetyt tiedostomuodot"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:42
 msgid "Current"
-msgstr ""
+msgstr "Nyt"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:46
 msgid "Last month"
-msgstr ""
+msgstr "Viime kuussa"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:47
 msgid "Last 6 months"
-msgstr ""
+msgstr "Viim. 6kk"
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:68
 msgid ""
@@ -2623,6 +2623,11 @@ msgid ""
 "for evaluating open data. More information on the metric is available at <a "
 "href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
+"Tietoaineistot on laskettu avoindata.fi-palvelusta löytyvien "
+"tietoaineistojen mukaan. Avoimen datan laatupisteitys perustuu Tim Berners-"
+"Leen vuonna 2010 kehittämään avoimen datan luokitteluun. Tästä on saatavissa"
+" lisätietoja esimerkiksi verkko-osoitteesta <a "
+"href=\\\"http://5stardata.info\\\">http://5stardata.info</a>."
 
 #: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:26
 msgid "No organization"
