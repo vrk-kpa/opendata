@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-15 15:04+0200\n"
+"POT-Creation-Date: 2018-03-16 09:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -549,123 +549,131 @@ msgstr ""
 msgid "Fullname"
 msgstr ""
 
-#: ckanext/ytp/translations.py:38
-msgid "Log in"
+#: ckanext/ytp/translations.py:36
+msgid "High value dataset category"
 msgstr ""
 
-#: ckanext/ytp/translations.py:39
-msgid "Log out"
+#: ckanext/ytp/translations.py:37
+msgid "eg. Maps"
 msgstr ""
 
 #: ckanext/ytp/translations.py:40
-msgid "Publish Datasets"
+msgid "Log in"
 msgstr ""
 
 #: ckanext/ytp/translations.py:41
-msgid "News"
+msgid "Log out"
 msgstr ""
 
 #: ckanext/ytp/translations.py:42
-msgid "About us"
+msgid "Publish Datasets"
 msgstr ""
 
 #: ckanext/ytp/translations.py:43
-msgid "Files"
+msgid "News"
 msgstr ""
 
 #: ckanext/ytp/translations.py:44
-msgid "Guide to Open Data"
+msgid "About us"
 msgstr ""
 
 #: ckanext/ytp/translations.py:45
-msgid "User Info"
+msgid "Files"
 msgstr ""
 
 #: ckanext/ytp/translations.py:46
-msgid "Training"
+msgid "Guide to Open Data"
 msgstr ""
 
 #: ckanext/ytp/translations.py:47
-msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgid "User Info"
 msgstr ""
 
 #: ckanext/ytp/translations.py:48
+msgid "Training"
+msgstr ""
+
+#: ckanext/ytp/translations.py:49
+msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgstr ""
+
+#: ckanext/ytp/translations.py:50
 msgid "Apps"
 msgstr ""
 
-#: ckanext/ytp/translations.py:51
+#: ckanext/ytp/translations.py:53
 msgid "Add to group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:52
+#: ckanext/ytp/translations.py:54
 msgid "There are no groups associated with this dataset"
 msgstr ""
 
-#: ckanext/ytp/translations.py:53
+#: ckanext/ytp/translations.py:55
 msgid "Remove dataset from this group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:54
+#: ckanext/ytp/translations.py:56
 msgid "Associate this group with this dataset"
 msgstr ""
 
-#: ckanext/ytp/translations.py:55
+#: ckanext/ytp/translations.py:57
 msgid "Add Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:56
+#: ckanext/ytp/translations.py:58
 msgid "There are currently no groups for this site"
 msgstr ""
 
-#: ckanext/ytp/translations.py:57
+#: ckanext/ytp/translations.py:59
 msgid "Search groups..."
 msgstr ""
 
-#: ckanext/ytp/translations.py:60
+#: ckanext/ytp/translations.py:62
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:61
+#: ckanext/ytp/translations.py:63
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:62
+#: ckanext/ytp/translations.py:64
 msgid "Oikeusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:63
+#: ckanext/ytp/translations.py:65
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:64
+#: ckanext/ytp/translations.py:66
 msgid "Puolustusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:65
+#: ckanext/ytp/translations.py:67
 msgid "Sisäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:66
+#: ckanext/ytp/translations.py:68
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:67
+#: ckanext/ytp/translations.py:69
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:68
+#: ckanext/ytp/translations.py:70
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:69
+#: ckanext/ytp/translations.py:71
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:70
+#: ckanext/ytp/translations.py:72
 msgid "Ympäristöministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:71
+#: ckanext/ytp/translations.py:73
 msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 

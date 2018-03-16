@@ -33,6 +33,8 @@ def _translations():
     _("Organization")
 
     _('Fullname')
+    _('High value dataset category')
+    _('eg. Maps')
 
     # Assets common terms
     _('Log in')

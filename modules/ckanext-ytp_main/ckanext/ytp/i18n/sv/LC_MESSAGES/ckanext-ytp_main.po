@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-15 15:04+0200\n"
+"POT-Creation-Date: 2018-03-16 09:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -572,123 +572,131 @@ msgstr "Logotyp eller bild"
 msgid "Fullname"
 msgstr "Hela namnet"
 
-#: ckanext/ytp/translations.py:38
+#: ckanext/ytp/translations.py:36
+msgid "High value dataset category"
+msgstr ""
+
+#: ckanext/ytp/translations.py:37
+msgid "eg. Maps"
+msgstr ""
+
+#: ckanext/ytp/translations.py:40
 msgid "Log in"
 msgstr "Logga in"
 
-#: ckanext/ytp/translations.py:39
+#: ckanext/ytp/translations.py:41
 msgid "Log out"
 msgstr "Logga ut"
 
-#: ckanext/ytp/translations.py:40
+#: ckanext/ytp/translations.py:42
 msgid "Publish Datasets"
 msgstr "Publicera dataseten"
 
-#: ckanext/ytp/translations.py:41
+#: ckanext/ytp/translations.py:43
 msgid "News"
 msgstr "Aktuellt"
 
-#: ckanext/ytp/translations.py:42
+#: ckanext/ytp/translations.py:44
 msgid "About us"
 msgstr "Om oss"
 
-#: ckanext/ytp/translations.py:43
+#: ckanext/ytp/translations.py:45
 msgid "Files"
 msgstr "Filer"
 
-#: ckanext/ytp/translations.py:44
+#: ckanext/ytp/translations.py:46
 msgid "Guide to Open Data"
 msgstr "Guide till Öppna Data"
 
-#: ckanext/ytp/translations.py:45
+#: ckanext/ytp/translations.py:47
 msgid "User Info"
 msgstr "Mina uppgifter"
 
-#: ckanext/ytp/translations.py:46
+#: ckanext/ytp/translations.py:48
 msgid "Training"
 msgstr "Träning"
 
-#: ckanext/ytp/translations.py:47
+#: ckanext/ytp/translations.py:49
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
 
-#: ckanext/ytp/translations.py:48
+#: ckanext/ytp/translations.py:50
 msgid "Apps"
 msgstr "Apps"
 
-#: ckanext/ytp/translations.py:51
+#: ckanext/ytp/translations.py:53
 msgid "Add to group"
 msgstr "Lägg till till kategorin"
 
-#: ckanext/ytp/translations.py:52
+#: ckanext/ytp/translations.py:54
 msgid "There are no groups associated with this dataset"
 msgstr "Det finns inga kategorier kopplade till detta dataset"
 
-#: ckanext/ytp/translations.py:53
+#: ckanext/ytp/translations.py:55
 msgid "Remove dataset from this group"
 msgstr "Ta bort dataset från denna kategori"
 
-#: ckanext/ytp/translations.py:54
+#: ckanext/ytp/translations.py:56
 msgid "Associate this group with this dataset"
 msgstr "Koppla denna kategori till detta dataset"
 
-#: ckanext/ytp/translations.py:55
+#: ckanext/ytp/translations.py:57
 msgid "Add Group"
 msgstr "Lägg till kategori"
 
-#: ckanext/ytp/translations.py:56
+#: ckanext/ytp/translations.py:58
 msgid "There are currently no groups for this site"
 msgstr "Det finns för närvarande inga kategorier för denna site"
 
-#: ckanext/ytp/translations.py:57
+#: ckanext/ytp/translations.py:59
 msgid "Search groups..."
 msgstr "Sök kategorier..."
 
-#: ckanext/ytp/translations.py:60
+#: ckanext/ytp/translations.py:62
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr "Kommunikationsministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:61
+#: ckanext/ytp/translations.py:63
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr "Jord- och skogsbruksministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:62
+#: ckanext/ytp/translations.py:64
 msgid "Oikeusministeriö's administrative branch"
-msgstr "justitieministeriets förvaltningsområdet"
+msgstr "Justitieministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:63
+#: ckanext/ytp/translations.py:65
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr "Undervisnings- och kulturministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:64
+#: ckanext/ytp/translations.py:66
 msgid "Puolustusministeriö's administrative branch"
 msgstr "Försvarsministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:65
+#: ckanext/ytp/translations.py:67
 msgid "Sisäministeriö's administrative branch"
 msgstr "Inrikesministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:66
+#: ckanext/ytp/translations.py:68
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr "Social- och hälsovårdsministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:67
+#: ckanext/ytp/translations.py:69
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr "Arbets- och näringsministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:68
+#: ckanext/ytp/translations.py:70
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr "Statsrådets kanslis förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:69
+#: ckanext/ytp/translations.py:71
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr "Finansministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:70
+#: ckanext/ytp/translations.py:72
 msgid "Ympäristöministeriö's administrative branch"
 msgstr "Miljöministeriets förvaltningsområdet"
 
-#: ckanext/ytp/translations.py:71
+#: ckanext/ytp/translations.py:73
 msgid "Ulkoministeriö's administrative branch"
 msgstr "Utrikesministeriets förvaltningsområdet"
 
