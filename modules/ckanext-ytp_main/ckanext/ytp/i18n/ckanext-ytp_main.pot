@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-15 09:08+0200\n"
+"POT-Creation-Date: 2018-03-15 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,7 +254,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/converters.py:135 ckanext/ytp/converters.py:145
-#: ckanext/ytp/plugin.py:1119
+#: ckanext/ytp/plugin.py:1126
 msgid "Date format incorrect"
 msgstr ""
 
@@ -346,11 +346,13 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:187 ckanext/ytp/plugin.py:197 ckanext/ytp/plugin.py:202
-#: ckanext/ytp/validators.py:61
+#: ckanext/ytp/old/dataset/plugin.py:162 ckanext/ytp/old/dataset/plugin.py:172
+#: ckanext/ytp/old/dataset/plugin.py:177 ckanext/ytp/plugin.py:187
+#: ckanext/ytp/plugin.py:197 ckanext/ytp/plugin.py:202 ckanext/ytp/validators.py:61
 msgid "Missing value"
 msgstr ""
 
+#: ckanext/ytp/old/dataset/plugin.py:390 ckanext/ytp/old/dataset/plugin.py:406
 #: ckanext/ytp/plugin.py:421 ckanext/ytp/plugin.py:438
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:16
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:10
@@ -359,12 +361,14 @@ msgstr ""
 msgid "Collection Type"
 msgstr ""
 
+#: ckanext/ytp/old/dataset/plugin.py:391 ckanext/ytp/old/dataset/plugin.py:407
 #: ckanext/ytp/plugin.py:422 ckanext/ytp/plugin.py:439
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:37
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr ""
 
+#: ckanext/ytp/old/dataset/plugin.py:392 ckanext/ytp/old/dataset/plugin.py:408
 #: ckanext/ytp/plugin.py:423 ckanext/ytp/plugin.py:440
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:49
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:183
@@ -372,21 +376,23 @@ msgstr ""
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:424
+#: ckanext/ytp/old/dataset/plugin.py:393 ckanext/ytp/plugin.py:424
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:24
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:36
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:35
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:33
 msgid "Organization"
 msgstr ""
 
+#: ckanext/ytp/old/dataset/plugin.py:394 ckanext/ytp/old/dataset/plugin.py:409
 #: ckanext/ytp/plugin.py:425 ckanext/ytp/plugin.py:441
 #: ckanext/ytp/translations.py:32
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:427 ckanext/ytp/templates/package/search.html:63
+#: ckanext/ytp/old/dataset/plugin.py:396 ckanext/ytp/plugin.py:427
+#: ckanext/ytp/templates/package/search.html:63
 msgid "Source"
 msgstr ""
 
@@ -398,61 +404,57 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:500
+#: ckanext/ytp/old/dataset/plugin.py:468 ckanext/ytp/plugin.py:500
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:516
+#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:516
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:516
+#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:516
 msgid "Additional Info"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:882
+#: ckanext/ytp/plugin.py:889
 msgid "Group title already exists in database"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1159
+#: ckanext/ytp/plugin.py:1166
 msgid "Service charge must be supplied"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1169
+#: ckanext/ytp/plugin.py:1176
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
 "web address for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1181
+#: ckanext/ytp/plugin.py:1188
 msgid "At least one of the main target groups must to be selected"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1318
+#: ckanext/ytp/plugin.py:1325
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1320
+#: ckanext/ytp/plugin.py:1327
 msgid "Invalid organization type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1342
+#: ckanext/ytp/plugin.py:1349
 msgid "Harvested datasets are read-only"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1349
+#: ckanext/ytp/plugin.py:1356
 msgid "Login required"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1354 ckanext/ytp/plugin.py:1362
+#: ckanext/ytp/plugin.py:1361 ckanext/ytp/plugin.py:1369
 #, python-format
 msgid "User %s is not part of any public organization"
-msgstr ""
-
-#: ckanext/ytp/reports.py:66
-msgid "'s administrative branch"
 msgstr ""
 
 #: ckanext/ytp/translations.py:7
@@ -617,6 +619,54 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:57
 msgid "Search groups..."
+msgstr ""
+
+#: ckanext/ytp/translations.py:60
+msgid "Liikenne- ja viestintäministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:61
+msgid "Maa- ja metsätalousministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:62
+msgid "Oikeusministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:63
+msgid "Opetus- ja kulttuuriministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:64
+msgid "Puolustusministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:65
+msgid "Sisäministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:66
+msgid "Sosiaali- ja terveysministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:67
+msgid "Työ- ja elinkeinoministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:68
+msgid "Valtioneuvoston kanslia's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:69
+msgid "Valtiovarainministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:70
+msgid "Ympäristöministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:71
+msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 
 #: ckanext/ytp/validators.py:158
@@ -2363,36 +2413,36 @@ msgstr ""
 msgid "Are you sure you want to delete this related component?"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:23
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:37
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:22
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:36
 msgid "Dataset count"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:38
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:37
 msgid "New datasets"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:39
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:38
 msgid "Avg. openness score"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:40
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:39
 msgid "Data formats"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:43
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:42
 msgid "Current"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:47
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:46
 msgid "Last month"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:48
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:47
 msgid "Last 6 months"
 msgstr ""
 
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:69
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:68
 msgid ""
 "Dataset counts are based on submission statistics from avoindata.fi. Open "
 "data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 "
@@ -2552,6 +2602,10 @@ msgstr[1] ""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:33
 msgid "No organizations found"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/ytp_facet_list.html:91
+msgid "No matches"
 msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6

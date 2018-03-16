@@ -1,4 +1,3 @@
-{#{% resource "ytp_dataset_js/Chart.bundle.js" %}#}
 {% resource "ytp_dataset_js/d3.js" %}
 {% resource "ytp_dataset_js/administrative_branch_summary.js" %}
 
@@ -7,7 +6,7 @@
     {% for row in table %}
       {% if row.total %}
       {
-        organization: "{{ row.organization }}",
+        organization: "{{ _(row.organization) }}",
         datasetCount: {{ row.dataset_count }},
         datasetCountOneYearAgo: {{ row.dataset_count_1yr }},
         datasetCountTwoYearsAgo: {{ row.dataset_count_2yr }},
@@ -52,7 +51,7 @@
     {% for row in table %}
     <tr class="{% if row.total %}report-total-row{% else %}report-sub-row{% endif %}">
       <td style="padding-left: {{ row.level + (0 if row.total else 1) }}em">
-        {{ row.organization }}
+        {{ _(row.organization) }}
       </td>
       <td>{{ row.dataset_count }}</td>
       <td>{{ row.dataset_count_1yr }}</td>

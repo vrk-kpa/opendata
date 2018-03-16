@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def _translations():
     """ Does nothing but hints message extractor to extract missing strings. """
     from ckan.common import _
@@ -54,6 +56,19 @@ def _translations():
     _('There are currently no groups for this site')
     _('Search groups...')
     
+    # Administrative Branches
+    _('Liikenne- ja viestintäministeriö\'s administrative branch')
+    _('Maa- ja metsätalousministeriö\'s administrative branch')
+    _('Oikeusministeriö\'s administrative branch')
+    _('Opetus- ja kulttuuriministeriö\'s administrative branch')
+    _('Puolustusministeriö\'s administrative branch')
+    _('Sisäministeriö\'s administrative branch')
+    _('Sosiaali- ja terveysministeriö\'s administrative branch')
+    _('Työ- ja elinkeinoministeriö\'s administrative branch')
+    _('Valtioneuvoston kanslia\'s administrative branch')
+    _('Valtiovarainministeriö\'s administrative branch')
+    _('Ympäristöministeriö\'s administrative branch')
+    _('Ulkoministeriö\'s administrative branch')
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
