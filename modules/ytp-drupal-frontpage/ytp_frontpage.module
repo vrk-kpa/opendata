@@ -349,8 +349,8 @@ function theme_dataset_category_list($variables) {
       $output .= '<div class="row">';
     }
 
-    $output .= '<div class="col-sm-' . $colspan. '">';
-    $output .= '<a href="../data/fi/group/' . $cat["name"] . '"><img src="' . $cat["image_display_url"] . '" alt="' . $cat["title"] . '" width="100%"></a>';
+    $output .= '<div class="col-sm-' . $colspan. ' category-container">';
+    $output .= '<a href="../data/fi/group/' . $cat["name"] . '"><img src="' . $cat["image_display_url"] . '" alt="' . $cat["title"] . '" class="category-image"></a>';
     $output .= '<p class="text-center"><a href="../data/fi/group/' . $cat["name"] . '">' . $title . '</a></p></div>';
 
     // Every nth item closes row
