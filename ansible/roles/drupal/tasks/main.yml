@@ -196,6 +196,31 @@
   args: 
     chdir: "{{ drupal8_root }}/web"
 
+### Custom modules ###
+# Contrib modules should be installed with Composer, not here #
+
+- name: Synchronize custom modules
+  synchronize:
+    src: "../modules/{{ item.src_name }}/"
+    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
+  when: deployment_environment_id != "vagrant"
+  with_items: "{{ custom_modules }}"
+
+- name: Symlink custom modules
+  file:
+    state: link
+    src: "/vagrant/modules/{{ item.src_name }}/"
+    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
+  when: deployment_environment_id == "vagrant"
+  with_items: "{{ custom_modules }}"
+
+- name: Enable custom modules
+  command: ../vendor/drush/drush/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - "avoindata_header"
+
 ### Theme ###
 
 - name: Enable base theme

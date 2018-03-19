@@ -48,12 +48,16 @@ class YtpDevelopMain(object):
         return self._replace_with_link("/var/www/resources", "/vagrant/modules/ytp-assets-common/resources")
 
     def develop_drupal_theme(self, name):
-        """ Develop ytp-theme-drupal handler. """
+        """ Develop avoindata-drupal-theme handler. """
         self._replace_with_link("/var/www/opendata/web/themes/avoindata", "/vagrant/modules/avoindata-drupal-theme")
         if not os.path.exists("/var/www/opendata/web/themes/avoindata/vendor"):
             subprocess.call(["mkdir", "/var/www/opendata/web/themes/avoindata/vendor"])
             subprocess.call(["cp", "-r", "/var/www/resources/vendor", "/var/www/opendata/web/themes/avoindata/"])
         return 0
+
+    def develop_header(self, name):
+        """ Develop avoindata-header handler. """
+        return self._replace_with_link("/var/www/opendata/web/modules/avoindata-header", "/vagrant/modules/avoindata-drupal-header")
 
 
     # def develop_drupal_user(self, name):
@@ -116,6 +120,7 @@ class YtpDevelopMain(object):
             self._mappings = {re.compile(u'^ckanext-.+'): self.develop_ckanext,
                               u'ytp-assets-common': self.develop_assets,
                               u'avoindata-drupal-theme': self.develop_drupal_theme,
+                              u'avoindata-header': self.develop_header,
                               # u'ytp-drupal-user': self.develop_drupal_user,
                               # u'ytp-drupal-features': self.develop_drupal_features,
                               # u'ytp-drupal-tutorial': self.develop_drupal_tutorial,

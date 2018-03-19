@@ -1,5 +1,8 @@
 ---
 
+custom_modules:
+  - { src_name: avoindata-drupal-header, module_name: avoindata-header }
+
 
 # drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
 # features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
