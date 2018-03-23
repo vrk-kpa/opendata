@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-16 13:46+0200\n"
+"POT-Creation-Date: 2018-03-22 09:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -780,6 +780,14 @@ msgstr "Ympäristöministeriön hallinnonala"
 #: ckanext/ytp/translations.py:92
 msgid "Ulkoministeriö's administrative branch"
 msgstr "Ulkoministeriön hallinnonala"
+
+#: ckanext/ytp/translations.py:95
+msgid "Administrative Branch Summary"
+msgstr "Hallinnonalakooste"
+
+#: ckanext/ytp/translations.py:96
+msgid "Dataset statistics by administrative branch summary"
+msgstr "Tietoaineistotilastoja hallinnonaloittain"
 
 #: ckanext/ytp/validators.py:158
 msgid "expecting list of strings"

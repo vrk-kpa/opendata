@@ -59,6 +59,7 @@ def administrative_branch_summary_report():
             for k, v in root_tree_ids_pairs)
 
     return {
+            'now': datetime.today().strftime('%d.%m.%Y'),
             'yrs_ago_1': (datetime.today() - timedelta(1 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
