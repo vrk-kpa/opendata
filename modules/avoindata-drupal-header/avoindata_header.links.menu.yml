@@ -1,0 +1,95 @@
+avoindata_header.datasets_fi:
+  title: 'Tietoaineistot'
+  description: 'CKAN datasets page'
+  parent: main_fi
+  menu_name: main_fi
+  url: 'https://10.10.10.10/data/fi/dataset'
+  weight: 2
+
+avoindata_header.organizations_fi:
+  title: 'Organisaatiot'
+  description: 'CKAN organizations page'
+  parent: main_fi
+  menu_name: main_fi
+  url: 'https://10.10.10.10/data/fi/organization'
+  weight: 3
+
+avoindata_header.datasets_en:
+  title: 'Datasets'
+  description: 'CKAN datasets page'
+  parent: main_en
+  menu_name: main_en
+  url: 'https://10.10.10.10/data/en/dataset'
+  weight: 2
+
+avoindata_header.organizations_en:
+  title: 'Organizations'
+  description: 'CKAN organizations page'
+  parent: main_en
+  menu_name: main_en
+  url: 'https://10.10.10.10/data/en/organization'
+  weight: 3
+
+avoindata_header.datasets_sv:
+  title: 'Dataseten'
+  description: 'CKAN datasets page'
+  parent: main_sv
+  menu_name: main_sv
+  url: 'https://10.10.10.10/data/sv/dataset'
+  weight: 2
+
+avoindata_header.organizations_sv:
+  title: 'Organisationer'
+  description: 'CKAN organizations page'
+  parent: main_sv
+  menu_name: main_sv
+  url: 'https://10.10.10.10/data/sv/organization'
+  weight: 3
+
+avoindata_header.add1_fi:
+  title: 'Lisälinkki 1'
+  description: 'testing'
+  parent: main_more_fi
+  menu_name: main_more_fi
+  url: 'https://www.google.com'
+  weight: 1
+
+avoindata_header.add2_fi:
+  title: 'Lisälinkki 2'
+  description: 'testing'
+  parent: main_more_fi
+  menu_name: main_more_fi
+  url: 'https://www.google.com'
+  weight: 2
+
+avoindata_header.add1_en:
+  title: 'More 1'
+  description: 'testing'
+  parent: main_more_en
+  menu_name: main_more_en
+  url: 'https://www.google.com'
+  weight: 1
+
+avoindata_header.add2_en:
+  title: 'More 2'
+  description: 'testing'
+  parent: main_more_en
+  menu_name: main_more_en
+  url: 'https://www.google.com'
+  weight: 2
+
+avoindata_header.add1_sv:
+  title: 'Link ett'
+  description: 'testing'
+  parent: main_more_sv
+  menu_name: main_more_sv
+  url: 'https://www.google.com'
+  weight: 1
+
+avoindata_header.add2_sv:
+  title: 'Link två'
+  description: 'testing'
+  parent: main_more_sv
+  menu_name: main_more_sv
+  url: 'https://www.google.com'
+  weight: 2

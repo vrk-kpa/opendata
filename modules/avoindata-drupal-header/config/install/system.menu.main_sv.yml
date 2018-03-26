@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: main_sv
+label: 'Main navigation (sv)'
+description: 'Main navigation (sv)'
+locked: true
