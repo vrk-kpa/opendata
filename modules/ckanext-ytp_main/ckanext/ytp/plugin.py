@@ -634,7 +634,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_list_output': validators.tag_list_output,
             'repeating_text': validators.repeating_text,
             'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required
+            'only_default_lang_required': validators.only_default_lang_required,
+            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
+            'override_field': validators.override_field
         }
 
 
