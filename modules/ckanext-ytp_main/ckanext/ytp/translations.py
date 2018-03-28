@@ -91,6 +91,10 @@ def _translations():
     _('Ympäristöministeriö\'s administrative branch')
     _('Ulkoministeriö\'s administrative branch')
 
+    # Reports
+    _('Administrative Branch Summary')
+    _('Dataset statistics by administrative branch summary')
+
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
 

@@ -5,7 +5,7 @@ ckan.module('chartData-doughnut', function ($) {
   return {
     initialize: function($) {
       var field = this.options.field;
-      var data = chartData
+      var data = chartData.map(function(x) { return Object.assign({}, x); });
       var sum = data.reduce(function(sum, x) { return sum + x[field]; }, 0);
       data = data.map(function(x) {
         x.ratio = x[field] / sum;
@@ -14,18 +14,21 @@ ckan.module('chartData-doughnut', function ($) {
       var chart = initChart(this.el[0], this.options.title, this.options.legend, data,
         function(x) { return x[field]; },
         function(x) { return x.organization; },
-        function(x) { return x[field] + " (" + x.ratio.toPrecision(1) * 100 + "%)"; });
+        function(x) { return x[field] + " (" + (x.ratio * 100).toFixed(1) + "%)"; });
     }
   }
 });
 
 function initChart(element, title, showLegend, data, getValue, getLegend, getLabel) {
   function render() {
+    d3.select(element).selectAll("*").remove();
+
     var height = element.clientHeight,
       leftPadding = 50,
       rightPadding = 50,
       legendWidth = leftPadding + (showLegend ? 250 : 0),
-      radius = 3 * height / 7,
+      maxRadiusForTwoChartsWithSharedLegendSideBySide = (element.parentElement.clientWidth - 250 - 2*leftPadding - 2*rightPadding)/5,
+      radius = Math.min(3 * height / 7, maxRadiusForTwoChartsWithSharedLegendSideBySide),
       width = radius * 2 + legendWidth + rightPadding;
 
     var strokeColor = d3.scaleOrdinal()
@@ -105,7 +108,9 @@ function initChart(element, title, showLegend, data, getValue, getLegend, getLab
       .attr("y", function(d) {
         var a = pieAngle(d) - Math.PI/2;
         d.cy = Math.sin(a) * (radius * 0.65);
-        return d.y = Math.sin(a) * (radius * 0.9);
+        // separate more on y axis to avoid overlapping labels
+        let ratio = d.data.ratio ? 1 - d.data.ratio : 0;
+        return d.y = Math.sin(a) * (radius * (0.9 + ratio * 0.3));
       })
       .text(function(d) { return getLabel(d.data); })
       .each(function(d) {
@@ -165,7 +170,7 @@ function initChart(element, title, showLegend, data, getValue, getLegend, getLab
   }
 
   render();
-  //window.addEventListener("resize", render);
+  window.addEventListener("resize", render);
 }
 function hslLerp(h0, s0, l0, a0, h1, s1, l1, a1, n, striped) {
   let result = [];

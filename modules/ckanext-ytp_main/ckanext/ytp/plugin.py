@@ -64,6 +64,7 @@ OPEN_DATA = 'Open Data'
 INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
+ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 
 class YtpMainTranslation(DefaultTranslation):
@@ -612,6 +613,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
+        if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
+            pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
+
         return pkg_dict
 
     # IActions #
@@ -634,7 +638,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_list_output': validators.tag_list_output,
             'repeating_text': validators.repeating_text,
             'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required
+            'only_default_lang_required': validators.only_default_lang_required,
+            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
+            'override_field': validators.override_field
         }
 
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-16 14:53+0200\n"
+"POT-Creation-Date: 2018-03-22 09:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -755,6 +755,14 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:92
 msgid "Ulkoministeriö's administrative branch"
+msgstr ""
+
+#: ckanext/ytp/translations.py:95
+msgid "Administrative Branch Summary"
+msgstr ""
+
+#: ckanext/ytp/translations.py:96
+msgid "Dataset statistics by administrative branch summary"
 msgstr ""
 
 #: ckanext/ytp/validators.py:158
