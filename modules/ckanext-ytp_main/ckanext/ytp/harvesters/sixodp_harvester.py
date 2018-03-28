@@ -17,13 +17,45 @@ log = logging.getLogger(__name__)
 
 from ckanext.harvest.harvesters.base import HarvesterBase
 
+DATETIME_FORMATS = [
+        '%Y-%m-%dT%H:%M:%S.%f%z',
+        '%Y-%m-%dT%H:%M:%S%z',
+        '%Y-%m-%dT%H:%M:%S',
+        '%Y-%m-%dT%H:%M',
+        '%Y-%m-%dT%H',
+        '%Y-%m-%d',
+        '%Y-%m',
+        '%Y',
+        '%d/%m/%Y',
+        ]
+
+def parse_datetime(datetime_string):
+    if not datetime_string:
+        return None
+
+    for fmt in DATETIME_FORMATS:
+        try:
+            result = datetime.datetime.strptime(datetime_string, fmt)
+        except:
+            continue
+        return result
+
+    log.debug('Invalid datetime string: "%s"' % datetime_string)
+    return None
+
 def sixodp_to_opendata(package_dict):
-    from pprint import pformat
-    log.debug("package_dict: %s" % pformat(package_dict))
     package_dict['collection_type'] = 'Open Data'
     package_dict['maintainer'] = " "
     package_dict['maintainer_email'] = " "
-    package_dict['metadata_created'] = package_dict['date_released']
+    date_released = parse_datetime(package_dict['date_released'])
+    if date_released:
+        date_released_isoformat = "%s.000000Z" % date_released.isoformat().split('+', 2)[0]
+        package_dict['date_released'] = date_released_isoformat
+        package_dict['metadata_created'] = date_released_isoformat
+    else:
+        package_dict['date_released'] = ""
+
+
 
 class SixodpHarvester(HarvesterBase):
     '''
@@ -181,7 +213,7 @@ class SixodpHarvester(HarvesterBase):
         return config
 
     def gather_stage(self, harvest_job):
-        log.debug('In CKANHarvester gather_stage (%s)',
+        log.debug('In SixodpHarvester gather_stage (%s)',
                   harvest_job.source.url)
         toolkit.requires_ckan_version(min_version='2.0')
         get_all_packages = True
@@ -363,7 +395,7 @@ class SixodpHarvester(HarvesterBase):
         return True
 
     def import_stage(self, harvest_object):
-        log.debug('In CKANHarvester import_stage')
+        log.debug('In SixodpHarvester import_stage')
 
         base_context = {'model': model, 'session': model.Session,
                         'user': self._get_user_name()}
