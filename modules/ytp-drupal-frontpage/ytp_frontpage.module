@@ -335,7 +335,7 @@ function theme_dataset_category_list($variables) {
   $colspan = intval(12 / $num_of_col); // How many Bootstrap columns one item spans
   $col_counter = 1;
 
-  $output = '<div class="container-fluid">';
+  $output = '<div class="container-fluid categories-container">';
 
   foreach ($variables['dataset_categories'] as $cat) {
     // If title is available in  current language, use it.
