@@ -85,7 +85,7 @@ def create_vocabulary(name):
     log.info("Creating vocab '" + name + "'")
     data = {'name': name}
     try:
-        context['defer_commit'] = True
+        #context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
     except Exception, e:
         log.error('%s' % e)
@@ -102,7 +102,7 @@ def create_tag_to_vocabulary(tag, vocab):
         "name": tag,
         "vocabulary_id": v['id']}
 
-    context['defer_commit'] = True
+    #context['defer_commit'] = True
     try:
         toolkit.get_action('tag_create')(context, data)
     except ValidationError:
@@ -265,9 +265,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IRoutes #
 
     def before_map(self, m):
-        """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
+        """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
-        m.connect('/ytp-api/1/util/tag/autocomplete', action='ytp_tag_autocomplete',
+        m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
