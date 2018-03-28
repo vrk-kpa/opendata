@@ -49,12 +49,9 @@ def sixodp_to_opendata(package_dict):
     package_dict['maintainer_email'] = " "
     date_released = parse_datetime(package_dict['date_released'])
     if date_released:
-        date_released_isoformat = "%s.000000Z" % date_released.isoformat().split('+', 2)[0]
+        date_released_isoformat = "%s.000000" % date_released.isoformat().split('+', 2)[0]
         package_dict['date_released'] = date_released_isoformat
         package_dict['metadata_created'] = date_released_isoformat
-    else:
-        package_dict['date_released'] = ""
-
 
 
 class SixodpHarvester(HarvesterBase):
