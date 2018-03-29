@@ -7,8 +7,8 @@
         <li {% if current_url.startswith("/organization") and use_active_hilight == true %}class="active"{% endif %}><a href="/data/{{ lang }}/organization">{{ _('Organizations') }}</a></li>
         <li><a href="/{{ lang }}/publish">{{ _('Publish Datasets') }}</a></li>
         <li><a href="/data/{{ lang }}/showcase">{{ _('Apps') }}</a></li>
-        <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
         <li><a href="/{{ lang }}/opas">{{ _('Guide to Open Data') }}</a></li>
+        <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
     {% endmacro %}
 
     <!--
