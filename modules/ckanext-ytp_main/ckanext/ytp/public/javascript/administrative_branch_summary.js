@@ -109,7 +109,7 @@ function initChart(element, title, showLegend, showChart, data, getValue, getLeg
           d.cy = Math.sin(a) * (radius * 0.65);
           // separate more on y axis to avoid overlapping labels
           let ratio = d.data.ratio ? 1 - d.data.ratio : 0;
-          return d.y = Math.sin(a) * (radius * (0.9 + ratio * 0.3));
+          return d.y = Math.sin(a) * (radius * (0.9 + Math.pow(ratio, 20) * 1.0));
         })
         .text(function(d) { return getLabel(d.data); })
         .each(function(d) {
