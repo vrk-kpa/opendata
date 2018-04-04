@@ -419,6 +419,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def dataset_facets(self, facets_dict, package_type):
         facets_dict = OrderedDict()
+        facets_dict.update({'vocab_high_value_dataset_category': _('High value dataset category')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict.update({'tags': _('Tags')})
         facets_dict.update({'vocab_content_type': _('Content Type')})
