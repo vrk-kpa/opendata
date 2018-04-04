@@ -139,11 +139,11 @@ msgstr "Kuva 3"
 
 #: ckanext/sixodp_showcase/translations.py:19
 msgid "Notifier"
-msgstr ""
+msgstr "Ilmoittaja"
 
 #: ckanext/sixodp_showcase/translations.py:20
 msgid "Notifier Email"
-msgstr ""
+msgstr "Ilmoittajan sähköpostiosoite"
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
@@ -271,7 +271,7 @@ msgstr "Hallitse tietoaineistoja"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
 msgid "Showcases - Manage datasets"
-msgstr ""
+msgstr "Sovellukset - Hallitse tietoaineistoja"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:24
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
@@ -305,27 +305,27 @@ msgstr "Suositut"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:36
 msgid "Datasets available to add to this showcase"
-msgstr ""
+msgstr "Tälle sovellukselle saatavilla olevat tietoaineistot"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:51
 msgid "Add to Showcase"
-msgstr ""
+msgstr "Lisää sovellukseen"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:88
 msgid "No datasets could be found"
-msgstr ""
+msgstr "Tietoaineistoja ei löytynyt"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:96
 msgid "Datasets in this showcase"
-msgstr ""
+msgstr "Tämän sovelluksen tietoaineistot"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:109
 msgid "Remove from Showcase"
-msgstr ""
+msgstr "Poista sovelluksesta"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:140
 msgid "This showcase has no datasets associated to it"
-msgstr ""
+msgstr "Tähän sovellukseen ei ole liitetty tietoaineistoja"
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:6
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:107
@@ -485,7 +485,7 @@ msgstr "Näytä {showcase_title}"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:49
 msgid "Read more"
-msgstr ""
+msgstr "Lue lisää"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
 msgid "Remove dataset from this showcase"
