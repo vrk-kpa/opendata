@@ -11,7 +11,7 @@ ckan.module('chartData-doughnut', function ($) {
         x.ratio = x[field] / sum;
         return x;
       });
-      var chart = initChart(this.el[0], this.options.title, this.options.legend, data,
+      var chart = initChart(this.el[0], this.options.title, this.options.legend, this.options.chart, data,
         function(x) { return x[field]; },
         function(x) { return x.organization; },
         function(x) { return x[field] + " (" + (x.ratio * 100).toFixed(1) + "%)"; });
@@ -19,17 +19,16 @@ ckan.module('chartData-doughnut', function ($) {
   }
 });
 
-function initChart(element, title, showLegend, data, getValue, getLegend, getLabel) {
+function initChart(element, title, showLegend, showChart, data, getValue, getLegend, getLabel) {
   function render() {
     d3.select(element).selectAll("*").remove();
 
-    var height = element.clientHeight,
-      leftPadding = 50,
+    var leftPadding = 50,
       rightPadding = 50,
-      legendWidth = leftPadding + (showLegend ? 250 : 0),
-      maxRadiusForTwoChartsWithSharedLegendSideBySide = (element.parentElement.clientWidth - 250 - 2*leftPadding - 2*rightPadding)/5,
-      radius = Math.min(3 * height / 7, maxRadiusForTwoChartsWithSharedLegendSideBySide),
-      width = radius * 2 + legendWidth + rightPadding;
+      legendWidth = leftPadding + (showLegend ? 150 : 0),
+      radius = showChart ? 150 : 0,
+      width = radius * 2 + legendWidth + rightPadding,
+      height = 300;
 
     var strokeColor = d3.scaleOrdinal()
       .range(hslLerp(
@@ -56,92 +55,92 @@ function initChart(element, title, showLegend, data, getValue, getLegend, getLab
     var piedata = pie(data);
 
     var svg = d3.select(element).append("svg")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("viewBox", "0 0 " + width + " " + height)
       .append("g")
 
-    var titleText = svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("class", "title")
-      .attr("transform", "translate(" + (legendWidth + radius) + ",18)")
-      .text(title)
+    if(showChart) {
+      var titleText = svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "title")
+        .attr("transform", "translate(" + (legendWidth + radius) + ",18)")
+        .text(title)
 
-    var sum = data.reduce(function(sum, x) { return sum + getValue(x); }, 0);
-    var subText = svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "middle")
-      .attr("class", "total")
-      .style("font-size", (radius * 0.3) + "px")
-      .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius*0.125) + ")")
-      .text(sum)
+      var sum = data.reduce(function(sum, x) { return sum + getValue(x); }, 0);
+      var subText = svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("class", "total")
+        .style("font-size", (radius * 0.3) + "px")
+        .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius*0.125) + ")")
+        .text(sum)
 
-    var g = svg.selectAll(".arc")
-      .data(piedata)
-      .enter().append("g")
-      .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius * 0.1) + ")")
-      .attr("class", "arc");
+      var g = svg.selectAll(".arc")
+        .data(piedata)
+        .enter().append("g")
+        .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius * 0.1) + ")")
+        .attr("class", "arc");
 
-    g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d, i) { return fillColor(i); })
-      .style("stroke", function(d, i) { return strokeColor(i); });
+      g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d, i) { return fillColor(i); })
+        .style("stroke", function(d, i) { return strokeColor(i); });
 
-    var labels = svg.selectAll(".label")
-      .data(piedata)
-      .enter().append("g")
-      .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius * 0.1) + ")")
-      .attr("class", "label")
-      .attr("visibility", function(d) { return d.value ? "visible" : "hidden"; });
+      var labels = svg.selectAll(".label")
+        .data(piedata)
+        .enter().append("g")
+        .attr("transform", "translate(" + (legendWidth + radius) + "," + (height / 2 + radius * 0.1) + ")")
+        .attr("class", "label")
+        .attr("visibility", function(d) { return d.value ? "visible" : "hidden"; });
 
-    function pieAngle(d) {
-      var a = (d.startAngle+d.endAngle) / 2;
-      return a - (Math.floor(a/(2*Math.PI))*2*Math.PI);
+      function pieAngle(d) {
+        var a = (d.startAngle+d.endAngle) / 2;
+        return a - (Math.floor(a/(2*Math.PI))*2*Math.PI);
+      }
+
+      labels.append("text")
+        .attr("text-anchor", function(d) { return pieAngle(d) > Math.PI ? "end" : "start"; })
+        .attr("x", function(d) {
+          var a = pieAngle(d) - Math.PI/2;
+          d.cx = Math.cos(a) * (radius * 0.65);
+          return d.x = Math.cos(a) * (radius * 0.9);
+        })
+        .attr("y", function(d) {
+          var a = pieAngle(d) - Math.PI/2;
+          d.cy = Math.sin(a) * (radius * 0.65);
+          // separate more on y axis to avoid overlapping labels
+          let ratio = d.data.ratio ? 1 - d.data.ratio : 0;
+          return d.y = Math.sin(a) * (radius * (0.9 + ratio * 0.3));
+        })
+        .text(function(d) { return getLabel(d.data); })
+        .each(function(d) {
+          var left = pieAngle(d) > Math.PI;
+          var bbox = this.getBBox();
+          d.sx = d.x + (left ? 2 : -2);
+          d.ox = d.x + (left ? -1 : 1) * (bbox.width + 2);
+          d.sy = d.oy = d.y + 5;
+        });
+
+
+      svg.append("defs").append("marker")
+        .attr("id", "circ")
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
+        .attr("refX", 3)
+        .attr("refY", 3)
+        .append("circle")
+        .attr("cx", 3)
+        .attr("cy", 3)
+        .attr("r", 3);
+
+      labels
+        .append("path")
+        .attr("class", "pointer")
+        .style("fill", "none")
+        .style("stroke", "black")
+        .attr("d", function(d) {
+          return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
+        });
     }
-
-    labels.append("text")
-      .attr("text-anchor", function(d) { return pieAngle(d) > Math.PI ? "end" : "start"; })
-      .attr("x", function(d) {
-        var a = pieAngle(d) - Math.PI/2;
-        d.cx = Math.cos(a) * (radius * 0.65);
-        return d.x = Math.cos(a) * (radius * 0.9);
-      })
-      .attr("y", function(d) {
-        var a = pieAngle(d) - Math.PI/2;
-        d.cy = Math.sin(a) * (radius * 0.65);
-        // separate more on y axis to avoid overlapping labels
-        let ratio = d.data.ratio ? 1 - d.data.ratio : 0;
-        return d.y = Math.sin(a) * (radius * (0.9 + ratio * 0.3));
-      })
-      .text(function(d) { return getLabel(d.data); })
-      .each(function(d) {
-        var left = pieAngle(d) > Math.PI;
-        var bbox = this.getBBox();
-        d.sx = d.x + (left ? 2 : -2);
-        d.ox = d.x + (left ? -1 : 1) * (bbox.width + 2);
-        d.sy = d.oy = d.y + 5;
-      });
-
-
-    svg.append("defs").append("marker")
-      .attr("id", "circ")
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
-      .attr("refX", 3)
-      .attr("refY", 3)
-      .append("circle")
-      .attr("cx", 3)
-      .attr("cy", 3)
-      .attr("r", 3);
-
-    labels
-      .append("path")
-      .attr("class", "pointer")
-      .style("fill", "none")
-      .style("stroke", "black")
-      .attr("d", function(d) {
-        return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
-      });
-
     if(showLegend) {
       var legend = svg.selectAll(".legend")
         .data(data)
@@ -170,7 +169,6 @@ function initChart(element, title, showLegend, data, getValue, getLegend, getLab
   }
 
   render();
-  window.addEventListener("resize", render);
 }
 function hslLerp(h0, s0, l0, a0, h1, s1, l1, a1, n, striped) {
   let result = [];

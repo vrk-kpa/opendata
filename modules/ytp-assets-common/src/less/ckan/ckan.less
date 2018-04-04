@@ -1156,13 +1156,18 @@ input[type=checkbox], input[type=radio] {
   page-break-inside: avoid;
 }
 .report-chart-row {
-  .report-pie-chart {
-    display: inline-block;
-    min-height: 350px;
+  display: flex;
+  align-items: center;
 
+  .report-pie-chart {
+    flex: 1 1 0;
     .title {
       font-size: 18pt;
     }
+  }
+  .report-pie-legend {
+    flex: 1 1 0;
+    max-width: 250px;
   }
 }
 

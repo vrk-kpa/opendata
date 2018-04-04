@@ -22,11 +22,18 @@
        data-module-field="datasetCount"
        data-module-title="{{ data.now }}"
        data-module-legend="true"
+       id="datasetsChartLegend"
+       class="report-pie-legend"></div>
+  <div data-module="chartData-doughnut"
+       data-module-field="datasetCount"
+       data-module-title="{{ data.now }}"
+       data-module-chart="true"
        id="datasetsChart"
        class="report-pie-chart"></div>
   <div data-module="chartData-doughnut"
        data-module-field="datasetCountOneYearAgo"
        data-module-title="{{ data.yrs_ago_1 }}"
+       data-module-chart="true"
        id="datasetsChart1yr"
        class="report-pie-chart"></div>
 </div>
