@@ -641,7 +641,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'repeating_text_output': validators.repeating_text_output,
             'only_default_lang_required': validators.only_default_lang_required,
             'keep_old_value_if_missing': validators.keep_old_value_if_missing,
-            'override_field': validators.override_field
+            'override_field': validators.override_field,
+            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime
         }
 
 

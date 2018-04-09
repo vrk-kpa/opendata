@@ -215,7 +215,7 @@
       "form_snippet": null,
       "description": "The dataset publication date.",
       "validators": "keep_old_value_if_missing ignore_missing",
-      "output_validators": "override_field(metadata_created)"
+      "output_validators": "ignore_if_invalid_isodatetime override_field(metadata_created)"
     },
     {
       "field_name": "valid_from",
