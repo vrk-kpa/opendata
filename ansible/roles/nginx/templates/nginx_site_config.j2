@@ -165,6 +165,9 @@ server {
         # In emergency comment out line to force caching
         # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
 
+        location ~ ^/data/en($|/.*) {
+          return 301 /data/en_GB$1;
+        }
         location ~ /data/(fi|en|sv)/organization/(.*)/embed{
             # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
             proxy_pass http://127.0.0.1:8080/data/$1/organization/$2/embed$is_args$args;
@@ -181,6 +184,9 @@ server {
 
     # Drupal
 
+    location ~ ^/en_GB($|/.*) {
+      return 301 /en$1;
+    }
     location / {
         try_files $uri @rewrite;
     }
