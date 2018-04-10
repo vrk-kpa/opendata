@@ -101,7 +101,7 @@
                   <li><a href="{% url_for h.unquote_url(current_url), locale='fi' %}">Suomeksi</a></li>
               {% endif %}
               {% if lang != "en" %}
-                  <li><a href="{% url_for h.unquote_url(current_url), locale='en' %}">In English</a></li>
+                  <li><a href="{% url_for h.unquote_url(current_url), locale='en_GB' %}">In English</a></li>
               {% endif %}
               {% if lang != "sv" %}
                   <li><a href="{% url_for h.unquote_url(current_url), locale='sv' %}">På Svenska</a></li>

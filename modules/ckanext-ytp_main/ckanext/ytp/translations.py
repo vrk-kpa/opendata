@@ -76,6 +76,11 @@ def _translations():
     _('Add Group')
     _('There are currently no groups for this site')
     _('Search groups...')
+    _('Groups')
+    _('A little information about my group...')
+    _('Create a Group')
+    _('Create Group')
+    _('My Group')
     
     # Administrative Branches
     _('Liikenne- ja viestintäministeriö\'s administrative branch')
