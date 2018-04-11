@@ -25,6 +25,7 @@ from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
 from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action, NotFound
 from ckan.model import Session
 from ckan.plugins import toolkit
+import ckan.lib.i18n as i18n
 from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
@@ -220,7 +221,27 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
+ 
+def get_translated(data_dict, field):
+    translated = data_dict.get('%s_translated' % field)
+    if isinstance(translated, dict):
+        language = i18n.get_lang()
+        if language in translated:
+            return translated[language]
+        dialects = [l for l in translated if l.startswith(language) or language.startswith(l)]
+        if dialects:
+            return translated[dialects[0]]
+    return data_dict.get(field)
 
+# Copied from core ckan to call over ridden get_translated
+def dataset_display_name(package_or_package_dict):
+    if isinstance(package_or_package_dict, dict):
+        return get_translated(package_or_package_dict, 'title') or \
+               package_or_package_dict['name']
+    else:
+        # FIXME: we probably shouldn't use the same functions for
+        # package dicts and real package objects
+        return package_or_package_dict.title or package_or_package_dict.name
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
@@ -566,7 +587,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'add_locale_to_source': add_locale_to_source,
                 'scheming_language_text_or_empty': scheming_language_text_or_empty,
                 'get_lang_prefix': get_lang_prefix,
-                'call_toolkit_function': call_toolkit_function}
+                'call_toolkit_function': call_toolkit_function,
+                'get_translated': get_translated,
+                'dataset_display_name': dataset_display_name}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
