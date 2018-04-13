@@ -160,12 +160,12 @@
 
             {% if extra_dict.temporal_granularity %}
               <dt>{{ _('Temporal Granularity')}}</dt>
-              <dd>{{ extra_dict.temporal_granularity }}</dd>
+              <dd>{{ h.extra_translation(res, 'temporal_granularity') }}</dd>
             {% endif %}
 
             {% if extra_dict.update_frequency %}
               <dt>{{ _('Update Frequency') }}</dt>
-              <dd>{{ extra_dict.update_frequency }}</dd>
+              <dd>{{ h.extra_translation(res, 'update_frequency') }}</dd>
             {% endif %}
 
             {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
@@ -184,13 +184,32 @@
            collapsed" data-toggle="collapse" data-target="#extra-extra">
             {{_('Technical extra information')}}
           </h3>
+          {%- set exclude_fields = [
+            'name',
+            'description',
+            'description_translated',
+            'temporal_granularity',
+            'update_frequency',
+            'description_translated',
+            'url',
+            'format',
+          ] -%}
+          {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
           <dl id="extra-extra" class="collapse dl-horizontal">
-            {% for key in extra_dict.keys() %}
-              <dt>{{ _(key) }}</dt>
-              <dd>{{ extra_dict.get(key) }}</dd>
-            {% endfor %}
+            {%- for field in schema.resource_fields -%}
+              {%- if field.field_name not in exclude_fields and field.display_snippet is not none
+              and field.field_name in res and field[field.field_name] != "" -%}
+                <dt scope="row">
+                  {{- h.scheming_language_text(field.label) -}}
+                </dt>
+                <dd>
+                  {%- snippet 'scheming/snippets/display_field.html',
+                  field=field, data=res, entity_type='dataset',
+                  object_type=dataset_type -%}
+                </dd>
+              {%- endif -%}
+            {%- endfor -%}
           </dl>
-
         </div>
       </section>
     {% endif %}
