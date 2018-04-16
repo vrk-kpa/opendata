@@ -1,0 +1,23 @@
+{% extends "sixodp_showcase/edit_base.html" %}
+
+{% block subtitle %}{{ _('Create Showcase') }}{% endblock %}
+
+{% block primary_content %}
+<section class="module">
+    <div class="module-content">
+        <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Create a Showcase') }}{% endblock %}</h1>
+        {% block primary_content_inner %}
+        {% block form %}
+        {#- passing c to a snippet is bad but is required here
+        for backwards compatibility with old templates and
+        plugins using setup_template_variables() -#}
+        {{- h.snippet(form_snippet, c=c, **form_vars) -}}
+        {% endblock %}
+        {% endblock %}
+    </div>
+</section>
+{% endblock %}
+
+{% block secondary_content %}
+{{ h.snippet('showcase/snippets/helper.html') }}
+{% endblock %}

@@ -20,6 +20,7 @@ custom_modules:
 #   - frontpage_tutorial
 #   - calendar_feature
 #   - guide_feature
+#   - frontpage_categories
 
 # ytp_features_path: "../modules/ytp-drupal-features"
 
@@ -29,7 +30,8 @@ custom_modules:
 #   - "sv"
 # translation_projects:
 #   - "ytp-theme-drupal"
-#   - "ytp-assets-common"
+#   - name: "ckanext-ytp_main"
+#     path: "/ckanext/ytp"
 #   - "ytp-drupal-tutorial"
 #   - "ytp-drupal-frontpage"
 # translation_text_groups:

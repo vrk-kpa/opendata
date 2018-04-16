@@ -20,6 +20,8 @@ import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
 
+from plugin import create_vocabulary
+
 log = logging.getLogger(__name__)
 render = base.render
 abort = base.abort
@@ -48,6 +50,9 @@ class YtpDatasetController(PackageController):
         q = request.params.get('incomplete', '')
         limit = request.params.get('limit', 10)
         vocabulary_id = request.params.get('vocabulary_id', None)
+        if vocabulary_id:
+            create_vocabulary(vocabulary_id)
+
         tag_names = []
         if q:
             context = {'model': model, 'session': model.Session, 'user': c.user or c.author}
@@ -67,7 +72,7 @@ class YtpDatasetController(PackageController):
         status_int = 200
         response.status_int = status_int
         response.headers['Content-Type'] = 'application/json;charset=utf-8'
-        return helpers.json.dumps(resultSet)
+        return h.json.dumps(resultSet)
 
     def new_metadata(self, id, data=None, errors=None, error_summary=None):
         """ Fake metadata creation. Change status to active and redirect to read. """

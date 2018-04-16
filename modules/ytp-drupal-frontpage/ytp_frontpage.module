@@ -2,6 +2,7 @@
 /**
  * @file
  * Creates following blocks on front page:
+ * * categories of open data
  * * news
  * * Twitter feed
  * * latest datasets
@@ -14,6 +15,10 @@
  */
 function ytp_frontpage_block_info() {
   $blocks = array();
+  $blocks['dataset_categories'] = array(
+    'info' => t('Categories'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
   $blocks['latest_datasets'] = array(
     'info' => t('Latest datasets'),
     'cache' => DRUPAL_NO_CACHE,
@@ -34,7 +39,15 @@ function ytp_frontpage_block_info() {
  * Implements hook_block_view().
  */
 function ytp_frontpage_block_view($delta = '') {
-  if ($delta == 'latest_datasets') {
+  if ($delta == 'dataset_categories') {
+    $block['title'] = t('Categories of open data');
+    $block['content'] = theme('dataset_category_list', array(
+     'dataset_categories' => get_dataset_categories(),
+    ));
+    return $block;
+
+  }
+  elseif ($delta == 'latest_datasets') {
     $block['title'] = t('Latest datasets');
     $block['content'] = theme('dataset_list_short', array(
       'datasets' => get_datasets('latest', 'desc', 5),
@@ -82,8 +95,9 @@ function ytp_frontpage_block_view($delta = '') {
  */
 function ytp_frontpage_help($path, $arg) {
     if ($path == 'admin/help#ytp_frontpage') {
-        return t('Creates blocks for front page. The blocks will display news, Twitter feed, 
-          latest datasets, most popular datasets and related sites.');
+        return t('Creates blocks for front page. The blocks will display 
+          categories of open data, news, Twitter feed, latest datasets, 
+          most popular datasets and related sites.');
     }
 }
 
@@ -134,6 +148,7 @@ function ytp_frontpage_preprocess_block(&$variables, $hook) {
 function ytp_frontpage_theme() {
   return array(
     'dataset_list_short' => array(),
+    'dataset_category_list' => array(),
   );
 }
 
@@ -280,6 +295,21 @@ function get_datasets($type, $order, $amount) {
   return $json["result"]['results'];
 }
 
+/**
+ * Use CKAN group_list to get data categories (CKAN groups).
+ */
+function get_dataset_categories() {
+  $url = 'http://localhost:8080/data/api/3/action/group_list?all_fields=true';
+  $options = array(
+    'method' => 'GET'
+  );
+
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+
+  return $json["result"];
+}
+
 /** 
  * Theme function to format front page dataset lists
  */
@@ -292,5 +322,53 @@ function theme_dataset_list_short($variables) {
   }
 
   $output .= '</ul>';
+  return $output;
+}
+
+/**
+ * Theme function to format front page categories display
+ */
+function theme_dataset_category_list($variables) {
+  global $language;
+
+  $num_of_col = 6; // How many categories should be displayed on one row
+  $colspan = intval(12 / $num_of_col); // How many Bootstrap columns one item spans
+  $col_counter = 1;
+
+  $output = '<div class="container-fluid categories-container">';
+
+  foreach ($variables['dataset_categories'] as $cat) {
+    // If title is available in  current language, use it.
+    // Otherwise fall back to default title.
+    $title = !empty($cat["title_translated"][$language]) 
+      ? $cat["title_translated"][$language] 
+      : $cat["title"];
+
+    // First row item starts the row
+    if ($col_counter % $num_of_col == 1) {
+      $output .= '<div class="row">';
+    }
+
+    $output .= '<div class="col-sm-' . $colspan. ' category-container">';
+    $output .= '<a href="../data/fi/group/' . $cat["name"] . '"><img src="' . $cat["image_display_url"] . '" alt="' . $cat["title"] . '" class="category-image"></a>';
+    $output .= '<p class="text-center"><a href="../data/fi/group/' . $cat["name"] . '">' . $title . '</a></p></div>';
+
+    // Every nth item closes row
+    if ($col_counter % $num_of_col == 0) {
+      $output .= '</div>';
+    }
+
+    $col_counter++;
+
+  }
+
+  // Close row, if still open
+  if (count($variables['dataset_categories']) % $num_of_col != 1) {
+    $output .= '</div>';
+  }
+
+  // Close container
+  $output .= "</div>";
+
   return $output;
 }

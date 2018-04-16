@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-sixodp_showcase]
+file_filter = ckanext/sixodp_showcase/i18n/<lang>/LC_MESSAGES/ckanext-sixodp_showcase.po
+source_file = ckanext/sixodp_showcase/i18n/ckanext-sixodp_showcase.pot
+source_lang = en
+type = PO

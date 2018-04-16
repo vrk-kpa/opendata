@@ -55,7 +55,15 @@
 
 - name: Add NodeSource APT repository
   apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main'
+  tags:
+     - packages
+     - common
+
+- name: Remove old NodeSource APT repository
+  apt_repository:
     repo: 'deb https://deb.nodesource.com/node_0.12 {{ ansible_distribution_release }} main'
+    state: absent
   tags:
      - packages
      - common
@@ -106,8 +114,6 @@
     - gettext
     - build-essential
     - nodejs
-    - npm
-    - nodejs-legacy
     - libcurl4-openssl-dev
   tags:
   - packages

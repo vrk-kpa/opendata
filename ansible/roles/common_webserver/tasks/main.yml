@@ -93,7 +93,9 @@
   - resources
 
 - name: Install resource dependencies
-  npm: path={{cache_path}}/resource-dependencies state=present
+  command:  npm install --unsafe-perm=true --allow-root
+  args:
+    chdir: "{{cache_path}}/resource-dependencies"
   when: modules_copy|changed
   tags:
   - resources
