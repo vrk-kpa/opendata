@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -11,12 +11,14 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-04-10 14:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
+"Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: en_GB\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ckanext/ytp/auth.py:15 ckanext/ytp/auth.py:29
 msgid "Only the owner can update a related item"
@@ -218,7 +220,7 @@ msgstr ""
 #: ckanext/ytp/controller.py:602 ckanext/ytp/controller.py:673
 #: ckanext/ytp/controller.py:700
 msgid "Group not found"
-msgstr ""
+msgstr "Category not found"
 
 #: ckanext/ytp/controller.py:766
 msgid "No user specified"
@@ -309,16 +311,19 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
-#: ckanext/ytp/menu.py:135 ckanext/ytp/templates/organization/admin_list.html:4
+#: ckanext/ytp/menu.py:135
+#: ckanext/ytp/templates/organization/admin_list.html:4
 #: ckanext/ytp/templates/organization/index.html:18
 #: ckanext/ytp/templates/organization/user_list.html:4
 #: ckanext/ytp/templates/user/dashboard_datasets.html:4
 #: ckanext/ytp/templates/user/dashboard_organizations.html:4
-#: ckanext/ytp/templates/user/list.html:6 ckanext/ytp/templates/user/list.html:14
+#: ckanext/ytp/templates/user/list.html:6
+#: ckanext/ytp/templates/user/list.html:14
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/menu.py:145 ckanext/ytp/templates/organization/admin_list.html:31
+#: ckanext/ytp/menu.py:145
+#: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
 #: ckanext/ytp/templates/organization/user_list.html:31
 #: ckanext/ytp/templates/package/base.html:8
@@ -334,11 +339,13 @@ msgstr ""
 msgid "Publish Public Service"
 msgstr ""
 
-#: ckanext/ytp/menu.py:193 ckanext/ytp/templates/package/ytp/new_select.html:17
+#: ckanext/ytp/menu.py:193
+#: ckanext/ytp/templates/package/ytp/new_select.html:17
 msgid "Publish Interoperability Tools"
 msgstr ""
 
-#: ckanext/ytp/menu.py:198 ckanext/ytp/templates/package/ytp/new_select.html:16
+#: ckanext/ytp/menu.py:198
+#: ckanext/ytp/templates/package/ytp/new_select.html:16
 msgid "Publish Open Data"
 msgstr ""
 
@@ -348,7 +355,8 @@ msgstr ""
 
 #: ckanext/ytp/old/dataset/plugin.py:162 ckanext/ytp/old/dataset/plugin.py:172
 #: ckanext/ytp/old/dataset/plugin.py:177 ckanext/ytp/plugin.py:188
-#: ckanext/ytp/plugin.py:198 ckanext/ytp/plugin.py:203 ckanext/ytp/validators.py:61
+#: ckanext/ytp/plugin.py:198 ckanext/ytp/plugin.py:203
+#: ckanext/ytp/validators.py:61
 msgid "Missing value"
 msgstr ""
 
@@ -400,7 +408,8 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:430 ckanext/ytp/templates/package/resource_read.html:157
+#: ckanext/ytp/plugin.py:430
+#: ckanext/ytp/templates/package/resource_read.html:157
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:86
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:37
@@ -422,7 +431,7 @@ msgstr ""
 
 #: ckanext/ytp/plugin.py:897
 msgid "Group title already exists in database"
-msgstr ""
+msgstr "Category title already exists in database"
 
 #: ckanext/ytp/plugin.py:1174
 msgid "Service charge must be supplied"
@@ -430,13 +439,14 @@ msgstr ""
 
 #: ckanext/ytp/plugin.py:1184
 msgid ""
-"If there is a service charge, you must supply either the pricing information "
-"web address for this service or a description of the service pricing or both"
+"If there is a service charge, you must supply either the pricing information"
+" web address for this service or a description of the service pricing or "
+"both"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:1196
 msgid "At least one of the main target groups must to be selected"
-msgstr ""
+msgstr "At least one of the main target categories must to be selected"
 
 #: ckanext/ytp/plugin.py:1333
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
@@ -545,7 +555,8 @@ msgstr ""
 msgid "Image URL"
 msgstr ""
 
-#: ckanext/ytp/templates/macros/ytp_form.html:260 ckanext/ytp/translations.py:31
+#: ckanext/ytp/templates/macros/ytp_form.html:260
+#: ckanext/ytp/translations.py:31
 msgid "Image"
 msgstr ""
 
@@ -560,15 +571,15 @@ msgstr ""
 #: ckanext/ytp/translations.py:38
 msgid ""
 "A short and descriptive title for the dataset. Do not utilize dates in the "
-"title but instead add multiple time-specific resources to the dataset in the "
-"next stage."
+"title but instead add multiple time-specific resources to the dataset in the"
+" next stage."
 msgstr ""
 
 #: ckanext/ytp/translations.py:39 ckanext/ytp/translations.py:50
 msgid ""
 "An universal, compact and easy to understand description of the added "
-"dataset. Use as confining terms as possible to assist the user to understand "
-"what types of data, meters and dimensions the dataset contains."
+"dataset. Use as confining terms as possible to assist the user to understand"
+" what types of data, meters and dimensions the dataset contains."
 msgstr ""
 
 #: ckanext/ytp/translations.py:40
@@ -683,51 +694,51 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:72
 msgid "Add to group"
-msgstr ""
+msgstr "Add to category"
 
 #: ckanext/ytp/translations.py:73
 msgid "There are no groups associated with this dataset"
-msgstr ""
+msgstr "There are no categories associated with this dataset"
 
 #: ckanext/ytp/translations.py:74
 msgid "Remove dataset from this group"
-msgstr ""
+msgstr "Remove dataset from this category"
 
 #: ckanext/ytp/translations.py:75
 msgid "Associate this group with this dataset"
-msgstr ""
+msgstr "Associate this category with this dataset"
 
 #: ckanext/ytp/translations.py:76
 msgid "Add Group"
-msgstr ""
+msgstr "Add Category"
 
 #: ckanext/ytp/translations.py:77
 msgid "There are currently no groups for this site"
-msgstr ""
+msgstr "There are currently no categories for this site"
 
 #: ckanext/ytp/translations.py:78
 msgid "Search groups..."
-msgstr ""
+msgstr "Search categories..."
 
 #: ckanext/ytp/templates/package/read.html:6 ckanext/ytp/translations.py:79
 msgid "Groups"
-msgstr ""
+msgstr "Categories"
 
 #: ckanext/ytp/translations.py:80
 msgid "A little information about my group..."
-msgstr ""
+msgstr "A little information about my category..."
 
 #: ckanext/ytp/translations.py:81
 msgid "Create a Group"
-msgstr ""
+msgstr "Create a Category"
 
 #: ckanext/ytp/translations.py:82
 msgid "Create Group"
-msgstr ""
+msgstr "Create Category"
 
 #: ckanext/ytp/translations.py:83
 msgid "My Group"
-msgstr ""
+msgstr "My Category"
 
 #: ckanext/ytp/translations.py:86
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
@@ -1239,8 +1250,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:18
 msgid ""
-" Some of the organizations listed here are automatically created. To create a"
-" public administration organization, please contact avoindata@vrk.fi. "
+" Some of the organizations listed here are automatically created. To create "
+"a public administration organization, please contact avoindata@vrk.fi. "
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:23
@@ -1459,9 +1470,9 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:127
 msgid ""
-"If a view requires the DataStore, the DataStore plugin may not be enabled, or"
-" the data may not have been pushed to the DataStore, or the DataStore hasn't "
-"finished processing the data yet"
+"If a view requires the DataStore, the DataStore plugin may not be enabled, "
+"or the data may not have been pushed to the DataStore, or the DataStore "
+"hasn't finished processing the data yet"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:144
@@ -1666,11 +1677,11 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:36
 #, python-format
 msgid ""
-" <span xmlns:dct=\"http://purl.org/dc/terms/\"  \t"
-"href=\"http://purl.org/dc/dcmitype/Dataset\"  \tproperty=\"dct:title\" "
+" <span xmlns:dct=\"http://purl.org/dc/terms/\"  "
+"\thref=\"http://purl.org/dc/dcmitype/Dataset\"  \tproperty=\"dct:title\" "
 "rel=\"dct:type\"> <a xmlns:cc=\"http://creativecommons.org/ns#\" "
-"href=\"%(attribution_url)s\" property=\"cc:attributionName\"  \t"
-"rel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\"  "
+"\trel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
 "href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
 "rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"> "
 "Creative Commons Attribution 4.0 International License</a>. "
@@ -1990,8 +2001,8 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/resources_list2.html:17
 #, python-format
 msgid ""
-" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not add"
-" some?</a> "
+" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
+"add some?</a> "
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:3
@@ -2005,8 +2016,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:13
 msgid ""
-" <p class=\"empty\">Not possible to send feedback on this dataset since there"
-" is no valid maintainer.</p> "
+" <p class=\"empty\">Not possible to send feedback on this dataset since "
+"there is no valid maintainer.</p> "
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
@@ -2111,7 +2122,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:115
 msgid "Target groups"
-msgstr ""
+msgstr "Target categories"
 
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:124
 msgid "Requirements for using the service"
@@ -2463,8 +2474,8 @@ msgstr ""
 msgid ""
 " <p>Related Component is any app, article, visualisation or idea related to "
 "this dataset.</p> <p>For example, it could be a custom visualisation, "
-"pictograph or bar chart, an app using all or part of the data or even a news "
-"story that references this dataset.</p> "
+"pictograph or bar chart, an app using all or part of the data or even a news"
+" story that references this dataset.</p> "
 msgstr ""
 
 #: ckanext/ytp/templates/related/edit.html:3
@@ -2637,7 +2648,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:80
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:88
-msgid " <p class=\"extra\">Please try another search or change search facets.</p> "
+msgid ""
+" <p class=\"extra\">Please try another search or change search facets.</p> "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:86
@@ -2674,22 +2686,22 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/search_result_text.html:24
 msgid "{number} group found for \"{query}\""
 msgid_plural "{number} groups found for \"{query}\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} category found for \"{query}\""
+msgstr[1] "{number} categories found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:25
 msgid "No groups found for \"{query}\""
-msgstr ""
+msgstr "No categories found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:26
 msgid "{number} group found"
 msgid_plural "{number} groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} category found"
+msgstr[1] "{number} categories found"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:27
 msgid "No groups found"
-msgstr ""
+msgstr "No categories found"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:30
 msgid "{number} organization found for \"{query}\""
@@ -2882,4 +2894,3 @@ msgstr ""
 #: ckanext/ytp/templates/user/snippets/user_search.html:21
 msgid "Clear search"
 msgstr ""
-
