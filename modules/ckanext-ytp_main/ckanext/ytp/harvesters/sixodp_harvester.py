@@ -486,7 +486,7 @@ class SixodpHarvester(HarvesterBase):
 
                 # check if remote org exist locally, otherwise remove
                 validated_org = None
-                remote_org = package_dict['owner_org']
+                remote_org = package_dict['organization']['name']
 
                 if remote_org:
                     try:
