@@ -64,6 +64,7 @@ OPEN_DATA = 'Open Data'
 INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
+ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 
 class YtpMainTranslation(DefaultTranslation):
@@ -85,7 +86,7 @@ def create_vocabulary(name):
     log.info("Creating vocab '" + name + "'")
     data = {'name': name}
     try:
-        context['defer_commit'] = True
+        #context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
     except Exception, e:
         log.error('%s' % e)
@@ -102,7 +103,7 @@ def create_tag_to_vocabulary(tag, vocab):
         "name": tag,
         "vocabulary_id": v['id']}
 
-    context['defer_commit'] = True
+    #context['defer_commit'] = True
     try:
         toolkit.get_action('tag_create')(context, data)
     except ValidationError:
@@ -265,9 +266,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IRoutes #
 
     def before_map(self, m):
-        """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
+        """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
-        m.connect('/ytp-api/1/util/tag/autocomplete', action='ytp_tag_autocomplete',
+        m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
@@ -418,6 +419,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def dataset_facets(self, facets_dict, package_type):
         facets_dict = OrderedDict()
+        facets_dict.update({'vocab_high_value_dataset_category': _('High value dataset category')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict.update({'tags': _('Tags')})
         facets_dict.update({'vocab_content_type': _('Content Type')})
@@ -605,6 +607,16 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                     pkg_dict['source'] = 'External'
                 else:
                     pkg_dict['source'] = 'Internal'
+
+
+        vocab_fields = ['geographical_coverage', 'high_value_dataset_category']
+        for field in vocab_fields:
+            if pkg_dict.get(field):
+                pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
+
+        if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
+            pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
+
         return pkg_dict
 
     # IActions #
@@ -627,7 +639,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_list_output': validators.tag_list_output,
             'repeating_text': validators.repeating_text,
             'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required
+            'only_default_lang_required': validators.only_default_lang_required,
+            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
+            'override_field': validators.override_field,
+            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime
         }
 
 
@@ -826,7 +841,7 @@ def action_user_create(context, data_dict):
 
     return result
 
-
+@logic.side_effect_free
 def action_organization_show(context, data_dict):
     try:
         result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
@@ -1127,7 +1142,7 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def register_reports(self):
         import reports
-        return [reports.test_report_info, reports.administrative_branch_summary_report_info]
+        return [reports.administrative_branch_summary_report_info]
 
     def update_config(self, config):
         from ckan.plugins import toolkit

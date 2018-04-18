@@ -1,0 +1,75 @@
+{% extends "package/search.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _("Showcases") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block pre_primary %}
+  <div class="search-form-container search-form-container-borderless row">
+    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12">
+      {{ h.snippet('snippets/search_input.html', query=c.q, placeholder=_('Search showcases...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+    </div>
+  </div>
+
+  {% set featured_showcases = h.get_featured_showcases() %}
+  {#
+  {% if featured_showcases %}
+    <div class="page-highlight">
+      {{ h.snippet('snippets/horizontal_accordion.html', items=featured_showcases, image_identifier="featured_image_display_url", meta_identifier="category", controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') }}
+    </div>
+  {% endif %}
+  #}
+{% endblock %}
+
+{% block page_primary_action %}
+  {% if h.check_access('ckanext_showcase_create') %}
+    <div class="page_primary_action">
+      {% link_for _('Add Showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block form %}
+  {% set facets = {
+    'fields': c.fields_grouped,
+    'search': c.search_facets,
+    'titles': c.facet_titles,
+    'translated_fields': c.translated_fields,
+    'remove_field': h.facet_remove_field }
+  %}
+  {% set sorting = [
+    (_('Newest first'), 'metadata_created desc'),
+    (_('Oldest first'), 'metadata_created asc'),
+    (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false)
+    (_('Relevance'), 'score desc, metadata_modified desc'),
+    (_('Name Ascending'), 'title_string asc'),
+    (_('Name Descending'), 'title_string desc'),
+    (_('Last Modified'), 'metadata_modified desc'),
+    (_('Top rating'), 'rating desc') ]
+  %}
+  <div class="search-options">
+    {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields, no_bottom_border=true %}
+  </div>
+{% endblock %}
+
+{% block package_search_results_list %}
+  {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+{% endblock %}
+
+{% block package_search_results_api %}
+{% endblock %}
+
+{% block secondary_content %}
+{# {{ h.snippet('showcase/snippets/helper.html') }} #}
+<div class="filters">
+  <div>
+    {% for facet in c.facet_titles %}
+      {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+    {% endfor %}
+  </div>
+  <!--<a class="close no-text hide-filters"><i class="icon-remove-sign"></i><span class="text">close</span></a>-->
+</div>
+{% endblock %}

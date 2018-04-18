@@ -1,0 +1,62 @@
+{#
+Displays a single dataset of type 'showcase'.
+
+package        - A package to display.
+item_class     - The class name to use on the list item.
+truncate       - The length to trucate the description to (default: 180)
+truncate_title - The length to truncate the title to (default: 80).
+show_remove    - If True, show the remove button to remove showcase/dataset association.
+
+#}
+{% set truncate = truncate or 300 %}
+{% set truncate_title = truncate_title or 80 %}
+{% set title = package.title or package.name %}
+{% set notes = h.markdown_extract(h.get_translated(package, 'notes'), extract_length=truncate) %}
+
+{% block package_item %}
+
+<li class="media-item">
+  {% block item_inner %}
+    {% block image %}
+      <img src="{{ package.image_1_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ package.name }}" class="media-image">
+    {% endblock %}
+
+    <div class="item-content item-content-slide-up">
+      {% block title %}
+        <h3 class="media-heading">
+          {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=package.name)) }}
+        </h3>
+      {% endblock %}
+      {% block rating %}
+      {# {% snippet "rating/snippets/stars_inactive.html", package=package %} #}
+      {% endblock %}
+      {% block notes %}
+        {% if notes %}
+          <div class="item-description">
+            {{ notes|urlize }}
+          </div>
+
+        {% else %}
+          <p class="empty">{{ _("This showcase has no description") }}</p>
+        {% endif %}
+      {% endblock %}
+      {% block datasets %}{% endblock %}
+      {% block link %}
+        <div class="media-link-wrapper">
+          <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=package.name) }}"
+             title="{{ _('View {showcase_title}').format(showcase_title=package.title) }}"
+             class="btn btn-primary-transparent media-link">
+            {{ _('Read more') }}
+          </a>
+        </div>
+      {% endblock %}
+      {% if show_remove %}
+        <form method="post"><input type="hidden" value="{{ package.id }}" name="remove_showcase_id" /><input value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-small media-edit" title="{{ _('Remove dataset from this showcase') }}"/></form>
+      {% endif %}
+    </div>
+  {% endblock %}
+</li>
+{% endblock %}
+{# {% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %} #}

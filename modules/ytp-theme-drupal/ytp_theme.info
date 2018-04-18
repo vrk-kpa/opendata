@@ -23,6 +23,7 @@ regions[top_navigation] = 'Top navigation'
 ;; Front page custom regions
 regions[top_bar_primary] = 'Front Page Top Bar Left Side'
 regions[top_bar_secondary] = 'Front Page Top Bar Right Side'
+regions[content_grid_top] = 'Front Page Content Grid Top Side'
 regions[content_grid_left] = 'Front Page Content Grid Left Side'
 regions[content_grid_right] = 'Front Page Content Grid Left Right Side'
 regions[content_grid_left_lower] = 'Front Page Content Grid Lower Left Side'

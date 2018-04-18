@@ -249,3 +249,40 @@ def only_default_lang_required(field, schema):
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return  validator
+
+
+
+def override_field(overridden_field_name):
+    @scheming_validator
+    def implementation(field, schema):
+        from ckan.lib.navl.dictization_functions import missing
+        def validator(key, data, errors, context):
+            override_value = data[key]
+            if override_value not in (None, missing):
+                overridden_key = tuple(overridden_field_name.split('.'))
+                data[overridden_key] = override_value
+
+        return validator
+
+    return implementation
+
+@scheming_validator
+def keep_old_value_if_missing(field, schema):
+    from ckan.lib.navl.dictization_functions import missing, flatten_dict
+    from ckan.logic import get_action
+    def validator(key, data, errors, context):
+
+        if 'package' not in context:
+            return
+
+        data_dict = flatten_dict(get_action('package_show')(context, {'id': context['package'].id}))
+
+        if key not in data or data[key] is missing:
+            if key in data_dict:
+                data[key] = data_dict[key]
+
+    return validator
+
+ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
+def ignore_if_invalid_isodatetime(v):
+    return v if ISO_DATETIME_FORMAT.match(v) else None

@@ -78,9 +78,11 @@
   - ckan
 
 - name: Ensure path ownerships
-  command: chown -R "{{ www_user }}:{{ www_group }}" "{{ ckan_files_path }}" "{{ ckan_files_path }}/storage/uploads" /etc/ckan/default
-  tags:
-  - ckan
+  file: path="{{ item }}" state="directory" recurse="yes" owner="{{ www_user }}" group="{{ www_group }}"
+  with_items:
+    - "{{ ckan_files_path }}"
+    - "/etc/ckan/default"
+    - "{{ ckan_source_path }}/ckan/public/base/i18n"
 
 - name: Ensure celerybeat pid ownership
   command: chown "{{ www_user }}:{{ www_group }}" /tmp/celerybeat_pid /tmp/celerybeat_schedule
@@ -230,7 +232,6 @@
   #when: copy_ckan_ui_data|changed
   tags:
   - ckan
-
 
 - name: re-minify CKAN javascript files
   shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"

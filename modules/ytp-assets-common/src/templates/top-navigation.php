@@ -29,20 +29,20 @@
 
 
     $class = '';
-    $href = '/' . $lang . '/training';
-    if ( ($uri == $href || $site_section == t("Training")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href='. $href . '>' . t("Training") . '</a></li>';
+    $href = '/data/' . $lang . '/showcase';
+    if ( ($uri == $href || $site_section == t("Apps")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href='. $href . '>' . t("Apps") . '</a></li>';
 
-
-    $class = '';
-    $href = '/' . $lang . '/about';
-    if ( ($uri == $href || $site_section == t("About us")) && $useActiveHiLight == true) { $class = ' class="active" '; }
-    echo '<li' . $class . '><a href='. $href . '>' . t("About us") . '</a></li>';
 
     $class = '';
     $href = '/' . $lang . '/opas';
     if ( (strpos($uri, $href) !== false || $site_section == t("Guide to Open Data")) && $useActiveHiLight == true) { $class = ' class="active" '; }
     echo '<li' . $class . '><a href='. $href . '>' . t("Guide to Open Data") . '</a></li>';
+
+    $class = '';
+    $href = '/' . $lang . '/about';
+    if ( ($uri == $href || $site_section == t("About us")) && $useActiveHiLight == true) { $class = ' class="active" '; }
+    echo '<li' . $class . '><a href='. $href . '>' . t("About us") . '</a></li>';
   }
 ?>
 
@@ -117,7 +117,7 @@
         <div class="btn-primary active search-small" role="search">
            <form class="" action="/data/<?php print $language->language ?>/dataset">
                 <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
-                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                 <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
             </form>
         </div>
@@ -186,7 +186,7 @@
         <div class="btn-primary active search-small" role="search">
            <form class="" action="/data/<?php print $language->language ?>/dataset">
                 <input class="btn-primary active" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
-                <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                 <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
             </form>
         </div>

@@ -6,7 +6,7 @@ $(document).ready(function(){
         listContainer.children('div').each(function(valueIndex) {
             if (valueIndex == 0) {
                 // We are adding the 'add link' only to the first child
-                var addLink = $('<a href="javascript:void(0);" class="add-input"><span class="icon-plus-sign-alt icon-2x"></span></a>');
+                var addLink = $('<a href="javascript:void(0);" class="add-input"><span class="fa fa-plus"></span></a>');
                 var inputContainer = $(this);
                 inputContainer.append(addLink);
 
@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 function createRemoveLink(inputContainer) {
     // The remove link with the icon
-    var removeLink = $('<a href="javascript:void(0);" class="add-input"><span class="icon-minus-sign-alt icon-2x"></span></a>');
+    var removeLink = $('<a href="javascript:void(0);" class="add-input"><span class="fa fa-minus"></span></a>');
     // Add an event listener for removing the input field container
     removeLink.click(function() {
         // Remove the value inside the container's input field

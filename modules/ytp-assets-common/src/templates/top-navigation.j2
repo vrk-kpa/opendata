@@ -11,9 +11,9 @@
         {% else %}
             <li><a href="/{{ lang }}/publish">{{ _('Publish Datasets') }}</a></li>
         {% endif %}
-        <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
-        <li><a href="/{{ lang }}/training">{{ _('Training') }}</a></li>
+        <li><a href="/data/{{ lang }}/showcase">{{ _('Apps') }}</a></li>
         <li><a href="/{{ lang }}/opas">{{ _('Guide to Open Data') }}</a></li>
+        <li><a href="/{{ lang }}/about">{{ _('About us') }}</a></li>
     {% endmacro %}
 
     <!--
@@ -37,7 +37,7 @@
             <div class="btn-primary active search-small" role="search">
                <form class="" action="/data/{{ lang }}/dataset">
                     <input class="btn-primary active" type="text" name="q" placeholder="{{ _('Search datasets...') }}">
-                    <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                    <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                     <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
                 </form>
             </div>            
@@ -91,7 +91,7 @@
             <div class="btn-primary active search-small" role="search">
                <form class="" action="/data/{{ lang }}/dataset">
                     <input class="btn-primary active" type="text" name="q" placeholder="{{ _('Search datasets...') }}">
-                    <button type="submit" class="btn-primary active search-small-submit"><i class="icon-search"></i></button>
+                    <button type="submit" class="btn-primary active search-small-submit"><i class="fa fa-search"></i></button>
                     <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
                 </form>
             </div>            

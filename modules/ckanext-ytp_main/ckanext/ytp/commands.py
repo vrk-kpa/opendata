@@ -185,7 +185,7 @@ def migrate(ctx, config, dryrun):
 
 def apply_patches(package_patches, resource_patches):
     if not package_patches and not resource_patches:
-        print 'Nothing to do.'
+        print 'No patches to process.'
     else:
         package_patch = get_action('package_patch')
         resource_patch = get_action('resource_patch')
@@ -194,14 +194,34 @@ def apply_patches(package_patches, resource_patches):
             try:
                 package_patch(context, patch)
             except ValidationError as e:
-                print "Migration failed for package %s reason:", patch['id']
+                print "Migration failed for package %s reason:" % patch['id']
                 print e
         for patch in resource_patches:
             try:
                 resource_patch(context, patch)
             except ValidationError as e:
-                print "Migration failed for resource %s, reason", patch['id']
+                print "Migration failed for resource %s, reason" % patch['id']
                 print e
+
+def apply_group_assigns(group_packages_map):
+    if not group_packages_map:
+        print 'No group memberships to set.'
+    else:
+        member_create = get_action('member_create')
+        context = {'ignore_auth': True}
+
+        for group, packages in group_packages_map.items():
+            for package in packages:
+                data = {'id': group,
+                        'object': package,
+                        'object_type': 'package',
+                        'capacity': 'public'}
+                try:
+                    member_create(context, data)
+                except Error as e:
+                    print "Group assign failed for package %s reason:" % package
+                    print e
+
 
 def package_generator(query, page_size):
     context = {'ignore_auth': True}
@@ -214,3 +234,30 @@ def package_generator(query, page_size):
             yield package
         else:
             return
+
+@ytp_dataset_group.command(
+    u'batch_edit',
+    help=u'Make modifications to many datasets at once'
+)
+@click_config_option
+@click.argument('search_string')
+@click.option(u'--dryrun', is_flag=True)
+@click.option(u'--group', help="Make datasets members of a group")
+@click.pass_context
+def batch_edit(ctx, config, search_string, dryrun, group):
+    load_config(config or ctx.obj['config'])
+    group_assigns = {}
+
+    if group:
+        group_assigns[group] = []
+
+    for package_dict in package_generator(search_string, 1000):
+        if group:
+            members = group_assigns[group].append(package_dict['name'])
+
+    if dryrun:
+        print '\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps)
+
+    else:
+        if group:
+            apply_group_assigns(group_assigns)

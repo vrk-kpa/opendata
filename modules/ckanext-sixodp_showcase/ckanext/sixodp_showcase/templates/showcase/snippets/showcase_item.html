@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block item_inner %}
+  {{ super() }}
+  {% if h.show_rating_in_type('showcase') %}
+    {% block rating %}
+      <p>{% snippet "rating/snippets/stars_inactive.html", package=package %}</p>
+    {% endblock %}
+  {% endif %}
+{% endblock %}
+

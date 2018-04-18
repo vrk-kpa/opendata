@@ -33,7 +33,7 @@
     {
       "field_name": "keywords",
       "label": "Tags",
-      "form_placeholder":"eg. every second week",
+      "form_placeholder":"eg. Maps",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "only_default_lang_required fluent_tags create_fluent_tags(keywords)",
@@ -60,6 +60,19 @@
         }
       ],
       "required": true
+    },
+    {
+      "field_name": "high_value_dataset_category",
+      "label": "High value dataset category",
+      "form_placeholder":"eg. Maps",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "ignore_missing convert_to_list create_tags(high_value_dataset_category)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=high_value_dataset_category"
+      },
+      "description": "Select high value dataset categories which this dataset belongs to"
     },
     {
       "field_name": "maintainer",
@@ -123,7 +136,7 @@
     {
       "field_name": "content_type",
       "label": "Content type",
-      "form_placeholder":"eg. every second week",
+      "form_placeholder":"eg. Maps",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(content_type)",
@@ -194,8 +207,16 @@
       },
       "description": "A short description of how frequently the dataset will get updated."
     },
-
-
+    {
+      "field_name": "date_released",
+      "label": "Published",
+      "preset": "date",
+      "display_snippet": null,
+      "form_snippet": null,
+      "description": "The dataset publication date.",
+      "validators": "keep_old_value_if_missing ignore_missing",
+      "output_validators": "ignore_if_invalid_isodatetime override_field(metadata_created)"
+    },
     {
       "field_name": "valid_from",
       "label": "Valid from",

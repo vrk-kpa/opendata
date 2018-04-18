@@ -26,7 +26,7 @@ label{
     <div id="search_datasets" class="navbar navbar-search form-control" role="search">
        <form class="navbar-form" action="/data/<?php print $language->language ?>/dataset">
             <input class="search-term" type="text" name="q" placeholder="<?php print t("Search datasets...")?>">
-            <button type="submit" class="search-submit" value="<?php t("Search")?>" ><i class="icon-search"></i><span><?php print t("Search")?></span></button>
+            <button type="submit" class="search-submit" value="<?php t("Search")?>" ><i class="fa fa-search"></i><span><?php print t("Search")?></span></button>
             <input type="hidden" name="sort" value="score desc, metadata_modified desc" />
         </form>
     </div>
