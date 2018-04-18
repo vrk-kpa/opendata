@@ -7,6 +7,7 @@ from ckan.common import c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
 from ckan.plugins import toolkit
+import ckan.lib.i18n as i18n
 from ckanext.scheming.helpers import lang
 from pylons import config
 from pylons.i18n import gettext
@@ -20,6 +21,47 @@ def _markdown(translation, length):
     return helpers.markdown_extract(translation, extract_length=length) if length is not True and isinstance(length, (int, long)) else \
         helpers.render_markdown(translation)
 
+def get_translation(translated):
+    if isinstance(translated, dict):
+        language = i18n.get_lang()
+        if language in translated:
+            return translated[language]
+        dialects = [l for l in translated if l.startswith(language) or language.startswith(l)]
+        if dialects:
+            return translated[dialects[0]]
+    return None
+
+def get_translated(data_dict, field):
+    translated_variant = '%s_translated' % field
+    translated_field = translated_variant if translated_variant in data_dict else field
+    translated = data_dict.get(translated_field)
+    return get_translation(translated) or data_dict.get(field)
+
+# Copied from core ckan to call overridden get_translated
+def dataset_display_name(package_or_package_dict):
+    if isinstance(package_or_package_dict, dict):
+        return get_translated(package_or_package_dict, 'title') or \
+               package_or_package_dict['name']
+    else:
+        # FIXME: we probably shouldn't use the same functions for
+        # package dicts and real package objects
+        return package_or_package_dict.title or package_or_package_dict.name
+
+# Copied from core ckan to call overridden get_translated
+def resource_display_name(resource_dict):
+    # TODO: (?) support resource objects as well
+    name = get_translated(resource_dict, 'name')
+    description = get_translated(resource_dict, 'description')
+    if name:
+        return name
+    elif description:
+        description = description.split('.')[0]
+        max_len = 60
+        if len(description) > max_len:
+            description = description[:max_len] + '...'
+        return description
+    else:
+        return _("Unnamed resource")
 
 def extra_translation(values, field, markdown=False, fallback=None):
     """ Used as helper. Get correct translation from extras (values) for given field.
@@ -27,13 +69,7 @@ def extra_translation(values, field, markdown=False, fallback=None):
         If fallback is set then use fallback as value if value is empty.
         If fallback is function then call given function with `values`.
     """
-    lang = ""
-    try:
-        lang = helpers.lang()
-    except TypeError:
-        pass
-
-    translation = values.get('%s_%s' % (field, lang), "") or values.get(field, "") if values else ""
+    translation = get_translated(values, field)
 
     if not translation and fallback:
         translation = fallback(values) if hasattr(fallback, '__call__') else fallback

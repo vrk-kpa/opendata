@@ -41,7 +41,7 @@ import menu
 import logic
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function
+from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
 from tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method, create_system_context, get_original_method, add_translation_show_schema, add_languages_show, add_translation_modify_schema, add_languages_modify
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
@@ -220,8 +220,7 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
-
-
+ 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -453,7 +452,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         extra_dict = {}
         for key in extras:
             if key not in self._key_exclude:
-                value = extras.get(key)
+                value = get_translated(extras, key)
                 if value:
                     extra_dict.update({_prettify(key): value})
         return extra_dict
@@ -462,7 +461,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         extra_dict = {}
         for key in extras:
             if key not in self._key_exclude_resources:
-                value = extras.get(key)
+                value = get_translated(extras, key)
                 if value:
                     extra_dict.update({_prettify(key): value})
         return extra_dict
@@ -514,7 +513,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def _resource_display_name(self, resource_dict):
         """ taken from helpers.resource_display_name """
-        value = helpers.resource_display_name(resource_dict)
+        value = resource_display_name(resource_dict)
         return value if value != _("Unnamed resource") else _("Additional Info")
 
     def _auto_author_set(self):
@@ -566,7 +565,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'add_locale_to_source': add_locale_to_source,
                 'scheming_language_text_or_empty': scheming_language_text_or_empty,
                 'get_lang_prefix': get_lang_prefix,
-                'call_toolkit_function': call_toolkit_function}
+                'call_toolkit_function': call_toolkit_function,
+                'get_translated': get_translated,
+                'dataset_display_name': dataset_display_name}
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,

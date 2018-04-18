@@ -479,11 +479,6 @@ a.tabledrag-handle{
   .main-container {
     padding: 0;
   }
-  .region-top-bar-primary .block, 
-  .region-content-grid-left .block, .region-content-grid-right .block,
-  .region-content-grid-left-lower .block {
-    padding: 5px;
-  }
 }
 @media (min-width: @screen-sm-min) {
   .main-container > :first-child {
@@ -491,7 +486,9 @@ a.tabledrag-handle{
   }
 }
 .region-content-grid-left .block,
-.region-content-grid-right .block {
+.region-content-grid-right .block,
+.region-content-grid-left-lower .block,
+.region-content-grid-top .block {
   padding: 20px;
 }
 .title-icon {

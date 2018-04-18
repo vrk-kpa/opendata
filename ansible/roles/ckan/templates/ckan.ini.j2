@@ -47,7 +47,7 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 
 ckan.site_id = {{ ckan_site_id }}
 
-ckan.plugins = {{ ckan_plugins_default }} {{ ckan_plugins }} {% if google_analytics -%}googleanalytics{%- endif %} {% if AWS.enabled -%} {{ ckan_aws_plugins }} {%- endif %}
+ckan.plugins = {{ ckan_plugins }} {% if google_analytics -%}googleanalytics{%- endif %} {% if AWS.enabled -%} {{ ckan_aws_plugins }} {%- endif %} {{ ckan_plugins_default }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -63,9 +63,9 @@ ckan.favicon = {{www_root}}/resources/images/favicon.ico
 ckan.gravatar_default = identicon
 
 ckan.locale_default = fi
-ckan.locale_order = en pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
-ckan.locales_offered = fi sv en
-ckan.locales_filtered_out = en_GB
+ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
+ckan.locales_offered = fi sv en_GB
+ckan.locales_filtered_out = en
 ckan.feeds.authority_name = 
 ckan.feeds.date = 
 ckan.feeds.author_name = 

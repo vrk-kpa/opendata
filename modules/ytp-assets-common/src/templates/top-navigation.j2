@@ -53,7 +53,7 @@
                     {% if lang != "fi" %}
                         <li class="list-item-class first"><a href="{% url_for h.unquote_url(current_url), locale='fi' %}">Suomeksi</a></li>
                     {% endif %}
-                    {% if lang != "en" %}
+                    {% if lang != "en_GB" %}
                         <li class="list-item-class"><a href="{% url_for h.unquote_url(current_url), locale='en' %}">In English</a></li>
                     {% endif %}
                     {% if lang != "sv" %}
@@ -100,8 +100,8 @@
               {% if lang != "fi" %}
                   <li><a href="{% url_for h.unquote_url(current_url), locale='fi' %}">Suomeksi</a></li>
               {% endif %}
-              {% if lang != "en" %}
-                  <li><a href="{% url_for h.unquote_url(current_url), locale='en' %}">In English</a></li>
+              {% if lang != "en_GB" %}
+                  <li><a href="{% url_for h.unquote_url(current_url), locale='en_GB' %}">In English</a></li>
               {% endif %}
               {% if lang != "sv" %}
                   <li><a href="{% url_for h.unquote_url(current_url), locale='sv' %}">På Svenska</a></li>
