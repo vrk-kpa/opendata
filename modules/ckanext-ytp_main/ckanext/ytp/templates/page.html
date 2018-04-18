@@ -29,7 +29,7 @@
 {% block header %}
     {% set lang = h.lang() %}
     {{ super() }}
-    {% if h.service_alerts().rowcount != 0 %}
+    {#{% if h.service_alerts().rowcount != 0 %}
     <div class="container">
         <div class="alert alert-info">
             <ul class="service_alerts">
@@ -41,5 +41,5 @@
             </ul>
         </div>
     </div>
-    {% endif %}
+    {% endif %}#}
 {% endblock %}
