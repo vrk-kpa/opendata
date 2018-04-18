@@ -7,12 +7,12 @@
 
 - name: Copy firewall script
   template: src="firewall.sh.j2" dest="{{ cache_path }}/firewall.sh" mode="0755" owner=root group=root
-  register: firewall_script 
+  register: firewall_script
   tags:
   - firewall
 
 - name: Enable firewall
   command: "{{ cache_path }}/firewall.sh"
-  when: firewall_script|changed
+  when: firewall_script is changed
   tags:
   - firewall

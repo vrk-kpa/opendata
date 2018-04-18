@@ -1,7 +1,9 @@
 ---
 
 - name: Install postgres client
-  apt: pkg={{ item }} state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - postgresql-client
 
@@ -42,7 +44,12 @@
   ignore_errors: True
 
 - name: Copy SQL files
-  template: src={{ item }} dest=/tmp/{{ item }} owner=root group=root mode="0640"
+  template:
+    src: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+    owner: root
+    group: root
+    mode: "0640"
   with_items: "{{ sql_files_to_execute }}"
 
 - name: Execute SQL files

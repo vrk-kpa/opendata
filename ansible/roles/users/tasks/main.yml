@@ -26,7 +26,7 @@
 
 - name: Ensure key access
   shell: chmod -R go-w /home/*/.ssh
-  when: install_keys|changed
+  when: install_keys is changed
   tags:
   - users
 
@@ -34,5 +34,4 @@
   lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ sudo_group }}' line='%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'"
   tags:
   - users
-  - sudoers  
-
+  - sudoers

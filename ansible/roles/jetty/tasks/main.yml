@@ -43,13 +43,13 @@
 
 - name: Remove old schema
   file: path=/etc/solr/conf/schema.xml state=absent
-  when: fetch_schema|changed
+  when: fetch_schema is changed
   tags:
   - jetty
 
 - name: Setup Solr schema
   file: src="{{ server_path }}/schema.xml" dest=/etc/solr/conf/schema.xml state=link
-  when: fetch_schema|changed
+  when: fetch_schema is changed
   tags:
   - jetty
 
@@ -61,7 +61,7 @@
 
 - name: Ensure Jetty is restarted
   service: name=jetty8 state=restarted
-  when: jetty_setup|changed or fetch_schema|changed
+  when: jetty_setup is changed or fetch_schema is changed
   tags:
   - jetty
 

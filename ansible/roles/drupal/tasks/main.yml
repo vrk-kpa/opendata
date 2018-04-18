@@ -3,7 +3,10 @@
 ### Drupal ###
 
 - name: Ensure Drupal packages
-  action: apt pkg="{{ item }}" state=latest
+  # action: apt pkg="{{ item }}" state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - php-pgsql
     - php-gd
@@ -17,7 +20,10 @@
   - drupal
 
 - name: Fetch drush package
-  get_url: url="https://github.com/drush-ops/drush/archive/6.x.zip" dest="{{ cache_path }}/drush-6.x.zip"
+  # get_url: url="https://github.com/drush-ops/drush/archive/6.x.zip" dest="{{ cache_path }}/drush-6.x.zip"
+  get_url:
+    url: "https://github.com/drush-ops/drush/archive/6.x.zip"
+    dest: "{{ cache_path }}/drush-6.x.zip"
   tags:
   - drupal
 
@@ -27,56 +33,94 @@
   - drupal
 
 - name: Setup drush binary link
-  file: path="/usr/local/bin/drush" src="{{ server_path }}/drush-6.x/drush" state=link
+  file:
+    path: "/usr/local/bin/drush"
+    src: "{{ server_path }}/drush-6.x/drush"
+    state: link
   tags:
   - drupal
 
 - name: Set PHP pathinfo
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+  ini_file:
+    dest: /etc/php/7.0/fpm/php.ini
+    section: PHP
+    option: cgi.fix_pathinfo
+    value: 0
   tags:
   - drupal
 
+
 - name: Set PHP max file upload size
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=upload_max_filesize value={{ ckan_max_resource_size }}M
+  ini_file:
+    dest: /etc/php/7.0/fpm/php.ini
+    section: PHP
+    option: upload_max_filesize
+    value: "{{ ckan_max_resource_size }}M"
   tags:
   - drupal
 
 - name: Set PHP max memory limit
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=memory_limit value=200M
+  ini_file:
+    dest: /etc/php/7.0/fpm/php.ini
+    section: PHP
+    option: memory_limit
+    value: 200M
   tags:
   - drupal
 
 
 - name: Set PHP socket (listen)
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+  ini_file:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    section: www
+    option: listen
+    value: /tmp/phpfpm.socket
   tags:
   - drupal
 
 # The listen.owner, listen.group, and listen.mode options are used for setting the permissions so that
 # nginx does not return 502 Bad Gateway (because of permission denied)
 - name: Set PHP socket (listen owner)
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+  ini_file:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    section: www
+    option: listen.owner
+    value: "{{ www_user }}"
   tags:
   - drupal
 
 - name: Set PHP socket (listen group)
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+  ini_file:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    section: www
+    option: listen.group
+    value: "{{ www_group }}"
   tags:
   - drupal
 
 - name: Set PHP socket (listen mode)
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
+  ini_file:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    section: www
+    option: listen.mode
+    value: "0660"
   tags:
   - drupal
 
 # required by drush
 - name: Create root pgpass
-  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
+  template:
+    src: pgpass.j2
+    dest: /root/.pgpass
+    mode: "0600"
+    owner: root
+    group: root
   tags:
   - drupal
 
 - name: Check if drupal root is created
-  stat: path="{{ drupal_root }}"
+  stat:
+    path: "{{ drupal_root }}"
   register: drupal_dir
 
 - name: Check if site is already installed.
@@ -93,7 +137,11 @@
   when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
 
 - name: Copy settings
-  template: src=settings.php.j2 dest={{ drupal_root }}/sites/default/settings.php owner={{ www_user }} group={{ www_group }}
+  template:
+    src: settings.php.j2
+    dest: "{{ drupal_root }}/sites/default/settings.php"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
   when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
 
 - name: Check if drupal is already initialized on database
@@ -115,17 +163,26 @@
   when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout or drupal_database_dumped|changed"
 
 - name: Set robots.txt
-  copy: src="{{ search_engine_robots_filename }}" dest="{{ drupal_root }}/robots.txt"
+  copy:
+    src: "{{ search_engine_robots_filename }}"
+    dest: "{{ drupal_root }}/robots.txt"
   tags:
   - drupal
 
 - name: Copy default favicon.ico
-  copy: src="favicon.ico" dest="{{ drupal_root }}/favicon.ico"
+  copy:
+    src: "favicon.ico"
+    dest: "{{ drupal_root }}/favicon.ico"
   tags:
   - drupal
 
 - name: Setup drushrc
-  copy: src=drushrc.php dest="{{ drupal_root }}/sites/default/drushrc.php" owner=root group=root mode="0644"
+  copy:
+    src: drushrc.php
+    dest: "{{ drupal_root }}/sites/default/drushrc.php"
+    owner: root
+    group: root
+    mode: "0644"
   tags:
   - drupal
 
@@ -367,13 +424,13 @@
   command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} --weight={{ item.weight }} chdir="{{ drupal_root }}"
   with_items:
     - { module: locale, delta: language, region: top_navigation, weight: 0 }
-    - { module: menu, delta: related-sites, region: content_grid_right, weight: 2} 
+    - { module: menu, delta: related-sites, region: content_grid_right, weight: 2}
     - { module: menu, delta: footer-links, region: footer, weight: 2 }
     - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
     - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
     - { module: ytp_frontpage, delta: twitter_feed, region: content_grid_left, weight: 1}
-    - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0} 
-    - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1} 
+    - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0}
+    - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1}
     - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
     - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
     - { module: views, delta: news-block, region: content_grid_left, weight: 0}
