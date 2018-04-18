@@ -56,3 +56,7 @@ ansible/vars/private
 *.sublime-workspace
 
 token.dat
+
+# Ansible related
+*.retry
+*.out
