@@ -299,7 +299,7 @@ function get_datasets($type, $order, $amount) {
  * Use CKAN group_list to get data categories (CKAN groups).
  */
 function get_dataset_categories() {
-  $url = 'http://localhost:8080/data/api/3/action/group_list?all_fields=true';
+  $url = 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true';
   $options = array(
     'method' => 'GET'
   );
