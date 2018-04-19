@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-10 14:20+0300\n"
+"POT-Creation-Date: 2018-04-19 11:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
+"Last-Translator: Pentti Laitinen, 2018\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -258,9 +258,13 @@ msgstr ""
 "muodolla http://, https:// tai www."
 
 #: ckanext/ytp/converters.py:135 ckanext/ytp/converters.py:145
-#: ckanext/ytp/plugin.py:1134
+#: ckanext/ytp/plugin.py:1135
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
+
+#: ckanext/ytp/helpers.py:64 ckanext/ytp/plugin.py:517
+msgid "Unnamed resource"
+msgstr "Nimetön resurssi"
 
 #: ckanext/ytp/logic.py:184
 msgid "Cannot change username"
@@ -355,19 +359,16 @@ msgstr "Julkaise avointa dataa"
 msgid "Publish Data"
 msgstr "Julkaise dataa"
 
-#: ckanext/ytp/old/dataset/plugin.py:162 ckanext/ytp/old/dataset/plugin.py:172
-#: ckanext/ytp/old/dataset/plugin.py:177 ckanext/ytp/plugin.py:188
-#: ckanext/ytp/plugin.py:198 ckanext/ytp/plugin.py:203
-#: ckanext/ytp/validators.py:61
+#: ckanext/ytp/plugin.py:188 ckanext/ytp/plugin.py:198
+#: ckanext/ytp/plugin.py:203 ckanext/ytp/validators.py:61
 msgid "Missing value"
 msgstr "Puuttuva arvo"
 
-#: ckanext/ytp/plugin.py:422 ckanext/ytp/translations.py:36
+#: ckanext/ytp/plugin.py:421 ckanext/ytp/translations.py:36
 msgid "High value dataset category"
 msgstr "Korkean lisäarvon tietoaineistokategoria"
 
-#: ckanext/ytp/old/dataset/plugin.py:390 ckanext/ytp/old/dataset/plugin.py:406
-#: ckanext/ytp/plugin.py:423 ckanext/ytp/plugin.py:440
+#: ckanext/ytp/plugin.py:422 ckanext/ytp/plugin.py:439
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:16
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:19
@@ -375,22 +376,20 @@ msgstr "Korkean lisäarvon tietoaineistokategoria"
 msgid "Collection Type"
 msgstr "Tietoaineisto"
 
-#: ckanext/ytp/old/dataset/plugin.py:391 ckanext/ytp/old/dataset/plugin.py:407
-#: ckanext/ytp/plugin.py:424 ckanext/ytp/plugin.py:441
+#: ckanext/ytp/plugin.py:423 ckanext/ytp/plugin.py:440
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:37
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/old/dataset/plugin.py:392 ckanext/ytp/old/dataset/plugin.py:408
-#: ckanext/ytp/plugin.py:425 ckanext/ytp/plugin.py:442
+#: ckanext/ytp/plugin.py:424 ckanext/ytp/plugin.py:441
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:49
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/old/dataset/plugin.py:393 ckanext/ytp/plugin.py:426
+#: ckanext/ytp/plugin.py:425
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:24
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
@@ -399,18 +398,16 @@ msgstr "Sisältötyyppi"
 msgid "Organization"
 msgstr "Organisaatio"
 
-#: ckanext/ytp/old/dataset/plugin.py:394 ckanext/ytp/old/dataset/plugin.py:409
-#: ckanext/ytp/plugin.py:427 ckanext/ytp/plugin.py:443
+#: ckanext/ytp/plugin.py:426 ckanext/ytp/plugin.py:442
 #: ckanext/ytp/translations.py:32
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/old/dataset/plugin.py:396 ckanext/ytp/plugin.py:429
-#: ckanext/ytp/templates/package/search.html:63
+#: ckanext/ytp/plugin.py:428 ckanext/ytp/templates/package/search.html:63
 msgid "Source"
 msgstr "Lähde"
 
-#: ckanext/ytp/plugin.py:430
+#: ckanext/ytp/plugin.py:429
 #: ckanext/ytp/templates/package/resource_read.html:157
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:86
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:63
@@ -419,27 +416,23 @@ msgstr "Lähde"
 msgid "License"
 msgstr "Lisenssi"
 
-#: ckanext/ytp/old/dataset/plugin.py:468 ckanext/ytp/plugin.py:502
+#: ckanext/ytp/plugin.py:501
 msgid "Other"
 msgstr "Muu"
 
-#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:518
-msgid "Unnamed resource"
-msgstr "Nimetön resurssi"
-
-#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:518
+#: ckanext/ytp/plugin.py:517
 msgid "Additional Info"
 msgstr "Lisätiedot"
 
-#: ckanext/ytp/plugin.py:897
+#: ckanext/ytp/plugin.py:898
 msgid "Group title already exists in database"
 msgstr "Kategorian otsikko löytyy jo tietokannasta"
 
-#: ckanext/ytp/plugin.py:1174
+#: ckanext/ytp/plugin.py:1175
 msgid "Service charge must be supplied"
 msgstr "Palvelun maksullisuus pitää antaa"
 
-#: ckanext/ytp/plugin.py:1184
+#: ckanext/ytp/plugin.py:1185
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -448,29 +441,29 @@ msgstr ""
 "Jos palvelu on maksullinen, pitää sinun antaa hintatiedot verkossa tai "
 "kuvaus hinnoista tai molemmat"
 
-#: ckanext/ytp/plugin.py:1196
+#: ckanext/ytp/plugin.py:1197
 msgid "At least one of the main target groups must to be selected"
 msgstr "Vähintään yksi päätason kohdekategoria on valittava"
 
-#: ckanext/ytp/plugin.py:1333
+#: ckanext/ytp/plugin.py:1334
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
 msgstr "Organisaatiota ei ole"
 
-#: ckanext/ytp/plugin.py:1335
+#: ckanext/ytp/plugin.py:1336
 msgid "Invalid organization type"
 msgstr "Väärä organisaatiotyyppi"
 
-#: ckanext/ytp/plugin.py:1357
+#: ckanext/ytp/plugin.py:1358
 msgid "Harvested datasets are read-only"
 msgstr "Harvestoituja tietoaineistoja voi vain lukea"
 
-#: ckanext/ytp/plugin.py:1364
+#: ckanext/ytp/plugin.py:1365
 msgid "Login required"
 msgstr "Kirjautuminen vaaditaan"
 
-#: ckanext/ytp/plugin.py:1369 ckanext/ytp/plugin.py:1377
+#: ckanext/ytp/plugin.py:1370 ckanext/ytp/plugin.py:1378
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr "Käyttäjä %s ei ole osana mitään julkista organisaatiota"
@@ -739,19 +732,19 @@ msgstr "Kategoriat"
 
 #: ckanext/ytp/translations.py:80
 msgid "A little information about my group..."
-msgstr ""
+msgstr "Lyhyt kuvaus kategoriasta"
 
 #: ckanext/ytp/translations.py:81
 msgid "Create a Group"
-msgstr ""
+msgstr "Luo kategoria"
 
 #: ckanext/ytp/translations.py:82
 msgid "Create Group"
-msgstr ""
+msgstr "Luo kategoria"
 
 #: ckanext/ytp/translations.py:83
 msgid "My Group"
-msgstr ""
+msgstr "Kategoriani"
 
 #: ckanext/ytp/translations.py:86
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
@@ -1328,6 +1321,7 @@ msgstr "Hieman lisätietoa organisaatiostani..."
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:35
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:166
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:82
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:31
 #: ckanext/ytp/templates/user/read_base.html:48
 msgid "State"
 msgstr "Tila"
@@ -1556,27 +1550,27 @@ msgstr "Katettu ajanjakso"
 msgid "Technical extra information"
 msgstr "Tekniset lisätiedot"
 
-#: ckanext/ytp/templates/package/resource_read.html:210
+#: ckanext/ytp/templates/package/resource_read.html:229
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:170
 msgid "Stats"
 msgstr "Tilastot"
 
-#: ckanext/ytp/templates/package/resource_read.html:211
+#: ckanext/ytp/templates/package/resource_read.html:230
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:171
 msgid "Last 30 days, updated daily"
 msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
 
-#: ckanext/ytp/templates/package/resource_read.html:214
+#: ckanext/ytp/templates/package/resource_read.html:233
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:175
 msgid "All time downloads:"
 msgstr "Latauksia kaikkiaan:"
 
-#: ckanext/ytp/templates/package/resource_read.html:230
+#: ckanext/ytp/templates/package/resource_read.html:249
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:190
 msgid "Year"
 msgstr "Vuosi"
 
-#: ckanext/ytp/templates/package/resource_read.html:230
+#: ckanext/ytp/templates/package/resource_read.html:249
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:190
 msgid "Downloads"
 msgstr "Latauksia"
@@ -2804,10 +2798,6 @@ msgstr[1] "Löytyi {number} organisaatiota"
 #: ckanext/ytp/templates/snippets/search_result_text.html:33
 msgid "No organizations found"
 msgstr "Organisaatioita ei löytynyt"
-
-#: ckanext/ytp/templates/snippets/ytp_facet_list.html:91
-msgid "No matches"
-msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"
