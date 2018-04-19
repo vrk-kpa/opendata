@@ -7,40 +7,77 @@
 @import "../forms";
 @import "../offcanvas";
 
-.secondary .module {
-  padding: 4px 22px 6px 0px;
-  border-top: 6px solid #182b75;
-  border-radius: 2px;
-  background-color: #eee;
-  color: #000;
+[role="main"] {
+  background: transparent;
+}
 
-  .module-heading {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    margin-top: 10px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    margin-left: 18px;
-    padding-right: 0px;
-    padding-bottom: 8px;
-    padding-left: 0px;
-    padding-top: 0px;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
-    border-top: none;
-    background-color: transparent;
-    font-size: 14px;
-    line-height: 20px;
+.dataset-content { 
+  margin-top: 11px;
+  margin-bottom: 9px;
+  color: #6e6e6e;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+
+  .dataset-heading {
+    color: #000;
+    margin-top: 0px;
+    margin-bottom: 1px;
+    font-size: 16px;
     font-weight: bold;
   }
+}
 
-  .module-footer {
-    border: none;
+.dataset-item-meta {
+  margin-bottom: 4px;
+}
+
+.file-tag {
+  margin-left: 4px;
+}
+
+#content > .wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.secondary {
+  padding-left: 0;
+
+  .module {
+    padding: 4px 22px 6px 0px;
+    border-top: 6px solid #182b75;
+    border-radius: 2px;
+    background-color: #eee;
+    color: #000;
+
+    .module-heading {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      margin-top: 10px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      margin-left: 18px;
+      padding-right: 0px;
+      padding-bottom: 8px;
+      padding-left: 0px;
+      padding-top: 0px;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, .2);
+      border-top: none;
+      background-color: transparent;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: bold;
+    }
+
+    .module-footer {
+      border: none;
+    }
   }
 }
 
@@ -221,5 +258,8 @@
   .headings-wrapper {
     flex: auto;
   }
+}
 
+.dataset-list {
+  padding: 0;
 }
