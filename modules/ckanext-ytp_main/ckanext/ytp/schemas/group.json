@@ -7,7 +7,7 @@
       "field_name": "title_translated",
       "label": "Title",
       "preset": "fluent_core_title_translated",
-      "validators": "fluent_text not_empty",
+      "validators": "fluent_text",
       "form_languages": [
         "fi",
         "sv",
@@ -21,7 +21,8 @@
       "label": "URL",
       "validators": "not_empty unicode name_validator group_name_validator",
       "form_snippet": "slug.html",
-      "form_placeholder": "my-group"
+      "form_placeholder": "my-group",
+      "required": true
     },
     {
       "field_name": "description_translated",
