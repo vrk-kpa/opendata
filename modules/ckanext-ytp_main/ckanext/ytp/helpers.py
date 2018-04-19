@@ -3,7 +3,7 @@ import logging
 import json
 import urllib2
 import datetime
-from ckan.common import c, request
+from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
 from ckan.plugins import toolkit
