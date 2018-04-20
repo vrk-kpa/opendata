@@ -77,8 +77,8 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0c973510ab7b77ac20e375cd263661eb190eaba5.patch", file: "remove-old-rdf-templates"} # ytp specific NOT CURRENTLY INSTALLING
 
 new_ckan_patches:
-  - { file: "FixMultilingual" }
-  - { file: "bs3-modal" }
+  #- { file: "FixMultilingual" }
+  #- { file: "bs3-modal" }
   - { file: "fix_cors" }
   - { file: "enable_multiple_image_uploads" }
 
