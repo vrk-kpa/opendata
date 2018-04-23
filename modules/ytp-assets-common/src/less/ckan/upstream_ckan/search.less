@@ -39,11 +39,11 @@
     &.search-giant {
       input {
         font-size: 16px;
-        padding: 10px;
+        padding: 15px;
       }
       button {
-        margin-top: -15px;
-        right: 10px;
+        margin-top: -4px;
+        right: 15px;
         height: 30px;
         i {
           font-size: 28px;
@@ -53,8 +53,6 @@
     }
   }
   .control-order-by {
-    float: right;
-    margin: 0 0 0 15px;
     label,
     select {
       display: inline;
@@ -69,6 +67,7 @@
     line-height: 1.3;
     color: @layoutBoldColor;
     margin-bottom: 0;
+    margin-top:20px;
   }
   .filter-list {
     color: @layoutTextColor;
@@ -90,11 +89,6 @@
   }
 }
 
-/* Add hover-effect for the search input button */
-.search-input button:hover {
-  opacity: 0.9;
-}
-
 .tertiary {
   .control-order-by {
     float: none;
@@ -113,5 +107,17 @@
   }
   .search-input {
     margin-bottom: 10px;
+  }
+}
+@media (min-width: 980px) {
+  .search-form .control-order-by {
+    float:right;
+    margin-left:15px;
+  }
+  .tertiary {
+    .search-form .control-order-by {
+      float: none;
+      margin: 0;
+    }
   }
 }

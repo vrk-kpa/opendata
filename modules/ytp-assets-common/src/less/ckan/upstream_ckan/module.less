@@ -17,6 +17,11 @@
   padding: 0 @gutterX;
   margin: 20px 0;
 }
+@media (min-width: 768px) {
+  .span9 div.module-content {
+    padding-left:10px;
+  }
+}
 
 .module-content:first-child {
   margin-top: 0;
@@ -52,12 +57,6 @@
   color: @layoutBoldColor;
 }
 
-.module .pagination {
-  height: 34px;
-  margin-bottom: 0;
-  border-top: 1px solid @moduleHeadingBorderColor;
-}
-
 .module-content .pagination {
   margin-left: -25px;
   margin-right: -25px;
@@ -71,8 +70,8 @@
 }
 
 .module .pagination li a {
-  border-top: none;
-  border-bottom: none;
+  border-top: 1px solid @moduleHeadingBorderColor;;
+  border-bottom: 1px solid @moduleHeadingBorderColor;;
   padding-top: 7px;
   padding-bottom: 7px;
 }
@@ -80,19 +79,6 @@
 .module .pagination li:first-child a,
 .module .pagination li:last-child a {
   .border-radius(0);
-}
-
-.module .pagination li:first-child a {
-  border-left-width: 0;
-}
-
-.module .pagination li:last-child a {
-  border-right-width: 0;
-}
-
-.module .pagination li.active a {
-  border-left-width: 1px;
-  border-right-width: 1px;
 }
 
 .module-content-shallow {
@@ -178,9 +164,13 @@
 
 .ckanext-datapreview {
   position: relative;
+  clear: both;
+
+  padding-top: 15px;
+  margin-top: 0;
 
   & > iframe {
-    min-height: 400px;
+    min-height: 650px;
   }
   & > img {
     max-height: 500px;
@@ -201,7 +191,7 @@
   margin-top: 0;
   margin-bottom: 0;
   .border-radius(3px 3px 0 0);
-  .actions { 
+  .actions {
     position: relative;
     float: right;
     top: -10px;
