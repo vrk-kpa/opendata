@@ -140,10 +140,19 @@ gulp.task('config', function(){
 
 gulp.task('default', function(callback) {
   runSequence('clean',
-              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'font', 'scripts'],
-              callback);
+              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'font', 'scripts'], callback);
 });
 
 gulp.task('watch', function () {
-  gulp.watch([paths.src.less+'/**/*.less', paths.src.templates], ['default']);
+  var watcher = gulp.watch(['./src/less/**/*.less', './src/less/*.less', paths.src.templates], ['default']);
+  watcher.on('change', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+  });
+});
+
+gulp.task('watchstyles', function () {
+  var watcher = gulp.watch(['./src/less/**/*.less', './src/less/*.less', paths.src.templates], ['bootstrap', 'vendor', 'static_pages', 'ckan', 'drupal']);
+  watcher.on('change', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+  });
 });

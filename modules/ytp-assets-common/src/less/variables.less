@@ -32,6 +32,9 @@
 @nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
 
 // Light background to emphasize a subarea in main content, gives a "post-it note" feeling
+@background-hilight-primary: lighten(#D3CDC5, 16%);
+@background-hilight: lighten(#D3CDC5, 16%);
+@background-body-color: #fff;
 @background-hilight: #f5f5f5;
 
 // Bootstrap: Grid
@@ -107,6 +110,7 @@
 // Rest of the variables
 @navbar-background: #123f52;
 @navbar-inverse-link-color: @opendata-brand-decorative;
+@navbar-color-background: @opendata-brand-primary;
 @navbar-color-text: #ffffff;
 @navbar-color-darker: hsla(0, 0%, 100%, .64);
 @navbar-height: 40px;
@@ -141,3 +145,8 @@
 
 @button-border-radius: 8px;
 @border-radius-large: 0px;
+
+// Media grid
+@mediagrid-header-text-color: @opendata-brand-dark;
+@mediagrid-text-color: @opendata-brand-gray;
+@mediagrid-category-icon-color: rgb(24, 43, 117);

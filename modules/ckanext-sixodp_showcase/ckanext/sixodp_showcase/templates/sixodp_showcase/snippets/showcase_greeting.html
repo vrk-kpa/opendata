@@ -1,0 +1,30 @@
+{#
+Displays a showcase greeting module with information for given showcase
+
+Example:
+
+{% snippet "package/snippets/showcase_greeting.html"}
+
+#}
+{% block package_greeting %}
+    <section class="module module-narrow">
+      <div class="module context-info">
+        <div class="module-content">
+          <h1>
+            {% trans %}
+            Applications
+            {% endtrans %}
+          </h1>
+          <p>
+            {% trans %}Datasets provided by this service come alive with the help of applications (visualizations, research, webservices and data journalism).{% endtrans %}
+          </p>
+          <p>
+            {% trans %}Commonly the creators of opendata applications are researchers, freelanchers and software developers, but with the help of improved development and visualization tools anyone is able to utilize these datasets. You can find additional information from our guide to open data.{% endtrans %}
+          </p>
+          <p>
+            {% trans %}Have you created application that utilizes open data? Add your own application to the list bellow.{% endtrans %}
+          </p>
+        </div>
+      </div>
+    </section>
+{% endblock %}

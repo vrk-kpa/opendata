@@ -1,0 +1,19 @@
+{% set search_class = search_class if search_class else 'search-giant' %}
+
+<form class="opendata-search-form{% if no_bottom_border %} no-bottom-border{% endif %} form_{{ search_class }}" method="get" data-module="select-switch">
+    <div class="search-wrapper {{ search_class }}">
+        <input class="search-input" type="text" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+
+        {% for param in query_params %}
+            {% for value in query_params[param] %}
+                <input class="search-input" type="hidden" name="{{ param }}" value="{{value}}">
+            {% endfor %}
+        {% endfor %}
+
+        <input class="search-input" type="hidden" name="sort" value="{{ sorting }}">
+        <button type="submit" value="search" class="btn btn-primary search-submit">
+            <i class="fa fa-search"></i>
+            <span>{{ _('Search with keyword') }}</span>
+        </button>
+    </div>
+</form>
