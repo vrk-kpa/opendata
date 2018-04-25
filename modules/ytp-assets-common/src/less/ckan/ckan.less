@@ -11,12 +11,12 @@
   background: transparent;
 }
 
-.dataset-content { 
+.dataset-content {
   margin-top: 11px;
   margin-bottom: 9px;
   color: #6e6e6e;
   font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 
   .dataset-heading {
     color: #000;
@@ -75,7 +75,7 @@
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
-      border-bottom: 1px solid rgba(0, 0, 0, .2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       border-top: none;
       background-color: transparent;
       font-size: 14px;
@@ -89,7 +89,8 @@
   }
 }
 
-.nav-aside > li, .nav-simple > li {
+.nav-aside > li,
+.nav-simple > li {
   a {
     color: #020202;
     text-decoration: none;
@@ -129,25 +130,29 @@
   }
 }
 
-.module-narrow .nav-aside li a, .module-narrow .nav-item > a {
-    padding: 0px;
+.module-narrow .nav-aside li a,
+.module-narrow .nav-item > a {
+  padding: 0px;
 }
 
-.search-form {
+.opendata-search-form {
   margin-top: 12px;
-  padding-right: 0px;
-  padding-left: 0px;
-
-  border-bottom: none;
-  .search-input {
-    margin-bottom: 0px;
+  margin-bottom: 20px;
+  .search-wrapper {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    flex-flow: nowrap;
+    max-width: 100%;
+    min-height: 62px;
+    height: 0;
 
     input {
-      display: block;
-      width: 100%;
-      height: 38px;
+      height: 62px;
       padding: 8px 12px;
-      margin-bottom: 10px;
+      margin-top: 0px;
       font-size: 14px;
       line-height: 1.42857143;
       color: #333333;
@@ -156,9 +161,31 @@
       border: 1px solid #cccccc;
 
       &:focus {
-        border-color: #3898EC;
+        border-color: #3898ec;
         outline: 0;
       }
+    }
+
+    button {
+      margin-top: 0px;
+      height: 62px;
+    }
+
+    .search-input {
+      margin-top: 10px;
+      margin-right: 10px;
+      order: 0;
+      -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+    }
+
+    .search-submit {
+      margin-top: 10px;
+      order: 1;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
     }
   }
 }
@@ -201,7 +228,6 @@
   }
 }
 
-
 .page-subheading {
   font-size: 1em;
   font-family: roboto;
@@ -233,12 +259,15 @@
 .report-sub-row {
   font-size: normal;
 }
+
 @media print {
-  .report-controls, .report-options, .report-options-title,
-  .report-download-controls, .report-results-title {
+  .report-controls,
+  .report-options,
+  .report-options-title,
+  .report-download-controls,
+  .report-results-title {
     display: none;
   }
-
   .print-hidden {
     display: none;
   }
@@ -262,7 +291,6 @@
       max-height: 10em;
     }
   }
-
   .headings-wrapper {
     flex: auto;
   }
@@ -270,4 +298,58 @@
 
 .dataset-list {
   padding: 0;
+}
+
+.media-grid {
+  background-color: @background-body-color;
+  padding: 0px;
+  padding-bottom: 10px;
+  border-top: 0px;
+  border-bottom: 0px;
+  .media-item {
+    width: 250px;
+    border-right: 2px solid rgba(0, 0, 0, 0.17);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.17);
+    border-left: 1px solid rgba(0, 0, 0, 0.16);
+    border-top: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 3px;
+    padding: 0px;
+    .media-image {
+      padding: 0px;
+      border-radius: 0px;
+      width: 247px;
+      height: 165px;
+      overflow: hidden;
+      object-fit: cover;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 1px;
+    }
+    .item-content {
+      margin-right: 16px;
+      margin-left: 16px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      .media-heading {
+        a {
+          color: @mediagrid-header-text-color;
+        }
+      }
+    }
+    .item-description {
+      display: block;
+      display: -webkit-box;
+      height: 80px;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .opendata-category-icon {
+    color: @mediagrid-category-icon-color;
+  }
+}
+
+.opendata-select {
+  border: transparent;
 }
