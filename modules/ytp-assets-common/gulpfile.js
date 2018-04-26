@@ -10,6 +10,7 @@ var inlineCss = require("gulp-inline-css");
 var cleancss = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
 var base64 = require("gulp-base64");
+var pump = require("pump");
 
 var paths = {
   src: {
@@ -34,137 +35,138 @@ gulp.task("clean", done => {
   done();
 });
 
-gulp.task("ckan", () => {
-  return gulp
-    .src(paths.src.ckan + "/*.less")
-    .pipe(sourcemaps.init())
-    .pipe(
-      less({
-        paths: [paths.src.ckan]
-      })
-    )
-    .pipe(prefixer({
-			browsers: ['last 2 versions']
-		}))
-    .pipe(template({ timestamp: timestamp }))
-    .pipe(cleancss({ keepBreaks: false }))
-    .pipe(concat("ckan.css"))
-    .pipe(sourcemaps.write("./maps"))
-    .pipe(gulp.dest(paths.dist + "/styles"));
+gulp.task("ckan", (done) => {
+  pump([
+    gulp.src(paths.src.ckan + "/*.less"),
+    sourcemaps.init(),
+    less({paths: [paths.src.ckan]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template(),
+    cleancss({ keepBreaks: false }),
+    concat("ckan.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest(paths.dist + "/styles")
+  ], done())
 });
 
 // // Compiles Less files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
-gulp.task("drupal", () => {
-  return gulp
-    .src(paths.src.drupal)
-    .pipe(sourcemaps.init())
-    .pipe(
-      less({
-        paths: [paths.src.drupal]
-      })
-    )
-    .pipe(prefixer({
-			browsers: ['last 2 versions']
-		}))
-    .pipe(template({ timestamp: timestamp }))
-    .pipe(cleancss({ keepBreaks: false }))
-    .pipe(concat("style.css"))
-    .pipe(sourcemaps.write("./maps"))
-    .pipe(gulp.dest("../avoindata-drupal-theme/css"));
+gulp.task("drupal", (done) => {
+  pump([
+    gulp.src(paths.src.drupal),
+    sourcemaps.init(),
+    less({paths: [paths.src.drupal]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template({ timestamp: timestamp }),
+    cleancss({ keepBreaks: false }),
+    concat("style.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest("../avoindata-drupal-theme/css")
+  ], done())
 });
 
-gulp.task("images", () => {
-  return gulp
-    .src(paths.src.images)
-    .pipe(imagemin({ optimizationLevel: 0 }))
-    .pipe(gulp.dest(paths.dist + "/images"));
+gulp.task("images", (done) => {
+  pump([
+    gulp.src(paths.src.images),
+    imagemin({ optimizationLevel: 0 }),
+    gulp.dest(paths.dist + "/images")
+  ], done())
 });
 
-gulp.task("templates", () => {
-  return gulp
-    .src(paths.src.templates)
-    .pipe(template({ timestamp: timestamp }))
-    .pipe(gulp.dest(paths.dist + "/templates"));
+gulp.task("templates", (done) => {
+  pump([
+    gulp.src(paths.src.templates),
+    template({ timestamp: timestamp }),
+    gulp.dest(paths.dist + "/templates")
+  ], done())
 });
 
-gulp.task("static_css", () => {
-  return gulp
-    .src(paths.src.static_pages + "/css/main.css")
-    .pipe(base64({ maxImageSize: 512 * 1024 }))
-    .pipe(concat("style.css"))
-    .pipe(gulp.dest(paths.src.static_pages + "/css"));
+gulp.task("static_css", (done) => {
+  pump([
+    gulp.src(paths.src.static_pages + "/css/main.css"),
+    base64({ maxImageSize: 512 * 1024 }),
+    concat("style.css"),
+    gulp.dest(paths.src.static_pages + "/css")
+  ], done())
 });
 
 gulp.task(
   "static_pages",
-  gulp.series("static_css", () => {
-    return gulp
-      .src(paths.src.static_pages + "/*.html")
-      .pipe(inlineCss())
-      .pipe(gulp.dest(paths.dist + "/static"));
+  gulp.series("static_css", (done) => {
+    pump([
+      gulp.src(paths.src.static_pages + "/*.html"),
+      inlineCss(),
+      gulp.dest(paths.dist + "/static")
+    ], done())
   })
 );
 
-gulp.task("fonts", () => {
-  return gulp.src(paths.src.fonts).pipe(gulp.dest(paths.dist + "/fonts"));
+gulp.task("fonts", (done) => {
+  pump([
+    gulp.src(paths.src.fonts),
+    gulp.dest(paths.dist + "/fonts")
+  ], done())
 });
 
-gulp.task("font", () => {
-  return gulp.src(paths.src.font).pipe(gulp.dest(paths.dist + "/font"));
+gulp.task("font", (done) => {
+  pump([
+    gulp.src(paths.src.font),
+    gulp.dest(paths.dist + "/font")
+  ], done())
 });
 
-gulp.task("scripts", () => {
-  return gulp.src(paths.src.scripts).pipe(gulp.dest(paths.dist + "/scripts"));
+gulp.task("scripts", (done) => {
+  pump([
+    gulp.src(paths.src.scripts),
+    gulp.dest(paths.dist + "/scripts")
+  ], done())
 });
 
-gulp.task("bootstrap", () => {
-  return gulp
-    .src(paths.src.bootstrap + "/bootstrap.less")
-    .pipe(
-      less({
-        paths: [paths.src.bootstrap]
-      })
-    )
-    .pipe(concat("bootstrap.css"))
-    .pipe(gulp.dest(paths.dist + "/vendor"))
-    .pipe(cleancss({ keepBreaks: false }))
-    .pipe(concat("bootstrap.min.css"))
-    .pipe(gulp.dest(paths.dist + "/vendor"));
+gulp.task("bootstrap", (done) => {
+  pump([
+    gulp.src(paths.src.bootstrap + "/bootstrap.less"),
+    less({paths: [paths.src.bootstrap]}),
+    concat("bootstrap.css"),
+    gulp.dest(paths.dist + "/vendor"),
+    cleancss({ keepBreaks: false }),
+    concat("bootstrap.min.css"),
+    gulp.dest(paths.dist + "/vendor")
+  ], done())
 });
 
-gulp.task("vendor", done => {
-  return gulp
-    .src(paths.src.root + "/vendor/**/")
-    .pipe(gulp.dest(paths.dist + "/vendor"));
-  done();
+gulp.task("vendor", (done) => {
+  pump([
+    gulp.src(paths.src.root + "/vendor/**/*"),
+    gulp.dest(paths.dist + "/vendor"),
+  ], done())
 });
 
 gulp.task(
   "minify-vendor-javascript",
-  gulp.series("vendor", () => {
-    return gulp
-      .src(paths.dist + "/vendor/**/*.js")
-      .pipe(uglify())
-      .pipe(gulp.dest(paths.dist + "/vendor"));
+  gulp.series("vendor", (done) => {
+    pump([
+      gulp.src(paths.dist + "/vendor/**/*.js"),
+      uglify(),
+      gulp.dest(paths.dist + "/vendor")
+    ], done())
   })
 );
 
-gulp.task("config", () => {
-  return gulp
-    .src(paths.src.root + "/resource.config")
-    .pipe(gulp.dest(paths.dist));
+gulp.task("config", (done) => {
+  pump([
+    gulp.src(paths.src.root + "/resource.config"),
+    gulp.dest(paths.dist)
+  ], done())
 });
 
 gulp.task(
   "default",
   gulp.series(
     "clean",
+    "config",
     gulp.parallel(
       "bootstrap",
-      "vendor",
       "minify-vendor-javascript",
-      "config",
       "templates",
       "static_pages",
       "images",
@@ -172,8 +174,7 @@ gulp.task(
       "drupal",
       "fonts",
       "font",
-      "scripts"
-    )
+      "scripts")
   )
 );
 

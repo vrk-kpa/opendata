@@ -20,5 +20,8 @@
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "pump": "^3.0.0"
   }
 }
