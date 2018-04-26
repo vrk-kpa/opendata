@@ -1,6 +1,4 @@
 var gulp = require("gulp");
-// runSequence = require('run-sequence'),
-// watch = require('gulp-watch'),
 var concat = require("gulp-concat");
 var imagemin = require("gulp-imagemin");
 var less = require("gulp-less");
