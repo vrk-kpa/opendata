@@ -1,158 +1,211 @@
-var gulp = require('gulp'),
-    runSequence = require('run-sequence'),
-    watch = require('gulp-watch'),
-    concat = require('gulp-concat'),
-    imagemin = require('gulp-imagemin'),
-    less = require('gulp-less'),
-    sourcemaps = require('gulp-sourcemaps'),
-    prefixer = require('gulp-autoprefixer'),
-    del = require('del'),
-    template = require('gulp-template'),
-    inlineCss = require('gulp-inline-css'),
-    MinCSS = require('gulp-clean-css'),
-    uglify = require('gulp-uglify'),
-    base64 = require('gulp-base64');
+var gulp = require("gulp");
+var concat = require("gulp-concat");
+var imagemin = require("gulp-imagemin");
+var less = require("gulp-less");
+var sourcemaps = require("gulp-sourcemaps");
+var prefixer = require("gulp-autoprefixer");
+var del = require("del");
+var template = require("gulp-template");
+var inlineCss = require("gulp-inline-css");
+var cleancss = require("gulp-clean-css");
+var uglify = require("gulp-uglify");
+var base64 = require("gulp-base64");
+var pump = require("pump");
 
 var paths = {
   src: {
-    images: 'src/images/**/*',
-    ckan: 'src/less/ckan',
-    drupal: '../avoindata-drupal-theme/less/style.less',
-    templates: 'src/templates/**/*',
-    static_pages: 'src/static_pages',
-    font: 'src/font/**/*',
-    fonts: 'src/fonts/**/*',
-    scripts: 'src/scripts/**/*',
-    bootstrap: 'src/less/upstream_bootstrap',
-    root: 'src'
+    images: "src/images/**/*",
+    ckan: "src/less/ckan",
+    drupal: "../avoindata-drupal-theme/less/style.less",
+    templates: "src/templates/**/*",
+    static_pages: "src/static_pages",
+    font: "src/font/**/*",
+    fonts: "src/fonts/**/*",
+    scripts: "src/scripts/**/*",
+    bootstrap: "src/less/upstream_bootstrap",
+    root: "src"
   },
-  dist: 'resources'
+  dist: "resources"
 };
 
 var timestamp = new Date().getTime();
 
-gulp.task('clean', function(cb) {
+gulp.task("clean", done => {
   del.sync([paths.dist]);
-  cb();
+  done();
 });
 
-gulp.task('ckan', function () {
-  return gulp.src(paths.src.ckan+"/*.less")
-    .pipe(sourcemaps.init())
-    .pipe(less({
-      paths: [ paths.src.ckan ]
-    }))
-    .pipe(prefixer('last 2 versions', 'ie 9'))
-    .pipe(template({timestamp: timestamp}))
-    .pipe(MinCSS({keepBreaks: false}))
-    .pipe(concat("ckan.css"))
-    .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest(paths.dist+'/styles'));
+gulp.task("ckan", (done) => {
+  pump([
+    gulp.src(paths.src.ckan + "/*.less"),
+    sourcemaps.init(),
+    less({paths: [paths.src.ckan]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template(),
+    cleancss({ keepBreaks: false }),
+    concat("ckan.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest(paths.dist + "/styles")
+  ], done())
 });
 
-// Compiles Less files in Drupal theme directory
-// Output destination is also in Drupal theme directory
-gulp.task('drupal', function () {
-  return gulp.src(paths.src.drupal)
-      .pipe(sourcemaps.init())
-      .pipe(less({
-        paths: [ paths.src.drupal ]
-      }))
-      .pipe(prefixer('last 2 versions', 'ie 9'))
-      .pipe(template({timestamp: timestamp}))
-      .pipe(MinCSS({keepBreaks: false}))
-      .pipe(concat("style.css"))
-      .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest('../avoindata-drupal-theme/css'));
+// // Compiles Less files in Drupal theme directory
+// // Output destination is also in Drupal theme directory
+gulp.task("drupal", (done) => {
+  pump([
+    gulp.src(paths.src.drupal),
+    sourcemaps.init(),
+    less({paths: [paths.src.drupal]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template({ timestamp: timestamp }),
+    cleancss({ keepBreaks: false }),
+    concat("style.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest("../avoindata-drupal-theme/css")
+  ], done())
 });
 
-
-gulp.task('images', function() {
-  return gulp.src(paths.src.images)
-    .pipe(imagemin({optimizationLevel: 0}))
-    .pipe(gulp.dest(paths.dist+'/images'));
+gulp.task("images", (done) => {
+  pump([
+    gulp.src(paths.src.images),
+    imagemin({ optimizationLevel: 0 }),
+    gulp.dest(paths.dist + "/images")
+  ], done())
 });
 
-gulp.task('templates', function() {
-  return gulp.src(paths.src.templates)
-    .pipe(template({timestamp: timestamp}))
-    .pipe(gulp.dest(paths.dist+'/templates'));
+gulp.task("templates", (done) => {
+  pump([
+    gulp.src(paths.src.templates),
+    template({ timestamp: timestamp }),
+    gulp.dest(paths.dist + "/templates")
+  ], done())
 });
 
-
-gulp.task('static_css', function(){
-  return gulp.src(paths.src.static_pages + "/css/main.css" )
-    .pipe(base64({maxImageSize:512*1024}))
-    .pipe(concat('style.css'))
-    .pipe(gulp.dest(paths.src.static_pages + "/css"));
+gulp.task("static_css", (done) => {
+  pump([
+    gulp.src(paths.src.static_pages + "/css/main.css"),
+    base64({ maxImageSize: 512 * 1024 }),
+    concat("style.css"),
+    gulp.dest(paths.src.static_pages + "/css")
+  ], done())
 });
 
-gulp.task('static_pages', ['static_css'], function() {
-  return gulp.src(paths.src.static_pages + "/*.html")
-    .pipe(inlineCss())
-    .pipe(gulp.dest(paths.dist + '/static'));
+gulp.task(
+  "static_pages",
+  gulp.series("static_css", (done) => {
+    pump([
+      gulp.src(paths.src.static_pages + "/*.html"),
+      inlineCss(),
+      gulp.dest(paths.dist + "/static")
+    ], done())
+  })
+);
+
+gulp.task("fonts", (done) => {
+  pump([
+    gulp.src(paths.src.fonts),
+    gulp.dest(paths.dist + "/fonts")
+  ], done())
 });
 
-gulp.task('fonts', function() {
-  return gulp.src(paths.src.fonts)
-    .pipe(gulp.dest(paths.dist+'/fonts'));
+gulp.task("font", (done) => {
+  pump([
+    gulp.src(paths.src.font),
+    gulp.dest(paths.dist + "/font")
+  ], done())
 });
 
-gulp.task('font', function() {
-  return gulp.src(paths.src.font)
-      .pipe(gulp.dest(paths.dist+'/font'));
+gulp.task("scripts", (done) => {
+  pump([
+    gulp.src(paths.src.scripts),
+    gulp.dest(paths.dist + "/scripts")
+  ], done())
 });
 
-gulp.task('scripts', function() {
-    return gulp.src(paths.src.scripts)
-        .pipe(gulp.dest(paths.dist+'/scripts'));
-});
-asdfa = 2;
-
-gulp.task('bootstrap', function(){
-  return gulp.src(paths.src.bootstrap + '/bootstrap.less')
-    .pipe(less({
-      paths: [paths.src.bootstrap]
-    }))
-    .pipe(concat('bootstrap.css'))
-    .pipe(gulp.dest(paths.dist + '/vendor'))
-    .pipe(MinCSS({keepBreaks: false}))
-    .pipe(concat('bootstrap.min.css'))
-    .pipe(gulp.dest(paths.dist + '/vendor'));
+gulp.task("bootstrap", (done) => {
+  pump([
+    gulp.src(paths.src.bootstrap + "/bootstrap.less"),
+    less({paths: [paths.src.bootstrap]}),
+    concat("bootstrap.css"),
+    gulp.dest(paths.dist + "/vendor"),
+    cleancss({ keepBreaks: false }),
+    concat("bootstrap.min.css"),
+    gulp.dest(paths.dist + "/vendor")
+  ], done())
 });
 
-gulp.task('vendor', function(cb){
-  return gulp.src(paths.src.root + '/vendor/**/')
-    .pipe(gulp.dest(paths.dist + '/vendor'));
-  cb(err);
+gulp.task("vendor", (done) => {
+  pump([
+    gulp.src(paths.src.root + "/vendor/**/*"),
+    gulp.dest(paths.dist + "/vendor"),
+  ], done())
 });
 
-gulp.task('minify-vendor-javascript', ['vendor'], function() {
-  return gulp.src(paths.dist + '/vendor/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.dist + '/vendor'));
+gulp.task(
+  "minify-vendor-javascript",
+  gulp.series("vendor", (done) => {
+    pump([
+      gulp.src(paths.dist + "/vendor/**/*.js"),
+      uglify(),
+      gulp.dest(paths.dist + "/vendor")
+    ], done())
+  })
+);
+
+gulp.task("config", (done) => {
+  pump([
+    gulp.src(paths.src.root + "/resource.config"),
+    gulp.dest(paths.dist)
+  ], done())
 });
 
-gulp.task('config', function(){
-  return gulp.src(paths.src.root + '/resource.config')
-    .pipe(gulp.dest(paths.dist));
-});
+gulp.task(
+  "default",
+  gulp.series(
+    "clean",
+    "config",
+    gulp.parallel(
+      "bootstrap",
+      "minify-vendor-javascript",
+      "templates",
+      "static_pages",
+      "images",
+      "ckan",
+      "drupal",
+      "fonts",
+      "font",
+      "scripts")
+  )
+);
 
-gulp.task('default', function(callback) {
-  runSequence('clean',
-              ['bootstrap', 'vendor', 'minify-vendor-javascript','config', 'templates', 'static_pages', 'images', 'ckan', 'drupal', 'fonts', 'font', 'scripts'], callback);
-});
+gulp.task("watch", () => {
+  var watcher = gulp.watch(
+    ["./src/less/**/*.less", "./src/less/*.less", paths.src.templates],
+    gulp.series("default")
+  );
 
-gulp.task('watch', function () {
-  var watcher = gulp.watch(['./src/less/**/*.less', './src/less/*.less', paths.src.templates], ['default']);
-  watcher.on('change', function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+  watcher.on("change", event => {
+    console.log(
+      "File " + event.path + " was " + event.type + ", running tasks..."
+    );
   });
 });
 
-gulp.task('watchstyles', function () {
-  var watcher = gulp.watch(['./src/less/**/*.less', './src/less/*.less', paths.src.templates], ['bootstrap', 'vendor', 'static_pages', 'ckan', 'drupal']);
-  watcher.on('change', function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+gulp.task("watch_styles", () => {
+  var watcher = gulp.watch(
+    ["./src/less/**/*.less", "./src/less/*.less", paths.src.templates],
+    gulp.parallel(
+      "bootstrap",
+      "vendor",
+      "static_pages",
+      "ckan",
+      "drupal"
+    )
+  );
+
+  watcher.on("change", event => {
+    console.log(
+      "File " + event.path + " was " + event.type + ", running tasks..."
+    );
   });
 });

@@ -3,28 +3,25 @@
   "version": "1.0.0",
   "repository": "https://github.com/yhteentoimivuuspalvelut/ytp-assets-common",
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-livereload": "~3.8.0",
-    "gulp-imagemin": "~2.2.1",
-    "tiny-lr": "0.1.5",
-    "gulp-watch": "~4.1.1",
-    "gulp-concat": "~2.5.2",
-    "gulp-util": "~3.0.4",
-    "gulp-less": "~3.0.1",
-    "gulp-autoprefixer": "2.1.0",
-    "gulp-template": "3.0.0",
-    "run-sequence": "~1.0.2",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-base64": "~0.1.2",
-    "gulp-inline-css": "2.0.0",
-    "browser-sync": "^2.2.3",
-    "gulp-sourcemaps": "^1.5.0",
-    "gulp-uglify": "~1.2.0",
-    "del": "^1.1.1",
-    "gulp-clean-css": "^2.0.8",
-    "extract-css": "1.0.3",
-    "list-stylesheets": "1.1.0"
+    "gulp-clean-css": "^3.9.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-inline-css": "^3.3.0",
+    "gulp-less": "^4.0.0",
+    "gulp-livereload": "~3.8.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-template": "^5.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "~3.0.4"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "pump": "^3.0.0"
   }
 }
