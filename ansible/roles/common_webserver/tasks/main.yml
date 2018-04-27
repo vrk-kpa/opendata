@@ -75,7 +75,7 @@
   - resources
 
 - name: Install gulp
-  npm: name=gulp global=yes
+  npm: name=gulp-cli global=yes
   when: modules_copy|changed
   tags:
   - resources
