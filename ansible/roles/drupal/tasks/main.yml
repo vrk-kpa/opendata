@@ -232,7 +232,7 @@
 ### Theme ###
 
 - name: Enable base theme
-  command: ../vendor/drush/drush/drush en -y bootstrap
+  command: ../vendor/drush/drush/drush then -y bootstrap
   args:
     chdir: "{{ drupal8_root }}/web"
 
@@ -250,7 +250,7 @@
   when: deployment_environment_id == "vagrant"
 
 - name: Enable custom theme
-  command: ../vendor/drush/drush/drush en -y avoindata
+  command: ../vendor/drush/drush/drush then -y avoindata
   args:
     chdir: "{{ drupal8_root }}/web"
 
