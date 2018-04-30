@@ -82,7 +82,7 @@ Resources:
           apt-get update
           apt-get -y dist-upgrade
           apt-get -y install libssl-dev libffi-dev python-dev python-pip git nfs-common
-          pip install pip setuptools --upgrade
+          pip install setuptools --upgrade
           pip install awscli ansible markupsafe
 
           echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >>/etc/fstab
