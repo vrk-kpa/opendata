@@ -174,8 +174,8 @@
     args:
       chdir: "{{ drupal8_root }}/web"
     with_items:
-      - "upgrade_d7_user_role"
-      - "upgrade_d7_user"
+      - "d7_user_role"
+      - "d7_user"
   when: "'1' in drupal7_database_initialized.stdout"
 
 ### Translations ###
