@@ -1,0 +1,19 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - avoindata
+id: avoindata_kielenvaihtaja
+theme: avoindata
+region: header
+weight: 2
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Kielen vaihtaja'
+  provider: language
+  label_display: '0'
+visibility: {  }

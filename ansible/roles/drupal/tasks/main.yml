@@ -41,6 +41,7 @@
     - php-pgsql
     - php-xml # installs "dom"
     - php7.0-mbstring
+    - php-curl
 
 ### Socket setup ###
 
@@ -147,6 +148,13 @@
 ### Migrate Drupal 7, if present ###
 
 - block:
+
+  - name: Patch migration module
+    patch:
+      src: "migrate_upgrade.Drush-9-port-of-commands.patch"
+      basedir: "{{ drupal8_root }}/web/modules/contrib/migrate_upgrade"
+      strip: 1
+
   - name: Enable migration modules
     command: ../vendor/drush/drush/drush en -y {{ item }}
     args:
@@ -224,7 +232,7 @@
 ### Theme ###
 
 - name: Enable base theme
-  command: ../vendor/drush/drush/drush en -y bootstrap
+  command: ../vendor/drush/drush/drush then -y bootstrap
   args:
     chdir: "{{ drupal8_root }}/web"
 
@@ -242,7 +250,7 @@
   when: deployment_environment_id == "vagrant"
 
 - name: Enable custom theme
-  command: ../vendor/drush/drush/drush en -y avoindata
+  command: ../vendor/drush/drush/drush then -y avoindata
   args:
     chdir: "{{ drupal8_root }}/web"
 
