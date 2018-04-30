@@ -35,7 +35,7 @@
     {% if disableable_sorting %}
       <div class="form-select control-group control-order-by">
         <label for="field-order-by">{{ _('Order by') }}</label>
-        <select id="field-order-by" name="sort">
+        <select id="field-order-by" class="form-control" name="sort">
           {% for label, value in disableable_sorting %}
             {% if label and value %}
               <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
