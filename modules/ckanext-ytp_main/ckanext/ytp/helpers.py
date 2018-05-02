@@ -11,6 +11,7 @@ import ckan.lib.i18n as i18n
 from ckanext.scheming.helpers import lang
 from pylons import config
 from pylons.i18n import gettext
+from  ckan.common import _
 
 log = logging.getLogger(__name__)
 
