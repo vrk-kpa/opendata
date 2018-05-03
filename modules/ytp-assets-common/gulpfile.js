@@ -61,8 +61,13 @@ gulp.task("drupal", (done) => {
     cleancss({ keepBreaks: false }),
     concat("style.css"),
     sourcemaps.write("./maps"),
-    gulp.dest("../avoindata-drupal-theme/css")
-  ], done())
+    gulp.dest("../avoindata-drupal-theme/css"),
+  ], function(err) {
+    if(err) {
+      console.log(err);
+    }
+    done();
+  })
 });
 
 gulp.task("images", (done) => {
@@ -199,6 +204,21 @@ gulp.task("watch_styles", () => {
       "vendor",
       "static_pages",
       "ckan",
+      "drupal"
+    )
+  );
+
+  watcher.on("change", event => {
+    console.log(
+      "File " + event.path + " was " + event.type + ", running tasks..."
+    );
+  });
+});
+
+gulp.task("watch_drupal_styles", () => {
+  var watcher = gulp.watch(
+    ["./src/less/**/*.less", "./src/less/*.less", "../avoindata-drupal-theme/less"],
+    gulp.series(
       "drupal"
     )
   );

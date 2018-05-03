@@ -6,14 +6,9 @@
  * @ingroup themeable
  */
 #}
-<div class="search-collapsible">
-  <div class="collapse" id="search-collapse">
-    <!-- TODO this input should be part of a form that fires a GET request to CKAN -->
-    <input type="text" value="todo">
+<form class="navbar-form navbar-right">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Search">
   </div>
-  <div class="search-collapsible-control">
-    <a href="#search-collapse" data-toggle="collapse">
-      <img src="todo-hakuikoni">
-    </a>
-  </div>
-</div>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+</form>

@@ -53,22 +53,17 @@
 #}
 {% set container = theme.settings.fluid_container ? 'container-fluid' : 'container' %}
 
-<header>
-  <div class="row">
-    {# Header #}
-    {% if page.header %}
-      {% block header %}
-        <div class="col-sm-12" role="heading">
-          {{ page.header }}
-        </div>
-      {% endblock %}
-    {% endif %}
+  {# Header #}
+{% if page.header %}
+  <nav class="navbar first-navbar navbar-default">
+  {% block header %}
+  <div class="container" role="heading">
+    {{ page.header }}
   </div>
-</header>
-
-
-
-
+  {% endblock %}
+  </nav>
+{% endif %}
+  
 {# Navbar #}
 {% if page.navigation or page.navigation_collapsible %}
   {% block navbar %}
@@ -76,7 +71,8 @@
       set navbar_classes = [
         'navbar',
         theme.settings.navbar_inverse ? 'navbar-inverse' : 'navbar-default',
-        theme.settings.navbar_position ? 'navbar-' ~ theme.settings.navbar_position|clean_class : container,
+        theme.settings.navbar_position ? 'navbar-' ~ theme.settings.navbar_position|clean_class,
+        'second-navbar',
       ]
     %}
     <header{{ navbar_attributes.addClass(navbar_classes) }} id="navbar" role="banner">
@@ -169,7 +165,7 @@
 
 {% if page.footer %}
   {% block footer %}
-    <footer class="footer {{ container }}" role="contentinfo">
+    <footer class="footer navbar-fixed-bottom {{ container }}" role="contentinfo">
       {{ page.footer }}
     </footer>
   {% endblock %}
