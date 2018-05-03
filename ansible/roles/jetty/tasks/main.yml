@@ -1,14 +1,18 @@
 ---
 
 - name: Ensure Jetty requirements
-  apt: pkg="{{ item }}" state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - solr-jetty
   tags:
   - jetty
 
 - name: Create debian cache path
-  file: path="{{ cache_path }}/debian" state=directory
+  file:
+    path: "{{ cache_path }}/debian"
+    state: directory
   tags:
   - jetty
 
@@ -36,36 +40,55 @@
 #  - jetty
 
 - name: Copy CKAN Solr schema
-  template: src=schema.xml.j2 dest="{{ server_path }}/schema.xml" mode="0644" owner=root group=root
+  template:
+    src: schema.xml.j2
+    dest: "{{ server_path }}/schema.xml"
+    mode: "0644"
+    owner: root
+    group: root
   register: fetch_schema
   tags:
   - jetty
 
 - name: Remove old schema
-  file: path=/etc/solr/conf/schema.xml state=absent
+  file:
+    path: /etc/solr/conf/schema.xml
+    state: absent
   when: fetch_schema is changed
   tags:
   - jetty
 
 - name: Setup Solr schema
-  file: src="{{ server_path }}/schema.xml" dest=/etc/solr/conf/schema.xml state=link
+  file:
+    src: "{{ server_path }}/schema.xml"
+    dest: /etc/solr/conf/schema.xml
+    state: link
   when: fetch_schema is changed
   tags:
   - jetty
 
 - name: Setup Jetty
-  template: src="jetty.j2" dest="/etc/default/jetty8" mode="0644" owner=root group=root
+  template:
+    src: "jetty.j2"
+    dest: "/etc/default/jetty8"
+    mode: "0644"
+    owner: root
+    group: root
   register: jetty_setup
   tags:
   - jetty
 
 - name: Ensure Jetty is restarted
-  service: name=jetty8 state=restarted
+  service:
+    name: jetty8
+    state: restarted
   when: jetty_setup is changed or fetch_schema is changed
   tags:
   - jetty
 
 - name: Ensure Jetty is running
-  service: name=jetty8 state=started
+  service:
+    name: jetty8
+    state: started
   tags:
   - jetty
