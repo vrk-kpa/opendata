@@ -50,17 +50,16 @@
       'block',
       'block-' ~ configuration.provider|clean_class,
       'block-' ~ plugin_id|clean_class,
-      'clearfix',
     ]
   %}
-{# <section{{ attributes.addClass(classes) }}>
+<section{{ attributes.addClass(classes) }}>
   {{ title_prefix }}
   {% if label %}
     <h2{{ title_attributes.addClass('block-title') }}>{{ label }}</h2>
   {% endif %}
   {{ title_suffix }}
-  #}
+ 
   {% block content %}
     {{ content }}
   {% endblock %}
-{# </section> #}
+</section>
