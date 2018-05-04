@@ -18,6 +18,13 @@
 // jQuery UI style overrides.
 @import "jquery-ui/autocomplete";
 
+// FontAwesome
+@import "fontawesome/fontawesome";
+@import "fontawesome/fa-solid.less";
+@import "fontawesome/fa-regular.less";
+@import "fontawesome/fa-brands.less";
+@fa-font-path:  "../fonts";
+
 // Avoindata common variables
 @import "../../ytp-assets-common/src/less/variables";
 
@@ -74,12 +81,16 @@ p:last-child,
   margin-bottom: 0px;
 }
 
+.header-icon {
+  color: black;
+}
+
 .second-navbar {
   background-color: @navbar-background;
   height: @navbar-height;
   color: @navbar-color-text;
   .navbar-nav {
-    color: @navbar-color-darker
+    color: @navbar-color-darker;
   }
   .navbar-nav:hover {
     color: @navbar-color-text;
@@ -107,11 +118,25 @@ p:last-child,
   margin-right: 0px;
   margin-left: 0px;
   width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 23px;
   .footer-logo {
-    // height: 60px;
     width: 20%;
     padding-bottom: 13px;
     border-bottom: 6px solid @bottom-highlight-color;
     margin-bottom: 27px;
+  }
+  .footer-follow {
+    color: @bottom-highlight-color;
+    text-transform: uppercase;
+    .footer-follow-message {
+      margin-bottom: 10px;
+    }
+    .footer-socicons {
+      font-size: 34px;
+      margin: 0px;
+      padding: 0px;
+    }
   }
 }
