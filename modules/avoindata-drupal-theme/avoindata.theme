@@ -6,3 +6,11 @@
  *
  * Place your custom PHP code in this file.
  */
+
+function avoindata_preprocess_block(&$variables) {
+  if ($variables['plugin_id'] == 'language_block:language_interface') {
+    foreach ($variables['content']['#links'] as $key => $value) {
+      $variables['content']['#links'][$key]['title'] = strtoupper($key);
+    }
+  }
+}
