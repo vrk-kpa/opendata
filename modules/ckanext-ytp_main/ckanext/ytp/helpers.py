@@ -11,6 +11,7 @@ import ckan.lib.i18n as i18n
 from ckanext.scheming.helpers import lang
 from pylons import config
 from pylons.i18n import gettext
+from  ckan.common import _
 
 log = logging.getLogger(__name__)
 
@@ -253,11 +254,6 @@ def calculate_metadata_stars(dataset_id):
 
     if resource_download_count > 20:
         score += 2.5
-
-    # amount of comments
-    url = '/dataset/%s' % data.get("name")
-    cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
-    score += min((cmnt_cnt / 2.0), 5.0)
 
     # extras?
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-14 13:51+0200\n"
+"POT-Creation-Date: 2018-04-20 14:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,31 +259,31 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:24
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:47
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:51
 msgid "Relevance"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:25
 #: ckanext/sixodp_showcase/templates/showcase/search.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:48
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:52
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:26
 #: ckanext/sixodp_showcase/templates/showcase/search.html:14
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:49
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:53
 msgid "Name Descending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:27
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:50
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
 msgid "Last Modified"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:28
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:46
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:50
 msgid "Popular"
 msgstr ""
 
@@ -333,8 +333,8 @@ msgid "Launch website"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/search.html:19
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:29
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:58
 msgid "Search showcases..."
 msgstr ""
 
@@ -443,20 +443,44 @@ msgstr ""
 msgid "Show all from this author"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:30
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:34
 msgid "Add Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:44
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:48
 msgid "Newest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:45
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:49
 msgid "Oldest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:51
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:55
 msgid "Top rating"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
+msgid " Applications "
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:19
+msgid ""
+"Datasets provided by this service come alive with the help of applications "
+"(visualizations, research, webservices and data journalism)."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:22
+msgid ""
+"Commonly the creators of opendata applications are researchers, freelanchers "
+"and software developers, but with the help of improved development and "
+"visualization tools anyone is able to utilize these datasets. You can find "
+"additional information from our guide to open data."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:25
+msgid ""
+"Have you created application that utilizes open data? Add your own "
+"application to the list bellow."
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:40
