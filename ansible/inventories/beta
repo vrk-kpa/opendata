@@ -4,3 +4,5 @@ localhost ansible_ssh_user=ubuntu ansible_connection=local
 [mainserver:vars]
 deployment_environment_id=beta
 secrets_file_path="../../avoindata-secrets/beta/secrets.yml"
+disqus_name = ""
+
