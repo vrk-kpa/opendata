@@ -255,11 +255,6 @@ def calculate_metadata_stars(dataset_id):
     if resource_download_count > 20:
         score += 2.5
 
-    # amount of comments
-    url = '/dataset/%s' % data.get("name")
-    cmnt_cnt = int(get_action('comment_count')(context, {'url': url}))
-    score += min((cmnt_cnt / 2.0), 5.0)
-
     # extras?
 
     # english translations

@@ -38,3 +38,6 @@
 [submodule "modules/ckanext-pdfview"]
 	path = modules/ckanext-pdfview
 	url = https://github.com/ckan/ckanext-pdfview.git
+[submodule "modules/ckanext-disqus"]
+	path = modules/ckanext-disqus
+	url = https://github.com/ckan/ckanext-disqus.git
