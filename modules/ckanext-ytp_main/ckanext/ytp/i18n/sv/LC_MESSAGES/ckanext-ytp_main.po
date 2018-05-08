@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-10 14:20+0300\n"
+"POT-Creation-Date: 2018-04-19 11:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -228,7 +228,7 @@ msgstr ""
 #: ckanext/ytp/controller.py:602 ckanext/ytp/controller.py:673
 #: ckanext/ytp/controller.py:700
 msgid "Group not found"
-msgstr "Gruppen hittades inte"
+msgstr "Kategorin hittades inte"
 
 #: ckanext/ytp/controller.py:766
 msgid "No user specified"
@@ -266,9 +266,13 @@ msgstr ""
 "https:// eller www."
 
 #: ckanext/ytp/converters.py:135 ckanext/ytp/converters.py:145
-#: ckanext/ytp/plugin.py:1134
+#: ckanext/ytp/plugin.py:1135
 msgid "Date format incorrect"
 msgstr "Datumets format är felaktigt"
+
+#: ckanext/ytp/helpers.py:64 ckanext/ytp/plugin.py:517
+msgid "Unnamed resource"
+msgstr "Namnlös resurs"
 
 #: ckanext/ytp/logic.py:184
 msgid "Cannot change username"
@@ -363,19 +367,16 @@ msgstr "Publicera öppen data"
 msgid "Publish Data"
 msgstr "Publicera data"
 
-#: ckanext/ytp/old/dataset/plugin.py:162 ckanext/ytp/old/dataset/plugin.py:172
-#: ckanext/ytp/old/dataset/plugin.py:177 ckanext/ytp/plugin.py:188
-#: ckanext/ytp/plugin.py:198 ckanext/ytp/plugin.py:203
-#: ckanext/ytp/validators.py:61
+#: ckanext/ytp/plugin.py:188 ckanext/ytp/plugin.py:198
+#: ckanext/ytp/plugin.py:203 ckanext/ytp/validators.py:61
 msgid "Missing value"
 msgstr "Värde saknas"
 
-#: ckanext/ytp/plugin.py:422 ckanext/ytp/translations.py:36
+#: ckanext/ytp/plugin.py:421 ckanext/ytp/translations.py:36
 msgid "High value dataset category"
 msgstr ""
 
-#: ckanext/ytp/old/dataset/plugin.py:390 ckanext/ytp/old/dataset/plugin.py:406
-#: ckanext/ytp/plugin.py:423 ckanext/ytp/plugin.py:440
+#: ckanext/ytp/plugin.py:422 ckanext/ytp/plugin.py:439
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:16
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:19
@@ -383,22 +384,20 @@ msgstr ""
 msgid "Collection Type"
 msgstr "Typ av information"
 
-#: ckanext/ytp/old/dataset/plugin.py:391 ckanext/ytp/old/dataset/plugin.py:407
-#: ckanext/ytp/plugin.py:424 ckanext/ytp/plugin.py:441
+#: ckanext/ytp/plugin.py:423 ckanext/ytp/plugin.py:440
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:37
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr "Taggar"
 
-#: ckanext/ytp/old/dataset/plugin.py:392 ckanext/ytp/old/dataset/plugin.py:408
-#: ckanext/ytp/plugin.py:425 ckanext/ytp/plugin.py:442
+#: ckanext/ytp/plugin.py:424 ckanext/ytp/plugin.py:441
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:49
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: ckanext/ytp/old/dataset/plugin.py:393 ckanext/ytp/plugin.py:426
+#: ckanext/ytp/plugin.py:425
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:24
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
@@ -407,18 +406,16 @@ msgstr "Innehållstyp"
 msgid "Organization"
 msgstr "Organisation"
 
-#: ckanext/ytp/old/dataset/plugin.py:394 ckanext/ytp/old/dataset/plugin.py:409
-#: ckanext/ytp/plugin.py:427 ckanext/ytp/plugin.py:443
+#: ckanext/ytp/plugin.py:426 ckanext/ytp/plugin.py:442
 #: ckanext/ytp/translations.py:32
 msgid "Formats"
 msgstr "Filtyp"
 
-#: ckanext/ytp/old/dataset/plugin.py:396 ckanext/ytp/plugin.py:429
-#: ckanext/ytp/templates/package/search.html:63
+#: ckanext/ytp/plugin.py:428 ckanext/ytp/templates/package/search.html:63
 msgid "Source"
 msgstr "Källa"
 
-#: ckanext/ytp/plugin.py:430
+#: ckanext/ytp/plugin.py:429
 #: ckanext/ytp/templates/package/resource_read.html:157
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:86
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:63
@@ -427,27 +424,23 @@ msgstr "Källa"
 msgid "License"
 msgstr "Licens"
 
-#: ckanext/ytp/old/dataset/plugin.py:468 ckanext/ytp/plugin.py:502
+#: ckanext/ytp/plugin.py:501
 msgid "Other"
 msgstr "Annan"
 
-#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:518
-msgid "Unnamed resource"
-msgstr "Namnlös resurs"
-
-#: ckanext/ytp/old/dataset/plugin.py:484 ckanext/ytp/plugin.py:518
+#: ckanext/ytp/plugin.py:517
 msgid "Additional Info"
 msgstr "Tilläggsinformation"
 
-#: ckanext/ytp/plugin.py:897
+#: ckanext/ytp/plugin.py:898
 msgid "Group title already exists in database"
-msgstr "Grupptiteln finns redan i databasen"
+msgstr "Titeln för kategorien finns redan i databasen"
 
-#: ckanext/ytp/plugin.py:1174
+#: ckanext/ytp/plugin.py:1175
 msgid "Service charge must be supplied"
 msgstr "Tjänstens avgiftsbelagdhet måste anges"
 
-#: ckanext/ytp/plugin.py:1184
+#: ckanext/ytp/plugin.py:1185
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -456,29 +449,29 @@ msgstr ""
 "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben "
 "eller en beskrivning om priserna eller båda"
 
-#: ckanext/ytp/plugin.py:1196
+#: ckanext/ytp/plugin.py:1197
 msgid "At least one of the main target groups must to be selected"
-msgstr "Åtminstone en målgrupp från huvudnivån måste väljas"
+msgstr "Åtminstone en målkategori från huvudnivån måste väljas"
 
-#: ckanext/ytp/plugin.py:1333
+#: ckanext/ytp/plugin.py:1334
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
 msgstr "Organisationen finns inte"
 
-#: ckanext/ytp/plugin.py:1335
+#: ckanext/ytp/plugin.py:1336
 msgid "Invalid organization type"
 msgstr "Felaktig organisationstyp"
 
-#: ckanext/ytp/plugin.py:1357
+#: ckanext/ytp/plugin.py:1358
 msgid "Harvested datasets are read-only"
 msgstr "Skrapade dataset kan endast läsas"
 
-#: ckanext/ytp/plugin.py:1364
+#: ckanext/ytp/plugin.py:1365
 msgid "Login required"
 msgstr "Inloggning krävs"
 
-#: ckanext/ytp/plugin.py:1369 ckanext/ytp/plugin.py:1377
+#: ckanext/ytp/plugin.py:1370 ckanext/ytp/plugin.py:1378
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr "Användare %s är inte medlem av någon offentlig organisation"
@@ -706,7 +699,7 @@ msgstr "Apps"
 
 #: ckanext/ytp/translations.py:72
 msgid "Add to group"
-msgstr "Lägg till till kategorin"
+msgstr "Lägg till kategorin"
 
 #: ckanext/ytp/translations.py:73
 msgid "There are no groups associated with this dataset"
@@ -738,19 +731,19 @@ msgstr "Kategorier"
 
 #: ckanext/ytp/translations.py:80
 msgid "A little information about my group..."
-msgstr ""
+msgstr "En kort beskrivning om min kategorien"
 
 #: ckanext/ytp/translations.py:81
 msgid "Create a Group"
-msgstr ""
+msgstr "Skapa kategori"
 
 #: ckanext/ytp/translations.py:82
 msgid "Create Group"
-msgstr ""
+msgstr "Skapa kategori"
 
 #: ckanext/ytp/translations.py:83
 msgid "My Group"
-msgstr ""
+msgstr "Min kategori"
 
 #: ckanext/ytp/translations.py:86
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
@@ -1323,6 +1316,7 @@ msgstr "Lite information om min organisation..."
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:35
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:166
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:82
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:31
 #: ckanext/ytp/templates/user/read_base.html:48
 msgid "State"
 msgstr "Tillstånd"
@@ -1552,27 +1546,27 @@ msgstr "Tidsmässig täckning"
 msgid "Technical extra information"
 msgstr "Teknisk tilläggsinformation"
 
-#: ckanext/ytp/templates/package/resource_read.html:210
+#: ckanext/ytp/templates/package/resource_read.html:229
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:170
 msgid "Stats"
 msgstr "Statistik"
 
-#: ckanext/ytp/templates/package/resource_read.html:211
+#: ckanext/ytp/templates/package/resource_read.html:230
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:171
 msgid "Last 30 days, updated daily"
 msgstr "Senaste 30 dagarna, uppdateras dagligen"
 
-#: ckanext/ytp/templates/package/resource_read.html:214
+#: ckanext/ytp/templates/package/resource_read.html:233
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:175
 msgid "All time downloads:"
 msgstr "Totalt nedladdningar:"
 
-#: ckanext/ytp/templates/package/resource_read.html:230
+#: ckanext/ytp/templates/package/resource_read.html:249
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:190
 msgid "Year"
 msgstr "År"
 
-#: ckanext/ytp/templates/package/resource_read.html:230
+#: ckanext/ytp/templates/package/resource_read.html:249
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:190
 msgid "Downloads"
 msgstr "Nedladdningar"
@@ -2183,7 +2177,7 @@ msgstr "Livssituation"
 
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:115
 msgid "Target groups"
-msgstr "Målgrupper"
+msgstr "Målkategori"
 
 #: ckanext/ytp/templates/package/ytp/service/package_basic_fields.html:124
 msgid "Requirements for using the service"
@@ -2754,21 +2748,21 @@ msgstr "Inga dataset hittades"
 msgid "{number} group found for \"{query}\""
 msgid_plural "{number} groups found for \"{query}\""
 msgstr[0] "{number} grupp hittades för söktermen \"{query}\""
-msgstr[1] "{number} grupper hittades för söktermen \"{query}\""
+msgstr[1] "{number} kategorier hittades för söktermen \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:25
 msgid "No groups found for \"{query}\""
-msgstr "Inga grupper hittades med söktermen \"{query}\""
+msgstr "Inga kategorier hittades med söktermen \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:26
 msgid "{number} group found"
 msgid_plural "{number} groups found"
 msgstr[0] "{number} grupp hittades"
-msgstr[1] "{number} grupper hittades"
+msgstr[1] "{number} kategorier hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:27
 msgid "No groups found"
-msgstr "Inga grupper hittades"
+msgstr "Inga kategorier hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:30
 msgid "{number} organization found for \"{query}\""
@@ -2789,10 +2783,6 @@ msgstr[1] "{number} organisationer hittades"
 #: ckanext/ytp/templates/snippets/search_result_text.html:33
 msgid "No organizations found"
 msgstr "Inga organisationer hittades"
-
-#: ckanext/ytp/templates/snippets/ytp_facet_list.html:91
-msgid "No matches"
-msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"

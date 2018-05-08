@@ -28,6 +28,29 @@
 // Avoindata common variables
 @import "../../ytp-assets-common/src/less/variables";
 
+#logo-img {
+  width: 150px;
+}
+
+//Valikon linkit TODO: Nyt vaikuttaa vain lisälinkkeihin
+#navbar-collapse a {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  float: right;
+}
+
+//Valikon linkkien hover
+#navbar-collapse a:hover {
+  color: hsla(0, 0%, 100%, .65);
+  background-color: #011734;
+  text-decoration: underline;
+}
+
 ol, ul {
   padding-left: 1.5em;
   .popover &:last-child {

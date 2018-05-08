@@ -54,6 +54,7 @@ scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
 scheming.presets = ckanext.ytp.schemas:presets.json
                    ckanext.scheming:presets.json
                    ckanext.fluent:presets.json
+scheming.group_schemas = ckanext.ytp.schemas:group.json
 
 ckan.site_title = Avoindata.fi
 ckan.site_logo = {{www_root}}/resources/images/avoindata.fi.png
@@ -93,7 +94,7 @@ ckanext-archiver.archive_dir = /tmp/archive
 ckanext-archiver.max_content_length = 50000000
 ckan.celery.queues = celery bulk priority
 
-ckanext-comments.comment_notifications_admin_email = {{ client_email }}
+disqus.name = {{ disqus_name }}
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
 ckanext.drupal8.domain = {{ hostname }},{{ secondary_hostname }}
