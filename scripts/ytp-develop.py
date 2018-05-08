@@ -59,6 +59,9 @@ class YtpDevelopMain(object):
         """ Develop avoindata-header handler. """
         return self._replace_with_link("/var/www/opendata/web/modules/avoindata-header", "/vagrant/modules/avoindata-drupal-header")
 
+    def develop_frontpagesearch(self, name):
+        """ Develop avoindata-frontpagesearch handler. """
+        return self._replace_with_link("/var/www/opendata/web/modules/avoindata-frontpagesearch", "/vagrant/modules/avoindata-drupal-frontpagesearch")
 
     # def develop_drupal_user(self, name):
     #     """ Develop ytp-drupal-user handler. """
@@ -121,6 +124,7 @@ class YtpDevelopMain(object):
                               u'ytp-assets-common': self.develop_assets,
                               u'avoindata-drupal-theme': self.develop_drupal_theme,
                               u'avoindata-header': self.develop_header,
+                              u'avoindata-frontpagesearch': self.develop_frontpagesearch,
                               # u'ytp-drupal-user': self.develop_drupal_user,
                               # u'ytp-drupal-features': self.develop_drupal_features,
                               # u'ytp-drupal-tutorial': self.develop_drupal_tutorial,
