@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: hero_fi
+label: 'Hero (fi)'
+description: 'Hero (fi)'
+locked: true

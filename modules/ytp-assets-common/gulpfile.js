@@ -73,7 +73,17 @@ gulp.task("drupal", (done) => {
 gulp.task("images", (done) => {
   pump([
     gulp.src(paths.src.images),
-    imagemin({ optimizationLevel: 0 }),
+    imagemin([
+      imagemin.gifsicle(),
+      imagemin.jpegtran(),
+      imagemin.optipng(),
+      imagemin.svgo({
+        plugins: [
+          {removeViewBox: true},
+          {cleanupIDs: false}
+        ]
+      })
+    ]),
     gulp.dest(paths.dist + "/images")
   ], done())
 });

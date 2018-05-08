@@ -2,6 +2,7 @@
 
 custom_modules:
   - { src_name: avoindata-drupal-header, module_name: avoindata-header }
+  - { src_name: avoindata-drupal-hero, module_name: avoindata-hero }
 
 
 # drupal_theme_path: "{{ drupal_root }}/sites/all/themes"

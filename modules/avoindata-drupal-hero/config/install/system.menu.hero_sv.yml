@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: hero_sv
+label: 'Hero (sv)'
+description: 'Hero (sv)'
+locked: true
