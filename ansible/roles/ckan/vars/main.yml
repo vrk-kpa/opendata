@@ -41,10 +41,6 @@ redis_celery_database: 1
 supervisor_services:
   - ckan_gather_consumer
   - ckan_fetch_consumer
-  #- celery_celery
-  #- celery_bulk
-  #- celery_priority
-  - celerybeat
 
 # Override these on servers! 
 baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
