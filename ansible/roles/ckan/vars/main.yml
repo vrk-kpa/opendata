@@ -43,7 +43,7 @@ supervisor_services:
   #- celery_celery
   #- celery_bulk
   #- celery_priority
-  - celerybeat
+  # - celerybeat
 
 # Override these on servers! 
 baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
