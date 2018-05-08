@@ -299,7 +299,7 @@ function get_datasets($type, $order, $amount) {
  * Use CKAN group_list to get data categories (CKAN groups).
  */
 function get_dataset_categories() {
-  $url = 'http://localhost:8080/data/api/3/action/group_list?all_fields=true';
+  $url = 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true';
   $options = array(
     'method' => 'GET'
   );
@@ -340,8 +340,8 @@ function theme_dataset_category_list($variables) {
   foreach ($variables['dataset_categories'] as $cat) {
     // If title is available in  current language, use it.
     // Otherwise fall back to default title.
-    $title = !empty($cat["title_translated"][$language]) 
-      ? $cat["title_translated"][$language] 
+    $title = !empty($cat["title_translated"][$language->language]) 
+      ? $cat["title_translated"][$language->language] 
       : $cat["title"];
 
     // First row item starts the row
