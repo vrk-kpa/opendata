@@ -1,7 +1,9 @@
 ---
 
 - name: Create patch cache path
-  file: path="{{ patches_cache_path }}" state=directory
+  file:
+    path: "{{ patches_cache_path }}"
+    state: directory
   tags:
   - ckan
   - patch_ckan

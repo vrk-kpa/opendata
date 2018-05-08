@@ -3,7 +3,9 @@
 # TODO: Supervisor should be separated
 
 - name: Ensure CKAN common packages
-  action: apt pkg="{{ item }}" state=latest
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - gcc
     - libpq-dev
@@ -19,7 +21,9 @@
 
 
 - name: Ensure CKAN deb packages
-  action: apt pkg="{{ item }}" state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - apache2
     - libapache2-mod-wsgi
@@ -39,20 +43,32 @@
     - ckan
 
 - name: Install CKAN
-  pip: name="git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan" virtualenv={{ virtual_environment }} extra_args="--exists-action=s -e"
+  pip:
+    name: "git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
+    virtualenv: "{{ virtual_environment }}"
+    extra_args: "--exists-action=s -e"
   tags:
       - ckan
 
 - name: Install CKAN requirements
-  pip: requirements={{ virtual_environment }}/src/ckan/requirements.txt virtualenv={{ virtual_environment }}
+  pip:
+    requirements: "{{ virtual_environment }}/src/ckan/requirements.txt"
+    virtualenv: "{{ virtual_environment }}"
   tags:
       - ckan
 
 - name: Copy override requirements
-  copy: src="override-requirements.txt" dest="{{ cache_path }}/override-requirements" mode="0644" owner=root group=root
+  copy:
+    src: "override-requirements.txt"
+    dest: "{{ cache_path }}/override-requirements"
+    mode: "0644"
+    owner: root
+    group: root
 
 - name: Install override requirements
-  pip: requirements="{{ cache_path }}/override-requirements" virtualenv={{ virtual_environment }}
+  pip:
+    requirements: "{{ cache_path }}/override-requirements"
+    virtualenv: "{{ virtual_environment }}"
 
 #- name: Download CKAN package
 #  get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
@@ -69,7 +85,12 @@
 - include: patch.yml
 
 - name: Create CKAN files path
-  file: path={{ item }} state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0770"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
   with_items:
     - "/etc/ckan/default"
     - "{{ ckan_files_path }}"
@@ -78,25 +99,43 @@
   - ckan
 
 - name: Ensure path ownerships
-  file: path="{{ item }}" state="directory" recurse="yes" owner="{{ www_user }}" group="{{ www_group }}"
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    recurse: "yes"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
   with_items:
     - "{{ ckan_files_path }}"
     - "/etc/ckan/default"
     - "{{ ckan_source_path }}/ckan/public/base/i18n"
 
 - name: Ensure celerybeat pid ownership
-  command: chown "{{ www_user }}:{{ www_group }}" /tmp/celerybeat_pid /tmp/celerybeat_schedule
+  file:
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    path: "{{ item }}"
+  with_items:
+    - /tmp/celerybeat_pid
+    - /tmp/celerybeat_schedule
   ignore_errors: True
   tags:
   - ckan
 
 - name: Ensure upload path mode
-  command: chmod -R "0770" "{{ ckan_files_path }}" 
+  file:
+    mode: 0770
+    path: "{{ ckan_files_path }}"
+    recurse: true
+    state: "directory"
+  #command: chmod -R "0770" "{{ ckan_files_path }}"
   tags:
   - ckan
 
 - name: Disable Nginx sites
-  file: path="/etc/nginx/sites-enabled/{{ item }}" state=absent
+  file:
+    path: "/etc/nginx/sites-enabled/{{ item }}"
+    state: absent
   with_items:
     - ckan
     - default
@@ -106,7 +145,9 @@
   notify: Restart Nginx
 
 - name: Disable Apache sites
-  file: path="/etc/apache2/sites-enabled/{{ item }}" state=absent
+  file:
+    path: "/etc/apache2/sites-enabled/{{ item }}"
+    state: absent
   with_items:
     - 000-default.conf
     - default-ssl.conf
@@ -115,7 +156,12 @@
   - ckan
 
 - name: Copy ports configuration
-  template: src="ports.conf.j2" dest="/etc/apache2/ports.conf" mode="0644" owner=root group=root
+  template:
+    src: "ports.conf.j2"
+    dest: "/etc/apache2/ports.conf"
+    mode: "0644"
+    owner: root
+    group: root
   tags:
   - apache
   - ckan
@@ -133,13 +179,23 @@
   - ckan
 
 - name: Copy Apache configuration
-  template: src="apache2.j2" dest="/etc/apache2/sites-available/ytp.conf" mode="0644" owner=root group=root
+  template:
+    src: "apache2.j2"
+    dest: "/etc/apache2/sites-available/ytp.conf"
+    mode: "0644"
+    owner: root
+    group: root
   tags:
   - apache
   - ckan
 
 - name: Enable Apache configuration
-  file: src="/etc/apache2/sites-available/ytp.conf" dest=/etc/apache2/sites-enabled/ytp.conf state=link owner=root group=root
+  file:
+    src: "/etc/apache2/sites-available/ytp.conf"
+    dest: /etc/apache2/sites-enabled/ytp.conf
+    state: link
+    owner: root
+    group: root
   notify: Restart Apache
   tags:
   - apache
@@ -152,20 +208,32 @@
   - ckan
 
 - name: Setup CKAN configuration
-  template: src="ckan.ini.j2" dest="{{ ckan_ini }}" mode="0640" owner=root group="{{ www_group }}"
+  template:
+    src: "ckan.ini.j2"
+    dest: "{{ ckan_ini }}"
+    mode: "0640"
+    owner: root
+    group: "{{ www_group }}"
   register: ckan_configuration
   tags:
   - ckan
 
 - name: Create debian cache path
-  file: path="{{ cache_path }}/debian" state=directory
+  file:
+    path: "{{ cache_path }}/debian"
+    state: directory
   tags:
   - ckan
   - spatial
   - packages
 
 - name: Copy libxml2-2.9 packages
-  copy: src="{{ item }}" dest="{{ cache_path }}/debian/{{ item }}" mode="0644" owner=root group=root
+  copy:
+    src: "{{ item }}"
+    dest: "{{ cache_path }}/debian/{{ item }}"
+    mode: "0644"
+    owner: root
+    group: root
   register: copy_libxml2
   with_items:
     - "libxml2_2.9.1+dfsg1-3_amd64.deb"
@@ -177,7 +245,7 @@
 
 - name: Install libxml2-2.9 packages
   command: dpkg -i "{{ cache_path }}/debian/{{ item }}"
-  when: copy_libxml2|changed
+  when: copy_libxml2 is changed
   with_items:
     - "libxml2_2.9.1+dfsg1-3_amd64.deb"
     - "libxml2-dev_2.9.1+dfsg1-3_amd64.deb"
@@ -188,7 +256,9 @@
 
 
 - name: Install python packages to support SNI in requests
-  pip: name={{ item }} virtualenv="{{ virtual_environment }}"
+  pip:
+    name: "{{ item }}"
+    virtualenv: "{{ virtual_environment }}"
   with_items:
     - cryptography
     - pyOpenSSL
@@ -201,7 +271,12 @@
 
 - name: Copy CKAN configuration files
 
-  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
   with_items:
     - { src: ckan.py, dest: /usr/bin/ckan, mode: "0755", owner: root, group: root }
     - { src: apache.wsgi, dest: /etc/ckan/default/apache.wsgi, mode: "0640", owner: root, group: "{{ www_group }}" }
@@ -228,7 +303,9 @@
 
 
 - name: Ensure reindex is launched
-  file: path="{{ files_root }}/.solr-reindex" state="absent"
+  file:
+    path: "{{ files_root }}/.solr-reindex"
+    state: "absent"
   #when: copy_ckan_ui_data|changed
   tags:
   - ckan
@@ -240,27 +317,40 @@
   - translations
 
 - name: Ensure Apache restart
-  service: name=apache2 state=restarted
+  service:
+    name: apache2
+    state: restarted
   tags:
   - apache
   - ckan
 
 - name: Ensure Nginx is restarted
-  service: name=nginx state=restarted
+  service:
+    name: nginx
+    state: restarted
   tags:
   - ckan
 
 - name: Copy celery configuration
-  template: src="../modules/ckanext-ytp_tasks/ytp_celery.py.j2" dest="/etc/ckan/default/ytp_celery.py" mode="0640" owner=root group="{{ www_group }}"
+  template:
+    src: "../modules/ckanext-ytp_tasks/ytp_celery.py.j2"
+    dest: "/etc/ckan/default/ytp_celery.py"
+    mode: "0640"
+    owner: root
+    group: "{{ www_group }}"
   tags:
   - ckan
 
 - name: Copy supervisor configuration
-  template: src="supervisor.conf.j2" dest="/etc/supervisor/conf.d/ytp.conf" mode="0644" owner=root group=root
+  template:
+    src: "supervisor.conf.j2"
+    dest: "/etc/supervisor/conf.d/ytp.conf"
+    mode: "0644"
+    owner: root
+    group: root
   register: supervisor_configuration
   notify:
   - Restart Gather
   - Restart Fetch
   tags:
   - ckan
-

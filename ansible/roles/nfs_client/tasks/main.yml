@@ -1,7 +1,9 @@
 ---
 
 - name: Install NFS
-  apt: pkg="nfs-common" state=latest
+  apt:
+    pkg: "nfs-common"
+    state: latest
   tags:
   - nfs_client
 
@@ -11,7 +13,12 @@
   - nfs_client
 
 - name: Make shared path
-  file: path="{{ files_root }}" state=directory mode="0770" owner="{{ www_user }}" group="{{ www_group }}"
+  file:
+    path: "{{ files_root }}"
+    state: directory
+    mode: "0770"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
   tags:
   - nfs_client
 
@@ -22,13 +29,20 @@
 #  - nfs_client
 
 - name: Ensure shared path is linked
-  command: ln -sf "{{ files_root}}" {{ nfs_shared_path }}
+  # command: ln -sf "{{ files_root}}" {{ nfs_shared_path }}
+  file:
+    src: "{{ files_root }}"
+    dest: "{{ nfs_shared_path }}"
+    force: yes
   when: travis is defined
   tags:
   - nfs_client
 
 - name: Prevent remigration
-  command: touch {{ files_root }}/.migrated creates="{{ files_root }}/.migrated"
+  #command: touch {{ files_root }}/.migrated creates="{{ files_root }}/.migrated"
+  file:
+    path: "{{ files_root }}/.migrated"
+    state: touch
   register: prevent_migration
   tags:
   - nfs_client
@@ -41,7 +55,13 @@
   - nfs_client
 
 - name: Ensure migrated ownership
-  shell: chown {{ www_user }}:{{ www_group }} "{{ files_root }}" && chmod -R u+rwX,g+rwX,o-rwx "{{ files_root }}"
+  #shell: chown {{ www_user }}:{{ www_group }} "{{ files_root }}" && chmod -R u+rwX,g+rwX,o-rwx "{{ files_root }}"
+  file:
+    path: "{{ files_root }}"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: "0770"
+    recurse: yes
   when: nfs_migration|changed
   tags:
   - nfs_client

@@ -1,7 +1,9 @@
 ---
 
 - name: Install postgresql
-  action: apt pkg="{{ item }}" state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - postgresql-9.5
   tags:
@@ -10,7 +12,12 @@
 
 # TODO These should be replaced with lineinfile or ini_file modules if possible
 - name: Copy Postgresql configurations
-  action: template src={{ item.file }} dest={{ item.dest }} owner=postgres group=postgres mode="0640"
+  template:
+    src: "{{ item.file }}"
+    dest: "{{ item.dest }}"
+    owner: postgres
+    group: postgres
+    mode: "0640"
   with_items:
   - { file: pg_hba.conf.j2, dest: /etc/postgresql/9.5/main/pg_hba.conf }
   - { file: postgresql.conf.j2, dest: /etc/postgresql/9.5/main/postgresql.conf }
@@ -22,28 +29,46 @@
   tags:
     - database
 
-- name: Set certificate file ownership and mode
-  shell: chmod 600 /var/lib/postgresql/9.5/main/server.* && chown "postgres:postgres" /var/lib/postgresql/9.5/main/server.*
-  tags:
-      - database
+# - name: Set certificate file ownership and mode
+#   shell: chmod 600 /var/lib/postgresql/9.5/main/server.* && chown "postgres:postgres" /var/lib/postgresql/9.5/main/server.*
+#   tags:
+#       - database
 
+- name: Find certificate files
+  find:
+    paths: /var/lib/postgresql/9.5/main
+    patterns: server.*
+  register: certificates_to_process
+
+- name: Set certificate file ownership and mode
+  file:
+    path: "{{ item.path }}"
+    owner: postgres
+    group: postgres
+    mode: 0600
+  with_items:
+    - "{{ certificates_to_process.files }}"
+  tags:
+    - database
 
 - name: Restart postgres
-  service: name=postgresql state=restarted
+  service:
+    name: postgresql
+    state: restarted
   tags:
   - database
 
 - name: Setup Postgresql users
-  become_user: postgres
   postgresql_user:
     user: "{{ item.value.username }}"
     password: "{{ item.value.password }}"
   with_dict: "{{ postgres.users }}"
+  become_user: postgres
+  become: yes
   tags:
   - database
 
 - name: Setup Postgresql databases
-  become_user: postgres
   postgresql_db:
     name: "{{ item.value.name }}"
     owner: "{{ item.value.owner }}"
@@ -52,12 +77,16 @@
     lc_ctype: en_US.UTF-8
     template: template0
   with_dict: "{{ postgres.databases }}"
+  become_user: postgres
+  become: yes
   ignore_errors: True
   tags:
     - database
 
 - name: Ensure spatial requirements
-  apt: pkg="{{ item }}" state=present
+  apt:
+    pkg: "{{ item }}"
+    state: present
   register: postgis_installed
   with_items:
     - postgresql-9.5-postgis-2.2
@@ -66,35 +95,49 @@
   - spatial
 
 - name: Spatial table references
-  command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -f "{{ item }}"
-  when: postgis_installed|changed
+  #command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -f "{{ item }}"
+  command: psql -d "{{ postgres.databases.ckan.name }}" -f "{{ item }}"
+  when: postgis_installed is changed
   with_items:
     - "/usr/share/postgresql/9.5/contrib/postgis-2.2/postgis.sql"
     - "/usr/share/postgresql/9.5/contrib/postgis-2.2/spatial_ref_sys.sql"
+  become_user: postgres
+  become: yes
   tags:
   - spatial
 
 - name: Copy SQL files
-  template: src={{ item }} dest=/tmp/{{ item }} owner=postgres group=postgres mode="0640"
+  template:
+    src: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+    owner: postgres
+    group: postgres
+    mode: "0640"
   with_items: "{{ sql_files_to_execute }}"
 
 - name: Execute SQL files
-  become_user: postgres
   shell: cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
+  become_user: postgres
+  become: yes
   with_items: "{{ sql_files_to_execute }}"
 
 - name: Spatial table rights
-  command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -c "{{ item }}"
-  when: postgis_installed|changed
+  #command: sudo -u postgres psql -d "{{ postgres.databases.ckan.name }}" -c "{{ item }}"
+  command: psql -d "{{ postgres.databases.ckan.name }}" -c "{{ item }}"
+  when: postgis_installed is changed
   with_items:
     - "ALTER TABLE spatial_ref_sys OWNER TO {{ postgres.users.ckan.username }};"
     - "ALTER TABLE geometry_columns OWNER TO {{ postgres.users.ckan.username }};"
+  become_user: postgres
+  become: yes
   tags:
   - spatial
 
 
 - name: Install database backup tools
-  action: apt pkg="{{ item }}" state="present"
+  apt:
+    pkg: "{{ item }}"
+    state: "present"
   with_items:
   - autopostgresqlbackup
   - mailutils
@@ -104,14 +147,24 @@
   - non-local
 
 - name: Setup pre backup script
-  copy: src=pre-backup.bash dest="{{ scripts_path }}/pre-backup.bash" mode="0755" owner=root group=root
+  copy:
+    src: pre-backup.bash
+    dest: "{{ scripts_path }}/pre-backup.bash"
+    mode: "0755"
+    owner: root
+    group: root
   tags:
   - database
   - backup
   - non-local
 
 - name: Setup database backup
-  template: src=autopostgresqlbackup.j2 dest=/etc/default/autopostgresqlbackup mode="0755" owner=root group=root
+  template:
+    src: autopostgresqlbackup.j2
+    dest: /etc/default/autopostgresqlbackup
+    mode: "0755"
+    owner: root
+    group: root
   tags:
   - database
   - backup
@@ -120,13 +173,19 @@
 - name: Run backup now
   command: /usr/sbin/autopostgresqlbackup chdir='/tmp'
   become_user: postgres
+  become: yes
   tags:
   - database
   - backup
   - non-local
 
 - name: Copy backup cleanup
-  template: src=clean_backups.sh.j2 dest="/etc/cron.daily/ytp_clean_backups" mode="0755" owner=root group=root
+  template:
+    src: clean_backups.sh.j2
+    dest: "/etc/cron.daily/ytp_clean_backups"
+    mode: "0755"
+    owner: root
+    group: root
   tags:
   - database
   - backup

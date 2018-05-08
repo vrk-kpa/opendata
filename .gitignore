@@ -56,3 +56,11 @@ ansible/vars/private
 *.sublime-workspace
 
 token.dat
+
+# Ansible related
+*.retry
+*.out
+
+# extra certs
+server.crt
+server.key
