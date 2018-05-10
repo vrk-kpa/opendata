@@ -1,7 +1,0 @@
-avoindata_hero.recent_fi:
-  title: 'Uusimmat'
-  description: 'Recent datasets'
-  parent: main_fi
-  menu_name: main_fi
-  url: 'https://10.10.10.10/data/fi/dataset'
-  weight: 2

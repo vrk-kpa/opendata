@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Print collapsible search
+ * Avoindata Hero Form
  *
  * @ingroup themeable
  */
@@ -17,33 +17,55 @@
       <div class="col-md-5">
         <h1>
           <img class="avoindata-hero-logo" src="/resources/images/logo/opendata.svg"/>
+          {% trans %}
           Avoindata.fi
+          {% endtrans %}
         </h1>
       </div>
     </div>
     <div class="row avoindata-hero-subheading">
       <div class="col-md-5">
-        <p>Demoversio avoimen datan tieto- ja jakelukanavasta suomalaisille yhteisöille, yrityksille ja kansalaisille.</p>
-        <a href="">Lue lisää >></a>
+        <p>
+          {% trans %}
+          Demoversio avoimen datan tieto- ja jakelukanavasta suomalaisille yhteisöille, yrityksille ja kansalaisille.
+          {% endtrans %}
+        </p>
+        <a href="">
+          {% trans %}
+          Lue lisää >>
+          {% endtrans %}
+        </a>
       </div>
     </div>
     <div class="row avoindata-hero-boxes">
       <div class="col-md-4">
         <div class="avoindata-hero-box">
           <h2 id="avoindata-datasets-count">0</h2>
-          <p>Tietoaineistoa</p>
+          <p>
+            {% trans %}
+            Tietoaineistoa
+            {% endtrans %}
+          </p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="avoindata-hero-box">
           <h2 id="avoindata-organizations-count">0</h2>
-          <p>Organisaatiota</p>
+          <p>
+            {% trans %}  
+            Organisaatiota
+            {% endtrans %}
+          </p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="avoindata-hero-box">
             <h2 id="avoindata-applications-count">0</h2>
-            <p>Sovellusta</p>
+            <p>
+              {% trans %}
+              Sovellusta
+              {% endtrans %}
+            </p>
         </div>
       </div>
     </div>
@@ -53,9 +75,27 @@
           <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">Tietoaineistot <span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li><a href="#" data-value="1">Tietoaineistot</a></li>
-              <li><a href="#" data-value="2">Sovellukset</a></li>
-              <li><a href="#" data-value="3">Organisaatiot</a></li>
+              <li>
+                <a href="#" data-value="1">
+                  {% trans %}
+                  Tietoaineistot
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="#" data-value="2">
+                  {% trans %}
+                  Sovellukset
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="#" data-value="3">
+                  {% trans %}
+                  Organisaatiot
+                  {% endtrans %}
+                </a>
+              </li>
             </ul>
           </div>
           {{ form.search }}
@@ -67,9 +107,27 @@
     <div class="row">
       <div class="col-md-5">
           <ul class="list-inline">
-              <li><a href="/data/dataset?sort=metadata_modified+desc">Uusimmat</a></li>
-              <li><a href="/data/dataset?sort=views_recent+desc">Suosituimmat</a></li>
-              <li><a href="/data/showcase">Sovellukset</a></li>
+              <li>
+                <a href="/data/dataset?sort=metadata_modified+desc">
+                  {% trans %}
+                  Uusimmat
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="/data/dataset?sort=views_recent+desc">
+                  {% trans %}
+                  Suosituimmat
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="/data/showcase">
+                  {% trans %}
+                  Sovellukset
+                  {% endtrans %}
+                </a>
+              </li>
           </ul>
       </div>
     </div>
