@@ -1,0 +1,8 @@
+avoindata_hero:
+  version: 1.x
+  js:
+    js/avoindata-hero.js: {}
+polyfill:
+  js:
+    https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise: { type: external }
+

@@ -21,6 +21,17 @@ class HeroForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $form['applicationcount'] = array(
+      '#type' => 'value',
+      '#value' => '0',
+    );
+
+    $form['searchfilter'] = array(
+      '#type' => 'textfield',
+      '#default_value' => '1',
+      '#attributes' => array('class' => array('input-hero-search-filter', 'hidden')),
+    );
+
     $form['search'] = array(
       '#type' => 'textfield',
       '#attributes' => array('class' => array('input-hero-search')),
@@ -51,8 +62,15 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // TODO: switch between dataset/showcase etc when there is dropdown in the search form
+    $filter = $form_state->getValue('searchfilter');
     $base_path = '/data/fi/dataset?q=%s';
+
+    if($filter == '2') {
+      $base_path = '/data/fi/showcase?q=%s';
+    } elseif ($filter == '3') {
+      $base_path = '/data/fi/organization?q=%s';
+    }
+
     $redirect_path = sprintf($base_path, $form_state->getValue('search'));
     $url = url::fromUserInput($redirect_path);
     $form_state->setRedirectUrl($url);

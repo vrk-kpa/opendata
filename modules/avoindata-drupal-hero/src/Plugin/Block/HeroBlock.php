@@ -20,10 +20,6 @@ class HeroBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    // return array(
-    //   '#theme' => 'avoindata_hero',
-    // );
-
     $form = \Drupal::formBuilder()->getForm('Drupal\avoindata_hero\Plugin\Form\HeroForm');
     return $form;
   }
