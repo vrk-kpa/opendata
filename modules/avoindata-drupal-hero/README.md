@@ -1,3 +1,3 @@
 # Avoindata hero module #
 
-TODO
+Avoindata "hero" module with search form that redirects to CKAN search.

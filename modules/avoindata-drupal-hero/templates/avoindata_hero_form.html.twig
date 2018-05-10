@@ -2,11 +2,14 @@
 /**
  * @file
  * Print collapsible search
- * 
+ *
  * @ingroup themeable
  */
 #}
 <div class="avoindata-hero">
+  {{ form.form_build_id }}
+  {{ form.form_token }}
+  {{ form.form_id }}
   <div class="heading-search-container">
     <div class="row">
       <div class="col-md-5">
@@ -14,7 +17,7 @@
           <img class="avoindata-hero-logo" src="/resources/images/logo/opendata.svg"/>
           Avoindata.fi
         </h1>
-      </div>  
+      </div>
     </div>
     <div class="row avoindata-hero-subheading">
       <div class="col-md-5">
@@ -53,17 +56,17 @@
               <li><a href="#">Organisaatiot</a></li>
             </ul>
           </div>
-          <input class="form-control input-hero-search" type="text" aria-label="...">
+          {{ form.search }}
         </div>
-        <button class="btn btn-default btn-hero btn-hero-search"><i class="fas fa-search"></i></button>
+        {{ form.actions }}
       </div>
     </div>
     <div class="row">
       <div class="col-md-5">
           <ul class="list-inline">
-              <li><a href="">Uusimmat</a></li>
-              <li><a href="">Suosituimmat</a></li>
-              <li><a href="">Sovellukset</a></li>
+              <li><a href="/data/dataset?sort=metadata_modified+desc">Uusimmat</a></li>
+              <li><a href="/data/dataset?sort=views_recent+desc">Suosituimmat</a></li>
+              <li><a href="/data/showcase">Sovellukset</a></li>
           </ul>
       </div>
     </div>
