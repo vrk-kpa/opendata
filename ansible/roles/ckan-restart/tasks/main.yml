@@ -49,9 +49,16 @@
     minute: "0"
     hour: "2"
     job: "{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+  when: "'qa' in ckan_extensions"
   tags:
   - ckan
   - cron
+
+- name: Remove qa cron job if qa not enabled
+  cron:
+    name: "qa"
+    state: "absent"
+  when: "'qa' not in ckan_extensions"
 
 - name: Ensure report cron job
   cron:
