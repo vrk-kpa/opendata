@@ -1,10 +1,14 @@
 ---
 
 - name: Ensure temp directory for extensions
-  file: path={{ ckanext_sync_path }} state=directory
+  file:
+    path: "{{ ckanext_sync_path }}"
+    state: directory
 
 - name: Ensure cache directory for pip
-  file: path=/home/vagrant/.cache/pip/http state=directory
+  file:
+    path: /home/vagrant/.cache/pip/http
+    state: directory
   when: deployment_environment_id == "vagrant"
 
 - include: extension.yml
@@ -50,16 +54,24 @@
 
 
 - name: Copy credentials token
-  copy: src="{{ google_credentials }}" dest="{{ cache_path }}/token.dat" mode="0644" owner=root group="{{ www_group }}"
+  copy:
+    src: "{{ google_credentials }}"
+    dest: "{{ cache_path }}/token.dat"
+    mode: "0644"
+    owner: root
+    group: "{{ www_group }}"
   when: google_analytics != false
   tags:
     - ckan
     - google-analytics
 
 - name: Add analytics fetching to cron
-  cron: name="analytics" minute="*/5" hour="0-3" job="{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
+  cron:
+    name: "analytics"
+    minute: "*/5"
+    hour: "0-3"
+    job: "{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{cache_path}}/token.dat --config={{ ckan_ini }}"
   when: google_analytics != false
   tags:
     - ckan
     - google-analytics
-

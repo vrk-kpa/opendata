@@ -8,7 +8,12 @@
   - ckan
 
 - name: Copy data structures for CKAN UI options
-  copy: src="{{ item }}" dest="{{ ckan_files_path }}/{{ item }}" mode="0644" owner=root group="{{ www_group }}"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ckan_files_path }}/{{ item }}"
+    mode: "0644"
+    owner: root
+    group: "{{ www_group }}"
   register: copy_ckan_ui_data
   with_items:
     - license.json

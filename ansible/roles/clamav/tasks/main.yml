@@ -1,7 +1,9 @@
 ---
 
 - name: Install Clamav packages
-  apt: pkg="{{ item }}" state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - clamav
   register: clamav_install
@@ -20,13 +22,23 @@
   - non-local
 
 - name: Copy daily virus check
-  template: src="daily.j2" dest="/etc/cron.daily/ytp_clamscan" mode="0755" owner=root group=root
+  template:
+    src: "daily.j2"
+    dest: "/etc/cron.daily/ytp_clamscan"
+    mode: "0755"
+    owner: root
+    group: root
   tags:
   - clamav
   - non-local
 
 - name: Copy hourly virus check
-  template: src="hourly.j2" dest="/etc/cron.hourly/ytp_clamscan" mode="0755" owner=root group=root
+  template:
+    src: "hourly.j2"
+    dest: "/etc/cron.hourly/ytp_clamscan"
+    mode: "0755"
+    owner: root
+    group: root
   tags:
   - clamav
   - non-local
