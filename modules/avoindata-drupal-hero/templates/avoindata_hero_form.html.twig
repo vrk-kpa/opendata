@@ -12,7 +12,7 @@
   {{ form.form_build_id }}
   {{ form.form_token }}
   {{ form.form_id }}
-  <div class="heading-search-container">
+  <div class="avoindata-hero-search-container">
     <div class="row">
       <div class="col-md-5">
         <h1>
@@ -27,12 +27,12 @@
       <div class="col-md-5">
         <p>
           {% trans %}
-          Demoversio avoimen datan tieto- ja jakelukanavasta suomalaisille yhteisöille, yrityksille ja kansalaisille.
+          Development version open data portal.
           {% endtrans %}
         </p>
         <a href="">
           {% trans %}
-          Lue lisää >>
+          Read more >>
           {% endtrans %}
         </a>
       </div>
@@ -43,7 +43,7 @@
           <h2 id="avoindata-datasets-count">0</h2>
           <p>
             {% trans %}
-            Tietoaineistoa
+            Datasets
             {% endtrans %}
           </p>
         </div>
@@ -52,8 +52,8 @@
         <div class="avoindata-hero-box">
           <h2 id="avoindata-organizations-count">0</h2>
           <p>
-            {% trans %}  
-            Organisaatiota
+            {% trans %}
+            Organizations
             {% endtrans %}
           </p>
         </div>
@@ -63,7 +63,7 @@
             <h2 id="avoindata-applications-count">0</h2>
             <p>
               {% trans %}
-              Sovellusta
+              Applications
               {% endtrans %}
             </p>
         </div>
@@ -71,28 +71,28 @@
     </div>
     <div class="row">
       <div class="avoindata-hero-input-col">
-        <div class="input-group">
+        <div class="input-group avoindata-hero-input-group">
           <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">Tietoaineistot <span class="caret"></span></button>
+            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">Datasets <span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li>
                 <a href="#" data-value="1">
                   {% trans %}
-                  Tietoaineistot
+                  Datasets
                   {% endtrans %}
                 </a>
               </li>
               <li>
                 <a href="#" data-value="2">
                   {% trans %}
-                  Sovellukset
+                  Applications
                   {% endtrans %}
                 </a>
               </li>
               <li>
                 <a href="#" data-value="3">
                   {% trans %}
-                  Organisaatiot
+                  Organizations
                   {% endtrans %}
                 </a>
               </li>
@@ -100,8 +100,11 @@
           </div>
           {{ form.search }}
           {{ form.searchfilter }}
+          <div class="input-group-btn avoindata-hero-actions">
+            {{ form.actions }}
+          </div>
         </div>
-        {{ form.actions }}
+        
       </div>
     </div>
     <div class="row">
@@ -110,21 +113,21 @@
               <li>
                 <a href="/data/dataset?sort=metadata_modified+desc">
                   {% trans %}
-                  Uusimmat
+                  Recent
                   {% endtrans %}
                 </a>
               </li>
               <li>
                 <a href="/data/dataset?sort=views_recent+desc">
                   {% trans %}
-                  Suosituimmat
+                  Popular
                   {% endtrans %}
                 </a>
               </li>
               <li>
                 <a href="/data/showcase">
                   {% trans %}
-                  Sovellukset
+                  Applications
                   {% endtrans %}
                 </a>
               </li>

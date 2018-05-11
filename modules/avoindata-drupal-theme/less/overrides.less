@@ -23,13 +23,18 @@
 @import "fontawesome/fa-solid.less";
 @import "fontawesome/fa-regular.less";
 @import "fontawesome/fa-brands.less";
-@fa-font-path:  "../fonts";
+@fa-font-path: "../fonts";
 
 // Avoindata common variables
 @import "../../ytp-assets-common/src/less/variables";
 
 body {
   margin: 0px;
+}
+
+.main-container {
+  margin: 0px;
+  padding: 0px;
 }
 
 #logo-img {
@@ -50,12 +55,13 @@ body {
 
 //Valikon linkkien hover
 #navbar-collapse a:hover {
-  color: hsla(0, 0%, 100%, .65);
+  color: hsla(0, 0%, 100%, 0.65);
   background-color: #011734;
   text-decoration: underline;
 }
 
-ol, ul {
+ol,
+ul {
   padding-left: 1.5em;
   .popover &:last-child {
     margin-bottom: 0;
@@ -72,7 +78,7 @@ ol, ul {
   margin-top: 45px;
   padding-top: 35px;
   padding-bottom: 36px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid #e5e5e5;
 }
 
 // Paragraphs.
@@ -94,7 +100,8 @@ p:last-child,
   }
 }
 
-.help-block, .control-group .help-inline {
+.help-block,
+.control-group .help-inline {
   color: @gray-light;
   font-size: 12px;
   margin: 5px 0 10px;
@@ -104,6 +111,7 @@ p:last-child,
   }
 }
 
+// First (upper) navbar
 .first-navbar {
   margin-bottom: 0px;
 }
@@ -112,6 +120,7 @@ p:last-child,
   color: black;
 }
 
+// Second navbar
 .second-navbar {
   background-color: @navbar-background;
   height: @navbar-height;
@@ -122,7 +131,6 @@ p:last-child,
   .navbar-nav:hover {
     color: @navbar-color-text;
   }
-
 }
 
 .navbar {
@@ -138,7 +146,6 @@ p:last-child,
 }
 
 // Footer
-
 .footer {
   border-top: 0px;
   background-color: @opendata-brand-dark;
@@ -169,11 +176,7 @@ p:last-child,
   }
 }
 
-.main-container {
-  margin: 0px;
-  padding: 0px;
-}
-
+// Drupal Hero Module
 .avoindata-hero {
   background-image: @background-hero-image;
   padding-top: 142px;
@@ -181,68 +184,6 @@ p:last-child,
   padding-right: 50px;
   padding-left: 50px;
   color: @popularTextColor;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .avoindata-hero-logo {
-    height: 56px;
-  }
-  .avoindata-hero-subheading {
-    margin-bottom: 20px;
-  }
-  .avoindata-hero-boxes {
-    margin-bottom: 20px;
-  }
-  .avoindata-hero-box {
-    border-bottom: 6px solid rgba(0, 0, 0, .15);
-    border-radius: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    background-color: transparent;
-    background-image: -webkit-radial-gradient(circle farthest-corner at 50% 50%, rgba(0, 0, 0, .14) -1%, rgba(0, 0, 0, .39) 0%, rgba(0, 0, 0, .24) 100%, transparent);
-    background-image: radial-gradient(circle farthest-corner at 50% 50%, rgba(0, 0, 0, .14) -1%, rgba(0, 0, 0, .39) 0%, rgba(0, 0, 0, .24) 100%, transparent);
-    opacity: 1;
-    color: #fff;
-    text-align: center;
-    h2 {
-      font-size: 40px;
-      font-weight: 500;
-      margin-top: 15px;
-    }
-  }
-
-  .avoindata-hero-input-col {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-bottom: 15px;
-    box-shadow: 0px 10px rgba(0, 0, 0, .17), inset  0 -10px rgba(0, 0, 0, .17);
-    .btn-hero-dropdown {
-      height: 50px;
-      background-color: #3898ec;
-      border-style: none;
-      border-width: 1px;
-      border-color: hsla(0, 0%, 100%, .58);
-      border-radius: 4px 0px 0px 4px;
-      color: @popularTextColor;
-    }
-    .btn-hero-search {
-      width: 50px;
-      height: 50px;
-      background-color: #ec2727;
-      margin-left: 10px;
-      text-align: center;
-      font-size: 24px;
-      border-color: hsla(0, 0%, 100%, .36);
-      color: @popularTextColor;
-    }
-    .input-hero-search {
-      height: 50px;
-    }
-  }
-  
   h1 {
     font-size: 40px;
     font-weight: 600;
@@ -255,8 +196,77 @@ p:last-child,
   a {
     color: @popularTextColor;
   }
-}
-
-.heading-search-container {
-  max-width: 1140px;
+  .avoindata-hero-search-container {
+    max-width: 1140px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+  }
+  .avoindata-hero-logo {
+    height: 56px;
+  }
+  .avoindata-hero-subheading {
+    margin-bottom: 20px;
+  }
+  .avoindata-hero-boxes {
+    margin-bottom: 20px;
+  }
+  .avoindata-hero-box {
+    border-bottom: 6px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: transparent;
+    background-image: -webkit-radial-gradient(
+      circle farthest-corner at 50% 50%,
+      rgba(0, 0, 0, 0.14) -1%,
+      rgba(0, 0, 0, 0.39) 0%,
+      rgba(0, 0, 0, 0.24) 100%,
+      transparent
+    );
+    background-image: radial-gradient(
+      circle farthest-corner at 50% 50%,
+      rgba(0, 0, 0, 0.14) -1%,
+      rgba(0, 0, 0, 0.39) 0%,
+      rgba(0, 0, 0, 0.24) 100%,
+      transparent
+    );
+    opacity: 1;
+    color: #fff;
+    text-align: center;
+    h2 {
+      font-size: 40px;
+      font-weight: 500;
+      margin-top: 15px;
+    }
+  }
+  .avoindata-hero-input-col {
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 15px;
+    box-shadow: 0px 10px rgba(0, 0, 0, 0.17), inset 0 -10px rgba(0, 0, 0, 0.17);
+    .btn-hero-dropdown {
+      height: 50px;
+      background-color: #3898ec;
+      border-style: none;
+      border-width: 1px;
+      border-color: hsla(0, 0%, 100%, 0.58);
+      border-radius: 4px 0px 0px 4px;
+      color: @popularTextColor;
+    }
+    .btn-hero-search {
+      height: 50px;
+      background-color: #ec2727;
+      margin-left: 10px;
+      text-align: center;
+      font-size: 24px;
+      border-radius: 4px 4px 4px 4px;
+      border-color: hsla(0, 0%, 100%, 0.36);
+      color: @popularTextColor;
+    }
+    .input-hero-search {
+      height: 50px;
+      border-radius: 0 4px 4px 0;
+    }
+  }
 }
