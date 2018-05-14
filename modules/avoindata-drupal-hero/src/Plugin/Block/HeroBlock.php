@@ -6,12 +6,12 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormInterface;
 
 /**
- * Provides a 'Hero' Block.
+ * Provides a 'Avoindata Hero' Block.
  *
  * @Block(
  *   id = "avoindata_hero",
- *   admin_label = @Translation("Hero"),
- *   category = @Translation("Hero"),
+ *   admin_label = @Translation("Avoindata Hero"),
+ *   category = @Translation("Avoindata Hero"),
  * )
  */
 class HeroBlock extends BlockBase {

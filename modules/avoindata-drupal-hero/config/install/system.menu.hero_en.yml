@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: hero_en
-label: 'Hero (en)'
-description: 'Hero (en)'
-locked: true

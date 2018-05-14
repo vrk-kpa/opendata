@@ -270,3 +270,39 @@ p:last-child,
     }
   }
 }
+
+
+// Avoindata Categories
+.avoindata-categories {
+  background-color: @opendata-brand-gray;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  .avoindata-categories-container {
+    max-width: 1140px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .avoindata-category-box {
+    text-align: center;
+    justify-content: center;
+    padding-top: 10px;
+    a {
+      color: black;
+    }
+    .avoindata-category-image-wrapper {
+      padding: 10px;
+      margin-bottom: 10px;
+      transition: transform 0.5s;
+      &:hover {
+          transform: scale(1.1); 
+      }
+    }
+    .avoindata-category-img {
+      height: 60px;
+    }
+  }
+}

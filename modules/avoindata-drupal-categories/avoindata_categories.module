@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_categories_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_categories':
+      return t('
+        Creates categories module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_categories_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_categories' => array(
+      'variables' => array('categories' => NULL, 'language' => NULL),
+      'template' => 'avoindata_categories_block',
+    ),
+  );
+}
