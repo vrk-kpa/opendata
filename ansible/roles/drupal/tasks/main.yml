@@ -229,6 +229,7 @@
   with_items:
     - "avoindata_header"
     - "avoindata_hero"
+    - "avoindata_categories"
 
 ### Theme ###
 
