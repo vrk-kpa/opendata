@@ -58,11 +58,18 @@ def administrative_branch_summary_report():
             (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
             for k, v in root_tree_ids_pairs)
 
+    try:
+        get_action('qa_package_openness_show')
+        qa_enabled = True
+    except:
+        qa_enabled = False
+
     return {
             'now': datetime.today().strftime('%d.%m.%Y'),
             'yrs_ago_1': (datetime.today() - timedelta(1 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
+            'qa_enabled': qa_enabled,
             'table' : [{
                 'organization': org['title'] if not org['total_org'] else org['title'] + "'s administrative branch",
                 'level': org_levels[org['name']],
@@ -74,7 +81,7 @@ def administrative_branch_summary_report():
                 'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
                 'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
                 'resource_formats': resource_formats(datasets),
-                'openness_score_avg': openness_score_avg(context, datasets)
+                'openness_score_avg': openness_score_avg(context, datasets) if qa_enabled else None
                 }
                 for org, datasets in root_datasets_pairs
                 ]
