@@ -1,0 +1,32 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_datasetlists_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_datasetlist':
+      return t('
+        Creates dataset list module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_datasetlist' => array(
+      'variables' => array(
+        'recentdatasets' => NULL,
+        'newdatasets' => NULL,
+        'populardatasets' => NULL,
+        'language' => NULL
+      ),
+      'template' => 'avoindata_datasetlist_block',
+    ),
+  );
+}

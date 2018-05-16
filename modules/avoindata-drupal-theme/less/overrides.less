@@ -379,3 +379,67 @@ p:last-child,
     }
   }
 }
+
+.avoindata-datasetlist {
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  .avoindata-datasetlist-container {
+    max-width: 1140px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+    .avoindata-datasetlist-nav {
+      ul {
+        padding: 0;
+      }
+      li {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        border-bottom: 5px solid #b3bacf;
+        &.active {
+          border-bottom: 5px solid #055bb9;
+        }
+      }
+      a {
+        color: #000;
+        font-weight: 600;
+        text-transform: uppercase;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+      .active {
+        a {
+          color: #000;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .avoindata-datasetlist-table {
+      margin-top: 20px;
+      margin-bottom: 5px;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding-top: 10px;
+      background-color: #f5f5f5;
+      table {
+        margin-bottom: 5px;
+      }
+      th {
+        border-top: none !important;
+      }
+      a {
+        color: #000;
+      }
+    }
+    .avoindata-datasetlist-links {
+      margin-bottom: 10px;
+      margin-left: 25px;
+      margin-right: 25px;
+    }
+  }
+}

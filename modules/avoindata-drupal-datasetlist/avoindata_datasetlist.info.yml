@@ -1,0 +1,5 @@
+name: Avoindata Dataset List
+type: module
+description: Creates dataset list component
+package: Custom
+core: 8.x

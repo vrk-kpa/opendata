@@ -5,6 +5,7 @@ custom_modules:
   - { src_name: avoindata-drupal-hero, module_name: avoindata-hero }
   - { src_name: avoindata-drupal-categories, module_name: avoindata-categories }
   - { src_name: avoindata-drupal-infobox, module_name: avoindata-infobox }
+  - { src_name: avoindata-drupal-datasetlist, module_name: avoindata-datasetlist }
 
 
 # drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
