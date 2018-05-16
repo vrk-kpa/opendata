@@ -44,7 +44,9 @@
       <th rowspan="2">{{ _("Organization") }}</th>
       <th colspan="4">{{ _("Dataset count") }}</th>
       <th colspan="2">{{ _("New datasets") }}</th>
+      {% if data.qa_enabled %}
       <th rowspan="2" class="print-hidden">{{ _("Avg. openness score") }}</th>
+      {% endif %}
       <th rowspan="2" class="print-hidden">{{ _("Data formats") }}</th>
     </tr>
     <tr>
@@ -68,7 +70,9 @@
       <td>{{ row.dataset_count_3yr }}</td>
       <td>{{ row.new_datasets_month }}</td>
       <td>{{ row.new_datasets_6_months }}</td>
+      {% if data.qa_enabled %}
       <td class="print-hidden">{% if row.openness_score_avg == None %}-{% else %}{{ row.openness_score_avg }}/5{% endif %}</td>
+      {% endif %}
       <td class="print-hidden">{{ row.resource_formats }}</td>
     </tr>
     {% endfor %}
