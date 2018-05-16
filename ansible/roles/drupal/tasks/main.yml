@@ -431,6 +431,7 @@
     - { module: ytp_frontpage, delta: twitter_feed, region: content_grid_left, weight: 1}
     - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0}
     - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1}
+    - { module: ytp_frontpage, delta: hero, region: hero, weight: 0}
     - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
     - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
     - { module: views, delta: news-block, region: content_grid_left, weight: 0}

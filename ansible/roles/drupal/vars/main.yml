@@ -20,6 +20,7 @@ extracted_features:
   - calendar_feature
   - guide_feature
   - frontpage_categories
+  - frontpage_hero
 
 ytp_features_path: "../modules/ytp-drupal-features"
 
