@@ -6,6 +6,7 @@ namespace Drupal\avoindata_hero\Plugin\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\Component\Serialization\Json;
 
 class HeroForm extends FormBase {
 
@@ -20,10 +21,30 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $client = \Drupal::httpClient();
+
+    $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_list');
+    $datasetResult = Json::decode($datasetResponse->getBody());
+    $datasetCount = count($datasetResult['result']);
+
+    $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
+    $organizationResult = Json::decode($organizationResponse->getBody());
+    $organizationCount = count($datasetResult['result']);
+
+    $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
+    $applicationResult = Json::decode($applicationResponse->getBody());
+    $applicationCount = count($datasetResult['result']);
+
+    $form['datasetcount'] = array(
+      '#markup' => $datasetCount,
+    );
+
+    $form['organizationcount'] = array(
+      '#markup' => $organizationCount,
+    );
 
     $form['applicationcount'] = array(
-      '#type' => 'value',
-      '#value' => '0',
+      '#markup' => $applicationCount,
     );
 
     $form['searchfilter'] = array(

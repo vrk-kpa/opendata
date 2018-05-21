@@ -6,7 +6,6 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('avoindata_hero/polyfill') }}
 {{ attach_library('avoindata_hero/avoindata_hero') }}
 <div class="avoindata-hero">
   {{ form.form_build_id }}
@@ -40,7 +39,7 @@
     <div class="row avoindata-hero-boxes">
       <div class="col-md-4">
         <div class="avoindata-hero-box">
-          <h2 id="avoindata-datasets-count">0</h2>
+          <h2 id="avoindata-datasets-count">{{ form.datasetcount | default("0") }}</h2>
           <p>
             {% trans %}
             Datasets
@@ -50,7 +49,7 @@
       </div>
       <div class="col-md-4">
         <div class="avoindata-hero-box">
-          <h2 id="avoindata-organizations-count">0</h2>
+          <h2 id="avoindata-organizations-count">{{ form.organizationcount | default("0") }}</h2>
           <p>
             {% trans %}
             Organizations
@@ -60,7 +59,7 @@
       </div>
       <div class="col-md-4">
         <div class="avoindata-hero-box">
-            <h2 id="avoindata-applications-count">0</h2>
+            <h2 id="avoindata-applications-count">{{ form.applicationcount | default("0") }}</h2>
             <p>
               {% trans %}
               Applications
