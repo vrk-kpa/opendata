@@ -41,6 +41,16 @@ body {
   width: 150px;
 }
 
+//Valikon linkkien containers
+#navbar .container {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 940px;
+  padding-right: 0px;
+  padding-left: 0px;
+
+}
+
 //Valikon linkit TODO: Nyt vaikuttaa vain lisälinkkeihin
 #navbar-collapse a {
   position: relative;
@@ -71,6 +81,21 @@ ul {
 // Page header.
 .page-header {
   margin-top: 0;
+}
+
+//Kielivalinnat ja hakukuvake
+.region-header {
+  display: flex;
+  align-items: center;
+  max-width: 940px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.language-switcher-language-url {
+  flex: auto;
+  display: flex;
+  justify-content: flex-end;
 }
 
 // Footer.
@@ -298,7 +323,7 @@ p:last-child,
       margin-bottom: 10px;
       transition: transform 0.5s;
       &:hover {
-          transform: scale(1.1); 
+          transform: scale(1.1);
       }
     }
     .avoindata-category-img {
