@@ -41,7 +41,69 @@ body {
   width: 150px;
 }
 
-//Valikon linkit TODO: Nyt vaikuttaa vain lisälinkkeihin
+// Page header.
+.page-header {
+  margin-top: 0;
+}
+
+//Region header contains the logo, language links and the search link
+.region-header {
+  display: flex;
+  align-items: center;
+  max-width: @header-width;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.language-switcher-language-url {
+  flex: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// First (upper) navbar
+.first-navbar {
+  margin-bottom: 0px;
+}
+
+.header-icon {
+  color: black;
+}
+
+// Second navbar
+#second-navbar {
+  background-color: @navbar-background;
+  height: @navbar-height;
+  color: @navbar-color-text;
+  .navbar-nav {
+    color: @navbar-color-darker;
+  }
+  .navbar-nav:hover {
+    color: @navbar-color-text;
+  }
+  .container {
+    display: flex;
+    justify-content: flex-end;
+    max-width: @header-width;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+// Navbar class covers both first and second navbar
+.navbar {
+  border: 0px;
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
+
+.navbar-brand {
+  img {
+    height: 20px;
+  }
+}
+
+//Links of the collapsible navbar
 #navbar-collapse a {
   position: relative;
   display: inline-block;
@@ -53,7 +115,7 @@ body {
   float: right;
 }
 
-//Valikon linkkien hover
+//Hover styles for the collapsible navbar
 #navbar-collapse a:hover {
   color: hsla(0, 0%, 100%, 0.65);
   background-color: #011734;
@@ -66,11 +128,6 @@ ul {
   .popover &:last-child {
     margin-bottom: 0;
   }
-}
-
-// Page header.
-.page-header {
-  margin-top: 0;
 }
 
 // Footer.
@@ -111,39 +168,7 @@ p:last-child,
   }
 }
 
-// First (upper) navbar
-.first-navbar {
-  margin-bottom: 0px;
-}
 
-.header-icon {
-  color: black;
-}
-
-// Second navbar
-.second-navbar {
-  background-color: @navbar-background;
-  height: @navbar-height;
-  color: @navbar-color-text;
-  .navbar-nav {
-    color: @navbar-color-darker;
-  }
-  .navbar-nav:hover {
-    color: @navbar-color-text;
-  }
-}
-
-.navbar {
-  border: 0px;
-  border-radius: 0px;
-  margin-bottom: 0px;
-}
-
-.navbar-brand {
-  img {
-    height: 20px;
-  }
-}
 
 // Footer
 .footer {
@@ -298,7 +323,7 @@ p:last-child,
       margin-bottom: 10px;
       transition: transform 0.5s;
       &:hover {
-          transform: scale(1.1); 
+          transform: scale(1.1);
       }
     }
     .avoindata-category-img {

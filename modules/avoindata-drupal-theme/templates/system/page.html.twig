@@ -55,7 +55,7 @@
 
   {# Header #}
 {% if page.header %}
-  <nav class="navbar first-navbar navbar-default">
+  <nav id="first-navbar" class="navbar first-navbar navbar-default">
   {% block header %}
   <div class="container" role="heading">
     {{ page.header }}
@@ -63,7 +63,7 @@
   {% endblock %}
   </nav>
 {% endif %}
-  
+
 {# Navbar #}
 {% if page.navigation or page.navigation_collapsible %}
   {% block navbar %}
@@ -75,7 +75,7 @@
         'second-navbar',
       ]
     %}
-    <header{{ navbar_attributes.addClass(navbar_classes) }} id="navbar" role="banner">
+    <header{{ navbar_attributes.addClass(navbar_classes) }} id="second-navbar" role="banner">
       {% if not navbar_attributes.hasClass(container) %}
         <div class="container">
       {% endif %}
