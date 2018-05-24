@@ -17,3 +17,4 @@ cdn_provider: ''
 logo:
   path: 'themes/avoindata/logo.png'
   use_default: false
+fluid_container: 1
