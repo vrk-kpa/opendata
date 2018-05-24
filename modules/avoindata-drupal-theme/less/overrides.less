@@ -468,3 +468,64 @@ p:last-child,
     }
   }
 }
+
+// Avoindata newsfeed
+
+.avoindata-newsfeed {
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  line-height: 18px;
+
+
+  .avoindata-newsfeed-block {
+    max-width: 1140px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    border-top: 6px solid #182b75;
+    border-radius: 2px;
+    .avoindata-newsfeed-column {
+      padding-right: 53px;
+      padding-left: 29px;
+      padding-top: 23px;
+      padding-bottom: 23px;
+    }
+    h4 {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .avoindata-newsfeed-icon {
+      color: #182b75;
+    }
+    .avoindata-feeditem {
+      margin-bottom: 22px;
+      font-style: normal;
+      a {
+        color: #000;
+      }
+      .feeditem-heading {
+        font-weight: 700;
+      }
+      .feeditem-date {
+        text-transform: uppercase;
+      }
+    }
+    .avoindata-newsfeed-button {
+      background-color: #2a9bc7;
+      color: #fff;
+      height: 40px;
+      padding-right: 19px;
+      padding-left: 19px;
+      border-radius: 3px;
+      text-align: center;
+      width: 170px;
+      &:hover {
+        background-color: darken(#2a9bc7, 20%);
+      }
+    }
+  }
+}
