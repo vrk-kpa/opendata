@@ -27,8 +27,10 @@
 
 // Avoindata common variables
 @import "../../ytp-assets-common/src/less/variables";
+
 /*
-Dropdown CSS copy pasted
+Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
+Modified based on the CSS at http://avoin.webflow.io
 */
 #second-navbar .dropdown-toggle {
   background-color: @navbar-background;
@@ -112,6 +114,7 @@ Dropdown CSS copy pasted
 /*
 End of dropdown CSS
 */
+
 body {
   margin: 0px;
 }
@@ -145,13 +148,14 @@ body {
   justify-content: flex-end;
 }
 
-//Hovering language selection draws a box around it
 .language-link{
   border: 1px solid transparent;
   margin-top: 9px;
   margin-bottom: 6px;
   font-weight: 600;
 }
+
+//Hovering language selection draws a box around it
 .language-link:hover {
   border-style: solid;
   border-color: rgba(0, 0, 0, .98);
