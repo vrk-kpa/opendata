@@ -1,0 +1,14 @@
+# node.type.avoindata_event.yml
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - avoindata_newsfeed
+name: 'Avoindata Event'
+type: avoindata_event
+description: 'Content type that can be used to provide additional information on <em>Avoindata Events</em>'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true
