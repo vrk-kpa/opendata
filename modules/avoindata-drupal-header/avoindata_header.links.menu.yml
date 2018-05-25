@@ -21,6 +21,7 @@ avoindata_header.moreoptions_fi:
   menu_name: main_fi
   url: 'https://10.10.10.10/fi'
   weight: 4
+  expanded: true
 
 avoindata_header.datasets_en:
   title: 'Datasets'
@@ -45,6 +46,7 @@ avoindata_header.moreoptions_en:
   menu_name: main_en
   url: 'https://10.10.10.10/en'
   weight: 3
+  expanded: true
 
 avoindata_header.datasets_sv:
   title: 'Dataseten'
@@ -69,6 +71,7 @@ avoindata_header.moreoptions_sv:
   menu_name: main_sv
   url: 'https://10.10.10.10/sv'
   weight: 3
+  expanded: true
 
 avoindata_header.add1_fi:
   title: 'Lisälinkki 1'
