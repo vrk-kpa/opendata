@@ -1,52 +1,51 @@
 {#
-/**
- * @file
- * Default theme implementation to display a menu.
- *
- * Available variables:
- * - menu_name: The machine name of the menu.
- * - items: A nested list of menu items. Each menu item contains:
- *   - attributes: HTML attributes for the menu item.
- *   - below: The menu item child items.
- *   - title: The menu link title.
- *   - url: The menu link url, instance of \Drupal\Core\Url
- *   - localized_options: Menu link localized options.
- *
- * @ingroup templates
- *
- * Define a custom macro that will render all menu trees.
- */
+Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
 #}
-{% macro menu_links(items, attributes, menu_level, classes) %}
-  {% if items %}
-    <ul class="nav navbar-nav" attributes.addClass(menu_level == 0 ? classes : 'dropdown-menu') }}>
-    {% for item in items %}
-      {%
-        set item_classes = [
-          item.is_expanded and item.below ? 'expanded',
-          item.is_expanded and menu_level == 0 and item.below ? 'dropdown',
-          item.in_active_trail ? 'active',
-        ]
-      %}
-      {% if menu_level == 0 and item.is_expanded and item.below %}
-        <li{{ item.attributes.addClass(item_classes) }}>
-        <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
-      {% else %}
-        <li{{ item.attributes.addClass(item_classes) }}>
-        {{ link(item.title, item.url) }}
-      {% endif %}
-      {% if item.below %}
-        {{ _self.menu_links(item.below, attributes.removeClass(classes), menu_level + 1, classes) }}
-      {% endif %}
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endmacro %}
+{# All menu and submenu items #}
+<div class="navbar">
+  <div class="navbar-header pull-right">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse">
+      {% import _self as menus %}
+      {#
+        We call a macro which calls itself to render the full tree.
+        @see http://twig.sensiolabs.org/doc/tags/macro.html
+      #}
+      {{ menus.menu_links(items, attributes, 0) }}
 
-{#
-  Invoke the custom macro defined above. If classes were provided, use them.
-  This allows the template to be extended without having to also duplicate the
-  code above. @see http://twig.sensiolabs.org/doc/tags/macro.html
-#}
-{{ _self.menu_links(items, attributes, 0, classes ? classes : ['menu', 'menu--' ~ menu_name|clean_class, 'nav']) }}
+      {% macro menu_links(items, attributes, menu_level) %}
+        {% import _self as menus %}
+        {% if items %}
+          {% if menu_level == 0 %}
+            <ul class="nav navbar-nav" role="menu" aria-labelledby="dropdownMenu">
+          {% else %}
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          {% endif %}
+          {% for item in items %}
+            {% if item.below %}
+              {% if menu_level == 0 %}
+                <li class="dropdown">
+                  <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
+              {% else %}
+                <li class="dropdown-submenu">
+                  <a href="{{ item.url }}">{{ item.title }}</a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
+              {% endif %}
+            {% else %}
+              <li {{ item.attributes }}>{{ link(item.title, item.url) }}</li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endmacro %}
+
+    </div>
+  </div>
+</div>
