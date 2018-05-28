@@ -5,7 +5,7 @@ dependencies:
     - language
   theme:
     - avoindata
-id: avoindata_kielenvaihtaja
+id: avoindata_language_switcher
 theme: avoindata
 region: header
 weight: 2
@@ -13,7 +13,7 @@ provider: null
 plugin: 'language_block:language_interface'
 settings:
   id: 'language_block:language_interface'
-  label: 'Kielen vaihtaja'
+  label: 'Language switcher'
   provider: language
   label_display: '0'
 visibility: {  }
