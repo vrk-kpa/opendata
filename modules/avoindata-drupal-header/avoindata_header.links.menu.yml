@@ -1,3 +1,11 @@
+avoindata_header.frontpage_fi:
+  title: 'Etusivu'
+  description: 'Frontpage'
+  parent: main_fi
+  menu_name: main_fi
+  url: 'https://10.10.10.10/fi'
+  weight: 1
+
 avoindata_header.datasets_fi:
   title: 'Tietoaineistot'
   description: 'CKAN datasets page'
@@ -23,6 +31,14 @@ avoindata_header.moreoptions_fi:
   weight: 4
   expanded: true
 
+avoindata_header.frontpage_en:
+  title: 'Frontpage'
+  description: 'Frontpage'
+  parent: main_en
+  menu_name: main_en
+  url: 'https://10.10.10.10/en'
+  weight: 1
+
 avoindata_header.datasets_en:
   title: 'Datasets'
   description: 'CKAN datasets page'
@@ -47,6 +63,14 @@ avoindata_header.moreoptions_en:
   url: 'https://10.10.10.10/en'
   weight: 3
   expanded: true
+
+avoindata_header.frontpage_sv:
+  title: 'Frontsidan'
+  description: 'Frontpage'
+  parent: main_sv
+  menu_name: main_sv
+  url: 'https://10.10.10.10/sv'
+  weight: 1
 
 avoindata_header.datasets_sv:
   title: 'Dataseten'
