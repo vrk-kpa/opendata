@@ -75,7 +75,7 @@
         'second-navbar',
       ]
     %}
-    <header{{ navbar_attributes.addClass(navbar_classes) }} id="second-navbar" role="banner">
+    <nav class="navbar navbar-default" id="second-navbar">
       {% if not navbar_attributes.hasClass(container) %}
         <div class="container">
       {% endif %}
@@ -93,7 +93,7 @@
       {% if not navbar_attributes.hasClass(container) %}
         </div>
       {% endif %}
-    </header>
+    </nav>
   {% endblock %}
 {% endif %}
 

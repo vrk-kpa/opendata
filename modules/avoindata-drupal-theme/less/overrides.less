@@ -31,6 +31,7 @@
 /*
 Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
 Modified based on the CSS at http://avoin.webflow.io
+Differences in the smaller screen size are together with other @media definitions
 */
 #second-navbar .dropdown-toggle {
   background-color: @navbar-background;
@@ -38,23 +39,6 @@ Modified based on the CSS at http://avoin.webflow.io
   //This color is default color from Bootstrap,
   //but it was overwritten by another value
   color: #777
-}
-
-.dropdown-menu>li>a {
-  margin-right: 0px;
-  margin-bottom: 1px;
-  padding: 15px 22px 15px 16px;
-  border-left: 10px solid transparent;
-  background-color: #fff;
-  display: block;
-  color: #222222;
-}
-
-#second-navbar .dropdown-menu>li>a:hover{
-  border-left: 10px solid #002e90;
-  text-decoration: none;
-  color: #262626;
-  background-color: #fff;
 }
 
 .dropdown-submenu {
@@ -144,27 +128,30 @@ body {
 
 #block-avoindata-language-switcher ul {
   margin: 0px;
+  //To make the space between search icon similar to space
+  //between language icons
+  margin-right: 15px;
   display: flex;
+  .language-link{
+    border: 1px solid transparent;
+    margin-top: 9px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #222222
+  }
+
+  //Hovering language selection draws a box around it
+  .language-link:hover {
+    border-style: solid;
+    border-color: rgba(0, 0, 0, .98);
+    border-radius: 2px;
+  }
 }
 
 .language-switcher-language-url {
   flex: auto;
   display: flex;
   justify-content: flex-end;
-}
-
-.language-link{
-  border: 1px solid transparent;
-  margin-top: 9px;
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-//Hovering language selection draws a box around it
-.language-link:hover {
-  border-style: solid;
-  border-color: rgba(0, 0, 0, .98);
-  border-radius: 2px;
 }
 
 // First (upper) navbar
@@ -177,27 +164,71 @@ body {
 }
 
 // Second navbar
+
 #second-navbar {
   background-color: @navbar-background;
-  height: @navbar-height;
-  color: @navbar-color-text;
-  .navbar-nav {
-    color: @navbar-color-darker;
+  .navbar-nav>li>a{
+    color: @navbar-color-links;
+  }
+  .navbar-collapse{
+    border: 0; //To override bootstrap's 1px white border
   }
   .navbar-nav:hover {
-    color: @navbar-color-text;
+    color: @navbar-color-links;
   }
-  .container {
+  .navbar-toggle:hover {
+    background-color: transparent; //hovering the bootstrap toggle button
+  }
+  a:hover {
+    color: @navbar-color-links;
+    background-color: #011734;
+    text-decoration: underline;
+  }
+}
+
+
+@media screen and (min-width: 992px) {
+  //The links should be right-aligned only when not collapsed
+  #second-navbar {
+    height: @navbar-height;
+    .container {
     display: flex;
     justify-content: flex-end;
     max-width: @header-width;
     padding-right: 0px;
     padding-left: 0px;
   }
-  a:hover {
-    color: @navbar-color-darker;
-    background-color: #011734;
-    text-decoration: underline;
+  .navbar-collapse {
+    padding-right: 0px; //To make links align with first navbar
+  }
+  .navbar-nav>li>a {
+    padding-right: 0px; //To make links align with first navbar
+  }
+ }
+  .dropdown-menu>li>a {
+    margin-right: 0px;
+    margin-bottom: 1px;
+    padding: 15px 22px 15px 16px;
+    border-left: 10px solid transparent;
+    background-color: #fff;
+    display: block;
+    color: #222222;
+  }
+
+  #second-navbar .dropdown-menu>li>a:hover{
+    border-left: 10px solid #002e90;
+    text-decoration: none;
+    color: #262626;
+    background-color: #fff;
+  }
+}
+
+//With a collapsed navbar, the submenu links need to be on the left and
+//have the same color as other links
+@media screen and (max-width: 991px){
+  #second-navbar .dropdown-menu>li>a {
+    float: left;
+    color: @navbar-color-links;
   }
 }
 
@@ -236,7 +267,7 @@ body {
     float: right;
   }
   a:hover {
-    color: @navbar-color-darker;
+    color: @navbar-color-links;
     background-color: #011734;
     text-decoration: underline;
   }
