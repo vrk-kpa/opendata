@@ -23,28 +23,9 @@ class AppFeedBlock extends BlockBase {
     $client = \Drupal::httpClient();
     $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    // Limit not working for ckanext_showcase_list
-    $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/ckanext_showcase_list?sort=metadata_modified%20desc');
+    $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?fq=dataset_type:showcase&sort=metadata_modified%20desc&rows=3');
     $recentApplicationsResult = Json::decode($recentApplicationsResponse->getBody());
-    $recentApplications = $recentApplicationsResult['result'];
-    $recentApplications = array_slice($recentApplications, 0, 3);
-
-    // TODO: find more elegant way of doing this.
-    foreach ($recentApplications as &$application) {
-      $extras = $application['extras'];
-      foreach ($extras as $item) {
-        	if ($item['key'] == 'icon') {
-            $application['logourl'] = $item['value'];
-          }
-          elseif ($item['key'] == 'category') {
-            $application['category'] = (array) json_decode($item['value']);
-          }
-          elseif ($item['key'] == 'notes_translated') {
-            $application['notes'] = (array) json_decode($item['value']);
-          }
-      }
-    }
-    unset($application);
+    $recentApplications = $recentApplicationsResult['result']['results'];
 
     return array(
       '#applications' => $recentApplications,
