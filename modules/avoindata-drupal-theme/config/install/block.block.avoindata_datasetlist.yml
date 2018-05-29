@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_datasetlist
 theme: avoindata
-region: highlighted
+region: content
 weight: 4
 provider: null
 plugin: avoindata_datasetlist

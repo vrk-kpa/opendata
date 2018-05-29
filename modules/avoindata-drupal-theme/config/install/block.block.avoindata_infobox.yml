@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_infobox
 theme: avoindata
-region: highlighted
+region: content
 weight: 3
 provider: null
 plugin: avoindata_infobox

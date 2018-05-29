@@ -7,12 +7,12 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
- * Provides a 'Avoindata news feed' Block.
+ * Provides a 'Avoindata News Feed' Block.
  *
  * @Block(
  *   id = "avoindata_newsfeed",
- *   admin_label = @Translation("Avoindata news feed"),
- *   category = @Translation("Avoindata news feed"),
+ *   admin_label = @Translation("Avoindata News Feed"),
+ *   category = @Translation("Avoindata News Feed"),
  * )
  */
 class NewsFeedBlock extends BlockBase {

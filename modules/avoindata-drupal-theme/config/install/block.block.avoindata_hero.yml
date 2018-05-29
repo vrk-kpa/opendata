@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_hero
 theme: avoindata
-region: highlighted
+region: content
 weight: 1
 provider: null
 plugin: avoindata_hero

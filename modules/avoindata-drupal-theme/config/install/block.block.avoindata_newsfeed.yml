@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_newsfeed
 theme: avoindata
-region: highlighted
+region: content
 weight: 7
 provider: null
 plugin: avoindata_newsfeed
