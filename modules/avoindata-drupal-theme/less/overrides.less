@@ -647,6 +647,7 @@ p:last-child,
     .avoindata-feeditem {
       margin-bottom: 22px;
       font-style: normal;
+      min-height: 60px;
       a {
         color: #000;
       }
@@ -669,6 +670,85 @@ p:last-child,
       &:hover {
         background-color: darken(#2a9bc7, 20%);
       }
+    }
+  }
+}
+
+// Avoindata App Feed
+.avoindata-appfeed {
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  line-height: 18px;
+  .avoindata-appfeed-container {
+    max-width: 1140px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+    .avoindata-appfeed-appcontainer {
+      padding-left: 0px;
+      margin-bottom: 20px;
+      a {
+        color: #000;
+      }
+      .avoindata-appfeed-appcontainer-applist {
+        .avoindata-appfeed-link-bullet {
+          margin-right: 5px;
+          color: #db5800;
+        }
+        .avoindata-appfeed-application-box {
+          padding-top: 15px;
+          padding-right: 0px;
+          margin-left: 0px;
+          padding-bottom: 15px;
+          border-top: 1px solid rgba(0, 0, 0, .33);
+          border-bottom: 1px none rgba(0, 0, 0, .35);
+          
+          .application-item-logo {
+            margin-right: 0px;
+            padding-right: 0px;
+            padding-left: 0px;
+            .application-item-img {
+              height: 120px;
+              width: 120px;
+              object-fit: cover;
+              border-radius: 3px;
+              margin-top: 10px;
+              margin-bottom: 10px;
+            }
+          }
+          .application-item-content {
+            padding-left: 0px;
+            .appitem-header {
+              font-size: 18px;
+              line-height: 24px;
+            }
+            .appitem-metainfo {
+              font-size: 12px;
+              font-style: normal;
+              text-transform: uppercase;
+              .appitem-fa-icon {
+                color: #182b75;
+              }
+            }
+            .appitem-content {
+              font-size: 14px;
+              line-height: 16px;
+              display: block;
+              display: -webkit-box;
+              height: 64px;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+    .avoindata-appfeed-twittercontainer {
+      margin-top: 12px;
     }
   }
 }
