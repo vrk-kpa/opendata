@@ -21,7 +21,7 @@ msgstr "Uusimmat tietoaineistot"
 msgid "Categories of open data"
 msgstr "Avoimen datan kategoriat"
 
-msgid "Avoindata.fi - All the Open Data in Finland within one service"
+msgid "Avoindata.fi — All the Open Data in Finland within one service"
 msgstr "Avoindata.fi — Suomen kaikki avoin data yhdestä paikasta"
 
 msgid ""

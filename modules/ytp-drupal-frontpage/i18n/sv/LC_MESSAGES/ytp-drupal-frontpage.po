@@ -21,7 +21,7 @@ msgstr "Senaste dataseten"
 msgid "Categories of open data"
 msgstr "Kategorier av öppna data"
 
-msgid "Avoindata.fi - All the Open Data in Finland within one service"
+msgid "Avoindata.fi — All the Open Data in Finland within one service"
 msgstr "Avoindata.fi — Alla öppna data i Finland inom en tjänst"
 
 msgid ""
