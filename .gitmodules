@@ -44,3 +44,6 @@
 [submodule "modules/ckanext-disqus"]
 	path = modules/ckanext-disqus
 	url = https://github.com/ckan/ckanext-disqus.git
+[submodule "modules/ckanext-reminder"]
+	path = modules/ckanext-reminder
+	url = https://github.com/6aika/ckanext-reminder.git
