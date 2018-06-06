@@ -29,7 +29,8 @@
         "webmozart/path-util": "^2.3",
         "drupal/migrate_plus": "^4.0",
         "drupal/migrate_tools": "^4.0",
-        "drupal/migrate_upgrade": "^3.0"
+        "drupal/migrate_upgrade": "^3.0",
+        "drupal/twig_tweak": "^2.0"
     },
     "require-dev": {
         "webflo/drupal-core-require-dev": "~8.5.3"

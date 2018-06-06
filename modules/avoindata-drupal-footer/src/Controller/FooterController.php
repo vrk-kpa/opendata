@@ -3,12 +3,15 @@
 namespace Drupal\avoindata_footer\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use \Symfony\Component\HttpFoundation\Response;
 
 class FooterController extends ControllerBase {
   public function footer() {
-    $build = [
-      '#markup' => t('Hello World!'),
-    ];
-    return $build;
+    $build = array(
+			'#theme' => 'avoindata_footer'
+    );
+    
+		// Only render this part, not the whole page
+    return new Response(render($build));
   }
 }
