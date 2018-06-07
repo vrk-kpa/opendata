@@ -206,7 +206,7 @@
 
 ### Extra modules ###
 
-- name: Enable Drupal language modules
+- name: Enable Drupal extra modules
   command: ../vendor/drush/drush/drush en -y {{ item }}
   args:
     chdir: "{{ drupal8_root }}/web"
