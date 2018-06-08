@@ -85,7 +85,7 @@
     name: "Add email reminder"
     minute: "0"
     hour: "9"
-    job: "sudo {{ virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder send --config={{ ckan_ini }}"
+    job: "{{ virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder send --config={{ ckan_ini }}"
   tags:
   - ckan
   - cron
