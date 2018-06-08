@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -1671,6 +1671,10 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:174
 msgid "All time visits:"
 msgstr "Sivunäyttöjä kaikkiaan:"
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html
+msgid "Visitors during year"
+msgstr "Sivunäyttöjä vuonna "
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:190
 msgid "Visits"
