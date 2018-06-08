@@ -1,11 +1,22 @@
 @import "upstream_ckan/ytp_ckan_bootstrap";
-@import "../variables.less";
 
-@import "../navbars";
-@import "../responsive";
-@import "../common";
-@import "../forms";
-@import "../offcanvas";
+@common-path: "../..";
+@common-less: "@{common-path}/less";
+
+@import "@{common-less}/variables.less";
+
+@import "@{common-less}/navbars";
+@import "@{common-less}/responsive";
+@import "@{common-less}/common";
+@import "@{common-less}/forms";
+@import "@{common-less}/offcanvas";
+
+// FontAwesome
+@import "@{common-less}/fontawesome/fontawesome";
+@import "@{common-less}/fontawesome/fa-solid.less";
+@import "@{common-less}/fontawesome/fa-regular.less";
+@import "@{common-less}/fontawesome/fa-brands.less";
+@fa-font-path: "@{common-path}/fonts";
 
 [role="main"] {
   background: transparent;
