@@ -182,7 +182,7 @@
 
 - name: Enable Drupal language modules
   command: ../vendor/drush/drush/drush en -y {{ item }}
-  args: 
+  args:
     chdir: "{{ drupal8_root }}/web"
   with_items:
     - config_translation
@@ -203,6 +203,15 @@
   command: ../vendor/drush/drush/drush language-default -y fi
   args: 
     chdir: "{{ drupal8_root }}/web"
+
+### Extra modules ###
+
+- name: Enable Drupal extra modules
+  command: ../vendor/drush/drush/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - twig_tweak
 
 ### Custom modules ###
 # Contrib modules should be installed with Composer, not here #
@@ -228,6 +237,7 @@
     chdir: "{{ drupal8_root }}/web"
   with_items:
     - "avoindata_header"
+    - "avoindata_footer"
     - "avoindata_hero"
     - "avoindata_categories"
     - "avoindata_infobox"
