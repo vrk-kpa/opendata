@@ -58,7 +58,7 @@ scheming.group_schemas = ckanext.ytp.schemas:group.json
 
 ckan.site_title = Avoindata.fi
 ckan.site_logo = {{www_root}}/resources/images/avoindata.fi.png
-ckan.site_description = 
+ckan.site_description =
 
 ckan.favicon = {{www_root}}/resources/images/favicon.ico
 ckan.gravatar_default = identicon
@@ -67,9 +67,9 @@ ckan.locale_default = fi
 ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
 ckan.locales_offered = fi sv en_GB
 ckan.locales_filtered_out = en
-ckan.feeds.authority_name = 
-ckan.feeds.date = 
-ckan.feeds.author_name = 
+ckan.feeds.authority_name =
+ckan.feeds.date =
+ckan.feeds.author_name =
 ckan.feeds.author_link =
 
 ckan.cors.origin_allow_all = True
@@ -119,6 +119,16 @@ ckanext.ytp.dataset.auto_author = {% if auto_author_enabled -%}true{%- else -%}f
 
 ckanext.ytp.theme.logos = default:opendata_fi.png avoindata_default:avoindata_fi.png opendata_default:opendata_en.png avoindata_fi:avoindata_fi.png avoindata_en:avoindata_en.png avoindata_sv:avoindata_se.png opendata_fi:opendata_fi.png opendata_en:opendata_en.png opendata_sv:opendata_se.png
 
+# The email links for reminders will be prefixed with this site url
+ckanext.reminder.site_url = https://www.avoindata.fi
+
+# This configuration can be overwritten in the admin configuration UI
+# Default address for sending the reminders
+ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
+
+#The field that is checked for the expiry date for reminders
+ckanext.reminder.date_field = valid_till
+ckanext.reminder.email_field = maintainer_email
 {% if AWS.enabled -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}
@@ -213,7 +223,7 @@ BROKER_URL = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_datab
 CELERY_RESULT_BACKEND = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}
 CELERY_RESULT_SERIALIZER = json
 CELERY_TASK_SERIALIZER = json
-BROKER_BACKEND = 
-BROKER_HOST = 
-CELERY_RESULT_DBURI = 
+BROKER_BACKEND =
+BROKER_HOST =
+CELERY_RESULT_DBURI =
 CELERYD_CONCURRENCY = 1
