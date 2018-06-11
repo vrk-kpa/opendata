@@ -47,3 +47,7 @@
 [submodule "modules/ckanext-reminder"]
 	path = modules/ckanext-reminder
 	url = https://github.com/6aika/ckanext-reminder.git
+[submodule "modules/ckanext-googleanalytics"]
+	path = modules/ckanext-googleanalytics
+	url = https://github.com/vrk-kpa/ckanext-googleanalytics.git
+

@@ -1,0 +1,7 @@
+avoindata_footer.footer:
+  path: '/api/footer'
+  defaults:
+    _controller: '\Drupal\avoindata_footer\Controller\FooterController::footer'
+    _title: 'Footer'
+  requirements:
+    _permission: 'access content'

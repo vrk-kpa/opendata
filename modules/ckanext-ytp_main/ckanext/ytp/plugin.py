@@ -1557,14 +1557,21 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def _drupal_footer(self):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
 
+        import ssl
+
         try:
             # Call our custom Drupal API to get footer content
             hostname = config.get('ckan.site_url', '')
-            response = urllib2.urlopen(hostname + '/api/footer/' + lang)
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            response = urllib2.urlopen('%s/%s/api/footer/' % (hostname, lang), context=ctx)
             return response.read().decode("utf-8")
-        except urllib2.HTTPError:
+        except urllib2.HTTPError, e:
+            log.error('%s' % e)
             return ''
-        except:
+        except Exception, e:
+            log.error('%s' % e)
             return ''
 
         return None

@@ -1,0 +1,6 @@
+name: Avoindata Footer
+type: module
+description: Creates footer component
+package: Custom
+core: 8.x
+
