@@ -1554,7 +1554,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         else:
             return self._short_domain(hostname, default)
 
-    def _drupal_footer(self):
+    def _drupal_snippet(self, path):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
 
         import ssl
@@ -1565,7 +1565,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
-            response = urllib2.urlopen('%s/%s/api/footer/' % (hostname, lang), context=ctx)
+            response = urllib2.urlopen('%s/%s/%s' % (hostname, lang, path), context=ctx)
             return response.read().decode("utf-8")
         except urllib2.HTTPError, e:
             log.error('%s' % e)
@@ -1576,9 +1576,15 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         return None
 
+    def _drupal_footer(self):
+        return self._drupal_snippet('api/footer')
+
+    def _drupal_header(self):
+        return self._drupal_snippet('api/header')
+
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
-                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer}
+                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
 def _get_user_image(user):
