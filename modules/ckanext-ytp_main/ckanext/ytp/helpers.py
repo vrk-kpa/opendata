@@ -302,7 +302,15 @@ def get_visits_for_dataset(id):
 
     return PackageStats.get_all_visits(id)
 
+def get_visits_count_for_dataset_during_last_year(id):
 
+    from ckanext.googleanalytics.model import PackageStats
+
+    return len(PackageStats.get_visits_during_year(id, datetime.datetime.now().year - 1))
+def get_current_date():
+
+    return datetime.datetime.now()
+    
 def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
 
