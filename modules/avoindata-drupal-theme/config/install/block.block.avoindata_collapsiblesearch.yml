@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_collapsiblesearch
 theme: avoindata
-region: header
+region: top_bar
 weight: 3
 provider: null
 plugin: search_collapsible

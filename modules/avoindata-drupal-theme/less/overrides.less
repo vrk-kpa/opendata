@@ -18,15 +18,15 @@
 // jQuery UI style overrides.
 @import "jquery-ui/autocomplete";
 
-@common-path: "../../ytp-assets-common/src"
-@common-less: "@{common-path}/less"
+@common-path: "../../ytp-assets-common/src";
+@common-less: "@{common-path}/less";
 
 // FontAwesome
 @import "@{common-less}/fontawesome/fontawesome";
 @import "@{common-less}/fontawesome/fa-solid.less";
 @import "@{common-less}/fontawesome/fa-regular.less";
 @import "@{common-less}/fontawesome/fa-brands.less";
-@fa-font-path: "@{common-path}/fonts";
+@fa-font-path: "../fonts";
 
 // Avoindata common variables
 @import "@{common-less}/variables";
@@ -124,7 +124,7 @@ body {
 }
 
 //Region header contains the logo, language links and the search link
-.region-header {
+.region-top-bar {
   display: flex;
   align-items: center;
   max-width: @header-width;
@@ -154,7 +154,8 @@ body {
   }
 }
 
-.language-switcher-language-url {
+// Drupal issue #736066, the switcher is sometimes wrapped in a div
+.language-switcher-language-url, .region-top-bar>div {
   flex: auto;
   display: flex;
   justify-content: flex-end;
