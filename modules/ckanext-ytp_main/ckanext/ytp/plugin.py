@@ -1580,7 +1580,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return self._drupal_snippet('api/footer')
 
     def _drupal_header(self):
-        return self._drupal_snippet('api/header')
+        result = self._drupal_snippet('api/header')
+        if result:
+            # Language switcher links will point to /api/header, fix them based on currently requested page
+            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % request.path_qs, result)
+        return result
 
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
