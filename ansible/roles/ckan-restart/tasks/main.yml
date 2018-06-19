@@ -79,3 +79,13 @@
   - ckan
   - non-local
   - test
+
+- name: Add email reminder about expiring datasets as a cron job
+  cron:
+    name: "Add email reminder"
+    minute: "0"
+    hour: "9"
+    job: "{{ virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder send --config={{ ckan_ini }}"
+  tags:
+  - ckan
+  - cron

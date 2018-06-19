@@ -41,7 +41,7 @@ import menu
 import logic
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
+from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_visits_count_for_dataset_during_last_year, get_current_date, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
 from tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method, create_system_context, get_original_method, add_translation_show_schema, add_languages_show, add_translation_modify_schema, add_languages_modify
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
@@ -220,7 +220,7 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
- 
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -558,6 +558,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
+                'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
+                'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
                 'unquote_url': unquote_url,
