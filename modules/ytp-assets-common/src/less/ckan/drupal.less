@@ -1,0 +1,33 @@
+/**
+ * Styles in drupal core also used in CKAN through shared components
+ */
+
+/**
+ * Hide elements visually, but keep them available for screen readers.
+ *
+ * Used for information required for screen reader users to understand and use
+ * the site where visual display is undesirable. Information provided in this
+ * manner should be kept concise, to avoid unnecessary burden on the user.
+ * "!important" is used to prevent unintentional overrides.
+ */
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  word-wrap: normal;
+}
+
+/**
+ * The .focusable class extends the .visually-hidden class to allow
+ * the element to be focusable when navigated to via the keyboard.
+ */
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+  position: static !important;
+  clip: auto;
+  overflow: visible;
+  height: auto;
+  width: auto;
+}

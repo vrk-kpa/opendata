@@ -22,5 +22,8 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
     'avoindata_header_search_collapsible' => array(
       'template' => 'avoindata_header_search_collapsible',
     ),
+    'avoindata_header' => array(
+      'template' => 'avoindata_header',
+    ),
   );
 }

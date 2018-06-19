@@ -7,7 +7,7 @@ dependencies:
     - avoindata
 id: avoindata_sitebranding
 theme: avoindata
-region: header
+region: top_bar
 weight: 1
 provider: null
 plugin: system_branding_block
