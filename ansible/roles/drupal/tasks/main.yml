@@ -265,6 +265,19 @@
     dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
+- name: Synchronize fonts
+  synchronize:
+    src: ../modules/ytp-assets-common/src/fonts/
+    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+  when: deployment_environment_id != "vagrant"
+
+- name: Symlink fonts
+  file:
+    state: link
+    src: /vagrant/modules/ytp-assets-common/src/fonts/
+    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+  when: deployment_environment_id == "vagrant"
+
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata
   args:

@@ -2,5 +2,5 @@
 
 {# Hides default CKAN header and navbar #}
 {% block header_wrapper %}
-    {% include "body-navigation.j2" %}    
+  {{ h.drupal_header()|safe }}
 {% endblock %}
