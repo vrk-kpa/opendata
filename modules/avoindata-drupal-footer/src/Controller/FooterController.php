@@ -12,6 +12,6 @@ class FooterController extends ControllerBase {
     );
     
 		// Only render this part, not the whole page
-    return new Response(render($build));
+    return new Response(\Drupal::service('renderer')->renderRoot($build));
   }
 }
