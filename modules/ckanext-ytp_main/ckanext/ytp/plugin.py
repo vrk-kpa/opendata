@@ -220,7 +220,7 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
- 
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -1688,3 +1688,14 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
             #m.connect('/user/{id}', action='read')
 
         return map
+
+
+class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
+       plugins.implements(plugins.IAuthFunctions)
+
+       def admin_only_for_categories(self, context, data_dict=None):
+           return {'success': False, 'msg': 'Only admins can create and edit new categories'}
+
+       def get_auth_functions(self):
+           return {'group_create': self.admin_only_for_categories,
+                   'group_update': self.admin_only_for_categories}
