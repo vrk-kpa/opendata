@@ -8,7 +8,9 @@ map $http_cookie $no_cache {
 server {
     listen 80;
     server_name {{ item.server_name }};
-    return 301 https://$host$request_uri;
+    if ($http_x_forwarded_proto = 'http') {
+        return 301 https://$host$request_uri;
+    }
 }
 
 {% if item.base_hostname %}
