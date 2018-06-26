@@ -1,34 +1,42 @@
 avoindata_header.frontpage_fi:
   title: 'Etusivu'
-  description: 'Frontpage'
+  description: 'Etusivu'
   parent: main_fi
   menu_name: main_fi
-  url: 'https://10.10.10.10/fi'
+  url: 'internal:/fi'
   weight: 1
 
 avoindata_header.datasets_fi:
   title: 'Tietoaineistot'
-  description: 'CKAN datasets page'
+  description: 'Tietoaineistot'
   parent: main_fi
   menu_name: main_fi
-  url: 'https://10.10.10.10/data/fi/dataset'
+  url: 'internal:/data/fi/dataset'
   weight: 2
 
 avoindata_header.organizations_fi:
   title: 'Organisaatiot'
-  description: 'CKAN organizations page'
+  description: 'Organisaatiot'
   parent: main_fi
   menu_name: main_fi
-  url: 'https://10.10.10.10/data/fi/organization'
+  url: 'internal:/data/fi/organization'
   weight: 3
+
+avoindata_header.apps_fi:
+  title: 'Käyttösovellukset'
+  description: 'Käyttösovellukset'
+  parent: main_fi
+  menu_name: main_fi
+  url: 'internal:/data/fi/showcase'
+  weight: 4
 
 avoindata_header.moreoptions_fi:
   title: 'Lisää'
   description: 'Lisää'
   parent: main_fi
   menu_name: main_fi
-  url: 'https://10.10.10.10/fi'
-  weight: 4
+  url: 'internal:/fi'
+  weight: 99
   expanded: true
 
 avoindata_header.frontpage_en:
@@ -36,32 +44,40 @@ avoindata_header.frontpage_en:
   description: 'Frontpage'
   parent: main_en
   menu_name: main_en
-  url: 'https://10.10.10.10/en'
+  url: 'internal:/en'
   weight: 1
 
 avoindata_header.datasets_en:
   title: 'Datasets'
-  description: 'CKAN datasets page'
+  description: 'Datasets'
   parent: main_en
   menu_name: main_en
-  url: 'https://10.10.10.10/data/en/dataset'
+  url: 'internal:/data/en/dataset'
   weight: 2
 
 avoindata_header.organizations_en:
   title: 'Organizations'
-  description: 'CKAN organizations page'
+  description: 'Organizations'
   parent: main_en
   menu_name: main_en
-  url: 'https://10.10.10.10/data/en/organization'
+  url: 'internal:/data/en/organization'
   weight: 3
+
+avoindata_header.apps_en:
+  title: 'Applications'
+  description: 'Applications'
+  parent: main_en
+  menu_name: main_en
+  url: 'internal:/data/en/showcase'
+  weight: 4
 
 avoindata_header.moreoptions_en:
   title: 'More options'
   description: 'More options'
   parent: main_en
   menu_name: main_en
-  url: 'https://10.10.10.10/en'
-  weight: 3
+  url: 'internal:/en'
+  weight: 99
   expanded: true
 
 avoindata_header.frontpage_sv:
@@ -69,78 +85,101 @@ avoindata_header.frontpage_sv:
   description: 'Frontpage'
   parent: main_sv
   menu_name: main_sv
-  url: 'https://10.10.10.10/sv'
+  url: 'internal:/sv'
   weight: 1
 
 avoindata_header.datasets_sv:
   title: 'Dataseten'
-  description: 'CKAN datasets page'
+  description: 'Dataseten'
   parent: main_sv
   menu_name: main_sv
-  url: 'https://10.10.10.10/data/sv/dataset'
+  url: 'internal:/data/sv/dataset'
   weight: 2
 
 avoindata_header.organizations_sv:
   title: 'Organisationer'
-  description: 'CKAN organizations page'
+  description: 'Organisationer'
   parent: main_sv
   menu_name: main_sv
-  url: 'https://10.10.10.10/data/sv/organization'
+  url: 'internal:/data/sv/organization'
   weight: 3
+
+avoindata_header.apps_sv:
+  title: 'Apps'
+  description: 'Apps'
+  parent: main_sv
+  menu_name: main_sv
+  url: 'internal:/data/sv/showcase'
+  weight: 4
 
 avoindata_header.moreoptions_sv:
   title: 'Mer'
   description: 'Mer'
   parent: main_sv
   menu_name: main_sv
-  url: 'https://10.10.10.10/sv'
-  weight: 3
+  url: 'internal:/sv'
+  weight: 99
   expanded: true
 
-avoindata_header.add1_fi:
-  title: 'Lisälinkki 1'
-  description: 'testing'
+avoindata_header.login_fi:
+  title: 'Kirjaudu sisään'
+  description: 'Kirjaudu sisään'
   parent: avoindata_header.moreoptions_fi
   menu_name: main_fi
-  url: 'https://www.google.com'
+  url: 'internal:/data/fi/user/login'
   weight: 1
+  options:
+    fa_icon: 'fa-sign-in-alt'
 
-avoindata_header.add2_fi:
-  title: 'Lisälinkki 2'
-  description: 'testing'
+avoindata_header.register_fi:
+  title: 'Rekisteröidy palveluun'
+  description: 'Rekisteröidy palveluun'
   parent: avoindata_header.moreoptions_fi
   menu_name: main_fi
-  url: 'https://www.google.com'
+  url: 'internal:/data/fi/user/register'
   weight: 2
+  options:
+    fa_icon: 'fa-pencil-alt'
 
-avoindata_header.add1_en:
-  title: 'More 1'
-  description: 'testing'
+avoindata_header.login_en:
+  title: 'Log in'
+  icon: 'sign-in-alt'
+  description: 'Log in'
   parent: avoindata_header.moreoptions_en
   menu_name: main_en
-  url: 'https://www.google.com'
+  url: 'internal:/data/en/user/login'
   weight: 1
+  options:
+    fa_icon: 'fa-sign-in-alt'
 
-avoindata_header.add2_en:
-  title: 'More 2'
-  description: 'testing'
+avoindata_header.register_en:
+  title: 'Register an account'
+  description: 'Register an account'
   parent: avoindata_header.moreoptions_en
   menu_name: main_en
-  url: 'https://www.google.com'
+  url: 'internal:/data/en/user/register'
   weight: 2
+  options:
+    fa_icon: 'fa-pencil-alt'
 
-avoindata_header.add1_sv:
-  title: 'Link ett'
-  description: 'testing'
+avoindata_header.login_sv:
+  title: 'Logga in'
+  icon: 'sign-in-alt'
+  description: 'Logga in'
   parent: avoindata_header.moreoptions_sv
   menu_name: main_sv
-  url: 'https://www.google.com'
+  url: 'internal:/data/sv/user/login'
   weight: 1
+  options:
+    fa_icon: 'fa-sign-in-alt'
 
-avoindata_header.add2_sv:
-  title: 'Link två'
-  description: 'testing'
+avoindata_header.register_sv:
+  title: 'Registrera ett konto'
+  description: 'Registrera ett konto'
   parent: avoindata_header.moreoptions_sv
   menu_name: main_sv
-  url: 'https://www.google.com'
+  url: 'internal:/data/sv/user/register'
   weight: 2
+  options:
+    fa_icon: 'fa-pencil-alt'
+
