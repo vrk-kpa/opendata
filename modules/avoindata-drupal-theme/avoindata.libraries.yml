@@ -17,3 +17,8 @@ bootstrap-scripts:
     bootstrap/js/scrollspy.js: {}
     bootstrap/js/tab.js: {}
     bootstrap/js/transition.js: {}
+
+fonts:
+  css:
+    theme:
+      '//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic': { type: external, minified: true }
