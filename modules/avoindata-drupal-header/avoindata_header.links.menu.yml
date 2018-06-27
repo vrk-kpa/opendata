@@ -126,7 +126,7 @@ avoindata_header.login_fi:
   description: 'Kirjaudu sisään'
   parent: avoindata_header.moreoptions_fi
   menu_name: main_fi
-  url: 'internal:/data/fi/user/login'
+  url: 'internal:/fi/user/login'
   weight: 1
   options:
     fa_icon: 'fa-sign-in-alt'
@@ -136,7 +136,7 @@ avoindata_header.register_fi:
   description: 'Rekisteröidy palveluun'
   parent: avoindata_header.moreoptions_fi
   menu_name: main_fi
-  url: 'internal:/data/fi/user/register'
+  url: 'internal:/fi/user/register'
   weight: 2
   options:
     fa_icon: 'fa-pencil-alt'
@@ -147,7 +147,7 @@ avoindata_header.login_en:
   description: 'Log in'
   parent: avoindata_header.moreoptions_en
   menu_name: main_en
-  url: 'internal:/data/en/user/login'
+  url: 'internal:/en/user/login'
   weight: 1
   options:
     fa_icon: 'fa-sign-in-alt'
@@ -157,7 +157,7 @@ avoindata_header.register_en:
   description: 'Register an account'
   parent: avoindata_header.moreoptions_en
   menu_name: main_en
-  url: 'internal:/data/en/user/register'
+  url: 'internal:/en/user/register'
   weight: 2
   options:
     fa_icon: 'fa-pencil-alt'
@@ -168,7 +168,7 @@ avoindata_header.login_sv:
   description: 'Logga in'
   parent: avoindata_header.moreoptions_sv
   menu_name: main_sv
-  url: 'internal:/data/sv/user/login'
+  url: 'internal:/sv/user/login'
   weight: 1
   options:
     fa_icon: 'fa-sign-in-alt'
@@ -178,7 +178,7 @@ avoindata_header.register_sv:
   description: 'Registrera ett konto'
   parent: avoindata_header.moreoptions_sv
   menu_name: main_sv
-  url: 'internal:/data/sv/user/register'
+  url: 'internal:/sv/user/register'
   weight: 2
   options:
     fa_icon: 'fa-pencil-alt'
