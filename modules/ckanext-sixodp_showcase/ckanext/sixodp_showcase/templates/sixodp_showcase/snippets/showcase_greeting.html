@@ -22,7 +22,9 @@ Example:
             {% trans %}Commonly the creators of opendata applications are researchers, freelanchers and software developers, but with the help of improved development and visualization tools anyone is able to utilize these datasets. You can find additional information from our guide to open data.{% endtrans %}
           </p>
           <p>
-            {% trans %}Have you created application that utilizes open data? Add your own application to the list bellow.{% endtrans %}
+            {% set current_language = h.lang() %}
+            {% trans %}Have you created application that utilizes open data?{% endtrans %}
+            <a href="/data/{{current_language}}/submit-showcase">{% trans %}Inform us about your application by using this form and it will be added to the list bellow.{% endtrans %}</a>
           </p>
         </div>
       </div>
