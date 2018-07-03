@@ -585,11 +585,22 @@ class SixodpHarvester(HarvesterBase):
                     package_plugin = lib_plugins.lookup_package_plugin(package_dict['type'])
 
 
-                schema = package_plugin.create_package_schema()
+                errors = {}
+                # if package has been previously imported
+                try:
+                    existing_package_dict = self._find_existing_package(package_dict)
 
+                    if not 'metadata_modified' in package_dict or \
+                            package_dict['metadata_modified'] > existing_package_dict.get('metadata_modified'):
+                        schema = package_plugin.update_package_schema()
+                        data, errors = lib_plugins.plugin_validate(
+                            package_plugin, base_context, package_dict, schema, 'package_update')
 
-                data, errors = lib_plugins.plugin_validate(
-                    package_plugin, base_context, package_dict, schema, 'package_create')
+                except NotFound:
+
+                    schema = package_plugin.create_package_schema()
+                    data, errors = lib_plugins.plugin_validate(
+                        package_plugin, base_context, package_dict, schema, 'package_create')
 
                 if errors:
                     raise ValidationError(errors)
