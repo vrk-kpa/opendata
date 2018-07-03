@@ -79,7 +79,3 @@ new_ckan_patches:
 
 service_database_enabled: false
 auto_author_enabled: true
-
-# TODO: REPLACE - THESE ARE TESTING KEYS FROM RECAPCHA FAQ https://developers.google.com/recaptcha/docs/faq
-recaptcha_sitekey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-recaptcha_secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
