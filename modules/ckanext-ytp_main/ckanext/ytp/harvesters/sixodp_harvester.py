@@ -30,6 +30,21 @@ DATETIME_FORMATS = [
         '%d/%m/%Y',
         ]
 
+GROUP_MAP = {
+        'asuminen': ['asuminen'],
+        'hallinto-ja-paatoksenteko': ['hallinto-ja-paatoksenteko'],
+        'kartat': ['kartat'],
+        'kulttuuri-ja-vapaa-aika': ['kulttuuri-ja-vapaa-aika'],
+        'liikenne-ja-matkailu': ['liikenne-ja-matkailu'],
+        'opetus-ja-koulutus': ['opetus-ja-koulutus'],
+        'rakennettu-ymparisto': ['rakennettu-ymparisto'],
+        'talous-ja-verotus': ['talous-ja-verotus'],
+        'terveys-ja-sosiaalipalvelut': ['terveys-ja-sosiaalipalvelut'],
+        'tyo-ja-elinkeinot': ['tyo-ja-elinkeinot'],
+        'vaesto': ['vaesto'],
+        'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
+        }
+
 def parse_datetime(datetime_string):
     if not datetime_string:
         return None
@@ -44,7 +59,23 @@ def parse_datetime(datetime_string):
     log.debug('Invalid datetime string: "%s"' % datetime_string)
     return None
 
-def sixodp_to_opendata(package_dict):
+def sixodp_to_opendata_preprocess(package_dict):
+    groups = []
+
+    for group in package_dict.get('groups', []):
+        mapped_groups = GROUP_MAP.get(group.get('name'))
+
+        if mapped_groups is not None:
+            for mapped_group in mapped_groups:
+                log.info("Mapping Group %s => %s", group, mapped_group)
+                groups.append({'name': mapped_group})
+        else:
+            log.info("Not mapping Group %s", group)
+            groups.append(group)
+
+    package_dict['groups'] = groups
+
+def sixodp_to_opendata_postprocess(package_dict):
     package_dict['collection_type'] = 'Open Data'
     package_dict['maintainer'] = " "
     package_dict['maintainer_email'] = " "
@@ -416,6 +447,8 @@ class SixodpHarvester(HarvesterBase):
                 log.warn('Remote dataset is a harvest source, ignoring...')
                 return True
 
+            sixodp_to_opendata_preprocess(package_dict)
+
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
             if default_tags:
@@ -566,7 +599,7 @@ class SixodpHarvester(HarvesterBase):
                 resource.pop('revision_id', None)
 
             # Map package data
-            sixodp_to_opendata(package_dict)
+            sixodp_to_opendata_postprocess(package_dict)
 
             # validate packages if needed
             validate_packages = self.config.get('validate_packages', {})
@@ -610,10 +643,12 @@ class SixodpHarvester(HarvesterBase):
 
             return result
         except ValidationError, e:
+            log.error("ValidationError: %s" % e)
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
         except Exception, e:
+            log.error("Exception: %s" % e)
             self._save_object_error('%s' % e, harvest_object, 'Import')
 
 
