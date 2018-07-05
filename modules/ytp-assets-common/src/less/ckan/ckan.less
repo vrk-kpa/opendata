@@ -405,3 +405,94 @@
 .opendata-select {
   border: transparent;
 }
+
+// Form specific overrides
+
+.form-control {
+  width: 100%;
+  border: 1px solid #cccccc;
+  font-size: 14px;
+  border-radius: 0px !important;
+}
+
+// Text area style override
+textarea {
+  border: 1px solid #cccccc;
+  font-size: 14px;
+  border-radius: 0px !important;
+}
+
+// Select2 related modules overrides. These use "classic" style in ckan and that doesn't fit well with our new style
+.select2-choices, .select2-input, .select2-default, .select2-container-multi, .select2-container, .select2-container-multi, .select2-drop, .select2-drop-multi, .select2-display-none, .select2-drop-active, .select2-drop-mask {
+  border-radius: 0px !important;
+  input {
+    border: 1px solid #cccccc;
+    font-size: 14px;
+    border-radius: 0px !important;
+  }
+}
+
+// Select2 related result view background overrides
+.select2-results, .select2-no-results, .select2-choice, .select2-default {
+  border-radius: 0px !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+// Select 2 arrow overrides
+.select2-arrow {
+  border-radius: 0px !important;
+}
+
+// Form remove button overrides. No more rounded edges.
+.btn-remove-url {
+  top: 0px !important;
+  right: 0px !important;
+  padding: 5px 15px !important;
+  border-radius: 0px !important;
+  height: 100% !important;
+}
+
+// Tags used in tables
+.tag {
+  border: 2px solid #69b1fe;
+  &:hover {
+    border: 2px solid #69b1fe !important;
+    background-color: #69b1fe !important;
+  }
+}
+
+
+.page-header {
+  .clearfix;
+  border: 0 0 0 0 !important;
+  background-color: transparent !important;
+  .nav-tabs {
+    border: 0px !important;
+    font-size: 16px;
+    li {
+      a {
+        color: #000;
+        font-weight: 400;
+        border: 0 0 0 0 !important;
+      }
+      border-bottom: 4px solid #b3bacf;
+      &:hover {
+        border-bottom: 4px solid darken(#b3bacf, 20%);
+      }
+    }
+
+    li.active {
+      a {
+        color: #000;
+        font-weight: 600;
+        border: 0px !important;
+      }
+      border-bottom: 5px solid #055bb9;
+    }
+
+    &:hover {
+      border: 0 0 0 0 !important;
+    }
+  }
+}

@@ -16,7 +16,7 @@
     final=field.final if 'final' in field else False,
     value=data[field.field_name],
     error=errors[field.field_name],
-    classes=['control-medium', 'control-maybe-final'],
+    classes=['control-full', 'control-maybe-final'],
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=h.scheming_field_required(field)
     )
