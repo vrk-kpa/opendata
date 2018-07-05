@@ -14,7 +14,7 @@ import ckan.lib.base as base
 import ckan.logic.schema
 from ckan import authz as authz
 from ckan import plugins, model, logic, authz
-from ckan.common import _, c, request
+from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.dictization import model_dictize
@@ -1584,8 +1584,10 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def _drupal_header(self):
         result = self._drupal_snippet('api/header')
         if result:
+            # Path variable depends on request type
+            path = request.full_path if is_flask_request() else request.path_qs
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % request.path_qs, result)
+            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % path, result)
         return result
 
     def get_helpers(self):
