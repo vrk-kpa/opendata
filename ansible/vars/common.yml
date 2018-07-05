@@ -163,3 +163,5 @@ AWS:
   access_key: somekey
   secret_access_key: somesecret
   ckan_s3_bucket: somebucket
+
+debug_enabled: false
