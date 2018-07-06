@@ -114,7 +114,7 @@
   }
 
   &:hover {
-    border-left: 8px solid #182b75;
+    border-left: 8px solid @sidebar-block-color-header;
   }
 
   margin-top: 0px;
@@ -455,10 +455,10 @@ textarea {
 
 // Tags used in tables
 .tag {
-  border: 2px solid #69b1fe;
+  border: 2px solid @tag-color;
   &:hover {
-    border: 2px solid #69b1fe !important;
-    background-color: #69b1fe !important;
+    border: 2px solid @tag-color !important;
+    background-color: @tag-color !important;
   }
 }
 
@@ -476,9 +476,9 @@ textarea {
         font-weight: 400;
         border: 0 0 0 0 !important;
       }
-      border-bottom: 4px solid #b3bacf;
+      border-bottom: 4px solid @inactive-tab-color;
       &:hover {
-        border-bottom: 4px solid darken(#b3bacf, 20%);
+        border-bottom: 4px solid darken(@inactive-tab-color, 20%);
       }
     }
 
@@ -488,7 +488,7 @@ textarea {
         font-weight: 600;
         border: 0px !important;
       }
-      border-bottom: 5px solid #055bb9;
+      border-bottom: 5px solid @active-tab-color;
     }
 
     &:hover {
@@ -498,8 +498,8 @@ textarea {
 }
 
 .opendata-additionalinfo-table {
-  border: solid #f7f7f7 20px;
-  background-color: #f7f7f7;
+  border: solid @resource-list-background 20px;
+  background-color: @resource-list-background;
 } 
 
 // Additional info resource list
@@ -507,9 +507,9 @@ textarea {
   padding: 10px;
   .resource-item {
     margin-top: 10px;
-    background-color: #f7f7f7;
+    background-color: @resource-list-background;
     border-radius: 0px;
-    border: 1px solid darken(#f7f7f7, 15%);
+    border: 1px solid darken(@resource-list-background, 15%);
     .resource-item-actions {
       text-transform: uppercase;
       line-height: 35px;
@@ -522,7 +522,7 @@ textarea {
 }
 
 .dataset-header-row {
-  border-bottom: 1px solid darken(#f7f7f7, 15%);
+  border-bottom: 1px solid darken(@resource-list-background, 15%);
   margin-right: 0px;
   margin-left: 0px;
   margin-bottom: 15px;
@@ -535,9 +535,9 @@ textarea {
     margin-top: 35px;
     .opendata-content-action {
       margin-left: 15px;
-      color: #055bb9;
+      color: @active-tab-color;
       a {
-        color: #055bb9;
+        color: @active-tab-color;
       }
     }
   }
@@ -545,9 +545,9 @@ textarea {
 
 .opendata-card {
   padding: 4px 22px 6px 0px;
-  border-top: 6px solid #182b75;
+  border-top: 6px solid @sidebar-block-color-header;
   border-radius: 2px;
-  background-color: #f7f7f7;
+  background-color: @resource-list-background;
   margin-bottom: 10px;
   padding: 15px;
 }
