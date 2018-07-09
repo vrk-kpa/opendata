@@ -94,6 +94,11 @@ ckanext-archiver.archive_dir = /tmp/archive
 ckanext-archiver.max_content_length = 50000000
 ckan.celery.queues = celery bulk priority
 
+ckanext.sixodp_showcasesubmit.creating_user_username = {{ admin.username }}
+ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ recaptcha_public_key }}
+ckanext.sixodp_showcasesubmit.recaptcha_secret = {{ recaptcha_private_key }}
+ckanext.sixodp_showcasesubmit.recipient_emails = {{ admin_email }}
+
 disqus.name = {{ disqus_name }}
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
