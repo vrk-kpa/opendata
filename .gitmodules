@@ -40,7 +40,7 @@
 	url = https://github.com/ckan/ckanext-pdfview.git
 [submodule "modules/ckanext-disqus"]
 	path = modules/ckanext-disqus
-	url = https://github.com/ckan/ckanext-disqus.git
+	url = https://github.com/vrk-kpa/ckanext-disqus.git
 [submodule "modules/ckanext-googleanalytics"]
 	path = modules/ckanext-googleanalytics
 	url = https://github.com/vrk-kpa/ckanext-googleanalytics.git
