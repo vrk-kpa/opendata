@@ -2,7 +2,7 @@ langcode: fi
 status: true
 dependencies:
   config:
-    - system.menu.main_fi
+    - system.menu.main-fi
   module:
     - language
     - system
@@ -13,9 +13,9 @@ theme: avoindata
 region: navigation
 weight: 0
 provider: null
-plugin: 'system_menu_block:main_fi'
+plugin: 'system_menu_block:main-fi'
 settings:
-  id: 'system_menu_block:main_fi'
+  id: 'system_menu_block:main-fi'
   label: 'Main navigation (fi)'
   provider: system
   label_display: '0'

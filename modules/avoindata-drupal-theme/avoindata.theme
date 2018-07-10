@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\views\ViewExecutable;
+
 /**
  * @file
  * Bootstrap sub-theme.
@@ -12,5 +14,16 @@ function avoindata_preprocess_block(&$variables) {
     foreach ($variables['content']['#links'] as $key => $value) {
       $variables['content']['#links'][$key]['title'] = strtoupper($key);
     }
+  }
+}
+
+// Implements hook_views_pre_render().
+function avoindata_views_pre_render(ViewExecutable $view) {
+  if($view->id() == 'frontpage' && $view->current_display == 'page_1') {
+    // Use some or all of the following 3 lines to remove specific
+    // 'no results' behaviors
+    unset($view->empty['area_text_custom']);
+    unset($view->empty['node_listing_empty']);
+    unset($view->empty['title']);
   }
 }

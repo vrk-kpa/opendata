@@ -2,7 +2,7 @@ langcode: sv
 status: true
 dependencies:
   config:
-    - system.menu.main_sv
+    - system.menu.main-sv
   module:
     - language
     - system
@@ -13,9 +13,9 @@ theme: avoindata
 region: navigation
 weight: 0
 provider: null
-plugin: 'system_menu_block:main_sv'
+plugin: 'system_menu_block:main-sv'
 settings:
-  id: 'system_menu_block:main_sv'
+  id: 'system_menu_block:main-sv'
   label: 'Main navigation (sv)'
   provider: system
   label_display: '0'

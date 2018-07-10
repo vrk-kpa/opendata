@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.main_en
+    - system.menu.main-en
   module:
     - language
     - system
@@ -13,9 +13,9 @@ theme: avoindata
 region: navigation
 weight: 0
 provider: null
-plugin: 'system_menu_block:main_en'
+plugin: 'system_menu_block:main-en'
 settings:
-  id: 'system_menu_block:main_en'
+  id: 'system_menu_block:main-en'
   label: 'Main navigation (en)'
   provider: system
   label_display: '0'

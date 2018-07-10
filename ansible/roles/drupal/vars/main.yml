@@ -9,6 +9,7 @@ custom_modules:
   - { src_name: avoindata-drupal-newsfeed, module_name: avoindata-newsfeed }
   - { src_name: avoindata-drupal-appfeed, module_name: avoindata-appfeed }
   - { src_name: avoindata-drupal-footer, module_name: avoindata-footer }
+  - { src_name: avoindata-drupal-articles, module_name: avoindata-articles }
 
 
 # drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
