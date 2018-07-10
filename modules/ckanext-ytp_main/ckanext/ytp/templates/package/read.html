@@ -1,19 +1,24 @@
 {% ckan_extends %}
 
 {% block primary %}
-    {% block content_action %}
-       <div class="content_action">
-           {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='btn pull-right', icon='users'%}
-           {% if h.check_access('package_update', {'id':pkg.id }) %}
-               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='btn pull-right', icon='wrench' %}
-           {% endif %}
-        </div>
-       {% endblock %}
-    <h1 class="dataset-title">
+    <div class="dataset-header-row row">
+      <div class="dataset-title-column col-md-8 col-xs-12">
+        <h1 class="dataset-title">
         {% block page_heading %}
-            {{ h.get_translated(pkg, 'title') or pkg.name }}
+        {{ h.get_translated(pkg, 'title') or pkg.name }}
         {% endblock %}
-    </h1>
+        </h1>
+      </div>
+      <div class="content_action col-md-4 col-xs-12">
+        {% block content_action %}
+          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='opendata-content-action pull-right', icon='users'%}
+           {% if h.check_access('package_update', {'id':pkg.id }) %}
+               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='opendata-content-action pull-right', icon='wrench' %}
+           {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+
     {% snippet "package/snippets/subtitle_byline.html", pkg=pkg %}
     <div id="dataset-primary" class="row">
     {% block primary_content %}

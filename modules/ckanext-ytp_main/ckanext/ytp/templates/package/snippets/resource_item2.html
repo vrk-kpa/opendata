@@ -3,14 +3,14 @@
 {% block resource_item_explore %}
 
 
-    {% if not url_is_edit %}
-    <div class="btn-group pull-right pull-sm-left">
+  {% if not url_is_edit %}
+    <div class="pull-right resource-item-actions">
         {% if can_edit and res.id != false and res.id != resource_under_edit %}
-            <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}" class="btn btn-default"><i class="icon-wrench"></i> {{ _('Manage') }}</a>
+            <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}" class="resource-action">{{ _('Manage') }}</a>
         {% endif %}
-      <a href="{{ res.url }}" target="_blank" class="btn btn-default resource-url-analytics resource-type-{{ res.resource_type }}"><i class="icon-external-link"></i> {{ _('Open') }}</a>
+      <a href="{{ res.url }}" target="_blank" class="resource-url-analytics resource-type-{{ res.resource_type }} resource-action">{{ _('Open') }}</a>
     </div>
-    {% endif %}
+  {% endif %}
 
 
 {% endblock %}
