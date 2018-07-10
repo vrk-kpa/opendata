@@ -110,6 +110,13 @@ server {
         access_log off;
     }
 
+    location /resource_cache {
+        root {{ server_path }};
+        autoindex off;
+        expires 30d;
+        log_not_found off;
+    }
+
     # Serve files from ckan but not from anywhere else
     location ~* ^(?!/data/.*dataset/).*\.(txt|log)$ {
         allow 192.168.0.0/16;
