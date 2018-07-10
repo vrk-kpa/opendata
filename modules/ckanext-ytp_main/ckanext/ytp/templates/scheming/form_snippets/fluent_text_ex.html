@@ -11,7 +11,7 @@
       value=data[field.field_name + '-' + lang]
           or data.get(field.field_name, {})[lang],
       error=errors[field.field_name + '-' + lang],
-      classes=['control-medium'],
+      classes=['control-full'],
       attrs=field.form_attrs if 'form_attrs' in field else {},
       is_required=h.scheming_field_only_default_required(field, lang)
       ) %}

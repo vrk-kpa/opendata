@@ -1,6 +1,7 @@
 {% set current_url = h.full_current_url() %}
 {% block social %}
   <section class="module module-narrow social">
+    <div class="opendata-card">
     {% block social_title %}
       <h4 class="dataset-title sidebar-title">{{ _('Social') }}</h4>
     {% endblock %}
@@ -13,5 +14,6 @@
       </ul>
 
     {% endblock %}
+    </div>
   </section>
 {% endblock %}
