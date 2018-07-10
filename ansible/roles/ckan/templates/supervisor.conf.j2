@@ -21,3 +21,27 @@ autostart=true
 autorestart=true
 startsecs=10
 
+
+[program:ckan-worker-bulk]
+
+command={{ virtual_environment }}/bin/paster --plugin=ckan jobs worker bulk --config=/etc/ckan/default/production.ini
+user={{ www_user }}
+numprocs=1
+stdout_logfile=/var/log/ckan/ckan-worker-bulk.log
+stderr_logfile=/var/log/ckan/ckan-worker-bulk.log
+autostart=true
+autorestart=true
+startsecs=10
+stopwaitsecs = 600
+
+[program:ckan-worker-priority]
+
+command={{ virtual_environment }}/bin/paster --plugin=ckan jobs worker priority --config=/etc/ckan/default/production.ini
+user={{ www_user }}
+numprocs=1
+stdout_logfile=/var/log/ckan/ckan-worker-priority.log
+stderr_logfile=/var/log/ckan/ckan-worker-priority.log
+autostart=true
+autorestart=true
+startsecs=10
+stopwaitsecs = 600
