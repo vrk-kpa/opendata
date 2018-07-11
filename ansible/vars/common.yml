@@ -26,6 +26,8 @@ scripts_path: "{{ server_path }}/scripts"
 log_path: /var/log/ckan
 static_path: "{{ www_root }}/static"
 
+resource_cache_path: "{{ server_path }}/resource_cache"
+
 files_root: "{{ server_path }}/files"
 
 all_paths:
@@ -173,3 +175,4 @@ AWS:
   ckan_s3_bucket: somebucket
 
 debug_enabled: false
+

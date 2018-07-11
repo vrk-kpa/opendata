@@ -95,6 +95,7 @@
     - "/etc/ckan/default"
     - "{{ ckan_files_path }}"
     - "{{ ckan_files_path }}/storage/uploads"
+    - "{{ resource_cache_path }}"
   tags:
   - ckan
 
@@ -109,6 +110,7 @@
     - "{{ ckan_files_path }}"
     - "/etc/ckan/default"
     - "{{ ckan_source_path }}/ckan/public/base/i18n"
+    - "{{ resource_cache_path }}"
 
 - name: Ensure celerybeat pid ownership
   file:
