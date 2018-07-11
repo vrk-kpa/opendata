@@ -77,8 +77,8 @@ def sixodp_to_opendata_preprocess(package_dict):
 
 def sixodp_to_opendata_postprocess(package_dict):
     package_dict['collection_type'] = 'Open Data'
-    package_dict['maintainer'] = " "
-    package_dict['maintainer_email'] = " "
+    package_dict['maintainer'] = package_dict.get('maintainer', ' ')
+    package_dict['maintainer_email'] = package_dict.get('maintainer_email', ' ')
     date_released = parse_datetime(package_dict['date_released'])
     if date_released:
         date_released_isoformat = "%s.000000" % date_released.isoformat().split('+', 2)[0]
