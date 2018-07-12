@@ -129,7 +129,7 @@ avoindata_header.login_fi:
   url: 'internal:/fi/user/login'
   weight: 1
   options:
-    fa_icon: 'fa-sign-in-alt'
+    fa_icon: 'fa-sign-in'
 
 avoindata_header.register_fi:
   title: 'Rekisteröidy palveluun'
@@ -139,18 +139,18 @@ avoindata_header.register_fi:
   url: 'internal:/fi/user/register'
   weight: 2
   options:
-    fa_icon: 'fa-pencil-alt'
+    fa_icon: 'fa-pencil'
 
 avoindata_header.login_en:
   title: 'Log in'
-  icon: 'sign-in-alt'
+  icon: 'sign-in'
   description: 'Log in'
   parent: avoindata_header.moreoptions_en
   menu_name: main_en
   url: 'internal:/en/user/login'
   weight: 1
   options:
-    fa_icon: 'fa-sign-in-alt'
+    fa_icon: 'fa-sign-in'
 
 avoindata_header.register_en:
   title: 'Register an account'
@@ -160,18 +160,18 @@ avoindata_header.register_en:
   url: 'internal:/en/user/register'
   weight: 2
   options:
-    fa_icon: 'fa-pencil-alt'
+    fa_icon: 'fa-pencil'
 
 avoindata_header.login_sv:
   title: 'Logga in'
-  icon: 'sign-in-alt'
+  icon: 'sign-in'
   description: 'Logga in'
   parent: avoindata_header.moreoptions_sv
   menu_name: main_sv
   url: 'internal:/sv/user/login'
   weight: 1
   options:
-    fa_icon: 'fa-sign-in-alt'
+    fa_icon: 'fa-sign-in'
 
 avoindata_header.register_sv:
   title: 'Registrera ett konto'
@@ -181,5 +181,5 @@ avoindata_header.register_sv:
   url: 'internal:/sv/user/register'
   weight: 2
   options:
-    fa_icon: 'fa-pencil-alt'
+    fa_icon: 'fa-pencil'
 
