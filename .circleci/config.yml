@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  lint_python:
+  run-flake8:
     docker:
       - image: circleci/python:2.7.15
 
@@ -35,8 +35,20 @@ jobs:
             . venv/bin/activate
             flake8 modules --max-line-length=140
 
+  run-code-sniffer:
+    docker:
+      - image: juampynr/drupal8ci:latest
+    steps:
+      - checkout
+
+      - run:
+          name: Build Drupal skeleton with Composer Drupal Project
+          command: |
+            composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
+
 workflows:
   version: 2
-  lint_all:
+  lint-all:
     jobs:
-      - lint_python
+      - run-flake8
+      - run-code-sniffer
