@@ -40,6 +40,6 @@ jobs:
           destination: test-reports
 workflows:
   version: 2
-    lint_all:
-      jobs:
-        - lint_python
+  lint_all:
+    jobs:
+      - lint_python
