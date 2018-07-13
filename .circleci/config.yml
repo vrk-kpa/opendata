@@ -17,7 +17,7 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: Install flake8
+          name: Install codestyle requirements
           command: |
             mkdir -p ./venv
             virtualenv ./venv
@@ -35,9 +35,6 @@ jobs:
             . venv/bin/activate
             flake8 modules --output-file test-reports
 
-      - store_test_results:
-          path: test-reports
-          
       - store_artifacts:
           path: test-reports
           destination: test-reports
