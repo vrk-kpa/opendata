@@ -19,8 +19,9 @@ jobs:
       - run:
           name: Install flake8
           command: |
-            python2 -m venv env
-            . env/bin/activate
+            mkdir -p ./venv
+            virtualenv ./venv
+            . venv/bin/activate
             pip install -r codestyle-requirements.txt
 
       - save_cache:
