@@ -275,6 +275,24 @@
   args:
     chdir: "{{ drupal8_root }}/web"
 
+### User roles
+
+# Item argument is used two times, because the other one sets a machine readable name and the other one a human readable name
+- name: Create user roles
+  command: vendor/drush/drush/drush role-create "{{ item }}" "{{ item }}" chdir="{{ drupal8_root }}"
+  with_items: 
+  - "{{ drupal_editor_rolename }}"
+  - "{{ drupal_ckan_admin_rolename }}"
+  - "{{ drupal_publisher_rolename }}"
+  tags:
+  - drupal
+
+- name: Set user roles
+  command: vendor/drush/drush/drush user-add-role "{{ item.role }}" "{{ item.username }}" chdir="{{ drupal8_root }}"
+  with_items: "{{ drupal_roles }}"
+  tags:
+  - drupal
+
 ### Finishing touches ###
 
 - name: Restart PHP-FPM
