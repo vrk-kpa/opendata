@@ -1,40 +1,48 @@
 avoindata_header.frontpage_fi:
   title: 'Etusivu'
   description: 'Etusivu'
-  parent: main_fi
-  menu_name: main_fi
+  parent: main-fi
+  menu_name: main-fi
   url: 'internal:/fi'
   weight: 1
 
 avoindata_header.datasets_fi:
   title: 'Tietoaineistot'
   description: 'Tietoaineistot'
-  parent: main_fi
-  menu_name: main_fi
+  parent: main-fi
+  menu_name: main-fi
   url: 'internal:/data/fi/dataset'
   weight: 2
 
 avoindata_header.organizations_fi:
   title: 'Organisaatiot'
   description: 'Organisaatiot'
-  parent: main_fi
-  menu_name: main_fi
+  parent: main-fi
+  menu_name: main-fi
   url: 'internal:/data/fi/organization'
   weight: 3
 
 avoindata_header.apps_fi:
   title: 'Käyttösovellukset'
   description: 'Käyttösovellukset'
-  parent: main_fi
-  menu_name: main_fi
+  parent: main-fi
+  menu_name: main-fi
   url: 'internal:/data/fi/showcase'
   weight: 4
+
+avoindata_header.news_fi:
+  title: 'Uutiset'
+  description: 'Uutiset'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/fi/articles'
+  weight: 5
 
 avoindata_header.moreoptions_fi:
   title: 'Lisää'
   description: 'Lisää'
-  parent: main_fi
-  menu_name: main_fi
+  parent: main-fi
+  menu_name: main-fi
   url: 'internal:/fi'
   weight: 99
   expanded: true
@@ -42,40 +50,48 @@ avoindata_header.moreoptions_fi:
 avoindata_header.frontpage_en:
   title: 'Frontpage'
   description: 'Frontpage'
-  parent: main_en
-  menu_name: main_en
+  parent: main-en
+  menu_name: main-en
   url: 'internal:/en'
   weight: 1
 
 avoindata_header.datasets_en:
   title: 'Datasets'
   description: 'Datasets'
-  parent: main_en
-  menu_name: main_en
+  parent: main-en
+  menu_name: main-en
   url: 'internal:/data/en/dataset'
   weight: 2
 
 avoindata_header.organizations_en:
   title: 'Organizations'
   description: 'Organizations'
-  parent: main_en
-  menu_name: main_en
+  parent: main-en
+  menu_name: main-en
   url: 'internal:/data/en/organization'
   weight: 3
 
 avoindata_header.apps_en:
   title: 'Applications'
   description: 'Applications'
-  parent: main_en
-  menu_name: main_en
+  parent: main-en
+  menu_name: main-en
   url: 'internal:/data/en/showcase'
   weight: 4
+
+avoindata_header.news_en:
+  title: 'News'
+  description: 'News'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/en/articles'
+  weight: 5
 
 avoindata_header.moreoptions_en:
   title: 'More options'
   description: 'More options'
-  parent: main_en
-  menu_name: main_en
+  parent: main-en
+  menu_name: main-en
   url: 'internal:/en'
   weight: 99
   expanded: true
@@ -83,40 +99,48 @@ avoindata_header.moreoptions_en:
 avoindata_header.frontpage_sv:
   title: 'Frontsidan'
   description: 'Frontpage'
-  parent: main_sv
-  menu_name: main_sv
+  parent: main-sv
+  menu_name: main-sv
   url: 'internal:/sv'
   weight: 1
 
 avoindata_header.datasets_sv:
   title: 'Dataseten'
   description: 'Dataseten'
-  parent: main_sv
-  menu_name: main_sv
+  parent: main-sv
+  menu_name: main-sv
   url: 'internal:/data/sv/dataset'
   weight: 2
 
 avoindata_header.organizations_sv:
   title: 'Organisationer'
   description: 'Organisationer'
-  parent: main_sv
-  menu_name: main_sv
+  parent: main-sv
+  menu_name: main-sv
   url: 'internal:/data/sv/organization'
   weight: 3
 
 avoindata_header.apps_sv:
   title: 'Apps'
   description: 'Apps'
-  parent: main_sv
-  menu_name: main_sv
+  parent: main-sv
+  menu_name: main-sv
   url: 'internal:/data/sv/showcase'
   weight: 4
+
+avoindata_header.news_sv:
+  title: 'Nyhet'
+  description: 'Nyhet'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/sv/articles'
+  weight: 5
 
 avoindata_header.moreoptions_sv:
   title: 'Mer'
   description: 'Mer'
-  parent: main_sv
-  menu_name: main_sv
+  parent: main-sv
+  menu_name: main-sv
   url: 'internal:/sv'
   weight: 99
   expanded: true
@@ -125,7 +149,7 @@ avoindata_header.login_fi:
   title: 'Kirjaudu sisään'
   description: 'Kirjaudu sisään'
   parent: avoindata_header.moreoptions_fi
-  menu_name: main_fi
+  menu_name: main-fi
   url: 'internal:/fi/user/login'
   weight: 1
   options:
@@ -135,7 +159,7 @@ avoindata_header.register_fi:
   title: 'Rekisteröidy palveluun'
   description: 'Rekisteröidy palveluun'
   parent: avoindata_header.moreoptions_fi
-  menu_name: main_fi
+  menu_name: main-fi
   url: 'internal:/fi/user/register'
   weight: 2
   options:
@@ -146,7 +170,7 @@ avoindata_header.login_en:
   icon: 'sign-in'
   description: 'Log in'
   parent: avoindata_header.moreoptions_en
-  menu_name: main_en
+  menu_name: main-en
   url: 'internal:/en/user/login'
   weight: 1
   options:
@@ -156,7 +180,7 @@ avoindata_header.register_en:
   title: 'Register an account'
   description: 'Register an account'
   parent: avoindata_header.moreoptions_en
-  menu_name: main_en
+  menu_name: main-en
   url: 'internal:/en/user/register'
   weight: 2
   options:
@@ -167,7 +191,7 @@ avoindata_header.login_sv:
   icon: 'sign-in'
   description: 'Logga in'
   parent: avoindata_header.moreoptions_sv
-  menu_name: main_sv
+  menu_name: main-sv
   url: 'internal:/sv/user/login'
   weight: 1
   options:
@@ -177,7 +201,7 @@ avoindata_header.register_sv:
   title: 'Registrera ett konto'
   description: 'Registrera ett konto'
   parent: avoindata_header.moreoptions_sv
-  menu_name: main_sv
+  menu_name: main-sv
   url: 'internal:/sv/user/register'
   weight: 2
   options:

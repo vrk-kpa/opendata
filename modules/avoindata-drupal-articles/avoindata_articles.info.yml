@@ -1,0 +1,5 @@
+name: Avoindata Articles page
+type: module
+description: Shows Articles page
+package: Custom
+core: 8.x

@@ -245,6 +245,7 @@
     - "avoindata_datasetlist"
     - "avoindata_newsfeed"
     - "avoindata_appfeed"
+    - "avoindata_articles"
 
 ### Theme ###
 
