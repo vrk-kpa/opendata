@@ -33,11 +33,8 @@ jobs:
           name: run linting
           command: |
             . venv/bin/activate
-            flake8 modules --output-file test-reports
+            flake8 modules
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
 workflows:
   version: 2
   lint_all:
