@@ -17,7 +17,7 @@ jobs:
           - v1-dependencies-
 
       - run:
-        name: Install flake8
+          name: Install flake8
           command: |
             python2 -m venv env
             . env/bin/activate
@@ -34,7 +34,6 @@ jobs:
             . venv/bin/activate
             flake8 modules --output-file test-reports
 
-      - store_artifacts: 
+      - store_artifacts:
           path: test-reports
           destination: test-reports
-          
