@@ -212,6 +212,7 @@
     chdir: "{{ drupal8_root }}/web"
   with_items:
     - twig_tweak
+    - fontawesome_menu_icons
 
 ### Custom modules ###
 # Contrib modules should be installed with Composer, not here #
@@ -264,6 +265,12 @@
     src: /vagrant/modules/avoindata-drupal-theme/
     dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
+
+# Not symlinked because nested symlinks don't work on windows
+- name: Synchronize fonts
+  synchronize:
+    src: ../modules/ytp-assets-common/src/fonts/
+    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata

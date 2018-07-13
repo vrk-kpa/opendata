@@ -14,7 +14,7 @@ import ckan.lib.base as base
 import ckan.logic.schema
 from ckan import authz as authz
 from ckan import plugins, model, logic, authz
-from ckan.common import _, c, request
+from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.dictization import model_dictize
@@ -41,7 +41,7 @@ import menu
 import logic
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
+from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_visits_count_for_dataset_during_last_year, get_current_date, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
 from tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method, create_system_context, get_original_method, add_translation_show_schema, add_languages_show, add_translation_modify_schema, add_languages_modify
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
@@ -558,6 +558,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
+                'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
+                'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
                 'unquote_url': unquote_url,
@@ -1554,7 +1556,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         else:
             return self._short_domain(hostname, default)
 
-    def _drupal_footer(self):
+    def _drupal_snippet(self, path):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
 
         import ssl
@@ -1565,7 +1567,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
-            response = urllib2.urlopen('%s/%s/api/footer/' % (hostname, lang), context=ctx)
+            response = urllib2.urlopen('%s/%s/%s' % (hostname, lang, path), context=ctx)
             return response.read().decode("utf-8")
         except urllib2.HTTPError, e:
             log.error('%s' % e)
@@ -1576,9 +1578,21 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         return None
 
+    def _drupal_footer(self):
+        return self._drupal_snippet('api/footer')
+
+    def _drupal_header(self):
+        result = self._drupal_snippet('api/header')
+        if result:
+            # Path variable depends on request type
+            path = request.full_path if is_flask_request() else request.path_qs
+            # Language switcher links will point to /api/header, fix them based on currently requested page
+            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % path, result)
+        return result
+
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
-                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer}
+                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
 def _get_user_image(user):

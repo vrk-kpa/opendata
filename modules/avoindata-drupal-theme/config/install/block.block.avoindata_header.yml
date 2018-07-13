@@ -5,14 +5,14 @@ dependencies:
     - system
   theme:
     - avoindata
-id: avoindata_footer
+id: avoindata_header
 theme: avoindata
-region: footer
+region: header
 weight: 0
 provider: null
-plugin: avoindata_footer
+plugin: avoindata_header
 settings:
-  id: avoindata_footer
-  label: 'Avoindata Footer'
-  provider: avoindata_footer
+  id: avoindata_header
+  label: 'Avoindata Header'
+  provider: avoindata_header
   label_display: '0'
