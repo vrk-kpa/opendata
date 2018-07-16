@@ -1,0 +1,21 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.avoindata_article
+  module:
+    - text
+id: node.avoindata_article.body
+field_name: body
+entity_type: node
+bundle: avoindata_article
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
