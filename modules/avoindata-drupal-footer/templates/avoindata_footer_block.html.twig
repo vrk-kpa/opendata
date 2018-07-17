@@ -4,38 +4,40 @@
     'region-' ~ region|clean_class,
   ]
 %}
-<div class="container opendata-footer" {{ attributes.addClass(classes) }}>
-  <div class="row">
-    <div class="col-md-12">
-      <img class="footer-logo" src="/resources/images/logo/avoindata_white.png"/>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5">
-      <p>{% trans %}Central Open Data distribution platform for datasets released by finnish individuals, companies and public organizations.{% endtrans %}</p>
-      <p>{% trans %}Service provided by Population Register Centre{% endtrans %}</p>
-    </div>
-    <div class="col-md-4">
-      {{ drupal_menu('footer') }}
-    </div>
-    <div class="footer-follow col-md-3">
-      <div class="footer-follow-message row">
-          <p>{% trans %}Follow us{% endtrans %}</p>
-      </div>
-      <div class="row">
-        <div class="footer-socicons col-sm-3">
-          <a href=""><span class="fab fa-twitter"></span></a>
-        </div>
-        <div class="footer-socicons col-sm-3">
-          <a href=""><span class="fab fa-facebook-square"></span></a>
-        </div>
-        <div class="footer-socicons col-sm-3">
-          <a href=""><span class="fab fa-github"></span></a>
-        </div>
-        <div class="footer-socicons col-sm-3">
-          <a href=""><span class="fab fa-trello"></span></a>
-        </div>
+<footer class="footer {{ container }}" role="contentinfo">
+  <div class="container opendata-footer" {{ attributes.addClass(classes) }}>
+    <div class="row">
+      <div class="col-md-12">
+        <img class="footer-logo" src="/resources/images/logo/avoindata_white.png"/>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-5">
+        <p>{% trans %}Central Open Data distribution platform for datasets released by finnish individuals, companies and public organizations.{% endtrans %}</p>
+        <p>{% trans %}Service provided by Population Register Centre{% endtrans %}</p>
+      </div>
+      <div class="col-md-4">
+        {{ drupal_region('footer_content') }}
+      </div>
+      <div class="footer-follow col-md-3">
+        <div class="footer-follow-message row">
+            <p>{% trans %}Follow us{% endtrans %}</p>
+        </div>
+        <div class="row">
+          <div class="footer-socicons col-sm-3">
+            <a href=""><span class="fab fa-twitter"></span></a>
+          </div>
+          <div class="footer-socicons col-sm-3">
+            <a href=""><span class="fab fa-facebook-square"></span></a>
+          </div>
+          <div class="footer-socicons col-sm-3">
+            <a href=""><span class="fab fa-github"></span></a>
+          </div>
+          <div class="footer-socicons col-sm-3">
+            <a href=""><span class="fab fa-trello"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</footer>

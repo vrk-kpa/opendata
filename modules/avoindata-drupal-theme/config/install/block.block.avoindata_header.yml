@@ -1,0 +1,18 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - avoindata
+id: avoindata_header
+theme: avoindata
+region: header
+weight: 0
+provider: null
+plugin: avoindata_header
+settings:
+  id: avoindata_header
+  label: 'Avoindata Header'
+  provider: avoindata_header
+  label_display: '0'

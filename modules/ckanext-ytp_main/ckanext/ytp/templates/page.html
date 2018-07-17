@@ -23,9 +23,10 @@
 {% endblock %}
 
 {%- block footer %}
-<footer class="footer container-fluid">
-  {{ h.drupal_footer()|safe }}
-</footer>
+    {{ h.drupal_footer()|safe }}
+    {% if g.debug %}
+        {% include 'snippets/debug.html' %}
+    {% endif %}
 {% endblock -%}
 
 {% block header %}

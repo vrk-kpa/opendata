@@ -8,7 +8,9 @@ map $http_cookie $no_cache {
 server {
     listen 80;
     server_name {{ item.server_name }};
-    return 301 https://$host$request_uri;
+    if ($http_x_forwarded_proto != 'https') {
+        return 301 https://$host$request_uri;
+    }
 }
 
 {% if item.base_hostname %}
@@ -106,6 +108,13 @@ server {
         allow all;
         log_not_found off;
         access_log off;
+    }
+
+    location /resource_cache {
+        root {{ server_path }};
+        autoindex off;
+        expires 30d;
+        log_not_found off;
     }
 
     # Serve files from ckan but not from anywhere else

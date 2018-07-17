@@ -28,7 +28,7 @@
 	url = https://github.com/ckan/ckanext-qa.git
 [submodule "modules/ckanext-archiver"]
 	path = modules/ckanext-archiver
-	url = https://github.com/ckan/ckanext-archiver.git
+	url = https://github.com/vrk-kpa/ckanext-archiver.git
 [submodule "modules/ckanext-showcase"]
 	path = modules/ckanext-showcase
 	url = https://github.com/vrk-kpa/ckanext-showcase.git
@@ -43,11 +43,13 @@
 	url = https://github.com/vrk-kpa/ckanext-drupal8.git
 [submodule "modules/ckanext-disqus"]
 	path = modules/ckanext-disqus
-	url = https://github.com/ckan/ckanext-disqus.git
+	url = https://github.com/vrk-kpa/ckanext-disqus.git
 [submodule "modules/ckanext-reminder"]
 	path = modules/ckanext-reminder
 	url = https://github.com/6aika/ckanext-reminder.git
 [submodule "modules/ckanext-googleanalytics"]
 	path = modules/ckanext-googleanalytics
 	url = https://github.com/vrk-kpa/ckanext-googleanalytics.git
-
+[submodule "modules/ckanext-sixodp_showcasesubmit"]
+	path = modules/ckanext-sixodp_showcasesubmit
+	url = https://github.com/vrk-kpa/ckanext-sixodp_showcasesubmit.git

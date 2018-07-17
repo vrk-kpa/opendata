@@ -1,0 +1,53 @@
+{% extends "sixodp_showcasesubmit/base.html" %}
+
+{% block pre_primary %}
+  <div class="page-hero"></div>
+
+  {% block toolbar %}
+    <div class="toolbar">
+      <div class="container">
+        {% block breadcrumb %}
+          {% if self.breadcrumb_content() | trim %}
+            <ol class="breadcrumb">
+              {% snippet 'snippets/home_breadcrumb_item.html' %}
+              {% block breadcrumb_content %}{% endblock %}
+            </ol>
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+  {% endblock %}
+
+  <div class="container">
+    <div class="module-content main-content">
+      {% block pre_primary_content %}
+      <div class="toolbar--site-subtitle">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+              <h1>{% block subtitle %}{{ _('New application') }}{% endblock %}</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+            <p class="text-center">
+              {% trans %}
+                Inform us about an application, web page or vizualization that you'be created with the form bellow and we will add it to application gallery.
+              {% endtrans %}
+            </p>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+            {%- snippet 'sixodp_showcasesubmit/snippets/new_package_form.html', c=c, data=data, errors=errors, error_summary=error_summary, message=message -%}
+          </div>
+        </div>
+
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block offcanvas_button %}{% endblock %}
+{% block primary %}{% endblock %}
+{% block secondary %}{% endblock %}

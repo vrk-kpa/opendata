@@ -100,7 +100,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return result
 
     def get_drupal_user_id(self, username):
-        result = self.engine.execute("SELECT uid FROM users WHERE name = %(name)s", {'name': username})
+        result = self.engine.execute("SELECT uid FROM users_field_data WHERE name = %(name)s", {'name': username})
         for row in result:
             return row[0]
         raise NotFound
