@@ -116,7 +116,7 @@
         </div>
        <div class="row avoindata-articles-search">
           <div class="row">
-            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" value={{searchterm}}>
+            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" onkeydown="searchArticlesOnEnter()" value={{searchterm}} >
           </div>
           <div class="row">
             <button id="avoindata-articles-search-btn" class="btn btn-primary btn-avoindata-primary">

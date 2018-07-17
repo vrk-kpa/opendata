@@ -11,6 +11,12 @@ function addArticleSearchClickListeners() {
   searchButton.onclick = searchArticlesSubmit;
 }
 
+function searchArticlesOnEnter() {
+  if(event.key === 'Enter') {
+    searchArticlesSubmit();
+  }
+}
+
 function searchArticlesSubmit() {
   const searchInput = document.getElementById('avoindata-articles-search-input');
   if(searchInput.value) {

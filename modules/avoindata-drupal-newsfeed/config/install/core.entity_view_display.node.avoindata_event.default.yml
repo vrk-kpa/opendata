@@ -1,40 +1,55 @@
-# core.entity_view_display.node.avoindata_event.default.yml
-langcode: en
+langcode: fi
 status: true
 dependencies:
-    config:
-        - field.field.node.avoindata_event.body
-        - field.field.node.avoindata_event.field_end_date
-        - field.field.node.avoindata_event.field_location
-        - field.field.node.avoindata_event.field_start_date
-        - node.type.avoindata_event
-    module:
-        - link
-        - text
-        - user
+  config:
+    - field.field.node.avoindata_event.body
+    - field.field.node.avoindata_event.field_end_date
+    - field.field.node.avoindata_event.field_image
+    - field.field.node.avoindata_event.field_location
+    - field.field.node.avoindata_event.field_start_date
+    - node.type.avoindata_event
+  module:
+    - image
+    - link
+    - text
+    - user
 id: node.avoindata_event.default
 targetEntityType: node
 bundle: avoindata_event
 mode: default
 content:
-    field_location:
-      weight: 102
-      label: above
-      settings:
-        trim_length: 80
-        url_only: false
-        url_plain: false
-        rel: ''
-        target: ''
-      third_party_settings: {  }
-      type: link
-      region: content
-    body:
-        label: hidden
-        type: text_default
-        weight: 101
-        settings: {  }
-        third_party_settings: {  }
-    links:
-        weight: 100
-hidden: {  }
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_image:
+    weight: 103
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_location:
+    weight: 102
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_end_date: true
+  field_start_date: true
+  langcode: true
