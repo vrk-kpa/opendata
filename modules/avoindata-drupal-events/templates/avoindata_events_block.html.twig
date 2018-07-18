@@ -66,12 +66,20 @@
           </div>
           <div class="col-md-2 col-xs-12">
             <select name="sort" id="avoindata-events-search-sort" class="pull-right">
+              {% if sort is same as('desc') %}
               <option value="desc" selected="selected">
+              {% else %}
+              <option value="desc"> 
+              {% endif %}
                 {% trans %}
                 Newest first
                 {% endtrans %}
               </option>
-              <option value="asc">
+              {% if sort is not same as('desc') %}
+              <option value="asc" selected="selected">
+              {% else %}
+              <option value="asc"> 
+              {% endif %}
                 {% trans %}
                 Oldest first
                 {% endtrans %}
@@ -86,14 +94,18 @@
                 <div class="avoindata-event-item col-md-10 col-xs-12">
                   {% if event.field_image is not null and event.field_image|length > 0 %}
                   <div class="avoindata-event-item-image-container">
-                    <img class="avoindata-event-item-image" src="{{file_url(event.field_image.entity.fileuri)}}" alt="">
+                    <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                      <img class="avoindata-event-item-image" src="{{file_url(event.field_image.entity.fileuri)}}" alt="">
+                    </a>
                   </div>
                   {% endif %}
                   <div class="avoindata-event-item-content-container">
                     <div>
-                      <p class="avoindata-event-item-header">
-                      {{ event.label }}
-                      </p>  
+                      <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                        <p class="avoindata-event-item-header">
+                        {{ event.label }}
+                        </p>
+                      </a>   
                     </div>
                     <div class="avoindata-event-item-metainfo">
                       <i class="far fa-clock avoindata-fa-icon"></i>
@@ -102,13 +114,17 @@
                       {% else %}    
                         {{ event.field_start_date.value|date("F d, Y") }} - {{ event.field_end_date.value|date("F d, Y") }}
                       {% endif %}
-                      <i class="fas fa-map-marker avoindata-fa-icon"></i> {{ event.field_location.0.title }}
+                      <a href={{ event.field_location.0.url }}>
+                        <i class="fas fa-map-marker avoindata-fa-icon"></i> {{ event.field_location.0.title }}
+                      </a>
                     </div>
-                    <div>
-                      <p class="avoindata-event-item-summary">
-                      {% set eventSummary = event.body.0.summary %}
-                      {{ eventSummary }}
-                      </p>
+                    <div class="avoindata-event-item-summary-container">
+                      <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                        <p class="avoindata-event-item-summary">
+                        {% set eventSummary = event.body.0.summary %}
+                        {{ eventSummary }}
+                        </p>
+                      </a>
                     </div>
                   </div>
                 </div>

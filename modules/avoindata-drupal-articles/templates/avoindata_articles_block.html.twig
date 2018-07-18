@@ -52,6 +52,14 @@
               </div>
               {% endif %}
               
+              {% if articles|length == 0 %}
+                <h3>
+                  {% trans %}
+                  No articles found.
+                  {% endtrans %}
+                </h3>              
+              {% endif %}
+
               {% for article in articles %}
                 <div class="avoindata-article-item">
                   <h2 class="article-item-heading">

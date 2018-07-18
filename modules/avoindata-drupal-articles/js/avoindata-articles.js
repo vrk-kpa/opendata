@@ -7,7 +7,7 @@ document.onreadystatechange = function () {
 }
 
 function addArticleSearchClickListeners() {
-  const searchButton = document.getElementById('avoindata-articles-search-btn');
+  var searchButton = document.getElementById('avoindata-articles-search-btn');
   searchButton.onclick = searchArticlesSubmit;
 }
 
@@ -18,8 +18,10 @@ function searchArticlesOnEnter() {
 }
 
 function searchArticlesSubmit() {
-  const searchInput = document.getElementById('avoindata-articles-search-input');
+  var searchInput = document.getElementById('avoindata-articles-search-input');
   if(searchInput.value) {
     window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles/' + searchInput.value);
+  } else {
+    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles/');
   }
 }

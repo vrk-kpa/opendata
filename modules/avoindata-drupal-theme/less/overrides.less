@@ -660,6 +660,12 @@ p:last-child,
       border-top-color: rgba(0, 0, 0, .29);
       border-bottom-width: 1px;
       border-bottom-color: rgba(0, 0, 0, .29);
+      a {
+        color: #333;
+        &:hover {
+          color: #333;
+        }
+      }
       .avoindata-event-item-image-container {
         float: left;
         width: 120px;
@@ -688,11 +694,25 @@ p:last-child,
           font-style: normal;
           text-transform: uppercase;
         }
-        .avoindata-event-item-summary {
-          overflow: hidden;
-          height: 74px;
+        .avoindata-event-item-summary-container {
+          position: relative;
+          height: 60px;
           margin-top: 6px;
           margin-bottom: 3px;
+          overflow: hidden;
+          .avoindata-event-item-summary {
+            line-height: 20px;
+          }
+        }
+        .avoindata-event-item-summary-container:after {
+          content: "";
+          text-align: right;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 70%;
+          height: 20px;
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
         }
       }
     }

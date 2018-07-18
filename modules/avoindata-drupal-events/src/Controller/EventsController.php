@@ -26,10 +26,12 @@ class EventsController extends ControllerBase {
       $eventNodeIds = $eventNodeIdsQuery
       ->sort('created' , 'asc')
       ->execute();
+      $sort = 'asc';
     } else {
       $eventNodeIds = $eventNodeIdsQuery
       ->sort('created' , 'desc')
       ->execute();
+      $sort = 'desc';
     }
 
     $eventNodes = \Drupal::entityTypeManager()
@@ -39,7 +41,7 @@ class EventsController extends ControllerBase {
 
     return array(
       '#searchterm' => $searchterm,
-      '#sort' => NULL,
+      '#sort' => $sort,
       '#events' => $eventNodes,
       '#language' => $lang,
       '#theme' => 'avoindata_events',

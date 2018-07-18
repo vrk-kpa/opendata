@@ -7,7 +7,7 @@ document.onreadystatechange = function () {
 }
 
 function addEventSearchClickListeners() {
-  const searchButton = document.getElementById('avoindata-events-search-btn');
+  var searchButton = document.getElementById('avoindata-events-search-btn');
   searchButton.onclick = searchEventsSubmit;
 }
 
@@ -18,10 +18,12 @@ function searchEventsOnEnter() {
 }
 
 function searchEventsSubmit() {
-  const searchInput = document.getElementById('avoindata-events-search-input');
-  const selectElem = document.getElementById("avoindata-events-search-sort");
-  const sortOrder = selectElem.options[selectElem.selectedIndex].value || 'desc';
+  var searchInput = document.getElementById('avoindata-events-search-input');
+  var selectElem = document.getElementById("avoindata-events-search-sort");
+  var sortOrder = selectElem.options[selectElem.selectedIndex].value || 'desc';
   if(searchInput.value) {
     window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/events/' + sortOrder + '/' + searchInput.value);
+  } else {
+    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/events/' + sortOrder);
   }
 }
