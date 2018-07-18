@@ -246,6 +246,7 @@
     - "avoindata_newsfeed"
     - "avoindata_appfeed"
     - "avoindata_articles"
+    - "avoindata_events"
 
 ### Theme ###
 

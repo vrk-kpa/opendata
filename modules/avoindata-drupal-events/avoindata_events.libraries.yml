@@ -1,0 +1,4 @@
+avoindata_events:
+  version: 1.x
+  js:
+    js/avoindata-events.js: {}

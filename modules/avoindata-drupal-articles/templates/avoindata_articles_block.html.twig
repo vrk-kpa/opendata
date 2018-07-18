@@ -6,6 +6,7 @@
  * @ingroup themeable
  */
 #}
+{{ attach_library('avoindata_articles/avoindata_articles') }}
 <div class="container-fluid">
   <div class="avoindata-articles-container">
     <div class="row">
@@ -40,7 +41,25 @@
         <div class="tab-content row avoindata-articles-table">
 
             <div id="avoindata-articles-tab" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
-                
+              {% if searchterm is not null and searchterm is not empty %}
+              <div class="row avoindata-articles-search-info">
+                <h3>
+                  {% trans %}
+                  Articles with title matching search
+                  {% endtrans %}
+                  "{{ searchterm }}"
+                </h3>
+              </div>
+              {% endif %}
+              
+              {% if articles|length == 0 %}
+                <h3>
+                  {% trans %}
+                  No articles found.
+                  {% endtrans %}
+                </h3>              
+              {% endif %}
+
               {% for article in articles %}
                 <div class="avoindata-article-item">
                   <h2 class="article-item-heading">
@@ -62,8 +81,8 @@
                   <br/>
                   <div class="article-text">
                     <p>
-                    {% set text = article.body.0.value|render|striptags %}
-                    {{ text|length > 400 ? text|slice(0, 400) ~ '...' : text }}
+                    {% set text = article.body.0.summary %}
+                    {{ text }}
                     </p>  
                   </div>
                   <a href={{ path('entity.node.canonical', {'node': article.id}) }} class="btn btn-primary btn-avoindata-primary">
@@ -103,18 +122,18 @@
             {% endfor %}
           </div>
         </div>
-        <!-- <div class="row avoindata-articles-search">
+       <div class="row avoindata-articles-search">
           <div class="row">
-            <input class="form-control" type="text" placeholder="{% trans %}Search articles{% endtrans %}">
+            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" onkeydown="searchArticlesOnEnter()" value={{searchterm}} >
           </div>
           <div class="row">
-            <button class="btn btn-primary">
+            <button id="avoindata-articles-search-btn" class="btn btn-primary btn-avoindata-primary">
               {% trans %}
               Search
               {% endtrans %}
             </button>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

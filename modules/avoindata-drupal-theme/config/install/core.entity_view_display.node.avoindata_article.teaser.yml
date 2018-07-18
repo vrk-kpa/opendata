@@ -1,0 +1,28 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.avoindata_article.body
+    - node.type.avoindata_article
+  module:
+    - text
+    - user
+id: node.avoindata_article.teaser
+targetEntityType: node
+bundle: avoindata_article
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true
