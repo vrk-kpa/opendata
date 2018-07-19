@@ -140,7 +140,12 @@ ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
 
 #The field that is checked for the expiry date for reminders
 ckanext.reminder.date_field = valid_till
+
+#Fields for recipients name and email
+ckanext.reminder.recipient_name = maintainer 
 ckanext.reminder.email_field = maintainer_email
+
+
 {% if AWS.enabled -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}

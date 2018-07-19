@@ -204,15 +204,8 @@
   args: 
     chdir: "{{ drupal8_root }}/web"
 
-### Extra modules ###
 
-- name: Enable Drupal extra modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
-  with_items:
-    - twig_tweak
-    - fontawesome_menu_icons
+
 
 ### Custom modules ###
 # Contrib modules should be installed with Composer, not here #
@@ -233,19 +226,10 @@
   with_items: "{{ custom_modules }}"
 
 - name: Enable custom modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
+  command: ../vendor/drush/drush/drush en -y {{ item.machine_name }}
   args:
     chdir: "{{ drupal8_root }}/web"
-  with_items:
-    - "avoindata_header"
-    - "avoindata_footer"
-    - "avoindata_hero"
-    - "avoindata_categories"
-    - "avoindata_infobox"
-    - "avoindata_datasetlist"
-    - "avoindata_newsfeed"
-    - "avoindata_appfeed"
-    - "avoindata_articles"
+  with_items: "{{ custom_modules }}"
 
 ### Theme ###
 
@@ -282,6 +266,38 @@
   command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
   args:
     chdir: "{{ drupal8_root }}/web"
+
+
+### Extra modules ###
+
+- name: Enable Drupal extra modules
+  command: ../vendor/drush/drush/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - twig_tweak
+    - fontawesome_menu_icons
+    - smtp
+
+- name: Configure SMTP module settings
+  command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - { key: smtp_username, value: "{{ smtp_user }}"}
+    - { key: smtp_password, value: "{{ smtp_password }}"}
+    - { key: smtp_host, value: "{{ email_domain_access }}"}
+    - { key: smtp_protocol, value: "tls"}
+    - { key: smtp_from, value: "{{ email_from }}"}
+    - { key: smtp_on, value: "true"}
+
+- name: Configure general site settings regarding email
+  command: ../vendor/drush/drush/drush config:set system.site {{ item.key }} {{ item.value }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - { key: name, value: "{{ email_domain }}"}
+    - { key: mail, value: "{{ email_from }}"}
 
 ### User roles
 
