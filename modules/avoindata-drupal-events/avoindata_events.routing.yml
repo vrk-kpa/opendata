@@ -1,0 +1,9 @@
+avoindata_events.events:
+  path: '/events/{sort}/{searchterm}'
+  defaults:
+    _controller: '\Drupal\avoindata_events\Controller\EventsController::events'
+    sort: 'desc'
+    searchterm: ''
+    _title: 'Events'
+  requirements:
+    _permission: 'access content'

@@ -22,7 +22,7 @@ class NewsFeedBlock extends BlockBase {
    */
   public function build() {
     $articleNodeIds = \Drupal::entityQuery('node')
-    ->condition('type', 'article')
+    ->condition('type', 'avoindata_article')
     ->sort('created' , 'DESC')
     ->range(0, 5)
     ->execute();
