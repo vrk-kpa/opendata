@@ -82,14 +82,20 @@ harvest_sources: false
 ckan_version: "2.8.0"
 ckan_branch: "ckan-{{ ckan_version }}"
 
-email_domain: "localhost"
-email_domain_access: "localhost"
+email_domain: "{{ domain_name }}"
+email_domain_access: "{{ smtp_server_domain }}"
 email_from: "no-reply@{{ email_domain }}"
 error_email_from: "error@{{ email_domain }}"
 
 admin_email: vagrant@localhost
 error_email: "{{ admin_email }}"
 client_email: vagrant@localhost
+
+smtp_user: "{{ secret.smtp_user }}"
+smtp_password: "{{ secret.smtp_password }}"
+
+#smtp_server key is required by the external ckan mailer component
+smtp_server: "{{ email_domain_access }}" 
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
@@ -162,6 +168,8 @@ secret:
   database_drupal_password: pass
   database_drupal8_password: pass
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
+  smtp_user: username
+  smtp_password: password
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
 

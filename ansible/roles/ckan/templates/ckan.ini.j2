@@ -78,8 +78,10 @@ email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
 smtp.server = {{ email_domain_access }}
-smtp.starttls = False
-smtp.mail_from = no-reply
+smtp.user = {{ smtp_user }}
+smtp.password = {{ smtp_password }}
+smtp.starttls = True
+smtp.mail_from = no-reply@{{ email_domain }}
 
 ckan.views.default_views = recline_grid_view
 
@@ -138,7 +140,12 @@ ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
 
 #The field that is checked for the expiry date for reminders
 ckanext.reminder.date_field = valid_till
+
+#Fields for recipients name and email
+ckanext.reminder.recipient_name = maintainer 
 ckanext.reminder.email_field = maintainer_email
+
+
 {% if AWS.enabled -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}
