@@ -308,6 +308,7 @@
   - "{{ drupal_editor_rolename }}"
   - "{{ drupal_ckan_admin_rolename }}"
   - "{{ drupal_publisher_rolename }}"
+  ignore_errors: True
   tags:
   - drupal
 
