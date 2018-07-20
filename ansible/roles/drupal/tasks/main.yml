@@ -204,9 +204,6 @@
   args: 
     chdir: "{{ drupal8_root }}/web"
 
-
-
-
 ### Custom modules ###
 # Contrib modules should be installed with Composer, not here #
 
