@@ -9,14 +9,22 @@ use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\taxonomy\Entity\Term;
 
 class ArticlesController extends ControllerBase {
-  public function articles() {
+  public function articles($searchterm) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    $articleNodeIds = \Drupal::entityQuery('node')
-    ->condition('type', 'article')
-    ->condition('langcode', $lang)
+    $articleNodeIdsQuery = \Drupal::entityQuery('node')
+    ->condition('type', 'avoindata_article')
+    ->condition('langcode', $lang);
+
+    if(!empty($searchterm)) {
+      $articleNodeIdsQuery = $articleNodeIdsQuery
+      ->condition('title', $searchterm, 'CONTAINS');
+    }
+
+    $articleNodeIds = $articleNodeIdsQuery
     ->sort('created' , 'DESC')
     ->execute();
+
     $articleNodes = \Drupal::entityTypeManager()
     ->getStorage('node')
     ->loadMultiple($articleNodeIds);
@@ -51,6 +59,7 @@ class ArticlesController extends ControllerBase {
 
 
     return array(
+      '#searchterm' => $searchterm,
       '#articles' => $articles,
       '#tags' => $taxonomyTerms,
       '#language' => $lang,

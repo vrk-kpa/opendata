@@ -1,0 +1,34 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.avoindata_event.body
+    - field.field.node.avoindata_event.field_end_date
+    - field.field.node.avoindata_event.field_location
+    - field.field.node.avoindata_event.field_start_date
+    - node.type.avoindata_event
+  module:
+    - text
+    - user
+id: node.avoindata_event.teaser
+targetEntityType: node
+bundle: avoindata_event
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_end_date: true
+  field_location: true
+  field_start_date: true
+  langcode: true

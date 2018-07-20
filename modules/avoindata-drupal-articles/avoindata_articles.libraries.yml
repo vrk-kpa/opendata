@@ -1,0 +1,4 @@
+avoindata_articles:
+  version: 1.x
+  js:
+    js/avoindata-articles.js: {}

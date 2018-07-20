@@ -164,6 +164,14 @@ avoindata_header.register_fi:
   weight: 2
   options:
     fa_icon: 'fa-pencil'
+    
+avoindata_header.events_fi:
+  title: 'Tapahtumakalenteri'
+  description: 'Tapahtumakalenteri'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  url: 'internal:/fi/events/'
+  weight: 3
 
 avoindata_header.login_en:
   title: 'Log in'
@@ -186,6 +194,14 @@ avoindata_header.register_en:
   options:
     fa_icon: 'fa-pencil'
 
+avoindata_header.events_en:
+  title: 'Calendar of events'
+  description: 'Calendar of events'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  url: 'internal:/en/events/'
+  weight: 3
+
 avoindata_header.login_sv:
   title: 'Logga in'
   icon: 'sign-in'
@@ -207,3 +223,10 @@ avoindata_header.register_sv:
   options:
     fa_icon: 'fa-pencil'
 
+avoindata_header.events_sv:
+  title: 'Kalendarium'
+  description: 'Kalendarium'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  url: 'internal:/sv/events/'
+  weight: 3
