@@ -12,26 +12,45 @@ class EventsController extends ControllerBase {
   public function events($sort, $searchterm) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    $eventNodeIdsQuery = \Drupal::entityQuery('node')
+    $eventNodeIdsTitleQuery = \Drupal::entityQuery('node')
+    ->condition('type', 'avoindata_event')
+    ->condition('langcode', $lang);
+    $eventNodeIdsBodyQuery = \Drupal::entityQuery('node')
     ->condition('type', 'avoindata_event')
     ->condition('langcode', $lang);
 
     if(!empty($searchterm)) {
-      $eventNodeIdsQuery = $eventNodeIdsQuery
+      $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery
       ->condition('title', $searchterm, 'CONTAINS');
+      $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery
+      ->condition('body', $searchterm, 'CONTAINS');
     }
 
-    $eventNodeIds = NULL;
-    if(strcmp($sort, 'asc') == 0) {
-      $eventNodeIds = $eventNodeIdsQuery
-      ->sort('created' , 'asc')
-      ->execute();
-      $sort = 'asc';
-    } else {
-      $eventNodeIds = $eventNodeIdsQuery
-      ->sort('created' , 'desc')
-      ->execute();
-      $sort = 'desc';
+    $eventNodeIdsTitle = $eventNodeIdsTitleQuery
+    ->execute();
+    $eventNodeIdsBody = $eventNodeIdsBodyQuery
+    ->execute();
+
+    $eventNodeIdsCombined = array_unique(array_merge($eventNodeIdsTitle,$eventNodeIdsBody), SORT_REGULAR);
+
+    $eventNodeIds = array();
+    if(!empty($eventNodeIdsCombined)) {
+      $eventNodeIdsQuery = \Drupal::entityQuery('node')
+      ->condition('type', 'avoindata_event')
+      ->condition('langcode', $lang)
+      ->condition('nid', $eventNodeIdsCombined, 'IN');
+  
+      if(strcmp($sort, 'asc') == 0) {
+        $eventNodeIds = $eventNodeIdsQuery
+        ->sort('field_start_date' , 'asc')
+        ->execute();
+        $sort = 'asc';
+      } else {
+        $eventNodeIds = $eventNodeIdsQuery
+        ->sort('field_start_date' , 'desc')
+        ->execute();
+        $sort = 'desc';
+      }
     }
 
     $eventNodes = \Drupal::entityTypeManager()

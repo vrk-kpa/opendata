@@ -12,19 +12,37 @@ class ArticlesController extends ControllerBase {
   public function articles($searchterm) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    $articleNodeIdsQuery = \Drupal::entityQuery('node')
+    $articleNodeIdsTitleQuery = \Drupal::entityQuery('node')
+    ->condition('type', 'avoindata_article')
+    ->condition('langcode', $lang);
+    $articleNodeIdsBodyQuery = \Drupal::entityQuery('node')
     ->condition('type', 'avoindata_article')
     ->condition('langcode', $lang);
 
     if(!empty($searchterm)) {
-      $articleNodeIdsQuery = $articleNodeIdsQuery
+      $articleNodeIdsTitleQuery = $articleNodeIdsTitleQuery
       ->condition('title', $searchterm, 'CONTAINS');
+      $articleNodeIdsBodyQuery = $articleNodeIdsBodyQuery
+      ->condition('body', $searchterm, 'CONTAINS');
     }
 
-    $articleNodeIds = $articleNodeIdsQuery
-    ->sort('created' , 'DESC')
+    $articleNodeIdsTitle = $articleNodeIdsTitleQuery
+    ->execute();
+    $articleNodeIdsBody = $articleNodeIdsBodyQuery
     ->execute();
 
+    $articleNodeIdsCombined = array_unique(array_merge($articleNodeIdsTitle,$articleNodeIdsBody), SORT_REGULAR);
+
+    $articleNodeIds = array();
+    if(!empty($articleNodeIdsCombined)) {
+      $articleNodeIds = \Drupal::entityQuery('node')
+      ->condition('type', 'avoindata_article')
+      ->condition('langcode', $lang)
+      ->condition('nid', $articleNodeIdsCombined, 'IN')
+      ->sort('created' , 'DESC')
+      ->execute();
+    }
+    
     $articleNodes = \Drupal::entityTypeManager()
     ->getStorage('node')
     ->loadMultiple($articleNodeIds);
