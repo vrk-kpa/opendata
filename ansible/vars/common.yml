@@ -82,8 +82,8 @@ harvest_sources: false
 ckan_version: "2.8.0"
 ckan_branch: "ckan-{{ ckan_version }}"
 
-email_domain: "dev.avoindata.fi"
-email_domain_access: "email-smtp.eu-west-1.amazonaws.com"
+email_domain: "{{ domain_name }}"
+email_domain_access: "{{ smtp_server_domain }}"
 email_from: "no-reply@{{ email_domain }}"
 error_email_from: "error@{{ email_domain }}"
 
@@ -168,6 +168,8 @@ secret:
   database_drupal_password: pass
   database_drupal8_password: pass
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
+  smtp_user: username
+  smtp_password: password
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
 
