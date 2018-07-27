@@ -1,0 +1,19 @@
+uuid: 26c97050-505d-42f3-97a2-7a98330806e9
+langcode: fi
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.avoindata_guide_page
+  module:
+    - user
+id: node.avoindata_guide_page.teaser
+targetEntityType: node
+bundle: avoindata_guide_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

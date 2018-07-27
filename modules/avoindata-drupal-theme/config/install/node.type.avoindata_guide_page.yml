@@ -1,0 +1,18 @@
+uuid: 8f22f5cd-af77-45ee-82c9-c7ced528d40b
+langcode: fi
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Avoin Data Guide Page'
+type: avoindata_guide_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

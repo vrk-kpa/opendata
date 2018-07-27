@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Avoindata Guide block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-articles-container">
+    {{ content }}
+    <div class="row">
+        <h2 class="module-heading">
+            {{ guidePageTitle }}
+        </h2>
+        <div class="secondary col-12 col-md-8">
+            <div>
+                guidepage: {{guidePage}}
+                content: {{ guidePage.content }}
+                allPages: {{ allPages }}
+            </div>
+        </div>
+
+        <div class="secondary col-12 col-md-4">
+            <div class="module module-narrow module-shallow>
+                <h2 class="module-heading">
+                    Käyttöopas
+                </h2>
+                <div class="module-content">
+                    <ul>
+                        <li> First </li>
+                        <li> Second </li>
+                        <li> Third </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+

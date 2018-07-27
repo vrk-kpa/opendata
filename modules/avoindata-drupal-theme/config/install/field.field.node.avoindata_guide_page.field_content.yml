@@ -1,0 +1,22 @@
+uuid: bfa22d81-bee0-45e8-a514-f98bfc6e51f9
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - node.type.avoindata_guide_page
+  module:
+    - text
+id: node.avoindata_guide_page.field_content
+field_name: field_content
+entity_type: node
+bundle: avoindata_guide_page
+label: Content
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary

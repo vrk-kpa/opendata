@@ -275,6 +275,7 @@
     - twig_tweak
     - fontawesome_menu_icons
     - smtp
+    - pathauto ### Used for URL alias settings
 
 - name: Configure SMTP module settings
   command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}

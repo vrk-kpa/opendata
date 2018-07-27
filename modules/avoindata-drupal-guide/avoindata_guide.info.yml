@@ -1,0 +1,5 @@
+name: Avoindata Guide page
+type: module
+description: Shows the guide page
+package: Custom
+core: 8.x

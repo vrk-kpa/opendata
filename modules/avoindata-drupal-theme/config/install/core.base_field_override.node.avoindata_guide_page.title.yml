@@ -1,0 +1,18 @@
+uuid: ade3881b-626a-447a-a91f-7b0d2096956f
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.avoindata_guide_page
+id: node.avoindata_guide_page.title
+field_name: title
+entity_type: node
+bundle: avoindata_guide_page
+label: 'Avoin Data Guide'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
