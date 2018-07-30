@@ -248,6 +248,18 @@
     dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
+### Install external modules ###
+
+- name: Enable Drupal extra modules
+  command: ../vendor/drush/drush/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - twig_tweak
+    - fontawesome_menu_icons
+    - smtp
+    - pathauto ### Used for URL alias settings
+
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
@@ -264,18 +276,6 @@
   args:
     chdir: "{{ drupal8_root }}/web"
 
-
-### Extra modules ###
-
-- name: Enable Drupal extra modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
-  with_items:
-    - twig_tweak
-    - fontawesome_menu_icons
-    - smtp
-    - pathauto ### Used for URL alias settings
 
 - name: Configure SMTP module settings
   command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}
@@ -296,6 +296,11 @@
   with_items:
     - { key: name, value: "{{ email_domain }}"}
     - { key: mail, value: "{{ email_from }}"}
+
+# Without this, the added translatable status for content types like guide page, doesn't work and
+# fails because of an SQL error. 
+- name: Run entity updates for database
+  command: "{{ drupal8_root }}/vendor/drush/drush/drush updatedb --entity-updates -y"
 
 ### User roles
 

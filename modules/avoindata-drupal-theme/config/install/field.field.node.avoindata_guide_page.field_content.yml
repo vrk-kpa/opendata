@@ -7,6 +7,8 @@ dependencies:
     - node.type.avoindata_guide_page
   module:
     - text
+_core:
+  default_config_hash: oqY-fubCv8dd2a1PCi76yEqdSbyAAb85mSLLqOlWIL0
 id: node.avoindata_guide_page.field_content
 field_name: field_content
 entity_type: node
@@ -14,7 +16,7 @@ bundle: avoindata_guide_page
 label: Content
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

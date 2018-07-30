@@ -7,6 +7,8 @@ dependencies:
     - node.type.avoindata_guide_page
   module:
     - image
+_core:
+  default_config_hash: kkBmS9htTn7UPR7ygLNkEgVdxckA7pf7fTO3957nLVI
 id: node.avoindata_guide_page.field_page_image
 field_name: field_page_image
 entity_type: node
@@ -14,7 +16,7 @@ bundle: avoindata_guide_page
 label: 'Page Image'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

@@ -5,13 +5,14 @@ dependencies:
   config:
     - field.field.node.avoindata_guide_page.field_content
     - field.field.node.avoindata_guide_page.field_page_image
-    - field.field.node.avoindata_guide_page.field_title
     - image.style.thumbnail
     - node.type.avoindata_guide_page
   module:
     - image
     - path
     - text
+_core:
+  default_config_hash: b0x2eOMevpffeQE63CrJPo6YRmJD8r574J5yxyqz47Q
 id: node.avoindata_guide_page.default
 targetEntityType: node
 bundle: avoindata_guide_page
@@ -39,14 +40,6 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
-    region: content
-  field_title:
-    weight: 122
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
     region: content
   langcode:
     type: language_select
@@ -90,6 +83,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 5

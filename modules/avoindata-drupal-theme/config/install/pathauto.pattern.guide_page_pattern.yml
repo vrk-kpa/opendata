@@ -1,0 +1,35 @@
+uuid: 18664ca8-f631-4898-adef-5bd36ae47b11
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: guide_page_pattern
+label: 'guide page pattern'
+type: 'canonical_entities:node'
+pattern: 'guide/[node:title]'
+selection_criteria:
+  9bb6d5f6-5672-43ac-a1a9-869e125297fe:
+    id: node_type
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 9bb6d5f6-5672-43ac-a1a9-869e125297fe
+  8a375e2f-6cda-405a-8886-210e2e08b2bc:
+    id: language
+    langcodes:
+      en: en
+      fi: fi
+      sv: sv
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 8a375e2f-6cda-405a-8886-210e2e08b2bc
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

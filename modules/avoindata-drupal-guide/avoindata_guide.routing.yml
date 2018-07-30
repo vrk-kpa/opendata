@@ -1,7 +1,0 @@
-avoindata_guide.guide:
-  path: '/guide/{guidePageTitle}'
-  defaults:
-    _controller: '\Drupal\avoindata_guide\Controller\GuideController::guide'
-    _title: 'Guide'
-  requirements:
-    _permission: 'access content'
