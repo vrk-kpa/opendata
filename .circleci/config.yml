@@ -38,6 +38,8 @@ jobs:
   run-code-sniffer:
     docker:
       - image: circleci/php:7.1
+
+    working_directory: ~/project/drupal8/
     steps:
       - checkout
 
@@ -58,7 +60,7 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
-            
+
 workflows:
   version: 2
   lint-all:
