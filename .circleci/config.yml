@@ -45,6 +45,7 @@ jobs:
 
       - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-install gd
 
       # composer cache
       - restore_cache:
@@ -53,6 +54,7 @@ jobs:
           - v1-dependencies-{{ checksum "composer.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+          working_directory: ~/project/drupal8/
 
       - run:
           command: composer install -n --prefer-dist
@@ -62,6 +64,7 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
+          working_directory: ~/project/drupal8/
 
 workflows:
   version: 2
