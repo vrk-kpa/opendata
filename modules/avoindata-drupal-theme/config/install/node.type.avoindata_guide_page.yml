@@ -7,13 +7,15 @@ dependencies:
 third_party_settings:
   menu_ui:
     available_menus:
-      - main
-    parent: 'main:'
+      - guide-menu-en
+      - guide-menu-fi
+      - guide-menu-sv
+    parent: 'guide-menu-fi:'
 _core:
-  default_config_hash: BVms-ISU9iY40azUFVoktNdjmFSVUPw9-c98EFzT_Bo
+  default_config_hash: M3y8QzsSj98co0vqwBlHSheVtI-2gMIBoFqD5--Cbk8
 name: 'Avoin Data Guide Page'
 type: avoindata_guide_page
-description: ''
+description: 'A content type that can be used for writing a new page to the guide about using the avoindata.fi page'
 help: ''
 new_revision: true
 preview_mode: 1

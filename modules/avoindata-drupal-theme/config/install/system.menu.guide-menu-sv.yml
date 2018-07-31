@@ -1,0 +1,8 @@
+uuid: 99a6092b-fe9f-4acc-ba59-96feb403c1fb
+langcode: sv
+status: true
+dependencies: {  }
+id: guide-menu-sv
+label: 'Guide menu (sv)'
+description: 'Menu for guide page (sv)'
+locked: false

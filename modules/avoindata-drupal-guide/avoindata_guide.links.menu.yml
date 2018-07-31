@@ -1,0 +1,4 @@
+avoindata_guide.guide_link:
+  class: Drupal\avoindata_guide\Plugin\Menu\GuideMenuLink
+  deriver: Drupal\avoindata_guide\Plugin\Derivative\GuideMenuLink
+  menu_name: GuideMenu

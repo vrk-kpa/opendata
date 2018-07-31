@@ -1,0 +1,8 @@
+uuid: 44480704-aecc-43b4-8aa9-7cf7fa40814d
+langcode: en
+status: true
+dependencies: {  }
+id: guide-menu-en
+label: 'Guide menu (en)'
+description: 'Menu for guide page (en)'
+locked: false
