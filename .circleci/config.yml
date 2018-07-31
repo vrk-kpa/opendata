@@ -39,7 +39,7 @@ jobs:
     docker:
       - image: circleci/php:7.1
 
-    working_directory: ~/project/drupal8/
+
     steps:
       - checkout
 
@@ -55,6 +55,7 @@ jobs:
           - v1-dependencies-
 
       - run: composer install -n --prefer-dist
+          working_directory: ~/project/drupal8/
 
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
