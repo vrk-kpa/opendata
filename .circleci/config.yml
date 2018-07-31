@@ -37,15 +37,28 @@ jobs:
 
   run-code-sniffer:
     docker:
-      - image: juampynr/drupal8ci:latest
+      - image: circleci/php:7.1
     steps:
       - checkout
 
-      - run:
-          name: Build Drupal skeleton with Composer Drupal Project
-          command: |
-            composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
+      - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
+      - run: sudo docker-php-ext-install zip
 
+      # composer cache
+      - restore_cache:
+          keys:
+          # "composer.lock" can be used if it is committed to the repo
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+            
 workflows:
   version: 2
   lint-all:
