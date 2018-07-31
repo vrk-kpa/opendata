@@ -51,20 +51,18 @@ jobs:
       - restore_cache:
           keys:
           # "composer.lock" can be used if it is committed to the repo
-          - v1-dependencies-{{ checksum "composer.json" }}
+          - v1-dependencies-{{ checksum "drupal8/composer.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-          working_directory: ~/project/drupal8/
 
       - run:
           command: composer install -n --prefer-dist
           working_directory: ~/project/drupal8/
 
       - save_cache:
-          key: composer-v1-{{ checksum "composer.lock" }}
+          key: composer-v1-{{ checksum "drupal8/composer.lock" }}
           paths:
             - vendor
-          working_directory: ~/project/drupal8/
 
 workflows:
   version: 2
