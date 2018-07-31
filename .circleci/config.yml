@@ -54,7 +54,8 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run:
+          command: composer install -n --prefer-dist
           working_directory: ~/project/drupal8/
 
       - save_cache:
