@@ -36,7 +36,7 @@ def showcase_create(context, data_dict):
     for image in imgs:
         if data_dict[image]:
             upload.update_data_dict(data_dict, image,
-                                image+'_upload', 'clear_'+ image + '_upload')
+                                    image + '_upload', 'clear_' + image + '_upload')
 
             upload.upload(uploader.get_max_image_size())
 

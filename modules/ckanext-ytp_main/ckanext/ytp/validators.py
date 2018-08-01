@@ -9,7 +9,9 @@ import ckan.lib.navl.dictization_functions as df
 import re
 import json
 from ckan.logic import get_action
+import plugin
 
+import logging
 
 try:
     from ckanext.scheming.validation import (
@@ -26,10 +28,6 @@ except ImportError:
 from ckan.common import config
 Invalid = df.Invalid
 
-import plugin
-
-import logging
-
 log = logging.getLogger(__name__)
 
 ObjectNotFound = toolkit.ObjectNotFound
@@ -38,6 +36,7 @@ c = toolkit.c
 missing = toolkit.missing
 ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
 
+
 def lower_if_exists(s):
     return s.lower() if s else s
 
@@ -45,10 +44,12 @@ def lower_if_exists(s):
 def upper_if_exists(s):
     return s.upper() if s else s
 
+
 def list_to_string(list):
     if isinstance(list, collections.Sequence) and not isinstance(list, basestring):
         return ','.join(list)
     return list
+
 
 def tag_string_or_tags_required(key, data, errors, context):
     value = data.get(key)
@@ -65,16 +66,16 @@ def tag_string_or_tags_required(key, data, errors, context):
 def set_private_if_not_admin(private):
     return True if not authz.is_sysadmin(c.user) else private
 
+
 def convert_to_list(value):
     if isinstance(value, basestring):
-        tags = [tag.strip().lower() \
-                for tag in value.split(',') \
+        tags = [tag.strip().lower()
+                for tag in value.split(',')
                 if tag.strip()]
     else:
         tags = value
 
     return tags
-
 
 
 def create_tags(vocab):
@@ -88,6 +89,7 @@ def create_tags(vocab):
 
     return callable
 
+
 def create_fluent_tags(vocab):
     def callable(key, data, errors, context):
         value = data[key]
@@ -99,6 +101,7 @@ def create_fluent_tags(vocab):
             data[key] = json.dumps(value)
 
     return callable
+
 
 def add_to_vocab(context, tags, vocab):
     try:
@@ -124,6 +127,7 @@ def tag_list_output(value):
     if isinstance(value, dict) or len(value) is 0:
         return value
     return json.loads(value)
+
 
 def repeating_text(key, data, errors, context):
     """
@@ -197,6 +201,7 @@ def repeating_text(key, data, errors, context):
     out = [found[i] for i in sorted(found)]
     data[key] = json.dumps(out)
 
+
 def repeating_text_output(value):
     """
     Return stored json representation as a list, if
@@ -216,7 +221,7 @@ def repeating_text_output(value):
 def only_default_lang_required(field, schema):
     default_lang = ''
     if field and field.get('only_default_lang_required'):
-        default_lang =  config.get('ckan.locale_default', 'en')
+        default_lang = config.get('ckan.locale_default', 'en')
 
     def validator(key, data, errors, context):
         if errors[key]:
@@ -248,14 +253,15 @@ def only_default_lang_required(field, schema):
         if extras.get(prefix + default_lang) == '' or extras.get(prefix + default_lang) is None:
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
-    return  validator
-
+    return validator
 
 
 def override_field(overridden_field_name):
     @scheming_validator
     def implementation(field, schema):
+
         from ckan.lib.navl.dictization_functions import missing
+
         def validator(key, data, errors, context):
             override_value = data[key]
             if override_value not in (None, missing):
@@ -266,10 +272,12 @@ def override_field(overridden_field_name):
 
     return implementation
 
+
 @scheming_validator
 def keep_old_value_if_missing(field, schema):
     from ckan.lib.navl.dictization_functions import missing, flatten_dict
     from ckan.logic import get_action
+
     def validator(key, data, errors, context):
 
         if 'package' not in context:
@@ -283,6 +291,9 @@ def keep_old_value_if_missing(field, schema):
 
     return validator
 
+
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
+
+
 def ignore_if_invalid_isodatetime(v):
     return v if ISO_DATETIME_FORMAT.match(v) else None

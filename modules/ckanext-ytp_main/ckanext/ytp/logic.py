@@ -162,7 +162,8 @@ def action_user_show(context, data_dict):
             continue
         user_dict['datasets'].append(dataset_dict)
 
-    user_dict['num_followers'] = logic.get_action('user_follower_count')({'model': model, 'session': model.Session}, {'id': user_dict['id']})
+    user_dict['num_followers'] = logic.get_action('user_follower_count')({'model': model, 'session': model.Session},
+                                                                         {'id': user_dict['id']})
 
     return user_dict
 
@@ -364,7 +365,7 @@ def action_user_list(context, data_dict):
                     _and_(
                         model.Package.creator_user_id == model.User.id,
                         model.Package.state == 'active',
-                        model.Package.private == False,
+                        model.Package.private == False, # noqa
                         )).label('number_created_packages')
         )
     else:
@@ -382,7 +383,7 @@ def action_user_list(context, data_dict):
     else:
         query = query.order_by(
             _case([(
-                _or_(model.User.fullname == None,
+                _or_(model.User.fullname == None, # noqa
                      model.User.fullname == ''),
                 model.User.name)],
                 else_=model.User.fullname))
@@ -390,7 +391,7 @@ def action_user_list(context, data_dict):
     # Filter deleted users
     query = query.filter(model.User.state != model.State.DELETED)
 
-    ## hack for pagination
+    # hack for pagination
     if context.get('return_query'):
         return query
 

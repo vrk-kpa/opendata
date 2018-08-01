@@ -134,7 +134,8 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def user(self, user_data):
         try:
-            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True, 'keep_email': True}, {'id': user_data.name})
+            user = p.toolkit.get_action('user_show')({'return_minimal': True, 'keep_sensitive_data': True, 'keep_email': True},
+                                                     {'id': user_data.name})
         except p.toolkit.ObjectNotFound:
             user = None
 
@@ -162,7 +163,7 @@ class Drupal7Plugin(p.SingletonPlugin):
 
     def abort(self, status_code, detail, headers, comment):
         # HTTP Status 401 causes a login redirect.  We need to prevent this unless we are actually trying to login.
-        # The original ckanext-drupal7 aborts redirects, we actually want to be redirected to login page in case a user has not 
+        # The original ckanext-drupal7 aborts redirects, we actually want to be redirected to login page in case a user has not
         # been logged in yet.
         # self.identify()
         if (status_code == 401 and p.toolkit.c.user is not None):
