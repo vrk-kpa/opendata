@@ -56,3 +56,6 @@
 [submodule "modules/ckanext-datarequests"]
 	path = modules/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git
+[submodule "ckanext-datarequests"]
+	path = ckanext-datarequests
+	url = https://github.com/vrk-kpa/ckanext-datarequests.git
