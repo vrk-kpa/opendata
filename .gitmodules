@@ -53,6 +53,6 @@
 [submodule "modules/ckanext-sixodp_showcasesubmit"]
 	path = modules/ckanext-sixodp_showcasesubmit
 	url = https://github.com/vrk-kpa/ckanext-sixodp_showcasesubmit.git
-[submodule ".\\modules\\ckanext-datarequests"]
-	path = .\\modules\\ckanext-datarequests
+[submodule "modules/ckanext-datarequests"]
+	path = modules/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git
