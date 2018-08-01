@@ -21,8 +21,7 @@ setup(
     install_requires=[
         # -*- Extra requirements: -*-
     ],
-    entry_points=
-    """
+    entry_points="""
     [ckan.plugins]
 
     drupal7=ckanext.drupal7.plugin:Drupal7Plugin

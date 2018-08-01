@@ -71,7 +71,8 @@ def member_requests_list(context, data_dict):
         model.Member.table_name == "user").filter(model.Member.state == 'pending')
 
     if not is_sysadmin:
-        admin_in_groups = model.Session.query(model.Member).filter(model.Member.state == "active").filter(model.Member.table_name == "user") \
+        admin_in_groups = model.Session.query(model.Member).filter(model.Member.state == "active")\
+            .filter(model.Member.table_name == "user") \
             .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == user_object.id)
 
         if admin_in_groups.count() <= 0:
