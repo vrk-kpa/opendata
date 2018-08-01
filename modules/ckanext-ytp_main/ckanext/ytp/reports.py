@@ -1,10 +1,10 @@
-from ckan.common import OrderedDict, _
-from ckan.logic import get_action, NotFound, NotAuthorized
+from ckan.logic import get_action
 import itertools
 from datetime import timedelta, datetime
 import logging
 
 log = logging.getLogger(__name__)
+
 
 def administrative_branch_summary_report():
     org_names = [
@@ -61,7 +61,7 @@ def administrative_branch_summary_report():
     try:
         get_action('qa_package_openness_show')
         qa_enabled = True
-    except:
+    except Exception:
         qa_enabled = False
 
     return {
@@ -70,7 +70,7 @@ def administrative_branch_summary_report():
             'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
             'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
             'qa_enabled': qa_enabled,
-            'table' : [{
+            'table': [{
                 'organization': org['title'] if not org['total_org'] else org['title'] + "'s administrative branch",
                 'level': org_levels[org['name']],
                 'total': org['total_org'],
@@ -87,6 +87,7 @@ def administrative_branch_summary_report():
                 ]
             }
 
+
 administrative_branch_summary_report_info = {
     'name': 'administrative-branch-summary-report',
     'title': 'Administrative Branch Summary',
@@ -96,6 +97,7 @@ administrative_branch_summary_report_info = {
     'generate': administrative_branch_summary_report,
     'template': 'report/administrative_branch_summary_report.html',
 }
+
 
 def package_generator(query, page_size, context):
     package_search = get_action('package_search')
@@ -107,6 +109,7 @@ def package_generator(query, page_size, context):
             yield package
         else:
             return
+
 
 def age(dataset):
     return datetime.now() - datetime.strptime(dataset['metadata_created'], '%Y-%m-%dT%H:%M:%S.%f')
@@ -128,6 +131,7 @@ def flatten(x, children):
         for cx in flatten(child, children):
             yield cx
 
+
 def hierarchy_levels(x, children, level=0):
     '''
     Provide hierarchy levels for nodes in a hierarchy
@@ -137,8 +141,10 @@ def hierarchy_levels(x, children, level=0):
         for cx, cl in hierarchy_levels(child, children, level + 1):
             yield (cx, cl)
 
+
 def resource_formats(datasets):
     return ', '.join({r['format'] for d in datasets for r in d['resources'] if r['format']})
+
 
 def openness_score_avg(context, datasets):
     openness_score = get_action('qa_package_openness_show')
@@ -149,6 +155,7 @@ def openness_score_avg(context, datasets):
         if s.get('openness_score') is not None),
         (0, 0))
     return total / count if count > 0 else None
+
 
 def tuple_sum(*xs):
     return tuple(sum(x) for x in zip(*xs))

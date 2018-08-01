@@ -7,7 +7,6 @@ from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 from itertools import count
-from ckan.lib.navl.dictization_functions import Invalid
 
 
 def to_list_json(value, context):
@@ -27,7 +26,8 @@ def from_json_list(value, context):
             if not isinstance(parsed_value, list):
                 return [value]
             return parsed_value
-    except:
+    except Exception as e:
+        print e
         pass
     return [unicode(value)]  # Return original string as list for non converted values
 

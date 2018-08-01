@@ -131,7 +131,9 @@ def tags_import(data):
                                            'title': args['meta_name'],
                                            })
 
+
 _config_loaded = False
+
 
 @celery_app.celery.task(name="ckanext.ytp.organization_import")
 def organization_import(data):
@@ -203,4 +205,5 @@ def organization_type_import(data):
     public_url = 'http://www.yso.fi/onto/jupo/p605'
 
     _dump_json(config.get("producer_type_private_options_url"), [_add_child_concepts(graph, URIRef(private_url))])
-    _dump_json(config.get("producer_type_options_url"), [_add_child_concepts(graph, URIRef(top_type)) for top_type in (private_url, public_url)])
+    _dump_json(config.get("producer_type_options_url"),
+               [_add_child_concepts(graph, URIRef(top_type)) for top_type in (private_url, public_url)])

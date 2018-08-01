@@ -14,16 +14,13 @@ import click
 
 from ckan.lib.cli import (
     load_config,
-    parse_db_config,
     paster_click_group,
     click_config_option,
 )
 
-import ast
-
-from ckan.lib.munge import munge_title_to_name
 
 import itertools
+
 
 class YtpFacetTranslations(CkanCommand):
     """ Command to add task to schedule table """
@@ -128,10 +125,10 @@ def migrate(ctx, config, dryrun):
         }
 
         if old_package_dict.get('tags'):
-            patch['keywords'] = { 'fi': [ tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None ] }
+            patch['keywords'] = {'fi': [tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None]}
 
         if old_package_dict.get('content_type'):
-            patch['content_type'] = {'fi': [ s for s in old_package_dict.get('content_type', "").split(',') if s] }
+            patch['content_type'] = {'fi': [s for s in old_package_dict.get('content_type', "").split(',') if s]}
 
         if old_package_dict.get('license_id') is None:
             patch['license_id'] = 'other'
@@ -140,7 +137,6 @@ def migrate(ctx, config, dryrun):
             patch['title_translated'][lang] = old_package_dict.get('title_' + lang, '')
             patch['notes_translated'][lang] = old_package_dict.get('notes_' + lang, '')
             patch['copyright_notice_translated'][lang] = old_package_dict.get('copyright_notice_' + lang, '')
-
 
         patch['resources'] = old_package_dict.get('resources')
 
@@ -164,12 +160,11 @@ def migrate(ctx, config, dryrun):
             else:
                 del resource['update_frequency']
 
-
             for lang in langs:
                 resource['name_translated'][lang] = resource.get('name_' + lang, '')
                 resource['description_translated'][lang] = resource.get('description_' + lang, '')
-                if resource.get('temporal_granularity_' + lang ):
-                    resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang )
+                if resource.get('temporal_granularity_' + lang):
+                    resource['temporal_granularity'][lang] = resource.get('temporal_granularity_' + lang)
                 if resource.get('temporal_granularity_' + lang):
                     resource['update_frequency'][lang] = resource.get('update_frequency_' + lang)
 
@@ -203,6 +198,7 @@ def apply_patches(package_patches, resource_patches):
                 print "Migration failed for resource %s, reason" % patch['id']
                 print e
 
+
 def apply_group_assigns(group_packages_map):
     if not group_packages_map:
         print 'No group memberships to set.'
@@ -218,7 +214,7 @@ def apply_group_assigns(group_packages_map):
                         'capacity': 'public'}
                 try:
                     member_create(context, data)
-                except Error as e:
+                except Exception as e:
                     print "Group assign failed for package %s reason:" % package
                     print e
 
@@ -234,6 +230,7 @@ def package_generator(query, page_size):
             yield package
         else:
             return
+
 
 @ytp_dataset_group.command(
     u'batch_edit',
@@ -253,7 +250,7 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 
     for package_dict in package_generator(search_string, 1000):
         if group:
-            members = group_assigns[group].append(package_dict['name'])
+            group_assigns[group].append(package_dict['name'])
 
     if dryrun:
         print '\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps)

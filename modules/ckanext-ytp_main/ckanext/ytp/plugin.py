@@ -1,5 +1,4 @@
 import ast
-import datetime
 import json
 import logging
 import pylons
@@ -13,7 +12,7 @@ import validators
 import ckan.lib.base as base
 import ckan.logic.schema
 from ckan import authz as authz
-from ckan import plugins, model, logic, authz
+from ckan import plugins, model, logic
 from ckan.common import _, c, request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
@@ -22,7 +21,7 @@ from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
-from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action, NotFound
+from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckanext.harvest.model import HarvestObject
@@ -33,16 +32,21 @@ from paste.deploy.converters import asbool
 from sqlalchemy.sql.expression import or_
 from webhelpers.html import escape
 from webhelpers.html.builder import literal
-from webhelpers.html.tags import link_to, literal
+from webhelpers.html.tags import link_to
 
 import tools
 import auth
 import menu
-import logic
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
-from tools import add_languages_modify, add_languages_show, add_translation_show_schema, add_translation_modify_schema, get_original_method, create_system_context, get_original_method, add_translation_show_schema, add_languages_show, add_translation_modify_schema, add_languages_modify
+from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, \
+    sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
+    get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
+    get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
+    sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
+    get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
+from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
+    add_translation_modify_schema, add_languages_modify
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -51,7 +55,7 @@ try:
 except ImportError:
     from sqlalchemy.util import OrderedDict
 
-from ckan.plugins.toolkit import  ValidationError
+from ckan.plugins.toolkit import ValidationError
 
 # This plugin is designed to work only these versions of CKAN
 plugins.toolkit.check_ckan_version(min_version='2.0')
@@ -72,6 +76,7 @@ class YtpMainTranslation(DefaultTranslation):
     def i18n_domain(self):
         return "ckanext-ytp_main"
 
+
 def create_vocabulary(name):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
@@ -79,14 +84,13 @@ def create_vocabulary(name):
     try:
         data = {'id': name}
         return toolkit.get_action('vocabulary_show')(context, data)
-        log.info( name + " vocabulary already exists, skipping.")
     except NotFound:
         pass
 
     log.info("Creating vocab '" + name + "'")
     data = {'name': name}
     try:
-        #context['defer_commit'] = True
+        # context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
     except Exception, e:
         log.error('%s' % e)
@@ -103,11 +107,12 @@ def create_tag_to_vocabulary(tag, vocab):
         "name": tag,
         "vocabulary_id": v['id']}
 
-    #context['defer_commit'] = True
+    # context['defer_commit'] = True
     try:
         toolkit.get_action('tag_create')(context, data)
     except ValidationError:
         pass
+
 
 def _escape(value):
     return escape(unicode(value))
@@ -206,6 +211,7 @@ def not_empty_or(item):
             raise StopOnError
     return callback
 
+
 _key_functions = {u'extras': _parse_extras}
 
 
@@ -220,7 +226,8 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
- 
+
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -271,9 +278,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
-        #m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
-        #m.connect('new_resource', '/dataset/new_resource/{id}', action='new_resource', controller=controller, ckan_icon='new')
-        m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit', controller=controller, ckan_icon='edit')
+        # m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
+        # m.connect('new_resource', '/dataset/new_resource/{id}', action='new_resource', controller=controller, ckan_icon='new')
+        m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
+                  controller=controller, ckan_icon='edit')
 
         # Mapping of new dataset is needed since, remapping on read overwrites it
         m.connect('add dataset', '/dataset/new', controller='package', action='new')
@@ -281,8 +289,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
-        #m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
-        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type', controller=controller)
+        # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
+                  controller=controller)
         return m
 
     # IConfigurer #
@@ -295,7 +304,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         toolkit.add_resource('public/javascript/', 'ytp_common_js')
         toolkit.add_template_directory(config, '../common/templates')
 
-    # IDatasetForm #
+    # IDatasetForm
 
     def _modify_package_schema(self, schema):
         ignore_missing = toolkit.get_validator('ignore_missing')
@@ -609,7 +618,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 else:
                     pkg_dict['source'] = 'Internal'
 
-
         vocab_fields = ['geographical_coverage', 'high_value_dataset_category']
         for field in vocab_fields:
             if pkg_dict.get(field):
@@ -623,8 +631,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show}
-
-
 
     # IValidators
     def get_validators(self):
@@ -776,7 +782,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         # topic category for syke
 
-
         topic_categories = data_dict['iso_values'].get('topic-category')
         if topic_categories:
             for category in topic_categories:
@@ -787,8 +792,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         package_dict['title_translated'] = {"fi": package_dict['title']}
 
         return package_dict
-
-
 
 
 _config_template = "ckanext.ytp.organizations.%s"
@@ -838,9 +841,11 @@ def action_user_create(context, data_dict):
     result = get_original_method('ckan.logic.action.create', 'user_create')(context, data_dict)
     context = create_system_context()
     organization = _create_default_organization(context, _default_organization_name, _default_organization_title)
-    plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'], "username": result['name'], "role": "editor"})
+    plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'],
+                                                                       "username": result['name'], "role": "editor"})
 
     return result
+
 
 @logic.side_effect_free
 def action_organization_show(context, data_dict):
@@ -1028,17 +1033,19 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                 for tag in sorted(tags):
                     menu_items.append({'value': tag['name'], 'text': tag['display_name']})
             return menu_items
-        except:
+        except NotAuthorized:
             return []
 
     def _get_authorized_parents(self):
         """ Returns a list of organizations under which the current user can put child organizations.
 
-        The user is required to be an admin in the parent. If the user is a sysadmin, then the user will see all allowable parent organizations. """
+        The user is required to be an admin in the parent. If the user is a sysadmin,
+        then the user will see all allowable parent organizations. """
 
         if not c.userobj.sysadmin:
             # If the user is not a sysadmin, then show only those parent organizations in which the user is an admin
-            admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
+            admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
+                .filter(model.Member.table_name == 'user') \
                 .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
 
             admin_groups = []
@@ -1117,22 +1124,11 @@ def from_json_to_object(key, data):
             try:
                 parsed = json.loads(value)
                 key[i] = parsed
-            except:
+            except TypeError:
                 pass
 
     return key
 
-
-def date_validator(value, context):
-    """ Validator for date fields """
-    if isinstance(value, datetime.date):
-        return value
-    if value == '':
-        return None
-    try:
-        return datetime.datetime.strptime(value, "%Y-%m-%d").date()
-    except (TypeError, ValueError):
-        raise Invalid(_('Date format incorrect'))
 
 class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(IReport)
@@ -1165,7 +1161,8 @@ def static_value(preset_value):
 def service_charge_validator(key, data, errors, context):
     """Validates the fields related to service charge.
 
-    If the service has a charge, then the user must also supply either the pricing information URL or a description of the service pricing or both."""
+    If the service has a charge, then the user must also supply either the pricing information URL
+    or a description of the service pricing or both."""
 
     # Get the value for the service charge radio field
     service_charge_value = data.get(key)
@@ -1182,7 +1179,8 @@ def service_charge_validator(key, data, errors, context):
         if ((pricing_url_value is missing or pricing_url_value is None or pricing_url_value == '') and
                 (service_price_value is missing or service_price_value is None or service_price_value == '')):
             # If both the pricing information url and the service price description fields are empty, show an error message
-            raise Invalid(_('If there is a service charge, you must supply either the pricing information web address for this service or a description of ' +
+            raise Invalid(_('If there is a service charge, you must supply either the pricing information '
+                            'web address for this service or a description of ' +
                             'the service pricing or both'))
     return service_charge_value
 
@@ -1364,7 +1362,8 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         if 'auth_user_obj' not in context:
             return {'success': False, 'msg': _("Login required")}
         user_object = context['auth_user_obj']
-        query = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == user_object.id) \
+        query = model.Session.query(model.Member).filter(model.Member.table_name == "user")\
+            .filter(model.Member.table_id == user_object.id) \
             .filter(model.Member.state == 'active').filter(or_(model.Member.capacity == 'admin', model.Member.capacity == 'editor'))
         if query.count() < 1:
             return {'success': False, 'msg': _('User %s is not part of any public organization')}
@@ -1378,9 +1377,10 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return {'success': False, 'msg': _('User %s is not part of any public organization')}
 
     def get_auth_functions(self):
-        return {'package_create': self._package_create, 'package_update': self._package_update, 'can_create_service': self._can_create_service}
+        return {'package_create': self._package_create, 'package_update': self._package_update,
+                'can_create_service': self._can_create_service}
 
-    # # ITemplateHelpers # #
+    # ITemplateHelpers
 
     def _service_organizations(self):
         ''' modified from organization_list_for_user '''
@@ -1452,8 +1452,10 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                  (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
                  (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
-                 (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'], menu.PublishMenu, menu.PublishDataMenu),
-                 (['/%(language)s/dataset/new?collection_type=Interoperability+Tools', '/dataset/new?collection_type=Interoperability+Tools'],
+                 (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
+                  menu.PublishMenu, menu.PublishDataMenu),
+                 (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',
+                   '/dataset/new?collection_type=Interoperability+Tools'],
                   menu.PublishMenu, menu.PublishToolsMenu),
                  (['/%(language)s/service/new', '/service/new'],
                   menu.PublishMenu, menu.PublishServiceMenu),
@@ -1564,10 +1566,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             return response.read().decode("utf-8")
         except urllib2.HTTPError:
             return ''
-        except:
+        except Exception:
             return ''
-
-        return None
 
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
@@ -1611,7 +1611,8 @@ def helper_linked_user(user, maxlength=0, avatar=20):
 
 
 def helper_organizations_for_select():
-    organizations = [{'value': organization['id'], 'text': organization['display_name']} for organization in helpers.organizations_available()]
+    organizations = [{'value': organization['id'],
+                      'text': organization['display_name']} for organization in helpers.organizations_available()]
     return [{'value': '', 'text': ''}] + organizations
 
 
@@ -1658,7 +1659,8 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         model_setup()
 
     def get_helpers(self):
-        return {'linked_user': helper_linked_user, 'organizations_for_select': helper_organizations_for_select, 'is_pseudo': helper_is_pseudo,
+        return {'linked_user': helper_linked_user, 'organizations_for_select': helper_organizations_for_select,
+                'is_pseudo': helper_is_pseudo,
                 'main_organization': helper_main_organization,
                 'get_image_upload_size': get_image_upload_size}
 
@@ -1668,8 +1670,8 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def get_actions(self):
         return {
             'user_update': logic.action_user_update,
-            #'user_show': logic.action_user_show,
-             'user_list': logic.action_user_list}
+            # 'user_show': logic.action_user_show,
+            'user_list': logic.action_user_list}
 
     def before_map(self, map):
         # Remap user edit to our user controller
@@ -1678,6 +1680,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
             m.connect('/user/edit', action='edit')
             m.connect('/user/edit/{id:.*}', action='edit')
             m.connect('/user/me', action='me')
-            #m.connect('/user/{id}', action='read')
+            # m.connect('/user/{id}', action='read')
 
         return map
