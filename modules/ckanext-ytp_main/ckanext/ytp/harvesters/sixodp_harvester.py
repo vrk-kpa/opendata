@@ -7,16 +7,14 @@ import socket
 from ckan import model
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
-from ckan.lib.munge import munge_name
 from ckan.plugins import toolkit
 import ckan.lib.plugins as lib_plugins
-
+from ckanext.harvest.harvesters.base import HarvesterBase
 from ckanext.harvest.model import HarvestObject
 
 import logging
 log = logging.getLogger(__name__)
 
-from ckanext.harvest.harvesters.base import HarvesterBase
 
 DATETIME_FORMATS = [
         '%Y-%m-%dT%H:%M:%S.%f%z',
@@ -45,6 +43,7 @@ GROUP_MAP = {
         'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
         }
 
+
 def parse_datetime(datetime_string):
     if not datetime_string:
         return None
@@ -52,12 +51,13 @@ def parse_datetime(datetime_string):
     for fmt in DATETIME_FORMATS:
         try:
             result = datetime.datetime.strptime(datetime_string, fmt)
-        except:
+        except Exception:
             continue
         return result
 
     log.debug('Invalid datetime string: "%s"' % datetime_string)
     return None
+
 
 def sixodp_to_opendata_preprocess(package_dict):
     groups = []
@@ -74,6 +74,7 @@ def sixodp_to_opendata_preprocess(package_dict):
             groups.append(group)
 
     package_dict['groups'] = groups
+
 
 def sixodp_to_opendata_postprocess(package_dict):
     package_dict['collection_type'] = 'Open Data'
@@ -218,15 +219,15 @@ class SixodpHarvester(HarvesterBase):
                     raise ValueError('default_extras must be a dictionary')
 
             if 'organizations_filter_include' in config_obj \
-                and 'organizations_filter_exclude' in config_obj:
+                    and 'organizations_filter_exclude' in config_obj:
                 raise ValueError('Harvest configuration cannot contain both '
-                    'organizations_filter_include and organizations_filter_exclude')
+                                 'organizations_filter_include and organizations_filter_exclude')
 
             if 'user' in config_obj:
                 # Check if user exists
                 context = {'model': model, 'user': toolkit.c.user}
                 try:
-                    user = get_action('user_show')(
+                    get_action('user_show')(
                         context, {'id': config_obj.get('user')})
                 except NotFound:
                     raise ValueError('User not found')
@@ -452,17 +453,17 @@ class SixodpHarvester(HarvesterBase):
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
             if default_tags:
-                if not 'tags' in package_dict:
+                if 'tags' not in package_dict:
                     package_dict['tags'] = []
                 package_dict['tags'].extend(
                     [t for t in default_tags if t not in package_dict['tags']])
 
             remote_groups = self.config.get('remote_groups', None)
-            if not remote_groups in ('only_local', 'create'):
+            if remote_groups not in ('only_local', 'create'):
                 # Ignore remote groups
                 package_dict.pop('groups', None)
             else:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
 
                 # check if remote groups exist locally, otherwise remove
@@ -510,11 +511,11 @@ class SixodpHarvester(HarvesterBase):
 
             remote_orgs = self.config.get('remote_orgs', None)
 
-            if not remote_orgs in ('only_local', 'create'):
+            if remote_orgs not in ('only_local', 'create'):
                 # Assign dataset to the source organization
                 package_dict['owner_org'] = local_org
             else:
-                if not 'owner_org' in package_dict:
+                if 'owner_org' not in package_dict:
                     package_dict['owner_org'] = None
 
                 # check if remote org exist locally, otherwise remove
@@ -550,7 +551,7 @@ class SixodpHarvester(HarvesterBase):
             # Set default groups if needed
             default_groups = self.config.get('default_groups', [])
             if default_groups:
-                if not 'groups' in package_dict:
+                if 'groups' not in package_dict:
                     package_dict['groups'] = []
                 existing_group_ids = [g['id'] for g in package_dict['groups']]
                 package_dict['groups'].extend(
@@ -559,13 +560,14 @@ class SixodpHarvester(HarvesterBase):
 
             # Set default extras if needed
             default_extras = self.config.get('default_extras', {})
+
             def get_extra(key, package_dict):
                 for extra in package_dict.get('extras', []):
                     if extra['key'] == key:
                         return extra
             if default_extras:
                 override_extras = self.config.get('override_extras', False)
-                if not 'extras' in package_dict:
+                if 'extras' not in package_dict:
                     package_dict['extras'] = []
                 for key, value in default_extras.iteritems():
                     existing_extra = get_extra(key, package_dict)
@@ -577,10 +579,8 @@ class SixodpHarvester(HarvesterBase):
                     if isinstance(value, basestring):
                         value = value.format(
                             harvest_source_id=harvest_object.job.source.id,
-                            harvest_source_url=
-                            harvest_object.job.source.url.strip('/'),
-                            harvest_source_title=
-                            harvest_object.job.source.title,
+                            harvest_source_url=harvest_object.job.source.url.strip('/'),
+                            harvest_source_title=harvest_object.job.source.title,
                             harvest_job_id=harvest_object.job.id,
                             harvest_object_id=harvest_object.id,
                             dataset_id=package_dict['id'])
@@ -617,13 +617,12 @@ class SixodpHarvester(HarvesterBase):
                 else:
                     package_plugin = lib_plugins.lookup_package_plugin(package_dict['type'])
 
-
                 errors = {}
                 # if package has been previously imported
                 try:
                     existing_package_dict = self._find_existing_package(package_dict)
 
-                    if not 'metadata_modified' in package_dict or \
+                    if 'metadata_modified' not in package_dict or \
                             package_dict['metadata_modified'] > existing_package_dict.get('metadata_modified'):
                         schema = package_plugin.update_package_schema()
                         data, errors = lib_plugins.plugin_validate(
@@ -655,8 +654,10 @@ class SixodpHarvester(HarvesterBase):
 class ContentFetchError(Exception):
     pass
 
+
 class ContentNotFoundError(ContentFetchError):
     pass
+
 
 class RemoteResourceError(Exception):
     pass

@@ -4,17 +4,15 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.dictization.model_dictize as model_dictize
 from ckan.lib.navl.dictization_functions import validate
 
-from ckanext.showcase.logic.schema import (showcase_package_list_schema,
-                                           package_showcase_list_schema)
-from ckanext.showcase.model import ShowcasePackageAssociation, ShowcaseAdmin
+from ckanext.showcase.logic.schema import package_showcase_list_schema
+from ckanext.showcase.model import ShowcasePackageAssociation
 
+from ckan.logic import NotAuthorized
 import logging
 log = logging.getLogger(__name__)
 
 _select = sqlalchemy.sql.select
 _and_ = sqlalchemy.and_
-
-from ckan.logic import NotAuthorized
 
 
 @toolkit.side_effect_free
@@ -30,14 +28,15 @@ def showcase_list(context, data_dict):
         .filter(model.Package.state == 'active')
 
     # Showcase includes private showcases by default, but those can be excluded with include_private = false
-    if data_dict.get('include_private') == 'false':
-        q = q.filter(model.Package.private == False)
+    if data_dict.get('include_private') is 'false':
+        q = q.filter(model.Package.private == False) # Noqa
 
     showcase_list = []
     for pkg in q.all():
         showcase_list.append(model_dictize.package_dictize(pkg, context))
 
     return showcase_list
+
 
 @toolkit.side_effect_free
 def package_showcase_list(context, data_dict):
@@ -68,10 +67,9 @@ def package_showcase_list(context, data_dict):
         for showcase_id in showcase_id_list:
             try:
                 showcase = toolkit.get_action('package_show')(context,
-                                                          {'id': showcase_id})
+                                                              {'id': showcase_id})
                 showcase_list.append(showcase)
             except NotAuthorized:
                 pass
-
 
     return showcase_list

@@ -2,19 +2,15 @@ from ckanext.showcase.controller import ShowcaseController
 from ckan.plugins import toolkit as tk
 from pylons import config
 import ckan
-from ckan.controllers.package import PackageController, search_url, _encode_params
-from ckan.common import c, _, request, OrderedDict, g
+from ckan.controllers.package import search_url, _encode_params
+from ckan.common import c, _, request, OrderedDict
 import ckan.model as model
 import ckan.logic as logic
 import ckan.lib.helpers as h
-import ckan.lib.base as base
 from urllib import urlencode
 from paste.deploy.converters import asbool
-import ckan.lib.maintain as maintain
+import logging
 
-_ = tk._
-c = tk.c
-request = tk.request
 render = tk.render
 abort = tk.abort
 redirect_to = h.redirect_to
@@ -27,9 +23,9 @@ clean_dict = logic.clean_dict
 parse_params = logic.parse_params
 NotAuthorized = tk.NotAuthorized
 
-import logging
 
 log = logging.getLogger(__name__)
+
 
 class Sixodp_ShowcaseController(ShowcaseController):
 

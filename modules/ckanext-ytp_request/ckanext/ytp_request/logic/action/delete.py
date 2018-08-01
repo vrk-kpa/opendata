@@ -13,7 +13,8 @@ log = logging.getLogger(__name__)
 
 def member_request_cancel(context, data_dict):
     ''' Cancel own request (from logged in user). Organization_id must be provided.
-     We cannot rely on membership_id since existing memberships can be created also from different ways (e.g. a user creates an organization)
+     We cannot rely on membership_id since existing memberships can be created also
+     from different ways (e.g. a user creates an organization)
     :param organization_id: id of the organization
     :type member: string
     '''
@@ -21,8 +22,10 @@ def member_request_cancel(context, data_dict):
 
     organization_id = data_dict.get("organization_id")
 
-    query = model.Session.query(model.Member).filter(or_(model.Member.state == 'pending', model.Member.state == 'active')) \
-        .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id).filter(model.Member.group_id == organization_id)
+    query = model.Session.query(model.Member).filter(or_(model.Member.state == 'pending',
+                                                         model.Member.state == 'active')) \
+        .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id)\
+        .filter(model.Member.group_id == organization_id)
     member = query.first()
 
     if not member or not member.group.is_organization:
@@ -40,7 +43,8 @@ def member_request_membership_cancel(context, data_dict):
 
     organization_id = data_dict.get("organization_id")
     query = model.Session.query(model.Member).filter(model.Member.state == 'active') \
-        .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id).filter(model.Member.group_id == organization_id)
+        .filter(model.Member.table_name == 'user').filter(model.Member.table_id == c.userobj.id)\
+        .filter(model.Member.group_id == organization_id)
     member = query.first()
 
     if not member or not member.group.is_organization:

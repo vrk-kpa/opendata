@@ -7,11 +7,9 @@ from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
 from ckan.plugins import toolkit
-import ckan.lib.i18n as i18n
 from ckanext.scheming.helpers import lang
 from pylons import config
 from pylons.i18n import gettext
-from  ckan.common import _
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +19,7 @@ _LOCALE_ALIASES = {'en_GB': 'en'}
 def _markdown(translation, length):
     return helpers.markdown_extract(translation, extract_length=length) if length is not True and isinstance(length, (int, long)) else \
         helpers.render_markdown(translation)
+
 
 def get_translation(translated):
     if isinstance(translated, dict):
@@ -32,11 +31,13 @@ def get_translation(translated):
             return translated[dialects[0]]
     return None
 
+
 def get_translated(data_dict, field):
     translated_variant = '%s_translated' % field
     translated_field = translated_variant if translated_variant in data_dict else field
     translated = data_dict.get(translated_field)
     return get_translation(translated) or data_dict.get(field)
+
 
 # Copied from core ckan to call overridden get_translated
 def dataset_display_name(package_or_package_dict):
@@ -47,6 +48,7 @@ def dataset_display_name(package_or_package_dict):
         # FIXME: we probably shouldn't use the same functions for
         # package dicts and real package objects
         return package_or_package_dict.title or package_or_package_dict.name
+
 
 # Copied from core ckan to call overridden get_translated
 def resource_display_name(resource_dict):
@@ -63,6 +65,7 @@ def resource_display_name(resource_dict):
         return description
     else:
         return _("Unnamed resource")
+
 
 def extra_translation(values, field, markdown=False, fallback=None):
     """ Used as helper. Get correct translation from extras (values) for given field.
@@ -102,7 +105,7 @@ def get_json_value(value):
     """ Get value as JSON. If value is not in JSON format return the given value """
     try:
         return json.loads(value)
-    except:
+    except ValueError:
         return value
 
 
@@ -123,7 +126,8 @@ def get_tooltip_content_types(lang=None):
 
 
 def sort_datasets_by_state_priority(datasets):
-    """ Sorts the given list of datasets so that drafts appear first and deleted ones last. Also secondary sorts by modification date, latest first. """
+    """ Sorts the given list of datasets so that drafts appear first and deleted ones last.
+    Also secondary sorts by modification date, latest first. """
 
     sorted_datasets = []
     sorted_datasets.extend(sorted([dataset for dataset in datasets if dataset['state'] == 'draft'],
@@ -151,8 +155,10 @@ def get_remaining_facet_item_count(facet, limit=10):
 
 def sort_facet_items_by_name(items):
     sorted_items = []
-    sorted_items.extend(sorted([item for item in items if item['active'] is True], key=lambda item: (-item['count'], item['display_name'])))
-    sorted_items.extend(sorted([item for item in items if item['active'] is False], key=lambda item: (-item['count'], item['display_name'])))
+    sorted_items.extend(sorted([item for item in items if item['active'] is True],
+                               key=lambda item: (-item['count'], item['display_name'])))
+    sorted_items.extend(sorted([item for item in items if item['active'] is False],
+                               key=lambda item: (-item['count'], item['display_name'])))
     return sorted_items
 
 
@@ -302,15 +308,19 @@ def get_visits_for_dataset(id):
 
     return PackageStats.get_all_visits(id)
 
+
 def get_visits_count_for_dataset_during_last_year(id):
 
     from ckanext.googleanalytics.model import PackageStats
 
     return len(PackageStats.get_visits_during_year(id, datetime.datetime.now().year - 1))
+
+
 def get_current_date():
 
     return datetime.datetime.now()
-    
+
+
 def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
 
@@ -349,12 +359,14 @@ def unquote_url(url):
 
     return "/" + unquoted
 
+
 def scheming_field_only_default_required(field, lang):
 
     if field and field.get('only_default_lang_required') and lang == config.get('ckan.locale_default', 'en'):
         return True
 
     return False
+
 
 def add_locale_to_source(kwargs, locale):
     copy = kwargs.copy()
@@ -379,7 +391,7 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
         try:
             if prefer_lang is None:
                 prefer_lang = lang()
-        except:
+        except TypeError:
             pass  # lang() call will fail when no user language available
         else:
             if prefer_lang in _LOCALE_ALIASES:
@@ -394,6 +406,7 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
         return t.decode('utf-8')
     return t
 
+
 def get_lang_prefix():
     language = i18n.get_lang()
     if language in _LOCALE_ALIASES:
@@ -401,5 +414,6 @@ def get_lang_prefix():
 
     return language
 
+
 def call_toolkit_function(fn, args, kwargs):
-    return getattr(toolkit,fn)(*args, **kwargs)
+    return getattr(toolkit, fn)(*args, **kwargs)
