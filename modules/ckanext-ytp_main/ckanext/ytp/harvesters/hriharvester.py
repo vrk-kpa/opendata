@@ -63,7 +63,6 @@ class HRIHarvester(HarvesterBase):
         else:
             return modified
 
-
     def _parse_tag_string(self, tag_string):
         tag_set = IS_TAG_SET.match(tag_string)
         if tag_set:
@@ -79,13 +78,12 @@ class HRIHarvester(HarvesterBase):
         for fmt in DATETIME_FORMATS:
             try:
                 result = datetime.datetime.strptime(datetime_string, fmt)
-            except:
+            except Exception:
                 continue
             return result
 
         log.debug('Invalid datetime string: "%s"' % datetime_string)
         return None
-
 
     def _get_action_api_offset(self):
         return '/api/%d/action' % self.action_api_version
@@ -447,8 +445,8 @@ class HRIHarvester(HarvesterBase):
                 translated[lang] = translated.get(lang, package_dict[name])
                 # Process translations added as extras
                 translated.update((e['key'].split('_', 2)[1], e['value'])
-                        for e in package_dict.get('extras', [])
-                        if e['key'].startswith('%s_' % name))
+                                  for e in package_dict.get('extras', [])
+                                  if e['key'].startswith('%s_' % name))
                 return translated
 
             def translated_extra_list(name):
@@ -470,7 +468,7 @@ class HRIHarvester(HarvesterBase):
                     'maintainer_email': package_dict.get('author_email') or '(not set)',
                     }
             missing_values = (
-                    (k, v) for k, v in default_values.iteritems() 
+                    (k, v) for k, v in default_values.iteritems()
                     if not package_dict.get(k))
             package_dict.update(missing_values)
 
@@ -568,13 +566,14 @@ class HRIHarvester(HarvesterBase):
                     'temporal_coverage-to': 'valid_till',
                     'source': 'owner'
                     }
+
             def map_extra(e):
                 result = {}
                 result.update(e)
                 result['key'] = extras_to_rename_keys.get(e['key'], e['key'])
                 return result
 
-            package_dict['extras'] = [map_extra(e) for e in package_dict.get('extras', [])]
+            package_dict['extras'] = [map_extra(extra) for extra in package_dict.get('extras', [])]
 
             # Set default extras if needed
             default_extras = self.config.get('default_extras', {})
@@ -607,6 +606,7 @@ class HRIHarvester(HarvesterBase):
 
             # Convert extras from strings to datetimes
             extras_to_datetimes = ['valid_from', 'valid_till']
+
             def map_extra_to_date(e):
                 if e['key'] not in extras_to_datetimes:
                     return e
@@ -615,7 +615,7 @@ class HRIHarvester(HarvesterBase):
                 result['value'] = self._parse_datetime(e['value'])
                 return result
 
-            package_dict['extras'] = [map_extra_to_date(e) for e in package_dict.get('extras', [])]
+            package_dict['extras'] = [map_extra_to_date(extra) for extra in package_dict.get('extras', [])]
 
             # Move extras to fields
             extras_to_fields_keys = ['collection_type', 'geographical_coverage', 'valid_from', 'valid_till', 'owner']
@@ -644,8 +644,8 @@ class HRIHarvester(HarvesterBase):
             tag_string_fields = ['geographical_coverage']
             for field in tag_string_fields:
                 package_dict[field] = [t
-                        for t in self._parse_tag_string(package_dict.get(field, ''))
-                        if t]
+                                       for t in self._parse_tag_string(package_dict.get(field, ''))
+                                       if t]
 
             # Create or update package
             result = self._create_or_update_package(

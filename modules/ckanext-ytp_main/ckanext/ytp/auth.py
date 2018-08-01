@@ -6,7 +6,6 @@ from ckan.logic import get_action, check_access, NotAuthorized
 import ckan.authz as authz
 
 
-
 def related_update(context, data_dict):
     model = context['model']
     user = context['user']

@@ -21,6 +21,7 @@ except ImportError:
 import logging
 log = logging.getLogger(__name__)
 
+
 class Sixodp_ShowcasePlugin(ShowcasePlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IDatasetForm)
@@ -64,7 +65,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
                       action='manage_showcase_admins', ckan_icon='picture'),
 
-
         with SubMapper(map, controller='ckanext.showcase.controller:ShowcaseController') as m:
             m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
                       ckan_icon='picture')
@@ -75,7 +75,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                       action="manage_datasets", ckan_icon="sitemap")
             m.connect('dataset_showcase_list', '/dataset/showcases/{id}',
                       action='dataset_showcase_list', ckan_icon='picture')
-            #m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
+            # m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
             #          action='manage_showcase_admins', ckan_icon='picture'),
             m.connect('ckanext_showcase_admin_remove',
                       '/ckan-admin/showcase_admin_remove',
@@ -159,14 +159,13 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         imgs = ['icon', 'featured_image', 'image_1', 'image_2', 'image_3']
         for image in imgs:
             image_url = pkg_dict.get(image)
-            pkg_dict[image +'_display_url'] = image_url
+            pkg_dict[image + '_display_url'] = image_url
             if image_url and not image_url.startswith('http'):
                 pkg_dict[image] = image_url
                 pkg_dict[image + '_display_url'] = \
-                    h.url_for_static('uploads/{0}/{1}'
-                                    .format('showcase',
-                                            pkg_dict.get(image)),
-                                    qualified=True)
+                    h.url_for_static('uploads/{0}/{1}'.format('showcase',
+                                                              pkg_dict.get(image)),
+                                     qualified=True)
 
         # Add dataset count
         pkg_dict[u'num_datasets'] = len(
@@ -202,6 +201,5 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                 data_dict['vocab_category_sv'] = [tag for tag in keywords_json['sv']]
             if keywords_json.get('en'):
                 data_dict['vocab_category_en'] = [tag for tag in keywords_json['en']]
-
 
         return data_dict
