@@ -60,9 +60,15 @@ jobs:
           working_directory: ~/project/drupal8/
 
       - run:
+          name: Run codesniffer for drupal standard
           command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*
           working_directory: ~/project/drupal8/
 
+      - run:
+          name: Run codesniffer for drupal practice
+          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*
+          working_directory: ~/project/drupal8/
+          
       - save_cache:
           key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
