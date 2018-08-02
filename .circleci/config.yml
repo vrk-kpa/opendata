@@ -59,8 +59,12 @@ jobs:
           command: composer install -n --prefer-dist
           working_directory: ~/project/drupal8/
 
+      - run:
+          command: ./vendor/bin/phpcs --standard=Drupal modules
+          working_directory: ~/project/drupal8/
+          
       - save_cache:
-          key: composer-v1-{{ checksum "drupal8/composer.lock" }}
+          key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
             - vendor
 
