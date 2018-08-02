@@ -1666,7 +1666,8 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 'get_image_upload_size': get_image_upload_size}
 
     def get_auth_functions(self):
-        return {'user_update': plugin_logic.auth_user_update, 'user_list': plugin_logic.auth_user_list, 'admin_list': plugin_logic.auth_admin_list}
+        return {'user_update': plugin_logic.auth_user_update, 'user_list': plugin_logic.auth_user_list,
+                'admin_list': plugin_logic.auth_admin_list}
 
     def get_actions(self):
         return {
