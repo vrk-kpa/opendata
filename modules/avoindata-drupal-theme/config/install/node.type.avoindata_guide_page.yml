@@ -12,7 +12,7 @@ third_party_settings:
       - guide-menu-sv
     parent: 'guide-menu-fi:'
 _core:
-  default_config_hash: M3y8QzsSj98co0vqwBlHSheVtI-2gMIBoFqD5--Cbk8
+  default_config_hash: TJ9-xPK8xacrOKUra0l2-DrLJz6nZO7nnq68pl_lT5E
 name: 'Avoin Data Guide Page'
 type: avoindata_guide_page
 description: 'A content type that can be used for writing a new page to the guide about using the avoindata.fi page'
