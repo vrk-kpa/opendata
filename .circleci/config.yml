@@ -60,7 +60,7 @@ jobs:
           working_directory: ~/project/drupal8/
 
       - run:
-          command: ./vendor/bin/phpcs --standard=Drupal ../modules
+          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*
           working_directory: ~/project/drupal8/
 
       - save_cache:
