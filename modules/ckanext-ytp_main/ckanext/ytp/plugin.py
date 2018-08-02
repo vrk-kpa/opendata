@@ -11,6 +11,7 @@ import validators
 
 import ckan.lib.base as base
 import ckan.logic.schema
+import logic as plugin_logic
 from ckan import authz as authz
 from ckan import plugins, model, logic
 from ckan.common import _, c, request
@@ -1665,13 +1666,13 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 'get_image_upload_size': get_image_upload_size}
 
     def get_auth_functions(self):
-        return {'user_update': logic.auth_user_update, 'user_list': logic.auth_user_list, 'admin_list': logic.auth_admin_list}
+        return {'user_update': plugin_logic.auth_user_update, 'user_list': plugin_logic.auth_user_list, 'admin_list': plugin_logic.auth_admin_list}
 
     def get_actions(self):
         return {
-            'user_update': logic.action_user_update,
+            'user_update': plugin_logic.action_user_update,
             # 'user_show': logic.action_user_show,
-            'user_list': logic.action_user_list}
+            'user_list': plugin_logic.action_user_list}
 
     def before_map(self, map):
         # Remap user edit to our user controller
