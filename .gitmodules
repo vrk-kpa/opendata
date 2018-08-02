@@ -44,6 +44,6 @@
 [submodule "modules/ckanext-googleanalytics"]
 	path = modules/ckanext-googleanalytics
 	url = https://github.com/vrk-kpa/ckanext-googleanalytics.git
-[submodule ".\\modules\\ckanext-datarequests"]
-	path = .\\modules\\ckanext-datarequests
+[submodule "modules/ckanext-datarequests"]
+	path = modules/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git
