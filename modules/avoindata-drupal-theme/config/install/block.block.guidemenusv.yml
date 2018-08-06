@@ -13,7 +13,7 @@ dependencies:
     - avoindata
 id: guidemenusv
 theme: avoindata
-region: sidebar_second
+region: guide_menu
 weight: 0
 provider: null
 plugin: 'system_menu_block:guide-menu-sv'
