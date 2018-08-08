@@ -6,18 +6,14 @@
  * @ingroup themeable
  */
 #}
-<div> OPAS </div>
 <div class="avoindata-articles-container">
-    {{ content }}
     <div class="row">
         <h2 class="module-heading">
-            {{ guidePageTitle }}
+            {{ label }}
         </h2>
         <div class="secondary col-12 col-md-8">
             <div>
-                guidepage: {{guidePage}}
-                content: {{ guidePage.content }}
-                allPages: {{ allPages }}
+                {{ content.field_content }}
             </div>
         </div>
 
