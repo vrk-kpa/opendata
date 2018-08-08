@@ -255,7 +255,7 @@
     - smtp
     - pathauto ### Used for URL alias settings
     - menu_export
-    -easy_breadcrumb
+    - easy_breadcrumb
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
