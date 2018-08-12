@@ -61,7 +61,8 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def _service_alerts(self):
         """ Get service alerts from Drupal """
         language = None if self._translations_disabled else helpers.lang()
-        return self.engine.execute("""SELECT nid, title FROM node WHERE type = %(type)s AND language = %(language)s AND status = %(status)s""",
+        return self.engine.execute("""SELECT nid, title FROM node WHERE type = %(type)s AND
+                                      language = %(language)s AND status = %(status)s""",
                                    {'type': self._node_type, 'language': language, 'status': self._node_status})
 
     def _fetch_drupal_content(self, identifier, language=None, fallback=True):

@@ -1,12 +1,5 @@
 ---
 
-- name: Add CKAN sysadmins
-  shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ virtual_environment }}"
-  ignore_errors: True
-  with_items: "{{ ckan_admins }}"
-  tags:
-  - ckan
-
 - name: Copy data structures for CKAN UI options
   copy:
     src: "{{ item }}"

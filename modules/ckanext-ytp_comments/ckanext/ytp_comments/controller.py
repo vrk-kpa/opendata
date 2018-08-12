@@ -3,7 +3,9 @@ import logging
 from ckan.lib.base import h, BaseController, render, abort, request
 from ckan import model
 from ckan.common import c
-from ckan.logic import check_access, get_action, clean_dict, tuplize_dict, ValidationError, parse_params
+from ckan.logic import check_access, get_action, clean_dict, tuplize_dict, ValidationError,\
+    parse_params, NotAuthorized, NotFound
+
 from ckan.lib.navl.dictization_functions import unflatten
 
 
@@ -26,7 +28,7 @@ class CommentController(BaseController):
         try:
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-        except:
+        except NotAuthorized:
             abort(403)
 
         if request.method == 'POST':
@@ -56,7 +58,7 @@ class CommentController(BaseController):
             c.parent_dict = get_action("comment_show")({'model': model, 'user': c.user},
                                                        data)
             c.parent = data['comment']
-        except:
+        except NotFound:
             abort(404)
 
         return self._add_or_reply(dataset_id)
@@ -75,7 +77,7 @@ class CommentController(BaseController):
         try:
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-        except:
+        except NotAuthorized:
             abort(403)
 
         if request.method == 'POST':
@@ -110,7 +112,7 @@ class CommentController(BaseController):
         try:
             c.pkg_dict = get_action('package_show')(context, {'id': dataset_id})
             c.pkg = context['package']
-        except:
+        except NotAuthorized:
             abort(403)
 
         try:

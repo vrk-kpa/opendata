@@ -57,6 +57,12 @@
   tags:
       - ckan
 
+- name: Install CKAN dev requirements
+  pip:
+    requirements: "{{ virtual_environment }}/src/ckan/dev-requirements.txt"
+    virtualenv: "{{ virtual_environment }}"
+  when: deployment_environment_id == "vagrant"
+
 - name: Copy override requirements
   copy:
     src: "override-requirements.txt"

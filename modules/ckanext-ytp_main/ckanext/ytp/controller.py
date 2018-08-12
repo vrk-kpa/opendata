@@ -23,15 +23,12 @@ import ckan.lib.render
 from plugin import create_vocabulary
 
 log = logging.getLogger(__name__)
-render = base.render
-abort = base.abort
 unflatten = dictization_functions.unflatten
 DataError = dictization_functions.DataError
 
 _check_access = check_access
 _or_ = sqlalchemy.or_
 _and_ = sqlalchemy.and_
-
 
 
 CONTENT_TYPES = {
@@ -87,12 +84,14 @@ class YtpDatasetController(PackageController):
         get_action('package_update')(context, data_dict)
         success_message = ('<div style="display: inline-block"><p>' + _("Dataset was saved successfully.") + '</p>' +
                            '<p>' + _("Fill additional info") + ':</p>' +
-                           '<p><a href="/data/' + h.lang() + '/dataset/' + data_dict.get('name') + '/related/new">>' + _("Add related") + '</a></p>' +
-                           '<p><a href="/data/' + h.lang() + '/dataset/edit/' + data_dict.get('name') + '">>' + _("Edit or add language versions") + '</a> ' +
+                           '<p><a href="/data/' + h.lang() + '/dataset/' + data_dict.get('name') + '/related/new">>'
+                           + _("Add related") + '</a></p>' +
+                           '<p><a href="/data/' + h.lang() + '/dataset/edit/' + data_dict.get('name') + '">>'
+                           + _("Edit or add language versions") + '</a> ' +
                            '<a href="/data/' + h.lang() + '/dataset/delete/' + id + '">>' + _('Delete') + '</a></p>' +
                            '<p><a href="/data/' + h.lang() + '/dataset/new/">' + _('Create Dataset') + '</a></p></div>')
-        helpers.flash_success(success_message, True)
-        helpers.redirect_to(controller='package', action='read', id=id)
+        h.flash_success(success_message, True)
+        h.redirect_to(controller='package', action='read', id=id)
 
     # Modified from original ckan function
     def edit(self, id, data=None, errors=None, error_summary=None):
@@ -192,7 +191,7 @@ class YtpDatasetController(PackageController):
                 if save_action == 'go-dataset':
                     # go to final stage of adddataset
                     h.redirect_to(controller='package',
-                                       action='edit', id=id)
+                                  action='edit', id=id)
                 # see if we have added any resources
                 try:
                     data_dict = get_action('package_show')(context, {'id': id})
@@ -208,14 +207,14 @@ class YtpDatasetController(PackageController):
                     if g.legacy_templates:
                         h.flash_error(msg)
                         h.redirect_to(controller='package',
-                                           action='new_resource', id=id)
+                                      action='new_resource', id=id)
                     else:
                         errors = {}
                         error_summary = {_('Error'): msg}
                         return self.new_resource(id, data, errors, error_summary)
                 # we have a resource so let them add metadata
                 h.redirect_to(controller='package',
-                                   action='new_metadata', id=id)
+                              action='new_metadata', id=id)
 
             data['package_id'] = id
             try:
@@ -240,19 +239,19 @@ class YtpDatasetController(PackageController):
                     dict(context, allow_state_change=True),
                     dict(data_dict, state='active'))
                 h.redirect_to(controller='package',
-                                   action='read', id=id)
+                              action='read', id=id)
             elif save_action == 'go-dataset':
                 # go to first stage of add dataset
                 h.redirect_to(controller='package',
-                                   action='edit', id=id)
+                              action='edit', id=id)
             elif save_action == 'go-dataset-complete':
                 # go to first stage of add dataset
                 h.redirect_to(controller='package',
-                                   action='read', id=id)
+                              action='read', id=id)
             else:
                 # add more resources
                 h.redirect_to(controller='package',
-                                   action='new_resource', id=id)
+                              action='new_resource', id=id)
 
         # get resources for sidebar
         context = {'model': model, 'session': model.Session,
@@ -312,7 +311,7 @@ class YtpDatasetController(PackageController):
             except NotAuthorized:
                 abort(401, _('Unauthorized to edit this resource'))
             h.redirect_to(controller='package', action='resource_read',
-                               id=id, resource_id=resource_id)
+                          id=id, resource_id=resource_id)
 
         context = {'model': model, 'session': model.Session,
                    'api_version': 3, 'for_edit': True,
@@ -350,8 +349,6 @@ class YtpDatasetController(PackageController):
                 'resource_form_snippet': self._resource_form(package_type),
                 'dataset_type': package_type}
         return render('package/resource_edit.html', extra_vars=vars)
-
-
 
     def new_related(self, id):
         return self._edit_or_new(id, None, False)

@@ -58,7 +58,8 @@ avoindata@vrk.fi
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
-    # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
+    # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it.
+    # We default to finnish for the time being
     current_locale = get_lang()
     i18n.set_lang("fi")
 

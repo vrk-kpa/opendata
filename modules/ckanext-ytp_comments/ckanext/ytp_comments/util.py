@@ -1,7 +1,6 @@
 from lxml.html.clean import Cleaner, autolink_html
 from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.lib import helpers
-from pylons import config
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.base import model
 from ckan.lib.i18n import set_lang, get_lang
@@ -35,10 +34,7 @@ def _reset_lang():
 
 
 def _get_safe_locale():
-    try:
-        return helpers.lang()
-    except:
-        return config.get('ckan.locale_default', 'en')
+    return helpers.lang()
 
 
 def send_comment_notification_mail(recipient_name, recipient_email, dataset, comment):
