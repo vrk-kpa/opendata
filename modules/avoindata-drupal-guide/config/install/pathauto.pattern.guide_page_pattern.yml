@@ -10,7 +10,7 @@ _core:
 id: guide_page_pattern
 label: 'Guide page pattern (English and Swedish)'
 type: 'canonical_entities:node'
-pattern: 'guide/[node:title]'
+pattern: 'guide/[node:menu-link:menu]/[node:title]'
 selection_criteria:
   b6f7f8c3-35a8-4c67-83f8-ff09a5eeadfb:
     id: node_type

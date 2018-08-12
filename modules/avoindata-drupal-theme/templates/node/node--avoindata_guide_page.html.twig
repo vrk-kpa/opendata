@@ -8,16 +8,20 @@
 #}
 <div class="avoindata-articles-container">
     <div class="row">
-        <h2 class="module-heading">
-            {{ label }}
-        </h2>
         <div class="secondary col-12 col-md-8">
+             <h2 id="guide-header">
+                {{ label }}
+            </h2>
             <div>
-                {{ content.field_content }}
+                {{ content.field_page_image|field_value }}
+            </div>
+            <div id="guide-spacer"></div>
+            <div>
+                {{ content.field_content|field_value }}
             </div>
         </div>
 
-        <div class="secondary col-12 col-md-4">
+        <div id="guide-menu-column" class="secondary col-12 col-md-4">
             {{ drupal_region('guide_menu') }}
         </div>
 

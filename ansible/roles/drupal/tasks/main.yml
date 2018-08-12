@@ -254,8 +254,8 @@
     - fontawesome_menu_icons
     - smtp
     - pathauto ### Used for URL alias settings
-    - menu_export
     - easy_breadcrumb
+    - twig_field_value
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
