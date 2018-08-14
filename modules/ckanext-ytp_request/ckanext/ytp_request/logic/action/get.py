@@ -44,8 +44,7 @@ def member_requests_mylist(context, data_dict):
 
     user = context.get('user', None)
     if authz.is_sysadmin(user):
-        raise logic.ValidationError({}, {_("Role"): _(
-            "As a sysadmin, you already have access to all organizations")})
+        return []
 
     user_object = model.User.get(user)
     # Return current state for memberships for all organizations for the user
@@ -114,7 +113,8 @@ def get_available_roles(context, data_dict=None):
 def _membeship_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
-    for obj in obj_list:
+    objs_with_group_id = (g for g in obj_list if g.group_id is not None)
+    for obj in objs_with_group_id:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
         # Fetch the newest member_request associated to this membership (sort
