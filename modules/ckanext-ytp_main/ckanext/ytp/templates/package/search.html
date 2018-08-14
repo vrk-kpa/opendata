@@ -18,7 +18,7 @@
       {% block page_primary_action %}
         {% if h.check_access('package_create') %}
           <div class="page_primary_action">
-            {% link_for _('My Datasets'), controller='user', action='dashboard_datasets', class_='btn btn-info', icon='star-empty' %}
+            {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-info', icon='star-empty' %}
 
             <!-- Begin Add Dataset split button -->
             {% resource 'ytp_common_js/ytp_form.js' %}
