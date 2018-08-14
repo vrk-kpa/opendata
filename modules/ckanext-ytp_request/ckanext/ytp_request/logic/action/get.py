@@ -1,5 +1,4 @@
 from ckan import logic, model
-from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins

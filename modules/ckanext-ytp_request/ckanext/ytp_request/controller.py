@@ -105,7 +105,8 @@ class YtpRequestController(BaseController):
             except logic.NotAuthorized:
                 abort(401, self.not_auth_message)
         else:
-            return render('request/mylist.html', extra_vars={'my_requests': [], 'message': "As a sysadmin, you already have access to all organizations"})
+            return render('request/mylist.html',
+                          extra_vars={'my_requests': [], 'message': _("As a sysadmin, you already have access to all organizations")})
 
     def list(self):
         """ Lists member requests to be approved by admins"""
