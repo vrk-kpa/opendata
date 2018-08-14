@@ -147,6 +147,20 @@
   padding: 0px;
 }
 
+.module-narrow > .btn,
+.module-narrow > a {
+  color: #000 !important;
+  &:hover {
+    color: #000 !important;
+  }
+}
+
+.module-narrow {
+  .list-unstyled {
+    padding-left: 20px;
+  }
+}
+
 .dataset-content {
   margin-top: 11px;
   margin-bottom: 9px;
@@ -353,13 +367,14 @@
 }
 
 .media-grid {
-  background-color: @background-body-color;
+  background: transparent !important;
   padding: 0px;
   padding-bottom: 10px;
   border-top: 0px;
   border-bottom: 0px;
   .media-item {
     width: 250px;
+    height: 332px;
     border-right: 2px solid rgba(0, 0, 0, 0.17);
     border-bottom: 2px solid rgba(0, 0, 0, 0.17);
     border-left: 1px solid rgba(0, 0, 0, 0.16);
