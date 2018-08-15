@@ -45,6 +45,9 @@ class NewsFeedBlock extends BlockBase {
       '#eventfeed' => $eventNodes,
       '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
       '#theme' => 'avoindata_newsfeed',
+      '#cache' => array(
+        'tags' => ['node_list']
+      )
     );
   }
 }
