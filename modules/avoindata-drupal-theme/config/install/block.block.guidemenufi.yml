@@ -18,7 +18,7 @@ provider: null
 plugin: 'system_menu_block:guide-menu-fi'
 settings:
   id: 'system_menu_block:guide-menu-fi'
-  label: 'Guide menu (fi)'
+  label: 'Käyttöopas'
   provider: system
   label_display: visible
   level: 1

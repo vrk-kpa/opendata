@@ -4,6 +4,7 @@ avoindata_guide.beginners_guide_fi:
   parent: guide-menu-fi
   menu_name: guide-menu-fi
   url: 'internal:#'
+  expanded: true
   weight: 0
 
 avoindata_guide.for_data_user_fi:
@@ -12,6 +13,7 @@ avoindata_guide.for_data_user_fi:
   parent: guide-menu-fi
   menu_name: guide-menu-fi
   url: 'internal:#'
+  expanded: true
   weight: 1
 
 avoindata_guide.beginners_guide_en:
@@ -20,4 +22,5 @@ avoindata_guide.beginners_guide_en:
   parent: guide-menu-en
   menu_name: guide-menu-en
   url: 'internal:#'
+  expanded: true
   weight: 0

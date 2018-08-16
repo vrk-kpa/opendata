@@ -18,7 +18,7 @@ provider: null
 plugin: 'system_menu_block:guide-menu-en'
 settings:
   id: 'system_menu_block:guide-menu-en'
-  label: 'Guide menu (en)'
+  label: 'User guide'
   provider: system
   label_display: visible
   level: 1
