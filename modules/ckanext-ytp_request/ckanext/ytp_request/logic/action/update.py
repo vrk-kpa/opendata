@@ -41,7 +41,7 @@ def _process(context, action, data_dict):
     role = data_dict.get("role", None)
     if not mrequest_id:
         raise logic.NotFound
-    if role is not None and role is not 'admin' and role is not 'editor':
+    if role is not None and role != 'admin' and role != 'editor':
         raise logic.ValidationError("Role is not a valid value")
 
     member = model.Session.query(model.Member).filter(
