@@ -150,7 +150,7 @@ avoindata_header.login_fi:
   description: 'Kirjaudu sisään'
   parent: avoindata_header.moreoptions_fi
   menu_name: main-fi
-  url: 'internal:/fi/user/login'
+  route_name: user.login
   weight: 1
   options:
     fa_icon: 'fa-sign-in'
@@ -160,10 +160,30 @@ avoindata_header.register_fi:
   description: 'Rekisteröidy palveluun'
   parent: avoindata_header.moreoptions_fi
   menu_name: main-fi
-  url: 'internal:/fi/user/register'
+  route_name: user.register
   weight: 2
   options:
     fa_icon: 'fa-pencil'
+
+avoindata_header.profile_fi:
+  title: 'Profiili'
+  description: 'Profiili'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: user.page
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+
+avoindata_header.signout_fi:
+  title: 'Kirjaudu ulos'
+  description: 'Kirjaudu ulos'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
     
 avoindata_header.events_fi:
   title: 'Tapahtumakalenteri'
@@ -171,7 +191,7 @@ avoindata_header.events_fi:
   parent: avoindata_header.moreoptions_fi
   menu_name: main-fi
   url: 'internal:/fi/events/'
-  weight: 3
+  weight: 5
 
 avoindata_header.login_en:
   title: 'Log in'
@@ -179,7 +199,7 @@ avoindata_header.login_en:
   description: 'Log in'
   parent: avoindata_header.moreoptions_en
   menu_name: main-en
-  url: 'internal:/en/user/login'
+  route_name: user.login
   weight: 1
   options:
     fa_icon: 'fa-sign-in'
@@ -189,10 +209,30 @@ avoindata_header.register_en:
   description: 'Register an account'
   parent: avoindata_header.moreoptions_en
   menu_name: main-en
-  url: 'internal:/en/user/register'
+  route_name: user.register
   weight: 2
   options:
     fa_icon: 'fa-pencil'
+
+avoindata_header.profile_en:
+  title: 'Profile'
+  description: 'Profile'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: user.page
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+    
+avoindata_header.signout_en:
+  title: 'Sign out'
+  description: 'Sign out'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
 
 avoindata_header.events_en:
   title: 'Calendar of events'
@@ -200,7 +240,7 @@ avoindata_header.events_en:
   parent: avoindata_header.moreoptions_en
   menu_name: main-en
   url: 'internal:/en/events/'
-  weight: 3
+  weight: 5
 
 avoindata_header.login_sv:
   title: 'Logga in'
@@ -208,7 +248,7 @@ avoindata_header.login_sv:
   description: 'Logga in'
   parent: avoindata_header.moreoptions_sv
   menu_name: main-sv
-  url: 'internal:/sv/user/login'
+  route_name: user.login
   weight: 1
   options:
     fa_icon: 'fa-sign-in'
@@ -218,10 +258,30 @@ avoindata_header.register_sv:
   description: 'Registrera ett konto'
   parent: avoindata_header.moreoptions_sv
   menu_name: main-sv
-  url: 'internal:/sv/user/register'
+  route_name: user.register
   weight: 2
   options:
     fa_icon: 'fa-pencil'
+
+avoindata_header.profile_sv:
+  title: 'Profil'
+  description: 'Profil'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: user.page
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+
+avoindata_header.signout_sv:
+  title: 'Logga ut'
+  description: 'Logga ut'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
 
 avoindata_header.events_sv:
   title: 'Kalendarium'
@@ -229,4 +289,4 @@ avoindata_header.events_sv:
   parent: avoindata_header.moreoptions_sv
   menu_name: main-sv
   url: 'internal:/sv/events/'
-  weight: 3
+  weight: 5
