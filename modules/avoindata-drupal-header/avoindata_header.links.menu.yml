@@ -113,7 +113,7 @@ avoindata_header.moreoptions_en:
   expanded: true
 
 avoindata_header.frontpage_sv:
-  title: 'Frontsidan'
+  title: 'Hemsida'
   description: 'Frontpage'
   parent: main-sv
   menu_name: main-sv
