@@ -1576,9 +1576,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             hostname = config.get('ckan.site_url', '')
             domains = config.get('ckanext.drupal8.domain').split(",")
             cookies = {}
-
+            
             for domain in domains:
-                log.error(domain)
                 domain_hash = hashlib.sha256(domain).hexdigest()[:32]
                 cookiename = 'SSESS%s' % domain_hash
                 cookie = p.toolkit.request.cookies.get(cookiename)
