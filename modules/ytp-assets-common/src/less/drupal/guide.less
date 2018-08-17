@@ -1,3 +1,4 @@
+@import "../variables.less";
 
 #guide-menu-column .opendata-card {
     //The purpose is to have the upper part of the menu
@@ -26,7 +27,7 @@
         display: block; 
     }
     .dropdown-menu {
-        background-color: #f7f7f7;
+        background-color: @resource-list-background;
         // This makes the element to adjust its size according
         // to the size of the children
         position: relative; 
@@ -44,10 +45,10 @@
         color: #161616;
     }
     li>a:hover {
-        border-left: 10px solid #002e90;
+        border-left: 10px solid @menu-hover-border-color;
         text-decoration: none;
         color: #262626;
-        background-color: #f7f7f7;
+        background-color: @resource-list-background;
     }
     .dropdown-menu li>a {
         overflow: hidden;
@@ -57,16 +58,16 @@
         padding-bottom: 0px;
         padding-left: 32px;
         color: #6d6d6d;
-        background-color:#f7f7f7;
+        background-color: @resource-list-background;
         font-size: 13px;
         text-decoration: none;
     }
     .open>a {
-        background-color: #f7f7f7;
+        background-color: @resource-list-background;
         border: none;
     }
     li>a:focus {
-        background-color: #f7f7f7;
+        background-color: @resource-list-background;
     }
 }
 
@@ -92,7 +93,7 @@
     font-size: 14px;
     line-height: 1.42857143;
     color: #333333;
-    background-color: #ffffff;
+    background-color: white;
     border: 1px solid #cccccc;
 
 }
@@ -102,7 +103,7 @@
     padding-right: 19px;
     padding-left: 19px;
     border-radius: 3px;
-    background-color: #2a6ebb;
+    background-color: @btn-dark-bg;
     text-align: center;
     color: white;
     border: none;
