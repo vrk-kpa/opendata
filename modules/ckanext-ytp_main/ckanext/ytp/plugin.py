@@ -9,9 +9,11 @@ import urllib2
 import urlparse
 import validators
 
+
 import ckan.lib.base as base
 import ckan.logic.schema
 import logic as plugin_logic
+import ckan.plugins as p
 from ckan import authz as authz
 
 from ckan import plugins, model, logic
@@ -1566,18 +1568,26 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def _drupal_snippet(self, path):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
-
-        import ssl
+        import requests
+        import hashlib
 
         try:
-            # Call our custom Drupal API to get footer content
+            # Call our custom Drupal API to get drupal block content
             hostname = config.get('ckan.site_url', '')
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            response = urllib2.urlopen('%s/%s/%s' % (hostname, lang, path), context=ctx)
-            return response.read().decode("utf-8")
-        except urllib2.HTTPError, e:
+            domains = config.get('ckanext.drupal8.domain').split(",")
+            cookies = {}
+
+            for domain in domains:
+                log.error(domain)
+                domain_hash = hashlib.sha256(domain).hexdigest()[:32]
+                cookiename = 'SSESS%s' % domain_hash
+                cookie = p.toolkit.request.cookies.get(cookiename)
+                if cookie != None:
+                    cookies.update({cookiename: cookie})
+
+            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=False)
+            return response.text
+        except requests.exceptions.RequestException, e:
             log.error('%s' % e)
             return ''
         except Exception, e:
