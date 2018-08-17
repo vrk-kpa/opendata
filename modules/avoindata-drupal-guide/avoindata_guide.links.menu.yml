@@ -1,0 +1,26 @@
+avoindata_guide.beginners_guide_fi:
+  title: 'Aloittelijan tietopaketti'
+  description: 'Aloittelijan tietopaketti'
+  parent: guide-menu-fi
+  menu_name: guide-menu-fi
+  url: 'internal:#'
+  expanded: true
+  weight: 0
+
+avoindata_guide.for_data_user_fi:
+  title: 'Datan käyttäjälle'
+  description: 'Datan käyttäjälle'
+  parent: guide-menu-fi
+  menu_name: guide-menu-fi
+  url: 'internal:#'
+  expanded: true
+  weight: 1
+
+avoindata_guide.beginners_guide_en:
+  title: "Beginner's guide"
+  description: "Beginner's guide"
+  parent: guide-menu-en
+  menu_name: guide-menu-en
+  url: 'internal:#'
+  expanded: true
+  weight: 0

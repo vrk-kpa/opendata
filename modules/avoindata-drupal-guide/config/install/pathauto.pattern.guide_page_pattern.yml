@@ -1,0 +1,35 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+_core:
+  default_config_hash: P8ZyR7ScZRUoLYsVyRfC-jHlRFotvmrnLGaSLCwefUU
+id: guide_page_pattern
+label: 'Guide page pattern (English and Swedish)'
+type: 'canonical_entities:node'
+pattern: 'guide/[node:title]'
+selection_criteria:
+  b6f7f8c3-35a8-4c67-83f8-ff09a5eeadfb:
+    id: node_type
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: b6f7f8c3-35a8-4c67-83f8-ff09a5eeadfb
+  438cc8b3-3f06-4a75-bf66-f2b2724b20f6:
+    id: language
+    langcodes:
+      en: en
+      sv: sv
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 438cc8b3-3f06-4a75-bf66-f2b2724b20f6
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

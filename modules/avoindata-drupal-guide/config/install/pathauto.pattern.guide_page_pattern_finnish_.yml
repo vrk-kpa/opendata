@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: guide_page_pattern_finnish_
+label: 'Guide Page pattern (Finnish)'
+type: 'canonical_entities:node'
+pattern: 'opas/[node:title]'
+selection_criteria:
+  f8ca3a75-8e82-4178-a617-4d4e19f58ff0:
+    id: node_type
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: f8ca3a75-8e82-4178-a617-4d4e19f58ff0
+  af1786bb-5148-4053-b25d-84040d422b78:
+    id: language
+    langcodes:
+      fi: fi
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: af1786bb-5148-4053-b25d-84040d422b78
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language
