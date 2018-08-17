@@ -5,7 +5,6 @@ import pylons
 import pylons.config as config
 import re
 import types
-import urllib2
 import urlparse
 import validators
 
@@ -1576,12 +1575,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             hostname = config.get('ckan.site_url', '')
             domains = config.get('ckanext.drupal8.domain').split(",")
             cookies = {}
-            
             for domain in domains:
                 domain_hash = hashlib.sha256(domain).hexdigest()[:32]
                 cookiename = 'SSESS%s' % domain_hash
                 cookie = p.toolkit.request.cookies.get(cookiename)
-                if cookie != None:
+                if cookie is not None:
                     cookies.update({cookiename: cookie})
 
             response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=False)
