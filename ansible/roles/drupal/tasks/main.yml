@@ -84,49 +84,42 @@
     {{ postgres.databases.drupal8.name }} {{ postgres.users.drupal8.username }}
   register: drupal8_database_initialized
 
+
+- name: Create Drupal installation directories if they don't exist
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+  with_items:
+    - "{{ cache_path }}/drupal"
+    - "/var/www/.composer"
+    - "{{ drupal8_root }}"
+
+
+- name: Synchronize drupal8 project
+  synchronize:
+    src: ../drupal8/
+    dest: "{{ drupal8_root }}/"
+
+- name: Ensure drupal root ownership
+  file:
+    path: "{{ drupal8_root }}"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+    recurse: yes
+
+- name: Install Drupal dependencies
+  become_user: "{{ www_user }}"
+  composer:
+    command: install
+    working_dir: "{{ drupal8_root }}"
+
+
 - block:
-  ### Composer needs an existing, empty directory for project creating ###
-
-  - name: Destroy Drupal root directory
-    become: true
-    file:
-      state: absent
-      path: "{{ drupal8_root }}"
-
-  - name: Create Drupal installation directories if they don't exist
-    become: true
-    file:
-      path: "{{ item }}"
-      state: directory
-      owner: "{{ www_user }}"
-      group: "{{ www_group }}"
-      mode: 0755
-    with_items:
-      - "{{ cache_path }}/drupal"
-      - "/var/www/.composer"
-      - "{{ drupal8_root }}"
-
-
-  - name: Synchronize drupal8 project
-    synchronize:
-      src: ../drupal8/
-      dest: "{{ drupal8_root }}/"
-
-  - name: Ensure drupal root ownership
-    file:
-      path: "{{ drupal8_root }}"
-      owner: "{{ www_user }}"
-      group: "{{ www_group }}"
-      mode: 0755
-      recurse: yes
-
-  - name: Install Drupal dependencies
-    become_user: "{{ www_user }}"
-    composer:
-      command: install
-      working_dir: "{{ drupal8_root }}"
-
-
 
   ### Database backup
 
