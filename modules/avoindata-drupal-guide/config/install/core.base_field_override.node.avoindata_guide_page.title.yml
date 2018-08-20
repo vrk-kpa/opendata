@@ -1,0 +1,19 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.avoindata_guide_page
+_core:
+  default_config_hash: eK4Dz1snT2o5dl5OZD8JKoWnY-gkbkJL0G3oA7BJEKs
+id: node.avoindata_guide_page.title
+field_name: title
+entity_type: node
+bundle: avoindata_guide_page
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

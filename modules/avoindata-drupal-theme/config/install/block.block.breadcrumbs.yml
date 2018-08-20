@@ -1,0 +1,19 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - avoindata
+id: breadcrumbs
+theme: avoindata
+region: header
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: visible
+visibility: {  }

@@ -1,0 +1,5 @@
+name: Avoindata Guide
+type: module
+description: Manages the guide and its menu
+package: Custom
+core: 8.x
