@@ -77,33 +77,73 @@
 %}
 <div class="container-fluid">
     <div class="avoindata-articles-container">
-        <article{{ attributes.addclass(classes) }}>
 
-            {{ title_prefix }}
-            {% if not page %}
-                <h2{{ title_attributes }}>
-                    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-                </h2>
-            {% endif %}
-            {{ title_suffix }}
+        <div class="col-md-8">
+            <article{{ attributes.addclass(classes) }}>
+                <div class="spacer"></div>
+                <h3 id="article-header">
+                    {{label}}
+                </h3>
+                {{ title_prefix }}
+                {% if not page %}
+                    <h2{{ title_attributes }}>
+                        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+                    </h2>
+                {% endif %}
+                {{ title_suffix }}
 
-            {% if display_submitted %}
-                <footer>
-                    {{ author_picture }}
-                    <div{{ author_attributes.addClass('author') }}>
-                        {% trans %}Submitted by
-                        {{ author_name }}
-                        on
-                        {{ date }}{% endtrans %}
-                        {{ metadata }}
+                {% if display_submitted %}
+                    <footer>
+                        {{ author_picture }}
+                        <div{{ author_attributes.addClass('author') }}>
+                            {% trans %}Submitted by
+                            {{ author_name }}
+                            on
+                            {{ date }}{% endtrans %}
+                            {{ metadata }}
+                        </div>
+                    </footer>
+                {% endif %}
+
+                <div{{ content_attributes.addClass('content') }}>
+                    {{ content }}
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <div class="row opendata-card">
+                <div class="opendata-card-header">
+                    <p class="opendata-card-heading">
+                    <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                    {% trans %}
+                    Categories
+                    {% endtrans %}
+                    </p>
+                </div>
+                <div class="opendata-card-content">
+                    {% for tag in tags %}
+                    <div class="avoindata-news-category-list-item">
+                        <a href="/{{language}}/taxonomy/term/{{tag.tid.value}}">{{ tag.label }}</a>
                     </div>
-                </footer>
-            {% endif %}
-
-            <div{{ content_attributes.addClass('content') }}>
-                {{ content }}
+                    {% endfor %}
+                </div>
             </div>
 
-        </article>
+            <div class="row opendata-card">
+                <div class="opendata-card-header">
+                    <p class="opendata-card-heading">
+                    <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                    {% trans %}
+                    Most popular articles
+                    {% endtrans %}
+                    </p>
+                </div>
+                <div class="opendata-card-content">
+                    {# Add content here later #}
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
