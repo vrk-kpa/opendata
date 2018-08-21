@@ -97,7 +97,10 @@
                         {{ author_picture }}
                         <div{{ author_attributes.addClass('author') }}>
                             {% set createdDate = node.getCreatedTime|format_date('avoindata_date') %}
-                            {% trans %}Submitted by {{ author_name }} on {{ createdDate }} {% endtrans %}
+                            {% trans %} Submitted by {% endtrans %} 
+                            {{ author_name }} 
+                            {% trans with {'context': 'Submitted by {user} on {date}' %} on {% endtrans %} 
+                            {{ createdDate }}
                             {{ metadata }}
                         </div>
                     </footer>
