@@ -21,6 +21,7 @@ regions:
   page_top: 'Page top'
   page_bottom: 'Page bottom'
   guide_menu: 'Guide menu'
+  service_message: 'Service message'
 
 libraries:
   - 'avoindata/global-styling'

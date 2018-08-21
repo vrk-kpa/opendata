@@ -2,6 +2,7 @@
 
 custom_modules:
   - { src_name: avoindata-drupal-header, module_name: avoindata-header, machine_name: avoindata_header }
+  - { src_name: avoindata-drupal-servicemessage, module_name: avoindata-servicemessage, machine_name: avoindata_servicemessage }
   - { src_name: avoindata-drupal-hero, module_name: avoindata-hero, machine_name: avoindata_hero }
   - { src_name: avoindata-drupal-categories, module_name: avoindata-categories, machine_name: avoindata_categories }
   - { src_name: avoindata-drupal-infobox, module_name: avoindata-infobox, machine_name: avoindata_infobox }
