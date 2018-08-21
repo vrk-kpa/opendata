@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: avoindata_long_date
+label: 'Avoindata long date'
+locked: false
+pattern: 'F j, Y'
