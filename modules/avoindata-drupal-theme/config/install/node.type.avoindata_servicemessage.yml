@@ -1,0 +1,16 @@
+langcode: fi
+status: true
+dependencies:
+  enforced:
+    module:
+      - avoindata_servicemessage
+  module:
+    - menu_ui
+third_party_settings: { }
+name: 'Avoindata Servicemessage'
+type: avoindata_servicemessage
+description: 'Content type that can be used to provide additional information on <em>Avoindata Servicemessages</em>'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: true

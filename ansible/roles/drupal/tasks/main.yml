@@ -185,7 +185,7 @@
         - "d7_user"
     when: "'1' in drupal7_database_initialized.stdout"
 
-  when: drupal8_database_initialized is not defined
+  when: "'1' not in drupal8_database_initialized.stdout"
 
 ### Translations ###
 
