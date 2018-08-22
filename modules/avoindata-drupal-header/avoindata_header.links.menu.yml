@@ -194,7 +194,7 @@ avoindata_header.profile_fi:
   description: 'Profiili'
   parent: avoindata_header.moreoptions_fi
   menu_name: main-fi
-  route_name: user.page
+  route_name: avoindata_header.ckanprofile
   weight: 3
   options:
     fa_icon: 'fa-user-alt'
@@ -243,7 +243,7 @@ avoindata_header.profile_en:
   description: 'Profile'
   parent: avoindata_header.moreoptions_en
   menu_name: main-en
-  route_name: user.page
+  route_name: avoindata_header.ckanprofile
   weight: 3
   options:
     fa_icon: 'fa-user-alt'
@@ -292,7 +292,7 @@ avoindata_header.profile_sv:
   description: 'Profil'
   parent: avoindata_header.moreoptions_sv
   menu_name: main-sv
-  route_name: user.page
+  route_name: avoindata_header.ckanprofile
   weight: 3
   options:
     fa_icon: 'fa-user-alt'
