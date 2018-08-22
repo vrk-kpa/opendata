@@ -1,0 +1,20 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.avoindata_servicemessage
+  module:
+    - text
+id: node.avoindata_servicemessage.body
+field_name: body
+entity_type: node
+bundle: avoindata_servicemessage
+label: "Message body"
+description: 'More specific information about the avoindata servicemessage.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: { }
+field_type: text
