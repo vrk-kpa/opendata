@@ -28,6 +28,9 @@ Example:
       {% if banner %}
         <span class="banner">{{ _('Popular') }}</span>
       {% endif %}
+      {% if notes %}
+        <div class="dataset-item-notes">{{ notes|urlize }}</div>
+      {% endif %}
       <div class="dataset-item-meta">
         {% if package.get('state', '').startswith('draft') %}
           <span class="collection-type draft label label-info">{{ _('Draft') }}</span>
@@ -37,7 +40,7 @@ Example:
         {%- if package.get('resources') -%}
           {% set formats = h.unique_formats(package.get('resources')) %}
             {%- for format in formats -%}
-              <span class="format label label-info pull-right file-tag">{{_(format)}}</span>
+              <span class="format pull-right file-tag">{{_(format)}}</span>
             {%- endfor -%}
         {%- endif -%}
         <span class="organization byline-dataset organization-line">
@@ -48,9 +51,6 @@ Example:
           {%- endif -%}
         </span>
       </div>
-      {% if notes %}
-        <div>{{ notes|urlize }}</div>
-      {% endif %}
     </div>
   {% endblock %}
 
