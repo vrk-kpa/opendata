@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.avoindata_servicemessage.body
-    - field.field.node.avoindata_servicemessage.severity
+    - field.field.node.avoindata_servicemessage.field_severity
     - node.type.avoindata_servicemessage
   module:
     - datetime

@@ -6,7 +6,7 @@ dependencies:
     - node.type.avoindata_servicemessage
   module:
     - options
-id: node.avoindata_event.severity
+id: node.avoindata_servicemessage.field_severity
 field_name: field_severity
 entity_type: node
 bundle: avoindata_servicemessage
