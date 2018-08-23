@@ -77,33 +77,64 @@
 %}
 <div class="container-fluid">
     <div class="avoindata-articles-container">
-        <article{{ attributes.addclass(classes) }}>
 
-            {{ title_prefix }}
-            {% if not page %}
-                <h2{{ title_attributes }}>
-                    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-                </h2>
-            {% endif %}
-            {{ title_suffix }}
+        <div class="col-md-8">
+            <article{{ attributes.addclass(classes) }}>
+                <div class="spacer"></div>
+                <h3 id="article-header">
+                    {{label}}
+                </h3>
+                {{ title_prefix }}
+                {% if not page %}
+                    <h2{{ title_attributes }}>
+                        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+                    </h2>
+                {% endif %}
+                {{ title_suffix }}
 
-            {% if display_submitted %}
-                <footer>
-                    {{ author_picture }}
-                    <div{{ author_attributes.addClass('author') }}>
-                        {% trans %}Submitted by
-                        {{ author_name }}
-                        on
-                        {{ date }}{% endtrans %}
-                        {{ metadata }}
+                {% if display_submitted %}
+                    <footer>
+                        {{ author_picture }}
+                        <div{{ author_attributes.addClass('author') }}>
+                            {% set createdDate = node.getCreatedTime|format_date('avoindata_long_date') %}
+                            {% trans %} Submitted by {% endtrans %} 
+                            {{ author_name }} 
+                            {% trans with {'context': 'Submitted by {user} on {date}'} %} on {% endtrans %} 
+                            {{ createdDate }}
+                            {{ metadata }}
+                        </div>
+                    </footer>
+                {% endif %}
+
+                <div{{ content_attributes.addClass('content') }}>
+                    <div id="article-image">
+                        {{ content.field_image|field_value }}
                     </div>
-                </footer>
-            {% endif %}
+                    {{ content.body|field_value }}
+                </div>
+            </article>
+        </div>
 
-            <div{{ content_attributes.addClass('content') }}>
-                {{ content }}
+        <div class="col-md-4">
+            <div class="row opendata-card" id="article-page-opendata-card-header">
+                <div class="opendata-card-header">
+                    <p class="opendata-card-heading">
+                    <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                    {% trans %}
+                    Categories
+                    {% endtrans %}
+                    </p>
+                </div>
+                <div class="opendata-card-content">
+                    {% for tag in content.field_tags|field_value %}
+                    <div class="avoindata-news-category-list-item">
+                        {{ tag }}
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
 
-        </article>
+        </div>
+
     </div>
 </div>
