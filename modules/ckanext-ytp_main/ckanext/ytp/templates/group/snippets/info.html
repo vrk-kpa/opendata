@@ -11,7 +11,7 @@
     {% endblock %}
     {% block heading %}
     <h1 class="heading">
-      {{ h.scheming_language_text(group.title) }}
+      {{ h.get_translated(group, 'title') or group.title }}
       {% if group.state == 'deleted' %}
         [{{ _('Deleted') }}]
       {% endif %}
@@ -20,7 +20,7 @@
     {% block description %}
     {% if group.description %}
       <p>
-        {{ h.markdown_extract(group.description, 180) }}
+        {{ h.get_translated(group, 'description')|truncate(180) or h.markdown_extract(group.description, 180)}}
         {% link_for _('read more'), named_route='group.about', id=group.name %}
       </p>
     {% endif %}
