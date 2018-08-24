@@ -23,8 +23,9 @@ Example:
     <h3 class="media-heading">{{ h.get_translated(group, 'title') or group.title }}</h3>
   {% endblock %}
   {% block description %}
-    {% if group.description %}
-      <p>{{ h.get_translated(group, 'description')|truncate(80) or h.markdown_extract(group.description, 80)}}</p>
+    {% set description = h.extra_translation(group, 'description', markdown=True) %}
+    {% if description %}
+      <p>{{ description|truncate(80) }}</p>
     {% endif %}
   {% endblock %}
   {% block datasets %}
