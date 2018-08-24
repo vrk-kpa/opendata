@@ -183,6 +183,7 @@
 
 .file-tag {
   margin-left: 4px;
+  color: darken(@opendata-ckan-unhighlight, 30%);
 }
 
 .label-default {
@@ -214,7 +215,7 @@
       color: #333333;
       vertical-align: middle;
       background-color: #ffffff;
-      border: 1px solid #cccccc;
+      border: 1px solid @opendata-ckan-unhighlight;
 
       &:focus {
         border-color: #3898ec;
@@ -247,6 +248,7 @@
 }
 
 .search-form {
+  padding-bottom: 0px;
   .search-input {
     &.search-giant {
       button {
@@ -362,8 +364,52 @@
   }
 }
 
+// Disable box shadow when the button is activated. Important needed to override bootstrap 3
+.btn-avoindata-header, .btn-avoindata-header:active, .btn-avoindata-header:hover, .btn-avoindata-header:focus {
+  color: @opendata-ckan-list-item-header;
+  background-image: none !important;
+  outline: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.no-right-padding {
+  padding-right: 0px;
+}
+
 .dataset-list {
   padding: 0;
+  .dataset-item {
+    .dataset-content {
+      .dataset-heading {
+        padding-bottom: 10px;
+        a {
+          color: @opendata-ckan-list-item-header;
+          font-weight: 400;
+          font-size: 18px;
+          &:hover, &:active {
+            color: @opendata-ckan-list-item-header;
+          }
+        }
+      }
+      .dataset-item-notes {
+        padding-bottom: 10px;
+        color: @opendata-ckan-unhighlight;
+      }
+      .organization-line {
+        color: @opendata-ckan-unhighlight;
+        a, a:hover, a:active {
+          color: @opendata-ckan-unhighlight;
+        }
+      }
+    }
+  }
+}
+
+.pagination > li {
+  a, span {
+    border: 0px;
+  }
 }
 
 .media-grid {
@@ -424,14 +470,14 @@
 // Form specific overrides
 .form-control {
   width: 100%;
-  border: 1px solid #cccccc;
+  border: 1px solid @opendata-ckan-unhighlight;
   font-size: 14px;
   border-radius: 0px !important;
 }
 
 // Text area style override
 textarea {
-  border: 1px solid #cccccc;
+  border: 1px solid @opendata-ckan-unhighlight;
   font-size: 14px;
   border-radius: 0px !important;
 }
@@ -440,7 +486,7 @@ textarea {
 .select2-choices, .select2-input, .select2-default, .select2-container-multi, .select2-container, .select2-container-multi, .select2-drop, .select2-drop-multi, .select2-display-none, .select2-drop-active, .select2-drop-mask {
   border-radius: 0px !important;
   input {
-    border: 1px solid #cccccc;
+    border: 1px solid @opendata-ckan-unhighlight;
     font-size: 14px;
     border-radius: 0px !important;
   }
