@@ -18,7 +18,7 @@
     </h1>
     {% endblock %}
     {% block description %}
-    {% set description = h.extra_translation(group, 'description', markdown=True) %}
+    {% set description =  h.render_markdown(h.get_translated(group, 'description')) %}
     {% if description %}
       <p>
         {{ description|truncate(180) }}
