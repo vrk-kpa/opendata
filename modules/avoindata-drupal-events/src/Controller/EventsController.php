@@ -64,6 +64,9 @@ class EventsController extends ControllerBase {
       '#events' => $eventNodes,
       '#language' => $lang,
       '#theme' => 'avoindata_events',
+      '#cache' => array(
+        'tags' => ['node_list']
+      )
     );
   }
 }

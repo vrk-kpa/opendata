@@ -84,49 +84,43 @@
     {{ postgres.databases.drupal8.name }} {{ postgres.users.drupal8.username }}
   register: drupal8_database_initialized
 
+
+- name: Create Drupal installation directories if they don't exist
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+  with_items:
+    - "{{ cache_path }}/drupal"
+    - "/var/www/.composer"
+    - "{{ drupal8_root }}"
+
+
+- name: Synchronize drupal8 project
+  synchronize:
+    src: ../drupal8/
+    dest: "{{ drupal8_root }}/"
+
+- name: Ensure drupal root ownership
+  file:
+    path: "{{ drupal8_root }}"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+    recurse: yes
+    follow: no
+
+- name: Install Drupal dependencies
+  become_user: "{{ www_user }}"
+  composer:
+    command: install
+    working_dir: "{{ drupal8_root }}"
+
+
 - block:
-  ### Composer needs an existing, empty directory for project creating ###
-
-  - name: Destroy Drupal root directory
-    become: true
-    file:
-      state: absent
-      path: "{{ drupal8_root }}"
-
-  - name: Create Drupal installation directories if they don't exist
-    become: true
-    file:
-      path: "{{ item }}"
-      state: directory
-      owner: "{{ www_user }}"
-      group: "{{ www_group }}"
-      mode: 0755
-    with_items:
-      - "{{ cache_path }}/drupal"
-      - "/var/www/.composer"
-      - "{{ drupal8_root }}"
-
-
-  - name: Synchronize drupal8 project
-    synchronize:
-      src: ../drupal8/
-      dest: "{{ drupal8_root }}/"
-
-  - name: Ensure drupal root ownership
-    file:
-      path: "{{ drupal8_root }}"
-      owner: "{{ www_user }}"
-      group: "{{ www_group }}"
-      mode: 0755
-      recurse: yes
-
-  - name: Install Drupal dependencies
-    become_user: "{{ www_user }}"
-    composer:
-      command: install
-      working_dir: "{{ drupal8_root }}"
-
-
 
   ### Database backup
 
@@ -192,7 +186,7 @@
         - "d7_user"
     when: "'1' in drupal7_database_initialized.stdout"
 
-  when: drupal8_database_initialized is not defined
+  when: "'1' not in drupal8_database_initialized.stdout"
 
 ### Translations ###
 
@@ -238,11 +232,6 @@
   when: deployment_environment_id == "vagrant"
   with_items: "{{ custom_modules }}"
 
-- name: Enable custom modules
-  command: ../vendor/drush/drush/drush en -y {{ item.machine_name }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
-  with_items: "{{ custom_modules }}"
 
 ### Theme ###
 
@@ -264,11 +253,40 @@
     dest: "{{ drupal8_root }}/web/themes/avoindata"
   when: deployment_environment_id == "vagrant"
 
+### Install external modules ###
+
+- name: Enable Drupal extra modules
+  command: ../vendor/drush/drush/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - twig_tweak
+    - fontawesome_menu_icons
+    - smtp
+    - pathauto ### Used for URL alias settings
+    - easy_breadcrumb
+    - twig_field_value
+
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
     src: ../modules/ytp-assets-common/src/fonts/
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+
+# These need to be enabled after installing external modules (at least pathauto), because
+# of dependencies. 
+- name: Enable custom modules
+  command: ../vendor/drush/drush/drush en -y {{ item.machine_name }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items: "{{ custom_modules }}"
+
+#TODO: This should be fixed so that it's not necessary to delete configs like this
+- name: Delete breadcrumb settings
+  command: ../vendor/drush/drush/drush config-delete easy_breadcrumb.settings
+  args:
+    chdir: "{{ drupal8_root }}/web"
+
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata
@@ -279,18 +297,6 @@
   command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
   args:
     chdir: "{{ drupal8_root }}/web"
-
-
-### Extra modules ###
-
-- name: Enable Drupal extra modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
-  with_items:
-    - twig_tweak
-    - fontawesome_menu_icons
-    - smtp
 
 - name: Configure SMTP module settings
   command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}
@@ -311,6 +317,11 @@
   with_items:
     - { key: name, value: "{{ email_domain }}"}
     - { key: mail, value: "{{ email_from }}"}
+
+# Without this, the added translatable status for content types like guide page, doesn't work and
+# fails because of an SQL error. 
+- name: Run entity updates for database
+  command: "{{ drupal8_root }}/vendor/drush/drush/drush updatedb --entity-updates -y"
 
 ### User roles
 

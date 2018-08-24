@@ -82,6 +82,9 @@ class ArticlesController extends ControllerBase {
       '#tags' => $taxonomyTerms,
       '#language' => $lang,
       '#theme' => 'avoindata_articles',
+      '#cache' => array(
+        'tags' => ['node_list']
+      )
     );
   }
 }

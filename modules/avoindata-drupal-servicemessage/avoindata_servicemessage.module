@@ -1,0 +1,29 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_servicemessage_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_servicemessage':
+      return t('
+        Creates servicemessage module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_servicemessage_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_servicemessage' => array(
+      'template' => 'avoindata_servicemessage_block',
+      'variables' => array(
+        'messages' => []
+      )
+    ),
+  );
+}

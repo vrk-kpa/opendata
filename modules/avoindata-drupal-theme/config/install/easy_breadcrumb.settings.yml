@@ -1,0 +1,18 @@
+include_home_segment: true
+home_segment_title: Etusivu
+home_segment_keep: 0
+include_title_segment: true
+language_path_prefix_as_segment: false
+use_menu_title_as_fallback: false
+remove_repeated_segments: true
+absolute_paths: false
+hide_single_home_item: false
+_core:
+  default_config_hash: ALaJtTMWaPkrzRKrWM1z4u7BslSR_0tTzlGXfeZPhDQ
+langcode: fi
+include_invalid_paths: true
+excluded_paths: ''
+replaced_titles: ''
+segments_separator: null
+title_segment_as_link: false
+title_from_page_when_available: false

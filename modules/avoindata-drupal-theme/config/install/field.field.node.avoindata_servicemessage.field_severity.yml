@@ -1,0 +1,20 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_severity
+    - node.type.avoindata_servicemessage
+  module:
+    - options
+id: node.avoindata_servicemessage.field_severity
+field_name: field_severity
+entity_type: node
+bundle: avoindata_servicemessage
+label: Severity
+description: 'Severity of the service message'
+required: true
+translatable: false
+default_value: { }
+default_value_callback: ''
+settings: { }
+field_type: list_string

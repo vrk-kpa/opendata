@@ -6,3 +6,11 @@ avoindata_header.header:
   requirements:
     _permission: 'access content'
 
+avoindata_header.ckanprofile:
+  path: '/profile'
+  defaults:
+    _controller: '\Drupal\avoindata_header\Controller\HeaderController::ckanprofile'
+    _title: 'Profile'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

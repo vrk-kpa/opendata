@@ -1,0 +1,60 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.avoindata_servicemessage.body
+    - field.field.node.avoindata_servicemessage.field_severity
+    - node.type.avoindata_servicemessage
+  module:
+    - datetime
+    - text
+    - options
+id: node.avoindata_servicemessage.default
+targetEntityType: node
+bundle: avoindata_servicemessage
+mode: default
+content:
+  body:
+    label: hidden
+    type: string_textfield
+    weight: 6
+    settings: { }
+    third_party_settings: {  }
+    region: content
+  field_severity:
+    type: options_select
+    settings: { }
+    third_party_settings: {  }
+    region: content
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden:
+  promote: true

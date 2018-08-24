@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Avoindata Servicemessage Block
+ *
+ * @ingroup themeable
+ */
+#}
+<ul class="service-messages">
+{% for message in messages %}
+  {% set alert_type = "secondary" %}
+  {% if message.severity == "critical" %}
+    {% set alert_type = "danger" %}
+  {% elseif message.severity == "warning" %}
+    {% set alert_type = "warning" %}
+  {% elseif message.severity == "info" %}
+    {% set alert_type = "info" %}
+  {% endif %}
+
+  <li class="alert alert-{{ alert_type }} alert-dismissible">
+    <span>{{ message.body|raw }}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+{% endfor %}
+</ul>

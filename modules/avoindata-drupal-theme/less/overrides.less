@@ -34,6 +34,9 @@
 // Avoindata navbars
 @import "@{common-less}/navbars";
 
+//Guide styles
+@import "@{common-less}/drupal/guide.less";
+
 body {
   margin: 0px;
 }
@@ -542,6 +545,7 @@ p:last-child,
         }
         &:hover {
           border-left: 8px solid #182b75;
+          padding-left: 12px;
         }
       }
     }
@@ -615,6 +619,23 @@ p:last-child,
 .avoindata-articles-container {
   margin-bottom: 20px;
   margin-top: 30px;
+}
+
+#article-header {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 400;
+}
+
+#article-image {
+  margin-top: 14px;
+  margin-bottom: 10px;
+}
+
+//Overrides the margin value of opendata-card
+//Purpose is to vertically align it with the picture of the article
+#article-page-opendata-card-header {
+  margin-top: 104px;
 }
 
 // Events page
@@ -718,3 +739,45 @@ p:last-child,
     }
   }
 }
+
+//Breadcrumb style, copied and modified from ckan css files
+.toolbar {
+  background-color: @breadcrumb-color-background;
+}
+
+.toolbar .breadcrumb{
+  max-width: 1140px;
+  margin: 0 auto;
+  float: none;
+  font-size: 20px;
+
+  padding: 15px 15px;
+  background: 0 0;
+  line-height: 0.8;
+
+  li {
+    color: @opendata-brand-gray;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  li .active {
+    font-weight: 700;
+  }
+
+  a {
+    color: @opendata-brand-gray;
+  }
+
+}
+
+// Blue bar that divides elements
+.spacer {
+  width: 7%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 6px solid #182b75;
+}
+
+
+
