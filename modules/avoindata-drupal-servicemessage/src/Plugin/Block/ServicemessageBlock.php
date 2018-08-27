@@ -45,7 +45,10 @@ class ServicemessageBlock extends BlockBase {
     }
     return array(
       '#theme' => 'avoindata_servicemessage',
-      '#messages' => $messages
+      '#messages' => $messages,
+      '#cache' => array(
+        'tags' => ['node_list']
+      )
     );
   }
 }
