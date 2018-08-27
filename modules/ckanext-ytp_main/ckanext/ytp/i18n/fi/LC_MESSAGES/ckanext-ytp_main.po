@@ -1668,6 +1668,10 @@ msgstr ""
 " ottaa huomioon täytettyjen tietokenttien määrän, sivukäynnit, "
 "tietoaineiston lataukset, kommentit ja käännökset."
 
+#: ckanext/ytp/templates/package/snippets/dataset_info.html
+msgid "Downloads during year"
+msgstr "Latauksia vuonna"
+
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:174
 msgid "All time visits:"
 msgstr "Sivunäyttöjä kaikkiaan:"

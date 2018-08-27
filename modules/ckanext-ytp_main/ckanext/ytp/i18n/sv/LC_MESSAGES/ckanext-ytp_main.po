@@ -1659,6 +1659,10 @@ msgid ""
 "resource downloads, comments and translations into consideration."
 msgstr ""
 
+#: ckanext/ytp/templates/package/snippets/dataset_info.html
+msgid "Downloads during year"
+msgstr "Nedladdningar i"
+
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:174
 msgid "All time visits:"
 msgstr "Sidvisningar totalt:"
