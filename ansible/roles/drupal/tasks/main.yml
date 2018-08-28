@@ -324,6 +324,16 @@
     - { key: name, value: "{{ email_domain }}"}
     - { key: mail, value: "{{ email_from }}"}
 
+- name: Update drupal translations
+  command: ../vendor/drush/drush/drush language:import:translations /vagrant/ansible/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - "fi"
+    - "sv"
+  tags:
+    - drupal
+
 # Without this, the added translatable status for content types like guide page, doesn't work and
 # fails because of an SQL error. 
 - name: Run entity updates for database
