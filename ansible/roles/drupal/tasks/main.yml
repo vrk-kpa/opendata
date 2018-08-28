@@ -22,6 +22,7 @@
     - php-xml # installs "dom"
     - php7.0-mbstring
     - php-curl
+    - php-intl
 
 ### Socket setup ###
 
@@ -266,6 +267,7 @@
     - pathauto ### Used for URL alias settings
     - easy_breadcrumb
     - twig_field_value
+    - twig_extensions
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -287,7 +289,6 @@
   args:
     chdir: "{{ drupal8_root }}/web"
 
-
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata
   args:
@@ -295,6 +296,11 @@
 
 - name: Set default theme
   command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
+  args:
+    chdir: "{{ drupal8_root }}/web"
+
+- name: Reload theme configurations
+  command: ../vendor/drush/drush/drush -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install
   args:
     chdir: "{{ drupal8_root }}/web"
 

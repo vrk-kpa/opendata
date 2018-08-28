@@ -50,7 +50,7 @@ from helpers import extra_translation, render_date, get_dict_tree_from_json, ser
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
-    get_visits_count_for_dataset_during_last_year, get_current_date
+    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year
 from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
 
@@ -575,6 +575,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
                 'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
+                'get_download_count_for_dataset_during_last_year': get_download_count_for_dataset_during_last_year,
                 'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,

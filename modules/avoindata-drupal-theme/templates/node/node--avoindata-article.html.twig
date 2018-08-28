@@ -91,17 +91,14 @@
                     </h2>
                 {% endif %}
                 {{ title_suffix }}
-
                 {% if display_submitted %}
                     <footer>
                         {{ author_picture }}
                         <div{{ author_attributes.addClass('author') }}>
-                            {% set createdDate = node.getCreatedTime|format_date('avoindata_long_date') %}
                             {% trans %} Submitted by {% endtrans %} 
                             {{ author_name }} 
-                            {% trans with {'context': 'Submitted by {user} on {date}'} %} on {% endtrans %} 
-                            {{ createdDate }}
-                            {{ metadata }}
+                            {% trans with {'context': 'Submitted by someone on a certain date'} %} on {% endtrans %}
+                            {{ node.getCreatedTime|format_date('avoindata_long_date') }} 
                         </div>
                     </footer>
                 {% endif %}
