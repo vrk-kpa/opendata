@@ -1,10 +1,4 @@
-{% extends "page.html" %}
-
-{% block subtitle %}{{ _('All Users') }}{% endblock %}
-
-{% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Users'), controller='user', action='index') }}</li>
-{% endblock %}
+{% ckan_extends %}
 
 {% block primary_content %}
   {% resource "ytp_common_js/ytp_form.js" %}
@@ -17,12 +11,12 @@
       {% snippet 'user/snippets/user_search.html', query=c.q, order_by=c.order_by %}
 
       <div class="user-search-pagination">
-        {{ c.page.pager(q=c.q, order_by=c.order_by) }}
+        {{ page.pager(q=c.q, order_by=c.order_by) }}
       </div>
       {% block users_list %}
         <ul class="user-list">
           {% block users_list_inner %}
-            {% for user in c.page.items %}
+            {% for user in page.items %}
               <li>
                 {{ h.linked_user(user['name'], maxlength=20, avatar=60) }}
                 <p>
@@ -46,7 +40,7 @@
 
     <div class="user-search-pagination">
     {% block page_pagination %}
-      {{ c.page.pager(q=c.q, order_by=c.order_by) }}
+      {{ page.pager(q=c.q, order_by=c.order_by) }}
     {% endblock %}
     </div>  
   </article>

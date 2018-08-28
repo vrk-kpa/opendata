@@ -357,10 +357,8 @@ def action_user_list(context, data_dict):
             model.User.about.label('email'),
             model.User.created.label('created'),
             _select([_func.count(model.Revision.id)],
-                    _or_(
-                        model.Revision.author == model.User.name,
-                        model.Revision.author == model.User.openid
-                    )).label('number_of_edits'),
+                    model.Revision.author == model.User.name
+                    ).label('number_of_edits'),
             _select([_func.count(model.Package.id)],
                     _and_(
                         model.Package.creator_user_id == model.User.id,
@@ -377,9 +375,7 @@ def action_user_list(context, data_dict):
     if order_by == 'edits':
         query = query.order_by(_desc(
             _select([_func.count(model.Revision.id)],
-                    _or_(
-                        model.Revision.author == model.User.name,
-                        model.Revision.author == model.User.openid))))
+                model.Revision.author == model.User.name)))
     else:
         query = query.order_by(
             _case([(
