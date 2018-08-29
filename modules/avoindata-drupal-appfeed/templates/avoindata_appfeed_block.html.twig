@@ -33,7 +33,7 @@
               <p class="appitem-metainfo">
                 <i class="far fa-clock appitem-fa-icon"></i>
                 <a href="/data/showcase/{{ app['name'] }}">
-                  {{ app['metadata_created']|format_date('avoindata_long_date') }}
+                  {{ app['metadata_created'] | date('U') | format_date('avoindata_long_date') }}
                 </a>
                 <i class="fas fa-folder appitem-fa-icon"></i>
                 <a href="/data/showcase/{{ app['name'] }}">

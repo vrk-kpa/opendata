@@ -110,9 +110,9 @@
                     <div class="avoindata-event-item-metainfo">
                       <i class="far fa-clock avoindata-fa-icon"></i>
                       {% if event.field_end_date.value|length == 0 %}
-                        {{ event.field_start_date.value|format_date('avoindata_long_date') }}
+                        {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }}
                       {% else %}    
-                        {{ event.field_start_date.value|format_date('avoindata_long_date') }} - {{ event.field_end_date.value|format_date('avoindata_long_date') }}
+                        {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }} - {{ event.field_end_date.value | date('U') | format_date('avoindata_long_date') }}
                       {% endif %}
                       <a href={{ event.field_location.0.url }}>
                         <i class="fas fa-map-marker avoindata-fa-icon"></i> {{ event.field_location.0.title }}
