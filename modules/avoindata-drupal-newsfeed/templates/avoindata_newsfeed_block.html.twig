@@ -18,7 +18,7 @@
       {% for news in newsfeed %}
         <div class="avoindata-feeditem avoindata-feeditem-event">
           <a class="feeditem-date" href={{ path('entity.node.canonical', {'node': news.id}) }}>
-            {{ news.createdtime|format_date('avoindata_long_date') }}
+            {{ news.createdtime | format_date('avoindata_long_date') }}
           </a>
           <br/>
           <a class="feeditem-heading" href={{ path('entity.node.canonical', {'node': news.id}) }}>
@@ -49,9 +49,9 @@
           <br/>
           <a class="feeditem-date" href={{ path('entity.node.canonical', {'node': event.id}) }}>
             {% if event.field_end_date.value|length == 0 %}
-              {{ event.field_start_date.value|format_date('avoindata_long_date') }}
+              {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }}
             {% else %}    
-              {{ event.field_start_date.value|format_date('avoindata_long_date') }} - {{ event.field_end_date.value|format_date('avoindata_long_date') }}
+              {{ event.field_start_date.value| date('U') | format_date('avoindata_long_date') }} - {{ event.field_end_date.value | date('U') | format_date('avoindata_long_date') }}
             {% endif %}
           </a>
           <br/>
