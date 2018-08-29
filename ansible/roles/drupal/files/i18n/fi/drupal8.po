@@ -1,0 +1,1625 @@
+# English translation of localhost
+# 
+# Translators:
+# Pentti Laitinen, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-08-28 14:34+0300\n"
+"PO-Revision-Date: 2018-08-28 14:34+0300\n"
+"Last-Translator: Pentti Laitinen, 2018\n"
+"Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Custom block type"
+msgstr ""
+
+msgid "Block the selected user(s)"
+msgstr ""
+
+msgid "Breadcrumbs"
+msgstr "Murupolut"
+
+msgid "Not applicable"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Full content"
+msgstr ""
+
+msgid "Main navigation"
+msgstr ""
+
+msgid "RSS"
+msgstr "RSS"
+
+msgid "Search"
+msgstr "Haku"
+
+msgid "User account menu"
+msgstr "Käyttäjätilin valikko"
+
+msgid "Cancel the selected user account(s)"
+msgstr ""
+
+msgid "Main page content"
+msgstr ""
+
+msgid "Primary admin actions"
+msgstr ""
+
+msgid "Tabs"
+msgstr ""
+
+msgid "Status messages"
+msgstr ""
+
+msgid "User login"
+msgstr ""
+
+msgid "Page title"
+msgstr ""
+
+msgid "Powered by Drupal"
+msgstr ""
+
+msgid "Primary tabs"
+msgstr ""
+
+msgid "Secondary tabs"
+msgstr ""
+
+msgid "Basic block"
+msgstr ""
+
+msgid "A basic block contains a title and a body."
+msgstr ""
+
+msgid "Default comments"
+msgstr ""
+
+msgid "Allows commenting on content"
+msgstr ""
+
+msgid "Website feedback"
+msgstr ""
+
+msgid "Promoted to front page"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Search index"
+msgstr ""
+
+msgid "Comment"
+msgstr "Kommentti"
+
+msgid "Block"
+msgstr ""
+
+msgid "Image"
+msgstr "Kuva"
+
+msgid "Search result highlighting input"
+msgstr ""
+
+msgid ""
+"Enter a comma-separated list. For example: Amsterdam, Mexico City, "
+"\"Cleveland, Ohio\""
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Picture"
+msgstr "Kuva"
+
+msgid "Your virtual face or picture."
+msgstr ""
+
+msgid "Basic HTML"
+msgstr ""
+
+msgid "Full HTML"
+msgstr ""
+
+msgid "Restricted HTML"
+msgstr ""
+
+msgid "Article"
+msgstr "Artikkeli"
+
+msgid ""
+"Use <em>articles</em> for time-sensitive content like news, press releases "
+"or blog posts."
+msgstr ""
+
+msgid "Basic page"
+msgstr ""
+
+msgid ""
+"Use <em>basic pages</em> for your static content, such as an 'About us' "
+"page."
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Use tags to group articles on similar topics into categories."
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Full"
+msgstr ""
+
+msgid "Full comment"
+msgstr ""
+
+msgid "Delete comment"
+msgstr ""
+
+msgid "Publish comment"
+msgstr ""
+
+msgid "Save comment"
+msgstr ""
+
+msgid "Unpublish comment"
+msgstr ""
+
+msgid "Personal contact form"
+msgstr ""
+
+msgid "Your message has been sent."
+msgstr ""
+
+msgid "Plain text"
+msgstr ""
+
+msgid "Large (480×480)"
+msgstr ""
+
+msgid "Medium (220×220)"
+msgstr ""
+
+msgid "Thumbnail (100×100)"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Not specified"
+msgstr ""
+
+msgid "Teaser"
+msgstr ""
+
+msgid "Delete content"
+msgstr ""
+
+msgid "Make content sticky"
+msgstr ""
+
+msgid "Make content unsticky"
+msgstr ""
+
+msgid "Promote content to front page"
+msgstr ""
+
+msgid "Publish content"
+msgstr ""
+
+msgid "Save content"
+msgstr ""
+
+msgid "Remove content from front page"
+msgstr ""
+
+msgid "Unpublish content"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Fallback date format"
+msgstr ""
+
+msgid "HTML Date"
+msgstr ""
+
+msgid "HTML Datetime"
+msgstr ""
+
+msgid "HTML Month"
+msgstr ""
+
+msgid "HTML Time"
+msgstr ""
+
+msgid "HTML Week"
+msgstr ""
+
+msgid "HTML Year"
+msgstr ""
+
+msgid "HTML Yearless date"
+msgstr ""
+
+msgid "Default long date"
+msgstr ""
+
+msgctxt "PHP date format"
+msgid "l, F j, Y - H:i"
+msgstr ""
+
+msgid "Default medium date"
+msgstr ""
+
+msgctxt "PHP date format"
+msgid "D, m/d/Y - H:i"
+msgstr ""
+
+msgid "Default short date"
+msgstr ""
+
+msgctxt "PHP date format"
+msgid "m/d/Y - H:i"
+msgstr ""
+
+msgid ""
+"@site is currently under maintenance. We should be back shortly. Thank you "
+"for your patience."
+msgstr ""
+
+msgid "Site branding"
+msgstr ""
+
+msgid "Links related to the active user account"
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Administrative task links"
+msgstr ""
+
+msgid "Footer"
+msgstr ""
+
+msgid "Site information links"
+msgstr "Sivuston informaatio linkit"
+
+msgid "Tools"
+msgstr "Työkalut"
+
+msgid "Site section links"
+msgstr ""
+
+msgid "User tool links, often added by modules"
+msgstr ""
+
+msgid "Taxonomy term page"
+msgstr ""
+
+msgid "Register"
+msgstr "Rekisteröidy"
+
+msgid "Compact"
+msgstr ""
+
+msgid "User account"
+msgstr "Käyttäjätili"
+
+msgid "Unblock the selected user(s)"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A request to cancel your account has been made at [site:name].\n"
+"\n"
+"You may now cancel your account on [site:url-brief] by clicking this link or copying and pasting it into your browser:\n"
+"\n"
+"[user:cancel-url]\n"
+"\n"
+"NOTE: The cancellation of your account is not reversible.\n"
+"\n"
+"This link expires in one day and nothing will happen if it is not used.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Account cancellation request for [user:display-name] at [site:name]"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A request to reset the password for your account has been made at [site:name].\n"
+"\n"
+"You may now log in by clicking this link or copying and pasting it into your browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be used once to log in and will lead you to a page where you can set your password. It expires after one day and nothing will happen if it's not used.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Replacement login information for [user:display-name] at [site:name]"
+msgstr ""
+
+msgid "Comments"
+msgstr "Kommentit"
+
+msgid ""
+"<p>This page provides the ability to add common languages to your "
+"site.</p><p>If the desired language is not available, you can add a custom "
+"language.</p>"
+msgstr ""
+
+msgid "Select language"
+msgstr "Valitse kieli"
+
+msgid "Main navigation (en)"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A site administrator at [site:name] has created an account for you. You may now log in by clicking this link or copying and pasting it into your browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be used once to log in and will lead you to a page where you can set your password.\n"
+"\n"
+"After setting your password, you will be able to log in at [site:login-url] in the future using:\n"
+"\n"
+"username: [user:name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "An administrator created an account for you at [site:name]"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Thank you for registering at [site:name]. You may now log in by clicking this link or copying and pasting it into your browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be used once to log in and will lead you to a page where you can set your password.\n"
+"\n"
+"After setting your password, you will be able to log in at [site:login-url] in the future using:\n"
+"\n"
+"username: [user:name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Account details for [user:display-name] at [site:name]"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Thank you for registering at [site:name]. Your application for an account is currently pending approval. Once it has been approved, you will receive another email containing information about how to log in, set your password, and other details.\n"
+"\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid ""
+"Account details for [user:display-name] at [site:name] (pending admin "
+"approval)"
+msgstr ""
+
+msgid ""
+"[user:display-name] has applied for an account.\n"
+"\n"
+"[user:edit-url]"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account at [site:name] has been activated.\n"
+"\n"
+"You may now log in by clicking this link or copying and pasting it into your browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be used once to log in and will lead you to a page where you can set your password.\n"
+"\n"
+"After setting your password, you will be able to log in at [site:login-url] in the future using:\n"
+"\n"
+"username: [user:account-name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Account details for [user:display-name] at [site:name] (approved)"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account on [site:name] has been blocked.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Account details for [user:display-name] at [site:name] (blocked)"
+msgstr ""
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account on [site:name] has been canceled.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+
+msgid "Account details for [user:display-name] at [site:name] (canceled)"
+msgstr ""
+
+msgid "Anonymous user"
+msgstr "Anonyymi käyttäjä"
+
+msgid "Authenticated user"
+msgstr "Tunnistautunut käyttäjä"
+
+msgid "Anonymous"
+msgstr "Anonyymi"
+
+msgid "Custom block library"
+msgstr ""
+
+msgid "Find and manage custom blocks."
+msgstr ""
+
+msgid "The unapproved comments listing."
+msgstr ""
+
+msgid "Author Name"
+msgstr ""
+
+msgid "Recent comments"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "Recent comments."
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "No comments available."
+msgstr ""
+
+msgid "Block description"
+msgstr ""
+
+msgid "Block type"
+msgstr ""
+
+msgid "Lists (Views)"
+msgstr ""
+
+msgid "There are no custom blocks available."
+msgstr ""
+
+msgid "Author"
+msgstr ""
+
+msgid "Find and manage comments."
+msgstr ""
+
+msgid "Next ›"
+msgstr "Seuraava >"
+
+msgid "Date"
+msgstr "Päivämäärä"
+
+msgid "Message"
+msgstr "Viesti"
+
+msgid "‹ previous"
+msgstr "< edellinen"
+
+msgid "next ›"
+msgstr "seuraava >"
+
+msgid "« first"
+msgstr "« ensimmäinen"
+
+msgid "last »"
+msgstr "viimeinen »"
+
+msgid "{{ message }}"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Subject"
+msgstr "Aihe"
+
+msgid "‹ Previous"
+msgstr "< Edellinen"
+
+msgid ", "
+msgstr ""
+
+msgid "Posted in"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Author name"
+msgstr "Kirjoittajan nimi"
+
+msgid "Adding languages"
+msgstr ""
+
+msgid "Temporary"
+msgstr "Väliaikainen"
+
+msgid "Page"
+msgstr "Sivu"
+
+msgid "Published comments"
+msgstr "Julkaistut kommentit"
+
+msgid "Comments published"
+msgstr ""
+
+msgid "The approved comments listing."
+msgstr ""
+
+msgid "Unapproved comments"
+msgstr ""
+
+msgid "Comments unapproved"
+msgstr ""
+
+msgid "Watchdog"
+msgstr ""
+
+msgid "Recent log messages"
+msgstr ""
+
+msgid "more"
+msgstr ""
+
+msgid "››"
+msgstr ""
+
+msgid "Fid"
+msgstr ""
+
+msgid "Permanent"
+msgstr ""
+
+msgid "Upload date"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "WID"
+msgstr ""
+
+msgid "Severity"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "No log messages available."
+msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Find and manage files."
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "MIME type"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Changed date"
+msgstr ""
+
+msgid "Used in"
+msgstr ""
+
+msgid "1 place"
+msgid_plural "@count places"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "No files available."
+msgstr ""
+
+msgid "Files overview"
+msgstr ""
+
+msgid "File usage"
+msgstr ""
+
+msgid "Entity"
+msgstr ""
+
+msgid "Entity type"
+msgstr ""
+
+msgid "Registering module"
+msgstr ""
+
+msgid "Use count"
+msgstr ""
+
+msgid "1"
+msgid_plural "@count"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "User"
+msgstr ""
+
+msgid "File usage information for {{ arguments.fid }}"
+msgstr ""
+
+msgid "Master"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Sort by"
+msgstr ""
+
+msgid ""
+"<p>Choose a language from the list, or choose \"Custom language...\" at the "
+"end of the list.</p><p>Click the \"Add language\" button when you are done "
+"choosing your language.</p><p>When adding a custom language, you will get an"
+" additional form where you can provide the name, code, and direction of the "
+"language.</p>"
+msgstr ""
+
+msgid ""
+"<p>Operations are provided for editing and deleting your "
+"languages.</p><p>You can edit the name and the direction of the "
+"language.</p><p>Deleted languages can be added back at a later time. "
+"Deleting a language will remove all interface translations associated with "
+"it, and content in this language will be set to be language neutral. Note "
+"that you cannot delete the default language of the site.</p>"
+msgstr ""
+
+msgid ""
+"<p>Now that you have an overview of the \"Add languages\" feature, you can "
+"continue by:<ul><li>Adding a language</li><li>Adding a custom "
+"language</li><li><a "
+"href=\"[site:url]admin/config/regional/language\">Viewing configured "
+"languages</a></li></ul></p>"
+msgstr ""
+
+msgid "Editing languages"
+msgstr ""
+
+msgid ""
+"<p>This page provides the ability to edit a language on your site, including"
+" custom languages.</p>"
+msgstr ""
+
+msgid "Language code"
+msgstr ""
+
+msgid ""
+"<p>You cannot change the code of a language on the site, since it is used by"
+" the system to keep track of the language.</p>"
+msgstr ""
+
+msgid "Language name"
+msgstr ""
+
+msgid ""
+"<p>The language name is used throughout the site for all users and is "
+"written in English. Names of built-in languages can be translated using the "
+"Interface Translation module, and names of both built-in and custom "
+"languages can be translated using the Configuration Translation module.</p>"
+msgstr ""
+
+msgid "Language direction"
+msgstr ""
+
+msgid ""
+"<p>Choose if the language is a \"Left to right\" or \"Right to left\" "
+"language.</p><p>Note that not all themes support \"Right to left\" layouts, "
+"so test your theme if you are using \"Right to left\".</p>"
+msgstr ""
+
+msgid "To apply your search criteria, click on the <em>Filter</em> button."
+msgstr ""
+
+msgid ""
+"<p>Now that you have an overview of the \"Edit language\" feature, you can "
+"continue by:<ul><li>Editing a language</li><li><a "
+"href=\"[site:url]admin/config/regional/language\">Viewing configured "
+"languages</a></li></ul></p>"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid ""
+"<p>The \"Languages\" page allows you to add, edit, delete, and reorder "
+"languages for the site.</p>"
+msgstr ""
+
+msgid ""
+"<p>To add more languages to your site, click the \"Add language\" "
+"button.</p><p>Added languages will be displayed in the language list and can"
+" then be edited or deleted.</p>"
+msgstr ""
+
+msgid "Reordering languages"
+msgstr ""
+
+msgid ""
+"<p>To reorder the languages on your site, use the drag icons next to each "
+"language.</p><p>The order shown here is the display order for language lists"
+" on the site such as in the language switcher blocks provided by the "
+"Interface Translation and Content Translation modules.</p><p>When you are "
+"done with reordering the languages, click the \"Save configuration\" button "
+"for the changes to take effect.</p>"
+msgstr ""
+
+msgid "Set a language as default"
+msgstr ""
+
+msgid ""
+"<p>You can change the default language of the site by choosing one of your "
+"configured languages as default. The site will use the default language in "
+"situations where no choice is made but a language should be set, for example"
+" as the language of the displayed interface.</p>"
+msgstr ""
+
+msgid "Modifying languages"
+msgstr ""
+
+msgid "Sort Criteria"
+msgstr ""
+
+msgid ""
+"<p>Now that you have an overview of the \"Languages\" page, you can continue"
+" by:<ul><li><a href=\"[site:url]admin/config/regional/language/add\">Adding "
+"a language</a></li><li>Reordering languages</li><li>Editing a "
+"language</li><li>Deleting a language</li></ul></p>"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "User interface translation"
+msgstr ""
+
+msgid ""
+"This page allows you to translate the user interface or modify existing "
+"translations. If you have installed your site initially in English, you must"
+" first add another language on the <a "
+"href=\"[site:url]admin/config/regional/language\">Languages page</a>, in "
+"order to use this page."
+msgstr ""
+
+msgid "Translation language"
+msgstr ""
+
+msgid "Choose the language you want to translate."
+msgstr ""
+
+msgid ""
+"Enter the specific word or sentence you want to translate, you can also "
+"write just a part of a word."
+msgstr ""
+
+msgid "Filter the search"
+msgstr ""
+
+msgid ""
+"You can search for untranslated strings if you want to translate something "
+"that isn't translated yet. If you want to modify an existing translation, "
+"you might want to search only for translated strings."
+msgstr ""
+
+msgid "Apply your search criteria"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid ""
+"You can write your own translation in the text fields of the right column. "
+"Try to figure out in which context the text will be used in order to "
+"translate it in the appropriate way."
+msgstr ""
+
+msgid "Validate the translation"
+msgstr ""
+
+msgid ""
+"When you have finished your translations, click on the <em>Save "
+"translations</em> button. You must save your translations, each time before "
+"changing the page or making a new search."
+msgstr ""
+
+msgid "Continuing on"
+msgstr ""
+
+msgid ""
+"Control the order in which the results are output. Click on an active sort "
+"rule to configure it."
+msgstr ""
+
+msgid "Sort actions"
+msgstr ""
+
+msgid "Add, rearrange or remove sorting rules."
+msgstr ""
+
+msgid "Preview"
+msgstr "Esikatselu"
+
+msgid "Show a preview of the view output."
+msgstr ""
+
+msgid "Footer menu"
+msgstr ""
+
+msgid "Guide menu (en)"
+msgstr ""
+
+msgid "Menu for guide page (en)"
+msgstr ""
+
+msgid "More main navigation (en)"
+msgstr ""
+
+msgid "Finalizing configuration synchronization."
+msgstr ""
+
+msgid "Add the @label role to the selected user(s)"
+msgstr ""
+
+msgid "Remove the @label role from the selected user(s)"
+msgstr ""
+
+msgid "Bootstrap"
+msgstr ""
+
+msgid "Bootstrap Theme"
+msgstr ""
+
+msgid "Appears in: @bundles."
+msgstr ""
+
+msgid "Also known as:"
+msgstr ""
+
+msgid "@group: @field"
+msgstr ""
+
+msgid "@group (historical data): @field"
+msgstr ""
+
+msgid "@label (@name)"
+msgstr ""
+
+msgid "@label (@name:@column)"
+msgstr ""
+
+msgid "Subscribe to @title"
+msgstr ""
+
+msgid "Skip to main content"
+msgstr ""
+
+msgid "Etusivu"
+msgstr ""
+
+msgid "Tietoaineistot"
+msgstr ""
+
+msgid "Organisaatiot"
+msgstr ""
+
+msgid "Käyttösovellukset"
+msgstr ""
+
+msgid "Uutiset"
+msgstr ""
+
+msgid "Opas"
+msgstr ""
+
+msgid "Lisää"
+msgstr ""
+
+msgid ""
+"The translations you have made here will be used on your site's user "
+"interface. If you want to use them on another site or modify them on an "
+"external translation editor, you can <a "
+"href=\"[site:url]admin/config/regional/translate/export\">export them</a> to"
+" a .po file and <a "
+"href=\"[site:url]admin/config/regional/translate/import\">import them</a> "
+"later."
+msgstr ""
+
+msgid "Archive"
+msgstr ""
+
+msgid "All content, by month."
+msgstr ""
+
+msgid "Monthly archive"
+msgstr ""
+
+msgid "{{ arguments.created_year_month }}"
+msgstr ""
+
+msgid "Content"
+msgstr ""
+
+msgid "Find and manage content."
+msgstr ""
+
+msgid "Blocked"
+msgstr ""
+
+msgid "Roles"
+msgstr ""
+
+msgid "Member for"
+msgstr ""
+
+msgid "Content type"
+msgstr ""
+
+msgid "Published"
+msgstr "Julkaistu"
+
+msgid "Unpublished"
+msgstr "Julkaisematon"
+
+msgid "Published status"
+msgstr ""
+
+msgid "Find and manage content"
+msgstr ""
+
+msgid "Recent content"
+msgstr "Tuore sisältö"
+
+msgid "Recent content."
+msgstr "Tuore sisältö."
+
+msgid ""
+"Perform administrative tasks, including adding a description and creating a "
+"clone. Click the drop-down button to view the available options."
+msgstr ""
+
+msgid "No content available."
+msgstr "Sisältöä ei saatavilla."
+
+msgid "More"
+msgstr "Lisää"
+
+msgid "Frontpage"
+msgstr "Etusivu"
+
+msgid "All content promoted to the front page."
+msgstr ""
+
+msgid ""
+"No front page content has been created yet.<br/>Follow the <a "
+"target=\"_blank\" "
+"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
+" to start building your site."
+msgstr ""
+
+msgid "Welcome to [site:name]"
+msgstr ""
+
+msgid "Name or email contains"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Permission"
+msgstr ""
+
+msgid "No people available."
+msgstr ""
+
+msgid "Glossary"
+msgstr ""
+
+msgid "All content, by letter."
+msgstr ""
+
+msgid "List"
+msgstr ""
+
+msgid "Manage user accounts, roles, and permissions."
+msgstr ""
+
+msgid "Who's new"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Last update"
+msgstr ""
+
+msgid "Attachment"
+msgstr ""
+
+msgid "Taxonomy term"
+msgstr ""
+
+msgid "Content belonging to a certain taxonomy term."
+msgstr ""
+
+msgid "Shows a list of the newest user accounts on the site."
+msgstr ""
+
+msgid "Output format"
+msgstr ""
+
+msgid "A list of new users"
+msgstr ""
+
+msgid "‹‹"
+msgstr ""
+
+msgid "{{ arguments.tid }}"
+msgstr ""
+
+msgid "Feed"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "People"
+msgstr ""
+
+msgid "Find and manage people interacting with your site."
+msgstr ""
+
+msgid ""
+"Choose how to output results. E.g., choose <em>Content</em> to output each "
+"item completely, using your configured display settings. Or choose "
+"<em>Fields</em>, which allows you to output only specific fields for each "
+"result. Additional formats can be added by installing modules to "
+"<em>extend</em> Drupal's base functionality."
+msgstr ""
+
+msgid "« First"
+msgstr ""
+
+msgid "Last »"
+msgstr ""
+
+msgid "Items per page"
+msgstr ""
+
+msgid "- All -"
+msgstr ""
+
+msgid "Offset"
+msgstr ""
+
+msgid "Bulk update"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Who's online block"
+msgstr ""
+
+msgid ""
+"Shows the user names of the most recently active users, and the total number"
+" of active users."
+msgstr ""
+
+msgid "Asc"
+msgstr ""
+
+msgid "Desc"
+msgstr ""
+
+msgid "Last access"
+msgstr ""
+
+msgid ""
+"A user is considered online for this long after they have last viewed a "
+"page."
+msgstr ""
+
+msgid "Who's online"
+msgstr ""
+
+msgid "There are currently @total users online."
+msgstr ""
+
+msgid "There are currently 0 users online."
+msgstr ""
+
+msgid "A list of users that are currently logged in."
+msgstr ""
+
+msgid "View edit page"
+msgstr ""
+
+msgid "Manage view settings"
+msgstr ""
+
+msgid "View or edit the configuration."
+msgstr ""
+
+msgid "Displays in this view"
+msgstr ""
+
+msgid ""
+"A display is a way of outputting the results, e.g., as a page or a block. A "
+"view can contain multiple displays, which are listed here. The active "
+"display is highlighted."
+msgstr ""
+
+msgid "View administration"
+msgstr ""
+
+msgid "Fields"
+msgstr ""
+
+msgid ""
+"If this view uses fields, they are listed here. You can click on a field to "
+"configure it."
+msgstr ""
+
+msgid "Filter your view"
+msgstr ""
+
+msgid ""
+"Add filters to limit the results in the output. E.g., to only show content "
+"that is <em>published</em>, you would add a filter for <em>Published</em> "
+"and select <em>Yes</em>."
+msgstr ""
+
+msgid "Filter actions"
+msgstr ""
+
+msgid "Add, rearrange or remove filters."
+msgstr ""
+
+msgid "Initializing."
+msgstr ""
+
+msgid "Starting configuration update"
+msgstr ""
+
+msgid "Comment type"
+msgstr ""
+
+msgid "Contact form"
+msgstr ""
+
+msgid "Shortcut set"
+msgstr ""
+
+msgid "Vocabulary"
+msgstr ""
+
+msgid "@type_label bundle"
+msgstr ""
+
+msgid "Custom menu link"
+msgstr ""
+
+msgid "Description"
+msgstr "Kuvaus"
+
+msgid "Text format"
+msgstr ""
+
+msgid "Image style"
+msgstr ""
+
+msgid "Search page"
+msgstr ""
+
+msgid "Menu"
+msgstr "Valikko"
+
+msgid "Taxonomy vocabulary"
+msgstr ""
+
+msgctxt "View entity type"
+msgid "View"
+msgstr ""
+
+msgid "Form mode"
+msgstr ""
+
+msgid "View mode"
+msgstr ""
+
+msgid "Date format"
+msgstr ""
+
+msgid "Token"
+msgstr ""
+
+msgid "Custom block"
+msgstr ""
+
+msgid "Unpublish"
+msgstr ""
+
+msgid "comment"
+msgstr ""
+
+msgid "content item"
+msgstr ""
+
+msgid "Publish"
+msgstr "Julkaise"
+
+msgid "Save"
+msgstr "Tallenna"
+
+msgid "File"
+msgstr ""
+
+msgid "Pathauto pattern"
+msgstr ""
+
+msgid "Update URL alias"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Synchronizing configuration: @op @name."
+msgstr ""
+
+msgid "Kirjaudu sisään"
+msgstr ""
+
+msgid "Rekisteröidy palveluun"
+msgstr ""
+
+msgid "Profiili"
+msgstr ""
+
+msgid "Kirjaudu ulos"
+msgstr ""
+
+msgid "Tapahtumakalenteri"
+msgstr ""
+
+msgid "Inaccessible"
+msgstr ""
+
+msgid "Avoindata.fi"
+msgstr ""
+
+msgid "Development version open data portal."
+msgstr "Avoimen datan portaalin kehitysversio."
+
+msgid "Read more >>"
+msgstr "Lue lisää >>"
+
+msgid "Datasets"
+msgstr "Tietoaineistoa"
+
+msgid "Organizations"
+msgstr "Organisaatiota"
+
+msgid "Applications"
+msgstr "Käyttösovellusta"
+
+msgid "<i class=\"fas\">&#xf002;</i>"
+msgstr ""
+
+msgid "Download feature"
+msgstr ""
+
+msgid "Add effect"
+msgstr ""
+
+msgid "Add and configure"
+msgstr ""
+
+msgid "Save configuration"
+msgstr ""
+
+msgid "Install and set as default"
+msgstr ""
+
+msgid "Save and add"
+msgstr ""
+
+msgid "Add another item"
+msgstr ""
+
+msgid "Update style"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Log in"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Uninstall"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+msgid "Write"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid "Rebuild"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Manage"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Recent"
+msgstr "Uusimmat"
+
+msgid "Popular"
+msgstr "Suositut"
+
+msgid "Open data categories"
+msgstr "Avoimen datan kategoriat"
+
+msgid "Utilize data sets"
+msgstr "Hyödynnä tietoaineistoja"
+
+msgid ""
+"Avoindata.fi service offers over 1000 interesting data sets available for "
+"everyone to download, inspect and use freely."
+msgstr ""
+"Avoindata.fi -palvelun yli 1000 mielenkiintoista tietoaineistoa ovat "
+"kaikkien käyttäjien vapaasti ladattavissa, tutkittavissa ja käytettävissä."
+
+msgid "Browse data sets"
+msgstr "Selaa tietoaineistoja"
+
+msgid "Offer data for use"
+msgstr "Tarjoa dataa käyttöön"
+
+msgid ""
+"Does your organization generate data, which could be useful or interesting "
+"for other users? We offer guidance and a way to distribute your data sets."
+msgstr ""
+"Tuottaako organisaatiosi dataa, joka olisi hyödyllistä tai mielenkiintoista "
+"muillekin? Saat kauttamme sekä opastusta että jakelukanavan "
+"tietoaineistoillesi."
+
+msgid "Begin data distribution"
+msgstr "Aloita datan avaaminen"
+
+msgid "Find and examine applications"
+msgstr "Löydä ja tarkastele käyttösovelluksia"
+
+msgid ""
+"Different ways of applying data bring it alive in a concrete way. You can "
+"find a collection of applications and visualizations that use open data from"
+" our gallery."
+msgstr ""
+"Data herää konkreettisesti eloon eri tavoissa soveltaa sitä. Galleriastamme "
+"löydät kokoelman avoimen datan eri sovelluksia ja visualisointeja."
+
+msgid "Application gallery"
+msgstr "Sovellusgalleria"
+
+msgid "No recently modified data sets found"
+msgstr "Hiljattain muokattuja tietoaineistoja ei löytynyt"
+
+msgid "No new data sets found"
+msgstr "Uusia tietoaineistoja ei löytynyt"
+
+msgid "No popular data sets found"
+msgstr "Suosittuja tietoaineistoja ei löytynyt"
+
+msgid "Most recent applications"
+msgstr "Tuoreimmat käyttösovellukset"
+
+msgid "Show all applications"
+msgstr "Näytä kaikki käyttösovellukset"
+
+msgid "Newsfeed"
+msgstr "Uutisvirta"
+
+msgid "All News"
+msgstr "Kaikki uutiset"
+
+msgid "Events"
+msgstr "Tapahtumat"
+
+msgid "All Events"
+msgstr "Kaikki tapahtumat"
+
+msgid ""
+"Central Open Data distribution platform for datasets released by finnish "
+"individuals, companies and public organizations."
+msgstr ""
+"Keskitetty avoimen datan jakelualusta suomalaisten yksityishenkilöiden, "
+"yritysten sekä julkisen hallinnon organisaatioiden avoimille "
+"tietoaineistoille."
+
+msgid "Service provided by Population Register Centre"
+msgstr "Palvelusta vastaa Väestörekisterikeskus"
+
+msgid "Contact"
+msgstr "Ole yhteydessä"
+
+msgid "Follow us"
+msgstr "Seuraa meitä"
+
+msgid "Error message"
+msgstr "Virhe viesti"
+
+msgid "An AJAX HTTP error occurred."
+msgstr ""
+
+msgid "HTTP Result Code: !status"
+msgstr ""
+
+msgid "An AJAX HTTP request terminated abnormally."
+msgstr ""
+
+msgid "Debugging information follows."
+msgstr ""
+
+msgid "Path: !uri"
+msgstr ""
+
+msgid "StatusText: !statusText"
+msgstr ""
+
+msgid "ResponseText: !responseText"
+msgstr ""
+
+msgid "ReadyState: !readyState"
+msgstr ""
+
+msgid "CustomMessage: !customMessage"
+msgstr ""
+
+msgid "Please wait..."
+msgstr "Odota..."
+
+msgid "The response failed verification so will not be processed."
+msgstr ""
+
+msgid "The callback URL is not local and not trusted: !url"
+msgstr ""
+
+msgid "Changed"
+msgstr ""
+
+msgid "Up to date"
+msgstr "Ajantasalla"
+
+msgid "Out of date"
+msgstr "Vanhentunut"
+
+msgid ""
+"Your site is currently configured to send these emails when any updates are "
+"available. To get notified only for security updates, @url."
+msgstr ""
+
+msgid ""
+"Unable to send email. Contact the site administrator if the problem "
+"persists."
+msgstr ""

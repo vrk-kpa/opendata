@@ -1,16 +1,15 @@
 [main]
 host = https://www.transifex.com
 
-[ytp.ckan-2-2]
-file_filter = ansible/roles/ckan/files/i18n/<lang>/LC_MESSAGES/ckan.po
-source_file = ansible/roles/ckan/files/i18n/ckan.pot
-source_lang = en
-type = PO
-
-
 [ytp.ckanext-qa]
 file_filter = ansible/roles/ckan/files/ckanext-qa/i18n/<lang>/LC_MESSAGES/ckanext-qa.po
 source_file = ansible/roles/ckan/files/ckanext-qa/i18n/ckanext-qa.pot
+source_lang = en
+type = PO
+
+[ytp.drupal8]
+file_filter = ansible/roles/drupal/files/i18n/<lang>/drupal8.po
+source_file = ansible/roles/drupal/files/i18n/drupal8.po
 source_lang = en
 type = PO
 
