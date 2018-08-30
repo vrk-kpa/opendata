@@ -31,6 +31,7 @@
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
              <th>{% trans %}User{% endtrans %}</th>
+             <th>{% trans %}Email{% endtrans %}</th>
              <th>{% trans %}Role{% endtrans %}</th>
              <th>{% trans %}Request date{% endtrans %}</th>
              <th colspan="3">{% trans %}Action{% endtrans %} </th>
@@ -42,6 +43,7 @@
           <tr>
             <td>{{ member_request.group_name }}</td>
             <td>{{ member_request.user_name }}</td>
+            <td>{{ member_request.user_email }}</td>
             <td>{{ member_request.role }}</td>
             <td>{{ member_request.request_date }}</td>
             <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
