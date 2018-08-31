@@ -375,7 +375,7 @@ def action_user_list(context, data_dict):
     if order_by == 'edits':
         query = query.order_by(_desc(
             _select([_func.count(model.Revision.id)],
-                model.Revision.author == model.User.name)))
+                    model.Revision.author == model.User.name)))
     else:
         query = query.order_by(
             _case([(

@@ -315,11 +315,13 @@ def get_visits_count_for_dataset_during_last_year(id):
 
     return len(PackageStats.get_visits_during_year(id, datetime.datetime.now().year - 1))
 
+
 def get_download_count_for_dataset_during_last_year(id):
-    # Downloads are visits for the Resource object. 
-    # This is why a 'get_visits' method is called. 
+    # Downloads are visits for the Resource object.
+    # This is why a 'get_visits' method is called.
     from ckanext.googleanalytics.model import ResourceStats
     return len(ResourceStats.get_visits_during_last_calendar_year_by_dataset_id(id))
+
 
 def get_current_date():
 
