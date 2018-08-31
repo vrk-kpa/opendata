@@ -283,10 +283,10 @@
   with_items: "{{ custom_modules }}"
 
 #TODO: This should be fixed so that it's not necessary to delete configs like this
-#- name: Delete breadcrumb settings
-#  command: ../vendor/drush/drush/drush config-delete easy_breadcrumb.settings
-#  args:
-#    chdir: "{{ drupal8_root }}/web"
+- name: Delete breadcrumb settings
+  command: ../vendor/drush/drush/drush config-delete easy_breadcrumb.settings
+  args:
+    chdir: "{{ drupal8_root }}/web"
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata
