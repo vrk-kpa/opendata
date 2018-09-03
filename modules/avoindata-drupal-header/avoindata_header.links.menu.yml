@@ -153,8 +153,8 @@ avoindata_header.news_sv:
   weight: 5
 
 avoindata_header.guide_sv:
-  title: 'Anvisningar'
-  description: 'Anvisningar'
+  title: 'Guide'
+  description: 'Guide'
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/sv/guide'
