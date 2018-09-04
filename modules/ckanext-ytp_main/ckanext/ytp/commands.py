@@ -85,7 +85,6 @@ ytp_dataset_group = paster_click_group(
     summary=u'Dataset related commands.'
 )
 
-
 @ytp_dataset_group.command(
     u'migrate',
     help=u'Migrates datasets to scheming based model'
@@ -258,3 +257,84 @@ def batch_edit(ctx, config, search_string, dryrun, group):
     else:
         if group:
             apply_group_assigns(group_assigns)
+
+ytp_org_group = paster_click_group(
+    summary=u'Organization related commands.'
+)
+@ytp_org_group.command(
+    u'migrate',
+    help=u'Migrates organizations to scheming based model'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_orgs(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    default_lang = c.get('ckan.locale_default', 'en')
+    languages = ['fi', 'en', 'sv']
+    translated_fields = ['title', 'description']
+
+    org_patches = []
+
+    for old_org_dict in org_generator():
+        print(pformat(old_org_dict))
+        flatten_extras(old_org_dict)
+
+        patch = {}
+
+        for field in translated_fields:
+            translated_field = '%s_translated' % field
+            if translated_field not in old_org_dict:
+                patch[translated_field] = { default_lang: old_org_dict[field] }
+                for language in languages:
+                    value = old_org_dict.get('%s_%s' % (field, language))
+                    if value is not None:
+                        patch[translated_field][language] = value
+
+        if 'features' not in old_org_dict:
+            # 'adminstration' is used in previous data model
+            if old_org_dict.get('public_adminstration_organization'):
+                # Required as JSON string by scheming's multi_checkbox
+                patch['features'] = '["public_administration_organization"]'
+
+        if patch:
+            patch['id'] = old_org_dict['id']
+            org_patches.append(patch)
+
+    if dryrun:
+        print '\n'.join('%s' % p for p in org_patches)
+
+    else:
+        apply_org_patches(org_patches)
+
+
+def apply_org_patches(org_patches):
+    if not org_patches:
+        print 'No patches to process.'
+    else:
+        org_patch = get_action('organization_patch')
+        context = {'ignore_auth': True}
+        for patch in org_patches:
+            try:
+                org_patch(context, patch)
+            except ValidationError as e:
+                print "Migration failed for organization %s reason:" % patch['id']
+                print e
+
+
+def org_generator():
+    context = {'ignore_auth': True}
+    org_list = get_action('organization_list')
+    orgs = org_list(context, {'all_fields': True, 'include_extras': True})
+    for org in orgs:
+        yield org
+
+def flatten_extras(o):
+    active_extras = (e for e in o.get('extras', []) if e['state'] == 'active')
+    for e in active_extras:
+        key = e['key']
+        value = e['value']
+        while key in o:
+            key = '%s_extra' % key
+        o[key] = value

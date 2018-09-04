@@ -1,0 +1,128 @@
+{
+  "scheming_version": 1,
+  "organization_type": "organization",
+  "about_url": "http://github.com/ckan/ckanext-scheming",
+  "fields": [
+    {
+      "field_name": "title_translated",
+      "label": "Title",
+      "preset": "fluent_core_title_translated",
+      "form_languages": [ "fi", "sv", "en" ],
+      "form_placeholder": "My Organization",
+      "only_default_lang_required": true,
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "validators": "not_empty unicode name_validator group_name_validator",
+      "form_snippet": "slug.html",
+      "form_placeholder": "my-organization",
+      "required": true,
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "description_translated",
+      "preset": "fluent_core_markdown_translated",
+      "only_default_lang_required": true,
+      "form_placeholder": "A little information about my organization...",
+      "form_languages": [ "fi", "sv", "en" ],
+      "label": "Description",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "homepage",
+      "display_snippet": "link.html",
+      "validators": "ignore_missing unicode",
+      "label": "Home page",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "features",
+      "preset": "multiple_checkbox",
+      "validators": "ignore_missing",
+      "choices": [
+        {
+          "value": "public_administration_organization",
+          "label": "Public administration organization"
+        }
+      ],
+      "label": "Features",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "producer_type",
+      "label": "Producer type",
+      "preset": "select",
+      "choices": [
+            {
+              "value": "civil-service",
+              "label": "Civil Service"
+            },
+            {
+              "value": "municipality",
+              "label": "Municipality / City"
+            },
+            {
+              "value": "other-public-service",
+              "label": "Other Public Service"
+            },
+            {
+              "value": "educational-research-institute",
+              "label": "Educational / Research Institute"
+            },
+            {
+              "value": "company",
+              "label": "Company"
+            },
+            {
+              "value": "individual",
+              "label": "Individual"
+            },
+            {
+              "value": "association",
+              "label": "Association"
+            }
+      ],
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "valid_from",
+      "preset": "date",
+      "validators": "keep_old_value_if_missing ignore_missing",
+      "label": "Valid from",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "valid_till",
+      "preset": "date",
+      "validators": "keep_old_value_if_missing ignore_missing",
+      "label": "Valid till",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "image_url",
+      "label": "Image URL",
+      "preset": "group_url_upload",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    }
+  ]
+}
