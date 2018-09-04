@@ -48,7 +48,6 @@
     {
       "field_name": "features",
       "preset": "multiple_checkbox",
-      "validators": "ignore_missing",
       "choices": [
         {
           "value": "public_administration_organization",

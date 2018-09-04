@@ -10,7 +10,6 @@ import validators
 
 
 import ckan.lib.base as base
-import ckan.logic.schema
 import logic as plugin_logic
 import ckan.plugins as p
 from ckan import authz as authz

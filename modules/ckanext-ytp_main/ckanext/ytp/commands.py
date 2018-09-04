@@ -85,6 +85,7 @@ ytp_dataset_group = paster_click_group(
     summary=u'Dataset related commands.'
 )
 
+
 @ytp_dataset_group.command(
     u'migrate',
     help=u'Migrates datasets to scheming based model'
@@ -258,9 +259,12 @@ def batch_edit(ctx, config, search_string, dryrun, group):
         if group:
             apply_group_assigns(group_assigns)
 
+
 ytp_org_group = paster_click_group(
     summary=u'Organization related commands.'
 )
+
+
 @ytp_org_group.command(
     u'migrate',
     help=u'Migrates organizations to scheming based model'
@@ -278,7 +282,6 @@ def migrate_orgs(ctx, config, dryrun):
     org_patches = []
 
     for old_org_dict in org_generator():
-        print(pformat(old_org_dict))
         flatten_extras(old_org_dict)
 
         patch = {}
@@ -329,6 +332,7 @@ def org_generator():
     orgs = org_list(context, {'all_fields': True, 'include_extras': True})
     for org in orgs:
         yield org
+
 
 def flatten_extras(o):
     active_extras = (e for e in o.get('extras', []) if e['state'] == 'active')
