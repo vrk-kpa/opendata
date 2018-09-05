@@ -173,7 +173,6 @@ def migrate(ctx, config, dryrun):
     if dryrun:
         print '\n'.join('%s' % p for p in package_patches)
         print '\n'.join('%s' % p for p in resource_patches)
-
     else:
         apply_patches(package_patches, resource_patches)
 
@@ -254,7 +253,6 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 
     if dryrun:
         print '\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps)
-
     else:
         if group:
             apply_group_assigns(group_assigns)
@@ -307,7 +305,6 @@ def migrate_orgs(ctx, config, dryrun):
 
     if dryrun:
         print '\n'.join('%s' % p for p in org_patches)
-
     else:
         apply_org_patches(org_patches)
 
