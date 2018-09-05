@@ -332,9 +332,7 @@
     - { key: mail, value: "{{ email_from }}"}
 
 - name: Update drupal translations
-  command: ../vendor/drush/drush/drush language:import:translations /vagrant/ansible/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
+  command: "{{ drupal8_root }}/vendor/drush/drush/drush language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
   with_items:
     - "fi"
     - "sv"
