@@ -267,6 +267,7 @@
     - pathauto ### Used for URL alias settings
     - easy_breadcrumb
     - twig_field_value
+    - disqus
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -303,6 +304,13 @@
   args:
     chdir: "{{ drupal8_root }}/web"
 
+- name: Reload custom module configurations
+  command: ../vendor/drush/drush/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item }}/config/install
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - avoindata-guide
+
 - name: Configure SMTP module settings
   command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}
   args:
@@ -314,6 +322,14 @@
     - { key: smtp_protocol, value: "tls"}
     - { key: smtp_from, value: "{{ email_from }}"}
     - { key: smtp_on, value: "true"}
+
+- name: Configure disqus module settings
+  command: ../vendor/drush/drush/drush config:set disqus.settings {{ item.key }} {{ item.value }}
+  args:
+    chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - { key: disqus_domain, value: "{{ disqus_name }}"}
+    - { key: behavior.disqus_localization, value: "true"}
 
 - name: Configure general site settings regarding email
   command: ../vendor/drush/drush/drush config:set system.site {{ item.key }} {{ item.value }}
