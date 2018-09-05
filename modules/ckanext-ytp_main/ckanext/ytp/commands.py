@@ -290,7 +290,7 @@ def migrate_orgs(ctx, config, dryrun):
                 patch[translated_field] = {default_lang: old_org_dict[field]}
                 for language in languages:
                     value = old_org_dict.get('%s_%s' % (field, language))
-                    if value is not None:
+                    if value is not None and value != "":
                         patch[translated_field][language] = value
 
         if 'features' not in old_org_dict:
