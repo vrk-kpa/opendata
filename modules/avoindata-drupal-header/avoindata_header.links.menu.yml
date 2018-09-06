@@ -43,7 +43,7 @@ avoindata_header.guide_fi:
   description: 'Opas'
   parent: main-fi
   menu_name: main-fi
-  url: 'internal:/fi/guide'
+  url: 'internal:/fi/opas'
   weight: 6
 
 avoindata_header.moreoptions_fi:
@@ -95,7 +95,7 @@ avoindata_header.news_en:
   url: 'internal:/en/articles'
   weight: 5
 
-  avoindata_header.guide_en:
+avoindata_header.guide_en:
   title: 'Guide'
   description: 'Guide'
   parent: main-en
@@ -152,9 +152,9 @@ avoindata_header.news_sv:
   url: 'internal:/sv/articles'
   weight: 5
 
-  avoindata_header.guide_sv:
-  title: 'Anvisningar'
-  description: 'Anvisningar'
+avoindata_header.guide_sv:
+  title: 'Guide'
+  description: 'Guide'
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/sv/guide'

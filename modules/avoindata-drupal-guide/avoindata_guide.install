@@ -1,0 +1,34 @@
+<?php
+
+use Drupal\node\Entity\Node;
+
+function avoindata_guide_install() {
+    // Ensure the translation fields are created in the database.
+    \Drupal::service('entity.definition_update_manager')->applyUpdates();
+    $node = Node::create([
+         'type' => 'avoindata_guide_page',
+         'langcode' => 'fi',
+         'created' => REQUEST_TIME,
+         'changed' => REQUEST_TIME,
+         'uid' => 1,
+         'title' => 'Oppaan etusivu. ',
+         'field_content' => 'Oppaan etusivun sisältö'
+         ]
+       );
+    $node->save();
+    \Drupal::service('path.alias_storage')->save("/node/" . $node->id(), "/opas", "fi");
+
+    //English translation
+    $node_en = $node->addTranslation('en');
+    $node_en->title = 'Guide frontpage';
+    $node_en->field_content = 'Guide frontpage content';
+    $node_en->save();
+    \Drupal::service('path.alias_storage')->save("/node/" . $node->id(), "/guide", "en");
+
+    //Swedish translation
+    $node_sv = $node->addTranslation('sv');
+    $node_sv->title = 'Guide startsidan';
+    $node_sv->field_content = 'Guide innehåll';
+    $node_sv->save();
+    \Drupal::service('path.alias_storage')->save("/node/" . $node->id(), "/guide", "sv");
+    }
