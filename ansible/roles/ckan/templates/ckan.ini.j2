@@ -88,7 +88,7 @@ smtp.server = {{ smtp_server_domain }}
 smtp.starttls = False
 {%- endif %}
 
-smtp.mail_from = no-reply
+smtp.mail_from = no-reply@{{ email_domain }}
 
 ckan.views.default_views = recline_grid_view
 
