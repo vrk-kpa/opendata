@@ -128,6 +128,9 @@ ckanext.ytp.theme.logos = default:opendata_fi.png avoindata_default:avoindata_fi
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}
 ckanext.cloudstorage.use_secure_urls = 1
+smtp.user = {{ secret.smtp_user }}
+smtp.password = {{ secret.smtp_password }}
+smtp.starttls = True
 {% if AWS.use_iam_role -%}
 ckanext.cloudstorage.driver_options = {}
 {%- endif %}
