@@ -166,5 +166,6 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['mid'] = obj.id
 
         member_dict['user_name'] = user.name
+        member_dict['user_email'] = user.email
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
