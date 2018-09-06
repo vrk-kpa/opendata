@@ -90,6 +90,9 @@ admin_email: vagrant@localhost
 error_email: "{{ admin_email }}"
 client_email: vagrant@localhost
 
+#smtp_server key is required by the external ckan mailer component
+smtp_server_domain: "{{ email_domain_access }}"
+
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
 certificates_path: "/etc/ssl/opendata"
@@ -165,6 +168,7 @@ AWS:
   access_key: somekey
   secret_access_key: somesecret
   ckan_s3_bucket: somebucket
+  smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
 
 debug_enabled: false
 
