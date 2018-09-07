@@ -59,6 +59,8 @@ def _translations():
     _('Links to additional information concerning the dataset.')
     _('Update frequency')
     _('A short description of how frequently the dataset will get updated.')
+    _('Features')
+    _('Members can only edit their own datasets')
 
     # Assets common terms
     _('Log in')
