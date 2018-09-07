@@ -5,6 +5,3 @@ localhost ansible_ssh_user=ubuntu ansible_connection=local
 deployment_environment_id=dev
 secrets_file_path="../../avoindata-secrets/dev/secrets.yml"
 disqus_name = "dev-avoindata-fi"
-domain_name = "dev.avoindata.fi"
-smtp_server_domain = "email-smtp.eu-west-1.amazonaws.com"
-

@@ -78,10 +78,15 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
-smtp.server = {{ email_domain_access }}
-smtp.user = {{ smtp_user }}
-smtp.password = {{ smtp_password }}
+smtp.server = {{ smtp.server_domain }}
+{% if AWS.enabled -%}
+smtp.user = {{ secret.smtp_user }}
+smtp.password = {{ secret.smtp_password }}
 smtp.starttls = True
+{%- else -%}
+smtp.starttls = False
+{%- endif %}
+
 smtp.mail_from = no-reply@{{ email_domain }}
 
 ckan.views.default_views = recline_grid_view
