@@ -7,5 +7,3 @@ secrets_file_path=does_not_exist
 deployment_environment_id=vagrant
 ssl_path=/vagrant
 disqus_name = ""
-domain_name = "localhost"
-smtp_server_domain = "localhost"

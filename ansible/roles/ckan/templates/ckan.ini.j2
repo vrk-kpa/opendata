@@ -78,13 +78,12 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
+smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
-smtp.server = {{ AWS.smtp_server_domain }}
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
 smtp.starttls = True
 {%- else -%}
-smtp.server = {{ smtp_server_domain }}
 smtp.starttls = False
 {%- endif %}
 

@@ -316,9 +316,9 @@
   args:
     chdir: "{{ drupal8_root }}/web"
   with_items:
-    - { key: smtp_username, value: "{{ smtp_user }}"}
-    - { key: smtp_password, value: "{{ smtp_password }}"}
-    - { key: smtp_host, value: "{{ email_domain_access }}"}
+    - { key: smtp_username, value: "{{ secret.smtp_user }}"}
+    - { key: smtp_password, value: "{{ secret.smtp_password }}"}
+    - { key: smtp_host, value: "{{ smtp_server_domain }}"}
     - { key: smtp_protocol, value: "tls"}
     - { key: smtp_from, value: "{{ email_from }}"}
     - { key: smtp_on, value: "true"}
