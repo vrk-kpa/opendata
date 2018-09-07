@@ -52,6 +52,10 @@
         {
           "value": "public_administration_organization",
           "label": "Public administration organization"
+        },
+        {
+          "value": "personal_datasets",
+          "label": "Members can only edit their own datasets"
         }
       ],
       "label": "Features",

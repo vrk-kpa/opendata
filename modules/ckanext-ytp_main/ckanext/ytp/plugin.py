@@ -589,7 +589,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
-                'related_create': auth.related_create}
+                'related_create': auth.related_create,
+                'package_update': auth.package_update}
 
         # IPackageController #
 
@@ -1282,7 +1283,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return {'success': False, 'msg': _('User %s is not part of any public organization')}
 
     def get_auth_functions(self):
-        return {'package_create': self._package_create, 'package_update': self._package_update,
+        return {
+                #TODO: Remove entire YTPServiceForm functionality.
+                #'package_create': self._package_create, 'package_update': self._package_update,
                 'can_create_service': self._can_create_service}
 
     # ITemplateHelpers
