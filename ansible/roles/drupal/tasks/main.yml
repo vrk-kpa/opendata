@@ -122,6 +122,11 @@
     recurse: yes
     follow: no
 
+- name: Remove composer lock file if it exists
+  file:
+     path: "{{ drupal8_root }}/composer.lock"
+     state: absent
+
 - name: Install Drupal dependencies
   become_user: "{{ www_user }}"
   composer:
