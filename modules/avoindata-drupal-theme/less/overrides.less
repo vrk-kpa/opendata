@@ -90,7 +90,7 @@ p:last-child,
 }
 
 .avoindata-fa-icon {
-  color: #182b75;;
+  color: @sidebar-block-color-header;
 }
 
 // Drupal Hero Module
@@ -114,7 +114,7 @@ p:last-child,
     color: @popularTextColor;
   }
   .avoindata-hero-search-container {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -197,7 +197,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   .avoindata-categories-container {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -230,7 +230,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   .avoindata-infobox-container {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -303,7 +303,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   .avoindata-datasetlist-container {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -335,7 +335,6 @@ p:last-child,
         }
       }
     }
-
     .avoindata-datasetlist-table {
       margin-top: 20px;
       margin-bottom: 5px;
@@ -362,7 +361,6 @@ p:last-child,
 }
 
 // Avoindata newsfeed
-
 .avoindata-newsfeed {
   padding-right: 50px;
   padding-left: 50px;
@@ -372,7 +370,7 @@ p:last-child,
 
 
   .avoindata-newsfeed-block {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -431,7 +429,7 @@ p:last-child,
   padding-bottom: 25px;
   line-height: 18px;
   .avoindata-appfeed-container {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
@@ -502,15 +500,8 @@ p:last-child,
   }
 }
 
-// Articles view
-.avoindata-articles-container {
-  max-width: 1140px;
-  float: none;
-  display: block;
-  margin: 0 auto;
-  .row {
-    margin: 0px;
-  }
+// Card container that has been used for articles and article views
+.avoindata-card-container {
   .opendata-card {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -544,11 +535,22 @@ p:last-child,
           text-decoration: none;
         }
         &:hover {
-          border-left: 8px solid #182b75;
+          border-left: 8px solid @sidebar-block-color-header;
           padding-left: 12px;
         }
       }
     }
+  }
+}
+
+// Articles view
+.avoindata-articles-container {
+  max-width: @opendata-container-max-width;
+  float: none;
+  display: block;
+  margin: 0 auto;
+  .row {
+    margin: 0px;
   }
   .avoindata-articles-nav {
     margin-top: 20px;
@@ -614,33 +616,42 @@ p:last-child,
   }
 }
 
-
-// Article page
-.avoindata-articles-container {
-  margin-bottom: 20px;
-  margin-top: 30px;
-}
-
-#article-header {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-weight: 400;
-}
-
-#article-image {
-  margin-top: 14px;
-  margin-bottom: 10px;
-}
-
-//Overrides the margin value of opendata-card
-//Purpose is to vertically align it with the picture of the article
-#article-page-opendata-card-header {
-  margin-top: 104px;
+// Single article view
+.avoindata-article-container {
+  max-width: @opendata-container-max-width;
+  float: none;
+  display: block;
+  margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  .row {
+    margin: 0px;
+  }
+  .article-header-container {
+    margin-bottom: 20px;
+    .article-header {
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+  }
+  .article-image {
+    margin-bottom: 10px;
+  }
+  .article-body {
+    margin-top: 15px;
+    margin-bottom: 40px;
+  }
+  .article-comment {
+    margin-bottom: 20px;
+  }
+  .opendata-card {
+    margin-bottom: 40px;
+  }
 }
 
 // Events page
 .avoindata-events-container {
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   float: none;
   display: block;
   margin: 0 auto;
@@ -740,13 +751,42 @@ p:last-child,
   }
 }
 
+// Event page
+.avoindata-event-container {
+  .avoindata-event-item-metainfo {
+    margin-bottom: 25px;
+    a {
+      color: #333;
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+  .content {
+    margin-bottom: 50px;
+  }
+}
+
+// Guide page
+.avoindata-guide-container {
+  max-width: @opendata-container-max-width;
+  float: none;
+  display: block;
+  margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  .row {
+    margin: 0px;
+  }
+}
+
 //Breadcrumb style, copied and modified from ckan css files
 .toolbar {
   background-color: @breadcrumb-color-background;
 }
 
 .toolbar .breadcrumb{
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   margin: 0 auto;
   float: none;
   font-size: 20px;
@@ -776,7 +816,7 @@ p:last-child,
   width: 7%;
   margin-top: 20px;
   margin-bottom: 20px;
-  border-bottom: 6px solid #182b75;
+  border-bottom: 6px solid @sidebar-block-color-header;
 }
 
 

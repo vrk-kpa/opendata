@@ -24,3 +24,30 @@ avoindata_guide.beginners_guide_en:
   url: 'internal:#'
   expanded: true
   weight: 0
+
+avoindata_guide.data_user_guide_en:
+  title: "Data user's guide"
+  description: "Data user's guide"
+  parent: guide-menu-en
+  menu_name: guide-menu-en
+  url: 'internal:#'
+  expanded: true
+  weight: 1
+
+avoindata_guide.beginners_guide_sv:
+  title: "Nybörjares guide"
+  description: "Nybörjares guide"
+  parent: guide-menu-sv
+  menu_name: guide-menu-sv
+  url: 'internal:#'
+  expanded: true
+  weight: 0
+
+avoindata_guide.data_user_guide_sv:
+  title: "Data användares guide"
+  description: "Data användares guide"
+  parent: guide-menu-sv
+  menu_name: guide-menu-sv
+  url: 'internal:#'
+  expanded: true
+  weight: 1
