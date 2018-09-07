@@ -1284,8 +1284,8 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def get_auth_functions(self):
         return {
-                #TODO: Remove entire YTPServiceForm functionality.
-                #'package_create': self._package_create, 'package_update': self._package_update,
+                # TODO: Remove entire YTPServiceForm functionality.
+                # 'package_create': self._package_create, 'package_update': self._package_update,
                 'can_create_service': self._can_create_service}
 
     # ITemplateHelpers
