@@ -6,6 +6,6 @@ vagrant=true
 secrets_file_path=does_not_exist
 deployment_environment_id=vagrant
 ssl_path=/vagrant
-disqus_name = ""
+disqus_name = "localhost-avoindata-fi"
 domain_name = "localhost"
 smtp_server_domain = "localhost"
