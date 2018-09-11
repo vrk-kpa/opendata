@@ -844,7 +844,7 @@ def _create_default_organization(context, organization_name, organization_title)
     except NotFound:
         return plugins.toolkit.get_action('organization_create')(context, values)
 
-
+# Adds new users to default organization and to every group
 def action_user_create(context, data_dict):
     _configure()
 
@@ -853,6 +853,11 @@ def action_user_create(context, data_dict):
     organization = _create_default_organization(context, _default_organization_name, _default_organization_title)
     plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'],
                                                                        "username": result['name'], "role": "editor"})
+
+    groups = plugins.toolkit.get_action('group_list')(context, {})
+
+    for group in groups:
+        plugins.toolkit.get_action('group_member_create')(context, {'id': group, 'username': result['name'], 'role': 'editor'})
 
     return result
 
