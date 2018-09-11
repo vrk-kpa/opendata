@@ -339,3 +339,34 @@ def flatten_extras(o):
         while key in o:
             key = '%s_extra' % key
         o[key] = value
+
+
+opendata_group = paster_click_group(
+    summary=u'Group related commands.'
+)
+
+@opendata_group.command(
+    u'add',
+    help="Adds all users to all groups as editors"
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def add_to_groups(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    context = {'ignore_auth': True}
+    groups = get_action('group_list')(context, {})
+    users = get_action('user_list')(context, {})
+
+    data_dicts = []
+    for group in groups:
+        for user in users:
+            data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
+
+
+    if dryrun:
+        print '\n'.join('%s' % d for d in data_dicts)
+    else:
+        for d in data_dicts:
+            get_action('group_member_create')(context, d)
