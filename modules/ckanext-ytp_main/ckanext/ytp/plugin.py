@@ -844,6 +844,7 @@ def _create_default_organization(context, organization_name, organization_title)
     except NotFound:
         return plugins.toolkit.get_action('organization_create')(context, values)
 
+
 # Adds new users to default organization and to every group
 def action_user_create(context, data_dict):
     _configure()

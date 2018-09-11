@@ -345,6 +345,7 @@ opendata_group = paster_click_group(
     summary=u'Group related commands.'
 )
 
+
 @opendata_group.command(
     u'add',
     help="Adds all users to all groups as editors"
@@ -363,7 +364,6 @@ def add_to_groups(ctx, config, dryrun):
     for group in groups:
         for user in users:
             data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
-
 
     if dryrun:
         print '\n'.join('%s' % d for d in data_dicts)
