@@ -106,6 +106,7 @@
     - "{{ cache_path }}/drupal"
     - "/var/www/.composer"
     - "{{ drupal8_root }}"
+    - "{{ drupal8_root }}/site_config"
 
 
 - name: Synchronize drupal8 project
@@ -324,25 +325,19 @@
   with_items:
     - avoindata-guide
 
-- name: Configure SMTP module settings
-  command: ../vendor/drush/drush/drush config:set smtp.settings {{ item.key }} {{ item.value }}
-  args:
-    chdir: "{{ drupal8_root }}/web"
+- name: Copy setting template files
+  template:
+    src: "drupal_site_config/{{ item.src }}"
+    dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
   with_items:
-    - { key: smtp_username, value: "{{ secret.smtp_user }}"}
-    - { key: smtp_password, value: "{{ secret.smtp_password }}"}
-    - { key: smtp_host, value: "{{ smtp_server_domain }}"}
-    - { key: smtp_protocol, value: "tls"}
-    - { key: smtp_from, value: "{{ email_from }}"}
-    - { key: smtp_on, value: "true"}
+    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
+    - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
+    - { src: user.settings.yml.j2, dest: user.settings.yml }
 
-- name: Configure disqus module settings
-  command: ../vendor/drush/drush/drush config:set disqus.settings {{ item.key }} {{ item.value }}
+- name: Import drupal settings
+  command: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
   args:
-    chdir: "{{ drupal8_root }}/web"
-  with_items:
-    - { key: disqus_domain, value: "{{ disqus_name }}"}
-    - { key: behavior.disqus_localization, value: "true"}
+    chdir: "{{ drupal8_root }}"
 
 - name: Configure general site settings regarding email
   command: ../vendor/drush/drush/drush config:set system.site {{ item.key }} {{ item.value }}
