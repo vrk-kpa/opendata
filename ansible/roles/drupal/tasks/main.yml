@@ -331,7 +331,8 @@
     dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
   with_items:
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
-    - { src: disqus.settings.yml.j2, dest: disqus.settings.yml}
+    - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
+    - { src: user.settings.yml.j2, dest: user.settings.yml }
 
 - name: Import drupal settings
   command: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
