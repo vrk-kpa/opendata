@@ -243,14 +243,14 @@ def only_default_lang_required(field, schema):
                 errors[key].append(_('expecting JSON object'))
                 return
 
-            if field.get('only_default_lang_required') is not None and value.get(default_lang) is None:
+            if field.get('only_default_lang_required') is True and value.get(default_lang, '') == '':
                 errors[key].append(_('Required language "%s" missing') % default_lang)
             return
 
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        if extras.get(prefix + default_lang) == '' or extras.get(prefix + default_lang) is None:
+        if extras.get(prefix + default_lang, '') == '':
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return validator
