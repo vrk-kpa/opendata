@@ -1,0 +1,6 @@
+smtp_on: true
+smtp_host: {{ smtp_server_domain }}
+smtp_protocol: tls
+smtp_username: {{ secret.smtp_user }}
+smtp_password: {{ secret.smtp_password }}
+smtp_from: {{ email_from }}
