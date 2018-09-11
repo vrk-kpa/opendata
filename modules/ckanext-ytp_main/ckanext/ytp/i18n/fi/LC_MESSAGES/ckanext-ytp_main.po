@@ -842,7 +842,7 @@ msgstr ""
 #: ckanext/ytp/validators.py:247 ckanext/ytp/validators.py:254
 #, python-format
 msgid "Required language \"%s\" missing"
-msgstr ""
+msgstr "Vaadittu käännös \"%s\" puuttuu"
 
 #: ckanext/ytp/public/javascript/translations.js:4
 #: ckanext/ytp/templates/organization/member_new.html:27
