@@ -4,3 +4,4 @@ localhost ansible_ssh_user=ubuntu ansible_connection=local
 [mainserver:vars]
 deployment_environment_id=infratest
 secrets_file_path="../../avoindata-secrets/infratest/secrets.yml"
+disqus_name = ""
