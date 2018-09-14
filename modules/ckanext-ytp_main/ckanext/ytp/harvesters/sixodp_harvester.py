@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 DATETIME_FORMATS = [
         '%Y-%m-%dT%H:%M:%S.%f%z',
+        '%Y-%m-%dT%H:%M:%S.%f',
         '%Y-%m-%dT%H:%M:%S%z',
         '%Y-%m-%dT%H:%M:%S',
         '%Y-%m-%dT%H:%M',
@@ -232,7 +233,7 @@ class SixodpHarvester(HarvesterBase):
                 except NotFound:
                     raise ValueError('User not found')
 
-            for key in ('read_only', 'force_all', 'validate_packages'):
+            for key in ('read_only', 'force_all', 'validate_packages', 'delete_missing'):
                 if key in config_obj:
                     if not isinstance(config_obj[key], bool):
                         raise ValueError('%s must be boolean' % key)
@@ -264,12 +265,14 @@ class SixodpHarvester(HarvesterBase):
             fq_terms.extend(
                 '-organization:%s' % org_name for org_name in org_filter_exclude)
 
+        force_all = self.config.get('force_all', False)
+        delete_missing = self.config.get('delete_missing', False)
+
         # Ideally we can request from the remote CKAN only those datasets
         # modified since the last completely successful harvest.
         last_error_free_job = self.last_error_free_job(harvest_job)
         log.debug('Last error-free job: %r', last_error_free_job)
-        if (last_error_free_job and
-                not self.config.get('force_all', False)):
+        if last_error_free_job and not (force_all or delete_missing):
             get_all_packages = False
 
             # Request only the datasets modified since
@@ -313,11 +316,27 @@ class SixodpHarvester(HarvesterBase):
                     'terms:%s' % (e, remote_ckan_base_url, fq_terms),
                     harvest_job)
                 return None
+
         if not pkg_dicts:
             self._save_gather_error(
                 'No datasets found at CKAN: %s' % remote_ckan_base_url,
                 harvest_job)
             return []
+
+        deleted_ids = set()
+        if delete_missing:
+            received_ids = set(unicode(p['id']) for p in pkg_dicts)
+            existing_ids = set(row[0] for row in model.Session.query(HarvestObject.guid)
+                    .filter(HarvestObject.current == True)
+                    .filter(HarvestObject.harvest_source_id == harvest_job.source_id))
+            deleted_ids = existing_ids - received_ids
+
+            # We needed all the packages to determine the deleted ones,
+            # but unless we really want to reimport everything,
+            # we need to filter the package list here
+            if not force_all:
+                changes_since = last_error_free_job.gather_started - datetime.timedelta(hours=1)
+                pkg_dicts = [p for p in pkg_dicts if parse_datetime(p['metadata_modified']) > changes_since]
 
         # Create harvest objects for each dataset
         try:
@@ -337,6 +356,12 @@ class SixodpHarvester(HarvesterBase):
                 obj = HarvestObject(guid=pkg_dict['id'],
                                     job=harvest_job,
                                     content=json.dumps(pkg_dict))
+                obj.save()
+                object_ids.append(obj.id)
+
+            for deleted_id in deleted_ids:
+                log.debug('Creating deleting HarvestObject for %s', deleted_id)
+                obj = HarvestObject(guid=deleted_id, job=harvest_job, content='{"id":"%s", "delete":true}' % deleted_id)
                 obj.save()
                 object_ids.append(obj.id)
 
@@ -443,6 +468,10 @@ class SixodpHarvester(HarvesterBase):
 
         try:
             package_dict = json.loads(harvest_object.content)
+
+            if package_dict.get('delete', False):
+                get_action('package_delete')(base_context.copy(), {'id': package_dict['id']})
+                return
 
             if package_dict.get('type') == 'harvest':
                 log.warn('Remote dataset is a harvest source, ignoring...')
