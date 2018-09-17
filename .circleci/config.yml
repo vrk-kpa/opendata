@@ -35,8 +35,23 @@ jobs:
             . venv/bin/activate
             flake8 modules --max-line-length=140
 
+  run-ansible-lint:
+    docker:
+      - image: circleci/python
+
+    steps:
+      - checkout
+
+      - run: sudo pip install ansible-lint
+
+      - run:
+          name: Run ansible-lint for single-server.yml
+          command: ansible-lint single-server.yml
+          working_directory: ~/project/ansible/
+
 workflows:
   version: 2
   lint-all:
     jobs:
       - run-flake8
+      - run-ansible-lint
