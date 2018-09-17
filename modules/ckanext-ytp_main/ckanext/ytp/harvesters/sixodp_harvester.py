@@ -327,7 +327,7 @@ class SixodpHarvester(HarvesterBase):
         if delete_missing:
             received_ids = set(unicode(p['id']) for p in pkg_dicts)
             existing_ids = set(row[0] for row in model.Session.query(HarvestObject.guid)
-                               .filter(HarvestObject.current is True)
+                               .filter(HarvestObject.current == True) # noqa
                                .filter(HarvestObject.harvest_source_id == harvest_job.source_id))
             deleted_ids = existing_ids - received_ids
 
