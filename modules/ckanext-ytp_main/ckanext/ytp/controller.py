@@ -625,7 +625,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/user_list.html')
+        return self._render_template('group/user_list.html', 'group')
 
     def admin_list(self):
         if c.userobj and c.userobj.sysadmin:
@@ -654,7 +654,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/admin_list.html')
+        return self._render_template('group/admin_list.html', 'group')
 
     def read(self, id, limit=20):
         group_type = self._ensure_controller_matches_group_type(
