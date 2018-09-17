@@ -1,0 +1,23 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_basic_page_comments
+    - node.type.page
+  module:
+    - disqus
+id: node.page.field_basic_page_comments
+field_name: field_basic_page_comments
+entity_type: node
+bundle: page
+label: 'Basic page comments'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    status: 1
+    identifier: ''
+default_value_callback: ''
+settings: {  }
+field_type: disqus_comment

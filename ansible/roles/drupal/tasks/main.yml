@@ -297,11 +297,20 @@
     chdir: "{{ drupal8_root }}/web"
   with_items: "{{ custom_modules }}"
 
-#TODO: This should be fixed so that it's not necessary to delete configs like this
-- name: Delete breadcrumb settings
-  command: ../vendor/drush/drush/drush config-delete easy_breadcrumb.settings
+# Some configurations need to be removed to avoid conflicts at the next step
+# To avoid failure with clean installs, error about trying to remove a non-existing
+# configuration is ignored. As a result, it is important to carefully check the
+# spelling of configurations. 
+- name: Delete existing configurations
+  command: ../vendor/drush/drush/drush config-delete {{ item }}
+  register: result
+  failed_when:
+    - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr 
   args:
     chdir: "{{ drupal8_root }}/web"
+  with_items:
+    - easy_breadcrumb.settings
+    - node.type.page
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata
