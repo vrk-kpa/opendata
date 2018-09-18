@@ -85,19 +85,6 @@
   - modules
   - translations
 
-# - name: Extract modules
-#   shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
-#   when: modules_copy is changed
-#   with_flattened:
-#     - "{{ modules }}"
-#   tags:
-#   - common
-#   - ckan
-#   - drupal
-#   - resources
-#   - modules
-#   - translations
-
 # Web resources
 
 - name: Ensure www path is present
@@ -122,10 +109,15 @@
   npm:
     name: gulp-cli
     global: yes
-  when: modules_copy is changed
-  state: present
   tags:
-  - resources
+  - gulp
+
+- name: Run Gulp on YTP Assets
+  command: gulp
+  args:
+    chdir: ../modules/ytp-assets-common
+  tags:
+  - gulp
 
 - name: Ensure resource dependencies path is present
   file:
@@ -150,23 +142,10 @@
     chdir: "{{cache_path}}/resource-dependencies"
   when: modules_copy is changed
 
-# - name: Install resource dependencies
-#   npm: path={{cache_path}}/resource-dependencies state=present
-#   when: modules_copy is changed
-#   tags:
-#   - resources
-
-- name: Generate resources
-  command: "gulp chdir={{cache_path}}/resource-dependencies"
-  when: modules_copy is changed
-  tags:
-  - resources
-
 - name: Copy resources
   shell: cp -R {{ cache_path }}/resource-dependencies/resources /var/www/resources
   when: modules_copy is changed
   tags:
   - resources
-
 
 - include: pip.yml
