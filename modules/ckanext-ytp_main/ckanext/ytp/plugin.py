@@ -1365,7 +1365,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                   menu.UserMenu, menu.MyPersonalDataMenu),
                  (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
-                 (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
+                 (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
                   menu.PublishMenu, menu.PublishDataMenu),
                  (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',

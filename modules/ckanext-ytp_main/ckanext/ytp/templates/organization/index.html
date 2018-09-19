@@ -15,9 +15,19 @@
     {% endif %}
     {% if h.is_sysadmin() %}
         <div class="btn-group">
-            <a href="/data/{{ h.lang() }}/user_list" class="btn btn-primary">{{ _('Users') }}</a>
+            <a href="/data/{{ h.lang() }}/user_list" class="btn btn-primary">
+                <i class="fas fa-user-circle"></i>
+                {{ _('Users') }}
+            </a>
         </div>
     {% endif %}
 
-    {{ super() }}
+    {% if h.check_access('organization_create') %}
+        <div class="btn-group">
+            <a href="/data/{{ h.lang() }}/organization/new" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                {{ _('Add Organization') }}
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}
