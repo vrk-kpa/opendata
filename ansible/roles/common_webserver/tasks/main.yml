@@ -112,13 +112,6 @@
   tags:
   - gulp
 
-- name: Run Gulp on YTP Assets
-  command: gulp
-  args:
-    chdir: ../modules/ytp-assets-common
-  tags:
-  - gulp
-
 - name: Ensure resource dependencies path is present
   file:
     path: "{{ cache_path }}/resource-dependencies"
@@ -141,6 +134,23 @@
   args:
     chdir: "{{cache_path}}/resource-dependencies"
   when: modules_copy is changed
+
+- name: Symlink avoindata drupal theme to cache folder
+  file:
+    state: link
+    src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
+    dest: "{{ cache_path }}/avoindata-drupal-theme"
+    force: yes
+  tag:
+  - drupal
+  - gulp
+
+- name: Run gulp
+  command: gulp
+  args:
+    chdir: "{{ cache_path }}/resource-dependencies"
+  tags:
+  - gulp
 
 - name: Copy resources
   shell: cp -R {{ cache_path }}/resource-dependencies/resources /var/www/resources
