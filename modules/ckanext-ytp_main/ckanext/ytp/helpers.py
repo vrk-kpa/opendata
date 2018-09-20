@@ -21,7 +21,19 @@ def _markdown(translation, length):
         helpers.render_markdown(translation)
 
 
+def get_field(obj_or_dict, field, default=None):
+    if isinstance(obj_or_dict, dict):
+        return obj_or_dict.get(field, default)
+    elif hasattr(obj_or_dict, field):
+        return getattr(obj_or_dict, field)
+    else:
+        return obj_or_dict.extras.get(field, default)
+
+
 def get_translation(translated):
+    if isinstance(translated, unicode):
+        translated = get_json_value(translated)
+
     if isinstance(translated, dict):
         language = i18n.get_lang()
         if language in translated:
@@ -34,9 +46,11 @@ def get_translation(translated):
 
 def get_translated(data_dict, field):
     translated_variant = '%s_translated' % field
-    translated_field = translated_variant if translated_variant in data_dict else field
-    translated = data_dict.get(translated_field)
-    return get_translation(translated) or data_dict.get(field)
+    translated = get_field(data_dict, translated_variant)
+    if translated:
+        return get_translation(translated) or get_field(data_dict, field)
+    else:
+        get_field(data_dict, field)
 
 
 # Copied from core ckan to call overridden get_translated
