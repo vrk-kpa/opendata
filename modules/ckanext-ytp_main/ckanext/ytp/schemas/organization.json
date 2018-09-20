@@ -26,6 +26,11 @@
       }
     },
     {
+      "field_name": "parent_org",
+      "form_snippet": "org_hierarchy.html",
+      "label": "Parent organization"
+    },
+    {
       "field_name": "description_translated",
       "preset": "fluent_core_markdown_translated",
       "only_default_lang_required": true,
