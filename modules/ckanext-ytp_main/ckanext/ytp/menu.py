@@ -156,11 +156,13 @@ class PostitNewMenu(MenuItem):
     def link(self):
         return helpers.url_for('/postit/new')
 
+
 class EmptyMenu(RootMenuItem):
     def __init__(self, plugin):
         super(EmptyMenu, self).__init__(plugin)
         self.children = []
-        
+
+
 class ProducersMenu(RootMenuItem):
     def __init__(self, plugin):
         super(ProducersMenu, self).__init__(plugin)
