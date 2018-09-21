@@ -21,9 +21,15 @@ class CategoriesBlock extends BlockBase {
    */
   public function build() {
     $client = \Drupal::httpClient();
-    $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
-    $result = Json::decode($response->getBody());
-    $categories = $result['result'];
+
+    try {
+      $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
+      $result = Json::decode($response->getBody());
+      $categories = $result['result'];
+    } catch (\Exception $e) {
+      $categories = NULL;
+    }
+    
     return array(
       '#theme' => 'avoindata_categories',
       '#categories' => $categories,
