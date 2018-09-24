@@ -1,23 +1,12 @@
 {% extends "sixodp_showcasesubmit/base.html" %}
 
+{% block breadcrumb_content %}
+  <li>{{ h.nav_link(_('Showcases'), named_route='ckanext_showcase_index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcase submit'), controller='ckanext.sixodp_showcasesubmit.controller:Sixodp_ShowcasesubmitController', action='index') }}</li>
+{% endblock %}
+
+
 {% block pre_primary %}
-  <div class="page-hero"></div>
-
-  {% block toolbar %}
-    <div class="toolbar">
-      <div class="container">
-        {% block breadcrumb %}
-          {% if self.breadcrumb_content() | trim %}
-            <ol class="breadcrumb">
-              {% snippet 'snippets/home_breadcrumb_item.html' %}
-              {% block breadcrumb_content %}{% endblock %}
-            </ol>
-          {% endif %}
-        {% endblock %}
-      </div>
-    </div>
-  {% endblock %}
-
   <div class="container">
     <div class="module-content main-content">
       {% block pre_primary_content %}
