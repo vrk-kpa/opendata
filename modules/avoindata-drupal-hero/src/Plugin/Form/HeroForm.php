@@ -23,17 +23,29 @@ class HeroForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $client = \Drupal::httpClient();
 
-    $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_list');
-    $datasetResult = Json::decode($datasetResponse->getBody());
-    $datasetCount = count($datasetResult['result']);
+    try {
+      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_list');
+      $datasetResult = Json::decode($datasetResponse->getBody());
+      $datasetCount = count($datasetResult['result']);
+    } catch (\Exception $e) {
+      $datasetCount = 0;
+    }
 
-    $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
-    $organizationResult = Json::decode($organizationResponse->getBody());
-    $organizationCount = count($datasetResult['result']);
+    try {
+      $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
+      $organizationResult = Json::decode($organizationResponse->getBody());
+      $organizationCount = count($datasetResult['result']);
+    } catch (\Exception $e) {
+      $organizationCount = 0;
+    }
 
-    $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
-    $applicationResult = Json::decode($applicationResponse->getBody());
-    $applicationCount = count($datasetResult['result']);
+    try {
+      $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
+      $applicationResult = Json::decode($applicationResponse->getBody());
+      $applicationCount = count($datasetResult['result']);
+    } catch (\Exception $e) {
+      $applicationCount = 0;
+    }
 
     $form['datasetcount'] = array(
       '#markup' => $datasetCount,
