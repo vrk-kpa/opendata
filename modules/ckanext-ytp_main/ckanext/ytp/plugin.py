@@ -838,7 +838,11 @@ def _user_has_organization(username):
 
 
 def _create_default_organization(context, organization_name, organization_title):
-    values = {'name': organization_name, 'title': organization_title, 'id': organization_name}
+    default_locale = _get_variable(config, 'default_locale')
+    values = {'name': organization_name,
+              'title': organization_title,
+              'title_translated': {default_locale: organization_title},
+              'id': organization_name}
     try:
         return plugins.toolkit.get_action('organization_show')(context, values)
     except NotFound:
