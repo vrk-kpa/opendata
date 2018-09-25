@@ -48,7 +48,7 @@
     {
       "preset_name": "organization_slug",
       "values": {
-        "validators": "not_empty unicode name_validator organization_name_validator",
+        "validators": "not_empty unicode name_validator group_name_validator",
         "form_snipper": "slug.html"
       }
     },
