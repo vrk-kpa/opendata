@@ -23,6 +23,7 @@ function avoindata_events_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'searchterm' => NULL,
         'sort' => NULL,
+        'showpast' => NULL,
         'events' => NULL,
         'language' => NULL,
       ),
