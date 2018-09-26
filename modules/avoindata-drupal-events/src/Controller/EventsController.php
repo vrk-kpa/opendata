@@ -13,7 +13,7 @@ use Drupal\Core\Datetime\DrupalDateTime;
 class EventsController extends ControllerBase {
   public function events(Request $request) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $currentDateTime = new DrupalDateTime('now');
+    $currentDateTime = new DrupalDateTime('today');
     $currentDateTime->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
     $formattedcurrentDateTime = $currentDateTime->format(DATETIME_DATETIME_STORAGE_FORMAT);
 
