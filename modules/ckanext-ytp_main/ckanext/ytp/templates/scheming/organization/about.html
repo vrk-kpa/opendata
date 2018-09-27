@@ -1,0 +1,12 @@
+{% extends "organization/about.html" %}
+
+{% block primary_content_inner %}
+<dl>
+{% for f in c.scheming_fields %}
+{% if f.field_name in c.group_dict and c.group_dict[f.field_name] %}
+<dt>{{ h.scheming_language_text(f.label) }}:</dt>
+<dd>{{ h.scheming_language_text(c.group_dict[f.field_name]) or ("&nbsp;"|safe) }}</dd>
+{% endif %}
+{% endfor %}
+</dl>
+{% endblock %}
