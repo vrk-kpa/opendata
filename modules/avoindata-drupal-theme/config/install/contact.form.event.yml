@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: event
+label: Event
+recipients:
+  - admin@avoindata.fi
+reply: ''
+weight: 0
+message: 'Event submission received.'
+redirect: /
