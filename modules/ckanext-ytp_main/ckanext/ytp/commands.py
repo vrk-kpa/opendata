@@ -292,6 +292,8 @@ def migrate_orgs(ctx, config, dryrun):
                     value = old_org_dict.get('%s_%s' % (field, language))
                     if value is not None and value != "":
                         patch[translated_field][language] = value
+            else:
+                patch[field] = old_org_dict[translated_field].get(default_lang)
 
         if 'features' not in old_org_dict:
             # 'adminstration' is used in previous data model

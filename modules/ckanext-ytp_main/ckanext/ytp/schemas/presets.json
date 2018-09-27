@@ -129,7 +129,7 @@
         "form_snippet": "fluent_title.html",
         "display_snippet": "fluent_text.html",
         "error_snippet": "fluent_text.html",
-        "validators": "fluent_text only_default_lang_required ",
+        "validators": "fluent_text only_default_lang_required override_field_with_default_translation(title)",
         "output_validators": "fluent_core_translated_output",
         "form_attrs": {
           "data-module": "slug-preview-target"
