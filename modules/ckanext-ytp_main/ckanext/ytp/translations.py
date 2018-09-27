@@ -61,6 +61,18 @@ def _translations():
     _('A short description of how frequently the dataset will get updated.')
     _('Features')
     _('Members can only edit their own datasets')
+    _('Home page')
+
+    # Values
+    _('public_administration_organization')
+    _('personal_datasets')
+    _('civil-service')
+    _('municipality')
+    _('other-public-service')
+    _('educational-research-institute')
+    _('company')
+    _('individual')
+    _('association')
 
     # Assets common terms
     _('Log in')
