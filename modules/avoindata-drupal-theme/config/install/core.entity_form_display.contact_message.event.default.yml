@@ -1,0 +1,92 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.event
+    - field.field.contact_message.event.field_event_submit_address
+    - field.field.contact_message.event.field_event_submit_end_time
+    - field.field.contact_message.event.field_event_submit_link
+    - field.field.contact_message.event.field_event_submit_picture
+    - field.field.contact_message.event.field_event_submit_start_time
+    - image.style.thumbnail
+  module:
+    - datetime
+    - image
+    - link
+id: contact_message.event.default
+targetEntityType: contact_message
+bundle: event
+mode: default
+content:
+  copy:
+    weight: 50
+    region: content
+  field_event_submit_address:
+    weight: 57
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_event_submit_end_time:
+    weight: 53
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_event_submit_link:
+    weight: 55
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_event_submit_picture:
+    weight: 54
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_event_submit_start_time:
+    weight: 52
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  mail:
+    weight: -40
+    region: content
+  message:
+    type: string_textarea
+    weight: 0
+    settings:
+      rows: 12
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  name:
+    weight: -50
+    region: content
+  preview:
+    weight: 40
+    region: content
+  subject:
+    type: string_textfield
+    weight: -10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

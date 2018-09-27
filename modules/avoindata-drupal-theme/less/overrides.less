@@ -821,7 +821,7 @@ p:last-child,
 
 .user-login-form, .user-pass, .user-register-form, {
   margin: 2em auto;
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   .form-group, p {
     margin-left: 16px;
     max-width: 25em;
@@ -834,4 +834,12 @@ p:last-child,
     margin-top: 20px;
     margin-bottom: 20px;
   }    
+}
+
+// Contact form container (eg. submit an event form)
+.contact-container {
+  max-width: @opendata-container-max-width;
+  float: none;
+  display: block;
+  margin: 0 auto;
 }
