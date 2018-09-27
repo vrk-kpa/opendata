@@ -64,7 +64,7 @@
   padding-left: 0;
 
   .module {
-    padding: 4px 22px 6px 0px;
+    padding: 4px 22px 15px 0px;
     border-top: 6px solid @sidebar-block-color-header;
     border-radius: 2px;
     background-color: @sidebar-block-color-background;
@@ -141,6 +141,11 @@
     background-color: transparent;
   }
 }
+//In the resources view, the current resource is active and
+//it shouldn't be blue
+.resources .nav-simple > li.active {
+  color: #020202;
+}
 
 .module-narrow .nav-aside li a,
 .module-narrow .nav-item > a {
@@ -157,7 +162,7 @@
 
 .module-narrow {
   .list-unstyled {
-    padding-left: 20px;
+    padding-left: 0px;
   }
 }
 
@@ -608,7 +613,7 @@ textarea {
 }
 
 .opendata-card {
-  padding: 4px 22px 6px 0px;
+  padding: 4px 22px 15px 0px;
   border-top: 6px solid @sidebar-block-color-header;
   border-radius: 2px;
   background-color: @resource-list-background;
@@ -623,4 +628,13 @@ textarea {
   border-radius: 3px;
   background-color: @btn-dark-bg;
   color: @btn-dark-text-color;
+}
+
+.module-narrow .license-title-text {
+  padding-left: 28px;
+}
+
+.technical-extra-information-collapsible-heading {
+  cursor: pointer;
+  display: inline;
 }
