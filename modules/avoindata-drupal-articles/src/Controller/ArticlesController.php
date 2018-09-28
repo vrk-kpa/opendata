@@ -3,14 +3,17 @@
 namespace Drupal\avoindata_articles\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\taxonomy\Entity\Term;
 
 class ArticlesController extends ControllerBase {
-  public function articles($searchterm) {
+  public function articles(Request $request) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    
+    $searchterm = $request->query->get('search');
 
     $articleNodeIdsTitleQuery = \Drupal::entityQuery('node')
     ->condition('type', 'avoindata_article')

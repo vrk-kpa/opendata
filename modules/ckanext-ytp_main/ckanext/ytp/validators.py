@@ -273,6 +273,43 @@ def override_field(overridden_field_name):
     return implementation
 
 
+def override_field_with_default_translation(overridden_field_name):
+    @scheming_validator
+    def implementation(field, schema):
+
+        from ckan.lib.navl.dictization_functions import missing
+
+        default_lang = config.get('ckan.locale_default', 'en')
+
+        def validator(key, data, errors, context):
+            value = data[key]
+            override_value = missing
+
+            if value is not missing:
+                if isinstance(value, basestring):
+                    try:
+                        value = json.loads(value)
+                    except ValueError:
+                        errors[key].append(_('Failed to decode JSON string'))
+                        return
+                    except UnicodeDecodeError:
+                        errors[key].append(_('Invalid encoding for JSON string'))
+                        return
+                if not isinstance(value, dict):
+                    errors[key].append(_('expecting JSON object'))
+                    return
+
+                override_value = value.get(default_lang, missing)
+
+            if override_value not in (None, missing):
+                overridden_key = tuple(overridden_field_name.split('.'))
+                data[overridden_key] = override_value
+
+        return validator
+
+    return implementation
+
+
 @scheming_validator
 def keep_old_value_if_missing(field, schema):
     from ckan.lib.navl.dictization_functions import missing, flatten_dict

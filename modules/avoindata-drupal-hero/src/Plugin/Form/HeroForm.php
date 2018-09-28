@@ -24,9 +24,9 @@ class HeroForm extends FormBase {
     $client = \Drupal::httpClient();
 
     try {
-      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_list');
+      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_search');
       $datasetResult = Json::decode($datasetResponse->getBody());
-      $datasetCount = count($datasetResult['result']);
+      $datasetCount = $datasetResult['result']['count'];
     } catch (\Exception $e) {
       $datasetCount = 0;
     }
@@ -34,7 +34,7 @@ class HeroForm extends FormBase {
     try {
       $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
       $organizationResult = Json::decode($organizationResponse->getBody());
-      $organizationCount = count($datasetResult['result']);
+      $organizationCount = count($organizationResult['result']);
     } catch (\Exception $e) {
       $organizationCount = 0;
     }
@@ -42,7 +42,7 @@ class HeroForm extends FormBase {
     try {
       $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
       $applicationResult = Json::decode($applicationResponse->getBody());
-      $applicationCount = count($datasetResult['result']);
+      $applicationCount = count($applicationResult['result']);
     } catch (\Exception $e) {
       $applicationCount = 0;
     }

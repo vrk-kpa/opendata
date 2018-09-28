@@ -20,8 +20,8 @@ function searchArticlesOnEnter() {
 function searchArticlesSubmit() {
   var searchInput = document.getElementById('avoindata-articles-search-input');
   if(searchInput.value) {
-    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles/' + searchInput.value);
+    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles?search=' + searchInput.value);
   } else {
-    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles/');
+    window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles');
   }
 }

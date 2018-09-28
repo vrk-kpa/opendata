@@ -34,8 +34,8 @@
 // Avoindata navbars
 @import "@{common-less}/navbars";
 
-//Guide styles
-@import "@{common-less}/drupal/guide.less";
+// Guide styles
+@import "guide.less";
 
 body {
   margin: 0px;
@@ -524,7 +524,7 @@ p:last-child,
     }
     .opendata-card-content {
       margin-top: 15px;
-      .avoindata-news-category-list-item {
+      .avoindata-card-list-item {
         margin-left: 0px;
         padding-left: 20px;
         padding-top: 12px;
@@ -819,14 +819,29 @@ p:last-child,
   border-bottom: 6px solid @sidebar-block-color-header;
 }
 
-.user-login-form, .user-pass {
+.user-login-form, .user-pass, .user-register-form, {
   margin: 2em auto;
-  max-width: 1140px;
-
+  max-width: @opendata-container-max-width;
   .form-group, p {
     margin-left: 16px;
     max-width: 25em;
   }
+  .panel {
+    margin-left: 16px;
+  }
+  .g-recaptcha {
+    margin-left: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }    
+}
+
+// Contact form container (eg. submit an event form)
+.contact-container {
+  max-width: @opendata-container-max-width;
+  float: none;
+  display: block;
+  margin: 0 auto;
 }
 
 //Overrides navbar-collapse padding
@@ -834,3 +849,9 @@ p:last-child,
   padding-left: 0px; 
 }
 
+.views-element-container {
+  margin-bottom: 0;
+  .feed-icons {
+    display: none;
+  }
+}

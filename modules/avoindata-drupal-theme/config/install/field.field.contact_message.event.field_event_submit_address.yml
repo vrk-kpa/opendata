@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.event
+    - field.storage.contact_message.field_event_submit_address
+id: contact_message.event.field_event_submit_address
+field_name: field_event_submit_address
+entity_type: contact_message
+bundle: event
+label: Address
+description: 'Where the event is located'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

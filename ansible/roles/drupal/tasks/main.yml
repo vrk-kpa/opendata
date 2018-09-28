@@ -282,6 +282,7 @@
     - easy_breadcrumb
     - twig_field_value
     - disqus
+    - recaptcha
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -342,6 +343,9 @@
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
     - { src: user.settings.yml.j2, dest: user.settings.yml }
+    - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
+    - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
+    - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
 
 - name: Import drupal settings
   command: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config

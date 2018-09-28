@@ -659,6 +659,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'only_default_lang_required': validators.only_default_lang_required,
             'keep_old_value_if_missing': validators.keep_old_value_if_missing,
             'override_field': validators.override_field,
+            'override_field_with_default_translation': validators.override_field_with_default_translation,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime
         }
 
@@ -838,7 +839,11 @@ def _user_has_organization(username):
 
 
 def _create_default_organization(context, organization_name, organization_title):
-    values = {'name': organization_name, 'title': organization_title, 'id': organization_name}
+    default_locale = _get_variable(config, 'default_locale')
+    values = {'name': organization_name,
+              'title': organization_title,
+              'title_translated': {default_locale: organization_title},
+              'id': organization_name}
     try:
         return plugins.toolkit.get_action('organization_show')(context, values)
     except NotFound:
@@ -1365,7 +1370,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                   menu.UserMenu, menu.MyPersonalDataMenu),
                  (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
-                 (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
+                 (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
                   menu.PublishMenu, menu.PublishDataMenu),
                  (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',

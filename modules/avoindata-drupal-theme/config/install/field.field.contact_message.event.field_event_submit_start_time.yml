@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.event
+    - field.storage.contact_message.field_event_submit_start_time
+  module:
+    - datetime
+id: contact_message.event.field_event_submit_start_time
+field_name: field_event_submit_start_time
+entity_type: contact_message
+bundle: event
+label: 'Start time'
+description: 'Start time of the event.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime
