@@ -1,0 +1,43 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+
+function avoindata_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id){
+  $form['account']['name']['#description'] = t("Must be purely lowercase alphanumeric (ascii) characters and these symbols: -_");
+  avoindata_user_add_name_validator($form);
+}
+
+function avoindata_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id){
+  $form['account']['name']['#description'] = t("Must be purely lowercase alphanumeric (ascii) characters and these symbols: -_");
+  avoindata_user_add_name_validator($form);
+}
+
+function avoindata_user_add_name_validator(array &$form){
+
+  $validate =& $form['#validate'];
+
+  # Since `validate_name()` clears out any errors for the "name" field, we
+  # want to put it right after the validator we want to partially override.
+  $acct_validate_index = array_search('user_account_form_validate', $validate);
+  array_splice($validate, ($acct_validate_index + 1), 0,
+    ['avoindata_user_validate_name']
+  );
+
+}
+
+function avoindata_user_validate_name(array $form, \Drupal\Core\Form\FormStateInterface &$form_state){
+
+  $name = $form_state->getValue('name', null);
+
+  if (!preg_match('/^[a-z0-9_\-]*$/', $name)){
+
+    $error = t('The username contains an illegal character.');
+  }
+
+  if (isset($error)){
+    $form_state->setErrorByName('name', $error);
+  }
+
+}
+
