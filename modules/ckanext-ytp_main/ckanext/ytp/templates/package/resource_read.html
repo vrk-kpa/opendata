@@ -34,13 +34,13 @@
                   <li>
                     <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
                       {% if res.resource_type in ('listing', 'service') %}
-                        <i class="icon-eye-open"></i> {{ _('View') }}
+                        <i class="fas fa-eye"></i> {{ _('View') }}
                       {% elif  res.resource_type == 'api' %}
-                        <i class="icon-key"></i> {{ _('API Endpoint') }}
+                        <i class="fas fa-key"></i> {{ _('API Endpoint') }}
                       {% elif not res.can_be_previewed %}
-                        <i class="icon-external-link"></i> {{ _('Open') }}
+                        <i class="fas fa-external-link-alt"></i> {{ _('Open') }}
                       {% else %}
-                        <i class="icon-download"></i> {{ _('Download') }}
+                        <i class="fas fa-download"></i> {{ _('Download') }}
                       {% endif %}
                     </a>
                   </li>
@@ -132,7 +132,6 @@
               {% endif %}
             </div>
           {% endblock %}
-        </div>
       {% endblock %}
       {% endblock %}
     </section>
@@ -179,11 +178,12 @@
 
 
           {% set extra_dict = h.clean_extras_resources(extra_dict) %}
-
-          <h3 class="collapsible
-           collapsed" data-toggle="collapse" data-target="#extra-extra">
-            {{_('Technical extra information')}}
-          </h3>
+          <div class="row">
+            <h3 class="collapsible
+            collapsed technical-extra-information-collapsible-heading" data-toggle="collapse" data-target="#extra-extra">
+              {{_('Technical extra information')}} <i class="fas fa-arrow-down"></i> 
+            </h3>
+          </div>
           {%- set exclude_fields = [
             'name',
             'description',
@@ -221,17 +221,17 @@
   {% block resources_list %}
     {% snippet "package/snippets/resources.html", pkg=pkg, active=res.id %}
   {% endblock %}
-
-  {% block resource_license %}
-    {% snippet "snippets/social.html" %}
-  {% endblock %}
-
-  <h2 class="module-heading">{{ _('Stats') }}</h2>
+  <section class="module module-narrow">
+    <h2 class="module-heading">Lisenssi </h2>
+    {% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}
+  </section>
+  
+  <h3>{{ _('Stats') }}</h3>
   <span>{{ _('Last 30 days, updated daily') }}</span>
   <div id="chart_div"></div>
 
   <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
-
+  
   <script type="text/javascript"
             src="https://www.google.com/jsapi?autoload={
               'modules':[{
