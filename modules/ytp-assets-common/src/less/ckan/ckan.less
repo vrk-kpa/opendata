@@ -60,6 +60,15 @@
   }
 }
 
+.btn-primary, .btn-info {
+  background-color: @btn-dark-bg;
+  border-color: @btn-dark-bg;
+  &:hover {
+    background-color: darken(@btn-dark-bg, 10%);
+    border-color: darken(@btn-dark-bg, 10%);
+  }
+}
+
 .secondary {
   padding-left: 0;
 
@@ -310,6 +319,36 @@
 .avoid-page-break {
   page-break-inside: avoid;
 }
+
+.report-summary {
+  padding: 10px 15px 10px 15px;
+  border-color: @content-border;
+  border-radius: 2px;
+  border-top: 6px solid @sidebar-block-color-header;
+  background-color: @sidebar-block-color-background;
+
+  .report-header {
+    color: @sidebar-block-color-text;
+    font-weight: 600;
+  }
+  
+  .report-body {
+    margin-top: 15px;
+  }
+}
+
+.report-controls {
+  border-color: @content-border;
+  border-top: 6px solid @sidebar-block-color-header;
+  background-color: @sidebar-block-color-background;
+  
+  .panel-heading {
+    background-color: transparent;
+    border-bottom: transparent;
+    color: @sidebar-block-color-text;
+  }
+}
+
 .report-chart-row {
   display: flex;
   align-items: center;
