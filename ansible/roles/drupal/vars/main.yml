@@ -13,7 +13,7 @@ custom_modules:
   - { src_name: avoindata-drupal-articles, module_name: avoindata-articles, machine_name: avoindata_articles }
   - { src_name: avoindata-drupal-events, module_name: avoindata-events, machine_name: avoindata_events }
   - { src_name: avoindata-drupal-guide, module_name: avoindata-guide, machine_name: avoindata_guide }
-
+  - { src_name: avoindata-drupal-user, module_name: avoindata-user, machine_name: avoindata_user }
 
 # drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
 # features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
