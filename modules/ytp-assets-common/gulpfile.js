@@ -46,7 +46,7 @@ gulp.task("ckan", (done) => {
     concat("ckan.css"),
     sourcemaps.write("./maps"),
     gulp.dest(paths.dist + "/styles")
-  ], done())
+  ], done)
 });
 
 // // Compiles Less files in Drupal theme directory
@@ -62,12 +62,7 @@ gulp.task("drupal", (done) => {
     concat("style.css"),
     sourcemaps.write("./maps"),
     gulp.dest("../avoindata-drupal-theme/css"),
-  ], function(err) {
-    if(err) {
-      console.log(err);
-    }
-    done();
-  })
+  ], done)
 });
 
 gulp.task("images", (done) => {
@@ -85,7 +80,7 @@ gulp.task("images", (done) => {
       })
     ]),
     gulp.dest(paths.dist + "/images")
-  ], done())
+  ], done)
 });
 
 gulp.task("templates", (done) => {
@@ -93,7 +88,7 @@ gulp.task("templates", (done) => {
     gulp.src(paths.src.templates),
     template({ timestamp: timestamp }),
     gulp.dest(paths.dist + "/templates")
-  ], done())
+  ], done)
 });
 
 gulp.task("static_css", (done) => {
@@ -102,7 +97,7 @@ gulp.task("static_css", (done) => {
     base64({ maxImageSize: 512 * 1024 }),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
-  ], done())
+  ], done)
 });
 
 gulp.task(
@@ -112,7 +107,7 @@ gulp.task(
       gulp.src(paths.src.static_pages + "/*.html"),
       inlineCss(),
       gulp.dest(paths.dist + "/static")
-    ], done())
+    ], done)
   })
 );
 
@@ -120,21 +115,21 @@ gulp.task("fonts", (done) => {
   pump([
     gulp.src(paths.src.fonts),
     gulp.dest(paths.dist + "/fonts")
-  ], done())
+  ], done)
 });
 
 gulp.task("font", (done) => {
   pump([
     gulp.src(paths.src.font),
     gulp.dest(paths.dist + "/font")
-  ], done())
+  ], done)
 });
 
 gulp.task("scripts", (done) => {
   pump([
     gulp.src(paths.src.scripts),
     gulp.dest(paths.dist + "/scripts")
-  ], done())
+  ], done)
 });
 
 gulp.task("bootstrap", (done) => {
@@ -146,14 +141,14 @@ gulp.task("bootstrap", (done) => {
     cleancss({ keepBreaks: false }),
     concat("bootstrap.min.css"),
     gulp.dest(paths.dist + "/vendor")
-  ], done())
+  ], done)
 });
 
 gulp.task("vendor", (done) => {
   pump([
     gulp.src(paths.src.root + "/vendor/**/*"),
     gulp.dest(paths.dist + "/vendor"),
-  ], done())
+  ], done)
 });
 
 gulp.task(
@@ -163,7 +158,7 @@ gulp.task(
       gulp.src(paths.dist + "/vendor/**/*.js"),
       uglify(),
       gulp.dest(paths.dist + "/vendor")
-    ], done())
+    ], done)
   })
 );
 
@@ -171,7 +166,7 @@ gulp.task("config", (done) => {
   pump([
     gulp.src(paths.src.root + "/resource.config"),
     gulp.dest(paths.dist)
-  ], done())
+  ], done)
 });
 
 gulp.task(
