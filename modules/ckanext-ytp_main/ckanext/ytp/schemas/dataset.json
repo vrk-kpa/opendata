@@ -20,8 +20,7 @@
       "form_placeholder": "eg. my-dataset",
       "form_attrs": {
         "class": "form-control"
-      },
-      "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases."
+      }
     },
     {
       "field_name": "notes_translated",
