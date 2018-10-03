@@ -20,7 +20,10 @@
         lang=lang -%}
     {% endcall %}
   {%- endfor -%}
+
+  {% if field.description and field.description.strip() %}
   <div class="field-assistive-text">
-    {{ _(field.description) }}
+      {{ _(field.description) }}
   </div>
+  {% endif %}
 </div>
