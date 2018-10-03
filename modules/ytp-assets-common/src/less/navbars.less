@@ -125,8 +125,35 @@ End of dropdown CSS
   margin-bottom: 0px;
 }
 
-.header-icon {
-  color: black;
+.search-collapsible {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .collapsing.width  {
+    flex-basis: auto;
+    width: 0;
+    height: auto;
+    .transition(width 0.3s ease);
+  }
+
+  .search-collapsible-control, .collapse.in, .collapsing {
+    flex-basis: auto;
+  }
+
+  .search-collapsible-control {
+    align-items: center;
+    margin-left: 5px;
+    
+    .header-icon {
+      color: @input-color;
+    }
+  }
+
+  .form-control {
+    border-radius: 0px;
+    .placeholder(@nonimportant-text-color);
+  }
 }
 
 // Second navbar

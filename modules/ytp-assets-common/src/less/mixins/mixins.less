@@ -3,3 +3,9 @@
     background-color: @menu-active-color;
     border-color: @menu-link-active-color;
 }
+
+.placeholder(@color) {
+  &::-webkit-input-placeholder { color: @color; }
+  &::-moz-placeholder { color: @color; }
+  &:-ms-input-placeholder { color: @color; }
+}
