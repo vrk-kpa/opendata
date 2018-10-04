@@ -691,12 +691,8 @@ textarea {
   }
 }
 
-.organization-dataset-count {
-  color: gray;
-}
-
 li.organization {
-  display: inline; //Change display to remove the list-item dot. 
+  list-style: none;
 }
 
 .sidebar-offcanvas {
@@ -710,4 +706,55 @@ li.organization {
     background-color: @btn-dark-bg;
     border-color: @btn-dark-bg;
   }
+}
+
+.organization-tree .btn, .organization-row {
+  display: inline-block;
+}
+
+.organization-row {
+  padding: 10px;
+}
+
+.organization-tree {
+  .js-collapsed, .js-collapse {
+    display: none;
+   }
+}
+
+.organization-hierarchy-empty-space {
+  display: inline-block;
+  min-width: 20px;
+}
+
+.organization-subtree {
+  padding-inline-start: 23px;
+}
+
+.organization-tree .hierarchy-btn {
+  padding: 0px;
+  background-color: @background-body-color;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  .fa-plus-circle {
+    color: @btn-dark-bg;
+    font-size: 20px;
+  }
+  .fa-minus {
+    border-radius: 50%;
+    border: 1px solid @btn-dark-bg;
+    padding: 3px;
+    color: @btn-dark-bg;
+  }
+}
+
+.organization-dataset-count {
+  color: @dataset-count-text-color;
+  font-weight: @font-weight-heavy;
+}
+
+.organization-count-header {
+  border-bottom: 1px solid @organization-count-header-color;
 }
