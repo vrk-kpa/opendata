@@ -6,8 +6,7 @@ map $http_cookie $no_cache {
 }
 
 server {
-    listen 80;
-    server_name localhost;
+    listen 127.0.0.1:80;
     include /etc/nginx/snippets/{{ item.snippet }};
 }
 
