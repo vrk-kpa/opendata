@@ -7,6 +7,12 @@ map $http_cookie $no_cache {
 
 server {
     listen 80;
+    server_name localhost;
+    include /etc/nginx/snippets/{{ item.snippet }};
+}
+
+server {
+    listen 80;
     server_name {{ item.server_name }};
     if ($http_x_forwarded_proto != 'https') {
         return 301 https://$host$request_uri;
@@ -31,195 +37,13 @@ server {
     ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
 
     server_name {{ item.server_name }};
-    root /var/www/ytp;
-    client_max_body_size {{ckan_max_resource_size}}M;
-    gzip_static on;
-
-    {% if basic_auth_path -%}
-    auth_basic "Restricted";
-    auth_basic_user_file {{ basic_auth_path }};
-    {%- endif %}
 
     {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
     {% if vagrant is defined %}
     sendfile off;
     {% endif %}
 
-    # Set server to maintenance mode touching the /var/www/maintenance 
-    if (-f /var/www/maintenance) {
-        return 503;
-    }
-
-   # Secondary hostname is used with foreign language by default.
-    rewrite ^/$ /{{ item.root_redirect }} permanent;
-
-    error_page 503 @maintenance;
-
-    location @maintenance {
-        root /var/www/resources;
-        set $maintenance /static/maintenance.fi.html;
-        if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $maintenance /static/maintenance.$1.html;
-        }
-
-        rewrite ^(.*)$ $maintenance break;
-    }
-
-    error_page 404 @not_found;
-
-    location @not_found {
-        root /var/www/resources;
-        set $not_found /static/404.fi.html;
-        if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $not_found /static/404.$1.html;
-        }
-
-        rewrite ^(.*)$ $not_found break;
-    }
-
-    error_page 500 @internal_error;
-
-    location @internal_error {
-        root /var/www/resources;
-        set $internal_error /static/500.fi.html;
-        if ( $request_uri ~* "/(fi|en|sv)/" ){
-            set $internal_error /static/500.$1.html;
-        }
-
-        rewrite ^(.*)$ $internal_error break;
-    }
-
-    # Fix: CKAN file upload give invalid data path when running CKAN under path (/data).
-    rewrite ^/data/data/(.*)$ /data/$1 permanent;
-    # Fix: Old CKAN file upload paths
-    rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
-
-    # Disable CKAN main page. Redirect to Drupal main page.
-    rewrite ^/data/?$ /{{ item.root_redirect }} permanent;
-    
-    rewrite ^/data/(fi|en|sv)/?$ /$1 permanent;
-
-    location = /favicon.ico {
-        log_not_found off;
-        access_log off;
-    }
-
-    location = /robots.txt {
-        allow all;
-        log_not_found off;
-        access_log off;
-    }
-
-    location /resource_cache {
-        root {{ server_path }};
-        autoindex off;
-        expires 30d;
-        log_not_found off;
-    }
-
-    # Serve files from ckan but not from anywhere else
-    location ~* ^(?!/data/.*dataset/).*\.(txt|log)$ {
-        allow 192.168.0.0/16;
-        deny all;
-    }
-
-    location ~ \..*/.*\.php$ {
-        return 403;
-    }
-
-    location ~ ^/sites/.*/private/ {
-        return 403;
-    }
-
-    location ~ (^|/)\. {
-        return 403;
-    }
-
-    # Rewrite CKAN login paths to Drupal login
-
-    location /data/user/login {
-        rewrite ^/.* /user/login permanent;
-    }
-
-    location /data/user/register {
-        rewrite ^/.* /user/register permanent;
-    }
-
-    location /data/user/_logout {
-        rewrite ^/.* /user/logout permanent;
-    }
-
-    # Common assets
-    location /resources {
-        root /var/www;
-        autoindex off;
-        expires 30d;
-        log_not_found off;
-    }
-
-    # Always enforce same origin policy
-    add_header X-Frame-Options SAMEORIGIN;
-
-    # CKAN is mapped under data
-    location /data {
-        proxy_pass http://127.0.0.1:8080/data;
-        proxy_set_header Host $host;
-        proxy_cache cache;
-        proxy_cache_bypass $no_cache;
-        proxy_no_cache $no_cache;
-        proxy_cache_valid 30m;
-        proxy_cache_key $host$scheme$proxy_host$request_uri;
-        proxy_intercept_errors on;
-        proxy_read_timeout 120s;
-        # In emergency comment out line to force caching
-        # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-
-        location ~ ^/data/en($|/.*) {
-          return 301 /data/en_GB$1;
-        }
-        location ~ /data/(fi|en|sv)/organization/(.*)/embed{
-            # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
-            proxy_pass http://127.0.0.1:8080/data/$1/organization/$2/embed$is_args$args;
-            add_header Bypass-Sameorigin-Policy 1;
-        }
-
-        location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
-            proxy_pass http://127.0.0.1:8080/data/$1$2$3?$args;
-
-            # Do not show nginx's 404 error page for the API
-            proxy_intercept_errors off;
-        }
-    }
-
-    # Drupal
-
-    location ~ ^/en_GB($|/.*) {
-      return 301 /en$1;
-    }
-    location / {
-        try_files $uri @rewrite;
-    }
-
-    location @rewrite {
-        rewrite ^ /index.php;
-    }
-
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $request_filename;
-        fastcgi_intercept_errors on;
-        fastcgi_pass unix:/tmp/phpfpm.socket;
-    }
-
-    location ~ ^/sites/.*/files/styles/ {
-        try_files $uri @rewrite;
-    }
-
-    location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-        expires 30d;
-        log_not_found off;
-    }
+    include /etc/nginx/snippets/{{ item.snippet }};
 
 }
 
