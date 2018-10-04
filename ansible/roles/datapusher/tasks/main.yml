@@ -14,7 +14,16 @@
   pip:
     requirements: "{{ datapusherenv }}/src/datapusher/requirements.txt"
     virtualenv: "{{ datapusherenv }}"
-    state: latest
+    state: present
+
+
+# TODO: Remove this when https://github.com/ckan/ckan-service-provider/pull/44 is merged and released
+- name: Override ckan-service-provider requirement
+  pip:
+    name: git+http://github.com/vrk-kpa/ckan-service-provider#egg=ckanserviceprovider
+    virtualenv: "{{ datapusherenv }}"
+    state: forcereinstall
+
 
 - name: Link datapusher sources
   command: "{{ datapusherenv }}/bin/python setup.py develop chdir={{ datapusherenv }}/src/datapusher"
