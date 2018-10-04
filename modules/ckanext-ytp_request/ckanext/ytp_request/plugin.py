@@ -32,7 +32,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
             "get_available_roles": get.get_available_roles,
-            "member_request_show": get.member_request
+            "member_request_show": get.member_request,
+            "organization_list_without_memberships": get.organization_list_without_memberships
         }
 
     # IAuthFunctions
@@ -47,7 +48,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
-            "member_request_show": get.member_request
+            "member_request_show": get.member_request,
+            "organization_list_without_memberships": get.organization_list_without_memberships
         }
 
     # IRoutes #
