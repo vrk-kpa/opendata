@@ -14,15 +14,6 @@ class YtpRequestController(BaseController):
     not_auth_message = _('Unauthorized')
     request_not_found_message = _('Request not found')
 
-    def _list_organizations(context, errors=None, error_summary=None):
-        data_dict = {}
-        data_dict['all_fields'] = True
-        data_dict['groups'] = []
-        data_dict['type'] = 'organization'
-        # TODO: Filter our organizations where the user is already a member or
-        # has a pending request
-        return toolkit.get_action('organization_list')({}, data_dict)
-
     def new(self, errors=None, error_summary=None):
         context = {'user': c.user or c.author,
                    'save': 'save' in request.params}
@@ -31,7 +22,7 @@ class YtpRequestController(BaseController):
         except toolkit.NotAuthorized:
             abort(401, self.not_auth_message)
 
-        organizations = self._list_organizations(context)
+        organizations = toolkit.get_action('organization_list_without_memberships')(context, {})
 
         if context.get('save') and not errors:
             return self._save_new(context)
