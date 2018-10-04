@@ -43,5 +43,6 @@ def _only_registered_user():
         return {'success': False, 'msg': _('User is not logged in')}
     return {'success': True}
 
+
 def organization_list_without_memberships(context, data_dict):
     return {'success': True}

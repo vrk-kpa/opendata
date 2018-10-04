@@ -2,7 +2,6 @@ from ckan import logic, model
 from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
-from ckanext.ytp_request.helper import get_organization_admins
 from paste.deploy.converters import asbool
 
 import logging
@@ -178,25 +177,21 @@ def organization_list_without_memberships(context, data_dict):
     else:
         user = context['user']
 
-
     logic.check_access('organization_list_without_memberships', context, data_dict)
 
     user_id = authz.get_user_id_for_username(user, allow_none=True)
     if not user_id:
         return []
 
-
     subquery = model.Session.query(model.Group.id)\
         .filter(model.Member.table_name == 'user')\
         .filter(model.Member.table_id == user_id)\
         .filter(model.Group.id == model.Member.group_id)\
-        .filter(model.Member.state.in_(['active', 'pending']))\
-        .filter(model.Group.is_organization == True)\
-        .distinct(model.Group.id)
+        .filter(model.Member.state.in_(['active', 'pending'])) \
+        .distinct(model.Group.id) \
+        .filter(model.Group.is_organization == True) # noqa
 
     groups = model.Session.query(model.Group) \
         .filter(model.Group.id.notin_(subquery)).all()
 
-
     return model_dictize.group_list_dictize(groups, context, with_package_counts=asbool(data_dict.get('include_dataset_count')))
-
