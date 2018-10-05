@@ -79,6 +79,20 @@
     background-color: @sidebar-block-color-background;
     color: @sidebar-block-color-text;
 
+    .module-content {
+      padding-left: 15px;
+
+      .nav > li > a {
+        margin-left: -15px;
+        padding: 10px 15px;
+        color: @sidebar-block-color-text;
+        border-left: 8px solid @sidebar-block-color-background;
+        &:hover {
+          border-left: 8px solid @sidebar-block-color-header;
+        }
+      }
+    }
+
     .module-heading {
       display: -webkit-box;
       display: -webkit-flex;
