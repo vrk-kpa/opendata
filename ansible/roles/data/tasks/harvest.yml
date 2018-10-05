@@ -10,7 +10,7 @@
 
 - name: Set harvest sources
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
-  with_items: harvest_sources
+  with_items: "{{ harvest_sources }}"
   when: harvest_sources != False
   ignore_errors: True
   tags:
