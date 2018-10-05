@@ -25,7 +25,7 @@
   file: path="{{ drupal_theme_path }}/ytp_theme/vendor" state=directory
   tags:
     - drupal
-    
+
 - name: Symlink ytp bootstrap css
   command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/vendor/{{ item }}"
   with_items:
