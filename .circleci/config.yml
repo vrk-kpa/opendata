@@ -39,6 +39,9 @@ jobs:
     docker:
       - image: circleci/php:7.1
 
+  run-ansible-lint:
+    docker:
+      - image: circleci/python
 
     steps:
       - checkout
@@ -73,6 +76,12 @@ jobs:
           key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
             - vendor
+      - run: sudo pip install ansible-lint
+
+      - run:
+          name: Run ansible-lint for single-server.yml
+          command: ansible-lint single-server.yml
+          working_directory: ~/project/ansible/
 
 workflows:
   version: 2
@@ -80,4 +89,4 @@ workflows:
     jobs:
       - run-flake8
       - run-code-sniffer
-
+      - run-ansible-lint

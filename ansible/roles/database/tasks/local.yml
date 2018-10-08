@@ -85,11 +85,9 @@
 
 - name: Ensure spatial requirements
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ database_spatial_requirement_packages }}"
     state: present
   register: postgis_installed
-  with_items:
-    - postgresql-9.5-postgis-2.2
   tags:
   - packages
   - spatial
@@ -136,11 +134,8 @@
 
 - name: Install database backup tools
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ database_backup_tool_packages }}"
     state: "present"
-  with_items:
-  - autopostgresqlbackup
-  - mailutils
   tags:
   - database
   - backup

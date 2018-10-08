@@ -1,0 +1,39 @@
+---
+
+# Note! Setting environment variable
+# OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+# before running the playbook is necessary on macOS High Sierra and later
+
+- name: This playbook configures avoindata web stack using AWS cloudformation
+  hosts: "localhost"
+  connection: "local"
+  gather_facts: no
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+
+  tasks:
+  - name: Configure web stack
+    cloudformation:
+      stack_name: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/name', aws_profile=aws_profile ) }}"
+      state: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/status', aws_profile=aws_profile ) }}"
+      region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/region', aws_profile=aws_profile ) }}"
+      create_changeset: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/changeset', aws_profile=aws_profile ) }}"
+      template: ../cloudformation/instances.yml
+      template_parameters:
+        DatabaseSecurityGroup: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/database_security_group', aws_profile=aws_profile ) }}"
+        EFSFileSystem: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/efs_file_system', aws_profile=aws_profile ) }}"
+        EFSSecurityGroup: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/efs_security_group', aws_profile=aws_profile ) }}"
+        EnvironmentName: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/environment_name', aws_profile=aws_profile ) }}"
+        GitBranch: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/git_branch', aws_profile=aws_profile ) }}"
+        HostedZoneId: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/hosted_zone_id', aws_profile=aws_profile ) }}"
+        HostedZoneIdAlternate: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/hosted_zone_id_alternate', aws_profile=aws_profile ) }}"
+        InstanceType: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/instance_type', aws_profile=aws_profile ) }}"
+        NumberOfSubnets: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/number_of_subnets', aws_profile=aws_profile ) }}"
+        PublicALBCertificate: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/public_alb_certificate', aws_profile=aws_profile ) }}"
+        PublicALBCertificate2: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/public_alb_certificate2', aws_profile=aws_profile ) }}"
+        PublicALBCertificate3: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/public_alb_certificate3', aws_profile=aws_profile ) }}"
+        PublicALBCertificate4: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/public_alb_certificate4', aws_profile=aws_profile ) }}"
+        PublicALBSubnets: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/public_alb_subnets', aws_profile=aws_profile ) }}"
+        Vpc: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/vpc', aws_profile=aws_profile ) }}"
+        WhitelistedIpAddressHEL: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/white_listed_ip_address_hel', aws_profile=aws_profile ) }}"
+        WhitelistedIpAddressTRE: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/white_listed_ip_address_tre', aws_profile=aws_profile ) }}"

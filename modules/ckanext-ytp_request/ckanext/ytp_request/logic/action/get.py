@@ -1,12 +1,14 @@
 from ckan import logic, model
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
-from ckanext.ytp_request.helper import get_organization_admins
+from paste.deploy.converters import asbool
 
 import logging
 import ckan.authz as authz
 
 log = logging.getLogger(__name__)
+
+NotFound = logic.NotFound
 
 
 def member_request(context, data_dict):
@@ -97,16 +99,7 @@ def get_available_roles(context, data_dict=None):
     # Remove member role from the list
     roles = [role for role in roles if role['value'] != 'member']
 
-    # If organization has no associated admin, then role editor is not
-    # available
-    organization_id = logic.get_or_bust(data_dict, 'organization_id')
-
-    if organization_id:
-        if get_organization_admins(organization_id):
-            roles = [role for role in roles if role['value'] != 'editor']
-        return roles
-    else:
-        return None
+    return roles
 
 
 def _membeship_request_list_dictize(obj_list, context):
@@ -171,3 +164,35 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['user_email'] = user.email
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
+
+
+@logic.side_effect_free
+def organization_list_without_memberships(context, data_dict):
+
+    model = context['model']
+    if data_dict.get('id'):
+        user_obj = model.User.get(data_dict['id'])
+        if not user_obj:
+            raise NotFound
+        user = user_obj.name
+    else:
+        user = context['user']
+
+    logic.check_access('organization_list_without_memberships', context, data_dict)
+
+    user_id = authz.get_user_id_for_username(user, allow_none=True)
+    if not user_id:
+        return []
+
+    subquery = model.Session.query(model.Group.id)\
+        .filter(model.Member.table_name == 'user')\
+        .filter(model.Member.table_id == user_id)\
+        .filter(model.Group.id == model.Member.group_id)\
+        .filter(model.Member.state.in_(['active', 'pending'])) \
+        .distinct(model.Group.id) \
+        .filter(model.Group.is_organization == True) # noqa
+
+    groups = model.Session.query(model.Group) \
+        .filter(model.Group.id.notin_(subquery)).all()
+
+    return model_dictize.group_list_dictize(groups, context, with_package_counts=asbool(data_dict.get('include_dataset_count')))
