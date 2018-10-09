@@ -1483,7 +1483,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         try:
             # Call our custom Drupal API to get drupal block content
             hostname = config.get('ckan.site_url', '')
-            domains = config.get('ckanext.drupal8.domain').split(",")
+            domains = config.get('ckanext.drupal8.domain').split(",") 
+            verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
             for domain in domains:
                 domain_hash = hashlib.sha256(domain).hexdigest()[:32]
@@ -1492,7 +1493,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 if cookie is not None:
                     cookies.update({cookiename: cookie})
 
-            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=False)
+            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
             return response.text
         except requests.exceptions.RequestException, e:
             log.error('%s' % e)

@@ -118,7 +118,8 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def get_drupal_session_token(self, domain, service, cookie_header=''):
         '''return text of X-CSRF-Token)'''
         token_url = 'https://' + domain + '/' + service + '/?q=services/session/token'
-        token_request = requests.get(token_url, headers={"Cookie": cookie_header}, verify=False)
+        verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
+        token_request = requests.get(token_url, headers={"Cookie": cookie_header}, verify=verify_cert)
         token = token_request.text
         return token
 
