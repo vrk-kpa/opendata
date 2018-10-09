@@ -67,7 +67,9 @@ within_tertiary
                     {% set count = count_label(item['count']) if count_label else ('(%d)' % item['count']) %}
                       <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
                         <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}" rel="nofollow">
-                          <span>{{ _(label_truncated) }} {{ count }}</span>
+                          <span>{{ _(label_truncated) }} {{ count }} </span>
+                          <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-times-circle"></i>
                         </a>
                       </li>
                   {% endfor %}
