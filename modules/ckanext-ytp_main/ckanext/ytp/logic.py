@@ -8,6 +8,7 @@ from ckan.lib.dictization.model_dictize import user_dictize
 from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
+from ckan.plugins.toolkit import config
 
 import requests
 import json
@@ -82,7 +83,8 @@ def _update_drupal_user(context, data_dict):
         payload = {"field_fullname": {"und": [{"value":  fullname, "format": None, "safe_value":  fullname}]},
                    'field_ckan_api_key': {'und': [{'value': apikey, "format": None, "safe_value": apikey}]}}
         headers = {"Content-type": "application/json", "X-CSRF-Token": token, "Cookie": cookie_header}
-        r = requests.put(update_url, data=json.dumps(payload), headers=headers, verify=False)
+        verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
+        r = requests.put(update_url, data=json.dumps(payload), headers=headers, verify=verify_cert)
         if r.status_code == requests.codes.ok:
             return True
         else:

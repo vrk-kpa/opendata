@@ -2,12 +2,10 @@ import ast
 import json
 import logging
 import pylons
-import pylons.config as config
 import re
 import types
 import urlparse
 import validators
-
 
 import ckan.lib.base as base
 import logic as plugin_logic
@@ -27,6 +25,7 @@ from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
 from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
+from ckan.plugins.toolkit import config
 from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
@@ -1484,6 +1483,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             # Call our custom Drupal API to get drupal block content
             hostname = config.get('ckan.site_url', '')
             domains = config.get('ckanext.drupal8.domain').split(",")
+            verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
             for domain in domains:
                 domain_hash = hashlib.sha256(domain).hexdigest()[:32]
@@ -1492,7 +1492,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 if cookie is not None:
                     cookies.update({cookiename: cookie})
 
-            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=False)
+            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
             return response.text
         except requests.exceptions.RequestException, e:
             log.error('%s' % e)
