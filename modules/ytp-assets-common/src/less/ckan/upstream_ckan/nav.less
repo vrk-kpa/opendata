@@ -84,6 +84,10 @@
 }
 
 .nav-facet li.nav-item{
+  // The purpose of the display definitions is that
+  // the cross (fa-times-circle) is only visible on active elements
+  // whereas the plus-circle is visible only on non-active elements
+  // and only on hover
   &.active{
     .fa-plus-circle {
       display: none;
@@ -119,6 +123,12 @@
       display: none;
     }
   }
+}
+
+.filter-list .fa-times-circle {
+  color: @btn-black-color;
+  font-size: 15px;
+  padding-left: 5px;  
 }
 
 .user-list {
