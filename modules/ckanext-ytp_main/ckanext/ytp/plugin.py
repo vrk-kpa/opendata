@@ -2,12 +2,10 @@ import ast
 import json
 import logging
 import pylons
-import pylons.config as config
 import re
 import types
 import urlparse
 import validators
-
 
 import ckan.lib.base as base
 import logic as plugin_logic
@@ -27,6 +25,7 @@ from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
 from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
+from ckan.plugins.toolkit import config
 from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester

@@ -6,8 +6,8 @@ from ckan.common import c
 from ckan.logic import NotFound
 from ckan.lib import helpers
 from ckan.lib.plugins import DefaultTranslation
+from ckan.plugins.toolkit import config
 
-import pylons.config as config
 from pylons import request
 
 import requests

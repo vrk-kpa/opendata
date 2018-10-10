@@ -8,8 +8,8 @@ from ckan.lib.dictization.model_dictize import user_dictize
 from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
+from ckan.plugins.toolkit import config
 
-import pylons.config as config
 import requests
 import json
 import logging
