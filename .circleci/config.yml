@@ -12,9 +12,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "codestyle-requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "codestyle-requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           name: Install codestyle requirements
@@ -39,10 +39,6 @@ jobs:
     docker:
       - image: circleci/php:7.1
 
-  run-ansible-lint:
-    docker:
-      - image: circleci/python
-
     steps:
       - checkout
 
@@ -53,10 +49,10 @@ jobs:
       # composer cache
       - restore_cache:
           keys:
-          # "composer.lock" can be used if it is committed to the repo
-          - v1-dependencies-{{ checksum "drupal8/composer.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "drupal8/composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           command: composer install -n --prefer-dist
@@ -71,11 +67,20 @@ jobs:
           name: Run codesniffer for drupal practice
           command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*
           working_directory: ~/project/drupal8/
-          
+
       - save_cache:
           key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
             - vendor
+      - run: sudo pip install ansible-lint
+
+  run-ansible-lint:
+    docker:
+      - image: circleci/python
+
+    steps:
+      - checkout
+
       - run: sudo pip install ansible-lint
 
       - run:
