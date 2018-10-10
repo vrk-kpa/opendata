@@ -7,6 +7,7 @@ from ckan.logic import NotFound
 from ckan.lib import helpers
 from ckan.lib.plugins import DefaultTranslation
 
+import pylons.config as config
 from pylons import request
 
 import requests

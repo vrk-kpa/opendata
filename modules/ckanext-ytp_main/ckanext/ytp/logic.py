@@ -9,6 +9,7 @@ from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
 
+import pylons.config as config
 import requests
 import json
 import logging
