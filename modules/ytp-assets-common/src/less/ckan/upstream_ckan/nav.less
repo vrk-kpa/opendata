@@ -83,13 +83,52 @@
   margin-top: -8px;
 }
 
-.nav-facet .nav-item > a:hover:after {
-  .ckan-icon-circle-add;
+.nav-facet li.nav-item{
+  // The purpose of the display definitions is that
+  // the cross (fa-times-circle) is only visible on active elements
+  // whereas the plus-circle is visible only on non-active elements
+  // and only on hover
+  &.active{
+    .fa-plus-circle {
+      display: none;
+    }
+    .fa-times-circle {
+      display: inline;
+    }
+    &:hover {
+      .fa-plus-circle {
+        display: none;
+      }
+    }
+  }
+  &:hover {
+    .fa-plus-circle {
+      display: inline;
+    }
+  }
+  a {
+    display: flex;
+    justify-content: space-between;
+    .fas {
+      align-self: center;
+    }
+    .fa-plus-circle {
+      color: @btn-dark-bg;
+      font-size: 18px;
+      display:none;
+    }
+    .fa-times-circle {
+      color: @btn-black-color;
+      font-size: 18px;
+      display: none;
+    }
+  }
 }
 
-.nav-facet .nav-item.active > a:after {
-  .ckan-icon-circle-cross;
-  right: 3px;
+.filter-list .fa-times-circle {
+  color: @btn-black-color;
+  font-size: 15px;
+  padding-left: 5px;  
 }
 
 .user-list {

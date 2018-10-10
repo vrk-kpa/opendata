@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('organization_read', _('Datasets'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('organization_read_extended', _('Datasets'), id=c.group_dict.name) }}
   {% if h.check_access('organization_update', {'id': c.group_dict.id})%}
     {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=c.group_dict.name, offset=0) }}
   {% endif %}
