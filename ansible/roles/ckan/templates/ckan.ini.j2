@@ -121,7 +121,7 @@ ckanext.drupal8.domain = {{ hostname }},{{ secondary_hostname }}
 ckanext.drupal8.sysadmin_role = {{ drupal_ckan_admin_rolename }}
 ckanext.drupal8.connection = postgres://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal8.name }}
 ckanext.drupal8.allow_edit = true
-{% if AWS.enabled -%}
+{% if not AWS.enabled -%}
 ckanext.drupal8.development_cert = /etc/ssl/opendata/server.crt
 {%- endif %}
 
