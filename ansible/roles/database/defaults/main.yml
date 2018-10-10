@@ -1,0 +1,5 @@
+database_backup_tool_packages:
+  - autopostgresqlbackup
+  - mailutils
+database_spatial_requirement_packages:
+  - postgresql-9.5-postgis-2.2

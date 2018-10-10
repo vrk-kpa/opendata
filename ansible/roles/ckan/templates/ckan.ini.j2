@@ -80,6 +80,7 @@ error_email_from = {{ error_email_from }}
 
 smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
+smtp.server = {{ AWS.smtp_server_domain }}:587
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
 smtp.starttls = True
