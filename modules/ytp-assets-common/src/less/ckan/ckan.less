@@ -334,20 +334,44 @@
   page-break-inside: avoid;
 }
 
-.report-summary {
-  padding: 10px 15px 10px 15px;
-  border-color: @content-border;
-  border-radius: 2px;
-  border-top: 6px solid @sidebar-block-color-header;
-  background-color: @sidebar-block-color-background;
-
-  .report-header {
-    color: @sidebar-block-color-text;
-    font-weight: 600;
+@media (min-width: 768px) {
+  .dataset > .row.equal {
+    display: flex;
+    flex-wrap: wrap;
   }
+}
+
+
+.report-column {
+  margin-bottom: 20px;
+
+  .report-summary {
+    padding: 10px 15px 10px 15px;
+    border-color: @content-border;
+    border-radius: 2px;
+    border-top: 6px solid @sidebar-block-color-header;
+    background-color: @sidebar-block-color-background;
+    height: 100%;
+    width: 100%;
   
-  .report-body {
-    margin-top: 15px;
+    .report-header {
+      color: @sidebar-block-color-text;
+      font-weight: 600;
+    }
+    
+    .report-body {
+      margin-top: 15px;
+  
+      .report-description {
+        margin-bottom: 10px;
+      }
+
+      .view-report-link {
+        position: absolute;
+        bottom: 10px;
+        margin-top: 10px;
+      }
+    }
   }
 }
 
