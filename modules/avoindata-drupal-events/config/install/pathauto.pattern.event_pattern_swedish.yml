@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: event_pattern_swedish
+label: 'Event pattern (Swedish)'
+type: 'canonical_entities:node'
+pattern: '/evenemang/[node:title]'
+selection_criteria:
+  c73287f3-0bed-4737-8bfe-9c625c3b2751:
+    id: node_type
+    bundles:
+      avoindata_event: avoindata_event
+    negate: false
+    context_mapping:
+      node: node
+    uuid: c73287f3-0bed-4737-8bfe-9c625c3b2751
+  c09c1820-cced-4af3-ab29-d20bf5b5af2d:
+    id: language
+    langcodes:
+      sv: sv
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: c09c1820-cced-4af3-ab29-d20bf5b5af2d
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

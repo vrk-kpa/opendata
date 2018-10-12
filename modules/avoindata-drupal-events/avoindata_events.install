@@ -1,0 +1,6 @@
+<?php
+
+function avoindata_events_install() {
+    \Drupal::service('path.alias_storage')->save("/events", "/tapahtumat", "fi");
+    \Drupal::service('path.alias_storage')->save("/events", "/evenemanger", "sv");
+}

@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: article_pattern_english
+label: 'Article pattern (English)'
+type: 'canonical_entities:node'
+pattern: 'article/[node:title]'
+selection_criteria:
+  69ada610-24f7-4b8d-9764-d4a3ea24c25a:
+    id: node_type
+    bundles:
+      avoindata_article: avoindata_article
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 69ada610-24f7-4b8d-9764-d4a3ea24c25a
+  10d948bb-602d-41f7-bf7f-f2dbd3d19290:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 10d948bb-602d-41f7-bf7f-f2dbd3d19290
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

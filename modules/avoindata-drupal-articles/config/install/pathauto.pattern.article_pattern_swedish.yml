@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: article_pattern_swedish
+label: 'Article pattern (Swedish)'
+type: 'canonical_entities:node'
+pattern: 'artikel/[node:title]'
+selection_criteria:
+  32f5bd53-fc19-47a2-a05b-bf01e60bbcd2:
+    id: node_type
+    bundles:
+      avoindata_article: avoindata_article
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 32f5bd53-fc19-47a2-a05b-bf01e60bbcd2
+  f4cccaa7-0deb-4d2f-8717-0496c973edb9:
+    id: language
+    langcodes:
+      sv: sv
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: f4cccaa7-0deb-4d2f-8717-0496c973edb9
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

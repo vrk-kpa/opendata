@@ -1,0 +1,6 @@
+<?php
+
+function avoindata_articles_install() {
+    \Drupal::service('path.alias_storage')->save("/articles", "/artikkelit", "fi");
+    \Drupal::service('path.alias_storage')->save("/articles", "/artiklar", "sv");
+}
