@@ -1,8 +1,10 @@
 {% ckan_extends %}
 
+{% set user = c.user_dict or user_dict %}
+
 {% block breadcrumb_content %}
   <li><a href="{{ h.url_for(controller='user', action='index') }}">{{ _('Users') }}</a></li>
-  <li><a href="{{ h.url_for(controller='user', action='read', id=c.user_dict.name) }}">{{ c.user_dict.display_name }}</a></li>
+  <li><a href="{{ h.url_for(controller='user', action='read', id=user.name) }}">{{ user.display_name }}</a></li>
   <li class="active"><a href="#">{{ _('Organizations') }}</a></li>
 {% endblock %}
 
