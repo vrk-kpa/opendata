@@ -69,6 +69,7 @@ jobs:
       - run:
           name: Run build test playbook
           command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/cirlcleci_build_test.yml >>cirlcleci_build_test.log 2>&1"
+          no_output_timeout: 60m
           working_directory: ~/project/
 
       - store_artifacts:
