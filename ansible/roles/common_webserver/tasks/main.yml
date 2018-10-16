@@ -75,6 +75,7 @@
   unarchive:
     src: "{{ cache_path }}/{{ item }}.tar"
     dest: "{{ cache_path }}"
+    remote_src: yes
   when: modules_copy is changed
   with_flattened:
     - "{{ modules }}"

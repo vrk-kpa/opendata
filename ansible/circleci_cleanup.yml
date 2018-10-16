@@ -1,0 +1,22 @@
+- name: Cleanup - Terminate EC2 instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instaces_ids_file_path: /tmp/instance_ids
+    aws_region: "{{ lookup('env','AWS_REGION') }}"
+    aws_instace_ids: "{{ lookup('file','/tmp/instance_ids') }}"
+
+  tasks:
+
+    - name: Check if instance_ids file exists
+      stat:
+        path: "{{ instaces_ids_file_path }}"
+      register: instances_ids_result
+
+    - name: Terminate EC2 instances that were previously launched
+      ec2:
+        state: 'absent'
+        instance_ids: '{{ aws_instace_ids }}'
+        region: "{{ aws_region }}"
+      when: instances_ids_result.stat.exists
