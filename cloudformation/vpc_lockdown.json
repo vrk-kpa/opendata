@@ -1,0 +1,185 @@
+{
+	"AWSTemplateFormatVersion" : "2010-09-09",
+	"Description" : "This template creates an IAM Role and IAM Instance Profile for use with instances within a VPC, as well as an IAM Managed Policy that is applied to the users, groups or roles that are defined when you execute the template. **WARNING** This template created AWS IAM resources.Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.Licensed under the Apache License, Version 2.0 (the 'License'). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/apache2.0/ . This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.",
+	
+	"Parameters":{
+		"VPCId":{
+			"Description" : "Select VPC to which to grant access",
+			"Type" : "AWS::EC2::VPC::Id"
+			
+		},
+		"IAMUsers":{
+			"Description" : "List the IAM users to which you want to apply the VPCLockDown policy, separated by a comma",
+			"Default": "",
+			"Type" : "CommaDelimitedList"
+		},
+		"IAMRoles":{
+			"Description" : "List the IAM Rroles that to which you want to apply the VPCLockDown policy, separated by a comma",
+			"Default": "",
+			"Type" : "CommaDelimitedList"
+		},
+		"IAMGroups":{
+			"Description" : "List the IAM gGroups that to which you want to apply the VPCLockDown policy, separated by a comma",
+			"Default": "",
+			"Type" : "CommaDelimitedList"
+		}
+	},	
+	"Conditions" : {
+		"IAMUserNames" : {"Fn::Not": [{"Fn::Equals" : [{"Fn::Select": [0, {"Ref" : "IAMUsers" }]}, ""]}]},
+		"IAMRoleNames" : {"Fn::Not": [{"Fn::Equals" : [{"Fn::Select": [0, {"Ref" : "IAMRoles" }]}, ""]}]},
+		"IAMGroupNames": {"Fn::Not": [{"Fn::Equals" : [{"Fn::Select": [0, {"Ref" : "IAMGroups"}]}, ""]}]}
+    },
+	"Resources" : {
+		"VPCLockDownRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                }
+			}
+		},
+		"VpcLockDownInstanceProfile":{
+			"Type": "AWS::IAM::InstanceProfile",
+				"Properties": {
+					"Path": "/",
+					"Roles": [{ "Ref" : "VPCLockDownRole" }]
+				}
+			},
+		"VPCLockDownPolicy" :{
+			"Type" : "AWS::IAM::ManagedPolicy",
+			"Properties" : {
+				"Description" : "Policy for locking down to a VPC",
+				"Users" : { 
+					"Fn::If" : [
+						"IAMUserNames",
+						{ "Ref" : "IAMUsers" },
+						{ "Ref" : "AWS::NoValue" }
+						]},
+				"Roles" : {
+					"Fn::If" : [
+						"IAMRoleNames",
+						{ "Ref" : "IAMRoles" },
+						{ "Ref" : "AWS::NoValue" }
+						]},
+				"Groups" : {
+					"Fn::If" : [
+						"IAMGroupNames",
+						{ "Ref" : "IAMGroups" },
+						{ "Ref" : "AWS::NoValue" }
+						]},
+				"PolicyDocument" : {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "NonResourceBasedReadOnlyPermissions",
+                                    "Action": [
+                                        "ec2:Describe*",
+                                        "ec2:CreateKeyPair",
+                                        "ec2:CreateSecurityGroup",
+                                        "iam:GetInstanceProfiles",
+                                        "iam:ListInstanceProfiles"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Sid": "IAMPassroleToInstance",
+                                    "Action": [
+                                        "iam:PassRole"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": {"Fn::Join":["", [ "arn:aws:iam::",{ "Ref" : "AWS::AccountId" },":role/", { "Ref" : "VPCLockDownRole" }]]}
+                                },
+                                {
+                                    "Sid": "AllowInstanceActions",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:RebootInstances",
+                                        "ec2:StopInstances",
+                                        "ec2:TerminateInstances",
+                                        "ec2:StartInstances",
+                                        "ec2:AttachVolume",
+                                        "ec2:DetachVolume"
+                                    ],
+                                    "Resource": {"Fn::Join":["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":instance/*"]]},
+                                    "Condition": {
+                                        "StringEquals": {
+                                            "ec2:InstanceProfile": {"Fn::Join" : ["",[ "arn:aws:iam::",{ "Ref" : "AWS::AccountId" },":instance-profile/", { "Ref" : "VpcLockDownInstanceProfile" }]]}
+                                        }
+                                    }
+                                },
+                                {
+                                    "Sid": "EC2RunInstances",
+                                    "Effect": "Allow",
+                                    "Action": "ec2:RunInstances",
+                                    "Resource": {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":instance/*"]]},
+                                    "Condition": {
+                                        "StringEquals": {
+                                            "ec2:InstanceProfile": {"Fn::Join" : ["",[ "arn:aws:iam::",{ "Ref" : "AWS::AccountId" },":instance-profile/", { "Ref" : "VpcLockDownInstanceProfile" }]]}
+                                        }
+                                    }
+                                },
+                                {
+                                    "Sid": "EC2RunInstancesSubnet",
+                                    "Effect": "Allow",
+                                    "Action": "ec2:RunInstances",
+                                    "Resource": {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":subnet/*"]]},
+                                    "Condition": {
+                                        "StringEquals": {
+                                            "ec2:vpc": {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":vpc/",{ "Ref" : "VPCId" },"" ]]}
+                                        }
+                                    }
+                                },
+                                {
+                                    "Sid": "RemainingRunInstancePermissions",
+                                    "Effect": "Allow",
+                                    "Action": "ec2:RunInstances",
+                                    "Resource": [
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":volume/*"]]},
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },"::image/*"]]},
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },"::snapshot/*"]]},
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":network-interface/*"]]},
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":key-pair/*"]]},
+                                        {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":security-group/*"]]}
+                                    ]
+                                },
+                                {
+                                    "Sid": "EC2VpcNonresourceSpecificActions",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:DeleteNetworkAcl",
+                                        "ec2:DeleteNetworkAclEntry",
+                                        "ec2:DeleteRoute",
+                                        "ec2:DeleteRouteTable",
+                                        "ec2:AuthorizeSecurityGroupEgress",
+                                        "ec2:AuthorizeSecurityGroupIngress",
+                                        "ec2:RevokeSecurityGroupEgress",
+                                        "ec2:RevokeSecurityGroupIngress",
+                                        "ec2:DeleteSecurityGroup"
+                                    ],
+                                    "Resource": "*",
+                                    "Condition": {
+                                        "StringEquals": {
+                                            "ec2:vpc": {"Fn::Join" : ["",[ "arn:aws:ec2:",{ "Ref" : "AWS::Region" },":",{ "Ref" : "AWS::AccountId" },":vpc/", { "Ref" : "VPCId" },""]]}
+                                        }
+                                    }
+                                }
+                            ]
+						}
+			}
+		}
+	}
+}

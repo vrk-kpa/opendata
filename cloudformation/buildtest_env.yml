@@ -1,0 +1,220 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Creates dedicated VPC for opendata build testing and S3 bucket for secrets with a read access group. Note that the users needs to be manually added.
+
+Parameters:
+
+  AvailabilityZone1:
+    Description: The first availability zone in the region
+    Type: AWS::EC2::AvailabilityZone::Name
+    ConstraintDescription: Must be a valid availability zone
+
+  SSHFrom:
+    Description: Limit SSH access to public CIDR IP block
+    Type: String
+    MinLength: 9
+    MaxLength: 18
+    Default: 0.0.0.0/0
+
+  BucketName:
+    Description: Used for storing build test secrets
+    Type: String
+    Default: avoindata-buildtest-secrets
+
+  BuildTestGroupName:
+    Description: IAM group having read access to bucket
+    Type: String
+    Default: ypt-buildtesters
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Region Availability Zones
+        Parameters:
+          - AvailabilityZone1
+      - Label:
+          default: Secrets bucket configuration
+        Parameters:
+          - BucketName
+          - BuildTestGroupName
+
+    ParameterLabels:
+      AvailabilityZone1:
+        default: Availability Zone 1
+
+Mappings:
+
+  # Maps CIDR blocks to VPC and various subnets
+  CIDRMap:
+    VPC:
+      CIDR: 10.50.0.0/16
+    Public1:
+      CIDR: 10.50.0.0/24
+
+Resources:
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !FindInMap [CIDRMap, VPC, CIDR]
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        Value: !Ref "AWS::StackName"
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !FindInMap [ CIDRMap, Public1, CIDR ]
+      AvailabilityZone: !Ref AvailabilityZone1
+      Tags:
+      - Key: Name
+        Value: !Sub "${AWS::StackName}-PublicSubnet1"
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-igw"
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub "${AWS::StackName}-public-igw"
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetNetworkAclAssociation1:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+
+  BuildTestSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access ssh to the host(s)
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - CidrIp: !Ref SSHFrom
+        IpProtocol: tcp
+        ToPort: 22
+        FromPort: 22
+      SecurityGroupEgress:
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        ToPort: 80
+        FromPort: 80
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        ToPort: 443
+        FromPort: 443
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: udp
+        ToPort: 123
+        FromPort: 123
+      Tags:
+      - Key: Name
+        Value: !Sub "${AWS::StackName}-BuildTestSecurityGroup"
+
+  BuildTestSecretsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${BucketName}
+      AccessControl: Private
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+
+  BuildTestGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Sub ${BuildTestGroupName}
+
+  BuildTestBucketPolicy:
+    Type: AWS::IAM::Policy
+    DependsOn: BuildTestGroup
+    Properties:
+      Groups:
+        - !Sub ${BuildTestGroupName}
+      PolicyName: "BuildTestBucketPolicy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:ListBucket"
+            Resource:
+              - !Sub "arn:aws:s3:::${BucketName}"
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:GetObject"
+            Resource:
+              - !Sub "arn:aws:s3:::${BucketName}/*"
+
+
+Outputs:
+
+  Name:
+    Description: VPC Stack Name
+    Value: !Ref AWS::StackName
+    Export:
+      Name: !Sub ${AWS::StackName}-Name
+
+  VPCId:
+    Description: VPC ID
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${AWS::StackName}-VpcID"
+
+  VpcCidr:
+    Description: Vpc cidr block
+    Value: !FindInMap [ CIDRMap, VPC, CIDR ]
+    Export:
+      Name: !Sub "${AWS::StackName}-vpc-cidr"
+
+  PublicSubnet1:
+    Description: Public subnet 1 ID
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-PublicSubnet1ID"
+
+  BuildTestSecurityGroup:
+    Description: Security group ID for build test host(s)
+    Value: !GetAtt BuildTestSecurityGroup.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}-BuildTestGroupID"
+
+  BuildTestSecretsBucket:
+    Description: ARN for build test secrets bucket
+    Value: !GetAtt BuildTestSecretsBucket.Arn

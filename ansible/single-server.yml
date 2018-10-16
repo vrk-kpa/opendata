@@ -3,7 +3,7 @@
 # This playbook installs all roles on a single server
 
 - hosts: mainserver
-  sudo: true
+  become: true
   vars:
     database_host: "127.0.0.1"
     solr_host: "127.0.0.1"
@@ -19,8 +19,6 @@
     - users
     - clean
     - database
-    #- nfs_server
-    #- nfs_client
     - common_webserver
     - ssl
     - nginx
@@ -37,6 +35,3 @@
     - clamav
     - data
     - datapusher
-  handlers:
-    - name: restart sshd
-      service: name=ssh state=restarted
