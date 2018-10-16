@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: event_pattern_english
+label: 'Event pattern (English)'
+type: 'canonical_entities:node'
+pattern: '/event/[node:title]'
+selection_criteria:
+  2d641ba9-f386-4f0d-aac3-336cde628d34:
+    id: node_type
+    bundles:
+      avoindata_event: avoindata_event
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 2d641ba9-f386-4f0d-aac3-336cde628d34
+  bf08cb84-1412-4df5-8386-bb3700a18564:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: bf08cb84-1412-4df5-8386-bb3700a18564
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: article_pattern_finnish
+label: 'Article pattern (Finnish)'
+type: 'canonical_entities:node'
+pattern: 'artikkeli/[node:title]'
+selection_criteria:
+  de114023-5b31-46e6-a889-f8a3452b6c03:
+    id: node_type
+    bundles:
+      avoindata_article: avoindata_article
+    negate: false
+    context_mapping:
+      node: node
+    uuid: de114023-5b31-46e6-a889-f8a3452b6c03
+  96e400af-23c6-48f4-83a6-42f0294159f4:
+    id: language
+    langcodes:
+      fi: fi
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 96e400af-23c6-48f4-83a6-42f0294159f4
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

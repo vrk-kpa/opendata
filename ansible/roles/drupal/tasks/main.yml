@@ -283,6 +283,7 @@
     - twig_field_value
     - disqus
     - recaptcha
+    - redirect
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -312,6 +313,8 @@
   with_items:
     - easy_breadcrumb.settings
     - node.type.page
+    - core.entity_form_display.node.page.default
+    - pathauto.settings
 
 - name: Enable custom theme
   command: ../vendor/drush/drush/drush then -y avoindata

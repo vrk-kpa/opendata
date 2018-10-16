@@ -31,8 +31,8 @@ avoindata_header.apps_fi:
   weight: 4
 
 avoindata_header.news_fi:
-  title: 'Uutiset'
-  description: 'Uutiset'
+  title: 'Ajankohtaista'
+  description: 'Ajankohtaista'
   parent: main-fi
   menu_name: main-fi
   url: 'internal:/fi/articles'
@@ -88,8 +88,8 @@ avoindata_header.apps_en:
   weight: 4
 
 avoindata_header.news_en:
-  title: 'News'
-  description: 'News'
+  title: 'News and articles'
+  description: 'News and articles'
   parent: main-en
   menu_name: main-en
   url: 'internal:/en/articles'
@@ -145,8 +145,8 @@ avoindata_header.apps_sv:
   weight: 4
 
 avoindata_header.news_sv:
-  title: 'Nyhet'
-  description: 'Nyhet'
+  title: 'Aktuell'
+  description: 'Aktuell'
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/sv/articles'
