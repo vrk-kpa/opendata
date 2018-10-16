@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - checkout
+      - run: git submodule update --init --recursive
 
       # Download and cache dependencies
       - restore_cache:
@@ -55,6 +56,8 @@ jobs:
 
     steps:
       - checkout
+
+      - run: git submodule update --init --recursive
 
       - run: sudo pip install ansible boto awscli
 
