@@ -9,9 +9,9 @@
 # Disable removed modules, modules must be removed from removed_extensions after they are removed from composer.json
 
 - name: Disable removed drupal extra modules
-  command: ../vendor/drush/drush/drush pm:uninstall -y {{ item }}
+  shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items: "{{ removed_extensions }}"
   when: "removed_extensions is defined"
 
@@ -164,9 +164,9 @@
   #    group=vagrant
 
   - name: Install a clean Drupal database
-    command: ../vendor/drush/drush/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
+    shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
     args:
-      chdir: "{{ drupal8_root }}/web"
+      chdir: "{{ drupal8_root }}"
 
   ### Migrate Drupal 7, if present ###
 
@@ -179,23 +179,23 @@
         strip: 1
 
     - name: Enable migration modules
-      command: ../vendor/drush/drush/drush en -y {{ item }}
+      shell: ./vendor/bin/drush en -y {{ item }}
       args:
-        chdir: "{{ drupal8_root }}/web"
+        chdir: "{{ drupal8_root }}"
       with_items:
           - migrate_plus
           - migrate_upgrade
           - migrate_tools
 
     - name: Configure Drupal 7 database migration
-      command: ../vendor/drush/drush/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
+      shell: ./vendor/bin/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
       args:
-        chdir: "{{ drupal8_root }}/web"
+        chdir: "{{ drupal8_root }}"
 
     - name: Migrate Drupal 7 Database
-      command: ../vendor/drush/drush/drush migrate-import {{ item }}
+      shell: ./vendor/bin/drush migrate-import {{ item }}
       args:
-        chdir: "{{ drupal8_root }}/web"
+        chdir: "{{ drupal8_root }}"
       with_items:
         - "d7_user_role"
         - "d7_user"
@@ -206,9 +206,9 @@
 ### Translations ###
 
 - name: Enable Drupal language modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
+  shell: ./vendor/bin/drush en -y {{ item }}
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items:
     - config_translation
     - content_translation
@@ -217,17 +217,17 @@
     - drush_language
 
 - name: Add additional languages
-  command: ../vendor/drush/drush/drush language-add -y {{ item }}
-  args: 
-    chdir: "{{ drupal8_root }}/web"
+  shell: ./vendor/bin/drush language-add -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
     - fi
     - sv
 
 - name: Make Finnish default language
-  command: ../vendor/drush/drush/drush language-default -y fi
-  args: 
-    chdir: "{{ drupal8_root }}/web"
+  shell: ./vendor/bin/drush language-default -y fi
+  args:
+    chdir: "{{ drupal8_root }}"
 
 ### Custom modules ###
 # Contrib modules should be installed with Composer, not here #
@@ -251,9 +251,9 @@
 ### Theme ###
 
 - name: Enable base theme
-  command: ../vendor/drush/drush/drush then -y bootstrap
+  shell: ./vendor/bin/drush then -y bootstrap
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
 
 - name: Synchronize custom theme
   synchronize:
@@ -271,9 +271,9 @@
 ### Install external modules ###
 
 - name: Enable Drupal extra modules
-  command: ../vendor/drush/drush/drush en -y {{ item }}
+  shell: ./vendor/bin/drush en -y {{ item }}
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items:
     - twig_tweak
     - fontawesome_menu_icons
@@ -294,9 +294,9 @@
 # These need to be enabled after installing external modules (at least pathauto), because
 # of dependencies. 
 - name: Enable custom modules
-  command: ../vendor/drush/drush/drush en -y {{ item.machine_name }}
+  shell: ./vendor/bin/drush en -y {{ item.machine_name }}
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items: "{{ custom_modules }}"
 
 # Some configurations need to be removed to avoid conflicts at the next step
@@ -304,12 +304,12 @@
 # configuration is ignored. As a result, it is important to carefully check the
 # spelling of configurations. 
 - name: Delete existing configurations
-  command: ../vendor/drush/drush/drush config-delete {{ item }}
+  shell: ./vendor/bin/drush config-delete {{ item }}
   register: result
   failed_when:
-    - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr 
+    - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items:
     - easy_breadcrumb.settings
     - node.type.page
@@ -317,24 +317,24 @@
     - pathauto.settings
 
 - name: Enable custom theme
-  command: ../vendor/drush/drush/drush then -y avoindata
+  shell: ./vendor/bin/drush then -y avoindata
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
 
 - name: Set default theme
-  command: ../vendor/drush/drush/drush config-set -y system.theme default avoindata
+  shell: ./vendor/bin/drush config-set -y system.theme default avoindata
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
 
 - name: Reload theme configurations
-  command: ../vendor/drush/drush/drush -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
 
 - name: Reload custom module configurations
-  command: ../vendor/drush/drush/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item }}/config/install
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item }}/config/install
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items:
     - avoindata-guide
 
@@ -352,20 +352,22 @@
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
 
 - name: Import drupal settings
-  command: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
   args:
     chdir: "{{ drupal8_root }}"
 
 - name: Configure general site settings regarding email
-  command: ../vendor/drush/drush/drush config:set system.site {{ item.key }} {{ item.value }}
+  shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
   args:
-    chdir: "{{ drupal8_root }}/web"
+    chdir: "{{ drupal8_root }}"
   with_items:
     - { key: name, value: "{{ email_domain }}"}
     - { key: mail, value: "{{ email_from }}"}
 
 - name: Update drupal translations
-  command: "{{ drupal8_root }}/vendor/drush/drush/drush language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
+  shell: ./vendor/bin/drush language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
     - "fi"
     - "sv"
@@ -375,14 +377,18 @@
 # Without this, the added translatable status for content types like guide page, doesn't work and
 # fails because of an SQL error. 
 - name: Run entity updates for database
-  command: "{{ drupal8_root }}/vendor/drush/drush/drush updatedb --entity-updates -y"
+  shell: "./vendor/bin/drush updatedb --entity-updates -y"
+  args:
+    chdir: "{{ drupal8_root }}"
 
 ### User roles
 
 # Item argument is used two times, because the other one sets a machine readable name and the other one a human readable name
 - name: Create user roles
-  command: vendor/drush/drush/drush role-create "{{ item }}" "{{ item }}" chdir="{{ drupal8_root }}"
-  with_items: 
+  shell: ./vendor/bin/drush role-create "{{ item }}" "{{ item }}"
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_items:
   - "{{ drupal_editor_rolename }}"
   - "{{ drupal_ckan_admin_rolename }}"
   - "{{ drupal_publisher_rolename }}"
@@ -391,7 +397,9 @@
   - drupal
 
 - name: Set user roles
-  command: vendor/drush/drush/drush user-add-role "{{ item.role }}" "{{ item.username }}" chdir="{{ drupal8_root }}"
+  shell: ./vendor/bin/drush user-add-role "{{ item.role }}" "{{ item.username }}"
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items: "{{ drupal_roles }}"
   tags:
   - drupal
