@@ -30,6 +30,17 @@ Parameters:
     Description: Optional snapshot to restore
     Type: String
     Default: ""
+  BackupRetention:
+    Description: The number of days to retain automated backups. Setting this parameter to 0 disables automated backups.
+    Type: String
+    Default: "7"
+    AllowedPattern: ^([0-9]|[12][0-9]|3[05])$
+    ConstraintDescription: Valid range is 0-35 
+  MultiAZSetup:
+    Description: Specifies if the DB instance is a Multi-AZ deployment
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
 
 Conditions:
   UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
@@ -40,10 +51,10 @@ Resources:
     Properties:
       AllocatedStorage: 50
       Engine: postgres
-      BackupRetentionPeriod: 7
+      BackupRetentionPeriod: !Ref BackupRetention
       DBInstanceClass: db.t2.small
-      EngineVersion: 9.5.7
-      MultiAZ: false
+      EngineVersion: 9.5.10
+      MultiAZ: !Ref MultiAZSetup
       StorageType: gp2
       DBInstanceIdentifier: !Sub avoindata-${EnvironmentName}
       DBSnapshotIdentifier: !If [ UseDBSnapshot, !Ref SnapshotIdentifier, !Ref "AWS::NoValue" ]
