@@ -3,10 +3,14 @@
         {{ content }}
     </div>
 </div>
-<form action="/search" id="guide-search-form">
+<form action="guide-search" id="guide-search-form">
     <input type="search" id="guide-search-field" 
-            maxlength="256" name="query" 
-            placeholder="Hae oppaasta.." required="">
+            maxlength="256" name="search_api_fulltext" 
+            placeholder="{% trans %}Guide search{% endtrans %}" required="">
     
-    <input type="submit" value="Etsi" class="button" id="guide-search-button">
+    <button type="submit"class="button" id="guide-search-button">
+    {% trans %}
+    Search
+    {% endtrans %}
+    </button>
 </form>

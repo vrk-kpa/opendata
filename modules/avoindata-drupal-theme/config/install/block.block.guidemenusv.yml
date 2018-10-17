@@ -1,4 +1,4 @@
-langcode: fi
+langcode: sv
 status: true
 dependencies:
   config:
