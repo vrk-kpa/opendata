@@ -1,4 +1,19 @@
 $(document).ready(function(){
+
+    $('[data-datepicker]').each(function() {
+        console.log("Laatu debuggausta");
+        $(this).datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+
+    $('[data-datetimepicker]').each(function() {
+        console.log("Laatu debuggausta");
+        $(this).datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss'
+        });
+    });
+
     /* Create an add link for all the multiple-values child div elements. The add link clones the input container. */
     $('.multiple-values').each(function() {
         var listContainer = $(this);

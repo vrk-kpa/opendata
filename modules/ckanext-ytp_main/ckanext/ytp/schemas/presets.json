@@ -196,6 +196,17 @@
         "upload_clear": "clear_upload",
         "upload_label": "File"
       }
+    },
+    {
+      "preset_name": "date_ytp",
+      "values": {
+        "form_snippet": "date.html",
+        "display_snippet": "date.html",
+        "validators": "scheming_required isodate convert_to_json_if_date",
+        "form_attrs": {
+          "data-datepickerYTPDATETEST": ""
+        }
+      }
     }
   ]
 }
