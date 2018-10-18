@@ -804,7 +804,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         return package_dict
 
 
-_config_template = "ckanext.ytp.organizations.%s"
+_config_template = "ckanext.ytp.%s"
 _node_type = 'service_alert'
 
 _default_organization_name = None
@@ -838,7 +838,7 @@ def _user_has_organization(username):
 
 
 def _create_default_organization(context, organization_name, organization_title):
-    default_locale = _get_variable(config, 'default_locale')
+    default_locale = config.get('ckan.locale_default', 'fi')
     values = {'name': organization_name,
               'title': organization_title,
               'title_translated': {default_locale: organization_title},
