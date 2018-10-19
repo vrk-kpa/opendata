@@ -1,0 +1,58 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - search_api.server.default_server
+  module:
+    - node
+    - search_api
+id: guide_search
+name: 'Guide Search'
+description: ''
+read_only: false
+field_settings:
+  field_content:
+    label: Content
+    datasource_id: 'entity:node'
+    property_path: field_content
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_content
+  title:
+    label: Otsikko
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - avoindata_guide_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  ignorecase:
+    all_fields: false
+    fields:
+      - field_content
+      - title
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: default_server
