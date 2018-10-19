@@ -1,6 +1,8 @@
 {% import 'macros/form.html' as form %}
 {% import 'scheming/macros/form.html' as scheming_form %}
 
+{% resource "ytp_common_js/ytp_form.js" %}
+
 <script>
   function onSubmit() {
     document.getElementById("submit-showcase-form").submit();
@@ -316,11 +318,3 @@
     </div>
   </div>
 </form>
-
-<script type="text/javascript">
-  document.getElementById("submit-showcase-form").addEventListener('submit', function(event){
-    event.preventDefault();
-    grecaptcha.reset();
-    grecaptcha.execute();
-  })
-</script>
