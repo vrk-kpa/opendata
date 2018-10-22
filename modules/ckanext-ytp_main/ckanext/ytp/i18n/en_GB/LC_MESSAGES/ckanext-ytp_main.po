@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-17 09:12+0300\n"
+"POT-Creation-Date: 2018-10-22 13:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -568,277 +568,345 @@ msgstr ""
 #: ckanext/ytp/translations.py:39
 msgid ""
 "A short and descriptive title for the dataset. Do not utilize dates in the "
-"title but instead  add multiple time-specific resources to the dataset in "
-"the next stage."
+"title but instead add multiple time-specific resources to the dataset in the"
+" next stage."
 msgstr ""
 
-#: ckanext/ytp/translations.py:41 ckanext/ytp/translations.py:54
+#: ckanext/ytp/translations.py:41
+msgid "A short and descriptive name for the resource."
+msgstr ""
+
+#: ckanext/ytp/translations.py:42
+msgid ""
+"Size of the added resouce file in bytes. Will be automatically filled when "
+"the file is uploaded."
+msgstr ""
+
+#: ckanext/ytp/translations.py:43
+msgid "File format of the selected resource."
+msgstr ""
+
+#: ckanext/ytp/translations.py:44
 msgid ""
 "An universal, compact and easy to understand description of the added "
 "dataset. Use as confining terms as possible to assist the user to understand"
 " what types of data, meters and dimensions the dataset contains."
 msgstr ""
 
-#: ckanext/ytp/translations.py:43
-msgid "eg. A detailed description"
-msgstr ""
-
-#: ckanext/ytp/translations.py:44
-msgid "eg. every second week"
-msgstr ""
-
-#: ckanext/ytp/translations.py:45
-msgid "Collection type"
-msgstr ""
-
 #: ckanext/ytp/translations.py:46
-msgid "Maintainer email"
+msgid ""
+"Coordinates which describe the area which the added resource is associated "
+"with."
 msgstr ""
 
 #: ckanext/ytp/translations.py:47
-msgid "Author email"
+msgid "The origin of the dataset."
 msgstr ""
 
 #: ckanext/ytp/translations.py:48
-msgid "Maintainer website"
+msgid "eg. A detailed description"
 msgstr ""
 
 #: ckanext/ytp/translations.py:49
-msgid "Select high value dataset categories which this dataset belongs to"
+msgid "eg. every second week"
 msgstr ""
 
 #: ckanext/ytp/translations.py:50
+msgid "Collection type"
+msgstr ""
+
+#: ckanext/ytp/translations.py:51
+msgid "Maintainer email"
+msgstr ""
+
+#: ckanext/ytp/translations.py:52
+msgid "Author email"
+msgstr ""
+
+#: ckanext/ytp/translations.py:53
+msgid "Maintainer website"
+msgstr ""
+
+#: ckanext/ytp/translations.py:54
+msgid "Select high value dataset categories which this dataset belongs to"
+msgstr ""
+
+#: ckanext/ytp/translations.py:55
 msgid ""
 "Private datasets will only be seen by the logged in users of the dataset's "
 "organization. Public datasets will be listed publicly through the search."
 msgstr ""
 
-#: ckanext/ytp/translations.py:52
+#: ckanext/ytp/translations.py:57
 msgid "The organization which owns the dataset."
 msgstr ""
 
-#: ckanext/ytp/translations.py:53
-msgid "Copyright notice"
-msgstr ""
-
-#: ckanext/ytp/translations.py:56
-msgid "Geographical coverage"
-msgstr ""
-
-#: ckanext/ytp/translations.py:57
-msgid "Select the municipalities from which the dataset contains data."
-msgstr ""
-
 #: ckanext/ytp/translations.py:58
-msgid "Links to additional information"
+msgid "A moment in time after which the data is relevant."
 msgstr ""
 
 #: ckanext/ytp/translations.py:59
-msgid "Links to additional information concerning the dataset."
+msgid "A moment in time after which the data is no longer relevant."
 msgstr ""
 
 #: ckanext/ytp/translations.py:60
-msgid "Update frequency"
+msgid "A string which describes the precision of the entered time series."
 msgstr ""
 
 #: ckanext/ytp/translations.py:61
-msgid "A short description of how frequently the dataset will get updated."
-msgstr ""
-
-#: ckanext/ytp/translations.py:62
-msgid "Features"
+msgid "eg. 2 weeks"
 msgstr ""
 
 #: ckanext/ytp/translations.py:63
-msgid "Members can only edit their own datasets"
+msgid "Copyright notice"
 msgstr ""
 
 #: ckanext/ytp/translations.py:64
-msgid "Home page"
+msgid "Geographical coverage"
+msgstr ""
+
+#: ckanext/ytp/translations.py:65
+msgid "Select the municipalities from which the dataset contains data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:66
+msgid "Links to additional information"
 msgstr ""
 
 #: ckanext/ytp/translations.py:67
-msgid "public_administration_organization"
-msgstr "public administration organization"
+msgid "Links to additional information concerning the dataset."
+msgstr ""
 
 #: ckanext/ytp/translations.py:68
-msgid "personal_datasets"
-msgstr "personal datasets"
+msgid "Update frequency"
+msgstr ""
 
 #: ckanext/ytp/translations.py:69
-msgid "civil-service"
-msgstr "Civil Service"
+msgid "A short description of how frequently the dataset will get updated."
+msgstr ""
 
 #: ckanext/ytp/translations.py:70
-msgid "municipality"
-msgstr "Municipality / City"
+msgid "Features"
+msgstr ""
 
 #: ckanext/ytp/translations.py:71
-msgid "other-public-service"
-msgstr "Other Public Service"
+msgid "Members can only edit their own datasets"
+msgstr ""
 
 #: ckanext/ytp/translations.py:72
-msgid "educational-research-institute"
-msgstr "Educational research institute"
+msgid "Home page"
+msgstr ""
 
 #: ckanext/ytp/translations.py:73
-msgid "company"
-msgstr "Company"
+msgid "Position coordinates"
+msgstr ""
 
 #: ckanext/ytp/translations.py:74
-msgid "individual"
-msgstr "Individual"
+msgid "Time series start"
+msgstr ""
 
 #: ckanext/ytp/translations.py:75
-msgid "association"
-msgstr "Association"
+msgid "Time series end"
+msgstr ""
+
+#: ckanext/ytp/translations.py:76
+msgid "Time series precision"
+msgstr ""
+
+#: ckanext/ytp/translations.py:77
+msgid "Temporal granularity"
+msgstr ""
 
 #: ckanext/ytp/translations.py:78
-msgid "Log in"
+msgid "Temporal coverage from"
 msgstr ""
 
 #: ckanext/ytp/translations.py:79
-msgid "Log out"
-msgstr ""
-
-#: ckanext/ytp/translations.py:80
-msgid "Publish Datasets"
-msgstr ""
-
-#: ckanext/ytp/translations.py:81
-msgid "News"
+msgid "Temporal coverage to"
 msgstr ""
 
 #: ckanext/ytp/translations.py:82
+msgid "public_administration_organization"
+msgstr "public administration organization"
+
+#: ckanext/ytp/translations.py:83
+msgid "personal_datasets"
+msgstr "personal datasets"
+
+#: ckanext/ytp/translations.py:84
+msgid "civil-service"
+msgstr "Civil Service"
+
+#: ckanext/ytp/translations.py:85
+msgid "municipality"
+msgstr "Municipality / City"
+
+#: ckanext/ytp/translations.py:86
+msgid "other-public-service"
+msgstr "Other Public Service"
+
+#: ckanext/ytp/translations.py:87
+msgid "educational-research-institute"
+msgstr "Educational research institute"
+
+#: ckanext/ytp/translations.py:88
+msgid "company"
+msgstr "Company"
+
+#: ckanext/ytp/translations.py:89
+msgid "individual"
+msgstr "Individual"
+
+#: ckanext/ytp/translations.py:90
+msgid "association"
+msgstr "Association"
+
+#: ckanext/ytp/translations.py:93
+msgid "Log in"
+msgstr ""
+
+#: ckanext/ytp/translations.py:94
+msgid "Log out"
+msgstr ""
+
+#: ckanext/ytp/translations.py:95
+msgid "Publish Datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:96
+msgid "News"
+msgstr ""
+
+#: ckanext/ytp/translations.py:97
 msgid "About us"
 msgstr ""
 
-#: ckanext/ytp/translations.py:83
+#: ckanext/ytp/translations.py:98
 msgid "Files"
 msgstr ""
 
-#: ckanext/ytp/translations.py:84
+#: ckanext/ytp/translations.py:99
 msgid "Guide to Open Data"
 msgstr ""
 
-#: ckanext/ytp/translations.py:85
+#: ckanext/ytp/translations.py:100
 msgid "User Info"
 msgstr ""
 
-#: ckanext/ytp/translations.py:86
+#: ckanext/ytp/translations.py:101
 msgid "Training"
 msgstr ""
 
-#: ckanext/ytp/translations.py:87
+#: ckanext/ytp/translations.py:102
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr ""
 
-#: ckanext/ytp/translations.py:88
+#: ckanext/ytp/translations.py:103
 msgid "Apps"
 msgstr ""
 
-#: ckanext/ytp/translations.py:91
+#: ckanext/ytp/translations.py:106
 msgid "Add to group"
 msgstr "Add to category"
 
-#: ckanext/ytp/translations.py:92
+#: ckanext/ytp/translations.py:107
 msgid "There are no groups associated with this dataset"
 msgstr "There are no categories associated with this dataset"
 
 #: ckanext/ytp/templates/group/snippets/group_item.html:44
-#: ckanext/ytp/translations.py:93
+#: ckanext/ytp/translations.py:108
 msgid "Remove dataset from this group"
 msgstr "Remove dataset from this category"
 
-#: ckanext/ytp/translations.py:94
+#: ckanext/ytp/translations.py:109
 msgid "Associate this group with this dataset"
 msgstr "Associate this category with this dataset"
 
-#: ckanext/ytp/translations.py:95
+#: ckanext/ytp/translations.py:110
 msgid "Add Group"
 msgstr "Add Category"
 
-#: ckanext/ytp/translations.py:96
+#: ckanext/ytp/translations.py:111
 msgid "There are currently no groups for this site"
 msgstr "There are currently no categories for this site"
 
-#: ckanext/ytp/translations.py:97
+#: ckanext/ytp/translations.py:112
 msgid "Search groups..."
 msgstr "Search categories..."
 
-#: ckanext/ytp/templates/package/read.html:14 ckanext/ytp/translations.py:98
+#: ckanext/ytp/templates/package/read.html:14 ckanext/ytp/translations.py:113
 msgid "Groups"
 msgstr "Categories"
 
-#: ckanext/ytp/translations.py:99
+#: ckanext/ytp/translations.py:114
 msgid "A little information about my group..."
 msgstr "A little information about my category..."
 
-#: ckanext/ytp/translations.py:100
+#: ckanext/ytp/translations.py:115
 msgid "Create a Group"
 msgstr "Create a Category"
 
-#: ckanext/ytp/translations.py:101
+#: ckanext/ytp/translations.py:116
 msgid "Create Group"
 msgstr "Create Category"
 
-#: ckanext/ytp/translations.py:102
+#: ckanext/ytp/translations.py:117
 msgid "My Group"
 msgstr "My Category"
 
-#: ckanext/ytp/translations.py:105
+#: ckanext/ytp/translations.py:120
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:106
+#: ckanext/ytp/translations.py:121
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:107
+#: ckanext/ytp/translations.py:122
 msgid "Oikeusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:108
+#: ckanext/ytp/translations.py:123
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:109
+#: ckanext/ytp/translations.py:124
 msgid "Puolustusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:110
+#: ckanext/ytp/translations.py:125
 msgid "Sisäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:111
+#: ckanext/ytp/translations.py:126
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:112
+#: ckanext/ytp/translations.py:127
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:113
+#: ckanext/ytp/translations.py:128
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:114
+#: ckanext/ytp/translations.py:129
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:115
+#: ckanext/ytp/translations.py:130
 msgid "Ympäristöministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:116
+#: ckanext/ytp/translations.py:131
 msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:119
+#: ckanext/ytp/translations.py:134
 msgid "Administrative Branch Summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:120
+#: ckanext/ytp/translations.py:135
 msgid "Dataset statistics by administrative branch summary"
 msgstr ""
 

@@ -15,7 +15,7 @@
     {%- if license_id or not h.scheming_field_required(field) -%}
         {%- do options.append({
             'value': license_id,
-            'text': license_desc}) -%}
+            'text': _(license_desc)}) -%}
     {%- endif -%}
 {%- endfor -%}
 
