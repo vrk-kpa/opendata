@@ -1,14 +1,12 @@
 $(document).ready(function(){
 
     $('[data-datepicker]').each(function() {
-        console.log("Laatu debuggausta");
         $(this).datetimepicker({
             format: 'YYYY-MM-DD'
         });
     });
 
     $('[data-datetimepicker]').each(function() {
-        console.log("Laatu debuggausta");
         $(this).datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss'
         });
