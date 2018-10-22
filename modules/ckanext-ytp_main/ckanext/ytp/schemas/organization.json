@@ -104,21 +104,15 @@
     },
     {
       "field_name": "valid_from",
-      "preset": "date",
+      "preset": "date_ytp",
       "validators": "keep_old_value_if_missing ignore_missing",
-      "label": "Valid from",
-      "form_attrs": {
-        "class": "form-control"
-      }
+      "label": "Valid from"
     },
     {
       "field_name": "valid_till",
-      "preset": "date",
+      "preset": "date_ytp",
       "validators": "keep_old_value_if_missing ignore_missing",
-      "label": "Valid till",
-      "form_attrs": {
-        "class": "form-control"
-      }
+      "label": "Valid till"
     },
     {
       "field_name": "image_url",

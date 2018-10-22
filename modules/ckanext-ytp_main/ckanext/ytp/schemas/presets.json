@@ -204,7 +204,7 @@
         "display_snippet": "date.html",
         "validators": "scheming_required isodate convert_to_json_if_date",
         "form_attrs": {
-          "data-datepickerYTPDATETEST": ""
+          "data-datepicker": ""
         }
       }
     }

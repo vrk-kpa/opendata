@@ -236,7 +236,7 @@
     {
       "field_name": "date_released",
       "label": "Published",
-      "preset": "date",
+      "preset": "date_ytp",
       "display_snippet": null,
       "form_snippet": null,
       "description": "The dataset publication date.",
@@ -325,7 +325,7 @@
       "form_attrs": {
         "data-datetimepicker": ""
       },
-      "preset": "date",
+      "preset": "date_ytp",
       "display_snippet": "date.html",
       "description": "A moment in time after which the data is no longer relevant."
     },
@@ -361,12 +361,12 @@
     {
       "field_name": "temporal_coverage_to",
       "label": "Temporal coverage to",
-      "preset": "date"
+      "preset": "date_ytp"
     },
     {
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
-      "preset": "date"
+      "preset": "date_ytp"
     }
   ]
 }
