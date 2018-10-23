@@ -33,7 +33,7 @@ msgstr "Poista käyttäjätili"
 
 #: ckanext/ytp_drupal/templates/user/delete_me.html:6
 msgid "Users"
-msgstr ""
+msgstr "Käyttäjät"
 
 #: ckanext/ytp_drupal/templates/user/delete_me.html:16
 msgid ""
