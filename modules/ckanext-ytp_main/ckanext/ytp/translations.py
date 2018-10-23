@@ -25,11 +25,13 @@ def _translations():
 
     _('External')
     _('Internal')
+    _('Created')
 
     _("URL")
     _("Title")
     _("Image URL")
     _("Image")
+    _("Size")
     _("Formats")
     _("Organization")
 
