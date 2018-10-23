@@ -1,0 +1,77 @@
+From 08db954dc7689a3b1d160ba7d65198f64628dc87 Mon Sep 17 00:00:00 2001
+From: Teemu Erkkola <teemu.erkkola@gofore.com>
+Date: Wed, 17 Oct 2018 12:07:31 +0300
+Subject: [PATCH 1/2] Fix i18n API encoding
+
+- Make `i18n_js_translations` call `_finish_ok` with an object response data like all the others
+- Fix `_finish` and `_finish_ok` documentation to reflect the expected `response_data` type for "json" `content_type`
+---
+ ckan/views/api.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/ckan/views/api.py b/ckan/views/api.py
+index 767566954e..3b462a413a 100644
+--- a/ckan/views/api.py
++++ b/ckan/views/api.py
+@@ -44,7 +44,7 @@ def _finish(status_int, response_data=None,
+     :param status_int: The HTTP status code to return
+     :type status_int: int
+     :param response_data: The body of the response
+-    :type response_data: object if content_type is `text`, a string otherwise
++    :type response_data: object if content_type is `text` or `json`, a string otherwise
+     :param content_type: One of `text`, `html` or `json`. Defaults to `text`
+     :type content_type: string
+     :param headers: Extra headers to serve with the response
+@@ -82,7 +82,7 @@ def _finish_ok(response_data=None,
+     calling this method will prepare the response.
+ 
+     :param response_data: The body of the response
+-    :type response_data: object if content_type is `text`, a string otherwise
++    :type response_data: object if content_type is `text` or `json`, a string otherwise
+     :param content_type: One of `text`, `html` or `json`. Defaults to `json`
+     :type content_type: string
+     :param resource_location: Specify this if a new resource has just been
+@@ -470,7 +470,7 @@ def i18n_js_translations(lang, ver=API_REST_DEFAULT_VERSION):
+                              u'base', u'i18n', u'{0}.js'.format(lang)))
+     if not os.path.exists(source):
+         return u'{}'
+-    translations = open(source, u'r').read()
++    translations = json.load(open(source, u'r'))
+     return _finish_ok(translations)
+ 
+ 
+
+From 128fcc10f4fd979b360090b9d1ffaa53cf97f3c2 Mon Sep 17 00:00:00 2001
+From: Teemu Erkkola <teemu.erkkola@iki.fi>
+Date: Wed, 17 Oct 2018 13:26:36 +0300
+Subject: [PATCH 2/2] Fix documentation style
+
+Split long documentation lines
+---
+ ckan/views/api.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/ckan/views/api.py b/ckan/views/api.py
+index 3b462a413a..6324046096 100644
+--- a/ckan/views/api.py
++++ b/ckan/views/api.py
+@@ -44,7 +44,8 @@ def _finish(status_int, response_data=None,
+     :param status_int: The HTTP status code to return
+     :type status_int: int
+     :param response_data: The body of the response
+-    :type response_data: object if content_type is `text` or `json`, a string otherwise
++    :type response_data: object if content_type is `text` or `json`,
++        a string otherwise
+     :param content_type: One of `text`, `html` or `json`. Defaults to `text`
+     :type content_type: string
+     :param headers: Extra headers to serve with the response
+@@ -82,7 +83,8 @@ def _finish_ok(response_data=None,
+     calling this method will prepare the response.
+ 
+     :param response_data: The body of the response
+-    :type response_data: object if content_type is `text` or `json`, a string otherwise
++    :type response_data: object if content_type is `text` or `json`,
++        a string otherwise
+     :param content_type: One of `text`, `html` or `json`. Defaults to `json`
+     :type content_type: string
+     :param resource_location: Specify this if a new resource has just been
