@@ -40,19 +40,22 @@ body{
     min-width: 480px;
     width: 90%;
     height: 600px;
-    background-color: white;
     margin: 50px auto;
     padding: 20px;
     border-radius: 20px;
+    color: white;
+}
+
+.container a{
+  color: white;
+  font-weight: 700;
 }
 
 #content{
 	width: 440px;
-	margin: auto
 }
 
 #content > h1 {
-	border-bottom: 1px solid black;
 	font-weight: 500;
 	line-height: 1.1;
 	color: inherit;
