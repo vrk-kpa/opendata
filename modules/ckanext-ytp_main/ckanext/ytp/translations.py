@@ -38,7 +38,7 @@ def _translations():
     _('eg. Maps')
     _('A short and descriptive title for the dataset. Do not utilize dates in the title but instead '
       'add multiple time-specific resources to the dataset in the next stage.')
-    _('A short and descriptive name for the resource.') 
+    _('A short and descriptive name for the resource.')
     _('Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded.')
     _('File format of the selected resource.')
     _('An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible '
