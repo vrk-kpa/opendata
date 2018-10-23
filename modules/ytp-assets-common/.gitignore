@@ -4,3 +4,4 @@ node_modules
 *.css.map
 resources
 Thumbs.db
+src/static_pages/css/style.css
