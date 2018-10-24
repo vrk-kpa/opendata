@@ -135,6 +135,11 @@ def _translations():
     # Reports
     _('Administrative Branch Summary')
     _('Dataset statistics by administrative branch summary')
+    _('Broken links')
+    _('Dataset resource URLs that are found to result in errors when resolved.')
+    _('Openness (Five Stars)')
+    _('Datasets graded on Tim Berners-Lee\'s Five Stars of Openness - openly licensed, '
+      'openly accessible, structured, open format, URIs for entities, linked.')
 
 
 def facet_translations():

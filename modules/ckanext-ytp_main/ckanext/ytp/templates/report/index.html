@@ -14,10 +14,10 @@
           {% set report_url=h.url_for('report', report_name=report.name, **h.report__explicit_default_options(report.name)) %}
           <div class="report-summary">
             <a href="{{ report_url }}" class="report-header">
-              <div class="report-title">{{ report.title }}</div>
+              <div class="report-title">{{ _(report.title) }}</div>
             </a>
             <div class="report-body">
-              <div class="report-description">{{ report.description }}</div>
+              <div class="report-description">{{ _(report.description) }}</div>
               <br>
               <a class="view-report-link" href="{{ report_url }}">
                 {{ _('View Report') }}
