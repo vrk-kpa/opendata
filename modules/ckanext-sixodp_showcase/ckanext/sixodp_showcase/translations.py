@@ -20,3 +20,8 @@ def _translations():
     _("Image 3")
     _("Notifier")
     _("Notifier Email")
+    _("eg. android")
+    _("eg. visualization")
+    _("eg. traffic")
+    _("The dataset has been added to the showcase.")
+    _("The dataset has been removed from the showcase.")

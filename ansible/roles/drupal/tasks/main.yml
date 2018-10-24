@@ -317,6 +317,7 @@
     - easy_breadcrumb.settings
     - node.type.page
     - core.entity_form_display.node.page.default
+    - core.entity_view_display.node.page.default
     - pathauto.settings
 
 - name: Enable custom theme
