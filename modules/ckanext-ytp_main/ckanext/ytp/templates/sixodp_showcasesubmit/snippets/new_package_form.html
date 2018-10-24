@@ -14,8 +14,6 @@
     {{ message.text }}
   </div>
   {% endif %}
-  <div class="row row-compensate">
-    <div class="col-xs-12">
       {% call form.input(
         'title',
         id='field-title',
@@ -29,21 +27,17 @@
         )
         %}
       {% endcall %}
-    </div>
 
-    <div class="col-xs-12">
       {% snippet "scheming/form_snippets/fluent_markdown_ex.html", field={
         "field_name": "notes_translated",
         "label": "Description",
         "preset": "fluent_core_markdown_translated",
         "form_placeholder": "eg. A detailed description",
         "form_languages": ["fi", "en", "sv"],
-        "description": " ",
+        "description": "",
         "only_default_lang_required": true
       }, data=data, errors=errors %}
-    </div>
 
-    <div class="col-md-8 col-xs-12">
       {% call form.input(
       'author',
       id='field-author',
@@ -62,9 +56,7 @@
           Can be a person's name or the name of the organization which has developed the showcase.
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-md-8 col-xs-12">
       {% call form.input(
       'application_website',
       id='field-application_website',
@@ -83,9 +75,7 @@
           The original source url or a website dedicated for the showcase
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-xs-12">
       {% call form.input(
       'platform',
       id='field-platform',
@@ -110,9 +100,7 @@
           the last one with backspace.
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-xs-12">
       {{ scheming_form.input_multiple(
         'store_urls',
         id='field-store_urls',
@@ -129,18 +117,14 @@
           Google Play or Windows App Store)
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-xs-12">
       <h2 class="h3">{{ _('Showcase images') }}</h2>
       <p>
         {% trans %}
           Upload or provide a link for up to three images which will be presented in the showcase info page.
         {% endtrans %}
       </p>
-    </div>
 
-    <div class="col-xs-12">
       {%- set is_upload = (data.url_type == 'upload') -%}
       {{ form.image_upload(
         data,
@@ -156,9 +140,7 @@
         placeholder=''
         )
       }}
-    </div>
 
-    <div class="col-xs-12">
       {%- set is_upload = (data.url_type == 'upload') -%}
       {{ form.image_upload(
         data,
@@ -174,9 +156,7 @@
         placeholder=''
         )
       }}
-    </div>
 
-    <div class="col-xs-12">
       {%- set is_upload = (data.url_type == 'upload') -%}
       {{ form.image_upload(
         data,
@@ -192,9 +172,7 @@
         placeholder=''
         )
       }}
-    </div>
 
-    <div class="col-xs-12">
       {%- set is_upload = (data.url_type == 'upload') -%}
       {{ form.image_upload(
         data,
@@ -215,9 +193,7 @@
           Upload or provide a link to an icon image file. This image will be shown as the icon for the showcase.
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-xs-12">
       {%- set is_upload = (data.url_type == 'upload') -%}
       {{ form.image_upload(
         data,
@@ -238,9 +214,7 @@
           Upload or provide a link to an image file which will be shown elsewhere in the site as an advert for the showcase.
         {% endtrans %}
       </div>
-    </div>
 
-    <div class="col-xs-12">
       <h2 class="h3">{{ _('Related datasets') }}</h2>
       <div class="control-group control-medium">
         <label class="control-label">{{ _('Select one or multiple datasets') }}</label>
@@ -256,13 +230,9 @@
          data-module-key="name"
          data-module-label="title">
       </div>
-    </div>
-  </div>
 
   <h2 class="h3">{{ _('Submitter info') }}</h2>
 
-  <div class="row row-compensate">
-    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
       {% call form.input(
         'notifier',
         id='notifier',
@@ -276,11 +246,7 @@
         )
       %}
       {% endcall %}
-    </div>
-  </div>
 
-  <div class="row row-compensate">
-    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
       {% call form.input(
         'notifier_email',
         id='notifier_email',
@@ -294,11 +260,7 @@
         )
       %}
       {% endcall %}
-    </div>
-  </div>
 
-  <div class="row row-compensate">
-    <div class="col-xs-12">
       {% block form_actions %}
         
         <div class="form-actions">
@@ -311,6 +273,4 @@
           </button>
         </div>
       {% endblock %}
-    </div>
-  </div>
 </form>

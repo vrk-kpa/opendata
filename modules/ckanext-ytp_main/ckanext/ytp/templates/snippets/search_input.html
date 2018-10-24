@@ -3,7 +3,7 @@
 
 <form class="search-form{% if no_bottom_border %} no-bottom-border{% endif %} form_{{ search_class }}" method="get" data-module="select-switch">
   <div class="search-input control-group {{ search_class }}">
-  <input type="text" class="search" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+  <input type="text" class="search form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
   {% for param in query_params %}
     {% for value in query_params[param] %}
       <input type="hidden" name="{{ param }}" value="{{value}}">
