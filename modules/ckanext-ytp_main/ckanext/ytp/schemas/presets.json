@@ -198,7 +198,7 @@
       }
     },
     {
-      "preset_name": "date_ytp",
+      "preset_name": "date_opendata",
       "values": {
         "form_snippet": "date.html",
         "display_snippet": "date.html",

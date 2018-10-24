@@ -104,13 +104,13 @@
     },
     {
       "field_name": "valid_from",
-      "preset": "date_ytp",
+      "preset": "date_opendata",
       "validators": "keep_old_value_if_missing ignore_missing",
       "label": "Valid from"
     },
     {
       "field_name": "valid_till",
-      "preset": "date_ytp",
+      "preset": "date_opendata",
       "validators": "keep_old_value_if_missing ignore_missing",
       "label": "Valid till"
     },

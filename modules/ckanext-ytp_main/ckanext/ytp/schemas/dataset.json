@@ -236,7 +236,7 @@
     {
       "field_name": "date_released",
       "label": "Published",
-      "preset": "date_ytp",
+      "preset": "date_opendata",
       "display_snippet": null,
       "form_snippet": null,
       "description": "The dataset publication date.",
@@ -246,12 +246,12 @@
     {
       "field_name": "valid_from",
       "label": "Valid from",
-      "preset": "date_ytp"
+      "preset": "date_opendata"
     },
     {
       "field_name": "valid_till",
       "label": "Valid till",
-      "preset": "date_ytp"
+      "preset": "date_opendata"
     }
   ],
   "resource_fields": [
@@ -315,7 +315,7 @@
       "form_attrs": {
         "data-datetimepicker": ""
       },
-      "preset": "date_ytp",
+      "preset": "date_opendata",
       "display_snippet": "date.html",
       "description": "A moment in time after which the data is relevant."
     },
@@ -325,7 +325,7 @@
       "form_attrs": {
         "data-datetimepicker": ""
       },
-      "preset": "date_ytp",
+      "preset": "date_opendata",
       "display_snippet": "date.html",
       "description": "A moment in time after which the data is no longer relevant."
     },
@@ -361,12 +361,12 @@
     {
       "field_name": "temporal_coverage_to",
       "label": "Temporal coverage to",
-      "preset": "date_ytp"
+      "preset": "date_opendata"
     },
     {
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
-      "preset": "date_ytp"
+      "preset": "date_opendata"
     }
   ]
 }
