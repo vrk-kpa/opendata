@@ -30,6 +30,11 @@ $(document).ready(function(){
         });
     });
 
+    $('#submit-showcase-form').submit(function(event){
+      event.preventDefault();
+      grecaptcha.reset();
+      grecaptcha.execute();
+    })
 });
 
 function createRemoveLink(inputContainer) {

@@ -1,13 +1,15 @@
 {% import 'macros/form.html' as form %}
 {% import 'scheming/macros/form.html' as scheming_form %}
 
+{% resource "ytp_common_js/ytp_form.js" %}
+
 <script>
   function onSubmit() {
     document.getElementById("submit-showcase-form").submit();
   }
 </script>
 
-<form id="submit-showcase-form" enctype="multipart/form-data" class="dataset-form form-horizontal" method="post" action="submit-showcase" data-module="basic-form" novalidate>
+<form id="submit-showcase-form" enctype="multipart/form-data" class="dataset-form form-horizontal" method="post" action="submit-showcase" data-module="basic-form">
   {% block errors %}{% endblock %}
   {% if message %}
   <div class="alert alert-{{message.class}}">
@@ -300,13 +302,15 @@
   <div class="row row-compensate">
     <div class="col-xs-12">
       {% block form_actions %}
-        
+
         <div class="form-actions">
-          <button class="btn btn-opendata g-recaptcha"
+          <div id='recaptcha' class="g-recaptcha"
+               data-sitekey="{{ h.get_showcasesubmit_recaptcha_sitekey() }}"
+               data-callback="onSubmit"
+               data-size="invisible"></div>
+          <button class="btn btn-transparent--inverse"
                   type="submit"
-                  name="save"
-                  data-sitekey="{{ h.get_showcasesubmit_recaptcha_sitekey() }}"
-                  data-callback="onSubmit">
+                  name="save">
             {% block save_button_text %}{{ _('Submit') }}{% endblock %}
           </button>
         </div>
