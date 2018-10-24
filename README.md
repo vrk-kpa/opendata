@@ -32,10 +32,12 @@ Please file [issues at Github](https://github.com/yhteentoimivuuspalvelut/ytp/is
 
 ### Copying and License
 
-This material is copyright (c) 2013-2017 Population Register Centre, Finland.
+This material is copyright (c) 2013-2018 Population Register Centre, Finland.
 
-It is open and licensed under the GNU Affero General Public License (AGPL) v3.0
+CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
+
+All other content in this repository is licensed under MIT License.
 
 [travis-url]: https://travis-ci.org/yhteentoimivuuspalvelut/ytp
 [travis-image]: https://travis-ci.org/yhteentoimivuuspalvelut/ytp.png?branch=master
