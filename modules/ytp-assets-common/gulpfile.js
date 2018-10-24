@@ -96,7 +96,7 @@ gulp.task("templates", (done) => {
 gulp.task("static_css", (done) => {
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
-    base64({ maxImageSize: 512 * 1024 }),
+    base64({ maxImageSize: 4096 * 2048 }),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
   ], done)
