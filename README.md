@@ -13,7 +13,7 @@ This source repository contains:
 
 - Configuration management scripts ([Ansible](http://www.ansible.com))
 - Tools for local development ([Vagrant](http://www.vagrantup.com))
-- Configuration for Continuous integration ([Travis](https://travis-ci.org/yhteentoimivuuspalvelut/ytp)) [![Build Status][travis-image]][travis-url]
+- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata)) [![CircleCI][circleci-image]][circleci-url]
 - Source code as subtree modules under the _modules_ directory
 
 ### Getting started
@@ -24,11 +24,11 @@ To get started in developing the software, install a local development environme
 
 ### Documentation
 
-Please refer to the [documentation directory](doc) and [API documentation](https://github.com/yhteentoimivuuspalvelut/ytp-api).
+Please refer to the [documentation directory](doc) and [API documentation](https://github.com/vrk-kpa/ytp-api).
 
 ### Contact
 
-Please file [issues at Github](https://github.com/yhteentoimivuuspalvelut/ytp/issues) or join the discussion at [avoindata.net](http://avoindata.net/questions/suomen-avoimen-datan-portaalin-rakentaminen).
+Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues) or join the discussion at [avoindata.net](http://avoindata.net/questions/suomen-avoimen-datan-portaalin-rakentaminen).
 
 ### Copying and License
 
@@ -39,5 +39,5 @@ whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.
 
 All other content in this repository is licensed under MIT License.
 
-[travis-url]: https://travis-ci.org/yhteentoimivuuspalvelut/ytp
-[travis-image]: https://travis-ci.org/yhteentoimivuuspalvelut/ytp.png?branch=master
+[circleci-url]: https://circleci.com/gh/vrk-kpa/opendata
+[circleci-image]: https://circleci.com/gh/vrk-kpa/opendata.svg?style=svg
