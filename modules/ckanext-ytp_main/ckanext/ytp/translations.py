@@ -145,5 +145,6 @@ def _translations():
     _('The dataset amount of the organization is shown beside the organization name.')
     _('Organizations with no datasets are shown in this list only when using the search functionality')
 
+
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
