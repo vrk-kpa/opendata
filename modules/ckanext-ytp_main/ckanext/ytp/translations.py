@@ -141,6 +141,9 @@ def _translations():
     _('Datasets graded on Tim Berners-Lee\'s Five Stars of Openness - openly licensed, '
       'openly accessible, structured, open format, URIs for entities, linked.')
 
+    # Hierarchy
+    _('The dataset amount of the organization is shown beside the organization name.')
+    _('Organizations with no datasets are shown in this list only when using the search functionality')
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
