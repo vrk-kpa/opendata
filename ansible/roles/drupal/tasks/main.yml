@@ -284,6 +284,9 @@
     - disqus
     - recaptcha
     - redirect
+    - search_api
+    - search_api_db
+    - search_api_db_defaults
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -314,6 +317,7 @@
     - easy_breadcrumb.settings
     - node.type.page
     - core.entity_form_display.node.page.default
+    - core.entity_view_display.node.page.default
     - pathauto.settings
 
 - name: Enable custom theme
@@ -350,6 +354,7 @@
     - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
+    - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config

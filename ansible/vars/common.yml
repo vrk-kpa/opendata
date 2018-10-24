@@ -104,8 +104,8 @@ local_cache: "/tmp/ytp/cache"
 import_base_organizations: false
 import_finto_tags: false
 
-recaptcha_public_key: "6Lcq_vsSAAAAAAQfNLinsdOD0JbGLbOzZqRlavlB"
-recaptcha_private_key: "6Lcq_vsSAAAAADKfbYWkYGV53s2_4UWyuVpMP89X"
+recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 Reindex: false
 

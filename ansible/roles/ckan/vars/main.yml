@@ -79,5 +79,6 @@ new_ckan_patches:
   - { file: "fix_cors" }
   - { file: "enable_multiple_image_uploads" }
   - { file: "remove-ckan-fontawesome" }
+  - { file: "fix-i18n-api-encoding" }
 service_database_enabled: false
 auto_author_enabled: true
