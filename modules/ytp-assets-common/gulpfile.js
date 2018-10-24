@@ -11,6 +11,8 @@ var cleancss = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
 var base64 = require("gulp-base64");
 var pump = require("pump");
+var npmDist = require('gulp-npm-dist');
+var rename = require('gulp-rename');
 
 var paths = {
   src: {
@@ -31,7 +33,7 @@ var paths = {
 var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
-  del.sync([paths.dist]);
+  del.sync([paths.dist, paths.root + '/vendor']);
   done();
 });
 
@@ -144,12 +146,27 @@ gulp.task("bootstrap", (done) => {
   ], done)
 });
 
-gulp.task("vendor", (done) => {
+gulp.task('copy:libs', (done) => {
   pump([
-    gulp.src(paths.src.root + "/vendor/**/*"),
-    gulp.dest(paths.dist + "/vendor"),
+    gulp.src(npmDist({
+    }), {base: './node_modules'}),
+    rename((path) => {
+      if (path.extname === '.js' || path.extname === '.css'){
+        path.basename = path.basename.replace(".min", "");
+      }
+    }),
+    gulp.dest(paths.src.root + '/vendor')
   ], done)
 });
+
+gulp.task("vendor",
+  gulp.series("copy:libs", (done) => {
+    pump([
+      gulp.src(paths.src.root + "/vendor/**/*"),
+      gulp.dest(paths.dist + "/vendor"),
+    ], done)
+  })
+);
 
 gulp.task(
   "minify-vendor-javascript",

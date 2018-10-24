@@ -37,7 +37,7 @@
 - name: Symlink vendor js to drupal
   command: ln -sf "/var/www/resources/vendor/{{ item }}" "{{ drupal_theme_path }}/ytp_theme/vendor/{{ item }}"
   with_items:
-    - moment-with-langs.js
+    - moment-with-locales.js
     - bootstrap-datetimepicker.js
     - bootstrap.min.js
   tags:

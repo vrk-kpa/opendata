@@ -49,7 +49,7 @@
     {
       "field_name": "keywords",
       "label": "Tags",
-      "form_placeholder":"eg. every second week",
+      "form_placeholder":"eg. traffic",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(keywords)",

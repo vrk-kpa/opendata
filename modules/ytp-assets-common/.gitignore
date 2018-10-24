@@ -5,3 +5,4 @@ node_modules
 resources
 Thumbs.db
 src/static_pages/css/style.css
+src/vendor

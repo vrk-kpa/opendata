@@ -4,10 +4,10 @@
     {{ super() }}
     {# we already include bootstrap.js in ckan #}
     {#% resource "ytp_resources/vendor/bootstrap.js" %#}
-    {% resource "ytp_resources/vendor/moment-with-langs.js" %}
-    {% resource "ytp_resources/vendor/bootstrap-datetimepicker.js" %}
-    {% resource "ytp_resources/vendor/jstree/jstree.js" %}
-    {% resource "ytp_resources/vendor/offcanvas.js" %}
+    {% resource "ytp_resources/vendor/moment/min/moment-with-locales.js" %}
+    {% resource "ytp_resources/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js" %}
+    {% resource "ytp_resources/vendor/jstree/dist/jstree.js" %}
+    {% resource "ytp_resources/scripts/offcanvas.js" %}
 
 {% endblock %}
 {% block styles %}
