@@ -65,11 +65,14 @@ display:
             offset_label: Offset
           quantity: 9
       style:
-        type: default
+        type: html_list
         options:
           grouping: {  }
-          row_class: ''
+          row_class: views-row
           default_row_class: true
+          type: ol
+          wrapper_class: item-list
+          class: ''
       row:
         type: fields
         options:
