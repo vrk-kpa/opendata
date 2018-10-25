@@ -362,6 +362,11 @@
   args:
     chdir: "{{ drupal8_root }}"
 
+- name: Clear caches
+  shell: ./vendor/bin/drupal cr
+  args:
+    chdir: "{{ drupal8_root }}"
+
 - name: Configure general site settings regarding email
   shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
   args:
