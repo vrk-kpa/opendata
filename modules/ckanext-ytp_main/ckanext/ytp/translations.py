@@ -90,6 +90,9 @@ def _translations():
     _('company')
     _('individual')
     _('association')
+    _('active')
+    _('deleted')
+    _('draft')
 
     # Assets common terms
     _('Log in')

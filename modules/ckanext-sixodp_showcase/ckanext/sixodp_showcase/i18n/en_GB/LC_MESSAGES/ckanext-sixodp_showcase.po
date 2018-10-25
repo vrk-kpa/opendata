@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-23 15:22+0300\n"
+"POT-Creation-Date: 2018-10-25 14:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2018\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -154,11 +154,15 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/translations.py:26
 msgid "The dataset has been added to the showcase."
-msgstr ""
+msgid_plural "The datasets have been added to the showcase."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ckanext/sixodp_showcase/translations.py:27
 msgid "The dataset has been removed from the showcase."
-msgstr ""
+msgid_plural "The datasets have been removed from the showcase."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
