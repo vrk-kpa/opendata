@@ -317,6 +317,7 @@
     - easy_breadcrumb.settings
     - node.type.page
     - core.entity_form_display.node.page.default
+    - core.entity_view_display.node.page.default
     - pathauto.settings
 
 - name: Enable custom theme
@@ -354,9 +355,15 @@
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
+    - { src: update.settings.yml.j2, dest: update.settings.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
+  args:
+    chdir: "{{ drupal8_root }}"
+
+- name: Clear caches
+  shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal8_root }}"
 
