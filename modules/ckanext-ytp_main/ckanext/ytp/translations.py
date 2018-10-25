@@ -90,6 +90,9 @@ def _translations():
     _('company')
     _('individual')
     _('association')
+    _('active')
+    _('deleted')
+    _('draft')
 
     # Assets common terms
     _('Log in')
@@ -135,6 +138,15 @@ def _translations():
     # Reports
     _('Administrative Branch Summary')
     _('Dataset statistics by administrative branch summary')
+    _('Broken links')
+    _('Dataset resource URLs that are found to result in errors when resolved.')
+    _('Openness (Five Stars)')
+    _('Datasets graded on Tim Berners-Lee\'s Five Stars of Openness - openly licensed, '
+      'openly accessible, structured, open format, URIs for entities, linked.')
+
+    # Hierarchy
+    _('The dataset amount of the organization is shown beside the organization name.')
+    _('Organizations with no datasets are shown in this list only when using the search functionality')
 
 
 def facet_translations():
