@@ -336,11 +336,14 @@
     chdir: "{{ drupal8_root }}"
 
 - name: Reload custom module configurations
-  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item }}/config/install
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item.module_name }}/config/install
+  register: result
+  failed_when:
+    - result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
   args:
     chdir: "{{ drupal8_root }}"
   with_items:
-    - avoindata-guide
+    - "{{ custom_modules }}"
 
 - name: Copy setting template files
   template:
