@@ -1,0 +1,11 @@
+
+## Webpack output directory
+dist/*
+
+## Node
+logs
+*.log
+npm-debug.log*
+node_modules/
+.npm
+.env
