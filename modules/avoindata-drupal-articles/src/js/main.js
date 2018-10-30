@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import queryString from 'query-string';
 
 document.onreadystatechange = function () {

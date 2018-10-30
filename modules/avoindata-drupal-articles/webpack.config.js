@@ -1,10 +1,10 @@
 const path = require("path");
 
 module.exports = {
-  entry: ["@babel/polyfill", "./src/js/main.js"],
+  entry: "./src/js/main.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "resources")
   },
   module: {
     rules: [
@@ -24,8 +24,7 @@ module.exports = {
                   targets: {
                     browsers: ["last 3 versions", "ie >= 11"]
                   },
-                  useBuiltIns: "usage",
-                  debug: true
+                  useBuiltIns: "usage"
                 }
               ]
             ]

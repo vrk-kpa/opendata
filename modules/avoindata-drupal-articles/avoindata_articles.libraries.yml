@@ -1,4 +1,4 @@
 avoindata_articles:
   version: 1.x
   js:
-    dist/main.js: {}
+    resources/main.js: {}

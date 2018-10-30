@@ -1,7 +1,4 @@
 
-## Webpack output directory
-dist/*
-
 ## Node
 logs
 *.log

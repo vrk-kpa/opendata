@@ -41,14 +41,26 @@
         <div class="tab-content row avoindata-articles-table">
 
             <div id="avoindata-articles-tab" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
-              {% if searchterm is not null and searchterm is not empty %}
+              {% if (searchterm is not null and searchterm is not empty) or (activetags is not null and activetags is not empty) %}
               <div class="row avoindata-articles-search-info">
-                <h3>
-                  {% trans %}
-                  Articles with title matching search
-                  {% endtrans %}
-                  "{{ searchterm }}"
-                </h3>
+                {% if searchterm is not null and searchterm is not empty %}
+                  <h3>
+                    {% trans with {'context': 'Article search term filter display text.', 'langcode': 'en'} %}
+                    Articles with title matching search
+                    {% endtrans %}
+                    "{{ searchterm }}"
+                  </h3>
+                {% endif %}
+                {% if activetags is not null and activetags is not empty %}
+                  <p>
+                    {% trans with {'context': 'Tag listing for articles page.', 'langcode': 'en'} %}
+                    Tags:
+                    {% endtrans %}
+                    {% for key, tag in tags if tag.tid.value in activetags%}
+                      <span class="label avoindata-label-primary">{{ tag.label }}</span>
+                    {% endfor %}
+                  </p>
+                {% endif %}
               </div>
               {% endif %}
               
@@ -114,17 +126,17 @@
               {% endtrans %}
             </p>
           </div>
-          <div class="opendata-card-content">
+          <div class="opendata-card-content avoindata-article-category-filter-wrapper">
             {% for tag in tags %}
               <div class="avoindata-card-list-item">
-                <a href="/{{language}}/taxonomy/term/{{tag.tid.value}}">{{ tag.label }}</a>
+                <a class="avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">{{ tag.label }}</a>
               </div>
             {% endfor %}
           </div>
         </div>
        <div class="row avoindata-articles-search">
           <div class="row">
-            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" onkeydown="searchArticlesOnEnter()" value="{{searchterm}}">
+            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" value="{{searchterm}}">
           </div>
           <div class="row">
             <button id="avoindata-articles-search-btn" class="btn btn-primary btn-avoindata-primary">
