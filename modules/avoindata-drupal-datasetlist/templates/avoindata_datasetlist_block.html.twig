@@ -11,9 +11,27 @@
     <div class="row avoindata-datasetlist-nav">
       <div class="col-xs-12">
         <ul class="nav nav-pills">
-          <li class="active"><a data-toggle="pill" href="#avoindata-datasetlist-recent">Recently modified</a></li>
-          <li><a data-toggle="pill" href="#avoindata-datasetlist-new">New</a></li>
-          <li><a data-toggle="pill" href="#avoindata-datasetlist-popular">Popular</a></li>
+          <li class="active">
+            <a data-toggle="pill" href="#avoindata-datasetlist-recent">
+              {% trans with {'context': 'recently modified datasets'} %}
+              Recently modified
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-new">
+              {% trans with {'context': 'new datasets'} %}
+              New
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-popular">
+              {% trans with {'context': 'popular datasets'} %}
+              Popular
+              {% endtrans %}
+            </a>
+          </li>
         </ul>
       </div>
     </div>

@@ -42,7 +42,7 @@
           <a href="/data/{{ form.language }}/dataset">
             <h2 id="avoindata-datasets-count">{{ form.datasetcount | default("0") }}</h2>
             <p>
-              {% trans %}
+              {% trans with {'context': 'x datasets'} %}
               Datasets
               {% endtrans %}
             </p>
@@ -54,7 +54,7 @@
           <a href="/data/{{  form.language }}/organizations">
             <h2 id="avoindata-organizations-count">{{ form.organizationcount | default("0") }}</h2>
             <p>
-              {% trans %}
+              {% trans with {'context': 'x organizations'} %}
               Organizations
               {% endtrans %}
             </p>
@@ -66,7 +66,7 @@
           <a href="/data/{{ form.language }}/showcase">
             <h2 id="avoindata-applications-count">{{ form.applicationcount | default("0") }}</h2>
               <p>
-                {% trans %}
+                {% trans with {'context': 'x applications'} %}
                 Applications
                 {% endtrans %}
               </p>
@@ -78,7 +78,7 @@
       <div class="avoindata-hero-input-col">
         <div class="input-group avoindata-hero-input-group">
           <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">Datasets <span class="caret"></span></button>
+            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">{% trans %}Datasets{% endtrans %}<span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li>
                 <a href="#" data-value="1">
