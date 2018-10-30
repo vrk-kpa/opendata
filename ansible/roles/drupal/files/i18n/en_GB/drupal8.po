@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-10-29 13:48+0200\n"
-"PO-Revision-Date: 2018-10-29 13:48+0200\n"
+"POT-Creation-Date: 2018-10-30 12:35+0200\n"
+"PO-Revision-Date: 2018-10-30 12:35+0200\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -13,9 +13,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Forms"
-msgstr ""
-
-msgid "Next"
 msgstr ""
 
 msgid "Pages"
@@ -267,12 +264,6 @@ msgstr ""
 msgid "Blank"
 msgstr ""
 
-msgid "Sunday"
-msgstr ""
-
-msgid "Monday"
-msgstr ""
-
 msgid "Tags"
 msgstr ""
 
@@ -319,6 +310,9 @@ msgid "Status"
 msgstr ""
 
 msgid "Description"
+msgstr ""
+
+msgid "Next"
 msgstr ""
 
 msgid "Date"
@@ -441,16 +435,10 @@ msgstr ""
 msgid "Advanced options"
 msgstr ""
 
-msgid "Tuesday"
+msgid "Sunday"
 msgstr ""
 
-msgid "Wednesday"
-msgstr ""
-
-msgid "Friday"
-msgstr ""
-
-msgid "Saturday"
+msgid "Monday"
 msgstr ""
 
 msgid "Core"
@@ -469,9 +457,6 @@ msgid "Artist"
 msgstr ""
 
 msgid "Add new"
-msgstr ""
-
-msgid "Time"
 msgstr ""
 
 msgid "Access"
@@ -690,9 +675,6 @@ msgstr ""
 msgid "Unknown export format."
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "Last post"
 msgstr ""
 
@@ -779,7 +761,7 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-msgid "Thursday"
+msgid "Done"
 msgstr ""
 
 msgid "Off"
@@ -825,6 +807,9 @@ msgid "Active"
 msgstr ""
 
 msgid "Date format"
+msgstr ""
+
+msgid "Time"
 msgstr ""
 
 msgid "Created"
@@ -895,6 +880,21 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+msgid "Friday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
 msgid "Check manually"
 msgstr ""
 
@@ -920,9 +920,6 @@ msgid "Recipients"
 msgstr ""
 
 msgid "Selected"
-msgstr ""
-
-msgid "Your name"
 msgstr ""
 
 msgid "Aggregator feed"
@@ -1165,9 +1162,6 @@ msgstr ""
 msgid "Last reply"
 msgstr ""
 
-msgid "Prev"
-msgstr ""
-
 msgid "Domain"
 msgstr ""
 
@@ -1252,6 +1246,9 @@ msgstr ""
 msgid "Last access"
 msgstr ""
 
+msgid "Your name"
+msgstr ""
+
 msgid "Watchdog"
 msgstr ""
 
@@ -1309,6 +1306,9 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
+msgid "Prev"
+msgstr ""
+
 msgid "Brazil"
 msgstr ""
 
@@ -1343,27 +1343,6 @@ msgid "Day"
 msgstr ""
 
 msgid "Table"
-msgstr ""
-
-msgid "Mon"
-msgstr ""
-
-msgid "Tue"
-msgstr ""
-
-msgid "Wed"
-msgstr ""
-
-msgid "Fri"
-msgstr ""
-
-msgid "Sat"
-msgstr ""
-
-msgid "Sun"
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 msgid "am"
@@ -1707,6 +1686,9 @@ msgstr ""
 msgid "Cameroon"
 msgstr ""
 
+msgid "Fri"
+msgstr ""
+
 msgid "User login"
 msgstr ""
 
@@ -1716,7 +1698,7 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-msgid "Thu"
+msgid "May"
 msgstr ""
 
 msgid "Recent comments"
@@ -1762,6 +1744,24 @@ msgid "Tracker"
 msgstr ""
 
 msgid "Sort by"
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Sat"
 msgstr ""
 
 msgid "Canada"
@@ -2423,9 +2423,6 @@ msgstr ""
 msgid "Textfield size"
 msgstr ""
 
-msgid "Today"
-msgstr ""
-
 msgid "Activity"
 msgstr ""
 
@@ -2460,39 +2457,6 @@ msgid "Block name"
 msgstr ""
 
 msgid "How many content items to display in \"day\" list."
-msgstr ""
-
-msgid "Jan"
-msgstr ""
-
-msgid "Feb"
-msgstr ""
-
-msgid "Mar"
-msgstr ""
-
-msgid "Apr"
-msgstr ""
-
-msgid "Jun"
-msgstr ""
-
-msgid "Jul"
-msgstr ""
-
-msgid "Aug"
-msgstr ""
-
-msgid "Sep"
-msgstr ""
-
-msgid "Oct"
-msgstr ""
-
-msgid "Nov"
-msgstr ""
-
-msgid "Dec"
 msgstr ""
 
 msgid "Hour"
@@ -2585,27 +2549,6 @@ msgstr ""
 msgid "characters"
 msgstr ""
 
-msgid "Su"
-msgstr ""
-
-msgid "Mo"
-msgstr ""
-
-msgid "Tu"
-msgstr ""
-
-msgid "We"
-msgstr ""
-
-msgid "Th"
-msgstr ""
-
-msgid "Fr"
-msgstr ""
-
-msgid "Sa"
-msgstr ""
-
 msgid "First day of week"
 msgstr ""
 
@@ -2648,6 +2591,9 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+msgid "Today"
+msgstr ""
+
 msgid "Display Name"
 msgstr ""
 
@@ -2682,6 +2628,57 @@ msgid "Show"
 msgstr ""
 
 msgid "Extend"
+msgstr ""
+
+msgid "Jan"
+msgstr ""
+
+msgid "Feb"
+msgstr ""
+
+msgid "Mar"
+msgstr ""
+
+msgid "Apr"
+msgstr ""
+
+msgid "Jun"
+msgstr ""
+
+msgid "Jul"
+msgstr ""
+
+msgid "Aug"
+msgstr ""
+
+msgid "Sep"
+msgstr ""
+
+msgid "Oct"
+msgstr ""
+
+msgid "Nov"
+msgstr ""
+
+msgid "Dec"
+msgstr ""
+
+msgid "Su"
+msgstr ""
+
+msgid "Mo"
+msgstr ""
+
+msgid "We"
+msgstr ""
+
+msgid "Th"
+msgstr ""
+
+msgid "Fr"
+msgstr ""
+
+msgid "Sa"
 msgstr ""
 
 msgid "Notify user when account is activated"
@@ -2914,9 +2911,6 @@ msgstr ""
 msgid "Login attempt failed for %user."
 msgstr ""
 
-msgid "Oldest first"
-msgstr ""
-
 msgid "Sort criteria"
 msgstr ""
 
@@ -3065,6 +3059,9 @@ msgid "Cron"
 msgstr ""
 
 msgid "Reset password"
+msgstr ""
+
+msgid "Oldest first"
 msgstr ""
 
 msgid "New"
@@ -3734,9 +3731,6 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
-msgid "Send message"
-msgstr ""
-
 msgid "Allow Upscaling"
 msgstr ""
 
@@ -3838,6 +3832,9 @@ msgid "Extension"
 msgstr ""
 
 msgid "last »"
+msgstr ""
+
+msgid "Send message"
 msgstr ""
 
 msgid "« first"
@@ -4207,9 +4204,6 @@ msgstr ""
 msgid "UI settings"
 msgstr ""
 
-msgid "Newest first"
-msgstr ""
-
 msgid "field"
 msgstr ""
 
@@ -4237,6 +4231,9 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
+msgid "Newest first"
+msgstr ""
+
 msgid "Some required modules must be enabled"
 msgstr ""
 
@@ -4247,9 +4244,6 @@ msgid "View settings"
 msgstr ""
 
 msgid "Week @week"
-msgstr ""
-
-msgid "mm/dd/yy"
 msgstr ""
 
 msgid "Delete view"
@@ -4639,6 +4633,9 @@ msgstr ""
 msgid "Confirm password"
 msgstr ""
 
+msgid "mm/dd/yy"
+msgstr ""
+
 msgid "Error message"
 msgstr ""
 
@@ -4731,9 +4728,6 @@ msgid "Uses"
 msgstr ""
 
 msgid "Path to custom icon"
-msgstr ""
-
-msgid "Your email address"
 msgstr ""
 
 msgid "‹"
@@ -8286,13 +8280,13 @@ msgstr ""
 msgid "(active tab)"
 msgstr ""
 
-msgid "An AJAX HTTP error occurred."
-msgstr ""
-
 msgid "HTTP Result Code: !status"
 msgstr ""
 
 msgid "An AJAX HTTP request terminated abnormally."
+msgstr ""
+
+msgid "An AJAX HTTP error occurred."
 msgstr ""
 
 msgid "Upload an OPML file containing a list of feeds to be imported."
@@ -8576,7 +8570,7 @@ msgstr ""
 msgid "Allowed values list: each key must be a valid integer or decimal."
 msgstr ""
 
-msgid "StatusText: !statusText"
+msgid "ReadyState: !readyState"
 msgstr ""
 
 msgid "Save comment"
@@ -8585,13 +8579,13 @@ msgstr ""
 msgid "Unapproved comments"
 msgstr ""
 
-msgid "ResponseText: !responseText"
-msgstr ""
-
-msgid "ReadyState: !readyState"
-msgstr ""
-
 msgid "Path: !uri"
+msgstr ""
+
+msgid "StatusText: !statusText"
+msgstr ""
+
+msgid "ResponseText: !responseText"
 msgstr ""
 
 msgid ""
@@ -9136,6 +9130,18 @@ msgstr ""
 msgid "Session language detection configuration"
 msgstr ""
 
+msgid "The text to be used for this link in the menu."
+msgstr ""
+
+msgid "Add effect"
+msgstr ""
+
+msgid "Update style"
+msgstr ""
+
+msgid "Image styles"
+msgstr ""
+
 msgctxt "Long month name"
 msgid "January"
 msgstr ""
@@ -9178,18 +9184,6 @@ msgstr ""
 
 msgctxt "Long month name"
 msgid "December"
-msgstr ""
-
-msgid "The text to be used for this link in the menu."
-msgstr ""
-
-msgid "Add effect"
-msgstr ""
-
-msgid "Update style"
-msgstr ""
-
-msgid "Image styles"
 msgstr ""
 
 msgid "Menu links that are not enabled will not be listed in any menu."
@@ -19588,12 +19582,6 @@ msgstr ""
 msgid "Post updating @module"
 msgstr ""
 
-msgid "Date (e.g. @format)"
-msgstr ""
-
-msgid "Time (e.g. @format)"
-msgstr ""
-
 msgid "@uri"
 msgstr ""
 
@@ -19748,6 +19736,12 @@ msgid "Install @theme as default theme"
 msgstr ""
 
 msgid "Video"
+msgstr ""
+
+msgid "Date (e.g. @format)"
+msgstr ""
+
+msgid "Time (e.g. @format)"
 msgstr ""
 
 msgid "Defined on the <a href=\":information\">Site Information</a> page."
@@ -20795,9 +20789,6 @@ msgid ""
 "entities need to be deleted before importing."
 msgstr ""
 
-msgid "The message language code."
-msgstr ""
-
 msgid ""
 "A boolean indicating whether the translation is visible to non-translators."
 msgstr ""
@@ -20895,6 +20886,9 @@ msgid ""
 msgstr ""
 
 msgid "Primary tabs display toggle"
+msgstr ""
+
+msgid "The message language code."
 msgstr ""
 
 msgid "@entity using @field_name"
@@ -23813,10 +23807,6 @@ msgstr ""
 msgid "Redirect type"
 msgstr ""
 
-msgctxt "Long month name"
-msgid "October"
-msgstr ""
-
 msgid "1 minute"
 msgid_plural "@count minutes"
 msgstr[0] ""
@@ -25748,9 +25738,7 @@ msgid ""
 "information and to install your missing updates."
 msgstr ""
 
-msgid ""
-"The selected file %filename cannot be uploaded. Only files with the "
-"following extensions are allowed: %extensions."
+msgid "Debugging information follows."
 msgstr ""
 
 msgid "Make it at least 12 characters"
@@ -25828,10 +25816,9 @@ msgctxt "popular datasets"
 msgid "Popular"
 msgstr ""
 
-msgid "Debugging information follows."
-msgstr ""
-
-msgid "The response failed verification so will not be processed."
+msgid ""
+"The selected file %filename cannot be uploaded. Only files with the "
+"following extensions are allowed: %extensions."
 msgstr ""
 
 msgid ""
@@ -26316,4 +26303,71 @@ msgid "Datan käyttäjälle"
 msgstr ""
 
 msgid "Guide search"
+msgstr ""
+
+msgid ""
+"Events calendar displays diferent open data related events hosted in Finland"
+" and abroad."
+msgstr ""
+
+msgid ""
+"Incase there is an open data event missing from the list bellow, you may "
+"submit event information to us and we'll add it to the list bellow."
+msgstr ""
+
+msgid "Submit an event"
+msgstr ""
+
+msgid "Free text search"
+msgstr ""
+
+msgid "Showing events"
+msgstr ""
+
+msgid "Show past events"
+msgstr ""
+
+msgid ""
+"Events calendar displays various open data related events hosted in Finland "
+"and abroad."
+msgstr ""
+
+msgid ""
+"In case there is an open data event missing from the list below, you may "
+"submit event information to us and we'll add it."
+msgstr ""
+
+msgid "for text search"
+msgstr ""
+
+msgid "Upload requirements"
+msgstr ""
+
+msgid "Your email address"
+msgstr ""
+
+msgid ""
+"Start typing the title of a piece of content to select it. You can also "
+"enter an internal path such as %add-node or an external URL such as %url. "
+"Enter %front to link to the front page."
+msgstr ""
+
+msgid ""
+"Link to event's official page or page with more information regarding the "
+"event."
+msgstr ""
+
+msgid "The response failed verification so will not be processed."
+msgstr ""
+
+msgctxt "Long month name"
+msgid "October"
+msgstr ""
+
+msgid "Tu"
+msgstr ""
+
+msgid ""
+"Link to event's official page, or a page with more information regarding the"
+" event."
 msgstr ""
