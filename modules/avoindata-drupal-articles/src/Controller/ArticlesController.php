@@ -14,6 +14,7 @@ class ArticlesController extends ControllerBase {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     
     $searchterm = $request->query->get('search');
+    $categoryfilter = $request->query->get('category');
 
     $articleNodeIdsTitleQuery = \Drupal::entityQuery('node')
     ->condition('type', 'avoindata_article')
@@ -38,12 +39,21 @@ class ArticlesController extends ControllerBase {
 
     $articleNodeIds = array();
     if(!empty($articleNodeIdsCombined)) {
-      $articleNodeIds = \Drupal::entityQuery('node')
+      $articleNodeIdsQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_article')
       ->condition('langcode', $lang)
       ->condition('nid', $articleNodeIdsCombined, 'IN')
-      ->sort('created' , 'DESC')
-      ->execute();
+      ->sort('created' , 'DESC');
+
+      if(!empty($categoryfilter)) {
+        foreach ($categoryfilter as &$categoryTagFilter) {
+          $nodeTagAndQuery = $articleNodeIdsQuery->andConditionGroup();
+          $nodeTagAndQuery->condition('field_tags', $categoryTagFilter);
+          $articleNodeIdsQuery->condition($nodeTagAndQuery);
+        }
+      }
+      
+      $articleNodeIds = $articleNodeIdsQuery->execute();
     }
     
     $articleNodes = \Drupal::entityTypeManager()
@@ -83,6 +93,7 @@ class ArticlesController extends ControllerBase {
       '#searchterm' => $searchterm,
       '#articles' => $articles,
       '#tags' => $taxonomyTerms,
+      '#activetags' => $categoryfilter,
       '#language' => $lang,
       '#theme' => 'avoindata_articles',
       '#cache' => array(

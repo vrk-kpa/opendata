@@ -24,6 +24,7 @@ function avoindata_articles_theme($existing, $type, $theme, $path) {
         'searchterm' => NULL,
         'articles' => NULL,
         'tags' => NULL,
+        'activetags' => NULL,
         'language' => NULL,
       ),
       'template' => 'avoindata_articles_block',
