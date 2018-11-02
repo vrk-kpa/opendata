@@ -37,8 +37,12 @@
 // Guide styles
 @import "guide.less";
 
-body {
+body, html {
+  width: 100%;
+  height: 100%;
   margin: 0px;
+  padding: 0px;
+  overflow-x: hidden; 
 }
 
 .main-container {
@@ -105,7 +109,8 @@ p:last-child,
   padding-bottom: 60px;
   padding-right: 50px;
   padding-left: 50px;
-  background-size: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: @popularTextColor;
   h1 {
     font-size: 40px;
@@ -348,6 +353,7 @@ p:last-child,
       margin-right: 0px;
       padding-top: 10px;
       background-color: #f5f5f5;
+      overflow: auto;
       table {
         margin-bottom: 5px;
       }
