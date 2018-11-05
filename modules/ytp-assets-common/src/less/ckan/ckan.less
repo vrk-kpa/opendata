@@ -63,7 +63,7 @@
 }
 
 // Tags used in tables
-.tag {
+.tag, a.tag {
   border: 2px solid @tag-color;
   &:hover {
     border: 2px solid @tag-color;
@@ -207,6 +207,10 @@
 
     .module-footer {
       border: none;
+    }
+
+    nav > ul > li.nav-item.active {
+      font-weight: 700;
     }
   }
 }

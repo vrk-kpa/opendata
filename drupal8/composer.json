@@ -17,13 +17,13 @@
     ],
     "require": {
         "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6",
+        "cweagans/composer-patches": "^1.6.5",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-        "drupal-composer/drupal-scaffold": "^2.2",
+        "drupal-composer/drupal-scaffold": "^2.5",
         "drupal/bootstrap": "^3.9",
         "drupal/coder": "^8.2",
         "drupal/console": "^1.0.2",
-        "drupal/core": "~8.5.3",
+        "drupal/core": "^8.6.0",
         "drupal/disqus": "^1.0@RC",
         "drupal/drush_language": "1.x-dev",
         "drupal/fontawesome_menu_icons": "^1.3",
@@ -44,7 +44,7 @@
         "drupal/redirect": "^1.2"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "~8.5.3"
+        "webflo/drupal-core-require-dev": "^8.6.0"
     },
     "conflict": {
         "drupal/drupal": "*"

@@ -1,7 +1,7 @@
 {
   "name": "ytp-assets-common",
   "version": "1.0.0",
-  "repository": "https://github.com/yhteentoimivuuspalvelut/ytp-assets-common",
+  "repository": "https://github.com/vrk-kpa/opendata/",
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^4.0.0",
