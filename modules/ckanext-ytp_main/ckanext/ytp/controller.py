@@ -18,7 +18,7 @@ import ckan.authz as authz
 import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
-
+from ckan.lib.dictization import model_dictize
 
 from plugin import create_vocabulary
 
@@ -612,11 +612,13 @@ class YtpOrganizationController(OrganizationController):
 
             users = []
 
+
             for group, member, user in q.all():
+
                 users.append({
                     'user_id': user.id,
                     'username': user.name,
-                    'organization': group.title,
+                    'organization': group.display_name,
                     'role': member.capacity,
                     'email': user.email
                 })
@@ -625,7 +627,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/user_list.html', 'group')
+        return self._render_template('organization/user_list.html', 'organization')
 
     def admin_list(self):
         if c.userobj and c.userobj.sysadmin:
@@ -645,7 +647,7 @@ class YtpOrganizationController(OrganizationController):
                 users.append({
                     'user_id': user.id,
                     'username': user.name,
-                    'organization': group.title,
+                    'organization': group.display_name,
                     'role': member.capacity,
                     'email': user.email
                 })
@@ -654,7 +656,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/admin_list.html', 'group')
+        return self._render_template('organization/admin_list.html', 'organization')
 
     def read(self, id, limit=20):
         group_type = self._ensure_controller_matches_group_type(
