@@ -37,8 +37,12 @@
 // Guide styles
 @import "guide.less";
 
-body {
+body, html {
+  width: 100%;
+  height: 100%;
   margin: 0px;
+  padding: 0px;
+  overflow-x: hidden; 
 }
 
 .main-container {
@@ -93,6 +97,11 @@ p:last-child,
   color: @sidebar-block-color-header;
 }
 
+.avoindata-label-primary {
+  .label-primary;
+  background-color: @btn-dark-bg;
+}
+
 // Drupal Hero Module
 .avoindata-hero {
   background-image: @background-hero-image;
@@ -100,7 +109,8 @@ p:last-child,
   padding-bottom: 60px;
   padding-right: 50px;
   padding-left: 50px;
-  background-size: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: @popularTextColor;
   h1 {
     font-size: 40px;
@@ -343,6 +353,7 @@ p:last-child,
       margin-right: 0px;
       padding-top: 10px;
       background-color: #f5f5f5;
+      overflow: auto;
       table {
         margin-bottom: 5px;
       }
@@ -531,9 +542,13 @@ p:last-child,
         padding-top: 12px;
         padding-bottom: 12px;
         a {
+          cursor: pointer;
           font-size: 13px;
           color: #020202;
           text-decoration: none;
+          &.active {
+            font-weight: 700;
+          }
         }
         &:hover {
           border-left: 8px solid @sidebar-block-color-header;
