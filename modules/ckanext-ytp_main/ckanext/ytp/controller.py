@@ -18,7 +18,7 @@ import ckan.authz as authz
 import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
-from ckan.lib.dictization import model_dictize
+
 
 from plugin import create_vocabulary
 
