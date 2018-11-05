@@ -612,9 +612,7 @@ class YtpOrganizationController(OrganizationController):
 
             users = []
 
-
             for group, member, user in q.all():
-
                 users.append({
                     'user_id': user.id,
                     'username': user.name,
