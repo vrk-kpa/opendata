@@ -79,6 +79,7 @@ def _translations():
     _('Temporal granularity')
     _('Temporal coverage from')
     _('Temporal coverage to')
+    _('Showcase name')
 
     # Values
     _('public_administration_organization')
