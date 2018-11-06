@@ -154,6 +154,12 @@ gulp.task('copy:libs', (done) => {
       if (path.extname === '.js' || path.extname === '.css'){
         path.basename = path.basename.replace(".min", "");
       }
+      if (path.dirname.includes("-pro")){
+        path.dirname = path.dirname.replace("-pro", "");
+      }
+      if (path.dirname.includes("-free")){
+        path.dirname = path.dirname.replace("-free", "");
+      }
     }),
     gulp.dest(paths.src.root + '/vendor')
   ], done)

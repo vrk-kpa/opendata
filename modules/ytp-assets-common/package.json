@@ -1,4 +1,5 @@
 {
+  "//": "If this file is updated, remember to update ansible/roles/common-webserver/files/package.json too",
   "name": "ytp-assets-common",
   "version": "1.0.0",
   "repository": "https://github.com/vrk-kpa/opendata/",
@@ -25,7 +26,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.4.1",
+    "@fortawesome/fontawesome-pro": "^5.5.0",
     "bootstrap": "^3.3.7",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jstree": "^3.3.6",
