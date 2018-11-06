@@ -29,7 +29,6 @@
     {
       "field_name": "description_translated",
       "preset": "fluent_core_markdown_translated",
-      "only_default_lang_required": true,
       "form_placeholder": "A little information about my organization...",
       "form_languages": [ "fi", "sv", "en" ],
       "label": "Description",
