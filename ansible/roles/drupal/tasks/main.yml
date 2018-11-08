@@ -291,7 +291,7 @@
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
-    src: ../modules/ytp-assets-common/src/fonts/
+    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
 
 # These need to be enabled after installing external modules (at least pathauto), because
