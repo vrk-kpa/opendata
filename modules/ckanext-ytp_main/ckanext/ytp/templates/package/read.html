@@ -5,6 +5,9 @@
       <div class="dataset-title-column col-md-8 col-xs-12">
         <h1 class="dataset-title">
         {% block page_heading %}
+        {% if pkg.private %}
+        <i class="fa fa-xs fa-lock icon-private" title="{{ _('Private') }}"></i>
+        {% endif %}
         {{ h.get_translated(pkg, 'title') or pkg.name }}
         {% endblock %}
         </h1>
