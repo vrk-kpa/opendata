@@ -35,7 +35,7 @@ Parameters:
     Type: String
     Default: "7"
     AllowedPattern: ^([0-9]|[12][0-9]|3[05])$
-    ConstraintDescription: Valid range is 0-35 
+    ConstraintDescription: Valid range is 0-35
   MultiAZSetup:
     Description: Specifies if the DB instance is a Multi-AZ deployment
     Type: String
@@ -80,6 +80,8 @@ Resources:
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
       AccessControl: PublicRead
+      VersioningConfiguration:
+        Status: Enabled
       CorsConfiguration:
         CorsRules:
           - AllowedMethods:
