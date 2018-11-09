@@ -102,8 +102,8 @@ Resources:
           pip install setuptools --upgrade
           pip install awscli ansible markupsafe
 
-          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >>/etc/fstab
-          echo '/mnt/ytp_files /srv/ytp/files none defaults,bind 0 0' >>/etc/fstab
+          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
+          echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
           mount -a -t nfs4
           mkdir -p /srv/ytp/files /mnt/ytp_files
           mount /srv/ytp/files
