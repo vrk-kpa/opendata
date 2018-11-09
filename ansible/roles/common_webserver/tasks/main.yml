@@ -143,7 +143,7 @@
 
 - name: Copy secret .npmrc
   copy:
-    src: "/root/avoindata_secrets/{{ deployment_environment_id }}/.npmrc"
+    src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
     dest: "{{ cache_path }}/resource-dependencies/.npmrc"
   when: AWS.enabled == True
 
@@ -151,7 +151,7 @@
   copy:
     src: package.json
     dest: "{{ cache_path }}/resource-dependencies/package.json"
-  when: npmrc.stat.exists == False
+  when: AWS.enabled != True and npmrc.stat.exists == False
 
 - name: Install resource dependencies
   command:  npm install --unsafe-perm=true --allow-root
