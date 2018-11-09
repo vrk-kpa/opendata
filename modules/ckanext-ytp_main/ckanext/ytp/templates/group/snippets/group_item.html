@@ -19,6 +19,7 @@ Example:
   {% block image %}
     <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image img-responsive">
   {% endblock %}
+  <div class="item-content item-content-slide-up">
   {% block title %}
     <h3 class="media-heading">{{ h.get_translated(group, 'title') or group.title }}</h3>
   {% endblock %}
@@ -43,6 +44,7 @@ Example:
   {% if group.user_member %}
     <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
   {% endif %}
+  </div>
   {% endblock %}
 </li>
 {% endblock %}
