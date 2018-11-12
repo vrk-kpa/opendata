@@ -25,7 +25,7 @@ Removed the navbar-nav class to make this a vertical menu
         {% if menu_level == 0 %}
             <ul class="nav" role="menu" aria-labelledby="dropdownMenu">
         {% else %}
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <ul class="dropdown-menu vertical-dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% endif %}
         {% for item in items %}
           {%
