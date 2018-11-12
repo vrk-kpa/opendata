@@ -1,4 +1,4 @@
-langcode: fi
+langcode: en
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ dependencies:
 id: guide_search
 label: 'Guide search'
 module: views
-description: ''
+description: 'Guide search view'
 tag: ''
 base_table: search_api_index_guide_search
 base_field: search_api_id
@@ -184,12 +184,12 @@ display:
             more_link: false
             more_link_text: More
             more_link_path: '{{ path }}'
-            strip_tags: false
+            strip_tags: true
             trim: true
             preserve_tags: ''
             html: false
-          element_type: ''
-          element_class: ''
+          element_type: p
+          element_class: guide-search-result-content
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false

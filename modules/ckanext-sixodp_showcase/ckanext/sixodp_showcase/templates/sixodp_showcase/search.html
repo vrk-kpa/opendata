@@ -48,7 +48,7 @@
     'search': c.search_facets,
     'titles': c.facet_titles,
     'translated_fields': c.translated_fields,
-    'remove_field': h.facet_remove_field }
+    'remove_field': c.remove_field }
   %}
   {% set sorting = [
     (_('Newest first'), 'metadata_created desc'),
@@ -66,7 +66,9 @@
 {% endblock %}
 
 {% block package_search_results_list %}
-  {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+  </div>
 {% endblock %}
 
 {% block package_search_results_api %}

@@ -97,6 +97,11 @@ p:last-child,
   color: @sidebar-block-color-header;
 }
 
+.avoindata-label-primary {
+  .label-primary;
+  background-color: @btn-dark-bg;
+}
+
 // Drupal Hero Module
 .avoindata-hero {
   background-image: @background-hero-image;
@@ -537,9 +542,13 @@ p:last-child,
         padding-top: 12px;
         padding-bottom: 12px;
         a {
+          cursor: pointer;
           font-size: 13px;
           color: #020202;
           text-decoration: none;
+          &.active {
+            font-weight: 700;
+          }
         }
         &:hover {
           border-left: 8px solid @sidebar-block-color-header;
@@ -782,8 +791,16 @@ p:last-child,
   margin: 0 auto;
   padding-top: 30px;
   padding-bottom: 20px;
+
   .row {
     margin: 0px;
+  }
+
+  .guide-content {
+    overflow: auto;
+    img {
+      max-width: 100%;
+    }
   }
 }
 
@@ -958,7 +975,7 @@ p:last-child,
           }
         }
 
-        .field-content > p {
+        .guide-search-result-content {
           font-size: 14px;
         }
       }
@@ -994,4 +1011,8 @@ p:last-child,
       color: @btn-dark-bg;
     }
   }
+}
+
+.vertical-dropdown-menu {
+  float: none; // Overrides float: left in upstream
 }

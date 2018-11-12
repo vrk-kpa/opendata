@@ -1,0 +1,22 @@
+{
+  "name": "avoindata-drupal-articles",
+  "version": "1.0.0",
+  "description": "avoindata drupal articles module",
+  "sideEffects": false,
+  "scripts": {
+    "build": "webpack --mode=production",
+    "build-dev": "webpack --mode=development",
+    "watch": "webpack --watch --mode=development"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "query-string": "^5.1.1"
+  }
+}
