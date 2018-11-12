@@ -4,8 +4,9 @@ body{
 	font-size: 14px;
 	line-height: 1.428571429;
 	background: url('../../images/avoindata_page_not_found.jpg') no-repeat;
-  background-position: top center;
-  background-size: 100%;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
 	padding-top: 64px;
 }
 
@@ -48,17 +49,26 @@ body{
 
 .container a{
   color: white;
+  font-weight: 800;
+}
+
+.container p {
   font-weight: 700;
+  margin-bottom: 0;
 }
 
 #content{
-	width: 440px;
+  background: linear-gradient(to right, rgba(56, 86, 128, 0.4), rgba(56, 86, 128, 0.0));
+  border-radius: 5px;
+  padding: 50px;
 }
 
 #content > h1 {
-	font-weight: 500;
+	font-weight: 700;
 	line-height: 1.1;
 	color: inherit;
+  margin-top: 0;
+  font-size: 48px;
 }
 
 #content > div {

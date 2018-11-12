@@ -47,3 +47,7 @@ Check out `resources` folder for results.
 `upstream_ckan` contains [ytp_ckan_bootstrap.less](src/less/upstream_ckan/ytp_ckan_bootstrap.less) and [ytp_main.less](src/less/upstream_ckan/ytp_main.less) which are used to build ckan css.
 
 
+## Font Awesome
+
+* .npmrc is required for npm install to work, available in confluence
+* If new modules are added to package.json, remember to update [fallback package.json](../../ansible/roles/common_webserver/files/package.json) to reflect that.

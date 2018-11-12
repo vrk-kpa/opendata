@@ -104,13 +104,13 @@
     {
       "field_name": "valid_from",
       "preset": "date_opendata",
-      "validators": "keep_old_value_if_missing ignore_missing",
+      "validators": "keep_old_value_if_missing ignore_missing isodate convert_to_json_if_date",
       "label": "Valid from"
     },
     {
       "field_name": "valid_till",
       "preset": "date_opendata",
-      "validators": "keep_old_value_if_missing ignore_missing",
+      "validators": "keep_old_value_if_missing ignore_missing isodate convert_to_json_if_date",
       "label": "Valid till"
     },
     {

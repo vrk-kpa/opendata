@@ -125,10 +125,33 @@
   - resources
 
 - name: Copy resource dependency base
-  shell: cp -R {{ cache_path }}/ytp-assets-common/* {{ cache_path }}/resource-dependencies
+  #shell: cp -R {{ cache_path }}/ytp-assets-common/* {{ cache_path }}/resource-dependencies
+  synchronize:
+    src: "{{ cache_path }}/ytp-assets-common/"
+    dest: "{{ cache_path }}/resource-dependencies"
+    rsync_opts:
+      - "--exclude=node_modules"
   when: modules_copy is changed
   tags:
   - resources
+
+- name: Check existance of .npmrc
+  stat:
+    path: "{{ playbook_dir }}/../modules/ytp-assets-common/.npmrc"
+  register: npmrc
+  when: deployment_environment_id == "vagrant"
+
+- name: Copy secret .npmrc
+  copy:
+    src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
+    dest: "{{ cache_path }}/resource-dependencies/.npmrc"
+  when: AWS.enabled == True
+
+- name: Copy fallback package.json if npmrc does not exist
+  copy:
+    src: package.json
+    dest: "{{ cache_path }}/resource-dependencies/package.json"
+  when: AWS.enabled != True and npmrc.stat.exists == False
 
 - name: Install resource dependencies
   command:  npm install --unsafe-perm=true --allow-root

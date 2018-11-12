@@ -6,15 +6,6 @@
     state: absent
     path: "/root/.drush"
 
-# Disable removed modules, modules must be removed from removed_extensions after they are removed from composer.json
-
-- name: Disable removed drupal extra modules
-  shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items: "{{ removed_extensions }}"
-  when: "removed_extensions is defined"
-
 ### Get PHP ###
 
 - name: Get PHP and required extensions
@@ -270,6 +261,15 @@
 
 ### Install external modules ###
 
+# Disable removed modules, modules must be removed from removed_extensions 
+# after they are removed from composer.json
+- name: Disable removed drupal extra modules
+  shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_items: "{{ removed_extensions }}"
+  when: "removed_extensions is defined"
+
 - name: Enable Drupal extra modules
   shell: ./vendor/bin/drush en -y {{ item }}
   args:
@@ -291,7 +291,7 @@
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
-    src: ../modules/ytp-assets-common/src/fonts/
+    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
 
 # These need to be enabled after installing external modules (at least pathauto), because
