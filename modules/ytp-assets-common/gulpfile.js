@@ -1,3 +1,4 @@
+var fs = require('fs');
 var gulp = require("gulp");
 var concat = require("gulp-concat");
 var imagemin = require("gulp-imagemin");
@@ -30,6 +31,11 @@ var paths = {
   dist: "resources"
 };
 
+let fontawesomeLessPath = 'node_modules/@fortawesome/fontawesome-pro/less';
+if (!fs.existsSync('node_modules/@fortawesome/fontawesome-pro')){
+  fontawesomeLessPath = 'node_modules/@fortawesome/fontawesome-free/less'
+}
+
 var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
@@ -37,7 +43,15 @@ gulp.task("clean", done => {
   done();
 });
 
-gulp.task("ckan", (done) => {
+
+gulp.task('copy:fontawesomeLess', (done) => {
+  pump([
+    gulp.src(fontawesomeLessPath + "/*.less"),
+    gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome/less")
+  ], done)
+});
+
+gulp.task("ckan",(done) => {
   pump([
     gulp.src(paths.src.ckan + "/*.less"),
     sourcemaps.init(),
@@ -50,6 +64,8 @@ gulp.task("ckan", (done) => {
     gulp.dest(paths.dist + "/styles")
   ], done)
 });
+
+
 
 // // Compiles Less files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
@@ -197,6 +213,7 @@ gulp.task(
   gulp.series(
     "clean",
     "config",
+    "copy:fontawesomeLess",
     gulp.parallel(
       "bootstrap",
       "minify-vendor-javascript",
