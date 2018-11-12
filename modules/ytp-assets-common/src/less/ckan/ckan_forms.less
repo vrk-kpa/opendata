@@ -97,6 +97,12 @@ label.control-label, label.group-label {
     button {
       margin-top: 0px;
       height: 62px;
+
+      @media (max-width: 450px) {
+        span {
+          display: none;
+        }
+      }
     }
 
     .search-input {

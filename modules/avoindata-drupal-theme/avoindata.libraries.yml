@@ -2,7 +2,7 @@ global-styling:
   css:
     theme:
       css/style.css: {}
-      '/resources/vendor/@fortawesome/fontawesome-free/css/v4-shims.css': {preprocess: false}
+      '/resources/vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false}
 bootstrap-scripts:
   js:
     bootstrap/js/affix.js: {}
