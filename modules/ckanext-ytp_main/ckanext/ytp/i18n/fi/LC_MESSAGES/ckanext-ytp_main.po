@@ -1073,12 +1073,12 @@ msgstr "Peruuta kommenttien tilaus"
 #: ckanext/ytp/templates/group/snippets/group_item.html:33
 msgid "{num} Dataset"
 msgid_plural "{num} Datasets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{num} tietoaineisto"
+msgstr[1] "{num} tietoaineistoa"
 
 #: ckanext/ytp/templates/group/snippets/group_item.html:35
 msgid "0 Datasets"
-msgstr ""
+msgstr "0 tietoaineistoa"
 
 #: ckanext/ytp/templates/group/snippets/group_item.html:39
 #: ckanext/ytp/templates/group/snippets/group_item.html:40
