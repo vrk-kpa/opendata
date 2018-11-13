@@ -202,9 +202,10 @@
       "values": {
         "form_snippet": "date.html",
         "display_snippet": "date.html",
-        "validators": "scheming_required isodate convert_to_json_if_date",
+        "validators": "scheming_required from_date_is_before_until_date isodate convert_to_json_if_date",
         "form_attrs": {
-          "data-datepicker": ""
+          "data-datepicker": "",
+          "class": "form-control"
         }
       }
     }
