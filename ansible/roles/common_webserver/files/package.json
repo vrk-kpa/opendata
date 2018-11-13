@@ -26,7 +26,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-pro": "^5.5.0",
+    "@fortawesome/fontawesome-free": "^5.4.1",
     "bootstrap": "^3.3.7",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jstree": "^3.3.6",

@@ -791,8 +791,16 @@ p:last-child,
   margin: 0 auto;
   padding-top: 30px;
   padding-bottom: 20px;
+
   .row {
     margin: 0px;
+  }
+
+  .guide-content {
+    overflow: auto;
+    img {
+      max-width: 100%;
+    }
   }
 }
 
@@ -967,7 +975,7 @@ p:last-child,
           }
         }
 
-        .field-content > p {
+        .guide-search-result-content {
           font-size: 14px;
         }
       }
@@ -1003,4 +1011,8 @@ p:last-child,
       color: @btn-dark-bg;
     }
   }
+}
+
+.vertical-dropdown-menu {
+  float: none; // Overrides float: left in upstream
 }

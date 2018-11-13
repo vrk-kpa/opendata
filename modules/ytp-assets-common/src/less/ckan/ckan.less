@@ -148,6 +148,7 @@
     max-width: 1140px;
     margin: 0 auto;
     float: none;
+    padding: 0px 15px;
 
     li {
       font-size: 14px;
@@ -544,6 +545,7 @@
 
 .media-grid {
   background: transparent;
+  margin-top: 20px;
   padding: 0px;
   padding-bottom: 10px;
   border-top: 0px;
@@ -557,6 +559,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.16);
     border-radius: 3px;
     padding: 0px;
+    margin: 0px 25px 25px 0px;
     .media-image {
       padding: 0px;
       border-radius: 0px;
@@ -709,9 +712,9 @@ li.organization {
   &:focus {
     outline: none;
   }
-  .fa-plus-circle {
+  .fa-plus-circle, .fa-minus-circle {
     color: @btn-dark-bg;
-    font-size: 24px;
+    font-size: 17px;
   }
   .fa-minus {
     color: @btn-dark-bg;
@@ -733,4 +736,30 @@ li.organization {
 
 .organization-tree-short-description {
   padding-bottom: 15px;
+}
+
+.form-actions .btn-danger {
+  margin-right: 5px;
+}
+.navbar-header .navbar-toggle {
+  margin-right: 25px;
+}
+
+.footer .opendata-footer {
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.icon-private {
+  color: @opendata-brand-danger;
+  vertical-align: middle;
+  height: 1.3em;
+}
+
+.context-info .module-content {
+  padding: 0;
+}
+
+#content > .wrapper > .primary:first-child > .module > .module-content {
+  padding-left: 0;
 }

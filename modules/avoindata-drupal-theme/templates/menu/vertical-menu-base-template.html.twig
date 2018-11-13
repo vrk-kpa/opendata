@@ -1,0 +1,57 @@
+{#
+Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
+Removed the navbar-nav class to make this a vertical menu
+#}
+{# All menu and submenu items #}
+<div class="navbar">
+  <div class="navbar-header pull-right">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="opendata-menu-container collapse navbar-collapse">
+    {% import _self as menus %}
+    {#
+      We call a macro which calls itself to render the full tree.
+      @see http://twig.sensiolabs.org/doc/tags/macro.html
+    #}
+    {{ menus.menu_links(items, attributes, 0) }}
+
+    {% macro menu_links(items, attributes, menu_level) %}
+      {% import _self as menus %}
+      {% if items %}
+        {% if menu_level == 0 %}
+            <ul class="nav" role="menu" aria-labelledby="dropdownMenu">
+        {% else %}
+          <ul class="dropdown-menu vertical-dropdown-menu" role="menu" aria-labelledby="dLabel">
+        {% endif %}
+        {% for item in items %}
+          {%
+            set item_classes = [
+              item.in_active_trail ? 'active',
+            ]
+          %}
+          {% if item.below %}
+            {% if menu_level == 0 %}
+              <li class="dropdown">
+                <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
+                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+              </li>
+            {% else %}
+              <li class="dropdown-submenu">
+                <a href="{{ item.url }}">{{ item.title }}</a>
+                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+              </li>
+            {% endif %}
+          {% else %}
+            <li {{ item.attributes.addClass(item_classes) }}>{{ link(item.title, item.url) }}</li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endmacro %}
+
+  </div>
+</div>
