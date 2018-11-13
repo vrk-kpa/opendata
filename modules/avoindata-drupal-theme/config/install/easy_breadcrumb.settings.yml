@@ -15,4 +15,4 @@ excluded_paths: ''
 replaced_titles: ''
 segments_separator: null
 title_segment_as_link: false
-title_from_page_when_available: true
+title_from_page_when_available: false
