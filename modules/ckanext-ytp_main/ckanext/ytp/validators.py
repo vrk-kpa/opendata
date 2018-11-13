@@ -335,6 +335,7 @@ ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 def ignore_if_invalid_isodatetime(v):
     return v if ISO_DATETIME_FORMAT.match(v) else None
 
+
 @scheming_validator
 def from_date_is_before_until_date(field, schema):
 
@@ -345,7 +346,6 @@ def from_date_is_before_until_date(field, schema):
 
     if field and field.get('min_date_field'):
         min_date_field = (field.get('min_date_field'),)
-
 
     def validator(key, data, errors, context):
 
@@ -358,4 +358,3 @@ def from_date_is_before_until_date(field, schema):
                 errors[key].append(_('End date is before start date'))
 
     return validator
-
