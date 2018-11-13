@@ -246,12 +246,14 @@
     {
       "field_name": "valid_from",
       "label": "Valid from",
-      "preset": "date_opendata"
+      "preset": "date_opendata",
+      "max_date_field": "valid_till"
     },
     {
       "field_name": "valid_till",
       "label": "Valid till",
-      "preset": "date_opendata"
+      "preset": "date_opendata",
+      "min_date_field": "valid_from"
     }
   ],
   "resource_fields": [
