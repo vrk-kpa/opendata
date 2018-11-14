@@ -293,6 +293,7 @@
   synchronize:
     src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+    delegate_to: delegate.host
 
 # These need to be enabled after installing external modules (at least pathauto), because
 # of dependencies. 
