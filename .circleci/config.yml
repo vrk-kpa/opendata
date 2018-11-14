@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - checkout
+      - run: git submodule update --init --recursive
 
       # Download and cache dependencies
       - restore_cache:
@@ -88,6 +89,41 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
+  run-ansible-role-test:
+    docker:
+      - image: circleci/python
+
+    steps:
+      - checkout
+
+      - run: git submodule update --init --recursive
+
+      - run: sudo pip install ansible boto awscli
+
+      - run:
+          name: Copy private key for ec2 usage
+          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
+          working_directory: ~/project/
+
+      - run:
+          name: Run build test playbook
+          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/cirlcleci_build_test.yml >>cirlcleci_build_test.log 2>&1"
+          no_output_timeout: 60m
+          working_directory: ~/project/
+
+      - store_artifacts:
+          path: cirlcleci_build_test.log
+
+        # If there is a syntax error or some other issue in the actual build test
+        # playbook the cleanup part might not get executed. Therefore additional
+        # cleanup task to ensure that created instances will be terminated.
+      - run:
+          name: Additional cleanup for EC2 instances
+          command: "ansible-playbook ansible/circleci_cleanup.yml"
+          working_directory: ~/project/
+          when: always
+
+
 workflows:
   version: 2
   lint-all:
@@ -95,3 +131,4 @@ workflows:
       - run-flake8
       - run-code-sniffer
       - run-ansible-lint
+      - run-ansible-role-test
