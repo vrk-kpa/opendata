@@ -51,7 +51,7 @@
   copy:
     src: package.json
     dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: AWS.enabled != True and npmrc.stat.exists == False
+  when: AWS.enabled != True and (npmrc is not defined or npmrc.stat.exists == False)
 
 - name: Install resource dependencies
   command:  npm install --unsafe-perm=true --allow-root
