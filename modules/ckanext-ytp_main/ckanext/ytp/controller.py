@@ -580,7 +580,7 @@ class YtpOrganizationController(OrganizationController):
             data_dict['include_datasets'] = False
             c.group_dict = self._action('group_show')(context, {'id': id})
 
-            check_access('group_update', context, {'id': id})
+            check_access('organization_update', context, {'id': id})
             context['keep_email'] = True
             context['auth_user_obj'] = c.userobj
             context['return_minimal'] = True
