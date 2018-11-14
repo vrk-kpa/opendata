@@ -98,6 +98,8 @@ jobs:
 
       - run: git submodule update --init --recursive
 
+      - run: sudo apt update && sudo apt install rsync
+      
       - run: sudo pip install ansible boto awscli
 
       - run:
