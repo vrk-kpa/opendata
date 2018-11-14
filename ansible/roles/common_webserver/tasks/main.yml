@@ -64,9 +64,14 @@
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
     dest: "{{ server_path }}/avoindata-drupal-theme"
     force: yes
-  tags:
-  - drupal
-  - gulp
+  when: deployment_environment_id == "vagrant"
+
+- name: Synchonize avoindata drupal theme to cache folder
+  synchronize:
+    src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
+    dest: "{{ server_path }}/avoindata-drupal-theme"
+  when: deployment_environment_id != "vagrant"
+
 
 - name: Run gulp
   command: gulp
