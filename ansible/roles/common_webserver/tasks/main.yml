@@ -1,91 +1,5 @@
 ---
 
-# Web modules
-
-- name: Clear module cache
-  file:
-    path: "{{ cache_path }}/{{ item }}"
-    state: absent
-  with_items:
-    - modules
-  when: clear_module_cache
-  tags:
-  - common
-  - clear-cache
-
-- name: Clear module tar cache
-  file:
-    path: "{{ cache_path }}/{{ item }}.tar"
-    state: absent
-  with_items:
-    - modules
-  when: clear_module_cache
-  tags:
-  - common
-  - clear-cache
-
-- name: Package modules
-  local_action: command tar -c --exclude=.git --exclude-from={{ item }}/.gitignore -f {{ item }}.tar {{ item }} chdir="{{ modules_path }}"
-  become: false
-  with_flattened:
-    - "{{ modules }}"
-  args:
-    warn: false   # To quiet warnings about using tar as archive module does not suit for this purpose.
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-  - drupal-translations
-
-- name: Copy modules
-  copy:
-    src: "{{ modules_path }}/{{ item }}.tar"
-    dest: "{{ cache_path }}"
-  register: modules_copy
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-  - drupal-translations
-
-- name: Delete old modules
-  file:
-    path: "{{ cache_path }}/{{ item }}"
-    state: absent
-  when: modules_copy is changed
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-
-- name: Extract modules
-  unarchive:
-    src: "{{ cache_path }}/{{ item }}.tar"
-    dest: "{{ cache_path }}"
-  when: modules_copy is changed
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-
 # Web resources
 
 - name: Ensure www path is present
@@ -102,7 +16,6 @@
   file:
     path: /var/www/resources
     state: absent
-  when: modules_copy is changed
   tags:
   - resources
 
@@ -113,27 +26,14 @@
   tags:
   - gulp
 
-- name: Ensure resource dependencies path is present
-  file:
-    path: "{{ cache_path }}/resource-dependencies"
-    state: directory
-    mode: "0755"
-    owner: root
-    group: root
-  when: modules_copy is changed
-  tags:
-  - resources
-
-- name: Copy resource dependency base
-  #shell: cp -R {{ cache_path }}/ytp-assets-common/* {{ cache_path }}/resource-dependencies
+- name: Copy assets common
   synchronize:
-    src: "{{ cache_path }}/ytp-assets-common/"
-    dest: "{{ cache_path }}/resource-dependencies"
+    src: "{{ playbook_dir }}/../modules/ytp-assets-common/"
+    dest: "{{ server_path }}/ytp-assets-common"
     rsync_opts:
-      - "--exclude=node_modules"
-  when: modules_copy is changed
-  tags:
-  - resources
+     - "--exclude=node_modules"
+     - "--exclude=src/vendor"
+     - "--exclude=resources"
 
 - name: Check existance of .npmrc
   stat:
@@ -144,26 +44,25 @@
 - name: Copy secret .npmrc
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{ cache_path }}/resource-dependencies/.npmrc"
+    dest: "{{ server_path }}/ytp-assets-common/.npmrc"
   when: AWS.enabled == True
 
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
-    dest: "{{ cache_path }}/resource-dependencies/package.json"
+    dest: "{{ server_path }}/ytp-assets-common/package.json"
   when: AWS.enabled != True and npmrc.stat.exists == False
 
 - name: Install resource dependencies
   command:  npm install --unsafe-perm=true --allow-root
   args:
-    chdir: "{{cache_path}}/resource-dependencies"
-  when: modules_copy is changed
+    chdir: "{{ server_path }}/ytp-assets-common"
 
 - name: Symlink avoindata drupal theme to cache folder
   file:
     state: link
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
-    dest: "{{ cache_path }}/avoindata-drupal-theme"
+    dest: "{{ server_path }}/avoindata-drupal-theme"
     force: yes
   tags:
   - drupal
@@ -172,13 +71,12 @@
 - name: Run gulp
   command: gulp
   args:
-    chdir: "{{ cache_path }}/resource-dependencies"
+    chdir: "{{ server_path }}/ytp-assets-common"
   tags:
   - gulp
 
 - name: Copy resources
-  shell: cp -R {{ cache_path }}/resource-dependencies/resources /var/www/resources
-  when: modules_copy is changed
+  shell: cp -R {{ server_path }}/ytp-assets-common/resources /var/www/resources
   tags:
   - resources
 
