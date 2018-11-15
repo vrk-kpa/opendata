@@ -218,6 +218,7 @@
       },
       "display_property": "dc:creator",
       "display_snippet": "email.html",
+      "validators": "email_validator",
       "display_email_name_field": "author"
     },
     {
