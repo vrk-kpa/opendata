@@ -98,6 +98,7 @@
       },
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
+      "validators": "email_validator",
       "display_email_name_field": "maintainer",
       "required": true
     },
