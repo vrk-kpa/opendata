@@ -22,8 +22,7 @@
 
 
 - name: Add facet translations
-  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp_main ytp-facet-translations "{{ cache_path }}/ckanext-ytp_main/ckanext/ytp/i18n" -c /etc/ckan/default/production.ini
-  when: modules_copy is changed
+  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp_main ytp-facet-translations "{{ server_path }}/ckanext-ytp_main/ckanext/ytp/i18n" -c /etc/ckan/default/production.ini
   tags:
   - translations
   - ckan
