@@ -26,6 +26,18 @@
     mode: "0644"
     owner: root
     group: root
+  notify: Restart Nginx
+  tags:
+    - nginx
+
+- name: Copy fastcgi_params configuration file
+  template:
+    src: "fastcgi_params.j2"
+    dest: "/etc/nginx/fastcgi_params.conf"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart Nginx
   tags:
     - nginx
 
@@ -39,6 +51,7 @@
   with_items:
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'server_name': "{{ hostname }}", 'snippet': 'ytp.conf', 'base_hostname': "{{ base_hostname }}" }
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'server_name': "{{ secondary_hostname }}", 'snippet': 'ytp-secondary.conf', 'base_hostname': "{{ secondary_base_hostname }}" }
+  notify: Restart Nginx
   tags:
     - nginx
 
@@ -52,6 +65,8 @@
   with_items:
     - { 'template':'server.config.j2', 'destination':'ytp.conf', 'root_redirect': "{{ hostname_language }}" }
     - { 'template':'server.config.j2', 'destination':'ytp-secondary.conf', 'root_redirect': "{{ secondary_hostname_language }}" }
+  tags:
+    - nginx
   notify: Restart Nginx
 
 - name: Enable Nginx site
@@ -64,14 +79,6 @@
     - "ytp-secondary"
   tags:
     - nginx
-  notify:
-  - Restart Nginx
+  notify: Restart Nginx
 
-- name: Ensure Nginx is restarted
-  service:
-    name: nginx
-    state: restarted
-  tags:
-    - nginx
-
-#- include: maintenance-start.yml
+- include: maintenance-start.yml
