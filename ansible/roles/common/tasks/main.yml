@@ -12,20 +12,24 @@
 - include: timezone.yml
 
 - name: Set hostname
-  command: hostname {{ hostname }}
+  hostname:
+    name: "{{ deployment_environment_id }}-web"
   register: hostname_update
   tags:
   - common
-  - non-local
-  - has-hostname
 
-#- name: Update hostname
-#  command: service hostname start
-#  when: hostname_update|changed
-#  tags:
-#  - common
-#  - non-local
-#  - has-hostname
+- name: Add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1\tlocalhost {{ deployment_environment_id }}-web"
+    owner: root
+    group: root
+    mode: 0644
+    state: present
+    insertbefore: BOF
+  tags:
+  - common
 
 - name: Copy environment
   template:
