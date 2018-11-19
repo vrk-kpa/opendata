@@ -20,8 +20,7 @@
     - clean
     - database
     - common_webserver
-    - ssl
-    - nginx
+    - ansible/roles/nginx/tasks/main.yml
     - postfix
     - jetty
     - redis
