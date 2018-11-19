@@ -261,9 +261,9 @@
 
 ### Install external modules ###
 
-# Disable removed modules, modules must be removed from removed_extensions 
+# Disable removed modules, modules must be removed from removed_extensions
 # after they are removed from composer.json
-- name: Disable removed drupal extra modules
+- name: Disable drupal modules
   shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
   args:
     chdir: "{{ drupal8_root }}"
@@ -296,7 +296,7 @@
   delegate_to: "{{ inventory_hostname }}"
 
 # These need to be enabled after installing external modules (at least pathauto), because
-# of dependencies. 
+# of dependencies.
 - name: Enable custom modules
   shell: ./vendor/bin/drush en -y {{ item.machine_name }}
   args:
@@ -306,7 +306,7 @@
 # Some configurations need to be removed to avoid conflicts at the next step
 # To avoid failure with clean installs, error about trying to remove a non-existing
 # configuration is ignored. As a result, it is important to carefully check the
-# spelling of configurations. 
+# spelling of configurations.
 - name: Delete existing configurations
   shell: ./vendor/bin/drush config-delete {{ item }}
   register: result
@@ -390,7 +390,7 @@
     - drupal
 
 # Without this, the added translatable status for content types like guide page, doesn't work and
-# fails because of an SQL error. 
+# fails because of an SQL error.
 - name: Run entity updates for database
   shell: "./vendor/bin/drush updatedb --entity-updates -y"
   args:
@@ -426,7 +426,7 @@
   service: name=php7.0-fpm state=restarted
 
 - name: Deploy favicon
-  copy: src="favicon.ico" 
+  copy: src="favicon.ico"
     dest={{ drupal8_root }}/web/favicon.ico
 
 - name: Deploy robots.txt
@@ -438,4 +438,3 @@
   file:
     state: absent
     path: /var/www/maintenance
-
