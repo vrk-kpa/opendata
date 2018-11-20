@@ -18,39 +18,15 @@ Example:
 {% set title = package.title or package.name %}
 
 {% block package_item %}
-<li class="dataset-item dataset-item-borderless">
-  <div class="row">
-    {% block content %}
-    <div class="{% if show_rating %}col-md-8 {% endif %} col-sm-12 dataset-col-left">
-      <div class="secondary-heading-container">
-        {% block heading %}
-          <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=package.name) }}">
-
-            {% set pkg_icon = h.url_for_static('uploads/showcase/' + package.get('icon')) %}
-            {% if pkg_icon %}
-              <div class="heading-icon">
-                <img src="{{ pkg_icon }}">
-              </div>
-            {% endif %}
-
-            <div class="headings-wrapper">
-              <h3 class="heading">
-                <span>{{title}}</span>
-              </h3>
-            </div>
-          </a>
-        {% endblock %}
-      </div>
-    </div>
-    {#
-    {% if show_rating %}
-      <div class="col-md-4 col-sm-12 dataset-col-right">
-        {% snippet "rating/snippets/rating_single.html", package=package %}
-      </div>
-      {% endif %}
-    #}
+<li class="nav-item">
+  {% block content %}
+  <div class="secondary-heading-container">
+    {% block heading %}
+      <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=package.name) }}">
+        {{ title }}
+      </a>
     {% endblock %}
-
   </div>
+  {% endblock %}
 </li>
 {% endblock %}
