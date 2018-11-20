@@ -61,7 +61,7 @@
           {% for recentdataset in recentdatasets %}
           <tr>
             <td>
-              <a href="/data/dataset/{{recentdataset['name']}}">{{ recentdataset['title_translated'][language] | default(recentdataset['title']) }}</a>
+              <a href="/data/{{ language }}/dataset/{{recentdataset['name']}}">{{ recentdataset['title_translated'][language] | default(recentdataset['title']) }}</a>
             </td>
             <td>
               {{ recentdataset['owner'] | default('') }}
@@ -73,7 +73,7 @@
           {% endfor %}
         </table>
         <div class="row avoindata-datasetlist-links">
-            <a class="pull-right" href="/data/dataset?q=&sort=metadata_modified+desc">
+            <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
               <i class="fas fa-arrow-right"></i>
               {% trans %}
               More recently modified datasets
@@ -112,7 +112,7 @@
           {% for newdataset in newdatasets %}
           <tr>
             <td>
-              <a href="/data/dataset/{{newdataset['name']}}">{{ newdataset['title_translated'][language] | default(newdataset['title']) }}</a>
+              <a href="/data/{{ language }}/dataset/{{newdataset['name']}}">{{ newdataset['title_translated'][language] | default(newdataset['title']) }}</a>
             </td>
             <td>
               {{ newdataset['owner'] | default('') }}
@@ -124,7 +124,7 @@
           {% endfor %}
         </table>
         <div class="row avoindata-datasetlist-links">
-          <a class="pull-right" href="/data/dataset?q=&sort=metadata_created+desc">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_created+desc">
             <i class="fas fa-arrow-right"></i>
             {% trans %}
             More new data sets
@@ -163,7 +163,7 @@
           {% for populardataset in populardatasets %}
           <tr>
             <td>
-              <a href="/data/dataset/{{populardataset['name']}}">{{ populardataset['title_translated'][language] | default(populardataset['title']) }}</a>
+              <a href="/data/{{ language }}/dataset/{{populardataset['name']}}">{{ populardataset['title_translated'][language] | default(populardataset['title']) }}</a>
             </td>
             <td>
               {{ populardataset['owner'] | default('') }}
@@ -175,7 +175,7 @@
           {% endfor %}
         </table>
         <div class="row avoindata-datasetlist-links">
-          <a class="pull-right" href="/data/dataset?q=&sort=views_recent+desc">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=views_recent+desc">
             <i class="fas fa-arrow-right"></i>
             {% trans %}
             More popular datasets

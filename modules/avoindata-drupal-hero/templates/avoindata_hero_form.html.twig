@@ -116,21 +116,21 @@
       <div class="col-md-5">
           <ul class="list-inline">
               <li>
-                <a href="/data/dataset?sort=metadata_modified+desc">
+                <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
                   {% trans %}
                   Recent
                   {% endtrans %}
                 </a>
               </li>
               <li>
-                <a href="/data/dataset?sort=views_recent+desc">
+                <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
                   {% trans %}
                   Popular
                   {% endtrans %}
                 </a>
               </li>
               <li>
-                <a href="/data/showcase">
+                <a href="/data/{{ form.language }}/showcase">
                   {% trans %}
                   Applications
                   {% endtrans %}

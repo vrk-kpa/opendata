@@ -20,28 +20,28 @@
         {% for app in applications %}
           <div class="avoindata-appfeed-application-box row">
             <div class="application-item-logo col-sm-3 col-xs-12">
-              <a href="/data/showcase/{{ app['name'] }}">
+              <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                 <img class="application-item-img" src="/data/uploads/showcase/{{ app['icon'] }}" alt="">
               </a>
             </div>
             <div class="application-item-content col-sm-9 col-xs-12">
               <h5 class="appitem-header">
-                <a href="/data/showcase/{{ app['name'] }}">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                   {{ app['title'] }}
                 </a>
               </h5>
               <p class="appitem-metainfo">
                 <i class="far fa-clock appitem-fa-icon"></i>
-                <a href="/data/showcase/{{ app['name'] }}">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                   {{ app['metadata_created'] | date('U') | format_date('avoindata_long_date') }}
                 </a>
                 <i class="fas fa-folder appitem-fa-icon"></i>
-                <a href="/data/showcase/{{ app['name'] }}">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                   {{ app['category'][language]|join(', ') }}
                 </a>
               </p>
               <div class="appitem-content">
-                <a href="/data/showcase/{{ app['name'] }}">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                   <p>
                     {{ app['notes_translated'][language]|default("") }}
                   </p>
@@ -51,7 +51,7 @@
           </div>
         {% endfor %}
         
-        <a href="/data/showcase">
+        <a href="/data/{{ language }}/showcase">
           <span class="avoindata-appfeed-link-bullet">
           >
           </span>

@@ -20,8 +20,10 @@ function avoindata_infobox_help($route_name, RouteMatchInterface $route_match) {
 function avoindata_infobox_theme($existing, $type, $theme, $path) {
   return array(
     'avoindata_infobox' => array(
+      'variables' => array(
+        'language' => NULL
+      ),
       'template' => 'avoindata_infobox_block',
-      'variables' => array(),
     ),
   );
 }
