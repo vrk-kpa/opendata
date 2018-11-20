@@ -16,7 +16,7 @@ Example:
 #}
 {% block package_list %}
   {% if packages %}
-  <ul class="{{ list_class or 'dataset-list unstyled' }}">
+  <ul class="{{ list_class or 'nav nav-simple' }}">
     {% block package_list_inner %}
       {% for package in packages %}
         {% snippet 'sixodp_showcase/snippets/related_item.html', package=package, item_class=item_class, hide_resources=hide_resources, banner=banner, truncate=truncate, truncate_title=truncate_title, show_rating=show_rating %}
