@@ -147,12 +147,6 @@
 
   ### Drupal installation ###
 
-  #- name: Copy Drupal settings
-  #  become: true
-  #  template: src=settings.php.j2
-  #    dest={{ drupal8_root }}/web/sites/default/settings.php
-  #    owner=vagrant
-  #    group=vagrant
 
   - name: Install a clean Drupal database
     shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
@@ -193,6 +187,17 @@
     when: "'1' in drupal7_database_initialized.stdout"
 
   when: "'1' not in drupal8_database_initialized.stdout"
+
+- name: Copy Drupal settings
+  template:
+    src: settings.php.j2
+    dest: "{{ drupal8_root }}/web/sites/default/settings.php"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0444
+  when: drupal8_root is defined
+
+
 
 ### Translations ###
 
@@ -360,6 +365,7 @@
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
+    - { src: system.performance.yml.j2, dest: system.performance.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config

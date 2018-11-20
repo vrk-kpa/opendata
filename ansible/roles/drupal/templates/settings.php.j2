@@ -256,7 +256,8 @@ $databases['default']['default'] = array (
  *   );
  * @endcode
  */
-$config_directories = array();
+# $config_directories = array();
+$config_directories['sync'] = '../config/sync';
 /**
  * Settings:
  *
@@ -372,11 +373,17 @@ $settings['update_free_access'] = FALSE;
  * address spoofing unless more advanced precautions are taken.
  */
 # $settings['reverse_proxy'] = TRUE;
+{% if AWS.enabled %}
+$settings['reverse_proxy'] = TRUE;
+{% endif %}
 /**
  * Specify every reverse proxy IP address in your environment.
  * This setting is required if $settings['reverse_proxy'] is TRUE.
  */
 # $settings['reverse_proxy_addresses'] = array('a.b.c.d', ...);
+{% if AWS.enabled %}
+$settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
+{% endif %}
 /**
  * Set this value if your proxy server sends the client IP in a header
  * other than X-Forwarded-For.
@@ -387,11 +394,17 @@ $settings['update_free_access'] = FALSE;
  * other than X-Forwarded-Proto.
  */
 # $settings['reverse_proxy_proto_header'] = 'X_FORWARDED_PROTO';
+{% if AWS.enabled %}
+$settings['reverse_proxy_proto_header'] = 'CloudFront-Forwarded-Proto';
+{% endif %}
 /**
  * Set this value if your proxy server sends the client protocol in a header
  * other than X-Forwarded-Host.
  */
 # $settings['reverse_proxy_host_header'] = 'X_FORWARDED_HOST';
+{% if AWS.enabled %}
+$settings['reverse_proxy_host_header'] = 'X-Forwarded-For';
+{% endif %}
 /**
  * Set this value if your proxy server sends the client protocol in a header
  * other than X-Forwarded-Port.
@@ -655,9 +668,9 @@ if ($settings['hash_salt']) {
  *
  * Remove the leading hash signs if you would like to alter this functionality.
  */
-$config['system.performance']['fast_404']['exclude_paths'] = '/\/(?:styles)|(?:system\/files)\//';
-$config['system.performance']['fast_404']['paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
-$config['system.performance']['fast_404']['html'] = '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
+# $config['system.performance']['fast_404']['exclude_paths'] = '/\/(?:styles)|(?:system\/files)\//';
+# $config['system.performance']['fast_404']['paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
+# $config['system.performance']['fast_404']['html'] = '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
 /**
  * Load services definition file.
  */
