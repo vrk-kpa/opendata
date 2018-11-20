@@ -24,9 +24,14 @@ who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
 sqlalchemy.url = postgres://{{ postgres.users.ckan.username }}:{{ postgres.users.ckan.password }}@{{ postgres.server.host }}/{{ postgres.databases.ckan.name }}
-
+{% if vagrant is defined %}
+ckan.site_url = http://{{ hostname }}
+ckan.site_url_internally = http://{{ hostname }}/data/
+{% else %}
 ckan.site_url = https://{{ hostname }}
 ckan.site_url_internally = https://{{ hostname }}/data/
+{% endif %}
+
 {% raw %}
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
@@ -101,7 +106,11 @@ ckan.harvest.mq.redis_db = {{ redis_harvest_database }}
 
 ckanext-archiver.archive_dir = {{ resource_cache_path }}
 ckanext-archiver.max_content_length = 50000000
+{% if vagrant is defined %}
+ckanext-archiver.cache_url_root = http://{{ hostname }}/resource_cache/
+{% else %}
 ckanext-archiver.cache_url_root = https://{{ hostname }}/resource_cache/
+{% endif %}
 ckanext-archiver.user_agent_string = {{ hostname }} archiver
 ckanext-archiver.archive_cloud = True
 
@@ -153,7 +162,7 @@ ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
 ckanext.reminder.date_field = valid_till
 
 #Fields for recipients name and email
-ckanext.reminder.recipient_name = maintainer 
+ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
 
