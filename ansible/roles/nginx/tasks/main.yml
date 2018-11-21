@@ -33,7 +33,7 @@
 - name: Copy fastcgi_params configuration file
   template:
     src: "fastcgi_params.j2"
-    dest: "/etc/nginx/fastcgi_params.conf"
+    dest: "/etc/nginx/fastcgi_params"
     mode: "0644"
     owner: root
     group: root
