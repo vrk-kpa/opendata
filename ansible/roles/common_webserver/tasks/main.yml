@@ -19,70 +19,84 @@
   tags:
   - resources
 
-- name: Install gulp
-  npm:
-    name: gulp-cli
-    global: yes
-  tags:
-  - gulp
+- block:
+  - name: Install gulp
+    npm:
+      name: gulp-cli
+      global: yes
 
-- name: Copy assets common
-  synchronize:
-    src: "{{ playbook_dir }}/../modules/ytp-assets-common/"
-    dest: "{{ server_path }}/ytp-assets-common"
-    rsync_opts:
-     - "--exclude=node_modules"
-     - "--exclude=src/vendor"
-     - "--exclude=resources"
 
-- name: Check existance of .npmrc
-  stat:
-    path: "{{ playbook_dir }}/../modules/ytp-assets-common/.npmrc"
-  register: npmrc
+  - name: Copy assets common
+    synchronize:
+      src: "{{ playbook_dir }}/../modules/ytp-assets-common/"
+      dest: "{{ server_path }}/ytp-assets-common"
+      rsync_opts:
+      - "--exclude=node_modules"
+      - "--exclude=src/vendor"
+      - "--exclude=resources"
+
+  - name: Check existance of .npmrc
+    stat:
+      path: "{{ playbook_dir }}/../modules/ytp-assets-common/.npmrc"
+    register: npmrc
+
+  - name: Copy fallback package.json if npmrc does not exist
+    copy:
+      src: package.json
+      dest: "{{ server_path }}/ytp-assets-common/package.json"
+    when: (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
+
+  - name: Install resource dependencies
+    command:  npm install --unsafe-perm=true --allow-root
+    args:
+      chdir: "{{ server_path }}/ytp-assets-common"
+
+  - name: Symlink avoindata drupal theme to cache folder
+    file:
+      state: link
+      src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
+      dest: "{{ server_path }}/avoindata-drupal-theme"
+      force: yes
+
+  - name: Run gulp
+    command: gulp
+    args:
+      chdir: "{{ server_path }}/ytp-assets-common"
+
+  - name: Copy resources
+    shell: cp -R {{ server_path }}/ytp-assets-common/resources /var/www/resources
+
   when: deployment_environment_id == "vagrant"
 
-- name: Copy secret .npmrc
-  copy:
-    src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{ server_path }}/ytp-assets-common/.npmrc"
-  when: AWS.enabled == True
 
-- name: Copy fallback package.json if npmrc does not exist
-  copy:
-    src: package.json
-    dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: AWS.enabled != True and ((npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False)
+- block:
+  - name: Install gulp
+    local_action: command npm install -g gulp-cli
 
-- name: Install resource dependencies
-  command:  npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{ server_path }}/ytp-assets-common"
+  - name: Copy secret .npmrc
+    copy:
+      src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
+      dest: "{{ playbook_dir }}/..//ytp-assets-common/.npmrc"
+    when: AWS.enabled == True
 
-- name: Symlink avoindata drupal theme to cache folder
-  file:
-    state: link
-    src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
-    dest: "{{ server_path }}/avoindata-drupal-theme"
-    force: yes
-  when: deployment_environment_id == "vagrant"
+  - name: Copy fallback package.json if npmrc does not exist
+    copy:
+      src: package.json
+      dest: "{{ server_path }}/ytp-assets-common/package.json"
+    when: AWS.enabled != True and (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
 
-- name: Synchonize avoindata drupal theme to cache folder
-  synchronize:
-    src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme/"
-    dest: "{{ server_path }}/avoindata-drupal-theme"
+  - name: Install resource dependencies
+    local_action: command npm install --unsafe-perm=true --allow-root
+    args:
+      chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
+
+  - name: Run gulp
+    local_action: gulp
+    args:
+      chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
+
+
+  - name: Copy resources
+    shell: cp -R {{ playbook_dir }}/../modules/ytp-assets-common/resources /var/www/resources
+
   when: deployment_environment_id != "vagrant"
-
-
-- name: Run gulp
-  command: gulp
-  args:
-    chdir: "{{ server_path }}/ytp-assets-common"
-  tags:
-  - gulp
-
-- name: Copy resources
-  shell: cp -R {{ server_path }}/ytp-assets-common/resources /var/www/resources
-  tags:
-  - resources
-
-- include: pip.yml
