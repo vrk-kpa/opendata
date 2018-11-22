@@ -281,6 +281,7 @@
     - search_api
     - search_api_db
     - search_api_db_defaults
+    - google_analytics
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -353,6 +354,7 @@
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
+    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
 
 - name: Import drupal settings
