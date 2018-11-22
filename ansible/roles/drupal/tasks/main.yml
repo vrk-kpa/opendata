@@ -163,12 +163,6 @@
 
   - block:
 
-    - name: Patch migration module
-      patch:
-        src: "migrate_upgrade.Drush-9-port-of-commands.patch"
-        basedir: "{{ drupal8_root }}/web/modules/contrib/migrate_upgrade"
-        strip: 1
-
     - name: Enable migration modules
       shell: ./vendor/bin/drush en -y {{ item }}
       args:
