@@ -102,7 +102,7 @@ jobs:
       
       - run: sudo pip install ansible boto awscli
 
-      - run: sudo apt install nodejs
+      - run: sudo apt install nodejs npm
 
       - run: sudo npm install -g gulp-cli
 
