@@ -94,6 +94,8 @@
       chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
 
   - name: Copy resources
-    shell: cp -R {{ playbook_dir }}/../modules/ytp-assets-common/resources /var/www/resources
+    synchronize:
+      src: "{{ playbook_dir }}/../modules/ytp-assets-common/resources"
+      dest: "/var/www/resources"
 
   when: deployment_environment_id != "vagrant"
