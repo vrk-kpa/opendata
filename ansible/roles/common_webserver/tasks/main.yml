@@ -70,9 +70,6 @@
 
 
 - block:
-  - name: Install gulp
-    local_action: command npm install -g gulp-cli
-
   - name: Copy secret .npmrc
     copy:
       src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
@@ -94,7 +91,6 @@
     local_action: gulp
     args:
       chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
-
 
   - name: Copy resources
     shell: cp -R {{ playbook_dir }}/../modules/ytp-assets-common/resources /var/www/resources
