@@ -102,7 +102,9 @@ jobs:
       
       - run: sudo pip install ansible boto awscli
 
-      - run: sudo apt install nodejs npm
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
+      - run: sudo apt install nodejs
 
       - run: sudo npm install -g gulp-cli
 
