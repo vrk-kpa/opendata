@@ -89,7 +89,7 @@
       chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
 
   - name: Run gulp
-    local_action: gulp
+    local_action: command gulp
     args:
       chdir: "{{ playbook_dir }}/../modules/ytp-assets-common"
 
