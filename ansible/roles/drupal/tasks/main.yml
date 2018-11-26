@@ -240,18 +240,13 @@
   args:
     chdir: "{{ drupal8_root }}"
 
-- name: Synchronize custom theme
-  synchronize:
-    src: ../modules/avoindata-drupal-theme/
-    dest: "{{ drupal8_root }}/web/themes/avoindata"
-  when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
   file:
     state: link
-    src: /vagrant/modules/avoindata-drupal-theme/
+    src: "{{ server_path }}/avoindata-drupal-theme/"
     dest: "{{ drupal8_root }}/web/themes/avoindata"
-  when: deployment_environment_id == "vagrant"
+    force: yes
 
 ### Install external modules ###
 
