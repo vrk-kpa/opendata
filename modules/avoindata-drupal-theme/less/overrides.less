@@ -48,11 +48,23 @@ body, html {
   overflow-x: hidden; 
 }
 
+// Footer to the bottom of the screen if there is not enough content on the page (not sticky).
+.dialog-off-canvas-main-canvas {
+  .flex-display(flex);
+  .flex-direction(column);
+  min-height: 100vh;
+  // https://github.com/philipwalton/flexbugs#workaround-2
+  height: 100vh;
+
+  .region.region-footer {
+    margin: auto 0 0 0;
+  }
+}
+
 .main-container {
   margin: 0px;
   padding: 0px;
 }
-
 
 // Paragraphs.
 p:last-child,
@@ -383,7 +395,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   line-height: 18px;
-
+  margin-bottom: 50px;
 
   .avoindata-newsfeed-block {
     max-width: @opendata-container-max-width;
