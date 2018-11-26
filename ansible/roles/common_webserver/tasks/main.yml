@@ -98,7 +98,7 @@
 
   - name: Synchronize avoindata drupal theme to cache folder
     synchronize:
-      src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
+      src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme/"
       dest: "{{ server_path }}/avoindata-drupal-theme"
 
   - name: Install resource dependencies
