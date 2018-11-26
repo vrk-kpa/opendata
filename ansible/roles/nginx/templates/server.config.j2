@@ -76,7 +76,7 @@ location = /robots.txt {
 location /resource_cache {
     root {{ server_path }};
     autoindex off;
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }
 
@@ -116,7 +116,7 @@ location /data/user/_logout {
 location /resources {
     root /var/www;
     autoindex off;
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }
 
@@ -180,6 +180,6 @@ location ~ ^/sites/.*/files/styles/ {
 }
 
 location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }
