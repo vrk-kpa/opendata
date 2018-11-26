@@ -349,12 +349,14 @@ def from_date_is_before_until_date(field, schema):
 
     def validator(key, data, errors, context):
 
-        if max_date_field is not None and data[max_date_field]:
-            if data[key] and data[key] > data[max_date_field]:
+        max_date_value = data.get(max_date_field, "")
+        if max_date_field is not None and max_date_value != "":
+            if data[key] and data[key] > max_date_value:
                 errors[key].append(_('Start date is after end date'))
 
-        if min_date_field is not None and data[min_date_field]:
-            if data[key] and data[key] < data[min_date_field]:
+        min_date_value = data.get(min_date_field, "")
+        if min_date_field is not None and min_date_value != "":
+            if data[key] and data[key] < min_date_value:
                 errors[key].append(_('End date is before start date'))
 
     return validator

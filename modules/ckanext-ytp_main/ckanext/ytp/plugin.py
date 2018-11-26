@@ -1500,10 +1500,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             cookies = {}
             for domain in domains:
                 domain_hash = hashlib.sha256(domain).hexdigest()[:32]
-                cookiename = 'SSESS%s' % domain_hash
-                cookie = p.toolkit.request.cookies.get(cookiename)
-                if cookie is not None:
-                    cookies.update({cookiename: cookie})
+                cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
+                named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
+                for cookiename, cookie in named_cookies:
+                    if cookie is not None:
+                        cookies.update({cookiename: cookie})
 
             response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
             return response.text
