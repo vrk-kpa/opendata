@@ -102,12 +102,6 @@ jobs:
       
       - run: sudo pip install ansible boto awscli
 
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-
-      - run: sudo apt install nodejs
-
-      - run: sudo npm install -g gulp-cli
-
       - run:
           name: Copy private key for ec2 usage
           command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
