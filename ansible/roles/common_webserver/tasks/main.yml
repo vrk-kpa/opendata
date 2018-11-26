@@ -71,9 +71,9 @@
 
 - block:
   - name: Install gulp
-      npm:
-        name: gulp-cli
-        global: yes
+    npm:
+      name: gulp-cli
+      global: yes
 
   - name: Copy assets common
     synchronize:
