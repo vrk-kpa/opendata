@@ -118,6 +118,7 @@ Resources:
           git submodule update --init --recursive
 
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt
