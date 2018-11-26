@@ -130,7 +130,11 @@
 .btn-success {
   background-color: @btn-dark-bg;
   border-color: @btn-dark-bg;
-  &:hover, &:focus, &:active, &.disabled:focus, &.disabled:hover {
+  &.disabled, &.disabled:focus, &.disabled:hover{
+    background-color: tint(@btn-dark-bg, 50%);
+    border-color: tint(@btn-dark-bg, 50%);
+  }
+  &:hover, &:focus, &:active {
     background-color: @btn-dark-bg;
     border-color: @btn-dark-bg;
   }
