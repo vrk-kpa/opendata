@@ -90,6 +90,12 @@
       dest: "{{server_path}}/ytp-assets-common/.npmrc"
     when: AWS.enabled == True
 
+  - name: Copy fallback package.json if npmrc does not exist
+    copy:
+      src: package.json
+      dest: "{{ server_path }}/ytp-assets-common/package.json"
+    when: AWS.enabled != True and (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
+
   - name: Install resource dependencies
     command:  npm install --unsafe-perm=true --allow-root
     args:
