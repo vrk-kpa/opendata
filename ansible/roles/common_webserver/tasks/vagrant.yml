@@ -1,0 +1,45 @@
+- name: Install gulp
+  npm:
+    name: gulp-cli
+    global: yes
+
+
+- name: Copy assets common
+  synchronize:
+    src: "{{ playbook_dir }}/../modules/ytp-assets-common/"
+    dest: "{{ server_path }}/ytp-assets-common"
+    rsync_opts:
+    - "--exclude=node_modules"
+    - "--exclude=src/vendor"
+    - "--exclude=resources"
+
+- name: Check existance of .npmrc
+  stat:
+    path: "{{ playbook_dir }}/../modules/ytp-assets-common/.npmrc"
+  register: npmrc
+
+- name: Copy fallback package.json if npmrc does not exist
+  copy:
+    src: package.json
+    dest: "{{ server_path }}/ytp-assets-common/package.json"
+  when: (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
+
+- name: Install resource dependencies
+  command:  npm install --unsafe-perm=true --allow-root
+  args:
+    chdir: "{{ server_path }}/ytp-assets-common"
+
+- name: Symlink avoindata drupal theme to cache folder
+  file:
+    state: link
+    src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
+    dest: "{{ server_path }}/avoindata-drupal-theme"
+    force: yes
+
+- name: Run gulp
+  command: gulp
+  args:
+    chdir: "{{ server_path }}/ytp-assets-common"
+
+- name: Copy resources
+  shell: cp -R {{ server_path }}/ytp-assets-common/resources /var/www/resources
