@@ -244,8 +244,9 @@
 - name: Symlink custom theme
   file:
     state: link
-    src: /vagrant/modules/avoindata-drupal-theme/
+    src: "{{ server_path }}/avoindata-drupal-theme/"
     dest: "{{ drupal8_root }}/web/themes/avoindata"
+    force: yes
 
 ### Install external modules ###
 
