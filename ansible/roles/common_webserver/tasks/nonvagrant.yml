@@ -22,7 +22,7 @@
   copy:
     src: package.json
     dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: AWS.enabled != True and (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
+  when: AWS.enabled != True
 
 - name: Synchronize avoindata drupal theme to cache folder
   synchronize:
