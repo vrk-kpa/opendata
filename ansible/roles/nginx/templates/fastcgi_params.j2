@@ -10,7 +10,12 @@ fastcgi_param  DOCUMENT_URI       $document_uri;
 fastcgi_param  DOCUMENT_ROOT      $document_root;
 fastcgi_param  SERVER_PROTOCOL    $server_protocol;
 fastcgi_param  REQUEST_SCHEME     $scheme;
+{% if vagrant is defined %}
 fastcgi_param  HTTPS              $https if_not_empty;
+{% else %}
+fastcgi_param  HTTPS              on;
+fastcgi_param  HTTP_SCHEME        https;
+{% endif %}
 
 fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
 fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
