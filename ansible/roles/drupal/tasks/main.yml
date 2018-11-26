@@ -126,20 +126,19 @@
     working_dir: "{{ drupal8_root }}"
 
 
+### Database backup
+
+- name: Create root pgpass
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
+
+- name: Check if drupal 7 is already initialized on database
+  command: >
+    psql -h {{ postgres.server.host }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
+    {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
+  register: drupal7_database_initialized
+
 - block:
-
-  ### Database backup
-
-  - name: Create root pgpass
-    template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
-
-  - name: Check if drupal 7 is already initialized on database
-    command: >
-      psql -h {{ postgres.server.host }}
-      -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-      {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
-    register: drupal7_database_initialized
-
   #- name: Dump drupal db
   #  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
   #  when: "'1' in drupal_database_initialized.stdout"
@@ -182,8 +181,8 @@
       args:
         chdir: "{{ drupal8_root }}"
       with_items:
-        - "d7_user_role"
-        - "d7_user"
+        - "upgrade_d7_user_role"
+        - "upgrade_d7_user"
     when: "'1' in drupal7_database_initialized.stdout"
 
   when: "'1' not in drupal8_database_initialized.stdout"
