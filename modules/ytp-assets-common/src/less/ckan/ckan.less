@@ -738,6 +738,9 @@ li.organization {
   &:focus {
     outline: none;
   }
+  &:active:focus {
+    background-color: @background-body-color;
+  }
   .fa-plus-circle, .fa-minus-circle {
     color: @btn-dark-bg;
     font-size: 17px;
@@ -805,4 +808,9 @@ li.organization {
   content: "\f057";
   font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
   color: @black;
+}
+
+.highlight {
+  color: darken(@opendata-brand-primary, 10%);
+  font-weight: @font-weight-heavy;
 }
