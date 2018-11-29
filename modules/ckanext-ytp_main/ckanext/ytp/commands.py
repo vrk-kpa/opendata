@@ -298,8 +298,7 @@ def migrate_orgs(ctx, config, dryrun):
         if 'features' not in old_org_dict:
             # 'adminstration' is used in previous data model
             if old_org_dict.get('public_adminstration_organization'):
-                # Required as JSON string by scheming's multi_checkbox
-                patch['features'] = '["public_administration_organization"]'
+                patch['features'] = ["public_administration_organization"]
 
         if patch:
             patch['id'] = old_org_dict['id']
