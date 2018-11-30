@@ -1,0 +1,21 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - guide-menu-en
+      - guide-menu-fi
+      - guide-menu-sv
+    parent: 'guide-menu-fi:'
+_core:
+  default_config_hash: TJ9-xPK8xacrOKUra0l2-DrLJz6nZO7nnq68pl_lT5E
+name: 'Avoin Data Guide Page'
+type: avoindata_guide_page
+description: 'A content type that can be used for writing a new page to the guide about using the avoindata.fi page'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

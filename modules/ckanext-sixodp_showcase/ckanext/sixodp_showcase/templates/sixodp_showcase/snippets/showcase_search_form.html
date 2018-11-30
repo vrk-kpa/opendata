@@ -5,3 +5,25 @@
   <h4>{% snippet 'sixodp_showcase/snippets/showcase_search_result_text.html', query=query, count=count, type=type %}</h4>
 {% endif %}
 {% endblock %}
+
+
+{% block search_facets %}
+{% if facets %}
+  <p class="filter-list">
+    {% for field in facets.fields %}
+      {% set search_facets_items = facets.search.get(field)['items'] %}
+      <span class="facet">{{ facets.titles.get(field) }}:</span>
+      {% for value in facets.fields[field] %}
+        <span class="filtered pill">
+          {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
+            {{ facets.translated_fields[(field,value)] }}
+          {%- else -%}
+            {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+          {%- endif %}
+          <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
+        </span>
+      {% endfor %}
+    {% endfor %}
+  </p>
+{% endif %}
+{% endblock %}

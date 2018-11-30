@@ -1,542 +1,431 @@
 ---
 
-### Drupal ###
 
-- name: Ensure Drupal packages
-  # action: apt pkg="{{ item }}" state=latest
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
-    - php-pgsql
-    - php-gd
-    - php-fpm
-    - php-cli
-    - php
-    - php-xml
-    - php-mbstring
-  tags:
-  - packages
-  - drupal
-
-- name: Fetch drush package
-  # get_url: url="https://github.com/drush-ops/drush/archive/6.x.zip" dest="{{ cache_path }}/drush-6.x.zip"
-  get_url:
-    url: "https://github.com/drush-ops/drush/archive/6.x.zip"
-    dest: "{{ cache_path }}/drush-6.x.zip"
-  tags:
-  - drupal
-
-- name: Unpack drush
-  command: unzip "{{ cache_path }}/drush-6.x.zip" chdir="{{ server_path }}" creates="{{ server_path }}/drush-6.x"
-  tags:
-  - drupal
-
-- name: Setup drush binary link
+- name: Remove old drush6 modules
   file:
-    path: "/usr/local/bin/drush"
-    src: "{{ server_path }}/drush-6.x/drush"
-    state: link
-  tags:
-  - drupal
+    state: absent
+    path: "/root/.drush"
+
+### Get PHP ###
+
+- name: Get PHP and required extensions
+  become: true
+  action: apt
+    pkg="{{ item }}"
+    state=latest
+  with_items:
+    - php
+    - php-fpm
+    - php-gd
+    - php-pgsql
+    - php-xml # installs "dom"
+    - php7.0-mbstring
+    - php-curl
+    - php-intl
+
+### Socket setup ###
 
 - name: Set PHP pathinfo
-  ini_file:
-    dest: /etc/php/7.0/fpm/php.ini
-    section: PHP
-    option: cgi.fix_pathinfo
-    value: 0
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
+
+- name: Set socket to listen
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
+
+- name: Set socket listen owner
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
+
+- name: Set socket listen group
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
+
+- name: Set socket listen mode
+  become: true
+  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
+
+### Install Composer ###
+
+- name: Download Composer
+  script: install_composer.sh
   tags:
-  - drupal
+    - composer
 
-
-- name: Set PHP max file upload size
-  ini_file:
-    dest: /etc/php/7.0/fpm/php.ini
-    section: PHP
-    option: upload_max_filesize
-    value: "{{ ckan_max_resource_size }}M"
+- name: Move Composer globally
+  become: true
+  command: mv composer.phar /usr/local/bin/composer
   tags:
-  - drupal
+    - composer
 
-- name: Set PHP max memory limit
-  ini_file:
-    dest: /etc/php/7.0/fpm/php.ini
-    section: PHP
-    option: memory_limit
-    value: 200M
+- name: Set Composer permissions
+  become: true
+  file:
+    path: /usr/local/bin/composer
+    mode: "a+x"
   tags:
-  - drupal
+    - composer
 
+### Composer magic ###
 
-- name: Set PHP socket (listen)
-  ini_file:
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
-    section: www
-    option: listen
-    value: /tmp/phpfpm.socket
-  tags:
-  - drupal
+- name: Install dependencies for dependency management (>.<)
+  composer:
+    command: require
+    global_command: yes
+    arguments: alchemy/zippy:0.4.3
 
-# The listen.owner, listen.group, and listen.mode options are used for setting the permissions so that
-# nginx does not return 502 Bad Gateway (because of permission denied)
-- name: Set PHP socket (listen owner)
-  ini_file:
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
-    section: www
-    option: listen.owner
-    value: "{{ www_user }}"
-  tags:
-  - drupal
-
-- name: Set PHP socket (listen group)
-  ini_file:
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
-    section: www
-    option: listen.group
-    value: "{{ www_group }}"
-  tags:
-  - drupal
-
-- name: Set PHP socket (listen mode)
-  ini_file:
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
-    section: www
-    option: listen.mode
-    value: "0660"
-  tags:
-  - drupal
-
-# required by drush
 - name: Create root pgpass
-  template:
-    src: pgpass.j2
-    dest: /root/.pgpass
-    mode: "0600"
-    owner: root
-    group: root
-  tags:
-  - drupal
+  template: src=pgpass8.j2 dest=/root/.pgpass mode="0600" owner=root group=root
 
-- name: Check if drupal root is created
-  stat:
-    path: "{{ drupal_root }}"
-  register: drupal_dir
+- name: Check if drupal 8 is already initialized on database
+  command: >
+    psql -h {{ postgres.server.host }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
+    {{ postgres.databases.drupal8.name }} {{ postgres.users.drupal8.username }}
+  register: drupal8_database_initialized
 
-- name: Check if site is already installed.
-  command: "drush --root={{ drupal_root }} status bootstrap"
-  args:
-    chdir: "{{ drupal_root }}"
-  register: drupal_site_installed
-  failed_when: "drupal_site_installed.stdout is undefined"
-  changed_when: false
-  when: drupal_dir.stat.isdir is defined and drupal_dir.stat.isdir
 
-- name: Download Drupal
-  command: drush dl -n drupal-7.x --drupal-project-rename={{ drupal_name }} --destination={{ www_root }}
-  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
-
-- name: Copy settings
-  template:
-    src: settings.php.j2
-    dest: "{{ drupal_root }}/sites/default/settings.php"
+- name: Create Drupal installation directories if they don't exist
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
     owner: "{{ www_user }}"
     group: "{{ www_group }}"
-  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout"
+    mode: 0755
+  with_items:
+    - "{{ cache_path }}/drupal"
+    - "/var/www/.composer"
+    - "{{ drupal8_root }}"
+    - "{{ drupal8_root }}/site_config"
 
-- name: Check if drupal is already initialized on database
+
+- name: Synchronize drupal8 project
+  synchronize:
+    src: ../drupal8/
+    dest: "{{ drupal8_root }}/"
+
+- name: Ensure drupal root ownership
+  file:
+    path: "{{ drupal8_root }}"
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+    recurse: yes
+    follow: no
+
+- name: Remove composer lock file if it exists
+  file:
+     path: "{{ drupal8_root }}/composer.lock"
+     state: absent
+
+- name: Install Drupal dependencies
+  become_user: "{{ www_user }}"
+  composer:
+    command: install
+    working_dir: "{{ drupal8_root }}"
+
+
+### Database backup
+
+- name: Create root pgpass
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
+
+- name: Check if drupal 7 is already initialized on database
   command: >
     psql -h {{ postgres.server.host }}
     -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
     {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
-  register: drupal_database_initialized
+  register: drupal7_database_initialized
 
+- block:
+  #- name: Dump drupal db
+  #  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
+  #  when: "'1' in drupal_database_initialized.stdout"
+  #  register: drupal_database_dumped
 
-- name: Dump drupal db
-  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal_root }}" creates=/tmp/dump.sql
-  when: "(drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout) and '1' in drupal_database_initialized.stdout"
-  register: drupal_database_dumped
+  ### Drupal installation ###
 
+  #- name: Copy Drupal settings
+  #  become: true
+  #  template: src=settings.php.j2
+  #    dest={{ drupal8_root }}/web/sites/default/settings.php
+  #    owner=vagrant
+  #    group=vagrant
 
-- name: Install drupal (drops drupal db)
-  command: drush site-install -y standard --account-name={{ admin.username }} --account-pass={{ admin.password }} --db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --site-name={{ drupal_site_name }} chdir={{ drupal_root }}
-  when: "drupal_site_installed is skipped or 'Drupal bootstrap' not in drupal_site_installed.stdout or drupal_database_dumped|changed"
+  - name: Install a clean Drupal database
+    shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
+    args:
+      chdir: "{{ drupal8_root }}"
 
-- name: Set robots.txt
-  copy:
-    src: "{{ search_engine_robots_filename }}"
-    dest: "{{ drupal_root }}/robots.txt"
-  tags:
-  - drupal
+  ### Migrate Drupal 7, if present ###
 
-- name: Copy default favicon.ico
-  copy:
-    src: "favicon.ico"
-    dest: "{{ drupal_root }}/favicon.ico"
-  tags:
-  - drupal
+  - block:
 
-- name: Setup drushrc
-  copy:
-    src: drushrc.php
-    dest: "{{ drupal_root }}/sites/default/drushrc.php"
-    owner: root
-    group: root
-    mode: "0644"
-  tags:
-  - drupal
+    - name: Enable migration modules
+      shell: ./vendor/bin/drush en -y {{ item }}
+      args:
+        chdir: "{{ drupal8_root }}"
+      with_items:
+          - migrate_plus
+          - migrate_upgrade
+          - migrate_tools
 
-- name: Download Drupal drush tools
-  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ ansible_env.HOME }}/.drush/{{ item }}/"
+    - name: Configure Drupal 7 database migration
+      shell: ./vendor/bin/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
+      args:
+        chdir: "{{ drupal8_root }}"
+
+    - name: Migrate Drupal 7 Database
+      shell: ./vendor/bin/drush migrate-import {{ item }}
+      args:
+        chdir: "{{ drupal8_root }}"
+      with_items:
+        - "upgrade_d7_user_role"
+        - "upgrade_d7_user"
+    when: "'1' in drupal7_database_initialized.stdout"
+
+  when: "'1' not in drupal8_database_initialized.stdout"
+
+### Translations ###
+
+- name: Enable Drupal language modules
+  shell: ./vendor/bin/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - drush_extras
+    - config_translation
+    - content_translation
+    - language
+    - locale
     - drush_language
-  tags:
-  - drupal
 
-- name: Download Drupal modules
-  command: drush dl -y "{{ item }}" chdir="{{ drupal_root }}" creates="{{ drupal_root }}/sites/all/modules/{{ item }}/"
-  register: download_modules
+- name: Add additional languages
+  shell: ./vendor/bin/drush language-add -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - custom_username_validation
-    - views
-    - features
-    - jquery_update
+    - fi
+    - sv
 
-    - node_export
-    - menu_block
-    - menu_import
-    - libraries
-    - services
-    - services_menu
+- name: Make Finnish default language
+  shell: ./vendor/bin/drush language-default -y fi
+  args:
+    chdir: "{{ drupal8_root }}"
 
-    - i18n
-    - pathauto
-    - token
-    - transliteration
-    - variable
-    - ctools
-    - i18nviews
-    - l10n_update
-    - admin_language
-    - ckeditor
-    - imce
-    - features_extra
+### Custom modules ###
+# Contrib modules should be installed with Composer, not here #
+
+- name: Synchronize custom modules
+  synchronize:
+    src: "../modules/{{ item.src_name }}/"
+    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
+  when: deployment_environment_id != "vagrant"
+  with_items: "{{ custom_modules }}"
+
+- name: Symlink custom modules
+  file:
+    state: link
+    src: "/vagrant/modules/{{ item.src_name }}/"
+    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
+  when: deployment_environment_id == "vagrant"
+  with_items: "{{ custom_modules }}"
+
+
+### Theme ###
+
+- name: Enable base theme
+  shell: ./vendor/bin/drush then -y bootstrap
+  args:
+    chdir: "{{ drupal8_root }}"
+
+
+- name: Symlink custom theme
+  file:
+    state: link
+    src: "{{ server_path }}/avoindata-drupal-theme/"
+    dest: "{{ drupal8_root }}/web/themes/avoindata"
+    force: yes
+
+### Install external modules ###
+
+# Disable removed modules, modules must be removed from removed_extensions 
+# after they are removed from composer.json
+- name: Disable removed drupal extra modules
+  shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_items: "{{ removed_extensions }}"
+  when: "removed_extensions is defined"
+
+- name: Enable Drupal extra modules
+  shell: ./vendor/bin/drush en -y {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_items:
+    - twig_tweak
+    - fontawesome_menu_icons
+    - smtp
+    - pathauto ### Used for URL alias settings
+    - easy_breadcrumb
+    - twig_field_value
+    - disqus
+    - recaptcha
+    - redirect
+    - search_api
+    - search_api_db
+    - search_api_db_defaults
     - google_analytics
 
-    - views_bootstrap
-    - strongarm
-    - sharethis
+# Not symlinked because nested symlinks don't work on windows
+- name: Synchronize fonts
+  synchronize:
+    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+  delegate_to: "{{ inventory_hostname }}"
 
-    - date
-    - calendar
+# These need to be enabled after installing external modules (at least pathauto), because
+# of dependencies. 
+- name: Enable custom modules
+  shell: ./vendor/bin/drush en -y {{ item.machine_name }}
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_items: "{{ custom_modules }}"
 
-    - recaptcha
-    - honeypot
-    - node_expire
-
-    - draggableviews
-
-    - commentsblock
-
-    - xmlsitemap
-
-  tags:
-  - drupal
-
-- name: Enable Drupal modules
-  command: drush en -y "{{ item }}" chdir="{{ drupal_root }}"
-  when: download_modules|changed
+# Some configurations need to be removed to avoid conflicts at the next step
+# To avoid failure with clean installs, error about trying to remove a non-existing
+# configuration is ignored. As a result, it is important to carefully check the
+# spelling of configurations. 
+- name: Delete existing configurations
+  shell: ./vendor/bin/drush config-delete {{ item }}
+  register: result
+  failed_when:
+    - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - custom_username_validation
-    - views
-    - features
-    - jquery_update
+    - easy_breadcrumb.settings
+    - node.type.page
+    - core.entity_form_display.node.page.default
+    - core.entity_view_display.node.page.default
+    - pathauto.settings
 
-    - node_export
-    - menu_block
-    - menu_block_export
-    - menu_import
-    - libraries
-    - services
-    - services_menu
-    - rest_server
+- name: Enable custom theme
+  shell: ./vendor/bin/drush then -y avoindata
+  args:
+    chdir: "{{ drupal8_root }}"
 
-    - locale
-    - i18n
-    - i18n_node
-    - i18n_block
-    - i18n_menu
-    - i18n_field
+- name: Set default theme
+  shell: ./vendor/bin/drush config-set -y system.theme default avoindata
+  args:
+    chdir: "{{ drupal8_root }}"
 
-    - pathauto
-    - tokenvariables
-    - transliteration
-    - variable
-    - variable_realm
-    - variable_store
-    - variable_admin
-    - i18n_variable
-    - ctools
-    - i18nviews
-    - l10n_update
-    - admin_language
-    - ckeditor
-    - fe_block
-    - imce
-    - googleanalytics
+- name: Reload theme configurations
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install
+  args:
+    chdir: "{{ drupal8_root }}"
 
-    - views_bootstrap
-    - strongarm
-    - sharethis
-
-    - date
-    - date_popup
-    - calendar
-
-    - recaptcha
-    - honeypot
-    - node_expire
-
-    - draggableviews
-    - commentsblock
-
-    - variable_translation
-    - variable_admin
-
-    - xmlsitemap
-    - xmlsitemap_node
-    - xmlsitemap_menu
-
-  tags:
-  - drupal
-
-
-- name: Install YTP modules
-  shell: rm -rf "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}" && cp -r "{{ cache_path }}/ytp-drupal-{{ item }}" "{{ drupal_root }}/sites/all/modules/ytp_{{ item }}"
-  register: install_ytp_drupal_modules
+- name: Reload custom module configurations
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item.module_name }}/config/install
+  register: result
+  failed_when:
+    - result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - user
-    - tutorial
-    - footer
-    - frontpage
-  tags:
-  - drupal
+    - "{{ custom_modules }}"
 
-- name: Enable YTP modules
-  command: drush en -y ytp_{{ item }} chdir="{{ drupal_root }}"
-  when: install_ytp_drupal_modules|changed
+- name: Copy setting template files
+  template:
+    src: "drupal_site_config/{{ item.src }}"
+    dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
   with_items:
-    - user
-    - tutorial
-    - footer
-    - frontpage
-  tags:
-  - drupal
+    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
+    - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
+    - { src: user.settings.yml.j2, dest: user.settings.yml }
+    - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
+    - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
+    - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
+    - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
+    - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
+    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
+    - { src: update.settings.yml.j2, dest: update.settings.yml }
 
-- name: Overwrites ckeditor configuration with our custom
-  copy: src="{{ item }}" dest="{{ drupal_root }}/sites/all/modules/ckeditor/{{ item }}"
+- name: Import drupal settings
+  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
+  args:
+    chdir: "{{ drupal8_root }}"
+
+- name: Clear caches
+  shell: ./vendor/bin/drupal cr
+  args:
+    chdir: "{{ drupal8_root }}"
+
+- name: Configure general site settings regarding email
+  shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-  - "ckeditor.config.js"
-  tags:
-  - drupal
+    - { key: name, value: "{{ email_domain }}"}
+    - { key: mail, value: "{{ email_from }}"}
 
-- include: theme.yml
-
-- include: features.yml
-
-- name: Set default Drupal language
-  command: drush language-default fi chdir="{{ drupal_root }}"
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Copy drush variable import script and variables json
-  copy: src={{ item.src }} dest={{ item.dest }} owner={{ item.owner }} group={{ item.group }} mode={{ item.mode }}
+- name: Update drupal translations
+  shell: ./vendor/bin/drush language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - { src: 'multiple-variables.drush', dest: '{{ scripts_path }}/multiple-variables.drush', owner: 'root', group: 'root', mode: '0750' }
-    - { src: 'drupal.json', dest: '{{ cache_path }}/drupal.json', owner: 'root', group: 'root', mode: '0600'}
-  register: drush_variables
+    - "fi"
+    - "sv"
   tags:
-  - drupal-configuration
-  - drupal
+    - drupal
 
-- name: Set Drupal variables from file
-  command: "drush {{ scripts_path }}/multiple-variables.drush {{ cache_path }}/drupal.json chdir={{ drupal_root }}"
-  when: drush_variables|changed
-  tags:
-  - drupal-configuration
-  - drupal
+# Without this, the added translatable status for content types like guide page, doesn't work and
+# fails because of an SQL error. 
+- name: Run entity updates for database
+  shell: "./vendor/bin/drush updatedb --entity-updates -y"
+  args:
+    chdir: "{{ drupal8_root }}"
 
-- name: Set Drupal variables
-  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
+### User roles
+
+# Item argument is used two times, because the other one sets a machine readable name and the other one a human readable name
+- name: Create user roles
+  shell: ./vendor/bin/drush role-create "{{ item }}" "{{ item }}"
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items:
-    - { variable: "site_mail", value: "{{ email_from }}" }
-    - { variable: "site_name", value: "{{ drupal_site_name }}" }
-    - { variable: "error_level", value: "{{ drupal_error_level }}" }
-    - { variable: "date_format_short", value: 'd.m.Y - H:i'}
-    - { variable: "jquery_update_jquery_version", value: "1.10" }
-    - { variable: "recaptcha_public_key", value: "{{ recaptcha_public_key }}" }
-    - { variable: "recaptcha_private_key", value: "{{ recaptcha_private_key }}" }
-    - { variable: "captcha_add_captcha_description", value: 0 }
-    - { variable: "honeypot_form_user_register_form", value: 1 }
-    - { variable: "honeypot_form_user_pass", value: 1 }
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Enable email verification
-  command: drush vset "user_email_verification" "1" chdir='{{ drupal_root }}'
-  when: enable_email_verification != False
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Set Drupal remote variables
-  command: drush vset "{{ item.variable }}" "{{ item.value }}" chdir='{{ drupal_root }}'
-  when: google_analytics != False
-  with_items:
-    - { variable: "googleanalytics_account", value: "{{ google_analytics.id }}" }
-  tags:
-  - drupal-configuration
-  - drupal
-  - non-local
-
-- name: Copy fix scripts
-  copy: src={{ item }}.drush dest={{ scripts_path }}/{{ item }}.drush owner=root group=root mode="0750"
-  register: copy_fix_scripts
-  with_items:
-    - fix_language
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Apply fix scripts
-  command: "drush '{{ scripts_path }}/{{ item }}.drush' chdir='{{ drupal_root }}'"
-  when: copy_fix_scripts|changed
-  with_items:
-    - fix_language
-  tags:
-  - drupal-configuration
-  - drupal
-
-- name: Move blocks
-  command: drush block-configure --module={{ item.module }} --delta={{ item.delta }} --region={{ item.region }} --weight={{ item.weight }} chdir="{{ drupal_root }}"
-  with_items:
-    - { module: locale, delta: language, region: top_navigation, weight: 0 }
-    - { module: menu, delta: related-sites, region: content_grid_right, weight: 2}
-    - { module: menu, delta: footer-links, region: footer, weight: 2 }
-    - { module: ytp_footer, delta: owner_info, region: footer, weight: 1 }
-    - { module: ytp_footer, delta: icons, region: footer, weight: 3 }
-    - { module: ytp_frontpage, delta: twitter_feed, region: content_grid_left, weight: 1}
-    - { module: ytp_frontpage, delta: latest_datasets, region: content_grid_right, weight: 0}
-    - { module: ytp_frontpage, delta: popular_datasets, region: content_grid_right, weight: 1}
-    - { module: ytp_frontpage, delta: hero, region: hero, weight: 0}
-    - { module: ytp_tutorial, delta: tutorial_block, region: top_bar_secondary, weight: 0 }
-    - { module: views, delta: service_alerts_view-block, region: highlighted, weight: 0 }
-    - { module: views, delta: news-block, region: content_grid_left, weight: 0}
-
-- name: Disable blocks
-  command: drush block-disable --module={{ item.module }} --delta={{ item.delta }} chdir="{{ drupal_root }}"
-  with_items:
-    - { module: user, delta: login }
-    - { module: system, delta: "powered-by" }
-    - { module: node, delta: "recent" }
-    - { module: "search", delta: "form" }
-    - { module: "system", delta: "navigation" }
-  tags:
-  - drupal-configuration
-  - drupal
-
-- include: translations.yml
-
-- name: Ensure PHP-FPM is restarted
-  service: name=php7.0-fpm state=restarted
-  tags:
-  - drupal
-
-- include: roles.yml
-
-- name: Add default editor user
-  command: drush user-create "{{ item.username }}" --mail="{{ item.email }}" --password="{{ item.password }}" chdir="{{ drupal_root }}"
+  - "{{ drupal_editor_rolename }}"
+  - "{{ drupal_ckan_admin_rolename }}"
+  - "{{ drupal_publisher_rolename }}"
   ignore_errors: True
-  with_items: "{{ ytp_users }}"
   tags:
   - drupal
 
 - name: Set user roles
-  command: drush user-add-role "{{ item.role }}" --name="{{ item.username }}" chdir="{{ drupal_root }}"
+  shell: ./vendor/bin/drush user-add-role "{{ item.role }}" "{{ item.username }}"
+  args:
+    chdir: "{{ drupal8_root }}"
   with_items: "{{ drupal_roles }}"
   tags:
   - drupal
 
-- name: Copy custom cancel script
-  copy: src="{{ item }}" dest="{{ drupal_root }}/{{ item }}" owner="root" group="root" mode="0644"
-  with_items:
-    - "cancel-user.php"
-  tags:
-  - drupal
+### Finishing touches ###
 
-- name: Create upload paths
-  file: path={{ drupal_files_path }}/{{ item }} owner={{ www_user }} group={{ www_group }} mode="0775" state="directory"
-  register: create_upload_paths
-  with_items:
-    - ""
-    - styles
-    - images
-    - documents
-  tags:
-  - drupal
+- name: Restart PHP-FPM
+  become: true
+  service: name=php7.0-fpm state=restarted
 
-- name: Copy htaccess file
-  template: src=uploaded_files_htaccess.j2 dest="{{ drupal_files_path }}/.htaccess" mode="0644" owner=root group=root
-  tags:
-  - drupal
+- name: Deploy favicon
+  copy: src="favicon.ico" 
+    dest={{ drupal8_root }}/web/favicon.ico
 
-- name: Remove default Drupal file upload path
-  file: path="{{ drupal_root }}/sites/default/files" state=absent
-  tags:
-  - drupal
+- name: Deploy robots.txt
+  copy: src={{ search_engine_robots_filename }}
+    dest={{ drupal8_root }}/web/robots.txt
 
-- name: Symlink file upload paths
-  file: path="{{ drupal_root }}/sites/default/files" src="{{ drupal_files_path }}" state=link force=yes
-  tags:
-  - drupal
+- name: Take site out of maintenance mode
+  become: true
+  file:
+    state: absent
+    path: /var/www/maintenance
 
-- name: Ensure correct permission for Drupal upload directory
-  shell: chown -R "{{ www_user }}:{{ www_group }}" "{{ drupal_files_path }}"
-  when: create_upload_paths|changed
-  tags:
-  - drupal
-
-
-
-- name: Restore drupal database from dump
-  shell: drush sql-cli < /tmp/dump.sql chdir="{{ drupal_root}}"
-  when: drupal_database_dumped|changed
-
-- name: Remove drupal dump
-  file: path=/tmp/dump.sql state=absent
-
-
-- name: Update Drupal
-  command: drush -y --backup-dir="{{ backup_path }}" up chdir="{{ drupal_root }}" --lock=bootstrap
-  tags:
-  - drupal
-
-
-- name: Clear Drupal cache
-  command: drush cache-clear all -y chdir="{{ drupal_root }}"
-  tags:
-  - drupal
-
-- name: Update Drupal translations
-  shell: drush l10n-update-refresh && drush -y l10n-update chdir="{{ drupal_root }}"
-  async: 1200
-  poll: 0
-  tags:
-  - drupal
-  - drupal-translations
-
-- name: Regenerate sitemap
-  command: drush xmlsitemap-regenerate chdir="{{ drupal_root }}"

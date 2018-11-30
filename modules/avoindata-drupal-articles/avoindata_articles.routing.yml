@@ -1,0 +1,7 @@
+avoindata_articles.articles:
+  path: '/articles'
+  defaults:
+    _controller: '\Drupal\avoindata_articles\Controller\ArticlesController::articles'
+    _title: 'News and articles'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,46 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.avoindata_guide_page.field_content
+    - field.field.node.avoindata_guide_page.field_guide_comments
+    - field.field.node.avoindata_guide_page.field_page_image
+    - node.type.avoindata_guide_page
+  module:
+    - disqus
+    - image
+    - text
+    - user
+id: node.avoindata_guide_page.default
+targetEntityType: node
+bundle: avoindata_guide_page
+mode: default
+content:
+  field_content:
+    weight: 101
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_guide_comments:
+    weight: 104
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: disqus_comment
+    region: content
+  field_page_image:
+    weight: 103
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

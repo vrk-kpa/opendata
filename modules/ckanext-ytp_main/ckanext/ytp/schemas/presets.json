@@ -48,7 +48,7 @@
     {
       "preset_name": "organization_slug",
       "values": {
-        "validators": "not_empty unicode name_validator organization_name_validator",
+        "validators": "not_empty unicode name_validator group_name_validator",
         "form_snipper": "slug.html"
       }
     },
@@ -109,7 +109,7 @@
         "form_snippet": "fluent_markdown_ex.html",
         "display_snippet": "fluent_markdown.html",
         "error_snippet": "fluent_text.html",
-        "validators": "only_default_lang_required fluent_text",
+        "validators": "fluent_text only_default_lang_required ",
         "output_validators": "fluent_core_translated_output"
       }
     },
@@ -129,7 +129,7 @@
         "form_snippet": "fluent_title.html",
         "display_snippet": "fluent_text.html",
         "error_snippet": "fluent_text.html",
-        "validators": "only_default_lang_required fluent_text",
+        "validators": "fluent_text only_default_lang_required override_field_with_default_translation(title)",
         "output_validators": "fluent_core_translated_output",
         "form_attrs": {
           "data-module": "slug-preview-target"
@@ -195,6 +195,18 @@
         "upload_field": "image_upload",
         "upload_clear": "clear_upload",
         "upload_label": "File"
+      }
+    },
+    {
+      "preset_name": "date_opendata",
+      "values": {
+        "form_snippet": "date.html",
+        "display_snippet": "date.html",
+        "validators": "scheming_required from_date_is_before_until_date isodate convert_to_json_if_date",
+        "form_attrs": {
+          "data-datepicker": "",
+          "class": "form-control"
+        }
       }
     }
   ]

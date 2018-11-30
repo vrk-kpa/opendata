@@ -1,0 +1,31 @@
+{% ckan_extends %}
+
+{% block title %}{{ _('Reports') }} - {{ super() }}{% endblock %}
+
+{% block breadcrumb_content %}
+  {{ h.build_nav('reports', _('Reports')) }}
+{% endblock %}
+
+{% block primary_content_inner %}
+  <div class="dataset">
+    <div class="row equal">
+      {% for report in reports %}
+        <div class="col-lg-3 col-md-4 col-sm-6 report-column">
+          {% set report_url=h.url_for('report', report_name=report.name, **h.report__explicit_default_options(report.name)) %}
+          <div class="report-summary">
+            <a href="{{ report_url }}" class="report-header">
+              <div class="report-title">{{ _(report.title) }}</div>
+            </a>
+            <div class="report-body">
+              <div class="report-description">{{ _(report.description) }}</div>
+              <br>
+              <a class="view-report-link" href="{{ report_url }}">
+                {{ _('View Report') }}
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock%}

@@ -9,7 +9,9 @@
     error=errors[field.field_name],
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=h.scheming_field_required(field),
-    classes=['control-medium']) }}
+    classes=['control-full']) }}
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
     {{ _(field.description) }}
 </div>
+{% endif %}

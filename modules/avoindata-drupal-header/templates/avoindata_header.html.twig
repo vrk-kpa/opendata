@@ -1,0 +1,37 @@
+{# Service Message #}
+{% block service_message %}
+  {{ drupal_region('service_message') }}
+{% endblock %}
+
+{# Header #}
+<nav id="first-navbar" class="navbar first-navbar navbar-default">
+{% block header %}
+<div class="container" role="heading">
+  {{ drupal_region('top_bar') }}
+</div>
+{% endblock %}
+</nav>
+
+{# Navbar #}
+{% block navbar %}
+{%
+  set navbar_classes = [
+    'navbar',
+    theme.settings.navbar_inverse ? 'navbar-inverse' : 'navbar-default',
+    theme.settings.navbar_position ? 'navbar-' ~ theme.settings.navbar_position|clean_class,
+    'second-navbar',
+  ]
+%}
+<nav class="navbar navbar-default" id="second-navbar">
+  <div class="container">
+    <div class="navbar-header">
+      {{ drupal_region('navigation') }}
+    </div>
+
+    {# Navigation (collapsible) #}
+    <div id="navbar-collapse" class="navbar-collapse collapse">
+      {{ drupal_region('navigation_collapsible') }}
+    </div>
+  </div>
+</nav>
+{% endblock %}

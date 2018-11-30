@@ -1,0 +1,17 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.avoindata_guide_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+_core:
+  default_config_hash: h4J7hffYq_1CmySYGq4XyVfqDET75oRmKT1orbcH4PU
+id: node.avoindata_guide_page
+target_entity_type_id: node
+target_bundle: avoindata_guide_page
+default_langcode: site_default
+language_alterable: true

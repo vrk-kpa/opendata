@@ -3,22 +3,13 @@
 {# This is original page.html from ckan with reordering of blocks #}
 
 {%- block page -%}
-  {% include "top-navigation.j2" %}   
+  {{ h.drupal_header()|safe }}
 
   <div id="page_wrapper">
-  {#
-  Override the header on a page by page basis by extending this block. If
-  making sitewide header changes it is preferable to override the header.html
-  file.
-  #}
-  {%- block header %}
-    {% include "header.html" %}
-  {% endblock -%}
-
   {# The content block allows you to replace the content of the page if needed #}
   {%- block content %}
     {% block maintag %}<div role="main">{% endblock %}
-      <div id="content" class="container">
+      <div id="content" class="container-fluid">
         {% block main_content %}
           {% block flash %}
             {% set flash_messages = h.flash.pop_messages() | list %}

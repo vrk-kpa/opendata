@@ -1,0 +1,20 @@
+---
+
+# This playbook installs all roles on a single server
+
+- hosts: mainserver
+  sudo: true
+  vars:
+    database_host: "127.0.0.1"
+    solr_host: "127.0.0.1"
+    database_ip_range: "127.0.0.1/8"
+  vars_files:
+    - "vars/common.yml"
+    - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
+    - ["{{ secrets_file_path }}", "vars/none.yml"]
+    - ["vars/local.yml", "vars/none.yml"]
+  roles:
+    - drupal
+  handlers:
+    - name: restart sshd
+      service: name=ssh state=restarted

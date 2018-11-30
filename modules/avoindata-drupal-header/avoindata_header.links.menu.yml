@@ -1,0 +1,316 @@
+avoindata_header.frontpage_fi:
+  title: 'Etusivu'
+  description: 'Etusivu'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/fi'
+  weight: 1
+
+avoindata_header.datasets_fi:
+  title: 'Tietoaineistot'
+  description: 'Tietoaineistot'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/data/fi/dataset'
+  weight: 2
+
+avoindata_header.organizations_fi:
+  title: 'Organisaatiot'
+  description: 'Organisaatiot'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/data/fi/organization'
+  weight: 3
+
+avoindata_header.apps_fi:
+  title: 'Käyttösovellukset'
+  description: 'Käyttösovellukset'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/data/fi/showcase'
+  weight: 4
+
+avoindata_header.news_fi:
+  title: 'Ajankohtaista'
+  description: 'Ajankohtaista'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/fi/articles'
+  weight: 5
+
+avoindata_header.guide_fi:
+  title: 'Opas'
+  description: 'Opas'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/fi/opas'
+  weight: 6
+
+avoindata_header.moreoptions_fi:
+  title: 'Lisää'
+  description: 'Lisää'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/fi'
+  weight: 99
+  expanded: true
+
+avoindata_header.frontpage_en:
+  title: 'Frontpage'
+  description: 'Frontpage'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/en'
+  weight: 1
+
+avoindata_header.datasets_en:
+  title: 'Datasets'
+  description: 'Datasets'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/data/en/dataset'
+  weight: 2
+
+avoindata_header.organizations_en:
+  title: 'Organizations'
+  description: 'Organizations'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/data/en/organization'
+  weight: 3
+
+avoindata_header.apps_en:
+  title: 'Applications'
+  description: 'Applications'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/data/en/showcase'
+  weight: 4
+
+avoindata_header.news_en:
+  title: 'News and articles'
+  description: 'News and articles'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/en/articles'
+  weight: 5
+
+avoindata_header.guide_en:
+  title: 'Guide'
+  description: 'Guide'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/en/guide'
+  weight: 6
+
+avoindata_header.moreoptions_en:
+  title: 'More options'
+  description: 'More options'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/en'
+  weight: 99
+  expanded: true
+
+avoindata_header.frontpage_sv:
+  title: 'Hemsida'
+  description: 'Frontpage'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/sv'
+  weight: 1
+
+avoindata_header.datasets_sv:
+  title: 'Dataseten'
+  description: 'Dataseten'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/data/sv/dataset'
+  weight: 2
+
+avoindata_header.organizations_sv:
+  title: 'Organisationer'
+  description: 'Organisationer'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/data/sv/organization'
+  weight: 3
+
+avoindata_header.apps_sv:
+  title: 'Apps'
+  description: 'Apps'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/data/sv/showcase'
+  weight: 4
+
+avoindata_header.news_sv:
+  title: 'Aktuell'
+  description: 'Aktuell'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/sv/articles'
+  weight: 5
+
+avoindata_header.guide_sv:
+  title: 'Guide'
+  description: 'Guide'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/sv/guide'
+  weight: 6
+
+avoindata_header.moreoptions_sv:
+  title: 'Mer'
+  description: 'Mer'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/sv'
+  weight: 99
+  expanded: true
+
+avoindata_header.login_fi:
+  title: 'Kirjaudu sisään'
+  description: 'Kirjaudu sisään'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: user.login
+  weight: 1
+  options:
+    fa_icon: 'fa-sign-in'
+
+avoindata_header.register_fi:
+  title: 'Rekisteröidy palveluun'
+  description: 'Rekisteröidy palveluun'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: user.register
+  weight: 2
+  options:
+    fa_icon: 'fa-pencil'
+
+avoindata_header.profile_fi:
+  title: 'Profiili'
+  description: 'Profiili'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: avoindata_header.ckanprofile
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+
+avoindata_header.signout_fi:
+  title: 'Kirjaudu ulos'
+  description: 'Kirjaudu ulos'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
+    
+avoindata_header.events_fi:
+  title: 'Tapahtumakalenteri'
+  description: 'Tapahtumakalenteri'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  url: 'internal:/fi/events/'
+  weight: 5
+
+avoindata_header.login_en:
+  title: 'Log in'
+  icon: 'sign-in'
+  description: 'Log in'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: user.login
+  weight: 1
+  options:
+    fa_icon: 'fa-sign-in'
+
+avoindata_header.register_en:
+  title: 'Register an account'
+  description: 'Register an account'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: user.register
+  weight: 2
+  options:
+    fa_icon: 'fa-pencil'
+
+avoindata_header.profile_en:
+  title: 'Profile'
+  description: 'Profile'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: avoindata_header.ckanprofile
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+    
+avoindata_header.signout_en:
+  title: 'Sign out'
+  description: 'Sign out'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
+
+avoindata_header.events_en:
+  title: 'Calendar of events'
+  description: 'Calendar of events'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  url: 'internal:/en/events/'
+  weight: 5
+
+avoindata_header.login_sv:
+  title: 'Logga in'
+  icon: 'sign-in'
+  description: 'Logga in'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: user.login
+  weight: 1
+  options:
+    fa_icon: 'fa-sign-in'
+
+avoindata_header.register_sv:
+  title: 'Registrera ett konto'
+  description: 'Registrera ett konto'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: user.register
+  weight: 2
+  options:
+    fa_icon: 'fa-pencil'
+
+avoindata_header.profile_sv:
+  title: 'Profil'
+  description: 'Profil'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: avoindata_header.ckanprofile
+  weight: 3
+  options:
+    fa_icon: 'fa-user-alt'
+
+avoindata_header.signout_sv:
+  title: 'Logga ut'
+  description: 'Logga ut'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: user.logout
+  weight: 4
+  options:
+    fa_icon: 'fa-sign-out-alt'
+
+avoindata_header.events_sv:
+  title: 'Kalendarium'
+  description: 'Kalendarium'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  url: 'internal:/sv/events/'
+  weight: 5

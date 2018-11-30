@@ -1,0 +1,132 @@
+// Form specific overrides
+//
+@common-path: "../..";
+@common-less: "@{common-path}/less";
+
+@import "@{common-less}/variables.less";
+@import "@{common-less}/mixins/mixins.less";
+
+.form-control {
+  border: 1px solid @opendata-ckan-unhighlight;
+  font-size: 14px;
+}
+
+.form-horizontal .form-group {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.form-horizontal .control-label {
+  width: auto;
+  text-align: left;
+  padding: inherit;
+  margin-bottom: 5px;
+}
+
+.control-label .group-label {
+  margin-bottom: 10px;
+}
+
+.form-horizontal .controls {
+  margin-left: 0px;
+  padding: inherit;
+}
+
+.form-actions {
+  overflow: inherit;
+}
+
+label.control-label, label.group-label {
+  // Remove ":" from group label and control label
+  &::after {
+    content: none;
+  }
+}
+
+// Form remove button overrides. No more rounded edges.
+.btn-remove-url {
+  top: 0px !important;
+  right: 0px !important;
+  padding: 5px 15px !important;
+  border-radius: 0px 4px 4px 0px !important;
+  height: 100% !important;
+}
+
+// Translation and other "group" fields
+.form-group-fluent .form-group {
+  .flex-display(flex);
+
+  .control-label {
+    min-width: 40px;
+  }
+
+  .controls {
+    .flex-grow(2);
+  }
+}
+
+.opendata-search-form {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  .search-wrapper {
+    .flex-display(flex);
+    .flex-direction(row);
+    .flex-flow(nowrap);
+    max-width: 100%;
+    min-height: 62px;
+    height: 0;
+
+    input {
+      height: 62px;
+      padding: 8px 12px;
+      margin-top: 0px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #333333;
+      border-radius: 4px;
+      vertical-align: middle;
+      background-color: #ffffff;
+      border: 1px solid @opendata-ckan-unhighlight;
+
+      &:focus {
+        border-color: #3898ec;
+        outline: 0;
+      }
+    }
+
+    button {
+      margin-top: 0px;
+      height: 62px;
+
+      @media (max-width: 450px) {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .search-input {
+      margin-top: 10px;
+      margin-right: 10px;
+      .flex-order(0);
+      .flex(1 0 auto);
+    }
+
+    .search-submit {
+      margin-top: 10px;
+      .flex-order(1);
+      .flex(0 0 auto);
+    }
+  }
+}
+
+.search-form {
+  padding-bottom: 0px;
+  .search-input {
+    &.search-giant {
+      button {
+        margin-top: -14px;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 def _translations():
     """ Does nothing but hints message extractor to extract missing strings. """
-    from ckan.common import _
+    from ckan.common import _, ungettext
     _("An URL-address which refers to the dataset. The automatically filled option derived"
       " from the title is the best option in most cases.")
     _("Category which represents showcase.")
@@ -20,3 +20,8 @@ def _translations():
     _("Image 3")
     _("Notifier")
     _("Notifier Email")
+    _("eg. android")
+    _("eg. visualization")
+    _("eg. traffic")
+    ungettext("The dataset has been added to the showcase.", "The datasets have been added to the showcase.", 2)
+    ungettext("The dataset has been removed from the showcase.", "The datasets have been removed from the showcase.", 2)

@@ -1,0 +1,49 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Url;
+
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+function avoindata_preprocess_block(&$variables) {
+  if ($variables['plugin_id'] == 'language_block:language_interface') {
+    foreach ($variables['content']['#links'] as $key => $value) {
+      $variables['content']['#links'][$key]['title'] = strtoupper($key);
+    }
+  }
+}
+
+// Implements hook_views_pre_render().
+function avoindata_views_pre_render(ViewExecutable $view) {
+  if($view->id() == 'frontpage' && $view->current_display == 'page_1') {
+    // Use some or all of the following 3 lines to remove specific
+    // 'no results' behaviors
+    unset($view->empty['area_text_custom']);
+    unset($view->empty['node_listing_empty']);
+    unset($view->empty['title']);
+  }
+}
+
+
+function avoindata_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $passwordResetUrl = Url::fromUri('internal:/user/password');
+  $form['password_reset_link'] = array(
+    '#type' => 'link',
+    '#url' => $passwordResetUrl,
+    '#title' => t('Reset password'),
+    '#attributes' => array('class' => array('password-reset-link'))
+  );
+
+  $registertUrl = Url::fromUri('internal:/user/register');
+  $form['register_account_link'] = array(
+    '#type' => 'link',
+    '#url' => $registertUrl,
+    '#title' => t('Register new account'),
+    '#attributes' => array('class' => array('register-user-link'))
+  );
+}

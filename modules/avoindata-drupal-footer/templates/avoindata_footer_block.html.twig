@@ -1,0 +1,40 @@
+{%
+  set classes = [
+    'region',
+    'region-' ~ region|clean_class,
+  ]
+%}
+<footer class="footer {{ container }}" role="contentinfo">
+  <div class="container opendata-footer" {{ attributes.addClass(classes) }}>
+    <div class="row">
+      <div class="col-md-12">
+        <img class="footer-logo" src="/resources/images/logo/avoindata_white.png"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <p>{% trans %}Central Open Data distribution platform for datasets released by finnish individuals, companies and public organizations.{% endtrans %}</p>
+        <p>{% trans %}Service provided by Population Register Centre{% endtrans %}</p>
+      </div>
+      <div class="col-md-4">
+        {{ drupal_region('footer_content') }}
+      </div>
+      <div class="footer-follow col-md-3">
+        <div class="footer-follow-message">
+            <p>{% trans %}Follow us{% endtrans %}</p>
+        </div>
+        <div>
+          <div class="footer-socicons col-xs-3">
+            <a href="https://www.facebook.com/groups/fi.okfn"><span class="fab fa-facebook"></span></a>
+          </div>
+          <div class="footer-socicons col-xs-3">
+            <a href="https://twitter.com/avoindatafi"><span class="fab fa-twitter"></span></a>
+          </div>
+          <div class="footer-socicons col-xs-3">
+            <a href="https://github.com/vrk-kpa/opendata"><span class="fab fa-github"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

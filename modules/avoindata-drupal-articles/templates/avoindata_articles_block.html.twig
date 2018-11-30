@@ -1,0 +1,152 @@
+{#
+/**
+ * @file
+ * Avoindata Articles block
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata_articles/avoindata_articles') }}
+<div class="container-fluid">
+  <div class="avoindata-articles-container avoindata-card-container">
+    <div class="row">
+      <h1>
+        {% trans %}
+        News and articles
+        {% endtrans %}
+      </h1>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row avoindata-articles-nav">
+          <div class="col-xs-12">
+            <ul class="nav nav-pills">
+              <li class="active" >
+                <a data-toggle="pill" href="#avoindata-articles-tab">
+                  {% trans %}
+                  News and articles
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#avoindata-twitter-tab">
+                  {% trans %}
+                  Twitter@avoindatafi
+                  {% endtrans %}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="tab-content row avoindata-articles-table">
+
+            <div id="avoindata-articles-tab" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
+              {% if (searchterm is not null and searchterm is not empty) or (activetags is not null and activetags is not empty) %}
+              <div class="row avoindata-articles-search-info">
+                {% if searchterm is not null and searchterm is not empty %}
+                  <h3>
+                    {% trans with {'context': 'Article search term filter display text.', 'langcode': 'en'} %}
+                    Articles with title matching search
+                    {% endtrans %}
+                    "{{ searchterm }}"
+                  </h3>
+                {% endif %}
+                {% if activetags is not null and activetags is not empty %}
+                  <p>
+                    {% trans with {'context': 'Tag listing for articles page.', 'langcode': 'en'} %}
+                    Tags:
+                    {% endtrans %}
+                    {% for key, tag in tags if tag.tid.value in activetags%}
+                      <span class="label avoindata-label-primary">{{ tag.label }}</span>
+                    {% endfor %}
+                  </p>
+                {% endif %}
+              </div>
+              {% endif %}
+              
+              {% if articles|length == 0 %}
+                <h3>
+                  {% trans %}
+                  No articles found.
+                  {% endtrans %}
+                </h3>              
+              {% endif %}
+
+              {% for article in articles %}
+                <div class="avoindata-article-item">
+                  <h2 class="article-item-heading">
+                    {{ article.label }}
+                  </h2>
+                  <p class="article-information">
+                    <i class="far fa-clock avoindata-fa-icon"></i>
+                    {{ article.createdtime|format_date('avoindata_long_date') }}
+                    {% if article.tags|length > 0 %}
+                      <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                      {% for tag in article.tags %}
+                        {{ tag.name }}
+                        {% if loop.index != loop.last %}
+                        <span>,</span>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </p>
+                  <br/>
+                  <div class="article-text">
+                    <p>
+                    {% set text = article.body.0.summary %}
+                    {{ text }}
+                    </p>  
+                  </div>
+                  <a href={{ path('entity.node.canonical', {'node': article.id}) }} class="btn btn-primary btn-avoindata-primary">
+                    {% trans %}
+                    Read more
+                    {% endtrans %}
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+            <div id="avoindata-twitter-tab" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
+              {% if language == 'fi' %}
+                <a class="twitter-timeline" data-lang="fi" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweetit käyttäjältä avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+              {% elseif language == 'sv' %}
+                <a class="twitter-timeline" data-lang="sv" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets av avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+              {% elseif language == 'en' %}
+                <a class="twitter-timeline" data-lang="en" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets by avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+              {% endif %}
+            </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row opendata-card">
+          <div class="opendata-card-header">
+            <p class="opendata-card-heading">
+              <i class="fas fa-folder-open avoindata-fa-icon"></i>
+              {% trans %}
+              Categories
+              {% endtrans %}
+            </p>
+          </div>
+          <div class="opendata-card-content avoindata-article-category-filter-wrapper">
+            {% for tag in tags %}
+              <div class="avoindata-card-list-item">
+                <a class="avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">{{ tag.label }}</a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+       <div class="row avoindata-articles-search">
+          <div class="row">
+            <input id="avoindata-articles-search-input" class="form-control input-avoindata" data-search-language={{language}} type="text" placeholder="{% trans %}Search articles{% endtrans %}" value="{{searchterm}}">
+          </div>
+          <div class="row">
+            <button id="avoindata-articles-search-btn" class="btn btn-primary btn-avoindata-primary">
+              {% trans %}
+              Search
+              {% endtrans %}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

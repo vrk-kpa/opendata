@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.event
+    - field.storage.contact_message.field_event_submit_link
+  module:
+    - link
+id: contact_message.event.field_event_submit_link
+field_name: field_event_submit_link
+entity_type: contact_message
+bundle: event
+label: 'Event link'
+description: 'Link to event''s official page, or a page with more information regarding the event.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

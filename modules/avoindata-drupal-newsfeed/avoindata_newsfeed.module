@@ -1,0 +1,29 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_newsfeed_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_newsfeed':
+      return t('Creates news feed module.');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_newsfeed_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_newsfeed' => array(
+      'variables' => array(
+        'newsfeed' => NULL,
+        'eventfeed' => NULL,
+        'language' => NULL
+      ),
+      'template' => 'avoindata_newsfeed_block',
+    ),
+  );
+}

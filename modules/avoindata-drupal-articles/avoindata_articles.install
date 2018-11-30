@@ -1,0 +1,7 @@
+<?php
+
+// These changes only take effect when the module is completely reinstalled
+function avoindata_articles_install() {
+    \Drupal::service('path.alias_storage')->save("/articles", "/artikkelit", "fi");
+    \Drupal::service('path.alias_storage')->save("/articles", "/artiklar", "sv");
+}

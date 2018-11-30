@@ -1,0 +1,28 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_severity
+field_name: field_severity
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: critical
+      label: 'Critical'
+    -
+      value: warning
+      label: 'Warning'
+    -
+      value: info
+      label: 'Info'
+  allowed_values_function: {}
+module: options
+locked: false
+cardinality: 1
+translatable: true
+persist_with_no_fields: false
+custom_storage: false

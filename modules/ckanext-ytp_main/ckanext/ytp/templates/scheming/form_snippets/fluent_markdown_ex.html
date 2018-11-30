@@ -1,5 +1,4 @@
 {% import 'macros/form.html' as form %}
-
 <div class="form-group-fluent control-group">
   <label class="control-label group-label">{{_(field.label)}}</label>
   {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
@@ -10,7 +9,9 @@
       placeholder=h.scheming_language_text(field.form_placeholder, lang),
       value=data[field.field_name + '-' + lang]
           or data.get(field.field_name, {})[lang],
-      error=errors[field.field_name + '-' + lang],
+      error=errors[field.field_name + '-' + lang]
+          or errors.get(field.field_name, {})[lang]
+          or errors[field.field_name],
       attrs=field.form_attrs or {},
       is_required=h.scheming_field_only_default_required(field, lang)
       ) %}
@@ -19,7 +20,10 @@
         lang=lang -%}
     {% endcall %}
   {%- endfor -%}
+
+  {% if field.description and field.description.strip() %}
   <div class="field-assistive-text">
-    {{ _(field.description) }}
+      {{ _(field.description) }}
   </div>
+  {% endif %}
 </div>

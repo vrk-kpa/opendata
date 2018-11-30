@@ -1,105 +1,5 @@
 ---
 
-# Web modules
-
-- name: Clear module cache
-  file:
-    path: "{{ cache_path }}/{{ item }}"
-    state: absent
-  with_items:
-    - modules
-  when: clear_module_cache
-  tags:
-  - common
-  - clear-cache
-
-- name: Clear module tar cache
-  file:
-    path: "{{ cache_path }}/{{ item }}.tar"
-    state: absent
-  with_items:
-    - modules
-  when: clear_module_cache
-  tags:
-  - common
-  - clear-cache
-
-- name: Package modules
-  local_action: command tar -c --exclude=.git --exclude-from={{ item }}/.gitignore -f {{ item }}.tar {{ item }} chdir="{{ modules_path }}"
-  become: false
-  with_flattened:
-    - "{{ modules }}"
-  args:
-    warn: false   # To quiet warnings about using tar as archive module does not suit for this purpose.
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-  - drupal-translations
-
-- name: Copy modules
-  copy:
-    src: "{{ modules_path }}/{{ item }}.tar"
-    dest: "{{ cache_path }}"
-  register: modules_copy
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-  - drupal-translations
-
-- name: Delete old modules
-  file:
-    path: "{{ cache_path }}/{{ item }}"
-    state: absent
-  when: modules_copy is changed
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-
-- name: Extract modules
-  unarchive:
-    src: "{{ cache_path }}/{{ item }}.tar"
-    dest: "{{ cache_path }}"
-    remote_src: yes
-  when: modules_copy is changed
-  with_flattened:
-    - "{{ modules }}"
-  tags:
-  - common
-  - ckan
-  - drupal
-  - resources
-  - modules
-  - translations
-
-# - name: Extract modules
-#   shell: rm -Rf "{{ item }}" && tar xf "{{ item }}.tar" chdir="{{ cache_path }}"
-#   when: modules_copy is changed
-#   with_flattened:
-#     - "{{ modules }}"
-#   tags:
-#   - common
-#   - ckan
-#   - drupal
-#   - resources
-#   - modules
-#   - translations
-
 # Web resources
 
 - name: Ensure www path is present
@@ -116,59 +16,15 @@
   file:
     path: /var/www/resources
     state: absent
-  when: modules_copy is changed
   tags:
   - resources
 
-- name: Install gulp
-  npm:
-    name: gulp
-    global: yes
-    state: present
-  when: modules_copy is changed
-  tags:
-  - resources
 
-- name: Ensure resource dependencies path is present
-  file:
-    path: "{{ cache_path }}/resource-dependencies"
-    state: directory
-    mode: "0755"
-    owner: root
-    group: root
-  when: modules_copy is changed
-  tags:
-  - resources
+- include: vagrant.yml
+  when: deployment_environment_id == "vagrant"
 
-- name: Copy resource dependency base
-  shell: cp -R {{ cache_path }}/ytp-assets-common/* {{ cache_path }}/resource-dependencies
-  when: modules_copy is changed
-  tags:
-  - resources
 
-- name: Install resource dependencies
-  command:  npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{cache_path}}/resource-dependencies"
-  when: modules_copy is changed
-
-# - name: Install resource dependencies
-#   npm: path={{cache_path}}/resource-dependencies state=present
-#   when: modules_copy is changed
-#   tags:
-#   - resources
-
-- name: Generate resources
-  command: "gulp chdir={{cache_path}}/resource-dependencies"
-  when: modules_copy is changed
-  tags:
-  - resources
-
-- name: Copy resources
-  shell: cp -R {{ cache_path }}/resource-dependencies/resources /var/www/resources
-  when: modules_copy is changed
-  tags:
-  - resources
-
+- include: nonvagrant.yml
+  when: deployment_environment_id != "vagrant"
 
 - include: pip.yml

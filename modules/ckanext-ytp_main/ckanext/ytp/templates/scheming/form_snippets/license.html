@@ -15,7 +15,7 @@
     {%- if license_id or not h.scheming_field_required(field) -%}
         {%- do options.append({
             'value': license_id,
-            'text': license_desc}) -%}
+            'text': _(license_desc)}) -%}
     {%- endif -%}
 {%- endfor -%}
 
@@ -26,13 +26,15 @@
     options=options,
     selected=data.get(field.field_name, field.get('default', 'notspecified')),
     error=errors[field.field_name],
-    classes=['control-medium'],
+    classes=['control-full'],
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=h.scheming_field_required(field),
     )
 %}
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
 {% endcall %}
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
     {{ _(field.description) }}
 </div>
+{% endif %}

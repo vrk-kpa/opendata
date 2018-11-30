@@ -1,0 +1,23 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_guide_comments
+    - node.type.avoindata_guide_page
+  module:
+    - disqus
+id: node.avoindata_guide_page.field_guide_comments
+field_name: field_guide_comments
+entity_type: node
+bundle: avoindata_guide_page
+label: 'Guide Comments'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    status: 1
+    identifier: ''
+default_value_callback: ''
+settings: {  }
+field_type: disqus_comment

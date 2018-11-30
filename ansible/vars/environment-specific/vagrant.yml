@@ -3,3 +3,5 @@
 # THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
 
 debug_enabled: true
+smtp:
+  server_domain: localhost

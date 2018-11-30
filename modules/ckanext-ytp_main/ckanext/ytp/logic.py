@@ -8,6 +8,7 @@ from ckan.lib.dictization.model_dictize import user_dictize
 from ckan.lib import uploader, munge, helpers
 from ckan.common import c
 from ckan.plugins.core import get_plugin
+from ckan.plugins.toolkit import config
 
 import requests
 import json
@@ -82,7 +83,8 @@ def _update_drupal_user(context, data_dict):
         payload = {"field_fullname": {"und": [{"value":  fullname, "format": None, "safe_value":  fullname}]},
                    'field_ckan_api_key': {'und': [{'value': apikey, "format": None, "safe_value": apikey}]}}
         headers = {"Content-type": "application/json", "X-CSRF-Token": token, "Cookie": cookie_header}
-        r = requests.put(update_url, data=json.dumps(payload), headers=headers, verify=False)
+        verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
+        r = requests.put(update_url, data=json.dumps(payload), headers=headers, verify=verify_cert)
         if r.status_code == requests.codes.ok:
             return True
         else:
@@ -357,10 +359,8 @@ def action_user_list(context, data_dict):
             model.User.about.label('email'),
             model.User.created.label('created'),
             _select([_func.count(model.Revision.id)],
-                    _or_(
-                        model.Revision.author == model.User.name,
-                        model.Revision.author == model.User.openid
-                    )).label('number_of_edits'),
+                    model.Revision.author == model.User.name
+                    ).label('number_of_edits'),
             _select([_func.count(model.Package.id)],
                     _and_(
                         model.Package.creator_user_id == model.User.id,
@@ -377,9 +377,7 @@ def action_user_list(context, data_dict):
     if order_by == 'edits':
         query = query.order_by(_desc(
             _select([_func.count(model.Revision.id)],
-                    _or_(
-                        model.Revision.author == model.User.name,
-                        model.Revision.author == model.User.openid))))
+                    model.Revision.author == model.User.name)))
     else:
         query = query.order_by(
             _case([(

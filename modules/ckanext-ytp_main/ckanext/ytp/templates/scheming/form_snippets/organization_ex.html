@@ -41,7 +41,7 @@
 <div data-module="dataset-visibility">
   {% if 'final' in field and field.final and field.field_name in data and data[field.field_name] != "" %}
   {% set organization = h.get_organization(data[field.field_name]) %}
-  <div class="control-group control-full control-medium control-maybe-final">
+  <div class="control-group control-full control-maybe-final">
     <label class="control-label">{{ h.scheming_language_text(field.label) }}</label>
     <div><input value="{{ organization.title }}" disabled readonly /></div>
     <select id="field-organizations" name="owner_org" style="display:none">
@@ -55,6 +55,8 @@
   {% endif %}
 </div>
 
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
-  {{ _(field.description) }}
+    {{ _(field.description) }}
 </div>
+{% endif %}

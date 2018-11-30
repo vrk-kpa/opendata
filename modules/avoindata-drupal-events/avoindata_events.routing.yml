@@ -1,0 +1,7 @@
+avoindata_events.events:
+  path: '/events'
+  defaults:
+    _controller: '\Drupal\avoindata_events\Controller\EventsController::events'
+    _title: 'Events'
+  requirements:
+    _permission: 'access content'

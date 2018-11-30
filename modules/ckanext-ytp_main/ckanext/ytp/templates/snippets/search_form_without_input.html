@@ -34,7 +34,7 @@
     {% if disableable_sorting %}
       <div class="form-select control-group control-order-by">
         <label for="field-order-by">{{ _('Order by') }}</label>
-        <select id="field-order-by" name="sort">
+        <select id="field-order-by" class="opendata-select" name="sort">
           {% for label, value in disableable_sorting %}
             {% if label and value %}
               <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
@@ -73,7 +73,7 @@
                 {%- else -%}
                   {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
                 {%- endif %}
-                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="icon-remove"></i></a>
+                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><<i class="fas fa-times-circle"></i></a>
               </span>
             {% endfor %}
           </div>

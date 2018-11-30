@@ -57,7 +57,7 @@ def _create_member_request(context, data_dict):
             raise logic.ValidationError({"organization": _(
                 "Duplicate organization request")}, {_("Organization"): message})
     else:
-        member = model.Member(table_name="user", table_id=userobj.id,
+        member = model.Member(table_name="user", table_id=userobj.id, group=group,
                               group_id=group.id, capacity=role, state='pending')
 
     # TODO: Is there a way to get language associated to all admins. User table there is nothing as such stored

@@ -3,14 +3,13 @@ import logging
 import json
 import urllib2
 import datetime
-from ckan.common import c, request
+from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
 from ckan.plugins import toolkit
 from ckanext.scheming.helpers import lang
 from pylons import config
 from pylons.i18n import gettext
-from ckan.common import _
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +21,19 @@ def _markdown(translation, length):
         helpers.render_markdown(translation)
 
 
+def get_field(obj_or_dict, field, default=None):
+    if isinstance(obj_or_dict, dict):
+        return obj_or_dict.get(field, default)
+    elif hasattr(obj_or_dict, field):
+        return getattr(obj_or_dict, field)
+    else:
+        return obj_or_dict.extras.get(field, default)
+
+
 def get_translation(translated):
+    if isinstance(translated, unicode):
+        translated = get_json_value(translated)
+
     if isinstance(translated, dict):
         language = i18n.get_lang()
         if language in translated:
@@ -35,9 +46,11 @@ def get_translation(translated):
 
 def get_translated(data_dict, field):
     translated_variant = '%s_translated' % field
-    translated_field = translated_variant if translated_variant in data_dict else field
-    translated = data_dict.get(translated_field)
-    return get_translation(translated) or data_dict.get(field)
+    translated = get_field(data_dict, translated_variant)
+    if translated:
+        return get_translation(translated) or get_field(data_dict, field)
+    else:
+        get_field(data_dict, field)
 
 
 # Copied from core ckan to call overridden get_translated
@@ -308,6 +321,25 @@ def get_visits_for_dataset(id):
     from ckanext.googleanalytics.model import PackageStats
 
     return PackageStats.get_all_visits(id)
+
+
+def get_visits_count_for_dataset_during_last_year(id):
+
+    from ckanext.googleanalytics.model import PackageStats
+
+    return len(PackageStats.get_visits_during_year(id, datetime.datetime.now().year - 1))
+
+
+def get_download_count_for_dataset_during_last_year(id):
+    # Downloads are visits for the Resource object.
+    # This is why a 'get_visits' method is called.
+    from ckanext.googleanalytics.model import ResourceStats
+    return len(ResourceStats.get_visits_during_last_calendar_year_by_dataset_id(id))
+
+
+def get_current_date():
+
+    return datetime.datetime.now()
 
 
 def get_geonetwork_link(uuid, organization, lang=None):

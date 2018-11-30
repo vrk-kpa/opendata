@@ -17,7 +17,7 @@ www_root: /var/www
 www_user: www-data
 www_group: www-data
 
-drupal_name: ytp
+
 
 server_path: /srv/ytp
 cache_path: "{{ server_path }}/cache"
@@ -79,10 +79,10 @@ ckan_who_ini: /etc/ckan/default/who.ini
 
 harvest_sources: false
 
-ckan_version: "2.7.3"
+ckan_version: "2.8.1"
+ckan_branch: "ckan-{{ ckan_version }}"
 
-email_domain: "localhost"
-email_domain_access: "localhost"
+email_domain: "{{ hostname }}"
 email_from: "no-reply@{{ email_domain }}"
 error_email_from: "error@{{ email_domain }}"
 
@@ -91,7 +91,7 @@ error_email: "{{ admin_email }}"
 client_email: vagrant@localhost
 
 #smtp_server key is required by the external ckan mailer component
-smtp_server_domain: "{{ email_domain_access }}"
+smtp_server_domain: "{{ smtp.server_domain }}"
 
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
@@ -104,8 +104,8 @@ local_cache: "/tmp/ytp/cache"
 import_base_organizations: false
 import_finto_tags: false
 
-recaptcha_public_key: "6Lcq_vsSAAAAAAQfNLinsdOD0JbGLbOzZqRlavlB"
-recaptcha_private_key: "6Lcq_vsSAAAAADKfbYWkYGV53s2_4UWyuVpMP89X"
+recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 Reindex: false
 
@@ -123,6 +123,9 @@ postgres:
     drupal:
       username: drupal
       password: "{{ secret.database_drupal_password }}"
+    drupal8:
+      username: drupal8
+      password: "{{ secret.database_drupal8_password }}"
 
   server:
     installed_locally: "{{ postgres_conf.installed_locally }}"
@@ -141,6 +144,9 @@ postgres:
     drupal:
       name: drupal
       owner: drupal
+    drupal8:
+          name: drupal8
+          owner: drupal8
 
 drupal:
   hash_salt: "{{ secret.drupal_hash_salt }}"
@@ -156,7 +162,10 @@ secret:
   database_ckan_password: pass
   database_ckan_datastore_password: pass
   database_drupal_password: pass
+  database_drupal8_password: pass
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
+  smtp_user: username
+  smtp_password: password
 
 rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
 

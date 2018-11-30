@@ -91,6 +91,7 @@
           - python-pip
           - git
           - nfs-common
+          - rsync
         update_cache: yes
 
     - name: Install python packages
@@ -118,6 +119,7 @@
           - python-pip
           - git
           - nfs-common
+          - rsync
         update_cache: yes
 
     - name: Install python packages

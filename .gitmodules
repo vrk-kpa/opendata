@@ -16,7 +16,7 @@
 	branch = ytp
 [submodule "modules/ckanext-cloudstorage"]
 	path = modules/ckanext-cloudstorage
-	url = https://github.com/6aika/ckanext-cloudstorage.git
+	url = https://github.com/vrk-kpa/ckanext-cloudstorage.git
 [submodule "modules/ckanext-scheming"]
 	path = modules/ckanext-scheming
 	url = https://github.com/vrk-kpa/ckanext-scheming.git
@@ -25,7 +25,7 @@
 	url = https://github.com/ckan/ckanext-fluent.git
 [submodule "modules/ckanext-qa"]
 	path = modules/ckanext-qa
-	url = https://github.com/ckan/ckanext-qa.git
+	url = https://github.com/vrk-kpa/ckanext-qa.git
 [submodule "modules/ckanext-archiver"]
 	path = modules/ckanext-archiver
 	url = https://github.com/vrk-kpa/ckanext-archiver.git
@@ -38,12 +38,21 @@
 [submodule "modules/ckanext-pdfview"]
 	path = modules/ckanext-pdfview
 	url = https://github.com/ckan/ckanext-pdfview.git
+[submodule "modules/ckanext-drupal8"]
+	path = modules/ckanext-drupal8
+	url = https://github.com/vrk-kpa/ckanext-drupal8.git
 [submodule "modules/ckanext-disqus"]
 	path = modules/ckanext-disqus
 	url = https://github.com/vrk-kpa/ckanext-disqus.git
+[submodule "modules/ckanext-reminder"]
+	path = modules/ckanext-reminder
+	url = https://github.com/6aika/ckanext-reminder.git
 [submodule "modules/ckanext-googleanalytics"]
 	path = modules/ckanext-googleanalytics
 	url = https://github.com/vrk-kpa/ckanext-googleanalytics.git
+[submodule "modules/ckanext-sixodp_showcasesubmit"]
+	path = modules/ckanext-sixodp_showcasesubmit
+	url = https://github.com/vrk-kpa/ckanext-sixodp_showcasesubmit.git
 [submodule "modules/ckanext-datarequests"]
 	path = modules/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git

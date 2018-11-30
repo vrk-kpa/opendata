@@ -90,11 +90,6 @@
 
   <div class="main-container container">
     <div class="row">
-      <div class="col-xs-12 col-sm-12">
-        <?php print render($page['hero']); ?>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-xs-12 col-sm-6">
         <?php print render($page['top_bar_primary']); ?>
       </div>

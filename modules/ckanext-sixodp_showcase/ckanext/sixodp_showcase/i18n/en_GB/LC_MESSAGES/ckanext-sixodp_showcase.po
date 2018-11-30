@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-20 14:20+0300\n"
+"POT-Creation-Date: 2018-10-25 14:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2018\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -20,41 +20,41 @@ msgstr ""
 "Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/sixodp_showcase/controller.py:64
-#: ckanext/sixodp_showcase/controller.py:66
+#: ckanext/sixodp_showcase/controller.py:60
+#: ckanext/sixodp_showcase/controller.py:62
 msgid "Showcase not found"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:105
+#: ckanext/sixodp_showcase/controller.py:101
 msgid "Not authorized to see this page"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:199
+#: ckanext/sixodp_showcase/controller.py:195
 msgid "Organizations"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:200
+#: ckanext/sixodp_showcase/controller.py:196
 msgid "Groups"
 msgstr "Categories"
 
-#: ckanext/sixodp_showcase/controller.py:201
+#: ckanext/sixodp_showcase/controller.py:197
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
 msgid "Tags"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:202
+#: ckanext/sixodp_showcase/controller.py:198
 msgid "Formats"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:203
+#: ckanext/sixodp_showcase/controller.py:199
 msgid "Licenses"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:253
+#: ckanext/sixodp_showcase/controller.py:249
 msgid "Invalid search query: {error_message}"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:270
+#: ckanext/sixodp_showcase/controller.py:266
 msgid "Parameter \"{parameter_name}\" is not an integer"
 msgstr ""
 
@@ -72,73 +72,97 @@ msgid ""
 "derived from the title is the best option in most cases."
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:5
+#: ckanext/sixodp_showcase/translations.py:6
 msgid "Category which represents showcase."
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:6
+#: ckanext/sixodp_showcase/translations.py:7
 msgid "Platforms of the showcase."
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:7
+#: ckanext/sixodp_showcase/translations.py:8
 msgid ""
 "Keywords or tags through which users are able to find this dataset easily "
 "through the search page or other datasets which have the same tag."
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:8
+#: ckanext/sixodp_showcase/translations.py:10
 msgid "Author Website"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:9
+#: ckanext/sixodp_showcase/translations.py:11
 msgid "Application Website"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:10
+#: ckanext/sixodp_showcase/translations.py:12
 msgid "Links to stores"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:11
+#: ckanext/sixodp_showcase/translations.py:13
 msgid "Kuvaus"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:12
+#: ckanext/sixodp_showcase/translations.py:14
 msgid ""
 "An universal, compact and easy to understand description of the added "
 "resource."
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:13
+#: ckanext/sixodp_showcase/translations.py:15
 msgid "Featured"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:14
+#: ckanext/sixodp_showcase/translations.py:16
 msgid "Icon"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:15
+#: ckanext/sixodp_showcase/translations.py:17
 msgid "Featured Image"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:16
+#: ckanext/sixodp_showcase/translations.py:18
 msgid "Image 1"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:17
+#: ckanext/sixodp_showcase/translations.py:19
 msgid "Image 2"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:18
+#: ckanext/sixodp_showcase/translations.py:20
 msgid "Image 3"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:19
+#: ckanext/sixodp_showcase/translations.py:21
 msgid "Notifier"
 msgstr ""
 
-#: ckanext/sixodp_showcase/translations.py:20
+#: ckanext/sixodp_showcase/translations.py:22
 msgid "Notifier Email"
 msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:23
+msgid "eg. android"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:24
+msgid "eg. visualization"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:25
+msgid "eg. traffic"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:26
+msgid "The dataset has been added to the showcase."
+msgid_plural "The datasets have been added to the showcase."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/sixodp_showcase/translations.py:27
+msgid "The dataset has been removed from the showcase."
+msgid_plural "The datasets have been removed from the showcase."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
@@ -190,7 +214,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:53
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
 msgid "Remove"
 msgstr ""
 
@@ -264,31 +288,31 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:24
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:51
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:57
 msgid "Relevance"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:25
 #: ckanext/sixodp_showcase/templates/showcase/search.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:52
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:58
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:26
 #: ckanext/sixodp_showcase/templates/showcase/search.html:14
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:53
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:59
 msgid "Name Descending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:27
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:60
 msgid "Last Modified"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:28
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:50
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:56
 msgid "Popular"
 msgstr ""
 
@@ -317,12 +341,12 @@ msgid "This showcase has no datasets associated to it"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:6
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:107
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
 msgid "Manage"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:118
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:108
 msgid "Private"
 msgstr ""
 
@@ -332,14 +356,13 @@ msgid "Draft"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:38
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:135
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:125
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:22
 msgid "Launch website"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/search.html:19
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:29
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:58
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:64
 msgid "Search showcases..."
 msgstr ""
 
@@ -416,51 +439,59 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:76
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:60
 msgid "Published"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:78
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:62
 msgid "updated"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:142
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:132
 msgid "Used datasets"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:146
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:136
 msgid "There are no Datasets in this Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:161
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:151
 msgid "Application website"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:167
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:157
 msgid "Author website"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:178
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:170
+msgid " Categories "
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:189
 msgid "More from the author"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:182
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:193
 msgid "Show all from this author"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:34
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:30
+msgid "Search applications..."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:38
 msgid "Add Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:48
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
 msgid "Newest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:49
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:55
 msgid "Oldest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:55
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:61
 msgid "Top rating"
 msgstr ""
 
@@ -486,26 +517,26 @@ msgstr ""
 "development and visualization tools anyone is able to utilize these "
 "datasets. You can find additional information from our guide to open data."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:25
-msgid ""
-"Have you created application that utilizes open data? Add your own "
-"application to the list bellow."
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:26
+msgid "Have you created application that utilizes open data?"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:40
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:27
+msgid ""
+"Inform us about your application by using this form and it will be added to "
+"the list below."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:46
 msgid "This showcase has no description"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:47
-msgid "View {showcase_title}"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:49
-msgid "Read more"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
 msgid "Remove dataset from this showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
+msgid "Search with keyword"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:7

@@ -1,0 +1,161 @@
+{#
+/**
+ * @file
+ * Avoindata Events block
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata_events/avoindata_events') }}
+<div class="container-fluid">
+  <div class="avoindata-events-container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+            <h1>{% trans %}Events{% endtrans %}</h1>
+        </div>
+        <div class="row">
+          <p>
+            {% trans %}
+              Events calendar displays various open data related events hosted in Finland and abroad.
+            {% endtrans %}
+          </p>
+          <p>
+            {% trans %}
+              In case there is an open data event missing from the list below, you may submit event information to us and we'll add it.
+            {% endtrans %}
+          </p>
+          <a href="/{{language}}/contact/event">
+            {% trans %}
+              Submit an event
+            {% endtrans %}
+          </a>
+        </div>
+        <div class="row avoindata-events-search">
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="avoindata-events-search-header">
+                {% trans %}
+                Free text search
+                {% endtrans %}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="input-group">
+                <input id="avoindata-events-search-input" type="text" class="form-control input-avoindata" data-search-language={{language}} onkeydown="searchEventsOnEnter()" value="{{searchterm}}">
+                <span class="input-group-btn input-group-btn-left-padding">
+                  <button id="avoindata-events-search-btn"  class="btn btn-primary btn-avoindata-primary">
+                    {% trans %}
+                    Search
+                    {% endtrans %}
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row avoindata-events-search-info">
+          <div class="col-md-9 col-xs-12">
+            <p>
+            {% trans %}
+            Showing events
+            {% endtrans %}
+            {% if searchterm is not null and searchterm|length > 0 %}
+            {% trans %}
+            for text search
+            {% endtrans %} <strong>"{{searchterm}}"</strong>
+            {% endif %} <strong>({{events|length}})</strong>
+            </p>
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <div class="row">
+              <div class="col-xs-12">
+                <label class="pull-right">
+                  {% trans %}
+                  Show past events
+                  {% endtrans %}
+                  {% if showpast is same as ('true') %}
+                    <input type="checkbox" id="avoindata-events-search-past" checked>
+                  {% else %}
+                    <input type="checkbox" id="avoindata-events-search-past">
+                  {% endif %}
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <select name="sort" id="avoindata-events-search-sort" class="pull-right">
+                  {% if sort is same as('desc') %}
+                  <option value="desc" selected="selected">
+                  {% else %}
+                  <option value="desc"> 
+                  {% endif %}
+                    {% trans %}
+                    Newest first
+                    {% endtrans %}
+                  </option>
+                  {% if sort is not same as('desc') %}
+                  <option value="asc" selected="selected">
+                  {% else %}
+                  <option value="asc"> 
+                  {% endif %}
+                    {% trans %}
+                    Oldest first
+                    {% endtrans %}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row avoindata-events-list">
+          <div class="col-xs-12">
+            {% for event in events %}
+              <div class="row">
+                <div class="avoindata-event-item col-md-10 col-xs-12">
+                  {% if event.field_image is not null and event.field_image|length > 0 %}
+                  <div class="avoindata-event-item-image-container">
+                    <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                      <img class="avoindata-event-item-image" src="{{file_url(event.field_image.entity.fileuri)}}" alt="">
+                    </a>
+                  </div>
+                  {% endif %}
+                  <div class="avoindata-event-item-content-container">
+                    <div>
+                      <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                        <p class="avoindata-event-item-header">
+                        {{ event.label }}
+                        </p>
+                      </a>   
+                    </div>
+                    <div class="avoindata-event-item-metainfo">
+                      <i class="far fa-clock avoindata-fa-icon"></i>
+                      {% if event.field_end_date.value|length == 0 %}
+                        {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }}
+                      {% else %}    
+                        {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }} - {{ event.field_end_date.value | date('U') | format_date('avoindata_long_date') }}
+                      {% endif %}
+                      <a href={{ event.field_location.0.url }}>
+                        <i class="fas fa-map-marker avoindata-fa-icon"></i> {{ event.field_location.0.title }}
+                      </a>
+                    </div>
+                    <div class="avoindata-event-item-summary-container">
+                      <a href={{ path('entity.node.canonical', {'node': event.id}) }}>
+                        <p class="avoindata-event-item-summary">
+                        {% set eventSummary = event.body.0.summary %}
+                        {{ eventSummary }}
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

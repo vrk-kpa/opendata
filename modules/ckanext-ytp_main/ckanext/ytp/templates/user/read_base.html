@@ -48,7 +48,7 @@
           <dt class="full-width">{{ _('State') }}</dt>
           <dd>{{ user.state }}</dd>
         </dl>
-        {% if c.is_myself %}
+        {% if is_myself %}
           <dl>
             <dt class="key full-width">{{ _('API Key') }} <span class="icon-question-sign" title="{{ _('Private') }} ({{ _('This means only you can see this') }})"></span></dt>
             <dd class="value"><code>{{ user.apikey }}</code></dd>

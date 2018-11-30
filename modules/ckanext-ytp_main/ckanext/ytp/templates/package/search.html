@@ -17,15 +17,16 @@
     <div class="module-content">
       {% block page_primary_action %}
         {% if h.check_access('package_create') %}
-          <div class="page_primary_action">
-            {% link_for _('My Datasets'), controller='user', action='dashboard_datasets', class_='btn btn-info', icon='star-empty' %}
+        <div class="row">
+          <div class="page_primary_action pull-right">
+            {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
 
             <!-- Begin Add Dataset split button -->
             {% resource 'ytp_common_js/ytp_form.js' %}
             <div class="btn-group">
-              {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign' %}
-              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
+              {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-avoindata-header no-right-padding', icon='plus-sign' %}
+              <a class="btn btn-avoindata-header dropdown-toggle" data-toggle="dropdown">
+                <span class="fas fa-plus"></span>
                 <span class="sr-only">Toggle Dropdown</span>
               </a>
               <ul class="dropdown-menu" role="menu">
@@ -43,11 +44,12 @@
               </ul>
             </div>
             <!-- End Add Dataset split button -->
-            
+          </div>
           </div>
         {% endif %}
       {% endblock %}
       {% block form %}
+      <div class="row">
         {% set facets = {
           'fields': c.fields_grouped,
           'search': c.search_facets,
@@ -63,11 +65,14 @@
           (_('Source'), 'source asc'),
           (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
         %}
-        {% snippet 'snippets/search_form_without_input.html', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped %}
+        {% snippet 'snippets/search_form.html', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped %}
+      </div>
       {% endblock %}
-      {% block package_search_results_list %}
+      <div class="row">
+        {% block package_search_results_list %}
         {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
-      {% endblock %}
+        {% endblock %}
+      </div>
     </div>
 
     {% block page_pagination %}
@@ -98,7 +103,6 @@
 {% endblock %}
 
 {% block secondary_content %}
-  {{ h.snippet('snippets/search_input.html', query=c.q, search_class="search-sm", placeholder=_('Search datasets...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
   {% for facet in c.facet_titles %}
     {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
   {% endfor %}

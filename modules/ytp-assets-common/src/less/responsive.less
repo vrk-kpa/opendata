@@ -24,7 +24,6 @@
   .container {
     padding-left: (@grid-gutter-width/4);
     padding-right: (@grid-gutter-width/4);
-    margin-top: 12px;
   }
 
   .alert {
@@ -57,8 +56,8 @@
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
 
   #page_wrapper {
-    margin-left: (@grid-gutter-width/4);
-    margin-right: (@grid-gutter-width/4);
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 
     // Make sure container does not overflow with added margins
     .container {
@@ -72,11 +71,11 @@
   .navbar-top {
     margin-bottom: 0px;
     padding-top: 2px;
-    background-color: @ytp-brand-primary;
+    background-color: @opendata-brand-primary;
   }
 
   #page_wrapper {
-    padding-top: 15px;
+    padding-top: 0px !important;
     margin-left: 0px !important;
     margin-right: 0px !important;
     margin-bottom: 0px !important;
@@ -139,7 +138,7 @@
 /* Large devices */
 @media (min-width: @screen-lg) {
   #page_wrapper, .navbar-main {
-    max-width: @screen-lg;
+    max-width: 100%;
   }
   .navbar.navbar-main .navbar-nav li > a {
     padding: 13px 8px;

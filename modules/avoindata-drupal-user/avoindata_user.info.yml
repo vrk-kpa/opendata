@@ -1,0 +1,5 @@
+name: Avoindata User
+type: module
+description: Modifies user validation
+package: Custom
+core: 8.x

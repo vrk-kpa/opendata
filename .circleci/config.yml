@@ -13,9 +13,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "codestyle-requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "codestyle-requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           name: Install codestyle requirements
@@ -35,6 +35,45 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 modules --max-line-length=140
+
+  run-code-sniffer:
+    docker:
+      - image: circleci/php:7.1
+
+    steps:
+      - checkout
+
+      - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev libpng-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-install gd
+
+      # composer cache
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "drupal8/composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          command: composer install -n --prefer-dist
+          working_directory: ~/project/drupal8/
+
+      - run:
+          name: Run codesniffer for drupal standard
+          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*
+          working_directory: ~/project/drupal8/
+
+      - run:
+          name: Run codesniffer for drupal practice
+          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*
+          working_directory: ~/project/drupal8/
+
+      - save_cache:
+          key: composer-v1-{{ checksum "drupal8/composer.json" }}
+          paths:
+            - vendor
+      - run: sudo pip install ansible-lint
 
   run-ansible-lint:
     docker:
@@ -59,6 +98,8 @@ jobs:
 
       - run: git submodule update --init --recursive
 
+      - run: sudo apt update && sudo apt install rsync
+      
       - run: sudo pip install ansible boto awscli
 
       - run:
@@ -90,5 +131,6 @@ workflows:
   lint-all:
     jobs:
       - run-flake8
+      - run-code-sniffer
       - run-ansible-lint
       - run-ansible-role-test

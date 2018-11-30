@@ -25,11 +25,13 @@ def _translations():
 
     _('External')
     _('Internal')
+    _('Created')
 
     _("URL")
     _("Title")
     _("Image URL")
     _("Image")
+    _("Size")
     _("Formats")
     _("Organization")
 
@@ -37,9 +39,14 @@ def _translations():
     _('High value dataset category')
     _('eg. Maps')
     _('A short and descriptive title for the dataset. Do not utilize dates in the title but instead '
-      ' add multiple time-specific resources to the dataset in the next stage.')
+      'add multiple time-specific resources to the dataset in the next stage.')
+    _('A short and descriptive name for the resource.')
+    _('Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded.')
+    _('File format of the selected resource.')
     _('An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible '
       'to assist the user to understand what types of data, meters and dimensions the dataset contains.')
+    _('Coordinates which describe the area which the added resource is associated with.')
+    _('The origin of the dataset.')
     _('eg. A detailed description')
     _('eg. every second week')
     _('Collection type')
@@ -50,15 +57,43 @@ def _translations():
     _('Private datasets will only be seen by the logged in users of the dataset\'s organization. Public datasets '
       'will be listed publicly through the search.')
     _('The organization which owns the dataset.')
+    _('A moment in time after which the data is relevant.')
+    _('A moment in time after which the data is no longer relevant.')
+    _('A string which describes the precision of the entered time series.')
+    _('eg. 2 weeks')
+
     _('Copyright notice')
-    _('An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible '
-      'to assist the user to understand what types of data, meters and dimensions the dataset contains.')
     _('Geographical coverage')
     _('Select the municipalities from which the dataset contains data.')
     _('Links to additional information')
     _('Links to additional information concerning the dataset.')
     _('Update frequency')
     _('A short description of how frequently the dataset will get updated.')
+    _('Features')
+    _('Members can only edit their own datasets')
+    _('Home page')
+    _('Position coordinates')
+    _('Time series start')
+    _('Time series end')
+    _('Time series precision')
+    _('Temporal granularity')
+    _('Temporal coverage from')
+    _('Temporal coverage to')
+    _('Showcase name')
+
+    # Values
+    _('public_administration_organization')
+    _('personal_datasets')
+    _('civil-service')
+    _('municipality')
+    _('other-public-service')
+    _('educational-research-institute')
+    _('company')
+    _('individual')
+    _('association')
+    _('active')
+    _('deleted')
+    _('draft')
 
     # Assets common terms
     _('Log in')
@@ -104,6 +139,15 @@ def _translations():
     # Reports
     _('Administrative Branch Summary')
     _('Dataset statistics by administrative branch summary')
+    _('Broken links')
+    _('Dataset resource URLs that are found to result in errors when resolved.')
+    _('Openness (Five Stars)')
+    _('Datasets graded on Tim Berners-Lee\'s Five Stars of Openness - openly licensed, '
+      'openly accessible, structured, open format, URIs for entities, linked.')
+
+    # Hierarchy
+    _('The dataset amount of the organization is shown beside the organization name.')
+    _('Organizations with no datasets are shown in this list only when using the search functionality')
 
 
 def facet_translations():

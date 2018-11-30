@@ -7,6 +7,6 @@
     state: latest
   with_items:
     - pip
-    - setuptools==33.1.1 # Workaround for pypa/setuptools#523
+    - setuptools==36.1 # Was 33.1.1 as workaround for pypa/setuptools#523, revert if needed
     - boto
   tags: pip

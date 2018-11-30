@@ -44,7 +44,7 @@
 
 - name: Install CKAN
   pip:
-    name: "git+file://{{ cache_path }}/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
+    name: "git+file://{{ cache_path }}/ckan.git@{{ ckan_branch }}#egg=ckan"
     virtualenv: "{{ virtual_environment }}"
     extra_args: "--exists-action=s -e"
   tags:
@@ -56,6 +56,12 @@
     virtualenv: "{{ virtual_environment }}"
   tags:
       - ckan
+
+- name: Install CKAN dev requirements
+  pip:
+    requirements: "{{ virtual_environment }}/src/ckan/dev-requirements.txt"
+    virtualenv: "{{ virtual_environment }}"
+  when: deployment_environment_id == "vagrant"
 
 - name: Copy override requirements
   copy:

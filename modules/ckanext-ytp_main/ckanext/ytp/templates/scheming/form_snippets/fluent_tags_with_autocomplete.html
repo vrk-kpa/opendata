@@ -18,7 +18,7 @@
     value=data[field.field_name + '-' + lang]
     or ','.join(data.get(field.field_name, {}).get(lang, [])),
     error=errors[field.field_name + '-' + lang],
-    classes=['control-medium'],
+    classes=['control-full'],
     attrs=attrs_with_locale,
     is_required=h.scheming_field_only_default_required(field, lang)
     ) %}
@@ -28,6 +28,8 @@
     {% endcall %}
   {%- endfor -%}
 </div>
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
-  {{ _(field.description) }}
+    {{ _(field.description) }}
 </div>
+{% endif %}

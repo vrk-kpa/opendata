@@ -1,0 +1,83 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - contact.form.event
+    - field.field.contact_message.event.field_event_submit_address
+    - field.field.contact_message.event.field_event_submit_end_time
+    - field.field.contact_message.event.field_event_submit_link
+    - field.field.contact_message.event.field_event_submit_picture
+    - field.field.contact_message.event.field_event_submit_start_time
+  module:
+    - datetime
+    - image
+    - link
+id: contact_message.event.default
+targetEntityType: contact_message
+bundle: event
+mode: default
+content:
+  field_event_submit_address:
+    type: string
+    weight: 4
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_event_submit_end_time:
+    type: datetime_default
+    weight: 3
+    region: content
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+  field_event_submit_link:
+    type: link
+    weight: 6
+    region: content
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+  field_event_submit_picture:
+    type: image
+    weight: 5
+    region: content
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+  field_event_submit_start_time:
+    type: datetime_default
+    weight: 2
+    region: content
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+  langcode:
+    type: language
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+      native_language: false
+    third_party_settings: {  }
+  message:
+    type: basic_string
+    weight: 0
+    label: above
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Avoindata App Feed Block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-appfeed">
+  <div class="avoindata-appfeed-container">
+    <div class="avoindata-appfeed-appcontainer col-lg-7 col-md-7 col-sm-12">
+      <div class="avoindata-appfeed-appcontainer-header">
+        <h3>
+          {% trans %}
+          Most recent applications
+          {% endtrans %}
+        </h3> 
+      </div>
+      <div class="avoindata-appfeed-appcontainer-applist">
+        {% for app in applications %}
+          <div class="avoindata-appfeed-application-box row">
+            <div class="application-item-logo col-sm-3 col-xs-12">
+              <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
+                <img class="application-item-img" src="/data/uploads/showcase/{{ app['icon'] }}" alt="">
+              </a>
+            </div>
+            <div class="application-item-content col-sm-9 col-xs-12">
+              <h5 class="appitem-header">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
+                  {{ app['title'] }}
+                </a>
+              </h5>
+              <p class="appitem-metainfo">
+                <i class="far fa-clock appitem-fa-icon"></i>
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
+                  {{ app['metadata_created'] | date('U') | format_date('avoindata_long_date') }}
+                </a>
+                <i class="fas fa-folder appitem-fa-icon"></i>
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
+                  {{ app['category'][language]|join(', ') }}
+                </a>
+              </p>
+              <div class="appitem-content">
+                <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
+                  <p>
+                    {{ app['notes_translated'][language]|default("") }}
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        
+        <a href="/data/{{ language }}/showcase">
+          <span class="avoindata-appfeed-link-bullet">
+          >
+          </span>
+          {% trans %}
+          Show all applications
+          {% endtrans %}
+        </a>
+      </div>
+    </div>
+    <div class="avoindata-appfeed-twittercontainer col-lg-5 col-md-5 col-sm-12">
+      {% if language == 'fi' %}
+        <a class="twitter-timeline" data-lang="fi" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweetit käyttäjältä avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% elseif language == 'sv' %}
+        <a class="twitter-timeline" data-lang="sv" data-height="605" data-dnt="true" csp=on  href="https://twitter.com/avoindatafi">Tweets av avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% elseif language == 'en' %}
+        <a class="twitter-timeline" data-lang="en" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets by avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% endif %}
+    </div>
+  </div>
+</div>

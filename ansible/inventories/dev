@@ -4,6 +4,6 @@ localhost ansible_ssh_user=ubuntu ansible_connection=local
 [mainserver:vars]
 deployment_environment_id=dev
 secrets_file_path="../../avoindata-secrets/dev/secrets.yml"
-disqus_name = ""
+disqus_name = "dev-avoindata-fi"
 ansible_python_interpreter="{{ ansible_playbook_python }}"
 aws_profile=opendata

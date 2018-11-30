@@ -1,0 +1,36 @@
+{% extends "sixodp_showcasesubmit/base.html" %}
+
+{% block breadcrumb_content %}
+  <li>{{ h.nav_link(_('Showcases'), named_route='ckanext_showcase_index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcase submit'), controller='ckanext.sixodp_showcasesubmit.controller:Sixodp_ShowcasesubmitController', action='index') }}</li>
+{% endblock %}
+
+
+{% block pre_primary %}
+  <div class="container">
+    <div class="module-content main-content">
+      {% block pre_primary_content %}
+      <div class="toolbar--site-subtitle">
+        <div class="row">
+          <h1>{% block subtitle %}{{ _('New application') }}{% endblock %}</h1>
+          <div class="spacer"></div>
+        </div>
+        <div class="row">
+          <p>
+            {% trans %}
+              Inform us about an application, web page or visualization that you'be created with the form below and we will add it to application gallery.
+            {% endtrans %}
+          </p>
+        </div>
+      </div>
+        <div class="row">
+          {%- snippet 'sixodp_showcasesubmit/snippets/new_package_form.html', c=c, data=data, errors=errors, error_summary=error_summary, message=message -%}
+        </div>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block offcanvas_button %}{% endblock %}
+{% block primary %}{% endblock %}
+{% block secondary %}{% endblock %}

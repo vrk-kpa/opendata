@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Avoindata Categories Block
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata_categories/avoindata_categories') }}
+<div class="avoindata-categories">
+  <div class="avoindata-categories-container">
+    <div class="row avoindata-categories-header-row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h3>
+          {% trans %}
+          Open data categories
+          {% endtrans %}
+        </h3>
+      </div>
+    </div>
+    <div class="row avoindata-categories-row">
+      {% for category in categories %}
+        <div class="avoindata-category-box col-md-2 col-sm-3 col-xs-12">
+          <div class="row avoindata-category-image-wrapper">
+            <a href="../data/{{ language }}/group/{{ category['name'] }}">
+              <img class="avoindata-category-img" src={{ category['image_display_url'] }} alt={{ category['title'] }}>
+            </a>
+          </div>
+          <div class="row avoindata-category-text-wrapper">
+            <a href="../data/{{ language }}/group/{{ category['name'] }}">
+              {{ category['title_translated'][language] | default(category['title']) }}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

@@ -18,13 +18,18 @@
       "label": "URL",
       "preset": "dataset_slug_ex",
       "form_placeholder": "eg. my-dataset",
-      "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases."
+      "form_attrs": {
+        "class": "form-control"
+      }
     },
     {
       "field_name": "notes_translated",
       "preset": "fluent_core_markdown_translated",
       "form_placeholder": "eg. A detailed description",
       "form_languages": ["fi", "en", "sv"],
+      "form_attrs": {
+        "class": "form-control"
+      },
       "label": "Description",
       "display_snippet": null,
       "only_default_lang_required": true,
@@ -78,6 +83,9 @@
       "field_name": "maintainer",
       "label": "Maintainer",
       "form_placeholder": "Joe Bloggs",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "dc:contributor",
       "required": true
     },
@@ -85,8 +93,12 @@
       "field_name": "maintainer_email",
       "label": "Maintainer email",
       "form_placeholder": "joe@example.com",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
+      "validators": "email_validator",
       "display_email_name_field": "maintainer",
       "required": true
     },
@@ -94,6 +106,9 @@
       "field_name": "maintainer_website",
       "label": "Maintainer website",
       "form_placeholder": "http://www.example.com",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "dc:contributor",
       "display_snippet": "link.html"
     },
@@ -114,7 +129,10 @@
     {
       "field_name": "owner",
       "label": "Owner",
-      "form_placeholder": "Joe Bloggs"
+      "form_placeholder": "Joe Bloggs",
+      "form_attrs": {
+        "class": "form-control"
+      }
     },
     {
       "field_name": "license_id",
@@ -174,6 +192,9 @@
       "field_name": "url",
       "label": "Source",
       "form_placeholder": "http://example.com/dataset.json",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "foaf:homepage",
       "display_snippet": "link.html",
       "description": "The origin of the dataset."
@@ -183,14 +204,21 @@
       "field_name": "author",
       "label": "Author",
       "form_placeholder": "Joe Bloggs",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "dc:creator"
     },
     {
       "field_name": "author_email",
       "label": "Author email",
       "form_placeholder": "joe@example.com",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "display_property": "dc:creator",
       "display_snippet": "email.html",
+      "validators": "email_validator",
       "display_email_name_field": "author"
     },
     {
@@ -210,7 +238,7 @@
     {
       "field_name": "date_released",
       "label": "Published",
-      "preset": "date",
+      "preset": "date_opendata",
       "display_snippet": null,
       "form_snippet": null,
       "description": "The dataset publication date.",
@@ -220,12 +248,14 @@
     {
       "field_name": "valid_from",
       "label": "Valid from",
-      "preset": "date"
+      "preset": "date_opendata",
+      "max_date_field": "valid_till"
     },
     {
       "field_name": "valid_till",
       "label": "Valid till",
-      "preset": "date"
+      "preset": "date_opendata",
+      "min_date_field": "valid_from"
     }
   ],
   "resource_fields": [
@@ -235,16 +265,25 @@
       "preset": "fluent_core_translated_extended",
       "form_languages": ["fi", "en", "sv"],
       "form_placeholder":"eg. January 2011 Gold Prices",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "description": "A short and descriptive name for the resource."
     },
     {
       "field_name": "url",
       "label": "URL",
       "preset": "resource_url_upload",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "description": "A file or url which describes the location of the desired resource file."
     },
     {
       "field_name": "file_size",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "label": "Size",
       "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded."
     },
@@ -261,24 +300,36 @@
       "validators": "fluent_text",
       "form_placeholder": "eg. A detailed description",
       "form_languages": ["fi", "en", "sv"],
+      "form_attrs": {
+        "class": "form-control"
+      },
       "description": "An universal, compact and easy to understand description of the added resource."
     },
     {
       "field_name": "position_info",
       "label": "Position coordinates",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "description": "Coordinates which describe the area which the added resource is associated with."
     },
     {
       "field_name": "time_series_start",
       "label": "Time series start",
-      "preset": "date",
+      "form_attrs": {
+        "data-datetimepicker": ""
+      },
+      "preset": "date_opendata",
       "display_snippet": "date.html",
       "description": "A moment in time after which the data is relevant."
     },
     {
       "field_name": "time_series_end",
       "label": "Time series end",
-      "preset": "date",
+      "form_attrs": {
+        "data-datetimepicker": ""
+      },
+      "preset": "date_opendata",
       "display_snippet": "date.html",
       "description": "A moment in time after which the data is no longer relevant."
     },
@@ -297,23 +348,29 @@
     },
     {
       "field_name": "temporal_granularity",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "label": "Temporal granularity",
       "preset": "fluent_text"
     },
     {
       "field_name": "update_frequency",
+      "form_attrs": {
+        "class": "form-control"
+      },
       "label": "Update frequency",
       "preset": "fluent_text"
     },
     {
       "field_name": "temporal_coverage_to",
       "label": "Temporal coverage to",
-      "preset": "date"
+      "preset": "date_opendata"
     },
     {
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
-      "preset": "date"
+      "preset": "date_opendata"
     }
   ]
 }

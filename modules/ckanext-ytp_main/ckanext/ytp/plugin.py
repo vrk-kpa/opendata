@@ -2,19 +2,19 @@ import ast
 import json
 import logging
 import pylons
-import pylons.config as config
 import re
 import types
-import urllib2
 import urlparse
 import validators
 
 import ckan.lib.base as base
-import ckan.logic.schema
 import logic as plugin_logic
+import ckan.plugins as p
 from ckan import authz as authz
+
 from ckan import plugins, model, logic
-from ckan.common import _, c, request
+from ckan.common import _, c, request, is_flask_request
+
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.dictization import model_dictize
@@ -25,6 +25,7 @@ from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
 from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
+from ckan.plugins.toolkit import config
 from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
@@ -40,14 +41,17 @@ import auth
 import menu
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
+
 from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
-    get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name
+    get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
+    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year
 from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
+
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -568,6 +572,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_license': get_license,
                 'get_visits_for_resource': get_visits_for_resource,
                 'get_visits_for_dataset': get_visits_for_dataset,
+                'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
+                'get_download_count_for_dataset_during_last_year': get_download_count_for_dataset_during_last_year,
+                'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
                 'unquote_url': unquote_url,
@@ -581,7 +588,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
-                'related_create': auth.related_create}
+                'related_create': auth.related_create,
+                'package_update': auth.package_update}
 
         # IPackageController #
 
@@ -650,7 +658,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'only_default_lang_required': validators.only_default_lang_required,
             'keep_old_value_if_missing': validators.keep_old_value_if_missing,
             'override_field': validators.override_field,
-            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime
+            'override_field_with_default_translation': validators.override_field_with_default_translation,
+            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
+            'from_date_is_before_until_date': validators.from_date_is_before_until_date
         }
 
 
@@ -795,7 +805,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         return package_dict
 
 
-_config_template = "ckanext.ytp.organizations.%s"
+_config_template = "ckanext.ytp.%s"
 _node_type = 'service_alert'
 
 _default_organization_name = None
@@ -829,13 +839,18 @@ def _user_has_organization(username):
 
 
 def _create_default_organization(context, organization_name, organization_title):
-    values = {'name': organization_name, 'title': organization_title, 'id': organization_name}
+    default_locale = config.get('ckan.locale_default', 'fi')
+    values = {'name': organization_name,
+              'title': organization_title,
+              'title_translated': {default_locale: organization_title},
+              'id': organization_name}
     try:
         return plugins.toolkit.get_action('organization_show')(context, values)
     except NotFound:
         return plugins.toolkit.get_action('organization_create')(context, values)
 
 
+# Adds new users to default organization and to every group
 def action_user_create(context, data_dict):
     _configure()
 
@@ -844,6 +859,11 @@ def action_user_create(context, data_dict):
     organization = _create_default_organization(context, _default_organization_name, _default_organization_title)
     plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'],
                                                                        "username": result['name'], "role": "editor"})
+
+    groups = plugins.toolkit.get_action('group_list')(context, {})
+
+    for group in groups:
+        plugins.toolkit.get_action('group_member_create')(context, {'id': group, 'username': result['name'], 'role': 'editor'})
 
     return result
 
@@ -861,7 +881,6 @@ def action_organization_show(context, data_dict):
 
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, YtpMainTranslation):
     """ CKAN plugin to change how organizations work """
-    plugins.implements(plugins.IGroupForm, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
@@ -902,109 +921,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         result = query.first()
         if result:
             errors[key].append(_('Group title already exists in database'))
-
-    def is_fallback(self):
-        """ See IGroupForm.is_fallback """
-        return False
-
-    def group_types(self):
-        """ See IGroupForm.group_types """
-        return ['organization']
-
-    def form_to_db_schema_options(self, options):
-        """ See DefaultGroupForm.form_to_db_schema_options
-            Inserts duplicate title validation to schema.
-        """
-        schema = super(YtpOrganizationsPlugin, self).form_to_db_schema_options(options)
-        schema['title'].append(self.group_title_validator)
-        return schema
-
-    def form_to_db_schema(self):
-        schema = super(YtpOrganizationsPlugin, self).form_to_db_schema()
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        convert_to_extras = toolkit.get_converter('convert_to_extras')
-
-        # schema for homepages
-        # schema.update({'homepages': [ignore_missing, convert_to_list, unicode, convert_to_extras]})
-        schema.update({'homepage': [ignore_missing, unicode, convert_to_extras]})
-
-        schema.update({'public_adminstration_organization': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'producer_type': [ignore_missing, unicode, convert_to_extras]})
-
-        # schema for extra org info
-        # schema.update({'business_id': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'oid': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'alternative_name': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
-        schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
-
-        # schema for organisation address
-        schema.update({'street_address': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_pobox': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_zip_code': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'street_address_place_of_business': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_country': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_unofficial_name': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_building_id': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_getting_there': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_parking': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_public_transport': [ignore_missing, unicode, convert_to_extras]})
-        # schema.update({'street_address_url_public_transport': [ignore_missing, unicode, convert_to_extras]})
-
-        schema = add_translation_modify_schema(schema)
-        schema = add_languages_modify(schema, self._localized_fields)
-
-        return schema
-
-    def db_to_form_schema(self):
-        schema = ckan.logic.schema.group_form_schema()
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        convert_from_extras = toolkit.get_converter('convert_from_extras')
-
-        # add following since they are missing from schema
-        schema.update({'num_followers': [ignore_missing]})
-        schema.update({'package_count': [ignore_missing]})
-
-        # Schema for homepages
-        schema.update({'homepage': [convert_from_extras, ignore_missing]})
-
-        # schema for extra org info
-        schema.update({'valid_from': [convert_from_extras, ignore_missing]})
-        schema.update({'valid_till': [convert_from_extras, ignore_missing]})
-
-        # schema for organisation address
-        schema.update({'street_address': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_zip_code': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_place_of_business': [convert_from_extras, ignore_missing]})
-
-        schema.update({'producer_type': [convert_from_extras, ignore_missing]})
-        schema.update({'public_adminstration_organization': [convert_from_extras, ignore_missing]})
-
-        # old schema is used to display old data if it exists
-        schema.update({'homepages': [convert_from_extras, from_json_to_object, ignore_missing]})
-        schema.update({'business_id': [convert_from_extras, ignore_missing]})
-        schema.update({'oid': [convert_from_extras, ignore_missing]})
-        schema.update({'alternative_name': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_pobox': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_country': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_unofficial_name': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_building_id': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_getting_there': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_parking': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_public_transport': [convert_from_extras, ignore_missing]})
-        schema.update({'street_address_url_public_transport': [convert_from_extras, ignore_missing]})
-
-        schema = add_translation_show_schema(schema)
-        schema = add_languages_show(schema, self._localized_fields)
-
-        return schema
-
-    def db_to_form_schema_options(self, options):
-        if not options.get('api', False):
-            return self.db_to_form_schema()
-        schema = ckan.logic.schema.group_form_schema()
-
-        return schema
 
     # From ckanext-hierarchy
     def setup_template_variables(self, context, data_dict):
@@ -1095,9 +1011,21 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/user_list', action='user_list', ckan_icon='user')
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
-        map.connect('/organization/new', action='new', controller='organization')
-        map.connect('organization_read', '/organization/{id}', controller=organization_controller, action='read', ckan_icon='group')
-        map.connect('organization_embed', '/organization/{id}/embed', controller=organization_controller, action='embed', ckan_icon='group')
+        map.connect('/organization/new',
+                    action='new',
+                    controller='organization')
+
+        map.connect('organization_read_extended',
+                    '/organization/{id}',
+                    controller=organization_controller,
+                    action='read',
+                    ckan_icon='group')
+
+        map.connect('organization_embed',
+                    '/organization/{id}/embed',
+                    controller=organization_controller,
+                    action='embed',
+                    ckan_icon='group')
         return map
 
 
@@ -1378,7 +1306,9 @@ class YTPServiceForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         return {'success': False, 'msg': _('User %s is not part of any public organization')}
 
     def get_auth_functions(self):
-        return {'package_create': self._package_create, 'package_update': self._package_update,
+        return {
+                # TODO: Remove entire YTPServiceForm functionality.
+                # 'package_create': self._package_create, 'package_update': self._package_update,
                 'can_create_service': self._can_create_service}
 
     # ITemplateHelpers
@@ -1452,7 +1382,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                   menu.UserMenu, menu.MyPersonalDataMenu),
                  (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
-                 (['/%(language)s/organization', '/organization'], menu.ProducersMenu, menu.OrganizationMenu),
+                 (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
                   menu.PublishMenu, menu.PublishDataMenu),
                  (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',
@@ -1557,22 +1487,51 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         else:
             return self._short_domain(hostname, default)
 
-    def _drupal_footer(self):
+    def _drupal_snippet(self, path):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
+        import requests
+        import hashlib
 
         try:
-            # Call our custom Drupal API to get footer content
+            # Call our custom Drupal API to get drupal block content
             hostname = config.get('ckan.site_url', '')
-            response = urllib2.urlopen(hostname + '/api/footer/' + lang)
-            return response.read().decode("utf-8")
-        except urllib2.HTTPError:
+            domains = config.get('ckanext.drupal8.domain').split(",")
+            verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
+            cookies = {}
+            for domain in domains:
+                domain_hash = hashlib.sha256(domain).hexdigest()[:32]
+                cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
+                named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
+                for cookiename, cookie in named_cookies:
+                    if cookie is not None:
+                        cookies.update({cookiename: cookie})
+
+            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
+            return response.text
+        except requests.exceptions.RequestException, e:
+            log.error('%s' % e)
             return ''
-        except Exception:
+        except Exception, e:
+            log.error('%s' % e)
             return ''
+
+        return None
+
+    def _drupal_footer(self):
+        return self._drupal_snippet('api/footer')
+
+    def _drupal_header(self):
+        result = self._drupal_snippet('api/header')
+        if result:
+            # Path variable depends on request type
+            path = request.full_path if is_flask_request() else request.path_qs
+            # Language switcher links will point to /api/header, fix them based on currently requested page
+            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % path, result)
+        return result
 
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
-                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer}
+                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
 def _get_user_image(user):
@@ -1685,3 +1644,14 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
             # m.connect('/user/{id}', action='read')
 
         return map
+
+
+class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
+        plugins.implements(plugins.IAuthFunctions)
+
+        def admin_only_for_categories(self, context, data_dict=None):
+            return {'success': False, 'msg': 'Only admins can create and edit new categories'}
+
+        def get_auth_functions(self):
+            return {'group_create': self.admin_only_for_categories,
+                    'group_update': self.admin_only_for_categories}

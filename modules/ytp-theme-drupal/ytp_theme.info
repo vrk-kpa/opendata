@@ -27,7 +27,6 @@ regions[content_grid_top] = 'Front Page Content Grid Top Side'
 regions[content_grid_left] = 'Front Page Content Grid Left Side'
 regions[content_grid_right] = 'Front Page Content Grid Left Right Side'
 regions[content_grid_left_lower] = 'Front Page Content Grid Lower Left Side'
-regions[hero] = 'Front Page Hero'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets
@@ -48,7 +47,7 @@ stylesheets[all][] = 'vendor/bootstrap.min.css'
 ; ;;;;;;;;;;;;;;;;;;;;;
 ; 
 scripts[] = 'vendor/bootstrap.min.js'
-scripts[] = 'vendor/moment-with-langs.js'
+scripts[] = 'vendor/moment-with-locales.js'
 scripts[] = 'vendor/bootstrap-datetimepicker.js'
 ;
 ; ; Disable BootstrapCDN if using Bootstrap source files in your sub-theme.

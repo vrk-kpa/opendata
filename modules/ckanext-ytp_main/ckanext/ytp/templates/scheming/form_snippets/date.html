@@ -7,13 +7,15 @@
     type='text',
     value=data.get(field.field_name, '').split()[0],
     error=errors[field.field_name],
-    classes=['control-medium has-datepicker'],
+    classes=['control-full has-datepicker'],
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=h.scheming_field_required(field)
     )
 %}
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
 {% endcall %}
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
     {{ _(field.description) }}
 </div>
+{% endif %}

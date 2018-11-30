@@ -580,7 +580,7 @@ class YtpOrganizationController(OrganizationController):
             data_dict['include_datasets'] = False
             c.group_dict = self._action('group_show')(context, {'id': id})
 
-            check_access('group_update', context, {'id': id})
+            check_access('organization_update', context, {'id': id})
             context['keep_email'] = True
             context['auth_user_obj'] = c.userobj
             context['return_minimal'] = True
@@ -616,7 +616,7 @@ class YtpOrganizationController(OrganizationController):
                 users.append({
                     'user_id': user.id,
                     'username': user.name,
-                    'organization': group.title,
+                    'organization': group.display_name,
                     'role': member.capacity,
                     'email': user.email
                 })
@@ -625,7 +625,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/user_list.html')
+        return self._render_template('organization/user_list.html', 'organization')
 
     def admin_list(self):
         if c.userobj and c.userobj.sysadmin:
@@ -645,7 +645,7 @@ class YtpOrganizationController(OrganizationController):
                 users.append({
                     'user_id': user.id,
                     'username': user.name,
-                    'organization': group.title,
+                    'organization': group.display_name,
                     'role': member.capacity,
                     'email': user.email
                 })
@@ -654,7 +654,7 @@ class YtpOrganizationController(OrganizationController):
         else:
             c.users = []
 
-        return self._render_template('group/admin_list.html')
+        return self._render_template('organization/admin_list.html', 'organization')
 
     def read(self, id, limit=20):
         group_type = self._ensure_controller_matches_group_type(

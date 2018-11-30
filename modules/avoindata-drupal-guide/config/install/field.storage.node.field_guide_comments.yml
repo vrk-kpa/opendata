@@ -1,0 +1,18 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - disqus
+    - node
+id: node.field_guide_comments
+field_name: field_guide_comments
+entity_type: node
+type: disqus_comment
+settings: {  }
+module: disqus
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

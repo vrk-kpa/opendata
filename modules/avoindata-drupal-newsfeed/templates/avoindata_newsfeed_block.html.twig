@@ -1,0 +1,70 @@
+{#
+/**
+ * @file
+ * Avoindata News Feed Block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-newsfeed">
+  <div class="avoindata-newsfeed-block row">
+    <div class="avoindata-newsfeed-column col-md-6 col-sm-12 col-xm-12">
+      <h4>
+        <i class="fas fa-newspaper avoindata-newsfeed-icon"></i>
+        {% trans %}
+        Newsfeed
+        {% endtrans %}
+      </h4>
+      {% for news in newsfeed %}
+        <div class="avoindata-feeditem avoindata-feeditem-event">
+          <a class="feeditem-date" href={{ path('entity.node.canonical', {'node': news.id}) }}>
+            {{ news.createdtime | format_date('avoindata_long_date') }}
+          </a>
+          <br/>
+          <a class="feeditem-heading" href={{ path('entity.node.canonical', {'node': news.id}) }}>
+            {{ news.label }}
+          </a>
+        </div>
+      {% endfor %}
+      <div class="avoindata-feed-button-wrapper">
+          <a href="/{{language}}/articles" class="btn avoindata-newsfeed-button">
+          {% trans %}
+          All News
+          {% endtrans %}
+          </a>
+      </div>
+    </div>
+    <div class="avoindata-newsfeed-column col-md-6 col-sm-12 col-xm-12">
+      <h4>
+        <i class="far fa-calendar-check avoindata-newsfeed-icon"></i>
+        {% trans %}
+        Events
+        {% endtrans %}
+      </h4>
+      {% for event in eventfeed %}
+        <div class="avoindata-feeditem avoindata-feeditem-event">
+          <a class="feeditem-heading" href={{ path('entity.node.canonical', {'node': event.id}) }}>
+            {{ event.label }}
+          </a>
+          <br/>
+          <a class="feeditem-date" href={{ path('entity.node.canonical', {'node': event.id}) }}>
+            {% if event.field_end_date.value|length == 0 %}
+              {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }}
+            {% else %}    
+              {{ event.field_start_date.value| date('U') | format_date('avoindata_long_date') }} - {{ event.field_end_date.value | date('U') | format_date('avoindata_long_date') }}
+            {% endif %}
+          </a>
+          <br/>
+          <a href={{ event.field_location.0.url }}><i class="fas fa-map-marker"></i> {{ event.field_location.0.title }}</a>
+        </div>
+      {% endfor %}
+      <div>
+        <a href="/{{language}}/events" class="btn avoindata-newsfeed-button">
+          {% trans %}
+          All Events
+          {% endtrans %}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

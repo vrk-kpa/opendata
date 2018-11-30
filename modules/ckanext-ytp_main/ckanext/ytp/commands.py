@@ -173,7 +173,6 @@ def migrate(ctx, config, dryrun):
     if dryrun:
         print '\n'.join('%s' % p for p in package_patches)
         print '\n'.join('%s' % p for p in resource_patches)
-
     else:
         apply_patches(package_patches, resource_patches)
 
@@ -254,7 +253,123 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 
     if dryrun:
         print '\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps)
-
     else:
         if group:
             apply_group_assigns(group_assigns)
+
+
+ytp_org_group = paster_click_group(
+    summary=u'Organization related commands.'
+)
+
+
+@ytp_org_group.command(
+    u'migrate',
+    help=u'Migrates organizations to scheming based model'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_orgs(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    default_lang = c.get('ckan.locale_default', 'en')
+    languages = ['fi', 'en', 'sv']
+    translated_fields = ['title', 'description']
+
+    org_patches = []
+
+    for old_org_dict in org_generator():
+        flatten_extras(old_org_dict)
+
+        patch = {}
+
+        for field in translated_fields:
+            translated_field = '%s_translated' % field
+            if translated_field not in old_org_dict:
+                patch[translated_field] = {default_lang: old_org_dict[field]}
+                for language in languages:
+                    value = old_org_dict.get('%s_%s' % (field, language))
+                    if value is not None and value != "":
+                        patch[translated_field][language] = value
+            else:
+                patch[field] = old_org_dict[translated_field].get(default_lang)
+
+        if 'features' not in old_org_dict:
+            # 'adminstration' is used in previous data model
+            if old_org_dict.get('public_adminstration_organization'):
+                patch['features'] = ["public_administration_organization"]
+
+        if patch:
+            patch['id'] = old_org_dict['id']
+            org_patches.append(patch)
+
+    if dryrun:
+        print '\n'.join('%s' % p for p in org_patches)
+    else:
+        apply_org_patches(org_patches)
+
+
+def apply_org_patches(org_patches):
+    if not org_patches:
+        print 'No patches to process.'
+    else:
+        org_patch = get_action('organization_patch')
+        context = {'ignore_auth': True}
+        for patch in org_patches:
+            try:
+                org_patch(context, patch)
+            except ValidationError as e:
+                print "Migration failed for organization %s reason:" % patch['id']
+                print e
+
+
+def org_generator():
+    context = {'ignore_auth': True}
+    org_list = get_action('organization_list')
+    orgs = org_list(context, {'all_fields': True, 'include_extras': True})
+    for org in orgs:
+        yield org
+
+
+def flatten_extras(o):
+    active_extras = (e for e in o.get('extras', []) if e['state'] == 'active')
+    for e in active_extras:
+        key = e['key']
+        value = e['value']
+        while key in o:
+            key = '%s_extra' % key
+        o[key] = value
+
+
+opendata_group = paster_click_group(
+    summary=u'Group related commands.'
+)
+
+
+@opendata_group.command(
+    u'add',
+    help="Adds all users to all groups as editors"
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def add_to_groups(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    context = {'ignore_auth': True}
+    groups = get_action('group_list')(context, {})
+    users = get_action('user_list')(context, {})
+
+    data_dicts = []
+    for group in groups:
+        memberships = get_action('member_list')(context, {'id': group})
+        for user in users:
+            if not any(id for (id, type, capacity) in memberships if id == user['id']):
+                data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
+
+    if dryrun:
+        print '\n'.join('%s' % d for d in data_dicts)
+    else:
+        for d in data_dicts:
+            get_action('group_member_create')(context, d)

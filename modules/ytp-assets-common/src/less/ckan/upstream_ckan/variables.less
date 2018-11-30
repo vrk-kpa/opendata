@@ -1,9 +1,8 @@
 // Base variables
-@imagePath: "../images/ckan";
+@imagePath: "../../../base/images";
 @spritePath: "@{imagePath}/sprite-ckan-icons.png";
 @bgPath: "@{imagePath}/bg.png";
 @FontAwesomePath: "../../../base/vendor/font-awesome/font";
-
 
 // Layout Variables
 @layoutFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -13,6 +12,7 @@
 @layoutBackgroundColor: #eee;
 @layoutTrimBackgroundColor: #fff;
 @layoutTrimBorderColor: #ccc;
+@logoMaxHeight: 60px;
 
 @navLinkColor: #333;
 @navActiveBackgroundColor: #f6f6f6;
@@ -45,6 +45,7 @@
 
 @navItemActiveTextColor: #FFF;
 @navItemActiveBackgroundColor: #8CA0A6;
+@navItemActiveArrowSize: 6px;
 
 @pillTextColor: @navItemActiveTextColor;
 @pillBackgroundColor: darken(@navItemActiveBackgroundColor, 10%);
@@ -56,8 +57,8 @@
 @footerTextColor: #CCDEE3;
 @footerLinkColor: @footerTextColor;
 
-@inputColor: @black;
-@inputBackground: @white;
+@inputColor: @gray-base;
+@inputBackground: @body-bg;
 @inputBorder: #ccc;
 @inputBorderRadius: 3px;
 @disabledCustomInputTextColor: #aaa;
@@ -123,3 +124,6 @@
 @activityColorNeutral: #767DCE;
 @activityColorModify: #767DCE;
 @activityColorDelete: #B95252;
+
+// Navigation
+@zindex-navbar: 1;

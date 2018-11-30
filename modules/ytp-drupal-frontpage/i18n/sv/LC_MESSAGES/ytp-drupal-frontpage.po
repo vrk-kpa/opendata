@@ -1,18 +1,17 @@
 # Manual
 # 
 # Translators:
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2016-03-21 16:49+0200\n"
 "PO-Revision-Date: 2016-03-21 16:49+0200\n"
-"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
-"Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
+"Last-Translator: Meepu <meeri.panula@gofore.com>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Latest datasets"
@@ -20,20 +19,3 @@ msgstr "Senaste dataseten"
 
 msgid "Categories of open data"
 msgstr "Kategorier av öppna data"
-
-msgid "Avoindata.fi — All the Open Data in Finland within one service"
-msgstr "Avoindata.fi — Alla öppna data i Finland inom en tjänst"
-
-msgid ""
-"Avoindata.fi is a centralized repository for Open Data released by finnish "
-"entities. Open Data is digital information that can be freely used as long "
-"as the original source is credited. The repository contains datasets "
-"published by the government, municipalities, companies, organizations and "
-"individuals. The contents of each dataset are the responsibility of their "
-"publishers."
-msgstr ""
-"Avoindata.fi är ett centralt förvar för Open Data som släpptes av finska "
-"enheter. Open Data är digital information som kan användas fritt så länge "
-"som den ursprungliga källan krediteras. Förvaret innehåller dataset som "
-"publiceras av regeringen, kommunerna, företagen, organisationerna och "
-"individerna. Innehållet i varje dataset är deras utgivares ansvar."

@@ -1,0 +1,85 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.avoindata_event.body
+    - field.field.node.avoindata_event.field_end_date
+    - field.field.node.avoindata_event.field_event_comments
+    - field.field.node.avoindata_event.field_image
+    - field.field.node.avoindata_event.field_location
+    - field.field.node.avoindata_event.field_start_date
+    - node.type.avoindata_event
+  module:
+    - datetime
+    - disqus
+    - image
+    - link
+    - text
+    - user
+id: node.avoindata_event.default
+targetEntityType: node
+bundle: avoindata_event
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_end_date:
+    type: datetime_default
+    weight: 5
+    region: content
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: avoindata_long_date
+    third_party_settings: {  }
+  field_event_comments:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: disqus_comment
+    region: content
+  field_image:
+    weight: 3
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_location:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_start_date:
+    type: datetime_default
+    weight: 6
+    region: content
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: avoindata_long_date
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_end_date: true
+  field_start_date: true
+  langcode: true

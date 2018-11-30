@@ -1,0 +1,31 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_header_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_header':
+      return t('
+        Creates header that can be exported to non-Drupal pages.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_header_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_header_search_collapsible' => array(
+      'template' => 'avoindata_header_search_collapsible',
+      'variables' => array(),
+    ),
+    'avoindata_header' => array(
+      'template' => 'avoindata_header',
+      'variables' => array(),
+    ),
+  );
+}

@@ -8,6 +8,8 @@
     </select>
     </div>
 </div>
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
     {{ _(field.description) }}
 </div>
+{% endif %}

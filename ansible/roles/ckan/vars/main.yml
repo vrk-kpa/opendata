@@ -5,15 +5,13 @@ ckan_package: python-ckan_{{ ckan_version }}-precise_amd64.deb
 harvester_user: "{{ www_user }}"
 celery_user: "{{ www_user }}"
 
-ckan_plugins_default: stats scheming_datasets scheming_groups fluent
+ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
-ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal7 datarequests report ytp_organizations ytp_request ytp_report hierarchy_display ytp_theme ytp_drupal ytp_tasks ytp_dataset ytp_spatial ytp_user ytp_service datastore sixodp_showcase datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view sixodp_harvester disqus archiver
-
-
+ckan_plugins: harvest ckan_harvester hri_harvester dcat dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal8 ytp_organizations ytp_request hierarchy_display ytp_theme report ytp_report ytp_drupal ytp_tasks ytp_dataset ytp_spatial ytp_user ytp_service datastore sixodp_showcase sixodp_showcasesubmit datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view sixodp_harvester disqus reminder ytp_restrict_category_creation_and_updating archiver qa
 ckan_aws_plugins: cloudstorage
 
 ckan_extensions:
-  - ckanext-drupal7
+  - ckanext-drupal8
   - ckanext-ytp_drupal
   - ckanext-ytp_tasks
   - ckanext-ytp_request
@@ -30,10 +28,13 @@ ckan_extensions:
   - ckanext-fluent
   - ckanext-showcase
   - ckanext-sixodp_showcase
+  - ckanext-sixodp_showcasesubmit
   - ckanext-geoview
   - ckanext-pdfview
   - ckanext-disqus
+  - ckanext-reminder
   - ckanext-archiver
+  - ckanext-qa
 
 
 redis_harvest_database: 0
@@ -45,7 +46,7 @@ supervisor_services:
   - ckan-worker-bulk
   - ckan-worker-priority
 
-# Override these on servers! 
+# Override these on servers!
 baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
 app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
 
@@ -72,12 +73,14 @@ ckan_patches:
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/85ef19c73faa7e841e9e0b94ec1044dbb6fee389.patch", file: "enable-celery-queues"} # ytp specific
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/34382a3ff1cb0d16f31e9e00955a3feabbdd64f5.patch", file: "remove-main-debug-css"} # ytp specific NOT CURRENTLY INSTALLING
   - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0c973510ab7b77ac20e375cd263661eb190eaba5.patch", file: "remove-old-rdf-templates"} # ytp specific NOT CURRENTLY INSTALLING
-
 new_ckan_patches:
-  - { file: "FixMultilingual" }
-  - { file: "bs3-modal" }
+  #- { file: "FixMultilingual" }
+  #- { file: "bs3-modal" }
   - { file: "fix_cors" }
   - { file: "enable_multiple_image_uploads" }
+  - { file: "remove-ckan-fontawesome" }
+  - { file: "fix-i18n-api-encoding" }
+  - { file: "fix-flask-root-path" } # CKAN issue #4452
 
 service_database_enabled: false
 auto_author_enabled: true

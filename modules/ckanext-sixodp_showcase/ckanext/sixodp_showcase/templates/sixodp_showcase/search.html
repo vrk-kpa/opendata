@@ -20,18 +20,24 @@
 
 {% block page_primary_action %}
   <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12">
-          {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
-      </div>
-  </div>
-  <div class="search-form-container search-form-container-borderless row">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      {{ h.snippet('snippets/search_input.html', query=c.q, placeholder=_('Search showcases...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+        {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
     </div>
   </div>
+
+  <div class="search-form-container search-form-container-borderless row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=c.q, placeholder=_('Search applications...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+    </div>
+  </div>
+
   {% if h.check_access('ckanext_showcase_create') %}
-    <div class="page_primary_action">
-      {% link_for _('Add Showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="page_primary_action pull-right">
+              {% link_for _('Add Showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='new', class_='btn btn-primary btn-add-application', icon='plus-sign-alt' %}
+          </div>
+      </div>
     </div>
   {% endif %}
 {% endblock %}
@@ -42,7 +48,7 @@
     'search': c.search_facets,
     'titles': c.facet_titles,
     'translated_fields': c.translated_fields,
-    'remove_field': h.facet_remove_field }
+    'remove_field': c.remove_field }
   %}
   {% set sorting = [
     (_('Newest first'), 'metadata_created desc'),
@@ -60,7 +66,9 @@
 {% endblock %}
 
 {% block package_search_results_list %}
-  {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+  </div>
 {% endblock %}
 
 {% block package_search_results_api %}

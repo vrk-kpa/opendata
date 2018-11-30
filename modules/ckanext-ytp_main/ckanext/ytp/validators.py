@@ -243,14 +243,14 @@ def only_default_lang_required(field, schema):
                 errors[key].append(_('expecting JSON object'))
                 return
 
-            if field.get('only_default_lang_required') is not None and value.get(default_lang) is None:
+            if field.get('only_default_lang_required') is True and value.get(default_lang, '') == '':
                 errors[key].append(_('Required language "%s" missing') % default_lang)
             return
 
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        if extras.get(prefix + default_lang) == '' or extras.get(prefix + default_lang) is None:
+        if extras.get(prefix + default_lang, '') == '':
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return validator
@@ -264,6 +264,43 @@ def override_field(overridden_field_name):
 
         def validator(key, data, errors, context):
             override_value = data[key]
+            if override_value not in (None, missing):
+                overridden_key = tuple(overridden_field_name.split('.'))
+                data[overridden_key] = override_value
+
+        return validator
+
+    return implementation
+
+
+def override_field_with_default_translation(overridden_field_name):
+    @scheming_validator
+    def implementation(field, schema):
+
+        from ckan.lib.navl.dictization_functions import missing
+
+        default_lang = config.get('ckan.locale_default', 'en')
+
+        def validator(key, data, errors, context):
+            value = data[key]
+            override_value = missing
+
+            if value is not missing:
+                if isinstance(value, basestring):
+                    try:
+                        value = json.loads(value)
+                    except ValueError:
+                        errors[key].append(_('Failed to decode JSON string'))
+                        return
+                    except UnicodeDecodeError:
+                        errors[key].append(_('Invalid encoding for JSON string'))
+                        return
+                if not isinstance(value, dict):
+                    errors[key].append(_('expecting JSON object'))
+                    return
+
+                override_value = value.get(default_lang, missing)
+
             if override_value not in (None, missing):
                 overridden_key = tuple(overridden_field_name.split('.'))
                 data[overridden_key] = override_value
@@ -297,3 +334,29 @@ ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 def ignore_if_invalid_isodatetime(v):
     return v if ISO_DATETIME_FORMAT.match(v) else None
+
+
+@scheming_validator
+def from_date_is_before_until_date(field, schema):
+
+    max_date_field = None
+    min_date_field = None
+    if field and field.get('max_date_field'):
+        max_date_field = (field.get('max_date_field'),)
+
+    if field and field.get('min_date_field'):
+        min_date_field = (field.get('min_date_field'),)
+
+    def validator(key, data, errors, context):
+
+        max_date_value = data.get(max_date_field, "")
+        if max_date_field is not None and max_date_value != "":
+            if data[key] and data[key] > max_date_value:
+                errors[key].append(_('Start date is after end date'))
+
+        min_date_value = data.get(min_date_field, "")
+        if min_date_field is not None and min_date_value != "":
+            if data[key] and data[key] < min_date_value:
+                errors[key].append(_('End date is before start date'))
+
+    return validator

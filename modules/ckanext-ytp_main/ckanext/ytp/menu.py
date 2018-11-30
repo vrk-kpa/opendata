@@ -61,7 +61,7 @@ class MyDatasetsMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        return helpers.url_for('user_dashboard_datasets')
+        return helpers.url_for('dashboard.datasets')
 
 
 class MyOrganizationMenu(MenuItem):
@@ -71,7 +71,7 @@ class MyOrganizationMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        return helpers.url_for('user_dashboard_organizations')
+        return helpers.url_for('dashboard.organizations')
 
 
 class MyPersonalDataMenu(MenuItem):
@@ -93,7 +93,7 @@ class MyInformationMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        return helpers.url_for('user_datasets', id=c.user)
+        return helpers.url_for('user.read', id=c.user)
 
 
 class MyPasswordMenu(MenuItem):
@@ -155,6 +155,12 @@ class PostitNewMenu(MenuItem):
 
     def link(self):
         return helpers.url_for('/postit/new')
+
+
+class EmptyMenu(RootMenuItem):
+    def __init__(self, plugin):
+        super(EmptyMenu, self).__init__(plugin)
+        self.children = []
 
 
 class ProducersMenu(RootMenuItem):

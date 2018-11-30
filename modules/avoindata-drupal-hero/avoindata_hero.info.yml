@@ -1,0 +1,5 @@
+name: Avoindata Hero
+type: module
+description: Creates a hero component
+package: Custom
+core: 8.x

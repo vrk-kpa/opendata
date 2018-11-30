@@ -1,0 +1,28 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_appfeed_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_appfeed':
+      return t('Creates app feed module.');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_appfeed_theme($existing, $type, $theme, $path) {
+  return array(
+    'avoindata_appfeed' => array(
+      'variables' => array(
+        'applications' => NULL,
+        'language' => NULL
+      ),
+      'template' => 'avoindata_appfeed_block',
+    ),
+  );
+}

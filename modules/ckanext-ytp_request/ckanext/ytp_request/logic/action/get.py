@@ -1,5 +1,4 @@
 from ckan import logic, model
-from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
 from paste.deploy.converters import asbool
@@ -46,8 +45,7 @@ def member_requests_mylist(context, data_dict):
 
     user = context.get('user', None)
     if authz.is_sysadmin(user):
-        raise logic.ValidationError({}, {_("Role"): _(
-            "As a sysadmin, you already have access to all organizations")})
+        return []
 
     user_object = model.User.get(user)
     # Return current state for memberships for all organizations for the user
@@ -107,7 +105,8 @@ def get_available_roles(context, data_dict=None):
 def _membeship_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
-    for obj in obj_list:
+    objs_with_group_id = (g for g in obj_list if g.group_id is not None)
+    for obj in objs_with_group_id:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
         # Fetch the newest member_request associated to this membership (sort
@@ -145,7 +144,8 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict = model_dictize.member_dictize(obj, context)
         user = model.Session.query(model.User).get(obj.table_id)
 
-        member_dict['group_name'] = obj.group.name
+        if obj.group is not None:
+            member_dict['group_name'] = obj.group.name
         member_dict['role'] = obj.capacity
         # Member request must always exist since state is pending. Fetch just
         # the latest
@@ -159,7 +159,8 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['request_date'] = my_date
         member_dict['mid'] = obj.id
 
-        member_dict['user_name'] = user.name
+        if user.email is not None:
+            member_dict['user_name'] = user.name
         member_dict['user_email'] = user.email
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)

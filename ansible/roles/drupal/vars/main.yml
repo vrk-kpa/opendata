@@ -1,44 +1,58 @@
 ---
 
-drupal_site_name: avoindata.fi
-drupal_root: "{{ www_root }}/{{ drupal_name }}"
+custom_modules:
+  - { src_name: avoindata-drupal-header, module_name: avoindata-header, machine_name: avoindata_header }
+  - { src_name: avoindata-drupal-servicemessage, module_name: avoindata-servicemessage, machine_name: avoindata_servicemessage }
+  - { src_name: avoindata-drupal-hero, module_name: avoindata-hero, machine_name: avoindata_hero }
+  - { src_name: avoindata-drupal-categories, module_name: avoindata-categories, machine_name: avoindata_categories }
+  - { src_name: avoindata-drupal-infobox, module_name: avoindata-infobox, machine_name: avoindata_infobox }
+  - { src_name: avoindata-drupal-datasetlist, module_name: avoindata-datasetlist, machine_name: avoindata_datasetlist }
+  - { src_name: avoindata-drupal-newsfeed, module_name: avoindata-newsfeed, machine_name: avoindata_newsfeed }
+  - { src_name: avoindata-drupal-appfeed, module_name: avoindata-appfeed, machine_name: avoindata_appfeed }
+  - { src_name: avoindata-drupal-footer, module_name: avoindata-footer, machine_name: avoindata_footer }
+  - { src_name: avoindata-drupal-articles, module_name: avoindata-articles, machine_name: avoindata_articles }
+  - { src_name: avoindata-drupal-events, module_name: avoindata-events, machine_name: avoindata_events }
+  - { src_name: avoindata-drupal-guide, module_name: avoindata-guide, machine_name: avoindata_guide }
+  - { src_name: avoindata-drupal-user, module_name: avoindata-user, machine_name: avoindata_user }
 
-drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
-features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
+removed_extensions:
+  - search
+  - contextual
 
-bootstrap_version: "3.3.4"
+# drupal_theme_path: "{{ drupal_root }}/sites/all/themes"
+# features_module_path: "{{ drupal_root }}/sites/all/modules/ytp_features"
 
-drupal_files_path: "{{ files_root }}/drupal"
+# bootstrap_version: "3.3.4"
 
-extracted_features:
-  - language_feature
-  - article_feature
-  - service_alert_feature
-  - article_view_feature
-  - blocks_feature
-  - frontpage_tutorial
-  - calendar_feature
-  - guide_feature
-  - frontpage_categories
-  - frontpage_hero
+# drupal_files_path: "{{ files_root }}/drupal"
 
-ytp_features_path: "../modules/ytp-drupal-features"
+# extracted_features:
+#   - language_feature
+#   - article_feature
+#   - service_alert_feature
+#   - article_view_feature
+#   - blocks_feature
+#   - frontpage_tutorial
+#   - calendar_feature
+#   - guide_feature
+#   - frontpage_categories
 
-translation_cache_path: "{{ cache_path }}/translations"
-translation_languages:
-  - "fi"
-  - "sv"
-translation_projects:
-  - name: "ytp-theme-drupal"
-  - name: "ckanext-ytp_main"
-    path: "/ckanext/ytp"
-  - name: "ytp-drupal-tutorial"
-  - name: "ytp-drupal-frontpage"
+# ytp_features_path: "../modules/ytp-drupal-features"
 
-translation_text_groups:
-  - "field"
-  - "node"
-  - "blocks"
+# translation_cache_path: "{{ cache_path }}/translations"
+# translation_languages:
+#   - "fi"
+#   - "sv"
+# translation_projects:
+#   - "ytp-theme-drupal"
+#   - name: "ckanext-ytp_main"
+#     path: "/ckanext/ytp"
+#   - "ytp-drupal-tutorial"
+#   - "ytp-drupal-frontpage"
+# translation_text_groups:
+#   - "field"
+#   - "node"
+#   - "blocks"
 
-enable_email_verification: False
-drupal_error_level: "2"
+# enable_email_verification: False
+# drupal_error_level: "2"

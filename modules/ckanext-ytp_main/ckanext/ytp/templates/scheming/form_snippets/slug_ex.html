@@ -57,7 +57,8 @@
     attrs=attrs,
     is_required=h.scheming_field_required(field)
     ) }}
-
+{% if field.description and field.description.strip() %}
 <div class="field-assistive-text">
-  {{ _(field.description) }}
+    {{ _(field.description) }}
 </div>
+{% endif %}

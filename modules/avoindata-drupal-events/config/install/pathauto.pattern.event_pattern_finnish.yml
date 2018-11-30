@@ -1,0 +1,32 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: event_pattern_finnish
+label: 'Event pattern (Finnish)'
+type: 'canonical_entities:node'
+pattern: '/tapahtuma/[node:title]'
+selection_criteria:
+  3cfff855-7127-48cb-beb8-5963dd8ffeae:
+    id: node_type
+    bundles:
+      avoindata_event: avoindata_event
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 3cfff855-7127-48cb-beb8-5963dd8ffeae
+  c9fbc11c-e12e-4782-8640-28c0fed2b4a1:
+    id: language
+    langcodes:
+      fi: fi
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: c9fbc11c-e12e-4782-8640-28c0fed2b4a1
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

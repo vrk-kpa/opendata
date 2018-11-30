@@ -1,0 +1,24 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - avoindata
+id: avoindata_appfeed
+theme: avoindata
+region: content
+weight: 5
+provider: null
+plugin: avoindata_appfeed
+settings:
+  id: avoindata_appfeed
+  label: 'Avoindata App Feed'
+  provider: avoindata_appfeed
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

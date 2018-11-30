@@ -1,41 +1,63 @@
 @import (reference) "upstream_bootstrap/variables";
 
 // Common color palette. These are the only colors that should be used!
-@ytp-brand-primary:    #1467b6; //#266ab9; // Primary navigation/interaction/focus color
-@ytp-brand-decorative: #00519b; // Decorative secondary color
-@ytp-brand-complementary: #3F3D37;
-@ytp-brand-gray:       darken(#908B7C, 20%); //#88827A; // Neutral grayish elements
-@ytp-brand-dark:       #333333; // Secondary background color
-@ytp-brand-success:    #5cb85c; // Interaction color, successful positive color
-@ytp-brand-info:       #5bc0de; // Notification color, important but not critical
-@ytp-brand-warning:    #f0ad4e; // Slightly dangerous and important element
-@ytp-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
-@brand-primary: @ytp-brand-primary;
-@brand-info: @ytp-brand-decorative;
+@opendata-brand-primary:    #219ad3; // Primary navigation/interaction/focus color
+@opendata-brand-decorative: #2a8bb8; // Decorative secondary color
+@opendata-brand-complementary: #f09533;
+@opendata-brand-gray:       #ebe7e7; //#88827A; // Neutral grayish elements
+@opendata-brand-dark:       #302f2f; // Secondary background color
+@opendata-brand-success:    #24b88e; // Interaction color, successful positive color
+@opendata-brand-info:       #5bc0de; // Notification color, important but not critical
+@opendata-brand-warning:    #f0ad4e; // Slightly dangerous and important element
+@opendata-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
+@opendata-brand-priority:   #ec2727; // Priority content, like front page search button
+@opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
+@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
+@opendata-ckan-unhighlight-background: #f8f8f8;
+
+@brand-primary: @opendata-brand-primary;
+@brand-info: @opendata-brand-decorative;
 
 @font-family-sans-serif: 'Open Sans', sans-serif;
+@font-family-icon: 'Fontawesome webfont', sans-serif;
+
+@font-weight-light: 300;
+@font-weight-normal: 400;
+@font-weight-heavier: 600;
+@font-weight-heavy: 700;
+
+@opendata-container-max-width: 1140px;
 
 // Button colors
 @btn-default-color:    #333;
 @btn-default-bg:       #FFF;
 @btn-default-border:   #e8e7e6;
+@btn-dark-bg:          #2a6ebb;
+@btn-dark-text-color:    #FFF;
+@btn-black-color: #000;
+
+// Link colors
+@link-default-color: @opendata-brand-primary;
+@link-dark-color: #000000;
 
 // For very 'extra' information, meant for small text on white/light backgrounds
-@nonimportant-text-color: lighten(@ytp-brand-gray, 0%);
+@nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
 
 // Light background to emphasize a subarea in main content, gives a "post-it note" feeling
-//@background-hilight: lighten(#D3CDB5, 10%);
 @background-hilight-primary: lighten(#D3CDC5, 16%);
 @background-hilight: lighten(#D3CDC5, 16%);
+@background-body-color: #fff;
+@background-hilight: #f5f5f5;
+@background-hero-image: url('/resources/images/avoindata_hero.jpg');
 
 // Bootstrap: Grid
 @grid-gutter-width: 50px;
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
-@alert-info-bg: @ytp-brand-decorative; //lighten(@ytp-brand-primary, 30%);
-@alert-info-border: @ytp-brand-decorative;
-@alert-info-text: lighten(@ytp-brand-decorative, 54%); //@ytp-brand-primary;
+@alert-info-bg: @opendata-brand-decorative; //lighten(@opendata-brand-primary, 30%);
+@alert-info-border: @opendata-brand-decorative;
+@alert-info-text: lighten(@opendata-brand-decorative, 54%); //@opendata-brand-primary;
 @alert-link-font-weight: 500;
 
 //Color and background for FAVORITE datasets
@@ -43,47 +65,53 @@
 @popularBackgroundColor: #FFBB44;
 
 // Light border lines that separate UI areas
-@section-border-color: lighten(@ytp-brand-gray, 60%);
+@section-border-color: lighten(@opendata-brand-gray, 60%);
 
 // Borders for content: input fields, comments etc. on areas with gray background
-@content-border: lighten(@ytp-brand-gray, 25%);
+@content-border: lighten(@opendata-brand-gray, 25%);
 
 // Text color that is on a colored background (labels, buttons, carousel)
 @button-inverse-text-color: white;
 
 // Search box, carousel etc.
-@block-color-background: @ytp-brand-primary;
+@block-color-background: @opendata-brand-primary;
 @block-color: @button-inverse-text-color;
-@block-color-hilight: lighten(@ytp-brand-primary, 0%);
+@block-color-hilight: lighten(@opendata-brand-primary, 0%);
 @block-color-light: #FFF;
 
-// Tweak Bootstrap brand colors (label, button etc.)
-@label-default-bg: @ytp-brand-gray;
-@label-primary-bg: lighten(@ytp-brand-primary, 0%);
+@sidebar-block-color-header: #182b75;
+@sidebar-block-color-background: #eee;
+@sidebar-block-color-text: #000;
 
-@link-color: @ytp-brand-primary;
-@link-hilight: darken(@ytp-brand-primary, 10%);
+// Tweak Bootstrap brand colors (label, button etc.)
+@label-default-bg: @opendata-brand-gray;
+@label-primary-bg: lighten(@opendata-brand-primary, 0%);
+
+@link-color: @opendata-brand-primary;
+@link-color-focus: lighten(@opendata-brand-primary, 10%);
+@link-hilight: darken(@opendata-brand-primary, 10%);
 
 // Name label for input fields and for showing the key/value-pairs
-@field-label-color: darken(@ytp-brand-gray, 30%);
+@field-label-color: darken(@opendata-brand-gray, 30%);
 
 // Help text inside input fields
-@input-color-placeholder: lighten(@ytp-brand-gray, 35%);
+@input-color-placeholder: lighten(@opendata-brand-gray, 35%);
 @input-color: #222;
 @input-readonly: #555;
 
 // Vertical side menu and horizontal main menu
 @menu-active-color: #fff;
-@menu-link-active-color: @ytp-brand-complementary;
+@menu-link-active-color: @opendata-brand-complementary;
 @menu-link-color: #eee;
-@menu-link-background: @ytp-brand-primary;
+@menu-link-background: @opendata-brand-primary;
 @menu-link-hover-color: #fff;
-@menu-hover-color: @ytp-brand-decorative;
+@menu-hover-color: @opendata-brand-decorative;
 
 @body-color-background: white;
 
+
 // Footer colors
-@footer-background: @ytp-brand-dark;
+@footer-background: @opendata-brand-dark;
 @footer-text-color:      #fff;
 
 // Drupal article tags
@@ -94,11 +122,13 @@
 @select-background: white;
 
 // Rest of the variables
-@navbar-inverse-link-color: @ytp-brand-decorative;
-@navbar-color-background: @ytp-brand-complementary;
+@navbar-background: #011734;
+@navbar-color: #123f52;
+@navbar-inverse-link-color: @opendata-brand-decorative;
+@navbar-color-background: @opendata-brand-primary;
 @navbar-color-text: #ffffff;
-@navbar-color-darker: #999999;
-@navbar-height: 40px;
+@navbar-color-links: hsla(0, 0%, 100%, .65);
+@navbar-height: 48px;
 @navbar-responsive-toggle-background: #000;
 
 @infowell-color-dark: #175971;
@@ -108,13 +138,14 @@
 @main-hilight-color: #1f7994;
 
 // Breadcrumbs: TODO these colors do not seem to affect the whole breadcrumb
-@breadcrumbTextColor: darken(@ytp-brand-gray, 0%);
-@breadcrumb-color: darken(@ytp-brand-gray, 0%);
+@breadcrumbTextColor: darken(@opendata-brand-gray, 0%);
+@breadcrumb-color: darken(@opendata-brand-gray, 0%);
+@breadcrumb-color-background: @opendata-brand-primary;
 
 // TODO workaround for having buttons with both 'a' and 'button' tags
 @button-background: #999999;
 @button-hilight: #747474;
-@button-primary-background: @ytp-brand-primary;
+@button-primary-background: @opendata-brand-primary;
 @button-primary-hilight: #0f54a2;
 @button-primary-border: #7CA9CC;
 @button-border: #9a9d9e;
@@ -130,3 +161,34 @@
 
 @button-border-radius: 8px;
 @border-radius-large: 0px;
+
+// Media grid
+@mediagrid-header-text-color: @opendata-brand-dark;
+@mediagrid-text-color: @opendata-brand-gray;
+@mediagrid-category-icon-color: rgb(24, 43, 117);
+
+@bottom-highlight-color: #00b8ff;
+
+// Header variables
+@header-width: 940px;
+
+// Resource list
+@resource-list-background: #f7f7f7;
+@tag-color: #69b1fe;
+
+// Tabs
+@active-tab-color: #055bb9;
+@inactive-tab-color: #b3bacf;
+
+//Dropdown menu hover color that comes to the left border
+//used at least on Frontpage dropdown and guide page dropdown menu
+@menu-hover-border-color: #002e90;
+
+@dataset-count-text-color: #C6C6C6;
+@organization-count-header-color: #C6C6C6; 
+
+@facet-link-text-color: #020202;
+
+// Search view
+@search-view-bg-hero-bg-color: #004f74;
+@search-view-link-color: #000;

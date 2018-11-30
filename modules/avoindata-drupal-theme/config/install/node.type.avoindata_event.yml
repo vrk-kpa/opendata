@@ -1,0 +1,20 @@
+langcode: fi
+status: true
+dependencies:
+  enforced:
+    module:
+      - avoindata_newsfeed
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Avoindata Event'
+type: avoindata_event
+description: 'Content type that can be used to provide additional information on <em>Avoindata Events</em>'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

@@ -19,9 +19,3 @@ msgstr ""
 
 msgid "Categories of open data"
 msgstr ""
-
-msgid "Avoindata.fi — All the Open Data in Finland within one service"
-msgstr ""
-
-msgid "Avoindata.fi is a centralized repository for Open Data released by finnish entities. Open Data is digital information that can be freely used as long as the original source is credited. The repository contains datasets published by the government, municipalities, companies, organizations and individuals. The contents of each dataset are the responsibility of their publishers."
-msgstr ""

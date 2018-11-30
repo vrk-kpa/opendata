@@ -1,0 +1,123 @@
+#guide-menu-column .opendata-card {
+    //The purpose is to have the upper part of the menu
+    //on the same level with the upper part of the image
+    margin-top: 50px;
+}
+
+.secondary {
+    padding-left: 0;
+  }
+  
+//Copied from opendata-card-heading and opendata-card-header CSS classes
+//The header also has an ID, but the ID is language specific
+.opendata-card .opendata-card-content nav h2 {
+    margin-left: 23px;
+    margin-top: 50px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 10px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+//Copied from the webflow implementation and earlier hover implementations
+.opendata-card .opendata-card-content {
+    .collapse {
+        //Otherwise, the menu would not
+        //show on small displays
+        display: block; 
+    }
+    .dropdown-menu {
+        background-color: @resource-list-background;
+        // This makes the element to adjust its size according
+        // to the size of the children
+        position: relative; 
+        box-shadow: none;
+        border: none;
+    }
+    li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 15px;
+        border-left: 6px solid transparent;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #161616;
+    }
+    li>a:hover {
+        border-left: 10px solid @menu-hover-border-color;
+        text-decoration: none;
+        color: #262626;
+        background-color: @resource-list-background;
+        padding-left: 11px;
+    }
+    .dropdown-menu li>a {
+        overflow: hidden;
+        margin-top: 0px;
+        margin-bottom: 8px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-left: 32px;
+        color: #6d6d6d;
+        background-color: @resource-list-background;
+        font-size: 13px;
+        text-decoration: none;
+    }
+    .open>a {
+        background-color: @resource-list-background;
+        border-left: 6px solid transparent;
+    }
+    li>a:focus {
+        background-color: @resource-list-background;
+    }
+}
+
+// Defined here, because for some reason I didn't get it to
+// work as part of the other definitions
+.opendata-card .opendata-card-content .open li>a:hover {
+    border-left: 6px solid transparent;
+    text-decoration: underline;
+}
+
+#guide-search-form {
+    margin-top: 12px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#guide-search-field {
+    display: block;
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333333;
+    background-color: white;
+    border: 1px solid #cccccc;
+
+}
+
+#guide-search-button {
+    height: 40px;
+    padding-right: 19px;
+    padding-left: 19px;
+    border-radius: 3px;
+    background-color: @btn-dark-bg;
+    text-align: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#guide-header {
+    margin: 0px;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 36px;
+    margin-bottom: 12px;
+}

@@ -5,6 +5,7 @@ from ckan.plugins import toolkit
 from ckan.common import c, _
 import ckan.lib.navl.dictization_functions as dict_fns
 import logging
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -83,16 +84,20 @@ class YtpRequestController(BaseController):
         """" Lists own members requests (possibility to cancel and view current status)"""
         context = {'user': c.user or c.author}
         id = request.params.get('id', None)
-        try:
-            my_requests = toolkit.get_action(
-                'member_requests_mylist')(context, {})
-            message = None
-            if id:
-                message = _("Member request processed successfully")
-            extra_vars = {'my_requests': my_requests, 'message': message}
-            return render('request/mylist.html', extra_vars=extra_vars)
-        except logic.NotAuthorized:
-            abort(401, self.not_auth_message)
+        if not authz.is_sysadmin(c.user):
+            try:
+                my_requests = toolkit.get_action(
+                    'member_requests_mylist')(context, {})
+                message = None
+                if id:
+                    message = _("Member request processed successfully")
+                extra_vars = {'my_requests': my_requests, 'message': message}
+                return render('request/mylist.html', extra_vars=extra_vars)
+            except logic.NotAuthorized:
+                abort(401, self.not_auth_message)
+        else:
+            return render('request/mylist.html',
+                          extra_vars={'my_requests': [], 'message': _("As a sysadmin, you already have access to all organizations")})
 
     def list(self):
         """ Lists member requests to be approved by admins"""

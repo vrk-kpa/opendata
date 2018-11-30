@@ -33,10 +33,10 @@
 {% endblock %}
 
 {% block primary_content %}
-  <div class="">
+  <div class="showcase-content">
     <div class="page-heading-container">
       {% if pkg.icon_display_url %}
-        <div class="heading-icon">
+        <div class="showcase-heading-icon">
           <img src="{{ pkg.icon_display_url }}">
         </div>
       {% endif %}
@@ -53,22 +53,6 @@
         {% block page_subheading %}
           {% set lang = h.get_lang_prefix() %}
           <h2 class="page-subheading">
-
-            {% set showcase_categories = pkg.category.get(lang) %}
-            {% if showcase_categories %}
-              <span class="subheading-section">
-                {% for category in showcase_categories %}
-                 {{ category }}{% if not loop.last %}, {% endif %}
-                {% endfor %}
-              </span>
-            {% endif %}
-
-            <span class="subheading-section">
-              {% snippet 'sixodp_showcase/snippets/tags.html', tags=pkg.keywords %}
-            </span>
-          </h2>
-
-          <h2 class="page-subheading">
             {% if pkg.author %}
               <span class="subheading-section">{{ pkg.author }}</span>
               <span> - </span>
@@ -76,6 +60,11 @@
             <span class="subheading-section">{{ _('Published') }} {{ h.render_datetime(pkg.metadata_created, '%-d.%-m.%Y') }}</span>
             <span> - </span>
             <span class="subheading-section">{{ _('updated') }} {{ h.render_datetime(pkg.metadata_modified, '%-d.%-m.%Y') }}</span>
+          </h2>
+          <h2 class="page-subheading">
+            <span class="subheading-section">
+              {% snippet 'sixodp_showcase/snippets/tags.html', tags=pkg.keywords %}
+            </span>
           </h2>
         {% endblock %}
       </div>
@@ -87,6 +76,7 @@
       </div>
     #}
     </div>
+
     {% if pkg.image_1_display_url or pkg.image_2_display_url or pkg.image_3_display_url or pkg.image_4_display_url %}
     <div class="image-slider-wrapper">
       <ol class="image-slider">
@@ -139,7 +129,7 @@
     <hr>
 
     {% block package_info %}
-      <h2 class="module-heading">{{ _('Used datasets') }}</h2>
+      <h2>{{ _('Used datasets') }}</h2>
       {% if c.showcase_pkgs %}
         {{ h.snippet('snippets/package_list.html', packages=c.showcase_pkgs) }}
       {% else %}
@@ -157,18 +147,49 @@
 
   {% block application_website_link %}
     <section class="module module-narrow">
-      <a class="btn btn-block btn-transparent--inverse btn-list-item" href="{{pkg.application_website}}">
-        {{ _('Application website') }}
-        <i class="fa fa-angle-right"></i>
-      </a>
-
-      {% if pkg.author_website %}
-        <a class="btn btn-block btn-transparent--inverse btn-list-item" href="{{pkg.author_website}}">
-          {{ _('Author website') }}
-          <i class="fa fa-angle-right"></i>
-        </a>
+      <h3 class="module-heading">
+        {% trans %}
+        Links
+        {% endtrans %}
+      </h3>
+      <ul class="nav nav-simple">
+        <li class="nav-item">
+          <a class="application-website-link" href="{{pkg.application_website}}">
+            {{ _('Application website') }}
+            <i class="fas fa-external-link"></i>
+          </a>
+        </li>
+        {% if pkg.author_website %}
+        <li class="nav-item">
+          <a class="application-website-link" href="{{pkg.author_website}}">
+            {{ _('Author website') }}
+            <i class="fas fa-external-link"></i>
+          </a>
+        </li>
       {% endif %}
+      </ul>
     </section>
+  {% endblock %}
+
+  {% block application_categories %}
+    {% set lang = h.get_lang_prefix() %}
+    {% set showcase_categories = pkg.category.get(lang) %}
+    {% if showcase_categories %}
+      <section class="module module-narrow">
+        <h3 class="module-heading">
+          {% trans %}
+          Categories
+          {% endtrans %}
+        </h3>
+        <ul class="nav nav-simple">
+          {% for category in showcase_categories %}
+            <li class="nav-item">
+            {{ category }}
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
   {% endblock %}
 
   {% block more_from_author %}
@@ -177,10 +198,6 @@
       <section class="module module-narrow">
         <h2 class="module-heading">{{ _('More from the author') }}</h2>
         {{ h.snippet('sixodp_showcase/snippets/related_list.html', packages=author_showcases, current=pkg.id) }}
-        <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', author=pkg.author) }}"
-        class="btn btn-block btn-transparent--inverse btn-list-item">
-          {{ _('Show all from this author') }}
-        </a>
       </section>
     {% endif %}
   {% endblock %}

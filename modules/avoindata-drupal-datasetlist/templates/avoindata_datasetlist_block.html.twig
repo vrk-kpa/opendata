@@ -1,0 +1,196 @@
+{#
+/**
+ * @file
+ * Avoindata Dataset List Block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-datasetlist">
+  <div class="avoindata-datasetlist-container">
+    <div class="row avoindata-datasetlist-nav">
+      <div class="col-xs-12">
+        <ul class="nav nav-pills">
+          <li class="active">
+            <a data-toggle="pill" href="#avoindata-datasetlist-recent">
+              {% trans with {'context': 'recently modified datasets'} %}
+              Recently modified
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-new">
+              {% trans with {'context': 'new datasets'} %}
+              New
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-popular">
+              {% trans with {'context': 'popular datasets'} %}
+              Popular
+              {% endtrans %}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="tab-content row avoindata-datasetlist-table">
+
+      <div id="avoindata-datasetlist-recent" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
+        {% if recentdatasets|length > 0 %}
+        <table class="table">
+          <tr>
+            <th>
+              {% trans %}
+              Name
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Owner
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Release date
+              {% endtrans %}
+            </th>
+          </tr>
+          {% for recentdataset in recentdatasets %}
+          <tr>
+            <td>
+              <a href="/data/{{ language }}/dataset/{{recentdataset['name']}}">{{ recentdataset['title_translated'][language] | default(recentdataset['title']) }}</a>
+            </td>
+            <td>
+              {{ recentdataset['owner'] | default('') }}
+            </td>
+            <td>
+              {{ recentdataset['metadata_created']|date("d.m.Y") }}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <div class="row avoindata-datasetlist-links">
+            <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
+              <i class="fas fa-arrow-right"></i>
+              {% trans %}
+              More recently modified datasets
+              {% endtrans %}
+            </a>
+          </div>
+        {% else %}
+        <h4>
+          {% trans %}
+          No recently modified data sets found
+          {% endtrans %}
+        </h4>
+        {% endif %}
+      </div>
+
+      <div id="avoindata-datasetlist-new" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
+        {% if newdatasets|length > 0 %}
+        <table class="table">
+          <tr>
+            <th>
+              {% trans %}
+              Name
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Owner
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Release date
+              {% endtrans %}
+            </th>
+          </tr>
+          {% for newdataset in newdatasets %}
+          <tr>
+            <td>
+              <a href="/data/{{ language }}/dataset/{{newdataset['name']}}">{{ newdataset['title_translated'][language] | default(newdataset['title']) }}</a>
+            </td>
+            <td>
+              {{ newdataset['owner'] | default('') }}
+            </td>
+            <td>
+              {{ newdataset['metadata_created']|date("d.m.Y") }}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <div class="row avoindata-datasetlist-links">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_created+desc">
+            <i class="fas fa-arrow-right"></i>
+            {% trans %}
+            More new data sets
+            {% endtrans %}
+          </a>
+        </div>
+        {% else %}
+        <h4>
+            {% trans %}
+            No new data sets found
+            {% endtrans %}
+        </h4>
+        {% endif %}
+      </div>
+
+      <div id="avoindata-datasetlist-popular" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
+        {% if populardatasets|length > 0 %}
+        <table class="table">
+          <tr>
+            <th>
+              {% trans %}
+              Name
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Owner
+              {% endtrans %}
+            </th>
+            <th>
+              {% trans %}
+              Release date
+              {% endtrans %}
+            </th>
+          </tr>
+          {% for populardataset in populardatasets %}
+          <tr>
+            <td>
+              <a href="/data/{{ language }}/dataset/{{populardataset['name']}}">{{ populardataset['title_translated'][language] | default(populardataset['title']) }}</a>
+            </td>
+            <td>
+              {{ populardataset['owner'] | default('') }}
+            </td>
+            <td>
+              {{ populardataset['metadata_created']|date("d.m.Y") }}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <div class="row avoindata-datasetlist-links">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=views_recent+desc">
+            <i class="fas fa-arrow-right"></i>
+            {% trans %}
+            More popular datasets
+            {% endtrans %}
+          </a>
+        </div>
+        {% else %}
+        <h4>
+          {% trans %}
+          No popular data sets found
+          {% endtrans %}
+        </h4>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>

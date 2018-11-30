@@ -1,0 +1,6 @@
+---
+
+# THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
+
+smtp:
+  server_domain: email-smtp.eu-west-1.amazonaws.com

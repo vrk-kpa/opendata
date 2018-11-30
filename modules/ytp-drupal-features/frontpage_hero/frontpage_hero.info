@@ -1,9 +1,0 @@
-name = frontpage_hero
-description = Block settings for front page hero
-core = 7.x
-package = Features
-version = 7.x-1.0
-dependencies[] = fe_block
-dependencies[] = ytp_frontpage
-features[fe_block_settings][] = ytp_frontpage-dataset_hero
-features[features_api][] = api:2

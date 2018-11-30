@@ -1,0 +1,143 @@
+{#
+/**
+ * @file
+ * Avoindata Hero Form
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata_hero/avoindata_hero') }}
+<div class="avoindata-hero">
+  {{ form.form_build_id }}
+  {{ form.form_token }}
+  {{ form.form_id }}
+  <div class="avoindata-hero-search-container">
+    <div class="row">
+      <div class="col-md-5">
+        <h1>
+          <img class="avoindata-hero-logo" src="/resources/images/logo/opendata.svg"/>
+          {% trans %}
+          Avoindata.fi
+          {% endtrans %}
+        </h1>
+      </div>
+    </div>
+    <div class="row avoindata-hero-subheading">
+      <div class="col-md-5">
+        <p>
+          {% trans %}
+          Development version open data portal.
+          {% endtrans %}
+        </p>
+        <a href="">
+          {% trans %}
+          Read more >>
+          {% endtrans %}
+        </a>
+      </div>
+    </div>
+    <div class="row avoindata-hero-boxes">
+      <div class="col-md-4">
+        <div class="avoindata-hero-box">
+          <a href="/data/{{ form.language }}/dataset">
+            <h2 id="avoindata-datasets-count">{{ form.datasetcount | default("0") }}</h2>
+            <p>
+              {% trans with {'context': 'x datasets'} %}
+              Datasets
+              {% endtrans %}
+            </p>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="avoindata-hero-box">
+          <a href="/data/{{  form.language }}/organization">
+            <h2 id="avoindata-organizations-count">{{ form.organizationcount | default("0") }}</h2>
+            <p>
+              {% trans with {'context': 'x organizations'} %}
+              Organizations
+              {% endtrans %}
+            </p>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="avoindata-hero-box">
+          <a href="/data/{{ form.language }}/showcase">
+            <h2 id="avoindata-applications-count">{{ form.applicationcount | default("0") }}</h2>
+              <p>
+                {% trans with {'context': 'x applications'} %}
+                Applications
+                {% endtrans %}
+              </p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="avoindata-hero-input-col">
+        <div class="input-group avoindata-hero-input-group">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">{% trans %}Datasets{% endtrans %}<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" data-value="1">
+                  {% trans %}
+                  Datasets
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="#" data-value="2">
+                  {% trans %}
+                  Applications
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="#" data-value="3">
+                  {% trans %}
+                  Organizations
+                  {% endtrans %}
+                </a>
+              </li>
+            </ul>
+          </div>
+          {{ form.search }}
+          {{ form.searchfilter }}
+          <div class="input-group-btn avoindata-hero-actions">
+            {{ form.actions }}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+          <ul class="list-inline">
+              <li>
+                <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
+                  {% trans %}
+                  Recent
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
+                  {% trans %}
+                  Popular
+                  {% endtrans %}
+                </a>
+              </li>
+              <li>
+                <a href="/data/{{ form.language }}/showcase">
+                  {% trans %}
+                  Applications
+                  {% endtrans %}
+                </a>
+              </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>

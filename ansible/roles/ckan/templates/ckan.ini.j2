@@ -32,7 +32,7 @@ ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
 ckan.datastore.write_url = postgresql://{{ postgres.users.ckan.username }}:{{ postgres.users.ckan.password }}@{{ postgres.server.host }}/{{ postgres.databases.ckan_datastore.name }}
-ckan.datastore.read_url = postgresql://{{ postgres.users.ckan_datastore.username }}:{{ postgres.users.ckan_datastore.password }}@{{ postgres.server.host }}}/{{ postgres.databases.ckan_datastore.name }}
+ckan.datastore.read_url = postgresql://{{ postgres.users.ckan_datastore.username }}:{{ postgres.users.ckan_datastore.password }}@{{ postgres.server.host }}/{{ postgres.databases.ckan_datastore.name }}
 
 ckan.auth.anon_create_dataset = false
 ckan.auth.create_unowned_dataset = false
@@ -55,10 +55,11 @@ scheming.presets = ckanext.ytp.schemas:presets.json
                    ckanext.scheming:presets.json
                    ckanext.fluent:presets.json
 scheming.group_schemas = ckanext.ytp.schemas:group.json
+scheming.organization_schemas = ckanext.ytp.schemas:organization.json
 
 ckan.site_title = Avoindata.fi
 ckan.site_logo = {{www_root}}/resources/images/avoindata.fi.png
-ckan.site_description = 
+ckan.site_description =
 
 ckan.favicon = {{www_root}}/resources/images/favicon.ico
 ckan.gravatar_default = identicon
@@ -67,9 +68,9 @@ ckan.locale_default = fi
 ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
 ckan.locales_offered = fi sv en_GB
 ckan.locales_filtered_out = en
-ckan.feeds.authority_name = 
-ckan.feeds.date = 
-ckan.feeds.author_name = 
+ckan.feeds.authority_name =
+ckan.feeds.date =
+ckan.feeds.author_name =
 ckan.feeds.author_link =
 
 ckan.cors.origin_allow_all = True
@@ -77,13 +78,13 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
+smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
 smtp.server = {{ AWS.smtp_server_domain }}:587
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
 smtp.starttls = True
 {%- else -%}
-smtp.server = {{ smtp_server_domain }}
 smtp.starttls = False
 {%- endif %}
 
@@ -91,7 +92,7 @@ smtp.mail_from = no-reply@{{ email_domain }}
 
 ckan.views.default_views = recline_grid_view
 
-ckanext.ytp.drupal.connection = postgres://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }}
+ckanext.ytp.drupal.connection = postgres://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal8.name }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ redis_hostname }}
@@ -102,6 +103,12 @@ ckanext-archiver.archive_dir = {{ resource_cache_path }}
 ckanext-archiver.max_content_length = 50000000
 ckanext-archiver.cache_url_root = https://{{ hostname }}/resource_cache/
 ckanext-archiver.user_agent_string = {{ hostname }} archiver
+ckanext-archiver.archive_cloud = True
+
+ckanext.sixodp_showcasesubmit.creating_user_username = {{ admin.username }}
+ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ recaptcha_public_key }}
+ckanext.sixodp_showcasesubmit.recaptcha_secret = {{ recaptcha_private_key }}
+ckanext.sixodp_showcasesubmit.recipient_emails = {{ admin_email }}
 
 disqus.name = {{ disqus_name }}
 disqus.notify = True
@@ -110,10 +117,13 @@ disqus.notify.email_field = maintainer_email
 
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
-ckanext.drupal7.domain = {{ hostname }},{{ secondary_hostname }}
-ckanext.drupal7.sysadmin_role = {{ drupal_ckan_admin_rolename }}
-ckanext.drupal7.connection = postgres://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal.name }}
-ckanext.drupal7.allow_edit = true
+ckanext.drupal8.domain = {{ hostname }},{{ secondary_hostname }}
+ckanext.drupal8.sysadmin_role = {{ drupal_ckan_admin_rolename }}
+ckanext.drupal8.connection = postgres://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}/{{ postgres.databases.drupal8.name }}
+ckanext.drupal8.allow_edit = true
+{% if not AWS.enabled -%}
+ckanext.drupal8.development_cert = /etc/ssl/opendata/server.crt
+{%- endif %}
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json
 service_classes_options_url = file://{{ ckan_files_path }}/service_classes.json
@@ -123,14 +133,29 @@ producer_type_options_url = file://{{ ckan_files_path }}/producer_types.json
 producer_type_private_options_url = file://{{ ckan_files_path }}/producer_types_private.json
 target_group_options_url = file://{{ ckan_files_path }}/target_groups.json
 
-ckanext.ytp.organizations.default_organization_name = yksityishenkilo
-ckanext.ytp.organizations.default_organization_title = Yksityishenkil\u00f6
+ckanext.ytp.default_organization_name = yksityishenkilo
+ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 
 ckanext.ytp.dataset.service_database_enabled = {% if service_database_enabled -%}true{%- else -%}false{%- endif %}
 
 ckanext.ytp.dataset.auto_author = {% if auto_author_enabled -%}true{%- else -%}false{%- endif %}
 
 ckanext.ytp.theme.logos = default:opendata_fi.png avoindata_default:avoindata_fi.png opendata_default:opendata_en.png avoindata_fi:avoindata_fi.png avoindata_en:avoindata_en.png avoindata_sv:avoindata_se.png opendata_fi:opendata_fi.png opendata_en:opendata_en.png opendata_sv:opendata_se.png
+
+# The email links for reminders will be prefixed with this site url
+ckanext.reminder.site_url = https://www.avoindata.fi
+
+# This configuration can be overwritten in the admin configuration UI
+# Default address for sending the reminders
+ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
+
+#The field that is checked for the expiry date for reminders
+ckanext.reminder.date_field = valid_till
+
+#Fields for recipients name and email
+ckanext.reminder.recipient_name = maintainer 
+ckanext.reminder.email_field = maintainer_email
+
 
 {% if AWS.enabled -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
@@ -226,7 +251,7 @@ BROKER_URL = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_datab
 CELERY_RESULT_BACKEND = redis://{{ redis_hostname }}:{{ redis_port }}/{{ redis_celery_database }}
 CELERY_RESULT_SERIALIZER = json
 CELERY_TASK_SERIALIZER = json
-BROKER_BACKEND = 
-BROKER_HOST = 
-CELERY_RESULT_DBURI = 
+BROKER_BACKEND =
+BROKER_HOST =
+CELERY_RESULT_DBURI =
 CELERYD_CONCURRENCY = 1

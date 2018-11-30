@@ -1,0 +1,4 @@
+avoindata_hero:
+  version: 1.x
+  js:
+    js/avoindata-hero.js: {}

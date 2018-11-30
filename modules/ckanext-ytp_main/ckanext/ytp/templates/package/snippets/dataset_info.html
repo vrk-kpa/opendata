@@ -12,7 +12,7 @@
 
 
     {% block collection_type %}
-        <div>
+        <div class="opendata-card">
         <h4 class="dataset-title sidebar-title">{{ _('Collection Type') }}</h4>
         <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
          {{ _(pkg.collection_type) }}</a>
@@ -20,7 +20,7 @@
     {% endblock %}
 
     {% block org_info %}
-        <div>
+        <div class="opendata-card">
         <h4 class="dataset-title  sidebar-title">{{ _('Organization') }}</h4>
         {% if pkg.organization %}
             <span><a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
@@ -33,7 +33,7 @@
     {% endblock %}
 
     {% block info_tags %}
-    <div>
+    <div class="opendata-card">
         <h4 class="dataset-title sidebar-title">{{_('Tags')}}</h4>
         {% if pkg.get('tags') %}
             {% for tag in pkg.get('tags') %}
@@ -45,9 +45,9 @@
     {% endblock %}
 
     {% block material_type_info %}
-        <div>
+        <div class="opendata-card">
         <h4 class="dataset-title sidebar-title">{{_('Content Type')}}</h4>
-        
+
         {% if pkg.get( 'content_type') %}
 
             {% set lang = h.get_lang_prefix() %}
@@ -82,21 +82,21 @@
     {% endblock %}
 
     {% block license_info %}
-        <div>
+        <div class="opendata-card">
         <h4 class="dataset-title sidebar-title">{{_('License')}}</h4>
         {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
             {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
             {% if pkg.organization and pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
-                  {% snippet 'package/snippets/license_rdf.html', 
-                  license_id=pkg.license_id, 
-                  content_title=pkg.title, 
-                  creator=creator_user.display_name, 
-                  creator_url=creator_user.url, 
+                  {% snippet 'package/snippets/license_rdf.html',
+                  license_id=pkg.license_id,
+                  content_title=pkg.title,
+                  creator=creator_user.display_name,
+                  creator_url=creator_user.url,
                   attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
             {% elif pkg.organization %}
-                {% snippet 'package/snippets/license_rdf.html', 
-                license_id=pkg.license_id, 
-                content_title=pkg.title, 
+                {% snippet 'package/snippets/license_rdf.html',
+                license_id=pkg.license_id,
+                content_title=pkg.title,
                 creator=h.extra_translation(pkg.organization, 'title'),
                 creator_url='/data/' +  h.lang() + '/organization/' + pkg.organization.get('name'),
                 attribution_url='/data/' +  h.lang() + '/dataset/' + pkg.get('name') %}
@@ -127,21 +127,21 @@
         {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
     {% endblock %}
     {% block rating_info %}
-        <div>
+        <div class="opendata-card">
             <h4 class="dataset-title sidebar-title">{{_('Dataset Quality')}}</h4>
 
             {% with stars,reason,last_updated = h.calculate_dataset_stars(pkg.id) %}
             <div>
             <span class="quality-label"> {{_('Resource Quality')}} </span>
             {% for i in range(stars) %}
-                <span class="icon-star"></span>
+                <span class="fas fa-star"></span>
             {% endfor %}
             {% for i in range(5 - stars) %}
-                <span class="icon-star-empty"></span>
+                <span class="far fa-star"></span>
             {% endfor %}
             </div>
             {% endwith %}
-            
+
 
 
             {% with stars = h.calculate_metadata_stars(pkg.id) %}
@@ -166,11 +166,14 @@
 
     {% block stats %}
 
-        <div>
+        <div class="opendata-card">
             <h4 class="dataset-title sidebar-title">{{ _('Stats') }}</h4>
             <span>{{ _('Last 30 days, updated daily') }}</span>
             <div id="chart_div"></div>
               {% set visits = h.get_visits_for_dataset(pkg.id) %}
+              {% set download_count_last_year = h.get_download_count_for_dataset_during_last_year(pkg.id) %}
+              {% set last_year = h.get_current_date().year - 1 %}
+              <span>{{ _('Downloads during year') }} {{last_year}}: {{ download_count_last_year }}</span><br/>
               <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
               <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
               <script type="text/javascript"
@@ -227,10 +230,10 @@
 
         <!-- Dataset Creation and Modification dates-->
 
-        <div>
+        <div class="opendata-card">
         <h4 class="dataset-title  sidebar-title">{{_('Change log')}}</h4>
         <h5 class="sidebar-title">{{_('Dataset')}}</h5>
-        
+
         <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
         <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
 
@@ -258,5 +261,4 @@
     {% block related_info %}
         {# Related items deactivated until better defined and layouts updates #}
     {% endblock %}
-</section> 
-
+</section>

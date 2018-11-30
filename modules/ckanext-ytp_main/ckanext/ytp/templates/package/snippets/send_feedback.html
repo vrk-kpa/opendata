@@ -1,9 +1,8 @@
 <!-- ckanext/ytp/dataset/templates/package/snippets/send_feedback.html -->
+<div class="opendata-card">
+<h4 class="dataset-title sidebar-title">{{ _('Send feedback about this dataset') }}</h4>
 
-  <h4 class="dataset-title sidebar-title">{{ _('Send feedback about this dataset') }}</h4>
-
-  {% block package_send_feedback %}
-
+{% block package_send_feedback %}
     {% set extra_dict = h.format_extras(pkg_dict) %}
     {% if extra_dict.maintainer_email and extra_dict.maintainer_email != "None" %}
       <a class="btn btn-primary" href="mailto:{{ extra_dict.maintainer_email }}">{{ _('Feedback') }}</a>
@@ -14,6 +13,5 @@
         <p class="empty">Not possible to send feedback on this dataset since there is no valid maintainer.</p>
       {% endtrans %}
     {% endif %}
-
-  {% endblock %}
-
+{% endblock %}
+</div>

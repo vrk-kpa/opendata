@@ -12,8 +12,10 @@
     placeholder=h.scheming_language_text(field.form_placeholder, lang),
     value=data[field.field_name + '-' + lang]
     or data.get(field.field_name, {})[lang],
-    error=errors[field.field_name + '-' + lang],
-    classes=['control-medium'],
+    error=errors[field.field_name + '-' + lang]
+          or errors.get(field.field_name, {})[lang]
+          or errors[field.field_name],
+    classes=['control-full'],
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=h.scheming_field_only_default_required(field, lang)
     ) %}
@@ -32,7 +34,7 @@
         value=data[field.field_name + '-' + lang]
         or data.get(field.field_name, {})[lang],
         error=errors[field.field_name + '-' + lang],
-        classes=['control-medium'],
+        classes=['control-full'],
         is_required=h.scheming_field_only_default_required(field, lang)
         ) %}
         {%- snippet 'scheming/form_snippets/fluent_help_text.html',
@@ -41,7 +43,9 @@
         {% endcall %}
     {% endif %}
   {%- endfor -%}
+  {% if field.description and field.description.strip() %}
   <div class="field-assistive-text">
-    {{ _(field.description) }}
+      {{ _(field.description) }}
   </div>
+  {% endif %}
 </div>

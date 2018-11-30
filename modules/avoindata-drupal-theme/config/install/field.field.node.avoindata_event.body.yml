@@ -1,0 +1,21 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.avoindata_event
+  module:
+    - text
+id: node.avoindata_event.body
+field_name: body
+entity_type: node
+bundle: avoindata_event
+label: Body
+description: 'More specific information about the avoindata event.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
