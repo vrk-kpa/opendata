@@ -1,5 +1,5 @@
 include_home_segment: true
-home_segment_title: Etusivu
+home_segment_title: Home
 home_segment_keep: 0
 include_title_segment: true
 language_path_prefix_as_segment: false
@@ -9,8 +9,8 @@ absolute_paths: false
 hide_single_home_item: false
 _core:
   default_config_hash: ALaJtTMWaPkrzRKrWM1z4u7BslSR_0tTzlGXfeZPhDQ
-langcode: fi
-include_invalid_paths: true
+langcode: en
+include_invalid_paths: false
 excluded_paths: ''
 replaced_titles: ''
 segments_separator: null
