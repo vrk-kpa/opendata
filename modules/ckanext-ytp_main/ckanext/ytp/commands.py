@@ -365,7 +365,7 @@ def add_to_groups(ctx, config, dryrun):
     for group in groups:
         memberships = get_action('member_list')(context, {'id': group})
         for user in users:
-            if ( not(any(id for (id, type, capacity) in memberships if id == user['id']))):
+            if not any(id for (id, type, capacity) in memberships if id == user['id']):
                 data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
 
     if dryrun:
