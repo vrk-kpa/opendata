@@ -1,0 +1,180 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Cloudfront CDN for Opendata'
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+    - Label: 'Cloudfront parameters'
+      Parameters:
+      - Aliases
+      - Compress
+      - DefaultTTL
+      - MinTTL
+      - MaxTTL
+      - TargetOriginId
+      - LogBucket
+      - LogIncludeCookies
+      - LogPrefix
+      - LogEnabled
+      - OriginKeepaliveTimeout
+      - OriginReadTimeout
+      - OriginSSLProtocols
+      - OriginDomainName
+    - Label: 'Route 53 parameters'
+      Parameters:
+      - HostedZoneId
+      - HostedZoneIdAlternate
+Parameters:
+  EnvironmentName:
+    Description: Name of the environment (infratest, dev, alpha, beta, www)
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  Aliases:
+    Description: 'CNAME aliases for distribution'
+    Type: 'AWS::SSM::Parameter::Value<List<String>>'
+  Compress:
+    Description: 'Compress files that Cloudfront serves'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    # AllowedValues:
+    #   - 'true'
+    #   - 'false'
+  DefaultTTL:
+    Description: 'Default TTL for cache objects'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  MinTTL:
+    Description: 'Minimum TTL for cache objects'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  MaxTTL:
+    Description: 'Maximum TTL for cache objects'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  TargetOriginId:
+    Description: 'ARN of target origin'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogBucket:
+    Description: 'Bucket to use for CF access logs'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogIncludeCookies:
+    Description: 'Include cookies in CF access logs'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    # AllowedValues:
+      # - 'true'
+      # - 'false'
+  LogPrefix:
+    Description: 'Prefix of CF access logs'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogEnabled:
+    Description: 'Enable CF access logging'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  OriginKeepaliveTimeout:
+    Description: 'Origin keepalive time for connections in seconds'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  OriginReadTimeout:
+    Description: 'Origin response timeout in seconds'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  OriginSSLProtocols:
+    Description: 'List of SSL/TLS protocols CF can use for origin'
+    Type: 'AWS::SSM::Parameter::Value<List<String>>'
+  AcmCertificateArn:
+    Description: 'ARN of the certificate in ACM to use'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  OriginDomainName:
+    Description: 'DNS name of origin'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  HostedZoneId:
+    Description: Zone ID for the DNS record
+    Type: 'AWS::SSM::Parameter::Value<AWS::Route53::HostedZone::Id>'
+  HostedZoneIdAlternate:
+    Description: "[Optional] Zone ID for the DNS record"
+    Type: 'AWS::SSM::Parameter::Value<String>'
+
+Conditions:
+  CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
+
+Resources:
+  Cloudfront:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Aliases: !Ref Aliases
+        DefaultCacheBehavior:
+          AllowedMethods:
+          - "DELETE"
+          - "GET"
+          - "HEAD"
+          - "OPTIONS"
+          - "PATCH"
+          - "POST"
+          - "PUT"
+          CachedMethods:
+          - "GET"
+          - "HEAD"
+          - "OPTIONS"
+          Compress: True
+          MinTTL: !Ref MinTTL
+          MaxTTL: !Ref MaxTTL
+          DefaultTTL: !Ref DefaultTTL
+          ForwardedValues:
+            Cookies:
+              Forward: 'whitelist'
+              WhitelistedNames:
+              - 'SESS*'
+              - 'SSESS*'
+            Headers:
+            - 'Cloudfront-Forwarded-Proto' 
+            - 'Host'
+            - 'Origin'
+            QueryString: 'true'
+          PathPattern: '*'
+          TargetOriginId: !Ref TargetOriginId
+          ViewerProtocolPolicy: 'redirect-to-https'
+        Enabled: 'true'
+        Logging:
+          Bucket: !Ref LogBucket
+          IncludeCookies: !Ref LogIncludeCookies
+          Prefix: !Ref LogPrefix
+          Enabled: !Ref LogEnabled
+        Origins:
+          - CustomOriginConfig:
+              HTTPSPort: 443
+              OriginKeepaliveTimeout: !Ref OriginKeepaliveTimeout
+              OriginProtocolPolicy: 'https-only'
+              OriginReadTimeout: !Ref OriginReadTimeout
+              OriginSSLProtocols: !Ref OriginSSLProtocols
+            DomainName: !Ref OriginDomainName
+            Id: !Select [0, !Split [".", !Ref OriginDomainName]]
+        PriceClass: 'PriceClass_100'
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmCertificateArn
+          MinimumProtocolVersion: 'TLSv1.1_2016'
+          SslSupportMethod: 'sni-only'
+      Tags:
+        - Key: Name
+          Value: !Sub avoindata-${EnvironmentName}
+
+  DomainName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Name: !Sub ${EnvironmentName}.avoindata.fi.
+      Type: A
+      HostedZoneId: !Ref HostedZoneId
+      AliasTarget:
+        DNSName: !GetAtt Cloudfront.DNSName
+        HostedZoneId: 'Z2FDTNDATAQYW2'
+
+  DomainNameAlternate:
+    Type: AWS::Route53::RecordSet
+    Condition: CreateAlternateDomainRecord
+    Properties:
+      Name: !Sub ${EnvironmentName}.opendata.fi.
+      Type: A
+      HostedZoneId: !Ref HostedZoneIdAlternate
+      AliasTarget:
+        DNSName: !GetAtt Cloudfront.DNSName
+        HostedZoneId: 'Z2FDTNDATAQYW2'
+
+Outputs:
+  Stack:
+    Description: 'Stack name'
+    Value: !Sub '${AWS::StackName}'
+    Export:
+      Name: 'stack-name'
+  
