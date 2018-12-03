@@ -331,6 +331,12 @@ Resources:
       Type: "String"
       Value: !GetAtt PublicALB.DNSName
 
+  PublicALBARN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/public_alb_arn
+      Type: "String"
+      Value: !Ref PublicALB
 
 Outputs:
   InstanceId:
