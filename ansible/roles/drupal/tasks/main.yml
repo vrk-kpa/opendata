@@ -309,6 +309,7 @@
     - core.entity_form_display.node.page.default
     - core.entity_view_display.node.page.default
     - pathauto.settings
+    - captcha.captcha_point.contact_message_feedback_form
 
 - name: Enable custom theme
   shell: ./vendor/bin/drush then -y avoindata
