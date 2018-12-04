@@ -309,6 +309,13 @@
     - core.entity_form_display.node.page.default
     - core.entity_view_display.node.page.default
     - pathauto.settings
+    - user.role.administrator
+    - user.role.anonymous
+    - user.role.authenticated
+    - user.role.ckan_admin
+    - user.role.editor
+    - user.role.publisher
+    - captcha.captcha_point.contact_message_feedback_form
 
 - name: Enable custom theme
   shell: ./vendor/bin/drush then -y avoindata
