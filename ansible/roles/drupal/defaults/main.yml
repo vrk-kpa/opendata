@@ -10,3 +10,14 @@ drupal_site_name: avoindata.fi
 drupal_root: "{{ www_root }}/{{ drupal_name }}"
 drupal8_root: "{{ www_root }}/{{ drupal8_name }}"
 
+drupal_public_files_directory: "{{ files_root }}/drupal"
+
+drupal_public_files_directory_subdirs:
+- bootstrap
+- css
+- js
+- languages
+- library-definitions
+- php
+- styles
+- translations
