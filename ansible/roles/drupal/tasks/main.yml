@@ -219,7 +219,7 @@
     owner: "{{ www_user }}"
     group: "{{ www_group }}"
 
-- name: Check if default public files path status
+- name: Check default public files path status
   stat:
     path: "{{ drupal8_root }}/web/sites/default/files"
   register: drupal_default_public_files_path
