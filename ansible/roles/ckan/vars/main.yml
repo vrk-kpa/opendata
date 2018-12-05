@@ -81,6 +81,7 @@ new_ckan_patches:
   - { file: "remove-ckan-fontawesome" }
   - { file: "fix-i18n-api-encoding" }
   - { file: "fix-flask-root-path" } # CKAN issue #4452
+  - { file: "fix_stats_extension" } #https://github.com/ckan/ckan/pull/4474
 
 service_database_enabled: false
 auto_author_enabled: true
