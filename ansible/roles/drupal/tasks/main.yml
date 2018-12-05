@@ -146,13 +146,6 @@
 
   ### Drupal installation ###
 
-  #- name: Copy Drupal settings
-  #  become: true
-  #  template: src=settings.php.j2
-  #    dest={{ drupal8_root }}/web/sites/default/settings.php
-  #    owner=vagrant
-  #    group=vagrant
-
   - name: Install a clean Drupal database
     shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
     args:
@@ -413,6 +406,11 @@
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
   args:
     chdir: "{{ drupal8_root }}"
+
+- name: Copy Drupal services yml
+  template:
+    src: "services.yml.j2" 
+    dest: "{{ drupal8_root }}/web/sites/default/services.yml"
 
 - name: Clear caches
   shell: ./vendor/bin/drupal cr
