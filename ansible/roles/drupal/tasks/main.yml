@@ -195,14 +195,6 @@
     group: "{{ www_group }}"
     mode: 0755
 
-- name: Create .htaccess file for public files directory
-  template:
-    src: public_files_dir_htaccess.j2
-    dest: "{{ drupal_public_files_directory }}/.htaccess"
-    owner: root
-    group: root
-    mode: 0644
-
 - name: Create sub directories for public files directory
   file:
     path: "{{ drupal_public_files_directory }}/{{ item }}"
@@ -218,6 +210,14 @@
     recurse: yes
     owner: "{{ www_user }}"
     group: "{{ www_group }}"
+
+- name: Create .htaccess file for public files directory
+  template:
+    src: public_files_dir_htaccess.j2
+    dest: "{{ drupal_public_files_directory }}/.htaccess"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Check default public files path status
   stat:
