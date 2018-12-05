@@ -187,6 +187,57 @@
 
   when: "'1' not in drupal8_database_initialized.stdout"
 
+- name: Ensure drupal public files directory exists
+  file:
+    path: "{{ drupal_public_files_directory }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+
+- name: Create .htaccess file for public files directory
+  template:
+    src: public_files_dir_htaccess.j2
+    dest: "{{ drupal_public_files_directory }}/.htaccess"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create sub directories for public files directory
+  file:
+    path: "{{ drupal_public_files_directory }}/{{ item }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+  with_items: "{{ drupal_public_files_directory_subdirs }}"
+
+- name: Ensure correct permission for public files directory
+  file:
+    path: "{{ drupal_public_files_directory }}"
+    recurse: yes
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+
+- name: Check default public files path status
+  stat:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+  register: drupal_default_public_files_path
+
+- name: Remove default public files directory
+  file:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+    state: absent
+  when: drupal_default_public_files_path.stat.isdir
+
+- name: Link default public files path to target directory
+  file:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+    state: link
+    src: "{{ drupal_public_files_directory }}"
+
+
+
 ### Translations ###
 
 - name: Enable Drupal language modules
@@ -249,7 +300,7 @@
 
 ### Install external modules ###
 
-# Disable removed modules, modules must be removed from removed_extensions 
+# Disable removed modules, modules must be removed from removed_extensions
 # after they are removed from composer.json
 - name: Disable removed drupal extra modules
   shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
@@ -285,7 +336,7 @@
   delegate_to: "{{ inventory_hostname }}"
 
 # These need to be enabled after installing external modules (at least pathauto), because
-# of dependencies. 
+# of dependencies.
 - name: Enable custom modules
   shell: ./vendor/bin/drush en -y {{ item.machine_name }}
   args:
@@ -295,7 +346,7 @@
 # Some configurations need to be removed to avoid conflicts at the next step
 # To avoid failure with clean installs, error about trying to remove a non-existing
 # configuration is ignored. As a result, it is important to carefully check the
-# spelling of configurations. 
+# spelling of configurations.
 - name: Delete existing configurations
   shell: ./vendor/bin/drush config-delete {{ item }}
   register: result
@@ -387,7 +438,7 @@
     - drupal
 
 # Without this, the added translatable status for content types like guide page, doesn't work and
-# fails because of an SQL error. 
+# fails because of an SQL error.
 - name: Run entity updates for database
   shell: "./vendor/bin/drush updatedb --entity-updates -y"
   args:
@@ -423,7 +474,7 @@
   service: name=php7.0-fpm state=restarted
 
 - name: Deploy favicon
-  copy: src="favicon.ico" 
+  copy: src="favicon.ico"
     dest={{ drupal8_root }}/web/favicon.ico
 
 - name: Deploy robots.txt
@@ -435,4 +486,3 @@
   file:
     state: absent
     path: /var/www/maintenance
-
