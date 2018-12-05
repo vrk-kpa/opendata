@@ -20,7 +20,8 @@
     "gulp-template": "^5.0.0",
     "gulp-uglify": "^3.0.1",
     "gulp-util": "~3.0.4",
-    "pump": "^3.0.0"
+    "pump": "^3.0.0",
+    "imagemin-jpegoptim": "^6.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

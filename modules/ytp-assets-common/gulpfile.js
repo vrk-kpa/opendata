@@ -14,6 +14,7 @@ var base64 = require("gulp-base64");
 var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
+var imageminJpegoptim = require('imagemin-jpegoptim');
 
 var paths = {
   src: {
@@ -90,6 +91,9 @@ gulp.task("images", (done) => {
       imagemin.gifsicle(),
       imagemin.jpegtran(),
       imagemin.optipng(),
+      imageminJpegoptim({
+        max: 90
+      }),
       imagemin.svgo({
         plugins: [
           {removeViewBox: true},
