@@ -16,6 +16,8 @@ cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
 beaker.session.secret = {{ baker_session_secret }}
+beaker.session.secure = True
+beaker.session.httponly = True
 
 app_instance_uuid = {{ app_instance_uuid }}
 
