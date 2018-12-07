@@ -94,6 +94,22 @@ location ~ ^/sites/.*/private/ {
     return 403;
 }
 
+location ~ ^/sites/[^/]+/files/.*\.php$ {
+    deny all;
+}
+
+# Deny settings.php and services.yml files
+location ~ /sites/default/.*\.(php|yml|conf|config|cfg)$ {
+    deny all;
+    return 404;
+}
+
+# Config files should not be serverd (web.cofig for example)
+location ~ /.*\.(conf|config|cfg)$ {
+    deny all;
+    return 404;
+}
+
 location ~ (^|/)\. {
     return 403;
 }
