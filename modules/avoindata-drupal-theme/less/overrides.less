@@ -700,6 +700,8 @@ p:last-child,
 }
 
 // Single article view
+// Some of these affect the basic page as well,
+// because it uses the avoindata-article-container class
 .avoindata-article-container {
   max-width: @opendata-container-max-width;
   float: none;
@@ -720,10 +722,10 @@ p:last-child,
   .article-image {
     margin-bottom: 10px;
   }
+  img {
+    max-width: 100%;
+  }
   .article-body {
-    img {
-      max-width: 100%;
-    }
     margin-top: 15px;
     margin-bottom: 40px;
   }
