@@ -52,6 +52,7 @@
   with_items:
     - { 'template':'server.config.j2', 'destination':'ytp.conf', 'root_redirect': "{{ hostname_language }}" }
     - { 'template':'server.config.j2', 'destination':'ytp-secondary.conf', 'root_redirect': "{{ secondary_hostname_language }}" }
+    - { 'template':'nginx_security_headers.conf.j2', 'destination':'nginx_security_headers.conf', 'root_redirect': "{{ secondary_hostname_language }}" }
   notify: Restart Nginx
 
 - name: Enable Nginx site
