@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-11-27 10:10+0200\n"
+"POT-Creation-Date: 2018-12-10 13:08+0200\n"
 "PO-Revision-Date: 2018-08-28 11:28+0000\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -886,9 +886,6 @@ msgstr ""
 msgid "Update available"
 msgstr ""
 
-msgid "Out of date"
-msgstr ""
-
 msgid "Left sidebar"
 msgstr ""
 
@@ -1286,6 +1283,9 @@ msgid "Revisions"
 msgstr ""
 
 msgid "Prev"
+msgstr ""
+
+msgid "Out of date"
 msgstr ""
 
 msgid "Cuba"
@@ -3757,9 +3757,6 @@ msgstr ""
 msgid "Can not determine status"
 msgstr ""
 
-msgid "(version @version available)"
-msgstr ""
-
 msgid "See the available updates page for more information:"
 msgstr ""
 
@@ -3841,6 +3838,9 @@ msgid "1 week"
 msgid_plural "@count weeks"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "(version @version available)"
+msgstr ""
 
 msgid ""
 "This project has been labeled insecure by the Drupal security team, and is "
@@ -10418,9 +10418,6 @@ msgstr ""
 msgid "Cannot open %file_path"
 msgstr ""
 
-msgid "Current password"
-msgstr ""
-
 msgid ""
 "Your current password is missing or incorrect; it's required to change the "
 "%name."
@@ -10680,6 +10677,9 @@ msgid "@module"
 msgstr ""
 
 msgid "Field API to add fields to entities like nodes and users."
+msgstr ""
+
+msgid "Current password"
 msgstr ""
 
 msgid "Change the CSS class name(s) that will be added to this display."
@@ -21017,12 +21017,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Required if you want to change the %mail or %pass below. <a "
-"href=\":request_new_url\" title=\"Send password reset instructions via "
-"email.\">Reset your password</a>."
-msgstr ""
-
-msgid ""
 "This link is provided by the Views module. The path can be changed by "
 "editing the view <a href=\":url\">@label</a>"
 msgstr ""
@@ -21189,6 +21183,12 @@ msgstr ""
 
 msgid ""
 "You may also adjust the @settings for the currently selected row style."
+msgstr ""
+
+msgid ""
+"Required if you want to change the %mail or %pass below. <a "
+"href=\":request_new_url\" title=\"Send password reset instructions via "
+"email.\">Reset your password</a>."
 msgstr ""
 
 msgid "Creating and managing views"
@@ -26822,19 +26822,10 @@ msgid ""
 "like UA-xxxxxxx-yy."
 msgstr ""
 
-msgid "Administer Google Analytics"
-msgstr ""
-
 msgid "Perform maintenance tasks for Google Analytics."
 msgstr ""
 
-msgid "Opt-in or out of tracking"
-msgstr ""
-
 msgid "Allow users to decide if tracking code will be added to pages or not."
-msgstr ""
-
-msgid "Use PHP for tracking visibility"
 msgstr ""
 
 msgid "On by default with opt out"
@@ -26991,6 +26982,15 @@ msgid "User role ids"
 msgstr ""
 
 msgid "User role names"
+msgstr ""
+
+msgid "Administer Google Analytics"
+msgstr ""
+
+msgid "Opt-in or out of tracking"
+msgstr ""
+
+msgid "Use PHP for tracking visibility"
 msgstr ""
 
 msgid ""
@@ -27156,4 +27156,10 @@ msgid "View the discussion thread."
 msgstr ""
 
 msgid "Read more"
+msgstr ""
+
+msgid "Add JavaScript snippets"
+msgstr ""
+
+msgid "Finnish open data portal"
 msgstr ""
