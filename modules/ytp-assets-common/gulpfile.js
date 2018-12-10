@@ -113,14 +113,15 @@ gulp.task("templates", (done) => {
   ], done)
 });
 
-gulp.task("static_css", (done) => {
+gulp.task("static_css",
+  gulp.series('images', (done) => {
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
     base64({ maxImageSize: 4096 * 2048 }),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
   ], done)
-});
+}));
 
 gulp.task(
   "static_pages",
@@ -223,7 +224,6 @@ gulp.task(
       "minify-vendor-javascript",
       "templates",
       "static_pages",
-      "images",
       "ckan",
       "drupal",
       "fonts",
