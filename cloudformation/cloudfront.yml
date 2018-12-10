@@ -12,9 +12,7 @@ Metadata:
       - MinTTL
       - MaxTTL
       - TargetOriginId
-      - LogBucket
       - LogIncludeCookies
-      - LogPrefix
       - LogEnabled
       - OriginKeepaliveTimeout
       - OriginReadTimeout
@@ -49,20 +47,17 @@ Parameters:
   TargetOriginId:
     Description: 'ARN of target origin'
     Type: 'AWS::SSM::Parameter::Value<String>'
-  LogBucket:
-    Description: 'Bucket to use for CF access logs'
-    Type: 'AWS::SSM::Parameter::Value<String>'
   LogIncludeCookies:
     Description: 'Include cookies in CF access logs'
     Type: 'AWS::SSM::Parameter::Value<String>'
     # AllowedValues:
       # - 'true'
       # - 'false'
-  LogPrefix:
-    Description: 'Prefix of CF access logs'
-    Type: 'AWS::SSM::Parameter::Value<String>'
   LogEnabled:
     Description: 'Enable CF access logging'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogExpirationDays:
+    Description: 'Days before removing Cloudfront logs'
     Type: 'AWS::SSM::Parameter::Value<String>'
   OriginKeepaliveTimeout:
     Description: 'Origin keepalive time for connections in seconds'
@@ -88,6 +83,7 @@ Parameters:
 
 Conditions:
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
+  CloudfrontLogging: !Equals [!Ref LogEnabled, "true"]
 
 Resources:
   Cloudfront:
@@ -123,24 +119,24 @@ Resources:
             - 'Host'
             - 'Origin'
             QueryString: 'true'
-          PathPattern: '*'
-          TargetOriginId: !Ref TargetOriginId
+          TargetOriginId: OpendataOrigin
           ViewerProtocolPolicy: 'redirect-to-https'
         Enabled: 'true'
-        Logging:
-          Bucket: !Ref LogBucket
-          IncludeCookies: !Ref LogIncludeCookies
-          Prefix: !Ref LogPrefix
-          Enabled: !Ref LogEnabled
+        Logging: !If
+          - CloudfrontLogging
+          - Bucket: !GetAtt LogBucket.DomainName
+            IncludeCookies: !Ref LogIncludeCookies
+            Prefix: !Ref EnvironmentName
+          - !Ref "AWS::NoValue"
         Origins:
-          - CustomOriginConfig:
+          - Id: OpendataOrigin
+            CustomOriginConfig:
               HTTPSPort: 443
               OriginKeepaliveTimeout: !Ref OriginKeepaliveTimeout
               OriginProtocolPolicy: 'https-only'
               OriginReadTimeout: !Ref OriginReadTimeout
               OriginSSLProtocols: !Ref OriginSSLProtocols
             DomainName: !Ref OriginDomainName
-            Id: !Select [0, !Split [".", !Ref OriginDomainName]]
         PriceClass: 'PriceClass_100'
         ViewerCertificate:
           AcmCertificateArn: !Ref AcmCertificateArn
@@ -157,7 +153,7 @@ Resources:
       Type: A
       HostedZoneId: !Ref HostedZoneId
       AliasTarget:
-        DNSName: !GetAtt Cloudfront.DNSName
+        DNSName: !GetAtt Cloudfront.DomainName
         HostedZoneId: 'Z2FDTNDATAQYW2'
 
   DomainNameAlternate:
@@ -168,13 +164,30 @@ Resources:
       Type: A
       HostedZoneId: !Ref HostedZoneIdAlternate
       AliasTarget:
-        DNSName: !GetAtt Cloudfront.DNSName
+        DNSName: !GetAtt Cloudfront.DomainName
         HostedZoneId: 'Z2FDTNDATAQYW2'
 
+  LogBucket:
+    Type: AWS::S3::Bucket
+    Condition: CloudfrontLogging
+    Properties: 
+      AccessControl: LogDeliveryWrite
+      BucketName: !Sub ${EnvironmentName}-cloudfront-logs
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: !Ref LogExpirationDays
+            Status: Enabled
+      VersioningConfiguration: 
+        Status: Enabled
+        
 Outputs:
   Stack:
     Description: 'Stack name'
     Value: !Sub '${AWS::StackName}'
     Export:
-      Name: 'stack-name'
+      Name: !Sub ${AWS::StackName}
   
