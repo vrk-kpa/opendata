@@ -20,7 +20,7 @@
     </div>
     <div class="row avoindata-categories-row">
       {% for category in categories %}
-        <div class="avoindata-category-box col-md-2 col-sm-3 col-xs-12">
+        <div class="avoindata-category-box col-md-2 col-sm-3 col-xs-6">
           <div class="row avoindata-category-image-wrapper">
             <a href="../data/{{ language }}/group/{{ category['name'] }}">
               <img class="avoindata-category-img" src={{ category['image_display_url'] }} alt={{ category['title'] }}>
