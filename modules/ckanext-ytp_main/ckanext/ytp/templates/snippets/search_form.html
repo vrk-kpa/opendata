@@ -9,6 +9,11 @@
   {% block search_input %}
     <div class="search-input control-group {{ search_class }}">
       <input type="text" class="search form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+      {% for param in query_params %}
+        {% for value in query_params[param] %}
+          <input type="hidden" name="{{ param }}" value="{{value}}">
+        {% endfor %}
+      {% endfor %}
       <button type="submit" value="search">
         <i class="fa fa-search"></i>
         <span>{{ _('Submit') }}</span>
