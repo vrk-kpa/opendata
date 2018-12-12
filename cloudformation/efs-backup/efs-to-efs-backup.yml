@@ -185,7 +185,7 @@ Metadata:
 Mappings:
   Map:
     encryption: {"Yes": "true", "No": "false"}
-    send-data: {"SendAnonymousData": "Yes"}
+    send-data: {"SendAnonymousData": "No"}
     c5.xlarge: {"Arch":"HVM64"}
     us-east-1: {"InstanceSize":"c5.xlarge"}
     us-east-2: {"InstanceSize":"c5.xlarge"}
