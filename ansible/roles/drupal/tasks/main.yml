@@ -471,10 +471,6 @@
   become: true
   service: name=php7.0-fpm state=restarted
 
-- name: Deploy favicon
-  copy: src="favicon.ico"
-    dest={{ drupal8_root }}/web/favicon.ico
-
 - name: Deploy robots.txt
   copy: src={{ search_engine_robots_filename }}
     dest={{ drupal8_root }}/web/robots.txt
