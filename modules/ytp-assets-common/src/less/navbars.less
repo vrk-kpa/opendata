@@ -168,23 +168,27 @@ End of dropdown CSS
 
 #second-navbar {
   background-color: @navbar-background;
-  .navbar-nav>li>a{
+  .navbar-nav>li>a {
     color: @navbar-color-links;
   }
-  .navbar-collapse{
+  .navbar-collapse {
     border: 0; //To override bootstrap's 1px white border
   }
+
   .navbar-nav:hover {
     color: @navbar-color-links;
   }
+
   .navbar-toggle:hover {
     background-color: transparent; //hovering the bootstrap toggle button
   }
+
   a:hover {
     color: @navbar-color-links;
     background-color: #011734;
     text-decoration: underline;
   }
+  
   li.active {
     background-color: @navbar-background;
     a {
@@ -213,7 +217,8 @@ End of dropdown CSS
     padding-right: 0px; //To make links align with first navbar
   }
  }
-  .dropdown-menu>li>a {
+
+ .dropdown-menu>li>a {
     margin-right: 0px;
     margin-bottom: 1px;
     padding: 15px 22px 15px 16px;
@@ -223,8 +228,10 @@ End of dropdown CSS
     color: #222222;
   }
 
-  #second-navbar .dropdown-menu>li>a:hover{
-    border-left: 10px solid #002e90;
+  #second-navbar .dropdown-menu>li>a,  #second-navbar .dropdown-menu>li.active>a {
+    &:hover{
+      border-left: 10px solid #002e90;
+    }
     text-decoration: none;
     color: #262626;
     background-color: #fff;
