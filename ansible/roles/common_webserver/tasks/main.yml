@@ -2,6 +2,11 @@
 
 # Web resources
 
+- name: Ensure required packages are present
+  package:
+    name: "{{ common_webserver_packages }}"
+    state: "present"
+
 - name: Ensure www path is present
   file:
     path: "/var/www"
