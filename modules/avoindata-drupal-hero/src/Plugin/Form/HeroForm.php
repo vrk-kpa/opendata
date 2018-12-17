@@ -21,43 +21,6 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $client = \Drupal::httpClient();
-
-    try {
-      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_search');
-      $datasetResult = Json::decode($datasetResponse->getBody());
-      $datasetCount = $datasetResult['result']['count'];
-    } catch (\Exception $e) {
-      $datasetCount = 0;
-    }
-
-    try {
-      $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
-      $organizationResult = Json::decode($organizationResponse->getBody());
-      $organizationCount = count($organizationResult['result']);
-    } catch (\Exception $e) {
-      $organizationCount = 0;
-    }
-
-    try {
-      $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
-      $applicationResult = Json::decode($applicationResponse->getBody());
-      $applicationCount = count($applicationResult['result']);
-    } catch (\Exception $e) {
-      $applicationCount = 0;
-    }
-
-    $form['datasetcount'] = array(
-      '#markup' => $datasetCount,
-    );
-
-    $form['organizationcount'] = array(
-      '#markup' => $organizationCount,
-    );
-
-    $form['applicationcount'] = array(
-      '#markup' => $applicationCount,
-    );
 
     $form['searchfilter'] = array(
       '#type' => 'textfield',
