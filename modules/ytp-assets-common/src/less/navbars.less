@@ -7,6 +7,11 @@ Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/creat
 Modified based on the CSS at http://avoin.webflow.io
 Differences in the smaller screen size are together with other @media definitions
 */
+
+.region-service-message, .navbar {
+  font-family: @font-family-sans-serif;
+}
+
 #second-navbar .dropdown-toggle {
   background-color: @navbar-background;
 
@@ -89,16 +94,22 @@ End of dropdown CSS
   max-width: @header-width;
   margin-right: auto;
   margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 @media only screen and (max-width: 500px) {
   .region-top-bar {
     flex-direction: column;
-    .logo {
-      margin-right: 0px;
-    }
   }
 }
+
+.region-top-bar > .logo {
+  margin-right: 0px;
+  margin-right: 0px;
+  padding: 0px;
+}
+
 #block-avoindata-language-switcher ul {
   margin: 0px;
   //To make the space between search icon similar to space
@@ -168,6 +179,7 @@ End of dropdown CSS
 
 #second-navbar {
   background-color: @navbar-background;
+  height: 48px;
   .navbar-nav>li>a {
     color: @navbar-color-links;
   }
@@ -199,17 +211,19 @@ End of dropdown CSS
 }
 
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: @screen-sm) {
   //The links should be right-aligned only when not collapsed
   #second-navbar {
     height: @navbar-height;
-    .container {
-    display: flex;
-    justify-content: flex-end;
-    max-width: @header-width;
-    padding-right: 0px;
-    padding-left: 0px;
-  }
+    .second-navbar-container {
+      display: flex;
+      justify-content: flex-end;
+      max-width: @header-width;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
   .navbar-collapse {
     padding-right: 0px; //To make links align with first navbar
   }
@@ -240,7 +254,7 @@ End of dropdown CSS
 
 //With a collapsed navbar, the submenu links need to be on the left and
 //have the same color as other links
-@media screen and (max-width: 991px){
+@media screen and (max-width: @screen-sm){
   #second-navbar .dropdown-menu>li>a {
     float: left;
     color: @navbar-color-links;
@@ -338,6 +352,10 @@ End of dropdown CSS
   list-style: none;
   margin: 0;
   padding: 0;
+
+  .alert-info {
+    .alert-variant(@alert-info-bg; @alert-info-border; @alert-info-text);
+  }
 
   li {
     margin: 0;
