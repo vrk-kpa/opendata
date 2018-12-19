@@ -59,17 +59,21 @@ Differences in the smaller screen size are together with other @media definition
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
 .navbar-nav li:last-child > .dropdown-menu {
   left: auto;
   right: 0px;
 }
+
 .navbar-nav li:last-child > .dropdown-menu a {
   text-align: left !important;
 }
+
 .navbar-nav li:last-child > .dropdown-menu .dropdown-submenu > a:after {
   float: left;
   content: "\e079";
 }
+
 .navbar-nav li:last-child > .dropdown-menu .dropdown-submenu > .dropdown-menu {
   left: -100%;
 }
@@ -179,10 +183,12 @@ End of dropdown CSS
 
 #second-navbar {
   background-color: @navbar-background;
-  height: 48px;
+  min-height: @navbar-height;
+
   .navbar-nav>li>a {
     color: @navbar-color-links;
   }
+
   .navbar-collapse {
     border: 0; //To override bootstrap's 1px white border
   }
@@ -211,10 +217,10 @@ End of dropdown CSS
 }
 
 
-@media screen and (min-width: @screen-sm) {
+@media screen and (min-width: @screen-md-max) {
   //The links should be right-aligned only when not collapsed
   #second-navbar {
-    height: @navbar-height;
+    min-height: @navbar-height;
     .second-navbar-container {
       display: flex;
       justify-content: flex-end;
@@ -254,10 +260,47 @@ End of dropdown CSS
 
 //With a collapsed navbar, the submenu links need to be on the left and
 //have the same color as other links
-@media screen and (max-width: @screen-sm){
+@media screen and (max-width: @screen-md-min) {
   #second-navbar .dropdown-menu>li>a {
     float: left;
     color: @navbar-color-links;
+  }
+}
+
+@media (max-width: @screen-md-min) {
+  .navbar-header {
+      float: none;
+  }
+  .navbar-left,.navbar-right {
+      float: none !important;
+  }
+  .navbar-toggle {
+      display: block;
+  }
+  .navbar-collapse {
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .navbar-fixed-top {
+      top: 0;
+      border-width: 0 0 1px;
+  }
+  .navbar-collapse.collapse {
+      display: none!important;
+  }
+  .navbar-nav {
+      float: none!important;
+      margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+      float: none;
+  }
+  .navbar-nav>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .collapse.in{
+      display:block !important;
   }
 }
 
