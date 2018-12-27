@@ -1,0 +1,14 @@
+[Unit]
+Description=MailHog email testing tool for developers
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart={{ mailhog_install_dir }}/mailhog
+StandardOutput=journal
+Restart=on-failure
+User=mailhog
+Group=mailhog
+
+[Install]
+WantedBy=multi-user.target
