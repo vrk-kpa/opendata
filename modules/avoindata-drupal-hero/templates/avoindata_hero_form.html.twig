@@ -29,7 +29,11 @@
           Finnish open data portal
           {% endtrans %}
         </p>
-        <a href="">
+        {% set guideurl = "/fi/opas" %}
+        {% if form.language in ['en', 'sv'] %}
+          {% set guideurl = "/%s/guide"|format(form.language) %}
+        {% endif %}
+        <a href="{{ guideurl }}">
           {% trans %}
           Read more >>
           {% endtrans %}
