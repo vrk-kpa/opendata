@@ -9,14 +9,16 @@
 {% endblock %}
 
 {% block page_header %}
-    <h1 class="content-heading">{% trans %}My Organizations{% endtrans %}</h1>
+    <h1 class="content-heading content-heading-my-organizations">{% trans %}My Organizations{% endtrans %}</h1>
 {% endblock %}
 
 {% block page_primary_action %}
   {% set orgs =  h.organizations_available() %}
   {% if orgs | count != 0 %}
-    <div class="btn-group">
-      <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
+    <div class="row">
+      <div class="btn-group">
+        <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-primary">{{ _('Membership Requests') }}</a>
+      </div>
     </div>
   {% endif %}
 {% endblock %}
