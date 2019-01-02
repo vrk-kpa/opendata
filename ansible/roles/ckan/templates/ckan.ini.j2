@@ -1,6 +1,13 @@
 [DEFAULT]
 
 debug = {{ debug_enabled }}
+{% if AWS.enabled -%}
+# smtp settings that need to be configured in default section for WebError middleware
+smtp_username = {{ secret.smtp_user }}
+smtp_password = {{ secret.smtp_password }}
+{%- endif %}
+smtp_use_tls = {{ ckan_smtp_use_tls }}
+
 
 [server:main]
 
@@ -80,14 +87,19 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
-smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
-smtp.server = {{ AWS.smtp_server_domain }}:587
+smtp.server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
-smtp.starttls = True
+smtp.starttls = {{ ckan_smtp_use_tls }}
+# smtp settings for WebError middleware
+from_address = {{ error_email_from }}
+smtp_server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 {%- else -%}
-smtp.starttls = False
+smtp.server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
+smtp.starttls = {{ ckan_smtp_use_tls }}
+from_address = {{ error_email_from }}
+smtp_server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
 {%- endif %}
 
 smtp.mail_from = no-reply@{{ email_domain }}
