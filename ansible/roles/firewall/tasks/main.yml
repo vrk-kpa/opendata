@@ -1,25 +1,18 @@
 ---
 
-- name: Create cache paths
-  file:
-    path: "{{ cache_path }}"
-    state: directory
-  tags:
-  - firewall
+- name: Configure ufw rules
+  ufw:
+    rule: "{{ item.rule|default('allow') }}"
+    proto: "{{ item.proto|default(omit) }}"
+    src: "{{ item.src|default(omit) }}"
+    to_port: "{{ item.to_port|default(omit) }}"
+    comment: "{{ item.comment |default(omit) }}"
+    delete: " {{item.delete |default('no') }}"
+  with_items:
+    - "{{ firewall_rules }}"
 
-- name: Copy firewall script
-  template:
-    src: "firewall.sh.j2"
-    dest: "{{ cache_path }}/firewall.sh"
-    mode: "0755"
-    owner: root
-    group: root
-  register: firewall_script
+- name: Enable ufw
+  ufw:
+    state: enabled
   tags:
-  - firewall
-
-- name: Enable firewall
-  command: "{{ cache_path }}/firewall.sh"
-  when: firewall_script is changed
-  tags:
-  - firewall
+    - ufw
