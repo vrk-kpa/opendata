@@ -14,7 +14,7 @@
     - ["{{ secrets_file_path }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
 
-  tasks:
+  pre_tasks:
     - import_role:
         name: mailhog
       when: vagrant is defined

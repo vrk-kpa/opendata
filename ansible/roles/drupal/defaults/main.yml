@@ -23,4 +23,4 @@ drupal_public_files_directory_subdirs:
 - translations
 
 drupal_smtp_protocol: tls
-drupal_smtp_port: 578
+drupal_smtp_port: 587

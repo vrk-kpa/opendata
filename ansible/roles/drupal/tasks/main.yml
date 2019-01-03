@@ -391,6 +391,7 @@
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
   with_items:
+    - { src: system.mail.yml.j2, dest: system.mail.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
     - { src: user.settings.yml.j2, dest: user.settings.yml }
@@ -409,7 +410,7 @@
 
 - name: Copy Drupal services yml
   template:
-    src: "services.yml.j2" 
+    src: "services.yml.j2"
     dest: "{{ drupal8_root }}/web/sites/default/services.yml"
 
 - name: Clear caches
