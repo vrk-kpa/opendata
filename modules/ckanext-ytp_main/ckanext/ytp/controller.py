@@ -600,7 +600,12 @@ class YtpOrganizationController(OrganizationController):
         return self._render_template('group/members.html', group_type)
 
     def user_list(self):
-        if c.userobj and c.userobj.sysadmin:
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user, 'userobj': c.userobj}
+
+        try:
+            check_access('user_list', context, {})
 
             q = model.Session.query(model.Group, model.Member, model.User). \
                 filter(model.Member.group_id == model.Group.id). \
@@ -608,27 +613,43 @@ class YtpOrganizationController(OrganizationController):
                 filter(model.Member.table_name == 'user'). \
                 filter(model.User.name != 'harvest'). \
                 filter(model.User.name != 'default'). \
-                filter(model.User.state == 'active')
+                filter(model.User.state == 'active'). \
+                filter(model.Group.is_organization == 'true')
 
-            users = []
+            users = {}
 
             for group, member, user in q.all():
-                users.append({
-                    'user_id': user.id,
-                    'username': user.name,
-                    'organization': group.display_name,
-                    'role': member.capacity,
-                    'email': user.email
-                })
+
+                user_obj = users.get(user.name, {})
+                if user_obj == {}:
+                    user_obj = {
+                        'user_id': user.id,
+                        'username': user.name,
+                        'organizations': [group.display_name],
+                        'roles': [member.capacity],
+                        'email': user.email
+                    }
+                else:
+                    user_obj['organizations'].append(group.display_name)
+                    if member.capacity not in user_obj['roles']:
+                        user_obj['roles'].append(member.capacity)
+
+                users[user.name] = user_obj
 
             c.users = users
-        else:
-            c.users = []
 
-        return self._render_template('organization/user_list.html', 'organization')
+            return self._render_template('organization/user_list.html', 'organization')
+
+        except NotAuthorized:
+            abort(403, _('Only system administrators are allowed to view user list.'))
 
     def admin_list(self):
-        if c.userobj and c.userobj.sysadmin:
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user, 'userobj': c.userobj}
+
+        try:
+            check_access('user_list', context, {})
 
             q = model.Session.query(model.Group, model.Member, model.User). \
                 filter(model.Member.group_id == model.Group.id). \
@@ -637,24 +658,35 @@ class YtpOrganizationController(OrganizationController):
                 filter(model.Member.capacity == 'admin'). \
                 filter(model.User.name != 'harvest'). \
                 filter(model.User.name != 'default'). \
-                filter(model.User.state == 'active')
+                filter(model.User.state == 'active'). \
+                filter(model.Group.is_organization == 'true')
 
-            users = []
+            users = {}
 
             for group, member, user in q.all():
-                users.append({
-                    'user_id': user.id,
-                    'username': user.name,
-                    'organization': group.display_name,
-                    'role': member.capacity,
-                    'email': user.email
-                })
+
+                user_obj = users.get(user.name, {})
+                if user_obj == {}:
+                    user_obj = {
+                        'user_id': user.id,
+                        'username': user.name,
+                        'organizations': [group.display_name],
+                        'roles': [member.capacity],
+                        'email': user.email
+                    }
+                else:
+                    user_obj['organizations'].append(group.display_name)
+                    if member.capacity not in user_obj['roles']:
+                        user_obj['roles'].append(member.capacity)
+
+                users[user.name] = user_obj
 
             c.users = users
-        else:
-            c.users = []
 
-        return self._render_template('organization/admin_list.html', 'organization')
+            return self._render_template('organization/admin_list.html', 'organization')
+
+        except NotAuthorized:
+            abort(403, _('Only system administrators are allowed to view user list.'))
 
     def read(self, id, limit=20):
         group_type = self._ensure_controller_matches_group_type(
