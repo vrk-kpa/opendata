@@ -153,7 +153,7 @@ ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
 ckanext.reminder.date_field = valid_till
 
 #Fields for recipients name and email
-ckanext.reminder.recipient_name = maintainer
+ckanext.reminder.recipient_name = maintainer 
 ckanext.reminder.email_field = maintainer_email
 
 
@@ -204,43 +204,45 @@ ckanext.ytp.theme.show_postit_demo = {{ show_postit_demo }}
 ckan.datapusher.url = http://127.0.0.1:8800/
 
 [loggers]
+
 keys = root, ckan, ckanext
 
 [handlers]
-keys = console, ckan
+
+keys = console
 
 [formatters]
+
 keys = generic
 
 [logger_root]
+
 level = WARNING
 handlers = console
 
 [logger_ckan]
-level = {{ ckan_ckan_loglevel }}
-handlers = ckan
+
+level = INFO
+handlers = console
 qualname = ckan
 propagate = 0
 
 [logger_ckanext]
-level = {{ ckan_ckanext_loglevel }}
-handlers = ckan
+
+level = DEBUG
+handlers = console
 qualname = ckanext
 propagate = 0
 
 [handler_console]
+
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
 
-[handler_ckan]
-class = FileHandler
-args = ('{{ ckan_log_path }}/ckan.log','a')
-level = NOTSET
-formatter = generic
-
 [formatter_generic]
+
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
 [app:celery]
