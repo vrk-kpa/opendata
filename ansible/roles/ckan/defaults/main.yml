@@ -1,2 +1,2 @@
 ckan_smtp_use_tls: True
-ckan_smtp_port: 578
+ckan_smtp_port: 587

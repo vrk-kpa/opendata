@@ -1,11 +1,11 @@
 [DEFAULT]
 
 debug = {{ debug_enabled }}
-{% if AWS.enabled -%}
+{% if AWS.enabled %}
 # smtp settings that need to be configured in default section for WebError middleware
 smtp_username = {{ secret.smtp_user }}
 smtp_password = {{ secret.smtp_password }}
-{%- endif %}
+{% endif %}
 smtp_use_tls = {{ ckan_smtp_use_tls }}
 
 
@@ -165,7 +165,7 @@ ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
 ckanext.reminder.date_field = valid_till
 
 #Fields for recipients name and email
-ckanext.reminder.recipient_name = maintainer 
+ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
 
