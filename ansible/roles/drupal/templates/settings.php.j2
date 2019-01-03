@@ -742,7 +742,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
    '^{{ hostname | regex_escape() }}$',
    {% if base_hostname is defined and base_hostname|length -%}
    '^{{ base_hostname | regex_escape() }}$',
-   {%- endif -%}
+   {% endif -%}
    '^{{ secondary_hostname | regex_escape() }}$',
    {% if secondary_base_hostname is defined and secondary_base_hostname|length -%}
    '^{{ secondary_base_hostname | regex_escape() }}$'
