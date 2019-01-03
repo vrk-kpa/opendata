@@ -135,7 +135,6 @@
     - build-essential
     - nodejs
     - libcurl4-openssl-dev
-    - sendmail
   tags:
   - packages
   - common

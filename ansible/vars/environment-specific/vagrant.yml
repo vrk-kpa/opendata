@@ -5,3 +5,36 @@
 debug_enabled: true
 smtp:
   server_domain: localhost
+
+ckan_smtp_use_tls: False
+ckan_smtp_port: 1025
+
+drupal_smtp_protocol: standard
+drupal_smtp_port: 1025
+
+firewall_rules:
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 22
+    comment: "ssh"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 80
+    comment: "http"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 443
+    comment: "https"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 8025
+    comment: "MailHog web ui"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 5099
+    delete: "yes"
