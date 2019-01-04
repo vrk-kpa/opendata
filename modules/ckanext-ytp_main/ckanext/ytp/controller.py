@@ -883,7 +883,7 @@ class YtpUserController(UserController):
 
             get_action('user_update')(context, data_dict)
             h.flash_success(_('Profile updated'))
-            h.redirect_to('home')
+            h.redirect_to('home.index')
         except NotAuthorized:
             abort(403, _('Unauthorized to edit user %s') % id)
         except NotFound, e:
