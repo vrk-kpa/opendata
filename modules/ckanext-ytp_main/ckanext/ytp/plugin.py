@@ -589,7 +589,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
                 'related_create': auth.related_create,
-                'package_update': auth.package_update}
+                'package_update': auth.package_update,
+                'allowed_to_view_user_list': auth.user_list}
 
         # IPackageController #
 
