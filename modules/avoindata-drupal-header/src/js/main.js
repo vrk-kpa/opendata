@@ -7,15 +7,17 @@ document.onreadystatechange = function () {
 };
 
 function addHeaderSearchListeners() {
-  let searchInput = document.getElementById('avoindata-nav-search-input');
-  searchInput.onkeyup = onHeaderSearchInput;
+  const searchSubmit = document.getElementById('avoindata-nav-search-submit');
+  searchSubmit.onclick = onHeaderSubmitClick;
 }
 
-function onHeaderSearchInput(event) {
-  if (event.keyCode == 13) {
-    let searchInput = document.getElementById('avoindata-nav-search-input');
-    let currentLanguage = searchInput.dataset.langauge || 'fi';
-    currentLanguage = (currentLanguage === 'en') ? 'en_GB' : currentLanguage;
-    window.location.replace(`${window.location.origin}/data/${currentLanguage}/dataset?q=${encodeURI(searchInput.value)}`);
+function onHeaderSubmitClick(event) {
+  const searchInput = document.getElementById('avoindata-nav-search-input');
+  const searchInputContainer = document.getElementsByClassName('header-search-input-container')[0];
+  const searchForm = document.getElementById('header-search-form');
+  if(searchInput.value.length > 0 && searchForm) {
+    searchForm.submit();
+  } else {
+    searchInputContainer.classList.toggle('is-hidden');
   }
 }
