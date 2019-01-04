@@ -148,29 +148,39 @@ End of dropdown CSS
   margin-bottom: 0px;
 }
 
-.search-collapsible {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+#header-search-container {
+  .flex-display(flex);
+  .flex-direction(row);
+  .align-items(center);
+  .justify-content(flex-start);
+  .transition(width 0.2s ease);
 
-  .collapsing.width  {
-    flex-basis: auto;
-    width: 0;
-    height: auto;
+  .header-search-input-container {
+    width: 100%;
+    visibility: visible;
+    .align-self(flex-end);
+    .transition(width 0.5s ease);
+    margin-right: 5px;
+    margin-left: auto;
+  }
+
+  .header-search-input-container.is-hidden {
+    width: 0px;
+    visibility: hidden;
     .transition(width 0.3s ease);
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+
+  .header-search-submit-container {
+    .flex-basis(auto);
+    .align-items(center);
+    margin-left: 10px;
   }
 
-  .search-collapsible-control, .collapse.in, .collapsing {
-    flex-basis: auto;
-  }
-
-  .search-collapsible-control {
-    align-items: center;
-    margin-left: 5px;
-    
-    .header-icon {
-      color: @input-color;
-    }
+  .header-icon {
+    color: @input-color;
   }
 
   .form-control {

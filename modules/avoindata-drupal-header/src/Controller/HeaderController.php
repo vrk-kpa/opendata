@@ -3,16 +3,29 @@
 namespace Drupal\avoindata_header\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use \Symfony\Component\HttpFoundation\Response;
+use Drupal\Core\Render\HtmlResponse;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 
 class HeaderController extends ControllerBase {
   public function header() {
     $build = array(
-      '#theme' => 'avoindata_header'
+      '#type' => 'html',
+      'page' => [
+        '#theme' => 'avoindata_header',
+        '#attached' => array(
+          'library' => array(
+            'avoindata_header/avoindata_header',
+          ),
+        ),
+      ],
     );
     // Only render this part, not the whole page
-    return new Response(\Drupal::service('renderer')->renderRoot($build));
+    $html = \Drupal::service('renderer')->renderRoot($build);
+    $response = new HtmlResponse();
+    $response->setContent($html);
+    // Attach module related javascript
+    $response->setAttachments($build['#attached']);
+    return $response;
   }
 
   public function ckanprofile() {
