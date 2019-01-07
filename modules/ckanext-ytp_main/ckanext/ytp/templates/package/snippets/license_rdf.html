@@ -8,10 +8,10 @@
 #}
 
 {% if license_id=='cc-zero-1.0' %}
-<p xmlns:dct="http://purl.org/dc/terms/">
+<p xmlns:dct="https://purl.org/dc/terms/">
   <a rel="license"
-     href="http://creativecommons.org/publicdomain/zero/1.0/">
-    <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png"  alt="CC0" />
+     href="https://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="https://i.creativecommons.org/p/zero/1.0/88x31.png"  alt="CC0" />
   </a>
   <br />
   {% trans %}
@@ -28,19 +28,19 @@ To the extent possible under law
 {% if license_id=='cc-by-4.0' or license_id=='cc-by-4-fi' %}
 
 <div class="license-icon">
-<a rel="license" href="{{ _('http://creativecommons.org/licenses/by/4.0/') }}">
-    <img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/4.0/88x31.png" />
+<a rel="license" href="{{ _('https://creativecommons.org/licenses/by/4.0/') }}">
+    <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
 </a>
 </div>
 <div class="small license-smallprint">
 {% trans %}
-<span xmlns:dct="http://purl.org/dc/terms/" 
-	href="http://purl.org/dc/dcmitype/Dataset" 
+<span xmlns:dct="https://purl.org/dc/terms/" 
+	href="https://purl.org/dc/dcmitype/Dataset" 
 	property="dct:title" rel="dct:type">
-	<a xmlns:cc="http://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName" 
+	<a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName" 
 	rel="cc:attributionURL">{{content_title}}</a></span> 
 	by <a  href="{{creator_url}}" >{{creator}}</a> 
-	is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+	is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
   	Creative Commons Attribution 4.0 International License</a>.
 {% endtrans %}
 </div>

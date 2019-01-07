@@ -21,6 +21,7 @@ var paths = {
     images: "src/images/**/*",
     ckan: "src/less/ckan",
     drupal: "../avoindata-drupal-theme/less/style.less",
+    drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     font: "src/font/**/*",
@@ -150,7 +151,7 @@ gulp.task("font", (done) => {
 
 gulp.task("scripts", (done) => {
   pump([
-    gulp.src(paths.src.scripts),
+    gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts")
   ], done)
 });

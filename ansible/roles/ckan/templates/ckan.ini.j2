@@ -1,6 +1,13 @@
 [DEFAULT]
 
 debug = {{ debug_enabled }}
+{% if AWS.enabled %}
+# smtp settings that need to be configured in default section for WebError middleware
+smtp_username = {{ secret.smtp_user }}
+smtp_password = {{ secret.smtp_password }}
+{% endif %}
+smtp_use_tls = {{ ckan_smtp_use_tls }}
+
 
 [server:main]
 
@@ -71,7 +78,7 @@ ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi 
 ckan.locales_offered = fi sv en_GB
 ckan.locales_filtered_out = en
 ckan.feeds.authority_name =
-ckan.feeds.date =
+ckan.feeds.date = 2019-01-01
 ckan.feeds.author_name =
 ckan.feeds.author_link =
 
@@ -80,14 +87,19 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
-smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
-smtp.server = {{ AWS.smtp_server_domain }}:587
+smtp.server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
-smtp.starttls = True
+smtp.starttls = {{ ckan_smtp_use_tls }}
+# smtp settings for WebError middleware
+from_address = {{ error_email_from }}
+smtp_server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 {%- else -%}
-smtp.starttls = False
+smtp.server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
+smtp.starttls = {{ ckan_smtp_use_tls }}
+from_address = {{ error_email_from }}
+smtp_server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
 {%- endif %}
 
 smtp.mail_from = no-reply@{{ email_domain }}
@@ -204,43 +216,45 @@ ckanext.ytp.theme.show_postit_demo = {{ show_postit_demo }}
 ckan.datapusher.url = http://127.0.0.1:8800/
 
 [loggers]
+
 keys = root, ckan, ckanext
 
 [handlers]
-keys = console, ckan
+
+keys = console
 
 [formatters]
+
 keys = generic
 
 [logger_root]
+
 level = WARNING
 handlers = console
 
 [logger_ckan]
-level = {{ ckan_ckan_loglevel }}
-handlers = ckan
+
+level = INFO
+handlers = console
 qualname = ckan
 propagate = 0
 
 [logger_ckanext]
-level = {{ ckan_ckanext_loglevel }}
-handlers = ckan
+
+level = DEBUG
+handlers = console
 qualname = ckanext
 propagate = 0
 
 [handler_console]
+
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
 
-[handler_ckan]
-class = FileHandler
-args = ('{{ ckan_log_path }}/ckan.log','a')
-level = NOTSET
-formatter = generic
-
 [formatter_generic]
+
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
 [app:celery]
