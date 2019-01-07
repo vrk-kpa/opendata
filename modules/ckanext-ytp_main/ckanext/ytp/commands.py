@@ -87,6 +87,29 @@ ytp_dataset_group = paster_click_group(
 
 
 @ytp_dataset_group.command(
+    u'migrate_author_email',
+    help=u'Migrates empty author emails that caused problems in updating datasets'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_author_email(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    package_patches = []
+    
+    for old_package_dict in package_generator('*:*', 1000):
+         if old_package_dict.get('author_email') is None:
+            patch = {'id': old_package_dict['id'], 'author_email': ''}
+            package_patches.append(patch)
+    
+    if dryrun:
+        print '\n'.join('%s' % p for p in package_patches)
+    else:
+        # No resources patches so empty parameter is passed
+        apply_patches(package_patches, []) 
+
+
+@ytp_dataset_group.command(
     u'migrate',
     help=u'Migrates datasets to scheming based model'
 )
