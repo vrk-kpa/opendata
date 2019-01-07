@@ -21,43 +21,6 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $client = \Drupal::httpClient();
-
-    try {
-      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_search');
-      $datasetResult = Json::decode($datasetResponse->getBody());
-      $datasetCount = $datasetResult['result']['count'];
-    } catch (\Exception $e) {
-      $datasetCount = 0;
-    }
-
-    try {
-      $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
-      $organizationResult = Json::decode($organizationResponse->getBody());
-      $organizationCount = count($organizationResult['result']);
-    } catch (\Exception $e) {
-      $organizationCount = 0;
-    }
-
-    try {
-      $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
-      $applicationResult = Json::decode($applicationResponse->getBody());
-      $applicationCount = count($applicationResult['result']);
-    } catch (\Exception $e) {
-      $applicationCount = 0;
-    }
-
-    $form['datasetcount'] = array(
-      '#markup' => $datasetCount,
-    );
-
-    $form['organizationcount'] = array(
-      '#markup' => $organizationCount,
-    );
-
-    $form['applicationcount'] = array(
-      '#markup' => $applicationCount,
-    );
 
     $form['searchfilter'] = array(
       '#type' => 'textfield',
@@ -97,14 +60,25 @@ class HeroForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $filter = $form_state->getValue('searchfilter');
-    $base_path = '/data/fi/dataset?q=%s';
+    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $base_path = '/data/%s';
 
-    if($filter == '2') {
-      $base_path = '/data/fi/showcase?q=%s';
-    } elseif ($filter == '3') {
-      $base_path = '/data/fi/organization?q=%s';
+    if($language === 'en') {
+      $base_path = sprintf($base_path, 'en_GB');
+    } else {
+      $base_path = sprintf($base_path, $language);
     }
 
+
+    if($filter == '2') {
+      $base_path = $base_path . '/showcase';
+    } elseif ($filter == '3') {
+      $base_path = $base_path . '/organization';
+    } else {
+      $base_path = $base_path . '/dataset';
+    }
+
+    $base_path = $base_path . '?q=%s';
     $redirect_path = sprintf($base_path, $form_state->getValue('search'));
     $url = url::fromUserInput($redirect_path);
     $form_state->setRedirectUrl($url);

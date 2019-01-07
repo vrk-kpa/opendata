@@ -1,8 +1,8 @@
 # Translations template for ckanext-ytp_main.
-# Copyright (C) 2018 ORGANIZATION
+# Copyright (C) 2019 ORGANIZATION
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 # 
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2018
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-11-13 09:56+0200\n"
+"POT-Creation-Date: 2019-01-04 09:07+0200\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -78,6 +78,11 @@ msgstr "Användare %s är inte behörig att redigera organisationen %s"
 
 #: ckanext/ytp/auth.py:154
 msgid "Cannot modify dataset because of organization policy"
+msgstr ""
+
+#: ckanext/ytp/auth.py:162 ckanext/ytp/controller.py:644
+#: ckanext/ytp/controller.py:689
+msgid "Only system administrators are allowed to view user list."
 msgstr ""
 
 #: ckanext/ytp/controller.py:85
@@ -190,7 +195,7 @@ msgstr "Relaterade objektet skapades"
 msgid "Related item was successfully updated"
 msgstr "Relaterade objektet redigerades"
 
-#: ckanext/ytp/controller.py:420 ckanext/ytp/controller.py:860
+#: ckanext/ytp/controller.py:420 ckanext/ytp/controller.py:892
 msgid "Integrity Error"
 msgstr "Integritetsfel"
 
@@ -234,35 +239,35 @@ msgstr "Visualisering"
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:599 ckanext/ytp/controller.py:670
-#: ckanext/ytp/controller.py:697
+#: ckanext/ytp/controller.py:599 ckanext/ytp/controller.py:702
+#: ckanext/ytp/controller.py:729
 msgid "Group not found"
 msgstr "Kategorin hittades inte"
 
-#: ckanext/ytp/controller.py:763
+#: ckanext/ytp/controller.py:795
 msgid "No user specified"
 msgstr "Ingen användare angiven"
 
-#: ckanext/ytp/controller.py:769
+#: ckanext/ytp/controller.py:801
 msgid "Unauthorized to edit a user."
 msgstr "Du saknar behörighet för att redigera en användare."
 
-#: ckanext/ytp/controller.py:788 ckanext/ytp/controller.py:856
+#: ckanext/ytp/controller.py:820 ckanext/ytp/controller.py:888
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr "Obehörig att redigera användare %s"
 
-#: ckanext/ytp/controller.py:790 ckanext/ytp/controller.py:858
+#: ckanext/ytp/controller.py:822 ckanext/ytp/controller.py:890
 #: ckanext/ytp/logic.py:184
 msgid "User not found"
 msgstr "Användaren hittades inte"
 
-#: ckanext/ytp/controller.py:796
+#: ckanext/ytp/controller.py:828
 #, python-format
 msgid "User %s not authorized to edit %s"
 msgstr "Användare %s har inte rättigheter redigera %s"
 
-#: ckanext/ytp/controller.py:853
+#: ckanext/ytp/controller.py:885
 msgid "Profile updated"
 msgstr "Profil uppdaterad"
 
@@ -313,7 +318,7 @@ msgstr "Mina dataset"
 
 #: ckanext/ytp/menu.py:70
 #: ckanext/ytp/templates/user/dashboard_organizations.html:12
-#: ckanext/ytp/templates/user/dashboard_organizations.html:25
+#: ckanext/ytp/templates/user/dashboard_organizations.html:27
 msgid "My Organizations"
 msgstr "Mina organisationer"
 
@@ -441,15 +446,15 @@ msgstr "Annan"
 msgid "Additional Info"
 msgstr "Tilläggsinformation"
 
-#: ckanext/ytp/plugin.py:923
+#: ckanext/ytp/plugin.py:924
 msgid "Group title already exists in database"
 msgstr "Titeln för kategorien finns redan i databasen"
 
-#: ckanext/ytp/plugin.py:1101
+#: ckanext/ytp/plugin.py:1102
 msgid "Service charge must be supplied"
 msgstr "Tjänstens avgiftsbelagdhet måste anges"
 
-#: ckanext/ytp/plugin.py:1111
+#: ckanext/ytp/plugin.py:1112
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -458,29 +463,29 @@ msgstr ""
 "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben "
 "eller en beskrivning om priserna eller båda"
 
-#: ckanext/ytp/plugin.py:1124
+#: ckanext/ytp/plugin.py:1125
 msgid "At least one of the main target groups must to be selected"
 msgstr "Åtminstone en målkategori från huvudnivån måste väljas"
 
-#: ckanext/ytp/plugin.py:1261
+#: ckanext/ytp/plugin.py:1262
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
 msgstr "Organisationen finns inte"
 
-#: ckanext/ytp/plugin.py:1263
+#: ckanext/ytp/plugin.py:1264
 msgid "Invalid organization type"
 msgstr "Felaktig organisationstyp"
 
-#: ckanext/ytp/plugin.py:1285
+#: ckanext/ytp/plugin.py:1286
 msgid "Harvested datasets are read-only"
 msgstr "Skrapade dataset kan endast läsas"
 
-#: ckanext/ytp/plugin.py:1292
+#: ckanext/ytp/plugin.py:1293
 msgid "Login required"
 msgstr "Inloggning krävs"
 
-#: ckanext/ytp/plugin.py:1298 ckanext/ytp/plugin.py:1306
+#: ckanext/ytp/plugin.py:1299 ckanext/ytp/plugin.py:1307
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr "Användare %s är inte medlem av någon offentlig organisation"
@@ -1018,11 +1023,11 @@ msgstr ""
 msgid "Required language \"%s\" missing"
 msgstr ""
 
-#: ckanext/ytp/validators.py:354
+#: ckanext/ytp/validators.py:355
 msgid "Start date is after end date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:358
+#: ckanext/ytp/validators.py:360
 msgid "End date is before start date"
 msgstr ""
 
@@ -1088,7 +1093,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/ytp/service/package_service_channels_fields.html:167
 #: ckanext/ytp/templates/package/ytp/service/package_service_channels_fields.html:174
 #: ckanext/ytp/templates/package/ytp/service/package_service_channels_fields.html:181
-#: ckanext/ytp/templates/snippets/search_form.html:69
+#: ckanext/ytp/templates/snippets/search_form.html:74
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:76
 msgid "Remove"
 msgstr "Ta bort"
@@ -1102,25 +1107,20 @@ msgstr "Ta bort"
 msgid "Deleted"
 msgstr "Raderad"
 
-#: ckanext/ytp/templates/group/snippets/info.html:25
-#: ckanext/ytp/templates/snippets/organization.html:39
-msgid "read more"
-msgstr "läs mera"
-
-#: ckanext/ytp/templates/group/snippets/info.html:33
+#: ckanext/ytp/templates/group/snippets/info.html:32
 #: ckanext/ytp/templates/package/snippets/info.html:23
-#: ckanext/ytp/templates/snippets/organization.html:49
+#: ckanext/ytp/templates/snippets/organization.html:48
 msgid "Followers"
 msgstr "Följare"
 
-#: ckanext/ytp/templates/group/snippets/info.html:37
+#: ckanext/ytp/templates/group/snippets/info.html:36
 #: ckanext/ytp/templates/organization/read_base.html:11
 #: ckanext/ytp/templates/package/base.html:12
 #: ckanext/ytp/templates/package/base.html:16
 #: ckanext/ytp/templates/package/search.html:9
 #: ckanext/ytp/templates/package/search.html:12
 #: ckanext/ytp/templates/related/base_form_page.html:4
-#: ckanext/ytp/templates/snippets/organization.html:53
+#: ckanext/ytp/templates/snippets/organization.html:52
 #: ckanext/ytp/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/templates/user/read.html:5
 msgid "Datasets"
@@ -1386,7 +1386,7 @@ msgstr "Stäng utan att spara"
 
 #: ckanext/ytp/templates/organization/index.html:8
 #: ckanext/ytp/templates/organization/members.html:7
-#: ckanext/ytp/templates/user/dashboard_organizations.html:19
+#: ckanext/ytp/templates/user/dashboard_organizations.html:20
 msgid "Membership Requests"
 msgstr "Medlemsansökan"
 
@@ -1789,22 +1789,19 @@ msgid "Downloads"
 msgstr "Nedladdningar"
 
 #: ckanext/ytp/templates/package/search.html:27
-#: ckanext/ytp/templates/user/dashboard_datasets.html:13
+#: ckanext/ytp/templates/user/dashboard_datasets.html:14
 msgid "Add Dataset"
 msgstr "Lägg till dataset"
 
 #: ckanext/ytp/templates/package/search.html:34
-#: ckanext/ytp/templates/user/dashboard_datasets.html:20
 msgid "Add open data"
 msgstr "Lägg till öppen data"
 
 #: ckanext/ytp/templates/package/search.html:37
-#: ckanext/ytp/templates/user/dashboard_datasets.html:23
 msgid "Add interoperability tools"
 msgstr "Lägg till interoperabilitetsverktyg"
 
 #: ckanext/ytp/templates/package/search.html:41
-#: ckanext/ytp/templates/user/dashboard_datasets.html:27
 msgid "Add public service"
 msgstr "Lägg till offentlig tjänst"
 
@@ -1813,13 +1810,13 @@ msgid "Relevance"
 msgstr "Relevans"
 
 #: ckanext/ytp/templates/package/search.html:62
-#: ckanext/ytp/templates/snippets/search_form.html:31
+#: ckanext/ytp/templates/snippets/search_form.html:36
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr "Namn i stigande ordning"
 
 #: ckanext/ytp/templates/package/search.html:63
-#: ckanext/ytp/templates/snippets/search_form.html:31
+#: ckanext/ytp/templates/snippets/search_form.html:36
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
 msgstr "Namn i nedstigande ordning"
@@ -3004,7 +3001,7 @@ msgid "Submitter email"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
-#: ckanext/ytp/templates/snippets/search_form.html:14
+#: ckanext/ytp/templates/snippets/search_form.html:19
 #: ckanext/ytp/templates/snippets/search_input.html:17
 msgid "Submit"
 msgstr "Skicka"
@@ -3053,7 +3050,7 @@ msgstr "Ingen licens angiven"
 msgid "This dataset satisfies the Open Definition."
 msgstr "Det här datasetet uppfyller \"The Open Definition\""
 
-#: ckanext/ytp/templates/snippets/organization.html:42
+#: ckanext/ytp/templates/snippets/organization.html:41
 msgid "There is no description for this organization"
 msgstr "Det finns ingen beskriving för organisationen"
 
@@ -3062,17 +3059,17 @@ msgstr "Det finns ingen beskriving för organisationen"
 msgid "Search datasets..."
 msgstr "Sök i dataseten..."
 
-#: ckanext/ytp/templates/snippets/search_form.html:37
+#: ckanext/ytp/templates/snippets/search_form.html:42
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr "Sortera enligt"
 
-#: ckanext/ytp/templates/snippets/search_form.html:45
+#: ckanext/ytp/templates/snippets/search_form.html:50
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr "Kör"
 
-#: ckanext/ytp/templates/snippets/search_form.html:80
+#: ckanext/ytp/templates/snippets/search_form.html:85
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:88
 msgid ""
 " <p class=\"extra\">Please try another search or change search facets.</p> "
@@ -3080,7 +3077,7 @@ msgstr ""
 "<p class=\"extra\">Försök en annan sökning eller ändra på dina "
 "sökkriterier.</p>"
 
-#: ckanext/ytp/templates/snippets/search_form.html:86
+#: ckanext/ytp/templates/snippets/search_form.html:91
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:94
 msgid ""
 " <p><strong>There was an error while searching.</strong> Please try "
@@ -3165,11 +3162,11 @@ msgstr "Nyhetsflöde"
 msgid "Activity from items that I'm following"
 msgstr "Aktivitet från ämnen som jag följer"
 
-#: ckanext/ytp/templates/user/dashboard_organizations.html:34
+#: ckanext/ytp/templates/user/dashboard_organizations.html:36
 msgid "You are not a member of any organizations."
 msgstr "Du är inte medlem av någon organisation."
 
-#: ckanext/ytp/templates/user/dashboard_organizations.html:36
+#: ckanext/ytp/templates/user/dashboard_organizations.html:38
 #: ckanext/ytp/templates/user/read.html:16
 msgid "Create one now?"
 msgstr "Lägg till en nu?"

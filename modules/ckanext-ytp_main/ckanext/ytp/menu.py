@@ -126,7 +126,7 @@ class MyCancelMenu(MenuItem):
 class UserMenu(RootMenuItem):
     def __init__(self, plugin):
         super(UserMenu, self).__init__(plugin)
-        self.children = [MyInformationMenu(), MyPasswordMenu(plugin), MyCancelMenu()]
+        self.children = [MyInformationMenu(), MyPasswordMenu(plugin)]
 
 
 class ListUsersMenu(MenuItem):
