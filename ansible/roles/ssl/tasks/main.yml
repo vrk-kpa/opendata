@@ -11,6 +11,15 @@
     - nginx
     - ssl
 
+- name: Check for pre-generated SSL certificate
+  stat:
+    path: "{{ ssl_path }}/{{ ssl_crt_primary }}"
+  register: ssl_cert_file
+  when: ssl_path != false
+  tags:
+    - nginx
+    - ssl
+
 - name: Copy OpenSSL configuration
   template:
     src: openssl.cnf.j2
@@ -18,16 +27,7 @@
     mode: "0644"
     owner: root
     group: root
-  when: deployment_environment_id == "vagrant"
-  tags:
-    - nginx
-    - ssl
-
-- name: Check for pre-generated SSL certificate
-  stat:
-    path: "{{ ssl_path }}/{{ ssl_crt_primary }}"
-  register: ssl_cert_file
-  when: ssl_path != false
+  when: ssl_path != false and not ssl_cert_file.stat.exists
   tags:
     - nginx
     - ssl
