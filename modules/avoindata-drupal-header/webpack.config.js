@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   entry: "./src/js/main.js",
   output: {
-    filename: "main.js",
+    filename: "avoindata_header.js",
     path: path.resolve(__dirname, "resources")
   },
   module: {
