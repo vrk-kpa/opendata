@@ -11,7 +11,6 @@ Metadata:
       - DefaultTTL
       - MinTTL
       - MaxTTL
-      - TargetOriginId
       - LogIncludeCookies
       - LogEnabled
       - OriginKeepaliveTimeout
@@ -43,9 +42,6 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
   MaxTTL:
     Description: 'Maximum TTL for cache objects'
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  TargetOriginId:
-    Description: 'ARN of target origin'
     Type: 'AWS::SSM::Parameter::Value<String>'
   LogIncludeCookies:
     Description: 'Include cookies in CF access logs'
@@ -104,7 +100,7 @@ Resources:
           - "GET"
           - "HEAD"
           - "OPTIONS"
-          Compress: True
+          Compress: !Ref Compress
           MinTTL: !Ref MinTTL
           MaxTTL: !Ref MaxTTL
           DefaultTTL: !Ref DefaultTTL
@@ -118,10 +114,10 @@ Resources:
             - 'Cloudfront-Forwarded-Proto' 
             - 'Host'
             - 'Origin'
-            QueryString: 'true'
+            QueryString: true
           TargetOriginId: OpendataOrigin
           ViewerProtocolPolicy: 'redirect-to-https'
-        Enabled: 'true'
+        Enabled: true
         Logging: !If
           - CloudfrontLogging
           - Bucket: !GetAtt LogBucket.DomainName
