@@ -248,8 +248,17 @@ Resources:
                 Resource:
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets/*"
-      ManagedPolicyArns:
-       - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+              - Effect: Allow
+                Action:
+                  - ssmmessages:CreateControlChannel
+                  - ssmmessages:CreateDataChannel
+                  - ssmmessages:OpenControlChannel
+                  - ssmmessages:OpenDataChannel
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetEncryptionConfiguration
+                Resource: "*"
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile

@@ -34,6 +34,7 @@
         PublicALBCertificate3: "/{{ deployment_environment_id }}/web/public_alb_certificate3"
         PublicALBCertificate4: "/{{ deployment_environment_id }}/web/public_alb_certificate4"
         PublicALBSubnets: "/{{ deployment_environment_id }}/web/public_alb_subnets"
+        PrivateSubnets: "/{{ deployment_environment_id }}/web/private_subnets"
         Vpc: "/{{ deployment_environment_id }}/web/vpc"
         WhitelistedIpAddressHEL: "/{{ deployment_environment_id }}/web/white_listed_ip_address_hel"
         WhitelistedIpAddressTRE: "/{{ deployment_environment_id }}/web/white_listed_ip_address_tre"
