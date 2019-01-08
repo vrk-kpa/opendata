@@ -188,7 +188,7 @@
     group: "{{ www_group }}"
     mode: 0444
   when: drupal8_root is defined
-  
+
 - name: Ensure drupal public files directory exists
   file:
     path: "{{ drupal_public_files_directory }}"
