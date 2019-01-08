@@ -124,14 +124,6 @@ Resources:
         - !GetAtt EFSSecurityGroup.GroupId
       SubnetId: !Select [1, !Ref DatabaseSubnets]
 
-  # EFSMountTarget3:
-  #   Type: AWS::EFS::MountTarget
-  #   Properties:
-  #     FileSystemId: !Ref EFSFileSystem
-  #     SecurityGroups:
-  #       - !GetAtt EFSSecurityGroup.GroupId
-  #     SubnetId: !Select [2, !Ref DatabaseSubnets]
-
   EFSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
