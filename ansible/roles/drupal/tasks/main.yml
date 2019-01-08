@@ -467,6 +467,14 @@
   tags:
   - drupal
 
+- name: Create initial users
+  shell: ./vendor/bin/drush user-create "{{ item.username }}" --password="{{ item.password }}" --mail="{{ item.email }}"
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_flattened:
+    - "{{ ytp_users }}"
+  ignore_errors: True
+
 - name: Set user roles
   shell: ./vendor/bin/drush user-add-role "{{ item.role }}" "{{ item.username }}"
   args:
