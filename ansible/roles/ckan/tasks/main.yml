@@ -19,6 +19,21 @@
   - packages
   - ckan
 
+- name: Ensure log file exists
+  file:
+    path: "{{ ckan_log_path }}/ckan.log"
+    state: touch
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0640
+
+- name: Configure logrotation for CKAN
+  copy:
+    dest: /etc/logrotate.d/ckan
+    content: "{{ ckan_logrotate_conf }}"
+    mode: 0644
+    owner: root
+    group: root
 
 - name: Ensure CKAN deb packages
   apt:
