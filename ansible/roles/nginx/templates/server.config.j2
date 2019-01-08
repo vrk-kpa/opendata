@@ -60,7 +60,7 @@ rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
 # Disable CKAN main page. Redirect to Drupal main page.
 rewrite ^/data/?$ /{{ item.root_redirect }} permanent;
 
-rewrite ^/data/(fi|en|sv)/?$ /$1 permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ /$1 permanent;
 
 location = /favicon.ico {
     log_not_found off;
