@@ -1,3 +1,6 @@
+import sys
+sys.stderr = sys.stdout = file('{{ ckan_log_path }}/ckan.log', 'a')
+
 import os
 activate_this = os.path.join('/usr/lib/ckan/default/bin/activate_this.py')
 execfile(activate_this, dict(__file__=activate_this))

@@ -219,7 +219,7 @@ ckan.datapusher.url = http://127.0.0.1:8800/
 keys = root, ckan, ckanext
 
 [handlers]
-keys = console, ckan
+keys = console
 
 [formatters]
 keys = generic
@@ -230,25 +230,19 @@ handlers = console
 
 [logger_ckan]
 level = {{ ckan_ckan_loglevel }}
-handlers = ckan
+handlers = console
 qualname = ckan
 propagate = 0
 
 [logger_ckanext]
 level = {{ ckan_ckanext_loglevel }}
-handlers = ckan
+handlers = console
 qualname = ckanext
 propagate = 0
 
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
-level = NOTSET
-formatter = generic
-
-[handler_ckan]
-class = FileHandler
-args = ('{{ ckan_log_path }}/ckan.log','a')
 level = NOTSET
 formatter = generic
 
