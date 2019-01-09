@@ -10,7 +10,7 @@ var template = require("gulp-template");
 var inlineCss = require("gulp-inline-css");
 var cleancss = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
-var base64 = require("gulp-base64");
+var base64 = require("gulp-base64-inline");
 var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
@@ -118,7 +118,7 @@ gulp.task("static_css",
   gulp.series('images', (done) => {
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
-    base64({ maxImageSize: 4096 * 2048 }),
+    base64('../../resources/images'),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
   ], done)
