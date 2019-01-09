@@ -24,6 +24,7 @@
         EFSFileSystem: "/{{ deployment_environment_id }}/web/efs_file_system"
         EFSSecurityGroup: "/{{ deployment_environment_id }}/web/efs_security_group"
         EnvironmentName: "/{{ deployment_environment_id }}/web/environment_name"
+        DNSHostName: "/{{ deployment_environment_id }}/web/dns_hostname"
         GitBranch: "/{{ deployment_environment_id }}/web/git_branch"
         HostedZoneId: "/{{ deployment_environment_id }}/web/hosted_zone_id"
         HostedZoneIdAlternate: "/{{ deployment_environment_id }}/web/hosted_zone_id_alternate"
