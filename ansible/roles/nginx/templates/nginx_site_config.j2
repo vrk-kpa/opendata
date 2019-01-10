@@ -6,11 +6,6 @@ map $http_cookie $no_cache {
 }
 
 server {
-    listen 127.0.0.1:80;
-    include /etc/nginx/snippets/{{ item.snippet }};
-}
-
-server {
     listen 80;
     server_name {{ item.server_name }};
     if ($http_x_forwarded_proto != 'https') {
@@ -44,9 +39,4 @@ server {
 
     include /etc/nginx/snippets/{{ item.snippet }};
 
-}
-
-server {
-    server_name .yhteentoimivuus.fi;
-    rewrite ^ https://www.avoindata.fi/data/fi/dataset?collection_type=Interoperability+Tools permanent;
 }
