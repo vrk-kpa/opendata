@@ -52,6 +52,13 @@ body {
   max-width: 1140px;
 }
 
+.container-fluid .wrapper {
+  @media (max-width: @screen-sm-min) {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
 .wrapper {
   @media (min-width: @screen-sm-min) {
     &:before {
