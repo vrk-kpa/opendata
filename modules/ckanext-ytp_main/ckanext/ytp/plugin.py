@@ -82,7 +82,7 @@ class YtpMainTranslation(DefaultTranslation):
         return "ckanext-ytp_main"
 
 
-def create_vocabulary(name):
+def create_vocabulary(name, defer=False):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
 
@@ -95,13 +95,14 @@ def create_vocabulary(name):
     log.info("Creating vocab '" + name + "'")
     data = {'name': name}
     try:
-        # context['defer_commit'] = True
+        if defer:
+            context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
     except Exception, e:
         log.error('%s' % e)
 
 
-def create_tag_to_vocabulary(tag, vocab):
+def create_tag_to_vocabulary(tag, vocab, defer=False):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
 
@@ -112,7 +113,8 @@ def create_tag_to_vocabulary(tag, vocab):
         "name": tag,
         "vocabulary_id": v['id']}
 
-    # context['defer_commit'] = True
+    if defer:
+        context['defer_commit'] = True
     try:
         toolkit.get_action('tag_create')(context, data)
     except ValidationError:
@@ -672,6 +674,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
     def get_package_dict(self, context, data_dict):
 
+        context['defer'] = True
         package_dict = data_dict['package_dict']
 
         list_map = {'access_constraints': 'copyright_notice'}
