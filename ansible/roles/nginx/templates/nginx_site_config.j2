@@ -12,7 +12,7 @@ server {
 
 server {
     listen 80;
-    server_name {{ item.server_name }};
+    server_name {{ item.server_name }} {{ item.base_hostname }};
     if ($http_x_forwarded_proto != 'https') {
         return 301 https://$host$request_uri;
     }
