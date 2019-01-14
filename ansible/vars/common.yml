@@ -60,6 +60,9 @@ ytp_users:
   - username: 'test-publisher'
     password: 'test-publisher'
     email: 'publisher@localhost'
+  - username: 'test-user'
+    password: 'test-user'
+    email: 'user@localhost'
 
 drupal_roles:
   - { 'username': "{{ admin.username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }

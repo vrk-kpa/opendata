@@ -52,6 +52,13 @@ body {
   max-width: 1140px;
 }
 
+.container-fluid .wrapper {
+  @media (max-width: @screen-sm-min) {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
 .wrapper {
   @media (min-width: @screen-sm-min) {
     &:before {
@@ -406,9 +413,12 @@ body {
 .showcase-heading-icon {
   max-width: 160px;
   max-height: 160px;
+  overflow: hidden;
+
   img {
-    max-height: 100%;
-    max-width: 100%;
+    max-width: 160px;
+    max-height: 160px;
+    object-fit: cover;
   }
 }
 
@@ -594,37 +604,65 @@ body {
     border-radius: 3px;
     padding: 0px;
     margin: 0px 25px 25px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     .media-image {
       padding: 0px;
       border-radius: 0px;
       width: 247px;
-      height: 165px;
+      height: 155px;
       overflow: hidden;
       object-fit: cover;
       border-top-left-radius: 2px;
       border-top-right-radius: 1px;
     }
+
     .item-content {
-      margin-right: 16px;
-      margin-left: 16px;
-      margin-top: 12px;
-      margin-bottom: 12px;
+      .flex-display(flex);
+      .flex-direction(column);
+      margin-right: 15px;
+      margin-left: 15px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      max-height: 160px;
+      width: 217px;
+      overflow: hidden;
+      object-fit: cover;
+      text-overflow: ellipsis;
+
       .media-heading {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: 25px;
         a {
           color: @mediagrid-header-text-color;
         }
       }
-    }
-    .item-description {
-      display: block;
-      display: -webkit-box;
-      height: 80px;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
+
+      .item-platform {
+        p {
+          display: block;
+          white-space: nowrap;        
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 10px;
+        }
+      }
+
+      .item-description {
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        max-lines: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 80px;
+      }
     }
   }
+
   .opendata-category-icon {
     color: @mediagrid-category-icon-color;
   }
@@ -774,6 +812,10 @@ li.organization {
 
 .organization-tree-short-description {
   padding-bottom: 15px;
+}
+
+.organization-hierarchy-header{
+  font-weight: 700;
 }
 
 .form-actions .btn-danger {

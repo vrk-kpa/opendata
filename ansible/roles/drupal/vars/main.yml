@@ -18,3 +18,4 @@ custom_modules:
 removed_extensions:
   - search
   - contextual
+  - page_cache

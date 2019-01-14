@@ -1,2 +1,15 @@
 ckan_smtp_use_tls: True
-ckan_smtp_port: 578
+ckan_smtp_port: 587
+ckan_log_path: /var/log/ckan
+ckan_ckan_loglevel: INFO
+ckan_ckanext_loglevel: INFO
+ckan_logrotate_conf: |
+  /var/log/ckan/ckan.log {
+  	daily
+  	missingok
+  	rotate 14
+  	compress
+  	delaycompress
+  	notifempty
+  	create 0640 www-data www-data
+  }

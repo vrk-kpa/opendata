@@ -16,9 +16,24 @@
     path: "{{ ssl_path }}/{{ ssl_crt_primary }}"
   register: ssl_cert_file
   when: ssl_path != false
+  tags:
+    - nginx
+    - ssl
+
+- name: Copy OpenSSL configuration
+  template:
+    src: openssl.cnf.j2
+    dest: "/etc/ssl/openssl.cnf"
+    mode: "0644"
+    owner: root
+    group: root
+  when: ssl_path != false and not ssl_cert_file.stat.exists
+  tags:
+    - nginx
+    - ssl
 
 - name: Generate self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ hostname }}" -days 3650 -keyout "{{ ssl_path }}/{{ ssl_key_primary }}" -out "{{ ssl_path }}/{{ ssl_crt_primary }}" -extensions v3_ca creates="{{ ssl_path }}/{{ ssl_crt_primary }}"
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ hostname }}" -days 3650 -keyout "{{ ssl_path }}/{{ ssl_key_primary }}" -out "{{ ssl_path }}/{{ ssl_crt_primary }}" -extensions v3_ca -reqexts SAN -extensions SAN creates="{{ ssl_path }}/{{ ssl_crt_primary }}"
   register: generate_certificates
   when: ssl_path != false and not ssl_cert_file.stat.exists
   tags:

@@ -29,6 +29,11 @@
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme/"
     dest: "{{ server_path }}/avoindata-drupal-theme"
 
+- name: Synchronize avoindata drupal header to cache folder
+  synchronize:
+    src: "{{ playbook_dir }}/../modules/avoindata-drupal-header/"
+    dest: "{{ server_path }}/avoindata-drupal-header"
+
 - name: Install resource dependencies
   command:  npm install --unsafe-perm=true --allow-root
   args:

@@ -1,0 +1,8 @@
+---
+# defaults file for mailhog
+
+mailhog_install_dir: /opt/mailhog
+mailhog_version: 1.0.0
+mailhog_release_url: https://github.com/mailhog/MailHog/releases/download/v{{ mailhog_version }}/MailHog_linux_amd64
+mailhog_mhsendmail_version: 0.2.0
+mailhog_mhsendmail_release_url: https://github.com/mailhog/mhsendmail/releases/download/v{{ mailhog_mhsendmail_version }}/mhsendmail_linux_amd64

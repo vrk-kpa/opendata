@@ -19,6 +19,21 @@
   - packages
   - ckan
 
+- name: Ensure log file exists
+  file:
+    path: "{{ ckan_log_path }}/ckan.log"
+    state: touch
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0640
+
+- name: Configure logrotation for CKAN
+  copy:
+    dest: /etc/logrotate.d/ckan
+    content: "{{ ckan_logrotate_conf }}"
+    mode: 0644
+    owner: root
+    group: root
 
 - name: Ensure CKAN deb packages
   apt:
@@ -226,6 +241,15 @@
   tags:
   - ckan
 
+- name: Setup Apache WSGI script
+  template:
+    src: "apache.wsgi.j2"
+    dest: /etc/ckan/default/apache.wsgi
+    mode: "0640"
+    owner: root
+    group: "{{ www_group }}"
+
+
 - name: Create debian cache path
   file:
     path: "{{ cache_path }}/debian"
@@ -287,7 +311,6 @@
     group: "{{ item.group }}"
   with_items:
     - { src: ckan.py, dest: /usr/bin/ckan, mode: "0755", owner: root, group: root }
-    - { src: apache.wsgi, dest: /etc/ckan/default/apache.wsgi, mode: "0640", owner: root, group: "{{ www_group }}" }
     - { src: who.ini, dest: "{{ ckan_who_ini }}", mode: "0644", owner: root, group: "{{ www_group }}"}
   tags:
     - ckan

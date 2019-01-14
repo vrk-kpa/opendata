@@ -21,6 +21,7 @@ class SearchCollapsible extends BlockBase {
   public function build() {
     return array(
       '#theme' => 'avoindata_header_search_collapsible',
+      '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
     );
   }
 

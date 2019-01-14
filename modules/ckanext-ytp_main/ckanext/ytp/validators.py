@@ -104,10 +104,15 @@ def create_fluent_tags(vocab):
 
 
 def add_to_vocab(context, tags, vocab):
+
+    defer = context.get('defer', False)
     try:
         v = get_action('vocabulary_show')(context, {'id': vocab})
     except ObjectNotFound:
-        v = plugin.create_vocabulary(vocab)
+        log.info("creating vocab")
+        v = plugin.create_vocabulary(vocab, defer)
+
+
 
     context['vocabulary'] = model.Vocabulary.get(v.get('id'))
     if isinstance(tags, basestring):
@@ -120,7 +125,7 @@ def add_to_vocab(context, tags, vocab):
         try:
             validators.tag_in_vocabulary_validator(tag, context)
         except Invalid:
-            plugin.create_tag_to_vocabulary(tag, vocab)
+            plugin.create_tag_to_vocabulary(tag, vocab, defer)
 
 
 def tag_list_output(value):
