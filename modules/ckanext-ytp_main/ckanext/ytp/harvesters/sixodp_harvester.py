@@ -88,12 +88,15 @@ def sixodp_to_opendata_postprocess(package_dict):
         package_dict['metadata_created'] = date_released_isoformat
 
     for resource in package_dict['resources']:
+
         time_series_start = resource.get('time_series_start')
-        if time_series_start is not None and parse_datetime(time_series_start) is None:
+        parsed_time_series_start = parse_datetime(time_series_start)
+        if time_series_start is not None and (parsed_time_series_start is None or time_series_start is not parsed_time_series_start):
             resource.pop('time_series_start')
 
         time_series_end = resource.get('time_series_end')
-        if time_series_end is not None and parse_datetime(time_series_end) is None:
+        parsed_time_series_end = parse_datetime(time_series_end)
+        if time_series_end is not None and (parsed_time_series_end is None or time_series_end is not parsed_time_series_end):
             resource.pop('time_series_end')
 
 
@@ -488,6 +491,8 @@ class SixodpHarvester(HarvesterBase):
                 return True
 
             sixodp_to_opendata_preprocess(package_dict)
+            for resource in package_dict.get('resources', []):
+                log.info(resource.get('time_series_start', ""))
 
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
