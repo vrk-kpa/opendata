@@ -8,6 +8,8 @@ from ckan import model
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.plugins import toolkit
+from ckan.logic.validators import isodate
+from ckan.lib.navl.dictization_functions import Invalid
 import ckan.lib.plugins as lib_plugins
 from ckanext.harvest.harvesters.base import HarvesterBase
 from ckanext.harvest.model import HarvestObject
@@ -88,14 +90,20 @@ def sixodp_to_opendata_postprocess(package_dict):
         package_dict['metadata_created'] = date_released_isoformat
 
     for resource in package_dict['resources']:
+
         time_series_start = resource.get('time_series_start')
-        if time_series_start is not None and parse_datetime(time_series_start) is None:
-            resource.pop('time_series_start')
+        if time_series_start:
+            try:
+                isodate(time_series_start, {})
+            except Invalid:
+                resource.pop('time_series_start')
 
         time_series_end = resource.get('time_series_end')
-        if time_series_end is not None and parse_datetime(time_series_end) is None:
-            resource.pop('time_series_end')
-
+        if time_series_end:
+            try:
+                isodate(time_series_end, {})
+            except Invalid:
+                resource.pop('time_series_end')
 
 
 class SixodpHarvester(HarvesterBase):
