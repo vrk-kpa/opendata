@@ -491,8 +491,6 @@ class SixodpHarvester(HarvesterBase):
                 return True
 
             sixodp_to_opendata_preprocess(package_dict)
-            for resource in package_dict.get('resources', []):
-                log.info(resource.get('time_series_start', ""))
 
             # Set default tags if needed
             default_tags = self.config.get('default_tags', [])
