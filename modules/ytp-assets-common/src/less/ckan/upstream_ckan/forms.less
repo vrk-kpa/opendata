@@ -107,8 +107,8 @@ textarea {
 }
 
 .form-actions .control-required-message {
-    float: left;
-    margin-left: 20px;
+    align-self: flex-start;
+    order: 2;
     margin-bottom: 0;
     line-height: 30px;
     &:first-child {
@@ -135,15 +135,20 @@ textarea {
 
 @media (min-width: @screen-sm-min) {
     .form-actions .action-info {
-        float: left;
         width: 50%;
         margin-right: @grid-gutter-width/2;
     }
 }
 
 .form-actions .action-info.small {
+    order: 1;
     font-size: 11px;
     line-height: 1.2;
+}
+
+.form-actions .btn {
+    align-self: flex-end;
+    order: 3;
 }
 
 @media (max-width: @screen-sm-max) {
