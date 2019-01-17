@@ -67,17 +67,17 @@
       "required": true
     },
     {
-      "field_name": "high_value_dataset_category",
-      "label": "High value dataset category",
+      "field_name": "international_benchmarks",
+      "label": "International Benchmarks",
       "form_placeholder":"eg. Maps",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(high_value_dataset_category)",
+      "validators": "ignore_missing convert_to_list create_tags(international_benchmarks)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=high_value_dataset_category"
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=international_benchmarks"
       },
-      "description": "Select high value dataset categories which this dataset belongs to"
+      "description": "Select international benchmarks which this dataset belongs to"
     },
     {
       "field_name": "maintainer",
