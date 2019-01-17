@@ -68,7 +68,7 @@
     },
     {
       "field_name": "international_benchmarks",
-      "label": "International Benchmarks",
+      "label": "International benchmarks",
       "form_placeholder":"eg. Maps",
       "preset": "vocabulary_with_autocomplete",
       "validators": "ignore_missing convert_to_list create_tags(international_benchmarks)",
