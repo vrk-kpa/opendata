@@ -18,17 +18,18 @@
         </h3>
       </div>
     </div>
-    <div class="row avoindata-categories-row">
+    <div class="avoindata-categories-items">
       {% for category in categories %}
-        <div class="avoindata-category-box col-md-2 col-sm-3 col-xs-12">
-          <div class="row avoindata-category-image-wrapper">
+        <div class="avoindata-category-box">
+          <div class="avoindata-category-image-wrapper">
             <a href="../data/{{ language }}/group/{{ category['name'] }}">
               <img class="avoindata-category-img" src={{ category['image_display_url'] }} alt={{ category['title'] }}>
             </a>
           </div>
-          <div class="row avoindata-category-text-wrapper">
+          <div class="avoindata-category-text-wrapper">
             <a href="../data/{{ language }}/group/{{ category['name'] }}">
-              {{ category['title_translated'][language] | default(category['title']) }}
+              {{ (category['title_translated'][language][:55] ~ (category['title_translated'][language]|length > 55 ? '…'))
+                | default(category['title'][:55] ~ (category['title']|length > 55 ? '…')) }}
             </a>
           </div>
         </div>

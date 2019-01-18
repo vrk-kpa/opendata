@@ -104,10 +104,15 @@ def create_fluent_tags(vocab):
 
 
 def add_to_vocab(context, tags, vocab):
+
+    defer = context.get('defer', False)
     try:
         v = get_action('vocabulary_show')(context, {'id': vocab})
     except ObjectNotFound:
-        v = plugin.create_vocabulary(vocab)
+        log.info("creating vocab")
+        v = plugin.create_vocabulary(vocab, defer)
+
+
 
     context['vocabulary'] = model.Vocabulary.get(v.get('id'))
     if isinstance(tags, basestring):
@@ -120,7 +125,7 @@ def add_to_vocab(context, tags, vocab):
         try:
             validators.tag_in_vocabulary_validator(tag, context)
         except Invalid:
-            plugin.create_tag_to_vocabulary(tag, vocab)
+            plugin.create_tag_to_vocabulary(tag, vocab, defer)
 
 
 def tag_list_output(value):
@@ -349,12 +354,14 @@ def from_date_is_before_until_date(field, schema):
 
     def validator(key, data, errors, context):
 
-        if max_date_field is not None and data[max_date_field]:
-            if data[key] and data[key] > data[max_date_field]:
+        max_date_value = data.get(max_date_field, "")
+        if max_date_field is not None and max_date_value != "":
+            if data[key] and data[key] > max_date_value:
                 errors[key].append(_('Start date is after end date'))
 
-        if min_date_field is not None and data[min_date_field]:
-            if data[key] and data[key] < data[min_date_field]:
+        min_date_value = data.get(min_date_field, "")
+        if min_date_field is not None and min_date_value != "":
+            if data[key] and data[key] < min_date_value:
                 errors[key].append(_('End date is before start date'))
 
     return validator

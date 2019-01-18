@@ -37,7 +37,7 @@ This material is copyright (c) 2013-2018 Population Register Centre, Finland.
 CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
 
-All other content in this repository is licensed under MIT License.
+All other content in this repository is licensed under MIT License unless otherwise specified.
 
 [circleci-url]: https://circleci.com/gh/vrk-kpa/opendata
 [circleci-image]: https://circleci.com/gh/vrk-kpa/opendata.svg?style=svg

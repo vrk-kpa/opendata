@@ -1,0 +1,9 @@
+[mainserver]
+localhost ansible_ssh_user=ubuntu ansible_connection=local
+
+[mainserver:vars]
+deployment_environment_id=prod
+secrets_file_path="../../avoindata-secrets/prod/secrets.yml"
+disqus_name = "avoindatafi"
+ansible_python_interpreter="{{ ansible_playbook_python }}"
+aws_profile=opendata

@@ -1,6 +1,13 @@
 [DEFAULT]
 
 debug = {{ debug_enabled }}
+{% if AWS.enabled %}
+# smtp settings that need to be configured in default section for WebError middleware
+smtp_username = {{ secret.smtp_user }}
+smtp_password = {{ secret.smtp_password }}
+{% endif %}
+smtp_use_tls = {{ ckan_smtp_use_tls }}
+
 
 [server:main]
 
@@ -16,6 +23,8 @@ cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
 beaker.session.secret = {{ baker_session_secret }}
+beaker.session.secure = True
+beaker.session.httponly = True
 
 app_instance_uuid = {{ app_instance_uuid }}
 
@@ -63,10 +72,10 @@ scheming.group_schemas = ckanext.ytp.schemas:group.json
 scheming.organization_schemas = ckanext.ytp.schemas:organization.json
 
 ckan.site_title = Avoindata.fi
-ckan.site_logo = {{www_root}}/resources/images/avoindata.fi.png
+ckan.site_logo =
 ckan.site_description =
 
-ckan.favicon = {{www_root}}/resources/images/favicon.ico
+ckan.favicon = /resources/images/logo/favicon.ico
 ckan.gravatar_default = identicon
 
 ckan.locale_default = fi
@@ -74,7 +83,7 @@ ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi 
 ckan.locales_offered = fi sv en_GB
 ckan.locales_filtered_out = en
 ckan.feeds.authority_name =
-ckan.feeds.date =
+ckan.feeds.date = 2019-01-01
 ckan.feeds.author_name =
 ckan.feeds.author_link =
 
@@ -83,14 +92,19 @@ ckan.cors.origin_allow_all = True
 email_to = {{ error_email }}
 error_email_from = {{ error_email_from }}
 
-smtp.server = {{ smtp.server_domain }}
 {% if AWS.enabled -%}
-smtp.server = {{ AWS.smtp_server_domain }}:587
+smtp.server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 smtp.user = {{ secret.smtp_user }}
 smtp.password = {{ secret.smtp_password }}
-smtp.starttls = True
+smtp.starttls = {{ ckan_smtp_use_tls }}
+# smtp settings for WebError middleware
+from_address = {{ error_email_from }}
+smtp_server = {{ AWS.smtp_server_domain }}:{{ ckan_smtp_port }}
 {%- else -%}
-smtp.starttls = False
+smtp.server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
+smtp.starttls = {{ ckan_smtp_use_tls }}
+from_address = {{ error_email_from }}
+smtp_server = {{ smtp.server_domain }}:{{ ckan_smtp_port }}
 {%- endif %}
 
 smtp.mail_from = no-reply@{{ email_domain }}
@@ -148,8 +162,6 @@ ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 ckanext.ytp.dataset.service_database_enabled = {% if service_database_enabled -%}true{%- else -%}false{%- endif %}
 
 ckanext.ytp.dataset.auto_author = {% if auto_author_enabled -%}true{%- else -%}false{%- endif %}
-
-ckanext.ytp.theme.logos = default:opendata_fi.png avoindata_default:avoindata_fi.png opendata_default:opendata_en.png avoindata_fi:avoindata_fi.png avoindata_en:avoindata_en.png avoindata_sv:avoindata_se.png opendata_fi:opendata_fi.png opendata_en:opendata_en.png opendata_sv:opendata_se.png
 
 # The email links for reminders will be prefixed with this site url
 ckanext.reminder.site_url = https://www.avoindata.fi
@@ -213,45 +225,37 @@ ckanext.ytp.theme.show_postit_demo = {{ show_postit_demo }}
 ckan.datapusher.url = http://127.0.0.1:8800/
 
 [loggers]
-
 keys = root, ckan, ckanext
 
 [handlers]
-
 keys = console
 
 [formatters]
-
 keys = generic
 
 [logger_root]
-
 level = WARNING
 handlers = console
 
 [logger_ckan]
-
-level = INFO
+level = {{ ckan_ckan_loglevel }}
 handlers = console
 qualname = ckan
 propagate = 0
 
 [logger_ckanext]
-
-level = DEBUG
+level = {{ ckan_ckanext_loglevel }}
 handlers = console
 qualname = ckanext
 propagate = 0
 
 [handler_console]
-
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
 
 [formatter_generic]
-
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
 [app:celery]

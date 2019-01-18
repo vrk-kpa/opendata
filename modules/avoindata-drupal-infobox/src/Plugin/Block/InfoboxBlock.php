@@ -22,6 +22,7 @@ class InfoboxBlock extends BlockBase {
   public function build() {
     return array(
       '#theme' => 'avoindata_infobox',
+      '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
     );
   }
 }

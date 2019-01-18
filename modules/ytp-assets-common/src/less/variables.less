@@ -12,7 +12,8 @@
 @opendata-brand-danger:     #d9534f; // Very dangerous, error information and destructive interaction
 @opendata-brand-priority:   #ec2727; // Priority content, like front page search button
 @opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
-@opendata-ckan-unhighlight: #cccccc; // Additional non critical content display color.
+@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
+@opendata-ckan-unhighlight-background: #f8f8f8;
 
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
@@ -35,6 +36,10 @@
 @btn-dark-text-color:    #FFF;
 @btn-black-color: #000;
 
+// Link colors
+@link-default-color: @opendata-brand-primary;
+@link-dark-color: #000000;
+
 // For very 'extra' information, meant for small text on white/light backgrounds
 @nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
 
@@ -56,7 +61,7 @@
 @alert-link-font-weight: 500;
 
 //Color and background for FAVORITE datasets
-@popularTextColor: white;
+@popularTextColor: #fff;
 @popularBackgroundColor: #FFBB44;
 
 // Light border lines that separate UI areas
@@ -66,7 +71,7 @@
 @content-border: lighten(@opendata-brand-gray, 25%);
 
 // Text color that is on a colored background (labels, buttons, carousel)
-@button-inverse-text-color: white;
+@button-inverse-text-color: #fff;
 
 // Search box, carousel etc.
 @block-color-background: @opendata-brand-primary;
@@ -102,7 +107,7 @@
 @menu-link-hover-color: #fff;
 @menu-hover-color: @opendata-brand-decorative;
 
-@body-color-background: white;
+@body-color-background: #fff;
 
 
 // Footer colors
@@ -114,7 +119,7 @@
 @node-meta-submitted: #cccccc;
 
 @select-border-color: #cccccc;
-@select-background: white;
+@select-background: #fff;
 
 // Rest of the variables
 @navbar-background: #011734;
@@ -123,7 +128,7 @@
 @navbar-color-background: @opendata-brand-primary;
 @navbar-color-text: #ffffff;
 @navbar-color-links: hsla(0, 0%, 100%, .65);
-@navbar-height: 48px;
+@navbar-height: 50px;
 @navbar-responsive-toggle-background: #000;
 
 @infowell-color-dark: #175971;
@@ -152,7 +157,7 @@
 // Responsive layout widths
 @secondary-width: 280px;
 @container-horizontal-padding: 40px;
-@grid-float-breakpoint: @screen-md-min;
+@grid-float-breakpoint: @screen-sm-min;
 
 @button-border-radius: 8px;
 @border-radius-large: 0px;
@@ -165,7 +170,7 @@
 @bottom-highlight-color: #00b8ff;
 
 // Header variables
-@header-width: 940px;
+@header-width: 1140px;
 
 // Resource list
 @resource-list-background: #f7f7f7;

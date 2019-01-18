@@ -60,6 +60,9 @@ ytp_users:
   - username: 'test-publisher'
     password: 'test-publisher'
     email: 'publisher@localhost'
+  - username: 'test-user'
+    password: 'test-user'
+    email: 'user@localhost'
 
 drupal_roles:
   - { 'username': "{{ admin.username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }
@@ -79,7 +82,7 @@ ckan_who_ini: /etc/ckan/default/who.ini
 
 harvest_sources: false
 
-ckan_version: "2.8.1"
+ckan_version: "2.8.2"
 ckan_branch: "ckan-{{ ckan_version }}"
 
 email_domain: "{{ hostname }}"

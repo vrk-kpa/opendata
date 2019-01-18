@@ -87,6 +87,29 @@ ytp_dataset_group = paster_click_group(
 
 
 @ytp_dataset_group.command(
+    u'migrate_author_email',
+    help=u'Migrates empty author emails that caused problems in updating datasets'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_author_email(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    package_patches = []
+    
+    for old_package_dict in package_generator('*:*', 1000):
+         if old_package_dict.get('author_email') is None:
+            patch = {'id': old_package_dict['id'], 'author_email': ''}
+            package_patches.append(patch)
+    
+    if dryrun:
+        print '\n'.join('%s' % p for p in package_patches)
+    else:
+        # No resources patches so empty parameter is passed
+        apply_patches(package_patches, []) 
+
+
+@ytp_dataset_group.command(
     u'migrate',
     help=u'Migrates datasets to scheming based model'
 )
@@ -298,8 +321,7 @@ def migrate_orgs(ctx, config, dryrun):
         if 'features' not in old_org_dict:
             # 'adminstration' is used in previous data model
             if old_org_dict.get('public_adminstration_organization'):
-                # Required as JSON string by scheming's multi_checkbox
-                patch['features'] = '["public_administration_organization"]'
+                patch['features'] = ["public_administration_organization"]
 
         if patch:
             patch['id'] = old_org_dict['id']
@@ -364,8 +386,10 @@ def add_to_groups(ctx, config, dryrun):
 
     data_dicts = []
     for group in groups:
+        memberships = get_action('member_list')(context, {'id': group})
         for user in users:
-            data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
+            if not any(id for (id, type, capacity) in memberships if id == user['id']):
+                data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
 
     if dryrun:
         print '\n'.join('%s' % d for d in data_dicts)

@@ -22,7 +22,6 @@
     {% if description %}
       <p>
         {{ description|truncate(180) }}
-        {% link_for _('read more'), named_route='group.about', id=group.name %}
       </p>
     {% endif %}
     {% endblock %}

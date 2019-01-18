@@ -10,16 +10,18 @@ var template = require("gulp-template");
 var inlineCss = require("gulp-inline-css");
 var cleancss = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
-var base64 = require("gulp-base64");
+var base64 = require("gulp-base64-inline");
 var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
+var imageminJpegoptim = require('imagemin-jpegoptim');
 
 var paths = {
   src: {
     images: "src/images/**/*",
     ckan: "src/less/ckan",
     drupal: "../avoindata-drupal-theme/less/style.less",
+    drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     font: "src/font/**/*",
@@ -90,6 +92,9 @@ gulp.task("images", (done) => {
       imagemin.gifsicle(),
       imagemin.jpegtran(),
       imagemin.optipng(),
+      imageminJpegoptim({
+        max: 90
+      }),
       imagemin.svgo({
         plugins: [
           {removeViewBox: true},
@@ -109,14 +114,15 @@ gulp.task("templates", (done) => {
   ], done)
 });
 
-gulp.task("static_css", (done) => {
+gulp.task("static_css",
+  gulp.series('images', (done) => {
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
-    base64({ maxImageSize: 4096 * 2048 }),
+    base64('../../resources/images'),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
   ], done)
-});
+}));
 
 gulp.task(
   "static_pages",
@@ -145,7 +151,7 @@ gulp.task("font", (done) => {
 
 gulp.task("scripts", (done) => {
   pump([
-    gulp.src(paths.src.scripts),
+    gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts")
   ], done)
 });
@@ -219,7 +225,6 @@ gulp.task(
       "minify-vendor-javascript",
       "templates",
       "static_pages",
-      "images",
       "ckan",
       "drupal",
       "fonts",

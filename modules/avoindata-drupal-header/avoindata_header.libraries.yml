@@ -1,0 +1,4 @@
+avoindata_header:
+  version: 1.x
+  js:
+    resources/avoindata_header.js: {}

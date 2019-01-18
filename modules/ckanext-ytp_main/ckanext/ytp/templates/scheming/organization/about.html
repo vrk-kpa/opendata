@@ -9,4 +9,10 @@
 {% endif %}
 {% endfor %}
 </dl>
+
+<h3 class="organization-hierarchy-header">{{_('Organization hierarchy')}}</h3>
+<div id="publisher-tree">
+  {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.group_tree_section(id_=c.group_dict.id, type_=c.group_dict.type)], show_short_description=false %}
+</div>
+
 {% endblock %}

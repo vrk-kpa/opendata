@@ -3,11 +3,17 @@ Description: opendata application infrastructure
 
 Parameters:
   EnvironmentName:
-    Description: Name of the environment (infratest, dev, alpha, beta, www)
+    Description: Name of the environment (infratest, dev, alpha, beta, www, prod)
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  DNSHostName:
+    Description: Host name for DNS record (e.g. infratest, dev, www)
     Type: 'AWS::SSM::Parameter::Value<String>'
   InstanceType:
     Description: EC2 instance type for the application servers
     Type: 'AWS::SSM::Parameter::Value<String>'
+  PrivateSubnets:
+    Description: The subnets for EC2 instances
+    Type: AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>
   DatabaseSecurityGroup:
     Description: Security group of the RDS database
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::SecurityGroup::Id>'
@@ -75,10 +81,10 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
-      ImageId: ami-c0cff0a6 # Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
+      ImageId: ami-09f0b8b3e41191524 # Canonical, Ubuntu, 16.04 LTS, amd64 xenial image build on 2018-11-14
       KeyName: ytp-seeding-key
       IamInstanceProfile: !Ref InstanceProfile
-      SecurityGroups:
+      SecurityGroupIds:
         - !Ref InstanceSecurityGroup
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
@@ -89,6 +95,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}
+      SubnetId: !Select [ 0, !Ref PrivateSubnets ]
       UserData: !Base64
         "Fn::Sub": |
           #!/bin/bash
@@ -118,6 +125,7 @@ Resources:
           git submodule update --init --recursive
 
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt
@@ -147,11 +155,27 @@ Resources:
         - FromPort: 80
           ToPort: 80
           IpProtocol: tcp
-          CidrIp: 0.0.0.0/0
+          SourceSecurityGroupId: !Ref PublicALBSecurityGroup
         - FromPort: 443
           ToPort: 443
           IpProtocol: tcp
-          CidrIp: 0.0.0.0/0
+          SourceSecurityGroupId: !Ref PublicALBSecurityGroup
+        - FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddressTRE
+        - FromPort: 443
+          ToPort: 443
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddressTRE
+        - FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddressHEL
+        - FromPort: 443
+          ToPort: 443
+          IpProtocol: tcp
+          CidrIp: !Ref WhitelistedIpAddressHEL
         - FromPort: 8983
           ToPort: 8983
           IpProtocol: tcp
@@ -160,6 +184,7 @@ Resources:
           ToPort: 8983
           IpProtocol: tcp
           CidrIp: !Ref WhitelistedIpAddressHEL
+      VpcId: !Ref Vpc
 
   DatabaseIngressRule:
     Type: AWS::EC2::SecurityGroupIngress
@@ -168,7 +193,7 @@ Resources:
       FromPort: 5432
       ToPort: 5432
       GroupId: !Ref DatabaseSecurityGroup
-      SourceSecurityGroupName: !Ref InstanceSecurityGroup
+      SourceSecurityGroupId: !Ref InstanceSecurityGroup
 
 
   EFSIngressRule:
@@ -178,18 +203,7 @@ Resources:
       FromPort: 2049
       ToPort: 2049
       GroupId: !Ref EFSSecurityGroup
-      SourceSecurityGroupName: !Ref InstanceSecurityGroup
-
-
-  DomainNameWebHost:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Name: !Sub ${EnvironmentName}-web.avoindata.fi.
-      Type: A
-      TTL: "300"
-      HostedZoneId: !Ref HostedZoneId
-      ResourceRecords:
-        - !GetAtt EC2Instance.PublicIp
+      SourceSecurityGroupId: !Ref InstanceSecurityGroup
 
   InstanceRole:
     Type: AWS::IAM::Role
@@ -214,6 +228,72 @@ Resources:
                 Resource:
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets/*"
+              - Effect: Allow
+                Action:
+                  - ssm:DescribeAssociation
+                  - ssm:GetDeployablePatchSnapshotForInstance
+                  - ssm:GetDocument
+                  - ssm:GetManifest
+                  - ssm:GetParameters
+                  - ssm:ListAssociations
+                  - ssm:ListInstanceAssociations
+                  - ssm:PutInventory
+                  - ssm:PutComplianceItems
+                  - ssm:PutConfigurePackageResult
+                  - ssm:UpdateAssociationStatus
+                  - ssm:UpdateInstanceAssociationStatus
+                  - ssm:UpdateInstanceInformation
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ssmmessages:CreateControlChannel
+                  - ssmmessages:CreateDataChannel
+                  - ssmmessages:OpenControlChannel
+                  - ssmmessages:OpenDataChannel
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ec2messages:AcknowledgeMessage
+                  - ec2messages:DeleteMessage
+                  - ec2messages:FailMessage
+                  - ec2messages:GetEndpoint
+                  - ec2messages:GetMessages
+                  - ec2messages:SendReply
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - cloudwatch:PutMetricData
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeInstanceStatus
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ds:CreateComputer
+                  - ds:DescribeDirectories
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetEncryptionConfiguration
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource:
+                  - arn:aws:s3:::aws-ssm-eu-west-1/*
+                  - arn:aws:s3:::aws-windows-downloads-eu-west-1/*
+                  - arn:aws:s3:::amazon-ssm-eu-west-1/*
+                  - arn:aws:s3:::amazon-ssm-packages-eu-west-1/*
+                  - arn:aws:s3:::eu-west-1-birdwatcher-prod/*
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -341,15 +421,11 @@ Resources:
 Outputs:
   InstanceId:
     Value: !Ref EC2Instance
-  PublicDNS:
-    Value: !GetAtt EC2Instance.PublicDnsName
   SiteURL:
-    Value: !Sub https://${EnvironmentName}.avoindata.fi
+    Value: !Sub https://${DNSHostName}.avoindata.fi
   SiteURLAlternate:
-    Value: !Sub https://${EnvironmentName}.opendata.fi
+    Value: !Sub https://${DNSHostName}.opendata.fi
   AZ:
     Value: !GetAtt EC2Instance.AvailabilityZone
-  PublicIP:
-    Value: !GetAtt EC2Instance.PublicIp
   PublicALBDNSName:
     Value: !GetAtt PublicALB.DNSName

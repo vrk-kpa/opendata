@@ -60,7 +60,7 @@ rewrite ^/dataset/(.*)$ /data/dataset/$1 permanent;
 # Disable CKAN main page. Redirect to Drupal main page.
 rewrite ^/data/?$ /{{ item.root_redirect }} permanent;
 
-rewrite ^/data/(fi|en|sv)/?$ /$1 permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ /$1 permanent;
 
 location = /favicon.ico {
     log_not_found off;
@@ -94,6 +94,22 @@ location ~ ^/sites/.*/private/ {
     return 403;
 }
 
+location ~ ^/sites/[^/]+/files/.*\.php$ {
+    deny all;
+}
+
+# Deny settings.php and services.yml files
+location ~ /sites/default/.*\.(php|yml|conf|config|cfg)$ {
+    deny all;
+    return 404;
+}
+
+# Config files should not be serverd (web.cofig for example)
+location ~ /.*\.(conf|config|cfg)$ {
+    deny all;
+    return 404;
+}
+
 location ~ (^|/)\. {
     return 403;
 }
@@ -120,11 +136,18 @@ location /resources {
     log_not_found off;
 }
 
-# Always enforce same origin policy
-add_header X-Frame-Options SAMEORIGIN;
+include snippets/nginx_security_headers.conf;
 
 # CKAN is mapped under data
 location /data {
+    # Same headers here as nginx removes any headers from parent if one additional is added in child definition
+    include snippets/nginx_security_headers.conf;
+
+    # Always enforce same origin policy
+    add_header X-Frame-Options SAMEORIGIN;
+    # Content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+    add_header X-Content-Type-Options "nosniff" always;
+
     proxy_pass http://127.0.0.1:8080/data;
     proxy_set_header Host $host;
     proxy_cache cache;

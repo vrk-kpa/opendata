@@ -26,8 +26,10 @@ def get_field(obj_or_dict, field, default=None):
         return obj_or_dict.get(field, default)
     elif hasattr(obj_or_dict, field):
         return getattr(obj_or_dict, field)
-    else:
+    elif hasattr(obj_or_dict, 'extras'):
         return obj_or_dict.extras.get(field, default)
+    else:
+        return default
 
 
 def get_translation(translated):

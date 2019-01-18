@@ -13,6 +13,12 @@
     - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
     - ["{{ secrets_file_path }}", "vars/none.yml"]
     - ["vars/local.yml", "vars/none.yml"]
+
+  pre_tasks:
+    - import_role:
+        name: mailhog
+      when: vagrant is defined
+      tags: mailhog_role
   roles:
     - common
     - firewall
@@ -21,7 +27,6 @@
     - database
     - common_webserver
     - nginx
-    - postfix
     - jetty
     - redis
     - ckan-extensions

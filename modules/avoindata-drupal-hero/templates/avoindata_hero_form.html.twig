@@ -26,10 +26,14 @@
       <div class="col-md-5">
         <p>
           {% trans %}
-          Development version open data portal.
+          Finnish open data portal
           {% endtrans %}
         </p>
-        <a href="">
+        {% set guideurl = "/fi/opas" %}
+        {% if form.language in ['en', 'sv'] %}
+          {% set guideurl = "/%s/guide"|format(form.language) %}
+        {% endif %}
+        <a href="{{ guideurl }}">
           {% trans %}
           Read more >>
           {% endtrans %}
@@ -51,7 +55,7 @@
       </div>
       <div class="col-md-4">
         <div class="avoindata-hero-box">
-          <a href="/data/{{  form.language }}/organizations">
+          <a href="/data/{{ form.language }}/organization">
             <h2 id="avoindata-organizations-count">{{ form.organizationcount | default("0") }}</h2>
             <p>
               {% trans with {'context': 'x organizations'} %}
@@ -116,21 +120,21 @@
       <div class="col-md-5">
           <ul class="list-inline">
               <li>
-                <a href="/data/dataset?sort=metadata_modified+desc">
+                <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
                   {% trans %}
                   Recent
                   {% endtrans %}
                 </a>
               </li>
               <li>
-                <a href="/data/dataset?sort=views_recent+desc">
+                <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
                   {% trans %}
                   Popular
                   {% endtrans %}
                 </a>
               </li>
               <li>
-                <a href="/data/showcase">
+                <a href="/data/{{ form.language }}/showcase">
                   {% trans %}
                   Applications
                   {% endtrans %}

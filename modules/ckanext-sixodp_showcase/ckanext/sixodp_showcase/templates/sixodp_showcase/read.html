@@ -33,10 +33,10 @@
 {% endblock %}
 
 {% block primary_content %}
-  <div class="">
+  <div class="showcase-content">
     <div class="page-heading-container">
       {% if pkg.icon_display_url %}
-        <div class="heading-icon">
+        <div class="showcase-heading-icon">
           <img src="{{ pkg.icon_display_url }}">
         </div>
       {% endif %}
@@ -147,17 +147,27 @@
 
   {% block application_website_link %}
     <section class="module module-narrow">
-      <a class="btn btn-block btn-transparent--inverse btn-list-item" href="{{pkg.application_website}}">
-        {{ _('Application website') }}
-        <i class="fa fa-angle-right"></i>
-      </a>
-
-      {% if pkg.author_website %}
-        <a class="btn btn-block btn-transparent--inverse btn-list-item" href="{{pkg.author_website}}">
-          {{ _('Author website') }}
-          <i class="fa fa-angle-right"></i>
-        </a>
+      <h3 class="module-heading">
+        {% trans %}
+        Links
+        {% endtrans %}
+      </h3>
+      <ul class="nav nav-simple">
+        <li class="nav-item">
+          <a class="application-website-link" href="{{pkg.application_website}}">
+            {{ _('Application website') }}
+            <i class="fas fa-external-link"></i>
+          </a>
+        </li>
+        {% if pkg.author_website %}
+        <li class="nav-item">
+          <a class="application-website-link" href="{{pkg.author_website}}">
+            {{ _('Author website') }}
+            <i class="fas fa-external-link"></i>
+          </a>
+        </li>
       {% endif %}
+      </ul>
     </section>
   {% endblock %}
 
@@ -171,9 +181,9 @@
           Categories
           {% endtrans %}
         </h3>
-        <ul class="list-unstyled">
+        <ul class="nav nav-simple">
           {% for category in showcase_categories %}
-            <li>
+            <li class="nav-item">
             {{ category }}
             </li>
           {% endfor %}
@@ -188,10 +198,6 @@
       <section class="module module-narrow">
         <h2 class="module-heading">{{ _('More from the author') }}</h2>
         {{ h.snippet('sixodp_showcase/snippets/related_list.html', packages=author_showcases, current=pkg.id) }}
-        <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', author=pkg.author) }}"
-        class="btn btn-block btn-transparent--inverse btn-list-item">
-          {{ _('Show all from this author') }}
-        </a>
       </section>
     {% endif %}
   {% endblock %}

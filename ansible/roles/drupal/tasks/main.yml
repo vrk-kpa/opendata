@@ -126,20 +126,19 @@
     working_dir: "{{ drupal8_root }}"
 
 
+### Database backup
+
+- name: Create root pgpass
+  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
+
+- name: Check if drupal 7 is already initialized on database
+  command: >
+    psql -h {{ postgres.server.host }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
+    {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
+  register: drupal7_database_initialized
+
 - block:
-
-  ### Database backup
-
-  - name: Create root pgpass
-    template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
-
-  - name: Check if drupal 7 is already initialized on database
-    command: >
-      psql -h {{ postgres.server.host }}
-      -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-      {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
-    register: drupal7_database_initialized
-
   #- name: Dump drupal db
   #  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
   #  when: "'1' in drupal_database_initialized.stdout"
@@ -156,12 +155,6 @@
   ### Migrate Drupal 7, if present ###
 
   - block:
-
-    - name: Patch migration module
-      patch:
-        src: "migrate_upgrade.Drush-9-port-of-commands.patch"
-        basedir: "{{ drupal8_root }}/web/modules/contrib/migrate_upgrade"
-        strip: 1
 
     - name: Enable migration modules
       shell: ./vendor/bin/drush en -y {{ item }}
@@ -182,8 +175,8 @@
       args:
         chdir: "{{ drupal8_root }}"
       with_items:
-        - "d7_user_role"
-        - "d7_user"
+        - "upgrade_d7_user_role"
+        - "upgrade_d7_user"
     when: "'1' in drupal7_database_initialized.stdout"
 
   when: "'1' not in drupal8_database_initialized.stdout"
@@ -198,6 +191,54 @@
   when: drupal8_root is defined
 
 
+- name: Ensure drupal public files directory exists
+  file:
+    path: "{{ drupal_public_files_directory }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+
+- name: Create sub directories for public files directory
+  file:
+    path: "{{ drupal_public_files_directory }}/{{ item }}"
+    state: directory
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+    mode: 0755
+  with_items: "{{ drupal_public_files_directory_subdirs }}"
+
+- name: Ensure correct permission for public files directory
+  file:
+    path: "{{ drupal_public_files_directory }}"
+    recurse: yes
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
+
+- name: Create .htaccess file for public files directory
+  template:
+    src: public_files_dir_htaccess.j2
+    dest: "{{ drupal_public_files_directory }}/.htaccess"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Check default public files path status
+  stat:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+  register: drupal_default_public_files_path
+
+- name: Remove default public files directory
+  file:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+    state: absent
+  when: drupal_default_public_files_path.stat.isdir
+
+- name: Link default public files path to target directory
+  file:
+    path: "{{ drupal8_root }}/web/sites/default/files"
+    state: link
+    src: "{{ drupal_public_files_directory }}"
 
 ### Translations ###
 
@@ -251,18 +292,13 @@
   args:
     chdir: "{{ drupal8_root }}"
 
-- name: Synchronize custom theme
-  synchronize:
-    src: ../modules/avoindata-drupal-theme/
-    dest: "{{ drupal8_root }}/web/themes/avoindata"
-  when: deployment_environment_id != "vagrant"
 
 - name: Symlink custom theme
   file:
     state: link
-    src: /vagrant/modules/avoindata-drupal-theme/
+    src: "{{ server_path }}/avoindata-drupal-theme/"
     dest: "{{ drupal8_root }}/web/themes/avoindata"
-  when: deployment_environment_id == "vagrant"
+    force: yes
 
 ### Install external modules ###
 
@@ -292,6 +328,7 @@
     - search_api
     - search_api_db
     - search_api_db_defaults
+    - google_analytics
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -325,6 +362,13 @@
     - core.entity_form_display.node.page.default
     - core.entity_view_display.node.page.default
     - pathauto.settings
+    - user.role.administrator
+    - user.role.anonymous
+    - user.role.authenticated
+    - user.role.ckan_admin
+    - user.role.editor
+    - user.role.publisher
+    - captcha.captcha_point.contact_message_feedback_form
 
 - name: Enable custom theme
   shell: ./vendor/bin/drush then -y avoindata
@@ -356,6 +400,7 @@
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
   with_items:
+    - { src: system.mail.yml.j2, dest: system.mail.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
     - { src: user.settings.yml.j2, dest: user.settings.yml }
@@ -364,6 +409,7 @@
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
+    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
     - { src: system.performance.yml.j2, dest: system.performance.yml }
 
@@ -371,6 +417,11 @@
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
   args:
     chdir: "{{ drupal8_root }}"
+
+- name: Copy Drupal services yml
+  template:
+    src: "services.yml.j2"
+    dest: "{{ drupal8_root }}/web/sites/default/services.yml"
 
 - name: Clear caches
   shell: ./vendor/bin/drupal cr
@@ -416,6 +467,14 @@
   ignore_errors: True
   tags:
   - drupal
+
+- name: Create initial users
+  shell: ./vendor/bin/drush user-create "{{ item.username }}" --password="{{ item.password }}" --mail="{{ item.email }}"
+  args:
+    chdir: "{{ drupal8_root }}"
+  with_flattened:
+    - "{{ ytp_users }}"
+  ignore_errors: True
 
 - name: Set user roles
   shell: ./vendor/bin/drush user-add-role "{{ item.role }}" "{{ item.username }}"

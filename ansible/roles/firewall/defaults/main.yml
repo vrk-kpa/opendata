@@ -1,0 +1,16 @@
+firewall_rules:
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 22
+    comment: "ssh"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 80
+    comment: "http"
+  - rule: "allow"
+    proto: "tcp"
+    src: "any"
+    to_port: 443
+    comment: "https"

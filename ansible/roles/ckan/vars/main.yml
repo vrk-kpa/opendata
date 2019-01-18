@@ -60,25 +60,10 @@ patches_cache_path: "{{ cache_path }}/patch"
 ckan_source_path: "{{ virtual_environment }}/src/ckan"
 spatial_source_path: "{{ virtual_environment }}/src/ckanext-spatial"
 
-ckan_patches:
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/e7936fe8707a847387661248b5b0d9d3ddc526ae.patch", file: "fix_hardcoded_languages.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/4d596cca05a55fdcba9fbc2af1ecaf46b843b737.patch", file: "fix_invalid_date_indexing.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/7367b56bc023da854aa31e05ff63ef8307c06f41.patch", file: "fix_multilingual_search.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9e80b58f24dea9d93ec84aac258f5436dfcfdd9c.patch", file: "fix_collection_type_translation.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cbbca2047c68c377ef9408fc4df157b1acb1b02c.patch", file: "usability-fix-for-image-upload.patch" } # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/8f7ec3f9fb6a35bb4a7e52784920ed99b7c7e245.patch", file: "fix-double-encoding-in-autocomplete.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/cde3c21a8b8612b88ef61b47488465b2926a6840.patch", file: "fix-template-error-in-resources.patch"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/eb59ffde3a702077ffbc8de8e3ff425b29974d6c.patch", file: "add-event-callbacks-to-autocomplete.patch"} # ytp specific NOT CURRENTLY INSTALLING
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/9497130896c969982a3b8b5e9685295428fd7d2b.patch", file: "enable-url-quoting"} # pullreq in ckan master
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/85ef19c73faa7e841e9e0b94ec1044dbb6fee389.patch", file: "enable-celery-queues"} # ytp specific
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/34382a3ff1cb0d16f31e9e00955a3feabbdd64f5.patch", file: "remove-main-debug-css"} # ytp specific NOT CURRENTLY INSTALLING
-  - { patch: "https://github.com/yhteentoimivuuspalvelut/ckan/commit/0c973510ab7b77ac20e375cd263661eb190eaba5.patch", file: "remove-old-rdf-templates"} # ytp specific NOT CURRENTLY INSTALLING
 new_ckan_patches:
-  #- { file: "FixMultilingual" }
-  #- { file: "bs3-modal" }
-  - { file: "fix_cors" }
   - { file: "enable_multiple_image_uploads" }
   - { file: "remove-ckan-fontawesome" }
-  - { file: "fix-i18n-api-encoding" }
+  - { file: "fix-flask-root-path" } # CKAN issue #4452
+
 service_database_enabled: false
 auto_author_enabled: true

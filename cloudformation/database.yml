@@ -12,6 +12,7 @@ Parameters:
       - alpha
       - beta
       - www
+      - prod
 
   DatabaseSubnets:
     Description: Database and EFS mount target subnets
@@ -41,6 +42,9 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
+  Vpc:
+    Description: Select an existing Vpc
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
 
 Conditions:
   UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
@@ -68,6 +72,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable DB access
+      VpcId: !Ref Vpc
 
   DatabaseSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -120,18 +125,11 @@ Resources:
         - !GetAtt EFSSecurityGroup.GroupId
       SubnetId: !Select [1, !Ref DatabaseSubnets]
 
-  EFSMountTarget3:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [2, !Ref DatabaseSubnets]
-
   EFSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable EFS access
+      VpcId: !Ref Vpc
 
 Outputs:
   DatabaseSecurityGroup:
