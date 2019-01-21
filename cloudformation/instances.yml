@@ -421,10 +421,6 @@ Resources:
 Outputs:
   InstanceId:
     Value: !Ref EC2Instance
-  SiteURL:
-    Value: !Sub https://${DNSHostName}.avoindata.fi
-  SiteURLAlternate:
-    Value: !Sub https://${DNSHostName}.opendata.fi
   AZ:
     Value: !GetAtt EC2Instance.AvailabilityZone
   PublicALBDNSName:

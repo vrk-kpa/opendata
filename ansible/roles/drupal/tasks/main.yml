@@ -329,6 +329,7 @@
     - search_api_db
     - search_api_db_defaults
     - google_analytics
+    - ape
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -412,6 +413,7 @@
     - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
     - { src: system.performance.yml.j2, dest: system.performance.yml }
+    - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config

@@ -25,6 +25,7 @@
         Compress: "/{{ deployment_environment_id }}/cloudfront/compress"
         DefaultTTL: "/{{ deployment_environment_id }}/cloudfront/default_ttl"
         EnvironmentName: "/{{ deployment_environment_id }}/cloudfront/environment_name"
+        DNSHostName: "/{{ deployment_environment_id }}/cloudfront/dns_hostname"
         HostedZoneId: "/{{ deployment_environment_id }}/web/hosted_zone_id"
         HostedZoneIdAlternate: "/{{ deployment_environment_id }}/web/hosted_zone_id_alternate"
         LogIncludeCookies: "/{{ deployment_environment_id }}/cloudfront/log_include_cookies"
@@ -36,4 +37,3 @@
         OriginKeepaliveTimeout: "/{{ deployment_environment_id }}/cloudfront/origin_keepalive_timeout"
         OriginReadTimeout: "/{{ deployment_environment_id }}/cloudfront/origin_read_timeout"
         OriginSSLProtocols: "/{{ deployment_environment_id }}/cloudfront/origin_ssl_protocols"
-        TargetOriginId: "/{{ deployment_environment_id }}/web/public_alb_arn"

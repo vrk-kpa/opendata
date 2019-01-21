@@ -23,7 +23,10 @@ Metadata:
       - HostedZoneIdAlternate
 Parameters:
   EnvironmentName:
-    Description: Name of the environment (infratest, dev, alpha, beta, www)
+    Description: Name of the environment (infratest, dev, alpha, beta, prod)
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  DNSHostName:
+    Description: Host name for DNS record (e.g. infratest, dev, www)
     Type: 'AWS::SSM::Parameter::Value<String>'
   Aliases:
     Description: 'CNAME aliases for distribution'
@@ -111,7 +114,7 @@ Resources:
               - 'SESS*'
               - 'SSESS*'
             Headers:
-            - 'Cloudfront-Forwarded-Proto' 
+            - 'CloudFront-Forwarded-Proto'
             - 'Host'
             - 'Origin'
             QueryString: true
@@ -145,7 +148,7 @@ Resources:
   DomainName:
     Type: AWS::Route53::RecordSet
     Properties:
-      Name: !Sub ${EnvironmentName}.avoindata.fi.
+      Name: !Sub ${DNSHostName}.avoindata.fi.
       Type: A
       HostedZoneId: !Ref HostedZoneId
       AliasTarget:
@@ -156,7 +159,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Condition: CreateAlternateDomainRecord
     Properties:
-      Name: !Sub ${EnvironmentName}.opendata.fi.
+      Name: !Sub ${DNSHostName}.opendata.fi.
       Type: A
       HostedZoneId: !Ref HostedZoneIdAlternate
       AliasTarget:
@@ -166,10 +169,10 @@ Resources:
   LogBucket:
     Type: AWS::S3::Bucket
     Condition: CloudfrontLogging
-    Properties: 
+    Properties:
       AccessControl: LogDeliveryWrite
       BucketName: !Sub ${EnvironmentName}-cloudfront-logs
-      BucketEncryption: 
+      BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
@@ -177,13 +180,12 @@ Resources:
         Rules:
           - ExpirationInDays: !Ref LogExpirationDays
             Status: Enabled
-      VersioningConfiguration: 
+      VersioningConfiguration:
         Status: Enabled
-        
+
 Outputs:
   Stack:
     Description: 'Stack name'
     Value: !Sub '${AWS::StackName}'
     Export:
       Name: !Sub ${AWS::StackName}
-  
