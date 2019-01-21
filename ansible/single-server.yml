@@ -19,6 +19,10 @@
         name: mailhog
       when: vagrant is defined
       tags: mailhog_role
+    - import_role:
+        name: cloudwatch_agent
+      when: AWS.enabled
+      tags: cloudwatch_role
   roles:
     - common
     - firewall
