@@ -5,6 +5,8 @@ import ckan.logic.auth.update as _auth_update
 from ckan.logic import get_action, check_access, NotAuthorized
 import ckan.authz as authz
 
+import logging
+log = logging.getLogger(__name__)
 
 def related_update(context, data_dict):
     model = context['model']
@@ -110,23 +112,27 @@ def organization_update(context, data_dict):
     """ This overrides CKAN's auth function to make sure that user has permission to use a specific parent organization. """
 
     group = logic_auth.get_group_object(context, data_dict)
+    #old_organization = get_action('organization_show')(context, {'id': group.id})
+
+    #old_parent_group_names = [{'name': org['name'] } for org in old_organization.get('groups', [])]
+
     user = context['user']
 
     # Check that user has admin permissions in selected parent organizations
-    if data_dict and data_dict.get('groups'):
+    #if data_dict and data_dict.get('groups') and data_dict.get('groups') != old_parent_group_names:
 
-        admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
-            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
+     #   admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
+     #       .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
 
-        for parent_org in data_dict['groups']:
-            if any(parent_org['name'] == admin_org.group.name for admin_org in admin_in_orgs):
-                break
-            else:
-                return {'success': False, 'msg': _('User %s is not administrator in the selected parent organization') % user}
+     #   for parent_org in data_dict['groups']:
+      #      if any(parent_org['name'] == admin_org.group.name for admin_org in admin_in_orgs):
+      #          break
+       #     else:
+        #        return {'success': False, 'msg': _('User %s is not administrator in the selected parent organization') % user}
 
-    if (data_dict and 'save' in data_dict and
-            data_dict.get('public_adminstration_organization', None) != group.extras.get('public_adminstration_organization', None)):
-        return {'success': False, 'msg': _('User %s is not allowed to change the public organization option') % user}
+    #if (data_dict and 'save' in data_dict and
+     #       data_dict.get('public_adminstration_organization', None) != group.extras.get('public_adminstration_organization', None)):
+     #   return {'success': False, 'msg': _('User %s is not allowed to change the public organization option') % user}
 
     authorized = authz.has_user_permission_for_group_or_org(group.id, user, 'update')
     if not authorized:

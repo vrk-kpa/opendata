@@ -24,7 +24,8 @@
     {
       "field_name": "parent_org",
       "form_snippet": "org_hierarchy.html",
-      "label": "Parent organization"
+      "label": "Parent organization",
+      "validators": "is_admin_in_parent_if_changed"
     },
     {
       "field_name": "description_translated",

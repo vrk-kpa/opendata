@@ -27,6 +27,7 @@ except ImportError:
 
 from ckan.common import config
 Invalid = df.Invalid
+StopOnError = df.StopOnError
 
 log = logging.getLogger(__name__)
 
@@ -363,5 +364,43 @@ def from_date_is_before_until_date(field, schema):
         if min_date_field is not None and min_date_value != "":
             if data[key] and data[key] < min_date_value:
                 errors[key].append(_('End date is before start date'))
+
+    return validator
+
+@scheming_validator
+def is_admin_in_parent_if_changed(field, schema):
+
+    def validator(key, data, errors, context):
+
+        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+        old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
+        user = context['user']
+        actual_key = ("groups", 0, "name")
+
+        log.info("starting validation")
+        log.info(data[actual_key])
+        if data[actual_key]:
+            selected_organization = get_action('organization_show')(context, {'id': data[actual_key]})
+            log.info("selected")
+            log.info(selected_organization)
+            if data[actual_key] and data[actual_key] not in old_parent_group_names:
+                admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
+                    .filter(model.Member.table_name == 'user')\
+                    .filter(model.Member.capacity == 'admin')\
+                    .filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
+
+                log.info("orgs")
+                log.info(admin_in_orgs)
+                if not any(selected_organization['name'] == admin_org.group.name for admin_org in admin_in_orgs):
+                    log.info("appending error")
+                    errors[key].append(_('User %s is not administrator in the selected parent organization') % user)
+
+        log.info(data)
+        log.info(errors)
+
+        # Remove parent_org from data as it is missing
+        data.pop(key, None)
+        raise StopOnError
+
 
     return validator
