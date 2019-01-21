@@ -18,6 +18,7 @@ WSGISocketPrefix /var/run/wsgi
     WSGIProcessGroup ckan_default
 
     ErrorLog /var/log/apache2/ckan_default.error.log
+    ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"
     CustomLog /var/log/apache2/ckan_default.custom.log combined
 
     <Directory "/etc/ckan/default">
