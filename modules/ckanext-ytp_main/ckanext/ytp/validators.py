@@ -375,31 +375,30 @@ def is_admin_in_parent_if_changed(field, schema):
         old_organization = get_action('organization_show')(context, {'id':context['group'].id})
         old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
         user = context['user']
+
+        # Uses CKAN core function to specify parent, in html groups__0__name
         actual_key = ("groups", 0, "name")
 
-        log.info("starting validation")
-        log.info(data[actual_key])
-        if data[actual_key]:
-            selected_organization = get_action('organization_show')(context, {'id': data[actual_key]})
-            log.info("selected")
-            log.info(selected_organization)
-            if data[actual_key] and data[actual_key] not in old_parent_group_names:
-                admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
-                    .filter(model.Member.table_name == 'user')\
-                    .filter(model.Member.capacity == 'admin')\
-                    .filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
+        if data.get(actual_key):
 
-                log.info("orgs")
-                log.info(admin_in_orgs)
-                if not any(selected_organization['name'] == admin_org.group.name for admin_org in admin_in_orgs):
-                    log.info("appending error")
-                    errors[key].append(_('User %s is not administrator in the selected parent organization') % user)
+            if not authz.is_sysadmin(user):
 
-        log.info(data)
-        log.info(errors)
+                selected_organization = get_action('organization_show')(context, {'id': data[actual_key]})
 
-        # Remove parent_org from data as it is missing
+                if data[actual_key] and data[actual_key] not in old_parent_group_names:
+                    admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
+                        .filter(model.Member.table_name == 'user')\
+                        .filter(model.Member.capacity == 'admin')\
+                        .filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
+
+                    if not any(selected_organization['name'] == admin_org.group.name for admin_org in admin_in_orgs):
+                        errors[key].append(_('User %s is not administrator in the selected parent organization') % user)
+
+
+        # Remove parent_org from data as it is missing from the form
         data.pop(key, None)
+
+        # Stop validation if error has happened
         raise StopOnError
 
 
