@@ -403,3 +403,36 @@ def is_admin_in_parent_if_changed(field, schema):
 
 
     return validator
+
+@scheming_validator
+def extra_validators_multiple_choice(field, schema):
+    static_extra_validators = None
+    if 'choices' in field:
+        static_extra_validators = [{"value": c['value'], 'validator': c.get('extra_validator')}
+                                   for c in field['choices'] if c.get('extra_validator')]
+
+    def validator(key, data, errors, context):
+
+        # if there was an error before calling our validator
+        # don't bother with our validation
+        if errors[key]:
+            return
+
+        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+
+        old_features = old_organization.get('features', [])
+        value = json.loads(data[key])
+        extra_validators = static_extra_validators
+
+        changed_features = list(set(old_features).symmetric_difference(value))
+
+        for extra_validator in extra_validators:
+            if extra_validator.get('value') in changed_features:
+                context['field'] = extra_validator.get('value')
+                toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
+
+    return validator
+
+def admin_only_feature(data, key, errors, context):
+    if not authz.is_sysadmin(context['user']):
+        errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])

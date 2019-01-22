@@ -1001,9 +1001,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                 }
 
     def get_auth_functions(self):
-        return {'organization_create': auth.organization_create,
-                #'organization_update': auth.organization_update,
-                #'organization_public_adminstration_change': auth.organization_public_adminstration_change
+        return {'organization_create': auth.organization_create
          }
 
     def get_actions(self):
@@ -1037,7 +1035,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     # IValidators
     def get_validators(self):
         return {
-            "is_admin_in_parent_if_changed": validators.is_admin_in_parent_if_changed
+            "is_admin_in_parent_if_changed": validators.is_admin_in_parent_if_changed,
+            "extra_validators_multiple_choice": validators.extra_validators_multiple_choice,
+            'admin_only_feature': validators.admin_only_feature
         }
 
 def convert_to_list(key, data):
