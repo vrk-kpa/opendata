@@ -131,10 +131,6 @@ jobs:
           working_directory: ~/project/
           when: always
 
-  run-cypress:
-    docker:
-      - image: cypress/base:8
-
 workflows:
   version: 2
   lint-all:
@@ -143,4 +139,3 @@ workflows:
       - run-code-sniffer
       - run-ansible-lint
       - run-ansible-role-test
-      - run-cypress
