@@ -114,6 +114,18 @@
     recurse: yes
     follow: no
 
+- name: Ensure Drupal sync directory exists
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+  with_items:
+    - "{{ drupal8_root }}/config"
+    - "{{ drupal8_root }}/config/sync"
+
 - name: Remove composer lock file if it exists
   file:
      path: "{{ drupal8_root }}/composer.lock"
