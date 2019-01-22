@@ -367,13 +367,17 @@ $settings['update_free_access'] = FALSE;
  * address spoofing unless more advanced precautions are taken.
  */
 # $settings['reverse_proxy'] = TRUE;
-
+{% if AWS.enabled %}
+$settings['reverse_proxy'] = TRUE;
+{% endif %}
 /**
  * Specify every reverse proxy IP address in your environment.
  * This setting is required if $settings['reverse_proxy'] is TRUE.
  */
-# $settings['reverse_proxy_addresses'] = ['a.b.c.d', ...];
-
+# $settings['reverse_proxy_addresses'] = array('a.b.c.d', ...);
+{% if AWS.enabled %}
+$settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
+{% endif %}
 /**
  * Set this value if your proxy server sends the client IP in a header
  * other than X-Forwarded-For.
@@ -385,13 +389,17 @@ $settings['update_free_access'] = FALSE;
  * other than X-Forwarded-Proto.
  */
 # $settings['reverse_proxy_proto_header'] = 'X_FORWARDED_PROTO';
-
+{% if AWS.enabled %}
+$settings['reverse_proxy_proto_header'] = 'CloudFront-Forwarded-Proto';
+{% endif %}
 /**
  * Set this value if your proxy server sends the client protocol in a header
  * other than X-Forwarded-Host.
  */
 # $settings['reverse_proxy_host_header'] = 'X_FORWARDED_HOST';
-
+{% if AWS.enabled %}
+$settings['reverse_proxy_host_header'] = 'X-Forwarded-For';
+{% endif %}
 /**
  * Set this value if your proxy server sends the client protocol in a header
  * other than X-Forwarded-Port.

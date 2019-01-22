@@ -42,7 +42,8 @@
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
-        "drupal/redirect": "^1.2"
+        "drupal/redirect": "^1.2",
+        "drupal/ape": "^1.4"
     },
     "require-dev": {
         "webflo/drupal-core-require-dev": "^8.6.0"

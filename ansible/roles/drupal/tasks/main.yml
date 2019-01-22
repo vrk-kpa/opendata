@@ -146,6 +146,7 @@
 
   ### Drupal installation ###
 
+
   - name: Install a clean Drupal database
     shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
     args:
@@ -188,6 +189,7 @@
     group: "{{ www_group }}"
     mode: 0444
   when: drupal8_root is defined
+
 
 - name: Ensure drupal public files directory exists
   file:
@@ -237,8 +239,6 @@
     path: "{{ drupal8_root }}/web/sites/default/files"
     state: link
     src: "{{ drupal_public_files_directory }}"
-
-
 
 ### Translations ###
 
@@ -304,7 +304,7 @@
 
 # Disable removed modules, modules must be removed from removed_extensions
 # after they are removed from composer.json
-- name: Disable removed drupal extra modules
+- name: Disable drupal modules
   shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
   args:
     chdir: "{{ drupal8_root }}"
@@ -329,6 +329,7 @@
     - search_api_db
     - search_api_db_defaults
     - google_analytics
+    - ape
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -411,6 +412,8 @@
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
     - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
+    - { src: system.performance.yml.j2, dest: system.performance.yml }
+    - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
@@ -488,6 +491,7 @@
 - name: Restart PHP-FPM
   become: true
   service: name=php7.0-fpm state=restarted
+
 
 - name: Deploy robots.txt
   copy: src={{ search_engine_robots_filename }}
