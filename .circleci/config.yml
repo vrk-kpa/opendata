@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1.0.0
 jobs:
   run-flake8:
     docker:
@@ -102,6 +104,7 @@ jobs:
       
       - run: sudo pip install ansible boto awscli
 
+
       - run:
           name: Copy private key for ec2 usage
           command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
@@ -112,6 +115,9 @@ jobs:
           command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/cirlcleci_build_test.yml >>cirlcleci_build_test.log 2>&1"
           no_output_timeout: 60m
           working_directory: ~/project/
+
+      - cypress/run:
+          record: true
 
       - store_artifacts:
           path: cirlcleci_build_test.log
@@ -125,6 +131,9 @@ jobs:
           working_directory: ~/project/
           when: always
 
+  run-cypress:
+    docker:
+      - image: cypress/base:8
 
 workflows:
   version: 2
@@ -134,3 +143,4 @@ workflows:
       - run-code-sniffer
       - run-ansible-lint
       - run-ansible-role-test
+      - run-cypress

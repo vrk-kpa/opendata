@@ -1,0 +1,26 @@
+{
+  "name": "opendata",
+  "version": "1.0.0",
+  "description": "Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines three related subservices:",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrk-kpa/opendata.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vrk-kpa/opendata/issues"
+  },
+  "homepage": "https://github.com/vrk-kpa/opendata#readme",
+  "devDependencies": {
+    "cypress": "^3.1.4"
+  }
+}
