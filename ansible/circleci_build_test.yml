@@ -232,12 +232,6 @@
     aws_region: "{{ lookup('env','AWS_REGION') }}"
 
   tasks:
-    #- name: Terminate EC2 instances that were previously launched
-    #  ec2:
-    #    state: 'absent'
-    #    instance_ids: '{{ ec2.instance_ids }}'
-    #    region: "{{ aws_region }}"
-
     - name: Set pass status fact based on previous play
       set_fact:
         pass_status: "{{ hostvars[ ec2.instances[0].public_ip ]['pass_status'] }}"
