@@ -1,7 +1,9 @@
 ---
 
 - name: Restart Nginx
-  service: name=nginx state=restarted
+  service:
+    name: nginx
+    state: restarted
 
 - name: Maintenance end
   file: path="/var/www/maintenance" state=absent

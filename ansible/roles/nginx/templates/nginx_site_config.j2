@@ -8,35 +8,5 @@ map $http_cookie $no_cache {
 server {
     listen 80;
     server_name {{ item.server_name }} {{ item.base_hostname }};
-    if ($http_x_forwarded_proto != 'https') {
-        return 301 https://$host$request_uri;
-    }
-}
-
-{% if item.base_hostname %}
-server {
-    listen       443;
-    ssl on;
-    ssl_certificate {{ certificates_path }}/{{ item.ssl_crt }};
-    ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
-    server_name  {{ item.base_hostname }};
-    return       301 $scheme://{{ item.server_name }}$request_uri;
-}
-{% endif %}
-
-server {
-    listen 443;
-    ssl on;
-    ssl_certificate {{ certificates_path }}/{{ item.ssl_crt }};
-    ssl_certificate_key {{ certificates_path }}/{{ item.ssl_key }};
-
-    server_name {{ item.server_name }};
-
-    {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
-    {% if vagrant is defined %}
-    sendfile off;
-    {% endif %}
-
     include /etc/nginx/snippets/{{ item.snippet }};
-
 }

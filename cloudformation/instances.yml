@@ -205,29 +205,6 @@ Resources:
       GroupId: !Ref EFSSecurityGroup
       SourceSecurityGroupId: !Ref InstanceSecurityGroup
 
-
-  DomainName:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Name: !Sub ${DNSHostName}.avoindata.fi.
-      Type: A
-      HostedZoneId: !Ref HostedZoneId
-      AliasTarget:
-        DNSName: !GetAtt PublicALB.DNSName
-        HostedZoneId: !GetAtt PublicALB.CanonicalHostedZoneID
-
-
-  DomainNameAlternate:
-    Type: AWS::Route53::RecordSet
-    Condition: CreateAlternateDomainRecord
-    Properties:
-      Name: !Sub ${DNSHostName}.opendata.fi.
-      Type: A
-      HostedZoneId: !Ref HostedZoneIdAlternate
-      AliasTarget:
-        DNSName: !GetAtt PublicALB.DNSName
-        HostedZoneId: !GetAtt PublicALB.CanonicalHostedZoneID
-
   InstanceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -356,26 +333,7 @@ Resources:
           ]
       Tags:
         - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}-loadbalancer
-
-  PublicALBListenerNoSslCertificate:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      DefaultActions:
-      - Type: forward
-        TargetGroupArn: !Ref PublicALBTargetGroupHTTP
-      # Commented out as redirect is not yet supported by cf
-      #   - Type: redirect
-      #     RedirectConfig:
-      #       Host: "#{host}"
-      #       Path: "/#{path}"
-      #       Query: "#{query}"
-      #       StatusCode: "HTTP_301"
-      #       Protocol: "HTTPS"
-      #       Port: "443"
-      LoadBalancerArn: !Ref PublicALB
-      Port: 80
-      Protocol: HTTP
+          Value: !Sub avoindata-${EnvironmentName}-lb
 
   PublicALBListenerSslCertificate:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -384,7 +342,7 @@ Resources:
         - CertificateArn: !Ref PublicALBCertificate
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !Ref PublicALBTargetGroup
+          TargetGroupArn: !Ref PublicALBTargetGroupHTTP
       LoadBalancerArn: !Ref PublicALB
       Port: 443
       Protocol: HTTPS
@@ -413,28 +371,6 @@ Resources:
         - CertificateArn: !Ref PublicALBCertificate4
       ListenerArn: !Ref PublicALBListenerSslCertificate
 
-  PublicALBTargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /fi
-      HealthCheckPort: '443'
-      HealthCheckProtocol: HTTPS
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 5
-      Matcher:
-        HttpCode: '200'
-      Name: !Sub avoindata-${EnvironmentName}-targetGroup
-      Port: 443
-      Protocol: HTTPS
-      Tags:
-        - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-https
-      Targets:
-        - Id: !Ref EC2Instance
-      UnhealthyThresholdCount: 2
-      VpcId: !Ref Vpc
-
   PublicALBTargetGroupHTTP:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -460,26 +396,31 @@ Resources:
   PublicALBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow HTTP and HTTPS from everywhere
+      GroupDescription: Allow HTTPS from everywhere
       SecurityGroupIngress:
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          CidrIp: 0.0.0.0/0
         - FromPort: 443
           ToPort: 443
           IpProtocol: tcp
           CidrIp: 0.0.0.0/0
       VpcId: !Ref Vpc
 
+  PublicALBDNSNameParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/public_alb_address
+      Type: "String"
+      Value: !GetAtt PublicALB.DNSName
+
+  PublicALBARN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/public_alb_arn
+      Type: "String"
+      Value: !Ref PublicALB
 
 Outputs:
   InstanceId:
     Value: !Ref EC2Instance
-  SiteURL:
-    Value: !Sub https://${DNSHostName}.avoindata.fi
-  SiteURLAlternate:
-    Value: !Sub https://${DNSHostName}.opendata.fi
   AZ:
     Value: !GetAtt EC2Instance.AvailabilityZone
   PublicALBDNSName:

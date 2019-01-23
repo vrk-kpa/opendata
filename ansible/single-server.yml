@@ -26,7 +26,6 @@
     - clean
     - database
     - common_webserver
-    - ssl
     - nginx
     - jetty
     - redis
