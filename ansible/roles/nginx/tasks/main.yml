@@ -51,7 +51,6 @@
   with_items:
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'server_name': "{{ hostname }}", 'snippet': 'ytp.conf', 'base_hostname': "{{ base_hostname }}" }
     - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'server_name': "{{ secondary_hostname }}", 'snippet': 'ytp-secondary.conf', 'base_hostname': "{{ secondary_base_hostname }}" }
-    - { 'template':'nginx_redirect_sites.config.j2','destination':'sites-available/redirects'}
   notify: Restart Nginx
   tags:
     - nginx
@@ -79,7 +78,6 @@
   with_items:
     - "ytp"
     - "ytp-secondary"
-    - "redirects"
   tags:
     - nginx
   notify: Restart Nginx

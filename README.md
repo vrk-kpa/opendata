@@ -1,5 +1,5 @@
 
-## Yhteentoimivuuspalvelut / Avoindata.fi
+## Yhteentoimivuuspalvelut / Avoindata.fi [![CircleCI][circleci-image]][circleci-url] [![Cypress Dashboard](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/ssb2ut/runs)
 
 Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines three related subservices:
 
@@ -13,7 +13,7 @@ This source repository contains:
 
 - Configuration management scripts ([Ansible](http://www.ansible.com))
 - Tools for local development ([Vagrant](http://www.vagrantup.com))
-- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata)) [![CircleCI][circleci-image]][circleci-url]
+- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata)) 
 - Source code as subtree modules under the _modules_ directory
 
 ### Getting started
