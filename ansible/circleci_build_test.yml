@@ -151,7 +151,6 @@
     database_host: "127.0.0.1"
     solr_host: "127.0.0.1"
     database_ip_range: "127.0.0.1/8"
-    hostname: "{{ ec2.instances[0].public_ip }}"
   vars_files:
     - "vars/common.yml"
     - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
