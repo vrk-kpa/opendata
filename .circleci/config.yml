@@ -120,7 +120,7 @@ jobs:
 
       - run:
           name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/cirlcleci_build_test.yml >>cirlcleci_build_test.log 2>&1"
+          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/circleci_build_test.yml >>circleci_build_test.log 2>&1"
           no_output_timeout: 60m
           working_directory: ~/project/
 
@@ -132,7 +132,7 @@ jobs:
       - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
 
       - store_artifacts:
-          path: cirlcleci_build_test.log
+          path: circleci_build_test.log
 
         # If there is a syntax error or some other issue in the actual build test
         # playbook the cleanup part might not get executed. Therefore additional
