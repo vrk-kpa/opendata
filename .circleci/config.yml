@@ -124,6 +124,8 @@ jobs:
           no_output_timeout: 60m
           working_directory: ~/project/
 
+      - run: export CYPRESS_BASE_URL='cat /tmp/instance_public_ip'
+
       - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
 
       - store_artifacts:

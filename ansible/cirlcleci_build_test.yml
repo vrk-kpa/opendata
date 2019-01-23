@@ -58,6 +58,12 @@
         dest: /tmp/instance_ids
         content: "{{ ec2.instance_ids }}"
 
+    - name: Save instance public ip to file
+      copy:
+        dest: /tmp/instance_public_ip
+        content: "{{ item.public_up }}"
+      with_items: "{{ ec2.instances }}"
+
     - name: Wait for connection
       wait_for:
         host: "{{ item.public_ip }}"
@@ -226,11 +232,11 @@
     aws_region: "{{ lookup('env','AWS_REGION') }}"
 
   tasks:
-    - name: Terminate EC2 instances that were previously launched
-      ec2:
-        state: 'absent'
-        instance_ids: '{{ ec2.instance_ids }}'
-        region: "{{ aws_region }}"
+    #- name: Terminate EC2 instances that were previously launched
+    #  ec2:
+    #    state: 'absent'
+    #    instance_ids: '{{ ec2.instance_ids }}'
+    #    region: "{{ aws_region }}"
 
     - name: Set pass status fact based on previous play
       set_fact:
