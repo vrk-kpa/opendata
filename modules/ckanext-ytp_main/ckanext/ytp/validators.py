@@ -27,6 +27,7 @@ except ImportError:
 
 from ckan.common import config
 Invalid = df.Invalid
+missing = df.missing
 
 log = logging.getLogger(__name__)
 
@@ -355,12 +356,12 @@ def from_date_is_before_until_date(field, schema):
     def validator(key, data, errors, context):
 
         max_date_value = data.get(max_date_field, "")
-        if max_date_field is not None and max_date_value != "":
+        if max_date_field is not None and max_date_value != "" and max_date_value != missing:
             if data[key] and data[key] > max_date_value:
                 errors[key].append(_('Start date is after end date'))
 
         min_date_value = data.get(min_date_field, "")
-        if min_date_field is not None and min_date_value != "":
+        if min_date_field is not None and min_date_value != "" and min_date_value != missing:
             if data[key] and data[key] < min_date_value:
                 errors[key].append(_('End date is before start date'))
 
