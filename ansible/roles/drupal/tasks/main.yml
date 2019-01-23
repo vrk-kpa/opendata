@@ -341,7 +341,11 @@
     - search_api_db
     - search_api_db_defaults
     - google_analytics
+    - token
+    - metatag
+    - metatag_open_graph
     - ape
+
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -424,6 +428,12 @@
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
     - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
+    - { src: metatag.settings.yml.j2, dest: metatag.settings.yml }
+    - { src: metatag.metatag_defaults.front.yml.j2, dest: metatag.metatag_defaults.front.yml }
+    - { src: metatag.metatag_defaults.global.yml.j2, dest: metatag.metatag_defaults.global.yml }
+    - { src: metatag.metatag_defaults.node__avoindata_article.yml.j2, dest: metatag.metatag_defaults.node__avoindata_article.yml }
+    - { src: metatag.metatag_defaults.node__avoindata_event.yml.j2, dest: metatag.metatag_defaults.node__avoindata_event.yml }
+    - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
     - { src: system.performance.yml.j2, dest: system.performance.yml }
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
