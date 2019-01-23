@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-01-22 10:08+0200\n"
+"POT-Creation-Date: 2019-01-23 16:04+0200\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -54,7 +54,7 @@ msgstr "Användare %s har ej rättigheter att skapa allmänna organisationer"
 msgid "Only registered users can create organizations"
 msgstr "Endast registrerade användare kan skapa organisationer"
 
-#: ckanext/ytp/auth.py:99 ckanext/ytp/validators.py:395
+#: ckanext/ytp/auth.py:99 ckanext/ytp/validators.py:396
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr "Användare %s är inte administratör i valda moderorganisationen"
@@ -64,16 +64,11 @@ msgstr "Användare %s är inte administratör i valda moderorganisationen"
 msgid "User %s not authorized to create organizations"
 msgstr "Användare %s har ej rättigheter att skapa organisationer"
 
-#: ckanext/ytp/auth.py:140
-#, python-format
-msgid "User %s not authorized to edit organization %s"
-msgstr "Användare %s är inte behörig att redigera organisationen %s"
-
-#: ckanext/ytp/auth.py:160
+#: ckanext/ytp/auth.py:125
 msgid "Cannot modify dataset because of organization policy"
 msgstr ""
 
-#: ckanext/ytp/auth.py:168 ckanext/ytp/controller.py:644
+#: ckanext/ytp/auth.py:133 ckanext/ytp/controller.py:644
 #: ckanext/ytp/controller.py:689
 msgid "Only system administrators are allowed to view user list."
 msgstr ""
@@ -373,11 +368,11 @@ msgid "Publish Data"
 msgstr "Publicera data"
 
 #: ckanext/ytp/plugin.py:200 ckanext/ytp/plugin.py:210
-#: ckanext/ytp/plugin.py:215 ckanext/ytp/validators.py:63
+#: ckanext/ytp/plugin.py:215 ckanext/ytp/validators.py:64
 msgid "Missing value"
 msgstr "Värde saknas"
 
-#: ckanext/ytp/plugin.py:437 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:437
 msgid "High value dataset category"
 msgstr ""
 
@@ -443,11 +438,11 @@ msgstr "Tilläggsinformation"
 msgid "Group title already exists in database"
 msgstr "Titeln för kategorien finns redan i databasen"
 
-#: ckanext/ytp/plugin.py:1114
+#: ckanext/ytp/plugin.py:1111
 msgid "Service charge must be supplied"
 msgstr "Tjänstens avgiftsbelagdhet måste anges"
 
-#: ckanext/ytp/plugin.py:1124
+#: ckanext/ytp/plugin.py:1121
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -456,29 +451,29 @@ msgstr ""
 "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben "
 "eller en beskrivning om priserna eller båda"
 
-#: ckanext/ytp/plugin.py:1137
+#: ckanext/ytp/plugin.py:1134
 msgid "At least one of the main target groups must to be selected"
 msgstr "Åtminstone en målkategori från huvudnivån måste väljas"
 
-#: ckanext/ytp/plugin.py:1274
+#: ckanext/ytp/plugin.py:1271
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
 msgstr "Organisationen finns inte"
 
-#: ckanext/ytp/plugin.py:1276
+#: ckanext/ytp/plugin.py:1273
 msgid "Invalid organization type"
 msgstr "Felaktig organisationstyp"
 
-#: ckanext/ytp/plugin.py:1298
+#: ckanext/ytp/plugin.py:1295
 msgid "Harvested datasets are read-only"
 msgstr "Skrapade dataset kan endast läsas"
 
-#: ckanext/ytp/plugin.py:1305
+#: ckanext/ytp/plugin.py:1302
 msgid "Login required"
 msgstr "Inloggning krävs"
 
-#: ckanext/ytp/plugin.py:1311 ckanext/ytp/plugin.py:1319
+#: ckanext/ytp/plugin.py:1308 ckanext/ytp/plugin.py:1316
 #, python-format
 msgid "User %s is not part of any public organization"
 msgstr "Användare %s är inte medlem av någon offentlig organisation"
@@ -586,6 +581,10 @@ msgstr ""
 #: ckanext/ytp/translations.py:38
 msgid "Fullname"
 msgstr "Hela namnet"
+
+#: ckanext/ytp/translations.py:39
+msgid "International benchmarks"
+msgstr ""
 
 #: ckanext/ytp/translations.py:40
 msgid "eg. Maps"
@@ -984,46 +983,46 @@ msgid ""
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/validators.py:168
+#: ckanext/ytp/validators.py:169
 msgid "expecting list of strings"
 msgstr ""
 
-#: ckanext/ytp/validators.py:174
+#: ckanext/ytp/validators.py:175
 #, python-format
 msgid "invalid type for repeating text: %r"
 msgstr ""
 
-#: ckanext/ytp/validators.py:181
+#: ckanext/ytp/validators.py:182
 #, python-format
 msgid "invalid encoding for \"%s\" value"
 msgstr ""
 
-#: ckanext/ytp/validators.py:243 ckanext/ytp/validators.py:299
+#: ckanext/ytp/validators.py:244 ckanext/ytp/validators.py:300
 msgid "Failed to decode JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:246 ckanext/ytp/validators.py:302
+#: ckanext/ytp/validators.py:247 ckanext/ytp/validators.py:303
 msgid "Invalid encoding for JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:249 ckanext/ytp/validators.py:305
+#: ckanext/ytp/validators.py:250 ckanext/ytp/validators.py:306
 msgid "expecting JSON object"
 msgstr ""
 
-#: ckanext/ytp/validators.py:253 ckanext/ytp/validators.py:260
+#: ckanext/ytp/validators.py:254 ckanext/ytp/validators.py:261
 #, python-format
 msgid "Required language \"%s\" missing"
 msgstr ""
 
-#: ckanext/ytp/validators.py:361
+#: ckanext/ytp/validators.py:362
 msgid "Start date is after end date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:366
+#: ckanext/ytp/validators.py:367
 msgid "End date is before start date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:438
+#: ckanext/ytp/validators.py:439
 #, python-format
 msgid "Only sysadmin can change feature: %s"
 msgstr ""

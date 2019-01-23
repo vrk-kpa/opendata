@@ -36,7 +36,7 @@ def _translations():
     _("Organization")
 
     _('Fullname')
-    _('High value dataset category')
+    _('International benchmarks')
     _('eg. Maps')
     _('A short and descriptive title for the dataset. Do not utilize dates in the title but instead '
       'add multiple time-specific resources to the dataset in the next stage.')
