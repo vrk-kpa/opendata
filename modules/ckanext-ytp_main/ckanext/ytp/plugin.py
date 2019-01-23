@@ -1001,8 +1001,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                 }
 
     def get_auth_functions(self):
-        return {'organization_create': auth.organization_create
-         }
+        return {'organization_create': auth.organization_create}
 
     def get_actions(self):
         return {'user_create': action_user_create, 'organization_show': action_organization_show}
