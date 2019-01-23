@@ -20,14 +20,14 @@ var paths = {
   src: {
     images: "src/images/**/*",
     ckan: "src/less/ckan",
-    drupal: "../avoindata-drupal-theme/less/style.less",
+    drupal: "src/less/drupal/style.less",
     drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     font: "src/font/**/*",
     fonts: "src/fonts/**/*",
     scripts: "src/scripts/**/*",
-    bootstrap: "src/less/upstream_bootstrap",
+    bootstrap: "node_modules/bootstrap/less",
     root: "src"
   },
   dist: "resources"
