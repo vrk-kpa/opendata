@@ -149,11 +149,11 @@ jobs:
         # If there is a syntax error or some other issue in the actual build test
         # playbook the cleanup part might not get executed. Therefore additional
         # cleanup task to ensure that created instances will be terminated.
-      - run:
-          name: Additional cleanup for EC2 instances
-          command: "ansible-playbook ansible/circleci_cleanup.yml"
-          working_directory: ~/project/
-          when: always
+      #- run:
+      #    name: Additional cleanup for EC2 instances
+      #    command: "ansible-playbook ansible/circleci_cleanup.yml"
+      #    working_directory: ~/project/
+      #    when: always
 
 workflows:
   version: 2
