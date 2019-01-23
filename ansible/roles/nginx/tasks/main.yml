@@ -26,6 +26,18 @@
     mode: "0644"
     owner: root
     group: root
+  notify: Restart Nginx
+  tags:
+    - nginx
+
+- name: Copy fastcgi_params configuration file
+  template:
+    src: "fastcgi_params.j2"
+    dest: "/etc/nginx/fastcgi_params"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart Nginx
   tags:
     - nginx
 
@@ -37,9 +49,10 @@
     owner: root
     group: root
   with_items:
-    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'ssl_crt': "{{ ssl_crt_primary }}", 'ssl_key': "{{ ssl_key_primary }}", 'server_name': "{{ hostname }}", 'snippet': 'ytp.conf', 'base_hostname': "{{ base_hostname }}" }
-    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'ssl_crt': "{{ ssl_crt_secondary }}", 'ssl_key': "{{ ssl_key_secondary }}", 'server_name': "{{ secondary_hostname }}", 'snippet': 'ytp-secondary.conf', 'base_hostname': "{{ secondary_base_hostname }}" }
+    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp', 'server_name': "{{ hostname }}", 'snippet': 'ytp.conf', 'base_hostname': "{{ base_hostname }}" }
+    - { 'template':'nginx_site_config.j2','destination':'sites-available/ytp-secondary', 'server_name': "{{ secondary_hostname }}", 'snippet': 'ytp-secondary.conf', 'base_hostname': "{{ secondary_base_hostname }}" }
     - { 'template':'nginx_redirect_sites.config.j2','destination':'sites-available/redirects'}
+  notify: Restart Nginx
   tags:
     - nginx
 
@@ -55,6 +68,8 @@
     - { 'template':'server.config.j2', 'destination':'ytp-secondary.conf', 'root_redirect': "{{ secondary_hostname_language }}" }
     - { 'template':'nginx_security_headers.conf.j2', 'destination':'nginx_security_headers.conf', 'root_redirect': "{{ secondary_hostname_language }}" }
   notify: Restart Nginx
+  tags:
+    - nginx
 
 - name: Enable Nginx site
   file:
@@ -67,14 +82,6 @@
     - "redirects"
   tags:
     - nginx
-  notify:
-  - Restart Nginx
-
-- name: Ensure Nginx is restarted
-  service:
-    name: nginx
-    state: restarted
-  tags:
-    - nginx
+  notify: Restart Nginx
 
 - include: maintenance-start.yml

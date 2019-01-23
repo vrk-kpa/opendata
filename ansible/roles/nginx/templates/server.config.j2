@@ -40,6 +40,7 @@ location @not_found {
     rewrite ^(.*)$ $not_found break;
 }
 
+{% if vagrant is not defined %}
 error_page 500 @internal_error;
 
 location @internal_error {
@@ -51,6 +52,7 @@ location @internal_error {
 
     rewrite ^(.*)$ $internal_error break;
 }
+{% endif %}
 
 # Fix: CKAN file upload give invalid data path when running CKAN under path (/data).
 rewrite ^/data/data/(.*)$ /data/$1 permanent;
@@ -76,7 +78,7 @@ location = /robots.txt {
 location /resource_cache {
     root {{ server_path }};
     autoindex off;
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }
 
@@ -132,7 +134,7 @@ location /data/user/_logout {
 location /resources {
     root /var/www;
     autoindex off;
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }
 
@@ -150,6 +152,7 @@ location /data {
 
     proxy_pass http://127.0.0.1:8080/data;
     proxy_set_header Host $host;
+    proxy_set_header X-Url-Scheme $scheme;
     proxy_cache cache;
     proxy_cache_bypass $no_cache;
     proxy_no_cache $no_cache;
@@ -203,6 +206,6 @@ location ~ ^/sites/.*/files/styles/ {
 }
 
 location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
-    expires 30d;
+    expires {{ nginx_expires }};
     log_not_found off;
 }

@@ -114,6 +114,18 @@
     recurse: yes
     follow: no
 
+- name: Ensure Drupal sync directory exists
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+  with_items:
+    - "{{ drupal8_root }}/config"
+    - "{{ drupal8_root }}/config/sync"
+
 - name: Remove composer lock file if it exists
   file:
      path: "{{ drupal8_root }}/composer.lock"
@@ -145,6 +157,7 @@
   #  register: drupal_database_dumped
 
   ### Drupal installation ###
+
 
   - name: Install a clean Drupal database
     shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
@@ -188,6 +201,7 @@
     group: "{{ www_group }}"
     mode: 0444
   when: drupal8_root is defined
+
 
 - name: Ensure drupal public files directory exists
   file:
@@ -237,8 +251,6 @@
     path: "{{ drupal8_root }}/web/sites/default/files"
     state: link
     src: "{{ drupal_public_files_directory }}"
-
-
 
 ### Translations ###
 
@@ -304,7 +316,7 @@
 
 # Disable removed modules, modules must be removed from removed_extensions
 # after they are removed from composer.json
-- name: Disable removed drupal extra modules
+- name: Disable drupal modules
   shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
   args:
     chdir: "{{ drupal8_root }}"
@@ -332,6 +344,8 @@
     - token
     - metatag
     - metatag_open_graph
+    - ape
+
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -420,6 +434,8 @@
     - { src: metatag.metatag_defaults.node__avoindata_article.yml.j2, dest: metatag.metatag_defaults.node__avoindata_article.yml }
     - { src: metatag.metatag_defaults.node__avoindata_event.yml.j2, dest: metatag.metatag_defaults.node__avoindata_event.yml }
     - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
+    - { src: system.performance.yml.j2, dest: system.performance.yml }
+    - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
 - name: Import drupal settings
   shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
@@ -497,6 +513,7 @@
 - name: Restart PHP-FPM
   become: true
   service: name=php7.0-fpm state=restarted
+
 
 - name: Deploy robots.txt
   copy: src={{ search_engine_robots_filename }}
