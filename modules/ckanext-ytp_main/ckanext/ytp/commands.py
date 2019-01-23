@@ -199,6 +199,28 @@ def migrate(ctx, config, dryrun):
     else:
         apply_patches(package_patches, resource_patches)
 
+@ytp_dataset_group.command(
+    u'migrate_high_value_datasets',
+    help=u'Migrates high value datasets to international benchmarks'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_high_value_datasets(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    package_patches = []
+
+    for old_package_dict in package_generator('*:*', 1000):
+        if old_package_dict.get('high_value_dataset_category'):
+            patch = {'id': old_package_dict['id'], 'international_benchmarks': old_package_dict['high_value_dataset_category']}
+            package_patches.append(patch)
+
+    if dryrun:
+        print '\n'.join('%s' % p for p in package_patches)
+    else:
+        # No resources patches so empty parameter is passed
+        apply_patches(package_patches, [])
+
 
 def apply_patches(package_patches, resource_patches):
     if not package_patches and not resource_patches:
