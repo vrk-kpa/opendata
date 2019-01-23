@@ -24,7 +24,8 @@
     {
       "field_name": "parent_org",
       "form_snippet": "org_hierarchy.html",
-      "label": "Parent organization"
+      "label": "Parent organization",
+      "validators": "is_admin_in_parent_if_changed"
     },
     {
       "field_name": "description_translated",
@@ -48,10 +49,12 @@
     {
       "field_name": "features",
       "preset": "multiple_checkbox",
+      "validators": "scheming_multiple_choice extra_validators_multiple_choice",
       "choices": [
         {
           "value": "public_administration_organization",
-          "label": "Public administration organization"
+          "label": "Public administration organization",
+          "extra_validator": "admin_only_feature"
         },
         {
           "value": "personal_datasets",

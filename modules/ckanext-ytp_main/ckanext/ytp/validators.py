@@ -27,6 +27,7 @@ except ImportError:
 
 from ckan.common import config
 Invalid = df.Invalid
+StopOnError = df.StopOnError
 missing = df.missing
 
 log = logging.getLogger(__name__)
@@ -366,3 +367,73 @@ def from_date_is_before_until_date(field, schema):
                 errors[key].append(_('End date is before start date'))
 
     return validator
+
+@scheming_validator
+def is_admin_in_parent_if_changed(field, schema):
+
+    def validator(key, data, errors, context):
+
+        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+        old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
+        user = context['user']
+
+        # Uses CKAN core function to specify parent, in html groups__0__name
+        actual_key = ("groups", 0, "name")
+
+        if data.get(actual_key):
+
+            if not authz.is_sysadmin(user):
+
+                selected_organization = get_action('organization_show')(context, {'id': data[actual_key]})
+
+                if data[actual_key] and data[actual_key] not in old_parent_group_names:
+                    admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
+                        .filter(model.Member.table_name == 'user')\
+                        .filter(model.Member.capacity == 'admin')\
+                        .filter(model.Member.table_id == authz.get_user_id_for_username(user, allow_none=True))
+
+                    if not any(selected_organization['name'] == admin_org.group.name for admin_org in admin_in_orgs):
+                        errors[key].append(_('User %s is not administrator in the selected parent organization') % user)
+
+
+        # Remove parent_org from data as it is missing from the form
+        data.pop(key, None)
+
+        # Stop validation if error has happened
+        raise StopOnError
+
+
+    return validator
+
+@scheming_validator
+def extra_validators_multiple_choice(field, schema):
+    static_extra_validators = None
+    if 'choices' in field:
+        static_extra_validators = [{"value": c['value'], 'validator': c.get('extra_validator')}
+                                   for c in field['choices'] if c.get('extra_validator')]
+
+    def validator(key, data, errors, context):
+
+        # if there was an error before calling our validator
+        # don't bother with our validation
+        if errors[key]:
+            return
+
+        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+
+        old_features = old_organization.get('features', [])
+        value = json.loads(data[key])
+        extra_validators = static_extra_validators
+
+        changed_features = list(set(old_features).symmetric_difference(value))
+
+        for extra_validator in extra_validators:
+            if extra_validator.get('value') in changed_features:
+                context['field'] = extra_validator.get('value')
+                toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
+
+    return validator
+
+def admin_only_feature(data, key, errors, context):
+    if not authz.is_sysadmin(context['user']):
+        errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
