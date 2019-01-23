@@ -96,6 +96,12 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+
       - run: git submodule update --init --recursive
 
       - run: sudo apt update && sudo apt install rsync
@@ -112,6 +118,12 @@ jobs:
           name: Install Dependencies
           command: npm ci
           working_directory: ~/project/
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
 
       - run:
           name: Copy private key for ec2 usage
