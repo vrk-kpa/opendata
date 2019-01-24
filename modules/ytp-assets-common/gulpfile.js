@@ -152,7 +152,7 @@ gulp.task("font", (done) => {
 
 gulp.task("scripts", (done) => {
   pump([
-    gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header, paths.src.bootstrap_scripts]),
+    gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts")
   ], done)
 });
