@@ -578,7 +578,7 @@ msgstr "Koko nimi"
 
 #: ckanext/ytp/translations.py:39
 msgid "International benchmarks"
-msgstr ""
+msgstr "Kansainväliset vertailut"
 
 #: ckanext/ytp/translations.py:40
 msgid "eg. Maps"
