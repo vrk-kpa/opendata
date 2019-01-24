@@ -1535,8 +1535,12 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         if result:
             # Path variable depends on request type
             path = request.full_path if is_flask_request() else request.path_qs
+            try:
+                path = path.decode('utf8')
+            except UnicodeDecodeError:
+                path = path.decode('cp1252')
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            return re.sub('href="/(\w+)/api/header"', r'href="/data/\1%s"' % path, result)
+            return re.sub(u'href="/(\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
         return result
 
     def get_helpers(self):

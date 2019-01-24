@@ -1,0 +1,80 @@
+From 821a52f969ebbe9504c977a5cbc72fb327226735 Mon Sep 17 00:00:00 2001
+From: Teemu Erkkola <teemu.erkkola@gofore.com>
+Date: Thu, 17 Jan 2019 10:02:57 +0200
+Subject: [PATCH 1/2] Ensure URL encoding for all requests
+
+---
+ ckan/config/middleware/__init__.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/ckan/config/middleware/__init__.py b/ckan/config/middleware/__init__.py
+index 73af42fa2f..561af0d38a 100644
+--- a/ckan/config/middleware/__init__.py
++++ b/ckan/config/middleware/__init__.py
+@@ -127,8 +127,21 @@ def handle_i18n(self, environ):
+             * CKAN_CURRENT_URL is set to the current application url
+         '''
+ 
++        # Ensure URL encoding
++        for var in ('PATH_INFO', 'REQUEST_URI', 'QUERY_STRING'):
++            val = environ.get(var)
++            if val:
++                try:
++                    val.decode('utf-8')
++                except UnicodeDecodeError:
++                    val = val.decode('cp1252').encode('utf-8')
++
++                # Preserve reserved characters and avoid double-quoting
++                environ[var] = urllib.quote(val, '%:;/?&=@')
++
+         # We only update once for a request so we can keep
+         # the language and original url which helps with 404 pages etc
++
+         if 'CKAN_LANG' not in environ:
+             path_parts = environ['PATH_INFO'].split('/')
+             if len(path_parts) > 1 and path_parts[1] in self.locale_list:
+@@ -145,15 +158,9 @@ def handle_i18n(self, environ):
+ 
+             # Current application url
+             path_info = environ['PATH_INFO']
+-            # sort out weird encodings
+-            path_info = \
+-                '/'.join(urllib.quote(pce, '') for pce in path_info.split('/'))
+-
+             qs = environ.get('QUERY_STRING')
+ 
+             if qs:
+-                # sort out weird encodings
+-                qs = urllib.quote(qs, '')
+                 environ['CKAN_CURRENT_URL'] = '%s?%s' % (path_info, qs)
+             else:
+                 environ['CKAN_CURRENT_URL'] = path_info
+
+From e7281e762766934b3c93dfca1c66fa96491552dc Mon Sep 17 00:00:00 2001
+From: Teemu Erkkola <teemu.erkkola@gofore.com>
+Date: Tue, 22 Jan 2019 08:48:52 +0200
+Subject: [PATCH 2/2] Enforce unicode decoding for URLs
+
+---
+ ckan/config/middleware/__init__.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/ckan/config/middleware/__init__.py b/ckan/config/middleware/__init__.py
+index 561af0d38a..45aa85ac02 100644
+--- a/ckan/config/middleware/__init__.py
++++ b/ckan/config/middleware/__init__.py
+@@ -132,12 +132,9 @@ def handle_i18n(self, environ):
+             val = environ.get(var)
+             if val:
+                 try:
+-                    val.decode('utf-8')
++                    val = val.decode('utf-8')
+                 except UnicodeDecodeError:
+-                    val = val.decode('cp1252').encode('utf-8')
+-
+-                # Preserve reserved characters and avoid double-quoting
+-                environ[var] = urllib.quote(val, '%:;/?&=@')
++                    val = val.decode('cp1252')
+ 
+         # We only update once for a request so we can keep
+         # the language and original url which helps with 404 pages etc
