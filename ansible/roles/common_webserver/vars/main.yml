@@ -2,7 +2,7 @@
 
 modules:
   - ytp-assets-common
-  - ckanext-drupal7
+  - ckanext-drupal8
   - ckanext-ytp_drupal
   - ckanext-ytp_tasks
   - ckanext-ytp_request

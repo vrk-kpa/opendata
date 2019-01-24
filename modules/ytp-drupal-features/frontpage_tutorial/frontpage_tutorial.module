@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the frontpage_tutorial feature.
- */
-
-include_once 'frontpage_tutorial.features.inc';
