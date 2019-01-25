@@ -1,194 +1,67 @@
-# CUSTOM MODULES FOR DRUPAL
+# Avoindata custom modules for Drupal 8
 
-This document describes how to initialize and use our custom Drupal modules.
+This document describes how to initialize and use our custom Drupal modules. Source code of modules can be found from [modules directory](https://github.com/vrk-kpa/opendata/tree/master/modules) and they have prefix of "avoindata-drupal". Some modules have a separate readme in their directory that might describe building or some other aspects of the module in more detail.
 
-Status: work in progress
+Many of the modules are being currently used only on the front page. The configuration in avoindata drupal theme specifies block modules that are being used in the front page and defines their placement (weight).
 
-## YTP-DRUPAL-FEATURES
+## Avoindata modules
 
-  ### ARTICLE_FEATURE
-  Work in progress
+Modules are installed and enabled within ansible Drupal role. Adding or removing a custom module requires changing the [custom_modules list](https://github.com/vrk-kpa/opendata/blob/master/ansible/roles/Ddupal/vars/main.yml)  that in Drupal role vars.
 
-  ### ARTICLE_VIEW_FEATURE
-  Work in progress
+### Avoindata appfeed
 
-  ### BLOCKS_FEATURE
-  Work in progress
+Appfeed module is a Drupal block module that lists recently modified showcases using [CKAN API](https://docs.ckan.org/en/latest/api/index.html). The module also shows recent tweets from [avoindata.fi user](https://twitter.com/avoindatafi). Module is being used in the frontpage of the site but as a block module it can be inserted into any basic page also.
 
-  ### CALENDAR_FEATURE
-  Work in progress
+### Avoindata articles
 
-  ### FRONTPAGE_CAROUSEL_FEATURE
-  Work in progress
+Module for displaying a list of published avoindata articles. Module also allows users to filter the list with search functionality.
 
-  ### FRONTPAGE_INFOBOX_FEATURE
-  Work in progress
+More information how to build the frontend for this module can be found from module specific [readme](https://github.com/vrk-kpa/opendata/blob/master/modules/avoindata-drupal-articles/README.md).
 
-  ### FRONTPAGE_TUTORIAL
-  Work in progress
+### Avoindata categories
 
-  ### LANGUAGE_FEATURE
-  Work in progress
+Avoindata categories module. Displays list of CKAN categories (groups) in the frontpage.
 
-  ### SERVICE_ALERT_FEATURE
-  Work in progress
+### Avoindata datasetlist
 
-## YTP-DRUPAL-FOOTER
+Avoindata dataset list module. Provides list of recently modified, new and popular datasets from CKAN as a Drupal block. This module is being used on the frontpage.
 
-  Creates content for page footer region. Contains (1) an editable block for free text, 
-  (2) a menu block for links and (3) a block for social media buttons.
+### Avoindata events
 
-  Dependencies: ytp-theme-drupal (for styling)
-                menu-block (for links)
+Avoindata events module displays upcoming and past open data events and allows users to search these events from the list. One can also find a link to submit an event to the site from the avoindata events page.
 
-  ### Initialization
+### Avoindata footer
 
-    0. The feature is installed by Ansible.
+Avoindata footer module is used to display the site footer. The footer block also provides the footer via API (/api/footer) so that CKAN can also use the same footer as the Drupal side of the site.
 
-    1. Site owner info block
-      Make block content translatable: Configuration -> Regional and language -> 
-      Multilingual settings. Click on "Variables" tab. Select variable Other -> Site owner info 
-      and save.
+### Avoindata guide
 
-      Make text format translatable: Configuration -> Regional and language -> 
-      Multilingual settings. Click on "Strings" tab. Select text format you will use for the block
-      ("Filtered HTML" being default value) and save.
+Avoindata guide module provides user guide for site users and displays the Avoindata Guide nodes. Templating for this module can be found under avoindata-drupal-theme.
 
-      Set block content as variable at Configuration -> System -> Variables. The variable to 
-      translate is Other -> Site owner info.
+### Avoindata header
 
-    2. Link block
-      Make the menu translatable at Structure -> Menus -> Footer links -> Multilingual options.
+Avoindata header module provides language switcher, main navigation menu links and option to search CKAN datasets. Similary to the footer module, this module is usable also via API (/api/header) and is being used by CKAN side of the site.
 
-      The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
-      Menus -> Footer links to add links. All links should have language.
+### Avoindata hero
 
-      Note that you shouldn't place any links to restricted content (ie. admin pages) in the 
-      footer, as they won't be displayed in CKAN.
+Avoindata hero module is show as the "first" thing in the frontpage and it displays some statistics of the data within the site (number of datasets, organizations and applications). Hero module allows users to quickly search CKAN datasets, organizations and applications (redirect to CKAN site with search terms.). It also provides links to recent and popular datasets and to the application listing.
 
-    3. Social media icons block
-      Get the HTML codes from your preferred social media sites. Go to Structure -> Blocks -> 
-      Social media icons, make sure to turn rich text editing off and switch text format to full 
-      HTML and paste your codes to the "Icon source code" box. This block will not be translated, 
-      so avoid writing any text.
+### Avoindata infobox
 
-  ### Editing
+Avoindat infobox module displays three infoboxes on the frontpage of the site.
 
-    1. Site owner info block
-      Edit content at Configuration -> System -> Variables. The variable to edit is Other -> 
-      Site owner info.
+### Avoindata newsfeed
 
-    2. Link block
-      Add or remove links at Structures -> Menus -> Footer links.
+Avoindata newsfeed module displays five most recent news and events in user language. This Drupal block is being used on the frontpage of the site.
 
-    3. Social media icons block
-      Edit at Structure -> Blocks -> Social media icons. Make sure to turn off rich text editing 
-      and switch text format to full HTML.
+### Avoindata servicemessage
 
-    4. General theme
-      CSS is located at ytp-assets-common/src/less/common.less.
+Avoindata servicemessage module is being used to show service messages (eg. scheduled downtimes for site updates). Adding service messages can be done via Drupal admin panel (Avoindata Servicemessage content type). When creating a service message, one must remember to add a service message for each site language (fi/en/sv).
 
-      To edit the look of all blocks, see ytp-theme-drupal/templates/block--footer.tpl.php.
+### Avoindata theme
 
-## YTP_DRUPAL_FRONTPAGE
+Avoindata theme module is based on the Drupal 8 boostrap theme. It contains Drupal specific configuration and template overrides. CSS (less) style related to the Drupal side can be found from [ytp-assets-common](https://github.com/vrk-kpa/opendata/tree/master/modules/ytp-assets-common/src/less/Drupal). Building styles is done with the gulp file found from the same module.
 
-  Creates following front page features:
-    - list of recent news (blog posts)
-    - Twitter feed
-    - list of recent datasets
-    - list of popular datasets
-    - links to related sites
+### Avoindata user
 
-  Dependencies: ytp-theme-drupal (for theme and translations)
-                ytp-assets-common (for styling)
-                views (for news)
-                menu-block (for related sites)
-
-  #### Initialization
-
-    0. The feature is installed by Ansible. 
-
-    1. News
-      Should be good to go.
-
-    2. Twitter feed
-      Create a Twitter widget to get a Twitter data-widget-id. See 
-      [Twitter widgets](https://twitter.com/settings/widgets) as logged in Twitter user.
-      Go to Config -> Variables -> Other and set variable Twitter Widget ID with the value of 
-      your data-widget-id.
-
-    3. New/popular datasets
-      Should be good to go.
-
-    4. Related links
-      The block won't be shown unless there's at least one link in the menu. Go to Structure -> 
-      Menus -> Related sites to add links. All links should have language.
-
-    5. Block order
-      See Structure -> Blocks.
-
-  #### Editing
-
-    1. News
-      Can be edited at Structure -> Views -> News, but you probably shouldn't, as these changes 
-      won't be propagated to other installations. If possible, edit 
-      ytp-drupal-frontpage/ytp_frontpage.module.
-
-    2. Twitter feed
-      Can only be edited at ytp-drupal-frontpage/ytp_frontpage.module.
-
-    3. New/popular datasets
-      Can only be edited at ytp-drupal-frontpage/ytp_frontpage.module.
-
-    4. Related links
-      Links can be added, edited and deleted at Structure -> Menus -> Related sites. All links
-      should have a language.
-
-    5. General theme
-      To change block icons, see function ytp_frontpage_preprocess_block() at 
-      ytp-drupal-frontpage/ytp_frontpage.module.
-
-      To edit the CSS of the blocks, see ytp-assets-common/src/less/drupal/drupal.less. They can 
-      be accessed with selectors ".region-content-grid-left .block" and 
-      ".region-content-grid-right .block".
-
-## YTP-DRUPAL-TUTORIAL
-
-  Creates a tutorial block on front page. The block will determine if user is registered, belongs 
-  to an organization and/or has published data, and show matching instructions. User can opt out 
-  of seeing some views.
-
-  Dependencies: ytp-drupal-user (module reads and edits some fields created by ytp-drupal-user)
-                ytp-theme-drupal (for styling)
-
-  ### Initialization
-
-    0. The feature is installed by Ansible.
-
-    1. Block settings
-      Structure -> Blocks -> Front page tutorial -> Configure. Set block title to <none>. 
-      For pages, choose "Only the listed pages": "<front>".
-
-  ### Editing
-
-    1. Content
-    Each view has a content function located in ytp_tutorial.module: 
-    ytp_tutorial_get_data_not_logged_in(), ytp_tutorial_get_data_no_organization(), 
-    ytp_tutorial_get_data_no_published_datasets(), ytp_tutorial_get_data_tools(). These functions
-    set three variables that are passed to template: title (translatable string), image_url 
-    (/path/to/file) and content (Drupal render array).
-
-    2. Translations
-    The module comes with its own .po and .pot files under directory "i18".
-
-    3. Theme
-    To edit the look of all the views, see ytp_tutorial.tpl.php.
-
-    To edit the CSS of the block, see ytp-assets-common/src/less/drupal/drupal.less. It can be 
-    accessed with selector #tutorial-box.
-
-## YTP-DRUPAL-USER
-Work in progress
-
-## YTP-THEME-DRUPAL
-Work in progress
+Avoindata user module modifies the way users are being validated by Drupal instance.

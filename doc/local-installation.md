@@ -1,10 +1,8 @@
-Local installation (Linux)
-
+# Local installation (Linux)
 
 ## Requirements
 
 - Ubuntu x86_64 (tested with 14.04, 13.10 and 13.04)
-
 
 ## Source
 
@@ -16,7 +14,6 @@ Fetch source codes
 ## Vagrant
 
 We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible development environment for the project.
-
 
 ### Install Virtualbox
 
@@ -36,12 +33,11 @@ Download Vagrant latest 64-bit version for Ubuntu from [vagrantup.com/downloads.
 
     sudo dpkg -i vagrant_1.7.2_x86_64.deb
 
-
 ## Ansible
 
 We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 2.2+ is required.
 
-   * Ansible is installed to virtualbox during vagrant initialization
+- Ansible is installed to virtualbox during vagrant initialization
 
 ### Run Vagrant and start Ansible installation
 
@@ -68,10 +64,6 @@ If you are using ssh keys the following may suffice:
 
     ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
 
-
 ### Access to service
 
 After the provisioning of the server is ready, access the service at [http://10.10.10.10/](http://10.10.10.10/).
-
-
-
