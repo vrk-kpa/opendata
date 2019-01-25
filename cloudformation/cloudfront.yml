@@ -117,6 +117,7 @@ Resources:
             - 'CloudFront-Forwarded-Proto'
             - 'Host'
             - 'Origin'
+            - 'Accept'
             QueryString: true
           TargetOriginId: OpendataOrigin
           ViewerProtocolPolicy: 'redirect-to-https'
