@@ -117,6 +117,7 @@ Resources:
             - 'CloudFront-Forwarded-Proto'
             - 'Host'
             - 'Origin'
+            - 'Accept'
             QueryString: true
           TargetOriginId: OpendataOrigin
           ViewerProtocolPolicy: 'redirect-to-https'
@@ -171,7 +172,7 @@ Resources:
     Condition: CloudfrontLogging
     Properties:
       AccessControl: LogDeliveryWrite
-      BucketName: !Sub ${EnvironmentName}-cloudfront-logs
+      BucketName: !Sub avoindata-${EnvironmentName}-cloudfront-logs
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
