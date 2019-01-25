@@ -68,8 +68,8 @@ def _update_drupal_user(context, data_dict):
         if not ytp_drupal or not c.user:
             log.error('ytp_drupal not found')
             raise NotFound
-        drupal7 = get_plugin('drupal8')
-        if not drupal7:
+        drupal8 = get_plugin('drupal8')
+        if not drupal8:
             log.error('drupal8 not found')
             raise NotFound
         host = drupal8.get_domain()
