@@ -1,1 +1,0 @@
-<div class="media-heading"><?php print $output; ?></div>

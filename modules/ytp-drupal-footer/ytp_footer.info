@@ -1,5 +1,0 @@
-name = YTP Footer
-description = Creates page footer to be used in both Drupal and CKAN
-package = YTP
-core = 7.x
-files[] = ytp_footer.module

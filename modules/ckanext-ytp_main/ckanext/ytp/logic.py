@@ -68,11 +68,11 @@ def _update_drupal_user(context, data_dict):
         if not ytp_drupal or not c.user:
             log.error('ytp_drupal not found')
             raise NotFound
-        drupal7 = get_plugin('drupal7')
+        drupal7 = get_plugin('drupal8')
         if not drupal7:
-            log.error('drupal7 not found')
+            log.error('drupal8 not found')
             raise NotFound
-        host = drupal7.get_domain()
+        host = drupal8.get_domain()
         log.warning('host: ' + host)
         # Get Drupal cookie from cookies
         session_cookie = ytp_drupal.get_drupal_session_cookie()
