@@ -5,15 +5,15 @@ global-styling:
       '/resources/vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false}
 bootstrap-scripts:
   js:
-    bootstrap/js/affix.js: {}
-    bootstrap/js/alert.js: {}
-    bootstrap/js/button.js: {}
-    bootstrap/js/carousel.js: {}
-    bootstrap/js/collapse.js: {}
-    bootstrap/js/dropdown.js: {}
-    bootstrap/js/modal.js: {}
-    bootstrap/js/tooltip.js: {}
-    bootstrap/js/popover.js: {}
-    bootstrap/js/scrollspy.js: {}
-    bootstrap/js/tab.js: {}
-    bootstrap/js/transition.js: {}
+    '/resources/vendor/bootstrap/js/affix.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/alert.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/button.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/carousel.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/collapse.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/dropdown.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/modal.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/tooltip.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/popover.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/scrollspy.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/tab.js': {preprocess: false}
+    '/resources/vendor/bootstrap/js/transition.js': {preprocess: false}

@@ -27,7 +27,8 @@ var paths = {
     font: "src/font/**/*",
     fonts: "src/fonts/**/*",
     scripts: "src/scripts/**/*",
-    bootstrap: "node_modules/bootstrap/less",
+    bootstrap_styles: "node_modules/bootstrap/less",
+    bootstrap_scripts: "node_modules/bootstrap/js/*",
     root: "src"
   },
   dist: "resources"
@@ -156,10 +157,17 @@ gulp.task("scripts", (done) => {
   ], done)
 });
 
-gulp.task("bootstrap", (done) => {
+gulp.task("bootstrap_scripts", (done) => {
   pump([
-    gulp.src(paths.src.bootstrap + "/bootstrap.less"),
-    less({paths: [paths.src.bootstrap]}),
+    gulp.src([paths.src.bootstrap_scripts]),
+    gulp.dest(paths.dist + "/vendor/bootstrap/js")
+  ], done)
+});
+
+gulp.task("bootstrap_styles", (done) => {
+  pump([
+    gulp.src(paths.src.bootstrap_styles + "/bootstrap.less"),
+    less({paths: [paths.src.bootstrap_styles]}),
     concat("bootstrap.css"),
     gulp.dest(paths.dist + "/vendor"),
     cleancss({ keepBreaks: false }),
@@ -221,7 +229,8 @@ gulp.task(
     "config",
     "copy:fontawesomeLess",
     gulp.parallel(
-      "bootstrap",
+      "bootstrap_styles",
+      "bootstrap_scripts",
       "minify-vendor-javascript",
       "templates",
       "static_pages",
@@ -250,7 +259,8 @@ gulp.task("watch_styles", () => {
   var watcher = gulp.watch(
     ["./src/less/**/*.less", "./src/less/*.less", paths.src.templates],
     gulp.parallel(
-      "bootstrap",
+      "bootstrap_styles",
+      "bootstrap_scripts",
       "vendor",
       "static_pages",
       "ckan",
