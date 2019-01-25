@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-01-23 16:04+0200\n"
+"POT-Creation-Date: 2019-01-25 14:54+0200\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -372,8 +372,8 @@ msgstr "Publicera data"
 msgid "Missing value"
 msgstr "Värde saknas"
 
-#: ckanext/ytp/plugin.py:437
-msgid "High value dataset category"
+#: ckanext/ytp/plugin.py:437 ckanext/ytp/translations.py:39
+msgid "International benchmarks"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:438 ckanext/ytp/plugin.py:455
@@ -582,10 +582,6 @@ msgstr ""
 msgid "Fullname"
 msgstr "Hela namnet"
 
-#: ckanext/ytp/translations.py:39
-msgid "International benchmarks"
-msgstr ""
-
 #: ckanext/ytp/translations.py:40
 msgid "eg. Maps"
 msgstr ""
@@ -653,7 +649,7 @@ msgid "Maintainer website"
 msgstr ""
 
 #: ckanext/ytp/translations.py:56
-msgid "Select high value dataset categories which this dataset belongs to"
+msgid "Select international benchmarks which this dataset belongs to."
 msgstr ""
 
 #: ckanext/ytp/translations.py:57
