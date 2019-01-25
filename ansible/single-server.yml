@@ -22,7 +22,7 @@
     - import_role:
         name: cloudwatch_agent
       when: AWS.enabled
-      tags: cloudwatch_role
+      tags: cloudwatch_agent_role
   roles:
     - common
     - firewall
