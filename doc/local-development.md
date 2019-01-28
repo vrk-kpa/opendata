@@ -32,13 +32,12 @@ Examples:
     sudo /usr/lib/ckan/default/bin/pip uninstall <python-package>
     sudo /usr/lib/ckan/default/bin/python setup.py develop
 
-- You must restart Apache after modifications to sources *sudo service apache2 restart*. 
-- If you modify *setup.py* re-run *setup.py develop*. 
-
+- You must restart Apache after modifications to sources *sudo service apache2 restart*.
+- If you modify *setup.py* re-run *setup.py develop*.
 
 ### Manually running CKAN via PasteScript
 
-As modifications to Python packages require Apace restart, you can use *paster* for development. 
+As modifications to Python packages require Apace restart, you can use *paster* for development.
 
     vagrant ssh
     sudo ufw allow 5000
@@ -47,7 +46,6 @@ As modifications to Python packages require Apace restart, you can use *paster* 
 
 Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
 
-
 ## Manually linking Drupal theme (ytp-theme-drupal)
 
     vagrant ssh
@@ -55,14 +53,12 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     sudo mv ytp_theme /var/www/backup_ytp_theme
     sudo ln -s /src/ytp-theme-drupal ytp_theme
 
-
 ## Manually linking Assets (ytp-theme-drupal)
 
     vagrant ssh
     cd /var/www/
     sudo mv resources /var/www/backup_resources
     sudo ln -s /src/ytp-assets-common/resources/ resources
-
 
 ## Manually running ckanext tests
 

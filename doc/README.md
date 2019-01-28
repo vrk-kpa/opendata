@@ -1,7 +1,7 @@
 
 # Documentation
 
-Welcome to the documentation of Yhteentoimivuuspalvelut. This documentation is mainly aimed at developers.
+Welcome to the documentation of Avoindata.fi. This documentation is mainly aimed at developers.
 
 ## Table of contents
 
