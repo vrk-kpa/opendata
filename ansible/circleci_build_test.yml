@@ -16,6 +16,7 @@
     circle_build_num: "{{ lookup('env','CIRCLE_BUILD_NUM') }}"
     circle_tag: "{{ lookup('env','CIRCLE_TAG') }}"
     circle_sha1: "{{ lookup('env','CIRCLE_SHA1') }}"
+    circle_username: "{{ lookup('env','CIRCLE_USERNAME') }}"
 
   tasks:
 
@@ -54,6 +55,7 @@
           circle_build_num: "{{ circle_build_num }}"
           circle_tag: "{{ circle_tag }}"
           circle_sha1: "{{ circle_sha1 }}"
+          circle_username: "{{ circle_username }}"
 
       register: ec2
 
