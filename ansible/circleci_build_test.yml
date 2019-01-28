@@ -51,7 +51,8 @@
          assign_public_ip: "{{ aws_ec2_assign_public_ip }}"
          instance_profile_name: "{{ aws_ec2_instance_profile }}"
          instance_tags:
-          Name: "build-{{ circle_branch }}"
+          Name: "build-{{ circle_branch }}-{{ circle_build_num }}"
+          circle_branch: "{{ cirle_branch }}"
           circle_build_num: "{{ circle_build_num }}"
           circle_tag: "{{ circle_tag }}"
           circle_sha1: "{{ circle_sha1 }}"
