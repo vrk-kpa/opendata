@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-01-23 16:04+0200\n"
+"POT-Creation-Date: 2019-01-25 14:54+0200\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -366,9 +366,9 @@ msgstr "Julkaise dataa"
 msgid "Missing value"
 msgstr "Puuttuva arvo"
 
-#: ckanext/ytp/plugin.py:437
-msgid "High value dataset category"
-msgstr "Korkean lisäarvon tietoaineistokategoria"
+#: ckanext/ytp/plugin.py:437 ckanext/ytp/translations.py:39
+msgid "International benchmarks"
+msgstr "Kansainväliset vertailut"
 
 #: ckanext/ytp/plugin.py:438 ckanext/ytp/plugin.py:455
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:16
@@ -576,10 +576,6 @@ msgstr "Tiedostokoko"
 msgid "Fullname"
 msgstr "Koko nimi"
 
-#: ckanext/ytp/translations.py:39
-msgid "International benchmarks"
-msgstr "Kansainväliset vertailut"
-
 #: ckanext/ytp/translations.py:40
 msgid "eg. Maps"
 msgstr "esim. Kartat"
@@ -655,10 +651,8 @@ msgid "Maintainer website"
 msgstr "Ylläpitäjän verkkosivu"
 
 #: ckanext/ytp/translations.py:56
-msgid "Select high value dataset categories which this dataset belongs to"
-msgstr ""
-"Valitse korkean lisäarvon tietoaineistokategoriat joihin tämä tietoaineisto "
-"kuuluu"
+msgid "Select international benchmarks which this dataset belongs to."
+msgstr "Valitse kansainväliset vertailut joihin tämä tietoaineisto kuuluu."
 
 #: ckanext/ytp/translations.py:57
 msgid ""

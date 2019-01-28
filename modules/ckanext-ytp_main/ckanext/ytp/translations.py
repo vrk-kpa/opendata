@@ -53,7 +53,7 @@ def _translations():
     _('Maintainer email')
     _('Author email')
     _('Maintainer website')
-    _('Select high value dataset categories which this dataset belongs to')
+    _('Select international benchmarks which this dataset belongs to.')
     _('Private datasets will only be seen by the logged in users of the dataset\'s organization. Public datasets '
       'will be listed publicly through the search.')
     _('The organization which owns the dataset.')

@@ -77,7 +77,7 @@
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=international_benchmarks"
       },
-      "description": "Select international benchmarks which this dataset belongs to"
+      "description": "Select international benchmarks which this dataset belongs to."
     },
     {
       "field_name": "maintainer",
