@@ -57,6 +57,7 @@
           circle_tag: "{{ circle_tag }}"
           circle_sha1: "{{ circle_sha1 }}"
           circle_username: "{{ circle_username }}"
+          environment: buildtest
 
       register: ec2
 
