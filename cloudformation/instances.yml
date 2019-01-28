@@ -274,13 +274,20 @@ Resources:
                   - ds:DescribeDirectories
                 Resource: "*"
               - Effect: Allow
+                Action: 
+                  - ec2:DescribeTags
+                Resource: "*"
+              - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
-                  - logs:CreateLogStream
                   - logs:DescribeLogGroups
-                  - logs:DescribeLogStreams
-                  - logs:PutLogEvents
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogStreams
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:${EnvironmentName}-web"
               - Effect: Allow
                 Action:
                   - s3:GetEncryptionConfiguration
