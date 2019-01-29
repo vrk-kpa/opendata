@@ -12,6 +12,11 @@
     aws_vpc_subnet_id: "{{ lookup('env','AWS_VPC_SUBNET_ID') }}"
     aws_ec2_assign_public_ip: "{{ lookup('env','AWS_EC2_ASSIGN_PUBLIC_IP') }}"
     aws_ec2_instance_profile: "{{ lookup('env','AWS_EC2_INSTANCE_PROFILE') }}"
+    circle_branch: "{{ lookup('env','CIRCLE_BRANCH') }}"
+    circle_build_num: "{{ lookup('env','CIRCLE_BUILD_NUM') }}"
+    circle_tag: "{{ lookup('env','CIRCLE_TAG') }}"
+    circle_sha1: "{{ lookup('env','CIRCLE_SHA1') }}"
+    circle_username: "{{ lookup('env','CIRCLE_USERNAME') }}"
 
   tasks:
 
@@ -45,6 +50,15 @@
          vpc_subnet_id: "{{ aws_vpc_subnet_id }}"
          assign_public_ip: "{{ aws_ec2_assign_public_ip }}"
          instance_profile_name: "{{ aws_ec2_instance_profile }}"
+         instance_tags:
+          Name: "build-{{ circle_branch }}-{{ circle_build_num }}"
+          circle_branch: "{{ circle_branch }}"
+          circle_build_num: "{{ circle_build_num }}"
+          circle_tag: "{{ circle_tag }}"
+          circle_sha1: "{{ circle_sha1 }}"
+          circle_username: "{{ circle_username }}"
+          environment: buildtest
+
       register: ec2
 
     - name: Add new EC2 instance to host group

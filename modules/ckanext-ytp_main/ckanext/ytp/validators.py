@@ -373,8 +373,12 @@ def is_admin_in_parent_if_changed(field, schema):
 
     def validator(key, data, errors, context):
 
-        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
-        old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
+        if context.get('group') is not None:
+            old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+            old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
+        else:
+            old_parent_group_names = []
+
         user = context['user']
 
         # Uses CKAN core function to specify parent, in html groups__0__name
@@ -419,9 +423,12 @@ def extra_validators_multiple_choice(field, schema):
         if errors[key]:
             return
 
-        old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+        if context.get('group'):
+            old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+            old_features = old_organization.get('features', [])
+        else:
+            old_features = []
 
-        old_features = old_organization.get('features', [])
         value = json.loads(data[key])
         extra_validators = static_extra_validators
 
