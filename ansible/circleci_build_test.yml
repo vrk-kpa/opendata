@@ -12,6 +12,7 @@
     aws_vpc_subnet_id: "{{ lookup('env','AWS_VPC_SUBNET_ID') }}"
     aws_ec2_assign_public_ip: "{{ lookup('env','AWS_EC2_ASSIGN_PUBLIC_IP') }}"
     aws_ec2_instance_profile: "{{ lookup('env','AWS_EC2_INSTANCE_PROFILE') }}"
+    aws_ec2_instance_shutdown_delay: "{{ lookup('env','AWS_EC2_INSTANCE_SHUTDOWN_DELAY') }}"
     circle_branch: "{{ lookup('env','CIRCLE_BRANCH') }}"
     circle_build_num: "{{ lookup('env','CIRCLE_BUILD_NUM') }}"
     circle_tag: "{{ lookup('env','CIRCLE_TAG') }}"
@@ -50,6 +51,10 @@
          vpc_subnet_id: "{{ aws_vpc_subnet_id }}"
          assign_public_ip: "{{ aws_ec2_assign_public_ip }}"
          instance_profile_name: "{{ aws_ec2_instance_profile }}"
+         instance_initiated_shutdown_behavior: terminate
+         user_data: |
+           #/bin/bash
+           /sbin/shutdown -h +{{ aws_ec2_instance_shutdown_delay }} "Scheduled shutdown"
          instance_tags:
           Name: "build-{{ circle_branch }}-{{ circle_build_num }}"
           circle_branch: "{{ circle_branch }}"
