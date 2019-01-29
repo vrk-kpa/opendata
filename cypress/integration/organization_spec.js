@@ -28,7 +28,7 @@ describe("Organization tests", function() {
 
     cy.get('button[name="save"]').click();
 
-    cy.url().should('/data/fi/organization/test-organization');
+    cy.url().should('include', '/data/fi/organization/test-organization');
 
   })
 });
