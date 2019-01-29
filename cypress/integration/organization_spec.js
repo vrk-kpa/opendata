@@ -23,7 +23,7 @@ describe("Organization tests", function() {
 
     cy.get("input[name='title_translated-fi']").type('test organization');
 
-    cy.get('button').contains('Muokkaa').click();
+    cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type('test-organization');
 
     cy.get('button[name="save"]').click();
