@@ -1,10 +1,10 @@
 describe('Dataset tests', function() {
 
     beforeEach(function () {
-        cy.login_post_request('test-user', 'test-user')
-        cy.visit('/');
-        cy.get('nav a[href="/data/fi/dataset"]').click();
-      })
+      cy.login_post_request('test-user', 'test-user')
+      cy.visit('/');
+      cy.get('nav a[href="/data/fi/dataset"]').click();
+    })
 
     it('Create a new minimal dataset, edit it and delete it', function() {
       // Dataset form
@@ -33,7 +33,6 @@ describe('Dataset tests', function() {
       cy.get('button[name=save]').click();
       cy.get('.dataset-title-column').contains(dataset_name+'edit');
        
-
       //Delete
       cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click(); // Url shouldn't have changed
       cy.get('.form-actions').contains('Poista').click();
@@ -41,11 +40,6 @@ describe('Dataset tests', function() {
       cy.get('.search-input .search').type(random_id + '{enter}');
       cy.get('.dataset-list').should('not.exist');
       cy.contains("ei löytynyt tietoaineistoja");
-
-
-    
-
-
     })
   
     it('Creating an empty dataset fails', function() {

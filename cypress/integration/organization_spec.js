@@ -24,14 +24,12 @@ describe("Organization tests", function() {
     cy.get('button[name=save]').click();
     cy.get('.heading').contains(organization_name+'edit');
      
-
     //Delete
     cy.get(`a[href='/data/fi/organization/edit/${organization_name}']`).click(); // Url shouldn't have changed
     cy.get('.form-actions').contains('Poista').click();
     cy.get('.modal-dialog').find('.btn').contains('Vahvista').click();
     cy.get('input[data-organization-filter]').type(random_id);
     cy.get('.organization-tree').find('.organization-list-item:visible').should('have.length', 0);
-
   })
 
   it('Creating an empty organization fails', function() {
