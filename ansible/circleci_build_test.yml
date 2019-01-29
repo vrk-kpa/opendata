@@ -53,7 +53,7 @@
          instance_profile_name: "{{ aws_ec2_instance_profile }}"
          instance_initiated_shutdown_behavior: terminate
          user_data: |
-           #/bin/bash
+           #!/bin/bash
            /sbin/shutdown -h +{{ aws_ec2_instance_shutdown_delay }} "Scheduled shutdown"
          instance_tags:
           Name: "build-{{ circle_branch }}-{{ circle_build_num }}"
