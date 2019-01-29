@@ -45,15 +45,6 @@ Parameters:
   PublicALBCertificate:
     Description: 'The AWS Certification Manager certificate ARN for the ALB certificate'
     Type: 'AWS::SSM::Parameter::Value<String>'
-  PublicALBCertificate2:
-    Description: '[Optional] 2nd AWS Certification Manager certificate ARN for the ALB certificate'
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  PublicALBCertificate3:
-    Description: '[Optional] 3rd AWS Certification Manager certificate ARN for the ALB certificate'
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  PublicALBCertificate4:
-    Description: '[Optional] 4th  AWS Certification Manager certificate ARN for the ALB certificate'
-    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -71,9 +62,6 @@ Conditions:
       !Equals [ 5, !Ref NumberOfSubnets ]
   NumberOfSubnets6:
       !Equals [ 6, !Ref NumberOfSubnets ]
-  CreateCertificate2: !Not [!Equals [!Ref PublicALBCertificate2,  "-"]]
-  CreateCertificate3: !Not [!Equals [!Ref PublicALBCertificate3,  "-"]]
-  CreateCertificate4: !Not [!Equals [!Ref PublicALBCertificate4,  "-"]]
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
 
 Resources:
@@ -127,10 +115,6 @@ Resources:
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
           aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_avoindata_fi.crt
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt /root/avoindata-secrets/${EnvironmentName}/ssl/combined_star_opendata_fi.crt
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/star_avoindata_fi.key /root/avoindata-secrets/${EnvironmentName}/ssl/star_avoindata_fi.key
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/ssl/star_opendata_fi.key /root/avoindata-secrets/${EnvironmentName}/ssl/star_opendata_fi.key
 
           chmod -R go-rwx /root/avoindata-secrets/*
 
@@ -353,30 +337,6 @@ Resources:
       LoadBalancerArn: !Ref PublicALB
       Port: 443
       Protocol: HTTPS
-
-  PublicALBListener2ndCertificate:
-    Type: AWS::ElasticLoadBalancingV2::ListenerCertificate
-    Condition: CreateCertificate2
-    Properties:
-      Certificates:
-        - CertificateArn: !Ref PublicALBCertificate2
-      ListenerArn: !Ref PublicALBListenerSslCertificate
-
-  PublicALBListener3rdCertificate:
-    Type: AWS::ElasticLoadBalancingV2::ListenerCertificate
-    Condition: CreateCertificate3
-    Properties:
-      Certificates:
-        - CertificateArn: !Ref PublicALBCertificate3
-      ListenerArn: !Ref PublicALBListenerSslCertificate
-
-  PublicALBListener4thCertificate:
-    Type: AWS::ElasticLoadBalancingV2::ListenerCertificate
-    Condition: CreateCertificate4
-    Properties:
-      Certificates:
-        - CertificateArn: !Ref PublicALBCertificate4
-      ListenerArn: !Ref PublicALBListenerSslCertificate
 
   PublicALBTargetGroupHTTP:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
