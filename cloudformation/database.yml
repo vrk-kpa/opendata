@@ -37,6 +37,28 @@ Parameters:
     Default: "7"
     AllowedPattern: ^([0-9]|[12][0-9]|3[05])$
     ConstraintDescription: Valid range is 0-35
+  DBParameterGroup:
+    Description: Database parameter group
+    Type: String
+    Default: "opendata-postgres10"
+  UpgradeMajorVersion:
+    Description: "Define if major version upgrades are allowed"
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  PerformanceInsights:
+    Description: "Define if PerformanceInsights is enabled (requires Postgres 10)"
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  DBEngineVersion:
+      Description: "Database engine version"
+      Type: String
+      Default: "9.5.10"
+  DbInstance:
+      Description: "Database instance type"
+      Type: String
+      Default: "db.t2.small"
   MultiAZSetup:
     Description: Specifies if the DB instance is a Multi-AZ deployment
     Type: String
@@ -56,8 +78,15 @@ Resources:
       AllocatedStorage: 50
       Engine: postgres
       BackupRetentionPeriod: !Ref BackupRetention
-      DBInstanceClass: db.t2.small
-      EngineVersion: 9.5.10
+      DBInstanceClass: !Ref DbInstance
+      EngineVersion: !Ref DBEngineVersion
+      AllowMajorVersionUpgrade: !Ref UpgradeMajorVersion
+      EnablePerformanceInsights: !Ref PerformanceInsights
+      DBParameterGroupName: !Ref DBParameterGroup
+      MonitoringInterval: 60
+      MonitoringRoleArn: !GetAtt ["Role", "Arn"]
+      EnableCloudwatchLogsExports:
+        - postgresql
       MultiAZ: !Ref MultiAZSetup
       StorageType: gp2
       DBInstanceIdentifier: !Sub avoindata-${EnvironmentName}
@@ -67,6 +96,23 @@ Resources:
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       VPCSecurityGroups:
         - !GetAtt DatabaseSecurityGroup.GroupId
+
+  Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+      - 'arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole'
+      AssumeRolePolicyDocument:
+        Version: '2008-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: 'rds.amazonaws.com'
+          Action: 'sts:AssumeRole'
+        - Effect: Allow
+          Principal:
+            Service: 'monitoring.rds.amazonaws.com'
+          Action: 'sts:AssumeRole'
 
   DatabaseSecurityGroup:
     Type: AWS::EC2::SecurityGroup
