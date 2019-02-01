@@ -275,3 +275,11 @@ cloudwatch_agent_logs_config:
     log_group_name: nginx-error
     log_stream_name: '{local_hostname}'
     timestamp_format: '%Y/%m/%d %H:%M:%S %z'
+
+cloudwatch_agent_procstat_metrics_config:
+  - pattern: "ckan_default"
+    measurement:
+      - cpu_usage
+  - pattern: "php-fpm"
+    measurement:
+      - cpu_usage
