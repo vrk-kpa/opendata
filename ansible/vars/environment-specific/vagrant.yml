@@ -38,3 +38,6 @@ firewall_rules:
     src: "any"
     to_port: 5099
     delete: "yes"
+
+postgres_access_rules:
+  - "host ckan_test ckan_test {{ postgres.server.trusted_ip_range }} md5"
