@@ -350,9 +350,12 @@
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
-    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    src: "{{ item }}"
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
   delegate_to: "{{ inventory_hostname }}"
+  with_items:
+    - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    - /var/www/resources/vendor/bootstrap/dist/fonts/
 
 # These need to be enabled after installing external modules (at least pathauto), because
 # of dependencies.
