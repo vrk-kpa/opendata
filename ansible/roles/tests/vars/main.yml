@@ -28,6 +28,7 @@ postgres:
       name: drupal8
       owner: drupal8
 
+hostname: 10.10.10.10:9000
 solr_path: solr/ckan
 redis_db: 1
 apache_port: 9090

@@ -1,6 +1,7 @@
 describe("Organization tests", function() {
 
   beforeEach(function(){
+    cy.exec('npm run reset:db');
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/organization"]').click();
@@ -10,8 +11,7 @@ describe("Organization tests", function() {
     cy.get('a[href="/data/fi/organization/new"]').click();
 
     // Create organization
-    const random_id = Math.random().toString(36).substring(7);
-    const organization_name = 'test_organization_' + random_id;
+    const organization_name = 'test_organization';
     cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type(organization_name);
@@ -28,7 +28,7 @@ describe("Organization tests", function() {
     cy.get(`a[href='/data/fi/organization/edit/${organization_name}']`).click(); // Url shouldn't have changed
     cy.get('.form-actions').contains('Poista').click();
     cy.get('.modal-dialog').find('.btn').contains('Vahvista').click();
-    cy.get('input[data-organization-filter]').type(random_id);
+    cy.get('input[data-organization-filter]').type(organization_name);
     cy.get('.organization-tree').find('.organization-list-item:visible').should('have.length', 0);
   })
 

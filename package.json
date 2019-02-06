@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "reset:db": "node ./bin/db_reset.js"
   },
   "repository": {
     "type": "git",

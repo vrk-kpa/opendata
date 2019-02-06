@@ -10,8 +10,7 @@ describe('Dataset tests', function() {
       // Dataset form
       cy.get('a[href="/data/fi/dataset/new"]').click();
 
-      const random_id = Math.random().toString(36).substring(7);
-      const dataset_name = 'test_dataset_' + random_id;
+      const dataset_name = 'test_dataset';
       cy.get("input[id='field-title_translated-fi']").type(dataset_name);
   
       cy.get('.slug-preview button').contains('Muokkaa').click();
@@ -37,7 +36,7 @@ describe('Dataset tests', function() {
       cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click(); // Url shouldn't have changed
       cy.get('.form-actions').contains('Poista').click();
       cy.get('#page_wrapper').find('.btn').contains('Vahvista').click();
-      cy.get('.search-input .search').type(random_id + '{enter}');
+      cy.get('.search-input .search').type(dataset_name + '{enter}');
       cy.get('.dataset-list').should('not.exist');
       cy.contains("ei löytynyt tietoaineistoja");
     })

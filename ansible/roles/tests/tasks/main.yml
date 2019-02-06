@@ -13,7 +13,7 @@
     owner: root
     group: root
 
-- name: Ensure Jetty is restarted
+- name: Ensure Jetty is restarted (needs to be restarted before starting ckan)
   service:
     name: jetty8
     state: restarted
@@ -31,6 +31,16 @@
     password: "pass"
   become_user: postgres
   become: yes
+
+
+- name: Drop ckan test database if it exists
+  postgresql_db:
+    name: "ckan_test"
+    owner: "ckan_test"
+    state: absent
+  become_user: postgres
+  become: yes
+  ignore_errors: True
 
 - name: Create database for testing
   postgresql_db:
@@ -61,6 +71,14 @@
   with_items:
   - "/usr/share/postgresql/9.5/contrib/postgis-2.2/postgis.sql"
   - "/usr/share/postgresql/9.5/contrib/postgis-2.2/spatial_ref_sys.sql"
+  become_user: postgres
+  become: yes
+
+- name: Spatial table rights
+  command: psql -d "ckan_test" -c "{{ item }}"
+  with_items:
+  - "ALTER TABLE spatial_ref_sys OWNER TO ckan_test;"
+  - "ALTER TABLE geometry_columns OWNER TO ckan_test;"
   become_user: postgres
   become: yes
 
@@ -98,6 +116,8 @@
     state: link
     owner: root
     group: root
+  notify:
+    - Restart Apache
 
 
 - name: Ensure ckan_test log file exists
@@ -144,44 +164,34 @@
     state: link
   with_items:
   - "ytp_test"
+  notify:
+    - Restart Nginx
 
 
 - name: Initialize CKAN database
   shell: ./bin/paster --plugin=ckan db init --config=/etc/ckan/default/test.ini chdir="{{ virtual_environment }}"
 
-
 - name: Initialize request database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_request initdb --config=/etc/ckan/default/test.ini chdir='{{ virtual_environment }}'"
-  tags:
-  - ckan
 
 - name: Initialize Harvester database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester initdb '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
-  tags:
-  - ckan
-
 
 - name: Initialize spatial database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-spatial spatial initdb '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
-  tags:
-  - ckan
 
 - name: Initialize archiver database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-archiver archiver init '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
   when: "'ckanext-archiver' in ckan_extensions"
-  tags:
-  - ckan
 
 - name: Initialize QA database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-qa qa init '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
   when: "'ckanext-qa' in ckan_extensions"
-  tags:
-  - ckan
 
 - name: Initialize report database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-report report initdb '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
-  tags:
-  - ckan
 
+- name: Clear solr
+  shell: ./bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini chdir="{{ virtual_environment }}"
 
 

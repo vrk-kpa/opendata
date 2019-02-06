@@ -22,13 +22,13 @@ client.query('CREATE OR REPLACE FUNCTION truncate_tables(username IN VARCHAR) RE
   '    END LOOP;\n' +
   'END;\n' +
   '$$ LANGUAGE plpgsql;', (err, res) => {
-  console.log(err, res)
-  //client.end()
+  if (err){
+    return;
+  }
+  client.query("SELECT truncate_tables('ckan_test');", (err, res) => {
+    console.log(err, res);
+    console.log("truncated");
+    client.end()
+  });
 });
 
-
-client.query("SELECT truncate_tables('ckan_test');", (err, res) => {
-  console.log(err, res);
-  console.log("trucated");
-  client.end()
-});

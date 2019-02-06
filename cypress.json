@@ -1,4 +1,4 @@
 {
-  "baseUrl": "http://10.10.10.10",
+  "baseUrl": "http://10.10.10.10:9000",
   "projectId": "ssb2ut"
 }
