@@ -12,9 +12,9 @@ describe("Organization tests", function() {
     // Create organization
     const random_id = Math.random().toString(36).substring(7);
     const organization_name = 'test_organization_' + random_id;
-    cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type(organization_name);
+    cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('button[name="save"]').click();
     cy.url().should('include', `/data/fi/organization/${organization_name}`);
 
