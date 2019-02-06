@@ -15,6 +15,7 @@ describe("Organization tests", function() {
     cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type(organization_name);
+    cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('button[name="save"]').click();
     cy.url().should('include', `/data/fi/organization/${organization_name}`);
 
