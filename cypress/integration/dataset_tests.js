@@ -12,10 +12,11 @@ describe('Dataset tests', function() {
 
       const random_id = Math.random().toString(36).substring(7);
       const dataset_name = 'test_dataset_' + random_id;
-      cy.get("input[id='field-title_translated-fi']").type(dataset_name);
   
       cy.get('.slug-preview button').contains('Muokkaa').click();
       cy.get('#field-name').type(dataset_name);
+      cy.get("input[id='field-title_translated-fi']").type(dataset_name);
+
       cy.get('#field-notes_translated-fi').type('Dataset test description');
       cy.get('#s2id_autogen1').type('test_keyword {enter}');
       cy.get('#field-maintainer').type('test maintainer');
