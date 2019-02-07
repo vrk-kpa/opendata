@@ -1,6 +1,7 @@
 describe('Dataset tests', function() {
 
   beforeEach(function () {
+    cy.reset_db();
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
@@ -13,7 +14,7 @@ describe('Dataset tests', function() {
 
     // Delete and make sure it was deleted. Edit doesn't affect the dataset name in url, so the unmodified
     // name is passed as a parameter
-    cy.delete_dataset(dataset_name, random_id);
+    cy.delete_dataset(dataset_name);
   })
 
   it('Create a dataset with all fields', function() {
