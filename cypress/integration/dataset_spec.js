@@ -18,7 +18,7 @@ describe('Dataset tests', function() {
   })
 
   it('Create a dataset with all fields', function() {
-    const dataset_name = 'test_dataset';
+    const dataset_name = 'test_dataset_with_all_fields';
     const dataset_form_data = {
       '#field-title_translated-fi': dataset_name,
       '#field-title_translated-en': dataset_name,
