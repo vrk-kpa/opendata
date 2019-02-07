@@ -1,0 +1,18 @@
+---
+# defaults file for php
+
+php_www_user: www-data
+php_www_group: www-data
+
+php_packages_state: present
+php_fpm_service: php7.0-fpm.service
+php_fpm_config_file: /etc/php/7.0/fpm/pool.d/www.conf
+
+php_required_packages:
+  - php
+  - php-fpm
+  - php-gd
+  - php-pgsql
+  - php-xml  # installs "dom"
+  - php-mbstring
+  - php-curl

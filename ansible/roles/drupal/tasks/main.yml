@@ -1,79 +1,6 @@
 ---
 
 
-- name: Remove old drush6 modules
-  file:
-    state: absent
-    path: "/root/.drush"
-
-### Get PHP ###
-
-- name: Get PHP and required extensions
-  become: true
-  action: apt
-    pkg="{{ item }}"
-    state=latest
-  with_items:
-    - php
-    - php-fpm
-    - php-gd
-    - php-pgsql
-    - php-xml # installs "dom"
-    - php7.0-mbstring
-    - php-curl
-    - php-intl
-
-### Socket setup ###
-
-- name: Set PHP pathinfo
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
-
-- name: Set socket to listen
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
-
-- name: Set socket listen owner
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
-
-- name: Set socket listen group
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
-
-- name: Set socket listen mode
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
-
-### Install Composer ###
-
-- name: Download Composer
-  script: install_composer.sh
-  tags:
-    - composer
-
-- name: Move Composer globally
-  become: true
-  command: mv composer.phar /usr/local/bin/composer
-  tags:
-    - composer
-
-- name: Set Composer permissions
-  become: true
-  file:
-    path: /usr/local/bin/composer
-    mode: "a+x"
-  tags:
-    - composer
-
-### Composer magic ###
-
-- name: Install dependencies for dependency management (>.<)
-  composer:
-    command: require
-    global_command: yes
-    arguments: alchemy/zippy:0.4.3
-
 - name: Create root pgpass
   template: src=pgpass8.j2 dest=/root/.pgpass mode="0600" owner=root group=root
 
@@ -151,10 +78,6 @@
   register: drupal7_database_initialized
 
 - block:
-  #- name: Dump drupal db
-  #  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
-  #  when: "'1' in drupal_database_initialized.stdout"
-  #  register: drupal_database_dumped
 
   ### Drupal installation ###
 

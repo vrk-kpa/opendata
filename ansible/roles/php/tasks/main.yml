@@ -1,0 +1,23 @@
+---
+# tasks file for php
+
+- name: Get distribution based variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+
+- name: Get PHP and required extensions
+  package:
+    name: "{{ item }}"
+    state: "{{ php_packages_state }}"
+  with_items: "{{ php_required_packages }}"
+
+- name: Socket setup
+  include_tasks: configure-fpm.yml
+
+- name: Start and enable php-fpm service
+  systemd:
+    name: "{{ php_fpm_service }}"
+    state: started
+    enabled: true
