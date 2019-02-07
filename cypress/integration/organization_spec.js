@@ -12,7 +12,6 @@ describe("Organization tests", function() {
 
     // Create organization
     const organization_name = 'test_organization';
-    cy.get("input[name='title_translated-fi']").type(organization_name);
     cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type(organization_name);
     cy.get("input[name='title_translated-fi']").type(organization_name);
