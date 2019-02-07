@@ -7,7 +7,7 @@ map $http_cookie $no_cache {
 
 server {
     listen {{ nginx_port }};
-    server_name {{ item.server_name }}
+    server_name {{ item.server_name }};
     include /etc/nginx/snippets/{{ item.snippet }};
 }
 
