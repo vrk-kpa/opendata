@@ -41,3 +41,6 @@ firewall_rules:
 
 postgres_access_rules:
   - "host ckan_test ckan_test {{ postgres.server.trusted_ip_range }} md5"
+
+testing_ports:
+  - 9090
