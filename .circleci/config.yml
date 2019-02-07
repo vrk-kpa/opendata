@@ -140,7 +140,7 @@ jobs:
           name: Set instance public for Cypress
           command: |
             echo 'export CYPRESS_BASE_URL=http://$(cat /tmp/instance_public_ip)' >> $BASH_ENV
-            echo 'export CYPRESS_RESET_DB=false' >> $BASH_ENV
+            echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
 
 
       - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY

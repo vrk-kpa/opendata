@@ -7,7 +7,7 @@
 
 - name: Restart Apache
   service:
-    name: apache
+    name: apache2
     state: restarted
 
 - name: Restart Jetty

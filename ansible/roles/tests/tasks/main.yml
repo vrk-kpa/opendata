@@ -18,6 +18,13 @@
     name: jetty8
     state: restarted
 
+- name: Stop apache to drop open sql connections
+  service:
+    name: apache2
+    state: stopped
+  notify:
+    - Restart Apache
+
 - name: Create database user for testing
   postgresql_user:
     user: "ckan_test"
@@ -190,6 +197,9 @@
 
 - name: Initialize report database
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-report report initdb '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
+
+- name: Initialize googleanalytics database
+  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics init '--config=/etc/ckan/default/test.ini' chdir='{{ virtual_environment }}'"
 
 - name: Clear solr
   shell: ./bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini chdir="{{ virtual_environment }}"
