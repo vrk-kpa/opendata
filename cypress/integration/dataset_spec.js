@@ -1,25 +1,24 @@
 describe('Dataset tests', function() {
 
   beforeEach(function () {
+    cy.reset_db();
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
   })
 
   it('Create a new minimal dataset, edit it and delete it', function() {
-    const random_id = Math.random().toString(36).substring(9);
-    const dataset_name = 'test_dataset_' + random_id;
+    const dataset_name = 'test_dataset';
     cy.create_new_dataset(dataset_name);
     cy.edit_dataset(dataset_name);
 
     // Delete and make sure it was deleted. Edit doesn't affect the dataset name in url, so the unmodified
     // name is passed as a parameter
-    cy.delete_dataset(dataset_name, random_id);
+    cy.delete_dataset(dataset_name);
   })
 
   it('Create a dataset with all fields', function() {
-    const random_id = Math.random().toString(36).substring(9);
-    const dataset_name = 'test_dataset_' + random_id;
+    const dataset_name = 'test_dataset_with_all_fields';
     const dataset_form_data = {
       '#field-title_translated-fi': dataset_name,
       '#field-title_translated-en': dataset_name,

@@ -6,3 +6,9 @@ host {{ postgres.databases.ckan.name }} {{ postgres.users.ckan.username }} {{ po
 host {{ postgres.databases.ckan_datastore.name }} {{ postgres.users.ckan.username }} {{ postgres.server.trusted_ip_range }} md5
 host {{ postgres.databases.ckan_datastore.name }} {{ postgres.users.ckan_datastore.username }} {{ postgres.server.trusted_ip_range }} md5
 host {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }} {{ postgres.server.trusted_ip_range }} md5
+
+{% if postgres_access_rules is defined %}
+  {% for rule in postgres_access_rules %}
+    {{ rule }}
+  {% endfor %}
+{% endif %}

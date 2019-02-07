@@ -1,4 +1,7 @@
 {
-  "baseUrl": "http://10.10.10.10",
-  "projectId": "ssb2ut"
+  "baseUrl": "http://10.10.10.10:9000",
+  "projectId": "ssb2ut",
+  "env": {
+    "resetDB": true
+  }
 }
