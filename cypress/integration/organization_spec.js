@@ -1,7 +1,7 @@
 describe("Organization tests", function() {
 
   beforeEach(function(){
-    cy.exec('npm run reset:db');
+    cy.reset_db();
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/organization"]').click();
