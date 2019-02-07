@@ -19,6 +19,15 @@
   - packages
   - ckan
 
+- name: Ensure CKAN profiling packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - graphviz
+    - graphviz-dev
+  when: profiling_enabled
+
 - name: Ensure log file exists
   file:
     path: "{{ ckan_log_path }}/ckan.log"
@@ -77,6 +86,12 @@
     requirements: "{{ virtual_environment }}/src/ckan/dev-requirements.txt"
     virtualenv: "{{ virtual_environment }}"
   when: deployment_environment_id == "vagrant"
+
+- name: Install CKAN profiling tool
+  pip:
+    name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
+    virtualenv: "{{ virtual_environment }}"
+  when: profiling_enabled
 
 - name: Copy override requirements
   copy:

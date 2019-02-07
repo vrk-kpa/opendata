@@ -224,6 +224,10 @@ ckanext.ytp.theme.show_postit_demo = {{ show_postit_demo }}
 
 ckan.datapusher.url = http://127.0.0.1:8800/
 
+{% if profiling_enabled %}
+filter-with = linesman
+{% endif %}
+
 [loggers]
 keys = root, ckan, ckanext
 
@@ -268,3 +272,9 @@ BROKER_BACKEND =
 BROKER_HOST =
 CELERY_RESULT_DBURI =
 CELERYD_CONCURRENCY = 1
+
+{% if profiling_enabled %}
+[filter:linesman]
+use = egg:linesman#profiler
+filename = /tmp/linesman.sqlite
+{% endif %}

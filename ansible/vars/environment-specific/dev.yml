@@ -4,3 +4,5 @@
 
 smtp:
   server_domain: email-smtp.eu-west-1.amazonaws.com
+
+profiling_enabled: true
