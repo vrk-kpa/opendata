@@ -189,19 +189,11 @@
       - import_role:
           name: common
       - import_role:
-          name: users
-      - import_role:
-          name: clean
-      - import_role:
           name: database
       - import_role:
           name: common_webserver
       - import_role:
-          name: ssl
-      - import_role:
           name: nginx
-      - import_role:
-          name: postfix
       - import_role:
           name: jetty
       - import_role:
