@@ -5,7 +5,7 @@
     dest: /etc/php/7.0/fpm/php.ini
     section: PHP
     option: cgi.fix_pathinfo
-    value: 0
+    value: "0"
   notify: restart php-fmp service
 
 - name: Set socket to listen
@@ -37,5 +37,5 @@
     dest: "{{ php_fpm_config_file }}"
     section: www
     option: listen.mode
-    value: 0660
+    value: "0660"
   notify: restart php-fmp service

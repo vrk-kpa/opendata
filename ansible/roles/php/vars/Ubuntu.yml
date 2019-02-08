@@ -1,1 +1,2 @@
 php_fpm_service: php7.2-fpm.service
+php_fpm_config_file: /etc/php/7.2/fpm/pool.d/www.conf
