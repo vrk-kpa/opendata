@@ -51,7 +51,7 @@ drupal_ckan_admin_rolename: ckan_admin
 
 admin: {'username' : 'admin', 'password': 'admin', 'email': 'vagrant@localhost'}
 
-harvest_user: {'username' : 'harvest', 'password': 'harvest', 'email': 'harvest@localhost'}
+harvest_user: {'username' : 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
 
 ytp_users:
   - username: 'test-editor'
