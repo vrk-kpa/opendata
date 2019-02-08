@@ -161,20 +161,9 @@
   remote_user: "{{ lookup('env','AWS_EC2_USER') }}"
   become: True
   gather_facts: True
-  vars:
-    vagrant: false
-    secrets_file_path: does_not_exist
-    deployment_environment_id: build_test
-    disqus_name: ""
-    ssl_path: /etc/ssl
-    database_host: "127.0.0.1"
-    solr_host: "127.0.0.1"
-    database_ip_range: "127.0.0.1/8"
   vars_files:
-    - "vars/common.yml"
-    - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
-    - ["{{ secrets_file_path }}", "vars/none.yml"]
-    - ["vars/local.yml", "vars/none.yml"]
+    - "{{ playbook_dir }}/inventories/group_vars/all.yml"
+    - "{{ playbook_dir }}/inventories/group_vars/build_test.yml"
 
   tasks:
 
