@@ -4,3 +4,9 @@
 
 smtp:
   server_domain: email-smtp.eu-west-1.amazonaws.com
+
+deployment_environment_id: prod
+secrets_file_path: "../../avoindata-secrets/prod/secrets.yml"
+disqus_name: "avoindatafi"
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
+aws_profile: opendata
