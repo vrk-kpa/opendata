@@ -4,14 +4,14 @@
 - name: Create group for mailhog user
   group:
     name: mailhog
-    system: yes
+    system: true
     state: present
 
 - name: Create mailhog user
   user:
     name: mailhog
-    system: yes
-    create_home: no
+    system: true
+    create_home: false
     state: present
 
 
@@ -50,5 +50,5 @@
   systemd:
     name: mailhog
     state: started
-    enabled: yes
-    daemon_reload: yes
+    enabled: true
+    daemon_reload: true
