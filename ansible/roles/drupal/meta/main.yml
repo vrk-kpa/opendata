@@ -1,0 +1,21 @@
+galaxy_info:
+  description: Drupal for Ubuntu
+
+  license: MIT
+
+  min_ansible_version: 2.6
+
+  platform:
+  - name: Ubuntu
+    versions:
+    - xenial
+
+  galaxy_tags:
+  - php
+  - development
+  - web
+  - drupal
+
+dependencies:
+- php
+- composer
