@@ -17,30 +17,3 @@ secrets_file_path: does_not_exist
 deployment_environment_id: vagrant
 ssl_path: /vagrant
 disqus_name: "localhost-avoindata-fi"
-
-firewall_rules:
-  - rule: "allow"
-    proto: "tcp"
-    src: "any"
-    to_port: 22
-    comment: "ssh"
-  - rule: "allow"
-    proto: "tcp"
-    src: "any"
-    to_port: 80
-    comment: "http"
-  - rule: "allow"
-    proto: "tcp"
-    src: "any"
-    to_port: 443
-    comment: "https"
-  - rule: "allow"
-    proto: "tcp"
-    src: "any"
-    to_port: 8025
-    comment: "MailHog web ui"
-  - rule: "allow"
-    proto: "tcp"
-    src: "any"
-    to_port: 5099
-    delete: "yes"
