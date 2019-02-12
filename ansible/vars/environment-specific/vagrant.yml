@@ -3,6 +3,8 @@
 # THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
 
 debug_enabled: true
+profiling_enabled: true
+
 smtp:
   server_domain: localhost
 
@@ -38,3 +40,9 @@ firewall_rules:
     src: "any"
     to_port: 5099
     delete: "yes"
+
+postgres_access_rules:
+  - "host ckan_test ckan_test {{ postgres.server.trusted_ip_range }} md5"
+
+testing_ports:
+  - 9090

@@ -125,3 +125,10 @@ Cypress.Commands.add('delete_dataset', (dataset_name, random_id) => {
   cy.get('.dataset-list').should('not.exist');
   cy.contains("ei löytynyt tietoaineistoja");
 })
+
+
+Cypress.Commands.add('reset_db', () => {
+    if (Cypress.env('resetDB') === true){
+      cy.exec('npm run reset:db');
+    }
+});

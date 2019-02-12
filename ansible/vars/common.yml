@@ -3,10 +3,14 @@
 
 solr_host: "{{ database_host }}"
 solr_port: "8983"
+solr_path: solr
 
 redis_hostname: "{{ database_host }}"
 redis_port: "6379"
+redis_db: 0
 
+apache_port: 8080
+nginx_port: 80
 
 ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
 
@@ -183,6 +187,7 @@ AWS:
   smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
 
 debug_enabled: false
+profiling_enabled: false
 
 cloudwatch_agent_logs_config:
   - file_path: '/var/log/ckan/ckan-worker-bulk.log*'
