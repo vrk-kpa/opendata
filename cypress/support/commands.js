@@ -120,7 +120,8 @@ Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
 Cypress.Commands.add('delete_dataset', (dataset_name, random_id) => {
   cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
   cy.get('.form-actions').contains('Poista').click();
-  cy.get('#page_wrapper').find('.btn').contains('Vahvista').click();
+  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(random_id + '{enter}');
   cy.get('.dataset-list').should('not.exist');
   cy.contains("ei löytynyt tietoaineistoja");
