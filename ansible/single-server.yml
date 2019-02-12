@@ -20,7 +20,6 @@
       tags: cloudwatch_agent_role
   roles:
     - common
-    - users
     - clean
     - database
     - common_webserver
