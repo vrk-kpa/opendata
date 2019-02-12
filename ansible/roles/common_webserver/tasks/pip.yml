@@ -1,4 +1,8 @@
 ---
+- name: Install virtualenv
+  apt:
+    package: virtualenv
+    state: installed
 
 - name: Upgrade pip packages
   pip:

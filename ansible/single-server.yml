@@ -10,17 +10,37 @@
     database_ip_range: "127.0.0.1/8"
 
   pre_tasks:
+    - name: Update packages
+      apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: Set hostname
+      hostname:
+        name: "{{ deployment_environment_id }}-web"
+
+    - name: Set locale
+      lineinfile:
+        path: "/etc/environment"
+        line: "LC_ALL=en_US.utf8"
+        regexp: "^LC_ALL=.*"
+
+    - name: Create common paths
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items: "{{ all_paths }}"
+
     - import_role:
         name: mailhog
       when: vagrant is defined
       tags: mailhog_role
+
     - import_role:
         name: cloudwatch_agent
       when: AWS.enabled
       tags: cloudwatch_agent_role
   roles:
-    - common
-    - clean
     - database
     - common_webserver
     - nginx

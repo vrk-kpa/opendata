@@ -11,6 +11,13 @@
     state: directory
   when: deployment_environment_id == "vagrant"
 
+- name: Install unzip and zip
+  apt:
+    package:
+      - unzip
+      - zip
+    state: present
+
 - include: extension.yml
   with_items: "{{ ckan_extensions }}"
 
