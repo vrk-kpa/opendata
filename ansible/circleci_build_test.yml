@@ -162,7 +162,7 @@
   become: True
   gather_facts: True
   vars_files:
-    - "{{ playbook_dir }}/inventories/group_vars/all.yml"
+    - "{{ playbook_dir }}/inventories/group_vars/all/all.yml"
     - "{{ playbook_dir }}/inventories/group_vars/build_test.yml"
 
   tasks:
