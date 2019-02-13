@@ -352,7 +352,7 @@ class SixodpHarvester(HarvesterBase):
             # We needed all the packages to determine the deleted ones,
             # but unless we really want to reimport everything,
             # we need to filter the package list here
-            if not force_all:
+            if not force_all and last_error_free_job:
                 changes_since = last_error_free_job.gather_started - datetime.timedelta(hours=1)
                 pkg_dicts = [p for p in pkg_dicts if parse_datetime(p['metadata_modified']) > changes_since]
 
