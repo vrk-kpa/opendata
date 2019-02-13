@@ -1,0 +1,23 @@
+---
+
+- name: Copy secret .npmrc
+  copy:
+    src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
+    dest: "{{server_path}}/ytp-assets-common/.npmrc"
+  when: AWS.enabled == True
+
+- name: Copy fallback package.json if npmrc does not exist
+  copy:
+    src: package.json
+    dest: "{{ server_path }}/ytp-assets-common/package.json"
+  when: AWS.enabled != True
+
+- name: Synchronize avoindata drupal theme to cache folder
+  synchronize:
+    src: "{{ opendata_frontend_modules_path }}/avoindata-drupal-theme/"
+    dest: "{{ server_path }}/avoindata-drupal-theme"
+
+- name: Synchronize avoindata drupal header to cache folder
+  synchronize:
+    src: "{{ opendata_frontend_modules_path }}/avoindata-drupal-header/"
+    dest: "{{ server_path }}/avoindata-drupal-header"

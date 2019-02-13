@@ -1,0 +1,8 @@
+drupal_database_server: "{{ postgres.server.host }}"
+drupal_database_port: "{{ postgres.server.port }}"
+drupal_database_name: "{{ postgres.databases.drupal8.name }}"
+drupal_database_username: "{{ postgres.users.drupal8.username }}"
+drupal_database_password: "{{ postgres.users.drupal8.password }}"
+
+drupal_admin_username: "{{ admin.username }}"
+drupal_admin_password: "{{ admin.password }}"

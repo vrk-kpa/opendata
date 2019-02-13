@@ -180,7 +180,7 @@
       - import_role:
           name: database
       - import_role:
-          name: common_webserver
+          name: opendata_frontend
       - import_role:
           name: nginx
       - import_role:
@@ -205,8 +205,6 @@
           name: composer
       - import_role:
           name: drupal
-      - import_role:
-          name: clamav
       - import_role:
           name: data
       - import_role:

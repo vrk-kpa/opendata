@@ -10,26 +10,10 @@
     database_ip_range: "127.0.0.1/8"
 
   pre_tasks:
-    - name: Update packages
-      apt:
-        upgrade: dist
-        update_cache: yes
-
-    - name: Set hostname
-      hostname:
-        name: "{{ deployment_environment_id }}-web"
-
-    - name: Set locale
-      lineinfile:
-        path: "/etc/environment"
-        line: "LC_ALL=en_US.utf8"
-        regexp: "^LC_ALL=.*"
-
-    - name: Create common paths
+    - name: Enable maintenance mode
       file:
-        path: "{{ item }}"
-        state: directory
-      with_items: "{{ all_paths }}"
+        path: "/var/www/maintenance"
+        state: touch
 
     - import_role:
         name: mailhog
@@ -40,9 +24,11 @@
         name: cloudwatch_agent
       when: AWS.enabled
       tags: cloudwatch_agent_role
+
   roles:
+    - common
     - database
-    - common_webserver
+    - opendata_frontend
     - nginx
     - jetty
     - redis
@@ -53,6 +39,11 @@
     - ckan-data
     - ckan-restart
     - drupal
-    - clamav
     - data
     - datapusher
+
+  post_tasks:
+    - name: Remove maintenance mode
+      file:
+        path: "/var/www/maintenance"
+        state: absent
