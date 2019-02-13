@@ -588,7 +588,7 @@ class SixodpHarvester(HarvesterBase):
                                     # this especially targets older versions of CKAN
                                     org = self._get_group(harvest_object.source.url, remote_org)
 
-                                for key in ['packages', 'created', 'users', 'groups', 'tags', 'extras', 'display_name', 'type']:
+                                for key in ['packages', 'created', 'users', 'tags', 'extras', 'display_name', 'type']:
                                     org.pop(key, None)
 
                                 sixodp_organization_to_opendata_organization(org)
