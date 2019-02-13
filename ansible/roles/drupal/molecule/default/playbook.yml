@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    drupal_modules_path: "../../../../modules"
+    opendata_frontend_modules_path: "../../../../modules"
+    drupal_configure_instance: false
+
+  roles:
+    - role: drupal

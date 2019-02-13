@@ -1,3 +1,4 @@
+---
 galaxy_info:
   description: Drupal for Ubuntu
 
@@ -6,16 +7,18 @@ galaxy_info:
   min_ansible_version: 2.6
 
   platform:
-  - name: Ubuntu
-    versions:
-    - xenial
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
 
   galaxy_tags:
-  - php
-  - development
-  - web
-  - drupal
+    - php
+    - development
+    - web
+    - drupal
 
 dependencies:
-- php
-- composer
+  - php
+  - composer
+  - opendata_frontend
