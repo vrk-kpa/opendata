@@ -36,22 +36,17 @@
     mode: "0755"
     owner: root
     group: root
-  tags:
-  - resources
-
-- name: Clean resources
-  file:
-    path: /var/www/resources
-    state: absent
-  tags:
-  - resources
 
 - include: vagrant.yml
   when: deployment_environment_id == "vagrant"
 
-
 - include: nonvagrant.yml
   when: deployment_environment_id != "vagrant"
+
+- name: Install resource dependencies
+  command:  npm install --unsafe-perm=true --allow-root
+  args:
+    chdir: "{{ server_path }}/ytp-assets-common"
 
 - name: Run gulp
   command: gulp

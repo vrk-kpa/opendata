@@ -1,3 +1,8 @@
+- name: Clean resources
+  file:
+    path: /var/www/resources
+    state: absent
+
 - name: Check existance of .npmrc
   stat:
     path: "{{ playbook_dir }}/../modules/ytp-assets-common/.npmrc"
@@ -7,12 +12,7 @@
   copy:
     src: package.json
     dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: (npmrc.skipped is defined and npmrc.skipped == True) or npmrc.stat.exists == False
-
-- name: Install resource dependencies
-  command:  npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{ server_path }}/ytp-assets-common"
+  when: npmrc.stat.exists == False
 
 - name: Symlink avoindata drupal theme to cache folder
   file:

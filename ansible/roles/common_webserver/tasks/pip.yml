@@ -6,11 +6,9 @@
 
 - name: Upgrade pip packages
   pip:
-    name: "{{ item }}"
+    name:
+      - pip
+      - setuptools==36.1
+      - boto
     virtualenv: "{{ virtual_environment }}"
     state: latest
-  with_items:
-    - pip
-    - setuptools==36.1 # Was 33.1.1 as workaround for pypa/setuptools#523, revert if needed
-    - boto
-  tags: pip

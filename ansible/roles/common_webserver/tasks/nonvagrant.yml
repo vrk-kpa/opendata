@@ -19,8 +19,3 @@
   synchronize:
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-header/"
     dest: "{{ server_path }}/avoindata-drupal-header"
-
-- name: Install resource dependencies
-  command:  npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{ server_path }}/ytp-assets-common"
