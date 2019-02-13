@@ -105,6 +105,9 @@ def sixodp_to_opendata_postprocess(package_dict):
             except Invalid:
                 resource.pop('time_series_end')
 
+def sixodp_organization_to_opendata_organization(organization_dict):
+    organization_dict['title_translated'] = {'fi': organization_dict['title']}
+
 
 class SixodpHarvester(HarvesterBase):
     '''
@@ -587,6 +590,9 @@ class SixodpHarvester(HarvesterBase):
 
                                 for key in ['packages', 'created', 'users', 'groups', 'tags', 'extras', 'display_name', 'type']:
                                     org.pop(key, None)
+
+                                sixodp_organization_to_opendata_organization(org)
+
                                 get_action('organization_create')(base_context.copy(), org)
                                 log.info('Organization %s has been newly created', remote_org)
                                 validated_org = org['id']
