@@ -67,3 +67,6 @@ server.key
 /cypress/videos/
 /cypress/screenshots/
 /node_modules/
+
+# MacOS related
+.DS_Store
