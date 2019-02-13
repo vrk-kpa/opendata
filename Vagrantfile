@@ -28,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.inventory_path = "ansible/inventories/vagrant"
       ansible.skip_tags = "non-local"
       ansible.limit = 'all'
+      ansible.config_file = "ansible/ansible.cfg"
       # ansible.extra_vars = { clear_module_cache: true }
       # ansible.tags = "modules,ckan,drupal"
       # ansible.start_at_task = ""
