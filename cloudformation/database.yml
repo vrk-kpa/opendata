@@ -54,7 +54,7 @@ Parameters:
   DBEngineVersion:
       Description: "Database engine version"
       Type: String
-      Default: "9.5.10"
+      Default: "10.6"
   DbInstance:
       Description: "Database instance type"
       Type: String
