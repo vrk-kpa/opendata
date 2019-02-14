@@ -18,6 +18,10 @@ function avoindata_preprocess_block(&$variables) {
   }
 }
 
+function avoindata_preprocess_region(&$variables) {
+  $variables['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+}
+
 // Implements hook_views_pre_render().
 function avoindata_views_pre_render(ViewExecutable $view) {
   if($view->id() == 'frontpage' && $view->current_display == 'page_1') {
