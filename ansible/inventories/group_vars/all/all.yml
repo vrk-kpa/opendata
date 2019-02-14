@@ -49,7 +49,7 @@ drupal_editor_rolename: editor
 drupal_publisher_rolename: publisher
 drupal_ckan_admin_rolename: ckan_admin
 
-admin: {'username' : 'admin', 'password': 'admin', 'email': 'vagrant@localhost'}
+admin: {'username' : 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
 
 harvest_user: {'username' : 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
 
