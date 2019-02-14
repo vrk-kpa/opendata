@@ -26,14 +26,16 @@ class CategoriesBlock extends BlockBase {
       $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
       $result = Json::decode($response->getBody());
       $categories = $result['result'];
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $categories = NULL;
     }
-    
-    return array(
+
+    return [
       '#theme' => 'avoindata_categories',
       '#categories' => $categories,
       '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
-    );
+    ];
   }
+
 }
