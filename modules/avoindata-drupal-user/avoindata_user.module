@@ -8,14 +8,7 @@
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Implements user_form_alter.
- *
- * @param array $form
- *   Nested array of form elements that comprise the form.
- * @param Drupal\Core\Form\FormStateInterface $form_state
- *   The current state of the form.
- * @param string $form_id
- *   String representing the name of the form itself.
+ * Implements hook_user_form_user_form_alter().
  */
 function avoindata_user_form_user_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
   $form['account']['name']['#description'] = t("Must be purely lowercase alphanumeric (ascii) characters and these symbols: -_");
@@ -23,14 +16,7 @@ function avoindata_user_form_user_form_alter(array &$form, FormStateInterface $f
 }
 
 /**
- * Implements register_form_alter.
- *
- * @param array $form
- *   Nested array of form elements that comprise the form.
- * @param Drupal\Core\Form\FormStateInterface $form_state
- *   The current state of the form.
- * @param string $form_id
- *   String representing the name of the form itself.
+ * Implements hook_form_user_register_form_alter().
  */
 function avoindata_form_user_register_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
   $form['account']['name']['#description'] = t("Must be purely lowercase alphanumeric (ascii) characters and these symbols: -_");
