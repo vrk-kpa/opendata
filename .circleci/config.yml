@@ -78,7 +78,6 @@ jobs:
           key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
             - vendor
-      - run: sudo pip install ansible-lint
 
   run-ansible-lint:
     docker:
