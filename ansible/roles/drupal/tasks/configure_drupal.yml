@@ -157,6 +157,7 @@
   with_items:
     - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
     - /var/www/resources/vendor/bootstrap/dist/fonts/
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: Enable custom theme
   shell: "{{ drupal_drush_path }} then -y avoindata"
