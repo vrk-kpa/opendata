@@ -3,7 +3,7 @@
         {{ content }}
     </div>
 </div>
-<form action="guide-search" id="guide-search-form">
+<form action="/{{ language }}/guide-search" id="guide-search-form">
     <input type="search" id="guide-search-field" 
             maxlength="256" name="search_api_fulltext" 
             placeholder="{% trans %}Guide search{% endtrans %}" required="">
