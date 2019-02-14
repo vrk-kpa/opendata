@@ -4,9 +4,11 @@
 
 smtp:
   server_domain: email-smtp.eu-west-1.amazonaws.com
-  
+
 deployment_environment_id: beta
 secrets_file_path: "../../avoindata-secrets/beta/secrets.yml"
 disqus_name: "beta-avoindata-fi"
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
+
+profiling_enabled: true

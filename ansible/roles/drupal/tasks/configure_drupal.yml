@@ -152,8 +152,11 @@
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
-    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    src:  "{{ item }}"
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+  with_items:
+    - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    - /var/www/resources/vendor/bootstrap/dist/fonts/
 
 - name: Enable custom theme
   shell: "{{ drupal_drush_path }} then -y avoindata"
