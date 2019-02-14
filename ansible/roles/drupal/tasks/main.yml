@@ -115,14 +115,6 @@
   when: deployment_environment_id == "vagrant"
   with_items: "{{ drupal_custom_modules }}"
 
-
-# Not symlinked because nested symlinks don't work on windows
-
-- name: Synchronize fonts
-  synchronize:
-    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
-    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
-
 - name: Copy Drupal services yml
   template:
     src: "services.yml.j2"

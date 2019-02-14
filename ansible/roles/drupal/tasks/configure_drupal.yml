@@ -25,6 +25,12 @@
     mode: 0444
   when: drupal8_root is defined
 
+# Not symlinked because nested symlinks don't work on windows
+- name: Synchronize fonts
+  synchronize:
+    src: /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
+    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+
 - name: Check enabled drupal modules
   shell: "{{ drupal_drush_path }} pml --status enabled --field=name"
   args:
