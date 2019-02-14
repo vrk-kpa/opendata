@@ -8,13 +8,13 @@
 {%- endmacro -%}
 
 {# Custom module wrapper box - Head and Foot used together #}
-{% macro moduleBoxHead(title) %}
+{%- macro moduleBoxHead(title) -%}
   <section class="module module-narrow module-shallow">
     <h2 class="module-heading">{{ title }}</h2>
     <div class="module-content">
-{% endmacro %}
+{%- endmacro -%}
 
-{% macro moduleBoxFoot() %}
+{%- macro moduleBoxFoot() -%}
     </div>
   </section>
-{% endmacro %}
+{%- endmacro -%}

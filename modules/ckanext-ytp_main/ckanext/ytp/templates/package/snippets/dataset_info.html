@@ -31,22 +31,22 @@
 
     {% block info_tags %}
         {{ layout.moduleBoxHead(_('Tags')) }}
-            {% if pkg.get('tags') %}
+            {%- if pkg.get('tags') -%}
                 {% for tag in pkg.get('tags') %}
                     <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name') | lower }}" rel="nofollow">{{tag.get('display_name') | lower}}</a>
                     {%- if not loop.last %} <br /> {% endif -%}
                 {% endfor %}
-            {%endif%}
+            {%- endif -%}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
     {% block material_type_info %}
         {{ layout.moduleBoxHead(_('Content Type')) }}
-            {% if pkg.get( 'content_type') %}
+            {%- if pkg.get( 'content_type') -%}
                 {% set lang = h.get_lang_prefix() %}
                 {% set con_list = pkg.get( 'content_type' ) %}
                 {% if con_list is mapping %}
-                {% set con_list = con_list.get(lang, []) %}
+                    {% set con_list = con_list.get(lang, []) %}
                 {% else %}
                     {% set con_list = con_list.split(',') %}
                 {% endif %}
@@ -54,7 +54,7 @@
                     <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
                     {%- if not loop.last %} <br /> {% endif -%}
                 {%- endfor -%}
-            {%endif%}
+            {%- endif -%}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
