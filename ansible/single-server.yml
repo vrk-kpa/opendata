@@ -10,6 +10,11 @@
     database_ip_range: "127.0.0.1/8"
 
   pre_tasks:
+    - name: Ensure www directory exists
+      file:
+        path: "/var/www"
+        state: directory
+        
     - name: Enable maintenance mode
       file:
         path: "/var/www/maintenance"
