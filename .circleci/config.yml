@@ -61,12 +61,12 @@ jobs:
 
       - run:
           name: Run codesniffer for drupal standard
-          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*
+          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*,ytp-assets-common
           working_directory: ~/project/drupal8/
 
       - run:
           name: Run codesniffer for drupal practice
-          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*
+          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*,ytp-assets-common
           working_directory: ~/project/drupal8/
 
       - save_cache:
