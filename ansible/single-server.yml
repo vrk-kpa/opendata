@@ -14,7 +14,7 @@
       file:
         path: "/var/www"
         state: directory
-        
+
     - name: Enable maintenance mode
       file:
         path: "/var/www/maintenance"
@@ -31,21 +31,21 @@
       tags: cloudwatch_agent_role
 
   roles:
-    - common
-    - database
-    - opendata_frontend
-    - nginx
-    - jetty
-    - redis
+    - {role: common, tags: common_role}
+    - {role: database, tags: database_role}
+    - {role: opendata_frontend, tags: opendata_frontend_role}
+    - {role: nginx, tags: nginx_role}
+    - {role: jetty, tags: jetty_role}
+    - {role: redis, tags: redis_role}
     - ckan-extensions
-    - ckan
+    - {role: ckan, tags: ckan_role}
     - ckan-config
     - ckan-database
     - ckan-data
     - ckan-restart
-    - drupal
-    - data
-    - datapusher
+    - {role: drupal, tags: drupal_role}
+    - {role: data, tags: data_role}
+    - {role: datapusher, tags: datapusher_role}
 
   post_tasks:
     - name: Remove maintenance mode
