@@ -1,13 +1,19 @@
 <?php
-/**
- * @file
- */
+
 namespace Drupal\avoindata_hero\Plugin\Form;
+
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\Component\Serialization\Json;
 
+/**
+ * Adds search form to hero element.
+ *
+ * Class HeroForm
+ *   Adds form.
+ *
+ * @package Drupal\avoindata_hero\Plugin\Form
+ */
 class HeroForm extends FormBase {
 
   /**
@@ -22,23 +28,23 @@ class HeroForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['searchfilter'] = array(
+    $form['searchfilter'] = [
       '#type' => 'textfield',
       '#default_value' => '1',
-      '#attributes' => array('class' => array('input-hero-search-filter', 'hidden')),
-    );
+      '#attributes' => ['class' => ['input-hero-search-filter', 'hidden']],
+    ];
 
-    $form['search'] = array(
+    $form['search'] = [
       '#type' => 'textfield',
-      '#attributes' => array('class' => array('input-hero-search')),
-    );
+      '#attributes' => ['class' => ['input-hero-search']],
+    ];
 
-    $form['actions']['submit'] = array(
+    $form['actions']['submit'] = [
       '#type' => 'submit',
-      // Unicode used to avoid "Theme Button Iconization for search keyword
+      // Unicode used to avoid "Theme Button Iconization for search keyword.
       '#value' => $this->t('<i class="fas">&#xf002;</i>'),
-      '#attributes' => array('class' => array('btn-hero-search')),
-    );
+      '#attributes' => ['class' => ['btn-hero-search']],
+    ];
 
     $form['#theme'] = ['avoindata_hero'];
 
@@ -63,18 +69,20 @@ class HeroForm extends FormBase {
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $base_path = '/data/%s';
 
-    if($language === 'en') {
+    if ($language === 'en') {
       $base_path = sprintf($base_path, 'en_GB');
-    } else {
+    }
+    else {
       $base_path = sprintf($base_path, $language);
     }
 
-
-    if($filter == '2') {
+    if ($filter == '2') {
       $base_path = $base_path . '/showcase';
-    } elseif ($filter == '3') {
+    }
+    elseif ($filter == '3') {
       $base_path = $base_path . '/organization';
-    } else {
+    }
+    else {
       $base_path = $base_path . '/dataset';
     }
 
@@ -83,4 +91,5 @@ class HeroForm extends FormBase {
     $url = url::fromUserInput($redirect_path);
     $form_state->setRedirectUrl($url);
   }
+
 }

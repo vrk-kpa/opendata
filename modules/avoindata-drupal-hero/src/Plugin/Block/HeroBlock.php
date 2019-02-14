@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_hero\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Form\FormInterface;
 
 /**
  * Provides a 'Avoindata Hero' Block.
