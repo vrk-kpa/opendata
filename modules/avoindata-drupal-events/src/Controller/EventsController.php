@@ -3,14 +3,28 @@
 namespace Drupal\avoindata_events\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Component\Serialization\Json;
-use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Datetime\DrupalDateTime;
 
+/**
+ * Adds event contoller.
+ *
+ * Class EventsController
+ *   Implements event controller.
+ *
+ * @package Drupal\avoindata_events\Controller
+ */
 class EventsController extends ControllerBase {
+
+  /**
+   * Requests events from drupal.
+   *
+   * @param Symfony\Component\HttpFoundation\Request $request
+   *   HTTP request.
+   *
+   * @return array
+   *   Returns formatted array of events.
+   */
   public function events(Request $request) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $currentDateTime = new DrupalDateTime('today');
@@ -22,68 +36,69 @@ class EventsController extends ControllerBase {
     $showpast = $request->query->get('past');
 
     $eventNodeIdsTitleQuery = \Drupal::entityQuery('node')
-    ->condition('type', 'avoindata_event')
-    ->condition('langcode', $lang);
+      ->condition('type', 'avoindata_event')
+      ->condition('langcode', $lang);
     $eventNodeIdsBodyQuery = \Drupal::entityQuery('node')
-    ->condition('type', 'avoindata_event')
-    ->condition('langcode', $lang);
+      ->condition('type', 'avoindata_event')
+      ->condition('langcode', $lang);
 
-    if(!empty($searchterm)) {
+    if (!empty($searchterm)) {
       $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery
-      ->condition('title', $searchterm, 'CONTAINS');
+        ->condition('title', $searchterm, 'CONTAINS');
       $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery
-      ->condition('body', $searchterm, 'CONTAINS');
+        ->condition('body', $searchterm, 'CONTAINS');
     }
 
-    if(empty($showpast) OR (!empty($showpast) AND strcmp($showpast, 'false') == 0)) {
+    if (empty($showpast) or (!empty($showpast) and strcmp($showpast, 'false') == 0)) {
       $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery
-      ->condition('field_start_date', $formattedcurrentDateTime, '>=');
+        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
       $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery
-      ->condition('field_start_date', $formattedcurrentDateTime, '>=');
+        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
     }
 
     $eventNodeIdsTitle = $eventNodeIdsTitleQuery
-    ->execute();
+      ->execute();
     $eventNodeIdsBody = $eventNodeIdsBodyQuery
-    ->execute();
+      ->execute();
 
-    $eventNodeIdsCombined = array_unique(array_merge($eventNodeIdsTitle,$eventNodeIdsBody), SORT_REGULAR);
+    $eventNodeIdsCombined = array_unique(array_merge($eventNodeIdsTitle, $eventNodeIdsBody), SORT_REGULAR);
 
-    $eventNodeIds = array();
-    if(!empty($eventNodeIdsCombined)) {
+    $eventNodeIds = [];
+    if (!empty($eventNodeIdsCombined)) {
       $eventNodeIdsQuery = \Drupal::entityQuery('node')
-      ->condition('type', 'avoindata_event')
-      ->condition('langcode', $lang)
-      ->condition('nid', $eventNodeIdsCombined, 'IN');
-  
-      if(strcmp($sort, 'asc') == 0) {
+        ->condition('type', 'avoindata_event')
+        ->condition('langcode', $lang)
+        ->condition('nid', $eventNodeIdsCombined, 'IN');
+
+      if (strcmp($sort, 'asc') == 0) {
         $eventNodeIds = $eventNodeIdsQuery
-        ->sort('field_start_date' , 'asc')
-        ->execute();
+          ->sort('field_start_date', 'asc')
+          ->execute();
         $sort = 'asc';
-      } else {
+      }
+      else {
         $eventNodeIds = $eventNodeIdsQuery
-        ->sort('field_start_date' , 'desc')
-        ->execute();
+          ->sort('field_start_date', 'desc')
+          ->execute();
         $sort = 'desc';
       }
     }
 
     $eventNodes = \Drupal::entityTypeManager()
-    ->getStorage('node')
-    ->loadMultiple($eventNodeIds);
+      ->getStorage('node')
+      ->loadMultiple($eventNodeIds);
 
-
-    return array(
+    return [
       '#searchterm' => $searchterm,
       '#sort' => $sort,
       '#showpast' => $showpast,
       '#events' => $eventNodes,
       '#language' => $lang,
       '#theme' => 'avoindata_events',
-      '#cache' => array(
-        'tags' => ['node_list']
-      )
-    );
+      '#cache' => [
+        'tags' => ['node_list'],
+      ],
+    ];
   }
+
 }
