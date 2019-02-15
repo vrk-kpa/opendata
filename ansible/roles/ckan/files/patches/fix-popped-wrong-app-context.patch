@@ -1,0 +1,26 @@
+From 42713323bf2f54cf3529f52415c2a910ea99db7d Mon Sep 17 00:00:00 2001
+From: Teemu Erkkola <teemu.erkkola@gofore.com>
+Date: Fri, 15 Feb 2019 12:38:21 +0200
+Subject: [PATCH] Disable streaming for pylons requests, fixes ckan/ckan#4431
+
+---
+ ckan/config/middleware/pylons_app.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/ckan/config/middleware/pylons_app.py b/ckan/config/middleware/pylons_app.py
+index 73b714509a..c9fb2ed8f9 100644
+--- a/ckan/config/middleware/pylons_app.py
++++ b/ckan/config/middleware/pylons_app.py
+@@ -138,10 +138,7 @@ def make_pylons_stack(conf, full_stack=True, static_files=True,
+     )
+ 
+     # Establish the Registry for this application
+-    # The RegistryManager includes code to pop
+-    # registry values after the stream has completed,
+-    # so we need to prevent this with `streaming` set to True.
+-    app = RegistryManager(app, streaming=True)
++    app = RegistryManager(app, streaming=False)
+ 
+     if asbool(static_files):
+         # Serve static files
+
