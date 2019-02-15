@@ -152,7 +152,7 @@
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
-    src:  "{{ item }}"
+    src: "{{ item }}"
     dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
   with_items:
     - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
