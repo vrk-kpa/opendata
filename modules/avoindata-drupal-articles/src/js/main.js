@@ -1,7 +1,6 @@
 import queryString from 'query-string';
-
-document.onreadystatechange = function () {
-  if (document.readyState === 'interactive') {
+document.addEventListener('readystatechange', event => {
+  if (event.target.readyState === 'interactive') {
     addArticleSearchClickListeners();
     addArticleCategoryClickListeners();
 
@@ -17,7 +16,7 @@ document.onreadystatechange = function () {
       })
     }
   }
-}
+});
 
 function addArticleSearchClickListeners() {
   const searchButton = document.getElementById('avoindata-articles-search-btn');
@@ -36,7 +35,7 @@ function addArticleCategoryClickListeners() {
   }
 }
 
-function searchArticlesOnEnter() {
+function searchArticlesOnEnter(event) {
   if (event.key === 'Enter') {
     searchArticlesSubmit();
   }
