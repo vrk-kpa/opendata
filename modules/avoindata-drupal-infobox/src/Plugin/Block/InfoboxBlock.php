@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_infobox\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides a 'Avoindata Infobox' Block.
@@ -20,9 +19,10 @@ class InfoboxBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return array(
+    return [
       '#theme' => 'avoindata_infobox',
       '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
-    );
+    ];
   }
+
 }

@@ -60,20 +60,24 @@ jobs:
           working_directory: ~/project/drupal8/
 
       - run:
+          name: Ignore warnings on exit code
+          command: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+          working_directory: ~/project/drupal8/
+
+      - run:
           name: Run codesniffer for drupal standard
-          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*
+          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*,ytp-assets-common
           working_directory: ~/project/drupal8/
 
       - run:
           name: Run codesniffer for drupal practice
-          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*
+          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*,ytp-assets-common
           working_directory: ~/project/drupal8/
 
       - save_cache:
           key: composer-v1-{{ checksum "drupal8/composer.json" }}
           paths:
             - vendor
-      - run: sudo pip install ansible-lint
 
   run-ansible-lint:
     docker:
