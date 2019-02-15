@@ -31,12 +31,7 @@
 
     {% block info_tags %}
         {{ layout.moduleBoxHead(_('Tags')) }}
-            {%- if pkg.get('tags') -%}
-                {% for tag in pkg.get('tags') %}
-                    <a href="/data/{{ h.lang() }}/dataset?tags={{tag.get('name') | lower }}" rel="nofollow">{{tag.get('display_name') | lower}}</a>
-                    {%- if not loop.last %} <br /> {% endif -%}
-                {% endfor %}
-            {%- endif -%}
+            {% snippet 'sixodp_showcase/snippets/tags.html', tags=pkg.keywords %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
