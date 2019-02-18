@@ -1,10 +1,15 @@
 # English translation of 10.10.10.10
 # 
+# Translators:
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Aaron Hakala <aaron.hakala@gofore.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-02-13 18:08+0200\n"
+"POT-Creation-Date: 2019-02-18 12:29+0200\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
+"Last-Translator: Aaron Hakala <aaron.hakala@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -268,19 +273,19 @@ msgid "Taxonomy"
 msgstr ""
 
 msgid "Preview"
-msgstr ""
+msgstr "Esikatselu"
 
-msgid "Home"
-msgstr ""
+msgid "Username"
+msgstr "Käyttäjätunnus"
 
 msgid "Default"
 msgstr ""
 
-msgid "Administration"
+msgid "closed"
 msgstr ""
 
 msgid "Register"
-msgstr ""
+msgstr "Rekisteröidy"
 
 msgid "Feed"
 msgstr ""
@@ -288,7 +293,7 @@ msgstr ""
 msgid "Body"
 msgstr ""
 
-msgid "Action"
+msgid "Administration"
 msgstr ""
 
 msgid "Operations"
@@ -301,10 +306,10 @@ msgid "Taxonomy term"
 msgstr ""
 
 msgid "More"
-msgstr ""
+msgstr "Lisää"
 
 msgid "Date"
-msgstr ""
+msgstr "Päivämäärä"
 
 msgid "Type"
 msgstr ""
@@ -334,10 +339,10 @@ msgid "Status"
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Viesti"
 
-msgid "Username"
-msgstr ""
+msgid "Password"
+msgstr "Salasana"
 
 msgid "List"
 msgstr ""
@@ -349,12 +354,12 @@ msgid "Export"
 msgstr ""
 
 msgid "user"
-msgstr ""
+msgstr "käyttäjä"
 
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
-msgid "not verified"
+msgid "Action"
 msgstr ""
 
 msgid "Advanced options"
@@ -364,10 +369,10 @@ msgid "Settings"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Lähetä"
 
 msgid "Search"
-msgstr ""
+msgstr "Haku"
 
 msgid "Delete"
 msgstr ""
@@ -376,7 +381,7 @@ msgid "Remove"
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "Tallenna"
 
 msgid "Import"
 msgstr ""
@@ -396,8 +401,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Password"
-msgstr ""
+msgid "Home"
+msgstr "Etusivu"
 
 msgid "Development"
 msgstr ""
@@ -405,14 +410,14 @@ msgstr ""
 msgid "User interface"
 msgstr ""
 
-msgid "closed"
+msgid "Monday"
 msgstr ""
 
 msgid "Save configuration"
 msgstr ""
 
 msgid "Image"
-msgstr ""
+msgstr "Kuva"
 
 msgid "Next"
 msgstr ""
@@ -420,7 +425,7 @@ msgstr ""
 msgid "Sunday"
 msgstr ""
 
-msgid "Monday"
+msgid "not verified"
 msgstr ""
 
 msgid "Enable"
@@ -436,7 +441,7 @@ msgid "yes"
 msgstr ""
 
 msgid "Description"
-msgstr ""
+msgstr "Kuvaus"
 
 msgid "High"
 msgstr ""
@@ -724,10 +729,10 @@ msgid "Off"
 msgstr ""
 
 msgid "Picture"
-msgstr ""
+msgstr "Kuva"
 
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 msgid "Teaser"
 msgstr ""
@@ -747,14 +752,16 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-msgid "Friday"
-msgstr ""
+msgid "1 day"
+msgid_plural "@count days"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Archive"
 msgstr ""
 
 msgid "Menu"
-msgstr ""
+msgstr "Valikko"
 
 msgid "Attachment"
 msgstr ""
@@ -763,7 +770,7 @@ msgid "Active"
 msgstr ""
 
 msgid "Contact"
-msgstr ""
+msgstr "Ole yhteydessä"
 
 msgid "file"
 msgstr ""
@@ -775,7 +782,7 @@ msgid "Views"
 msgstr ""
 
 msgid "Page"
-msgstr ""
+msgstr "Sivu"
 
 msgid "Create"
 msgstr ""
@@ -801,23 +808,19 @@ msgstr ""
 msgid "Access denied"
 msgstr ""
 
-msgid "1 day"
-msgid_plural "@count days"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "1 hour"
-msgid_plural "@count hours"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Breadcrumb"
+msgstr ""
 
 msgid "Available updates"
 msgstr ""
 
-msgid "Breadcrumb"
+msgid "Friday"
 msgstr ""
 
 msgid "Add content"
+msgstr ""
+
+msgid "PHP"
 msgstr ""
 
 msgid "Parent item"
@@ -839,7 +842,7 @@ msgid "Tuesday"
 msgstr ""
 
 msgid "User"
-msgstr ""
+msgstr "Käyttäjä"
 
 msgid "Saturday"
 msgstr ""
@@ -859,9 +862,6 @@ msgstr ""
 msgid "Core"
 msgstr ""
 
-msgid "PHP"
-msgstr ""
-
 msgid "never"
 msgstr ""
 
@@ -873,6 +873,11 @@ msgstr ""
 
 msgid "Content type"
 msgstr ""
+
+msgid "1 hour"
+msgid_plural "@count hours"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Manual update check"
 msgstr ""
@@ -902,7 +907,7 @@ msgid "Selected"
 msgstr ""
 
 msgid "Your name"
-msgstr ""
+msgstr "Nimesi"
 
 msgid "Aggregator feed"
 msgstr ""
@@ -1114,9 +1119,6 @@ msgstr ""
 msgid "standard"
 msgstr ""
 
-msgid "Caching"
-msgstr ""
-
 msgid "Month"
 msgstr ""
 
@@ -1208,7 +1210,7 @@ msgid "Last access"
 msgstr ""
 
 msgid "Published"
-msgstr ""
+msgstr "Julkaistu"
 
 msgid "Watchdog"
 msgstr ""
@@ -1229,7 +1231,7 @@ msgid "Media"
 msgstr ""
 
 msgid "Comment"
-msgstr ""
+msgstr "Kommentti"
 
 msgid "Fields"
 msgstr ""
@@ -1238,22 +1240,25 @@ msgid ", "
 msgstr ""
 
 msgid "Up to date"
-msgstr ""
+msgstr "Ajantasalla"
 
 msgid "Desc"
 msgstr ""
 
-msgid "Out of date"
+msgid "Caching"
 msgstr ""
 
 msgid "Time zone"
-msgstr ""
+msgstr "Aikavyöhyke"
 
 msgid "Performance"
 msgstr ""
 
 msgid "System"
 msgstr ""
+
+msgid "Out of date"
+msgstr "Vanhentunut"
 
 msgid "Authored by"
 msgstr ""
@@ -1279,13 +1284,13 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-msgid "Drupal core update status"
-msgstr ""
-
 msgid "Administer content"
 msgstr ""
 
 msgid "From"
+msgstr ""
+
+msgid "Drupal core update status"
 msgstr ""
 
 msgid "Cuba"
@@ -1504,9 +1509,6 @@ msgstr ""
 msgid "Found"
 msgstr ""
 
-msgid "Clear cache"
-msgstr ""
-
 msgid "fields"
 msgstr ""
 
@@ -1662,14 +1664,11 @@ msgstr ""
 msgid "Cameroon"
 msgstr ""
 
-msgid "Fri"
-msgstr ""
-
 msgid "Full"
 msgstr ""
 
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonyymi"
 
 msgid "Tracker"
 msgstr ""
@@ -1677,8 +1676,11 @@ msgstr ""
 msgid "Recent comments"
 msgstr ""
 
-msgid "Log in"
+msgid "Mon"
 msgstr ""
+
+msgid "Log in"
+msgstr "Kirjaudu"
 
 msgid "Sort Criteria"
 msgstr ""
@@ -1710,7 +1712,7 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-msgid "Close"
+msgid "Fri"
 msgstr ""
 
 msgid "Appearance"
@@ -1722,7 +1724,7 @@ msgstr ""
 msgid "Sun"
 msgstr ""
 
-msgid "Mon"
+msgid "Clear cache"
 msgstr ""
 
 msgid "Tue"
@@ -1741,6 +1743,9 @@ msgid "Administer views"
 msgstr ""
 
 msgid "Role"
+msgstr ""
+
+msgid "Close"
 msgstr ""
 
 msgid "Canada"
@@ -2532,7 +2537,7 @@ msgid "Info"
 msgstr ""
 
 msgid "next ›"
-msgstr ""
+msgstr "seuraava >"
 
 msgid "English"
 msgstr ""
@@ -2541,7 +2546,7 @@ msgid "Entity"
 msgstr ""
 
 msgid "‹ previous"
-msgstr ""
+msgstr "< edellinen"
 
 msgid "Show"
 msgstr ""
@@ -2553,12 +2558,12 @@ msgid "Front page"
 msgstr ""
 
 msgid "Locale settings"
-msgstr ""
+msgstr "Maa- ja kielikohtaiset asetukset"
 
 msgid "Create new account"
-msgstr ""
+msgstr "Luo uusi käyttäjätili"
 
-msgid "Extend"
+msgid "author"
 msgstr ""
 
 msgid "Log out"
@@ -2567,16 +2572,13 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-msgid "author"
-msgstr ""
-
 msgid "View user profile."
 msgstr ""
 
-msgid "Create new revision"
+msgid "Extend"
 msgstr ""
 
-msgid "Deselect all rows in this table"
+msgid "Create new revision"
 msgstr ""
 
 msgid "Leave blank for %anonymous."
@@ -2685,9 +2687,6 @@ msgid "or"
 msgstr ""
 
 msgid "Getting Started"
-msgstr ""
-
-msgid "Aggregate JavaScript files"
 msgstr ""
 
 msgid "Convert"
@@ -2852,7 +2851,7 @@ msgid "New comments"
 msgstr ""
 
 msgid "New"
-msgstr ""
+msgstr "Uusi"
 
 msgid "Redirect to URL"
 msgstr ""
@@ -2882,7 +2881,7 @@ msgid "Migrate"
 msgstr ""
 
 msgid "The username %name has not been activated or is blocked."
-msgstr ""
+msgstr "Käyttäjän %name tiliä ei ole aktivoitu tai se on estetty."
 
 msgid "Login attempt failed for %user."
 msgstr ""
@@ -2990,16 +2989,16 @@ msgid "comment"
 msgstr ""
 
 msgid "‹ Previous"
-msgstr ""
+msgstr "< Edellinen"
 
 msgid "Next ›"
-msgstr ""
+msgstr "Seuraava >"
 
-msgid "Changed"
-msgstr ""
+msgid "Reset password"
+msgstr "Unohditko salasanasi?"
 
 msgid "Published comments"
-msgstr ""
+msgstr "Julkaistut kommentit"
 
 msgid "Author Name"
 msgstr ""
@@ -3008,12 +3007,12 @@ msgid "Translation language"
 msgstr ""
 
 msgid "Unpublished"
-msgstr ""
+msgstr "Julkaisematon"
 
 msgid "Glossary"
 msgstr ""
 
-msgid "Please wait..."
+msgid "Aggregate JavaScript files"
 msgstr ""
 
 msgid "Blocked"
@@ -3025,11 +3024,11 @@ msgstr ""
 msgid "Cron"
 msgstr ""
 
-msgid "Reset password"
+msgid "Changed"
 msgstr ""
 
 msgid "Contact settings"
-msgstr ""
+msgstr "Yhteydenottoasetukset"
 
 msgid "Menu settings"
 msgstr ""
@@ -3065,10 +3064,13 @@ msgid "Password strength:"
 msgstr ""
 
 msgid "Oldest first"
-msgstr ""
+msgstr "Vanhimmat ensin"
 
 msgid "Apply"
 msgstr ""
+
+msgid "Please wait..."
+msgstr "Odota..."
 
 msgid "Location of comment submission form"
 msgstr ""
@@ -3403,7 +3405,7 @@ msgid "Permission"
 msgstr ""
 
 msgid "Publish"
-msgstr ""
+msgstr "Julkaise"
 
 msgid "Language code"
 msgstr ""
@@ -3647,16 +3649,6 @@ msgid_plural "@count years"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "1 week"
-msgid_plural "@count weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "1 min"
-msgid_plural "@count min"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "1 sec"
 msgid_plural "@count sec"
 msgstr[0] ""
@@ -3699,7 +3691,7 @@ msgid "contains"
 msgstr ""
 
 msgid "Send message"
-msgstr ""
+msgstr "Lähetä viesti"
 
 msgid "Allow Upscaling"
 msgstr ""
@@ -3734,6 +3726,8 @@ msgstr ""
 
 msgid "Password reset instructions mailed to %name at %email."
 msgstr ""
+"Salasanan asetusohjeet lähetetäänkäyttäjälle %name sähköpostiosoitteeseen "
+"%email."
 
 msgid "types"
 msgstr ""
@@ -3802,13 +3796,13 @@ msgid "Restore"
 msgstr ""
 
 msgid "last »"
-msgstr ""
+msgstr "viimeinen »"
 
 msgid "Account settings"
 msgstr ""
 
 msgid "« first"
-msgstr ""
+msgstr "« ensimmäinen"
 
 msgid "Machine name"
 msgstr ""
@@ -3824,6 +3818,11 @@ msgstr ""
 
 msgid "My account"
 msgstr ""
+
+msgid "1 week"
+msgid_plural "@count weeks"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "There are updates available for your version of Drupal. To ensure the proper"
@@ -3841,6 +3840,11 @@ msgstr ""
 
 msgid "Taxonomy vocabulary"
 msgstr ""
+
+msgid "1 min"
+msgid_plural "@count min"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "This project has been labeled insecure by the Drupal security team, and is "
@@ -4201,14 +4205,11 @@ msgstr ""
 msgid "Web server"
 msgstr ""
 
-msgid "Compress layout by hiding descriptions."
-msgstr ""
-
 msgid "Hide descriptions"
 msgstr ""
 
 msgid "Newest first"
-msgstr ""
+msgstr "Uusimmat ensin"
 
 msgid "Skip to main content"
 msgstr ""
@@ -4555,13 +4556,10 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-msgid "Primary tabs"
-msgstr ""
+msgid "Error message"
+msgstr "Virhe viesti"
 
 msgid "Not applicable"
-msgstr ""
-
-msgid "Error message"
 msgstr ""
 
 msgid "Dates"
@@ -4570,7 +4568,7 @@ msgstr ""
 msgid "Entity type"
 msgstr ""
 
-msgid "Translate"
+msgid "Primary tabs"
 msgstr ""
 
 msgid "Web services"
@@ -4580,12 +4578,15 @@ msgid "Manage tagging, categorization, and classification of your content."
 msgstr ""
 
 msgid "User account"
-msgstr ""
+msgstr "Käyttäjätili"
 
 msgid "Admin menu"
 msgstr ""
 
 msgid "Tour"
+msgstr ""
+
+msgid "Translate"
 msgstr ""
 
 msgid "Insert Image"
@@ -4692,7 +4693,7 @@ msgid "Path to custom icon"
 msgstr ""
 
 msgid "Your email address"
-msgstr ""
+msgstr "Sähköpostiosoitteesi"
 
 msgid "‹"
 msgstr ""
@@ -4972,10 +4973,10 @@ msgid "Posted in"
 msgstr ""
 
 msgid "Frontpage"
-msgstr ""
+msgstr "Etusivu"
 
 msgid "Temporary"
-msgstr ""
+msgstr "Väliaikainen"
 
 msgid "Permanent"
 msgstr ""
@@ -4995,6 +4996,9 @@ msgstr ""
 msgid "Status report"
 msgstr ""
 
+msgid "PHP extensions"
+msgstr ""
+
 msgid "Revision information"
 msgstr ""
 
@@ -5002,9 +5006,6 @@ msgid "Add link"
 msgstr ""
 
 msgid "RDF mapping"
-msgstr ""
-
-msgid "PHP extensions"
 msgstr ""
 
 msgid "View comments"
@@ -6604,7 +6605,7 @@ msgid "The requested page could not be found."
 msgstr ""
 
 msgid "Select language"
-msgstr ""
+msgstr "Valitse kieli"
 
 msgid "View events that have recently been logged."
 msgstr ""
@@ -6618,13 +6619,13 @@ msgstr ""
 msgid "Enables the use of both personal and site-wide contact forms."
 msgstr ""
 
-msgid "Update notifications"
-msgstr ""
-
 msgid "Unicode library"
 msgstr ""
 
 msgid "Top 'page not found' errors"
+msgstr ""
+
+msgid "Update notifications"
 msgstr ""
 
 msgid "No roles may use this format"
@@ -6911,10 +6912,10 @@ msgid "Simple CJK handling"
 msgstr ""
 
 msgid "The username cannot begin with a space."
-msgstr ""
+msgstr "Käyttäjänimi ei saa alkaa tyhjällä merkillä."
 
 msgid "The username cannot end with a space."
-msgstr ""
+msgstr "Käyttäjänimi ei saa päättyä tyhjään merkkiin."
 
 msgid "View 'access denied' errors (403s)."
 msgstr ""
@@ -7026,9 +7027,6 @@ msgid "Default 403 (access denied) page"
 msgstr ""
 
 msgid "Default 404 (not found) page"
-msgstr ""
-
-msgid "Caches cleared."
 msgstr ""
 
 msgid "Select an image processing toolkit"
@@ -7200,10 +7198,10 @@ msgid ""
 "themes."
 msgstr ""
 
-msgid ""
-"There are updates available for one or more of your modules or themes. To "
-"ensure the proper functioning of your site, you should update as soon as "
-"possible."
+msgid "Caches cleared."
+msgstr ""
+
+msgid "Module and theme update status"
 msgstr ""
 
 msgid "Enables site-wide keyword searching."
@@ -7216,9 +7214,6 @@ msgid "Handles general site configuration for administrators."
 msgstr ""
 
 msgid "@module (<span class=\"admin-missing\">missing</span>)"
-msgstr ""
-
-msgid "Module and theme update status"
 msgstr ""
 
 msgid "Access to update.php"
@@ -7237,13 +7232,15 @@ msgid "RSS publishing"
 msgstr ""
 
 msgid "The username cannot contain multiple spaces in a row."
-msgstr ""
+msgstr "Käyttäjänimi ei saa sisältää useaa tyhjää merkkiä peräkkäin."
 
 msgid "The username contains an illegal character."
-msgstr ""
+msgstr "Käyttäjänimi sisältää ei-sallittuja merkkejä."
 
 msgid "The username %name is too long: it must be %max characters or less."
 msgstr ""
+"Käyttäjänimi %name on liian pitkä: nimi saa olla pituudeltaan enintään %max "
+"merkkiä."
 
 msgid "Unblock the selected users"
 msgstr ""
@@ -7575,14 +7572,14 @@ msgid ""
 "Drupal could not determine the encoding of the database was set to UTF-8"
 msgstr ""
 
-msgid "Enter the password that accompanies your username."
+msgid "Sort ascending"
 msgstr ""
 
 msgid "Delete content"
 msgstr ""
 
 msgid "Author name"
-msgstr ""
+msgstr "Kirjoittajan nimi"
 
 msgid "Regional settings"
 msgstr ""
@@ -7599,7 +7596,7 @@ msgstr ""
 msgid "@size MB"
 msgstr ""
 
-msgid "Sort ascending"
+msgid "Enter the password that accompanies your username."
 msgstr ""
 
 msgid "Upload progress"
@@ -8209,9 +8206,6 @@ msgstr ""
 msgid "Operating in maintenance mode."
 msgstr ""
 
-msgid "Status message"
-msgstr ""
-
 msgid "Unable to determine the type of the source directory."
 msgstr ""
 
@@ -8228,7 +8222,19 @@ msgstr ""
 msgid "Term count"
 msgstr ""
 
+msgid "Debugging information follows."
+msgstr ""
+
 msgid "An AJAX HTTP error occurred."
+msgstr ""
+
+msgid "Path: !uri"
+msgstr ""
+
+msgid "StatusText: !statusText"
+msgstr ""
+
+msgid "Status message"
 msgstr ""
 
 msgid "(active tab)"
@@ -8238,15 +8244,6 @@ msgid "HTTP Result Code: !status"
 msgstr ""
 
 msgid "An AJAX HTTP request terminated abnormally."
-msgstr ""
-
-msgid "Debugging information follows."
-msgstr ""
-
-msgid "Path: !uri"
-msgstr ""
-
-msgid "StatusText: !statusText"
 msgstr ""
 
 msgid "Field types"
@@ -8498,9 +8495,6 @@ msgstr ""
 msgid "This field stores a number in the database as an integer."
 msgstr ""
 
-msgid "ReadyState: !readyState"
-msgstr ""
-
 msgid "Full comment"
 msgstr ""
 
@@ -8545,6 +8539,9 @@ msgid "Use the site-wide contact form"
 msgstr ""
 
 msgid "Use users' personal contact forms"
+msgstr ""
+
+msgid "ReadyState: !readyState"
 msgstr ""
 
 msgid "This field stores a number in the database in a fixed decimal format."
@@ -9401,7 +9398,7 @@ msgid "Edit shortcuts"
 msgstr ""
 
 msgid "Recent content"
-msgstr ""
+msgstr "Tuore sisältö"
 
 msgid "Remove from %shortcut_set shortcuts"
 msgstr ""
@@ -9413,9 +9410,6 @@ msgid "<em>Edit @type</em> @title"
 msgstr ""
 
 msgid "Allows users to manage customizable lists of shortcut links."
-msgstr ""
-
-msgid "Node Access Permissions"
 msgstr ""
 
 msgid "Administer content types"
@@ -9443,6 +9437,9 @@ msgid "View published content"
 msgstr ""
 
 msgid "Revision log message"
+msgstr ""
+
+msgid "Node Access Permissions"
 msgstr ""
 
 msgid "Any safe"
@@ -9566,12 +9563,6 @@ msgid ""
 msgstr ""
 
 msgid "Errors and warnings"
-msgstr ""
-
-msgid "Clear all caches"
-msgstr ""
-
-msgid "Bandwidth optimization"
 msgstr ""
 
 msgid "Public file system path"
@@ -9735,6 +9726,12 @@ msgid "Use the site in maintenance mode"
 msgstr ""
 
 msgid "View site reports"
+msgstr ""
+
+msgid "Clear all caches"
+msgstr ""
+
+msgid "Bandwidth optimization"
 msgstr ""
 
 msgid "The directory %directory does not exist and could not be created."
@@ -10598,11 +10595,6 @@ msgstr ""
 msgid "Syslog format"
 msgstr ""
 
-msgid ""
-"External resources can be optimized automatically, which can reduce both the"
-" size and number of requests made to your website."
-msgstr ""
-
 msgid "A date in 'time-since' format. (%date)"
 msgstr ""
 
@@ -10647,9 +10639,6 @@ msgstr ""
 msgid "Overview of fields on all entity types."
 msgstr ""
 
-msgid "Collapse"
-msgstr ""
-
 msgid "all languages"
 msgstr ""
 
@@ -10668,10 +10657,12 @@ msgstr ""
 msgid "Field API to add fields to entities like nodes and users."
 msgstr ""
 
-msgid "GD library PNG support"
+msgid ""
+"External resources can be optimized automatically, which can reduce both the"
+" size and number of requests made to your website."
 msgstr ""
 
-msgid "Translation update status"
+msgid "Collapse"
 msgstr ""
 
 msgid "Administer text formats and filters"
@@ -10684,6 +10675,9 @@ msgid "Select any shortcut set"
 msgstr ""
 
 msgid "Current password"
+msgstr ""
+
+msgid "Translation update status"
 msgstr ""
 
 msgid "%field cannot contain any markup."
@@ -11287,6 +11281,9 @@ msgstr ""
 msgid "View reports, updates, and errors."
 msgstr ""
 
+msgid "Database system"
+msgstr ""
+
 msgid ""
 "A unique name to construct the URL for the menu. It must only contain "
 "lowercase letters, numbers and hyphens."
@@ -11302,9 +11299,6 @@ msgid "Install new theme"
 msgstr ""
 
 msgid "Install new module"
-msgstr ""
-
-msgid "Database system"
 msgstr ""
 
 msgid "Database system version"
@@ -13546,13 +13540,13 @@ msgid ""
 "first layout."
 msgstr ""
 
-msgid "Show all columns"
-msgstr ""
-
 msgid "Perform tasks on specific events triggered within the system."
 msgstr ""
 
 msgid "Enables banning of IP addresses."
+msgstr ""
+
+msgid "Show all columns"
 msgstr ""
 
 msgid "You must enter a valid hexadecimal color value for %name."
@@ -14237,6 +14231,9 @@ msgid ""
 "approval by the site administrator.<br />In the meantime, a welcome message "
 "with further instructions has been sent to your email address."
 msgstr ""
+"Kiitos käyttäjätilin hakemisesta. Tilisi odottaa ylläpitäjän hyväksyntää.<br"
+" />Odottaessasi tilisi aktivoitumista, voit lukea sähköpostiisi lähetetyn "
+"lisäohjeita sisältävän viestin."
 
 msgid ""
 "An unrecoverable error has occurred. You can find the error message below. "
@@ -14434,16 +14431,16 @@ msgstr ""
 msgid "Enter a description for this block type."
 msgstr ""
 
-msgid "Vertical orientation"
-msgstr ""
-
 msgid "Menu language"
 msgstr ""
 
-msgid "opened"
+msgid "Vertical orientation"
 msgstr ""
 
-msgid "Horizontal orientation"
+msgid "Tray orientation changed to @orientation."
+msgstr ""
+
+msgid "opened"
 msgstr ""
 
 msgid "User-defined shortcuts"
@@ -14458,7 +14455,7 @@ msgstr ""
 msgid "Administer account settings"
 msgstr ""
 
-msgid "Tray orientation changed to @orientation."
+msgid "Horizontal orientation"
 msgstr ""
 
 msgid "Create a new revision by default for this block type."
@@ -15346,13 +15343,13 @@ msgstr ""
 msgid "Edit user account"
 msgstr ""
 
-msgid "!tour_item of !total"
+msgid "Update this item"
 msgstr ""
 
 msgid "Toolbar items"
 msgstr ""
 
-msgid "Update this item"
+msgid "!tour_item of !total"
 msgstr ""
 
 msgid "Create translations"
@@ -15988,10 +15985,6 @@ msgstr ""
 msgid "Manage custom view modes."
 msgstr ""
 
-msgid ""
-"The toolbar cannot be set to a horizontal orientation when it is locked."
-msgstr ""
-
 msgid "Edit Image"
 msgstr ""
 
@@ -16008,6 +16001,10 @@ msgid "Add, edit, and delete custom display modes."
 msgstr ""
 
 msgid "Access the Files overview page"
+msgstr ""
+
+msgid ""
+"The toolbar cannot be set to a horizontal orientation when it is locked."
 msgstr ""
 
 msgid "Default row classes"
@@ -16436,7 +16433,7 @@ msgid ""
 msgstr ""
 
 msgid "Reset your password"
-msgstr ""
+msgstr "Salasanan palautus"
 
 msgid "Number of new comments"
 msgstr ""
@@ -16985,9 +16982,6 @@ msgstr ""
 msgid "A brief description of your block."
 msgstr ""
 
-msgid "no caching"
-msgstr ""
-
 msgid "Completed @current step of @total."
 msgstr ""
 
@@ -17300,6 +17294,9 @@ msgstr ""
 msgid "Target entity type"
 msgstr ""
 
+msgid "no caching"
+msgstr ""
+
 msgid "(this translation)"
 msgstr ""
 
@@ -17576,9 +17573,6 @@ msgstr ""
 msgid "CSS performance settings"
 msgstr ""
 
-msgid "Aggregate CSS files"
-msgstr ""
-
 msgid "Compress CSS files"
 msgstr ""
 
@@ -17683,6 +17677,9 @@ msgstr ""
 
 msgctxt "With components"
 msgid "Extend"
+msgstr ""
+
+msgid "Aggregate CSS files"
 msgstr ""
 
 msgid "Group by Numeric"
@@ -17872,6 +17869,8 @@ msgid ""
 "Unable to send email. Contact the site administrator if the problem "
 "persists."
 msgstr ""
+"Sähköpostin lähettäminen epäonnistui. Jos ongelma toistuu, ota yhteyttä "
+"sivuston ylläpitäjään."
 
 msgid "Error sending email (from %from to %to with reply-to %reply)."
 msgstr ""
@@ -18106,7 +18105,7 @@ msgid "Request Path"
 msgstr ""
 
 msgid "Username or email address"
-msgstr ""
+msgstr "Käyttäjätunnus tai sähköpostiosoite"
 
 msgid "Email addresses to notify when updates are available"
 msgstr ""
@@ -19044,9 +19043,6 @@ msgstr ""
 msgid "Submitted by @username on @datetime"
 msgstr ""
 
-msgid "@local-task-title@active"
-msgstr ""
-
 msgid "The username of the content author."
 msgstr ""
 
@@ -19059,6 +19055,9 @@ msgid "Disabled"
 msgstr ""
 
 msgid "Content Language Settings"
+msgstr ""
+
+msgid "@local-task-title@active"
 msgstr ""
 
 msgid "Submitted by @author_name on @date"
@@ -19304,7 +19303,7 @@ msgstr ""
 msgid "@uri"
 msgstr ""
 
-msgid "0 seconds"
+msgid "Interface text"
 msgstr ""
 
 msgid "Default long date"
@@ -19319,7 +19318,7 @@ msgstr ""
 msgid "Import and export your configuration."
 msgstr ""
 
-msgid "Interface text"
+msgid "0 seconds"
 msgstr ""
 
 msgid "Date (e.g. @format)"
@@ -19541,7 +19540,7 @@ msgid "Administrative task links"
 msgstr ""
 
 msgid "Site information links"
-msgstr ""
+msgstr "Sivuston informaatio linkit"
 
 msgid "Site section links"
 msgstr ""
@@ -19911,6 +19910,8 @@ msgid ""
 "Unrecognized username or password. <a href=\":password\">Forgot your "
 "password?</a>"
 msgstr ""
+"Virheellinen käyttäjätunnus tai salasana. <a href=\":password\">Unohditko "
+"salasanasi?</a>"
 
 msgid "Combine multiple fields together and search by them."
 msgstr ""
@@ -20366,6 +20367,8 @@ msgid ""
 "Password reset instructions will be mailed to %email. You must log out to "
 "use the password reset link in the email."
 msgstr ""
+"Ohjeet salasanasi vaihtamiseksi lähetetään osoitteeseen %email. Varmista "
+"ettet ole kirjautuneena palveluun avatessasi viestissä olevaa linkkiä."
 
 msgid "@field_name: @label"
 msgstr ""
@@ -20726,10 +20729,10 @@ msgstr ""
 msgid "Custom date format: @custom_date_format"
 msgstr ""
 
-msgid "Primary tabs display toggle"
+msgid "Hide lower priority columns"
 msgstr ""
 
-msgid "Hide lower priority columns"
+msgid "Primary tabs display toggle"
 msgstr ""
 
 msgid ""
@@ -20983,13 +20986,13 @@ msgctxt "PHP date format"
 msgid "m/d/Y - H:i"
 msgstr ""
 
+msgid "The callback URL is not local and not trusted: !url"
+msgstr ""
+
 msgid "CustomMessage: !customMessage"
 msgstr ""
 
 msgid "The response failed verification so will not be processed."
-msgstr ""
-
-msgid "The callback URL is not local and not trusted: !url"
 msgstr ""
 
 msgid ""
@@ -21081,7 +21084,7 @@ msgstr ""
 
 msgid ""
 "Password reset instructions will be sent to your registered email address."
-msgstr ""
+msgstr "Salasanan asetusohjeet lähetetään tilisi sähköpostiosoitteeseen."
 
 msgid ""
 "This link is provided by the Views module. The path can be changed by "
@@ -21165,9 +21168,6 @@ msgstr ""
 msgid "Errors found"
 msgstr ""
 
-msgid "@type language selected for page"
-msgstr ""
-
 msgid "Account cancellation request for [user:display-name] at [site:name]"
 msgstr ""
 
@@ -21227,6 +21227,9 @@ msgid ""
 "Required if you want to change the %mail or %pass below. <a "
 "href=\":request_new_url\" title=\"Send password reset instructions via "
 "email.\">Reset your password</a>."
+msgstr ""
+
+msgid "@type language selected for page"
 msgstr ""
 
 msgid "Create tasks that the system can execute."
@@ -21321,7 +21324,7 @@ msgid "Continuing on"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Aihe"
 
 msgid "Items per page"
 msgstr ""
@@ -21456,7 +21459,7 @@ msgid "Find and manage content"
 msgstr ""
 
 msgid "Recent content."
-msgstr ""
+msgstr "Tuore sisältö."
 
 msgid "Welcome to [site:name]"
 msgstr ""
@@ -21811,9 +21814,12 @@ msgid ""
 msgstr ""
 
 msgid "Breadcrumbs"
-msgstr ""
+msgstr "Murupolut"
 
 msgid "Promote content to front page"
+msgstr ""
+
+msgid "Tabs"
 msgstr ""
 
 msgid "Main navigation"
@@ -21823,7 +21829,7 @@ msgid "Publish content"
 msgstr ""
 
 msgid "Tools"
-msgstr ""
+msgstr "Työkalut"
 
 msgid ""
 "[user:display-name],\n"
@@ -21838,6 +21844,17 @@ msgid ""
 "\n"
 "--  [site:name] team"
 msgstr ""
+"[user:display-name],\n"
+"\n"
+"Tilillesi on tehty salasananvaihtopyyntö sivustolla [site:name].\n"
+"\n"
+"Voit kirjautua palveluun klikkaamalla allaolevaa linkkiä tai kopioimalla sen selaimesi osoiteriville:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"Linkki on kertakäyttöinen ja vie sivulle jossa voit vaihtaa salasanasi. Linkki toimii vuorokauden ajan. Salasanasi säilyy muuttumattomana jos et vaihda sitä.\n"
+"\n"
+"--  [site:name]"
 
 msgid "Main page content"
 msgstr ""
@@ -21846,9 +21863,6 @@ msgid "Footer menu"
 msgstr ""
 
 msgid "Primary admin actions"
-msgstr ""
-
-msgid "Tabs"
 msgstr ""
 
 msgid "User login"
@@ -21882,7 +21896,7 @@ msgid "Promoted to front page"
 msgstr ""
 
 msgid "Comments"
-msgstr ""
+msgstr "Kommentit"
 
 msgid ""
 "Enter a comma-separated list. For example: Amsterdam, Mexico City, "
@@ -21890,7 +21904,7 @@ msgid ""
 msgstr ""
 
 msgid "Your virtual face or picture."
-msgstr ""
+msgstr "Valokuva tai muu yksilöivä kuva."
 
 msgid "Basic HTML"
 msgstr ""
@@ -21902,7 +21916,7 @@ msgid "Restricted HTML"
 msgstr ""
 
 msgid "Article"
-msgstr ""
+msgstr "Artikkeli"
 
 msgid ""
 "Use <em>articles</em> for time-sensitive content like news, press releases "
@@ -21927,7 +21941,7 @@ msgid "Unpublish comment"
 msgstr ""
 
 msgid "Personal contact form"
-msgstr ""
+msgstr "Yhteydenottolomake"
 
 msgid "Your message has been sent."
 msgstr ""
@@ -22037,16 +22051,16 @@ msgid ""
 msgstr ""
 
 msgid "Anonymous user"
-msgstr ""
+msgstr "Anonyymi käyttäjä"
 
 msgid "Authenticated user"
-msgstr ""
+msgstr "Tunnistautunut käyttäjä"
 
 msgid "Custom block library"
 msgstr ""
 
 msgid "User account menu"
-msgstr ""
+msgstr "Käyttäjätilin valikko"
 
 msgid "Asc"
 msgstr ""
@@ -22157,7 +22171,7 @@ msgid "To uninstall this module you must turn it off here first."
 msgstr ""
 
 msgid "No content available."
-msgstr ""
+msgstr "Sisältöä ei saatavilla."
 
 msgid ""
 "No front page content has been created yet.<br/>Follow the <a "
@@ -22178,9 +22192,6 @@ msgid ""
 msgstr ""
 
 msgid "SMTP port"
-msgstr ""
-
-msgid "Member for"
 msgstr ""
 
 msgid "Use TLS"
@@ -22397,6 +22408,9 @@ msgid "Files"
 msgstr ""
 
 msgid "Parents"
+msgstr ""
+
+msgid "Member for"
 msgstr ""
 
 msgid "Available tokens"
@@ -22978,9 +22992,6 @@ msgstr ""
 msgid "CAPTCHA is a trademark of Carnegie Mellon University."
 msgstr ""
 
-msgid "CAPTCHA"
-msgstr ""
-
 msgid "Enabled challenge"
 msgstr ""
 
@@ -22988,7 +22999,7 @@ msgid "Place a CAPTCHA here for untrusted users."
 msgstr ""
 
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr ""
+msgstr "Virhe CAPTCHA-vastauksesi validoinnissa. "
 
 msgid ""
 "Solve this simple math problem and enter the result. E.g. for 1+3, enter 4."
@@ -23010,6 +23021,9 @@ msgid "Notify of Path Changes"
 msgstr ""
 
 msgid "Captcha Point"
+msgstr ""
+
+msgid "CAPTCHA"
 msgstr ""
 
 msgid "Code settings"
@@ -23614,7 +23628,7 @@ msgid "Status code"
 msgstr ""
 
 msgid "Reset"
-msgstr ""
+msgstr "Tyhjennä"
 
 msgid "No URL redirects available."
 msgstr ""
@@ -24567,42 +24581,43 @@ msgid "contact_message_event_form"
 msgstr ""
 
 msgid "Event"
-msgstr ""
+msgstr "Tapahtuma"
 
 msgid "Event submission received."
 msgstr ""
 
 msgid "Address"
-msgstr ""
+msgstr "Osoite"
 
 msgid "Where the event is located"
 msgstr ""
 
 msgid "End time"
-msgstr ""
+msgstr "Päättymisaika"
 
 msgid "End time for the event."
-msgstr ""
+msgstr "Tapahtuman päättymisajankohta"
 
 msgid "Event link"
-msgstr ""
+msgstr "Linkki tapahtumaan"
 
 msgid ""
 "Link to event's official page, or a page with more information regarding the"
 " event."
 msgstr ""
+"Linkki tapahtuman viralliselle- tai muulle lisätietoa sisältävälle sivulle"
 
 msgid "Event picture"
-msgstr ""
+msgstr "Tapahtuman kuva"
 
 msgid "Picture or logo that can be used for the event page."
-msgstr ""
+msgstr "Kuva tai logo jota voidaan käyttää tapahtumasivulla"
 
 msgid "Start time"
-msgstr ""
+msgstr "Alkamisaika"
 
 msgid "Start time of the event."
-msgstr ""
+msgstr "Tapahtuman alkamisajankohta"
 
 msgid "ckan_admin"
 msgstr ""
@@ -24630,48 +24645,51 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Recently modified"
-msgstr ""
+msgstr "Hiljattain muokattu"
 
 msgid "for text search"
-msgstr ""
+msgstr "tekstihaulle"
 
 msgid "The username %value is already taken."
-msgstr ""
+msgstr "Käyttäjänimellä %value on jo käyttäjätili."
 
 msgid "The email address %value is already taken."
-msgstr ""
+msgstr "Sähköpostiosoitteella %value on jo käyttäjätili."
 
 msgid "Development version open data portal."
-msgstr ""
+msgstr "Avoimen datan portaalin kehitysversio."
 
 msgid "%name is not recognized as a username or an email address."
-msgstr ""
+msgstr "%name ei tunnistettu käyttäjätunnukseksi eikä sähköpostiosoitteeksi."
 
 msgid "Read more"
-msgstr ""
+msgstr "Lue lisää"
 
 msgid "Menus"
 msgstr ""
 
 msgid "Upload requirements"
-msgstr ""
+msgstr "Latausvaatimukset"
 
 msgid ""
 "In case there is an open data event missing from the list below, you may "
 "submit event information to us and we'll add it."
 msgstr ""
+"Puuttuuko listalta jokin tiedossasi oleva tapahtuma, tai haluatko lisätä "
+"oman tapahtumasi kalenteriin? Käyttämällä oheista lomaketta voit toimittaa "
+"tiedon tapahtumasta meille."
 
 msgid "Submit an event"
-msgstr ""
+msgstr "Tiedota tapahtumasta"
 
 msgid "Free text search"
-msgstr ""
+msgstr "Vapaa sanahaku"
 
 msgid "Showing events"
-msgstr ""
+msgstr "Näytetään tapahtumat"
 
 msgid "Show past events"
-msgstr ""
+msgstr "Näytä menneet tapahtumat"
 
 msgid "Finalizing configuration synchronization."
 msgstr ""
@@ -24689,7 +24707,7 @@ msgid "@label (@name)"
 msgstr ""
 
 msgid "Read more >>"
-msgstr ""
+msgstr "Lue lisää >>"
 
 msgid "Nodes"
 msgstr ""
@@ -24755,7 +24773,7 @@ msgid "File name"
 msgstr ""
 
 msgid "Owner"
-msgstr ""
+msgstr "Omistaja"
 
 msgid "Base name"
 msgstr ""
@@ -24851,7 +24869,7 @@ msgid "IP Address"
 msgstr ""
 
 msgid "Email address"
-msgstr ""
+msgstr "Sähköpostiosoite"
 
 msgid "Home page"
 msgstr ""
@@ -24899,7 +24917,7 @@ msgid "Text"
 msgstr ""
 
 msgid "Link text"
-msgstr ""
+msgstr "Linkin teksti"
 
 msgid "Last comment timestamp"
 msgstr ""
@@ -24929,130 +24947,137 @@ msgid "@type type with delta @delta"
 msgstr ""
 
 msgid "Guide search"
-msgstr ""
+msgstr "Hae oppaasta"
 
 msgid "Release date"
-msgstr ""
+msgstr "Julkaisupäivä"
 
 msgid "More recently modified datasets"
-msgstr ""
+msgstr "Lisää hiljattain muokattuja tietoaineistoja"
 
 msgid "More new data sets"
-msgstr ""
+msgstr "Lisää uusia tietoaineistoja"
 
 msgid "More popular datasets"
-msgstr ""
+msgstr "Lisää suosittuja tietoaineistoja"
 
 msgid "Etusivu"
 msgstr ""
 
 msgctxt "x organizations"
 msgid "Organizations"
-msgstr ""
+msgstr "Organisaatiota"
 
 msgctxt "x applications"
 msgid "Applications"
-msgstr ""
+msgstr "Käyttösovellusta"
 
 msgid "Datasets"
-msgstr ""
+msgstr "Tietoaineistot"
 
 msgid "Applications"
-msgstr ""
+msgstr "Käyttösovellukset"
 
 msgid "Organizations"
-msgstr ""
+msgstr "Organisaatiot"
 
 msgid "<i class=\"fas\">&#xf002;</i>"
 msgstr ""
 
 msgid "Popular"
-msgstr ""
+msgstr "Suositut"
 
 msgid "Open data categories"
-msgstr ""
+msgstr "Avoimen datan kategoriat"
 
 msgid "Utilize data sets"
-msgstr ""
+msgstr "Hyödynnä tietoaineistoja"
 
 msgid ""
 "Avoindata.fi service offers over 1000 interesting data sets available for "
 "everyone to download, inspect and use freely."
 msgstr ""
+"Avoindata.fi -palvelun yli 1000 mielenkiintoista tietoaineistoa ovat "
+"kaikkien käyttäjien vapaasti ladattavissa, tutkittavissa ja käytettävissä."
 
 msgid "Browse data sets"
-msgstr ""
+msgstr "Selaa tietoaineistoja"
 
 msgid "Offer data for use"
-msgstr ""
+msgstr "Tarjoa dataa käyttöön"
 
 msgid ""
 "Does your organization generate data, which could be useful or interesting "
 "for other users? We offer guidance and a way to distribute your data sets."
 msgstr ""
+"Tuottaako organisaatiosi dataa, joka olisi hyödyllistä tai mielenkiintoista "
+"muillekin? Saat kauttamme sekä opastusta että jakelukanavan "
+"tietoaineistoillesi."
 
 msgid "Begin data distribution"
-msgstr ""
+msgstr "Aloita datan avaaminen"
 
 msgid "Find and examine applications"
-msgstr ""
+msgstr "Löydä ja tarkastele käyttösovelluksia"
 
 msgid ""
 "Different ways of applying data bring it alive in a concrete way. You can "
 "find a collection of applications and visualizations that use open data from"
 " our gallery."
 msgstr ""
+"Data herää konkreettisesti eloon eri tavoissa soveltaa sitä. Galleriastamme "
+"löydät kokoelman avoimen datan eri sovelluksia ja visualisointeja."
 
 msgid "Application gallery"
-msgstr ""
+msgstr "Sovellusgalleria"
 
 msgctxt "recently modified datasets"
 msgid "Recently modified"
-msgstr ""
+msgstr "Viimeksi muokatut"
 
 msgctxt "new datasets"
 msgid "New"
-msgstr ""
+msgstr "Uudet"
 
 msgctxt "popular datasets"
 msgid "Popular"
-msgstr ""
+msgstr "Suositut"
 
 msgid "No recently modified data sets found"
-msgstr ""
+msgstr "Hiljattain muokattuja tietoaineistoja ei löytynyt"
 
 msgid "No new data sets found"
-msgstr ""
+msgstr "Uusia tietoaineistoja ei löytynyt"
 
 msgid "No popular data sets found"
-msgstr ""
+msgstr "Suosittuja tietoaineistoja ei löytynyt"
 
 msgid "Most recent applications"
-msgstr ""
+msgstr "Tuoreimmat käyttösovellukset"
 
 msgid "Show all applications"
-msgstr ""
+msgstr "Näytä kaikki käyttösovellukset"
 
 msgid "Newsfeed"
-msgstr ""
+msgstr "Uutisvirta"
 
 msgid "All News"
-msgstr ""
+msgstr "Kaikki uutiset"
 
 msgid "Events"
-msgstr ""
+msgstr "Tapahtumat"
 
 msgid "All Events"
-msgstr ""
+msgstr "Kaikki tapahtumat"
 
 msgid "News and articles"
-msgstr ""
+msgstr "Uutiset ja artikkelit"
 
 msgid "Service provided by Population Register Centre"
-msgstr ""
+msgstr "Palvelusta vastaa Väestörekisterikeskus"
 
 msgid "Follow us"
-msgstr ""
+msgstr "Seuraa meitä"
 
 msgid "Subscribe to @title"
 msgstr ""
@@ -25061,7 +25086,7 @@ msgid "Twitter@avoindatafi"
 msgstr ""
 
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriat"
 
 msgid "Search articles"
 msgstr ""
@@ -25070,12 +25095,6 @@ msgid "Location: "
 msgstr ""
 
 msgid "Weight: "
-msgstr ""
-
-msgid "Enter your @s username."
-msgstr ""
-
-msgid "Register new account"
 msgstr ""
 
 msgid "@zone"
@@ -25229,7 +25248,7 @@ msgid "Bootstrap Theme"
 msgstr ""
 
 msgid "Search datasets..."
-msgstr ""
+msgstr "Etsi tietoaineistoista..."
 
 msgid "Tietoaineistot"
 msgstr ""
@@ -25268,11 +25287,11 @@ msgid "Avoindata.fi"
 msgstr ""
 
 msgid "Finnish open data portal"
-msgstr ""
+msgstr "Suomalainen avoimen datan portaali"
 
 msgctxt "x datasets"
 msgid "Datasets"
-msgstr ""
+msgstr "Tietoaineistoa"
 
 msgid "Download feature"
 msgstr ""
@@ -25293,10 +25312,10 @@ msgid "Rebuild"
 msgstr ""
 
 msgid "Recent"
-msgstr ""
+msgstr "Uusimmat"
 
 msgid "No articles found."
-msgstr ""
+msgstr "Artikkeleita ei löytynyt."
 
 msgid "format"
 msgstr ""
@@ -25309,6 +25328,12 @@ msgstr ""
 
 msgid "View the discussion thread."
 msgstr ""
+
+msgid "Enter your @s username."
+msgstr ""
+
+msgid "Register new account"
+msgstr "Luo uusi käyttäjätili"
 
 msgid "Africa/Ouagadougou"
 msgstr ""
@@ -26520,27 +26545,10 @@ msgstr ""
 msgid "Configure what displays are available for your content and forms."
 msgstr ""
 
-msgid "@label"
-msgstr ""
-
-msgid "Tray \"@tray\" @action."
-msgstr ""
-
-msgid "Administer how and where CAPTCHA is used."
-msgstr ""
-
 msgid "Julkaistu"
 msgstr ""
 
-msgid "Julkaisematon"
-msgstr ""
-
-msgid ""
-"See the <a href=\":available_updates\">available updates</a> page for more "
-"information and to install your missing updates."
-msgstr ""
-
-msgid "List additional actions"
+msgid "Administer how and where CAPTCHA is used."
 msgstr ""
 
 msgid ""
@@ -26549,6 +26557,9 @@ msgid ""
 msgstr ""
 
 msgid "Select all rows in this table"
+msgstr ""
+
+msgid "Add to %shortcut_set shortcuts"
 msgstr ""
 
 msgid "1 block is available in the modified list."
@@ -26615,9 +26626,6 @@ msgid ""
 msgstr ""
 
 msgid "Format: %format. Leave blank to use the time of form submission."
-msgstr ""
-
-msgid "Add to %shortcut_set shortcuts"
 msgstr ""
 
 msgid "Dec"
@@ -26768,6 +26776,9 @@ msgid ""
 "boxes of content rendered into an area, or region, of a web page."
 msgstr ""
 
+msgid "Tray @action."
+msgstr ""
+
 msgid ""
 "Change site name, email address, slogan, default front page, and error "
 "pages."
@@ -26809,7 +26820,21 @@ msgstr ""
 msgid "Overview of plugins used in all views."
 msgstr ""
 
-msgid "Tray @action."
+msgid "Tray \"@tray\" @action."
+msgstr ""
+
+msgid "Julkaisematon"
+msgstr ""
+
+msgid ""
+"See the <a href=\":available_updates\">available updates</a> page for more "
+"information and to install your missing updates."
+msgstr ""
+
+msgid "List additional actions"
+msgstr ""
+
+msgid "@label"
 msgstr ""
 
 msgid "Manage breakpoints and breakpoint groups for responsive designs."
@@ -27156,15 +27181,6 @@ msgstr ""
 msgid "!modules modules are available in the modified list."
 msgstr ""
 
-msgid "Random number generation"
-msgstr ""
-
-msgid "Font Awesome 5"
-msgstr ""
-
-msgid "Trusted Host Settings"
-msgstr ""
-
 msgid "Administer advanced page expiration"
 msgstr ""
 
@@ -27241,6 +27257,8 @@ msgid ""
 "Events calendar displays various open data related events hosted in Finland "
 "and abroad."
 msgstr ""
+"Tapahtumakalenteri listaa eri avoimen datan tapahtumia Suomesta sekä "
+"ulkomailta."
 
 msgid "Updating translations for JavaScript and default configuration."
 msgstr ""
@@ -27261,6 +27279,9 @@ msgid ""
 "Central Open Data distribution platform for datasets released by finnish "
 "individuals, companies and public organizations."
 msgstr ""
+"Keskitetty avoimen datan jakelualusta suomalaisten yksityishenkilöiden, "
+"yritysten sekä julkisen hallinnon organisaatioiden avoimille "
+"tietoaineistoille."
 
 msgid "Image with image style"
 msgstr ""
@@ -27313,6 +27334,12 @@ msgstr ""
 msgid "Hemsida"
 msgstr ""
 
+msgid ""
+"There are updates available for one or more of your modules or themes. To "
+"ensure the proper functioning of your site, you should update as soon as "
+"possible."
+msgstr ""
+
 msgid "Available translation updates"
 msgstr ""
 
@@ -27329,14 +27356,48 @@ msgstr ""
 msgid "Reference for usage, configuration, and modules."
 msgstr ""
 
-msgid "All Finnish open data from one place"
+msgid "Deselect all rows in this table"
 msgstr ""
+
+msgid "GD library PNG support"
+msgstr ""
+
+msgid "Compress layout by hiding descriptions."
+msgstr ""
+
+msgid "Random number generation"
+msgstr ""
+
+msgid "Configure page caching strategy with APE."
+msgstr ""
+
+msgid "Font Awesome 5"
+msgstr ""
+
+msgid "All Finnish open data from one place"
+msgstr "Suomen kaikki julkinen avoin data yhdestä paikasta"
 
 msgid ""
 "Open data is information that is stored on a computer, for example "
 "structural text, tables, maps and images. Open data can be used freely when "
 "also providing it's origin."
 msgstr ""
+"Avoin data on tietokoneelle tallennettua informaatiota, joka on esimerkiksi "
+"rakenteellista tekstiä, taulukoita, karttoja ja kuvia. Avointa dataa voi "
+"vapaasti hyödyntää, kunhan mainitsee sen alkuperäisen lähteen."
+
+msgid ""
+"The CAPTCHA module will disable the caching of pages that contain a CAPTCHA "
+"element."
+msgstr ""
+
+msgid ""
+"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
+" that is recommended for small to medium-sized websites."
+msgstr ""
 
 msgid "ResponseText: !responseText"
+msgstr ""
+
+msgid "Trusted Host Settings"
 msgstr ""
