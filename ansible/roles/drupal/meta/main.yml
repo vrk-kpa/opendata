@@ -19,6 +19,6 @@ galaxy_info:
     - drupal
 
 dependencies:
-  - {role: php, tags: php_role}
-  - {role: composer, tags: composer_role}
-  - {role: opendata_frontend, tags: opendata_frontend_role}
+  - php
+  - composer
+  # -opendata_frontend  # TODO: This is commentend as a workaround until role dependencies issues in cirleci are solved
