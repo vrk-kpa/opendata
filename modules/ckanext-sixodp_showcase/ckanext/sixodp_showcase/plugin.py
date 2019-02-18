@@ -202,7 +202,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                 continue
             prop_value = json.loads(prop_json)
             for lang in languages:
-                if prop_value.get(lang):
-                    data_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
+                lang_values = prop_value.get(lang)
+                if lang_values:
+                    data_dict['vocab_%s_%s' % (prop_key, lang)] = list(lang_values)
 
         return data_dict
