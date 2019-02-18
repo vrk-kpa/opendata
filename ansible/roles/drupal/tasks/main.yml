@@ -9,6 +9,7 @@
     group: "{{ drupal_group }}"
     mode: 0755
   with_items:
+    - "/var/www/.composer"  # Required for composer cache
     - "{{ drupal8_root }}"
     - "{{ drupal8_root }}/site_config"
 

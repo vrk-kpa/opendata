@@ -19,6 +19,6 @@ galaxy_info:
     - drupal
 
 dependencies:
-  - php
-  - composer
-  - opendata_frontend
+  - {role: php, tags: php_role}
+  - {role: composer, tags: composer_role}
+  - {role: opendata_frontend, tags: opendata_frontend_role}

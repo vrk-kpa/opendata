@@ -177,38 +177,49 @@
     block:
       - import_role:
           name: common
+          allow_duplicates: false
       - import_role:
           name: database
+          allow_duplicates: false
       - import_role:
           name: opendata_frontend
+          allow_duplicates: false
       - import_role:
           name: nginx
+          allow_duplicates: false
       - import_role:
           name: jetty
+          allow_duplicates: false
       - import_role:
           name: redis
+          allow_duplicates: false
       - import_role:
           name: ckan-extensions
+          allow_duplicates: false
       - import_role:
           name: ckan
+          allow_duplicates: false
       - import_role:
           name: ckan-config
+          allow_duplicates: false
       - import_role:
           name: ckan-database
+          allow_duplicates: false
       - import_role:
           name: ckan-data
+          allow_duplicates: false
       - import_role:
           name: ckan-restart
-      - import_role:
-          name: php
-      - import_role:
-          name: composer
+          allow_duplicates: false
       - import_role:
           name: drupal
+          allow_duplicates: false
       - import_role:
           name: data
+          allow_duplicates: false
       - import_role:
           name: datapusher
+          allow_duplicates: false
 
     rescue:
     - name: Continue playbook execution to next play always
