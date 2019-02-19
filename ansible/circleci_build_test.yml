@@ -200,6 +200,10 @@
       - import_role:
           name: ckan-restart
       - import_role:
+          name: php
+      - import_role:
+          name: composer          
+      - import_role:
           name: drupal
       - import_role:
           name: data
