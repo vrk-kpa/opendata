@@ -19,5 +19,5 @@ galaxy_info:
     - drupal
 
 dependencies:
-  - php
+  - role: php
     tags: dependency_role
