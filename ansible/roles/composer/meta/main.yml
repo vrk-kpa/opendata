@@ -20,3 +20,4 @@ galaxy_info:
 
 dependencies:
   - php
+    tags: dependency_role

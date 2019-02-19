@@ -105,7 +105,7 @@ jobs:
       - run: git submodule update --init --recursive
 
       - run: sudo apt update && sudo apt install rsync
-      
+
       - run: sudo pip install ansible boto awscli
 
       - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
@@ -132,7 +132,7 @@ jobs:
 
       - run:
           name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/circleci_build_test.yml >>circleci_build_test.log 2>&1"
+          command: "ansible-playbook --skip-tags 'non-local,dependency_role' ansible/circleci_build_test.yml >>circleci_build_test.log 2>&1"
           no_output_timeout: 60m
           working_directory: ~/project/
 

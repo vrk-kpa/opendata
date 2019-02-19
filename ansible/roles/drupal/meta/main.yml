@@ -20,5 +20,8 @@ galaxy_info:
 
 dependencies:
   - php
+    tags: dependency_role
   - composer
-  # -opendata_frontend  # TODO: This is commentend as a workaround until role dependencies issues in cirleci are solved
+    tags: dependency_role
+  - opendata_frontend
+    tags: dependency_role
