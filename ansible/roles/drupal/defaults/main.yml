@@ -1,12 +1,25 @@
 ---
-drupal_name: ytp
-drupal8_name: opendata
-
-
 drupal_site_name: avoindata.fi
-# drupal_root: "{{ www_root }}/{{ drupal_name }}"
-drupal_www_root: /var/www
-drupal8_root: "{{ drupal_www_root }}/{{ drupal8_name }}"
+
+drupal_hash_salt: ''
+drupal_fqdn: 'localhost'
+drupal_domain: ''
+drupal_secondary_fqdn: '127.0.0.1'
+drupal_secondary_domain: ''
+
+drupal_smtp_server_domain: localhost
+drupal_smtp_username: username
+drupal_smtp_password: password
+drupal_email_from: no-reply@localhost
+drupal_smtp_protocol: tls
+drupal_smtp_port: 587
+
+drupal_disqus_name: ''
+
+drupal_initial_users: []
+
+drupal_root: "/var/www/opendata"
+drupal_drush_path: "{{ drupal_root }}/vendor/bin/drush"
 
 drupal_public_files_directory: "/srv/ytp/files/drupal"
 
@@ -20,19 +33,16 @@ drupal_public_files_directory_subdirs:
   - styles
   - translations
 
-drupal_smtp_protocol: tls
-drupal_smtp_port: 587
-
 drupal_user: www-data
 drupal_group: www-data
-drupal_database_server: "{{ postgres.server.host }}"
-drupal_database_port: "{{ postgres.server.port }}"
-drupal_database_name: "{{ postgres.databases.drupal8.name }}"
-drupal_database_username: "{{ postgres.users.drupal8.username }}"
-drupal_database_password: "{{ postgres.users.drupal8.password }}"
+drupal_database_server: localhost
+drupal_database_port: 5432
+drupal_database_name: drupal8
+drupal_database_username: drupal8
+drupal_database_password: pass
 
-drupal_admin_username: "{{ admin.username }}"
-drupal_admin_password: "{{ admin.password }}"
+drupal_admin_username: admin
+drupal_admin_password: administrator
 
 drupal_custom_modules:
   - { src_name: avoindata-drupal-header, module_name: avoindata-header, machine_name: avoindata_header }
@@ -56,7 +66,6 @@ drupal_language_modules:
   - locale
   - drush_language
 
-drupal_drush_path: "{{ drupal8_root }}/vendor/bin/drush"
 
 drupal_removed_extensions:
   - search
@@ -64,14 +73,17 @@ drupal_removed_extensions:
   - page_cache
 
 drupal_modules_path: "../modules"
-drupal_admin_email: vagrant@localhost
+drupal_admin_email: admin@localhost
+
+drupal_editor_rolename: editor
+drupal_publisher_rolename: publisher
+drupal_ckan_admin_rolename: ckan_admin
+
 
 drupal_configure_instance: true
 drupal_search_engine_robots_filename: "robots_disallowed.txt"
 drupal_recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 drupal_recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
-
-# TODO: prefix these with drupal_
-deployment_environment_id: ""
-server_path: /srv/ytp
-google_analytics: false
+drupal_google_analytics: false
+drupal_server_path: /srv/ytp
+drupal_deployment_environment_id: ""

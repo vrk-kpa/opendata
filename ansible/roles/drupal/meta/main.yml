@@ -25,3 +25,5 @@ dependencies:
     tags: dependency_role
   - role: opendata_frontend
     tags: dependency_role
+  - role: postgres
+    tags: dependency_role

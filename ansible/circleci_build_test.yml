@@ -161,11 +161,14 @@
   remote_user: "{{ lookup('env','AWS_EC2_USER') }}"
   become: True
   gather_facts: True
-  vars_files:
-    - "{{ playbook_dir }}/inventories/group_vars/all/all.yml"
-    - "{{ playbook_dir }}/inventories/group_vars/build_test.yml"
 
   tasks:
+
+  - name: Include variables
+    include_vars: "{{ item }}"
+    with_fileglob:
+      - "{{ playbook_dir }}/inventories/group_vars/all/*"
+      - "{{ playbook_dir }}/inventories/group_vars/build_test.yml"
 
   - name: Set pass_status to default value
     set_fact:
@@ -178,7 +181,7 @@
       - import_role:
           name: common
       - import_role:
-          name: database
+          name: postgres
       - import_role:
           name: opendata_frontend
       - import_role:
@@ -202,7 +205,7 @@
       - import_role:
           name: php
       - import_role:
-          name: composer          
+          name: composer
       - import_role:
           name: drupal
       - import_role:

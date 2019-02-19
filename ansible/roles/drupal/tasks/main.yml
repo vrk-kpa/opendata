@@ -10,17 +10,17 @@
     mode: 0755
   with_items:
     - "/var/www/.composer"  # Required for composer cache
-    - "{{ drupal8_root }}"
-    - "{{ drupal8_root }}/site_config"
+    - "{{ drupal_root }}"
+    - "{{ drupal_root }}/site_config"
 
 - name: Synchronize drupal8 project
   synchronize:
     src: drupal8/
-    dest: "{{ drupal8_root }}/"
+    dest: "{{ drupal_root }}/"
 
 - name: Ensure drupal root ownership
   file:
-    path: "{{ drupal8_root }}"
+    path: "{{ drupal_root }}"
     owner: "{{ drupal_user }}"
     group: "{{ drupal_group }}"
     mode: 0755
@@ -36,12 +36,12 @@
     group: "root"
     mode: 0755
   with_items:
-    - "{{ drupal8_root }}/config"
-    - "{{ drupal8_root }}/config/sync"
+    - "{{ drupal_root }}/config"
+    - "{{ drupal_root }}/config/sync"
 
 - name: Remove composer lock file if it exists
   file:
-    path: "{{ drupal8_root }}/composer.lock"
+    path: "{{ drupal_root }}/composer.lock"
     state: absent
 
 - name: Install Drupal dependencies
@@ -49,7 +49,7 @@
   become_user: "{{ drupal_user }}"
   composer:
     command: install
-    working_dir: "{{ drupal8_root }}"
+    working_dir: "{{ drupal_root }}"
 
 
 - name: Ensure drupal public files directory exists
@@ -86,45 +86,45 @@
 
 - name: Check default public files path status
   stat:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
   register: drupal_default_public_files_path
 
 - name: Remove default public files directory
   file:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
     state: absent
   when: drupal_default_public_files_path.stat.isdir
 
 - name: Link default public files path to target directory
   file:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
     state: link
     src: "{{ drupal_public_files_directory }}"
 
 - name: Synchronize custom modules
   synchronize:
     src: "{{ drupal_modules_path }}/{{ item.src_name }}/"
-    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
-  when: deployment_environment_id != "vagrant"
+    dest: "{{ drupal_root }}/web/modules/{{ item.module_name }}"
+  when: drupal_deployment_environment_id != "vagrant"
   with_items: "{{ drupal_custom_modules }}"
 
 - name: Symlink custom modules
   file:
     state: link
     src: "/vagrant/modules/{{ item.src_name }}/"
-    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
-  when: deployment_environment_id == "vagrant"
+    dest: "{{ drupal_root }}/web/modules/{{ item.module_name }}"
+  when: drupal_deployment_environment_id == "vagrant"
   with_items: "{{ drupal_custom_modules }}"
 
 - name: Copy Drupal services yml
   template:
     src: "services.yml.j2"
-    dest: "{{ drupal8_root }}/web/sites/default/services.yml"
+    dest: "{{ drupal_root }}/web/sites/default/services.yml"
 
 - name: Deploy robots.txt
   copy:
     src: "{{ drupal_search_engine_robots_filename }}"
-    dest: "{{ drupal8_root }}/web/robots.txt"
+    dest: "{{ drupal_root }}/web/robots.txt"
 
 - name: Configure drupal instance
   include_tasks: configure_drupal.yml

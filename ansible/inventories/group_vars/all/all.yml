@@ -1,5 +1,7 @@
 ---
 
+database_host: "127.0.0.1"
+database_ip_range: "127.0.0.1/8"
 
 solr_host: "{{ database_host }}"
 solr_port: "8983"
@@ -14,14 +16,9 @@ nginx_port: 80
 
 ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
 
-
-
-
 www_root: /var/www
 www_user: www-data
 www_group: www-data
-
-
 
 server_path: /srv/ytp
 cache_path: "{{ server_path }}/cache"
@@ -49,10 +46,6 @@ secondary_hostname_language: en
 base_hostname: ""
 secondary_base_hostname: ""
 
-drupal_editor_rolename: editor
-drupal_publisher_rolename: publisher
-drupal_ckan_admin_rolename: ckan_admin
-
 admin: {'username' : 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
 
 harvest_user: {'username' : 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
@@ -68,11 +61,7 @@ ytp_users:
     password: 'test-user'
     email: 'user@localhost'
 
-drupal_roles:
-  - { 'username': "{{ admin.username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }
-  - { 'username': "test-editor", 'role': "{{ drupal_editor_rolename }}" }
-  - { 'username': "test-editor", 'role': "{{ drupal_ckan_admin_rolename }}" }
-  - { 'username': "test-publisher", 'role': "{{ drupal_publisher_rolename }}" }
+
 
 ckan_admins:
   - "{{ admin.username }}"
@@ -118,7 +107,7 @@ Reindex: false
 
 show_postit_demo: true
 
-
+# This should be removed once ckan role cleanup is done
 postgres:
   users:
     ckan:
@@ -155,15 +144,12 @@ postgres:
           name: drupal8
           owner: drupal8
 
-drupal:
-  hash_salt: "{{ secret.drupal_hash_salt }}"
-
+# This should be removed once ckan role cleanup is done
 postgres_conf:
   installed_locally: true
   host: 127.0.0.1
   admin_user: postgres
   admin_password:
-
 
 secret:
   database_ckan_password: pass

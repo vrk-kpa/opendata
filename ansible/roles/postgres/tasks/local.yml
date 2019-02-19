@@ -1,0 +1,76 @@
+---
+
+- name: Install postgresql
+  apt:
+    pkg: "{{ postgres_package }}"
+    state: present
+
+- name: Configure postgresql.conf settings
+  lineinfile:
+    dest: "{{ postgres_config_path }}/postgresql.conf"
+    regexp: "^#?{{ item.option }}.+$"
+    line: "{{ item.option }} = '{{ item.value }}'"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ postgres_global_config }}"
+  notify: restart postgres
+
+- name: Configure pg_hba.conf settings
+  template:
+    src: "pg_hba.conf.j2"
+    dest: "{{ postgres_config_path }}/pg_hba.conf"
+    owner: "{{ postgres_user }}"
+    group: "{{ postgres_group }}"
+    mode: 0600
+  notify: restart postgres
+  when: postgres_hba_entries
+
+- name: Start postgres service
+  service:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Setup postgres users
+  postgresql_user:
+    user: "{{ item.username }}"
+    password: "{{ item.password }}"
+  with_items: "{{ postgres_users }}"
+  become_user: postgres
+  become: true
+  no_log: true
+
+- name: Setup postgres databases
+  postgresql_db:
+    name: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    encoding: "{{ item.encoding | default('UTF-8') }}"
+    lc_collate: "{{ item.lc_collate | default('en_US.UTF-8') }}"
+    lc_ctype: "{{ item.lc_ctype | default('en_US.UTF-8') }}"
+    template: "{{ item.template | default('template0') }}"
+  with_items: "{{ postgres_databases }}"
+  become_user: postgres
+  become: true
+
+- name: Ensure spatial requirements
+  apt:
+    pkg: "{{ postgres_spatial_requirement_packages }}"
+    state: present
+  register: postgis_installed
+
+- name: Spatial table references
+  command: psql -d "{{ item.0.name }}" -f "{{ item.1 }}"
+  when: postgis_installed is changed
+  with_nested:
+    - "{{ postgres_spatial_databases }}"
+    - "{{ postgres_spatial_scripts }}"
+  become_user: postgres
+  become: true
+
+- name: Spatial table rights
+  command: psql -d "{{ item.0.name  }}" -c "{{ item.1 }} {{ item.0.owner }};"
+  when: postgis_installed is changed
+  with_nested:
+    - "{{ postgres_spatial_databases }}"
+    - "{{ postgres_spatial_db_permission_commands }}"
+  become_user: postgres
+  become: true

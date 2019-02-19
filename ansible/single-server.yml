@@ -4,10 +4,6 @@
 
 - hosts: localhost
   become: true
-  vars:
-    database_host: "127.0.0.1"
-    solr_host: "127.0.0.1"
-    database_ip_range: "127.0.0.1/8"
 
   pre_tasks:
     - name: Ensure www directory exists
@@ -32,7 +28,7 @@
 
   roles:
     - {role: common, tags: common_role}
-    - {role: database, tags: database_role}
+    - {role: postgres, tags: postgres_role}
     - {role: opendata_frontend, tags: opendata_frontend_role}
     - {role: nginx, tags: nginx_role}
     - {role: jetty, tags: jetty_role}

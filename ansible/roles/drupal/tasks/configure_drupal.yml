@@ -12,23 +12,23 @@
 - name: Install a clean Drupal database
   shell: "{{ drupal_drush_path }} site-install -y standard --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ drupal_database_server }}:{{ drupal_database_port }}/{{ drupal_database_name }} --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} --site-name={{ drupal_site_name }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   no_log: true
   when: "'1' not in drupal8_database_initialized.stdout"
 
 - name: Copy Drupal settings
   template:
     src: settings.php.j2
-    dest: "{{ drupal8_root }}/web/sites/default/settings.php"
+    dest: "{{ drupal_root }}/web/sites/default/settings.php"
     owner: "{{ drupal_user }}"
     group: "{{ drupal_group }}"
     mode: 0444
-  when: drupal8_root is defined
+  when: drupal_root is defined
 
 - name: Check enabled drupal modules
   shell: "{{ drupal_drush_path }} pml --status enabled --field=name"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   changed_when: false
   check_mode: false
   register: drupal_enabled_modules
@@ -38,14 +38,14 @@
 - name: Enable Drupal language modules
   shell: "{{ drupal_drush_path }} en -y {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_language_modules }}"
   when: item not in drupal_enabled_modules.stdout
 
 - name: Check languages added to drupal
   shell: "{{ drupal_drush_path }} language-info --field=language"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   changed_when: false
   check_mode: false
   register: drupal_languages_added
@@ -53,7 +53,7 @@
 - name: Add additional languages
   shell: "{{ drupal_drush_path }} language-add -y {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - fi
     - sv
@@ -62,14 +62,14 @@
 - name: Make Finnish default language
   shell: ./vendor/bin/drush language-default -y fi
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 ### Theme ###
 
 - name: Enable base theme
   shell: "{{ drupal_drush_path }} then -y bootstrap"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 ### Install external modules ###
 
@@ -78,7 +78,7 @@
 - name: Disable drupal modules
   shell: "{{ drupal_drush_path }} pm:uninstall -y {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_removed_extensions }}"
   when:
     - "drupal_removed_extensions is defined"
@@ -87,7 +87,7 @@
 - name: Enable Drupal extra modules
   shell: "{{ drupal_drush_path }} en -y {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - twig_tweak
     - fontawesome_menu_icons
@@ -113,7 +113,7 @@
 - name: Enable custom modules
   shell: "{{ drupal_drush_path }} en -y {{ item.machine_name }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_custom_modules }}"
   when: item.machine_name not in drupal_enabled_modules.stdout
 
@@ -127,7 +127,7 @@
   failed_when:
     - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - easy_breadcrumb.settings
     - node.type.page
@@ -145,15 +145,15 @@
 - name: Symlink custom theme
   file:
     state: link
-    src: "{{ server_path }}/avoindata-drupal-theme/"
-    dest: "{{ drupal8_root }}/web/themes/avoindata"
+    src: "{{ drupal_server_path }}/avoindata-drupal-theme/"
+    dest: "{{ drupal_root }}/web/themes/avoindata"
     force: true
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
     src: "{{ item }}"
-    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
+    dest: "{{ drupal_root }}/web/themes/avoindata/fonts"
   with_items:
     - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
     - /var/www/resources/vendor/bootstrap/dist/fonts/
@@ -162,33 +162,33 @@
 - name: Enable custom theme
   shell: "{{ drupal_drush_path }} then -y avoindata"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 - name: Set default theme
   shell: "{{ drupal_drush_path }} config-set -y system.theme default avoindata"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 - name: Reload theme configurations
-  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install"
+  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/themes/avoindata/config/install"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 
 - name: Reload custom module configurations
-  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item.module_name }}/config/install"
+  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/modules/{{ item.module_name }}/config/install"
   register: result
   failed_when:
     - result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - "{{ drupal_custom_modules }}"
 
 - name: Copy setting template files
   template:
     src: "drupal_site_config/{{ item.src }}"
-    dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
+    dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
   with_items:
     - { src: system.mail.yml.j2, dest: system.mail.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
@@ -211,20 +211,20 @@
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
 - name: Import drupal settings
-  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal8_root}}/site_config"
+  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root}}/site_config"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 - name: Clear caches
   shell: ./vendor/bin/drupal cr
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 # probably not necessary as smyp settings are already imported above
 # - name: Configure general site settings regarding email
 #   shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
 #   args:
-#     chdir: "{{ drupal8_root }}"
+#     chdir: "{{ drupal_root }}"
 #   with_items:
 #     - { key: name, value: "{{ email_domain }}"}
 #     - { key: mail, value: "{{ email_from }}"}
@@ -232,7 +232,7 @@
 - name: Update drupal translations
   shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - "fi"
     - "sv"
@@ -242,7 +242,7 @@
 - name: Run entity updates for database
   shell: "{{ drupal_drush_path }} updatedb --entity-updates -y"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
 
 ### User roles
 
@@ -250,7 +250,7 @@
 - name: Create user roles
   shell: "{{ drupal_drush_path }} role-create {{ item }} {{ item }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items:
     - "{{ drupal_editor_rolename }}"
     - "{{ drupal_ckan_admin_rolename }}"
@@ -260,13 +260,13 @@
 - name: Create initial users
   shell: "{{ drupal_drush_path }} user-create {{ item.username }} --password='{{ item.password }}' --mail='{{ item.email }}'"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_flattened:
-    - "{{ ytp_users }}"
+    - "{{ drupal_initial_users }}"
   ignore_errors: true
 
 - name: Set user roles
   shell: "{{ drupal_drush_path }} user-add-role {{ item.role }} {{ item.username }}"
   args:
-    chdir: "{{ drupal8_root }}"
+    chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_roles }}"
