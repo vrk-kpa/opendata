@@ -22,6 +22,7 @@ from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
+from ckan.lib import i18n
 from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
@@ -431,9 +432,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 raise
 
     # IFacets #
+    _LOCALE_ALIASES = {'en_GB': 'en'}
 
     def dataset_facets(self, facets_dict, package_type):
         facets_dict = OrderedDict()
+        lang = i18n.get_lang()
+        if lang in self._LOCALE_ALIASES:
+            lang = self._LOCALE_ALIASES[lang]
+
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict.update({'tags': _('Tags')})
@@ -443,6 +449,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         # BFW: source is not part of the schema. created artificially at before_index function
         facets_dict.update({'source': _('Source')})
         facets_dict.update({'license_id': _('License')})
+        facets_dict['vocab_keywords_' + lang] = _('Tags')
         # add more dataset facets here
         return facets_dict
 
@@ -634,6 +641,18 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         for field in vocab_fields:
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
+
+        # Map keywords to vocab_keywords_{lang}
+        translated_vocabs = ['keywords']
+        languages = ['fi', 'sv', 'en']
+        for prop_key in translated_vocabs:
+            prop_json = pkg_dict.get(prop_key)
+            if not prop_json:
+                continue
+            prop_value = json.loads(prop_json)
+            for lang in languages:
+                if prop_value.get(lang):
+                    pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]] 
 
         if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
             pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
