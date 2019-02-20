@@ -2,7 +2,6 @@
 
 - name: Play 1 - Create a sandbox instance
   hosts: localhost
-  strategy: linear
   gather_facts: False
   vars:
     aws_private_key_name: "{{ lookup('env','AWS_PRIVATE_KEY_NAME') }}"
@@ -96,7 +95,6 @@
   hosts: circleci
   remote_user: "{{ lookup('env','AWS_EC2_USER') }}"
   become: True
-  strategy: linear
   gather_facts: False
 
   tasks:
