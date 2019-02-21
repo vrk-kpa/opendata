@@ -1,174 +1,141 @@
 ---
+# - name: Ensure CKAN prerequisite packages
+#   apt:
+#     name:
+#       - gcc
+#       - libpq-dev
+#       - libxslt1-dev
+#       - python-dev
+#       - python-virtualenv
+#       - zlib1g-dev
+#       - libgeos-c1v5
+#       - supervisor
+#       - apache2
+#       - libapache2-mod-wsgi
+#       - libffi-dev
+#       - libxml2
+#       - libxml2-dev
+#       - unzip
+#       - zip
+#     state: latest
 
-# TODO: Supervisor should be separated
+# - name: Ensure CKAN profiling packages
+#   apt:
+#     name:
+#       - graphviz
+#       - graphviz-dev
+#     state: latest
+#   when: ckan_profiling_enabled
 
-- name: Ensure CKAN common packages
-  apt:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - gcc
-    - libpq-dev
-    - libxslt1-dev
-    - python-dev
-    - python-virtualenv
-    - zlib1g-dev
-    - libgeos-c1v5
-    - supervisor
-  tags:
-  - packages
-  - ckan
+# - name: Ensure cache path
+#   file:
+#     path: "{{ ckan_cache_path }}"
+#     state: directory
 
-- name: Ensure CKAN profiling packages
-  apt:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - graphviz
-    - graphviz-dev
-  when: profiling_enabled
+# - name: Ensure temp directory for extensions
+#   file:
+#     path: "{{ ckan_extension_sync_path }}"
+#     state: directory
 
-- name: Ensure log file exists
-  file:
-    path: "{{ ckan_log_path }}/ckan.log"
-    state: touch
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
-    mode: 0640
+# - name: Ensure cache directory for pip
+#   file:
+#     path: /home/vagrant/.cache/pip/http
+#     state: directory
+#   when: ckan_deployment_environment_id == "vagrant"
 
-- name: Configure logrotation for CKAN
-  copy:
-    dest: /etc/logrotate.d/ckan
-    content: "{{ ckan_logrotate_conf }}"
-    mode: 0644
-    owner: root
-    group: root
+# - include: extension.yml
+#   with_items: "{{ ckan_extensions }}"
 
-- name: Ensure CKAN deb packages
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
-    - apache2
-    - libapache2-mod-wsgi
-    - libffi-dev
-  tags:
-  - apache
-  - packages
-  - ckan
+# - name: Copy credentials token
+#   copy:
+#     src: "{{ ckan_google_credentials }}"
+#     dest: "{{ ckan_cache_path }}/token.dat"
+#     mode: "0644"
+#     owner: root
+#     group: "{{ ckan_www_group }}"
+#   when: ckan_google_analytics != false
 
+# - name: Add analytics fetching to cron
+#   cron:
+#     name: "analytics"
+#     minute: "*/5"
+#     hour: "0-3"
+#     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ckan_cache_path}}/token.dat --config={{ ckan_ini }}"
+#   when: ckan_google_analytics != false
 
-- name: Download CKAN
-  git:
-    repo: https://github.com/ckan/ckan.git
-    dest: "{{ cache_path }}/ckan.git"
-    bare: yes
-  tags:
-    - ckan
+# - name: Ensure log path exists
+#   file:
+#     path: "{{ ckan_log_path }}"
+#     state: directory
+#     owner: "{{ ckan_www_user }}"
+#     group: "{{ ckan_www_group }}"
+#     mode: 0640
 
-- name: Install CKAN
-  pip:
-    name: "git+file://{{ cache_path }}/ckan.git@{{ ckan_branch }}#egg=ckan"
-    virtualenv: "{{ virtual_environment }}"
-    extra_args: "--exists-action=s -e"
-  tags:
-      - ckan
+# - name: Configure logrotation for CKAN
+#   copy:
+#     dest: /etc/logrotate.d/ckan
+#     content: "{{ ckan_logrotate_conf }}"
+#     mode: 0644
+#     owner: root
+#     group: root
 
-- name: Install CKAN requirements
-  pip:
-    requirements: "{{ virtual_environment }}/src/ckan/requirements.txt"
-    virtualenv: "{{ virtual_environment }}"
-  tags:
-      - ckan
+# - name: Install CKAN
+#   pip:
+#     name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
+#     virtualenv: "{{ ckan_virtual_environment }}"
+#     extra_args: "--exists-action=s -e"
 
-- name: Install CKAN dev requirements
-  pip:
-    requirements: "{{ virtual_environment }}/src/ckan/dev-requirements.txt"
-    virtualenv: "{{ virtual_environment }}"
-  when: deployment_environment_id == "vagrant"
+# - name: Install CKAN requirements
+#   pip:
+#     requirements: "{{ ckan_virtual_environment }}/src/ckan/requirements.txt"
+#     virtualenv: "{{ ckan_virtual_environment }}"
 
-- name: Install CKAN profiling tool
-  pip:
-    name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
-    virtualenv: "{{ virtual_environment }}"
-  when: profiling_enabled
+# - name: Install CKAN dev requirements
+#   pip:
+#     requirements: "{{ ckan_virtual_environment }}/src/ckan/dev-requirements.txt"
+#     virtualenv: "{{ ckan_virtual_environment }}"
+#   when: ckan_deployment_environment_id == "vagrant"
 
-- name: Copy override requirements
-  copy:
-    src: "override-requirements.txt"
-    dest: "{{ cache_path }}/override-requirements"
-    mode: "0644"
-    owner: root
-    group: root
+# - name: Install CKAN profiling tool
+#   pip:
+#     name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
+#     virtualenv: "{{ ckan_virtual_environment }}"
+#   when: ckan_profiling_enabled
 
-- name: Install override requirements
-  pip:
-    requirements: "{{ cache_path }}/override-requirements"
-    virtualenv: "{{ virtual_environment }}"
+# - name: Copy override requirements
+#   copy:
+#     dest: "{{ ckan_cache_path }}/override-requirements"
+#     content: "{{ ckan_override_requirements | join('\n') }}"
+#     mode: "0644"
+#     owner: root
+#     group: root
 
-#- name: Download CKAN package
-#  get_url: url="http://packaging.ckan.org/{{ ckan_package }}" dest="{{ cache_path }}/{{ ckan_package }}"
-#  register: download_ckan_package
-#  tags:
-#  - ckan
+# - name: Install override requirements
+#   pip:
+#     requirements: "{{ ckan_cache_path }}/override-requirements"
+#     virtualenv: "{{ ckan_virtual_environment }}"
 
-#- name: Install CKAN package
-#  command: dpkg -i "{{ cache_path }}/{{ ckan_package }}"
-#  when: download_ckan_package|changed
-#  tags:
-#  - ckan
+# - name: Apply CKAN patches
+#   patch:
+#     src: "{{ item }}"
+#     basedir: "{{ ckan_source_path }}"
+#     strip: 1
+#   with_fileglob: "files/patches/*"
 
-- include: patch.yml
-
-- name: Create CKAN files path
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0770"
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
-  with_items:
-    - "/etc/ckan/default"
-    - "{{ ckan_files_path }}"
-    - "{{ ckan_files_path }}/storage/uploads"
-    - "{{ resource_cache_path }}"
-  tags:
-  - ckan
-
-- name: Ensure path ownerships
-  file:
-    path: "{{ item }}"
-    state: "directory"
-    recurse: "yes"
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
-  with_items:
-    - "{{ ckan_files_path }}"
-    - "/etc/ckan/default"
-    - "{{ ckan_source_path }}/ckan/public/base/i18n"
-    - "{{ resource_cache_path }}"
-
-- name: Ensure celerybeat pid ownership
-  file:
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
-    path: "{{ item }}"
-  with_items:
-    - /tmp/celerybeat_pid
-    - /tmp/celerybeat_schedule
-  ignore_errors: True
-  tags:
-  - ckan
-
-- name: Ensure upload path mode
-  file:
-    mode: 0770
-    path: "{{ ckan_files_path }}"
-    recurse: true
-    state: "directory"
-  #command: chmod -R "0770" "{{ ckan_files_path }}"
-  tags:
-  - ckan
+# - name: Create CKAN files path
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     mode: "0770"
+#     owner: "{{ ckan_www_user }}"
+#     group: "{{ ckan_www_group }}"
+#     recurse: yes
+#   with_items:
+#     - "/etc/ckan/default"
+#     - "{{ ckan_files_path }}"
+#     - "{{ ckan_files_path }}/storage/uploads"
+#     - "{{ ckan_source_path }}/ckan/public/base/i18n"
+#     - "{{ ckan_resource_cache_path }}"
 
 - name: Disable Nginx sites
   file:
@@ -177,9 +144,6 @@
   with_items:
     - ckan
     - default
-  tags:
-  - nginx
-  - ckan
   notify: Restart Nginx
 
 - name: Disable Apache sites
@@ -189,9 +153,6 @@
   with_items:
     - 000-default.conf
     - default-ssl.conf
-  tags:
-  - apache
-  - ckan
 
 - name: Copy ports configuration
   template:
@@ -200,21 +161,13 @@
     mode: "0644"
     owner: root
     group: root
-  tags:
-  - apache
-  - ckan
 
-- name: Enable mod_rewrite
-  command: a2enmod rewrite
-  tags:
-  - apache
-  - ckan
-
-- name: Enable mod_headers
-  command: a2enmod headers
-  tags:
-  - apache
-  - ckan
+- name: Enable Apache2 modules
+  apache2_module:
+    name: "{{ item }}"
+  with_items:
+    - rewrite
+    - headers
 
 - name: Copy Apache configuration
   template:
@@ -223,9 +176,6 @@
     mode: "0644"
     owner: root
     group: root
-  tags:
-  - apache
-  - ckan
 
 - name: Enable Apache configuration
   file:
@@ -235,15 +185,6 @@
     owner: root
     group: root
   notify: Restart Apache
-  tags:
-  - apache
-  - ckan
-
-- name: Enable SSL configuration
-  command: a2enmod ssl
-  tags:
-  - apache
-  - ckan
 
 - name: Setup CKAN configuration
   template:
@@ -251,10 +192,7 @@
     dest: "{{ ckan_ini }}"
     mode: "0640"
     owner: root
-    group: "{{ www_group }}"
-  register: ckan_configuration
-  tags:
-  - ckan
+    group: "{{ ckan_www_group }}"
 
 - name: Setup Apache WSGI script
   template:
@@ -262,130 +200,55 @@
     dest: /etc/ckan/default/apache.wsgi
     mode: "0640"
     owner: root
-    group: "{{ www_group }}"
-
-
-- name: Create debian cache path
-  file:
-    path: "{{ cache_path }}/debian"
-    state: directory
-  tags:
-  - ckan
-  - spatial
-  - packages
-
-- name: Copy libxml2-2.9 packages
-  copy:
-    src: "{{ item }}"
-    dest: "{{ cache_path }}/debian/{{ item }}"
-    mode: "0644"
-    owner: root
-    group: root
-  register: copy_libxml2
-  with_items:
-    - "libxml2_2.9.1+dfsg1-3_amd64.deb"
-    - "libxml2-dev_2.9.1+dfsg1-3_amd64.deb"
-  tags:
-  - packages
-  - ckan
-  - spatial
-
-- name: Install libxml2-2.9 packages
-  command: dpkg -i "{{ cache_path }}/debian/{{ item }}"
-  when: copy_libxml2 is changed
-  with_items:
-    - "libxml2_2.9.1+dfsg1-3_amd64.deb"
-    - "libxml2-dev_2.9.1+dfsg1-3_amd64.deb"
-  tags:
-  - packages
-  - ckan
-  - spatial
-
+    group: "{{ ckan_www_group }}"
 
 - name: Install python packages to support SNI in requests
   pip:
-    name: "{{ item }}"
-    virtualenv: "{{ virtual_environment }}"
-  with_items:
-    - cryptography
-    - pyOpenSSL
-    - ndg-httpsclient
-    - pyasn1
-  tags:
-  - ckan
-  - qa
-
+    name:
+      - cryptography
+      - pyOpenSSL
+      - ndg-httpsclient
+      - pyasn1
+    virtualenv: "{{ ckan_virtual_environment }}"
 
 - name: Copy CKAN configuration files
-
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
-  with_items:
-    - { src: ckan.py, dest: /usr/bin/ckan, mode: "0755", owner: root, group: root }
-    - { src: who.ini, dest: "{{ ckan_who_ini }}", mode: "0644", owner: root, group: "{{ www_group }}"}
-  tags:
-    - ckan
+    src: who.ini
+    dest: "{{ ckan_who_ini }}"
+    mode: "0644"
+    owner: root
+    group: "{{ ckan_www_group }}"
 
-      #- name: Install modules
-      #pip: name="{{ cache_path }}/{{ item }}" virtualenv="{{ virtual_environment }}" state=latest
-      #when: modules_copy|changed
-      #register: modules_install
-      #with_flattened:
-      #- "{{ ckan_extensions }}"
-      #tags:
-      #- ckan
-      #- modules
-
+- name: Copy CKAN wrapper file
+  copy:
+    src: ckan.py
+    dest: /usr/bin/ckan
+    mode: "0755"
+    owner: root
+    group: root
 
 # Background services can block database update
 - name: Stop supervisor services
   command: supervisorctl stop all
-  tags:
-  - ckan
-
 
 - name: Ensure reindex is launched
   file:
-    path: "{{ files_root }}/.solr-reindex"
+    path: "{{ ckan_files_root }}/.solr-reindex"
     state: "absent"
   #when: copy_ckan_ui_data|changed
-  tags:
-  - ckan
 
 - name: re-minify CKAN javascript files
-  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ virtual_environment }}"
-  tags:
-  - ckan
-  - translations
+  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
 
 - name: Ensure Apache restart
   service:
-    name: apache2
     state: restarted
-  tags:
-  - apache
-  - ckan
+    name: apache2
 
 - name: Ensure Nginx is restarted
   service:
     name: nginx
     state: restarted
-  tags:
-  - ckan
-
-- name: Copy celery configuration
-  template:
-    src: "../modules/ckanext-ytp_tasks/ytp_celery.py.j2"
-    dest: "/etc/ckan/default/ytp_celery.py"
-    mode: "0640"
-    owner: root
-    group: "{{ www_group }}"
-  tags:
-  - ckan
 
 - name: Copy supervisor configuration
   template:
@@ -398,5 +261,33 @@
   notify:
   - Restart Gather
   - Restart Fetch
-  tags:
-  - ckan
+
+- name: Copy data structures for CKAN UI options
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ckan_files_path }}/{{ item | basename }}"
+    mode: "0644"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  register: copy_ckan_ui_data
+  with_fileglob: files/datastructures/*
+
+- include: database.yml
+
+- name: Copy SQL files
+  template:
+    src: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+    owner: postgres
+    group: postgres
+    mode: "0640"
+  with_items: "{{ ckan_sql_files_to_execute }}"
+
+- name: Execute SQL files
+  shell: cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
+  become_user: postgres
+  become: yes
+  with_items: "{{ ckan_sql_files_to_execute }}"
+
+- include: translations.yml
+- include: restart.yml

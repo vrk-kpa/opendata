@@ -173,7 +173,6 @@ AWS:
   smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
 
 debug_enabled: false
-profiling_enabled: false
 
 cloudwatch_agent_logs_config:
   - file_path: '/var/log/ckan/ckan-worker-bulk.log*'

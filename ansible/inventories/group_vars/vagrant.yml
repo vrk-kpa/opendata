@@ -6,6 +6,7 @@ debug_enabled: true
 smtp:
   server_domain: localhost
 
+ckan_profiling_enabled: true
 ckan_smtp_use_tls: False
 ckan_smtp_port: 1025
 
@@ -20,7 +21,6 @@ disqus_name: "localhost-avoindata-fi"
 drupal_disqus_name: "{{ disqus_name }}"
 drupal_admin_email: vagrant@localhost
 
-profiling_enabled: true
 
 postgres_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
@@ -35,5 +35,5 @@ postgres_hba_entries:
 
 postgres_installed_locally: true
 
-testing_ports:
+ckan_testing_ports:
   - 9090

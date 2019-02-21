@@ -1,15 +1,15 @@
 WSGISocketPrefix /var/run/wsgi
 <VirtualHost 0.0.0.0:8080>
 
-    ServerName {{ hostname }}
-    ServerAlias {{ secondary_hostname }}
+    ServerName {{ ckan_hostname }}
+    ServerAlias {{ ckan_secondary_hostname }}
     WSGIScriptAlias /data /etc/ckan/default/apache.wsgi
 
     # pass authorization info on (needed for rest api)
     WSGIPassAuthorization On
 
     # Deploy as a daemon (avoids conflicts between CKAN instances)
-    {% if deployment_environment_id == "vagrant" %}
+    {% if ckan_deployment_environment_id == "vagrant" %}
     WSGIDaemonProcess ckan_default display-name=ckan_default threads=15
     {% else %}
     WSGIDaemonProcess ckan_default display-name=ckan_default processes=2 threads=15

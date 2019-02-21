@@ -11,7 +11,13 @@ disqus_name: "beta-avoindata-fi"
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
 
-profiling_enabled: true
+ckan_profiling_enabled: true
+ckan_smtp_use_tls: True
+ckan_smtp_username: "{{ secret.smtp_user }}"
+ckan_smtp_password: "{{ secret.smtp_password }}"
+ckan_smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+ckan_enable_cloudstorage: True
+ckan_extension_archiver_cache_protocol: https
 
 postgres_host: "{{ postgres_conf.host }}"
 postgres_admin_user: "{{ postgres_conf.admin_user }}"

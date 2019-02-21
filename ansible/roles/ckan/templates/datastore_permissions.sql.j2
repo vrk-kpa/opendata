@@ -1,0 +1,8 @@
+\connect "{{ ckan_postgres.databases.ckan_datastore.name }}"
+
+-- revoke permissions for the read-only user
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+
+GRANT CREATE ON SCHEMA public TO "{{ ckan_postgres.users.ckan.username }}";
+GRANT USAGE ON SCHEMA public TO "{{ ckan_postgres.users.ckan.username }}";

@@ -1,0 +1,2 @@
+ckan_profiling_enabled: false
+ckan_smtp_use_tls: False
