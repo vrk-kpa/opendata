@@ -1,141 +1,141 @@
 ---
-# - name: Ensure CKAN prerequisite packages
-#   apt:
-#     name:
-#       - gcc
-#       - libpq-dev
-#       - libxslt1-dev
-#       - python-dev
-#       - python-virtualenv
-#       - zlib1g-dev
-#       - libgeos-c1v5
-#       - supervisor
-#       - apache2
-#       - libapache2-mod-wsgi
-#       - libffi-dev
-#       - libxml2
-#       - libxml2-dev
-#       - unzip
-#       - zip
-#     state: latest
+- name: Ensure CKAN prerequisite packages
+  apt:
+    name:
+      - gcc
+      - libpq-dev
+      - libxslt1-dev
+      - python-dev
+      - python-virtualenv
+      - zlib1g-dev
+      - libgeos-c1v5
+      - supervisor
+      - apache2
+      - libapache2-mod-wsgi
+      - libffi-dev
+      - libxml2
+      - libxml2-dev
+      - unzip
+      - zip
+    state: latest
 
-# - name: Ensure CKAN profiling packages
-#   apt:
-#     name:
-#       - graphviz
-#       - graphviz-dev
-#     state: latest
-#   when: ckan_profiling_enabled
+- name: Ensure CKAN profiling packages
+  apt:
+    name:
+      - graphviz
+      - graphviz-dev
+    state: latest
+  when: ckan_profiling_enabled
 
-# - name: Ensure cache path
-#   file:
-#     path: "{{ ckan_cache_path }}"
-#     state: directory
+- name: Ensure cache path
+  file:
+    path: "{{ ckan_cache_path }}"
+    state: directory
 
-# - name: Ensure temp directory for extensions
-#   file:
-#     path: "{{ ckan_extension_sync_path }}"
-#     state: directory
+- name: Ensure temp directory for extensions
+  file:
+    path: "{{ ckan_extension_sync_path }}"
+    state: directory
 
-# - name: Ensure cache directory for pip
-#   file:
-#     path: /home/vagrant/.cache/pip/http
-#     state: directory
-#   when: ckan_deployment_environment_id == "vagrant"
+- name: Ensure cache directory for pip
+  file:
+    path: /home/vagrant/.cache/pip/http
+    state: directory
+  when: ckan_deployment_environment_id == "vagrant"
 
-# - include: extension.yml
-#   with_items: "{{ ckan_extensions }}"
+- include: extension.yml
+  with_items: "{{ ckan_extensions }}"
 
-# - name: Copy credentials token
-#   copy:
-#     src: "{{ ckan_google_credentials }}"
-#     dest: "{{ ckan_cache_path }}/token.dat"
-#     mode: "0644"
-#     owner: root
-#     group: "{{ ckan_www_group }}"
-#   when: ckan_google_analytics != false
+- name: Copy credentials token
+  copy:
+    src: "{{ ckan_google_credentials }}"
+    dest: "{{ ckan_cache_path }}/token.dat"
+    mode: "0644"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  when: ckan_google_analytics != false
 
-# - name: Add analytics fetching to cron
-#   cron:
-#     name: "analytics"
-#     minute: "*/5"
-#     hour: "0-3"
-#     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ckan_cache_path}}/token.dat --config={{ ckan_ini }}"
-#   when: ckan_google_analytics != false
+- name: Add analytics fetching to cron
+  cron:
+    name: "analytics"
+    minute: "*/5"
+    hour: "0-3"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ckan_cache_path}}/token.dat --config={{ ckan_ini }}"
+  when: ckan_google_analytics != false
 
-# - name: Ensure log path exists
-#   file:
-#     path: "{{ ckan_log_path }}"
-#     state: directory
-#     owner: "{{ ckan_www_user }}"
-#     group: "{{ ckan_www_group }}"
-#     mode: 0640
+- name: Ensure log path exists
+  file:
+    path: "{{ ckan_log_path }}"
+    state: directory
+    owner: "{{ ckan_www_user }}"
+    group: "{{ ckan_www_group }}"
+    mode: 0640
 
-# - name: Configure logrotation for CKAN
-#   copy:
-#     dest: /etc/logrotate.d/ckan
-#     content: "{{ ckan_logrotate_conf }}"
-#     mode: 0644
-#     owner: root
-#     group: root
+- name: Configure logrotation for CKAN
+  copy:
+    dest: /etc/logrotate.d/ckan
+    content: "{{ ckan_logrotate_conf }}"
+    mode: 0644
+    owner: root
+    group: root
 
-# - name: Install CKAN
-#   pip:
-#     name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
-#     virtualenv: "{{ ckan_virtual_environment }}"
-#     extra_args: "--exists-action=s -e"
+- name: Install CKAN
+  pip:
+    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
+    virtualenv: "{{ ckan_virtual_environment }}"
+    extra_args: "--exists-action=s -e"
 
-# - name: Install CKAN requirements
-#   pip:
-#     requirements: "{{ ckan_virtual_environment }}/src/ckan/requirements.txt"
-#     virtualenv: "{{ ckan_virtual_environment }}"
+- name: Install CKAN requirements
+  pip:
+    requirements: "{{ ckan_virtual_environment }}/src/ckan/requirements.txt"
+    virtualenv: "{{ ckan_virtual_environment }}"
 
-# - name: Install CKAN dev requirements
-#   pip:
-#     requirements: "{{ ckan_virtual_environment }}/src/ckan/dev-requirements.txt"
-#     virtualenv: "{{ ckan_virtual_environment }}"
-#   when: ckan_deployment_environment_id == "vagrant"
+- name: Install CKAN dev requirements
+  pip:
+    requirements: "{{ ckan_virtual_environment }}/src/ckan/dev-requirements.txt"
+    virtualenv: "{{ ckan_virtual_environment }}"
+  when: ckan_deployment_environment_id == "vagrant"
 
-# - name: Install CKAN profiling tool
-#   pip:
-#     name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
-#     virtualenv: "{{ ckan_virtual_environment }}"
-#   when: ckan_profiling_enabled
+- name: Install CKAN profiling tool
+  pip:
+    name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
+    virtualenv: "{{ ckan_virtual_environment }}"
+  when: ckan_profiling_enabled
 
-# - name: Copy override requirements
-#   copy:
-#     dest: "{{ ckan_cache_path }}/override-requirements"
-#     content: "{{ ckan_override_requirements | join('\n') }}"
-#     mode: "0644"
-#     owner: root
-#     group: root
+- name: Copy override requirements
+  copy:
+    dest: "{{ ckan_cache_path }}/override-requirements"
+    content: "{{ ckan_override_requirements | join('\n') }}"
+    mode: "0644"
+    owner: root
+    group: root
 
-# - name: Install override requirements
-#   pip:
-#     requirements: "{{ ckan_cache_path }}/override-requirements"
-#     virtualenv: "{{ ckan_virtual_environment }}"
+- name: Install override requirements
+  pip:
+    requirements: "{{ ckan_cache_path }}/override-requirements"
+    virtualenv: "{{ ckan_virtual_environment }}"
 
-# - name: Apply CKAN patches
-#   patch:
-#     src: "{{ item }}"
-#     basedir: "{{ ckan_source_path }}"
-#     strip: 1
-#   with_fileglob: "files/patches/*"
+- name: Apply CKAN patches
+  patch:
+    src: "{{ item }}"
+    basedir: "{{ ckan_source_path }}"
+    strip: 1
+  with_fileglob: "files/patches/*"
 
-# - name: Create CKAN files path
-#   file:
-#     path: "{{ item }}"
-#     state: directory
-#     mode: "0770"
-#     owner: "{{ ckan_www_user }}"
-#     group: "{{ ckan_www_group }}"
-#     recurse: yes
-#   with_items:
-#     - "/etc/ckan/default"
-#     - "{{ ckan_files_path }}"
-#     - "{{ ckan_files_path }}/storage/uploads"
-#     - "{{ ckan_source_path }}/ckan/public/base/i18n"
-#     - "{{ ckan_resource_cache_path }}"
+- name: Create CKAN files path
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0770"
+    owner: "{{ ckan_www_user }}"
+    group: "{{ ckan_www_group }}"
+    recurse: yes
+  with_items:
+    - "/etc/ckan/default"
+    - "{{ ckan_files_path }}"
+    - "{{ ckan_files_path }}/storage/uploads"
+    - "{{ ckan_source_path }}/ckan/public/base/i18n"
+    - "{{ ckan_resource_cache_path }}"
 
 - name: Disable Nginx sites
   file:

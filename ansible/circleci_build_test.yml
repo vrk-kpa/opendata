@@ -191,17 +191,7 @@
       - import_role:
           name: redis
       - import_role:
-          name: ckan-extensions
-      - import_role:
           name: ckan
-      - import_role:
-          name: ckan-config
-      - import_role:
-          name: ckan-database
-      - import_role:
-          name: ckan-data
-      - import_role:
-          name: ckan-restart
       - import_role:
           name: php
       - import_role:
