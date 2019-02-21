@@ -39,16 +39,11 @@
     - "{{ drupal_root }}/config"
     - "{{ drupal_root }}/config/sync"
 
-- name: Remove composer lock file if it exists
-  file:
-    path: "{{ drupal_root }}/composer.lock"
-    state: absent
-
-- name: Install Drupal dependencies
+- name: Update Drupal dependencies
   become: true
   become_user: "{{ drupal_user }}"
   composer:
-    command: install
+    command: update
     working_dir: "{{ drupal_root }}"
 
 
