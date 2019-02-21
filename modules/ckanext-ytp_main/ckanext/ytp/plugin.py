@@ -16,7 +16,7 @@ from ckan import plugins, model, logic
 from ckan.common import _, c, request, is_flask_request
 
 from ckan.config.routing import SubMapper
-from ckan.lib import helpers, i18n
+from ckan.lib import helpers
 from ckan.lib.dictization import model_dictize
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
@@ -431,14 +431,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 raise
 
     # IFacets #
-    _LOCALE_ALIASES = {'en_GB': 'en'}
 
     def dataset_facets(self, facets_dict, package_type):
+        lang = helpers.get_lang_prefix()
         facets_dict = OrderedDict()
-        lang = i18n.get_lang()
-        if lang in self._LOCALE_ALIASES:
-            lang = self._LOCALE_ALIASES[lang]
-
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict['vocab_keywords_' + lang] = _('Tags')
@@ -455,7 +451,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
-
+        lang = helpers.get_lang_prefix()
         facets_dict = OrderedDict()
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict['vocab_keywords_' + lang] = _('Tags')
