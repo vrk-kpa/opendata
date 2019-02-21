@@ -40,9 +40,8 @@
     login_host: "{{ postgres_host }}"
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ postgres_admin_password }}"
-  items: "{{ postgres_databases }}"
+  with_items: "{{ postgres_databases }}"
 
-# TODO: Add check task to prevent running this if extension is already installed
 - name: Initialize Spatial database
   command: psql -f {{ role_path }}/files/enable-rds-postgis.sql --set ON_ERROR_STOP=1
   ignore_errors: true
