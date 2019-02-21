@@ -1,3 +1,5 @@
+postgres_installed_locally: false
+
 postgres_global_config:
   - option: listen_addresses
     value: "*"

@@ -33,5 +33,7 @@ postgres_hba_entries:
   - {type: host, database: drupal8, user: drupal8, address: "{{ postgres_trusted_ip_range }}", auth_method: md5}
   - {type: host, database: ckan_test, user: ckan_test, address: "{{ postgres_trusted_ip_range }}", auth_method: md5}
 
+postgres_installed_locally: true
+
 testing_ports:
   - 9090
