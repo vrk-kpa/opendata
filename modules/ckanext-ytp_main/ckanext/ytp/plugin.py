@@ -433,7 +433,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IFacets #
 
     def dataset_facets(self, facets_dict, package_type):
-        lang = helpers.get_lang_prefix()
+        lang = get_lang_prefix()
         facets_dict = OrderedDict()
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
@@ -451,7 +451,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
-        lang = helpers.get_lang_prefix()
+        lang = get_lang_prefix()
         facets_dict = OrderedDict()
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict['vocab_keywords_' + lang] = _('Tags')
