@@ -12,3 +12,7 @@ ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
 
 profiling_enabled: true
+
+postgres_host: "{{ postgres_conf.host }}"
+postgres_admin_user: "{{ postgres_conf.admin_user }}"
+postgres_admin_password: "{{ postgres_conf.admin_password }}"
