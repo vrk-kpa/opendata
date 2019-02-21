@@ -13,31 +13,37 @@
   {{ form.form_id }}
   <div class="avoindata-hero-search-container">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-12">
         <h1>
           <img class="avoindata-hero-logo" src="/resources/images/logo/opendata.svg"/>
           {% trans %}
           Avoindata.fi
           {% endtrans %}
+          <span class="small">
+          -
+          {% trans %}
+          All Finnish open data from one place
+          {% endtrans %}
+          </span>
         </h1>
       </div>
     </div>
     <div class="row avoindata-hero-subheading">
-      <div class="col-md-5">
+      <div class="col-md-12">
         <p>
           {% trans %}
-          Finnish open data portal
+          Open data is information that is stored on a computer, for example structural text, tables, maps and images. Open data can be used freely when also providing it's origin.
           {% endtrans %}
+          {% set guideurl = "/fi/opas" %}
+          {% if form.language in ['en', 'sv'] %}
+            {% set guideurl = "/%s/guide"|format(form.language) %}
+          {% endif %}
+          <a href="{{ guideurl }}">
+            {% trans %}
+            Read more >>
+            {% endtrans %}
+          </a>
         </p>
-        {% set guideurl = "/fi/opas" %}
-        {% if form.language in ['en', 'sv'] %}
-          {% set guideurl = "/%s/guide"|format(form.language) %}
-        {% endif %}
-        <a href="{{ guideurl }}">
-          {% trans %}
-          Read more >>
-          {% endtrans %}
-        </a>
       </div>
     </div>
     <div class="row avoindata-hero-boxes">

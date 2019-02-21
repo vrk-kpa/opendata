@@ -99,6 +99,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                 lang = self._LOCALE_ALIASES[lang]
 
             facets_dict['vocab_category_' + lang] = _('Category')
+            facets_dict['vocab_keywords_' + lang] = _('Tags')
 
             facets_dict.update({'vocab_platform': _('Platform')})
 
@@ -192,14 +193,17 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         if data_dict.get('platform'):
             data_dict['vocab_platform'] = [tag for tag in json.loads(data_dict['platform'])]
 
-        keywords = data_dict.get('category')
-        if keywords:
-            keywords_json = json.loads(keywords)
-            if keywords_json.get('fi'):
-                data_dict['vocab_category_fi'] = [tag for tag in keywords_json['fi']]
-            if keywords_json.get('sv'):
-                data_dict['vocab_category_sv'] = [tag for tag in keywords_json['sv']]
-            if keywords_json.get('en'):
-                data_dict['vocab_category_en'] = [tag for tag in keywords_json['en']]
+        vocabs = ['category', 'keywords']
+        languages = ['fi', 'sv', 'en']
+
+        for prop_key in vocabs:
+            prop_json = data_dict.get(prop_key)
+            if not prop_json:
+                continue
+            prop_value = json.loads(prop_json)
+            for lang in languages:
+                lang_values = prop_value.get(lang)
+                if lang_values:
+                    data_dict['vocab_%s_%s' % (prop_key, lang)] = list(lang_values)
 
         return data_dict
