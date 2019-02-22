@@ -1,5 +1,8 @@
 ---
 - name: Converge
   hosts: all
+  become: true
+  vars:
+    deployment_environment_id: molecule
   roles:
     - role: common

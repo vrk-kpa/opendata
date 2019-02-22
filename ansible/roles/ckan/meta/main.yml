@@ -12,13 +12,14 @@ galaxy_info:
         - bionic
 
 dependencies:
+  - role: secrets
   - role: postgres
     tags: dependency_role
   - role: opendata_frontend
     tags: dependency_role
-  - role: redis
+  - role: jetty
     tags: dependency_role
-  - role: drupal
+  - role: redis
     tags: dependency_role
   - role: nginx
     tags: dependency_role

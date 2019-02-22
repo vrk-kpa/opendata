@@ -7,7 +7,18 @@
 
 - name: Set hostname
   hostname:
-    name: "{{ deployment_environment_id }}-web"
+    name: "{{ common_deployment_environment_id }}-web"
+
+- name: Add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1\tlocalhost {{ common_deployment_environment_id }}-web"
+    owner: root
+    group: root
+    mode: 0644
+    state: present
+    insertbefore: BOF
 
 - name: Set locale
   lineinfile:
@@ -15,8 +26,8 @@
     line: "LC_ALL=en_US.utf8"
     regexp: "^LC_ALL=.*"
 
-- name: Create common paths
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items: "{{ all_paths }}"
+# - name: Create common paths
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items: "{{ all_paths }}"

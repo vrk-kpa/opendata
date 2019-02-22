@@ -28,11 +28,6 @@
 
   roles:
     - {role: common, tags: common_role}
-    - {role: postgres, tags: postgres_role}
-    - {role: opendata_frontend, tags: opendata_frontend_role}
-    - {role: nginx, tags: nginx_role}
-    - {role: jetty, tags: jetty_role}
-    - {role: redis, tags: redis_role}
     - {role: ckan, tags: ckan_role}
     - {role: drupal, tags: drupal_role}
     - {role: data, tags: data_role}

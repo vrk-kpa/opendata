@@ -31,13 +31,13 @@ resource_cache_path: "{{ server_path }}/resource_cache"
 
 files_root: "{{ server_path }}/files"
 
-all_paths:
-  - "{{ server_path }}"
-  - "{{ cache_path }}"
-  - "{{ backup_path }}"
-  - "{{ scripts_path }}"
-  - "{{ log_path }}"
-  - "{{ static_path }}"
+# all_paths:
+#   - "{{ server_path }}"
+#   - "{{ cache_path }}"
+#   - "{{ backup_path }}"
+#   - "{{ scripts_path }}"
+#   - "{{ log_path }}"
+#   - "{{ static_path }}"
 
 hostname: 10.10.10.10
 hostname_language: fi
