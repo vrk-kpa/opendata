@@ -22,6 +22,7 @@ ckan_extension_archiver_cache_protocol: https
 ckan_cloudstorage_driver: "{{ AWS.region }}"
 ckan_cloudstorage_bucket: "{{ AWS.ckan_s3_bucket }}"
 ckan_cloudstorage_local_access: False
+ckan_disqus_name: "{{ disqus_name }}"
 
 postgres_host: "{{ postgres_conf.host }}"
 postgres_admin_user: "{{ postgres_conf.admin_user }}"
