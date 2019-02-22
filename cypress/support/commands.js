@@ -149,7 +149,7 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
   cy.get('button[name=save]').click();
 
   // Datasets form
-  cy.get(`a [href=/data/fi/showcase/${showcase_name}]`).click(); 
+  cy.get(`article a[href="/data/fi/showcase/${showcase_name}"]`).click(); 
   cy.url().should('include', `/data/fi/showcase/${showcase_name}`);
 })
 
@@ -164,7 +164,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
   cy.fill_form_fields(showcase_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.showcase-title-column').contains(showcase_name+'edit');
+  cy.get('.page-heading').contains(showcase_name+'edit');
 })
 
 // Deletes a showcase and verifies that it is not found in the search anymore
