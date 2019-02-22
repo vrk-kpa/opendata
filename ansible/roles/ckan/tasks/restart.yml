@@ -52,12 +52,6 @@
     hour: "3"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
 
-- name: Reindex
-  shell: touch "{{ ckan_files_root }}/.solr-reindex" && ./bin/paster --plugin=ckan  search-index rebuild --config="{{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}" creates="{{ ckan_files_root }}/.solr-reindex"
-  when: ckan_reindex == true
-  async: 1200
-  poll: "{{ 0 if Reindex == true else 10 }}"
-
 - name: Add email reminder about expiring datasets as a cron job
   cron:
     name: "Add email reminder"
