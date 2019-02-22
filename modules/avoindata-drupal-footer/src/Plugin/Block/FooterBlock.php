@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_footer\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides a 'Avoindata Footer' Block.
@@ -20,9 +19,9 @@ class FooterBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return array(
+    return [
       '#theme' => 'avoindata_footer',
-    );
+    ];
   }
-}
 
+}

@@ -19,10 +19,10 @@ class SearchCollapsible extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return array(
+    return [
       '#theme' => 'avoindata_header_search_collapsible',
       '#language' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
-    );
+    ];
   }
 
 }

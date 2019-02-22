@@ -46,9 +46,7 @@ supervisor_services:
   - ckan-worker-bulk
   - ckan-worker-priority
 
-# Override these on servers!
-baker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
-app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
+
 
 ckan_files_path: "{{ files_root }}/ckan"
 ckan_max_resource_size: 5000
@@ -66,6 +64,7 @@ new_ckan_patches:
   - { file: "fix-flask-root-path" } # CKAN issue #4452
   - { file: "enforce-url-decoding" } # CKAN issue #4619
   - { file: "add_error_email_logger_to_flask"} # https://github.com/ckan/ckan/pull/4623
+  - { file: "fix-popped-wrong-app-context"} # CKAN issue #4431
 
 service_database_enabled: false
 auto_author_enabled: true

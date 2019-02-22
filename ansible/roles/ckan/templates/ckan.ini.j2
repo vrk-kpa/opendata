@@ -22,7 +22,7 @@ full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
-beaker.session.secret = {{ baker_session_secret }}
+beaker.session.secret = {{ beaker_session_secret }}
 beaker.session.secure = True
 beaker.session.httponly = True
 
@@ -270,4 +270,3 @@ format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 use = egg:linesman#profiler
 filename = /tmp/linesman.sqlite
 {% endif %}
-

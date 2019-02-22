@@ -21,7 +21,7 @@ describe('Basic tests', function() {
     cy.visit("/opas");
     cy.visit("/en/guide");
     cy.visit("/sv/guide");
-    cy.visit("fi/opas/guide-search?search_api_fulltext=test");
+    cy.visit("fi/guide-search?search_api_fulltext=test");
     cy.visit("/user/register");
     cy.visit("/contact");
     cy.visit("/tapahtumat")

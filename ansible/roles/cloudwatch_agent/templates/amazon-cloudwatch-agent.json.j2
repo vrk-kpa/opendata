@@ -14,6 +14,9 @@
       "InstanceType": "${aws:InstanceType}"
     },
     "metrics_collected": {
+      {% if cloudwatch_agent_procstat_metrics_config is defined -%}
+      "procstat": {{ cloudwatch_agent_procstat_metrics_config | to_nice_json(indent=2) | indent(6) }},
+      {% endif -%}
       "mem": {
         "measurement": [
           "mem_used_percent"

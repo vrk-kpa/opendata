@@ -45,7 +45,8 @@ body, html {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  overflow-x: hidden; 
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; 
 }
 
 // Footer to the bottom of the screen if there is not enough content on the page (not sticky).
@@ -118,7 +119,7 @@ p:last-child,
 // Drupal Hero Module
 .avoindata-hero {
   background-image: @background-hero-image;
-  padding-top: 142px;
+  padding-top: 60px;
   padding-bottom: 60px;
   padding-right: 50px;
   padding-left: 50px;
@@ -126,12 +127,11 @@ p:last-child,
   background-repeat: no-repeat;
   color: @popularTextColor;
   h1 {
-    font-size: 40px;
+    font-size: 2.8em;
     font-weight: 600;
-    line-height: 44px;
+    margin-bottom: 0.4em;
   }
   p {
-    font-size: 14px;
     line-height: 23px;
   }
   a {
@@ -148,6 +148,11 @@ p:last-child,
   }
   .avoindata-hero-subheading {
     margin-bottom: 20px;
+    margin-bottom: 4rem;
+    h2 {
+      margin: 0;
+      font-size: 1.9em;
+    }
   }
   .avoindata-hero-boxes {
     margin-bottom: 20px;

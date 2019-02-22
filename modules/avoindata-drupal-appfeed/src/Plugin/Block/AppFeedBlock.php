@@ -27,14 +27,16 @@ class AppFeedBlock extends BlockBase {
       $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?fq=dataset_type:showcase&sort=metadata_modified%20desc&rows=3');
       $recentApplicationsResult = Json::decode($recentApplicationsResponse->getBody());
       $recentApplications = $recentApplicationsResult['result']['results'];
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $recentApplications = NULL;
     }
 
-    return array(
+    return [
       '#applications' => $recentApplications,
       '#language' => $currentLang,
       '#theme' => 'avoindata_appfeed',
-    );
+    ];
   }
+
 }

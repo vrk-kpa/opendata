@@ -1,7 +1,14 @@
 <?php
 
-// These changes only take effect when the module is completely reinstalled
+/**
+ * @file
+ * Installs event configuration.
+ */
+
+/**
+ * These changes only take effect when the module is completely reinstalled.
+ */
 function avoindata_events_install() {
-    \Drupal::service('path.alias_storage')->save("/events", "/tapahtumat", "fi");
-    \Drupal::service('path.alias_storage')->save("/events", "/evenemanger", "sv");
+  \Drupal::service('path.alias_storage')->save("/events", "/tapahtumat", "fi");
+  \Drupal::service('path.alias_storage')->save("/events", "/evenemanger", "sv");
 }
