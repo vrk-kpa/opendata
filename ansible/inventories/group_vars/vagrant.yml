@@ -6,9 +6,6 @@ debug_enabled: true
 smtp:
   server_domain: localhost
 
-ckan_profiling_enabled: true
-ckan_smtp_use_tls: False
-ckan_smtp_port: 1025
 
 drupal_smtp_protocol: standard
 drupal_smtp_port: 1025
@@ -16,11 +13,15 @@ drupal_smtp_port: 1025
 vagrant: true
 secrets_file_path: does_not_exist
 deployment_environment_id: vagrant
-ssl_path: /vagrant
 disqus_name: "localhost-avoindata-fi"
 drupal_disqus_name: "{{ disqus_name }}"
 drupal_admin_email: vagrant@localhost
 
+ckan_profiling_enabled: true
+ckan_smtp_use_tls: False
+ckan_smtp_port: 1025
+ckan_site_protocol: "http"
+ckan_disqus_name: "{{ disqus_name }}"
 
 postgres_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
