@@ -37,3 +37,6 @@
     name: "{{ solr_jetty_service }}"
     state: started
     enabled: true
+
+- name: Force all notified handlers to run at this point
+  meta: flush_handlers
