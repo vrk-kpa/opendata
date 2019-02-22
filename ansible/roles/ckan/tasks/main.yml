@@ -231,12 +231,6 @@
 - name: Stop supervisor services
   command: supervisorctl stop all
 
-- name: Ensure reindex is launched
-  file:
-    path: "{{ ckan_files_root }}/.solr-reindex"
-    state: "absent"
-  #when: copy_ckan_ui_data|changed
-
 - name: re-minify CKAN javascript files
   shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
 
