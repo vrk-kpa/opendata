@@ -30,13 +30,8 @@ who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
 sqlalchemy.url = postgres://{{ ckan_postgres.users.ckan.username }}:{{ ckan_postgres.users.ckan.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.ckan.name }}
-{% if vagrant is defined %}
-ckan.site_url = http://{{ ckan_hostname }}
-ckan.site_url_internally = http://{{ ckan_hostname }}/data/
-{% else %}
-ckan.site_url = https://{{ ckan_hostname }}
-ckan.site_url_internally = https://{{ ckan_hostname }}/data/
-{% endif %}
+ckan.site_url = {{ ckan_site_protocol }}://{{ ckan_hostname }}
+ckan.site_url_internally = {{ ckan_site_protocol }}://{{ ckan_hostname }}/data/
 
 {% raw %}
 ckan.root_path = /data/{{LANG}}
@@ -133,9 +128,6 @@ ckanext.drupal8.domain = {{ ckan_hostname }},{{ ckan_secondary_hostname }}
 ckanext.drupal8.sysadmin_role = {{ ckan_drupal_ckan_admin_rolename }}
 ckanext.drupal8.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.drupal8.name }}
 ckanext.drupal8.allow_edit = true
-{% if not AWS.enabled -%}
-ckanext.drupal8.development_cert = /etc/ssl/opendata/server.crt
-{%- endif %}
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json
 service_classes_options_url = file://{{ ckan_files_path }}/service_classes.json
@@ -163,15 +155,15 @@ ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
 
-{% if AWS.enabled -%}
+{% if ckan_cloudstorage -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}
 ckanext.cloudstorage.use_secure_urls = 1
-{% if AWS.use_iam_role -%}
+{% if not ckan_cloudstorage_local_access -%}
 ckanext.cloudstorage.driver_options = {}
 {%- endif %}
 
-{% if not AWS.use_iam_role -%}
+{% if ckan_cloudstorage_local_access -%}
 ckanext.cloudstorage.driver_options = {"key": "{{ AWS.access_key }}", "secret": "{{ AWS.secret_access_key }}", "token": ""}
 
 {%- endif %}
