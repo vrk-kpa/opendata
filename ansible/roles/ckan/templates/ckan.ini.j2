@@ -148,10 +148,6 @@ target_group_options_url = file://{{ ckan_files_path }}/target_groups.json
 ckanext.ytp.default_organization_name = yksityishenkilo
 ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 
-ckanext.ytp.dataset.service_database_enabled = {% if service_database_enabled -%}true{%- else -%}false{%- endif %}
-
-ckanext.ytp.dataset.auto_author = {% if auto_author_enabled -%}true{%- else -%}false{%- endif %}
-
 # The email links for reminders will be prefixed with this site url
 ckanext.reminder.site_url = https://www.avoindata.fi
 
