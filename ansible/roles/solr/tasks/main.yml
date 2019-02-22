@@ -1,0 +1,39 @@
+---
+# tasks file for solr
+
+- name: Get distribution based variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+
+- name: Ensure Jetty requirements
+  apt:
+    pkg: solr-jetty
+    state: present
+    update_cache: true
+
+- name: Copy Solr schema
+  template:
+    src: schema.xml.j2
+    dest: /etc/solr/conf/schema.xml
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart jetty
+
+- name: Setup Jetty
+  template:
+    src: "jetty.j2"
+    dest: "/etc/default/jetty8"
+    mode: "0644"
+    owner: root
+    group: root
+  register: jetty_setup
+  notify: Restart jetty
+
+- name: Ensure Jetty is running
+  service:
+    name: "{{ solr_jetty_service }}"
+    state: started
+    enabled: true

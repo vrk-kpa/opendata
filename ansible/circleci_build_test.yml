@@ -187,7 +187,7 @@
       - import_role:
           name: nginx
       - import_role:
-          name: jetty
+          name: solr
       - import_role:
           name: redis
       - import_role:

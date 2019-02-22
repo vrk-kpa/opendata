@@ -1,0 +1,3 @@
+---
+# defaults file for solr
+solr_port: "8983"

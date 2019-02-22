@@ -1,3 +1,4 @@
+---
 galaxy_info:
   description: Drupal for CKAN
 
@@ -17,7 +18,7 @@ dependencies:
     tags: dependency_role
   - role: opendata_frontend
     tags: dependency_role
-  - role: jetty
+  - role: solr
     tags: dependency_role
   - role: redis
     tags: dependency_role

@@ -67,8 +67,16 @@
   file:
     path: "{{ ckan_log_path }}"
     state: directory
-    owner: "{{ ckan_www_user }}"
-    group: "{{ ckan_www_group }}"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure log file exists
+  file:
+    path: "{{ ckan_log_path }}/ckan.log"
+    state: touch
+    owner: "{{ www_user }}"
+    group: "{{ www_group }}"
     mode: 0640
 
 - name: Configure logrotation for CKAN
@@ -129,7 +137,7 @@
     mode: "0770"
     owner: "{{ ckan_www_user }}"
     group: "{{ ckan_www_group }}"
-    recurse: yes
+    recurse: true
   with_items:
     - "/etc/ckan/default"
     - "{{ ckan_files_path }}"
@@ -253,8 +261,8 @@
     group: root
   register: supervisor_configuration
   notify:
-  - Restart Gather
-  - Restart Fetch
+    - Restart Gather
+    - Restart Fetch
 
 - name: Copy data structures for CKAN UI options
   copy:
@@ -280,7 +288,7 @@
 - name: Execute SQL files
   shell: cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
   become_user: postgres
-  become: yes
+  become: true
   with_items: "{{ ckan_sql_files_to_execute }}"
 
 - include: translations.yml
