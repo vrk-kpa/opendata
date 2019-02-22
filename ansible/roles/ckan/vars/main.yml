@@ -46,9 +46,7 @@ supervisor_services:
   - ckan-worker-bulk
   - ckan-worker-priority
 
-# Override these on servers!
-beaker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
-app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
+
 
 ckan_files_path: "{{ files_root }}/ckan"
 ckan_max_resource_size: 5000

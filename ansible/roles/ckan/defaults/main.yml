@@ -13,3 +13,7 @@ ckan_logrotate_conf: |
   	notifempty
   	create 0640 www-data www-data
   }
+
+  # Override these on servers!
+  beaker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
+  app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
