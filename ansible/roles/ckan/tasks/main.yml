@@ -75,8 +75,8 @@
   file:
     path: "{{ ckan_log_path }}/ckan.log"
     state: touch
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    owner: "{{ ckan_www_user }}"
+    group: "{{ ckan_www_group }}"
     mode: 0640
 
 - name: Configure logrotation for CKAN
