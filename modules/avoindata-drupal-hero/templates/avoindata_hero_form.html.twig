@@ -19,31 +19,16 @@
           {% trans %}
           Avoindata.fi
           {% endtrans %}
-          <span class="small">
-          -
-          {% trans %}
-          All Finnish open data from one place
-          {% endtrans %}
-          </span>
         </h1>
       </div>
     </div>
     <div class="row avoindata-hero-subheading">
       <div class="col-md-12">
-        <p>
+        <h2>
           {% trans %}
-          Open data is information that is stored on a computer, for example structural text, tables, maps and images. Open data can be used freely when also providing it's origin.
+          All Finnish open data from one place.
           {% endtrans %}
-          {% set guideurl = "/fi/opas" %}
-          {% if form.language in ['en', 'sv'] %}
-            {% set guideurl = "/%s/guide"|format(form.language) %}
-          {% endif %}
-          <a href="{{ guideurl }}">
-            {% trans %}
-            Read more >>
-            {% endtrans %}
-          </a>
-        </p>
+        </h2>
       </div>
     </div>
     <div class="row avoindata-hero-boxes">
