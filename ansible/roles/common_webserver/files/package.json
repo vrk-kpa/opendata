@@ -28,8 +28,8 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.4.1",
-    "bootstrap": "^3.3.7",
+    "@fortawesome/fontawesome-free": "^5.5.0",
+    "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.12.1",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jstree": "^3.3.6",
