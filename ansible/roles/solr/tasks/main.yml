@@ -22,7 +22,7 @@
     group: root
   notify: Restart jetty
 
-- name: Setup Jetty
+- name: Setup Jetty8
   template:
     src: "jetty.j2"
     dest: "/etc/default/jetty8"
@@ -31,6 +31,20 @@
     group: root
   register: jetty_setup
   notify: Restart jetty
+  when:
+    - ansible_distribution ==  "Ubuntu"
+    - ansible_distribution_major_version == "16"
+
+- name: Configure Jetty9
+  lineinfile:
+    dest: "/etc/jetty9/start.ini"
+    regexp: "^#?jetty.port+$"
+    line: "jetty.port={{ solr_port }}"
+    state: "present"
+  notify: Restart jetty
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version == "18"
 
 - name: Ensure Jetty is running
   service:
