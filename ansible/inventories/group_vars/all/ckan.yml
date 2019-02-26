@@ -1,3 +1,5 @@
+ckan_hostname: "{{ hostname }}"
+ckan_secondary_hostname: "{{ secondary_hostname }}"
 ckan_profiling_enabled: false
 ckan_smtp_use_tls: True
 ckan_smtp_username: "{{ secret.smtp_user }}"
