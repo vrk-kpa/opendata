@@ -118,9 +118,6 @@ ckan_smtp_use_tls: false
 ckan_smtp_server_domain: localhost
 ckan_smtp_port: 587
 
-# aws related settings
-ckan_cloudstorage: false
-
 # extension related settings
 ckan_extension_archiver_cache_protocol: http
 ckan_recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"

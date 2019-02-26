@@ -155,7 +155,7 @@ ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
 
-{% if ckan_cloudstorage -%}
+{% if ckan_enable_cloudstorage -%}
 ckanext.cloudstorage.driver = {{ AWS.region }}
 ckanext.cloudstorage.container_name = {{ AWS.ckan_s3_bucket }}
 ckanext.cloudstorage.use_secure_urls = 1
