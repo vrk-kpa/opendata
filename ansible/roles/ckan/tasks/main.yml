@@ -290,6 +290,14 @@
   become_user: postgres
   become: true
   with_items: "{{ ckan_sql_files_to_execute }}"
+  when: ckan_postgres_installed_locally
+
+- name: Execute SQL files
+  shell: cat /tmp/{{ item }} | psql -d datastore_default -h "{{ ckan_postgres.server.host }}" -U "{{ ckan_postgres_admin_user }}" --set ON_ERROR_STOP=1
+  with_items: "{{ sql_files_to_execute }}"
+  environment:
+    PGPASSWORD: "{{ ckan_postgres_admin_password }}"
+  when: not ckan_postgres_installed_locally
 
 - include: translations.yml
 - include: restart.yml

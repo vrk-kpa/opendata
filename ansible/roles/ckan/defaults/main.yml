@@ -170,6 +170,7 @@ ckan_supervisor_services:
 ckan_reindex: false
 
 # postgres related configuration
+ckan_postgres_installed_locally: true
 ckan_postgres:
   users:
     ckan:
