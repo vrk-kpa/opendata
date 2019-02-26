@@ -10,6 +10,26 @@ ckan_cloudstorage_driver: "{{ AWS.region }}"
 ckan_cloudstorage_bucket: "{{ AWS.ckan_s3_bucket }}"
 ckan_cloudstorage_local_access: False
 ckan_disqus_name: "{{ disqus_name }}"
-ckan_postgres.users.ckan.password: "{{ secret.database_ckan_password }}"
-ckan_postgres.users.ckan_datastore.password: "{{ secret.database_ckan_datastore_password }}"
-ckan_postgres.users.drupal8.password: "{{ secret.database_drupal8_password }}"
+ckan_postgres:
+  users:
+    ckan:
+      username: ckan_default
+      password: pass
+    ckan_datastore:
+      username: datastore_default
+      password: pass
+    drupal8:
+      username: drupal8
+      password: pass
+  server:
+    host: 127.0.0.1
+  databases:
+    ckan:
+      name: ckan_default
+      owner: ckan_default
+    ckan_datastore:
+      name: datastore_default
+      owner: ckan_default
+    drupal8:
+      name: drupal8
+      owner: drupal8
