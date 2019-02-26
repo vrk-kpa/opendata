@@ -19,3 +19,6 @@ postgres_installed_locally: true
 ckan_profiling_enabled: False
 ckan_smtp_use_tls: False
 ckan_smtp_port: 1025
+ckan_postgres.users.ckan.password: "pass"
+ckan_postgres.users.ckan_datastore.password: "pass"
+ckan_postgres.users.drupal8.password: "pass"
