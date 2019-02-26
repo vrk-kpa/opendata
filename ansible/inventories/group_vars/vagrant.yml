@@ -25,6 +25,7 @@ ckan_disqus_name: "{{ disqus_name }}"
 ckan_postgres.users.ckan.password: "pass"
 ckan_postgres.users.ckan_datastore.password: "pass"
 ckan_postgres.users.drupal8.password: "pass"
+ckan_enable_cloudstorage: false
 
 postgres_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
