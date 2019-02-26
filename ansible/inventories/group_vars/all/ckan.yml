@@ -1,2 +1,15 @@
 ckan_profiling_enabled: false
-ckan_smtp_use_tls: False
+ckan_smtp_use_tls: True
+ckan_smtp_username: "{{ secret.smtp_user }}"
+ckan_smtp_password: "{{ secret.smtp_password }}"
+ckan_smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+ckan_enable_cloudstorage: True
+ckan_site_protocol: https
+ckan_extension_archiver_cache_protocol: https
+ckan_cloudstorage_driver: "{{ AWS.region }}"
+ckan_cloudstorage_bucket: "{{ AWS.ckan_s3_bucket }}"
+ckan_cloudstorage_local_access: False
+ckan_disqus_name: "{{ disqus_name }}"
+ckan_postgres.users.ckan.password: "{{ secret.database_ckan_password }}"
+ckan_postgres.users.ckan_datastore.password: "{{ secret.database_ckan_datastore_password }}"
+ckan_postgres.users.drupal8.password: "{{ secret.database_drupal8_password }}"

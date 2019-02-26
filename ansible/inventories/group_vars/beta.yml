@@ -11,19 +11,6 @@ disqus_name: "beta-avoindata-fi"
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
 
-ckan_profiling_enabled: true
-ckan_smtp_use_tls: True
-ckan_smtp_username: "{{ secret.smtp_user }}"
-ckan_smtp_password: "{{ secret.smtp_password }}"
-ckan_smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
-ckan_enable_cloudstorage: True
-ckan_site_protocol: https
-ckan_extension_archiver_cache_protocol: https
-ckan_cloudstorage_driver: "{{ AWS.region }}"
-ckan_cloudstorage_bucket: "{{ AWS.ckan_s3_bucket }}"
-ckan_cloudstorage_local_access: False
-ckan_disqus_name: "{{ disqus_name }}"
-
 postgres_host: "{{ postgres_conf.host }}"
 postgres_admin_user: "{{ postgres_conf.admin_user }}"
 postgres_admin_password: "{{ postgres_conf.admin_password }}"
@@ -35,3 +22,5 @@ postgres_users:
     password: "{{ secret.database_ckan_datastore_password }}"
   - username: drupal8
     password: "{{ secret.database_drupal8_password }}"
+
+ckan_profiling_enabled: true
