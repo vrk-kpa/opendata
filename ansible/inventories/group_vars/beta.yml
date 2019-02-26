@@ -36,7 +36,7 @@ ckan_postgres:
       username: drupal8
       password: "{{ secret.database_drupal8_password }}"
   server:
-    host: 127.0.0.1
+    host: "{{ postgres_conf.host }}"
   databases:
     ckan:
       name: ckan_default
