@@ -8,6 +8,7 @@ import ckan.authz as authz
 import logging
 log = logging.getLogger(__name__)
 
+
 def related_update(context, data_dict):
     model = context['model']
     user = context['user']

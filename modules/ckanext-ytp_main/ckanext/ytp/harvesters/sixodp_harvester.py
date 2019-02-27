@@ -105,6 +105,7 @@ def sixodp_to_opendata_postprocess(package_dict):
             except Invalid:
                 resource.pop('time_series_end')
 
+
 def sixodp_organization_to_opendata_organization(organization_dict):
     organization_dict['title_translated'] = {'fi': organization_dict['title']}
 

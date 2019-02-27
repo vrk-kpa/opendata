@@ -59,7 +59,7 @@ def tag_string_or_tags_required(key, data, errors, context):
         data.pop(key, None)
         # Check existence of tags
         if any(k[0] == 'tags' for k in data):
-                raise df.StopOnError
+            raise df.StopOnError
         else:
             errors[key].append((_('Missing value')))
             raise df.StopOnError
@@ -113,8 +113,6 @@ def add_to_vocab(context, tags, vocab):
     except ObjectNotFound:
         log.info("creating vocab")
         v = plugin.create_vocabulary(vocab, defer)
-
-
 
     context['vocabulary'] = model.Vocabulary.get(v.get('id'))
     if isinstance(tags, basestring):
@@ -368,13 +366,14 @@ def from_date_is_before_until_date(field, schema):
 
     return validator
 
+
 @scheming_validator
 def is_admin_in_parent_if_changed(field, schema):
 
     def validator(key, data, errors, context):
 
         if context.get('group') is not None:
-            old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+            old_organization = get_action('organization_show')(context, {'id': context['group'].id})
             old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
         else:
             old_parent_group_names = []
@@ -399,15 +398,14 @@ def is_admin_in_parent_if_changed(field, schema):
                     if not any(selected_organization['name'] == admin_org.group.name for admin_org in admin_in_orgs):
                         errors[key].append(_('User %s is not administrator in the selected parent organization') % user)
 
-
         # Remove parent_org from data as it is missing from the form
         data.pop(key, None)
 
         # Stop validation if error has happened
         raise StopOnError
 
-
     return validator
+
 
 @scheming_validator
 def extra_validators_multiple_choice(field, schema):
@@ -424,7 +422,7 @@ def extra_validators_multiple_choice(field, schema):
             return
 
         if context.get('group'):
-            old_organization = get_action('organization_show')(context, {'id':context['group'].id})
+            old_organization = get_action('organization_show')(context, {'id': context['group'].id})
             old_features = old_organization.get('features', [])
         else:
             old_features = []
@@ -440,6 +438,7 @@ def extra_validators_multiple_choice(field, schema):
                 toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
 
     return validator
+
 
 def admin_only_feature(data, key, errors, context):
     if not authz.is_sysadmin(context['user']):

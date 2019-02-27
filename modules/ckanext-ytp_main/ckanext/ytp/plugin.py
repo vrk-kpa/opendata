@@ -17,32 +17,28 @@ from ckan.common import _, c, request, is_flask_request
 
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
-from ckan.lib.dictization import model_dictize
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
-from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
+from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config
-from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
 
 from paste.deploy.converters import asbool
-from sqlalchemy.sql.expression import or_
 from webhelpers.html import escape
 from webhelpers.html.builder import literal
 from webhelpers.html.tags import link_to
 
-import tools
 import auth
 import menu
 
 from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
 
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, \
+from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
@@ -648,7 +644,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             # Add for each language
             for lang in languages:
                 if prop_value.get(lang):
-                    pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]] 
+                    pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
 
         if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
             pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
@@ -736,23 +732,23 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
-                    if extra['value'] == 'dataset':
-                        value = 'paikkatietoaineisto'
-                        package_dict['collection_type'] = 'Open Data'
-                    elif extra['value'] == 'series':
-                        value = 'paikkatietoaineistosarja'
-                        package_dict['collection_type'] = 'Open Data'
-                    elif extra['value'] == 'service':
-                        value = 'paikkatietopalvelu'
-                        package_dict['collection_type'] = 'Interoperability Tools'
+                if extra['value'] == 'dataset':
+                    value = 'paikkatietoaineisto'
+                    package_dict['collection_type'] = 'Open Data'
+                elif extra['value'] == 'series':
+                    value = 'paikkatietoaineistosarja'
+                    package_dict['collection_type'] = 'Open Data'
+                elif extra['value'] == 'service':
+                    value = 'paikkatietopalvelu'
+                    package_dict['collection_type'] = 'Interoperability Tools'
 
-                    else:
-                        continue
+                else:
+                    continue
 
-                    package_dict['content_type'] = {"fi": [value]}
-                    flattened = flatten_dict(package_dict)
-                    convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                    package_dict = unflatten(flattened)
+                package_dict['content_type'] = {"fi": [value]}
+                flattened = flatten_dict(package_dict)
+                convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
+                package_dict = unflatten(flattened)
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
@@ -1053,6 +1049,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             "extra_validators_multiple_choice": validators.extra_validators_multiple_choice,
             'admin_only_feature': validators.admin_only_feature
         }
+
 
 def convert_to_list(key, data):
     if isinstance(key, basestring):
@@ -1438,11 +1435,11 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
 
 class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
-        plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IAuthFunctions)
 
-        def admin_only_for_categories(self, context, data_dict=None):
-            return {'success': False, 'msg': 'Only admins can create and edit new categories'}
+    def admin_only_for_categories(self, context, data_dict=None):
+        return {'success': False, 'msg': 'Only admins can create and edit new categories'}
 
-        def get_auth_functions(self):
-            return {'group_create': self.admin_only_for_categories,
-                    'group_update': self.admin_only_for_categories}
+    def get_auth_functions(self):
+        return {'group_create': self.admin_only_for_categories,
+                'group_update': self.admin_only_for_categories}
