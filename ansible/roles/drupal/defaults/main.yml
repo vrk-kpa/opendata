@@ -87,3 +87,6 @@ drupal_recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 drupal_google_analytics: false
 drupal_server_path: /srv/ytp
 drupal_deployment_environment_id: ""
+
+drupal_required_packages:
+  - unzip

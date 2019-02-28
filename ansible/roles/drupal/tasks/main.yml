@@ -1,7 +1,11 @@
 ---
 
+- name: Ensure required packages are installed
+  apt:
+    name: "{{ drupal_required_packages }}"
+    state: present
+
 - name: Create Drupal installation directories if they don't exist
-  become: true
   file:
     path: "{{ item }}"
     state: directory

@@ -7,8 +7,8 @@ php_www_group: www-data
 php_packages_state: present
 
 php_required_packages:
+  - "{{ php_fpm_package }}"  # exact version so that apache is not needed as dependency
   - php
-  - php-fpm
   - php-gd
   - php-pgsql
   - php-xml  # installs "dom"

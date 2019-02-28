@@ -28,6 +28,7 @@
 
   roles:
     - {role: common, tags: common_role}
+    - {role: nginx, tags: nginx_role}
     - {role: ckan, tags: ckan_role}
     - {role: drupal, tags: drupal_role}
     - {role: data, tags: data_role}

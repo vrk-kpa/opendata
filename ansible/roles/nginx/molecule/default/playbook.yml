@@ -3,6 +3,6 @@
   hosts: all
   become: true
   vars:
-    common_deployment_environment_id: molecule
+    nginx_enabled_sites: []
   roles:
-    - role: common
+    - role: nginx

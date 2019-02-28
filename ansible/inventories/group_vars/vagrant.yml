@@ -40,3 +40,7 @@ postgres_installed_locally: true
 
 ckan_testing_ports:
   - 9090
+
+nginx_local_development_environment: true
+
+common_skip_submodule_check: false

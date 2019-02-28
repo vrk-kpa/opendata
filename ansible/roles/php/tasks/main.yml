@@ -9,9 +9,8 @@
 
 - name: Get PHP and required extensions
   package:
-    name: "{{ item }}"
+    name: "{{ php_required_packages }}"
     state: "{{ php_packages_state }}"
-  with_items: "{{ php_required_packages }}"
 
 - name: Socket setup
   include_tasks: configure-fpm.yml

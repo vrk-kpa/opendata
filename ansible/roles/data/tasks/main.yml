@@ -1,7 +1,7 @@
 ---
 
 # Forced maintenance leave is removed in future. Ontology import requires CKAN web API.
-- include: ../../nginx/tasks/maintenance-end.yml
+#- include: ../../nginx/tasks/maintenance-end.yml
 
 - name: Copy data import files
   copy:

@@ -1,2 +1,4 @@
 ---
 # defaults file for common
+
+common_skip_submodule_check: true

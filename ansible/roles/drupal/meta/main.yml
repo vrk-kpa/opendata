@@ -19,6 +19,7 @@ galaxy_info:
     - drupal
 
 dependencies:
+  - role: secrets
   - role: php
     tags: dependency_role
   - role: composer
@@ -27,4 +28,5 @@ dependencies:
     tags: dependency_role
   - role: postgres
     tags: dependency_role
-  - role: secrets  
+  - role: nginx
+    tags: dependency_role

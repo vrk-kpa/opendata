@@ -5,6 +5,28 @@
     upgrade: dist
     update_cache: true
 
+- name: Check submodule status
+  delegate_to: localhost
+  become: false
+  shell: >
+    git submodule status --recursive| egrep '^[+-]' -c
+  args:
+    chdir: "{{ playbook_dir }}"
+  register: common_submodule_status
+  failed_when: common_submodule_status.rc > 1
+  changed_when: false
+  tags:
+    - skip_ansible_lint
+
+- name: Pause if currently checked out submodule commit does not match repo
+  delegate_to: localhost
+  become: false
+  pause:
+    prompt: "{{ common_submodule_status.stdout }} modules have changed, continue?"
+  when:
+    - common_submodule_status.stdout > "0"
+    - common_skip_submodule_check == false
+
 - name: Set hostname
   hostname:
     name: "{{ common_deployment_environment_id }}-web"
