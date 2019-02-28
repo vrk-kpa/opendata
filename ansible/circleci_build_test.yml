@@ -197,6 +197,8 @@
       - import_role:
           name: composer
       - import_role:
+          name: nginx
+      - import_role:
           name: drupal
       - import_role:
           name: data
