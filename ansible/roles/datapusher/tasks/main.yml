@@ -3,6 +3,9 @@
     repo: https://github.com/6aika/datapusher.git
     dest: "{{ cache_path }}/datapusher.git"
     bare: yes
+  tags:
+    - skip_ansible_lint
+
 
 - name: Install Datapusher
   pip:
@@ -27,6 +30,8 @@
 
 - name: Link datapusher sources
   command: "{{ datapusherenv }}/bin/python setup.py develop chdir={{ datapusherenv }}/src/datapusher"
+  tags:
+    - skip_ansible_lint
 
 - name: Copy Datapusher site file
   template:

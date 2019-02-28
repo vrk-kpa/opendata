@@ -7,6 +7,7 @@
   tags:
   - data
   - harvest
+  - skip_ansible_lint
 
 - name: Set harvest sources
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
@@ -17,6 +18,7 @@
   - data
   - non-local
   - harvest
+  - skip_ansible_lint
 
 - name: Set public harvest sources
   shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'"
@@ -27,3 +29,4 @@
   - data
   - non-local
   - harvest
+  - skip_ansible_lint

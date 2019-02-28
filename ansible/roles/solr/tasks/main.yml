@@ -38,7 +38,7 @@
 - name: Configure Jetty9
   lineinfile:
     dest: "/etc/jetty9/start.ini"
-    regexp: "^#?jetty.port+$"
+    regexp: "^#?jetty\\.port.+$"
     line: "jetty.port={{ solr_port }}"
     state: "present"
   notify: Restart jetty
