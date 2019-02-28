@@ -1,16 +1,16 @@
-@import (reference) "../../node_modules/bootstrap/less/mixins";
-@import "variables.less";
+@import (reference) '../../node_modules/bootstrap/less/mixins';
+@import 'variables';
 
 /* Extra small devices */
 @media (max-width: @screen-xs-max) {
   body {
     background-image: none;
+    background-position: 0px 0px;
     background-repeat: no-repeat;
-    background-position: 0 0;
     background-size: contain;
   }
 
-  #page_wrapper {
+  .page_wrapper {
     padding-top: 2px !important;
     box-shadow: none;
   }
@@ -55,7 +55,7 @@
 /* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
 
-  #page_wrapper {
+  .page_wrapper {
     margin-left: 0px !important;
     margin-right: 0px !important;
 
@@ -74,7 +74,7 @@
     background-color: @opendata-brand-primary;
   }
 
-  #page_wrapper {
+  .page_wrapper {
     padding-top: 0px !important;
     margin-left: 0px !important;
     margin-right: 0px !important;
@@ -137,7 +137,7 @@
 
 /* Large devices */
 @media (min-width: @screen-lg) {
-  #page_wrapper, .navbar-main {
+  .page_wrapper, .navbar-main {
     max-width: 100%;
   }
   .navbar.navbar-main .navbar-nav li > a {
@@ -147,7 +147,7 @@
 
 /* Extra small, small and medium devices */
 @media(max-width: @screen-md-min) {
-  #page_wrapper {
+  .page_wrapper {
     width: auto;
   }
 
