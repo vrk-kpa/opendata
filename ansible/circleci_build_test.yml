@@ -185,11 +185,11 @@
       - import_role:
           name: opendata_frontend
       - import_role:
-          name: nginx
-      - import_role:
           name: solr
       - import_role:
           name: redis
+      - import_role:
+          name: apache
       - import_role:
           name: ckan
       - import_role:
