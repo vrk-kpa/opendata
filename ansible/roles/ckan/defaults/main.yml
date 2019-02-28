@@ -198,3 +198,11 @@ ckan_postgres:
 ckan_enable_cloudstorage: false
 AWS:
   enabled: false
+
+ckan_patches:
+  - enable_multiple_image_uploads
+  - remove-ckan-fontawesome
+  - fix-flask-root-path  # CKAN issue #4452
+  - enforce-url-decoding  # CKAN issue #4619
+  - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
+  - fix-popped-wrong-app-context  # CKAN issue #4431

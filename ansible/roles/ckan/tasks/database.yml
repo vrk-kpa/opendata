@@ -2,12 +2,18 @@
 
 - name: Initialize CKAN database
   shell: ckan db init
+  tags:
+    - skip_ansible_lint
 
 - name: Upgrade CKAN database
   shell: ckan db upgrade
+  tags:
+    - skip_ansible_lint
 
 - name: Upgrade CKAN filestore
   shell: ./bin/paster --plugin=ckan db migrate-filestore "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Create initial CKAN users
   shell: ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}" "--config={{ ckan_ini }}" chdir={{ ckan_virtual_environment }}
@@ -16,37 +22,59 @@
     - "{{ ckan_ytp_users }}"
     - "{{ ckan_harvest_user }}"
     - "{{ ckan_admin }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Add CKAN sysadmins
   shell: ./bin/paster --plugin=ckan sysadmin add "{{ item }}" --config="{{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
   ignore_errors: true
   with_items: "{{ ckan_admins }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize request database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_request initdb --config='{{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize Harvester database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester initdb '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize task database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp_tasks-initialize-database '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize spatial database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-spatial spatial initdb '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize archiver database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-archiver archiver init '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
   when: "'ckanext-archiver' in ckan_extensions"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize QA database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-qa qa init '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
   when: "'ckanext-qa' in ckan_extensions"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize report database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-report report initdb '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize googleanalytics database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-googleanalytics googleanalytics init '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint
 
 - name: Initialize cloudstorage database
   shell: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-cloudstorage cloudstorage initdb '--config={{ ckan_ini }}' chdir='{{ ckan_virtual_environment }}'"
+  tags:
+    - skip_ansible_lint

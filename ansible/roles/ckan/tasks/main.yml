@@ -10,21 +10,20 @@
       - zlib1g-dev
       - libgeos-c1v5
       - supervisor
-      - apache2
       - libapache2-mod-wsgi
       - libffi-dev
       - libxml2
       - libxml2-dev
       - unzip
       - zip
-    state: latest
+    state: present
 
 - name: Ensure CKAN profiling packages
   apt:
     name:
       - graphviz
       - graphviz-dev
-    state: latest
+    state: present
   when: ckan_profiling_enabled
 
 - name: Ensure cache path
@@ -125,10 +124,10 @@
 
 - name: Apply CKAN patches
   patch:
-    src: "{{ item }}"
+    src: files/patches/{{ item }}.patch
     basedir: "{{ ckan_source_path }}"
     strip: 1
-  with_fileglob: "files/patches/*"
+  loop: "{{ ckan_patches }}"
 
 - name: Create CKAN files path
   file:
@@ -145,55 +144,6 @@
     - "{{ ckan_source_path }}/ckan/public/base/i18n"
     - "{{ ckan_resource_cache_path }}"
 
-- name: Disable Nginx sites
-  file:
-    path: "/etc/nginx/sites-enabled/{{ item }}"
-    state: absent
-  with_items:
-    - ckan
-    - default
-  notify: Restart Nginx
-
-- name: Disable Apache sites
-  file:
-    path: "/etc/apache2/sites-enabled/{{ item }}"
-    state: absent
-  with_items:
-    - 000-default.conf
-    - default-ssl.conf
-
-- name: Copy ports configuration
-  template:
-    src: "ports.conf.j2"
-    dest: "/etc/apache2/ports.conf"
-    mode: "0644"
-    owner: root
-    group: root
-
-- name: Enable Apache2 modules
-  apache2_module:
-    name: "{{ item }}"
-  with_items:
-    - rewrite
-    - headers
-
-- name: Copy Apache configuration
-  template:
-    src: "apache2.j2"
-    dest: "/etc/apache2/sites-available/ytp.conf"
-    mode: "0644"
-    owner: root
-    group: root
-
-- name: Enable Apache configuration
-  file:
-    src: "/etc/apache2/sites-available/ytp.conf"
-    dest: /etc/apache2/sites-enabled/ytp.conf
-    state: link
-    owner: root
-    group: root
-  notify: Restart Apache
-
 - name: Setup CKAN configuration
   template:
     src: "ckan.ini.j2"
@@ -209,6 +159,7 @@
     mode: "0640"
     owner: root
     group: "{{ ckan_www_group }}"
+  notify: Restart Apache
 
 - name: Install python packages to support SNI in requests
   pip:
@@ -238,19 +189,13 @@
 # Background services can block database update
 - name: Stop supervisor services
   command: supervisorctl stop all
+  tags:
+    - skip_ansible_lint
 
 - name: re-minify CKAN javascript files
   shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
-
-- name: Ensure Apache restart
-  service:
-    state: restarted
-    name: apache2
-
-- name: Ensure Nginx is restarted
-  service:
-    name: nginx
-    state: restarted
+  tags:
+    - skip_ansible_lint
 
 - name: Copy supervisor configuration
   template:
@@ -261,8 +206,14 @@
     group: root
   register: supervisor_configuration
   notify:
-    - Restart Gather
-    - Restart Fetch
+    - Restart supervisor services
+
+- name: Ensure supervisor services
+  supervisorctl:
+    name: "{{ item }}"
+    state: present
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"
 
 - name: Copy data structures for CKAN UI options
   copy:
@@ -300,4 +251,4 @@
   when: not ckan_postgres_installed_locally
 
 - include: translations.yml
-- include: restart.yml
+- include: cron.yml

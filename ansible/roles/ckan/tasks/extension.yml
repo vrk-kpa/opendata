@@ -77,3 +77,5 @@
     virtualenv: "{{ ckan_virtual_environment }}"
     extra_args: "-e"
     state: latest
+  tags:
+    - skip_ansible_lint
