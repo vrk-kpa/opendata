@@ -115,7 +115,7 @@ jobs:
 
       - run:
           name: Install Dependencies
-          command: env
+          command: npm ci
           working_directory: ~/project/
 
       - save_cache:
