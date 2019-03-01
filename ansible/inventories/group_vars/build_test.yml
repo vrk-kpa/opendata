@@ -23,3 +23,5 @@ ckan_site_protocol: "http"
 ckan_disqus_name: "{{ disqus_name }}"
 ckan_enable_cloudstorage: false
 ckan_postgres_installed_locally: true
+
+nginx_development_environment: true
