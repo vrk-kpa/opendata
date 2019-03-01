@@ -1385,16 +1385,11 @@ def helper_main_organization(user=None):
         return available[0] if available else None
 
 
-def get_image_upload_size():
-    return config.get('ckan.max_image_size', 2)
-
-
 class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITranslation)
 
@@ -1406,35 +1401,19 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_public_directory(config, 'public')
 
     def configure(self, config):
-        from ckanext.ytp.model import setup as model_setup
-        model_setup()
+        pass
 
     def get_helpers(self):
-        return {'linked_user': helper_linked_user, 'organizations_for_select': helper_organizations_for_select,
+        return {'linked_user': helper_linked_user,
+                'organizations_for_select': helper_organizations_for_select,
                 'is_pseudo': helper_is_pseudo,
-                'main_organization': helper_main_organization,
-                'get_image_upload_size': get_image_upload_size}
+                'main_organization': helper_main_organization}
 
     def get_auth_functions(self):
-        return {'user_update': plugin_logic.auth_user_update, 'user_list': plugin_logic.auth_user_list,
+        return {'user_update': plugin_logic.auth_user_update,
+                'user_list': plugin_logic.auth_user_list,
                 'admin_list': plugin_logic.auth_admin_list}
 
-    def get_actions(self):
-        return {
-            'user_update': plugin_logic.action_user_update,
-            # 'user_show': logic.action_user_show,
-            'user_list': plugin_logic.action_user_list}
-
-    def before_map(self, map):
-        # Remap user edit to our user controller
-        user_controller = 'ckanext.ytp.controller:YtpUserController'
-        with SubMapper(map, controller=user_controller) as m:
-            m.connect('/user/edit', action='edit')
-            m.connect('/user/edit/{id:.*}', action='edit')
-            m.connect('/user/me', action='me')
-            # m.connect('/user/{id}', action='read')
-
-        return map
 
 
 class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
