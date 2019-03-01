@@ -1,4 +1,15 @@
 ---
+- name: Add analytics fetching to cron
+  cron:
+    name: "analytics"
+    minute: "*/5"
+    hour: "0-3"
+    job: >-
+      {{ ckan_virtual_environment }}/bin/paster
+      --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
+      --config={{ ckan_ini }}
+  when: ckan_google_analytics
+
 - name: Ensure harvester cron job
   cron:
     name: "harvest"
@@ -11,7 +22,14 @@
     name: "tracking"
     minute: "0"
     hour: "22"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckan tracking update --config={{ ckan_ini }} && {{ ckan_virtual_environment }}/bin/paster --plugin=ckan search-index rebuild -r --config={{ ckan_ini }}"
+    job: >-
+      {{ ckan_virtual_environment }}/bin/paster
+      --plugin=ckan tracking update
+      --config={{ ckan_ini }}
+      &&
+      {{ ckan_virtual_environment }}/bin/paster
+      --plugin=ckan search-index rebuild -r
+      --config={{ ckan_ini }}
 
 - name: Ensure qa cron job
   cron:

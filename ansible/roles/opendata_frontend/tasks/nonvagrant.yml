@@ -3,14 +3,14 @@
 - name: Copy secret .npmrc
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{server_path}}/ytp-assets-common/.npmrc"
-  when: AWS.enabled == True
+    dest: "{{ server_path }}/ytp-assets-common/.npmrc"
+  when: AWS.enabled
 
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
     dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: AWS.enabled != True
+  when: not AWS.enabled
 
 - name: Synchronize avoindata drupal theme to cache folder
   synchronize:

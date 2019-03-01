@@ -16,6 +16,9 @@
     - skip_ansible_lint
 
 - name: Add facet translations
-  command: /usr/lib/ckan/default/bin/paster --plugin=ckanext-ytp_main ytp-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n" -c /etc/ckan/default/production.ini
+  command: >-
+    /usr/lib/ckan/default/bin/paster
+    --plugin=ckanext-ytp_main ytp-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
+    -c /etc/ckan/default/production.ini
   tags:
     - skip_ansible_lint

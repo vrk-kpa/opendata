@@ -43,6 +43,7 @@ drupal_database_password: pass
 
 drupal_admin_username: admin
 drupal_admin_password: administrator
+drupal_db_connection_string: "{{ drupal_database_username }}:{{ drupal_database_password }}@{{ drupal_database_server }}:{{ drupal_database_port }}"
 
 drupal_custom_modules:
   - { src_name: avoindata-drupal-header, module_name: avoindata-header, machine_name: avoindata_header }

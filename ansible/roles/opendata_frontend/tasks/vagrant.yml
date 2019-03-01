@@ -14,7 +14,7 @@
   copy:
     src: package.json
     dest: "{{ server_path }}/ytp-assets-common/package.json"
-  when: npmrc.stat.exists == False
+  when: not npmrc.stat.exists
 
 - name: Symlink avoindata drupal theme to cache folder
   file:

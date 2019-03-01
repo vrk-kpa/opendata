@@ -1,8 +1,13 @@
 ---
 
 - name: Import harvest organizations
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-ytp_tasks ytp-task-add -c {{ ckan_ini }} --wait=120 import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization_harvest.json\"}'"
-  when: harvest_sources != False
+  shell: >-
+    {{ virtual_environment }}/bin/paster
+    --plugin=ckanext-ytp_tasks ytp-task-add
+    -c {{ ckan_ini }}
+    --wait=120
+    import_harvest_organizations ckanext.ytp.organizations.organization_import manual '{\"url\": \"file://{{ cache_path }}/organization_harvest.json\"}'
+  when: harvest_sources
   ignore_errors: True
   tags:
   - data
@@ -10,9 +15,14 @@
   - skip_ansible_lint
 
 - name: Set harvest sources
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source {{ item.name }} {{ item.url }} ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'"
+  shell: >-
+    {{ virtual_environment }}/bin/paster
+    --plugin=ckanext-harvest harvester
+    --config={{ ckan_ini }}
+    source {{ item.name }} {{ item.url }}
+    ckan {{ item.title }} true {{ item.organization }} DAILY '{{ item.configuration }}'
   with_items: "{{ harvest_sources }}"
-  when: harvest_sources != False
+  when: harvest_sources
   ignore_errors: True
   tags:
   - data
@@ -21,10 +31,23 @@
   - skip_ansible_lint
 
 - name: Set public harvest sources
-  shell: "{{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester --config={{ ckan_ini }} source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'"
+  shell: >-
+    {{ virtual_environment }}/bin/paster
+    --plugin=ckanext-harvest harvester
+    --config={{ ckan_ini }}
+    source '{{ item.name }}' '{{ item.url }}' '{{ item.type }}' '{{ item.title }}' true '{{ item.organization }}' DAILY '{{ item.configuration }}'
   ignore_errors: True
   with_items:
-  - { name: "paikkatietohakemisto", url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw", type: "csw", title: "Paikkatietohakemisto", organization: "paikkatietohakemisto", configuration: '{"require_keywords": ["avoindata.fi"], "default_extras":{"collection_type":"Open Data"}}' }
+  - name: "paikkatietohakemisto"
+    url: "http://www.paikkatietohakemisto.fi/geonetwork/srv/fi/csw"
+    type: "csw"
+    title: "Paikkatietohakemisto"
+    organization: "paikkatietohakemisto"
+    configuration:
+      require_keywords":
+        - "avoindata.fi"
+      default_extras:
+        collection_type: "Open Data"
   tags:
   - data
   - non-local

@@ -1,10 +1,5 @@
 ---
 # tasks file for common
-- name: Update packages
-  apt:
-    upgrade: dist
-    update_cache: true
-
 - name: Check submodule status
   delegate_to: localhost
   become: false
@@ -25,7 +20,12 @@
     prompt: "{{ common_submodule_status.stdout }} modules have changed, continue?"
   when:
     - common_submodule_status.stdout > "0"
-    - common_skip_submodule_check == false
+    - not common_skip_submodule_check
+
+- name: Update packages
+  apt:
+    upgrade: dist
+    update_cache: true
 
 - name: Set hostname
   hostname:

@@ -51,13 +51,13 @@ jobs:
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "drupal8/composer.json" }}
+            - v1-dependencies-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           command: composer install -n --prefer-dist
-          working_directory: ~/project/drupal8/
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Run codesniffer for drupal standard
@@ -70,10 +70,9 @@ jobs:
           working_directory: ~/project/drupal8/
 
       - save_cache:
-          key: composer-v1-{{ checksum "drupal8/composer.json" }}
+          key: composer-v1-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
           paths:
             - vendor
-      - run: sudo pip install ansible-lint
 
   run-ansible-lint:
     docker:

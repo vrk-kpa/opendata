@@ -1,20 +1,29 @@
 ---
 
 - name: Check if drupal 8 is already initialized on database
-  shell: >
-    export PGPASSWORD='{{ drupal_database_password }}'; psql -h {{ drupal_database_server }}
-    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-    {{ drupal_database_name }} {{ drupal_database_username }}
+  shell: >-
+    export PGPASSWORD='{{ drupal_database_password }}';
+    psql -h {{ drupal_database_server }}
+    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'" {{ drupal_database_name }} {{ drupal_database_username }}
   no_log: true
   register: drupal8_database_initialized
+  tags:
+    - skip_ansible_lint
 
   ### Drupal installation ###
 - name: Install a clean Drupal database
-  shell: "{{ drupal_drush_path }} site-install -y standard --db-url=pgsql://{{ drupal_database_username }}:{{ drupal_database_password }}@{{ drupal_database_server }}:{{ drupal_database_port }}/{{ drupal_database_name }} --account-name={{ drupal_admin_username }} --account-pass={{ drupal_admin_password }} --site-name={{ drupal_site_name }}"
+  shell: >-
+    {{ drupal_drush_path }} site-install -y standard
+    --db-url=pgsql://{{ drupal_db_connection_string }}/{{ drupal_database_name }}
+    --account-name={{ drupal_admin_username }}
+    --account-pass={{ drupal_admin_password }}
+    --site-name={{ drupal_site_name }}
   args:
     chdir: "{{ drupal_root }}"
   no_log: true
   when: "'1' not in drupal8_database_initialized.stdout"
+  tags:
+    - skip_ansible_lint
 
 - name: Copy Drupal settings
   template:
@@ -32,6 +41,8 @@
   changed_when: false
   check_mode: false
   register: drupal_enabled_modules
+  tags:
+    - skip_ansible_lint
 
 ### Translations ###
 
@@ -41,6 +52,8 @@
     chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_language_modules }}"
   when: item not in drupal_enabled_modules.stdout
+  tags:
+    - skip_ansible_lint
 
 - name: Check languages added to drupal
   shell: "{{ drupal_drush_path }} language-info --field=language"
@@ -49,6 +62,8 @@
   changed_when: false
   check_mode: false
   register: drupal_languages_added
+  tags:
+    - skip_ansible_lint
 
 - name: Add additional languages
   shell: "{{ drupal_drush_path }} language-add -y {{ item }}"
@@ -58,11 +73,15 @@
     - fi
     - sv
   when: item not in drupal_languages_added.stdout
+  tags:
+    - skip_ansible_lint
 
 - name: Make Finnish default language
   shell: ./vendor/bin/drush language-default -y fi
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 ### Theme ###
 
@@ -70,6 +89,8 @@
   shell: "{{ drupal_drush_path }} then -y bootstrap"
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 ### Install external modules ###
 
@@ -83,6 +104,8 @@
   when:
     - "drupal_removed_extensions is defined"
     - item in drupal_enabled_modules.stdout
+  tags:
+    - skip_ansible_lint
 
 - name: Enable Drupal extra modules
   shell: "{{ drupal_drush_path }} en -y {{ item }}"
@@ -107,6 +130,8 @@
     - metatag_open_graph
     - ape
   when: item not in drupal_enabled_modules.stdout
+  tags:
+    - skip_ansible_lint
 
 # These need to be enabled after installing external modules (at least pathauto), because
 # of dependencies.
@@ -116,6 +141,8 @@
     chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_custom_modules }}"
   when: item.machine_name not in drupal_enabled_modules.stdout
+  tags:
+    - skip_ansible_lint
 
 # Some configurations need to be removed to avoid conflicts at the next step
 # To avoid failure with clean installs, error about trying to remove a non-existing
@@ -141,6 +168,8 @@
     - user.role.editor
     - user.role.publisher
     - captcha.captcha_point.contact_message_feedback_form
+  tags:
+    - skip_ansible_lint
 
 - name: Symlink custom theme
   file:
@@ -163,17 +192,22 @@
   shell: "{{ drupal_drush_path }} then -y avoindata"
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Set default theme
   shell: "{{ drupal_drush_path }} config-set -y system.theme default avoindata"
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Reload theme configurations
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/themes/avoindata/config/install"
   args:
     chdir: "{{ drupal_root }}"
-
+  tags:
+    - skip_ansible_lint
 
 - name: Reload custom module configurations
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/modules/{{ item.module_name }}/config/install"
@@ -184,6 +218,8 @@
     chdir: "{{ drupal_root }}"
   with_items:
     - "{{ drupal_custom_modules }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Copy setting template files
   template:
@@ -211,14 +247,18 @@
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
 
 - name: Import drupal settings
-  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root}}/site_config"
+  shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Clear caches
   shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 # probably not necessary as smyp settings are already imported above
 # - name: Configure general site settings regarding email
@@ -236,6 +276,8 @@
   with_items:
     - "fi"
     - "sv"
+  tags:
+    - skip_ansible_lint
 
 # Without this, the added translatable status for content types like guide page, doesn't work and
 # fails because of an SQL error.
@@ -243,6 +285,8 @@
   shell: "{{ drupal_drush_path }} updatedb --entity-updates -y"
   args:
     chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Create initial users
   shell: "{{ drupal_drush_path }} user-create {{ item.username }} --password='{{ item.password }}' --mail='{{ item.email }}'"
@@ -251,9 +295,13 @@
   with_flattened:
     - "{{ drupal_initial_users }}"
   ignore_errors: true
+  tags:
+    - skip_ansible_lint
 
 - name: Set user roles
   shell: "{{ drupal_drush_path }} user-add-role {{ item.role }} {{ item.username }}"
   args:
     chdir: "{{ drupal_root }}"
   with_items: "{{ drupal_roles }}"
+  tags:
+    - skip_ansible_lint

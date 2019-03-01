@@ -3,7 +3,8 @@
 # On servers, create an archive of the current sources, upload and unarchive
 - block:
   - name: "Archive extension {{ item }}"
-    local_action: command zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="{{ ckan_extensions_path }}"
+    command: zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="{{ ckan_extensions_path }}"
+    delegate_to: localhost
     become: false
 
   - name: "Remove possible existing extension {{ item }}"
@@ -71,7 +72,7 @@
     virtualenv: "{{ ckan_virtual_environment }}"
   when: devrequirements.stat.exists and ckan_deployment_environment_id == "build"
 
-- name: Install extension {{item}}
+- name: Install extension {{ item }}
   pip:
     name: "{{ ckan_extension_sync_path }}/{{ item }}"
     virtualenv: "{{ ckan_virtual_environment }}"

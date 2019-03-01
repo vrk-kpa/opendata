@@ -8,7 +8,7 @@
 - name: Setup postgres users
   postgresql_user:
     db: postgres
-    user: "{{ item.username}}"
+    user: "{{ item.username }}"
     password: "{{ item.password }}"
     no_password_changes: true
     login_host: "{{ postgres_host }}"
