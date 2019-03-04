@@ -1,5 +1,6 @@
 ckan_hostname: "{{ hostname }}"
 ckan_secondary_hostname: "{{ secondary_hostname }}"
+ckan_debug_enabled: false
 ckan_postgres_installed_locally: false
 ckan_profiling_enabled: false
 ckan_smtp_use_tls: True
