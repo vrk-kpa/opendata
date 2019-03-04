@@ -24,6 +24,7 @@ ckan_site_protocol: "http"
 ckan_disqus_name: "{{ disqus_name }}"
 ckan_enable_cloudstorage: false
 ckan_postgres_installed_locally: true
+ckan_debug_enabled: true
 
 postgres_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
