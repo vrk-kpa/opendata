@@ -24,5 +24,3 @@ dependencies:
     tags: dependency_role
   - role: apache
     tags: dependency_role
-  - role: nginx
-    tags: dependency_role

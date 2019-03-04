@@ -97,7 +97,7 @@ ckan_extensions_path: "../modules"
 ckan_hostname: 10.10.10.10
 ckan_secondary_hostname: 127.0.0.1
 
-ckan_debug_enabled: true
+ckan_debug_enabled: false
 
 ckan_beaker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
 ckan_app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
