@@ -104,3 +104,4 @@
     - role: ckan
       vars:
         ckan_extensions_path: "../../../../../modules"
+        ckan_deployment_environment_id: 'vagrant'
