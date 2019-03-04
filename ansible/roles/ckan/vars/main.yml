@@ -65,6 +65,7 @@ new_ckan_patches:
   - { file: "enforce-url-decoding" } # CKAN issue #4619
   - { file: "add_error_email_logger_to_flask"} # https://github.com/ckan/ckan/pull/4623
   - { file: "fix-popped-wrong-app-context"} # CKAN issue #4431
+  - { file: "remove_deprecated_resource_preview_call" } # https://github.com/ckan/ckan/pull/4669
 
 service_database_enabled: false
 auto_author_enabled: true
