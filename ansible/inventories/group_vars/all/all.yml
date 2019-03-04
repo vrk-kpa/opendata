@@ -59,7 +59,7 @@ ckan_admins:
 
 ckan_ini: /etc/ckan/default/production.ini
 virtual_environment: /usr/lib/ckan/default
-datapusherenv: /usr/lib/ckan/datapusher
+
 ckan_who_ini: /etc/ckan/default/who.ini
 
 harvest_sources: false

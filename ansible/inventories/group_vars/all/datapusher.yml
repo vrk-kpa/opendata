@@ -1,0 +1,4 @@
+datapusher_env: /usr/lib/ckan/datapusher
+datapusher_group: "{{ www_group }}"
+datapusher_user: "{{ www_user }}"
+datapusher_deployment_environment_id: "{{ deployment_environment_id }}"

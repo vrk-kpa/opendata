@@ -201,8 +201,6 @@
       - import_role:
           name: drupal
       - import_role:
-          name: data
-      - import_role:
           name: datapusher
 
     rescue:
