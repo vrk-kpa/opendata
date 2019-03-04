@@ -123,7 +123,7 @@ def _escape(value):
 
 def _prettify(field_name):
     """ Taken from ckan.logic.ValidationError.error_summary """
-    field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL', field_name.replace('_', ' ').capitalize())
+    field_name = re.sub('(?<!\\w)[Uu]rl(?!\\w)', 'URL', field_name.replace('_', ' ').capitalize())
     return _(field_name.replace('_', ' '))
 
 
@@ -1206,7 +1206,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         self.default_domain = config.get("ckanext.ytp.default_domain")
         logos = config.get("ckanext.ytp.theme.logos")
         if logos:
-            self.logos = dict(item.split(":") for item in re.split("\s+", logos.strip()))
+            self.logos = dict(item.split(":") for item in re.split("\\s+", logos.strip()))
 
     # ITemplateHelpers #
 
@@ -1314,7 +1314,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             except UnicodeDecodeError:
                 path = path.decode('cp1252')
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            return re.sub(u'href="/(\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
+            return re.sub(u'href="/(\\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
         return result
 
     def get_helpers(self):

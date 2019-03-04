@@ -83,13 +83,13 @@ def cleanup_tag(unclean_tag):
     """CKAN is very nitpicky about tags: they can only have alphanumerics and special characters (- _ .)."""
 
     # Clean up parantheses nicely
-    tag = re.sub('\)', '', unclean_tag)
-    tag = re.sub('\(', '- ', tag)
+    tag = re.sub('\\)', '', unclean_tag)
+    tag = re.sub('\\(', '- ', tag)
 
     tag = re.sub(', ', ' ', tag)
 
     # Clean up everything else not so nicely
-    tag = re.sub(u'[^0-9a-zA-ZöäåÖÄÅ\-\.\_\ ]+', u'_', tag)
+    tag = re.sub(u'[^0-9a-zA-ZöäåÖÄÅ\\-\\.\\_\\ ]+', u'_', tag)
 
     # Shorten very long tags
     tag = tag[:40]

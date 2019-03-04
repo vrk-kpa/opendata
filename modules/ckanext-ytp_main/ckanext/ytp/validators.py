@@ -129,7 +129,7 @@ def add_to_vocab(context, tags, vocab):
 
 
 def tag_list_output(value):
-    if isinstance(value, dict) or len(value) is 0:
+    if isinstance(value, dict) or len(value) == 0:
         return value
     return json.loads(value)
 
