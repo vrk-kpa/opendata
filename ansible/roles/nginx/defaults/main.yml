@@ -9,3 +9,5 @@ nginx_development_environment: false
 nginx_snippet_files: []
 
 nginx_apache_port: 8080
+
+nginx_service_state: started

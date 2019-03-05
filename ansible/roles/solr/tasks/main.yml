@@ -46,6 +46,17 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_major_version == "18"
 
+# Workaround for Ubuntu 18.04 where jetty9 does not observe solr by default:
+# https://github.com/ckan/ckan/issues/4311
+- name: Symlink solr-jetty.xml to webapps
+  file:
+    src: /etc/solr/solr-jetty.xml
+    dest: /var/lib/jetty9/webapps/solr.xml
+    state: link
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version == "18"
+
 - name: Ensure Jetty is running
   service:
     name: "{{ solr_jetty_service }}"
