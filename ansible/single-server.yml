@@ -18,7 +18,7 @@
 
     - import_role:
         name: mailhog
-      when: vagrant is defined
+      when: deployment_environment_id == 'vagrant'
       tags: mailhog_role
 
     - import_role:
