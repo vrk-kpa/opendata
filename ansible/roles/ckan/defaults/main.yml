@@ -94,8 +94,8 @@ ckan_files_path: "{{ ckan_files_root }}/ckan"
 ckan_resource_cache_path: "{{ ckan_server_path }}/resource_cache"
 ckan_extensions_path: "../modules"
 
-ckan_hostname: 10.10.10.10
-ckan_secondary_hostname: 127.0.0.1
+ckan_hostname: vagrant.avoindata.fi
+ckan_secondary_hostname: vagrant.opendata.fi
 
 ckan_debug_enabled: false
 
@@ -124,7 +124,7 @@ ckan_recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 ckan_recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 ckan_disqus_name: "localhost-avoindata-fi"
 ckan_drupal_ckan_admin_rolename: ckan_admin
-ckan_drupal_hostname: 10.10.10.10
+ckan_drupal_hostname: vagrant.avoindata.fi
 ckan_show_postit_demo: true
 
 # solr settings

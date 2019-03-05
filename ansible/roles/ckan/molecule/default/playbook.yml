@@ -5,6 +5,10 @@
   vars:
     opendata_frontend_modules_path: "../../../../modules"
     drupal_modules_path: "../../../../modules"
+    hostname: vagrant.avoindata.fi
+    hostname_language: fi
+    secondary_hostname: vagrant.opendata.fi
+    secondary_hostname_language: en
     drupal_configure_instance: true
     drupal_database_name: drupal8
     drupal_database_username: drupal8
@@ -12,7 +16,7 @@
     drupal_admin_username: admin
     drupal_admin_password: administrator
     drupal_site_name: avoindata.fi
-    drupal_fqdn: '10.10.10.10'
+    drupal_fqdn: '{{ hostname }}'
     drupal_domain: ''
     drupal_secondary_fqdn: '127.0.0.1'
     drupal_secondary_domain: ''
@@ -87,6 +91,11 @@
       - name: ckan_default
         owner: ckan_default
     cache_path: "{{ server_path }}/cache"
+    # for nginx
+    basic_auth_path: false
+    base_hostname: ""
+    secondary_base_hostname: ""
+    nginx_port: 80
     apache_port: 8080
     log_path: /var/log/ckan
     ckan_extensions_path: "../../../../../modules"
