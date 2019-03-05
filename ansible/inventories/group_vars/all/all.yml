@@ -1,43 +1,20 @@
 ---
 
-database_host: "127.0.0.1"
-database_ip_range: "127.0.0.1/8"
+base_hostname: "avoindata.fi"
+secondary_base_hostname: "opendata.fi"
+virtual_environment: /usr/lib/ckan/default
 
-solr_host: "{{ database_host }}"
-solr_port: "8983"
-solr_path: solr
+email_domain: "{{ hostname }}"
+email_from: "no-reply@{{ email_domain }}"
+error_email_from: "error@{{ email_domain }}"
 
-redis_hostname: "{{ database_host }}"
-redis_port: "6379"
-redis_db: 0
+recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
-ckan_test_database: { 'name': "ckan_test", 'username': "{{ ckan_database_username }}" }
-
-www_root: /var/www
-www_user: www-data
-www_group: www-data
-
-server_path: /srv/ytp
-cache_path: "{{ server_path }}/cache"
-backup_path: "{{ server_path }}/backup"
-scripts_path: "{{ server_path }}/scripts"
-log_path: /var/log/ckan
-static_path: "{{ www_root }}/static"
-
-resource_cache_path: "{{ server_path }}/resource_cache"
-
-files_root: "{{ server_path }}/files"
-
-hostname: 10.10.10.10
-hostname_language: fi
-secondary_hostname: 127.0.0.1
-secondary_hostname_language: en
-base_hostname: ""
-secondary_base_hostname: ""
-
-admin: {'username' : 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
-
-harvest_user: {'username' : 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
+admin:
+  username: 'admin'
+  password: 'administrator'
+  email: 'vagrant@localhost'
 
 ytp_users:
   - username: 'test-editor'
@@ -50,46 +27,8 @@ ytp_users:
     password: 'test-user'
     email: 'user@localhost'
 
-
-
-ckan_admins:
-  - "{{ admin.username }}"
-  - "{{ harvest_user.username }}"
-  - "test-editor"
-
-ckan_ini: /etc/ckan/default/production.ini
-virtual_environment: /usr/lib/ckan/default
-
-ckan_who_ini: /etc/ckan/default/who.ini
-
-harvest_sources: false
-
-ckan_version: "2.8.2"
-ckan_branch: "ckan-{{ ckan_version }}"
-
-email_domain: "{{ hostname }}"
-email_from: "no-reply@{{ email_domain }}"
-error_email_from: "error@{{ email_domain }}"
-
-admin_email: vagrant@localhost
-error_email: "{{ admin_email }}"
-client_email: vagrant@localhost
-
-#smtp_server key is required by the external ckan mailer component
-smtp_server_domain: "{{ smtp.server_domain }}"
-
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
-certificates_path: "/etc/ssl/opendata"
-
-nfs_shared_path: "/srv/ytp/shared"
-local_cache: "/tmp/ytp/cache"
-
-import_base_organizations: false
-import_finto_tags: false
-
-recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 secret:
   database_ckan_password: pass
@@ -99,9 +38,6 @@ secret:
   drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
   smtp_user: username
   smtp_password: password
-
-rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
-
 
 AWS:
   enabled: false

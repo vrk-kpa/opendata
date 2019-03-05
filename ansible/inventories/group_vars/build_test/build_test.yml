@@ -1,10 +1,11 @@
 ---
 
 # THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
-smtp:
-  server_domain: localhost
 
-hostname: "{{ inventory_hostname }}"
+hostname: '{{ inventory_hostname }}'
+hostname_language: fi
+secondary_hostname: '127.0.0.1'
+secondary_hostname_language: en
 
 vagrant: false
 secrets_file_path: does_not_exist

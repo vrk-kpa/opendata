@@ -14,9 +14,9 @@ drupal_roles:
   - { 'username': "test-publisher", 'role': "{{ drupal_publisher_rolename }}" }
 
 drupal_fqdn: "{{ hostname }}"
-drupal_domain: "{{ base_hostname }}"
+drupal_domain: ""
 drupal_secondary_fqdn: "{{ secondary_hostname }}"
-drupal_secondary_domain: "{{ secondary_base_hostname }}"
+drupal_secondary_domain: ""
 
 drupal_smtp_server_domain: "{{ smtp_server_domain }}"
 drupal_smtp_username: "{{ secret.smtp_user }}"
@@ -31,6 +31,6 @@ drupal_initial_users: "{{ ytp_users }}"
 drupal_admin_email: "{{ admin_email }}"
 
 drupal_google_analytics: "{{ google_analytics }}"
-drupal_server_path: "{{ server_path }}"
+drupal_server_path: /srv/ytp
 
 drupal_deployment_environment_id: "{{ deployment_environment_id }}"

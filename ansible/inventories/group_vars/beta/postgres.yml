@@ -1,0 +1,12 @@
+---
+postgres_host: "{{ postgres_conf.host }}"
+postgres_admin_user: "{{ postgres_conf.admin_user }}"
+postgres_admin_password: "{{ postgres_conf.admin_password }}"
+
+postgres_users:
+  - username: ckan_default
+    password: "{{ secret.database_ckan_password }}"
+  - username: datastore_default
+    password: "{{ secret.database_ckan_datastore_password }}"
+  - username: drupal8
+    password: "{{ secret.database_drupal8_password }}"

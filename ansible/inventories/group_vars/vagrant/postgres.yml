@@ -1,32 +1,4 @@
 ---
-
-# THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
-
-debug_enabled: true
-smtp:
-  server_domain: localhost
-
-
-drupal_smtp_protocol: standard
-drupal_smtp_port: 1025
-
-vagrant: true
-secrets_file_path: does_not_exist
-deployment_environment_id: vagrant
-disqus_name: "localhost-avoindata-fi"
-drupal_disqus_name: "{{ disqus_name }}"
-drupal_admin_email: vagrant@localhost
-
-ckan_profiling_enabled: true
-ckan_smtp_use_tls: False
-ckan_smtp_port: 1025
-ckan_site_protocol: "http"
-ckan_disqus_name: "{{ disqus_name }}"
-ckan_enable_cloudstorage: false
-ckan_postgres_installed_locally: true
-ckan_debug_enabled: true
-ckan_deployment_environment_id: 'vagrant'
-
 postgres_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
   - {type: local, database: all, user: all, auth_method: peer}
@@ -39,10 +11,3 @@ postgres_hba_entries:
   - {type: host, database: ckan_test, user: ckan_test, address: "{{ postgres_trusted_ip_range }}", auth_method: md5}
 
 postgres_installed_locally: true
-
-ckan_testing_ports:
-  - 9090
-
-nginx_development_environment: true
-
-common_skip_submodule_check: false
