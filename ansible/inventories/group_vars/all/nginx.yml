@@ -28,7 +28,7 @@ nginx_secondary_hostname_language: "en"
 nginx_snippet_files:
   - template: 'server.config.j2'
     destination: 'ytp.conf'
-    root_redirect': "{{ nginx_hostname_language }}"
+    root_redirect: "{{ nginx_hostname_language }}"
   - template: 'server.config.j2'
     destination: 'ytp-secondary.conf'
     root_redirect: "{{ nginx_secondary_hostname_language }}"
