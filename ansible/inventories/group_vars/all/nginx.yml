@@ -15,7 +15,7 @@ nginx_sites:
     destination: 'sites-available/ytp-secondary'
     server_name: "{{ nginx_secondary_fqdn }}"
     snippet: 'ytp-secondary.conf'
-    base_hostname': "{{ nginx_secondary_domain }}"
+    base_hostname: "{{ nginx_secondary_domain }}"
     port: "{{ nginx_port }}"
 
 nginx_enabled_sites:
