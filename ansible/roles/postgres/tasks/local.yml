@@ -39,6 +39,14 @@
   become: true
   no_log: true
 
+- name: Remove test databases if configured
+  postgresql_db:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ postgres_absent_test_databases }}"
+  become_user: postgres
+  become: yes
+
 - name: Setup postgres databases
   postgresql_db:
     name: "{{ item.name }}"
@@ -55,22 +63,11 @@
   apt:
     pkg: "{{ postgres_spatial_requirement_packages }}"
     state: present
-  register: postgis_installed
 
-- name: Spatial table references
-  command: psql -d "{{ item.0.name }}" -f "{{ item.1 }}"
-  when: postgis_installed is changed
-  with_nested:
-    - "{{ postgres_spatial_databases }}"
-    - "{{ postgres_spatial_scripts }}"
-  become_user: postgres
-  become: true
-
-- name: Spatial table rights
-  command: psql -d "{{ item.0.name  }}" -c "{{ item.1 }} {{ item.0.owner }};"
-  when: postgis_installed is changed
-  with_nested:
-    - "{{ postgres_spatial_databases }}"
-    - "{{ postgres_spatial_db_permission_commands }}"
+- name: Add PostGIS extension to spatial databases
+  postgresql_ext:
+    name: postgis
+    db: "{{ item.name }}"
+  with_items: "{{ postgres_spatial_databases }}"
   become_user: postgres
   become: true

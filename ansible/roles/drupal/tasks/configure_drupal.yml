@@ -260,15 +260,6 @@
   tags:
     - skip_ansible_lint
 
-# probably not necessary as smyp settings are already imported above
-# - name: Configure general site settings regarding email
-#   shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
-#   args:
-#     chdir: "{{ drupal_root }}"
-#   with_items:
-#     - { key: name, value: "{{ email_domain }}"}
-#     - { key: mail, value: "{{ email_from }}"}
-
 - name: Update drupal translations
   shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
   args:

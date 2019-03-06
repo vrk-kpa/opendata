@@ -11,3 +11,41 @@ ckan_deployment_environment_id: 'vagrant'
 
 ckan_testing_ports:
   - 9090
+
+ckan_config_files:
+  - file: /etc/ckan/default/production.ini
+    db_server: "{{ ckan_postgres.server.host }}"
+    db_ckan_username: "{{ ckan_postgres.users.ckan.username }}"
+    db_ckan_password: "{{ ckan_postgres.users.ckan.password }}"
+    db_ckan_database: "{{ ckan_postgres.databases.ckan.name }}"
+    db_ckan_datastore_password: "{{ ckan_postgres.users.ckan_datastore.password }}"
+    db_ckan_datastore_username: "{{ ckan_postgres.users.ckan_datastore.username }}"
+    db_ckan_datastore_database: "{{ ckan_postgres.databases.ckan_datastore.name }}"
+    solr_path: "{{ ckan_solr_path }}"
+    hostname: "{{ ckan_hostname }}"
+    redis_db: "{{ ckan_redis_db }}"
+    debug_enabled: "{{ ckan_debug_enabled }}"
+  - file: /etc/ckan/default/test.ini
+    db_server: "{{ ckan_postgres.server.host }}"
+    db_ckan_username: ckan_test
+    db_ckan_password: pass
+    db_ckan_database: ckan_test
+    db_ckan_datastore_username: datastore_test
+    db_ckan_datastore_password: pass
+    db_ckan_datastore_database: datastore_test
+    solr_path: "solr/ckan"
+    hostname: "10.10.10.10:9000"
+    redis_db: "1"
+    debug_enabled: false
+
+ckan_wsgi_config_files:
+  - file: "/etc/ckan/default/apache.wsgi"
+    logfile: "ckan.log"
+    config_file: production.ini
+  - file: "/etc/ckan/default/apache_test.wsgi"
+    logfile: "ckan_test.log"
+    config_file: test.ini
+
+ckan_log_files:
+  - "{{ ckan_log_path }}/ckan.log"
+  - "{{ ckan_log_path }}/ckan_test.log"

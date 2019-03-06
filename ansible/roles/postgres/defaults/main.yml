@@ -27,10 +27,4 @@ postgres_restarted_state: "restarted"
 postgres_user: postgres
 postgres_group: postgres
 
-postgres_spatial_scripts:
-  - "/usr/share/postgresql/{{ postgres_version }}/contrib/postgis-{{ postgres_postgis_version }}/postgis.sql"
-  - "/usr/share/postgresql/{{ postgres_version }}/contrib/postgis-{{ postgres_postgis_version }}/spatial_ref_sys.sql"
-
-postgres_spatial_db_permission_commands:
-  - "ALTER TABLE spatial_ref_sys OWNER TO"
-  - "ALTER TABLE geometry_columns OWNER TO"
+postgres_absent_test_databases: []

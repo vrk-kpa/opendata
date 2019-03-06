@@ -22,9 +22,19 @@
     - common_submodule_status.stdout > "0"
     - not common_skip_submodule_check
 
+- name: Copy apt sources.list
+  template:
+    src: "sources.list.j2"
+    dest: "/etc/apt/sources.list"
+    mode: "0644"
+    owner: root
+    group: root
+    backup: true
+  when: common_deployment_environment_id == "vagrant"
+
 - name: Update packages
   apt:
-    upgrade: dist
+    upgrade: "{{ common_apt_upgrade }}"
     update_cache: true
 
 - name: Set hostname

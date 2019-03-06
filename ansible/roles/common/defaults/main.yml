@@ -2,3 +2,6 @@
 # defaults file for common
 
 common_skip_submodule_check: true
+common_apt_upgrade: dist
+
+common_apt_source_url: "http://fi.archive.ubuntu.com"

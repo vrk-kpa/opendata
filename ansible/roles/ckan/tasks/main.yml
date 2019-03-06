@@ -64,11 +64,12 @@
 
 - name: Ensure log file exists
   file:
-    path: "{{ ckan_log_path }}/ckan.log"
+    path: "{{ item }}"
     state: touch
     owner: "{{ ckan_www_user }}"
     group: "{{ ckan_www_group }}"
     mode: 0640
+  with_items: "{{ ckan_log_files }}"
 
 - name: Configure logrotation for CKAN
   copy:
@@ -139,18 +140,21 @@
 - name: Setup CKAN configuration
   template:
     src: "ckan.ini.j2"
-    dest: "{{ ckan_ini }}"
+    dest: "{{ item.file }}"
     mode: "0640"
     owner: root
     group: "{{ ckan_www_group }}"
+  with_items: "{{ ckan_config_files }}"
+  notify: Restart Apache
 
 - name: Setup Apache WSGI script
   template:
     src: "apache.wsgi.j2"
-    dest: /etc/ckan/default/apache.wsgi
+    dest: "{{ item.file }}"
     mode: "0640"
     owner: root
     group: "{{ ckan_www_group }}"
+  with_items: "{{ ckan_wsgi_config_files }}"
   notify: Restart Apache
 
 - name: Install python packages to support SNI in requests

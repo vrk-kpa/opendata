@@ -1,6 +1,6 @@
 [DEFAULT]
 
-debug = {{ ckan_debug_enabled }}
+debug = {{ item.debug_enabled }}
 # smtp settings that need to be configured in default section for WebError middleware
 smtp_username = {{ ckan_smtp_username }}
 smtp_use_tls = {{ ckan_smtp_use_tls }}
@@ -29,18 +29,18 @@ who.config_file = %(here)s/who.ini
 who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
-sqlalchemy.url = postgres://{{ ckan_postgres.users.ckan.username }}:{{ ckan_postgres.users.ckan.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.ckan.name }}
-ckan.site_url = {{ ckan_site_protocol }}://{{ ckan_hostname }}
-ckan.site_url_internally = {{ ckan_site_protocol }}://{{ ckan_hostname }}/data/
+sqlalchemy.url = postgres://{{ item.db_ckan_username }}:{{ item.db_ckan_password }}@{{ item.db_server }}/{{ item.db_ckan_database }}
+ckan.site_url = {{ ckan_site_protocol }}://{{ item.hostname }}
+ckan.site_url_internally = {{ ckan_site_protocol }}://{{ item.hostname }}/data/
 
 {% raw %}
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
-ckan.datastore.write_url = postgresql://{{ ckan_postgres.users.ckan.username }}:{{ ckan_postgres.users.ckan.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.ckan_datastore.name }}
-ckan.datastore.read_url = postgresql://{{ ckan_postgres.users.ckan_datastore.username }}:{{ ckan_postgres.users.ckan_datastore.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.ckan_datastore.name }}
+ckan.datastore.write_url = postgresql://{{ item.db_ckan_username }}:{{ item.db_ckan_password }}@{{ item.db_server }}/{{ item.db_ckan_datastore_database }}
+ckan.datastore.read_url = postgresql://{{ item.db_ckan_datastore_username }}:{{ item.db_ckan_datastore_password }}@{{ item.db_server }}/{{ item.db_ckan_datastore_database }}
 
-ckan.redis.url = redis://{{ ckan_redis_host }}:{{ ckan_redis_port }}/{{ ckan_redis_db }}
+ckan.redis.url = redis://{{ ckan_redis_host }}:{{ ckan_redis_port }}/{{ item.redis_db }}
 
 
 ckan.auth.anon_create_dataset = false
@@ -99,17 +99,17 @@ smtp.mail_from = no-reply@{{ ckan_email_domain }}
 
 ckan.views.default_views = recline_grid_view
 
-ckanext.ytp.drupal.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.drupal8.name }}
+ckanext.ytp.drupal.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ item.db_server }}/{{ ckan_postgres.databases.drupal8.name }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ ckan_redis_host }}
 ckan.harvest.mq.port = {{ ckan_redis_port }}
-ckan.harvest.mq.redis_db = {{ ckan_redis_db }}
+ckan.harvest.mq.redis_db = {{ item.redis_db }}
 
 ckanext-archiver.archive_dir = {{ ckan_resource_cache_path }}
 ckanext-archiver.max_content_length = 50000000
-ckanext-archiver.cache_url_root = {{ ckan_extension_archiver_cache_protocol }}://{{ ckan_hostname }}/resource_cache/
-ckanext-archiver.user_agent_string = {{ ckan_hostname }} archiver
+ckanext-archiver.cache_url_root = {{ ckan_extension_archiver_cache_protocol }}://{{ item.hostname }}/resource_cache/
+ckanext-archiver.user_agent_string = {{ item.hostname }} archiver
 ckanext-archiver.archive_cloud = True
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ ckan_admin.username }}
@@ -124,9 +124,9 @@ disqus.notify.email_field = maintainer_email
 
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
-ckanext.drupal8.domain = {{ ckan_hostname }},{{ ckan_secondary_hostname }}
+ckanext.drupal8.domain = {{ item.hostname }},{{ ckan_secondary_hostname }}
 ckanext.drupal8.sysadmin_role = {{ ckan_drupal_ckan_admin_rolename }}
-ckanext.drupal8.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ ckan_postgres.server.host }}/{{ ckan_postgres.databases.drupal8.name }}
+ckanext.drupal8.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ item.db_server }}/{{ ckan_postgres.databases.drupal8.name }}
 ckanext.drupal8.allow_edit = true
 
 licenses_group_url = file://{{ ckan_files_path }}/license.json
@@ -191,7 +191,7 @@ ckanext.spatial.common_map.type = custom
 ckanext.spatial.common_map.custom.url = https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
 ckanext.spatial.common_map.attribution = Maps &copy; <a href="http://www.wikimedia.org">Wikimedia Foundation</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>
 
-solr_url = http://{{ ckan_solr_host }}:{{ ckan_solr_port }}/{{ ckan_solr_path }}
+solr_url = http://{{ ckan_solr_host }}:{{ ckan_solr_port }}/{{ item.solr_path }}
 
 ckan.tracking_enabled = true
 

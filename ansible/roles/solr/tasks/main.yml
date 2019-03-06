@@ -13,6 +13,22 @@
     state: present
     update_cache: true
 
+- name: Create Solr cores
+  synchronize:
+    src: /usr/share/solr/
+    dest: "{{ item.instance_dir }}/"
+  delegate_to: "{{ inventory_hostname }}"
+  with_items: "{{ solr_cores }}"
+
+- name: Create solr configuration file
+  template:
+    src: solr.xml.j2
+    dest: /etc/solr/solr.xml
+    mode: 0644
+    owner: root
+    group: root
+  notify: Restart jetty
+
 - name: Copy Solr schema
   template:
     src: schema.xml.j2

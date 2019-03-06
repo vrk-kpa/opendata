@@ -40,6 +40,8 @@
   -->
   <cores adminPath="/admin/cores" defaultCoreName="collection1">
     <core name="collection1" instanceDir="." />
-    <core name="ckan" instanceDir="/etc/solr/ckan" />
+{% for core in solr_cores %}
+    <core name="{{ core.name }}" instanceDir="{{ core.instance_dir }}" />
+{% endfor %}
   </cores>
 </solr>
