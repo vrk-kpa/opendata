@@ -168,7 +168,7 @@
     include_vars: "{{ item }}"
     with_fileglob:
       - "{{ playbook_dir }}/inventories/group_vars/all/*"
-      - "{{ playbook_dir }}/inventories/group_vars/build_test.yml"
+      - "{{ playbook_dir }}/inventories/group_vars/build_test/*"
 
   - name: Set pass_status to default value
     set_fact:
