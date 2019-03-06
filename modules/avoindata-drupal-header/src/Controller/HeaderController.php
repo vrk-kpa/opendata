@@ -3,21 +3,43 @@
 namespace Drupal\avoindata_header\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use \Symfony\Component\HttpFoundation\Response;
-use \Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/**
+ * Adds support for header controller.
+ *
+ * Class HeaderController
+ *    Builds header component in the api.
+ *
+ * @package Drupal\avoindata_header\Controller
+ */
 class HeaderController extends ControllerBase {
+
+  /**
+   * Build the header component.
+   *
+   * @return Symfony\Component\HttpFoundation\Response
+   *   Return html response for the header.
+   */
   public function header() {
-    $build = array(
-      '#theme' => 'avoindata_header'
-    );
-    // Only render this part, not the whole page
+    $build = [
+      '#theme' => 'avoindata_header',
+    ];
+    // Only render this part, not the whole page.
     return new Response(\Drupal::service('renderer')->renderRoot($build));
   }
 
+  /**
+   * Creates html response for profile link.
+   *
+   * @return Symfony\Component\HttpFoundation\RedirectResponse
+   *   Returns html response.
+   */
   public function ckanprofile() {
     $accountName = \Drupal::currentUser()->getAccountName();
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     return new RedirectResponse('/data/' . $lang . '/user/' . $accountName);
   }
+
 }

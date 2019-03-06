@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Adds avoindata header module.
+ */
+
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -18,16 +23,16 @@ function avoindata_header_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function avoindata_header_theme($existing, $type, $theme, $path) {
-  return array(
-    'avoindata_header_search_collapsible' => array(
+  return [
+    'avoindata_header_search_collapsible' => [
       'template' => 'avoindata_header_search_collapsible',
-      'variables' => array(
-        'language' => NULL
-      ),
-    ),
-    'avoindata_header' => array(
+      'variables' => [
+        'language' => NULL,
+      ],
+    ],
+    'avoindata_header' => [
       'template' => 'avoindata_header',
-      'variables' => array(),
-    ),
-  );
+      'variables' => [],
+    ],
+  ];
 }

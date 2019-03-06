@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Adds infobox module.
+ */
+
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -18,12 +23,12 @@ function avoindata_infobox_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function avoindata_infobox_theme($existing, $type, $theme, $path) {
-  return array(
-    'avoindata_infobox' => array(
-      'variables' => array(
-        'language' => NULL
-      ),
+  return [
+    'avoindata_infobox' => [
+      'variables' => [
+        'language' => NULL,
+      ],
       'template' => 'avoindata_infobox_block',
-    ),
-  );
+    ],
+  ];
 }

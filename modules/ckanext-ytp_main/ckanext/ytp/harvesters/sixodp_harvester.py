@@ -81,8 +81,8 @@ def sixodp_to_opendata_preprocess(package_dict):
 
 def sixodp_to_opendata_postprocess(package_dict):
     package_dict['collection_type'] = 'Open Data'
-    package_dict['maintainer'] = package_dict.get('maintainer', ' ')
-    package_dict['maintainer_email'] = package_dict.get('maintainer_email', ' ')
+    package_dict['maintainer'] = package_dict.get('maintainer', ' ') or ' '
+    package_dict['maintainer_email'] = package_dict.get('maintainer_email', ' ') or ' '
     date_released = parse_datetime(package_dict['date_released'])
     if date_released:
         date_released_isoformat = "%s.000000" % date_released.isoformat().split('+', 2)[0]
@@ -104,6 +104,9 @@ def sixodp_to_opendata_postprocess(package_dict):
                 isodate(time_series_end, {})
             except Invalid:
                 resource.pop('time_series_end')
+
+def sixodp_organization_to_opendata_organization(organization_dict):
+    organization_dict['title_translated'] = {'fi': organization_dict['title']}
 
 
 class SixodpHarvester(HarvesterBase):
@@ -352,7 +355,7 @@ class SixodpHarvester(HarvesterBase):
             # We needed all the packages to determine the deleted ones,
             # but unless we really want to reimport everything,
             # we need to filter the package list here
-            if not force_all:
+            if not force_all and last_error_free_job:
                 changes_since = last_error_free_job.gather_started - datetime.timedelta(hours=1)
                 pkg_dicts = [p for p in pkg_dicts if parse_datetime(p['metadata_modified']) > changes_since]
 
@@ -585,8 +588,11 @@ class SixodpHarvester(HarvesterBase):
                                     # this especially targets older versions of CKAN
                                     org = self._get_group(harvest_object.source.url, remote_org)
 
-                                for key in ['packages', 'created', 'users', 'groups', 'tags', 'extras', 'display_name', 'type']:
+                                for key in ['packages', 'created', 'users', 'tags', 'extras', 'display_name', 'type']:
                                     org.pop(key, None)
+
+                                sixodp_organization_to_opendata_organization(org)
+
                                 get_action('organization_create')(base_context.copy(), org)
                                 log.info('Organization %s has been newly created', remote_org)
                                 validated_org = org['id']

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Adds dataset list component.
+ */
+
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -18,15 +23,15 @@ function avoindata_datasetlists_help($route_name, RouteMatchInterface $route_mat
  * Implements hook_theme().
  */
 function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
-  return array(
-    'avoindata_datasetlist' => array(
-      'variables' => array(
+  return [
+    'avoindata_datasetlist' => [
+      'variables' => [
         'recentdatasets' => NULL,
         'newdatasets' => NULL,
         'populardatasets' => NULL,
-        'language' => NULL
-      ),
+        'language' => NULL,
+      ],
       'template' => 'avoindata_datasetlist_block',
-    ),
-  );
+    ],
+  ];
 }

@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_header\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides a 'Avoindata Header' Block.
@@ -20,9 +19,9 @@ class HeaderBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return array(
+    return [
       '#theme' => 'avoindata_header',
-    );
+    ];
   }
-}
 
+}
