@@ -7,6 +7,7 @@ hostname_language: fi
 secondary_hostname: '127.0.0.1'
 secondary_hostname_language: en
 smtp_server_domain: "localhost"
+admin_email: "no-reply@localhost"
 
 vagrant: false
 secrets_file_path: does_not_exist
