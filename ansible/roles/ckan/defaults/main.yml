@@ -206,6 +206,7 @@ ckan_patches:
   - enforce-url-decoding  # CKAN issue #4619
   - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
   - fix-popped-wrong-app-context  # CKAN issue #4431
+  - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
