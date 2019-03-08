@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_datasetlist\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides a 'Avoindata Dataset List' Block.

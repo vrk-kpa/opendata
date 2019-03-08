@@ -39,54 +39,7 @@
     <div class="tab-content row avoindata-datasetlist-table">
 
       <div id="avoindata-datasetlist-recent" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
-        {% if recentdatasets|length > 0 %}
-        <table class="table">
-          <tr>
-            <th>
-              {% trans %}
-              Name
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Owner
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Release date
-              {% endtrans %}
-            </th>
-          </tr>
-          {% for recentdataset in recentdatasets %}
-          <tr>
-            <td>
-              <a href="/data/{{ language }}/dataset/{{recentdataset['name']}}">{{ recentdataset['title_translated'][language] | default(recentdataset['title']) }}</a>
-            </td>
-            <td>
-              {{ recentdataset['owner'] | default('') }}
-            </td>
-            <td>
-              {{ recentdataset['metadata_created']|date("d.m.Y") }}
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-        <div class="row avoindata-datasetlist-links">
-            <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
-              <i class="fas fa-arrow-right"></i>
-              {% trans %}
-              More recently modified datasets
-              {% endtrans %}
-            </a>
-          </div>
-        {% else %}
-        <h4>
-          {% trans %}
-          No recently modified data sets found
-          {% endtrans %}
-        </h4>
-        {% endif %}
+        {{ recentdatasets }}
       </div>
 
       <div id="avoindata-datasetlist-new" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">

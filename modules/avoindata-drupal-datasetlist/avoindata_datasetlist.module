@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Implements hook_help().
@@ -46,9 +47,59 @@ function avoindata_recent_datasets() {
   catch (\Exception $e) {
     $recentDatasets = NULL;
   }
-
+  if(count($recentDatasets) > 0){
+    $resultHTML = <<<EOT
+    <table class="table">
+    <tr>
+      <th>
+        { t('name') }
+      </th>
+      <th>
+        {% trans %}
+        Owner
+        {% endtrans %}
+      </th>
+      <th>
+        {% trans %}
+        Release date
+        {% endtrans %}
+      </th>
+    </tr>
+EOT;
+    foreach($recentDatasets as $dataset) {
+      $datasetRows.= <<<EOT
+    <tr>
+      <td><a href="/data/fi/dataset/{$dataset['name']}"> {$dataset['title_translated']['fi']} </a></td>
+      <td>{$dataset['owner']}</td>
+      <td>{$dataset['metadata_created']}</td>
+    </tr>
+EOT;
+    }
+    $resultHTML.= $datasetRows;
+    $resultHTML.= <<<EOT
+    </table>
+          <div class="row avoindata-datasetlist-links">
+              <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
+                <i class="fas fa-arrow-right"></i>
+                {% trans %}
+                More recently modified datasets
+                {% endtrans %}
+              </a>
+            </div>
+EOT;
+  } else {
+      $resultHTML = <<<EOT
+      <h4>
+        {% trans %}
+        No recently modified data sets found
+        {% endtrans %}
+      </h4>
+EOT;
+  }
+ 
+EOT;
   return [
-    '#markup' => $recentDatasets,
+    '#markup' => $resultHTML,
     '#cache' => ['max-age' => 0],
   ];
 }
