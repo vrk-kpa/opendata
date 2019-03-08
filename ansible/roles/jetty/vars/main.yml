@@ -1,9 +1,0 @@
----
-
-solr_packages:
-  - { path: "main/libc/libcommons-codec-java", name: "libcommons-codec-java_1.9-1_all.deb" }
-  - { path: "universe/l/lucene-solr", name: "liblucene3-java_3.6.2+dfsg-2_all.deb" }
-  - { path: "universe/l/lucene-solr", name: "liblucene3-contrib-java_3.6.2+dfsg-2_all.deb" }
-  - { path: "universe/l/lucene-solr", name: "libsolr-java_3.6.2+dfsg-2_all.deb" }
-  - { path: "universe/l/lucene-solr", name: "solr-common_3.6.2+dfsg-2_all.deb" }
-  - { path: "universe/l/lucene-solr", name: "solr-jetty_3.6.2+dfsg-2_all.deb" }

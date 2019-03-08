@@ -1,1 +1,13 @@
-nginx_expires: 1h
+---
+nginx_expires: "1h"
+nginx_port: "80"
+nginx_sites: []
+nginx_enabled_sites: []
+nginx_disabled_sites:
+  - default
+nginx_development_environment: false
+nginx_snippet_files: []
+
+nginx_apache_port: 8080
+
+nginx_service_state: started

@@ -1,0 +1,15 @@
+---
+
+# THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
+
+hostname: www.avoindata.fi
+hostname_language: fi
+secondary_hostname: www.opendata.fi
+secondary_hostname_language: en
+smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+
+deployment_environment_id: prod
+secrets_file_path: "../../avoindata-secrets/prod/secrets.yml"
+disqus_name: "avoindatafi"
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
+aws_profile: opendata

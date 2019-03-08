@@ -2,44 +2,60 @@
 
 # This playbook installs all roles on a single server
 
-- hosts: mainserver
+- hosts: localhost
   become: true
-  vars:
-    database_host: "127.0.0.1"
-    solr_host: "127.0.0.1"
-    database_ip_range: "127.0.0.1/8"
-  vars_files:
-    - "vars/common.yml"
-    - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
-    - ["{{ secrets_file_path }}", "vars/none.yml"]
-    - ["vars/local.yml", "vars/none.yml"]
 
   pre_tasks:
+    - name: Ensure www directory exists
+      file:
+        path: "/var/www"
+        state: directory
+
+    - name: Enable maintenance mode
+      file:
+        path: "/var/www/maintenance"
+        state: touch
+
     - import_role:
         name: mailhog
-      when: vagrant is defined
+      when: deployment_environment_id == 'vagrant'
       tags: mailhog_role
+
     - import_role:
         name: cloudwatch_agent
       when: AWS.enabled
       tags: cloudwatch_agent_role
+
   roles:
-    - common
-    - firewall
-    - users
-    - clean
-    - database
-    - common_webserver
-    - nginx
-    - jetty
-    - redis
-    - ckan-extensions
-    - ckan
-    - ckan-config
-    - ckan-database
-    - ckan-data
-    - ckan-restart
-    - drupal
-    - clamav
-    - data
-    - datapusher
+    - role: common
+      tags: common
+    - role: secrets
+      tags: secrets
+    - role: postgres
+      tags: postgres
+    - role: opendata_frontend
+      tags: opendata_frontend
+    - role: solr
+      tags: solr
+    - role: redis
+      tags: redis
+    - role: apache
+      tags: apache
+    - role: ckan
+      tags: ckan
+    - role: php
+      tags: php
+    - role: composer
+      tags: composer
+    - role: nginx
+      tags: nginx
+    - role: drupal
+      tags: drupal
+    - role: datapusher
+      tags: datapusher
+
+  post_tasks:
+    - name: Remove maintenance mode
+      file:
+        path: "/var/www/maintenance"
+        state: absent

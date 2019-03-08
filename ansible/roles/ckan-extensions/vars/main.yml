@@ -1,3 +1,0 @@
----
-
-ckanext_sync_path: "{{ server_path }}"

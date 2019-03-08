@@ -1,7 +1,0 @@
----
-
-# THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
-smtp:
-  server_domain: localhost
-
-hostname: "{{ inventory_hostname }}"

@@ -1,19 +1,231 @@
-ckan_smtp_use_tls: True
-ckan_smtp_port: 587
+---
+ckan_site_id: "default"
+ckan_version: "2.8.2"
+ckan_site_protocol: "http"
+ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
+# order matters, when templates call super()
+ckan_plugins: harvest ckan_harvester hri_harvester dcat structured_data dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal8 ytp_organizations ytp_request hierarchy_display ytp_theme report ytp_report ytp_drupal ytp_tasks ytp_dataset ytp_spatial ytp_user datastore sixodp_showcase sixodp_showcasesubmit datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view sixodp_harvester disqus reminder ytp_restrict_category_creation_and_updating archiver qa
+ckan_aws_plugins: cloudstorage
+
+# path to use for all installed components
+ckan_server_path: "/srv/ytp"
+
+# path used to temporarily sync ckan extensions
+ckan_extension_sync_path: "{{ ckan_server_path }}"
+
+# used to determine whether graphviz and graphviz-dev packages are installed
+ckan_profiling_enabled: false
+
+# list of ckan extensions to install
+ckan_extensions:
+  - ckanext-drupal8
+  - ckanext-ytp_drupal
+  - ckanext-ytp_tasks
+  - ckanext-ytp_request
+  - ckanext-ytp_main
+  - ckanext-hierarchy
+  - ckanext-googleanalytics
+  - ckanext-datarequests
+  - ckanext-harvest
+  - ckanext-report
+  - ckanext-spatial
+  - ckanext-dcat
+  - ckanext-cloudstorage
+  - ckanext-scheming
+  - ckanext-fluent
+  - ckanext-showcase
+  - ckanext-sixodp_showcase
+  - ckanext-sixodp_showcasesubmit
+  - ckanext-geoview
+  - ckanext-pdfview
+  - ckanext-disqus
+  - ckanext-reminder
+  - ckanext-archiver
+  - ckanext-qa
+
+ckan_extensions_with_translations:
+  - ckanext-ytp_request
+  - ckanext-ytp_drupal
+  - ckanext-ytp_main
+  - ckanext-sixodp_showcase
+  - ckanext-report
+
+# enable google analytics can either be false, or dict of id account type
+ckan_google_analytics: false
+
+# deployment environment id is used to decide on debugging level and such
+ckan_deployment_environment_id: ""
+
+# path for temporarily copying installation packages etc
+ckan_cache_path: "{{ ckan_server_path }}/cache"
+
+ckan_www_user: www-data
+ckan_www_group: www-data
+
 ckan_log_path: /var/log/ckan
-ckan_ckan_loglevel: INFO
-ckan_ckanext_loglevel: INFO
+ckan_loglevel: INFO
+ckan_extension_loglevel: INFO
+
 ckan_logrotate_conf: |
   /var/log/ckan/ckan.log {
-  	daily
-  	missingok
-  	rotate 14
-  	compress
-  	delaycompress
-  	notifempty
-  	create 0640 www-data www-data
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data www-data
   }
 
-# Override these on servers!
-beaker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
-app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
+# ckan virtualenv path
+ckan_virtual_environment: /usr/lib/ckan/default
+
+ckan_source_path: "{{ ckan_virtual_environment }}/src/ckan"
+
+# override requirements
+ckan_override_requirements:
+  - "flask==0.12"
+  - "flask-login==0.3.0"
+  - "simplejson==3.16.0"
+
+# ckan paths
+ckan_files_root: "{{ ckan_server_path }}/files"
+ckan_files_path: "{{ ckan_files_root }}/ckan"
+ckan_resource_cache_path: "{{ ckan_server_path }}/resource_cache"
+ckan_extensions_path: "../modules"
+
+ckan_hostname: vagrant.avoindata.fi
+ckan_secondary_hostname: vagrant.opendata.fi
+
+ckan_debug_enabled: false
+
+ckan_beaker_session_secret: "9PBdkxokLGWW4M4jeTI25h+4t"
+ckan_app_instance_uuid: "{dc6259b8-f112-4d23-8816-aadcede1895c}"
+
+# redis settings
+ckan_redis_host: "127.0.0.1"
+ckan_redis_port: "6379"
+ckan_redis_db: 0
+
+# email settings
+ckan_error_email_from: "error@{{ ckan_email_domain }}"
+ckan_email_domain: "{{ ckan_hostname }}"
+ckan_error_email: "{{ ckan_admin_email }}"
+ckan_admin_email: vagrant@localhost
+ckan_smtp_username: username
+ckan_smtp_password: password
+ckan_smtp_use_tls: false
+ckan_smtp_server_domain: localhost
+ckan_smtp_port: 587
+
+# extension related settings
+ckan_extension_archiver_cache_protocol: http
+ckan_recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+ckan_recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+ckan_disqus_name: "localhost-avoindata-fi"
+ckan_drupal_ckan_admin_rolename: ckan_admin
+ckan_drupal_hostname: vagrant.avoindata.fi
+ckan_show_postit_demo: true
+
+# solr settings
+ckan_solr_host: "127.0.0.1"
+ckan_solr_port: "8983"
+ckan_solr_path: solr
+
+ckan_max_resource_size: 5000
+
+# ckan setting file paths
+ckan_ini: /etc/ckan/default/production.ini
+ckan_who_ini: /etc/ckan/default/who.ini
+
+# ckan user settings
+ckan_ytp_users:
+  - username: 'test-editor'
+    password: 'test-editor'
+    email: 'editor@localhost'
+  - username: 'test-publisher'
+    password: 'test-publisher'
+    email: 'publisher@localhost'
+  - username: 'test-user'
+    password: 'test-user'
+    email: 'user@localhost'
+ckan_harvest_user: {'username': 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
+ckan_admin: {'username': 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
+ckan_admins:
+  - "{{ ckan_admin.username }}"
+  - "{{ ckan_harvest_user.username }}"
+  - "test-editor"
+# user who should run supervisord
+ckan_harvester_user: "{{ ckan_www_user }}"
+
+ckan_sql_files_to_execute:
+  - datastore_permissions.sql.j2
+
+ckan_supervisor_services:
+  - ckan_gather_consumer
+  - ckan_fetch_consumer
+  - ckan-worker-bulk
+  - ckan-worker-priority
+
+ckan_reindex: false
+
+# postgres related configuration
+ckan_postgres_installed_locally: true
+ckan_postgres:
+  users:
+    ckan:
+      username: ckan_default
+      password: pass
+    ckan_datastore:
+      username: datastore_default
+      password: pass
+    drupal8:
+      username: drupal8
+      password: pass
+  server:
+    host: 127.0.0.1
+  databases:
+    ckan:
+      name: ckan_default
+      owner: ckan_default
+    ckan_datastore:
+      name: datastore_default
+      owner: ckan_default
+    drupal8:
+      name: drupal8
+      owner: drupal8
+
+ckan_enable_cloudstorage: false
+AWS:
+  enabled: false
+
+ckan_patches:
+  - enable_multiple_image_uploads
+  - remove-ckan-fontawesome
+  - fix-flask-root-path  # CKAN issue #4452
+  - enforce-url-decoding  # CKAN issue #4619
+  - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
+  - fix-popped-wrong-app-context  # CKAN issue #4431
+  - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
+
+ckan_config_files:
+  - file: /etc/ckan/default/production.ini
+    db_server: "{{ ckan_postgres.server.host }}"
+    db_ckan_username: "{{ ckan_postgres.users.ckan.username }}"
+    db_ckan_password: "{{ ckan_postgres.users.ckan.password }}"
+    db_ckan_database: "{{ ckan_postgres.databases.ckan.name }}"
+    db_ckan_datastore_password: "{{ ckan_postgres.users.ckan_datastore.password }}"
+    db_ckan_datastore_username: "{{ ckan_postgres.users.ckan_datastore.username }}"
+    db_ckan_datastore_database: "{{ ckan_postgres.databases.ckan_datastore.name }}"
+    solr_path: "{{ ckan_solr_path }}"
+    hostname: "{{ ckan_hostname }}"
+    redis_db: "{{ ckan_redis_db }}"
+    debug_enabled: "{{ ckan_debug_enabled }}"
+
+ckan_wsgi_config_files:
+  - file: "/etc/ckan/default/apache.wsgi"
+    logfile: "ckan.log"
+    config_file: production.ini
+
+ckan_log_files:
+  - "{{ ckan_log_path }}/ckan.log"

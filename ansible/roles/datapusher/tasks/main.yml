@@ -1,34 +1,49 @@
-- name: Download Datapusher
-  git:
-    repo: https://github.com/6aika/datapusher.git
-    dest: "{{ cache_path }}/datapusher.git"
-    bare: yes
+---
+
+- name: Install required packages
+  apt:
+    name:
+      - python-setuptools
+      - python-virtualenv
+    state: present
+
 
 - name: Install Datapusher
   pip:
-    name: "git+file://{{ cache_path }}/datapusher.git@master#egg=datapusher"
-    virtualenv: "{{ datapusherenv }}"
+    name: "git+https://github.com/6aika/datapusher.git@master#egg=datapusher"
+    virtualenv: "{{ datapusher_env }}"
     extra_args: "--exists-action=s -e"
 
 - name: Install Datapusher requirements
   pip:
-    requirements: "{{ datapusherenv }}/src/datapusher/requirements.txt"
-    virtualenv: "{{ datapusherenv }}"
+    requirements: "{{ datapusher_env }}/src/datapusher/requirements.txt"
+    virtualenv: "{{ datapusher_env }}"
     state: present
 
-
-# TODO: Remove this when https://github.com/ckan/ckan-service-provider/pull/44 is merged and released
+# TODO: Remove this when https://github.com/ckan/ckan-service-provider/pull/44
+# is merged and released and released version is updated to datapusher
+# requirements.txt file
 - name: Override ckan-service-provider requirement
   pip:
     name: git+http://github.com/vrk-kpa/ckan-service-provider#egg=ckanserviceprovider
-    virtualenv: "{{ datapusherenv }}"
+    virtualenv: "{{ datapusher_env }}"
     state: forcereinstall
 
-
 - name: Link datapusher sources
-  command: "{{ datapusherenv }}/bin/python setup.py develop chdir={{ datapusherenv }}/src/datapusher"
+  command: "{{ datapusher_env }}/bin/python setup.py develop"
+  args:
+    chdir: "{{ datapusher_env }}/src/datapusher"
+  tags:
+    - skip_ansible_lint
 
-- name: Copy Datapusher site file
+- name: Ensure Datapusher configuration file directory exists
+  file:
+    path: "{{ datapusher_config_directory }}"
+    state: directory
+    owner: "{{ datapusher_user }}"
+    group: "{{ datapusher_group }}"
+
+- name: Copy Datapusher configururation file
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -36,19 +51,14 @@
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
   with_items:
-      - { src: datapusher.j2, dest: /etc/apache2/sites-available/datapusher.conf, mode: "0644", owner: root, group: root}
-      - { src: datapusher.wsgi.j2, dest: /etc/ckan/default/datapusher.wsgi, mode: "0640", owner: root, group: "{{ www_group }}" }
-      - { src: datapusher_settings.py.j2, dest: /etc/ckan/default/datapusher_settings.py, mode: "0640", owner: root, group: "{{ www_group }}" }
-
-- name: Enable Datapusher configuration
-  file:
-    src: /etc/apache2/sites-available/datapusher.conf
-    dest: /etc/apache2/sites-enabled/datapusher.conf
-    state: link
-    owner: root
-    group: root
-
-- name: Restart Apache
-  service:
-    name: apache2
-    state: restarted
+    - src: datapusher.wsgi.j2
+      dest: "{{ datapusher_config_directory }}/datapusher.wsgi"
+      mode: "0640"
+      owner: root
+      group: "{{ datapusher_group }}"
+    - src: datapusher_settings.py.j2
+      dest: "{{ datapusher_config_directory }}/datapusher_settings.py"
+      mode: "0640"
+      owner: root
+      group: "{{ datapusher_group }}"
+  notify: Restart Apache
