@@ -25,7 +25,7 @@ PORT = 8800
 #LOG_FILE = '/tmp/ckan_service.log'
 STDERR = True
 
-{% if deployment_environment_id == "vagrant" %}
+{% if datapusher_deployment_environment_id == "vagrant" %}
 SSL_VERIFY = 'False'
 {% endif %}
 

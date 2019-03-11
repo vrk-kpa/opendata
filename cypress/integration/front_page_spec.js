@@ -32,11 +32,10 @@ describe('Basic tests', function() {
 
 describe('Login page', function(){
   it('Logs in', function(){
-    cy.login('admin', 'admin');
+    cy.login('admin', 'administrator');
   })
   it('Logs out', function(){
-    cy.login_post_request('admin', 'admin');
+    cy.login_post_request('admin', 'administrator');
     cy.logout();
   })
 });
-
