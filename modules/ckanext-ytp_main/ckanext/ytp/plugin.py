@@ -1325,20 +1325,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
-def _get_user_image(user):
-    image_url = user.extras.get('image_url', None)
-    if not image_url:
-        return helpers.url_for_static('images/user_placeholder_box.png')
-    elif not image_url.startswith('http'):
-        return helpers.url_for_static('uploads/user/%s' % image_url, qualified=True)
-    return image_url
-
-
-def _user_image(user, size):
-    url = _get_user_image(user) or ""
-    return literal('<img src="%s" width="%s" height="%s" class="media-image" />' % (url, size, size))
-
-
 def helper_is_pseudo(user):
     """ Check if user is pseudo user """
     return user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]
@@ -1353,36 +1339,16 @@ def helper_linked_user(user, maxlength=0, avatar=20):
             return user_name
     if user:
         name = user.name if model.User.VALID_NAME.match(user.name) else user.id
-        icon = _user_image(user, avatar)
         displayname = user.display_name
         if maxlength and len(user.display_name) > maxlength:
             displayname = displayname[:maxlength] + '...'
-        return icon + u' ' + link_to(displayname,
-                                     helpers.url_for(controller='user', action='read', id=name), class_='')
+        return link_to(displayname, helpers.url_for(controller='user', action='read', id=name), class_='')
 
 
 def helper_organizations_for_select():
     organizations = [{'value': organization['id'],
                       'text': organization['display_name']} for organization in helpers.organizations_available()]
     return [{'value': '', 'text': ''}] + organizations
-
-
-def helper_main_organization(user=None):
-    user = user or c.userobj
-
-    if not user:
-        return None
-
-    main_organization = user.extras.get('main_organization', None)
-
-    if main_organization:
-        context = {'model': model, 'session': model.Session, 'user': c.user}
-        return toolkit.get_action('organization_show')(context, {'id': main_organization})
-    else:
-        if c.userobj.sysadmin:
-            return None  # Admin is part of all organization so main organization would be invalid every time.
-        available = helpers.organizations_available()
-        return available[0] if available else None
 
 
 class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -1406,8 +1372,7 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def get_helpers(self):
         return {'linked_user': helper_linked_user,
                 'organizations_for_select': helper_organizations_for_select,
-                'is_pseudo': helper_is_pseudo,
-                'main_organization': helper_main_organization}
+                'is_pseudo': helper_is_pseudo}
 
     def get_auth_functions(self):
         return {'user_update': plugin_logic.auth_user_update,
