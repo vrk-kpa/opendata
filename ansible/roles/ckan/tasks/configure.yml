@@ -1,0 +1,99 @@
+---
+- name: Copy credentials token
+  copy:
+    src: "{{ ckan_google_credentials }}"
+    dest: "{{ ckan_cache_path }}/token.dat"
+    mode: "0644"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  when: ckan_google_analytics
+
+- name: Configure logrotation for CKAN
+  copy:
+    dest: /etc/logrotate.d/ckan
+    content: "{{ ckan_logrotate_conf }}"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Setup CKAN configuration
+  template:
+    src: "ckan.ini.j2"
+    dest: "{{ item.file }}"
+    mode: "0640"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  with_items: "{{ ckan_config_files }}"
+  notify: Restart Apache
+
+- name: Setup Apache WSGI script
+  template:
+    src: "apache.wsgi.j2"
+    dest: "{{ item.file }}"
+    mode: "0640"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  with_items: "{{ ckan_wsgi_config_files }}"
+  notify: Restart Apache
+
+# Background services can block database update
+- name: Stop supervisor services
+  command: supervisorctl stop all
+  tags:
+    - skip_ansible_lint
+
+- name: re-minify CKAN javascript files
+  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
+  tags:
+    - skip_ansible_lint
+
+- include: database.yml
+
+- name: Execute SQL files
+  shell: set -o pipefail; cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
+  args:
+    executable: "/bin/bash"
+  become_user: postgres
+  become: true
+  with_items: "{{ ckan_sql_files_to_execute }}"
+  when: ckan_postgres_installed_locally
+
+- name: Execute SQL files
+  shell: >-
+    set -o pipefail; cat /tmp/{{ item }} |
+    psql -d datastore_default -h "{{ ckan_postgres.server.host }}" -U "{{ ckan_postgres_admin_user }}"
+    --set ON_ERROR_STOP=1
+  args:
+    executable: "/bin/bash"
+  with_items: "{{ ckan_sql_files_to_execute }}"
+  environment:
+    PGPASSWORD: "{{ ckan_postgres_admin_password }}"
+  when: not ckan_postgres_installed_locally
+
+- name: Add facet translations
+  command: >-
+    /usr/lib/ckan/default/bin/paster
+    --plugin=ckanext-ytp_main ytp-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
+    -c /etc/ckan/default/production.ini
+  tags:
+    - skip_ansible_lint
+
+- name: Copy supervisor configuration
+  template:
+    src: "supervisor.conf.j2"
+    dest: "/etc/supervisor/conf.d/ytp.conf"
+    mode: "0644"
+    owner: root
+    group: root
+  register: supervisor_configuration
+  notify:
+    - Restart supervisor services
+
+- name: Ensure supervisor services
+  supervisorctl:
+    name: "{{ item }}"
+    state: present
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"
+
+- include: cron.yml

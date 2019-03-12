@@ -24,7 +24,6 @@
       - graphviz
       - graphviz-dev
     state: present
-  when: ckan_profiling_enabled
 
 - name: Ensure cache path
   file:
@@ -45,15 +44,6 @@
 - include: extension.yml
   with_items: "{{ ckan_extensions }}"
 
-- name: Copy credentials token
-  copy:
-    src: "{{ ckan_google_credentials }}"
-    dest: "{{ ckan_cache_path }}/token.dat"
-    mode: "0644"
-    owner: root
-    group: "{{ ckan_www_group }}"
-  when: ckan_google_analytics
-
 - name: Ensure log path exists
   file:
     path: "{{ ckan_log_path }}"
@@ -70,14 +60,6 @@
     group: "{{ ckan_www_group }}"
     mode: 0640
   with_items: "{{ ckan_log_files }}"
-
-- name: Configure logrotation for CKAN
-  copy:
-    dest: /etc/logrotate.d/ckan
-    content: "{{ ckan_logrotate_conf }}"
-    mode: 0644
-    owner: root
-    group: root
 
 - name: Install CKAN
   pip:
@@ -100,7 +82,6 @@
   pip:
     name: "git+http://github.com/vrk-kpa/linesman#egg=linesman"
     virtualenv: "{{ ckan_virtual_environment }}"
-  when: ckan_profiling_enabled
 
 - name: Copy override requirements
   copy:
@@ -137,26 +118,6 @@
     - "{{ ckan_source_path }}/ckan/public/base/i18n"
     - "{{ ckan_resource_cache_path }}"
 
-- name: Setup CKAN configuration
-  template:
-    src: "ckan.ini.j2"
-    dest: "{{ item.file }}"
-    mode: "0640"
-    owner: root
-    group: "{{ ckan_www_group }}"
-  with_items: "{{ ckan_config_files }}"
-  notify: Restart Apache
-
-- name: Setup Apache WSGI script
-  template:
-    src: "apache.wsgi.j2"
-    dest: "{{ item.file }}"
-    mode: "0640"
-    owner: root
-    group: "{{ ckan_www_group }}"
-  with_items: "{{ ckan_wsgi_config_files }}"
-  notify: Restart Apache
-
 - name: Install python packages to support SNI in requests
   pip:
     name:
@@ -182,17 +143,6 @@
     owner: root
     group: root
 
-# Background services can block database update
-- name: Stop supervisor services
-  command: supervisorctl stop all
-  tags:
-    - skip_ansible_lint
-
-- name: re-minify CKAN javascript files
-  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
-  tags:
-    - skip_ansible_lint
-
 - name: Copy data structures for CKAN UI options
   copy:
     src: "{{ item }}"
@@ -203,8 +153,6 @@
   register: copy_ckan_ui_data
   with_fileglob: files/datastructures/*
 
-- include: database.yml
-
 - name: Copy SQL files
   template:
     src: "{{ item }}"
@@ -214,45 +162,7 @@
     mode: "0644"
   with_items: "{{ ckan_sql_files_to_execute }}"
 
-- name: Execute SQL files
-  shell: set -o pipefail; cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
-  args:
-    executable: "/bin/bash"
-  become_user: postgres
-  become: true
-  with_items: "{{ ckan_sql_files_to_execute }}"
-  when: ckan_postgres_installed_locally
+- import_tasks: translations.yml
 
-- name: Execute SQL files
-  shell: >-
-    set -o pipefail; cat /tmp/{{ item }} |
-    psql -d datastore_default -h "{{ ckan_postgres.server.host }}" -U "{{ ckan_postgres_admin_user }}"
-    --set ON_ERROR_STOP=1
-  args:
-    executable: "/bin/bash"
-  with_items: "{{ ckan_sql_files_to_execute }}"
-  environment:
-    PGPASSWORD: "{{ ckan_postgres_admin_password }}"
-  when: not ckan_postgres_installed_locally
-
-- include: translations.yml
-
-- name: Copy supervisor configuration
-  template:
-    src: "supervisor.conf.j2"
-    dest: "/etc/supervisor/conf.d/ytp.conf"
-    mode: "0644"
-    owner: root
-    group: root
-  register: supervisor_configuration
-  notify:
-    - Restart supervisor services
-
-- name: Ensure supervisor services
-  supervisorctl:
-    name: "{{ item }}"
-    state: present
-  with_flattened:
-    - "{{ ckan_supervisor_services }}"
-
-- include: cron.yml
+- import_tasks: configure.yml
+  tags: configure
