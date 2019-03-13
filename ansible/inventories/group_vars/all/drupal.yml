@@ -34,3 +34,7 @@ drupal_google_analytics: "{{ google_analytics }}"
 drupal_server_path: /srv/ytp
 
 drupal_deployment_environment_id: "{{ deployment_environment_id }}"
+
+drupal_disqus_name: "{{ disqus_name }}"
+drupal_recaptcha_public_key: "{{ recaptcha_public_key }}"
+drupal_recaptcha_private_key: "{{ recaptcha_private_key }}"
