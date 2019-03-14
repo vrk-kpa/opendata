@@ -11,7 +11,8 @@ from ckan.controllers.user import UserController
 from ckan.lib import helpers as h
 
 from ckan.lib.base import abort, render
-from ckan.logic import get_action, NotFound, NotAuthorized, check_access, clean_dict, tuplize_dict, parse_params, ValidationError
+from ckan.logic import get_action, NotFound, NotAuthorized, \
+    check_access, clean_dict, tuplize_dict, parse_params, ValidationError
 from paste.deploy.converters import asbool
 from pylons import config
 import ckan.authz as authz
@@ -35,7 +36,7 @@ CONTENT_TYPES = {
     'text': 'text/plain;charset=utf-8',
     'html': 'text/html;charset=utf-8',
     'json': 'application/json;charset=utf-8',
-    }
+}
 
 
 class YtpDatasetController(PackageController):

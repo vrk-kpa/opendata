@@ -84,7 +84,10 @@ class YtpCommentsPlugin(plugins.SingletonPlugin, DefaultTranslation):
         map.connect('organization_comment_subscribe', '/organization/{organization_id}/subscription/add',
                     controller=controller, action='subscribe', subscribe=True)
         map.connect('organization_comment_unsubscribe',
-                    '/organization/{organization_id}/subscription/remove', controller=controller, action='subscribe', subscribe=False)
+                    '/organization/{organization_id}/subscription/remove',
+                    controller=controller,
+                    action='subscribe',
+                    subscribe=False)
         return map
 
     def _get_comment_thread(self, dataset_name):

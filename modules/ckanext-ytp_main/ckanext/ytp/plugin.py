@@ -36,7 +36,8 @@ from webhelpers.html.tags import link_to
 import auth
 import menu
 
-from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
+from converters import to_list_json, from_json_list, is_url, \
+     convert_to_tags_string, string_join, date_validator, simple_date_validate
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -280,9 +281,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
                   controller=controller,
                   conditions=dict(method=['GET']))
-        m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
-        # m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
-        # m.connect('new_resource', '/dataset/new_resource/{id}', action='new_resource', controller=controller, ckan_icon='new')
+        m.connect('/dataset/new_metadata/{id}', action='new_metadata',
+                  controller=controller)  # override metadata step at new package
+        # m.connect('dataset_edit', '/dataset/edit/{id}',
+        # action='edit', controller=controller, ckan_icon='edit')
+        # m.connect('new_resource', '/dataset/new_resource/{id}',
+        # action='new_resource', controller=controller, ckan_icon='new')
         m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
                   controller=controller, ckan_icon='edit')
 
@@ -375,7 +379,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
         schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
-        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
+        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')
+                                        ('content_type'), string_join, ignore_missing]})
         schema.update({'owner': [convert_from_extras, ignore_missing]})
 
         schema = add_translation_show_schema(schema)
@@ -392,7 +397,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def _get_collection_type(self):
         """Gets the type of collection (Open Data, Interoperability Tools, or Public Services).
 
-        This method can be used to identify which collection the user is currently looking at or editing, i.e., which page the user is on.
+        This method can be used to identify which collection the user is currently looking at or editing,
+        i.e., which page the user is on.
         """
         collection_type = request.params.get('collection_type', None)
         if not collection_type and c.pkg_dict and 'collection_type' in c.pkg_dict:
@@ -849,7 +855,8 @@ def _user_has_organization(username):
     user = model.User.get(username)
     if not user:
         raise NotFound("Failed to find user")
-    query = model.Session.query(model.Member).filter(model.Member.table_name == 'user').filter(model.Member.table_id == user.id)
+    query = model.Session.query(model.Member).filter(model.Member.table_name ==
+                                                     'user').filter(model.Member.table_id == user.id)
     return query.count() > 0
 
 
@@ -1159,12 +1166,18 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     # TODO: We should use named routes instead
     _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
-                 (['/dashboard/organizations', '/%(language)s/dashboard/organizations'], menu.UserMenu, menu.MyOrganizationMenu),
+                 (['/dashboard/organizations',
+                  '/%(language)s/dashboard/organizations'],
+                  menu.UserMenu,
+                  menu.MyOrganizationMenu),
                  (['/dashboard/datasets', '/%(language)s/dashboard/datasets'], menu.UserMenu, menu.MyDatasetsMenu),
                  (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
                  (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
                   menu.UserMenu, menu.MyPersonalDataMenu),
-                 (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
+                 (['/user/activity/%(username)s',
+                  '/%(language)s/user/activity/%(username)s'],
+                  menu.UserMenu,
+                  menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
                  (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
