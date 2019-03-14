@@ -148,7 +148,8 @@ def migrate(ctx, config, dryrun):
         }
 
         if old_package_dict.get('tags'):
-            patch['keywords'] = {'fi': [tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None]}
+            patch['keywords'] = {'fi': [tag['name']
+                                        for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None]}
 
         if old_package_dict.get('content_type'):
             patch['content_type'] = {'fi': [s for s in old_package_dict.get('content_type', "").split(',') if s]}

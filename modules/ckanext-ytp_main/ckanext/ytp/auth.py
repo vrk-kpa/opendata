@@ -65,7 +65,8 @@ def related_create(context, data_dict):
 
 
 def _check_public_adminstration_flag(context, data_dict):
-    public_adminstration_organization = (data_dict.get('public_adminstration_organization', None) if data_dict else None) == 'true'
+    public_adminstration_organization = (data_dict.get(
+        'public_adminstration_organization', None) if data_dict else None) == 'true'
     if public_adminstration_organization and not c.userobj.sysadmin:
         return {'success': False, 'msg': _('User %s not authorized to create public organizations') % context['user']}
     return None
@@ -90,14 +91,17 @@ def organization_create(context, data_dict):
     # Check that user has admin permissions in selected parent organizations
     if data_dict and data_dict.get('groups'):
 
-        admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
-            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
+        admin_in_orgs = (model.Session.query(model.Member).filter(model.Member.state == 'active')
+                                                          .filter(model.Member.table_name == 'user')
+                                                          .filter(model.Member.capacity == 'admin')
+                                                          .filter(model.Member.table_id == c.userobj.id))
 
         for group in data_dict['groups']:
             if any(group['name'] == admin_org.group.name for admin_org in admin_in_orgs):
                 break
             else:
-                return {'success': False, 'msg': _('User %s is not administrator in the selected parent organization') % context['user']}
+                return {'success': False,
+                        'msg': _('User %s is not administrator in the selected parent organization') % context['user']}
 
     check = _check_public_adminstration_flag(context, data_dict)
     if check:
@@ -122,9 +126,9 @@ def package_update(context, data_dict):
         personal_datasets = 'personal_datasets' in org.extras.get('features', [])
         if personal_datasets and package.creator_user_id != user.id:
             result = {
-                    'success': False,
-                    'msg': _('Cannot modify dataset because of organization policy')
-                    }
+                'success': False,
+                'msg': _('Cannot modify dataset because of organization policy')
+            }
 
     return result
 

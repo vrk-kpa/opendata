@@ -155,7 +155,8 @@ def action_user_show(context, data_dict):
     user_dict['activity'] = revisions_list
 
     user_dict['datasets'] = []
-    dataset_q = model.Session.query(model.Package).join(model.PackageRole).filter_by(user=user_obj, role=model.Role.ADMIN).limit(50)
+    dataset_q = model.Session.query(model.Package).join(
+        model.PackageRole).filter_by(user=user_obj, role=model.Role.ADMIN).limit(50)
 
     for dataset in dataset_q:
         try:
@@ -277,7 +278,8 @@ def action_user_update(context, data_dict):
     if user_obj is None:
         raise NotFound('User was not found.')
 
-    # If the translations are not in the data_dict, the user has not added any translations or the user has deleted all translations.
+    # If the translations are not in the data_dict,
+    # the user has not added any translations or the user has deleted all translations.
     # Therefore, the translations are not sent with the POST so we need to empty and update the translations here.
     if 'translations' not in data_dict:
         data_dict['translations'] = []
@@ -365,7 +367,7 @@ def action_user_list(context, data_dict):
                     _and_(
                         model.Package.creator_user_id == model.User.id,
                         model.Package.state == 'active',
-                        model.Package.private == False, # noqa
+                        model.Package.private == False,  # noqa
                         )).label('number_created_packages')
         )
     else:
@@ -381,7 +383,7 @@ def action_user_list(context, data_dict):
     else:
         query = query.order_by(
             _case([(
-                _or_(model.User.fullname == None, # noqa
+                _or_(model.User.fullname == None,  # noqa
                      model.User.fullname == ''),
                 model.User.name)],
                 else_=model.User.fullname))

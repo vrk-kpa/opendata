@@ -124,7 +124,7 @@ def tags_import(data):
     # Update tags of meta dataset
     get_action('package_update')(context, {'id': args['meta_name'],
                                            'tags': map((lambda tag: {'name': tag}), topic_tags),
-                                           'content_type': reduce((lambda combined, next: combined + ',' + next), contenttype_tags),
+                                           'content_type': reduce((lambda combined, next: combined + ',' + next), contenttype_tags),  # noqa: E501
                                            'license_id': ' ',
                                            'notes': ' ',
                                            'collection_type': ' ',
