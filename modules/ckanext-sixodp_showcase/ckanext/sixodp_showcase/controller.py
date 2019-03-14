@@ -120,7 +120,8 @@ class Sixodp_ShowcaseController(ShowcaseController):
 
         def remove_field(key, value=None, replace=None):
             return h.remove_url_param(key, value=value, replace=replace,
-                                      controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search')
+                                      controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController',
+                                      action='search')
 
         c.remove_field = remove_field
 
