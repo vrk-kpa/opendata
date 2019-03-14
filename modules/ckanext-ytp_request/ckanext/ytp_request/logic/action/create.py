@@ -41,8 +41,10 @@ def _create_member_request(context, data_dict):
 
     userobj = model.User.get(user)
 
-    member = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == userobj.id) \
-        .filter(model.Member.group_id == group.id).first()
+    member = (model.Session.query(model.Member)
+                           .filter(model.Member.table_name == "user")
+                           .filter(model.Member.table_id == userobj.id)
+                           .filter(model.Member.group_id == group.id).first())
 
     # If there is a member for this organization and it is NOT deleted. Reuse
     # existing if deleted
@@ -106,6 +108,6 @@ def _get_organization_admins(group_id):
 
 
 def _get_ckan_admins():
-    admins = set(model.Session.query(model.User).filter(model.User.sysadmin == True).filter(model.User.state=='active'))  # noqa
+    admins = set(model.Session.query(model.User).filter(model.User.sysadmin == True).filter(model.User.state == 'active'))  # noqa
 
     return admins

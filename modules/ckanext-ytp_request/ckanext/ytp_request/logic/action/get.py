@@ -190,9 +190,11 @@ def organization_list_without_memberships(context, data_dict):
         .filter(model.Group.id == model.Member.group_id)\
         .filter(model.Member.state.in_(['active', 'pending'])) \
         .distinct(model.Group.id) \
-        .filter(model.Group.is_organization == True) # noqa
+        .filter(model.Group.is_organization == True)  # noqa
 
     groups = model.Session.query(model.Group) \
         .filter(model.Group.id.notin_(subquery)).all()
 
-    return model_dictize.group_list_dictize(groups, context, with_package_counts=asbool(data_dict.get('include_dataset_count')))
+    return model_dictize.group_list_dictize(groups,
+                                            context,
+                                            with_package_counts=asbool(data_dict.get('include_dataset_count')))
