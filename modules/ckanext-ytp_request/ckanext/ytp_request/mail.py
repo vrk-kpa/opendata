@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 def _SUBJECT_MEMBERSHIP_REQUEST():
     return _(
-            "New membership request (%(organization)s)")
+        "New membership request (%(organization)s)")
 
 
 def _MESSAGE_MEMBERSHIP_REQUEST():
@@ -27,7 +27,7 @@ avoindata@vrk.fi
 
 def _SUBJECT_MEMBERSHIP_APPROVED():
     return _(
-            "Organization membership approved (%(organization)s)")
+        "Organization membership approved (%(organization)s)")
 
 
 def _MESSAGE_MEMBERSHIP_APPROVED():
@@ -43,7 +43,7 @@ avoindata@vrk.fi
 
 def _SUBJECT_MEMBERSHIP_REJECTED():
     return _(
-            "Organization membership rejected (%(organization)s)")
+        "Organization membership rejected (%(organization)s)")
 
 
 def _MESSAGE_MEMBERSHIP_REJECTED():

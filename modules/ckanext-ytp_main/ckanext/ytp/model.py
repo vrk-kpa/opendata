@@ -42,7 +42,8 @@ def _create_extra(key, value):
 meta.mapper(UserExtra, user_extra_table,
             properties={'user': orm.relation(user.User,
                                              backref=orm.backref('_extras',
-                                                                 collection_class=orm.collections.attribute_mapped_collection(u'key'),
+                                                                 collection_class=orm.collections.attribute_mapped_collection(
+                                                                     u'key'),
                                                                  cascade='all, delete, delete-orphan'))},
             order_by=[user_extra_table.c.user_id, user_extra_table.c.key])
 
