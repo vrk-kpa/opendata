@@ -41,18 +41,22 @@ function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
  * Returns a number of HTML table rows based on the list of datasets given as parameter.
  */
 function create_dataset_table_rows($dataset_list, $date_type) {
-
+  $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  
   $resultHTML = '';
-  $field_for_date = 'metadata_created';
-  if ($date_type != null) {
-    $field_for_date = $date_type;
-  }
+  $field_for_date = ($date_type ? $date_type : 'metadata_created');
+
   if (count($dataset_list) > 0) {
     foreach ($dataset_list as $dataset) {
       $created_date = date('d.m.Y', strtotime($dataset[$field_for_date]));
+      $translated_title = (
+        $dataset['title_translated'][$currentLang]
+          ? $dataset['title_translated'][$currentLang]
+          : $dataset['title_translated']['fi']
+      );
       $resultHTML .= <<<EOT
       <tr>
-        <td><a href="/data/fi/dataset/{$dataset['name']}"> {$dataset['title_translated']['fi']} </a></td>
+        <td><a href="/data/fi/dataset/{$dataset['name']}"> {$translated_title} </a></td>
         <td>{$dataset['owner']}</td>
         <td>{$created_date}</td>
       </tr>
@@ -68,7 +72,9 @@ EOT;
 function avoindata_recent_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $recentDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5');
+    $recentDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5'
+    );
     $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
     $recentDatasets = $recentDatasetsResult['result']['results'];
   }
@@ -88,7 +94,9 @@ function avoindata_recent_datasets() {
 function avoindata_new_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $newDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5');
+    $newDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5'
+    );
     $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
     $newDatasets = $newDatasetsResult['result']['results'];
   }
@@ -108,7 +116,9 @@ function avoindata_new_datasets() {
 function avoindata_popular_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $popularDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5');
+    $popularDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5'
+    );
     $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
     $popularDatasets = $popularDatasetsResult['result']['results'];
   }
