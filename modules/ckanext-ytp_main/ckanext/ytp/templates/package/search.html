@@ -103,6 +103,15 @@
 
 {% block secondary_content %}
   {% for facet in c.facet_titles %}
-    {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+    {% set title = c.facet_titles[facet] or h.get_facet_title(name) %}
+    {% if (title == 'Sisältötyyppi' or title == "Content Type") %}
+      {% for item in items or h.get_facet_items_dict('collection_type') %}
+        {% if (item.name == 'Interoperability Tools' and item.active == True) %}
+          {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+    {% endif %}
   {% endfor %}
 {% endblock %}

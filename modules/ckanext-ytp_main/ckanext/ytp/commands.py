@@ -96,17 +96,17 @@ ytp_dataset_group = paster_click_group(
 def migrate_author_email(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     package_patches = []
-    
+
     for old_package_dict in package_generator('*:*', 1000):
-         if old_package_dict.get('author_email') is None:
+        if old_package_dict.get('author_email') is None:
             patch = {'id': old_package_dict['id'], 'author_email': ''}
             package_patches.append(patch)
-    
+
     if dryrun:
         print '\n'.join('%s' % p for p in package_patches)
     else:
         # No resources patches so empty parameter is passed
-        apply_patches(package_patches, []) 
+        apply_patches(package_patches, [])
 
 
 @ytp_dataset_group.command(
@@ -148,7 +148,8 @@ def migrate(ctx, config, dryrun):
         }
 
         if old_package_dict.get('tags'):
-            patch['keywords'] = {'fi': [tag['name'] for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None]}
+            patch['keywords'] = {'fi': [tag['name']
+                                        for tag in old_package_dict.get('tags', []) if tag['vocabulary_id'] is None]}
 
         if old_package_dict.get('content_type'):
             patch['content_type'] = {'fi': [s for s in old_package_dict.get('content_type', "").split(',') if s]}
@@ -171,15 +172,15 @@ def migrate(ctx, config, dryrun):
                 original_language: resource.get('description', '') or ''
             }
             if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
-                    resource['temporal_granularity'] = {
-                        original_language: resource.get('temporal_granularity')
-                    }
+                resource['temporal_granularity'] = {
+                    original_language: resource.get('temporal_granularity')
+                }
             else:
                 del resource['temporal_granularity']
             if resource.get('update_frequency') and type(resource.get('update_frequency')) is not dict:
-                    resource['update_frequency'] = {
-                        original_language: resource.get('update_frequency')
-                    }
+                resource['update_frequency'] = {
+                    original_language: resource.get('update_frequency')
+                }
             else:
                 del resource['update_frequency']
 
@@ -198,6 +199,7 @@ def migrate(ctx, config, dryrun):
         print '\n'.join('%s' % p for p in resource_patches)
     else:
         apply_patches(package_patches, resource_patches)
+
 
 @ytp_dataset_group.command(
     u'migrate_high_value_datasets',
