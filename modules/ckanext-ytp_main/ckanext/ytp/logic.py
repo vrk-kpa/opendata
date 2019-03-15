@@ -1,25 +1,10 @@
 from ckan import logic
-from ckan.plugins import toolkit
-from ckan.logic import auth, NotFound, ValidationError, side_effect_free
 from ckan.common import _
-from ckan.lib.navl.dictization_functions import validate
-from ckan.lib.dictization import model_save, model_dictize
-from ckan.lib.dictization.model_dictize import user_dictize
-from ckan.lib import uploader, munge, helpers
 from ckan.common import c
-from ckan.plugins.core import get_plugin
-from ckan.plugins.toolkit import config
 
-import requests
-import json
 import logging
 import sqlalchemy
 import sqlalchemy.sql
-from ckanext.ytp.converters import to_list_json
-from ckanext.ytp.tools import add_languages_modify, add_translation_modify_schema
-
-from paste.deploy.converters import asbool
-
 
 _select = sqlalchemy.sql.select
 _or_ = sqlalchemy.or_
@@ -84,4 +69,3 @@ def auth_admin_list(context, data_dict):
     if not c.user:
         return {'success': False, 'msg': _('Have to be logged in to list admins')}
     return {'success': True}
-
