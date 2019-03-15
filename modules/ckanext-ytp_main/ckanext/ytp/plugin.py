@@ -1390,7 +1390,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 'admin_list': plugin_logic.auth_admin_list}
 
 
-
 class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IAuthFunctions)
 

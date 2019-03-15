@@ -1,6 +1,7 @@
 from ckan import logic
 from ckan.common import _
 from ckan.common import c
+from ckan.logic import auth
 
 import logging
 import sqlalchemy
