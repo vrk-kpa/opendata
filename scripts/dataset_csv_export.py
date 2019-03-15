@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import requests
-import json
 import csv
 import sys
 from optparse import OptionParser
@@ -21,7 +20,7 @@ SOLR_Q = "extras_collection_type:Interoperability+Tools"
 def json_get(url, headers={}):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return json.loads(response.content.decode('utf-8'))
+        return response.json()
     else:
         raise Exception("Got error from API: %s", response.text)
 
