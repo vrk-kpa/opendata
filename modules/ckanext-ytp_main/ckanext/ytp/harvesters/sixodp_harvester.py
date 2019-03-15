@@ -19,32 +19,32 @@ log = logging.getLogger(__name__)
 
 
 DATETIME_FORMATS = [
-        '%Y-%m-%dT%H:%M:%S.%f%z',
-        '%Y-%m-%dT%H:%M:%S.%f',
-        '%Y-%m-%dT%H:%M:%S%z',
-        '%Y-%m-%dT%H:%M:%S',
-        '%Y-%m-%dT%H:%M',
-        '%Y-%m-%dT%H',
-        '%Y-%m-%d',
-        '%Y-%m',
-        '%Y',
-        '%d/%m/%Y',
-        ]
+    '%Y-%m-%dT%H:%M:%S.%f%z',
+    '%Y-%m-%dT%H:%M:%S.%f',
+    '%Y-%m-%dT%H:%M:%S%z',
+    '%Y-%m-%dT%H:%M:%S',
+    '%Y-%m-%dT%H:%M',
+    '%Y-%m-%dT%H',
+    '%Y-%m-%d',
+    '%Y-%m',
+    '%Y',
+    '%d/%m/%Y',
+]
 
 GROUP_MAP = {
-        'asuminen': ['asuminen'],
-        'hallinto-ja-paatoksenteko': ['hallinto-ja-paatoksenteko'],
-        'kartat': ['kartat'],
-        'kulttuuri-ja-vapaa-aika': ['kulttuuri-ja-vapaa-aika'],
-        'liikenne-ja-matkailu': ['liikenne-ja-matkailu'],
-        'opetus-ja-koulutus': ['opetus-ja-koulutus'],
-        'rakennettu-ymparisto': ['rakennettu-ymparisto'],
-        'talous-ja-verotus': ['talous-ja-verotus'],
-        'terveys-ja-sosiaalipalvelut': ['terveys-ja-sosiaalipalvelut'],
-        'tyo-ja-elinkeinot': ['tyo-ja-elinkeinot'],
-        'vaesto': ['vaesto'],
-        'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
-        }
+    'asuminen': ['asuminen'],
+    'hallinto-ja-paatoksenteko': ['hallinto-ja-paatoksenteko'],
+    'kartat': ['kartat'],
+    'kulttuuri-ja-vapaa-aika': ['kulttuuri-ja-vapaa-aika'],
+    'liikenne-ja-matkailu': ['liikenne-ja-matkailu'],
+    'opetus-ja-koulutus': ['opetus-ja-koulutus'],
+    'rakennettu-ymparisto': ['rakennettu-ymparisto'],
+    'talous-ja-verotus': ['talous-ja-verotus'],
+    'terveys-ja-sosiaalipalvelut': ['terveys-ja-sosiaalipalvelut'],
+    'tyo-ja-elinkeinot': ['tyo-ja-elinkeinot'],
+    'vaesto': ['vaesto'],
+    'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
+}
 
 
 def parse_datetime(datetime_string):
@@ -104,6 +104,7 @@ def sixodp_to_opendata_postprocess(package_dict):
                 isodate(time_series_end, {})
             except Invalid:
                 resource.pop('time_series_end')
+
 
 def sixodp_organization_to_opendata_organization(organization_dict):
     organization_dict['title_translated'] = {'fi': organization_dict['title']}
@@ -348,7 +349,7 @@ class SixodpHarvester(HarvesterBase):
         if delete_missing:
             received_ids = set(unicode(p['id']) for p in pkg_dicts)
             existing_ids = set(row[0] for row in model.Session.query(HarvestObject.guid)
-                               .filter(HarvestObject.current == True) # noqa
+                               .filter(HarvestObject.current == True)  # noqa
                                .filter(HarvestObject.harvest_source_id == harvest_job.source_id))
             deleted_ids = existing_ids - received_ids
 

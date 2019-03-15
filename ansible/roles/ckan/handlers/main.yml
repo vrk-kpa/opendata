@@ -3,23 +3,9 @@
 - name: Restart Apache
   service: name=apache2 state=restarted
 
-- name: Restart Gather
-  supervisorctl: name=ckan_gather_consumer state=restarted
-
-- name: Restart Fetch
-  supervisorctl: name=ckan_fetch_consumer state=restarted
-
-- name: Restart Celery (default queue)
-  supervisorctl: name=celery_celery state=restarted
-
-- name: Restart Celery (bulk queue)
-  supervisorctl: name=celery_bulk state=restarted
-
-- name: Restart Celery (priority queue)
-  supervisorctl: name=celery_priority state=restarted
-
-- name: Restart Celerybeat
-  supervisorctl: name=celerybeat state=restarted
-
-- name: Restart Nginx
-  service: name=nginx state=restarted
+- name: Restart supervisor services
+  supervisorctl:
+    name: "{{ item }}"
+    state: restarted
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"

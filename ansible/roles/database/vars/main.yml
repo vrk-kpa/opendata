@@ -1,4 +1,0 @@
----
-
-sql_files_to_execute:
-  - datastore_permissions.sql

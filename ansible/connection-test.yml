@@ -1,6 +1,0 @@
----
-
-- hosts: all
-  tasks:
-  - name: Test connection for Ansible
-    debug: msg="{{ inventory_hostname }} has internal hostname {{ ansible_hostname }}"

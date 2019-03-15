@@ -161,22 +161,14 @@
   remote_user: "{{ lookup('env','AWS_EC2_USER') }}"
   become: True
   gather_facts: True
-  vars:
-    vagrant: false
-    secrets_file_path: does_not_exist
-    deployment_environment_id: build_test
-    disqus_name: ""
-    ssl_path: /etc/ssl
-    database_host: "127.0.0.1"
-    solr_host: "127.0.0.1"
-    database_ip_range: "127.0.0.1/8"
-  vars_files:
-    - "vars/common.yml"
-    - ["vars/environment-specific/{{ deployment_environment_id }}.yml", "vars/none.yml"]
-    - ["{{ secrets_file_path }}", "vars/none.yml"]
-    - ["vars/local.yml", "vars/none.yml"]
 
   tasks:
+
+  - name: Include variables
+    include_vars: "{{ item }}"
+    with_fileglob:
+      - "{{ playbook_dir }}/inventories/group_vars/all/*"
+      - "{{ playbook_dir }}/inventories/group_vars/build_test/*"
 
   - name: Set pass_status to default value
     set_fact:
@@ -189,41 +181,25 @@
       - import_role:
           name: common
       - import_role:
-          name: users
+          name: postgres
       - import_role:
-          name: clean
+          name: opendata_frontend
       - import_role:
-          name: database
-      - import_role:
-          name: common_webserver
-      - import_role:
-          name: ssl
-      - import_role:
-          name: nginx
-      - import_role:
-          name: postfix
-      - import_role:
-          name: jetty
+          name: solr
       - import_role:
           name: redis
       - import_role:
-          name: ckan-extensions
+          name: apache
       - import_role:
           name: ckan
       - import_role:
-          name: ckan-config
+          name: php
       - import_role:
-          name: ckan-database
+          name: composer
       - import_role:
-          name: ckan-data
-      - import_role:
-          name: ckan-restart
+          name: nginx
       - import_role:
           name: drupal
-      - import_role:
-          name: clamav
-      - import_role:
-          name: data
       - import_role:
           name: datapusher
 

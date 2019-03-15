@@ -1,0 +1,40 @@
+drupal_database_server: "{{ postgres_host }}"
+drupal_database_port: "{{ postgres_port }}"
+drupal_database_name: "drupal8"
+drupal_database_username: "drupal8"
+drupal_database_password: "{{ secret.database_drupal8_password }}"
+
+drupal_admin_username: "{{ admin.username }}"
+drupal_admin_password: "{{ admin.password }}"
+
+drupal_roles:
+  - { 'username': "{{ drupal_admin_username }}", 'role': "{{ drupal_ckan_admin_rolename }}" }
+  - { 'username': "test-editor", 'role': "{{ drupal_editor_rolename }}" }
+  - { 'username': "test-editor", 'role': "{{ drupal_ckan_admin_rolename }}" }
+  - { 'username': "test-publisher", 'role': "{{ drupal_publisher_rolename }}" }
+
+drupal_fqdn: "{{ hostname }}"
+drupal_domain: ""
+drupal_secondary_fqdn: "{{ secondary_hostname }}"
+drupal_secondary_domain: ""
+
+drupal_smtp_server_domain: "{{ smtp_server_domain }}"
+drupal_smtp_username: "{{ secret.smtp_user }}"
+drupal_smtp_password: "{{ secret.smtp_password }}"
+drupal_email_from: "{{ email_from }}"
+
+drupal_hash_salt: "{{secret.drupal_hash_salt}}"
+
+drupal_site_name: avoindata.fi
+drupal_initial_users: "{{ ytp_users }}"
+
+drupal_admin_email: "{{ admin_email }}"
+
+drupal_google_analytics: "{{ google_analytics }}"
+drupal_server_path: /srv/ytp
+
+drupal_deployment_environment_id: "{{ deployment_environment_id }}"
+
+drupal_disqus_name: "{{ disqus_name }}"
+drupal_recaptcha_public_key: "{{ recaptcha_public_key }}"
+drupal_recaptcha_private_key: "{{ recaptcha_private_key }}"

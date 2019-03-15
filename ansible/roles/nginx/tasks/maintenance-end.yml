@@ -1,6 +1,0 @@
----
-
-- name: End maintenance mode
-  file: path="/var/www/maintenance" state=absent
-  tags:
-  - maintenance

@@ -2,7 +2,7 @@ describe('Showcase tests', function() {
 
   beforeEach(function () {
     cy.reset_db();
-    cy.login_post_request('admin', 'admin')
+    cy.login_post_request('admin', 'administrator')
     cy.visit('/');
     // We're forcing the click since drupal toolbar obscures the link
     // and due to cypress-io/cypress#2302 the auto-scrolling does not work
@@ -55,4 +55,3 @@ describe('Showcase tests', function() {
     cy.get('a[href="/data/fi/showcase/new"]').should('not.exist');
   })
 })
-

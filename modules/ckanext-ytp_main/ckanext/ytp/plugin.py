@@ -17,32 +17,29 @@ from ckan.common import _, c, request, is_flask_request
 
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
-from ckan.lib.dictization import model_dictize
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
-from ckan.logic import NotFound, NotAuthorized, auth as ckan_auth, get_action
+from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config
-from ckanext.harvest.model import HarvestObject
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
 
 from paste.deploy.converters import asbool
-from sqlalchemy.sql.expression import or_
 from webhelpers.html import escape
 from webhelpers.html.builder import literal
 from webhelpers.html.tags import link_to
 
-import tools
 import auth
 import menu
 
-from converters import to_list_json, from_json_list, is_url, convert_to_tags_string, string_join, date_validator, simple_date_validate
+from converters import to_list_json, from_json_list, is_url, \
+     convert_to_tags_string, string_join, date_validator, simple_date_validate
 
-from helpers import extra_translation, render_date, get_dict_tree_from_json, service_database_enabled, get_json_value, \
+from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
@@ -127,7 +124,7 @@ def _escape(value):
 
 def _prettify(field_name):
     """ Taken from ckan.logic.ValidationError.error_summary """
-    field_name = re.sub('(?<!\w)[Uu]rl(?!\w)', 'URL', field_name.replace('_', ' ').capitalize())
+    field_name = re.sub('(?<!\\w)[Uu]rl(?!\\w)', 'URL', field_name.replace('_', ' ').capitalize())
     return _(field_name.replace('_', ' '))
 
 
@@ -284,9 +281,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
                   controller=controller,
                   conditions=dict(method=['GET']))
-        m.connect('/dataset/new_metadata/{id}', action='new_metadata', controller=controller)  # override metadata step at new package
-        # m.connect('dataset_edit', '/dataset/edit/{id}', action='edit', controller=controller, ckan_icon='edit')
-        # m.connect('new_resource', '/dataset/new_resource/{id}', action='new_resource', controller=controller, ckan_icon='new')
+        m.connect('/dataset/new_metadata/{id}', action='new_metadata',
+                  controller=controller)  # override metadata step at new package
+        # m.connect('dataset_edit', '/dataset/edit/{id}',
+        # action='edit', controller=controller, ckan_icon='edit')
+        # m.connect('new_resource', '/dataset/new_resource/{id}',
+        # action='new_resource', controller=controller, ckan_icon='new')
         m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
                   controller=controller, ckan_icon='edit')
 
@@ -379,7 +379,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         schema.update({'valid_till': [convert_from_extras, ignore_missing]})
         schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
         schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
-        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')('content_type'), string_join, ignore_missing]})
+        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')
+                                        ('content_type'), string_join, ignore_missing]})
         schema.update({'owner': [convert_from_extras, ignore_missing]})
 
         schema = add_translation_show_schema(schema)
@@ -396,7 +397,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def _get_collection_type(self):
         """Gets the type of collection (Open Data, Interoperability Tools, or Public Services).
 
-        This method can be used to identify which collection the user is currently looking at or editing, i.e., which page the user is on.
+        This method can be used to identify which collection the user is currently looking at or editing,
+        i.e., which page the user is on.
         """
         collection_type = request.params.get('collection_type', None)
         if not collection_type and c.pkg_dict and 'collection_type' in c.pkg_dict:
@@ -648,7 +650,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             # Add for each language
             for lang in languages:
                 if prop_value.get(lang):
-                    pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]] 
+                    pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
 
         if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
             pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
@@ -736,23 +738,23 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
-                    if extra['value'] == 'dataset':
-                        value = 'paikkatietoaineisto'
-                        package_dict['collection_type'] = 'Open Data'
-                    elif extra['value'] == 'series':
-                        value = 'paikkatietoaineistosarja'
-                        package_dict['collection_type'] = 'Open Data'
-                    elif extra['value'] == 'service':
-                        value = 'paikkatietopalvelu'
-                        package_dict['collection_type'] = 'Interoperability Tools'
+                if extra['value'] == 'dataset':
+                    value = 'paikkatietoaineisto'
+                    package_dict['collection_type'] = 'Open Data'
+                elif extra['value'] == 'series':
+                    value = 'paikkatietoaineistosarja'
+                    package_dict['collection_type'] = 'Open Data'
+                elif extra['value'] == 'service':
+                    value = 'paikkatietopalvelu'
+                    package_dict['collection_type'] = 'Interoperability Tools'
 
-                    else:
-                        continue
+                else:
+                    continue
 
-                    package_dict['content_type'] = {"fi": [value]}
-                    flattened = flatten_dict(package_dict)
-                    convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                    package_dict = unflatten(flattened)
+                package_dict['content_type'] = {"fi": [value]}
+                flattened = flatten_dict(package_dict)
+                convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
+                package_dict = unflatten(flattened)
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
@@ -853,7 +855,8 @@ def _user_has_organization(username):
     user = model.User.get(username)
     if not user:
         raise NotFound("Failed to find user")
-    query = model.Session.query(model.Member).filter(model.Member.table_name == 'user').filter(model.Member.table_id == user.id)
+    query = model.Session.query(model.Member).filter(model.Member.table_name ==
+                                                     'user').filter(model.Member.table_id == user.id)
     return query.count() > 0
 
 
@@ -1054,6 +1057,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             'admin_only_feature': validators.admin_only_feature
         }
 
+
 def convert_to_list(key, data):
     if isinstance(key, basestring):
         key = [key]
@@ -1162,12 +1166,18 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     # TODO: We should use named routes instead
     _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
-                 (['/dashboard/organizations', '/%(language)s/dashboard/organizations'], menu.UserMenu, menu.MyOrganizationMenu),
+                 (['/dashboard/organizations',
+                  '/%(language)s/dashboard/organizations'],
+                  menu.UserMenu,
+                  menu.MyOrganizationMenu),
                  (['/dashboard/datasets', '/%(language)s/dashboard/datasets'], menu.UserMenu, menu.MyDatasetsMenu),
                  (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
                  (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
                   menu.UserMenu, menu.MyPersonalDataMenu),
-                 (['/user/activity/%(username)s', '/%(language)s/user/activity/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
+                 (['/user/activity/%(username)s',
+                  '/%(language)s/user/activity/%(username)s'],
+                  menu.UserMenu,
+                  menu.MyInformationMenu),
                  (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
                  (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
                  (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
@@ -1209,7 +1219,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         self.default_domain = config.get("ckanext.ytp.default_domain")
         logos = config.get("ckanext.ytp.theme.logos")
         if logos:
-            self.logos = dict(item.split(":") for item in re.split("\s+", logos.strip()))
+            self.logos = dict(item.split(":") for item in re.split("\\s+", logos.strip()))
 
     # ITemplateHelpers #
 
@@ -1317,7 +1327,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             except UnicodeDecodeError:
                 path = path.decode('cp1252')
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            return re.sub(u'href="/(\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
+            return re.sub(u'href="/(\\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
         return result
 
     def get_helpers(self):
@@ -1382,11 +1392,11 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
 
 class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
-        plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IAuthFunctions)
 
-        def admin_only_for_categories(self, context, data_dict=None):
-            return {'success': False, 'msg': 'Only admins can create and edit new categories'}
+    def admin_only_for_categories(self, context, data_dict=None):
+        return {'success': False, 'msg': 'Only admins can create and edit new categories'}
 
-        def get_auth_functions(self):
-            return {'group_create': self.admin_only_for_categories,
-                    'group_update': self.admin_only_for_categories}
+    def get_auth_functions(self):
+        return {'group_create': self.admin_only_for_categories,
+                'group_update': self.admin_only_for_categories}

@@ -1,10 +1,10 @@
 [program:ckan_gather_consumer]
 
-command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
-user={{ harvester_user }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
+user={{ ckan_harvester_user }}
 numprocs=1
-stdout_logfile={{ log_path }}/gather_consumer.log
-stderr_logfile={{ log_path }}/gather_consumer.log
+stdout_logfile={{ ckan_log_path }}/gather_consumer.log
+stderr_logfile={{ ckan_log_path }}/gather_consumer.log
 autostart=true
 autorestart=true
 startsecs=10
@@ -12,11 +12,11 @@ startsecs=10
 
 [program:ckan_fetch_consumer]
 
-command=nice -n 20 {{ virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
-user={{ harvester_user }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
+user={{ ckan_harvester_user }}
 numprocs=1
-stdout_logfile={{ log_path }}/fetch_consumer.log
-stderr_logfile={{ log_path }}/fetch_consumer.log
+stdout_logfile={{ ckan_log_path }}/fetch_consumer.log
+stderr_logfile={{ ckan_log_path }}/fetch_consumer.log
 autostart=true
 autorestart=true
 startsecs=10
@@ -24,8 +24,8 @@ startsecs=10
 
 [program:ckan-worker-bulk]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckan jobs worker bulk --config=/etc/ckan/default/production.ini
-user={{ www_user }}
+command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker bulk --config=/etc/ckan/default/production.ini
+user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-bulk.log
 stderr_logfile=/var/log/ckan/ckan-worker-bulk.log
@@ -36,8 +36,8 @@ stopwaitsecs = 600
 
 [program:ckan-worker-priority]
 
-command={{ virtual_environment }}/bin/paster --plugin=ckan jobs worker priority --config=/etc/ckan/default/production.ini
-user={{ www_user }}
+command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker priority --config=/etc/ckan/default/production.ini
+user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-priority.log
 stderr_logfile=/var/log/ckan/ckan-worker-priority.log
