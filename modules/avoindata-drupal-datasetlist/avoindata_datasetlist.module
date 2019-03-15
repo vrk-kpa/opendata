@@ -38,11 +38,11 @@ function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Returns a number of HTML table rows based on the list of datasets given as parameter.
+ * Returns a number of HTML table rows based on the list of datasets given.
  */
 function create_dataset_table_rows($dataset_list, $date_type) {
   $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
-  
+
   $resultHTML = '';
   $field_for_date = ($date_type ? $date_type : 'metadata_created');
 
@@ -67,7 +67,7 @@ EOT;
 }
 
 /**
- * Gets most recent datasets from Ckan API and specifies that they won't be cached.
+ * Gets recent datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_recent_datasets() {
   $client = \Drupal::httpClient();
@@ -89,7 +89,7 @@ function avoindata_recent_datasets() {
 }
 
 /**
- * Gets new datasets from Ckan API and specifies that they won't be cached.
+ * Gets new datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_new_datasets() {
   $client = \Drupal::httpClient();
@@ -111,7 +111,7 @@ function avoindata_new_datasets() {
 }
 
 /**
- * Gets most popular datasets from Ckan API and specifies that they won't be cached.
+ * Gets popular datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_popular_datasets() {
   $client = \Drupal::httpClient();
