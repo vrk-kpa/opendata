@@ -1,54 +1,26 @@
 ---
-
-- name: Clear cache directory
-  file:
-    path: "{{ cache_path }}"
-    state: absent
-  when: clear_all_cache
+# tasks file for common
+- name: Check submodule status
+  delegate_to: localhost
+  become: false
+  shell: >
+    git submodule status --recursive| egrep '^[+-]' -c
+  args:
+    chdir: "{{ playbook_dir }}"
+  register: common_submodule_status
+  failed_when: common_submodule_status.rc > 1
+  changed_when: false
   tags:
-  - common
-  - clear-cache
+    - skip_ansible_lint
 
-- include: timezone.yml
-
-- name: Set hostname
-  hostname:
-    name: "{{ deployment_environment_id }}-web"
-  register: hostname_update
-  tags:
-  - common
-
-- name: Add hostname to /etc/hosts
-  lineinfile:
-    path: /etc/hosts
-    regexp: '^127\.0\.0\.1'
-    line: "127.0.0.1\tlocalhost {{ deployment_environment_id }}-web"
-    owner: root
-    group: root
-    mode: 0644
-    state: present
-    insertbefore: BOF
-  tags:
-  - common
-
-- name: Copy environment
-  template:
-    src: "environment.j2"
-    dest: "/etc/environment"
-    mode: "0644"
-    owner: root
-    group: root
-  tags:
-  - common
-
-- name: Remove reboots
-  cron:
-    name: "reboot"
-    state: absent
-  tags:
-  - non-local
-  - ckan
-  - cron
+- name: Pause if currently checked out submodule commit does not match repo
+  delegate_to: localhost
+  become: false
+  pause:
+    prompt: "{{ common_submodule_status.stdout }} modules have changed, continue?"
+  when:
+    - common_submodule_status.stdout > "0"
+    - not common_skip_submodule_check
 
 - name: Copy apt sources.list
   template:
@@ -57,93 +29,37 @@
     mode: "0644"
     owner: root
     group: root
-  when: apt_source_url != false
-  tags:
-  - packages
-  - common
-
-
-- name: Add NodeSource GPG key
-  apt_key:
-    data: "{{ lookup('file', 'nodesource.gpg.key') }}"
-  tags:
-   - packages
-   - common
-
-
-- name: Add NodeSource APT repository
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main'
-  tags:
-     - packages
-     - common
-
-- name: Remove old NodeSource APT repository
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_0.12 {{ ansible_distribution_release }} main'
-    state: absent
-  tags:
-     - packages
-     - common
+    backup: true
+  when: common_deployment_environment_id == "vagrant"
 
 - name: Update packages
   apt:
-    upgrade: dist
-    update_cache: yes
-  when: travis is not defined
-  tags:
-  - packages
-  - common
+    upgrade: "{{ common_apt_upgrade }}"
+    update_cache: true
 
-- name: sshd configuration file update
-  template:
-    src: sshd_config.j2
-    dest: "/etc/ssh/sshd_config"
-    mode: "0644"
+- name: Set hostname
+  hostname:
+    name: "{{ common_deployment_environment_id }}-web"
+
+- name: Add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1\tlocalhost {{ common_deployment_environment_id }}-web"
     owner: root
     group: root
-    backup: yes
-    validate: '/usr/sbin/sshd -T -f %s'
-  tags:
-  - non-local
-  - common
-  notify:
-  - restart sshd
+    mode: 0644
+    state: present
+    insertbefore: BOF
 
-- name: Ensure ansible requirements
-  apt:
-    pkg="{{ item }}"
-    state=latest
-  with_items:
-    - python-psycopg2
-    - python-virtualenv
-  tags:
-  - packages
-  - common
+- name: Set locale
+  lineinfile:
+    path: "/etc/environment"
+    line: "LC_ALL=en_US.utf8"
+    regexp: "^LC_ALL=.*"
 
-# TODO: Move this to roles where packages are used even those are duplicate
-- name: Ensure common packages
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
-    - libpq5
-    - git-core
-    - zip
-    - unzip
-    - gettext
-    - build-essential
-    - nodejs
-    - libcurl4-openssl-dev
-  tags:
-  - packages
-  - common
-
-# TODO: Move path creation where paths are used even those are duplicate
-- name: Create common paths
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items: "{{ all_paths }}"
-  tags:
-  - common
+# - name: Create common paths
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items: "{{ all_paths }}"

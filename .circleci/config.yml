@@ -51,31 +51,31 @@ jobs:
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "drupal8/composer.json" }}
+            - v1-dependencies-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           command: composer install -n --prefer-dist
-          working_directory: ~/project/drupal8/
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Ignore warnings on exit code
           command: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-          working_directory: ~/project/drupal8/
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Run codesniffer for drupal standard
-          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*,ytp-assets-common
-          working_directory: ~/project/drupal8/
+          command: ./vendor/bin/phpcs --standard=Drupal  ~/project/modules --ignore=ckanext*,ytp-assets-common
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Run codesniffer for drupal practice
-          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*,ytp-assets-common
-          working_directory: ~/project/drupal8/
+          command: ./vendor/bin/phpcs --standard=DrupalPractice  ~/project/modules --ignore=ckanext*,ytp-assets-common
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - save_cache:
-          key: composer-v1-{{ checksum "drupal8/composer.json" }}
+          key: composer-v1-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
           paths:
             - vendor
 
@@ -109,7 +109,7 @@ jobs:
       - run: git submodule update --init --recursive
 
       - run: sudo apt update && sudo apt install rsync
-      
+
       - run: sudo pip install ansible boto awscli
 
       - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
@@ -136,9 +136,9 @@ jobs:
 
       - run:
           name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/circleci_build_test.yml >>circleci_build_test.log 2>&1"
+          command: "ansible-playbook --skip-tags 'dependency_role' circleci_build_test.yml >>../circleci_build_test.log 2>&1"
           no_output_timeout: 60m
-          working_directory: ~/project/
+          working_directory: ~/project/ansible
 
       - run:
           name: Set instance public for Cypress
