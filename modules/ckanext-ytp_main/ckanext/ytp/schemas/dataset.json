@@ -312,15 +312,15 @@
       "choices": [
         {
           "value": "current",
-          "label": "Current"
+          "label": "Current version"
         },
         {
           "value": "draft",
-          "label": "Draft"
+          "label": "Draft version"
         },
         {
           "value": "archived",
-          "label": "Archived"
+          "label": "Archived version"
         }
       ],
       "required": true
