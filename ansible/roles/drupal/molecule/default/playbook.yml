@@ -87,14 +87,12 @@
         snippet: 'ytp.conf'
         base_hostname: "{{ nginx_domain }}"
         port: "{{ nginx_port }}"
-        apache_port: "{{ nginx_apache_port }}"
       - template: 'nginx_site_config.j2'
         destination: 'sites-available/ytp-secondary'
         server_name: "{{ nginx_secondary_fqdn }}"
         snippet: 'ytp-secondary.conf'
         base_hostname: "{{ nginx_secondary_domain }}"
         port: "{{ nginx_port }}"
-        apache_port: "{{ nginx_apache_port }}"
 
     nginx_enabled_sites:
       - "ytp"
