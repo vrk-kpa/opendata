@@ -77,20 +77,18 @@
                   <h2 class="article-item-heading">
                     {{ article.label }}
                   </h2>
-                  <p class="article-information">
+                  <div class="article-information">
                     <i class="far fa-clock avoindata-fa-icon"></i>
-                    {{ article.createdtime|format_date('avoindata_long_date') }}
+                    <span class="article-date"> {{ article.createdtime|format_date('avoindata_long_date') }} </span>
                     {% if article.tags|length > 0 %}
-                      <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                    <span class="tag-list-item-container">
+                      <i class="fas fa-folder-open avoindata-fa-icon tag-list-icon"></i>
                       {% for tag in article.tags %}
-                        {{ tag.name }}
-                        {% if loop.index != loop.last %}
-                        <span>,</span>
-                        {% endif %}
+                        <span class="tag-list-item"> {{ tag.name }} </span>
                       {% endfor %}
+                    </span>
                     {% endif %}
-                  </p>
-                  <br/>
+                  </div>
                   <div class="article-text">
                     <p>
                     {% set text = article.body.0.summary %}
