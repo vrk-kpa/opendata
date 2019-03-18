@@ -1,0 +1,47 @@
+{
+  "variables": {
+    "branch": "{{env `CIRCLE_BRANCH` }}",
+    "commit": "{{env `CIRCLE_SHA1` }}",
+    "build": "{{env `CIRCLE_BUILD_NUM` }}"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "eu-west-1",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "t3.medium",
+    "ssh_username": "ubuntu",
+    "ami_name": "opendata-{{ user `branch` }}-{{timestamp}}",
+    "tags": {
+      "Branch": "{{ user `branch` }}",
+      "Commit": "{{ user `commit` }}",
+      "Build": "{{ user `build` }}",
+      "Base_AMI_Name": "{{ .SourceAMIName }}",
+      "Base_AMI_ID": "{{ .SourceAMI }}"
+    }
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["sudo apt-get install -y python"]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "ansible/single-server.yml",
+      "inventory_directory": "ansible/inventories",
+      "groups": ["packers"],
+      "user": "operator",
+      "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
+      "extra_arguments": [
+        "--skip-tags", "configure"
+      ]
+    }
+  ]
+}
