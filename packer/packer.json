@@ -40,7 +40,7 @@
       "user": "operator",
       "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
       "extra_arguments": [
-        "--skip-tags", "configure"
+        "--skip-tags", "configure,dependency_role"
       ]
     }
   ]
