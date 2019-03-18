@@ -3,7 +3,6 @@
 namespace Drupal\avoindata_datasetlist\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides a 'Avoindata Dataset List' Block.
@@ -20,37 +19,24 @@ class DatasetlistBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $client = \Drupal::httpClient();
 
     // Recently modified datasets.
-    try {
-      $recentDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5');
-      $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
-      $recentDatasets = $recentDatasetsResult['result']['results'];
-    }
-    catch (\Exception $e) {
-      $recentDatasets = NULL;
-    }
+    $recentDatasets = [
+      '#lazy_builder' => ['avoindata_recent_datasets', []],
+      '#create_placeholder' => TRUE,
+    ];
 
     // New datasets.
-    try {
-      $newDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5');
-      $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
-      $newDatasets = $newDatasetsResult['result']['results'];
-    }
-    catch (\Exception $e) {
-      $newDatasets = NULL;
-    }
+    $newDatasets = [
+      '#lazy_builder' => ['avoindata_new_datasets', []],
+      '#create_placeholder' => TRUE,
+    ];
 
     // Popular datasets.
-    try {
-      $popularDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5');
-      $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
-      $popularDatasets = $popularDatasetsResult['result']['results'];
-    }
-    catch (\Exception $e) {
-      $popularDatasets = NULL;
-    }
+    $popularDatasets = [
+      '#lazy_builder' => ['avoindata_popular_datasets', []],
+      '#create_placeholder' => TRUE,
+    ];
 
     return [
       '#recentdatasets' => $recentDatasets,

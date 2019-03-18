@@ -31,7 +31,10 @@ class YtpTaskAdd(CkanCommand):
         task_data = self.args[3]
 
         context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-        get_action('ytp_tasks_add')(context, {'id': task_id, 'task': task_name, 'frequency': task_frequency.upper(), 'data': task_data})
+        get_action('ytp_tasks_add')(context, {'id': task_id,
+                                              'task': task_name,
+                                              'frequency': task_frequency.upper(),
+                                              'data': task_data})
 
         if self.options.wait or self.options.execute:
             import uuid
