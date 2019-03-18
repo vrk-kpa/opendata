@@ -71,7 +71,8 @@ class TestYtpDatasetPlugin(TestCase):
         """ test to_list_json converter """
         context = {}
         self.assert_equal(to_list_json("test_value", context).replace(' ', ''), '["test_value"]')
-        self.assert_equal(to_list_json(["test_value1", "test_value2"], context).replace(' ', ''), '["test_value1","test_value2"]')
+        self.assert_equal(to_list_json(["test_value1", "test_value2"], context).replace(
+            ' ', ''), '["test_value1","test_value2"]')
 
     def test_from_json_list(self):
         """ test from_json_list converter """
@@ -80,8 +81,15 @@ class TestYtpDatasetPlugin(TestCase):
         self.assert_equal(from_json_list('["test_value1","test_value2"]', context), ["test_value1", "test_value2"])
 
     def test_api_create_dataset(self):
-        tests.call_action_api(self.app, 'package_create', status=409, name='test-name-1', title="test-title-1", content_type="test1,test2",
-                              license_id="other", notes="test notes", tag_string="tag1,tag2", apikey=self.sysadmin.apikey)
+        tests.call_action_api(self.app, 'package_create',
+                              status=409,
+                              name='test-name-1',
+                              title="test-title-1",
+                              content_type="test1,test2",
+                              license_id="other",
+                              notes="test notes",
+                              tag_string="tag1,tag2",
+                              apikey=self.sysadmin.apikey)
 
         tests.call_action_api(self.app, 'package_create', status=200, name='test-name-2',
                               title="test-title-2", content_type="test1,test2",
@@ -131,16 +139,23 @@ class TestYtpOrganizationPlugin(TestCase):
         return context
 
     def test_user_create_hook(self):
-        self.assert_raises(NotFound, plugins.toolkit.get_action('organization_show'), self._create_context(), {"id": "yksityishenkilo"})
+        self.assert_raises(NotFound, plugins.toolkit.get_action('organization_show'),
+                           self._create_context(), {"id": "yksityishenkilo"})
 
-        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_1", "id": "test_create_1",
-                                                                           "email": "example1@localhost", "password": "test_password",
+        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_1",
+                                                                           "id": "test_create_1",
+                                                                           "email": "example1@localhost",
+                                                                           "password": "test_password",
                                                                            "fullname": "test_fullname_1"})
-        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_2", "id": "test_create_2",
-                                                                           "email": "example2@localhost", "password": "test_password",
+        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_2",
+                                                                           "id": "test_create_2",
+                                                                           "email": "example2@localhost",
+                                                                           "password": "test_password",
                                                                            "fullname": "test_fullname_2"})
-        plugins.toolkit.get_action('user_update')(self._create_context(), {"id": "test_create_2", "id": "test_create_2",
-                                                                           "email": "example3@localhost", "password": "test_password",
+        plugins.toolkit.get_action('user_update')(self._create_context(), {"id": "test_create_2",
+                                                                           "id": "test_create_2",
+                                                                           "email": "example3@localhost",
+                                                                           "password": "test_password",
                                                                            "fullname": "test_fullname_3"})
 
     def test_organization_import(self):
@@ -180,7 +195,7 @@ class TestYtpOrganizationPlugin(TestCase):
         """ Test organization import """
         expected = (u"hri", u"Ulkoinen lähde: Hri.fi",
                     u"Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
-                   (u"datagovuk", u"Data.Gov.UK", u"")
+            (u"datagovuk", u"Data.Gov.UK", u"")
         organization_url = tools.get_organization_harvest_test_source()
         data = simplejson.dumps({'url': organization_url})
         for _ in xrange(2):
@@ -230,8 +245,11 @@ class TestYtpUserPlugin(TestCase):
         toolkit.get_action('user_update')(context, data_dict)
 
         data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
-        data_dict_extras = {'facebook': 'http://example.com/facebook', 'job_title': 'tester', 'telephone_number': '+358 123 1234',
-                            'image_url': 'http://example.com/me.png', 'linkedin': 'http://example.com/linkedin',
+        data_dict_extras = {'facebook': 'http://example.com/facebook',
+                            'job_title': 'tester',
+                            'telephone_number': '+358 123 1234',
+                            'image_url': 'http://example.com/me.png',
+                            'linkedin': 'http://example.com/linkedin',
                             'twitter': 'http://example.com/twitter'}
         data_dict.update(data_dict_extras)
 

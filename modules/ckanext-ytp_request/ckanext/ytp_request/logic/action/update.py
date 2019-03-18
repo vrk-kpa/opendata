@@ -12,8 +12,8 @@ log = logging.getLogger(__name__)
 
 def member_request_reject(context, data_dict):
     ''' Cancel request (from admin or group editor). Member request must be provided since we need both organization/user
-        Difference is that this action should be logged and showed to the user. If a user cancels herself her own request can be safely
-        deleted '''
+        Difference is that this action should be logged and showed to the user.
+        If a user cancels herself her own request can be safely deleted '''
     logic.check_access('member_request_reject', context, data_dict)
     _process(context, 'reject', data_dict)
 

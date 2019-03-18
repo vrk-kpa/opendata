@@ -24,3 +24,11 @@ ckan_postgres:
     drupal8:
       name: drupal8
       owner: drupal8
+
+ckan_email_domain: "{{ email_domain }}"
+ckan_admin_email: "{{ admin_email }}"
+ckan_admin: "{{ admin }}"
+ckan_beaker_session_secret: "{{ beaker_session_secret }}"
+ckan_app_instance_uuid: "{{ app_instance_uuid }}"
+ckan_google_analytics: "{{ google_analytics }}"
+ckan_google_credentials: "{{ google_credentials }}"

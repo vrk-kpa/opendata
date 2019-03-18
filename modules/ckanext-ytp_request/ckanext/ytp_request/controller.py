@@ -62,7 +62,8 @@ class YtpRequestController(BaseController):
             return self.new(errors, error_summary)
 
     def show(self, mrequest_id):
-        """" Shows a single member request. To be used by admins in case they want to modify granted role or accept via e-mail """
+        """" Shows a single member request.
+        To be used by admins in case they want to modify granted role or accept via e-mail """
         context = {'user': c.user or c.author}
         try:
             membershipdto = toolkit.get_action('member_request_show')(
@@ -97,7 +98,8 @@ class YtpRequestController(BaseController):
                 abort(401, self.not_auth_message)
         else:
             return render('request/mylist.html',
-                          extra_vars={'my_requests': [], 'message': _("As a sysadmin, you already have access to all organizations")})
+                          extra_vars={'my_requests': [],
+                                      'message': _("As a sysadmin, you already have access to all organizations")})
 
     def list(self):
         """ Lists member requests to be approved by admins"""
