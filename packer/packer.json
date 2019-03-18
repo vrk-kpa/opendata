@@ -34,14 +34,13 @@
     },
     {
       "type": "ansible",
-      "playbook_file": "ansible/single-server.yml",
-      "inventory_directory": "ansible/inventories",
+      "playbook_file": "single-server.yml",
+      "inventory_directory": "inventories",
       "groups": ["packers"],
       "user": "operator",
       "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
       "extra_arguments": [
-        "--skip-tags", "configure,dependency_role",
-        "--tags", "common"
+        "--skip-tags", "configure,dependency_role"
       ]
     }
   ],

@@ -112,16 +112,17 @@ jobs:
           name: Validate packer file
           command: packer validate packer/packer.json
           working_directory: ~/project/
+
       - run:
           name: Build ami
-          command: "packer build packer/packer.json >> packer_build.log 2>&1"
+          command: "packer build ../packer/packer.json >> ../packer_build.log 2>&1"
           no_output_timeout: 60m
-          working_directory: ~/project/
+          working_directory: ~/project/ansible
 
       - run:
           name: Save ami id to file
-          command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ami_id
-          working_directory: ~/project/
+          command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ../ami_id
+          working_directory: ~/project/ansible
 
       - store_artifacts:
           path: packer_build.log
