@@ -118,8 +118,16 @@ jobs:
           no_output_timeout: 60m
           working_directory: ~/project/
 
+      - run:
+          name: Save ami id to file
+          command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ami_id
+          working_directory: ~/project/
+
       - store_artifacts:
           path: packer_build.log
+
+      - store_artifacts:
+          path: ami_id
 
   ansible-role-test:
     docker:

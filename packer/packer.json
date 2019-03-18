@@ -40,8 +40,18 @@
       "user": "operator",
       "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
       "extra_arguments": [
-        "--skip-tags", "configure,dependency_role"
+        "--skip-tags", "configure,dependency_role",
+        "--tags", "common"
       ]
     }
+  ],
+  "post-processors": [
+    [
+      {
+        "output": "manifest.json",
+        "strip_path": true,
+        "type": "manifest"
+      }
+    ]
   ]
 }
