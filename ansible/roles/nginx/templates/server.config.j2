@@ -145,7 +145,7 @@ location /data {
     # Content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
     add_header X-Content-Type-Options "nosniff" always;
 
-    proxy_pass http://127.0.0.1:{{ nginx_apache_port }}/data;
+    proxy_pass http://127.0.0.1:{{ item.apache_port }}/data;
     proxy_set_header Host $host;
     proxy_set_header X-Url-Scheme $scheme;
     proxy_cache cache;
@@ -163,12 +163,12 @@ location /data {
     }
     location ~ /data/(fi|en|sv)/organization/(.*)/embed{
         # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
-        proxy_pass http://127.0.0.1:{{ nginx_apache_port }}/data/$1/organization/$2/embed$is_args$args;
+        proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1/organization/$2/embed$is_args$args;
         add_header Bypass-Sameorigin-Policy 1;
     }
 
     location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
-        proxy_pass http://127.0.0.1:{{ nginx_apache_port }}/data/$1$2$3?$args;
+        proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1$2$3?$args;
 
         # Do not show nginx's 404 error page for the API
         proxy_intercept_errors off;
