@@ -191,6 +191,7 @@
           name: common
       - import_role:
           name: postgres
+        tags: always
       - import_role:
           name: opendata_frontend
       - import_role:
