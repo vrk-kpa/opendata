@@ -306,6 +306,25 @@
       "description": "An universal, compact and easy to understand description of the added resource."
     },
     {
+      "field_name": "maturity",
+      "label": "Maturity",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "current",
+          "label": "Current version"
+        },
+        {
+          "value": "draft",
+          "label": "Draft version"
+        },
+        {
+          "value": "archived",
+          "label": "Archived version"
+        }
+      ]
+    },
+    {
       "field_name": "position_info",
       "label": "Position coordinates",
       "form_attrs": {
