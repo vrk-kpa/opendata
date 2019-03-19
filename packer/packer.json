@@ -19,6 +19,13 @@
     "instance_type": "t3.medium",
     "ssh_username": "ubuntu",
     "ami_name": "opendata-{{ user `branch` }}-{{timestamp}}",
+    "run_tags": {
+      "Branch": "{{ user `branch` }}",
+      "Commit": "{{ user `commit` }}",
+      "Build": "{{ user `build` }}",
+      "Base_AMI_Name": "{{ .SourceAMIName }}",
+      "Base_AMI_ID": "{{ .SourceAMI }}"
+    },
     "tags": {
       "Branch": "{{ user `branch` }}",
       "Commit": "{{ user `commit` }}",
