@@ -92,3 +92,6 @@ apache_sites:
           </Directory>
 
       </VirtualHost>
+
+apache_testing_ports:
+  - "9090"
