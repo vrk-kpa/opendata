@@ -633,7 +633,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 else:
                     pkg_dict['source'] = 'Internal'
 
-        vocab_fields = ['geographical_coverage', 'high_value_dataset_category']
+        vocab_fields = ['international_benchmarks', 'geographical_coverage', 'high_value_dataset_category']
         for field in vocab_fields:
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
