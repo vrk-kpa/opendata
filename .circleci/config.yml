@@ -110,8 +110,8 @@ jobs:
 
       - run:
           name: Validate packer file
-          command: packer validate packer/packer.json
-          working_directory: ~/project/
+          command: packer validate ../packer/packer.json
+          working_directory: ~/project/ansible
 
       - run:
           name: Build ami
