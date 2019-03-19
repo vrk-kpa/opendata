@@ -50,7 +50,7 @@
 - include: database.yml
 
 - name: Execute SQL files
-  shell: set -o pipefail; cat /tmp/{{ item }} | psql --set ON_ERROR_STOP=1
+  shell: set -o pipefail; cat /{{ ckan_cache_path }}/{{ item }} | psql --set ON_ERROR_STOP=1
   args:
     executable: "/bin/bash"
   become_user: postgres
@@ -60,7 +60,7 @@
 
 - name: Execute SQL files
   shell: >-
-    set -o pipefail; cat /tmp/{{ item }} |
+    set -o pipefail; cat /{{ ckan_cache_path }}/{{ item }} |
     psql -d datastore_default -h "{{ ckan_postgres.server.host }}" -U "{{ ckan_postgres_admin_user }}"
     --set ON_ERROR_STOP=1
   args:
