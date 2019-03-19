@@ -156,7 +156,7 @@
 - name: Copy SQL files
   template:
     src: "{{ item }}"
-    dest: "/tmp/{{ item }}"
+    dest: "/{{ ckan_cache_path }}/{{ item }}"
     owner: root
     group: root
     mode: "0644"
