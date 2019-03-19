@@ -696,7 +696,7 @@ msgstr "Kotisivu"
 
 #: ckanext/ytp/translations.py:75
 msgid "Maturity"
-msgstr ""
+msgstr "Kypsyysaste"
 
 #: ckanext/ytp/translations.py:76
 msgid "Position coordinates"
