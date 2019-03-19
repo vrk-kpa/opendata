@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-12 12:19+0200\n"
+"POT-Creation-Date: 2019-03-18 13:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,67 +18,67 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ckanext/ytp/auth.py:16 ckanext/ytp/auth.py:30
+#: ckanext/ytp/auth.py:17 ckanext/ytp/auth.py:31
 msgid "Only the owner can update a related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:35
+#: ckanext/ytp/auth.py:36
 msgid "You must be a sysadmin to change a related item's featured field."
 msgstr ""
 
-#: ckanext/ytp/auth.py:52
+#: ckanext/ytp/auth.py:53
 msgid "You must be a sysadmin to create a featured related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:60 ckanext/ytp/auth.py:63
+#: ckanext/ytp/auth.py:61 ckanext/ytp/auth.py:64
 msgid "You must be logged in to add a related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:69 ckanext/ytp/auth.py:74
+#: ckanext/ytp/auth.py:71 ckanext/ytp/auth.py:76
 #, python-format
 msgid "User %s not authorized to create public organizations"
 msgstr ""
 
-#: ckanext/ytp/auth.py:87
+#: ckanext/ytp/auth.py:89
 msgid "Only registered users can create organizations"
 msgstr ""
 
-#: ckanext/ytp/auth.py:99 ckanext/ytp/validators.py:400
+#: ckanext/ytp/auth.py:104 ckanext/ytp/validators.py:399
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr ""
 
-#: ckanext/ytp/auth.py:108
+#: ckanext/ytp/auth.py:113
 #, python-format
 msgid "User %s not authorized to create organizations"
 msgstr ""
 
-#: ckanext/ytp/auth.py:125
+#: ckanext/ytp/auth.py:130
 msgid "Cannot modify dataset because of organization policy"
 msgstr ""
 
-#: ckanext/ytp/auth.py:133 ckanext/ytp/controller.py:644
-#: ckanext/ytp/controller.py:689
+#: ckanext/ytp/auth.py:138 ckanext/ytp/controller.py:645
+#: ckanext/ytp/controller.py:690
 msgid "Only system administrators are allowed to view user list."
 msgstr ""
 
-#: ckanext/ytp/controller.py:85
+#: ckanext/ytp/controller.py:86
 msgid "Dataset was saved successfully."
 msgstr ""
 
-#: ckanext/ytp/controller.py:86
+#: ckanext/ytp/controller.py:87
 msgid "Fill additional info"
 msgstr ""
 
-#: ckanext/ytp/controller.py:88
+#: ckanext/ytp/controller.py:89
 msgid "Add related"
 msgstr ""
 
-#: ckanext/ytp/controller.py:90
+#: ckanext/ytp/controller.py:91
 msgid "Edit or add language versions"
 msgstr ""
 
-#: ckanext/ytp/controller.py:91 ckanext/ytp/templates/group/member_new.html:35
+#: ckanext/ytp/controller.py:92 ckanext/ytp/templates/group/member_new.html:35
 #: ckanext/ytp/templates/organization/admin_list.html:53
 #: ckanext/ytp/templates/organization/member_new.html:35
 #: ckanext/ytp/templates/organization/members.html:43
@@ -88,11 +88,11 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/package_form_bak.html:50
 #: ckanext/ytp/templates/package/snippets/resource_edit_form_bak.html:13
 #: ckanext/ytp/templates/related/snippets/related_form.html:33
-#: ckanext/ytp/templates/user/edit_user_form.html:54
+#: ckanext/ytp/templates/user/edit_user_form.html:47
 msgid "Delete"
 msgstr ""
 
-#: ckanext/ytp/controller.py:92 ckanext/ytp/templates/package/base.html:17
+#: ckanext/ytp/controller.py:93 ckanext/ytp/templates/package/base.html:17
 #: ckanext/ytp/templates/package/new.html:10
 #: ckanext/ytp/templates/package/new_package_metadata.html:10
 #: ckanext/ytp/templates/package/new_resource.html:10
@@ -101,146 +101,146 @@ msgstr ""
 msgid "Create Dataset"
 msgstr ""
 
-#: ckanext/ytp/controller.py:115
+#: ckanext/ytp/controller.py:116
 #, python-format
 msgid "Unauthorized to read package %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:117
+#: ckanext/ytp/controller.py:118
 msgid "Dataset not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:131
+#: ckanext/ytp/controller.py:132
 #, python-format
 msgid "User %r not authorized to edit %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:199
+#: ckanext/ytp/controller.py:200
 msgid "Unauthorized to update dataset"
 msgstr ""
 
-#: ckanext/ytp/controller.py:202 ckanext/ytp/controller.py:234
-#: ckanext/ytp/controller.py:262
+#: ckanext/ytp/controller.py:203 ckanext/ytp/controller.py:235
+#: ckanext/ytp/controller.py:263
 msgid "The dataset {id} could not be found."
 msgstr ""
 
-#: ckanext/ytp/controller.py:205
+#: ckanext/ytp/controller.py:206
 msgid "You must add at least one data resource"
 msgstr ""
 
-#: ckanext/ytp/controller.py:213
+#: ckanext/ytp/controller.py:214
 msgid "Error"
 msgstr ""
 
-#: ckanext/ytp/controller.py:231
+#: ckanext/ytp/controller.py:232
 msgid "Unauthorized to create a resource"
 msgstr ""
 
-#: ckanext/ytp/controller.py:266
+#: ckanext/ytp/controller.py:267
 msgid "Unauthorized to create a resource for this package"
 msgstr ""
 
-#: ckanext/ytp/controller.py:312
+#: ckanext/ytp/controller.py:313
 msgid "Unauthorized to edit this resource"
 msgstr ""
 
-#: ckanext/ytp/controller.py:332
+#: ckanext/ytp/controller.py:333
 msgid "Resource not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:378
+#: ckanext/ytp/controller.py:379
 msgid "Related item not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:388
+#: ckanext/ytp/controller.py:389
 msgid "Not authorized"
 msgstr ""
 
-#: ckanext/ytp/controller.py:393
+#: ckanext/ytp/controller.py:394
 msgid "Package not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:413
+#: ckanext/ytp/controller.py:414
 msgid "Related item was successfully created"
 msgstr ""
 
-#: ckanext/ytp/controller.py:415
+#: ckanext/ytp/controller.py:416
 msgid "Related item was successfully updated"
 msgstr ""
 
-#: ckanext/ytp/controller.py:420 ckanext/ytp/controller.py:892
+#: ckanext/ytp/controller.py:421 ckanext/ytp/controller.py:893
 msgid "Integrity Error"
 msgstr ""
 
-#: ckanext/ytp/controller.py:440 ckanext/ytp/templates/package/search.html:82
+#: ckanext/ytp/controller.py:441 ckanext/ytp/templates/package/search.html:82
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr ""
 
-#: ckanext/ytp/controller.py:441
+#: ckanext/ytp/controller.py:442
 #: ckanext/ytp/templates/package/snippets/related_item.html:17
 msgid "Application"
 msgstr ""
 
-#: ckanext/ytp/controller.py:442
+#: ckanext/ytp/controller.py:443
 #: ckanext/ytp/templates/package/snippets/related_item.html:23
 msgid "Idea"
 msgstr ""
 
-#: ckanext/ytp/controller.py:443
+#: ckanext/ytp/controller.py:444
 #: ckanext/ytp/templates/package/snippets/related_item.html:19
 msgid "News Article"
 msgstr ""
 
-#: ckanext/ytp/controller.py:444
+#: ckanext/ytp/controller.py:445
 #: ckanext/ytp/templates/package/snippets/related_item.html:25
 msgid "Paper"
 msgstr ""
 
-#: ckanext/ytp/controller.py:445
+#: ckanext/ytp/controller.py:446
 #: ckanext/ytp/templates/package/snippets/related_item.html:27
 msgid "Post"
 msgstr ""
 
-#: ckanext/ytp/controller.py:446
+#: ckanext/ytp/controller.py:447
 #: ckanext/ytp/templates/package/snippets/related_item.html:29
 msgid "Visualization"
 msgstr ""
 
-#: ckanext/ytp/controller.py:597
+#: ckanext/ytp/controller.py:598
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:599 ckanext/ytp/controller.py:702
-#: ckanext/ytp/controller.py:729
+#: ckanext/ytp/controller.py:600 ckanext/ytp/controller.py:703
+#: ckanext/ytp/controller.py:730
 msgid "Group not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:795
+#: ckanext/ytp/controller.py:796
 msgid "No user specified"
 msgstr ""
 
-#: ckanext/ytp/controller.py:801
+#: ckanext/ytp/controller.py:802
 msgid "Unauthorized to edit a user."
 msgstr ""
 
-#: ckanext/ytp/controller.py:820 ckanext/ytp/controller.py:888
+#: ckanext/ytp/controller.py:821 ckanext/ytp/controller.py:889
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:822 ckanext/ytp/controller.py:890
-#: ckanext/ytp/logic.py:184
+#: ckanext/ytp/controller.py:823 ckanext/ytp/controller.py:891
+#: ckanext/ytp/logic.py:35
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:828
+#: ckanext/ytp/controller.py:829
 #, python-format
 msgid "User %s not authorized to edit %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:885
+#: ckanext/ytp/controller.py:886
 msgid "Profile updated"
 msgstr ""
 
@@ -254,32 +254,32 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:83 ckanext/ytp/plugin.py:534
+#: ckanext/ytp/helpers.py:84 ckanext/ytp/plugin.py:536
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/logic.py:187
+#: ckanext/ytp/logic.py:38
 msgid "Cannot change username"
 msgstr ""
 
-#: ckanext/ytp/logic.py:189
+#: ckanext/ytp/logic.py:40
 msgid "Cannot change email"
 msgstr ""
 
-#: ckanext/ytp/logic.py:200
+#: ckanext/ytp/logic.py:51
 msgid "Have to be logged in to edit user"
 msgstr ""
 
-#: ckanext/ytp/logic.py:208
+#: ckanext/ytp/logic.py:59
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/logic.py:214
+#: ckanext/ytp/logic.py:65
 msgid "Have to be logged in to list users"
 msgstr ""
 
-#: ckanext/ytp/logic.py:220
+#: ckanext/ytp/logic.py:71
 msgid "Have to be logged in to list admins"
 msgstr ""
 
@@ -346,37 +346,37 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:200 ckanext/ytp/plugin.py:210 ckanext/ytp/plugin.py:215
+#: ckanext/ytp/plugin.py:197 ckanext/ytp/plugin.py:207 ckanext/ytp/plugin.py:212
 #: ckanext/ytp/validators.py:64
 msgid "Missing value"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:438 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:440 ckanext/ytp/translations.py:39
 msgid "International benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:439 ckanext/ytp/plugin.py:456
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:13
+#: ckanext/ytp/plugin.py:441 ckanext/ytp/plugin.py:458
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:19
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:440 ckanext/ytp/plugin.py:457
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:33
+#: ckanext/ytp/plugin.py:442 ckanext/ytp/plugin.py:459
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:34
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:441 ckanext/ytp/plugin.py:458
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:39
+#: ckanext/ytp/plugin.py:443 ckanext/ytp/plugin.py:460
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:51
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:442
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:21
+#: ckanext/ytp/plugin.py:444
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -384,48 +384,48 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:443 ckanext/ytp/plugin.py:459
+#: ckanext/ytp/plugin.py:445 ckanext/ytp/plugin.py:461
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:445 ckanext/ytp/templates/package/search.html:60
+#: ckanext/ytp/plugin.py:447 ckanext/ytp/templates/package/search.html:60
 #: ckanext/ytp/templates/package/snippets/additional_info.html:14
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:446 ckanext/ytp/templates/package/resource_read.html:156
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:72
+#: ckanext/ytp/plugin.py:448 ckanext/ytp/templates/package/resource_read.html:156
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:78
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:63
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:37
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:518
+#: ckanext/ytp/plugin.py:520
 msgid "Other"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:534
+#: ckanext/ytp/plugin.py:536
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:942
+#: ckanext/ytp/plugin.py:945
 msgid "Group title already exists in database"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1126
+#: ckanext/ytp/plugin.py:1130
 msgid "Service charge must be supplied"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1136
+#: ckanext/ytp/plugin.py:1140
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
 "web address for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1149
+#: ckanext/ytp/plugin.py:1153
 msgid "At least one of the main target groups must to be selected"
 msgstr ""
 
@@ -491,8 +491,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:150
 #: ckanext/ytp/templates/package/snippets/additional_info.html:70
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:219
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:233
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:225
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:239
 #: ckanext/ytp/translations.py:28
 msgid "Created"
 msgstr ""
@@ -666,303 +666,319 @@ msgid "Home page"
 msgstr ""
 
 #: ckanext/ytp/translations.py:75
-msgid "Position coordinates"
+msgid "Maturity"
 msgstr ""
 
 #: ckanext/ytp/translations.py:76
-msgid "Time series start"
+msgid "Position coordinates"
 msgstr ""
 
 #: ckanext/ytp/translations.py:77
-msgid "Time series end"
+msgid "Time series start"
 msgstr ""
 
 #: ckanext/ytp/translations.py:78
-msgid "Time series precision"
+msgid "Time series end"
 msgstr ""
 
 #: ckanext/ytp/translations.py:79
-msgid "Temporal granularity"
+msgid "Time series precision"
 msgstr ""
 
 #: ckanext/ytp/translations.py:80
-msgid "Temporal coverage from"
+msgid "Temporal granularity"
 msgstr ""
 
 #: ckanext/ytp/translations.py:81
-msgid "Temporal coverage to"
+msgid "Temporal coverage from"
 msgstr ""
 
 #: ckanext/ytp/translations.py:82
+msgid "Temporal coverage to"
+msgstr ""
+
+#: ckanext/ytp/translations.py:83
 msgid "Showcase name"
 msgstr ""
 
-#: ckanext/ytp/translations.py:85
+#: ckanext/ytp/translations.py:86
 msgid "public_administration_organization"
 msgstr ""
 
-#: ckanext/ytp/translations.py:86
+#: ckanext/ytp/translations.py:87
 msgid "personal_datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:87
+#: ckanext/ytp/translations.py:88
 msgid "civil-service"
 msgstr ""
 
-#: ckanext/ytp/translations.py:88
+#: ckanext/ytp/translations.py:89
 msgid "municipality"
 msgstr ""
 
-#: ckanext/ytp/translations.py:89
+#: ckanext/ytp/translations.py:90
 msgid "other-public-service"
 msgstr ""
 
-#: ckanext/ytp/translations.py:90
+#: ckanext/ytp/translations.py:91
 msgid "educational-research-institute"
 msgstr ""
 
-#: ckanext/ytp/translations.py:91
+#: ckanext/ytp/translations.py:92
 msgid "company"
 msgstr ""
 
-#: ckanext/ytp/translations.py:92
+#: ckanext/ytp/translations.py:93
 msgid "individual"
 msgstr ""
 
-#: ckanext/ytp/translations.py:93
+#: ckanext/ytp/translations.py:94
 msgid "association"
 msgstr ""
 
-#: ckanext/ytp/translations.py:94
+#: ckanext/ytp/translations.py:95
 msgid "active"
 msgstr ""
 
-#: ckanext/ytp/translations.py:95
+#: ckanext/ytp/translations.py:96
 msgid "deleted"
 msgstr ""
 
-#: ckanext/ytp/translations.py:96
+#: ckanext/ytp/translations.py:97
 msgid "draft"
 msgstr ""
 
+#: ckanext/ytp/translations.py:98
+msgid "Current version"
+msgstr ""
+
 #: ckanext/ytp/translations.py:99
-msgid "Log in"
+msgid "Archived version"
 msgstr ""
 
 #: ckanext/ytp/translations.py:100
-msgid "Log out"
-msgstr ""
-
-#: ckanext/ytp/translations.py:101
-msgid "Publish Datasets"
-msgstr ""
-
-#: ckanext/ytp/translations.py:102
-msgid "News"
+msgid "Draft version"
 msgstr ""
 
 #: ckanext/ytp/translations.py:103
-msgid "About us"
+msgid "Log in"
 msgstr ""
 
 #: ckanext/ytp/translations.py:104
-msgid "Files"
+msgid "Log out"
 msgstr ""
 
 #: ckanext/ytp/translations.py:105
-msgid "Guide to Open Data"
+msgid "Publish Datasets"
 msgstr ""
 
 #: ckanext/ytp/translations.py:106
-msgid "User Info"
+msgid "News"
 msgstr ""
 
 #: ckanext/ytp/translations.py:107
-msgid "Training"
+msgid "About us"
 msgstr ""
 
 #: ckanext/ytp/translations.py:108
-msgid "Dataset is available at http://www.syke.fi/avointieto"
+msgid "Files"
 msgstr ""
 
 #: ckanext/ytp/translations.py:109
-msgid "Apps"
+msgid "Guide to Open Data"
+msgstr ""
+
+#: ckanext/ytp/translations.py:110
+msgid "User Info"
+msgstr ""
+
+#: ckanext/ytp/translations.py:111
+msgid "Training"
 msgstr ""
 
 #: ckanext/ytp/translations.py:112
-msgid "Add to group"
+msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr ""
 
 #: ckanext/ytp/translations.py:113
+msgid "Apps"
+msgstr ""
+
+#: ckanext/ytp/translations.py:116
+msgid "Add to group"
+msgstr ""
+
+#: ckanext/ytp/translations.py:117
 msgid "There are no groups associated with this dataset"
 msgstr ""
 
 #: ckanext/ytp/templates/group/snippets/group_item.html:45
-#: ckanext/ytp/translations.py:114
+#: ckanext/ytp/translations.py:118
 msgid "Remove dataset from this group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:115
+#: ckanext/ytp/translations.py:119
 msgid "Associate this group with this dataset"
 msgstr ""
 
-#: ckanext/ytp/translations.py:116
+#: ckanext/ytp/translations.py:120
 msgid "Add Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:117
+#: ckanext/ytp/translations.py:121
 msgid "There are currently no groups for this site"
 msgstr ""
 
-#: ckanext/ytp/translations.py:118
+#: ckanext/ytp/translations.py:122
 msgid "Search groups..."
 msgstr ""
 
-#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:119
+#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:123
 msgid "Groups"
 msgstr ""
 
-#: ckanext/ytp/translations.py:120
+#: ckanext/ytp/translations.py:124
 msgid "A little information about my group..."
 msgstr ""
 
-#: ckanext/ytp/translations.py:121
+#: ckanext/ytp/translations.py:125
 msgid "Create a Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:122
+#: ckanext/ytp/translations.py:126
 msgid "Create Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:123
+#: ckanext/ytp/translations.py:127
 msgid "My Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:126
+#: ckanext/ytp/translations.py:130
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:127
+#: ckanext/ytp/translations.py:131
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:128
+#: ckanext/ytp/translations.py:132
 msgid "Oikeusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:129
+#: ckanext/ytp/translations.py:133
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:130
+#: ckanext/ytp/translations.py:134
 msgid "Puolustusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:131
+#: ckanext/ytp/translations.py:135
 msgid "Sisäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:132
+#: ckanext/ytp/translations.py:136
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:133
+#: ckanext/ytp/translations.py:137
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:134
+#: ckanext/ytp/translations.py:138
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:135
+#: ckanext/ytp/translations.py:139
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:136
+#: ckanext/ytp/translations.py:140
 msgid "Ympäristöministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:137
+#: ckanext/ytp/translations.py:141
 msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:140
+#: ckanext/ytp/translations.py:144
 msgid "Administrative Branch Summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:141
+#: ckanext/ytp/translations.py:145
 msgid "Dataset statistics by administrative branch summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:142
+#: ckanext/ytp/translations.py:146
 msgid "Broken links"
 msgstr ""
 
-#: ckanext/ytp/translations.py:143
+#: ckanext/ytp/translations.py:147
 msgid "Dataset resource URLs that are found to result in errors when resolved."
 msgstr ""
 
-#: ckanext/ytp/translations.py:144
+#: ckanext/ytp/translations.py:148
 msgid "Openness (Five Stars)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:145
+#: ckanext/ytp/translations.py:149
 msgid ""
 "Datasets graded on Tim Berners-Lee's Five Stars of Openness - openly "
 "licensed, openly accessible, structured, open format, URIs for entities, "
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:149
+#: ckanext/ytp/translations.py:153
 msgid "The dataset amount of the organization is shown beside the organization name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:150
+#: ckanext/ytp/translations.py:154
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/validators.py:169
+#: ckanext/ytp/validators.py:167
 msgid "expecting list of strings"
 msgstr ""
 
-#: ckanext/ytp/validators.py:175
+#: ckanext/ytp/validators.py:173
 #, python-format
 msgid "invalid type for repeating text: %r"
 msgstr ""
 
-#: ckanext/ytp/validators.py:182
+#: ckanext/ytp/validators.py:180
 #, python-format
 msgid "invalid encoding for \"%s\" value"
 msgstr ""
 
-#: ckanext/ytp/validators.py:244 ckanext/ytp/validators.py:300
+#: ckanext/ytp/validators.py:242 ckanext/ytp/validators.py:298
 msgid "Failed to decode JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:247 ckanext/ytp/validators.py:303
+#: ckanext/ytp/validators.py:245 ckanext/ytp/validators.py:301
 msgid "Invalid encoding for JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:250 ckanext/ytp/validators.py:306
+#: ckanext/ytp/validators.py:248 ckanext/ytp/validators.py:304
 msgid "expecting JSON object"
 msgstr ""
 
-#: ckanext/ytp/validators.py:254 ckanext/ytp/validators.py:261
+#: ckanext/ytp/validators.py:252 ckanext/ytp/validators.py:259
 #, python-format
 msgid "Required language \"%s\" missing"
 msgstr ""
 
-#: ckanext/ytp/validators.py:362
+#: ckanext/ytp/validators.py:360
 msgid "Start date is after end date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:367
+#: ckanext/ytp/validators.py:365
 msgid "End date is before start date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:446
+#: ckanext/ytp/validators.py:445
 #, python-format
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
@@ -1152,22 +1168,22 @@ msgstr ""
 #: ckanext/ytp/templates/organization/member_new.html:21
 #: ckanext/ytp/templates/organization/members.html:22
 #: ckanext/ytp/templates/organization/user_list.html:30
-#: ckanext/ytp/templates/user/edit_user_form.html:10
-#: ckanext/ytp/templates/user/read_base.html:33
+#: ckanext/ytp/templates/user/edit_user_form.html:8
+#: ckanext/ytp/templates/user/read_base.html:32
 msgid "Username"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/admin_list.html:33
 #: ckanext/ytp/templates/organization/members.html:24
 #: ckanext/ytp/templates/organization/user_list.html:33
-#: ckanext/ytp/templates/user/edit_user_form.html:18
-#: ckanext/ytp/templates/user/read_base.html:39
+#: ckanext/ytp/templates/user/edit_user_form.html:13
+#: ckanext/ytp/templates/user/read_base.html:38
 msgid "Email"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/admin_list.html:48
 #: ckanext/ytp/templates/organization/user_list.html:48
-#: ckanext/ytp/templates/user/edit_user_form.html:53
+#: ckanext/ytp/templates/user/edit_user_form.html:47
 msgid "Are you sure you want to delete this User?"
 msgstr ""
 
@@ -1234,7 +1250,7 @@ msgid "Activity Stream"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/read_base.html:15
-#: ckanext/ytp/templates/user/edit_user_form.html:29
+#: ckanext/ytp/templates/user/edit_user_form.html:15
 msgid "About"
 msgstr ""
 
@@ -1295,8 +1311,8 @@ msgstr ""
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:35
 #: ckanext/ytp/templates/package/snippets/additional_info.html:56
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:166
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:31
-#: ckanext/ytp/templates/user/read_base.html:48
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:32
+#: ckanext/ytp/templates/user/read_base.html:47
 msgid "State"
 msgstr ""
 
@@ -1458,8 +1474,8 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:152
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:5
 #: ckanext/ytp/templates/snippets/package_item.html:26
-#: ckanext/ytp/templates/user/read_base.html:39
-#: ckanext/ytp/templates/user/read_base.html:53
+#: ckanext/ytp/templates/user/read_base.html:38
+#: ckanext/ytp/templates/user/read_base.html:52
 msgid "Private"
 msgstr ""
 
@@ -1577,27 +1593,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:229
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:155
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:161
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:230
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:156
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:162
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:233
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:163
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:169
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:249
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:185
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:249
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:185
 msgid "Downloads"
 msgstr ""
 
@@ -1631,8 +1647,8 @@ msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:218
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:230
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:236
 msgid "Last Modified"
 msgstr ""
 
@@ -1697,27 +1713,27 @@ msgstr ""
 msgid "Last Updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:64
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:70
 msgid "Content Link"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:106
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
 msgid "License Not Specified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:120
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:126
 msgid "Dataset Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:123
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
 msgid "Resource Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:135
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:141
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:143
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:149
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -1725,31 +1741,31 @@ msgid ""
 "resource downloads, comments and translations into consideration."
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:161
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:167
 msgid "Downloads during year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:162
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:168
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:179
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:185
 msgid "Visits"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:215
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:221
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:216
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:222
 msgid "Dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:226
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:232
 msgid "Resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:238
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:244
 msgid "Show change log"
 msgstr ""
 
@@ -2541,95 +2557,51 @@ msgstr ""
 msgid "Create one now?"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:9
+#: ckanext/ytp/templates/user/edit_user_form.html:7
 msgid "Change details"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:12
-msgid "API key"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:14
+#: ckanext/ytp/templates/user/edit_user_form.html:10
 msgid "Full name"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:14
-msgid "e.g., Joe Bloggs"
+#: ckanext/ytp/templates/user/edit_user_form.html:10
+msgid "eg. Joe Bloggs"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:16
-msgid "Job title"
+#: ckanext/ytp/templates/user/edit_user_form.html:13
+msgid "eg. joe@example.com"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:16
-msgid "Software Designer"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:18
-msgid "e.g., joe@example.com"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:19
-msgid "You can change your email address from the account settings"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:21
-msgid "Telephone number"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:21
-msgid "+358 50 123 4567"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:29
+#: ckanext/ytp/templates/user/edit_user_form.html:15
 msgid "A little information about yourself"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:33
-msgid "LinkedIn"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:33
-msgid "https://uk.linkedin.com/in/joe_bloggs"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:34
-msgid "Facebook"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:34
-msgid "https://www.facebook.com/joe_boggs"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:35
-msgid "Twitter"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:35
-msgid "https://twitter.com/avoindata"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:38
-msgid "Blogs"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:38
-msgid "https://www.example.com/my-blog"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:40
-msgid "WWW-pages"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:40
-msgid "https://www.example.com/my-page"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:43
+#: ckanext/ytp/templates/user/edit_user_form.html:18
 msgid "Subscribe to notification emails"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:58
+#: ckanext/ytp/templates/user/edit_user_form.html:28
+msgid "Change password"
+msgstr ""
+
+#: ckanext/ytp/templates/user/edit_user_form.html:31
+msgid "Sysadmin Password"
+msgstr ""
+
+#: ckanext/ytp/templates/user/edit_user_form.html:31
+msgid "Old Password"
+msgstr ""
+
+#: ckanext/ytp/templates/user/edit_user_form.html:39
+msgid "Password"
+msgstr ""
+
+#: ckanext/ytp/templates/user/edit_user_form.html:41
+msgid "Confirm Password"
+msgstr ""
+
+#: ckanext/ytp/templates/user/edit_user_form.html:59
 msgid "Update Profile"
 msgstr ""
 
@@ -2641,28 +2613,28 @@ msgstr ""
 msgid "User hasn't created any datasets."
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:21
+#: ckanext/ytp/templates/user/read_base.html:20
 msgid "You have not provided a biography."
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:23
+#: ckanext/ytp/templates/user/read_base.html:22
 msgid "This user has no biography."
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:30
+#: ckanext/ytp/templates/user/read_base.html:29
 msgid "Open ID"
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:39
-#: ckanext/ytp/templates/user/read_base.html:53
+#: ckanext/ytp/templates/user/read_base.html:38
+#: ckanext/ytp/templates/user/read_base.html:52
 msgid "This means only you can see this"
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:44
+#: ckanext/ytp/templates/user/read_base.html:43
 msgid "Member Since"
 msgstr ""
 
-#: ckanext/ytp/templates/user/read_base.html:53
+#: ckanext/ytp/templates/user/read_base.html:52
 msgid "API Key"
 msgstr ""
 
