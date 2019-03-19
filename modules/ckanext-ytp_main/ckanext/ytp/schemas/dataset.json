@@ -322,8 +322,7 @@
           "value": "archived",
           "label": "Archived version"
         }
-      ],
-      "required": true
+      ]
     },
     {
       "field_name": "position_info",
