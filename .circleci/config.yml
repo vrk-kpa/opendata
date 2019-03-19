@@ -266,7 +266,7 @@ workflows:
       - flake8
       - code-sniffer
       - ansible-lint
-      - ansible-role-test
+      - ansible-role-test:
           requires:
             - flake8
             - code-sniffer
