@@ -126,7 +126,7 @@
                                     {% endtrans %}
                                 </p>
                             </div>
-                            <div class="opendata-card-content tag-list-item-container">
+                            <div class="opendata-card-content">
                                 {% for tag in content.field_tags | field_value %}
                                     {% set tag_id = (tag['#cache'].tags.0 | split(':')).1 %}
                                     <a class="avoindata-card-list-item" href="/articles?category=[]{{ tag_id }}&search=">
