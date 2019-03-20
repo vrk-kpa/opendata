@@ -1,59 +1,60 @@
 {% import 'macros/form.html' as form %}
-{% import 'macros/ytp_form.html' as ytp_form %}
 
-<form class="dataset-form form-horizontal user-form" method="post" action="{{ action }}" data-module="basic-form" enctype="multipart/form-data">
-  {% include "package/ytp/language_bar.html" %}
+<form id="user-edit-form" class="dataset-form" method="post" action="{{ action }}">
   {{ form.errors(error_summary) }}
 
   <fieldset>
     <legend>{{ _('Change details') }}</legend>
-    {{ ytp_form.input('name', label=_('Username'), id='field-username', value=data.name, error=errors.name, classes=['control-medium'], is_required=true, attrs={'readonly': ''}) }}
+    {{ form.input('name', label=_('Username'), id='field-username', value=data.name, error=errors.name, classes=['control-medium'], attrs={'readonly': '', 'class': 'form-control'}) }}
 
-    {{ ytp_form.input('_apikey', label=_('API key'), id='field-apikey', value=data.apikey, classes=['control-medium'], attrs={'readonly': ''}) }}
+    {{ form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('eg. Joe Bloggs'), classes=['control-medium']) }}
 
-    {{ ytp_form.input('fullname', label=_('Full name'), id='field-fullname', value=data.fullname, error=errors.fullname, placeholder=_('e.g., Joe Bloggs'), is_required=true, classes=['control-medium']) }}
+    {# Email changed from Drupal user settings, but CKAN requires sending the field #}
+    {{ form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('eg. joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': true}) }}
 
-    {{ ytp_form.input('job_title', label=_('Job title'), id='field-job_title', value=data.job_title, placeholder=_('Software Designer'), error=errors.job_title, locales=h.get_available_locales(), data=data, classes=['control-medium']) }}
+    {{ form.markdown('about', label=_('About'), id='field-about', value=data.about, error=errors.about, placeholder=_('A little information about yourself')) }}
 
-    {{ ytp_form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, placeholder=_('e.g., joe@example.com'), classes=['control-medium'], is_required=true, attrs={'readonly': ''},
-        help_text=_('You can change your email address from the account settings')) }}
-
-    {{ ytp_form.input('telephone_number', label=_('Telephone number'), id='field-telephone_number', type='tel', value=data.telephone_number, error=errors.telephone_number, placeholder=_('+358 50 123 4567'), classes=['control-medium']) }}
-
-    
-    {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
-    {% set is_url = data.image_url and data.image_url.startswith('http') %}
-
-    {{ ytp_form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload, size=h.get_image_upload_size()) }}
-
-    {{ ytp_form.markdown('about', id='field-about', label=_('About'), placeholder=_('A little information about yourself'), value=data.about, error=errors.about, locales=h.get_available_locales(), data=data) }}
-
-    {# Social Media #}
-
-    {{ ytp_form.input('linkedin', label=_('LinkedIn'), id='field-linkedin', type='url', value=data.linkedin, error=errors.linkedin, placeholder=_('https://uk.linkedin.com/in/joe_bloggs'), classes=['control-medium']) }}
-    {{ ytp_form.input('facebook', label=_('Facebook'), id='field-facebook', type='url', value=data.facebook, error=errors.facebook, placeholder=_('https://www.facebook.com/joe_boggs'), classes=['control-medium']) }}
-    {{ ytp_form.input('twitter', label=_('Twitter'), id='field-twitter', type='url', value=data.twitter, error=errors.twitter, placeholder=_('https://twitter.com/avoindata'), classes=['control-medium']) }}
-
-    {# User pages #}
-    {{ ytp_form.input_multiple('blog', id='field-blog', label=_('Blogs'), value=data.blog, placeholder=_('https://www.example.com/my-blog'), error=errors.blog) }}
-
-    {{ ytp_form.input_multiple('www_page', id='field-www_page', label=_('WWW-pages'), value=data.www_page, placeholder=_('https://www.example.com/my-page'), error=errors.www_page) }}
-
-    {% if c.show_email_notifications %}
-      {% call form.checkbox('activity_streams_email_notifications', label=_('Subscribe to notification emails'), id='field-activity-streams-email-notifications', value=True, checked=c.userobj.activity_streams_email_notifications) %}
-      {{ form.info(_("You will receive notification emails from {site_title}, e.g. when you have new activities on your dashboard.".format(site_title=g.site_title)), classes=['info-help-tight']) }}
+    {% if show_email_notifications %}
+      {% call form.checkbox('activity_streams_email_notifications', label=_('Subscribe to notification emails'), id='field-activity-streams-email-notifications', value=True, checked=g.userobj.activity_streams_email_notifications) %}
+      {% set helper_text = _("You will receive notification emails from {site_title}, e.g. when you have new activities on your dashboard."|string) %}
+      {{ form.info(helper_text.format(site_title=g.site_title), classes=['info-help-tight']) }}
       {% endcall %}
     {% endif %}
 
   </fieldset>
 
+  {# Password changed from Drupal user settings, but CKAN requires sending the field #}
+  <fieldset style="display:none">
+    <legend>{{ _('Change password') }}</legend>
+    {{ form.input('old_password',
+                  type='hidden',
+                  label=_('Sysadmin Password') if is_sysadmin else _('Old Password'),
+                  id='field-password',
+                  value=data.oldpassword,
+                  error=errors.oldpassword,
+                  classes=['control-medium'],
+                  attrs={'autocomplete': 'off', 'class': 'form-control'}
+                  ) }}
+
+    {{ form.input('password1', type='hidden', label=_('Password'), id='field-password', value=data.password1, error=errors.password1, classes=['control-medium'], attrs={'autocomplete': 'off', 'class': 'form-control'} ) }}
+
+    {{ form.input('password2', type='hidden', label=_('Confirm Password'), id='field-password-confirm', value=data.password2, error=errors.password2, classes=['control-medium'], attrs={'autocomplete': 'off', 'class': 'form-control'}) }}
+  </fieldset>
+
   <div class="form-actions">
     {% block delete_button %}
       {% if h.check_access('user_delete', {'id': data.id})  %}
-        {% set locale = h.dump_json({'content': _('Are you sure you want to delete this User?')}) %}
-        <a class="btn btn-danger pull-left" href="{% url_for controller='user', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+        <a class="btn btn-danger pull-left" href="{% url_for 'user_delete', id=data.id %}" data-module="confirm-action" data-module-content="{{ _('Are you sure you want to delete this User?') }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
       {% endif %}
     {% endblock %}
+    {# Hide API key regeneration button #}
+    {#
+    {% block generate_button %}
+      {% if h.check_access('user_generate_apikey', {'id': data.id})  %}
+        <a class="btn btn-warning" href="{% url_for 'user.generate_apikey', id=data.id %}" data-module="confirm-action" data-module-content="{{ _('Are you sure you want to regenerate the API key?') }}">{% block generate_button_text %}{{ _('Regenerate API Key') }}{% endblock %}</a>
+      {% endif %}
+    {% endblock %}
+    #}
     {{ form.required_message() }}
     <button class="btn btn-primary" type="submit" name="save">{{ _('Update Profile') }}</button>
   </div>

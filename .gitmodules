@@ -22,7 +22,7 @@
 	url = https://github.com/vrk-kpa/ckanext-scheming.git
 [submodule "modules/ckanext-fluent"]
 	path = modules/ckanext-fluent
-	url = https://github.com/ckan/ckanext-fluent.git
+	url = https://github.com/vrk-kpa/ckanext-fluent.git
 [submodule "modules/ckanext-qa"]
 	path = modules/ckanext-qa
 	url = https://github.com/vrk-kpa/ckanext-qa.git
@@ -34,7 +34,7 @@
 	url = https://github.com/vrk-kpa/ckanext-showcase.git
 [submodule "modules/ckanext-geoview"]
 	path = modules/ckanext-geoview
-	url = https://github.com/ckan/ckanext-geoview.git
+	url = https://github.com/vrk-kpa/ckanext-geoview.git
 [submodule "modules/ckanext-pdfview"]
 	path = modules/ckanext-pdfview
 	url = https://github.com/ckan/ckanext-pdfview.git

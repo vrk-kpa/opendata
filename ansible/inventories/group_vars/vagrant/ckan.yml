@@ -34,7 +34,7 @@ ckan_config_files:
     db_ckan_datastore_password: pass
     db_ckan_datastore_database: datastore_test
     solr_path: "solr/ckan"
-    hostname: "10.10.10.10:9000"
+    hostname: "vagrant.avoindata.fi:9000"
     redis_db: "1"
     debug_enabled: false
 

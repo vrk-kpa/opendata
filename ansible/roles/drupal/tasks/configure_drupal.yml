@@ -10,7 +10,6 @@
   tags:
     - skip_ansible_lint
 
-  ### Drupal installation ###
 - name: Install a clean Drupal database
   shell: >-
     {{ drupal_drush_path }} site-install -y standard
