@@ -24,11 +24,18 @@ def json_get(url, headers={}):
     else:
         raise Exception("Got error from API: %s", response.text)
 
-datasets = json_get("%s?rows=1000&q=%s" % (PACKAGE_SEARCH_URL, SOLR_Q))['result']['results']
+def fetch_datasets(query):
+    page_size = 1000
+    count = json_get("%s?rows=0&q=%s" % (PACKAGE_SEARCH_URL, query))['result']['count']
+    position = 0
 
-if len(datasets) == 1000:
-    print("Exactly 1000 datasets received. This script needs to be fixed to handle paging.")
-    sys.exit(1)
+    while position < count:
+        datasets = json_get("%s?rows=%i&start=%i&q=%s" % (PACKAGE_SEARCH_URL, page_size, position, query))['result']['results']
+        position += len(datasets)
+        for dataset in datasets:
+            yield dataset
+
+datasets = list(fetch_datasets(SOLR_Q))
 
 for dataset in datasets:
     dataset['views'] = json_get("%s?id=%s" % (GA_VIEWS_URL, dataset['name']))['result']['count']
