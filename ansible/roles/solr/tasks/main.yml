@@ -18,6 +18,7 @@
   synchronize:
     src: /usr/share/solr/
     dest: "{{ item.instance_dir }}/"
+    copy_links: true
   delegate_to: "{{ inventory_hostname }}"
   with_items: "{{ solr_cores }}"
 

@@ -5,6 +5,7 @@
   with_items:
     - 000-default.conf
     - default-ssl.conf
+  notify: Restart Apache
 
 - name: Create site configurations
   copy:
@@ -14,11 +15,13 @@
     owner: root
     group: root
   with_items: "{{ apache_sites }}"
+  notify: Restart Apache
 
 - name: Enable Apache2 modules
   apache2_module:
     name: "{{ item }}"
   with_items: "{{ apache_enabled_modules }}"
+  notify: Restart Apache
 
 - name: Enable Apache configuration
   file:
