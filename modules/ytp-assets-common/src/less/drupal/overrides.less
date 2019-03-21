@@ -608,6 +608,11 @@ p:last-child,
     border-radius: 2px;
     background-color: @resource-list-background;
     margin-bottom: 10px;
+    .avoindata-article-category-filter > * {
+      // Click target should register to the category-filter element and not any of its child elements, because
+      // otherwise function searchArticlesApplyFilter(event) doesn't work correctly. 
+      pointer-events: none; 
+    }
     .opendata-card-header {
       margin-left: 18px;
       margin-right: 18px;
