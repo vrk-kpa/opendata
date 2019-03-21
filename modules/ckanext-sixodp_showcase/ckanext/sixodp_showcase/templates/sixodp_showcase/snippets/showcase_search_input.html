@@ -1,9 +1,13 @@
+{% import 'macros/form.html' as form %}
 {% set search_class = search_class if search_class else 'search-giant' %}
 
-<form class="opendata-search-form{% if no_bottom_border %} no-bottom-border{% endif %} form_{{ search_class }}" method="get" data-module="select-switch">
-    <div class="search-wrapper {{ search_class }}">
-        <input class="search-input" type="text" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
-
+<form class="search-form{% if no_bottom_border %} no-bottom-border{% endif %} form_{{ search_class }}" method="get" data-module="select-switch">
+    <div class="search-input control-group search-giant">
+        <input class="search form-control" type="text" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+        <button type="submit" value="search">
+            <i class="fa fa-search"></i>
+            <span>{{ _('Submit') }}</span>
+        </button>
         {% for param in query_params %}
             {% for value in query_params[param] %}
                 <input class="search-input" type="hidden" name="{{ param }}" value="{{value}}">
@@ -11,9 +15,28 @@
         {% endfor %}
 
         <input class="search-input" type="hidden" name="sort" value="{{ sorting }}">
-        <button type="submit" value="search" class="btn btn-primary search-submit">
-            <i class="fa fa-search"></i>
-            <span>{{ _('Search with keyword') }}</span>
-        </button>
     </div>
+
+    {% block form %}
+        {% set facets = {
+            'fields': c.fields_grouped,
+            'search': c.search_facets,
+            'titles': c.facet_titles,
+            'translated_fields': c.translated_fields,
+            'remove_field': c.remove_field }
+        %}
+        {% set sorting = [
+            (_('Newest first'), 'metadata_created desc'),
+            (_('Oldest first'), 'metadata_created asc'),
+            (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false)
+            (_('Relevance'), 'score desc, metadata_modified desc'),
+            (_('Name Ascending'), 'title_string asc'),
+            (_('Name Descending'), 'title_string desc'),
+            (_('Last Modified'), 'metadata_modified desc'),
+            (_('Top rating'), 'rating desc') ]
+        %}
+        <div class="search-options">
+            {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields, no_bottom_border=true %}
+        </div>
+    {% endblock %}
 </form>
