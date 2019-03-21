@@ -439,7 +439,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict = OrderedDict()
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
-        facets_dict['vocab_keywords_' + lang] = _('Tags')
+        facets_dict['vocab_keywords_' + lang] = _('Popular tags')
         facets_dict.update({'vocab_content_type': _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
