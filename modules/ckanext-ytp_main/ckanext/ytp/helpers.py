@@ -17,8 +17,9 @@ _LOCALE_ALIASES = {'en_GB': 'en'}
 
 
 def _markdown(translation, length):
-    return helpers.markdown_extract(translation, extract_length=length) if length is not True and isinstance(length, (int, long)) else \
-        helpers.render_markdown(translation)
+    return (helpers.markdown_extract(translation, extract_length=length)
+            if length is not True and isinstance(length, (int, long))
+            else helpers.render_markdown(translation))
 
 
 def get_field(obj_or_dict, field, default=None):
@@ -59,7 +60,7 @@ def get_translated(data_dict, field):
 def dataset_display_name(package_or_package_dict):
     if isinstance(package_or_package_dict, dict):
         return get_translated(package_or_package_dict, 'title') or \
-               package_or_package_dict['name']
+            package_or_package_dict['name']
     else:
         # FIXME: we probably shouldn't use the same functions for
         # package dicts and real package objects
@@ -198,8 +199,10 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
         elif not exclude_active:
             facets.append(dict(active=True, **facet_item))
     sorted_items = []
-    sorted_items.extend(sorted([item for item in facets if item['active'] is True], key=lambda item: item['display_name'].lower()))
-    sorted_items.extend(sorted([item for item in facets if item['active'] is False], key=lambda item: item['display_name'].lower()))
+    sorted_items.extend(sorted([item for item in facets if item['active'] is True],
+                               key=lambda item: item['display_name'].lower()))
+    sorted_items.extend(sorted([item for item in facets if item['active'] is False],
+                               key=lambda item: item['display_name'].lower()))
 
     # Use function default limit instead of c.search_facets_limits
     if limit:
@@ -249,7 +252,8 @@ def calculate_metadata_stars(dataset_id):
 
     # Required fields, optional fields, and translated fields, that will be scored by completeness
     required_fields = ['collection_type', 'title', 'notes', 'tags', 'license_id', 'organization', 'content_type']
-    optional_fields = ['valid_from', 'valid_till', 'extra_information', 'author', 'author_email', 'owner', 'maintainer', 'maintainer_email']
+    optional_fields = ['valid_from', 'valid_till', 'extra_information',
+                       'author', 'author_email', 'owner', 'maintainer', 'maintainer_email']
     translation_fields_en = ['title_en', 'notes_en']
     translation_fields_sv = ['title_sv', 'notes_sv']
 

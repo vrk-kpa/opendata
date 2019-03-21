@@ -123,7 +123,7 @@ def _membeship_request_list_dictize(obj_list, context):
         member_dict['state'] = 'active'
         # We use the member_request state since there is also rejected and
         # cancel
-        if member_request is not None and member_request.status is not 'cancel':
+        if member_request is not None and member_request.status != 'cancel':
             member_dict['state'] = member_request.status
             member_dict['role'] = member_request.role
             member_dict['request_date'] = member_request.request_date.strftime(
@@ -132,7 +132,7 @@ def _membeship_request_list_dictize(obj_list, context):
                 member_dict['handling_date'] = member_request.handling_date.strftime(
                     "%d - %b - %Y")
                 member_dict['handled_by'] = member_request.handled_by
-        if member_request is None or member_request.status is not 'cancel':
+        if member_request is None or member_request.status != 'cancel':
             result_list.append(member_dict)
     return result_list
 
@@ -190,9 +190,11 @@ def organization_list_without_memberships(context, data_dict):
         .filter(model.Group.id == model.Member.group_id)\
         .filter(model.Member.state.in_(['active', 'pending'])) \
         .distinct(model.Group.id) \
-        .filter(model.Group.is_organization == True) # noqa
+        .filter(model.Group.is_organization == True)  # noqa
 
     groups = model.Session.query(model.Group) \
         .filter(model.Group.id.notin_(subquery)).all()
 
-    return model_dictize.group_list_dictize(groups, context, with_package_counts=asbool(data_dict.get('include_dataset_count')))
+    return model_dictize.group_list_dictize(groups,
+                                            context,
+                                            with_package_counts=asbool(data_dict.get('include_dataset_count')))
