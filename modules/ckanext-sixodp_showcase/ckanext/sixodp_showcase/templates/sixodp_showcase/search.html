@@ -10,6 +10,13 @@
 
 {% block pre_primary %}
   {% set featured_showcases = h.get_featured_showcases() %}
+  {#
+  {% if featured_showcases %}
+    <div class="page-highlight">
+      {{ h.snippet('snippets/horizontal_accordion.html', items=featured_showcases, image_identifier="featured_image_display_url", meta_identifier="category", controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') }}
+    </div>
+  {% endif %}
+  #}
 {% endblock %}
 
 {% block page_primary_action %}
