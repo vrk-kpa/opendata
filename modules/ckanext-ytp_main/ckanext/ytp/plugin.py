@@ -439,7 +439,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict = OrderedDict()
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
-        facets_dict['vocab_keywords_' + lang] = _('Tags')
+        facets_dict['vocab_keywords_' + lang] = _('Popular tags')
         facets_dict.update({'vocab_content_type': _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
@@ -633,7 +633,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 else:
                     pkg_dict['source'] = 'Internal'
 
-        vocab_fields = ['geographical_coverage', 'high_value_dataset_category']
+        vocab_fields = ['international_benchmarks', 'geographical_coverage', 'high_value_dataset_category']
         for field in vocab_fields:
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
