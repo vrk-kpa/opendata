@@ -439,7 +439,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict = OrderedDict()
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
-        facets_dict['vocab_keywords_' + lang] = _('Tags')
+        facets_dict['vocab_keywords_' + lang] = _('Popular tags')
         facets_dict.update({'vocab_content_type': _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
@@ -633,7 +633,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 else:
                     pkg_dict['source'] = 'Internal'
 
-        vocab_fields = ['geographical_coverage', 'high_value_dataset_category']
+        vocab_fields = ['international_benchmarks', 'geographical_coverage', 'high_value_dataset_category']
         for field in vocab_fields:
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
@@ -1335,20 +1335,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                 'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
-def _get_user_image(user):
-    image_url = user.extras.get('image_url', None)
-    if not image_url:
-        return helpers.url_for_static('images/user_placeholder_box.png')
-    elif not image_url.startswith('http'):
-        return helpers.url_for_static('uploads/user/%s' % image_url, qualified=True)
-    return image_url
-
-
-def _user_image(user, size):
-    url = _get_user_image(user) or ""
-    return literal('<img src="%s" width="%s" height="%s" class="media-image" />' % (url, size, size))
-
-
 def helper_is_pseudo(user):
     """ Check if user is pseudo user """
     return user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]
@@ -1363,12 +1349,10 @@ def helper_linked_user(user, maxlength=0, avatar=20):
             return user_name
     if user:
         name = user.name if model.User.VALID_NAME.match(user.name) else user.id
-        icon = _user_image(user, avatar)
         displayname = user.display_name
         if maxlength and len(user.display_name) > maxlength:
             displayname = displayname[:maxlength] + '...'
-        return icon + u' ' + link_to(displayname,
-                                     helpers.url_for(controller='user', action='read', id=name), class_='')
+        return link_to(displayname, helpers.url_for(controller='user', action='read', id=name), class_='')
 
 
 def helper_organizations_for_select():
@@ -1377,34 +1361,11 @@ def helper_organizations_for_select():
     return [{'value': '', 'text': ''}] + organizations
 
 
-def helper_main_organization(user=None):
-    user = user or c.userobj
-
-    if not user:
-        return None
-
-    main_organization = user.extras.get('main_organization', None)
-
-    if main_organization:
-        context = {'model': model, 'session': model.Session, 'user': c.user}
-        return toolkit.get_action('organization_show')(context, {'id': main_organization})
-    else:
-        if c.userobj.sysadmin:
-            return None  # Admin is part of all organization so main organization would be invalid every time.
-        available = helpers.organizations_available()
-        return available[0] if available else None
-
-
-def get_image_upload_size():
-    return config.get('ckan.max_image_size', 2)
-
-
 class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITranslation)
 
@@ -1416,35 +1377,17 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_public_directory(config, 'public')
 
     def configure(self, config):
-        from ckanext.ytp.model import setup as model_setup
-        model_setup()
+        pass
 
     def get_helpers(self):
-        return {'linked_user': helper_linked_user, 'organizations_for_select': helper_organizations_for_select,
-                'is_pseudo': helper_is_pseudo,
-                'main_organization': helper_main_organization,
-                'get_image_upload_size': get_image_upload_size}
+        return {'linked_user': helper_linked_user,
+                'organizations_for_select': helper_organizations_for_select,
+                'is_pseudo': helper_is_pseudo}
 
     def get_auth_functions(self):
-        return {'user_update': plugin_logic.auth_user_update, 'user_list': plugin_logic.auth_user_list,
+        return {'user_update': plugin_logic.auth_user_update,
+                'user_list': plugin_logic.auth_user_list,
                 'admin_list': plugin_logic.auth_admin_list}
-
-    def get_actions(self):
-        return {
-            'user_update': plugin_logic.action_user_update,
-            # 'user_show': logic.action_user_show,
-            'user_list': plugin_logic.action_user_list}
-
-    def before_map(self, map):
-        # Remap user edit to our user controller
-        user_controller = 'ckanext.ytp.controller:YtpUserController'
-        with SubMapper(map, controller=user_controller) as m:
-            m.connect('/user/edit', action='edit')
-            m.connect('/user/edit/{id:.*}', action='edit')
-            m.connect('/user/me', action='me')
-            # m.connect('/user/{id}', action='read')
-
-        return map
 
 
 class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):

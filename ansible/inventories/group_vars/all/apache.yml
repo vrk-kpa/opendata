@@ -71,9 +71,8 @@ apache_port_config: |
 
   NameVirtualHost *:8800
   Listen 8800
-
-  {% if apache_testing_ports is defined %}
-    {% for port in apache_testing_ports %}
+  {% if apache_testing_ports is defined -%}
+    {% for port in apache_testing_ports -%}
       Listen {{ port }}
     {% endfor %}
   {% endif %}

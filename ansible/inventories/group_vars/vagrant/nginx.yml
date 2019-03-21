@@ -30,11 +30,14 @@ nginx_snippet_files:
   - template: 'server.config.j2'
     destination: 'ytp.conf'
     root_redirect: "{{ nginx_hostname_language }}"
+    apache_port: "{{ nginx_apache_port }}"
   - template: 'server.config.j2'
     destination: 'ytp-secondary.conf'
     root_redirect: "{{ nginx_secondary_hostname_language }}"
+    apache_port: "{{ nginx_apache_port }}"
   - template: 'nginx_security_headers.conf.j2'
     destination: 'nginx_security_headers.conf'
   - template: 'server.config.j2'
     destination: 'ytp_test.conf'
     root_redirect: "{{ nginx_hostname_language }}"
+    apache_port: "9090"

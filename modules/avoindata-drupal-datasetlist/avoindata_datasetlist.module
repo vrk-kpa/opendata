@@ -38,34 +38,43 @@ function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Returns a number of HTML table rows based on the list of datasets given as parameter.
+ * Returns a number of HTML table rows based on the list of datasets given.
  */
-function create_dataset_table_rows($dataset_list) {
+function create_dataset_table_rows($dataset_list, $date_type) {
+  $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
   $resultHTML = '';
+  $field_for_date = ($date_type ? $date_type : 'metadata_created');
+
   if (count($dataset_list) > 0) {
     foreach ($dataset_list as $dataset) {
-      $created_date = date('d.m.Y', strtotime($dataset['metadata_created']));
+      $created_date = date('d.m.Y', strtotime($dataset[$field_for_date]));
+      $translated_title = (
+        $dataset['title_translated'][$currentLang]
+          ? $dataset['title_translated'][$currentLang]
+          : $dataset['title_translated']['fi']
+      );
       $resultHTML .= <<<EOT
       <tr>
-        <td><a href="/data/fi/dataset/{$dataset['name']}"> {$dataset['title_translated']['fi']} </a></td>
+        <td><a href="/data/fi/dataset/{$dataset['name']}"> {$translated_title} </a></td>
         <td>{$dataset['owner']}</td>
         <td>{$created_date}</td>
       </tr>
 EOT;
     }
-    $resultHTML .= $datasetRows;
   }
   return $resultHTML;
 }
 
 /**
- * Gets most recent datasets from Ckan API and specifies that they won't be cached.
+ * Gets recent datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_recent_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $recentDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5');
+    $recentDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5'
+    );
     $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
     $recentDatasets = $recentDatasetsResult['result']['results'];
   }
@@ -74,18 +83,20 @@ function avoindata_recent_datasets() {
   }
 
   return [
-    '#markup' => create_dataset_table_rows($recentDatasets),
+    '#markup' => create_dataset_table_rows($recentDatasets, 'metadata_modified'),
     '#cache' => ['max-age' => 0],
   ];
 }
 
 /**
- * Gets new datasets from Ckan API and specifies that they won't be cached.
+ * Gets new datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_new_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $newDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5');
+    $newDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5'
+    );
     $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
     $newDatasets = $newDatasetsResult['result']['results'];
   }
@@ -100,12 +111,14 @@ function avoindata_new_datasets() {
 }
 
 /**
- * Gets most popular datasets from Ckan API and specifies that they won't be cached.
+ * Gets popular datasets from Ckan and specifies that they won't be cached.
  */
 function avoindata_popular_datasets() {
   $client = \Drupal::httpClient();
   try {
-    $popularDatasetsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5');
+    $popularDatasetsResponse = $client->request('GET',
+      'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5'
+    );
     $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
     $popularDatasets = $popularDatasetsResult['result']['results'];
   }
