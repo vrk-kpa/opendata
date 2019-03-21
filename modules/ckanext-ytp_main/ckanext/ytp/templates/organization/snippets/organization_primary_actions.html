@@ -1,0 +1,30 @@
+<div class="pull-right">
+  {% set orgs =  h.organizations_available() %}
+  {% if orgs | count != 0 %}
+    <div class="btn-group">
+      <a href="/data/{{ h.lang() }}/member-request/list" class="btn btn-avoindata-header">{{ _('Membership Requests') }}</a>
+    </div>
+  {% endif %}
+  {% if not h.is_sysadmin() and h.is_loggedinuser() %}
+    <div class="btn-group">
+      <a href="/data/{{ h.lang() }}/member-request/mylist" class="btn btn-avoindata-header">{{ _('My membership requests') }}</a>
+    </div>
+  {% endif %}
+  {% if h.is_sysadmin() %}
+    <div class="btn-group">
+      <a href="/data/{{ h.lang() }}/user_list" class="btn btn-avoindata-header">
+        <i class="fas fa-user-circle"></i>
+        {{ _('Users') }}
+      </a>
+    </div>
+  {% endif %}
+
+  {% if h.check_access('organization_create') %}
+    <div class="btn-group">
+      <a href="/data/{{ h.lang() }}/organization/new" class="btn btn-avoindata-header">
+        <i class="fas fa-plus"></i>
+        {{ _('Add Organization') }}
+      </a>
+    </div>
+  {% endif %}
+</div>

@@ -687,6 +687,23 @@ p:last-child,
       }
     }
   }
+  .tag-list-item-container, .article-date {
+    line-height: 1;
+    display: inline-flex;
+  }
+  .tag-list-item:before {
+    content: ", ";
+  }
+  .tag-list-item:first-child:before {
+    content: "";
+  }
+  // First element is an icon
+  .tag-list-item:nth-child(2):before {
+    content: "";
+  }
+  .article-date {
+    padding-right: 15px;
+  }
   .avoindata-article-item {
     padding-bottom: 21px;
     border-top: 0px none rgba(0, 0, 0, .35);
@@ -700,6 +717,10 @@ p:last-child,
       font-size: 12px;
       font-style: normal;
       text-transform: uppercase;
+      margin-bottom: 20px;
+      i {
+        padding-right: 5px;
+      }
     }
     .article-text {
       margin-bottom: 20px;

@@ -54,7 +54,7 @@
 
   {% block search_title %}
     {% if not no_title %}
-      <h1>{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type, from='organization' %}</h1>
+      <h2>{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type, from='organization' %}</h2>
     {% endif %}
   {% endblock %}
 
