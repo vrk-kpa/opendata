@@ -2,7 +2,8 @@
   "variables": {
     "branch": "{{env `CIRCLE_BRANCH` }}",
     "commit": "{{env `CIRCLE_SHA1` }}",
-    "build": "{{env `CIRCLE_BUILD_NUM` }}"
+    "build": "{{env `CIRCLE_BUILD_NUM` }}",
+    "packer_instance_profile": "{{env `AWS_PACKER_EC2_INSTANCE_PROFILE` }}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -19,6 +20,7 @@
     "instance_type": "t3.medium",
     "ssh_username": "ubuntu",
     "ami_name": "opendata-{{ user `branch` }}-{{timestamp}}",
+    "iam_instance_profile": "{{ user `packer_instance_profile` }}",
     "run_tags": {
       "Branch": "{{ user `branch` }}",
       "Commit": "{{ user `commit` }}",
