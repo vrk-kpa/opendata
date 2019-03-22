@@ -233,7 +233,15 @@ Resources:
               - 'ec2:RunInstances'
               - 'ec2:StopInstances'
               - 'ec2:TerminateInstances'
+              - 'ec2:AssociateIamInstanceProfile'
+              - 'ec2:ReplaceIamInstanceProfileAssociation'
+              - 'ec2:DisassociateIamInstanceProfile'
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - 'iam:GetRole'
+              - 'iam:PassRole'
+            Resource: !GetAtt SecretBucketGetRole.Arn
 
 
   BuildTestBucketPolicy:
