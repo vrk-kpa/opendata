@@ -8,13 +8,23 @@
     group: root
   notify: Restart jetty
 
-- name: Copy Solr schema
+- name: Copy Solr schema for default core
   template:
     src: schema.xml.j2
     dest: /etc/solr/conf/schema.xml
     mode: "0644"
     owner: root
     group: root
+  notify: Restart jetty
+
+- name: Copy Solr schema for additional cores
+  template:
+    src: schema.xml.j2
+    dest: "{{ item.instance_dir }}/conf/schema.xml"
+    mode: "0644"
+    owner: root
+    group: root
+  with_items: "{{ solr_cores }}"
   notify: Restart jetty
 
 - name: Setup Jetty8
