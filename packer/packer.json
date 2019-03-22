@@ -45,7 +45,7 @@
       "type": "ansible",
       "playbook_file": "single-server.yml",
       "inventory_directory": "inventories",
-      "groups": ["packers"],
+      "groups": ["packer"],
       "user": "operator",
       "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
       "extra_arguments": [
