@@ -4,8 +4,8 @@
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
     dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/.npmrc"
+    remote_src: true
   when: opendata_frontend_copy_secret_npmrc
-  delegate_to: "{{ inventory_hostname }}"
 
 - name: Copy fallback package.json if npmrc does not exist
   copy:
