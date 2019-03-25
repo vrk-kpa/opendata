@@ -20,6 +20,15 @@
   tags:
     - skip_ansible_lint
 
+- name: List existing CKAN users
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan user list
+    --config={{ ckan_ini }}
+    chdir={{ virtual_environment }}
+  register: ckan_current_users
+  tags:
+    - skip_ansible_lint
+
 - name: Create initial CKAN users
   shell: >-
     ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
@@ -29,6 +38,16 @@
     - "{{ ckan_ytp_users }}"
     - "{{ ckan_harvest_user }}"
     - "{{ ckan_admin }}"
+  when: item.username not in ckan_current_users.stdout
+  tags:
+    - skip_ansible_lint
+
+- name: List existing CKAN admins
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan sysadmin list
+    --config={{ ckan_ini }}
+    chdir={{ virtual_environment }}
+  register: ckan_current_sysadmins
   tags:
     - skip_ansible_lint
 
@@ -40,6 +59,7 @@
     chdir='{{ ckan_virtual_environment }}'
   ignore_errors: true
   with_items: "{{ ckan_admins }}"
+  when: item not in ckan_current_sysadmins.stdout
   tags:
     - skip_ansible_lint
 

@@ -15,7 +15,7 @@
       - pip
       - setuptools==36.1
       - boto
-    virtualenv: "{{ virtual_environment }}"
+    virtualenv: "{{ opendata_frontend_virtual_environment }}"
     state: present
   tags:
     - skip_ansible_lint

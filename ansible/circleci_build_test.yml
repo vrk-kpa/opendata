@@ -21,6 +21,8 @@
 
   tasks:
 
+  - block:
+
     - name: Configure local .ssh directory permissions
       file:
         path: ~/.ssh
@@ -91,6 +93,8 @@
         timeout: 300
       with_items: "{{ ec2.instances }}"
 
+    tags: always
+
 - name: Play 2 - Prepare instance(s)
   hosts: circleci
   remote_user: "{{ lookup('env','AWS_EC2_USER') }}"
@@ -101,34 +105,34 @@
 
   - name: Block for required packages
     block:
-    # Raw module required to check if python exists and install if missing
-    - name: Install python
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
-      args:
-        warn: False
+      # Raw module required to check if python exists and install if missing
+      - name: Install python
+        raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+        args:
+          warn: False
 
-    - name: Install required packages
-      apt:
-        name:
-          - libssl-dev
-          - libffi-dev
-          - python-dev
-          - python-pip
-          - git
-          - nfs-common
-          - rsync
-        update_cache: yes
+      - name: Install required packages
+        apt:
+          name:
+            - libssl-dev
+            - libffi-dev
+            - python-dev
+            - python-pip
+            - git
+            - nfs-common
+            - rsync
+          update_cache: yes
 
-    - name: Install python packages
-      pip:
-        name:
-          - setuptools
-          - awscli
-          - ansible
-          - markupsafe
-        state: latest
-    # Sometimes python package is not found right after instance is creataed,
-    # retrying seems to solve this issue.
+      - name: Install python packages
+        pip:
+          name:
+            - setuptools
+            - awscli
+            - ansible
+            - markupsafe
+          state: present
+      # Sometimes python package is not found right after instance is creataed,
+      # retrying seems to solve this issue.
     rescue:
     - name: Install python
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
@@ -147,14 +151,17 @@
           - rsync
         update_cache: yes
 
-    - name: Install python packages
-      pip:
-        name:
-          - setuptools
-          - awscli
-          - ansible
-          - markupsafe
-        state: latest
+    tags: always
+
+  - name: Install python packages
+    pip:
+      name:
+        - setuptools
+        - awscli
+        - ansible
+        - markupsafe
+      state: present
+    tags: always
 
 - name: Play 3 - Configure instance(s)
   hosts: circleci
@@ -169,12 +176,14 @@
     with_fileglob:
       - "{{ playbook_dir }}/inventories/group_vars/all/*"
       - "{{ playbook_dir }}/inventories/group_vars/build_test/*"
+    tags: always
 
   - name: Set pass_status to default value
     set_fact:
       pass_status: True
       failed_task_name: ""
       failed_task_result: ""
+    tags: always
 
   - name: Block for testing roles
     block:
@@ -182,6 +191,7 @@
           name: common
       - import_role:
           name: postgres
+        tags: always
       - import_role:
           name: opendata_frontend
       - import_role:
@@ -206,20 +216,26 @@
     rescue:
     - name: Continue playbook execution to next play always
       command: /bin/true
+      tags: always
+
     - name: Set fact
       set_fact:
         pass_status: False
+      tags: always
+
     - name: Save failed task name
       set_fact:
         failed_task_name: "{{ ansible_failed_task }}"
       when: ansible_failed_task is defined
+      tags: always
 
     - name: Save failed result
       set_fact:
         failed_task_result: "{{ ansible_failed_result }}"
       when: ansible_failed_result is defined
+      tags: always
 
-- name: Play 4 - Terminate EC2 instances
+- name: Play 4 - Set pass status
   hosts: localhost
   connection: local
   gather_facts: False
@@ -230,6 +246,7 @@
     - name: Set pass status fact based on previous play
       set_fact:
         pass_status: "{{ hostvars[ ec2.instances[0].public_ip ]['pass_status'] }}"
+      tags: always
 
     - name: Print failed task debug information
       debug:
@@ -237,10 +254,11 @@
         - "{{ hostvars[ ec2.instances[0].public_ip ]['failed_task_name'] }}"
         - "{{ hostvars[ ec2.instances[0].public_ip ]['failed_task_result'] }}"
         verbosity: 1
+      tags: always
 
     - name: Check actual playbook execution result
       debug:
         msg:
         - "Playbook execution successful: {{ pass_status }}"
-
       failed_when: pass_status == False
+      tags: always

@@ -157,6 +157,36 @@ Resources:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
 
+  SecretBucketGetRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: "SecretsBucketGetPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "s3:GetObject"
+                  - "s3:ListBucket"
+                Resource:
+                  - "arn:aws:s3:::opendata-packer-secrets"
+                  - "arn:aws:s3:::opendata-packer-secrets/*"
+
+  BuildTestInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Roles:
+        - !Ref "SecretBucketGetRole"
 
   BuildTestGroup:
     Type: AWS::IAM::Group
@@ -207,7 +237,15 @@ Resources:
               - 'ec2:RunInstances'
               - 'ec2:StopInstances'
               - 'ec2:TerminateInstances'
+              - 'ec2:AssociateIamInstanceProfile'
+              - 'ec2:ReplaceIamInstanceProfileAssociation'
+              - 'ec2:DisassociateIamInstanceProfile'
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - 'iam:GetRole'
+              - 'iam:PassRole'
+            Resource: !GetAtt SecretBucketGetRole.Arn
 
 
   BuildTestBucketPolicy:
