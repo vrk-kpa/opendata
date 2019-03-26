@@ -52,7 +52,7 @@ apache_sites:
           WSGIDaemonProcess ckan_test display-name=ckan_test processes=2 threads=15
           {% endif %}
 
-          WSGIProcessGroup ckan_default
+          WSGIProcessGroup ckan_test
 
           ErrorLog /var/log/apache2/ckan_test.error.log
           ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"
@@ -92,3 +92,6 @@ apache_sites:
           </Directory>
 
       </VirtualHost>
+
+apache_testing_ports:
+  - "9090"

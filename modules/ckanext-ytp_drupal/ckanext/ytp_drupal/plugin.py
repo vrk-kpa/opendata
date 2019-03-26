@@ -79,7 +79,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
         query = """SELECT url_alias.language, node.title, field_revision_body.body_value, node.nid from url_alias
                        INNER JOIN node ON node.nid = split_part(url_alias.source, '/', 2)::integer
                        INNER JOIN field_revision_body ON field_revision_body.entity_id = split_part(url_alias.source, '/', 2)::integer
-                   WHERE url_alias.alias = %(identifier)s"""
+                   WHERE url_alias.alias = %(identifier)s"""  # noqa: E501
 
         results = {}
         for content_language, title, body, node_id in self.engine.execute(query, {'identifier': identifier}):

@@ -1,0 +1,14 @@
+- name: Set hostname
+  hostname:
+    name: "{{ common_deployment_environment_id }}-web"
+
+- name: Add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1\tlocalhost {{ common_deployment_environment_id }}-web"
+    owner: root
+    group: root
+    mode: 0644
+    state: present
+    insertbefore: BOF

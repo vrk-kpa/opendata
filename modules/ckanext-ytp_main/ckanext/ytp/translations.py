@@ -72,6 +72,7 @@ def _translations():
     _('Features')
     _('Members can only edit their own datasets')
     _('Home page')
+    _('Maturity')
     _('Position coordinates')
     _('Time series start')
     _('Time series end')
@@ -94,6 +95,9 @@ def _translations():
     _('active')
     _('deleted')
     _('draft')
+    _('Current version')
+    _('Archived version')
+    _('Draft version')
 
     # Assets common terms
     _('Log in')
