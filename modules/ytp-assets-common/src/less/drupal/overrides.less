@@ -608,6 +608,11 @@ p:last-child,
     border-radius: 2px;
     background-color: @resource-list-background;
     margin-bottom: 10px;
+    .avoindata-article-category-filter > * {
+      // Click target should register to the category-filter element and not any of its child elements, because
+      // otherwise function searchArticlesApplyFilter(event) doesn't work correctly. 
+      pointer-events: none; 
+    }
     .opendata-card-header {
       margin-left: 18px;
       margin-right: 18px;
@@ -623,23 +628,49 @@ p:last-child,
     }
     .opendata-card-content {
       margin-top: 15px;
+      a.avoindata-card-list-item {
+        font-size: 13px;
+        color: @facet-link-text-color;
+        text-decoration: none;
+      }
       .avoindata-card-list-item {
+        cursor: pointer;
         margin-left: 0px;
         padding-left: 20px;
         padding-top: 12px;
         padding-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
         a {
-          cursor: pointer;
           font-size: 13px;
-          color: #020202;
+          color: @facet-link-text-color;
           text-decoration: none;
-          &.active {
-            font-weight: 700;
-          }
         }
         &:hover {
           border-left: 8px solid @sidebar-block-color-header;
           padding-left: 12px;
+          .fa-plus-circle {
+            display: block;
+            color: @btn-dark-bg;
+            padding-right: 5px;
+            font-weight: 600;
+          }
+        }
+        .fa-plus-circle {
+          display: none;
+        }
+        .fa-times-circle {
+          display: none;
+        }
+        &.active {
+          font-weight: 700;
+          .fa-times-circle {
+            display: block;
+            padding-right: 5px;
+          }
+          .fa-plus-circle {
+            display: none;
+          }
         }
       }
     }
@@ -736,6 +767,7 @@ p:last-child,
     margin-top: 30px;
     #avoindata-articles-search-btn {
       margin-top: 15px;
+      margin-bottom: 15px;
     }
   }
 }

@@ -49,11 +49,6 @@
     path: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
   register: piprequirements
 
-- name: Register extension dev-requirements.txt
-  stat:
-    path: "{{ ckan_extension_sync_path }}/{{ item }}/dev-requirements.txt"
-  register: devrequirements
-
 - name: Install extension requirements
   pip:
     requirements: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
@@ -65,12 +60,6 @@
     requirements: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
     virtualenv: "{{ ckan_virtual_environment }}"
   when: piprequirements.stat.exists
-
-- name: Install extension devrequirements
-  pip:
-    requirements: "{{ ckan_extension_sync_path }}/{{ item }}/dev-requirements.txt"
-    virtualenv: "{{ ckan_virtual_environment }}"
-  when: devrequirements.stat.exists and ckan_deployment_environment_id == "build"
 
 - name: Install extension {{ item }}
   pip:

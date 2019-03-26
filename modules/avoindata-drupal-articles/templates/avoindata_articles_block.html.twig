@@ -126,8 +126,10 @@
           </div>
           <div class="opendata-card-content avoindata-article-category-filter-wrapper">
             {% for tag in tags %}
-              <div class="avoindata-card-list-item">
-                <a class="avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">{{ tag.label }}</a>
+              <div class="avoindata-card-list-item avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">
+                <a>{{ tag.label }}</a>
+                <i class="far fa-plus-circle"></i>
+                <i class="fas fa-times-circle"></i>
               </div>
             {% endfor %}
           </div>

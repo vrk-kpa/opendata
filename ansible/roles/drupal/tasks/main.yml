@@ -126,5 +126,6 @@
     dest: "{{ drupal_root }}/web/robots.txt"
 
 - name: Configure drupal instance
-  include_tasks: configure_drupal.yml
-  when: drupal_configure_instance
+  import_tasks: configure_drupal.yml
+  tags:
+    - configure

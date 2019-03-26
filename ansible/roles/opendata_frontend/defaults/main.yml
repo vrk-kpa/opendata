@@ -6,11 +6,7 @@ opendata_frontend_packages:
 
 opendata_frontend_modules_path: "../modules"
 
-# clear_module_cache: false
-
-# TODO: these "external" variables should be prefixed or otherwise handled better
-server_path: /srv/ytp
-deployment_environment_id: ""
-AWS:
-  enabled: false
-virtual_environment: /usr/lib/ckan/default
+opendata_frontend_server_path: "/srv/ytp"
+opendata_frontend_deployment_environment_id: ""
+opendata_frontend_virtual_environment: /usr/lib/ckan/default
+opendata_frontend_copy_secret_npmrc: false
