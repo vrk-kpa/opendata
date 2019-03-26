@@ -1,6 +1,7 @@
 # English translation of avoindata.fi
 # 
 # Translators:
+# Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # 
@@ -25117,7 +25118,7 @@ msgid "News and articles"
 msgstr "Uutiset ja artikkelit"
 
 msgid "Categories"
-msgstr "Kategoriat"
+msgstr "Aiheet"
 
 msgid "Finnish open data portal"
 msgstr "Suomalainen avoimen datan portaali"
