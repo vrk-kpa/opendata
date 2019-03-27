@@ -90,11 +90,11 @@
  */
  $databases = [];
  $databases['default']['default'] = array (
-   'database' => '{{ postgres.databases.drupal8.name }}',
-   'username' => '{{ postgres.users.drupal8.username }}',
-   'password' => '{{ postgres.users.drupal8.password }}',
-   'host' => '{{ postgres.server.host }}',
-   'port' => '{{ postgres.server.port }}',
+   'database' => '{{ drupal_database_name }}',
+   'username' => '{{ drupal_database_username }}',
+   'password' => '{{ drupal_database_password }}',
+   'host' => '{{ drupal_database_server }}',
+   'port' => '{{ drupal_database_port }}',
    'driver' => 'pgsql',
    'prefix' => '',
    'collation' => 'utf8mb4_general_ci',
@@ -290,7 +290,7 @@ $config_directories['sync'] = '../config/sync';
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '{{ drupal.hash_salt }}';
+$settings['hash_salt'] = '{{ drupal_hash_salt }}';
 
 /**
  * Deployment identifier.
@@ -747,13 +747,13 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * example.org, with all subdomains included.
  */
  $settings['trusted_host_patterns'] = array(
-   '^{{ hostname | regex_escape() }}$',
-   {% if base_hostname is defined and base_hostname|length -%}
-   '^{{ base_hostname | regex_escape() }}$',
+   '^{{ drupal_fqdn | regex_escape() }}$',
+   {% if drupal_domain is defined and drupal_domain|length -%}
+   '^{{ drupal_domain | regex_escape() }}$',
    {% endif -%}
-   '^{{ secondary_hostname | regex_escape() }}$',
-   {% if secondary_base_hostname is defined and secondary_base_hostname|length -%}
-   '^{{ secondary_base_hostname | regex_escape() }}$'
+   '^{{ drupal_secondary_fqdn | regex_escape() }}$',
+   {% if drupal_secondary_domain is defined and drupal_secondary_domain|length -%}
+   '^{{ drupal_secondary_domain | regex_escape() }}$'
    {% endif -%}
  );
 

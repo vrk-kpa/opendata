@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  run-flake8:
+  flake8:
     docker:
       - image: circleci/python:2.7.15
 
@@ -34,9 +34,9 @@ jobs:
           name: run linting
           command: |
             . venv/bin/activate
-            flake8 modules --max-line-length=140
+            flake8 modules --count --max-line-length=127 --statistics
 
-  run-code-sniffer:
+  code-sniffer:
     docker:
       - image: circleci/php:7.1
 
@@ -51,35 +51,35 @@ jobs:
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "drupal8/composer.json" }}
+            - v1-dependencies-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           command: composer install -n --prefer-dist
-          working_directory: ~/project/drupal8/
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Ignore warnings on exit code
           command: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-          working_directory: ~/project/drupal8/
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Run codesniffer for drupal standard
-          command: ./vendor/bin/phpcs --standard=Drupal ../modules --ignore=ckanext*,ytp-assets-common
-          working_directory: ~/project/drupal8/
+          command: ./vendor/bin/phpcs --standard=Drupal  ~/project/modules --ignore=ckanext*,ytp-assets-common
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:
           name: Run codesniffer for drupal practice
-          command: ./vendor/bin/phpcs --standard=DrupalPractice ../modules --ignore=ckanext*,ytp-assets-common
-          working_directory: ~/project/drupal8/
+          command: ./vendor/bin/phpcs --standard=DrupalPractice  ~/project/modules --ignore=ckanext*,ytp-assets-common
+          working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - save_cache:
-          key: composer-v1-{{ checksum "drupal8/composer.json" }}
+          key: composer-v1-{{ checksum "~/project/ansible/roles/drupal/files/drupal8/composer.json" }}
           paths:
             - vendor
 
-  run-ansible-lint:
+  ansible-lint:
     docker:
       - image: circleci/python
 
@@ -93,7 +93,7 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
-  run-ansible-role-test:
+  ansible-role-test:
     docker:
       - image: circleci/python
 
@@ -109,7 +109,7 @@ jobs:
       - run: git submodule update --init --recursive
 
       - run: sudo apt update && sudo apt install rsync
-      
+
       - run: sudo pip install ansible boto awscli
 
       - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
@@ -136,9 +136,9 @@ jobs:
 
       - run:
           name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'non-local,postfix' ansible/circleci_build_test.yml >>circleci_build_test.log 2>&1"
+          command: "ansible-playbook --skip-tags 'dependency_role' circleci_build_test.yml >>../circleci_build_test.log 2>&1"
           no_output_timeout: 60m
-          working_directory: ~/project/
+          working_directory: ~/project/ansible
 
       - run:
           name: Set instance public for Cypress
@@ -161,11 +161,118 @@ jobs:
           working_directory: ~/project/
           when: always
 
+  packer:
+    docker:
+      - image: circleci/python
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - run: sudo apt-get update && sudo apt-get install rsync
+      - run: sudo pip install boto awscli
+      - run: sudo pip install ansible
+
+      - run:
+          name: Install packer
+          command: wget https://releases.hashicorp.com/packer/1.3.5/packer_1.3.5_linux_amd64.zip -O /tmp/packer.zip && sudo unzip /tmp/packer.zip -d /usr/local/bin/
+
+      - run:
+          name: Validate packer file
+          command: packer validate ../packer/packer.json
+          working_directory: ~/project/ansible
+
+      - run:
+          name: Build ami
+          command: "packer build ../packer/packer.json >> ../packer_build.log 2>&1"
+          no_output_timeout: 60m
+          working_directory: ~/project/ansible
+
+      - run:
+          name: Save ami id to file
+          command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ../ami_id
+          working_directory: ~/project/ansible
+
+      - store_artifacts:
+          path: packer_build.log
+
+      - store_artifacts:
+          path: ami_id
+
+
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+
+      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
+      - run: sudo apt-get install -y nodejs
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+          working_directory: ~/project/
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+
+      - run:
+          name: Copy private key for ec2 usage
+          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
+          working_directory: ~/project/
+
+      - run:
+          name: Set ami id
+          command: |
+            echo 'export AWS_EC2_IMAGE=$(cat ~/project/ami_id)' >> $BASH_ENV
+
+      - run:
+          name: Run build test playbook
+          command: "ansible-playbook --skip-tags 'dependency_role' --tags 'configure' circleci_build_test.yml >>../circleci_packer_build_test.log 2>&1"
+          no_output_timeout: 60m
+          working_directory: ~/project/ansible
+
+      - run:
+          name: Set instance public for Cypress
+          command: |
+            echo 'export CYPRESS_BASE_URL=http://$(cat /tmp/instance_public_ip)' >> $BASH_ENV
+            echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
+
+
+      - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
+
+      - store_artifacts:
+          path: circleci_packer_build_test.log
+
+        # If there is a syntax error or some other issue in the actual build test
+        # playbook the cleanup part might not get executed. Therefore additional
+        # cleanup task to ensure that created instances will be terminated.
+      - run:
+          name: Additional cleanup for EC2 instances
+          command: "ansible-playbook ansible/circleci_cleanup.yml"
+          working_directory: ~/project/
+          when: always
+
 workflows:
   version: 2
-  lint-all:
+  lint_build_test:
     jobs:
-      - run-flake8
-      - run-code-sniffer
-      - run-ansible-lint
-      - run-ansible-role-test
+      - flake8
+      - code-sniffer
+      - ansible-lint
+      - ansible-role-test:
+          requires:
+            - flake8
+            - code-sniffer
+            - ansible-lint
+      - packer:
+          requires:
+            - flake8
+            - code-sniffer
+            - ansible-lint

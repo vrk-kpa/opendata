@@ -1,4 +1,2 @@
-  - name: restart sshd
-    service:
-      name: ssh
-      state: restarted
+---
+# handlers file for common

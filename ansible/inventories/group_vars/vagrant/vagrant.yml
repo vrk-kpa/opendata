@@ -1,0 +1,13 @@
+---
+
+# THESE VARS ARE PUBLIC, DO NOT PUT SECRETS HERE
+
+hostname: vagrant.avoindata.fi
+hostname_language: fi
+secondary_hostname: vagrant.opendata.fi
+secondary_hostname_language: en
+smtp_server_domain: "localhost"
+
+secrets_file_path: does_not_exist
+deployment_environment_id: vagrant
+disqus_name: "localhost-avoindata-fi"

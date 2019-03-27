@@ -1,0 +1,34 @@
+---
+ckan_postgres_admin_user: "{{ postgres_conf.admin_user }}"
+ckan_postgres_admin_password: "{{ postgres_conf.admin_password }}"
+ckan_postgres:
+  users:
+    ckan:
+      username: ckan_default
+      password: "{{ secret.database_ckan_password }}"
+    ckan_datastore:
+      username: datastore_default
+      password: "{{ secret.database_ckan_datastore_password }}"
+    drupal8:
+      username: drupal8
+      password: "{{ secret.database_drupal8_password }}"
+  server:
+    host: "{{ postgres_conf.host }}"
+  databases:
+    ckan:
+      name: ckan_default
+      owner: ckan_default
+    ckan_datastore:
+      name: datastore_default
+      owner: ckan_default
+    drupal8:
+      name: drupal8
+      owner: drupal8
+
+ckan_email_domain: "{{ email_domain }}"
+ckan_admin_email: "{{ admin_email }}"
+ckan_admin: "{{ admin }}"
+ckan_beaker_session_secret: "{{ beaker_session_secret }}"
+ckan_app_instance_uuid: "{{ app_instance_uuid }}"
+ckan_google_analytics: "{{ google_analytics }}"
+ckan_google_credentials: "{{ google_credentials }}"

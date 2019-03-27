@@ -20,9 +20,12 @@ def member_request(context, data_dict):
     if membership.table_name != 'user':
         return {'success': False}
 
-    query = model.Session.query(model.Member).filter(model.Member.state == 'active').filter(model.Member.table_name == 'user') \
-        .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)\
-        .filter(model.Member.group_id == membership.group_id)
+    query = (model.Session.query(model.Member)
+                          .filter(model.Member.state == 'active')
+                          .filter(model.Member.table_name == 'user')
+                          .filter(model.Member.capacity == 'admin')
+                          .filter(model.Member.table_id == c.userobj.id)
+                          .filter(model.Member.group_id == membership.group_id))
     return {'success': query.count() > 0}
 
 
