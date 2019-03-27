@@ -1,0 +1,78 @@
+---
+apache_hostname: "{{ hostname }}"
+apache_secondary_hostname: "{{ secondary_hostname }}"
+apache_port: 8080
+apache_deployment_environment_id: "{{ deployment_environment_id }}"
+
+apache_sites:
+  - name: ytp
+    config: |
+      WSGISocketPrefix /var/run/wsgi
+      <VirtualHost 0.0.0.0:{{ apache_port }}>
+
+          ServerName {{ apache_hostname }}
+          ServerAlias {{ apache_secondary_hostname }}
+          WSGIScriptAlias /data /etc/ckan/default/apache.wsgi
+
+          # pass authorization info on (needed for rest api)
+          WSGIPassAuthorization On
+
+          # Deploy as a daemon (avoids conflicts between CKAN instances)
+          {% if apache_deployment_environment_id == "vagrant" %}
+          WSGIDaemonProcess ckan_default display-name=ckan_default threads=15
+          {% else %}
+          WSGIDaemonProcess ckan_default display-name=ckan_default processes=2 threads=15
+          {% endif %}
+
+          WSGIProcessGroup ckan_default
+
+          ErrorLog /var/log/apache2/ckan_default.error.log
+          ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"
+          CustomLog /var/log/apache2/ckan_default.custom.log combined
+
+          <Directory "/etc/ckan/default">
+              Require all granted
+          </Directory>
+      </VirtualHost>
+
+      {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
+      {% if apache_deployment_environment_id == "vagrant" %}
+          EnableSendfile Off
+      {% endif %}
+  - name: datapusher
+    config: |
+      <VirtualHost *:8800>
+
+          ServerName ckan
+
+          # this is our app
+          WSGIScriptAlias / /etc/ckan/default/datapusher.wsgi
+
+          # pass authorization info on (needed for rest api)
+          WSGIPassAuthorization On
+
+          # Deploy as a daemon (avoids conflicts between CKAN instances)
+          WSGIDaemonProcess datapusher display-name=demo processes=1 threads=15
+
+          WSGIProcessGroup datapusher
+
+          ErrorLog /var/log/apache2/datapusher.error.log
+          CustomLog /var/log/apache2/datapusher.custom.log combined
+
+          <Directory "/" >
+              Require all granted
+          </Directory>
+
+      </VirtualHost>
+
+apache_port_config: |
+  NameVirtualHost *:{{ apache_port }}
+  Listen {{ apache_port }}
+
+  NameVirtualHost *:8800
+  Listen 8800
+  {% if apache_testing_ports is defined -%}
+    {% for port in apache_testing_ports -%}
+      Listen {{ port }}
+    {% endfor %}
+  {% endif %}

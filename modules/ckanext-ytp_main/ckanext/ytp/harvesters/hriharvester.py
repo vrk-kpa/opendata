@@ -29,15 +29,15 @@ IS_VALID_TAG = re.compile('^"?([%s]*)"?$' % VALID_TAG_CHARACTERS)
 IS_TAG_SET = re.compile('^{(.*)}$')
 MINIMUM_TAG_LENGTH = 3
 DATETIME_FORMATS = [
-        '%Y-%m-%dT%H:%M:%S.%f%z',
-        '%Y-%m-%dT%H:%M:%S%z',
-        '%Y-%m-%dT%H:%M:%S',
-        '%Y-%m-%dT%H:%M',
-        '%Y-%m-%dT%H',
-        '%Y-%m-%d',
-        '%Y-%m',
-        '%Y',
-        ]
+    '%Y-%m-%dT%H:%M:%S.%f%z',
+    '%Y-%m-%dT%H:%M:%S%z',
+    '%Y-%m-%dT%H:%M:%S',
+    '%Y-%m-%dT%H:%M',
+    '%Y-%m-%dT%H',
+    '%Y-%m-%d',
+    '%Y-%m',
+    '%Y',
+]
 
 
 class HRIHarvester(HarvesterBase):
@@ -117,7 +117,7 @@ class HRIHarvester(HarvesterBase):
 
     def _get_group(self, base_url, group_name):
         url = base_url + self._get_action_api_offset() + '/group_show?id=' + \
-              munge_name(group_name)
+            munge_name(group_name)
         try:
             content = self._get_content(url)
             return json.loads(content)
@@ -127,7 +127,7 @@ class HRIHarvester(HarvesterBase):
 
     def _get_organization(self, base_url, org_name):
         url = base_url + self._get_action_api_offset() + \
-              '/organization_show?id=' + org_name
+            '/organization_show?id=' + org_name
         try:
             content = self._get_content(url)
             content_dict = json.loads(content)
@@ -393,8 +393,8 @@ class HRIHarvester(HarvesterBase):
             .filter(HarvestJob.status == 'Finished') \
             .filter(HarvestJob.id != harvest_job.id) \
             .filter(
-                    ~exists().where(
-                                    HarvestGatherError.harvest_job_id == HarvestJob.id)) \
+                ~exists().where(
+                    HarvestGatherError.harvest_job_id == HarvestJob.id)) \
             .order_by(HarvestJob.gather_started.desc())
         # now check them until we find one with no fetch/import errors
         # (looping rather than doing sql, in case there are lots of objects
@@ -402,7 +402,7 @@ class HRIHarvester(HarvesterBase):
         for job in jobs:
             for obj in job.objects:
                 if obj.current is False and \
-                                obj.report_status != 'not modified':
+                        obj.report_status != 'not modified':
                     # unsuccessful, so go onto the next job
                     break
             else:
@@ -464,12 +464,12 @@ class HRIHarvester(HarvesterBase):
 
             # Set default values for required fields
             default_values = {
-                    'maintainer': package_dict.get('author') or '(not set)',
-                    'maintainer_email': package_dict.get('author_email') or '(not set)',
-                    }
+                'maintainer': package_dict.get('author') or '(not set)',
+                'maintainer_email': package_dict.get('author_email') or '(not set)',
+            }
             missing_values = (
-                    (k, v) for k, v in default_values.iteritems()
-                    if not package_dict.get(k))
+                (k, v) for k, v in default_values.iteritems()
+                if not package_dict.get(k))
             package_dict.update(missing_values)
 
             # Set default tags if needed
@@ -561,11 +561,11 @@ class HRIHarvester(HarvesterBase):
 
             # Rename extras
             extras_to_rename_keys = {
-                    'geographic_coverage': 'geographical_coverage',
-                    'temporal_coverage-from': 'valid_from',
-                    'temporal_coverage-to': 'valid_till',
-                    'source': 'owner'
-                    }
+                'geographic_coverage': 'geographical_coverage',
+                'temporal_coverage-from': 'valid_from',
+                'temporal_coverage-to': 'valid_till',
+                'source': 'owner'
+            }
 
             def map_extra(e):
                 result = {}
@@ -620,9 +620,9 @@ class HRIHarvester(HarvesterBase):
             # Move extras to fields
             extras_to_fields_keys = ['collection_type', 'geographical_coverage', 'valid_from', 'valid_till', 'owner']
             extras_to_fields = [
-                    x for x in package_dict.get('extras', [])
-                    if x['key'] in extras_to_fields_keys
-                    and x['key'] not in package_dict]
+                x for x in package_dict.get('extras', [])
+                if x['key'] in extras_to_fields_keys
+                and x['key'] not in package_dict]
 
             for x in extras_to_fields:
                 package_dict[x['key']] = x['value']

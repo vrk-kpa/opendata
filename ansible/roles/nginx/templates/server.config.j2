@@ -1,12 +1,6 @@
 root /var/www/opendata/web;
-client_max_body_size {{ckan_max_resource_size}}M;
+client_max_body_size {{ nginx_max_resource_size }}M;
 gzip_static on;
-
-{% if basic_auth_path -%}
-auth_basic "Restricted";
-auth_basic_user_file {{ basic_auth_path }};
-{%- endif %}
-
 
 # Set server to maintenance mode touching the /var/www/maintenance
 if (-f /var/www/maintenance) {
@@ -40,7 +34,8 @@ location @not_found {
     rewrite ^(.*)$ $not_found break;
 }
 
-{% if vagrant is not defined %}
+
+{% if nginx_development_environment %}
 error_page 500 @internal_error;
 
 location @internal_error {
@@ -76,7 +71,7 @@ location = /robots.txt {
 }
 
 location /resource_cache {
-    root {{ server_path }};
+    root {{ nginx_root_path }};
     autoindex off;
     expires {{ nginx_expires }};
     log_not_found off;
@@ -150,7 +145,7 @@ location /data {
     # Content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
     add_header X-Content-Type-Options "nosniff" always;
 
-    proxy_pass http://127.0.0.1:{{ apache_port }}/data;
+    proxy_pass http://127.0.0.1:{{ item.apache_port }}/data;
     proxy_set_header Host $host;
     proxy_set_header X-Url-Scheme $scheme;
     proxy_cache cache;
@@ -168,12 +163,12 @@ location /data {
     }
     location ~ /data/(fi|en|sv)/organization/(.*)/embed{
         # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
-        proxy_pass http://127.0.0.1:{{ apache_port }}/data/$1/organization/$2/embed$is_args$args;
+        proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1/organization/$2/embed$is_args$args;
         add_header Bypass-Sameorigin-Policy 1;
     }
 
     location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
-        proxy_pass http://127.0.0.1:{{ apache_port }}/data/$1$2$3?$args;
+        proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1$2$3?$args;
 
         # Do not show nginx's 404 error page for the API
         proxy_intercept_errors off;

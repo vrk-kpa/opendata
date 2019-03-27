@@ -4,8 +4,8 @@ Listen 8080
 NameVirtualHost *:8800
 Listen 8800
 
-{% if testing_ports is defined %}
-  {% for port in testing_ports %}
+{% if ckan_testing_ports is defined %}
+  {% for port in ckan_testing_ports %}
     Listen {{ port }}
   {% endfor %}
 {% endif %}

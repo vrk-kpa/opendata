@@ -1,0 +1,2 @@
+drupal_domain: "{{ base_hostname }}"
+drupal_secondary_domain: "{{ secondary_base_hostname }}"

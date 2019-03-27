@@ -2,7 +2,7 @@
 - name: Install redis
   apt:
     pkg: "redis-server"
-    state: latest
+    state: present
   tags:
   - packages
   - redis

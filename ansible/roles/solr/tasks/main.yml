@@ -1,0 +1,26 @@
+---
+# tasks file for solr
+
+- name: Get distribution based variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags: always
+
+- name: Ensure Jetty requirements
+  apt:
+    pkg: solr-jetty
+    state: present
+    update_cache: true
+
+- name: Create Solr cores
+  synchronize:
+    src: /usr/share/solr/
+    dest: "{{ item.instance_dir }}/"
+    copy_links: true
+  delegate_to: "{{ inventory_hostname }}"
+  with_items: "{{ solr_cores }}"
+
+- import_tasks: configure.yml
+  tags: configure

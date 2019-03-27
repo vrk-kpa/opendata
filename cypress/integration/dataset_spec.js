@@ -17,6 +17,56 @@ describe('Dataset tests', function() {
     cy.delete_dataset(dataset_name);
   })
 
+  it("Create minimal dataset and add file as a resource", function(){
+    const dataset_name = 'test_dataset_with_file';
+
+    const dataset_form_data = {
+      "#field-title_translated-fi": dataset_name,
+      '#field-notes_translated-fi': 'Dataset test description',
+      '#s2id_autogen1': 'test_keyword {enter}',
+      '#field-maintainer': 'test maintainer',
+      '#field-maintainer_email': 'test.maintainer@example.com'
+    };
+
+    cy.get('a[href="/data/fi/dataset/new"]').click();
+    cy.get('.slug-preview button').contains('Muokkaa').click();
+    cy.get('#field-name').type(dataset_name);
+    cy.fill_form_fields(dataset_form_data);
+    cy.get('button[name=save]').click();
+
+
+    const resource_name = 'sample file';
+    const resource_form_data = {
+      "#field-name_translated-fi": resource_name
+    };
+
+
+    cy.fill_form_fields(resource_form_data);
+
+    cy.get('#field-image-upload').then(function(subject){
+      cy.fixture("FL_insurance_sample.csv", 'base64')
+        .then(Cypress.Blob.base64StringToBlob)
+        .then(function(blob){
+          const el = subject[0];
+          const testFile = new File([blob],"FL_insurance_sample.csv", {type: 'CSV'} );
+          const dataTranfer = new DataTransfer();
+          dataTranfer.items.add(testFile);
+          el.files = dataTranfer.files;
+        })
+    });
+
+    cy.get('button[name=save]').contains('Valmis').click();
+
+    cy.get('a').contains(resource_name).click();
+
+    cy.get('a').contains('Avaa')
+      .should('have.attr', 'href')
+      .then(function (href) {
+        cy.request(href).its('status')
+          .should('eq', 200)
+    })
+  });
+
   it('Create a dataset with all fields', function() {
     const dataset_name = 'test_dataset_with_all_fields';
     const dataset_form_data = {

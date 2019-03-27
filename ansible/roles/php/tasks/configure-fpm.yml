@@ -1,0 +1,41 @@
+---
+
+- name: Set PHP pathinfo
+  ini_file:
+    dest: /etc/php/7.0/fpm/php.ini
+    section: PHP
+    option: cgi.fix_pathinfo
+    value: "0"
+  notify: restart php-fmp service
+
+- name: Set socket to listen
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: listen
+    value: /tmp/phpfpm.socket
+  notify: restart php-fmp service
+
+- name: Set socket listen owner
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: listen.owner
+    value: "{{ php_www_user }}"
+  notify: restart php-fmp service
+
+- name: Set socket listen group
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: listen.group
+    value: "{{ php_www_group }}"
+  notify: restart php-fmp service
+
+- name: Set socket listen mode
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: listen.mode
+    value: "0660"
+  notify: restart php-fmp service

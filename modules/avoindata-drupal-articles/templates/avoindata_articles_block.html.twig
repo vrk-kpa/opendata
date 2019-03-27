@@ -77,20 +77,18 @@
                   <h2 class="article-item-heading">
                     {{ article.label }}
                   </h2>
-                  <p class="article-information">
+                  <div class="article-information">
                     <i class="far fa-clock avoindata-fa-icon"></i>
-                    {{ article.createdtime|format_date('avoindata_long_date') }}
+                    <span class="article-date"> {{ article.createdtime|format_date('avoindata_long_date') }} </span>
                     {% if article.tags|length > 0 %}
-                      <i class="fas fa-folder-open avoindata-fa-icon"></i>
+                    <span class="tag-list-item-container">
+                      <i class="fas fa-folder-open avoindata-fa-icon tag-list-icon"></i>
                       {% for tag in article.tags %}
-                        {{ tag.name }}
-                        {% if loop.index != loop.last %}
-                        <span>,</span>
-                        {% endif %}
+                        <span class="tag-list-item"> {{ tag.name }} </span>
                       {% endfor %}
+                    </span>
                     {% endif %}
-                  </p>
-                  <br/>
+                  </div>
                   <div class="article-text">
                     <p>
                     {% set text = article.body.0.summary %}
@@ -128,8 +126,10 @@
           </div>
           <div class="opendata-card-content avoindata-article-category-filter-wrapper">
             {% for tag in tags %}
-              <div class="avoindata-card-list-item">
-                <a class="avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">{{ tag.label }}</a>
+              <div class="avoindata-card-list-item avoindata-article-category-filter{% if tag.tid.value in activetags %} active{% endif %}" data-tagid="{{tag.tid.value}}">
+                <a>{{ tag.label }}</a>
+                <i class="far fa-plus-circle"></i>
+                <i class="fas fa-times-circle"></i>
               </div>
             {% endfor %}
           </div>

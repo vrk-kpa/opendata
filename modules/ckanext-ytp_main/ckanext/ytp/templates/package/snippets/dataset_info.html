@@ -1,6 +1,7 @@
 {% import 'macros/ytp_layout.html' as layout %}
 
 <aside class="module module-narrow additional-info dataset-sidebar secondary col-lg-4">
+    {% set interoperability_tools = (pkg.collection_type == 'Yhteentoimivuuden kuvaukset ja ohjeet' or pkg.collection_type == 'Interoperability Tools') %}
 
     {% block geospatial_map %}
         {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
@@ -36,7 +37,7 @@
     {% endblock %}
 
     {% block material_type_info %}
-        {{ layout.moduleBoxHead(_('Content Type')) }}
+        {% if interoperability_tools %}
             {%- if pkg.get( 'content_type') -%}
                 {% set lang = h.get_lang_prefix() %}
                 {% set con_list = pkg.get( 'content_type' ) %}
@@ -45,12 +46,17 @@
                 {% else %}
                     {% set con_list = con_list.split(',') %}
                 {% endif %}
-                {%- for content in con_list -%}
-                    <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
-                    {%- if not loop.last %} <br /> {% endif -%}
-                {%- endfor -%}
+                
+                {%- if con_list -%}
+                    {{ layout.moduleBoxHead(_('Content Type')) }}
+                        {%- for content in con_list -%}
+                            <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
+                            {%- if not loop.last %} <br /> {% endif -%}
+                        {%- endfor -%}
+                    {{ layout.moduleBoxFoot() }}
+                {%- endif -%}
             {%- endif -%}
-        {{ layout.moduleBoxFoot() }}
+        {% endif %}
     {% endblock %}
 
     {% block material_link %}
