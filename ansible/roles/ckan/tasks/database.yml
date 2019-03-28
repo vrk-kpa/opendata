@@ -26,6 +26,8 @@
     --config={{ ckan_ini }}
     chdir={{ virtual_environment }}
   register: ckan_current_users
+  environment:
+    PYTHONIOENCODING: 'utf_8'
   tags:
     - skip_ansible_lint
 
@@ -48,6 +50,8 @@
     --config={{ ckan_ini }}
     chdir={{ virtual_environment }}
   register: ckan_current_sysadmins
+  environment:
+    PYTHONIOENCODING: 'utf_8'
   tags:
     - skip_ansible_lint
 

@@ -440,7 +440,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict['vocab_keywords_' + lang] = _('Popular tags')
-        facets_dict.update({'vocab_content_type': _('Content Type')})
+        facets_dict.update({'vocab_content_type_' + lang: _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
         # BFW: source is not part of the schema. created artificially at before_index function
@@ -639,7 +639,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
         # Map keywords to vocab_keywords_{lang}
-        translated_vocabs = ['keywords']
+        translated_vocabs = ['keywords', 'content_type']
         languages = ['fi', 'sv', 'en']
         for prop_key in translated_vocabs:
             prop_json = pkg_dict.get(prop_key)
