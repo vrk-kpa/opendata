@@ -57,6 +57,7 @@
             <h1 class="page-heading">{{ h.extra_translation(res, 'name', fallback=h.resource_display_name) }}</h1>
           {% endblock %}
           {% block resource_read_url %}
+            <h4>{{ _('Maturity') }}: <span class="label label-primary">{{ res.maturity }}</span></h4>
             {% if res.url %}
               <p class="muted ellipsis">{{ _('URL:') }} <a class="resource-url-analytics resource-type-"{{ res.resource_type }} href="{{ res.url }}" title="{{ res.url }}">{{ res.url }}</a></p>
             {% endif %}
