@@ -1,0 +1,71 @@
+---
+
+# On servers, create an archive of the current sources, upload and unarchive
+- block:
+  - name: "Archive extension {{ item }}"
+    command: zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="{{ ckan_extensions_path }}"
+    delegate_to: localhost
+    become: false
+
+  - name: "Remove possible existing extension {{ item }}"
+    file:
+      path: "{{ ckan_extension_sync_path }}/{{ item }}"
+      state: absent
+
+  - name: "Copy and unarchive extension {{ item }}"
+    unarchive:
+      src: /tmp/{{ item }}.zip
+      dest: "{{ ckan_extension_sync_path }}/"
+      owner: root
+      group: root
+
+  when: ckan_deployment_environment_id != "vagrant"
+
+# On Vagrant, symlink sources from host so that they can be edited live
+- block:
+    - name: "Remove existing extension {{ item }} (Vagrant)"
+      file:
+        path: "{{ ckan_extension_sync_path }}/{{ item }}"
+        state: absent
+
+    - name: "Symlink extension {{ item }} sources from host machine (Vagrant)"
+      file:
+        src: "/vagrant/modules/{{ item }}"
+        path: "{{ ckan_extension_sync_path }}/{{ item }}"
+        state: link
+
+  when: ckan_deployment_environment_id == "vagrant"
+
+# Install dependencies for the extension. Depending on the extension, deps
+# are listed either in requirements.txt or pip-requirements.txt. Both are covered here.
+
+- name: Register extension requirements.txt
+  stat:
+    path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
+  register: requirements
+
+- name: Register extension pip-requirements.txt
+  stat:
+    path: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
+  register: piprequirements
+
+- name: Install extension requirements
+  pip:
+    requirements: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
+    virtualenv: "{{ ckan_virtual_environment }}"
+  when: requirements.stat.exists
+
+- name: Install extension piprequirements
+  pip:
+    requirements: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
+    virtualenv: "{{ ckan_virtual_environment }}"
+  when: piprequirements.stat.exists
+
+- name: Install extension {{ item }}
+  pip:
+    name: "{{ ckan_extension_sync_path }}/{{ item }}"
+    virtualenv: "{{ ckan_virtual_environment }}"
+    extra_args: "-e"
+    state: latest
+  tags:
+    - skip_ansible_lint

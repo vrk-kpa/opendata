@@ -128,8 +128,61 @@ Cypress.Commands.add('delete_dataset', (dataset_name, random_id) => {
 })
 
 
+// Creates a new showcase filling both showcase and resource forms
+Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) => {
+  
+  // Default values for showcase
+  if (showcase_form_data === undefined) {
+    showcase_form_data = {
+      "#field-title": showcase_name,
+      '#field-notes_translated-fi': 'Dataset test description',
+      '#s2id_autogen1': 'test_keyword {enter}',
+      '#field-author': 'test author'
+    }
+  }
+
+  // Showcase form
+  cy.get('a[href="/data/fi/showcase/new"]').click(); 
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.get('#field-name').type(showcase_name);
+  cy.fill_form_fields(showcase_form_data);
+  cy.get('button[name=save]').click();
+
+  // Datasets form
+  cy.get(`article a[href="/data/fi/showcase/${showcase_name}"]`).click(); 
+  cy.url().should('include', `/data/fi/showcase/${showcase_name}`);
+})
+
+// Edits an existing showcase
+Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
+
+  if (showcase_form_data === undefined) {
+    showcase_form_data = {
+      "#field-title": 'edit',
+    }
+  }
+  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
+  cy.fill_form_fields(showcase_form_data)
+  cy.get('button[name=save]').click();
+  cy.get('.page-heading').contains(showcase_name+'edit');
+})
+
+// Deletes a showcase and verifies that it is not found in the search anymore
+// It expects a random_id string as a parameter, which is used to verify that
+// the showcase is deleted. This random_id should also be part of the showcase_name
+Cypress.Commands.add('delete_showcase', (showcase_name, random_id) => {
+  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
+  cy.get('.form-actions').contains('Poista').click();
+  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.get('body').find('.btn').contains('Vahvista').click();
+  cy.get('.search-input .search').type(random_id + '{enter}');
+  cy.get('.showcase-list').should('not.exist');
+  cy.contains("ei löytynyt tietoaineistoja");
+})
+
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
       cy.exec('npm run reset:db');
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
     }
 });

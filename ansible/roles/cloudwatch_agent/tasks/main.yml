@@ -3,13 +3,5 @@
   apt:
     deb: 'https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb'
 
-- name: Apply Cloudwatch configuration file
-  template:
-    src: templates/amazon-cloudwatch-agent.json.j2
-    dest: /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
-    mode: 0640
-    owner: root
-    group: root
-
-- name: Start Cloudwatch agent
-  command: "/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s"
+- import_tasks: configure.yml
+  tags: configure

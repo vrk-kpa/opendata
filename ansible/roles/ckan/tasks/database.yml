@@ -1,0 +1,149 @@
+---
+
+- name: Initialize CKAN database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckan db init
+    --config='{{ item.file }}'
+    chdir='{{ virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Upgrade CKAN database
+  shell: ckan db upgrade
+  tags:
+    - skip_ansible_lint
+
+- name: Upgrade CKAN filestore
+  shell: ./bin/paster --plugin=ckan db migrate-filestore "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
+  tags:
+    - skip_ansible_lint
+
+- name: List existing CKAN users
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan user list
+    --config={{ ckan_ini }}
+    chdir={{ virtual_environment }}
+  register: ckan_current_users
+  environment:
+    PYTHONIOENCODING: 'utf_8'
+  tags:
+    - skip_ansible_lint
+
+- name: Create initial CKAN users
+  shell: >-
+    ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
+    "--config={{ ckan_ini }}" chdir={{ ckan_virtual_environment }}
+  ignore_errors: true
+  with_flattened:
+    - "{{ ckan_ytp_users }}"
+    - "{{ ckan_harvest_user }}"
+    - "{{ ckan_admin }}"
+  when: item.username not in ckan_current_users.stdout
+  tags:
+    - skip_ansible_lint
+
+- name: List existing CKAN admins
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan sysadmin list
+    --config={{ ckan_ini }}
+    chdir={{ virtual_environment }}
+  register: ckan_current_sysadmins
+  environment:
+    PYTHONIOENCODING: 'utf_8'
+  tags:
+    - skip_ansible_lint
+
+- name: Add CKAN sysadmins
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckan sysadmin add "{{ item }}"
+    --config='{{ ckan_ini }}'
+    chdir='{{ ckan_virtual_environment }}'
+  ignore_errors: true
+  with_items: "{{ ckan_admins }}"
+  when: item not in ckan_current_sysadmins.stdout
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize request database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-ytp_request initdb
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize Harvester database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-harvest harvester initdb
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize spatial database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-spatial spatial initdb
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize archiver database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-archiver archiver init
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  when: "'ckanext-archiver' in ckan_extensions"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize QA database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-qa qa init
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  when: "'ckanext-qa' in ckan_extensions"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize report database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-report report initdb
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize googleanalytics database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-googleanalytics googleanalytics init
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize cloudstorage database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-cloudstorage cloudstorage initdb
+    --config='{{ ckan_ini }}'
+    chdir='{{ ckan_virtual_environment }}'
+  tags:
+    - skip_ansible_lint

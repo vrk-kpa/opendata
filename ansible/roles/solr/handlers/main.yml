@@ -1,0 +1,7 @@
+---
+# handlers file for solr
+
+- name: Restart jetty
+  service:
+    name: "{{ solr_jetty_service }}"
+    state: restarted

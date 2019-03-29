@@ -1,8 +1,8 @@
 smtp_on: true
-smtp_host: {{ smtp_server_domain }}
-smtp_username: {{ secret.smtp_user }}
-smtp_password: {{ secret.smtp_password }}
-smtp_from: {{ email_from }}
+smtp_host: {{ drupal_smtp_server_domain }}
+smtp_username: {{ drupal_smtp_username }}
+smtp_password: {{ drupal_smtp_password }}
+smtp_from: {{ drupal_email_from }}
 smtp_protocol: {{ drupal_smtp_protocol }}
 smtp_port: {{ drupal_smtp_port }}
 smtp_hostbackup: ''

@@ -1,118 +1,35 @@
 ---
 
-
-- name: Remove old drush6 modules
-  file:
-    state: absent
-    path: "/root/.drush"
-
-### Get PHP ###
-
-- name: Get PHP and required extensions
-  become: true
-  action: apt
-    pkg="{{ item }}"
-    state=latest
-  with_items:
-    - php
-    - php-fpm
-    - php-gd
-    - php-pgsql
-    - php-xml # installs "dom"
-    - php7.0-mbstring
-    - php-curl
-    - php-intl
-
-### Socket setup ###
-
-- name: Set PHP pathinfo
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/php.ini section=PHP option=cgi.fix_pathinfo value=0
-
-- name: Set socket to listen
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen value=/tmp/phpfpm.socket
-
-- name: Set socket listen owner
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.owner value={{ www_user }}
-
-- name: Set socket listen group
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.group value={{ www_group }}
-
-- name: Set socket listen mode
-  become: true
-  ini_file: dest=/etc/php/7.0/fpm/pool.d/www.conf section=www option=listen.mode value=0660
-
-### Install Composer ###
-
-- name: Download Composer
-  script: install_composer.sh
-  tags:
-    - composer
-
-- name: Move Composer globally
-  become: true
-  command: mv composer.phar /usr/local/bin/composer
-  tags:
-    - composer
-
-- name: Set Composer permissions
-  become: true
-  file:
-    path: /usr/local/bin/composer
-    mode: "a+x"
-  tags:
-    - composer
-
-### Composer magic ###
-
-- name: Install dependencies for dependency management (>.<)
-  composer:
-    command: require
-    global_command: yes
-    arguments: alchemy/zippy:0.4.3
-
-- name: Create root pgpass
-  template: src=pgpass8.j2 dest=/root/.pgpass mode="0600" owner=root group=root
-
-- name: Check if drupal 8 is already initialized on database
-  command: >
-    psql -h {{ postgres.server.host }}
-    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-    {{ postgres.databases.drupal8.name }} {{ postgres.users.drupal8.username }}
-  register: drupal8_database_initialized
-
+- name: Ensure required packages are installed
+  apt:
+    name: "{{ drupal_required_packages }}"
+    state: present
 
 - name: Create Drupal installation directories if they don't exist
-  become: true
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    owner: "{{ drupal_user }}"
+    group: "{{ drupal_group }}"
     mode: 0755
   with_items:
-    - "{{ cache_path }}/drupal"
-    - "/var/www/.composer"
-    - "{{ drupal8_root }}"
-    - "{{ drupal8_root }}/site_config"
-
+    - "/var/www/.composer"  # Required for composer cache
+    - "{{ drupal_root }}"
+    - "{{ drupal_root }}/site_config"
 
 - name: Synchronize drupal8 project
   synchronize:
-    src: ../drupal8/
-    dest: "{{ drupal8_root }}/"
+    src: drupal8/
+    dest: "{{ drupal_root }}/"
 
 - name: Ensure drupal root ownership
   file:
-    path: "{{ drupal8_root }}"
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    path: "{{ drupal_root }}"
+    owner: "{{ drupal_user }}"
+    group: "{{ drupal_group }}"
     mode: 0755
-    recurse: yes
-    follow: no
+    recurse: true
+    follow: false
 
 - name: Ensure Drupal sync directory exists
   become: true
@@ -123,109 +40,40 @@
     group: "root"
     mode: 0755
   with_items:
-    - "{{ drupal8_root }}/config"
-    - "{{ drupal8_root }}/config/sync"
+    - "{{ drupal_root }}/config"
+    - "{{ drupal_root }}/config/sync"
 
-- name: Remove composer lock file if it exists
-  file:
-     path: "{{ drupal8_root }}/composer.lock"
-     state: absent
-
-- name: Install Drupal dependencies
-  become_user: "{{ www_user }}"
+- name: Update Drupal dependencies
+  become: true
+  become_user: "{{ drupal_user }}"
   composer:
-    command: install
-    working_dir: "{{ drupal8_root }}"
-
-
-### Database backup
-
-- name: Create root pgpass
-  template: src=pgpass.j2 dest=/root/.pgpass mode="0600" owner=root group=root
-
-- name: Check if drupal 7 is already initialized on database
-  command: >
-    psql -h {{ postgres.server.host }}
-    -tAc "SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-    {{ postgres.databases.drupal.name }} {{ postgres.users.drupal.username }}
-  register: drupal7_database_initialized
-
-- block:
-  #- name: Dump drupal db
-  #  shell: drush sql-dump > /tmp/dump.sql chdir="{{ drupal8_root }}" creates=/tmp/dump.sql
-  #  when: "'1' in drupal_database_initialized.stdout"
-  #  register: drupal_database_dumped
-
-  ### Drupal installation ###
-
-
-  - name: Install a clean Drupal database
-    shell: ./vendor/bin/drush site-install -y standard --db-url=pgsql://{{ postgres.users.drupal8.username }}:{{ postgres.users.drupal8.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal8.name }} --account-name={{ admin.username }} --account-pass={{ admin.password }} --site-name={{ drupal_site_name }}
-    args:
-      chdir: "{{ drupal8_root }}"
-
-  ### Migrate Drupal 7, if present ###
-
-  - block:
-
-    - name: Enable migration modules
-      shell: ./vendor/bin/drush en -y {{ item }}
-      args:
-        chdir: "{{ drupal8_root }}"
-      with_items:
-          - migrate_plus
-          - migrate_upgrade
-          - migrate_tools
-
-    - name: Configure Drupal 7 database migration
-      shell: ./vendor/bin/drush migrate-upgrade --legacy-db-url=pgsql://{{ postgres.users.drupal.username }}:{{ postgres.users.drupal.password }}@{{ postgres.server.host }}:{{ postgres.server.port }}/{{ postgres.databases.drupal.name }} --configure-only
-      args:
-        chdir: "{{ drupal8_root }}"
-
-    - name: Migrate Drupal 7 Database
-      shell: ./vendor/bin/drush migrate-import {{ item }}
-      args:
-        chdir: "{{ drupal8_root }}"
-      with_items:
-        - "upgrade_d7_user_role"
-        - "upgrade_d7_user"
-    when: "'1' in drupal7_database_initialized.stdout"
-
-  when: "'1' not in drupal8_database_initialized.stdout"
-
-- name: Copy Drupal settings
-  template:
-    src: settings.php.j2
-    dest: "{{ drupal8_root }}/web/sites/default/settings.php"
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
-    mode: 0444
-  when: drupal8_root is defined
+    command: update
+    working_dir: "{{ drupal_root }}"
 
 
 - name: Ensure drupal public files directory exists
   file:
     path: "{{ drupal_public_files_directory }}"
     state: directory
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    owner: "{{ drupal_user }}"
+    group: "{{ drupal_group }}"
     mode: 0755
 
 - name: Create sub directories for public files directory
   file:
     path: "{{ drupal_public_files_directory }}/{{ item }}"
     state: directory
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    owner: "{{ drupal_user }}"
+    group: "{{ drupal_group }}"
     mode: 0755
   with_items: "{{ drupal_public_files_directory_subdirs }}"
 
 - name: Ensure correct permission for public files directory
   file:
     path: "{{ drupal_public_files_directory }}"
-    recurse: yes
-    owner: "{{ www_user }}"
-    group: "{{ www_group }}"
+    recurse: true
+    owner: "{{ drupal_user }}"
+    group: "{{ drupal_group }}"
 
 - name: Create .htaccess file for public files directory
   template:
@@ -237,293 +85,47 @@
 
 - name: Check default public files path status
   stat:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
   register: drupal_default_public_files_path
 
 - name: Remove default public files directory
   file:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
     state: absent
   when: drupal_default_public_files_path.stat.isdir
 
 - name: Link default public files path to target directory
   file:
-    path: "{{ drupal8_root }}/web/sites/default/files"
+    path: "{{ drupal_root }}/web/sites/default/files"
     state: link
     src: "{{ drupal_public_files_directory }}"
 
-### Translations ###
-
-- name: Enable Drupal language modules
-  shell: ./vendor/bin/drush en -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - config_translation
-    - content_translation
-    - language
-    - locale
-    - drush_language
-
-- name: Add additional languages
-  shell: ./vendor/bin/drush language-add -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - fi
-    - sv
-
-- name: Make Finnish default language
-  shell: ./vendor/bin/drush language-default -y fi
-  args:
-    chdir: "{{ drupal8_root }}"
-
-### Custom modules ###
-# Contrib modules should be installed with Composer, not here #
-
 - name: Synchronize custom modules
   synchronize:
-    src: "../modules/{{ item.src_name }}/"
-    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
-  when: deployment_environment_id != "vagrant"
-  with_items: "{{ custom_modules }}"
+    src: "{{ drupal_modules_path }}/{{ item.src_name }}/"
+    dest: "{{ drupal_root }}/web/modules/{{ item.module_name }}"
+  when: drupal_deployment_environment_id != "vagrant"
+  with_items: "{{ drupal_custom_modules }}"
 
 - name: Symlink custom modules
   file:
     state: link
     src: "/vagrant/modules/{{ item.src_name }}/"
-    dest: "{{ drupal8_root }}/web/modules/{{ item.module_name }}"
-  when: deployment_environment_id == "vagrant"
-  with_items: "{{ custom_modules }}"
-
-
-### Theme ###
-
-- name: Enable base theme
-  shell: ./vendor/bin/drush then -y bootstrap
-  args:
-    chdir: "{{ drupal8_root }}"
-
-
-- name: Symlink custom theme
-  file:
-    state: link
-    src: "{{ server_path }}/avoindata-drupal-theme/"
-    dest: "{{ drupal8_root }}/web/themes/avoindata"
-    force: yes
-
-### Install external modules ###
-
-# Disable removed modules, modules must be removed from removed_extensions
-# after they are removed from composer.json
-- name: Disable drupal modules
-  shell: ./vendor/bin/drush pm:uninstall -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items: "{{ removed_extensions }}"
-  when: "removed_extensions is defined"
-
-- name: Enable Drupal extra modules
-  shell: ./vendor/bin/drush en -y {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - twig_tweak
-    - fontawesome_menu_icons
-    - smtp
-    - pathauto ### Used for URL alias settings
-    - easy_breadcrumb
-    - twig_field_value
-    - disqus
-    - recaptcha
-    - redirect
-    - search_api
-    - search_api_db
-    - search_api_db_defaults
-    - google_analytics
-    - token
-    - metatag
-    - metatag_open_graph
-    - ape
-
-
-# Not symlinked because nested symlinks don't work on windows
-- name: Synchronize fonts
-  synchronize:
-    src: "{{ item }}"
-    dest: "{{ drupal8_root }}/web/themes/avoindata/fonts"
-  delegate_to: "{{ inventory_hostname }}"
-  with_items:
-    - /var/www/resources/vendor/@fortawesome/fontawesome/webfonts/
-    - /var/www/resources/vendor/bootstrap/dist/fonts/
-
-# These need to be enabled after installing external modules (at least pathauto), because
-# of dependencies.
-- name: Enable custom modules
-  shell: ./vendor/bin/drush en -y {{ item.machine_name }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items: "{{ custom_modules }}"
-
-# Some configurations need to be removed to avoid conflicts at the next step
-# To avoid failure with clean installs, error about trying to remove a non-existing
-# configuration is ignored. As a result, it is important to carefully check the
-# spelling of configurations.
-- name: Delete existing configurations
-  shell: ./vendor/bin/drush config-delete {{ item }}
-  register: result
-  failed_when:
-    - result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - easy_breadcrumb.settings
-    - node.type.page
-    - core.entity_form_display.node.page.default
-    - core.entity_view_display.node.page.default
-    - pathauto.settings
-    - user.role.administrator
-    - user.role.anonymous
-    - user.role.authenticated
-    - user.role.ckan_admin
-    - user.role.editor
-    - user.role.publisher
-    - captcha.captcha_point.contact_message_feedback_form
-
-- name: Enable custom theme
-  shell: ./vendor/bin/drush then -y avoindata
-  args:
-    chdir: "{{ drupal8_root }}"
-
-- name: Set default theme
-  shell: ./vendor/bin/drush config-set -y system.theme default avoindata
-  args:
-    chdir: "{{ drupal8_root }}"
-
-- name: Reload theme configurations
-  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/themes/avoindata/config/install
-  args:
-    chdir: "{{ drupal8_root }}"
-
-- name: Reload custom module configurations
-  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root }}/web/modules/{{ item.module_name }}/config/install
-  register: result
-  failed_when:
-    - result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - "{{ custom_modules }}"
-
-- name: Copy setting template files
-  template:
-    src: "drupal_site_config/{{ item.src }}"
-    dest: "{{ drupal8_root }}/site_config/{{ item.dest }}"
-  with_items:
-    - { src: system.mail.yml.j2, dest: system.mail.yml }
-    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
-    - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
-    - { src: user.settings.yml.j2, dest: user.settings.yml }
-    - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
-    - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
-    - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
-    - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
-    - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
-    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
-    - { src: update.settings.yml.j2, dest: update.settings.yml }
-    - { src: metatag.settings.yml.j2, dest: metatag.settings.yml }
-    - { src: metatag.metatag_defaults.front.yml.j2, dest: metatag.metatag_defaults.front.yml }
-    - { src: metatag.metatag_defaults.global.yml.j2, dest: metatag.metatag_defaults.global.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_article.yml.j2, dest: metatag.metatag_defaults.node__avoindata_article.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_event.yml.j2, dest: metatag.metatag_defaults.node__avoindata_event.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
-    - { src: system.performance.yml.j2, dest: system.performance.yml }
-    - { src: ape.settings.yml.j2, dest: ape.settings.yml }
-
-- name: Import drupal settings
-  shell: ./vendor/bin/drush -y cim --partial --source {{ drupal8_root}}/site_config
-  args:
-    chdir: "{{ drupal8_root }}"
+    dest: "{{ drupal_root }}/web/modules/{{ item.module_name }}"
+  when: drupal_deployment_environment_id == "vagrant"
+  with_items: "{{ drupal_custom_modules }}"
 
 - name: Copy Drupal services yml
   template:
     src: "services.yml.j2"
-    dest: "{{ drupal8_root }}/web/sites/default/services.yml"
-
-- name: Clear caches
-  shell: ./vendor/bin/drupal cr
-  args:
-    chdir: "{{ drupal8_root }}"
-
-- name: Configure general site settings regarding email
-  shell: ./vendor/bin/drush config:set system.site {{ item.key }} {{ item.value }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - { key: name, value: "{{ email_domain }}"}
-    - { key: mail, value: "{{ email_from }}"}
-
-- name: Update drupal translations
-  shell: ./vendor/bin/drush language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-    - "fi"
-    - "sv"
-  tags:
-    - drupal
-
-# Without this, the added translatable status for content types like guide page, doesn't work and
-# fails because of an SQL error.
-- name: Run entity updates for database
-  shell: "./vendor/bin/drush updatedb --entity-updates -y"
-  args:
-    chdir: "{{ drupal8_root }}"
-
-### User roles
-
-# Item argument is used two times, because the other one sets a machine readable name and the other one a human readable name
-- name: Create user roles
-  shell: ./vendor/bin/drush role-create "{{ item }}" "{{ item }}"
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items:
-  - "{{ drupal_editor_rolename }}"
-  - "{{ drupal_ckan_admin_rolename }}"
-  - "{{ drupal_publisher_rolename }}"
-  ignore_errors: True
-  tags:
-  - drupal
-
-- name: Create initial users
-  shell: ./vendor/bin/drush user-create "{{ item.username }}" --password="{{ item.password }}" --mail="{{ item.email }}"
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_flattened:
-    - "{{ ytp_users }}"
-  ignore_errors: True
-
-- name: Set user roles
-  shell: ./vendor/bin/drush user-add-role "{{ item.role }}" "{{ item.username }}"
-  args:
-    chdir: "{{ drupal8_root }}"
-  with_items: "{{ drupal_roles }}"
-  tags:
-  - drupal
-
-### Finishing touches ###
-
-- name: Restart PHP-FPM
-  become: true
-  service: name=php7.0-fpm state=restarted
-
+    dest: "{{ drupal_root }}/web/sites/default/services.yml"
 
 - name: Deploy robots.txt
-  copy: src={{ search_engine_robots_filename }}
-    dest={{ drupal8_root }}/web/robots.txt
+  copy:
+    src: "{{ drupal_search_engine_robots_filename }}"
+    dest: "{{ drupal_root }}/web/robots.txt"
 
-- name: Take site out of maintenance mode
-  become: true
-  file:
-    state: absent
-    path: /var/www/maintenance
+- name: Configure drupal instance
+  import_tasks: configure_drupal.yml
+  tags:
+    - configure

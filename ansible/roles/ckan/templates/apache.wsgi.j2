@@ -1,12 +1,12 @@
 import sys
-sys.stderr = sys.stdout = file('{{ ckan_log_path }}/ckan.log', 'a')
+sys.stderr = sys.stdout = file('{{ ckan_log_path }}/{{ item.logfile }}', 'a')
 
 import os
 activate_this = os.path.join('/usr/lib/ckan/default/bin/activate_this.py')
 execfile(activate_this, dict(__file__=activate_this))
 
 from paste.deploy import loadapp
-config_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'production.ini')
+config_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), '{{ item.config_file }}')
 from paste.script.util.logging_config import fileConfig
 fileConfig(config_filepath)
 _application = loadapp('config:%s' % config_filepath)

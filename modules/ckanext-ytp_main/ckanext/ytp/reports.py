@@ -8,19 +8,19 @@ log = logging.getLogger(__name__)
 
 def administrative_branch_summary_report():
     org_names = [
-            'ulkoministerio',
-            'sisaministerio',
-            'liikenne-ja-viestintaministerio',
-            'maa-ja-metsatalousministerio',
-            'oikeusministerio',
-            'opetus-ja-kulttuuriministerio',
-            'puolustusministerio',
-            'sosiaali-ja-terveysministerio',
-            'tyo-ja-elinkeinoministerio',
-            'valtioneuvoston-kanslia',
-            'valtiovarainministerio',
-            'ymparistoministerio',
-            ]
+        'ulkoministerio',
+        'sisaministerio',
+        'liikenne-ja-viestintaministerio',
+        'maa-ja-metsatalousministerio',
+        'oikeusministerio',
+        'opetus-ja-kulttuuriministerio',
+        'puolustusministerio',
+        'sosiaali-ja-terveysministerio',
+        'tyo-ja-elinkeinoministerio',
+        'valtioneuvoston-kanslia',
+        'valtiovarainministerio',
+        'ymparistoministerio',
+    ]
 
     context = {}
 
@@ -34,9 +34,9 @@ def administrative_branch_summary_report():
         return dataset['children']
 
     org_levels = {
-            org['name']: level
-            for t in org_trees
-            for org, level in hierarchy_levels(t, children)}
+        org['name']: level
+        for t in org_trees
+        for org, level in hierarchy_levels(t, children)}
 
     flat_orgs = (org for t in org_trees for org in flatten(t, children))
 
@@ -50,13 +50,13 @@ def administrative_branch_summary_report():
             yield org
 
     root_tree_ids_pairs = (
-            (r, [x['id'] for x in (flatten(r, children) if r['total_org'] else [r])])
-            for r in with_totals(flat_orgs))
+        (r, [x['id'] for x in (flatten(r, children) if r['total_org'] else [r])])
+        for r in with_totals(flat_orgs))
 
     # Optimization opportunity: Prefetch datasets for all related orgs in one go
     root_datasets_pairs = (
-            (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
-            for k, v in root_tree_ids_pairs)
+        (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
+        for k, v in root_tree_ids_pairs)
 
     try:
         get_action('qa_package_openness_show')
@@ -65,27 +65,27 @@ def administrative_branch_summary_report():
         qa_enabled = False
 
     return {
-            'now': datetime.today().strftime('%d.%m.%Y'),
-            'yrs_ago_1': (datetime.today() - timedelta(1 * 365)).strftime('%d.%m.%Y'),
-            'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
-            'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
-            'qa_enabled': qa_enabled,
-            'table': [{
-                'organization': org['title'] if not org['total_org'] else org['title'] + "'s administrative branch",
-                'level': org_levels[org['name']],
-                'total': org['total_org'],
-                'dataset_count': len(datasets),
-                'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
-                'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
-                'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
-                'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
-                'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
-                'resource_formats': resource_formats(datasets),
-                'openness_score_avg': openness_score_avg(context, datasets) if qa_enabled else None
-                }
-                for org, datasets in root_datasets_pairs
-                ]
-            }
+        'now': datetime.today().strftime('%d.%m.%Y'),
+        'yrs_ago_1': (datetime.today() - timedelta(1 * 365)).strftime('%d.%m.%Y'),
+        'yrs_ago_2': (datetime.today() - timedelta(2 * 365)).strftime('%d.%m.%Y'),
+        'yrs_ago_3': (datetime.today() - timedelta(3 * 365)).strftime('%d.%m.%Y'),
+        'qa_enabled': qa_enabled,
+        'table': [{
+            'organization': org['title'] if not org['total_org'] else org['title'] + "'s administrative branch",
+            'level': org_levels[org['name']],
+            'total': org['total_org'],
+            'dataset_count': len(datasets),
+            'dataset_count_1yr': glen(d for d in datasets if age(d) >= timedelta(1 * 365)),
+            'dataset_count_2yr': glen(d for d in datasets if age(d) >= timedelta(2 * 365)),
+            'dataset_count_3yr': glen(d for d in datasets if age(d) >= timedelta(3 * 365)),
+            'new_datasets_month': glen(d for d in datasets if age(d) <= timedelta(30)),
+            'new_datasets_6_months': glen(d for d in datasets if age(d) <= timedelta(6 * 30)),
+            'resource_formats': resource_formats(datasets),
+            'openness_score_avg': openness_score_avg(context, datasets) if qa_enabled else None
+        }
+            for org, datasets in root_datasets_pairs
+        ]
+    }
 
 
 administrative_branch_summary_report_info = {
