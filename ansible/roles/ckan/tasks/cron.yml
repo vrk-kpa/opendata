@@ -2,8 +2,8 @@
 - name: Add analytics fetching to cron
   cron:
     name: "analytics"
-    minute: "*/5"
-    hour: "0-3"
+    minute: "0"
+    hour: "3"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
       --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
