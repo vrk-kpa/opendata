@@ -3,7 +3,7 @@
   cron:
     name: "analytics"
     minute: "0"
-    hour: "3"
+    hour: "1"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
       --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
