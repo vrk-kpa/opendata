@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Globals:
+  Function:
+    Timeout: 180
+Resources:
+  AmiCleanerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.7
+      Environment:
+        Variables:
+          MAPPING_KEY: name
+          MAPPING_VALUES: opendata
+          MIN_DAYS: 1
+      Events:
+        CleanAmis:
+          Properties:
+            Schedule: rate(1 hour)
+          Type: Schedule
+      Handler: handler.handle
+      Policies:
+      - AWSLambdaExecute
+      - Statement:
+        - Action:
+          - ec2:DeleteSnapshot
+          - ec2:DeregisterImage
+          - ec2:DescribeImages
+          - ec2:DescribeInstances
+          - ec2:DescribeSnapshots
+          - autoscaling:DescribeAutoScalingGroups
+          - autoscaling:DescribeLaunchConfigurations
+          Effect: Allow
+          Resource: '*'
+        Version: '2012-10-17'
+Transform: AWS::Serverless-2016-10-31
