@@ -15,7 +15,7 @@ var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
 var imageminJpegoptim = require('imagemin-jpegoptim');
-var lesshint = require('gulp-lesshint');
+var gulpStylelint = require('gulp-stylelint');
 
 
 var paths = {
@@ -58,12 +58,14 @@ gulp.task('copy:fontawesomeLess', (done) => {
 });
 
 
-gulp.task("lint", (done) =>{
+gulp.task('lint', (done) => {
   pump([
-    gulp.src([paths.src.less + "/*.less", paths.src.ckan + "/*.less", paths.src.drupal + "/*.less"]),
-    lesshint(),
-    lesshint.reporter(),
-    lesshint.failOnError()
+    gulp.src(paths.src.less + '/**/*.less'),
+    gulpStylelint({
+      failAfterError: true,
+      reporters:[
+        {formatter: 'verbose', console: true}
+      ]})
   ], done)
 });
 

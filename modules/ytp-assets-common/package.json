@@ -14,7 +14,6 @@
     "gulp-imagemin": "^5.0.3",
     "gulp-inline-css": "^3.3.0",
     "gulp-less": "^4.0.1",
-    "gulp-lesshint": "^6.0.0",
     "gulp-livereload": "~4.0.1",
     "gulp-npm-dist": "^1.0.2",
     "gulp-rename": "^1.4.0",
@@ -24,7 +23,9 @@
     "gulp-util": "~3.0.4",
     "imagemin-jpegoptim": "^6.0.0",
     "pump": "^3.0.0",
-    "lesshint": "^6.3.2"
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "gulp-stylelint": "^8.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
