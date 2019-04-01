@@ -259,6 +259,35 @@ jobs:
           working_directory: ~/project/
           when: always
 
+  stylelint:
+    docker:
+      - image: circleci/node
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+          working_directory: ~/project/modules/ytp-assets-common
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+
+      - run:
+          name: run stylelint
+          command: $(npm bin)/stylelint "src/less"
+          working_directory: ~/project/modules/ytp-assets-common
+
 workflows:
   version: 2
   lint_build_test:
@@ -266,13 +295,16 @@ workflows:
       - flake8
       - code-sniffer
       - ansible-lint
+      - stylelint
       - ansible-role-test:
           requires:
             - flake8
             - code-sniffer
             - ansible-lint
+            - stylelint
       - packer:
           requires:
             - flake8
             - code-sniffer
             - ansible-lint
+            - stylelint
