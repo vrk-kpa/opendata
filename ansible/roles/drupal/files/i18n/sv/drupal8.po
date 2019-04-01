@@ -1,10 +1,14 @@
 # English translation of avoindata.fi
 # 
+# Translators:
+# Teemu Leivo <teemu.leivo@gofore.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2019-03-25 06:39+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
+"Last-Translator: Teemu Leivo <teemu.leivo@gofore.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -271,10 +275,10 @@ msgid "Blank"
 msgstr ""
 
 msgid "Sunday"
-msgstr ""
+msgstr "söndag"
 
 msgid "Monday"
-msgstr ""
+msgstr "måndag"
 
 msgid "Tags"
 msgstr ""
@@ -433,13 +437,13 @@ msgid "Home"
 msgstr ""
 
 msgid "Tuesday"
-msgstr ""
+msgstr "tisdag"
 
 msgid "Thursday"
-msgstr ""
+msgstr "torsdag"
 
 msgid "Saturday"
-msgstr ""
+msgstr "lördag"
 
 msgid "Core"
 msgstr ""
@@ -796,7 +800,7 @@ msgid "Filename"
 msgstr ""
 
 msgid "Wednesday"
-msgstr ""
+msgstr "onsdag"
 
 msgid "Archive"
 msgstr ""
@@ -863,7 +867,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Friday"
-msgstr ""
+msgstr "fredag"
 
 msgid "Manual update check"
 msgstr ""
@@ -9089,47 +9093,47 @@ msgstr ""
 
 msgctxt "Long month name"
 msgid "January"
-msgstr ""
+msgstr "januari"
 
 msgctxt "Long month name"
 msgid "February"
-msgstr ""
+msgstr "februari"
 
 msgctxt "Long month name"
 msgid "April"
-msgstr ""
+msgstr "april"
 
 msgctxt "Long month name"
 msgid "May"
-msgstr ""
+msgstr "maj"
 
 msgctxt "Long month name"
 msgid "June"
-msgstr ""
+msgstr "juni"
 
 msgctxt "Long month name"
 msgid "July"
-msgstr ""
+msgstr "juli"
 
 msgctxt "Long month name"
 msgid "August"
-msgstr ""
+msgstr "augusti"
 
 msgctxt "Long month name"
 msgid "September"
-msgstr ""
+msgstr "september"
 
 msgctxt "Long month name"
 msgid "October"
-msgstr ""
+msgstr "oktober"
 
 msgctxt "Long month name"
 msgid "November"
-msgstr ""
+msgstr "november"
 
 msgctxt "Long month name"
 msgid "December"
-msgstr ""
+msgstr "december"
 
 msgid "The text to be used for this link in the menu."
 msgstr ""
@@ -24593,7 +24597,7 @@ msgstr ""
 
 msgctxt "Long month name"
 msgid "March"
-msgstr ""
+msgstr "mars"
 
 msgid "1 minute"
 msgid_plural "@count minutes"
