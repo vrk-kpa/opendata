@@ -282,6 +282,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
+            - ~/project/modules/ytp-assets-common/node_modules
 
       - run:
           name: run stylelint
