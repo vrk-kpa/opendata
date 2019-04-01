@@ -5,7 +5,7 @@
 @media (max-width: @screen-xs-max) {
   body {
     background-image: none;
-    background-position: 0px 0px;
+    background-position: 0 0;
     background-repeat: no-repeat;
     background-size: contain;
   }
@@ -37,15 +37,17 @@
       text-align: left !important;
       margin: 0 !important;
     }
+
     dd {
       display: block;
       margin: 0 0 (@line-height-computed/2) 0 !important;
     }
   }
 
-  .navbar-brand{
+  .navbar-brand {
     max-width: ~"calc(100% - 32px - 21px)";
-    .site-logo{
+
+    .site-logo {
       max-width: 100%;
       padding-top: 5px;
     }
@@ -54,10 +56,9 @@
 
 /* Extra small, small, and medium devices */
 @media (min-width: @screen-xs-min) and (max-width: @screen-md-max) {
-
   .page_wrapper {
-    margin-left: 0px !important;
-    margin-right: 0px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 
     // Make sure container does not overflow with added margins
     .container {
@@ -69,23 +70,23 @@
 /* Extra small, and small devices */
 @media (max-width: @screen-sm-max) {
   .navbar-top {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding-top: 2px;
     background-color: @opendata-brand-primary;
   }
 
   .page_wrapper {
-    padding-top: 0px !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    margin-bottom: 0px !important;
+    padding-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
 
     .search-form .control-order-by {
       display: block;
       float: none;
       margin: 0;
       margin-bottom: (@line-height-computed/2);
-      border-bottom: 0px;
+      border-bottom: 0;
     }
   }
 
@@ -99,6 +100,7 @@
     .left {
       padding-right: 25px;
     }
+
     .right {
       padding-left: 25px;
     }
@@ -113,40 +115,41 @@
     min-width: 134px;
   }
 
-  .guide-nav{
-
+  .guide-nav {
     margin: 15px -25px;
 
-    li{
+    li {
       margin-top: 20px;
       margin-bottom: 15px;
+
       a {
         padding: 15px 30px;
         background-color: #eaf4fb;
         border-radius: 20px;
       }
-      span{
+
+      span {
         margin-left: -40px;
-        margin-right:  20px;
+        margin-right: 20px;
       }
     }
   }
-
 }
-
 
 /* Large devices */
 @media (min-width: @screen-lg) {
-  .page_wrapper, .navbar-main {
+  .page_wrapper,
+  .navbar-main {
     max-width: 100%;
   }
+
   .navbar.navbar-main .navbar-nav li > a {
     padding: 13px 8px;
   }
 }
 
 /* Extra small, small and medium devices */
-@media(max-width: @screen-md-min) {
+@media (max-width: @screen-md-min) {
   .page_wrapper {
     width: auto;
   }
@@ -177,11 +180,11 @@
     padding-top: 0;
   }
 
-  .dataset-title-list{
+  .dataset-title-list {
     padding: 10px;
   }
 
-    /* Add margin between boxes */
+  /* Add margin between boxes */
   .tutorial-box-content {
     margin-top: 20px;
   }
@@ -194,7 +197,8 @@
     font-size: 22px;
   }
 
-  .media-object, .thumbnail {
+  .media-object,
+  .thumbnail {
     width: 75px;
   }
 
@@ -208,9 +212,11 @@
   .pull-xs-left {
     float: left !important;
   }
+
   .pull-xs-right {
     float: right !important;
   }
+
   .ytp-nav {
     float: none;
   }
@@ -220,6 +226,7 @@
   .pull-sm-left {
     float: left !important;
   }
+
   .pull-sm-right {
     float: right !important;
   }
