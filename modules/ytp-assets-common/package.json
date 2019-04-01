@@ -1,5 +1,5 @@
 {
-  "//": "If this file is updated, remember to update ansible/roles/common-webserver/files/package.json too",
+  "//": "If this file is updated, remember to update ansible/roles/opendata_frontend/files/package.json too",
   "name": "ytp-assets-common",
   "version": "1.0.0",
   "repository": "https://github.com/vrk-kpa/opendata/",
