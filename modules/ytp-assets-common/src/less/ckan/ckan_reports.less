@@ -1,5 +1,6 @@
 @common-path: "../..";
 @common-less: "@{common-path}/less";
+
 @import "@{common-less}/variables.less";
 @import "@{common-less}/mixins/mixins.less";
 
@@ -16,15 +17,15 @@
     background-color: @sidebar-block-color-background;
     height: 100%;
     width: 100%;
-  
+
     .report-header {
       color: @sidebar-block-color-text;
       font-weight: 600;
     }
-    
+
     .report-body {
       margin-top: 15px;
-  
+
       .report-description {
         margin-bottom: 10px;
       }
@@ -42,7 +43,7 @@
   border-color: @content-border;
   border-top: 6px solid @sidebar-block-color-header;
   background-color: @sidebar-block-color-background;
-  
+
   .panel-heading {
     background-color: transparent;
     border-bottom: transparent;
@@ -56,12 +57,15 @@
 
   .report-pie-chart {
     .flex(1 1 0);
+
     .title {
       font-size: 18pt;
     }
   }
+
   .report-pie-legend {
     .flex(1 1 0);
+
     max-width: 250px;
   }
 }
@@ -71,11 +75,12 @@
 }
 
 .report-sub-row {
-  font-size: normal;
+  font-size: initial;
 }
 
 .report-column-chart {
   margin: auto;
+
   & svg {
     width: 100%;
     height: 100%;
@@ -88,20 +93,21 @@
   & text {
     font-size: 12px;
     fill: #333;
+
     &.value {
       font-size: 14px;
     }
-    
+
     &.title {
       font-size: 22px;
       font-weight: 600;
     }
-    
+
     &.label {
       font-size: 14px;
       font-weight: 400;
     }
-    
+
     &.source {
       font-size: 10px;
     }
@@ -113,19 +119,21 @@
 
   & line {
     stroke: gray;
+
     &#limit {
-      stroke: #FED966;
+      stroke: #fed966;
       stroke-width: 3;
-      stroke-dasharray: 3 6;
+      stroke-dasharray: 3;
     }
   }
-  
+
   & .grid {
     & path {
       stroke-width: 0;
     }
+
     & .tick line {
-      stroke: #9FAAAE;
+      stroke: #9faaae;
       stroke-opacity: 0.3;
     }
   }
@@ -139,12 +147,15 @@
   .report-results-title {
     display: none;
   }
+
   .print-hidden {
     display: none;
   }
+
   .report-total-row {
     font-weight: normal;
   }
+
   .report-sub-row {
     font-size: smaller;
   }

@@ -5,10 +5,8 @@
 
 // Open Sans
 @import "@{common-less}/fonts.less";
-
 @import "@{common-less}/variables.less";
 @import "@{common-less}/mixins/mixins.less";
-
 @import "@{common-less}/navbars";
 @import "@{common-less}/responsive";
 @import "@{common-less}/common";
@@ -29,15 +27,16 @@
 body {
   .flex-display(flex);
   .flex-direction(column);
+
   min-height: 100vh;
 }
 
 [role="main"] {
   background: transparent;
-  padding-top: 0px;
+  padding-top: 0;
 }
 
-#page_wrapper {
+.page_wrapper {
   max-width: none;
 }
 
@@ -63,7 +62,7 @@ body {
 
 .wrapper {
   @media (min-width: @screen-sm-min) {
-    &:before {
+    &::before {
       border-right: transparent;
     }
   }
@@ -81,8 +80,10 @@ body {
 }
 
 // Tags used in tables
-.tag, a.tag {
+.tag,
+a.tag {
   border: 2px solid @tag-color;
+
   &:hover {
     border: 2px solid @tag-color;
     background-color: @tag-color;
@@ -103,7 +104,6 @@ body {
 }
 
 .opendata-card {
-  padding: 4px 22px 15px 0px;
   border-top: 6px solid @sidebar-block-color-header;
   border-radius: 2px;
   background-color: @resource-list-background;
@@ -116,16 +116,19 @@ body {
 }
 
 .pagination > li {
-  a, span {
-    border: 0px;
+  a,
+  span {
+    border: 0;
   }
 }
 
 // Buttons
 //
-.btn-primary, .btn-info {
+.btn-primary,
+.btn-info {
   background-color: @btn-dark-bg;
   border-color: @btn-dark-bg;
+
   &:hover {
     background-color: darken(@btn-dark-bg, 10%);
     border-color: darken(@btn-dark-bg, 10%);
@@ -133,7 +136,10 @@ body {
 }
 
 // Disable box shadow when the button is activated
-.btn-avoindata-header, .btn-avoindata-header:active, .btn-avoindata-header:hover, .btn-avoindata-header:focus {
+.btn-avoindata-header,
+.btn-avoindata-header:active,
+.btn-avoindata-header:hover,
+.btn-avoindata-header:focus {
   color: @opendata-ckan-list-item-header;
   background-image: none;
   outline: 0;
@@ -144,15 +150,24 @@ body {
 .btn-success {
   background-color: @btn-dark-bg;
   border-color: @btn-dark-bg;
-  &.disabled, &.disabled:focus, &.disabled:hover{
+
+  &.disabled,
+  &.disabled:focus,
+  &.disabled:hover {
     background-color: tint(@btn-dark-bg, 50%);
     border-color: tint(@btn-dark-bg, 50%);
   }
-  &:hover, &:focus, &:active {
+
+  &:hover,
+  &:focus,
+  &:active {
     background-color: @btn-dark-bg;
     border-color: @btn-dark-bg;
   }
-  &:focus:hover, &:active:hover, &:active:focus {
+
+  &:focus:hover,
+  &:active:hover,
+  &:active:focus {
     background-color: darken(@btn-dark-bg, 10%);
     border-color: darken(@btn-dark-bg, 10%);
   }
@@ -176,14 +191,15 @@ body {
     max-width: 1140px;
     margin: 0 auto;
     float: none;
-    padding: 0px 15px;
+    padding: 0 15px;
 
     li {
       font-size: 14px;
       line-height: 20px;
-      padding: 10px 0px;
+      padding: 10px 0;
     }
-    li:after {
+
+    li::after {
       content: "";
     }
   }
@@ -193,11 +209,12 @@ body {
   font-weight: 700;
 }
 
-.secondary, aside.tertiary {
+.secondary,
+aside.tertiary {
   padding-left: 0;
 
   .module {
-    padding: 4px 22px 15px 0px;
+    padding: 4px 22px 15px 0;
     border-top: 6px solid @sidebar-block-color-header;
     border-radius: 2px;
     background-color: @sidebar-block-color-background;
@@ -213,6 +230,7 @@ body {
         padding: 10px 15px;
         color: @sidebar-block-color-text;
         border-left: 8px solid @sidebar-block-color-background;
+
         &:hover {
           border-left: 8px solid @sidebar-block-color-header;
         }
@@ -221,15 +239,17 @@ body {
 
     .module-heading {
       .flex-display(flex);
+
       margin-top: 10px;
       margin-right: 5px;
       margin-bottom: 5px;
       margin-left: 15px;
-      padding-right: 0px;
+      padding-right: 0;
       padding-bottom: 8px;
-      padding-left: 0px;
-      padding-top: 0px;
+      padding-left: 0;
+      padding-top: 0;
       .align-items(center);
+
       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       border-top: none;
       background-color: transparent;
@@ -248,8 +268,7 @@ body {
   }
 }
 
-// Dashboard 
-//
+// Dashboard
 
 // Dashboard organizations page
 .module > .content-heading-my-organizations {
@@ -262,18 +281,23 @@ body {
 
 .page-header {
   .clearfix;
-  border: 0 0 0 0;
+
+  border: 0;
   background-color: transparent;
+
   .nav-tabs {
-    border: 0px;
+    border: 0;
     font-size: 16px;
+
     li {
       a {
         color: #000;
         font-weight: 400;
-        border: 0 0 0 0;
+        border: 0;
       }
+
       border-bottom: 4px solid @inactive-tab-color;
+
       &:hover {
         border-bottom: 4px solid darken(@inactive-tab-color, 20%);
       }
@@ -283,22 +307,23 @@ body {
       a {
         color: #000;
         font-weight: 600;
-        border: 0px;
+        border: 0;
       }
+
       border-bottom: 5px solid @active-tab-color;
     }
 
     &:hover {
-      border: 0 0 0 0;
+      border: 0;
     }
   }
 }
 
 // Override "sidebar" arrow
 @media (min-width: @screen-sm-min) {
-  .nav-item.active>a:before,
-  .nav-aside li.active a:before {
-      content: none;
+  .nav-item.active > a::before,
+  .nav-aside li.active a::before {
+    content: none;
   }
 }
 
@@ -317,14 +342,14 @@ body {
   &:hover {
     border-left: 8px solid @sidebar-block-color-header;
   }
-  
+
   width: 95%;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 7px;
-  padding-right: 0px;
+  padding-right: 0;
   border-style: none none none solid;
   border-left-width: 8px;
   border-left-color: transparent;
@@ -334,11 +359,13 @@ body {
     a {
       background-color: transparent;
       color: @facet-link-text-color;
+
       &:hover {
         background-color: transparent;
         color: @facet-link-text-color;
       }
     }
+
     color: #219ad3;
     background-color: transparent;
   }
@@ -352,12 +379,13 @@ body {
 
 .module-narrow .nav-aside li a,
 .module-narrow .nav-item > a {
-  padding: 0px;
+  padding: 0;
 }
 
 .module-narrow > .btn,
 .module-narrow > a {
   background-color: transparent;
+
   &:hover {
     background-color: transparent;
   }
@@ -365,7 +393,7 @@ body {
 
 .module-narrow {
   .list-unstyled {
-    padding-left: 0px;
+    padding-left: 0;
   }
 }
 
@@ -378,7 +406,7 @@ body {
 
   .dataset-heading {
     color: #000;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 1px;
     font-size: 16px;
     font-weight: bold;
@@ -397,11 +425,13 @@ body {
   white-space: nowrap;
   .flex-display(flex);
   .align-items(center);
+
   margin: 2em 0;
   list-style: none;
 
   li {
     .flex(auto);
+
     text-align: center;
 
     img {
@@ -437,10 +467,12 @@ body {
 
 .horizontal-list {
   padding: 0;
+
   li {
     display: inline;
     margin-right: 2%;
   }
+
   img {
     height: 3em;
   }
@@ -448,7 +480,7 @@ body {
 
 .page-subheading {
   font-size: 1em;
-  font-family: Open Sans;
+  font-family: Open Sans, sans-serif;
   color: #333;
 }
 
@@ -463,42 +495,52 @@ body {
   }
 }
 
-
 .page-heading-container {
   margin-top: 10px;
 }
 
-.application-website-link, .application-website-link:hover, .application-website-link:active {
+.application-website-link,
+.application-website-link:hover,
+.application-website-link:active {
   color: @link-color;
   font-size: 14px;
 }
 
 .no-right-padding {
-  padding-right: 0px;
+  padding-right: 0;
 }
 
 .dataset-list {
   padding: 0;
+
   .dataset-item {
     .dataset-content {
       .dataset-heading {
         padding-bottom: 10px;
+
         a {
           color: @opendata-ckan-list-item-header;
           font-weight: 400;
           font-size: 18px;
-          &:hover, &:active {
+
+          &:hover,
+          &:active {
             color: @opendata-ckan-list-item-header;
           }
         }
       }
+
       .dataset-item-notes {
         padding-bottom: 10px;
         color: @opendata-ckan-unhighlight;
       }
+
       .organization-line {
         color: @opendata-ckan-unhighlight;
-        a, a:hover, a:active {
+
+        a,
+        a:hover,
+        a:active {
           color: @opendata-ckan-unhighlight;
         }
       }
@@ -506,14 +548,14 @@ body {
   }
 }
 
-
 .media-grid {
   background: transparent;
   margin-top: 20px;
-  padding: 0px;
+  padding: 0;
   padding-bottom: 10px;
-  border-top: 0px;
-  border-bottom: 0px;
+  border-top: 0;
+  border-bottom: 0;
+
   .media-item {
     width: 250px;
     height: 332px;
@@ -522,13 +564,14 @@ body {
     border-left: 1px solid rgba(0, 0, 0, 0.16);
     border-top: 1px solid rgba(0, 0, 0, 0.16);
     border-radius: 3px;
-    padding: 0px;
-    margin: 0px 25px 25px 0px;
+    padding: 0;
+    margin: 0 25px 25px 0;
     overflow: hidden;
     text-overflow: ellipsis;
+
     .media-image {
-      padding: 0px;
-      border-radius: 0px;
+      padding: 0;
+      border-radius: 0;
       width: 247px;
       height: 155px;
       overflow: hidden;
@@ -540,6 +583,7 @@ body {
     .item-content {
       .flex-display(flex);
       .flex-direction(column);
+
       margin-right: 15px;
       margin-left: 15px;
       margin-top: 5px;
@@ -555,6 +599,7 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
         min-height: 25px;
+
         a {
           color: @mediagrid-header-text-color;
         }
@@ -563,7 +608,7 @@ body {
       .item-platform {
         p {
           display: block;
-          white-space: nowrap;        
+          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           margin-bottom: 10px;
@@ -588,28 +633,31 @@ body {
   }
 }
 
-
 .opendata-additionalinfo-table {
   border: solid @resource-list-background 20px;
   background-color: @resource-list-background;
-} 
+}
 
 // Additional info resource list
 .resource-list {
   padding: 10px;
+
   .resource-item {
     margin-top: 10px;
     background-color: @resource-list-background;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid darken(@resource-list-background, 15%);
+
     .resource-item-actions {
       text-transform: uppercase;
       line-height: 35px;
       font-weight: 600;
+
       .resource-action {
         margin-left: 10px;
       }
     }
+
     .format-label {
       top: 2px;
       left: -20px;
@@ -619,19 +667,23 @@ body {
 
 .dataset-header-row {
   border-bottom: 1px solid darken(@resource-list-background, 15%);
-  margin-right: 0px;
-  margin-left: 0px;
+  margin-right: 0;
+  margin-left: 0;
   margin-bottom: 15px;
+
   .dataset-title-column {
-    padding-left: 0px;
+    padding-left: 0;
   }
+
   .content_action {
     font-weight: 600;
     font-size: 16px;
     margin-top: 35px;
+
     .opendata-content-action {
       margin-left: 15px;
       color: @active-tab-color;
+
       a {
         color: @active-tab-color;
       }
@@ -653,6 +705,7 @@ body {
   color: @btn-dark-bg;
   border-color: transparent;
   font-size: 17px;
+
   &:hover {
     background-color: white;
     color: @btn-dark-bg;
@@ -670,8 +723,8 @@ li.organization {
 }
 
 // Organization
-//
-.organization-tree .btn, .organization-row {
+.organization-tree .btn,
+.organization-row {
   display: inline;
 }
 
@@ -680,10 +733,12 @@ li.organization {
 }
 
 .organization-tree {
-  padding-inline-start: 0px;
-  .js-collapsed, .js-collapse {
+  padding-inline-start: 0;
+
+  .js-collapsed,
+  .js-collapse {
     display: none;
-   }
+  }
 }
 
 .organization-hierarchy-empty-space {
@@ -696,25 +751,32 @@ li.organization {
 }
 
 .organization-tree .hierarchy-btn {
-  padding: 0px 0px 0px 7px;
+  padding: 0 0 0 7px;
   background-color: @background-body-color;
   border: none;
+
   &:active {
     box-shadow: none;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active:focus {
     background-color: @background-body-color;
   }
-  .fa-plus-circle, .fa-minus-circle {
+
+  .fa-plus-circle,
+  .fa-minus-circle {
     color: @btn-dark-bg;
     font-size: 17px;
   }
+
   .fa-minus {
     color: @btn-dark-bg;
   }
+
   .fa-circle {
     color: @btn-dark-bg;
   }
@@ -734,15 +796,16 @@ li.organization {
   padding-bottom: 15px;
 }
 
-.organization-hierarchy-header{
+.organization-hierarchy-header {
   font-weight: 700;
 }
 
 .form-actions .btn-danger {
   margin-right: 5px;
   align-self: flex-start;
-  margin-top: -34px; 
+  margin-top: -34px;
 }
+
 .navbar-header .navbar-toggle {
   margin-right: 25px;
 }
@@ -767,19 +830,19 @@ li.organization {
 }
 
 //Plus icon (fa-plus-circle)
-.nav-facet .nav-item>a:hover:after {
+.nav-facet .nav-item > a:hover::after {
   background-image: none;
   content: "\f055";
-  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
+  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   color: @btn-dark-bg;
   font-weight: @font-weight-heavier;
 }
 
 //Cross icon (fa-times-circle)
-.nav-facet .nav-item.active>a:after {
+.nav-facet .nav-item.active > a::after {
   background-image: none;
   content: "\f057";
-  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
+  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   color: @black;
 }
 

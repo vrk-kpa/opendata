@@ -5,10 +5,19 @@
   display: block;
   margin: -10px -15px;
   padding: 10px 15px;
-  &, &:hover, &:focus, &:hover:focus {
+
+  &,
+  &:hover,
+  &:focus {
     color: inherit;
   }
-  &:focus, &:hover {
+
+  &:focus,
+  &:hover {
     text-decoration: none;
+  }
+
+  &:hover:focus {
+    color: inherit;
   }
 }
