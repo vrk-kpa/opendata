@@ -39,3 +39,35 @@
     option: listen.mode
     value: "0660"
   notify: restart php-fmp service
+
+- name: Configure pm.max_children setting
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: pm.max_children
+    value: "{{ php_max_children }}"
+  notify: restart php-fmp service
+
+- name: Configure pm.start_servers setting
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: pm.start_servers
+    value: "{{ php_start_servers }}"
+  notify: restart php-fmp service
+
+- name: Configure pm.max_spare_servers setting
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: pm.max_spare_servers
+    value: "{{ php_max_spare_servers }}"
+  notify: restart php-fmp service
+
+- name: Configure pm.min_spare_servers setting
+  ini_file:
+    dest: "{{ php_fpm_config_file }}"
+    section: www
+    option: pm.min_spare_servers
+    value: "{{ php_min_spare_servers }}"
+  notify: restart php-fmp service

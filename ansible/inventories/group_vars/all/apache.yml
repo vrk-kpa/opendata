@@ -18,11 +18,8 @@ apache_sites:
           WSGIPassAuthorization On
 
           # Deploy as a daemon (avoids conflicts between CKAN instances)
-          {% if apache_deployment_environment_id == "vagrant" %}
-          WSGIDaemonProcess ckan_default display-name=ckan_default threads=15
-          {% else %}
+
           WSGIDaemonProcess ckan_default display-name=ckan_default processes=2 threads=15
-          {% endif %}
 
           WSGIProcessGroup ckan_default
 
@@ -35,10 +32,6 @@ apache_sites:
           </Directory>
       </VirtualHost>
 
-      {# Turn Sendfile off so that Vagrant/Virtualbox notices file changes in synced folders #}
-      {% if apache_deployment_environment_id == "vagrant" %}
-          EnableSendfile Off
-      {% endif %}
   - name: datapusher
     config: |
       <VirtualHost *:8800>
