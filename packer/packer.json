@@ -69,9 +69,7 @@
         "custom_data": {
           "Branch": "{{ user `branch` }}",
           "Commit": "{{ user `commit` }}",
-          "Build": "{{ user `build` }}",
-          "Base_AMI_Name": "{{ .SourceAMIName }}",
-          "Base_AMI_ID": "{{ .SourceAMI }}"
+          "Build": "{{ user `build` }}"
         }
       }
     ]
