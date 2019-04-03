@@ -188,6 +188,12 @@ jobs:
           working_directory: ~/project/ansible
 
       - run:
+          name: Copy AMI to production account
+          command: "./copy_ami.sh ../ansible/manifest.json"
+          no_output_timeout: 10m
+          working_directory: ~/project/amicopy
+
+      - run:
           name: Save ami id to file
           command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ../ami_id
           working_directory: ~/project/ansible
