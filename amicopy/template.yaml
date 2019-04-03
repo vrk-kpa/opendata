@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  DevAccountId:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/accountid
+    Description: 'ID of account that should invoke the ami copy function'
+Globals:
+  Function:
+    Timeout: 600
+
+Resources:
+  CopyAmiLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              AWS: 
+                !Sub 'arn:aws:iam::${DevAccountId}:role/InvokeAmiCopyFunctionRole'
+      RoleName: CopyAmiLambdaExecutionRole
+      Policies:
+        - PolicyName: RunCopyAmiFunction
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt CopyAmiFunction.Arn
+  CopyAmiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      FunctionName: CopyAmiFunction
+      Handler: handler.copy_image
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - Statement:
+          - Action:
+            - ec2:CopyImage
+            - ec2:DescribeImages
+            - ec2:DescribeImageAttribute
+            - ec2:DescribeTags
+            - ec2:CreateTags
+            Effect: Allow
+            Resource: '*'
