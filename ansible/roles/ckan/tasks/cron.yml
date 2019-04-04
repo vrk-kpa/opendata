@@ -10,6 +10,17 @@
       --config={{ ckan_ini }}
   when: ckan_google_analytics
 
+- name: Check broken links cron job
+  cron:
+    name: "archiver"
+    minute: "0"
+    hour: "3"
+    day: "*/3"
+    job: >-
+      {{ ckan_virtual_environment }}/bin/paster
+      --plugin=ckanext-archiver archiver update
+      --config={{ ckan_ini }}
+
 - name: Ensure harvester cron job
   cron:
     name: "harvest"
@@ -49,7 +60,7 @@
   cron:
     name: "report"
     minute: "0"
-    hour: "3"
+    hour: "5"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
 
 - name: Add email reminder about expiring datasets as a cron job
