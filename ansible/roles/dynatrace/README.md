@@ -20,8 +20,8 @@ Url for dynatrace installer
 Sets log access to either enabled or disabled based on the state of this (0/1), default 0
 
 
-#### `dynatrace_install_oneagent` (required)
-Boolean value for (un)installation of OnAgent
+#### `dynatrace_install_oneagent` (optional)
+Boolean value for (un)installation of Dynatrace OneAgent, default true.
 
 
 Dependencies
