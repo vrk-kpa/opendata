@@ -50,6 +50,8 @@
       tags: drupal
     - role: datapusher
       tags: datapusher
+    - role: dynatrace
+      tags: dynatrace
 
   post_tasks:
     - name: Remove maintenance mode

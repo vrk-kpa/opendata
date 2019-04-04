@@ -1,5 +1,5 @@
 {
-  "//": "If this file is updated, remember to update ansible/roles/common-webserver/files/package.json too",
+  "//": "If this file is updated, remember to update ansible/roles/opendata_frontend/files/package.json too",
   "name": "ytp-assets-common",
   "version": "1.0.0",
   "repository": "https://github.com/vrk-kpa/opendata/",
@@ -22,7 +22,10 @@
     "gulp-uglify": "^3.0.1",
     "gulp-util": "~3.0.4",
     "imagemin-jpegoptim": "^6.0.0",
-    "pump": "^3.0.0"
+    "pump": "^3.0.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "gulp-stylelint": "^8.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

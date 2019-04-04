@@ -4,7 +4,7 @@
 
 @toolbar-width: 240px;
 
-body.toolbar-fixed {
+.toolbar-fixed {
 
   // Fix z-index.
   .toolbar-oriented .toolbar-bar {
@@ -22,7 +22,6 @@ body.toolbar-fixed {
 
   // Vertical Open.
   &.toolbar-vertical.toolbar-tray-open {
-
     .navbar-fixed-top {
       left: @toolbar-width;
     }
@@ -32,20 +31,18 @@ body.toolbar-fixed {
 
       .toolbar-tray {
         padding-bottom: 40px;
-        &, > .toolbar-lining:before {
+
+        &,
+        > .toolbar-lining::before {
           width: @toolbar-width;
         }
       }
-
     }
-
   }
-
 }
 
 // Remove flicking.
-body.toolbar-loading {
-
+.toolbar-loading {
   margin-top: 0;
 
   &.toolbar {

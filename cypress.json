@@ -2,6 +2,7 @@
   "baseUrl": "http://vagrant.avoindata.fi:9000",
   "projectId": "ssb2ut",
   "env": {
-    "resetDB": true
+    "resetDB": true,
+    "cloudStorageEnabled": false
   }
 }

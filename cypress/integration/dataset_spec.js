@@ -42,6 +42,8 @@ describe('Dataset tests', function() {
 
 
     cy.fill_form_fields(resource_form_data);
+    cy.server();
+    cy.route('/data/fi/dataset/*').as('datasetPage');
 
     cy.get('#field-image-upload').then(function(subject){
       cy.fixture("FL_insurance_sample.csv", 'base64')
@@ -56,6 +58,11 @@ describe('Dataset tests', function() {
     });
 
     cy.get('button[name=save]').contains('Valmis').click();
+
+    // if cloudstorage is enabled, we wait for window.location to change, can't use dataset name as redirection is done with id
+    if (Cypress.env('cloudStorageEnabled')){
+      cy.location('pathname', {timeout: 20000}).should('include', '/data/dataset/');
+    }
 
     cy.get('a').contains(resource_name).click();
 

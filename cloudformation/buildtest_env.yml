@@ -5,6 +5,11 @@ Description: Creates dedicated VPC for opendata build testing and S3 bucket for 
 
 Parameters:
 
+  ProductionAccountId:
+    Description: Id of production account
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/productionaccountid
+
   AvailabilityZone1:
     Description: The first availability zone in the region
     Type: AWS::EC2::AvailabilityZone::Name
@@ -26,6 +31,11 @@ Parameters:
     Description: IAM group having read access to bucket
     Type: String
     Default: ypt-buildtesters
+
+  BuildTestUserName:
+    Description: Name of buildtest IAM user 
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/buildtestusername
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -157,6 +167,30 @@ Resources:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
 
+  InvokeAmiCopyFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: InvokeAmiCopyFunctionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS:
+                !Sub 'arn:aws:iam::${AWS::AccountId}:user/${BuildTestUserName}'
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: "AssumeInvokeAmiCopyFunctionRole"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "sts:AssumeRole"
+                Resource:
+                  - !Sub 'arn:aws:iam::${ProductionAccountId}:role/CopyAmiLambdaExecutionRole'
+
   SecretBucketGetRole:
     Type: AWS::IAM::Role
     Properties:
@@ -271,6 +305,31 @@ Resources:
             Resource:
               - !Sub "arn:aws:s3:::${BucketName}/*"
 
+  DatasetBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: avoindata-buildtest-datasets
+      AccessControl: PublicRead
+      VersioningConfiguration:
+        Status: Enabled
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+            - GET
+            AllowedOrigins:
+              - "*"
+
+  DatasetBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref DatasetBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
+            Principal: "*"
 
 Outputs:
 

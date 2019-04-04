@@ -12,8 +12,8 @@
 }
 
 .form-horizontal .form-group {
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .form-horizontal .control-label {
@@ -28,7 +28,7 @@
 }
 
 .form-horizontal .controls {
-  margin-left: 0px;
+  margin-left: 0;
   padding: inherit;
 }
 
@@ -38,7 +38,8 @@
   flex-direction: column-reverse;
 }
 
-label.control-label, label.group-label {
+label.control-label,
+label.group-label {
   // Remove ":" from group label and control label
   &::after {
     content: none;
@@ -47,10 +48,10 @@ label.control-label, label.group-label {
 
 // Form remove button overrides. No more rounded edges.
 .btn-remove-url {
-  top: 0px !important;
-  right: 0px !important;
+  top: 0 !important;
+  right: 0 !important;
   padding: 5px 15px !important;
-  border-radius: 0px 4px 4px 0px !important;
+  border-radius: 0 4px 4px 0 !important;
   height: 100% !important;
 }
 
@@ -70,10 +71,12 @@ label.control-label, label.group-label {
 .opendata-search-form {
   margin-top: 12px;
   margin-bottom: 20px;
+
   .search-wrapper {
     .flex-display(flex);
     .flex-direction(row);
     .flex-flow(nowrap);
+
     max-width: 100%;
     min-height: 62px;
     height: 0;
@@ -81,13 +84,13 @@ label.control-label, label.group-label {
     input {
       height: 62px;
       padding: 8px 12px;
-      margin-top: 0px;
+      margin-top: 0;
       font-size: 14px;
       line-height: 1.42857143;
-      color: #333333;
+      color: #333;
       border-radius: 4px;
       vertical-align: middle;
-      background-color: #ffffff;
+      background-color: #fff;
       border: 1px solid @opendata-ckan-unhighlight;
 
       &:focus {
@@ -97,7 +100,7 @@ label.control-label, label.group-label {
     }
 
     button {
-      margin-top: 0px;
+      margin-top: 0;
       height: 62px;
 
       @media (max-width: 450px) {
@@ -123,7 +126,8 @@ label.control-label, label.group-label {
 }
 
 .search-form {
-  padding-bottom: 0px;
+  padding-bottom: 0;
+
   .search-input {
     &.search-giant {
       button {

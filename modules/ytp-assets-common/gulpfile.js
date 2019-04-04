@@ -15,10 +15,13 @@ var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
 var imageminJpegoptim = require('imagemin-jpegoptim');
+var gulpStylelint = require('gulp-stylelint');
+
 
 var paths = {
   src: {
     images: "src/images/**/*",
+    less: "src/less",
     ckan: "src/less/ckan",
     drupal: "src/less/drupal/style.less",
     drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
@@ -51,6 +54,18 @@ gulp.task('copy:fontawesomeLess', (done) => {
   pump([
     gulp.src(fontawesomeLessPath + "/*.less"),
     gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome/less")
+  ], done)
+});
+
+
+gulp.task('lint', (done) => {
+  pump([
+    gulp.src(paths.src.less + '/**/*.less'),
+    gulpStylelint({
+      failAfterError: true,
+      reporters:[
+        {formatter: 'verbose', console: true}
+      ]})
   ], done)
 });
 
@@ -228,6 +243,7 @@ gulp.task(
     "clean",
     "config",
     "copy:fontawesomeLess",
+    "lint",
     gulp.parallel(
       "bootstrap_styles",
       "bootstrap_scripts",

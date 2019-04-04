@@ -145,6 +145,7 @@ jobs:
           command: |
             echo 'export CYPRESS_BASE_URL=http://$(cat /tmp/instance_public_ip)' >> $BASH_ENV
             echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
+            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
 
 
       - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
@@ -186,6 +187,12 @@ jobs:
           command: "packer build ../packer/packer.json >> ../packer_build.log 2>&1"
           no_output_timeout: 60m
           working_directory: ~/project/ansible
+
+      - run:
+          name: Copy AMI to production account
+          command: "./copy_ami.sh ../ansible/manifest.json"
+          no_output_timeout: 10m
+          working_directory: ~/project/amicopy
 
       - run:
           name: Save ami id to file
@@ -243,6 +250,7 @@ jobs:
           command: |
             echo 'export CYPRESS_BASE_URL=http://$(cat /tmp/instance_public_ip)' >> $BASH_ENV
             echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
+            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
 
 
       - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
@@ -259,6 +267,36 @@ jobs:
           working_directory: ~/project/
           when: always
 
+  stylelint:
+    docker:
+      - image: circleci/node
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+
+      - run:
+          name: Install Dependencies
+          command: npm install --only=dev
+          working_directory: ~/project/modules/ytp-assets-common
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+            - ~/project/modules/ytp-assets-common/node_modules
+
+      - run:
+          name: run stylelint
+          command: $(npm bin)/stylelint "src/less"
+          working_directory: ~/project/modules/ytp-assets-common
+
 workflows:
   version: 2
   lint_build_test:
@@ -266,13 +304,16 @@ workflows:
       - flake8
       - code-sniffer
       - ansible-lint
+      - stylelint
       - ansible-role-test:
           requires:
             - flake8
             - code-sniffer
             - ansible-lint
+            - stylelint
       - packer:
           requires:
             - flake8
             - code-sniffer
             - ansible-lint
+            - stylelint

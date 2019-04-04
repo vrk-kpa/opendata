@@ -1,16 +1,16 @@
 # English translation of avoindata.fi
 # 
 # Translators:
-# Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2019-03-25 06:39+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Teemu Leivo <teemu.leivo@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -277,10 +277,10 @@ msgid "Blank"
 msgstr ""
 
 msgid "Sunday"
-msgstr ""
+msgstr "sunnuntai"
 
 msgid "Monday"
-msgstr ""
+msgstr "maanantai"
 
 msgid "Tags"
 msgstr ""
@@ -439,13 +439,13 @@ msgid "Home"
 msgstr "Etusivu"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "tiistai"
 
 msgid "Thursday"
-msgstr ""
+msgstr "torstai"
 
 msgid "Saturday"
-msgstr ""
+msgstr "lauantai"
 
 msgid "Core"
 msgstr ""
@@ -802,7 +802,7 @@ msgid "Filename"
 msgstr ""
 
 msgid "Wednesday"
-msgstr ""
+msgstr "keskiviikko"
 
 msgid "Archive"
 msgstr ""
@@ -869,7 +869,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Friday"
-msgstr ""
+msgstr "perjantai"
 
 msgid "Manual update check"
 msgstr ""
@@ -9099,47 +9099,47 @@ msgstr ""
 
 msgctxt "Long month name"
 msgid "January"
-msgstr ""
+msgstr "tammikuu"
 
 msgctxt "Long month name"
 msgid "February"
-msgstr ""
+msgstr "helmikuu"
 
 msgctxt "Long month name"
 msgid "April"
-msgstr ""
+msgstr "huhtikuu"
 
 msgctxt "Long month name"
 msgid "May"
-msgstr ""
+msgstr "toukokuu"
 
 msgctxt "Long month name"
 msgid "June"
-msgstr ""
+msgstr "kesäkuu"
 
 msgctxt "Long month name"
 msgid "July"
-msgstr ""
+msgstr "heinäkuu"
 
 msgctxt "Long month name"
 msgid "August"
-msgstr ""
+msgstr "elokuu"
 
 msgctxt "Long month name"
 msgid "September"
-msgstr ""
+msgstr "syyskuu"
 
 msgctxt "Long month name"
 msgid "October"
-msgstr ""
+msgstr "lokakuu"
 
 msgctxt "Long month name"
 msgid "November"
-msgstr ""
+msgstr "marraskuu"
 
 msgctxt "Long month name"
 msgid "December"
-msgstr ""
+msgstr "joulukuu"
 
 msgid "The text to be used for this link in the menu."
 msgstr ""
@@ -24621,7 +24621,7 @@ msgstr ""
 
 msgctxt "Long month name"
 msgid "March"
-msgstr ""
+msgstr "maaliskuu"
 
 msgid "1 minute"
 msgid_plural "@count minutes"
