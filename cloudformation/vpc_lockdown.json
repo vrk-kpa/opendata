@@ -48,7 +48,21 @@
                             ]
                         }
                     ]
-                }
+                },
+						"Policies": [{
+						  "PolicyName": "DatasetBucketPolicy",
+						  "PolicyDocument": {
+						    "Version": "2012-10-17",
+						    "Statement": [{
+						      "Effect": "Allow",
+						      "Action": "*",
+						      "Resource": [
+						        "arn:aws:s3:::avoindata-buildtest-datasets",
+						        "arn:aws:s3:::avoindata-buildtest-datasets/*"
+						      ]
+						    }]
+						  }
+						}]
 			}
 		},
 		"VpcLockDownInstanceProfile":{
