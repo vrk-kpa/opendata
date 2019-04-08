@@ -167,6 +167,7 @@
     - user.role.editor
     - user.role.publisher
     - captcha.captcha_point.contact_message_feedback_form
+    - core.base_field_override.node.article.promote
   tags:
     - skip_ansible_lint
 
