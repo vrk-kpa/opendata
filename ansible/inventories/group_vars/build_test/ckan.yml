@@ -1,0 +1,1 @@
+ckan_admin_email: "{{ admin_email }}"

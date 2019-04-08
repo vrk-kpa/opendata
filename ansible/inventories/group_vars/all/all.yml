@@ -30,14 +30,12 @@ ytp_users:
 google_analytics: false
 # enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
 
-secret:
-  database_ckan_password: pass
-  database_ckan_datastore_password: pass
-  database_drupal_password: pass
-  database_drupal8_password: pass
-  drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
-  smtp_user: username
-  smtp_password: password
+database_ckan_password: pass
+database_ckan_datastore_password: pass
+database_drupal8_password: pass
+drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
+smtp_user: username
+smtp_password: password
 
 AWS:
   enabled: false

@@ -15,3 +15,13 @@ secrets_file_path: "../../avoindata-secrets/beta/secrets.yml"
 disqus_name: "beta-avoindata-fi"
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
+
+rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
+postgres_host: avoindata-{{ deployment
+
+AWS:
+  enabled: true
+  region: S3_EU_WEST
+  use_iam_role: true
+  ckan_s3_bucket: avoindata-beta-datasets
+  smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
