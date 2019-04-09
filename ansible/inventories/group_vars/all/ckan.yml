@@ -51,3 +51,5 @@ ckan_admins:
 ckan_ytp_users: "{{ ytp_users }}"
 
 ckan_google_analytics: "{{ google_analytics }}"
+
+ckan_show_postit_demo: false
