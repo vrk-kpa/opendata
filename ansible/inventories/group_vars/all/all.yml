@@ -33,7 +33,6 @@ google_analytics: false
 database_ckan_password: pass
 database_ckan_datastore_password: pass
 database_drupal8_password: pass
-drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
 smtp_user: username
 smtp_password: password
 

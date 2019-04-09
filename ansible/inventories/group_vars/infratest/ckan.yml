@@ -39,3 +39,5 @@ ckan_recaptcha_private_key: "{{ secret_recaptcha_private_key }}"
 ckan_admins:
   - "{{ secret_admin.username }}"
   - "test-editor"
+
+ckan_show_postit_demo: false

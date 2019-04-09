@@ -23,7 +23,7 @@ drupal_smtp_username: "{{ smtp_user }}"
 drupal_smtp_password: "{{ smtp_password }}"
 drupal_email_from: "{{ email_from }}"
 
-drupal_hash_salt: "{{ drupal_hash_salt }}"
+drupal_hash_salt: IzqME5cJk_x1ZV7oO3UXtHnM7p8R-mLVU5ZiKPWbzDQ
 
 drupal_site_name: avoindata.fi
 drupal_initial_users: "{{ ytp_users }}"
