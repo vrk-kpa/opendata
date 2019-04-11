@@ -150,11 +150,9 @@ ckan_ytp_users:
   - username: 'test-user'
     password: 'test-user'
     email: 'user@localhost'
-ckan_harvest_user: {'username': 'harvest', 'password': 'harvester', 'email': 'harvest@localhost'}
 ckan_admin: {'username': 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
 ckan_admins:
   - "{{ ckan_admin.username }}"
-  - "{{ ckan_harvest_user.username }}"
   - "test-editor"
 # user who should run supervisord
 ckan_harvester_user: "{{ ckan_www_user }}"
