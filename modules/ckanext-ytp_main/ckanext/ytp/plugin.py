@@ -296,6 +296,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
+        m.connect('groups', '/dataset/groups/{id}', action='groups', controller=controller)
         # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
                   controller=controller)
