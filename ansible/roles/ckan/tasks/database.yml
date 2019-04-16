@@ -38,7 +38,6 @@
   ignore_errors: true
   with_flattened:
     - "{{ ckan_ytp_users }}"
-    - "{{ ckan_harvest_user }}"
     - "{{ ckan_admin }}"
   when: item.username not in ckan_current_users.stdout
   tags:

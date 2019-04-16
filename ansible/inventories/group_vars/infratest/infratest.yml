@@ -13,3 +13,13 @@ secrets_file_path: "../../avoindata-secrets/infratest/secrets.yml"
 disqus_name: ""
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 aws_profile: opendata
+
+rds_domain_common_part: cnb7uthj3tqq.eu-west-1.rds.amazonaws.com
+postgres_host: avoindata-{{ deployment_environment_id }}.{{ rds_domain_common_part }}
+
+AWS:
+  enabled: true
+  region: S3_EU_WEST
+  use_iam_role: true
+  ckan_s3_bucket: avoindata-infratest-datasets
+  smtp_server_domain: ""
