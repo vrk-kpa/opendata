@@ -1,5 +1,6 @@
 @common-path: "../..";
 @common-less: "@{common-path}/less";
+
 @import "@{common-less}/variables.less";
 
 .file-tag {
@@ -8,6 +9,7 @@
   border-radius: 3px;
   color: @opendata-ckan-unhighlight;
   background-color: @opendata-ckan-unhighlight-background;
+
   &.format {
     &--json,
     &--xml,
@@ -15,7 +17,7 @@
       background-color: @opendata-brand-success; // green
       color: @btn-dark-text-color;
     }
-    
+
     &--pc-axis,
     &--pxweb {
       background-color: @opendata-brand-warning; // light-orange
