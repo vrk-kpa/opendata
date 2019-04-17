@@ -26,8 +26,8 @@ class HeaderController extends ControllerBase {
     $build = [
       '#theme' => 'avoindata_header',
     ];
-    $response =  new Response(\Drupal::service('renderer')->renderRoot($build));
-    $response->setCache(['public' => true, 'max_age' => 2592000]);
+    $response = new Response(\Drupal::service('renderer')->renderRoot($build));
+    $response->setCache(['public' => TRUE, 'max_age' => 2592000]);
     // Only render this part, not the whole page.
     return $response;
   }
