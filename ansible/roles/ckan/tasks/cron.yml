@@ -2,8 +2,8 @@
 - name: Add analytics fetching to cron
   cron:
     name: "analytics"
-    minute: "*/5"
-    hour: "0-3"
+    minute: "0"
+    hour: "1"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
       --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
@@ -80,3 +80,10 @@
       {{ ckan_virtual_environment }}/bin/paster
       --plugin=ckanext-archiver archiver send_broken_link_notification
       --config={{ ckan_ini }}
+
+- name: Send reminder about expiring datasets as a cron job
+  cron:
+    name: "Send expiring reminder"
+    minute: "0"
+    hour: "10"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify-expiry --config={{ ckan_ini }}"
