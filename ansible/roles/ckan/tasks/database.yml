@@ -5,7 +5,7 @@
     {{ ckan_virtual_environment }}/bin/paster
     --plugin=ckan db init
     --config='{{ item.file }}'
-    chdir='{{ virtual_environment }}'
+    chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint
@@ -24,7 +24,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/paster --plugin=ckan user list
     --config={{ ckan_ini }}
-    chdir={{ virtual_environment }}
+    chdir={{ ckan_virtual_environment }}
   register: ckan_current_users
   environment:
     PYTHONIOENCODING: 'utf_8'
@@ -47,7 +47,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/paster --plugin=ckan sysadmin list
     --config={{ ckan_ini }}
-    chdir={{ virtual_environment }}
+    chdir={{ ckan_virtual_environment }}
   register: ckan_current_sysadmins
   environment:
     PYTHONIOENCODING: 'utf_8'
