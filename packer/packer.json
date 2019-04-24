@@ -46,7 +46,16 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": ["sudo apt-get install -y python"]
+      "inline": [
+        "sudo apt-get install -y python python-pip git nfs-common",
+        "sudo pip install setuptools --upgrade",
+        "sudo pip install awscli ansible markupsafe",
+        "cd /root",
+        "git clone -b {{ user `branch` }} https://github.com/yhteentoimivuuspalvelut/ytp.git",
+        "git checkout {{ user `commit` }}",
+        "cd ytp",
+        "git submodule update --init --recursive"
+      ]
     },
     {
       "type": "ansible",
