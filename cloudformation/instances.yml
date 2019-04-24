@@ -65,77 +65,11 @@ Conditions:
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
 
 Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: ami-09f0b8b3e41191524 # Canonical, Ubuntu, 16.04 LTS, amd64 xenial image build on 2018-11-14
-      KeyName: ytp-seeding-key
-      IamInstanceProfile: !Ref InstanceProfile
-      SecurityGroupIds:
-        - !Ref InstanceSecurityGroup
-      BlockDeviceMappings:
-        - DeviceName: /dev/sda1
-          Ebs:
-            VolumeType: gp2
-            VolumeSize: 20
-            DeleteOnTermination: true
-      Tags:
-        - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}
-      SubnetId: !Select [ 0, !Ref PrivateSubnets ]
-      UserData: !Base64
-        "Fn::Sub": |
-          #!/bin/bash
-
-          export HOME=/root
-          export DEBIAN_FRONTEND=noninteractive
-
-          apt-get update
-          apt-get -y dist-upgrade
-          apt-get -y install libssl-dev libffi-dev python-dev python-pip git nfs-common
-          pip install setuptools --upgrade
-          pip install awscli ansible markupsafe
-
-          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
-          echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
-          mount -a -t nfs4
-          mkdir -p /srv/ytp/files /mnt/ytp_files
-          mount /srv/ytp/files
-
-          cd /root
-          git clone -b ${GitBranch} https://github.com/yhteentoimivuuspalvelut/ytp.git
-
-          cd /root/ytp/cloudformation/bootstrap
-          ansible-playbook -i localhost, deploy.yml
-
-          cd /root/ytp
-          git submodule update --init --recursive
-
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-
-          chmod -R go-rwx /root/avoindata-secrets/*
-
-          cd /root/ytp/ansible
-          ansible-playbook -i inventories/${EnvironmentName} single-server.yml
-
-          echo "Bootstrap done."
-
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow SSH and HTTP
       SecurityGroupIngress:
-        - FromPort: 22
-          ToPort: 22
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 22
-          ToPort: 22
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
         - FromPort: 80
           ToPort: 80
           IpProtocol: tcp
@@ -144,30 +78,6 @@ Resources:
           ToPort: 443
           IpProtocol: tcp
           SourceSecurityGroupId: !Ref PublicALBSecurityGroup
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
-        - FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
-        - FromPort: 8983
-          ToPort: 8983
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 8983
-          ToPort: 8983
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
       VpcId: !Ref Vpc
 
   DatabaseIngressRule:
@@ -178,7 +88,6 @@ Resources:
       ToPort: 5432
       GroupId: !Ref DatabaseSecurityGroup
       SourceSecurityGroupId: !Ref InstanceSecurityGroup
-
 
   EFSIngressRule:
     Type: AWS::EC2::SecurityGroupIngress
@@ -392,3 +301,18 @@ Outputs:
     Value: !GetAtt EC2Instance.AvailabilityZone
   PublicALBDNSName:
     Value: !GetAtt PublicALB.DNSName
+  InstanceProfileArn:
+    Description: Instance profile ARN
+    Value: !GetAtt InstanceProfile.Arn
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-instanceprofile
+  InstanceSecurityGroup:
+    Description: ID of instance security group
+    Value: !Ref InstanceSecurityGroup
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-instancesecuritygroupid
+  PublicALBTargetGroupArn:
+    Description: ARN of target group for public ALB
+    Value: !Ref PublicALBTargetGroupHTTP
+    Export:
+      Name: avoindata-${EnvironmentName}-publicalbtargetgrouparn
