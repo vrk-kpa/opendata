@@ -1,17 +1,19 @@
 from ckan.common import _
 import ckan.authz as authz
 import ckan.plugins.toolkit as toolkit
-import collections
-
 import ckan.model as model
 import ckan.logic.validators as validators
 import ckan.lib.navl.dictization_functions as df
+from ckan.logic import get_action
+
 import re
 import json
-from ckan.logic import get_action
 import plugin
-
 import logging
+import datetime
+import collections
+from tools import check_package_validity
+
 
 try:
     from ckanext.scheming.validation import (
@@ -440,6 +442,20 @@ def extra_validators_multiple_choice(field, schema):
     return validator
 
 
+# FIXME: maybe there is a mistake here? Is the correct order (key, data, errors, context)
 def admin_only_feature(data, key, errors, context):
     if not authz.is_sysadmin(context['user']):
         errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
+
+
+def check_validity(key, data, errors, context):
+    # just in case there was an error before our validator,
+    # bail out here because our errors won't be useful
+    if errors[key]:
+        return
+
+    valid_till = data.get(('valid_till',))
+    valid_from = data.get(('valid_from',))
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    data[key] = check_package_validity(valid_from, valid_till, time_now)

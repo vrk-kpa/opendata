@@ -81,3 +81,13 @@ def get_organization_test_source():
 
 def get_organization_harvest_test_source():
     return "file://%s" % os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/organization_harvest.json')
+
+
+def check_package_validity(valid_from, valid_till, current_time):
+    # This has to be one of [valid, upcoming, deprecated]
+    if valid_till is None and valid_from is None or valid_from <= current_time and valid_till >= current_time:
+        return 'valid'
+    elif valid_from > current_time:
+        return 'upcoming'
+    elif valid_till < current_time:
+        return 'deprecated'

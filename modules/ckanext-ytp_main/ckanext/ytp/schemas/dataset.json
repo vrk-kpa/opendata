@@ -256,6 +256,13 @@
       "label": "Valid till",
       "preset": "date_opendata",
       "min_date_field": "valid_from"
+    },
+    {
+      "field_name": "validity",
+      "label": "Validity",
+      "display_snippet": null,
+      "form_snippet": null,
+      "validators": "check_validity"
     }
   ],
   "resource_fields": [
