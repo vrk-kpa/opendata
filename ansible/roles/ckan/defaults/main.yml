@@ -207,6 +207,7 @@ ckan_patches:
   - add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
   - fix-popped-wrong-app-context  # CKAN issue #4431
   - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
+  - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
