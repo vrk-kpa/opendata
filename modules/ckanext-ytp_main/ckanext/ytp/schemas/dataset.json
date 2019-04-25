@@ -258,11 +258,11 @@
       "min_date_field": "valid_from"
     },
     {
-      "field_name": "validity",
-      "label": "Validity",
+      "field_name": "deprecated",
+      "label": "Deprecated",
       "display_snippet": null,
       "form_snippet": null,
-      "validators": "check_validity"
+      "validators": "check_deprecation"
     }
   ],
   "resource_fields": [

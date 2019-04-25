@@ -70,3 +70,19 @@ def auth_admin_list(context, data_dict):
     if not c.user:
         return {'success': False, 'msg': _('Have to be logged in to list admins')}
     return {'success': True}
+
+
+# TODO: make this do something :)
+def send_package_deprecation_emails(packages):
+    send_deprecation_email_admin(packages)
+
+    grouped_by_user = {}
+    for package in packages:
+        user = 
+        if user not in grouped_by_user:
+            grouped_by_user[user] = [package]
+        else:
+            grouped_by_user[user].append(package)
+    
+    for user, package_ids in grouped_by_user:
+        send_deprecation_email_user(user, package_ids)

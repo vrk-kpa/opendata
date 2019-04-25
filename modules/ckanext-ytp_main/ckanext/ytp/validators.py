@@ -10,9 +10,8 @@ import re
 import json
 import plugin
 import logging
-import datetime
 import collections
-from tools import check_package_validity
+from tools import check_package_deprecation, package_deprecation_offset
 
 
 try:
@@ -448,14 +447,12 @@ def admin_only_feature(data, key, errors, context):
         errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
 
 
-def check_validity(key, data, errors, context):
+def check_deprecation(key, data, errors, context):
     # just in case there was an error before our validator,
     # bail out here because our errors won't be useful
     if errors[key]:
         return
 
-    valid_till = data.get(('valid_till',))
-    valid_from = data.get(('valid_from',))
-    time_now = datetime.datetime.now().strftime("%Y-%m-%d")
+    deprecation_offset = package_deprecation_offset()
 
-    data[key] = check_package_validity(valid_from, valid_till, time_now)
+    data[key] = check_package_deprecation(data.get(('valid_till',)), deprecation_offset)
