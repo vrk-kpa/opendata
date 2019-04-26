@@ -53,16 +53,17 @@
     {
       "type": "shell",
       "inline": [
-        "sudo apt-get update",
-        "sudo apt-get install -y python python-pip nfs-common",
-        "sudo pip install --upgrade pip",
-        "sudo pip install setuptools --upgrade",
-        "sudo pip install awscli ansible markupsafe",
-        "sudo cd /root",
-        "sudo git clone -b {{ user `branch` }} https://github.com/yhteentoimivuuspalvelut/ytp.git",
-        "sudo git checkout {{ user `commit` }}",
-        "sudo cd ytp",
-        "sudo git submodule update --init --recursive"
+        "sudo -s",
+        "apt-get update",
+        "apt-get install -y python python-pip nfs-common",
+        "pip install --upgrade pip",
+        "pip install setuptools --upgrade",
+        "pip install awscli ansible markupsafe",
+        "cd /root",
+        "git clone -b {{ user `branch` }} https://github.com/yhteentoimivuuspalvelut/ytp.git",
+        "git checkout {{ user `commit` }}",
+        "cd ytp",
+        "git submodule update --init --recursive"
       ]
     },
     {
