@@ -49,4 +49,19 @@ body {
   .sidebar-offcanvas {
     width: 90%; /* 6 columns */
   }
+  .search-filters-visible {
+    display: block;
+  }
+  .search-filters-hidden {
+    display: none;
+  }
+  #search-filter-toggle-button {
+    background-color: @opendata-brand-primary;
+    color: @btn-dark-text-color;
+  }
+}
+@media screen and (min-width: @screen-xs-max) {
+  #search-filter-toggle-button {
+    display: none;
+  }
 }
