@@ -47,6 +47,7 @@
     {
       "type": "shell",
       "inline": [
+        "sudo apt-get update",
         "sudo apt-get install -y python python-pip git nfs-common",
         "sudo pip install setuptools --upgrade",
         "sudo pip install awscli ansible markupsafe",
