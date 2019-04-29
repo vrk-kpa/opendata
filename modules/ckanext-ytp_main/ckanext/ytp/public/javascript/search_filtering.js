@@ -1,13 +1,14 @@
 document.getElementById("search-filter-toggle-button").addEventListener("click", toggle_search_filters);
 document.getElementById("search-filter-upper-toggle-button").addEventListener("click", toggle_search_filters);
 
+// If url parameter exists, the search filters and the second toggle button are shown. 
 if (window.location.search.indexOf("_show_search_filters=true") > -1) {
   var search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
   var upper_toggle_button = document.getElementById("search-filter-upper-toggle-button");
   search_filters.classList.remove("search-filters-hidden");
   search_filters.classList.add("search-filters-visible");
   upper_toggle_button.classList.add("upper-toggle-button-visible");
-} 
+}
 
 function toggle_search_filters() {
   var search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
@@ -27,6 +28,9 @@ function toggle_search_filters() {
 
 /**
  * http://stackoverflow.com/a/10997390/11236
+ * This function changes the url by changing the value of the given url parameter
+ * @param param The url parameter that will be changed
+ * @param paramVal The new value for the url parameter
  */
 function updateURLParameter(param, paramVal){
   var url = window.location.href;
