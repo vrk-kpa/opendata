@@ -5,6 +5,7 @@
 {% block secondary %}
         {% set inner = self.secondary_inner() %}
         {% if inner | trim %}
+        <button type="button" class="btn" id="search-filter-upper-toggle-button"><i class="far fa-filter"></i> {{ _('Filter search') }}</button>
         <aside class="secondary col-xs-6 col-sm-3 sidebar-offcanvas search-filters-hidden">
         {% block secondary_inner %}
             {%- include('ytp/menu.html') -%}

@@ -59,9 +59,21 @@ body {
     background-color: @opendata-brand-primary;
     color: @btn-dark-text-color;
   }
+  #search-filter-upper-toggle-button {
+    display: none;
+    &.upper-toggle-button-visible {
+      display: block;
+      background-color: @opendata-brand-primary;
+      color: @btn-dark-text-color;
+      margin-bottom: -25px;
+    }
+  }
 }
 @media screen and (min-width: @screen-xs-max) {
   #search-filter-toggle-button {
+    display: none;
+  }
+  #search-filter-upper-toggle-button {
     display: none;
   }
 }

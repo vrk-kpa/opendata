@@ -1,20 +1,26 @@
 document.getElementById("search-filter-toggle-button").addEventListener("click", toggle_search_filters);
+document.getElementById("search-filter-upper-toggle-button").addEventListener("click", toggle_search_filters);
 
 if (window.location.search.indexOf("_show_search_filters=true") > -1) {
   var search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
+  var upper_toggle_button = document.getElementById("search-filter-upper-toggle-button");
   search_filters.classList.remove("search-filters-hidden");
   search_filters.classList.add("search-filters-visible");
+  upper_toggle_button.classList.add("upper-toggle-button-visible");
 } 
 
 function toggle_search_filters() {
   var search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
+  var upper_toggle_button = document.getElementById("search-filter-upper-toggle-button");
   if (search_filters.classList.contains("search-filters-hidden")) {
     search_filters.classList.remove("search-filters-hidden");
     search_filters.classList.add("search-filters-visible");
+    upper_toggle_button.classList.add("upper-toggle-button-visible");
     updateURLParameter("_show_search_filters", "true");
   } else {
     search_filters.classList.remove("search-filters-visible");
     search_filters.classList.add("search-filters-hidden");
+    upper_toggle_button.classList.remove("upper-toggle-button-visible");
     updateURLParameter("_show_search_filters", "false");
   }
 }
