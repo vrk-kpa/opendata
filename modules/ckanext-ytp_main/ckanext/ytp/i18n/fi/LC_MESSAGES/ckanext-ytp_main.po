@@ -1074,7 +1074,7 @@ msgstr "Peruuta kommenttien tilaus"
 #: ckanext/ytp/templates/page.html:8
 #: ckanext/ytp/templates/snippets/search_form.html:53
 msgid "Filter search"
-msgstr "Rajaa hakua"
+msgstr "Suodata hakua"
 
 #: ckanext/ytp/templates/group/member_new.html:10
 #: ckanext/ytp/templates/organization/member_new.html:9
