@@ -17,6 +17,12 @@ Parameters:
   AsgMinSize:
     Description: Minimum size of ASG
     Type: 'AWS::SSM::Parameter::Value<String>'
+  EFSFileSystem:
+    Description: Name of the EFS filesystem
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  HookTimeout:
+    Description: ASG user data lifecycle hook timeout in seconds
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 
 Resources:
@@ -24,43 +30,68 @@ Resources:
     Type: "AWS::EC2::LaunchTemplate"
     Properties:
       LaunchTemplateData:
-        SecurityGroups:
-          BlockDeviceMappings:
-            - DeviceName: /dev/sda1
-              Ebs:
-                VolumeType: gp2
-                VolumeSize: 20
-                DeleteOnTermination: true
-      IamInstanceProfile: !ImportValue avoindata-${EnvironmentName}-instanceprofile
-      ImageId: !Ref AmiImageId
-      InstanceType: !Ref InstanceType
-      SecurityGroupIds:
-        - !ImportValue avoindata-${EnvironmentName}-instancesecuritygroupid
-      UserData: !Base64
-        "Fn::Sub": |
-          #!/bin/bash
+        BlockDeviceMappings:
+          - DeviceName: /dev/sda1
+            Ebs:
+              VolumeType: gp2
+              VolumeSize: 20
+              DeleteOnTermination: true
+        IamInstanceProfile: 
+          Arn: 
+            Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-instanceprofile"
 
-          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
-          echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
-          mount -a -t nfs4
-          mkdir -p /srv/ytp/files /mnt/ytp_files
-          mount /srv/ytp/files
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-          chmod -R go-rwx /root/avoindata-secrets/*
-          cd /root/ytp/ansible
-          ansible-playbook -i inventories/${EnvironmentName} single-server.yml --tags configure
+        ImageId: !Ref AmiImageId
+        InstanceType: !Ref InstanceType
+        SecurityGroupIds:
+          - Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-instancesecuritygroupid"
+        UserData: !Base64
+          "Fn::Sub": |
+            #!/bin/bash
+            wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+            dpkg -i amazon-cloudwatch-agent.deb
+            export HOME=/root
+            echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
+            echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
+            mount -a -t nfs4
+            mkdir -p /srv/ytp/files /mnt/ytp_files
+            mount /srv/ytp/files
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
+            chmod -R go-rwx /root/avoindata-secrets/*
+            cd /root/ytp/ansible
+            ansible-playbook -i inventories/${EnvironmentName} single-server.yml --tags configure
+
+            aws autoscaling complete-lifecycle-action \
+            --lifecycle-hook-name avoindata-${EnvironmentName}-userdata-lifecycle-hook \
+            --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) \
+            --lifecycle-action-result CONTINUE \
+            --auto-scaling-group-name avoindata-${EnvironmentName}-autoscaling-group \
+            --region ${AWS::Region}
+            echo "Bootstrap done."
   
   AutoScalingGroup: 
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       AutoScalingGroupName: !Sub avoindata-${EnvironmentName}-autoscaling-group
       LaunchTemplate:
-        LauncTemplateId: !Ref InstanceLaunchTemplate
+        LaunchTemplateId: !Ref InstanceLaunchTemplate
+        Version: !GetAtt InstanceLaunchTemplate.LatestVersionNumber
       TargetGroupARNs:
-        - !ImportValue avoindata-${EnvironmentName}-publicalbtargetgrouparn
-      MaxSize: !Ref MaxSize
-      MinSize: !Ref MinSize
+        - Fn::ImportValue:
+            !Sub "avoindata-${EnvironmentName}-publicalbtargetgrouparn"
+      MaxSize: !Ref AsgMaxSize
+      MinSize: !Ref AsgMinSize
       VPCZoneIdentifier: 
-        - !ImportValue vpc-SubnetsPublic
+        - !ImportValue vpc-SubnetsPrivate
+
+  UserDataHook:
+    Type: AWS::AutoScaling::LifecycleHook
+    Properties:
+      AutoscalingGroupName: !Ref AutoScalingGroup
+      DefaultResult: ABANDON
+      HeartbeatTimeout: !Ref HookTimeout
+      LifecycleHookName: avoindata-${EnvironmentName}-userdata-lifecycle-hook
+      LifecycleTransition: EC2_INSTANCE_LAUNCHING
