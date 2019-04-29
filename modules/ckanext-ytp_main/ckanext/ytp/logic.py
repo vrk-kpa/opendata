@@ -2,10 +2,13 @@ from ckan import logic
 from ckan.common import _
 from ckan.common import c
 from ckan.logic import auth
+from ckan.model import Package
+from ckan.lib.mailer import mail_recipient
 
 import logging
 import sqlalchemy
 import sqlalchemy.sql
+from email_templates import deprecation_email_user
 
 _select = sqlalchemy.sql.select
 _or_ = sqlalchemy.or_
@@ -72,17 +75,36 @@ def auth_admin_list(context, data_dict):
     return {'success': True}
 
 
-# TODO: make this do something :)
 def send_package_deprecation_emails(packages):
     send_deprecation_email_admin(packages)
 
-    grouped_by_user = {}
+    grouped_by_maintainer = {}
     for package in packages:
-        user = 
-        if user not in grouped_by_user:
-            grouped_by_user[user] = [package]
+        fullPackage = Package.get(package)
+        maintainer_email = fullPackage.maintainer_email
+
+        packageInfoForEmail = {
+            "title": fullPackage.title,
+            "id": fullPackage.id,
+            "valid_till": fullPackage.extras.get("valid_till"),
+        }
+
+        if maintainer_email not in grouped_by_maintainer:
+            grouped_by_maintainer[maintainer_email] = {"maintainer": fullPackage.maintainer, "packages": [packageInfoForEmail]}
         else:
-            grouped_by_user[user].append(package)
-    
-    for user, package_ids in grouped_by_user:
-        send_deprecation_email_user(user, package_ids)
+            grouped_by_maintainer[maintainer_email]["packages"].append(packageInfoForEmail)
+
+    for maintainer_email, details in grouped_by_maintainer.iteritems():
+        send_deprecation_email_user(maintainer_email, details["packages"], details["maintainer"])
+
+
+def send_deprecation_email_admin(packages):
+    # TODO: craft email and send
+    log.info('send deprecation email admin')
+
+
+def send_deprecation_email_user(maintainer_email, packages, maintainer):
+    log.info('send deprecation email user')
+    subject = deprecation_email_user.subject
+    body = deprecation_email_user.messageBody(maintainer, packages)
+    mail_recipient(maintainer, maintainer_email, subject, body)

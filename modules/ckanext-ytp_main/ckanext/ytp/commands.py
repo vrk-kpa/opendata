@@ -8,6 +8,7 @@ import os
 import re
 import glob
 from tools import check_package_deprecation, package_deprecation_offset
+from logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
 
@@ -307,13 +308,13 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 
 
 @ytp_dataset_group.command(
-    u'update_package_validity',
-    help=u'Checks package validity and updates it if it need updating'
+    u'update_package_deprecation',
+    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users and admins'
 )
 @click_config_option
 @click.option(u'--dryrun', is_flag=True)
 @click.pass_context
-def update_package_validity(ctx, config, dryrun):
+def update_package_deprecation(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
 
     # after loop contains list of ID's of just deprecated packages
@@ -338,7 +339,9 @@ def update_package_validity(ctx, config, dryrun):
     else:
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
-        send_package_deprecation_emails(deprecated_now)
+
+    # send emails outside dryrun so they can be tested easier.
+    send_package_deprecation_emails(deprecated_now)
 
 
 ytp_org_group = paster_click_group(
@@ -456,4 +459,3 @@ def add_to_groups(ctx, config, dryrun):
     else:
         for d in data_dicts:
             get_action('group_member_create')(context, d)
-

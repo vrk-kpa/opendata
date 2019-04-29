@@ -91,7 +91,7 @@ def package_deprecation_offset():
 
 
 def check_package_deprecation(valid_till, today_offset):
-    if valid_till is None:
+    if not valid_till:
         return False
     elif valid_till < today_offset:
         return True

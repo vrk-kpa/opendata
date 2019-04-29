@@ -260,9 +260,20 @@
     {
       "field_name": "deprecated",
       "label": "Deprecated",
-      "display_snippet": null,
+      "preset": "select",
+      "choices": [
+        {
+          "value": false,
+          "label": "False"
+        },
+        {
+          "value": true,
+          "label": "True"
+        }
+      ],
       "form_snippet": null,
-      "validators": "check_deprecation"
+      "validators": "check_deprecation boolean_validator",
+      "output_validators": "boolean_validator"
     }
   ],
   "resource_fields": [

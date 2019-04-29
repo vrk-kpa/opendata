@@ -454,5 +454,5 @@ def check_deprecation(key, data, errors, context):
         return
 
     deprecation_offset = package_deprecation_offset()
-
-    data[key] = check_package_deprecation(data.get(('valid_till',)), deprecation_offset)
+    deprecation = check_package_deprecation(data.get(('valid_till',)), deprecation_offset)
+    data[key] = deprecation
