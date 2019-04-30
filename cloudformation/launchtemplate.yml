@@ -90,8 +90,8 @@ Resources:
   UserDataHook:
     Type: AWS::AutoScaling::LifecycleHook
     Properties:
-      AutoscalingGroupName: !Ref AutoScalingGroup
+      AutoScalingGroupName: !Ref AutoScalingGroup
       DefaultResult: ABANDON
       HeartbeatTimeout: !Ref HookTimeout
-      LifecycleHookName: avoindata-${EnvironmentName}-userdata-lifecycle-hook
-      LifecycleTransition: EC2_INSTANCE_LAUNCHING
+      LifecycleHookName: !Sub avoindata-${EnvironmentName}-userdata-lifecycle-hook
+      LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
