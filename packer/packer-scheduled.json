@@ -59,7 +59,7 @@
         "sudo pip install setuptools --upgrade",
         "sudo pip install awscli ansible markupsafe",
         "sudo git clone --recursive https://github.com/yhteentoimivuuspalvelut/ytp.git /root/ytp",
-        "sudo git --git-dir=/root/ytp/.git checkout {{ user `commit` }}"
+        "sudo git -C /root/ytp checkout {{ user `commit` }}"
       ]
     },
     {
