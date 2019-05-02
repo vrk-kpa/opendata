@@ -55,25 +55,34 @@ body {
   .search-filters-hidden {
     display: none;
   }
-  #search-filter-toggle-button {
+  #search-filter-show-button {
     background-color: @opendata-brand-primary;
     color: @btn-dark-text-color;
+    &.show-button-hidden {
+      display: none;
+    }
   }
-  #search-filter-upper-toggle-button {
+  #search-filter-upper-hide-button, #search-filter-lower-hide-button {
     display: none;
-    &.upper-toggle-button-visible {
+    &.hide-button-visible {
       display: block;
       background-color: @opendata-brand-primary;
       color: @btn-dark-text-color;
-      margin-bottom: -25px;
     }
+    .hide-filters-cross-icon {
+      margin-left: 9px;
+      margin-top: 3px;
+    }
+  }
+  #search-filter-upper-hide-button {
+    margin-bottom: -25px;
   }
 }
 @media screen and (min-width: @screen-xs-max) {
-  #search-filter-toggle-button {
+  #search-filter-show-button {
     display: none;
-  }
-  #search-filter-upper-toggle-button {
+  } 
+  #search-filter-upper-hide-button, #search-filter-lower-hide-button {
     display: none;
   }
 }
