@@ -49,8 +49,6 @@ Resources:
         UserData: !Base64
           "Fn::Sub": |
             #!/bin/bash
-            wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
-            dpkg -i amazon-cloudwatch-agent.deb
             export HOME=/root
             echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
             echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
@@ -62,7 +60,7 @@ Resources:
             aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
-            ansible-playbook -i inventories/${EnvironmentName} single-server.yml --tags configure
+            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure
 
             aws autoscaling complete-lifecycle-action \
             --lifecycle-hook-name avoindata-${EnvironmentName}-userdata-lifecycle-hook \
