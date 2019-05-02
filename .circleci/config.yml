@@ -360,7 +360,13 @@ workflows:
             - code-sniffer
             - ansible-lint
             - stylelint
-      - packer:
+      - packer-web:
+          requires:
+            - flake8
+            - code-sniffer
+            - ansible-lint
+            - stylelint
+      - packer-scheduled:
           requires:
             - flake8
             - code-sniffer
