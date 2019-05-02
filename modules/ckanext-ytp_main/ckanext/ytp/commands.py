@@ -9,7 +9,6 @@ import re
 import glob
 from tools import check_package_deprecation, package_deprecation_offset
 from logic import send_package_deprecation_emails
-from common import register_translator
 
 from ckan.plugins.toolkit import config as c
 
@@ -310,14 +309,13 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 
 @ytp_dataset_group.command(
     u'update_package_deprecation',
-    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users and admins'
+    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users'
 )
 @click_config_option
 @click.option(u'--dryrun', is_flag=True)
 @click.pass_context
 def update_package_deprecation(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
-    register_translator()
     # after loop contains list of ID's of just deprecated packages
     deprecated_now = []
     package_patches = []

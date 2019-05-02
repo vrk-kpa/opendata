@@ -7,7 +7,6 @@ from ckan.lib.mailer import mail_recipient
 import logging
 import sqlalchemy
 import sqlalchemy.sql
-from email_templates import deprecation_email_user
 
 _select = sqlalchemy.sql.select
 _or_ = sqlalchemy.or_
@@ -75,8 +74,6 @@ def auth_admin_list(context, data_dict):
 
 
 def send_package_deprecation_emails(packages):
-    send_deprecation_email_admin(packages)
-
     grouped_by_maintainer = {}
     for package in packages:
         fullPackage = Package.get(package)
@@ -102,12 +99,8 @@ def send_package_deprecation_emails(packages):
         )
 
 
-def send_deprecation_email_admin(packages):
-    # TODO: craft email and send
-    log.info('send deprecation email admin')
-
-
 def send_deprecation_email_user(maintainer_email, packages, maintainer, valid_till):
+    from email_templates import deprecation_email_user
     log.info('send deprecation email user')
     subject = deprecation_email_user.subject.format(valid_till=valid_till)
     body = deprecation_email_user.messageBody(maintainer, packages)
