@@ -9,6 +9,7 @@ import re
 import glob
 from tools import check_package_deprecation, package_deprecation_offset
 from logic import send_package_deprecation_emails
+from common import register_translator
 
 from ckan.plugins.toolkit import config as c
 
@@ -316,7 +317,7 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 @click.pass_context
 def update_package_deprecation(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
-
+    register_translator()
     # after loop contains list of ID's of just deprecated packages
     deprecated_now = []
     package_patches = []

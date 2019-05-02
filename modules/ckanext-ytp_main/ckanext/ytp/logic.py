@@ -1,6 +1,5 @@
 from ckan import logic
-from ckan.common import _
-from ckan.common import c
+from ckan.common import _, c
 from ckan.logic import auth
 from ckan.model import Package
 from ckan.lib.mailer import mail_recipient
@@ -95,7 +94,12 @@ def send_package_deprecation_emails(packages):
             grouped_by_maintainer[maintainer_email]["packages"].append(packageInfoForEmail)
 
     for maintainer_email, details in grouped_by_maintainer.iteritems():
-        send_deprecation_email_user(maintainer_email, details["packages"], details["maintainer"])
+        send_deprecation_email_user(
+            maintainer_email,
+            details["packages"],
+            details["maintainer"],
+            details["packages"][0]["valid_till"]
+        )
 
 
 def send_deprecation_email_admin(packages):
@@ -103,8 +107,8 @@ def send_deprecation_email_admin(packages):
     log.info('send deprecation email admin')
 
 
-def send_deprecation_email_user(maintainer_email, packages, maintainer):
+def send_deprecation_email_user(maintainer_email, packages, maintainer, valid_till):
     log.info('send deprecation email user')
-    subject = deprecation_email_user.subject
+    subject = deprecation_email_user.subject.format(valid_till=valid_till)
     body = deprecation_email_user.messageBody(maintainer, packages)
     mail_recipient(maintainer, maintainer_email, subject, body)
