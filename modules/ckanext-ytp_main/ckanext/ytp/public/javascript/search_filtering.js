@@ -1,19 +1,21 @@
-document.getElementById("search-filter-show-button").addEventListener("click", toggle_search_filters);
-document.getElementById("search-filter-upper-hide-button").addEventListener("click", toggle_search_filters);
-document.getElementById("search-filter-lower-hide-button").addEventListener("click", toggle_search_filters);
+document.onreadystatechange = function () {
+  document.getElementById("search-filter-show-button").addEventListener("click", toggle_search_filters);
+  document.getElementById("search-filter-upper-hide-button").addEventListener("click", toggle_search_filters);
+  document.getElementById("search-filter-lower-hide-button").addEventListener("click", toggle_search_filters);
 
-const search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
-const upper_hide_button = document.getElementById("search-filter-upper-hide-button");
-const lower_hide_button = document.getElementById("search-filter-lower-hide-button");
-const show_button = document.getElementById("search-filter-show-button");
+  const search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
+  const upper_hide_button = document.getElementById("search-filter-upper-hide-button");
+  const lower_hide_button = document.getElementById("search-filter-lower-hide-button");
+  const show_button = document.getElementById("search-filter-show-button");
 
-// If url parameter exists, the search filters and both 'hide filters' buttons are shown.
-if (window.location.search.indexOf("_show_search_filters=true") > -1) {
-  search_filters.classList.remove("search-filters-hidden");
-  search_filters.classList.add("search-filters-visible");
-  upper_hide_button.classList.add("hide-button-visible");
-  lower_hide_button.classList.add("hide-button-visible");
-  show_button.classList.add("show-button-hidden");
+  // If url parameter exists, the search filters and both 'hide filters' buttons are shown.
+  if (window.location.search.indexOf("_show_search_filters=true") > -1) {
+    search_filters.classList.remove("search-filters-hidden");
+    search_filters.classList.add("search-filters-visible");
+    upper_hide_button.classList.add("hide-button-visible");
+    lower_hide_button.classList.add("hide-button-visible");
+    show_button.classList.add("show-button-hidden");
+  }
 }
 
 /**
@@ -21,6 +23,11 @@ if (window.location.search.indexOf("_show_search_filters=true") > -1) {
  * Classes for buttons are updated as well so that the correct buttons are visible.
  */
 function toggle_search_filters() {
+  const search_filters = document.getElementsByClassName("sidebar-offcanvas")[0];
+  const upper_hide_button = document.getElementById("search-filter-upper-hide-button");
+  const lower_hide_button = document.getElementById("search-filter-lower-hide-button");
+  const show_button = document.getElementById("search-filter-show-button");
+
   if (search_filters.classList.contains("search-filters-hidden")) {
     search_filters.classList.remove("search-filters-hidden");
     search_filters.classList.add("search-filters-visible");
