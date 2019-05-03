@@ -49,40 +49,52 @@ body {
   .sidebar-offcanvas {
     width: 90%; /* 6 columns */
   }
+
   .search-filters-visible {
     display: block;
   }
+
   .search-filters-hidden {
     display: none;
   }
+
   #search-filter-show-button {
     background-color: @opendata-brand-primary;
     color: @btn-dark-text-color;
+
     &.show-button-hidden {
       display: none;
     }
   }
-  #search-filter-upper-hide-button, #search-filter-lower-hide-button {
+
+  #search-filter-upper-hide-button,
+  #search-filter-lower-hide-button {
     display: none;
+
     &.hide-button-visible {
       display: block;
       background-color: @opendata-brand-primary;
       color: @btn-dark-text-color;
     }
+
     .hide-filters-cross-icon {
       margin-left: 9px;
       margin-top: 3px;
     }
   }
+
   #search-filter-upper-hide-button {
     margin-bottom: -25px;
   }
 }
+
 @media screen and (min-width: @screen-xs-max) {
   #search-filter-show-button {
     display: none;
-  } 
-  #search-filter-upper-hide-button, #search-filter-lower-hide-button {
+  }
+
+  #search-filter-upper-hide-button,
+  #search-filter-lower-hide-button {
     display: none;
   }
 }
