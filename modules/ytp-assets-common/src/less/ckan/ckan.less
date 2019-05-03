@@ -508,6 +508,8 @@ aside.tertiary {
   padding: 0;
 
   .dataset-item {
+    position: relative;
+
     .dataset-content {
       .dataset-heading {
         padding-bottom: 10px;
@@ -526,7 +528,9 @@ aside.tertiary {
 
       .dataset-item-notes {
         padding-bottom: 10px;
+        padding-right: 50px;
         color: @opendata-ckan-unhighlight;
+        min-height: 60px;
       }
 
       .organization-line {
@@ -843,4 +847,29 @@ li.organization {
 .highlight {
   color: darken(@opendata-brand-primary, 10%);
   font-weight: @font-weight-heavy;
+}
+
+.producer-type-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+
+  .producer-type {
+    background-color: #71999f;
+    transform: rotate(45deg);
+    transform-origin: top left;
+    position: absolute;
+    width: 120px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    top: -18px;
+    right: -54px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+  }
 }
