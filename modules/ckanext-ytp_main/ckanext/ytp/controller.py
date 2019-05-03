@@ -8,6 +8,7 @@ from ckan.common import request, c, response, _, g
 from ckan.controllers.organization import OrganizationController
 from ckan.controllers.package import PackageController
 from ckan.controllers.user import UserController
+from ckan.controllers.group import GroupController
 from ckan.lib import helpers as h
 
 from ckan.lib.base import abort, render
@@ -565,6 +566,27 @@ class YtpDatasetController(PackageController):
 
 
 class YtpOrganizationController(OrganizationController):
+    def _save_new(self, context, group_type=None):
+        try:
+            data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
+            log.info('data_dict: %s', data_dict)
+            data_dict['type'] = group_type or 'group'
+            context['message'] = data_dict.get('log_message', '')
+            data_dict['users'] = [{'name': c.user, 'capacity': 'admin'}]
+            data_dict['approval_status'] = 'pending'
+            log.info('HELLOOOOOO FROM YOUR NEW FUNCTION!!!')
+            group = self._action('group_create')(context, data_dict)
+            log.info('group %s', group)
+            # Redirect to the appropriate _read route for the type of group
+            h.redirect_to(group['type'] + '_read', id=group['name'])
+        except (NotFound, NotAuthorized) as e:
+            abort(404, _('Group not found'))
+        except dict_fns.DataError:
+            abort(400, _(u'Integrity Error'))
+        except ValidationError as e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.new(data_dict, errors, error_summary)
 
     def members(self, id):
         group_type = self._ensure_controller_matches_group_type(id)
