@@ -47,11 +47,11 @@ function toggle_search_filters() {
  */
 function update_search_filter_parameter_to_links(show_search_filters_value) {
   const all_links = document.links;
-  for(let i=0; i<all_links.length; i++) {
+  for (let i=0; i<all_links.length; i++) {
     const href_value = all_links[i].href;
     const link_without_url_parameters = href_value.split("?")[0];
     const current_page_without_url_parameters = location.href.split("?")[0];
-    if(current_page_without_url_parameters === link_without_url_parameters) {
+    if (current_page_without_url_parameters === link_without_url_parameters) {
       const new_url_parameters = get_url_with_updated_parameter(href_value, "_show_search_filters", show_search_filters_value).split("?")[1];
       all_links[i].href = "dataset?" + new_url_parameters;
     }
@@ -63,7 +63,7 @@ function update_search_filter_parameter_to_links(show_search_filters_value) {
  * @param param The url parameter that will be changed
  * @param param_val The new value for the url parameter
  */
-function updateURLParameter(param, param_val){
+function updateURLParameter(param, param_val) {
   const url = window.location.href;
   const new_url = get_url_with_updated_parameter(url, param, param_val)
   window.history.replaceState("", "", new_url);
@@ -76,8 +76,7 @@ function updateURLParameter(param, param_val){
  * @param param The url parameter that will be changed
  * @param paramVal The new value for the url parameter
  */
-function get_url_with_updated_parameter(url, param, paramVal)
-{
+function get_url_with_updated_parameter(url, param, paramVal) {
     let TheAnchor = null;
     let newAdditionalURL = "";
     let tempArray = url.split("?");
@@ -85,37 +84,33 @@ function get_url_with_updated_parameter(url, param, paramVal)
     let additionalURL = tempArray[1];
     let temp = "";
 
-    if (additionalURL)
-    {
-        let tmpAnchor = additionalURL.split("#");
-        let TheParams = tmpAnchor[0];
-            TheAnchor = tmpAnchor[1];
-        if(TheAnchor)
-            additionalURL = TheParams;
-
-        tempArray = additionalURL.split("&");
-
-        for (let i=0; i<tempArray.length; i++)
-        {
-            if(tempArray[i].split("=")[0] != param)
-            {
-                newAdditionalURL += temp + tempArray[i];
-                temp = "&";
-            }
+    if (additionalURL) {
+      let tmpAnchor = additionalURL.split("#");
+      let TheParams = tmpAnchor[0];
+      TheAnchor = tmpAnchor[1];
+      if (TheAnchor) {
+        additionalURL = TheParams;
+      }
+      tempArray = additionalURL.split("&");
+      for (let i=0; i<tempArray.length; i++) {
+        if (tempArray[i].split("=")[0] != param) {
+          newAdditionalURL += temp + tempArray[i];
+          temp = "&";
         }
-    }
-    else
-    {
-        let tmpAnchor = baseURL.split("#");
-        let TheParams = tmpAnchor[0];
-            TheAnchor  = tmpAnchor[1];
+      }
+    } else {
+      let tmpAnchor = baseURL.split("#");
+      let TheParams = tmpAnchor[0];
+      TheAnchor  = tmpAnchor[1];
 
-        if(TheParams)
-            baseURL = TheParams;
+      if (TheParams) {
+        baseURL = TheParams;
+      }
     }
 
-    if(TheAnchor)
-        paramVal += "#" + TheAnchor;
+    if (TheAnchor) {
+      paramVal += "#" + TheAnchor;
+    }
 
     let rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
