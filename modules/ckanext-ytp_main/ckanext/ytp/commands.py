@@ -338,9 +338,7 @@ def update_package_deprecation(ctx, config, dryrun):
     else:
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
-
-    # send emails outside dryrun so they can be tested easier.
-    send_package_deprecation_emails(deprecated_now)
+        send_package_deprecation_emails(deprecated_now)
 
 
 ytp_org_group = paster_click_group(
