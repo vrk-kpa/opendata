@@ -105,7 +105,7 @@ function avoindata_new_datasets() {
   }
 
   return [
-    '#markup' => create_dataset_table_rows($newDatasets),
+    '#markup' => create_dataset_table_rows($newDatasets, NULL),
     '#cache' => ['max-age' => 0],
   ];
 }
@@ -127,7 +127,7 @@ function avoindata_popular_datasets() {
   }
 
   return [
-    '#markup' => create_dataset_table_rows($popularDatasets),
+    '#markup' => create_dataset_table_rows($popularDatasets, NULL),
     '#cache' => ['max-age' => 0],
   ];
 }
