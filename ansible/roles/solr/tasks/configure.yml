@@ -1,8 +1,35 @@
 ---
+- name: Ensure jetty9 systemd drop-in directory
+  file:
+    path: "/etc/systemd/system/jetty9.service.d"
+    state: "directory"
+    owner: root
+    group: root
+
+- name: Create solr drop-in systemd configuration for jetty9
+  template:
+    src: jetty9.service-solr.conf.j2
+    dest: /etc/systemd/system/jetty9.service.d/solr.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - Reload systemd units
+    - Restart jetty
+
 - name: Create solr configuration file
   template:
     src: solr.xml.j2
     dest: /etc/solr/solr.xml
+    mode: 0644
+    owner: root
+    group: root
+  notify: Restart jetty
+
+- name: Create solr-jetty configuration file
+  template:
+    src: solr-jetty.xml.j2
+    dest: /etc/solr/solr-jetty.xml
     mode: 0644
     owner: root
     group: root
