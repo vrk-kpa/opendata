@@ -1,0 +1,88 @@
+{% extends "admin/base.html" %}
+
+{% import 'macros/form.html' as form %}
+
+{% set user = c.user_dict %}
+
+{% block primary_content_inner %}
+  <h1 class="page-heading">
+    {% block page_heading %}{{  _('Manage Organizations') }}{% endblock %}
+  </h1>
+  {% if c.organization_data %}
+    {% for organization in c.organization_data %}
+      <form class="dataset-form form-horizontal" method="post">
+        <div class="row-fluid">
+          {% set locale = h.dump_json({'content': _('Are you sure you want to permanently delete this organization?')}) %}
+          <div class="btn-group pull-right">
+              <a class="btn btn-danger pull-left" href="{% url_for controller='organization', action='delete', id=organization.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+              {% block delete_button_text %}
+                <i class="icon-remove"></i> {{ _('Remove') }}
+              {% endblock %}
+            </a>
+          </div>
+          <h3>{{ organization.display_name }}</h3>
+          <p>approval status: {{ organization.approval_status }}</p>
+        </div>
+      </form>
+    {% endfor %}
+  {% endif %}
+  <!-- {% block form %}
+    <form class="dataset-form form-horizontal add-member-form" method='post'>
+      <div class="row-fluid">
+        <div class="control-group control-medium">
+          <label class="control-label" for="username">
+            {{ _('Add an Existing User') }}
+          </label>
+          <span>
+            {{ _('To make an existing user a Showcase Admin, search for their username below.') }}
+          </span>
+
+          <div class="controls">
+            <input id="username" type="text" name="username" placeholder="{{_('Username')}}"
+            value="" class="control-medium" data-module="autocomplete"
+            data-module-source="/api/2/util/user/autocomplete?q=?">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" name="submit" >
+          {{ _('Add User') }}
+        </button>
+      </div>
+    </form>
+  {% endblock %} -->
+
+  <!-- <h3 class="page-heading">{{ _('Showcase Admins') }}</h3>
+  {% if c.organization_data %}
+  <table class="table table-header table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">{{ _('User') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for organization in c.organization_data %}
+      <tr>
+        <td class="media">
+          {{ organization }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>{{ _('There are currently no Showcase Admins.') }}</p>
+  {% endif %} -->
+{% endblock %}
+
+{% block secondary_content %}
+  {{ super() }}
+  <div class="module module-narrow module-shallow">
+    <div class="module-content">
+      {% trans %}
+         <p><strong>Showcase Admin:</strong> Can create and remove showcases. Can add and remove datasets from showcases.</p>
+      {% endtrans %}
+    </div>
+  </div>
+{% endblock %}

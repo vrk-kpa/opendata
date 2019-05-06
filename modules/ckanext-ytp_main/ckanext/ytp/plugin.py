@@ -1047,6 +1047,13 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     controller=organization_controller,
                     action='embed',
                     ckan_icon='group')
+
+        map.connect('manage_organizations',
+                    '/ckan-admin/organization_management',
+                    controller=organization_controller,
+                    action='manage_organizations',
+                    ckan_icon='picture')
+
         return map
 
     # IValidators
