@@ -569,19 +569,16 @@ class YtpOrganizationController(OrganizationController):
     def _save_new(self, context, group_type=None):
         try:
             data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
-            log.info('data_dict: %s', data_dict)
             data_dict['type'] = group_type or 'group'
             context['message'] = data_dict.get('log_message', '')
             data_dict['users'] = [{'name': c.user, 'capacity': 'admin'}]
             data_dict['approval_status'] = 'pending'
-            log.info('HELLOOOOOO FROM YOUR NEW FUNCTION!!!')
             group = self._action('group_create')(context, data_dict)
-            log.info('group %s', group)
             # Redirect to the appropriate _read route for the type of group
             h.redirect_to(group['type'] + '_read', id=group['name'])
         except (NotFound, NotAuthorized) as e:
             abort(404, _('Group not found'))
-        except dict_fns.DataError:
+        except dictization_functions.DataError:
             abort(400, _(u'Integrity Error'))
         except ValidationError as e:
             errors = e.error_dict
@@ -727,7 +724,6 @@ class YtpOrganizationController(OrganizationController):
             g = model.Session.query(model.Group).filter(model.Group.name == id).first()
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html', group_type=group_type)
-
         return OrganizationController.read(self, id, limit)
 
     def embed(self, id, limit=5):
