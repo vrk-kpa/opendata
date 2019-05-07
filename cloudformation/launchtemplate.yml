@@ -72,8 +72,10 @@ Resources:
   
   AutoScalingGroup: 
     Type: AWS::AutoScaling::AutoScalingGroup
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: true
     Properties:
-      AutoScalingGroupName: !Sub avoindata-${EnvironmentName}-autoscaling-group
       LaunchTemplate:
         LaunchTemplateId: !Ref InstanceLaunchTemplate
         Version: !GetAtt InstanceLaunchTemplate.LatestVersionNumber
@@ -84,6 +86,10 @@ Resources:
       MinSize: !Ref AsgMinSize
       VPCZoneIdentifier: 
         - !ImportValue vpc-SubnetsPrivate
+      Tags:
+      - Key: Name
+        Value: !Sub avoindata-${EnvironmentName}-autoscaling-group
+        PropagateAtLaunch: true
 
   UserDataHook:
     Type: AWS::AutoScaling::LifecycleHook
