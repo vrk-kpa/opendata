@@ -104,70 +104,36 @@
   tasks:
 
   - name: Wait for cloud-init to finish
-    wait_for:
-      path: /var/lib/cloud/instance/boot-finished
-      state: present
-      sleep: 5
+    raw: while [ ! -f /var/lib/cloud/instance/boot-finished ]; do sleep 1; done
 
-  - name: Block for required packages
-    block:
-      # Raw module required to check if python exists and install if missing
-      - name: Install python
-        raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
-        args:
-          warn: False
+  - name: Install python
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+    args:
+      warn: False
 
-      - name: Install required packages
-        apt:
-          name:
-            - libssl-dev
-            - libffi-dev
-            - python-dev
-            - python-pip
-            - git
-            - nfs-common
-            - rsync
-          update_cache: yes
-
-      - name: Install python packages
-        pip:
-          name:
-            - setuptools
-            - awscli
-            - ansible
-            - markupsafe
-          state: present
-      # Sometimes python package is not found right after instance is creataed,
-      # retrying seems to solve this issue.
-    rescue:
-    - name: Install python
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
-      args:
-        warn: False
-
-    - name: Install required packages
-      apt:
-        name:
-          - libssl-dev
-          - libffi-dev
-          - python-dev
-          - python-pip
-          - git
-          - nfs-common
-          - rsync
-        update_cache: yes
-
-    tags: always
-
-  - name: Install python packages
-    pip:
+  - name: Install required packages
+    apt:
       name:
-        - setuptools
-        - awscli
-        - ansible
-        - markupsafe
-      state: present
-    tags: always
+        - libssl-dev
+        - libffi-dev
+        - python-dev
+        - python-pip
+        - git
+        - nfs-common
+        - rsync
+      update_cache: yes
+
+  tags: always
+
+- name: Install python packages
+  pip:
+    name:
+      - setuptools
+      - awscli
+      - ansible
+      - markupsafe
+    state: present
+  tags: always
 
 - name: Play 3 - Configure instance(s)
   hosts: circleci
