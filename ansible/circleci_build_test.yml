@@ -1,4 +1,4 @@
-# Launch AWS EC2 instances, test ansible roles and terminate instances
+#p  Launch AWS EC2 instances, test ansible roles and terminate instances
 
 - name: Play 1 - Create a sandbox instance
   hosts: localhost
@@ -125,15 +125,15 @@
 
   tags: always
 
-- name: Install python packages
-  pip:
-    name:
-      - setuptools
-      - awscli
-      - ansible
-      - markupsafe
-    state: present
-  tags: always
+  - name: Install python packages
+    pip:
+      name:
+        - setuptools
+        - awscli
+        - ansible
+        - markupsafe
+      state: present
+    tags: always
 
 - name: Play 3 - Configure instance(s)
   hosts: circleci
