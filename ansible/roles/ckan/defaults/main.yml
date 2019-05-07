@@ -208,6 +208,7 @@ ckan_patches:
   - fix-popped-wrong-app-context  # CKAN issue #4431
   - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
   - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
+  - fix_unicode_decode_error_in_error_page # https://github.com/ckan/ckan/pull/4727
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
