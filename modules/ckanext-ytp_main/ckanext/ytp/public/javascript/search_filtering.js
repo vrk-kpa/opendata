@@ -86,7 +86,7 @@ function updateURLParameter(param, param_val) {
  * @param paramVal The new value for the url parameter
  */
 function get_url_with_updated_parameter(url, param, paramVal) {
-    let TheAnchor = null;
+    let theAnchor = null;
     let newAdditionalURL = "";
     let tempArray = url.split("?");
     let baseURL = tempArray[0];
@@ -95,10 +95,10 @@ function get_url_with_updated_parameter(url, param, paramVal) {
 
     if (additionalURL) {
       let tmpAnchor = additionalURL.split("#");
-      let TheParams = tmpAnchor[0];
-      TheAnchor = tmpAnchor[1];
-      if (TheAnchor) {
-        additionalURL = TheParams;
+      let theParams = tmpAnchor[0];
+      theAnchor = tmpAnchor[1];
+      if (theAnchor) {
+        additionalURL = theParams;
       }
       tempArray = additionalURL.split("&");
       for (let i=0; i<tempArray.length; i++) {
@@ -109,16 +109,16 @@ function get_url_with_updated_parameter(url, param, paramVal) {
       }
     } else {
       let tmpAnchor = baseURL.split("#");
-      let TheParams = tmpAnchor[0];
-      TheAnchor  = tmpAnchor[1];
+      let theParams = tmpAnchor[0];
+      theAnchor  = tmpAnchor[1];
 
-      if (TheParams) {
-        baseURL = TheParams;
+      if (theParams) {
+        baseURL = theParams;
       }
     }
 
-    if (TheAnchor) {
-      paramVal += "#" + TheAnchor;
+    if (theAnchor) {
+      paramVal += "#" + theAnchor;
     }
 
     let rows_txt = temp + "" + param + "=" + paramVal;
