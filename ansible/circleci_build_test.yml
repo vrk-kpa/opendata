@@ -103,6 +103,12 @@
 
   tasks:
 
+  - name: Wait for cloud-init to finish
+    wait_for:
+      path: /var/lib/cloud/instance/boot-finished
+      state: present
+      sleep: 5
+
   - name: Block for required packages
     block:
       # Raw module required to check if python exists and install if missing
