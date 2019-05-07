@@ -1,4 +1,4 @@
-#p  Launch AWS EC2 instances, test ansible roles and terminate instances
+#  Launch AWS EC2 instances, test ansible roles and terminate instances
 
 - name: Play 1 - Create a sandbox instance
   hosts: localhost
