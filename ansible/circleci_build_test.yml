@@ -122,8 +122,7 @@
         - nfs-common
         - rsync
       update_cache: yes
-
-  tags: always
+    tags: always
 
   - name: Install python packages
     pip:
