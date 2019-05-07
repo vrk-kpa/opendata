@@ -107,6 +107,8 @@
     state: started
   with_flattened:
     - "{{ ckan_supervisor_services }}"
+  tags:
+    - supervisor
 
 - include: cron.yml
   tags:
