@@ -1,4 +1,4 @@
-document.onreadystatechange = function () {
+document.addEventListener('readystatechange', function () {
   if (document.readyState == "interactive") {
     document.getElementById("search-filter-show-button").addEventListener("click", toggle_search_filters);
     document.getElementById("search-filter-upper-hide-button").addEventListener("click", toggle_search_filters);
@@ -18,7 +18,7 @@ document.onreadystatechange = function () {
       show_button.classList.add("show-button-hidden");
     }
   }
-}
+})
 
 /**
  * If search filters are hidden, they become visible. If they are visible, they will become hidden.

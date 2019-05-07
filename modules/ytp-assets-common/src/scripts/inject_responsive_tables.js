@@ -1,5 +1,5 @@
 var injectResponsiveTables = function (next) {
-  document.onreadystatechange = function () {
+  document.addEventListener('readystatechange', function () {
     if (document.readyState == "interactive" || document.readyState == "complete") {
       var content = document.getElementsByClassName("region-content");
       if (content.length != 0) {
@@ -19,5 +19,5 @@ var injectResponsiveTables = function (next) {
     if(next) {
       next();
     }
-  }
+  })
 }(document.onreadystatechange);

@@ -1,10 +1,10 @@
 'use strict';
 
-document.onreadystatechange = function () {
+document.addEventListener('readystatechange', function () {
   if (document.readyState === 'interactive') {
     addEventSearchClickListeners();
   }
-}
+})
 
 function addEventSearchClickListeners() {
   var searchButton = document.getElementById('avoindata-events-search-btn');
