@@ -32,6 +32,15 @@ Parameters:
   PublicALBCertificate:
     Description: 'The AWS Certification Manager certificate ARN for the ALB certificate'
     Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisNodeType:
+    Description: 'Node type for Elasticache Redis cluster nodes'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisVersion:
+    Description: 'Version of Redis to run'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisMaintenanceWindow:
+    Description: 'Maintenance window for Redis'
+    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -66,16 +75,12 @@ Resources:
   ScheduledInstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow Solr and Redis from private ALB
+      GroupDescription: Allow Solr
       SecurityGroupIngress:
         - FromPort: 8983
           ToPort: 8983
           IpProtocol: tcp
-          SourceSecurityGroupId: !Ref PrivateALBSecurityGroup
-        - FromPort: 6379
-          ToPort: 6379
-          IpProtocol: tcp
-          SourceSecurityGroupId: !Ref PrivateALBSecurityGroup
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
       VpcId: !Ref Vpc
 
   InstanceSecurityGroup:
@@ -213,14 +218,59 @@ Resources:
       Roles:
         - !Ref InstanceRole
 
+  RedisSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      CacheSubnetGroupName: !Sub avoindata-${EnvironmentName}-redis-subnet-group
+      Description: Redis subnet group
+      SubnetIds:
+        !If
+          [ NumberOfSubnets1,
+          [ !Select [ 0, !Ref PrivateALBSubnets ] ],
+          !If
+            [ NumberOfSubnets2,
+            [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ] ],
+            !If
+              [ NumberOfSubnets3,
+              [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ] ],
+              !If
+                [ NumberOfSubnets4,
+                [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ] ],
+                !If
+                  [ NumberOfSubnets5,
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ] ],
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ], !Select [ 5, !Ref PrivateALBSubnets ] ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+
+  Redis:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      CacheNodeType: !Ref RedisNodeType
+      CacheSubnetGroupName: !Ref RedisSubnetGroup
+      Engine: redis
+      EngineVersion: !Ref RedisVersion
+      NumCacheNodes: 1
+      Port: 6379
+      PreferredMaintenanceWindow: !Ref RedisMaintenanceWindow
+      VpcSecurityGroupIds: 
+        - !Ref SolrRedisSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "avoindata-${EnvironmentName}-redis"
+
   PrivateALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       IpAddressType: ipv4
-      Name: !Sub avoindata-${EnvironmentName}-solrredis-lb
+      Name: !Sub avoindata-${EnvironmentName}-solr-lb
       Scheme: internal
       SecurityGroups:
-        - !Ref PrivateALBSecurityGroup
+        - !Ref SolrRedisSecurityGroup
+        - !Ref InstanceSecurityGroup
       Subnets:
         !If
           [ NumberOfSubnets1,
@@ -245,7 +295,7 @@ Resources:
           ]
       Tags:
         - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}-solrredis-lb
+          Value: !Sub avoindata-${EnvironmentName}-solr-lb
 
   PublicALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -281,6 +331,16 @@ Resources:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-web-lb
 
+  PrivateALBSolrListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref PrivateALBTargetGroup
+      LoadBalancerArn: !Ref PrivateALB
+      Port: 8983
+      Protocol: HTTP
+
   PublicALBListenerSslCertificate:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -313,7 +373,7 @@ Resources:
       UnhealthyThresholdCount: 2
       VpcId: !Ref Vpc
 
-  PrivateALBTargetGroupSolr:
+  PrivateALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       HealthCheckIntervalSeconds: 30
@@ -324,28 +384,11 @@ Resources:
       HealthyThresholdCount: 5
       Matcher:
         HttpCode: '200'
-      Name: !Sub avoindata-${EnvironmentName}-tg-solr
       Port: 8983
       Protocol: HTTP
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-solr
-      UnhealthyThresholdCount: 2
-      VpcId: !Ref Vpc
-
-  PrivateALBTargetGroupRedis:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      HealthCheckIntervalSeconds: 30
-      HealthCheckPort: '6379'
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 5
-      Name: !Sub avoindata-${EnvironmentName}-tg-redis
-      Port: 6379
-      Protocol: HTTP
-      Tags:
-        - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-redis
       UnhealthyThresholdCount: 2
       VpcId: !Ref Vpc
 
@@ -360,7 +403,7 @@ Resources:
           CidrIp: 0.0.0.0/0
       VpcId: !Ref Vpc
 
-  PrivateALBSecurityGroup:
+  SolrRedisSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow Solr and Redis access from instances
@@ -385,9 +428,16 @@ Resources:
   PrivateALBDNSNameParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub /${EnvironmentName}/scheduled/private_alb_address
+      Name: !Sub /${EnvironmentName}/web/private_alb_address
       Type: "String"
       Value: !GetAtt PrivateALB.DNSName
+
+  RedisDNSNameParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/redis/endpoint
+      Type: "String"
+      Value: !GetAtt Redis.RedisEndpoint.Address
 
   PublicALBARN:
     Type: "AWS::SSM::Parameter"
@@ -416,21 +466,16 @@ Outputs:
       Name: !Sub avoindata-${EnvironmentName}-web-instancesecuritygroupid
   ScheduledInstanceSecurityGroup:
     Description: ID of scheduled instance security group
-    Value: !Ref ScheduledInstanceSecurityGroup
+    Value: !Ref SolrRedisSecurityGroup
     Export:
-      Name: !Sub avoindata-${EnvironmentName}-scheduled-instancesecuritygroupid
+      Name: !Sub "avoindata-${EnvironmentName}-scheduled-instancesecuritygroupid"
   PublicALBTargetGroupArn:
     Description: ARN of target group for public ALB
     Value: !Ref PublicALBTargetGroupHTTP
     Export:
       Name: !Sub avoindata-${EnvironmentName}-publicalbtargetgrouparn
-  PrivateALBTargetGroupSolrArn:
+  PrivateALBTargetGroupArn:
     Description: ARN of target group for private ALB (solr)
-    Value: !Ref PrivateALBTargetGroupSolr
+    Value: !Ref PrivateALBTargetGroup
     Export:
       Name: !Sub avoindata-${EnvironmentName}-solralbtargetgrouparn
-  PrivateALBTargetGroupRedisArn:
-    Description: ARN of target group for private ALB (redis)
-    Value: !Ref PrivateALBTargetGroupRedis
-    Export:
-      Name: !Sub avoindata-${EnvironmentName}-redisalbtargetgrouparn

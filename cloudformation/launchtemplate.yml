@@ -68,11 +68,13 @@ Resources:
             aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
-            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure
-
+            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor
             
             export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances --instance-ids=$INSTANCE_ID --region ${AWS::Region})
+            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances \
+            --instance-ids=$INSTANCE_ID \
+            --region eu-west-1 \
+            --profile opendata-prod | jq '.AutoScalingInstances[0].InstanceId')
 
             aws autoscaling complete-lifecycle-action \
             --lifecycle-hook-name avoindata-${EnvironmentName}-web-userdata-lifecycle-hook \
@@ -118,11 +120,14 @@ Resources:
             aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
-            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure
+            ansible-playbook -i inventories/${EnvironmentName} scheduled-server.yml --tags configure
 
             export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances --instance-ids=$INSTANCE_ID --region ${AWS::Region})
-            
+            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances \
+            --instance-ids=$INSTANCE_ID \
+            --region eu-west-1 \
+            --profile opendata-prod | jq '.AutoScalingInstances[0].InstanceId')
+
             aws autoscaling complete-lifecycle-action \
             --lifecycle-hook-name avoindata-${EnvironmentName}-scheduled-userdata-lifecycle-hook \
             --instance-id $INSTANCE_ID \
@@ -131,7 +136,7 @@ Resources:
             --region ${AWS::Region}
             echo "Bootstrap done."
   
-  ScheduledAutoScalingGroup: 
+  ScheduledAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     UpdatePolicy:
       AutoScalingReplacingUpdate:
@@ -143,8 +148,6 @@ Resources:
       TargetGroupARNs:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
-        - Fn::ImportValue:
-            !Sub "avoindata-${EnvironmentName}-redisalbtargetgrouparn"
       MaxSize: 1
       MinSize: 1
       VPCZoneIdentifier: 

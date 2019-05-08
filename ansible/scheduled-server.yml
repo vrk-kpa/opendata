@@ -15,8 +15,6 @@
       tags: common
     - role: solr
       tags: solr
-    - role: redis
-      tags: redis
     - role: apache
       tags: apache
     - role: ckan
