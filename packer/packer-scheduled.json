@@ -46,6 +46,7 @@
   "provisioners": [
     {
       "type": "shell",
+<<<<<<< HEAD:packer/packer-scheduled.json
         "inline": [
           "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
         ]
@@ -61,6 +62,15 @@
         "sudo git clone --recursive https://github.com/yhteentoimivuuspalvelut/ytp.git /root/ytp",
         "sudo git -C /root/ytp checkout {{ user `commit` }}"
       ]
+=======
+      "inline": [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo apt-get install -y python"]
+>>>>>>> master:packer/packer.json
     },
     {
       "type": "ansible",

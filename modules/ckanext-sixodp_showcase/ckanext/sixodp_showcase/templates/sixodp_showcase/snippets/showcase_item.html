@@ -16,7 +16,7 @@ show_remove    - If True, show the remove button to remove showcase/dataset asso
 
 {% block package_item %}
 
-<li class="media-item">
+<li class="showcase media-item">
   {% block item_inner %}
     {% block image %}
       <img src="{{ package.image_1_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ package.name }}" class="media-image">
