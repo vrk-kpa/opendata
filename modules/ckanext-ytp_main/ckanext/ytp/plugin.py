@@ -1032,9 +1032,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/user_list', action='user_list', ckan_icon='user')
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
-        map.connect('/organization/new',
-                    action='new',
-                    controller=organization_controller)
+        map.connect('/organization/new', action='new', controller='organization')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',
@@ -1047,12 +1045,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     controller=organization_controller,
                     action='embed',
                     ckan_icon='group')
-
-        map.connect('manage_organizations',
-                    '/ckan-admin/organization_management',
-                    controller=organization_controller,
-                    action='manage_organizations',
-                    ckan_icon='picture')
 
         return map
 
@@ -1401,7 +1393,6 @@ class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IAuthFunctions)
 
     def admin_only_for_categories(self, context, data_dict=None):
-        log.info('INSIDE HERE')
         return {'success': False, 'msg': 'Only admins can create and edit new categories'}
 
     def get_auth_functions(self):
