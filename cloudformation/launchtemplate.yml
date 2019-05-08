@@ -5,17 +5,23 @@ Parameters:
   EnvironmentName:
     Description: Name of the environment (infratest, beta, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
-  AmiImageId:
-    Description: AMI image ID to use for launch template
+  WebAmiImageId:
+    Description: AMI image ID to use for web instance launch template
     Type: 'AWS::SSM::Parameter::Value<String>'
-  InstanceType:
+  ScheduledAmiImageId:
+    Description: AMI image ID to use for web instance launch template
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  ScheduledInstanceType:
+    Description: EC2 instance type for the application servers
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  WebInstanceType:
     Description: EC2 instance type for the application servers
     Type: 'AWS::SSM::Parameter::Value<String>'
   AsgMaxSize:
-    Description: Maximum size of ASG
+    Description: Maximum size of web instance ASG
     Type: 'AWS::SSM::Parameter::Value<String>'
   AsgMinSize:
-    Description: Minimum size of ASG
+    Description: Minimum size of web instance ASG
     Type: 'AWS::SSM::Parameter::Value<String>'
   EFSFileSystem:
     Description: Name of the EFS filesystem
@@ -26,7 +32,7 @@ Parameters:
 
 
 Resources:
-  InstanceLaunchTemplate:
+  WebInstanceLaunchTemplate:
     Type: "AWS::EC2::LaunchTemplate"
     Properties:
       LaunchTemplateData:
@@ -41,9 +47,11 @@ Resources:
             Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instanceprofile"
 
-        ImageId: !Ref AmiImageId
-        InstanceType: !Ref InstanceType
+        ImageId: !Ref WebAmiImageId
+        InstanceType: !Ref WebInstanceType
         SecurityGroupIds:
+          - Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-web-instancesecuritygroupid"
           - Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instancesecuritygroupid"
         UserData: !Base64
@@ -60,25 +68,101 @@ Resources:
             aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
-            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor
+            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure
+
+            
+            export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances --instance-ids=$INSTANCE_ID --region ${AWS::Region})
 
             aws autoscaling complete-lifecycle-action \
-            --lifecycle-hook-name avoindata-${EnvironmentName}-userdata-lifecycle-hook \
-            --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) \
+            --lifecycle-hook-name avoindata-${EnvironmentName}-web-userdata-lifecycle-hook \
+            --instance-id $INSTANCE_ID \
             --lifecycle-action-result CONTINUE \
-            --auto-scaling-group-name avoindata-${EnvironmentName}-autoscaling-group \
+            --auto-scaling-group-name $AUTOSCALE_GROUP \
+            --region ${AWS::Region}
+            echo "Bootstrap done."
+
+  ScheduledInstanceLaunchTemplate:
+    Type: "AWS::EC2::LaunchTemplate"
+    Properties:
+      LaunchTemplateData:
+        BlockDeviceMappings:
+          - DeviceName: /dev/sda1
+            Ebs:
+              VolumeType: gp2
+              VolumeSize: 20
+              DeleteOnTermination: true
+        IamInstanceProfile: 
+          Arn: 
+            Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-instanceprofile"
+
+        ImageId: !Ref ScheduledAmiImageId
+        InstanceType: !Ref ScheduledInstanceType
+        SecurityGroupIds:
+          - Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-scheduled-instancesecuritygroupid"
+          - Fn::ImportValue:
+              !Sub "avoindata-${EnvironmentName}-instancesecuritygroupid"
+        UserData: !Base64
+          "Fn::Sub": |
+            #!/bin/bash
+            export HOME=/root
+            echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
+            echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
+            mount -a -t nfs4
+            mkdir -p /srv/ytp/files /mnt/ytp_files
+            mount /srv/ytp/files
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
+            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
+            chmod -R go-rwx /root/avoindata-secrets/*
+            cd /root/ytp/ansible
+            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure
+
+            export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+            export AUTOSCALE_GROUP=$(aws autoscaling describe-auto-scaling-instances --instance-ids=$INSTANCE_ID --region ${AWS::Region})
+            
+            aws autoscaling complete-lifecycle-action \
+            --lifecycle-hook-name avoindata-${EnvironmentName}-scheduled-userdata-lifecycle-hook \
+            --instance-id $INSTANCE_ID \
+            --lifecycle-action-result CONTINUE \
+            --auto-scaling-group-name $AUTOSCALE_GROUP \
             --region ${AWS::Region}
             echo "Bootstrap done."
   
-  AutoScalingGroup: 
+  ScheduledAutoScalingGroup: 
     Type: AWS::AutoScaling::AutoScalingGroup
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: true
     Properties:
       LaunchTemplate:
-        LaunchTemplateId: !Ref InstanceLaunchTemplate
-        Version: !GetAtt InstanceLaunchTemplate.LatestVersionNumber
+        LaunchTemplateId: !Ref ScheduledInstanceLaunchTemplate
+        Version: !GetAtt ScheduledInstanceLaunchTemplate.LatestVersionNumber
+      TargetGroupARNs:
+        - Fn::ImportValue:
+            !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
+        - Fn::ImportValue:
+            !Sub "avoindata-${EnvironmentName}-redisalbtargetgrouparn"
+      MaxSize: 1
+      MinSize: 1
+      VPCZoneIdentifier: 
+        - !ImportValue vpc-SubnetsPrivate
+      Tags:
+      - Key: Name
+        Value: !Sub avoindata-${EnvironmentName}-scheduled-autoscaling-group
+        PropagateAtLaunch: true
+
+  WebAutoScalingGroup: 
+    Type: AWS::AutoScaling::AutoScalingGroup
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: true
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref WebInstanceLaunchTemplate
+        Version: !GetAtt WebInstanceLaunchTemplate.LatestVersionNumber
       TargetGroupARNs:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-publicalbtargetgrouparn"
@@ -88,14 +172,23 @@ Resources:
         - !ImportValue vpc-SubnetsPrivate
       Tags:
       - Key: Name
-        Value: !Sub avoindata-${EnvironmentName}-autoscaling-group
+        Value: !Sub avoindata-${EnvironmentName}-web-autoscaling-group
         PropagateAtLaunch: true
 
-  UserDataHook:
+  WebInstanceUserDataHook:
     Type: AWS::AutoScaling::LifecycleHook
     Properties:
-      AutoScalingGroupName: !Ref AutoScalingGroup
+      AutoScalingGroupName: !Ref WebAutoScalingGroup
       DefaultResult: ABANDON
       HeartbeatTimeout: !Ref HookTimeout
-      LifecycleHookName: !Sub avoindata-${EnvironmentName}-userdata-lifecycle-hook
+      LifecycleHookName: !Sub avoindata-${EnvironmentName}-web-userdata-lifecycle-hook
+      LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
+
+  ScheduledInstanceUserDataHook:
+    Type: AWS::AutoScaling::LifecycleHook
+    Properties:
+      AutoScalingGroupName: !Ref ScheduledAutoScalingGroup
+      DefaultResult: ABANDON
+      HeartbeatTimeout: !Ref HookTimeout
+      LifecycleHookName: !Sub avoindata-${EnvironmentName}-scheduled-userdata-lifecycle-hook
       LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
