@@ -210,6 +210,7 @@ ckan_patches:
   - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
   - fix_unicode_decode_error_in_error_page # https://github.com/ckan/ckan/pull/4727
   - remove_user_activity_from_group_activity_list # modification from ckan master, can be removed once 2.9 is released
+  - optimize_group_show
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
