@@ -1,0 +1,104 @@
+diff --git a/ckan/lib/dictization/model_dictize.py b/ckan/lib/dictization/model_dictize.py
+index 9acb15095..2a972338f 100644
+--- a/ckan/lib/dictization/model_dictize.py
++++ b/ckan/lib/dictization/model_dictize.py
+@@ -344,6 +344,8 @@ def group_dictize(group, context,
+                   include_tags=True,
+                   include_users=True,
+                   include_extras=True,
++                  include_user_extras=True,
++                  include_user_emails=False,
+                   packages_field='datasets',
+                   **kw):
+     '''
+@@ -437,7 +439,9 @@ def group_dictize(group, context,
+     if include_users:
+         result_dict['users'] = user_list_dictize(
+             _get_members(context, group, 'users'),
+-            context)
++                context, include_number_of_edits=include_user_extras,
++                include_number_of_created_packages=include_user_extras,
++                include_emails=include_user_emails)
+ 
+     context['with_capacity'] = False
+ 
+@@ -531,22 +535,30 @@ def tag_dictize(tag, context, include_datasets=True):
+     return tag_dict
+ 
+ def user_list_dictize(obj_list, context,
+-                      sort_key=lambda x:x['name'], reverse=False):
++                      sort_key=lambda x:x['name'], reverse=False,
++                      include_number_of_edits=True,
++                      include_number_of_created_packages=True,
++                      include_emails=False):
+ 
+     result_list = []
+ 
+     for obj in obj_list:
+-        user_dict = user_dictize(obj, context)
++        user_dict = user_dictize(obj, context,
++                include_number_of_edits=include_number_of_edits,
++                include_number_of_created_packages=include_number_of_created_packages)
+         user_dict.pop('reset_key', None)
+         user_dict.pop('apikey', None)
+-        user_dict.pop('email', None)
++        if not include_emails:
++            user_dict.pop('email', None)
+         result_list.append(user_dict)
+     return sorted(result_list, key=sort_key, reverse=reverse)
+ 
+ def member_dictize(member, context):
+     return d.table_dictize(member, context)
+ 
+-def user_dictize(user, context, include_password_hash=False):
++def user_dictize(user, context, include_password_hash=False,
++                 include_number_of_edits=True,
++                 include_number_of_created_packages=True):
+ 
+     if context.get('with_capacity'):
+         user, capacity = user
+@@ -559,10 +571,14 @@ def user_dictize(user, context, include_password_hash=False):
+ 
+     result_dict['display_name'] = user.display_name
+     result_dict['email_hash'] = user.email_hash
+-    result_dict['number_of_edits'] = user.number_of_edits()
+-    result_dict['number_created_packages'] = user.number_created_packages(
+-        include_private_and_draft=context.get(
+-            'count_private_and_draft_datasets', False))
++
++    if include_number_of_edits:
++        result_dict['number_of_edits'] = user.number_of_edits()
++
++    if include_number_of_created_packages:
++        result_dict['number_created_packages'] = user.number_created_packages(
++            include_private_and_draft=context.get(
++                'count_private_and_draft_datasets', False))
+ 
+     requester = context.get('user')
+ 
+diff --git a/ckan/logic/action/get.py b/ckan/logic/action/get.py
+index e564b8399..6efdc4a47 100644
+--- a/ckan/logic/action/get.py
++++ b/ckan/logic/action/get.py
+@@ -1207,12 +1207,20 @@ def _group_or_org_show(context, data_dict, is_org=False):
+     else:
+         _check_access('group_show', context, data_dict)
+ 
++    if context.get('keep_email'):
++        if is_org:
++            _check_access('organization_update', context, data_dict)
++        else:
++            _check_access('group_update', context, data_dict)
++
+     group_dict = model_dictize.group_dictize(group, context,
+                                              packages_field=packages_field,
+                                              include_tags=include_tags,
+                                              include_extras=include_extras,
+                                              include_groups=include_groups,
+-                                             include_users=include_users,)
++                                             include_users=include_users,
++                                             include_user_extras=False,
++                                             include_user_emails=context.get('keep_email', False))
+ 
+     if is_org:
+         plugin_type = plugins.IOrganizationController
