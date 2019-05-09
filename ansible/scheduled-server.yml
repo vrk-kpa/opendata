@@ -13,6 +13,8 @@
   roles:
     - role: common
       tags: common
+    - role: postgres
+      tags: postgres
     - role: solr
       tags: solr
     - role: apache
