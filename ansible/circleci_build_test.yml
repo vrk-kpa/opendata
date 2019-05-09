@@ -196,6 +196,7 @@
           name: opendata_frontend
       - import_role:
           name: solr
+        tags: always
       - import_role:
           name: redis
       - import_role:
