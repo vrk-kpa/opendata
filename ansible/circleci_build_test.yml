@@ -199,6 +199,7 @@
         tags: always
       - import_role:
           name: redis
+        tags: always
       - import_role:
           name: apache
       - import_role:
