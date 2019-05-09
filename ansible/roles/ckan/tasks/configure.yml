@@ -96,4 +96,11 @@
   with_flattened:
     - "{{ ckan_supervisor_services }}"
 
+- name: Start supervisor services
+  supervisorctl:
+    name: "{{ item }}"
+    state: started
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"
+
 - include: cron.yml

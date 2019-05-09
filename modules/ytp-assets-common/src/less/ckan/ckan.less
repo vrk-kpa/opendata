@@ -16,6 +16,7 @@
 @import "drupal.less";
 @import "ckan_forms.less";
 @import "ckan_reports.less";
+@import "file_tags.less";
 
 // FontAwesome
 @import "@{common-path}/vendor/@fortawesome/fontawesome/less/fontawesome";
@@ -88,13 +89,6 @@ a.tag {
     border: 2px solid @tag-color;
     background-color: @tag-color;
   }
-}
-
-.file-tag {
-  margin-left: 4px;
-  color: @opendata-ckan-unhighlight;
-  padding: 2px 4px;
-  background-color: @opendata-ckan-unhighlight-background;
 }
 
 .label-default {
@@ -556,7 +550,7 @@ aside.tertiary {
   border-top: 0;
   border-bottom: 0;
 
-  .media-item {
+  .showcase.media-item {
     width: 250px;
     height: 332px;
     border-right: 2px solid rgba(0, 0, 0, 0.17);

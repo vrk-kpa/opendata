@@ -43,7 +43,7 @@ Example:
         {%- if package.get('resources') -%}
           {% set formats = h.unique_formats(package.get('resources')) %}
             {%- for format in formats -%}
-              <span class="format pull-right file-tag">{{_(format)}}</span>
+              <span class="format pull-right file-tag format--{{format|lower}}">{{_(format)}}</span>
             {%- endfor -%}
         {%- endif -%}
         <span class="organization byline-dataset organization-line">

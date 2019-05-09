@@ -1,0 +1,111 @@
+From afd0c84dff89651c7d70db3ac9e30409b2d53440 Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Fri, 12 Apr 2019 09:57:42 +0300
+Subject: [PATCH 1/3] Fix Unicode Decode Error in error page when error message
+ has latin characters
+
+---
+ ckan/templates-bs2/error_document_template.html | 2 +-
+ ckan/templates/error_document_template.html     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ckan/templates-bs2/error_document_template.html b/ckan/templates-bs2/error_document_template.html
+index 0baecba15b..8d087c350f 100644
+--- a/ckan/templates-bs2/error_document_template.html
++++ b/ckan/templates-bs2/error_document_template.html
+@@ -5,7 +5,7 @@
+ {% block primary %}
+   <article class="module">
+     <div class="module-content">
+-      {{ content}}
++      {{ content.decode('utf-8') }}
+     </div>
+   </article>
+ {% endblock %}
+diff --git a/ckan/templates/error_document_template.html b/ckan/templates/error_document_template.html
+index 0baecba15b..8d087c350f 100644
+--- a/ckan/templates/error_document_template.html
++++ b/ckan/templates/error_document_template.html
+@@ -5,7 +5,7 @@
+ {% block primary %}
+   <article class="module">
+     <div class="module-content">
+-      {{ content}}
++      {{ content.decode('utf-8') }}
+     </div>
+   </article>
+ {% endblock %}
+
+From 1bde4bfbbe279dc68753a72b02c642766acf1bec Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Mon, 29 Apr 2019 10:22:21 +0300
+Subject: [PATCH 2/3] Move decoding error message to flask app
+
+---
+ ckan/config/middleware/flask_app.py             | 2 +-
+ ckan/templates-bs2/error_document_template.html | 2 +-
+ ckan/templates/error_document_template.html     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/ckan/config/middleware/flask_app.py b/ckan/config/middleware/flask_app.py
+index a8406bfd45..b4a65e9099 100644
+--- a/ckan/config/middleware/flask_app.py
++++ b/ckan/config/middleware/flask_app.py
+@@ -446,7 +446,7 @@ def _register_error_handler(app):
+     def error_handler(e):
+         log.error(e, exc_info=sys.exc_info)
+         if isinstance(e, HTTPException):
+-            extra_vars = {u'code': [e.code], u'content': e.description}
++            extra_vars = {u'code': [e.code], u'content': e.description.decode('utf-8')}
+             # TODO: Remove
+             g.code = [e.code]
+
+diff --git a/ckan/templates-bs2/error_document_template.html b/ckan/templates-bs2/error_document_template.html
+index 8d087c350f..c4cc74dfdf 100644
+--- a/ckan/templates-bs2/error_document_template.html
++++ b/ckan/templates-bs2/error_document_template.html
+@@ -5,7 +5,7 @@
+ {% block primary %}
+   <article class="module">
+     <div class="module-content">
+-      {{ content.decode('utf-8') }}
++      {{ content }}
+     </div>
+   </article>
+ {% endblock %}
+diff --git a/ckan/templates/error_document_template.html b/ckan/templates/error_document_template.html
+index 8d087c350f..c4cc74dfdf 100644
+--- a/ckan/templates/error_document_template.html
++++ b/ckan/templates/error_document_template.html
+@@ -5,7 +5,7 @@
+ {% block primary %}
+   <article class="module">
+     <div class="module-content">
+-      {{ content.decode('utf-8') }}
++      {{ content }}
+     </div>
+   </article>
+ {% endblock %}
+
+From 0239bf6c4c126611e8b85e8a1fbc1690e48f2389 Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Mon, 29 Apr 2019 10:45:23 +0300
+Subject: [PATCH 3/3] flake8
+
+---
+ ckan/config/middleware/flask_app.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ckan/config/middleware/flask_app.py b/ckan/config/middleware/flask_app.py
+index 554f8eb24d..95e90024df 100644
+--- a/ckan/config/middleware/flask_app.py
++++ b/ckan/config/middleware/flask_app.py
+@@ -446,7 +446,8 @@ def _register_error_handler(app):
+     def error_handler(e):
+         log.error(e, exc_info=sys.exc_info)
+         if isinstance(e, HTTPException):
+-            extra_vars = {u'code': [e.code], u'content': e.description.decode('utf-8')}
++            extra_vars = {u'code': [e.code],
++                          u'content': e.description.decode('utf-8')}
+             # TODO: Remove
+             g.code = [e.code]

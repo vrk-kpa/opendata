@@ -1,10 +1,10 @@
 'use strict';
 
-document.onreadystatechange = function () {
+document.addEventListener('readystatechange', function () {
   if (document.readyState === 'interactive') {
     addClickListeners();
   }
-}
+})
 
 function addClickListeners() {
   const dropdownOptions = document.querySelectorAll('.dropdown-menu a');

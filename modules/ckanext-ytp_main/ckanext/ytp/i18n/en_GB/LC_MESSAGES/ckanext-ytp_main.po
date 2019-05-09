@@ -1047,6 +1047,11 @@ msgstr ""
 msgid "Unsubscribe from comments"
 msgstr ""
 
+#: ckanext/ytp/templates/page.html:13
+#: ckanext/ytp/templates/snippets/search_form.html:59
+msgid "Hide search filters"
+msgstr ""
+
 #: ckanext/ytp/templates/group/member_new.html:10
 #: ckanext/ytp/templates/organization/member_new.html:9
 msgid "Existing User"
@@ -1096,7 +1101,7 @@ msgid "View {name}"
 msgstr ""
 
 #: ckanext/ytp/templates/group/snippets/group_item.html:45
-#: ckanext/ytp/templates/snippets/search_form.html:74
+#: ckanext/ytp/templates/snippets/search_form.html:85
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:76
 msgid "Remove"
 msgstr ""
@@ -2492,23 +2497,27 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:42
+#: ckanext/ytp/templates/snippets/search_form.html:44
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:50
+#: ckanext/ytp/templates/snippets/search_form.html:53
+msgid "Filter search"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/search_form.html:61
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:85
+#: ckanext/ytp/templates/snippets/search_form.html:96
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:88
 msgid ""
 " <p class=\"extra\">Please try another search or change search facets.</p> "
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:91
+#: ckanext/ytp/templates/snippets/search_form.html:102
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:94
 msgid ""
 " <p><strong>There was an error while searching.</strong> Please try "
