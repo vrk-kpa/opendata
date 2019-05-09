@@ -27,7 +27,7 @@ ckan_postgres:
 
 ckan_email_domain: "{{ email_domain }}"
 ckan_admin_email: "{{ secret_admin_email }}"
-ckan_admin: "{{ admin }}"
+ckan_admin: "{{ ckan_secret_admin  }}"
 ckan_beaker_session_secret: "{{ secret_beaker_session_secret }}"
 ckan_app_instance_uuid: "{{ secret_app_instance_uuid }}"
 ckan_google_analytics: "{{ secret_google_analytics }}"
