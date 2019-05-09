@@ -241,7 +241,7 @@ jobs:
 
       - run:
           name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'dependency_role' --tags 'configure' circleci_build_test.yml >>../circleci_packer_build_test.log 2>&1"
+          command: "ansible-playbook --skip-tags 'dependency_role' --tags 'solr,redis,configure' circleci_build_test.yml >>../circleci_packer_build_test.log 2>&1"
           no_output_timeout: 60m
           working_directory: ~/project/ansible
 
