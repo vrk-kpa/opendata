@@ -8,7 +8,6 @@ from ckan.common import request, c, response, _, g
 from ckan.controllers.organization import OrganizationController
 from ckan.controllers.package import PackageController
 from ckan.controllers.user import UserController
-from ckan.controllers.group import GroupController
 from ckan.lib import helpers as h
 
 from ckan.lib.base import abort, render

@@ -42,6 +42,7 @@ ckan_extensions:
   - ckanext-reminder
   - ckanext-archiver
   - ckanext-qa
+  - ckanext-organizationapproval
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
