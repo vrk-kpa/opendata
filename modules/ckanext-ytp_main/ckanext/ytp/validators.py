@@ -436,13 +436,12 @@ def extra_validators_multiple_choice(field, schema):
         for extra_validator in extra_validators:
             if extra_validator.get('value') in changed_features:
                 context['field'] = extra_validator.get('value')
-                toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
+                toolkit.get_validator(extra_validator.get('validator'))(key, data, errors, context)
 
     return validator
 
 
-# FIXME: maybe there is a mistake here? Is the correct order (key, data, errors, context)
-def admin_only_feature(data, key, errors, context):
+def admin_only_feature(key, data, errors, context):
     if not authz.is_sysadmin(context['user']):
         errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
 
