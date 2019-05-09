@@ -1359,7 +1359,9 @@ def helper_linked_user(user, maxlength=0, avatar=20):
             user_name = user.name
             user_displayname = user.display_name
 
-    name = user_name if model.User.VALID_NAME.match(user_name) else user_id
+    if not model.User.VALID_NAME.match(user_name):
+        user_name = user_id
+
     if maxlength and len(user_displayname) > maxlength:
         user_displayname = user_displayname[:maxlength] + '...'
     return link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
