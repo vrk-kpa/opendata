@@ -1,12 +1,14 @@
 from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action
 from ckan import model
+from ckanext.ytp.translations import facet_translations
+from ckan.logic import ValidationError
 import polib
 import os
 import re
 import glob
-from ckanext.ytp.translations import facet_translations
-from ckan.logic import ValidationError
+from tools import check_package_deprecation, package_deprecation_offset
+from logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
 
@@ -303,6 +305,40 @@ def batch_edit(ctx, config, search_string, dryrun, group):
     else:
         if group:
             apply_group_assigns(group_assigns)
+
+
+@ytp_dataset_group.command(
+    u'update_package_deprecation',
+    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def update_package_deprecation(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    # after loop contains list of ID's of just deprecated packages
+    deprecated_now = []
+    package_patches = []
+    deprecation_offset = package_deprecation_offset()
+
+    for old_package_dict in package_generator('*:*', 1000):
+        valid_till = old_package_dict.get('valid_till')
+        if valid_till is not None:
+            current_deprecation = old_package_dict.get('deprecated')
+            deprecation = check_package_deprecation(valid_till, deprecation_offset)
+            if current_deprecation != deprecation:
+                patch = {'id': old_package_dict['id'], 'deprecated': deprecation}
+                package_patches.append(patch)
+                # Initially deprecation value will be undefined, so send email only when actually deprecated
+                if current_deprecation is False and deprecation is True:
+                    deprecated_now.append(old_package_dict['id'])
+
+    if dryrun:
+        print '\n'.join(('%s | %s' % (p, p['id'] in deprecated_now)) for p in package_patches)
+    else:
+        # No resources patches so empty parameter is passed
+        apply_patches(package_patches, [])
+        send_package_deprecation_emails(deprecated_now)
 
 
 ytp_org_group = paster_click_group(
