@@ -276,6 +276,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IRoutes #
 
     def before_map(self, m):
+        health_controller = 'ckanext.ytp.health:HealthController'
+        m.connect('/health', action='check', controller=health_controller)
         """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
