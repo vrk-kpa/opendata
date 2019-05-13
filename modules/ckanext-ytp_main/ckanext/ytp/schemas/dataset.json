@@ -256,6 +256,24 @@
       "label": "Valid till",
       "preset": "date_opendata",
       "min_date_field": "valid_from"
+    },
+    {
+      "field_name": "deprecated",
+      "label": "Deprecated",
+      "preset": "select",
+      "choices": [
+        {
+          "value": false,
+          "label": "False"
+        },
+        {
+          "value": true,
+          "label": "True"
+        }
+      ],
+      "form_snippet": null,
+      "validators": "check_deprecation boolean_validator",
+      "output_validators": "boolean_validator"
     }
   ],
   "resource_fields": [

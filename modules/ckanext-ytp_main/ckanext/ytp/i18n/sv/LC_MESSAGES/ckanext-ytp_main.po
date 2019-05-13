@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-02 14:27+0000\n"
+"POT-Creation-Date: 2019-05-03 06:14+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Leivo <teemu.leivo@gofore.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -55,7 +55,7 @@ msgstr "Användare %s har ej rättigheter att skapa allmänna organisationer"
 msgid "Only registered users can create organizations"
 msgstr "Endast registrerade användare kan skapa organisationer"
 
-#: ckanext/ytp/auth.py:104 ckanext/ytp/validators.py:399
+#: ckanext/ytp/auth.py:104 ckanext/ytp/validators.py:400
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr "Användare %s är inte administratör i valda moderorganisationen"
@@ -245,7 +245,7 @@ msgid "Unauthorized to edit user %s"
 msgstr "Obehörig att redigera användare %s"
 
 #: ckanext/ytp/controller.py:823 ckanext/ytp/controller.py:891
-#: ckanext/ytp/logic.py:35
+#: ckanext/ytp/logic.py:36
 msgid "User not found"
 msgstr "Användaren hittades inte"
 
@@ -274,28 +274,28 @@ msgstr "Datumets format är felaktigt"
 msgid "Unnamed resource"
 msgstr "Namnlös resurs"
 
-#: ckanext/ytp/logic.py:38
+#: ckanext/ytp/logic.py:39
 msgid "Cannot change username"
 msgstr "Användarnamnet kan inte ändras"
 
-#: ckanext/ytp/logic.py:40
+#: ckanext/ytp/logic.py:41
 msgid "Cannot change email"
 msgstr "E-postadressen kan inte ändras"
 
-#: ckanext/ytp/logic.py:51
+#: ckanext/ytp/logic.py:52
 msgid "Have to be logged in to edit user"
 msgstr "Man måste vara inloggad för att redigera användaren"
 
-#: ckanext/ytp/logic.py:59
+#: ckanext/ytp/logic.py:60
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr "Användaren %s har inte rättigheter för att redigera användaren %s"
 
-#: ckanext/ytp/logic.py:65
+#: ckanext/ytp/logic.py:66
 msgid "Have to be logged in to list users"
 msgstr "Man måste vara inloggad för att se en lista på användare"
 
-#: ckanext/ytp/logic.py:71
+#: ckanext/ytp/logic.py:72
 msgid "Have to be logged in to list admins"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgid "Publish Data"
 msgstr "Publicera data"
 
 #: ckanext/ytp/plugin.py:197 ckanext/ytp/plugin.py:207
-#: ckanext/ytp/plugin.py:212 ckanext/ytp/validators.py:64
+#: ckanext/ytp/plugin.py:212 ckanext/ytp/validators.py:65
 msgid "Missing value"
 msgstr "Värde saknas"
 
@@ -437,15 +437,15 @@ msgstr "Annan"
 msgid "Additional Info"
 msgstr "Tilläggsinformation"
 
-#: ckanext/ytp/plugin.py:945
+#: ckanext/ytp/plugin.py:946
 msgid "Group title already exists in database"
 msgstr "Titeln för kategorien finns redan i databasen"
 
-#: ckanext/ytp/plugin.py:1130
+#: ckanext/ytp/plugin.py:1131
 msgid "Service charge must be supplied"
 msgstr "Tjänstens avgiftsbelagdhet måste anges"
 
-#: ckanext/ytp/plugin.py:1140
+#: ckanext/ytp/plugin.py:1141
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -454,7 +454,7 @@ msgstr ""
 "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben "
 "eller en beskrivning om priserna eller båda"
 
-#: ckanext/ytp/plugin.py:1153
+#: ckanext/ytp/plugin.py:1154
 msgid "At least one of the main target groups must to be selected"
 msgstr "Åtminstone en målkategori från huvudnivån måste väljas"
 
@@ -976,46 +976,46 @@ msgid ""
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/validators.py:167
+#: ckanext/ytp/validators.py:168
 msgid "expecting list of strings"
 msgstr ""
 
-#: ckanext/ytp/validators.py:173
+#: ckanext/ytp/validators.py:174
 #, python-format
 msgid "invalid type for repeating text: %r"
 msgstr ""
 
-#: ckanext/ytp/validators.py:180
+#: ckanext/ytp/validators.py:181
 #, python-format
 msgid "invalid encoding for \"%s\" value"
 msgstr ""
 
-#: ckanext/ytp/validators.py:242 ckanext/ytp/validators.py:298
+#: ckanext/ytp/validators.py:243 ckanext/ytp/validators.py:299
 msgid "Failed to decode JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:245 ckanext/ytp/validators.py:301
+#: ckanext/ytp/validators.py:246 ckanext/ytp/validators.py:302
 msgid "Invalid encoding for JSON string"
 msgstr ""
 
-#: ckanext/ytp/validators.py:248 ckanext/ytp/validators.py:304
+#: ckanext/ytp/validators.py:249 ckanext/ytp/validators.py:305
 msgid "expecting JSON object"
 msgstr ""
 
-#: ckanext/ytp/validators.py:252 ckanext/ytp/validators.py:259
+#: ckanext/ytp/validators.py:253 ckanext/ytp/validators.py:260
 #, python-format
 msgid "Required language \"%s\" missing"
 msgstr ""
 
-#: ckanext/ytp/validators.py:360
+#: ckanext/ytp/validators.py:361
 msgid "Start date is after end date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:365
+#: ckanext/ytp/validators.py:366
 msgid "End date is before start date"
 msgstr ""
 
-#: ckanext/ytp/validators.py:445
+#: ckanext/ytp/validators.py:447
 #, python-format
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
