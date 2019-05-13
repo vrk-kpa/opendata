@@ -357,13 +357,13 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /
+      HealthCheckPath: /data/health
       HealthCheckPort: '80'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 5
       Matcher:
-        HttpCode: '301'
+        HttpCode: '200'
       Name: !Sub avoindata-${EnvironmentName}-tg-http
       Port: 80
       Protocol: HTTP
