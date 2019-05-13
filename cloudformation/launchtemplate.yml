@@ -29,6 +29,9 @@ Parameters:
   HookTimeout:
     Description: ASG user data lifecycle hook timeout in seconds
     Type: 'AWS::SSM::Parameter::Value<String>'
+  WebHealthCheckGracePeriod:
+    Description: Grace period in seconds for web ASG ELB health check
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 
 Resources:
@@ -137,6 +140,8 @@ Resources:
       AutoScalingReplacingUpdate:
         WillReplace: true
     Properties:
+      HealthCheckGracePeriod: !Ref WebHealthCheckGracePeriod
+      HealthCheckType: ELB
       LaunchTemplate:
         LaunchTemplateId: !Ref WebInstanceLaunchTemplate
         Version: !GetAtt WebInstanceLaunchTemplate.LatestVersionNumber
