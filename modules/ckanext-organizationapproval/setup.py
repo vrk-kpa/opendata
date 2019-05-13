@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
 import sys, os
 
+
+
 setup(
     name='ckanext-organizationapproval',
     version='0.0.1',
@@ -35,6 +37,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        organization_approval=ckanext.organizationapproval.plugin:OrganizationApprovalPlugin
+        organizationapproval=ckanext.organizationapproval.plugin:OrganizationApprovalPlugin
     ''',
 )

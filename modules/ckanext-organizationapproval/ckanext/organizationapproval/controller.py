@@ -16,7 +16,6 @@ DataError = dictization_functions.DataError
 
 
 class OrganizationApprovalController(OrganizationController):
-    log.info('hello')
     def _save_new(self, context, group_type=None):
         try:
             data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))

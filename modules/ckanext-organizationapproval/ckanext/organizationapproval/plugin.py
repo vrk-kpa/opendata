@@ -6,13 +6,18 @@ class OrganizationApprovalPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IRoutes, inherit=True)
 
-    # # IConfigurer
+    # IConfigurer
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_ckan_admin_tab(config_, 'manage_organizations', 'Manage organizations')
 
-    # # IRoutes
+    # IRoutes
     def before_map(self, map):
-        organization_approval_controller = 'ckanext.ytp.controller:OrganizationApprovalController'
-
-        map.connect('/organization/new', action='new', controller=organization_approval_controller)
+        organization_controller = 'ckanext.organizationapproval.controller:OrganizationApprovalController'
+        map.connect('/organization/new', action='new', controller=organization_controller)
+        map.connect('manage_organizations',
+                    '/ckan-admin/organization_management',
+                    controller=organization_controller,
+                    action='manage_organizations',
+                    ckan_icon='picture')
+        return map
