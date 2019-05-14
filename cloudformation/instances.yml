@@ -167,6 +167,10 @@ Resources:
                   - autoscaling:Describe*
                 Resource: "*"
               - Effect: Allow
+                Action: 
+                  - elasticloadbalancing:DescribeTargetHealth
+                Resource: "*"
+              - Effect: Allow
                 Action:
                   - cloudwatch:PutMetricData
                 Resource: "*"
@@ -432,6 +436,20 @@ Resources:
       Type: "String"
       Value: !GetAtt PrivateALB.DNSName
 
+  PrivateALBTargetGroupARN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/private_alb_tg_arn
+      Type: "String"
+      Value: !Ref PrivateALBTargetGroup
+
+  PrivateALBName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/private_alb_name
+      Type: "String"
+      Value: !GetAtt PrivateALB.LoadBalancerName
+
   RedisDNSNameParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -439,12 +457,19 @@ Resources:
       Type: "String"
       Value: !GetAtt Redis.RedisEndpoint.Address
 
-  PublicALBARN:
+  PublicALBTargetGroupARN:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub /${EnvironmentName}/web/public_alb_arn
+      Name: !Sub /${EnvironmentName}/web/public_alb_tg_arn
       Type: "String"
-      Value: !Ref PublicALB
+      Value: !Ref PublicALBTargetGroupHTTP
+
+  PublicALBName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/web_alb_name
+      Type: "String"
+      Value: !GetAtt PublicALB.LoadBalancerName
 
 Outputs:
   PublicALBDNSName:
