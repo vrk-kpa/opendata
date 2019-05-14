@@ -680,7 +680,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'override_field': validators.override_field,
             'override_field_with_default_translation': validators.override_field_with_default_translation,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
-            'from_date_is_before_until_date': validators.from_date_is_before_until_date
+            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
+            'check_deprecation': validators.check_deprecation
         }
 
 
@@ -1342,17 +1343,29 @@ def helper_is_pseudo(user):
 
 def helper_linked_user(user, maxlength=0, avatar=20):
     """ Return user as HTML item """
-    if not isinstance(user, model.User):
-        user_name = unicode(user)
-        user = model.User.get(user_name)
+    if isinstance(user, dict):
+        user_id = user['id']
+        user_name = user['name']
+        user_displayname = user['display_name']
+    elif isinstance(user, model.User):
+        user_id = user.id
+        user_name = user.name
+        user_displayname = user.display_name
+    else:
+        user = model.User.get(unicode(user))
         if not user:
             return user_name
-    if user:
-        name = user.name if model.User.VALID_NAME.match(user.name) else user.id
-        displayname = user.display_name
-        if maxlength and len(user.display_name) > maxlength:
-            displayname = displayname[:maxlength] + '...'
-        return link_to(displayname, helpers.url_for(controller='user', action='read', id=name), class_='')
+        else:
+            user_id = user.id
+            user_name = user.name
+            user_displayname = user.display_name
+
+    if not model.User.VALID_NAME.match(user_name):
+        user_name = user_id
+
+    if maxlength and len(user_displayname) > maxlength:
+        user_displayname = user_displayname[:maxlength] + '...'
+    return link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
 
 
 def helper_organizations_for_select():

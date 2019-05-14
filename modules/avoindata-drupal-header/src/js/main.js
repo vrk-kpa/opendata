@@ -1,10 +1,10 @@
-document.onreadystatechange = function () {
+document.addEventListener('readystatechange', function () {
   if (document.readyState === 'interactive') {
     // If client is not blocking js we show the search inputs
     document.getElementById('header-search-container').hidden = false;
     addHeaderSearchListeners();
   }
-};
+});
 
 function addHeaderSearchListeners() {
   const searchSubmit = document.getElementById('avoindata-nav-search-submit');
