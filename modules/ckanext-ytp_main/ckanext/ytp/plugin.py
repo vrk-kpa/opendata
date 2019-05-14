@@ -1032,7 +1032,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/user_list', action='user_list', ckan_icon='user')
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
-        map.connect('/organization/new', action='new', controller='organization')
+        map.connect('/organization/new',
+                    controller=organization_controller,
+                    action='new')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',

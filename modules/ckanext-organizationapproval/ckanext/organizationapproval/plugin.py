@@ -14,10 +14,11 @@ class OrganizationApprovalPlugin(plugins.SingletonPlugin):
     # IRoutes
     def before_map(self, map):
         organization_controller = 'ckanext.organizationapproval.controller:OrganizationApprovalController'
-        map.connect('/organization/new', action='new', controller=organization_controller)
+
         map.connect('manage_organizations',
                     '/ckan-admin/organization_management',
                     controller=organization_controller,
                     action='manage_organizations',
                     ckan_icon='picture')
+
         return map
