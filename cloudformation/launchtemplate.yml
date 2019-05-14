@@ -32,6 +32,12 @@ Parameters:
   WebHealthCheckGracePeriod:
     Description: Grace period in seconds for web ASG ELB health check
     Type: 'AWS::SSM::Parameter::Value<String>'
+  WebTargetGroupArn:
+    Description: Target group ARN of web instances
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  SolrTargetGroupArn:
+    Description: Target group ARN of Solr instance
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 
 Resources:
@@ -49,7 +55,6 @@ Resources:
           Arn: 
             Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instanceprofile"
-
         ImageId: !Ref WebAmiImageId
         InstanceType: !Ref WebInstanceType
         SecurityGroupIds:
@@ -60,6 +65,8 @@ Resources:
         UserData: !Base64
           "Fn::Sub": |
             #!/bin/bash
+            pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+            ln -s /root/aws-cfn-bootstrap-latest/init/ubuntu/cfn-hup /etc/init.d/cfn-hup
             export HOME=/root
             echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
             echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
@@ -72,7 +79,13 @@ Resources:
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
             ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor
-            
+
+            until [ "$state" == "\"healthy\"" ]; do state=$(aws --region ${AWS::Region} elbv2 describe-target-health \
+              --target-group-arn ${WebTargetGroupArn} \
+              --targets Id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+              --query 'TargetHealthDescriptions[0].TargetHealth.State'); sleep 10; done
+
+            /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource WebAutoScalingGroup --region ${AWS::Region}
 
   ScheduledInstanceLaunchTemplate:
     Type: "AWS::EC2::LaunchTemplate"
@@ -88,7 +101,6 @@ Resources:
           Arn: 
             Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instanceprofile"
-
         ImageId: !Ref ScheduledAmiImageId
         InstanceType: !Ref ScheduledInstanceType
         SecurityGroupIds:
@@ -99,6 +111,8 @@ Resources:
         UserData: !Base64
           "Fn::Sub": |
             #!/bin/bash
+            pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+            ln -s /root/aws-cfn-bootstrap-latest/init/ubuntu/cfn-hup /etc/init.d/cfn-hup
             export HOME=/root
             echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
             echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
@@ -111,13 +125,25 @@ Resources:
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
             ansible-playbook -i inventories/${EnvironmentName} scheduled-server.yml --tags configure,cron,supervisor
+            . /usr/lib/ckan/default/bin/activate
+            /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild --config=/etc/ckan/default/production.ini
 
-  
+            until [ "$state" == "\"healthy\"" ]; do state=$(aws --region ${AWS::Region} elbv2 describe-target-health \
+              --target-group-arn ${SolrTargetGroupArn} \
+              --targets Id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+              --query 'TargetHealthDescriptions[0].TargetHealth.State'); sleep 10; done
+
+            /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ScheduledAutoScalingGroup --region ${AWS::Region}
+
   ScheduledAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: true
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT20M
     Properties:
       LaunchTemplate:
         LaunchTemplateId: !Ref ScheduledInstanceLaunchTemplate
@@ -139,6 +165,10 @@ Resources:
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: true
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT20M
     Properties:
       HealthCheckGracePeriod: !Ref WebHealthCheckGracePeriod
       HealthCheckType: ELB
