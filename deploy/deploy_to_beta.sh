@@ -1,4 +1,5 @@
 #!/bin/bash
+set -Eeuxo pipefail
 
 export AWS_DEFAULT_REGION=eu-west-1
 assumed_build_role=$(aws sts assume-role --role-session-name 'deploy-assumed-role' --role-arn arn:aws:iam::${AWS_BUILDTEST_ACCOUNT_ID}:role/InvokeDeploymentRole)
