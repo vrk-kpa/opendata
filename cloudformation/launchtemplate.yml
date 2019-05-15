@@ -128,15 +128,20 @@ Resources:
             . /usr/lib/ckan/default/bin/activate
             /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild --config=/etc/ckan/default/production.ini
 
-            until [ "$state" == "\"healthy\"" ]; do state=$(aws --region ${AWS::Region} elbv2 describe-target-health \
-              --target-group-arn ${SolrTargetGroupArn} \
-              --targets Id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
-              --query 'TargetHealthDescriptions[0].TargetHealth.State'); sleep 10; done
-
+            aws autoscaling complete-lifecycle-action \
+              --auto-scaling-group-name $(aws autoscaling describe-auto-scaling-instances \
+                --instance-ids $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+                --region ${AWS::Region} --query 'AutoScalingInstances[0].AutoScalingGroupName') \
+              --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+              --lifecycle-action-result CONTINUE \
+              --lifecycle-hook-name scheduled-asg-hook \
+              --region ${AWS::Region}
+              
             /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ScheduledAutoScalingGroup --region ${AWS::Region}
 
   ScheduledAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
+    DependsOn: ScheduledInstanceLaunchTemplate
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: true
@@ -148,6 +153,10 @@ Resources:
       LaunchTemplate:
         LaunchTemplateId: !Ref ScheduledInstanceLaunchTemplate
         Version: !GetAtt ScheduledInstanceLaunchTemplate.LatestVersionNumber
+      LifecycleHookSpecificationList:
+        - HeartbeatTimeout: 600
+          LifecycleTransition: "autoscaling:EC2_INSTANCE_LAUNCHING"
+          LifecycleHookName: scheduled-asg-hook
       TargetGroupARNs:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
