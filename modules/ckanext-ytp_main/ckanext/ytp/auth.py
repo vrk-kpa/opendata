@@ -121,14 +121,17 @@ def package_update(context, data_dict):
     if result['success']:
         user = logic_auth.get_user_object(context, {'id': context.get('user')})
         package = logic_auth.get_package_object(context, data_dict)
-        org = logic_auth.get_group_object(context, {'id': package.owner_org})
 
-        personal_datasets = 'personal_datasets' in org.extras.get('features', [])
-        if personal_datasets and package.creator_user_id != user.id:
-            result = {
-                'success': False,
-                'msg': _('Cannot modify dataset because of organization policy')
-            }
+        # Showcases don't have organizations
+        if package.type != "showcase":
+            org = logic_auth.get_group_object(context, {'id': package.owner_org})
+
+            personal_datasets = 'personal_datasets' in org.extras.get('features', [])
+            if personal_datasets and package.creator_user_id != user.id:
+                result = {
+                    'success': False,
+                    'msg': _('Cannot modify dataset because of organization policy')
+                }
 
     return result
 
