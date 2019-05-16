@@ -205,7 +205,7 @@ jobs:
             touch ../deploy_to_beta.log
             if [ "${CIRCLE_BRANCH}" == "AV-753_automatic_deployments" ]
             then
-              ./deploy_to_beta.sh ~/project/ami_id > ../deploy_to_beta.log
+              ./deploy_to_beta.sh ~/project/ami_id > ../deploy_to_beta.log 2>&1
             fi
           working_directory: ~/project/deploy
 
