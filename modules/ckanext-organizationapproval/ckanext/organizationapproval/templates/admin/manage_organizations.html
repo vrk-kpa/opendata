@@ -8,24 +8,62 @@
   <h1 class="page-heading">
     {% block page_heading %}{{  _('Manage Organizations') }}{% endblock %}
   </h1>
-  {% if c.organization_data %}
-    {% for organization in c.organization_data %}
-      <form class="dataset-form form-horizontal" method="post">
-        <div class="row-fluid">
-          {% set locale = h.dump_json({'content': _('Are you sure you want to permanently delete this organization?')}) %}
-          <div class="btn-group pull-right">
-              <a class="btn btn-danger pull-left" href="{% url_for controller='organization', action='delete', id=organization.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">
-              {% block delete_button_text %}
-                {{ _('Remove') }}
-              {% endblock %}
-            </a>
+  <ul class="list-group">
+    <!-- TODO: probably filter out already approved organizations -->
+    <!-- or add an option to show only unapproved organizations -->
+    {% if c.organization_data %}
+      {% for organization in c.organization_data %}
+        {% set status_classes = {'pending': 'info', 'denied': 'warning', 'approved': 'success'} %}
+        {% set status_class = status_classes[organization.approval_status] %}
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="flex-1 mr-3">
+              <div class="mb-2">
+                <h3 class="m-0">
+                  <a class="text-{{ status_class }}" href="http://vagrant.avoindata.fi/data/fi/organization/{{ organization.id }}">
+                    {{ organization.display_name }}
+                  </a>
+                </h3>
+                <p class="m-0">
+                  {{ organization.description }}
+                </p>
+              </div>
+              <p class="m-0">STATUS: {{ organization.approval_status }}</p>
+            </div>
+            <form class="dataset-form form-horizontal" method="post">
+              <div class="row-fluid">
+                {% set locale_delete = h.dump_json({'content': _('Are you sure you want to permanently delete this organization?')}) %}
+                <input class="hidden" name="org_id" value="{{ organization.id }}" />
+                <div class="btn-group">
+                  
+                  {% if organization.approval_status != 'approved' %}
+                  <button class="btn btn-success" name="approval_status" value="approved">
+                    {{ _ ('Approve')}}
+                  </button>
+                  {% endif %}
+                  {% if organization.approval_status != 'denied' %}
+                  <button class="btn btn-warning" name="approval_status" value="denied">
+                    {{ _ ('Deny')}}
+                  </button>
+                  {% endif %}
+                  {% if organization.approval_status != 'pending' %}
+                  <button class="btn btn-info" name="approval_status" value="pending">
+                    {{ _ ('Pending')}}
+                  </button>
+                  {% endif %}
+                </div>
+                <a class="btn btn-danger" href="{% url_for controller='organization', action='delete', id=organization.id %}" data-module="confirm-action" data-module-i18n="{{ locale_delete }}">
+                  {% block delete_button_text %}
+                    {{ _('Remove') }}
+                  {% endblock %}
+                </a>
+              </div>
+            </form>
           </div>
-          <h3>{{ organization.display_name }}</h3>
-          <p>approval status: {{ organization.approval_status }}</p>
-        </div>
-      </form>
-    {% endfor %}
-  {% endif %}
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
   <!-- {% block form %}
     <form class="dataset-form form-horizontal add-member-form" method='post'>
       <div class="row-fluid">

@@ -30,25 +30,21 @@ class OrganizationApprovalController(OrganizationController):
             abort(401, _('User not authorized to view page'))
 
         # Approving, deleting or denying organizations.
-        if request.method == 'POST' and request.params['organization_id']:
-            organization_id = request.params['organization_id']
-            action_type = request.params['action_type']
-            try:
-                # TODO: update this to do the correct action
-                get_action('ckanext_showcase_admin_add')(data_dict={'username': 'username'})
-            except NotAuthorized:
-                abort(401, _('Unauthorized to perform that action'))
-            except NotFound:
-                h.flash_error(_("Organization '{org_id}' not found.").format(
-                    org_id=organization_id))
-            except ValidationError as e:
-                h.flash_notice(e.error_summary)
+        if request.method == 'POST' and request.params['org_id']:
+            org_id = request.params['org_id']
+            status = request.params['approval_status']
+            # NOTE: should the possible statuses come from somewhere else?
+            possible_statuses = ['approved', 'pending', 'denied']
+            if status in possible_statuses:
+                organization = get_action('organization_show')(data_dict={'id': org_id})
+                if organization['approval_status'] != status:
+                    organization['approval_status'] = status
+                    get_action('organization_update')(data_dict=organization)
+                    h.flash_success(_("Organization was successfully updated"))
+                else:
+                    h.flash_error(_("Status is already set to '%s'") % status)
             else:
-                h.flash_success(_("The organization has been deleted"))
-
-            return redirect(h.url_for(
-                controller='ckanext.ytp_main.controller:YtpOrganizationController',
-                action='manage_organizations'))
+                h.flash_error(_("Status not allowed"))
 
         c.organization_data = get_action('organization_list')(context, {"all_fields": True})
         log.info(c.organization_data)
