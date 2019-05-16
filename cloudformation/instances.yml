@@ -165,6 +165,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - autoscaling:Describe*
+                  - autoscaling:CompleteLifecycleAction
                 Resource: "*"
               - Effect: Allow
                 Action: 
@@ -214,7 +215,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - autoscaling:CompleteLifecycleAction
-                Resource: !Sub "arn:aws:autoscaling:${AWS::Region}:${AWS::AccountId}:autoScalingGroup:*:autoScalingGroupName/avoindata-${EnvironmentName}-autoscaling-group"
+                Resource: !Sub "arn:aws:autoscaling:${AWS::Region}:${AWS::AccountId}:autoScalingGroup:*:autoScalingGroupName/*"
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
