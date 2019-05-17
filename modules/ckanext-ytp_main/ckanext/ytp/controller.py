@@ -20,6 +20,7 @@ import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
+from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from plugin import create_vocabulary
 
@@ -565,7 +566,7 @@ class YtpDatasetController(PackageController):
 
 
 class YtpOrganizationController(OrganizationController):
-    # NOTE: should this also be in organizationapproval plugin?
+    # NOTE: should this be in organizationapproval plugin?
     def _save_new(self, context, group_type=None):
         try:
             data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
@@ -575,6 +576,7 @@ class YtpOrganizationController(OrganizationController):
             # Set approval status to pending
             data_dict['approval_status'] = 'pending'
             group = self._action('group_create')(context, data_dict)
+            send_new_organization_email_to_admin()
             # Redirect to the appropriate _read route for the type of group
             h.redirect_to(group['type'] + '_read', id=group['name'])
         except (NotFound, NotAuthorized) as e:

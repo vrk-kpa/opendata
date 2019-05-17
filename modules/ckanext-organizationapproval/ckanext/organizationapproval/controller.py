@@ -4,11 +4,12 @@ from ckan import model
 from ckan.common import request, c, _
 from ckan.controllers.organization import OrganizationController
 from ckan.lib import helpers as h
-
 from ckan.lib.base import abort, render
 from ckan.logic import get_action, NotFound, NotAuthorized, \
     check_access, clean_dict, tuplize_dict, parse_params, ValidationError
 import ckan.lib.navl.dictization_functions as dictization_functions
+
+from logic import send_organization_approved
 
 log = logging.getLogger(__name__)
 unflatten = dictization_functions.unflatten
@@ -40,13 +41,18 @@ class OrganizationApprovalController(OrganizationController):
                 if organization['approval_status'] != status:
                     organization['approval_status'] = status
                     get_action('organization_update')(data_dict=organization)
+                    if status == 'approved':
+                        send_organization_approved(organization)
                     h.flash_success(_("Organization was successfully updated"))
                 else:
                     h.flash_error(_("Status is already set to '%s'") % status)
             else:
                 h.flash_error(_("Status not allowed"))
+        organization_list = get_action('organization_list')(context, {"all_fields": True})
+        # Return 20 most recently added organizations
+        page_num = request.params['page']
+        if not page_num:
+            page_num = 1
+        c.organization_data = sorted(organization_list, key=lambda x: x['created'], reverse=True)[(20 * (page_num - 1)):(20 * page_num)]
 
-        c.organization_data = get_action('organization_list')(context, {"all_fields": True})
-        log.info(c.organization_data)
-
-        return render('admin/manage_organizations.html')
+        return render('admin/manage_organizations.html', extra_vars={'page': page_num})
