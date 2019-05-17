@@ -38,6 +38,7 @@ setup(
         ytp_spatial=ckanext.ytp.plugin:YTPSpatialHarvester
         ytp_report=ckanext.ytp.plugin:YtpReportPlugin
         ytp_restrict_category_creation_and_updating=ckanext.ytp.plugin:YtpRestrictCategoryCreationAndUpdatingPlugin
+        ytp_ipermission_labels=ckanext.ytp.plugin:YtpIPermissionLabelsPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.celery_import:task_imports
