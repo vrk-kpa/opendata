@@ -20,14 +20,14 @@ from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
-from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
+from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
-
+from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
 from webhelpers.html import escape
 from webhelpers.html.builder import literal
@@ -671,7 +671,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
             'create_tags': validators.create_tags,
             'create_fluent_tags': validators.create_fluent_tags,
-            'set_private_if_not_admin': validators.set_private_if_not_admin,
+            'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'list_to_string': validators.list_to_string,
             'convert_to_list': validators.convert_to_list,
             'tag_list_output': validators.tag_list_output,
@@ -1414,3 +1414,36 @@ class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
     def get_auth_functions(self):
         return {'group_create': self.admin_only_for_categories,
                 'group_update': self.admin_only_for_categories}
+
+
+class YtpIPermissionLabelsPlugin(
+        plugins.SingletonPlugin, DefaultPermissionLabels):
+    '''
+    Permission labels for controlling permissions of different user roles
+    '''
+    plugins.implements(plugins.IPermissionLabels)
+
+    def get_dataset_labels(self, dataset_obj):
+        '''
+        Showcases get showcase-admin label so that showcase admins have
+        rights for that showcase
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_dataset_labels(dataset_obj)
+
+        if dataset_obj.type == "showcase":
+            labels.append(u'showcase-admin')
+
+        return labels
+
+    def get_user_dataset_labels(self, user_obj):
+        '''
+        Showcase admin users get a showcase-admin label
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
+
+        if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
+            labels.append(u'showcase-admin')
+
+        return labels

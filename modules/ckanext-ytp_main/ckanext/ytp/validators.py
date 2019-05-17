@@ -5,6 +5,7 @@ import ckan.model as model
 import ckan.logic.validators as validators
 import ckan.lib.navl.dictization_functions as df
 from ckan.logic import get_action
+from ckanext.showcase.model import ShowcaseAdmin
 
 import re
 import json
@@ -66,8 +67,9 @@ def tag_string_or_tags_required(key, data, errors, context):
             raise df.StopOnError
 
 
-def set_private_if_not_admin(private):
-    return True if not authz.is_sysadmin(c.user) else private
+def set_private_if_not_admin_or_showcase_admin(private):
+    userobj = model.User.get(c.user)
+    return True if not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)) else private
 
 
 def convert_to_list(value):
