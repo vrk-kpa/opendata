@@ -69,7 +69,10 @@ def tag_string_or_tags_required(key, data, errors, context):
 
 def set_private_if_not_admin_or_showcase_admin(private):
     userobj = model.User.get(c.user)
-    return True if not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)) else private
+    if userobj and not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
+        return True
+    else:
+        return private
 
 
 def convert_to_list(value):
