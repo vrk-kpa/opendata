@@ -85,7 +85,7 @@ def _translations():
     # Values
     _('public_administration_organization')
     _('personal_datasets')
-    _('Government')
+    _('State administration')
     _('Region')
     _('Public service')
     _('Cities')

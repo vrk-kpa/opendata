@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-20 10:32+0000\n"
+"POT-Creation-Date: 2019-05-20 11:38+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/helpers.py:84 ckanext/ytp/plugin.py:538
+#: ckanext/ytp/helpers.py:84 ckanext/ytp/plugin.py:539
 msgid "Unnamed resource"
 msgstr "Nimetön resurssi"
 
@@ -361,34 +361,34 @@ msgstr "Julkaise avointa dataa"
 msgid "Publish Data"
 msgstr "Julkaise dataa"
 
-#: ckanext/ytp/plugin.py:197 ckanext/ytp/plugin.py:207
-#: ckanext/ytp/plugin.py:212 ckanext/ytp/validators.py:66
+#: ckanext/ytp/plugin.py:198 ckanext/ytp/plugin.py:208
+#: ckanext/ytp/plugin.py:213 ckanext/ytp/validators.py:66
 msgid "Missing value"
 msgstr "Puuttuva arvo"
 
-#: ckanext/ytp/plugin.py:442 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:443 ckanext/ytp/translations.py:39
 msgid "International benchmarks"
 msgstr "Kansainväliset vertailut"
 
-#: ckanext/ytp/plugin.py:443 ckanext/ytp/plugin.py:460
+#: ckanext/ytp/plugin.py:444 ckanext/ytp/plugin.py:461
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:10
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:19
 msgid "Collection Type"
 msgstr "Tietoaineisto"
 
-#: ckanext/ytp/plugin.py:444
+#: ckanext/ytp/plugin.py:445
 msgid "Popular tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:445 ckanext/ytp/plugin.py:462
+#: ckanext/ytp/plugin.py:446 ckanext/ytp/plugin.py:463
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:51
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:183
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:188
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/plugin.py:446
+#: ckanext/ytp/plugin.py:447
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
@@ -397,17 +397,17 @@ msgstr "Sisältötyyppi"
 msgid "Organization"
 msgstr "Organisaatio"
 
-#: ckanext/ytp/plugin.py:447 ckanext/ytp/plugin.py:463
+#: ckanext/ytp/plugin.py:448 ckanext/ytp/plugin.py:464
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/plugin.py:449 ckanext/ytp/templates/package/search.html:64
+#: ckanext/ytp/plugin.py:450 ckanext/ytp/templates/package/search.html:64
 #: ckanext/ytp/templates/package/snippets/additional_info.html:14
 msgid "Source"
 msgstr "Lähde"
 
-#: ckanext/ytp/plugin.py:450
+#: ckanext/ytp/plugin.py:451
 #: ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:75
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:63
@@ -416,30 +416,30 @@ msgstr "Lähde"
 msgid "License"
 msgstr "Lisenssi"
 
-#: ckanext/ytp/plugin.py:461
+#: ckanext/ytp/plugin.py:462
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:34
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
 msgstr "Aihe"
 
-#: ckanext/ytp/plugin.py:522
+#: ckanext/ytp/plugin.py:523
 msgid "Other"
 msgstr "Muu"
 
-#: ckanext/ytp/plugin.py:538
+#: ckanext/ytp/plugin.py:539
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr "Lisätiedot"
 
-#: ckanext/ytp/plugin.py:948
+#: ckanext/ytp/plugin.py:951
 msgid "Group title already exists in database"
 msgstr "Kategorian otsikko löytyy jo tietokannasta"
 
-#: ckanext/ytp/plugin.py:1133
+#: ckanext/ytp/plugin.py:1136
 msgid "Service charge must be supplied"
 msgstr "Palvelun maksullisuus pitää antaa"
 
-#: ckanext/ytp/plugin.py:1143
+#: ckanext/ytp/plugin.py:1146
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -448,7 +448,7 @@ msgstr ""
 "Jos palvelu on maksullinen, pitää sinun antaa hintatiedot verkossa tai "
 "kuvaus hinnoista tai molemmat"
 
-#: ckanext/ytp/plugin.py:1156
+#: ckanext/ytp/plugin.py:1159
 msgid "At least one of the main target groups must to be selected"
 msgstr "Vähintään yksi päätason kohdekategoria on valittava"
 
@@ -745,7 +745,7 @@ msgid "personal_datasets"
 msgstr "henkilökohtaiset tietoaineistot"
 
 #: ckanext/ytp/translations.py:88
-msgid "Government"
+msgid "State administration"
 msgstr "Valtionhallinto"
 
 #: ckanext/ytp/translations.py:89
@@ -1138,7 +1138,7 @@ msgstr "Poista"
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:39
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:171
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:45
+#: ckanext/ytp/templates/snippets/package_item.html:44
 msgid "Deleted"
 msgstr "Poistettu"
 
@@ -1565,7 +1565,7 @@ msgstr "Lisää dataa"
 #: ckanext/ytp/templates/package/read.html:9
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:152
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:5
-#: ckanext/ytp/templates/snippets/package_item.html:30
+#: ckanext/ytp/templates/snippets/package_item.html:29
 #: ckanext/ytp/templates/user/read_base.html:38
 #: ckanext/ytp/templates/user/read_base.html:52
 msgid "Private"
@@ -1749,7 +1749,7 @@ msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
 #: ckanext/ytp/templates/package/search.html:65
-#: ckanext/ytp/templates/snippets/package_item.html:36
+#: ckanext/ytp/templates/snippets/package_item.html:35
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Suosittu"
@@ -1970,7 +1970,7 @@ msgstr "Julkinen"
 
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:170
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:43
+#: ckanext/ytp/templates/snippets/package_item.html:42
 msgid "Draft"
 msgstr "Vedos"
 

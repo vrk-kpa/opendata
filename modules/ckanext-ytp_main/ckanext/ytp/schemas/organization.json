@@ -72,8 +72,8 @@
       "preset": "select",
       "choices": [
         {
-          "value": "state",
-          "label": "Government"
+          "value": "state-administration",
+          "label": "State administration"
         },
         {
           "value": "region",
