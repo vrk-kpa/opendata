@@ -71,34 +71,38 @@
       "label": "Producer type",
       "preset": "select",
       "choices": [
-            {
-              "value": "civil-service",
-              "label": "Civil Service"
-            },
-            {
-              "value": "municipality",
-              "label": "Municipality / City"
-            },
-            {
-              "value": "other-public-service",
-              "label": "Other Public Service"
-            },
-            {
-              "value": "educational-research-institute",
-              "label": "Educational / Research Institute"
-            },
-            {
-              "value": "company",
-              "label": "Company"
-            },
-            {
-              "value": "individual",
-              "label": "Individual"
-            },
-            {
-              "value": "association",
-              "label": "Association"
-            }
+        {
+          "value": "state",
+          "label": "Government"
+        },
+        {
+          "value": "region",
+          "label": "Region"
+        },
+        {
+          "value": "public-service",
+          "label": "Public service"
+        },
+        {
+          "value": "cities",
+          "label": "Cities"
+        },
+        {
+          "value": "education-research",
+          "label": "Education - Research"
+        },
+        {
+          "value": "enterprise",
+          "label": "Enterprise"
+        },
+        {
+          "value": "society-trust",
+          "label": "Society - Trust"
+        },
+        {
+          "value": "person",
+          "label": "Person"
+        }
       ],
       "form_attrs": {
         "class": "form-control"
