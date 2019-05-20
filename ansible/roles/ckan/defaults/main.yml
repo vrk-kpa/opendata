@@ -212,6 +212,7 @@ ckan_patches:
   - remove_user_activity_from_group_activity_list # modification from ckan master, can be removed once 2.9 is released
   - optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
+  - group_include_extras # https://github.com/ckan/ckan/pull/4774
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
