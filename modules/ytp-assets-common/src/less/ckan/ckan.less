@@ -849,27 +849,49 @@ li.organization {
   font-weight: @font-weight-heavy;
 }
 
-.producer-type-wrapper {
+.producer-type {
+  background-color: #71999f;
   position: absolute;
   right: 0;
   top: 0;
-  width: 100px;
-  height: 100px;
-  overflow: hidden;
+  width: 125px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 15px;
+  color: white;
 
-  .producer-type {
-    background-color: #71999f;
-    transform: rotate(45deg);
-    transform-origin: top left;
-    position: absolute;
-    width: 120px;
-    height: 26px;
-    line-height: 26px;
-    text-align: center;
-    top: -18px;
-    right: -54px;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
+  &[data-producer-type="state"] {
+    background-color: #01357a;
+  }
+
+  &[data-producer-type="region"] {
+    background-color: #5995d9;
+  }
+
+  &[data-producer-type="public-service"] {
+    background-color: #2a6ebc;
+    width: 175px;
+  }
+
+  &[data-producer-type="cities"] {
+    background-color: #36b4e5;
+  }
+
+  &[data-producer-type="education-research"] {
+    background-color: #d4e4f6;
+    width: 200px;
+  }
+
+  &[data-producer-type="enterprise"] {
+    background-color: #5f686c;
+  }
+
+  &[data-producer-type="society-trust"] {
+    background-color: #a6acb0;
+  }
+
+  &[data-producer-type="person"] {
+    background-color: #e97025;
   }
 }
