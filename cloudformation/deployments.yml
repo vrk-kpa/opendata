@@ -5,9 +5,9 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
     Default: /build/accountid
     Description: 'ID of the account that should invoke the deployment'
-Globals:
-  Function:
-    Timeout: 600
+  EnvironmentName:
+    Description: Name of the deployment target environment (infratest, beta, prod)
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Resources:
   DeploymentRole:
@@ -32,5 +32,58 @@ Resources:
                   - ssm:PutParameter
                   - ssm:GetParameter
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/beta/web/amiid
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/beta/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/web/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/scheduled/amiid
+              - Effect: Allow
+                Action:
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/*
+              - Effect: Allow
+                Action: cloudformation:DescribeStacks
+                Resource:
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${EnvironmentName}-asg-lt/*
+              - Effect: Allow
+                Action: cloudformation:UpdateStack
+                Resource:
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${EnvironmentName}-asg-lt/*
+              - Effect: Allow
+                Action: ec2:CreateLaunchTemplateVersion
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+              - Effect: Allow
+                Action:
+                - iam:PassRole
+                Resource: "*"
+                Condition:
+                  StringLike:
+                    iam:PassedToService: ec2.amazonaws.com*
+              - Effect: Allow
+                Action:
+                  - autoscaling:*
+                Resource:
+                  - "*"
+              - Effect: Allow
+                Action: ec2:DeleteLaunchTemplate
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+              - Effect: Allow
+                Action:
+                  - ec2:CreateLaunchTemplate
+                  - ec2:DescribeLaunchTemplates
+                  - ec2:DescribeLaunchTemplateVersions
+                  - ec2:DescribeInstances
+                Resource: "*"
+              - Effect: Allow
+                Action: ec2:RunInstances
+                Resource:
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:volume/*
+                - !Sub arn:aws:ec2:${AWS::Region}::snapshot/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:key-pair/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:placement-group/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:security-group/*
+                - !Sub arn:aws:ec2:${AWS::Region}::image/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
