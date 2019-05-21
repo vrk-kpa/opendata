@@ -540,12 +540,14 @@ workflows:
       - copy-web-ami:
           requires:
             - packer-web
+            - ansible-role-test
           # filters:
           #   branches:
           #     only: master
       - copy-scheduled-ami:
           requires:
             - packer-scheduled
+            - ansible-role-test
           # filters:
           #   branches:
           #     only: master
