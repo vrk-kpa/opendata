@@ -5,8 +5,11 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
     Default: /build/accountid
     Description: 'ID of the account that should invoke the deployment'
-  EnvironmentName:
-    Description: Name of the deployment target environment (infratest, beta, prod)
+  BetaEnvironmentName:
+    Description: Name of the deployment target environment for beta deployments (infratest, beta, prod)
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  ProdEnvironmentName:
+    Description: Name of the deployment target environment for production deployments (infratest, beta, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
 
 Resources:
@@ -32,21 +35,26 @@ Resources:
                   - ssm:PutParameter
                   - ssm:GetParameter
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/web/amiid
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/web/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/web/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/scheduled/amiid
               - Effect: Allow
                 Action:
                   - ssm:GetParameters
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${EnvironmentName}/*
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/*
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
               - Effect: Allow
                 Action: cloudformation:DescribeStacks
                 Resource:
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${EnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
               - Effect: Allow
                 Action: cloudformation:UpdateStack
                 Resource:
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${EnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
               - Effect: Allow
                 Action: ec2:CreateLaunchTemplateVersion
                 Resource:
