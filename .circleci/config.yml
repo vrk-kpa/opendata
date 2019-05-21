@@ -93,75 +93,6 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
-  ansible-role-test:
-    docker:
-      - image: circleci/python
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
-
-      - run: git submodule update --init --recursive
-
-      - run: sudo apt update && sudo apt install rsync
-
-      - run: sudo pip install ansible boto awscli
-
-      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
-
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-
-      - run : sudo apt-get install -y nodejs
-
-      - run:
-          name: Install Dependencies
-          command: npm ci
-          working_directory: ~/project/
-
-      - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ~/.npm
-            - ~/.cache
-
-      - run:
-          name: Copy private key for ec2 usage
-          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
-          working_directory: ~/project/
-
-      - run:
-          name: Run build test playbook
-          command: "ansible-playbook --skip-tags 'dependency_role' circleci_build_test.yml >>../circleci_build_test.log 2>&1"
-          no_output_timeout: 60m
-          working_directory: ~/project/ansible
-
-      - run:
-          name: Set instance public for Cypress
-          command: |
-            echo 'export CYPRESS_BASE_URL=http://$(cat /tmp/instance_public_ip)' >> $BASH_ENV
-            echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
-            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
-
-
-      - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
-
-      - store_artifacts:
-          path: circleci_build_test.log
-
-        # If there is a syntax error or some other issue in the actual build test
-        # playbook the cleanup part might not get executed. Therefore additional
-        # cleanup task to ensure that created instances will be terminated.
-      - run:
-          name: Additional cleanup for EC2 instances
-          command: "ansible-playbook ansible/circleci_cleanup.yml"
-          working_directory: ~/project/
-          when: always
-
   packer-web:
     docker:
       - image: circleci/python
@@ -190,8 +121,9 @@ jobs:
 
       - persist_to_workspace:
           name: Save packer-web manifest
+          root: ~/project/ansible
           paths:
-            - ~/project/ansible/manifest-web.json
+            - manifest-web.json
 
       - run:
           name: Save ami id to file
@@ -293,8 +225,9 @@ jobs:
 
       - persist_to_workspace:
           name: Save packer-scheduled manifest
+          root: ~/project/ansible
           paths:
-            - ~/project/ansible/manifest-scheduled.json
+            - manifest-scheduled.json
 
       - run:
           name: Save ami id to file
