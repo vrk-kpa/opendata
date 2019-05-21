@@ -452,12 +452,6 @@ workflows:
       - code-sniffer
       - ansible-lint
       - stylelint
-      - ansible-role-test:
-          requires:
-            - flake8
-            - code-sniffer
-            - ansible-lint
-            - stylelint
       - packer-web:
           requires:
             - flake8
@@ -473,14 +467,13 @@ workflows:
       - copy-web-ami:
           requires:
             - packer-web
-            - ansible-role-test
           # filters:
           #   branches:
           #     only: master
       - copy-scheduled-ami:
           requires:
             - packer-scheduled
-            - ansible-role-test
+            - packer-web
           # filters:
           #   branches:
           #     only: master
