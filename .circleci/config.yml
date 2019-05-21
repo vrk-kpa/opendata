@@ -199,25 +199,11 @@ jobs:
           command: cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ../ami_id
           working_directory: ~/project/ansible
 
-      - run:
-          name: Run auto deploy tasks for beta environment
-          command: |
-            touch ../deploy_to_beta.log
-            if [ "${CIRCLE_BRANCH}" == "AV-753_automatic_deployments" ]
-            then
-              ./deploy_to_beta.sh ~/project/ami_id > ../deploy_to_beta.log 2>&1
-            fi
-          working_directory: ~/project/deploy
-
-
       - store_artifacts:
           path: packer_build.log
 
       - store_artifacts:
           path: ami_id
-
-      - store_artifacts:
-          path: deploy_to_beta.log
 
       - restore_cache:
           keys:
