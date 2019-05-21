@@ -17,6 +17,9 @@ Parameters:
   WebInstanceType:
     Description: EC2 instance type for the application servers
     Type: 'AWS::SSM::Parameter::Value<String>'
+  AsgDesiredSize:
+    Description: Desired size of web instance ASG
+    Type: 'AWS::SSM::Parameter::Value<String>'
   AsgMaxSize:
     Description: Maximum size of web instance ASG
     Type: 'AWS::SSM::Parameter::Value<String>'
@@ -189,6 +192,7 @@ Resources:
             !Sub "avoindata-${EnvironmentName}-publicalbtargetgrouparn"
       MaxSize: !Ref AsgMaxSize
       MinSize: !Ref AsgMinSize
+      DesiredCapacity: !Ref AsgDesiredSize
       VPCZoneIdentifier: 
         - !ImportValue vpc-SubnetsPrivate
       Tags:
