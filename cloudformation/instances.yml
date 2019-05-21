@@ -69,7 +69,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
-      ImageId: ami-09f0b8b3e41191524 # Canonical, Ubuntu, 16.04 LTS, amd64 xenial image build on 2018-11-14
+      ImageId: ami-0b2a4d260c54e8d3d # Canonical, Ubuntu, 18.04 LTS, amd64 bionic image build on 2019-05-14
       KeyName: ytp-seeding-key
       IamInstanceProfile: !Ref InstanceProfile
       SecurityGroupIds:
@@ -258,7 +258,7 @@ Resources:
                   - ds:DescribeDirectories
                 Resource: "*"
               - Effect: Allow
-                Action: 
+                Action:
                   - ec2:DescribeTags
                 Resource: "*"
               - Effect: Allow
