@@ -293,9 +293,9 @@ jobs:
           working_directory: ~/project/amicopy
 
       - persist_to_workspace:
-        root: ~/project/amicopy
-        paths:
-          - web_image_ami_copy
+          root: ~/project/amicopy
+          paths:
+            - web_image_ami_copy
 
   copy-scheduled-ami:
     docker:
@@ -313,9 +313,9 @@ jobs:
           working_directory: ~/project/amicopy
 
       - persist_to_workspace:
-        root: ~/project/amicopy
-        paths:
-          - scheduled_image_ami_copy
+          root: ~/project/amicopy
+          paths:
+            - scheduled_image_ami_copy
 
   infratest-deploy:
     docker:
