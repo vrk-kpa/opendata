@@ -4,6 +4,8 @@
 
 - hosts: all
   become: true
+  vars:
+    ckan_solr_host: 127.0.0.1
 
   pre_tasks:
     - import_role:
