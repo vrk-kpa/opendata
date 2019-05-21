@@ -77,7 +77,7 @@
   "post-processors": [
     [
       {
-        "output": "manifest.json",
+        "output": "manifest-scheduled.json",
         "strip_path": true,
         "type": "manifest",
         "custom_data": {
