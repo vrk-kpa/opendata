@@ -6,8 +6,7 @@ from ckan.common import request, c, _
 from ckan.controllers.organization import OrganizationController
 from ckan.lib import helpers as h
 from ckan.lib.base import abort, render
-from ckan.logic import get_action, NotFound, NotAuthorized, \
-    check_access, clean_dict, tuplize_dict, parse_params, ValidationError
+from ckan.logic import get_action, NotAuthorized, check_access
 import ckan.lib.navl.dictization_functions as dictization_functions
 
 from logic import send_organization_approved

@@ -1,7 +1,4 @@
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
-import sys, os
-
-
 
 setup(
     name='ckanext-organizationapproval',
