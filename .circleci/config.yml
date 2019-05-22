@@ -290,7 +290,8 @@ jobs:
 
       - run:
           name: Copy AMI to production account
-          command: "./copy_ami.sh ../ansible/manifest-web.json | tail -1 > web_image_ami_copy"
+          command: |
+            ./copy_ami.sh ../ansible/manifest-web.json | tail -1 | cut -d'"' -f2 > web_image_ami_copy
           no_output_timeout: 10m
           working_directory: ~/project/amicopy
 
@@ -313,7 +314,8 @@ jobs:
 
       - run:
           name: Copy AMI to production account
-          command: "./copy_ami.sh ../ansible/manifest-scheduled.json | tail -1 > scheduled_image_ami_copy"
+          command: |
+            ./copy_ami.sh ../ansible/manifest-scheduled.json | tail -1 | cut -d'"' -f2 > scheduled_image_ami_copy
           no_output_timeout: 10m
           working_directory: ~/project/amicopy
 
@@ -327,6 +329,9 @@ jobs:
       - image: circleci/python
 
     steps:
+
+      - checkout
+
       - run: sudo pip install boto awscli
 
       - attach_workspace:
@@ -335,23 +340,20 @@ jobs:
       - run:
           name: Check current stack update status
           command: |
-            chmod +x ~/project/assume_role.sh
-            source ~/project/assume_role.sh
-            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | grep -q "COMPLETE"; do sleep 5 ; done
+            source ~/project/deploy/assume_role.sh
+            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 15m
 
       - run:
           name: Update AMI ids in parameter store
           command: |
-            chmod +x ~/project/assume_role.sh
-            source ~/project/assume_role.sh
-            aws ssm update-parameter --name /infratest/web/amiid --type String --value $(cat ~/project/amicopy/web_image_ami_copy) && \
-            aws ssm update-parameter --name /infratest/scheduled/amiid --type String --value $(cat ~/project/amicopy/scheduled_image_ami_copy)
+            source ~/project/deploy/assume_role.sh
+            aws ssm put-parameter --name /infratest/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/web_image_ami_copy) && \
+            aws ssm put-parameter --name /infratest/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/scheduled_image_ami_copy)
 
       - run:
           name: Update stack
           command: |
-            chmod +x ~/project/assume_role.sh
             source ~/project/assume_role.sh
             aws cloudformation update-stack \
             --stack-name "infratest-asg-lt" \
@@ -370,13 +372,11 @@ jobs:
               ParameterKey=AsgMinSize,ParameterValue=/infratest/web/asgminsize \
               ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize
 
-
       - run:
           name: Wait for stack upate to finish
           command: |
-            chmod +x ~/project/assume_role.sh
             source ~/project/assume_role.sh
-            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | grep -q "UPDATE_COMPLETE"; do sleep 5 ; done
+            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | grep -q '"UPDATE_COMPLETE"'; do sleep 5 ; done
           no_output_timeout: 30m
 
   # prod-deploy:
