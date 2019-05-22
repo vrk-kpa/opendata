@@ -601,21 +601,12 @@ class YtpOrganizationController(OrganizationController):
                 context, {'id': id, 'object_type': 'user'}
             )
             data_dict['include_datasets'] = False
-            c.group_dict = self._action('group_show')(context, {'id': id})
 
             check_access('organization_update', context, {'id': id})
             context['keep_email'] = True
             context['auth_user_obj'] = c.userobj
-            context['return_minimal'] = True
-
-            members = []
-            for user_id, name, role in c.members:
-                user_dict = {'id': user_id}
-                data = get_action('user_show')(context, user_dict)
-                if data['state'] != 'deleted':
-                    members.append((user_id, data['name'], role, data['email']))
-
-            c.members = members
+            c.group_dict = self._action('group_show')(context, {'id': id, 'include_users': True})
+            c.members = c.group_dict['users']
         except NotAuthorized:
             abort(403, _('User %r not authorized to edit members of %s') % (c.user, id))
         except NotFound:

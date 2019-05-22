@@ -52,13 +52,15 @@
     {% endif %}
   {% endblock %}
 
-  <p class="visible-xs">
+  <!-- NOTE: renders a button that toggles the offcanvas. Currently offcanvas has no content so this is disabled -->
+  <!-- <p class="visible-xs">
       <button class="btn btn-primary btn-slide-left" data-toggle="offcanvas" type="button">
           {% block primary_toggle_offcanvas %}
               <i class="icon-align-justify"></i> {{ _('Toggle menu') }}
           {% endblock %}                
       </button>
-  </p>
+  </p> -->
+
   {% block search_facets %}
     {% if facets %}
       <div class="filter-list visible-xs">

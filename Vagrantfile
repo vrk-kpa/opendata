@@ -11,7 +11,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "ytp" do |ytp|
-    ytp.vm.box = "bento/ubuntu-16.04"
+    ytp.vm.box = "bento/ubuntu-18.04"
 
     ytp.vm.network :private_network, ip: "10.10.10.10"
 

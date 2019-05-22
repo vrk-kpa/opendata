@@ -39,14 +39,27 @@
   {% block search_sortby %}
     {% if disableable_sorting %}
       <div class="form-select control-group control-order-by">
-        <label for="field-order-by">{{ _('Order by') }}</label>
-        <select id="field-order-by" class="form-control" name="sort">
-          {% for label, value in disableable_sorting %}
-            {% if label and value %}
-              <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
+        <div id="field-order-by-container">
+          <label for="field-order-by">{{ _('Order by') }}</label>
+          <select id="field-order-by" class="form-control" name="sort">
+            {% for label, value in disableable_sorting %}
+              {% if label and value %}
+                <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        {% if type == "dataset" %}
+          {% resource 'ytp_common_js/search_filtering.js' %}
+          <button type="button" class="btn" id="search-filter-show-button"><i class="far fa-filter"></i> {{ _('Filter search') }}</button>
+          <button type="button" class="btn" id="search-filter-lower-hide-button">
+            <span class="fa-stack">
+              <i class="far fa-filter fa-stack-1x"></i>
+              <i class="far fa-times fa-stack-1x hide-filters-cross-icon"></i>
+            </span>
+            {{ _('Hide search filters') }}
+          </button>
+        {% endif %}
         <button class="btn js-hide" type="submit">{{ _('Go') }}</button>
       </div>
     {% endif %}
@@ -65,14 +78,14 @@
           {% set search_facets_items = facets.search.get(field)['items'] %}
           <span class="facet">{{ facets.titles.get(field) }}:</span>
           {% for value in facets.fields[field] %}
-            <span class="filtered pill">
-              {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
-                {{ facets.translated_fields[(field,value)] }}
-              {%- else -%}
-                {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
-              {%- endif %}
-              <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
-            </span>
+              <span class="filtered pill">
+                {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
+                  {{ facets.translated_fields[(field,value)] }}
+                {%- else -%}
+                  {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+                {%- endif %}
+                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
+              </span>
           {% endfor %}
         {% endfor %}
       </p>
