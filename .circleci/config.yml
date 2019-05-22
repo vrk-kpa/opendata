@@ -290,8 +290,7 @@ jobs:
 
       - run:
           name: Copy AMI to production account
-          command: |
-            "./copy_ami.sh ../ansible/manifest-web.json | tail -1 > web_image_ami_copy"
+          command: "./copy_ami.sh ../ansible/manifest-web.json | tail -1 > web_image_ami_copy"
           no_output_timeout: 10m
           working_directory: ~/project/amicopy
 
