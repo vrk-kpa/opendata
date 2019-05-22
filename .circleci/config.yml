@@ -354,7 +354,7 @@ jobs:
       - run:
           name: Update stack
           command: |
-            source ~/project/assume_role.sh
+            source ~/project/deploy/assume_role.sh
             aws cloudformation update-stack \
             --stack-name "infratest-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
@@ -371,34 +371,32 @@ jobs:
               ParameterKey=AsgDesiredSize,ParameterValue=/infratest/web/asgdesiredsize \
               ParameterKey=AsgMinSize,ParameterValue=/infratest/web/asgminsize \
               ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize
-
-      - run:
-          name: Wait for stack upate to finish
-          command: |
-            source ~/project/assume_role.sh
-            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | grep -q '"UPDATE_COMPLETE"'; do sleep 5 ; done
+            aws cloudformation wait stack-update-complete --stack-name "infratest-asg-lt"
+          working_directory: ~/project/deploy
           no_output_timeout: 30m
+
 
   # prod-deploy:
   #   docker:
   #     - image: circleci/python
 
   #   steps:
+
+  #     - checkout
+
   #     - run: sudo pip install boto awscli
 
   #     - run:
   #         name: Check current stack update status
   #         command: |
-  #           chmod +x ~/project/assume_role.sh
-  #           source ~/project/assume_role.sh
-  #           until aws cloudformation describe-stacks --stack-name "${prod_stack_name}" --query 'Stacks[0].StackStatus' | grep -q "COMPLETE"; do sleep 5 ; done
+  #           source ~/project/deploy/assume_role.sh
+  #           until aws cloudformation describe-stacks --stack-name "prod-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
   #         no_output_timeout: 15m
 
   #     - run:
   #         name: Check AMI copy completion
   #         command: |
-  #           chmod +x ~/project/assume_role.sh
-  #           source ~/project/assume_role.sh
+  #           source ~/project/deploy/assume_role.sh
   #           until aws ec2 describe-images \
   #           --filters \
   #             "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
@@ -414,8 +412,7 @@ jobs:
   #     - run:
   #         name: Update AMI id parameter in parameter store
   #         command: |
-  #           chmod +x ~/project/assume_role.sh
-  #           source ~/project/assume_role.sh
+  #           source ~/project/deploy/assume_role.sh
   #           export web_ami_id=$(aws ec2 describe-images \
   #             --filters \
   #               "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
@@ -432,8 +429,7 @@ jobs:
   #     - run:
   #         name: Update Cloudformation stack
   #         command: |
-  #           chmod +x ~/project/assume_role.sh
-  #           source ~/project/assume_role.sh
+  #           source ~/project/deploy/assume_role.sh
   #           aws cloudformation update-stack \
   #           --stack-name "prod-asg-lt" \
   #           --template-body file://../cloudformation/launchtemplate.yml \
@@ -449,8 +445,8 @@ jobs:
   #             ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
   #             ParameterKey=AsgMinSize,ParameterValue=/prod/web/asgminsize \
   #             ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize
-
   #           aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
+  #         working_directory: ~/project/deploy
 
 workflows:
   version: 2
