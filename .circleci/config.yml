@@ -283,6 +283,9 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: ~/project/ansible
+
       - run: sudo pip install boto awscli
 
       - run:
@@ -304,6 +307,9 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: ~/project/ansible
+
       - run: sudo pip install boto awscli
 
       - run:
@@ -323,6 +329,9 @@ jobs:
 
     steps:
       - run: sudo pip install boto awscli
+
+      - attach_workspace:
+          at: ~/project/amicopy
 
       - run:
           name: Check current stack update status
@@ -443,7 +452,7 @@ jobs:
   #             ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize
 
   #           aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
-            
+
 workflows:
   version: 2
   lint_build_test:
