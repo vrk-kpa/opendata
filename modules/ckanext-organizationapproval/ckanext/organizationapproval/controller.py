@@ -1,4 +1,5 @@
 import logging
+from math import ceil
 
 from ckan import model
 from ckan.common import request, c, _
@@ -48,11 +49,27 @@ class OrganizationApprovalController(OrganizationController):
                     h.flash_error(_("Status is already set to '%s'") % status)
             else:
                 h.flash_error(_("Status not allowed"))
-        organization_list = get_action('organization_list')(context, {"all_fields": True})
-        # Return 20 most recently added organizations
-        page_num = request.params['page']
-        if not page_num:
-            page_num = 1
-        c.organization_data = sorted(organization_list, key=lambda x: x['created'], reverse=True)[(20 * (page_num - 1)):(20 * page_num)]
 
-        return render('admin/manage_organizations.html', extra_vars={'page': page_num})
+        # NOTE: This might cause slowness, get's all organizations and they are filtered later.
+        # Organization list action doesn't support sorting by any field.
+        # Maybe would be better to build a custom action for this case.
+        organization_list = get_action('organization_list')(context, {"all_fields": True})
+
+        page_num = 1
+        per_page = 50.0
+
+        # Total number of pages of organizations
+        total_pages = int(ceil(len(organization_list) / per_page))
+
+        if 'page' in request.params:
+            page_num = int(request.params['page'])
+
+        # Return 20 most recently added organizations
+        c.organization_data = sorted(organization_list, key=lambda x: x['created'], reverse=True)[
+            (int(per_page) * (page_num - 1)):(int(per_page) * page_num)
+        ]
+
+        return render('admin/manage_organizations.html', extra_vars={
+            'current_page': page_num,
+            'total_pages': total_pages,
+        })

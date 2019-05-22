@@ -1,9 +1,11 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from helpers import make_pager_url
 
 
 class OrganizationApprovalPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IRoutes, inherit=True)
 
     # IConfigurer
@@ -22,3 +24,6 @@ class OrganizationApprovalPlugin(plugins.SingletonPlugin):
                     ckan_icon='picture')
 
         return map
+
+    def get_helpers(self):
+        return {'make_pager_url': make_pager_url}
