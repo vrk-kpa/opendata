@@ -39,4 +39,10 @@ setup(
         [ckan.plugins]
         organizationapproval=ckanext.organizationapproval.plugin:OrganizationApprovalPlugin
     ''',
+    message_extractors={
+        'ckanext': [
+            ('**.py', 'python', None),
+            ('**/templates/**.html', 'ckan', None),
+        ],
+    }
 )

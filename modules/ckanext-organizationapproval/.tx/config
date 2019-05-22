@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-organizationapproval]
+file_filter = ckanext/organizationapproval/i18n/<lang>/LC_MESSAGES/ckanext-organizationapproval.po
+source_file = ckanext/organizationapproval/i18n/ckanext-organizationapproval.pot
+source_lang = en
+type = PO
+
