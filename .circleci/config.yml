@@ -370,11 +370,13 @@ jobs:
               ParameterKey=EFSFileSystem,ParameterValue=/infratest/web/efs_file_system \
               ParameterKey=AsgDesiredSize,ParameterValue=/infratest/web/asgdesiredsize \
               ParameterKey=AsgMinSize,ParameterValue=/infratest/web/asgminsize \
-              ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize
+              ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize > ../infratest_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "infratest-asg-lt"
           working_directory: ~/project/deploy
           no_output_timeout: 30m
 
+      - store_artifacts:
+          path: infratest_stack_update.log
 
   # prod-deploy:
   #   docker:
