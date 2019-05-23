@@ -1,6 +1,6 @@
 import logging
 from pylons import config
-from ckan.lib.mailer import mail_recipient
+from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.logic import get_action
 from ckan.lib.base import render_jinja2
 
@@ -21,13 +21,17 @@ def send_organization_approved(organization):
       "url_user_guide": site_addr + '/opas/johdanto'
     })
 
-    mail_recipient(
-      user_details['name'],
-      user_details['email'],
-      email['subject'],
-      email['message'],
-      {'Content-Type': 'text/html; charset=UTF-8'}
-    )
+    try:
+        mail_recipient(
+            user_details['name'],
+            user_details['email'],
+            email['subject'],
+            email['message'],
+            {'Content-Type': 'text/html; charset=UTF-8'}
+        )
+    except MailerException as e:
+        # NOTE: MailerException happens in cypress.
+        log.error('Error sending email to user: %s', e)
 
 
 def send_new_organization_email_to_admin():
@@ -37,13 +41,17 @@ def send_new_organization_email_to_admin():
       "ckan_admin_url": site_addr + '/data/ckan-admin/organization_management',
     })
 
-    mail_recipient(
-      'admin',
-      config['ckan.emails.admin'],
-      email['subject'],
-      email['message'],
-      {'Content-Type': 'text/html; charset=UTF-8'}
-    )
+    try:
+        mail_recipient(
+            'admin',
+            config['ckan.emails.admin'],
+            email['subject'],
+            email['message'],
+            {'Content-Type': 'text/html; charset=UTF-8'}
+        )
+    except MailerException as e:
+        # NOTE: MailerException happens in cypress.
+        log.error('Error sending email to admin: %s', e)
 
 
 def make_email_template(template, extra_vars):
