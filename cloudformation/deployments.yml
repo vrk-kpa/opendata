@@ -81,6 +81,7 @@ Resources:
                   - ec2:DescribeLaunchTemplates
                   - ec2:DescribeLaunchTemplateVersions
                   - ec2:DescribeInstances
+                  - ec2:DescribeImages
                 Resource: "*"
               - Effect: Allow
                 Action: ec2:RunInstances
