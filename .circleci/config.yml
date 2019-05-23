@@ -324,7 +324,7 @@ jobs:
           paths:
             - scheduled_image_ami_copy
 
-  infratest-deploy:
+  beta-deploy:
     docker:
       - image: circleci/python
 
@@ -341,44 +341,44 @@ jobs:
           name: Check current stack update status
           command: |
             source ~/project/deploy/assume_role.sh
-            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
+            until aws cloudformation describe-stacks --stack-name "beta-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 15m
 
       - run:
           name: Update AMI ids in parameter store
           command: |
             source ~/project/deploy/assume_role.sh
-            aws ssm put-parameter --name /infratest/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/web_image_ami_copy) && \
-            aws ssm put-parameter --name /infratest/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/scheduled_image_ami_copy)
+            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/web_image_ami_copy) && \
+            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/scheduled_image_ami_copy)
 
       - run:
           name: Update stack
           command: |
             source ~/project/deploy/assume_role.sh
             aws cloudformation update-stack \
-            --stack-name "infratest-asg-lt" \
+            --stack-name "beta-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
-            --parameters ParameterKey=WebTargetGroupArn,ParameterValue=/infratest/web/public_alb_tg_arn \
-              ParameterKey=WebInstanceType,ParameterValue=/infratest/web/instance_type \
-              ParameterKey=WebHealthCheckGracePeriod,ParameterValue=/infratest/web/albgraceperiod \
-              ParameterKey=WebAmiImageId,ParameterValue=/infratest/web/amiid \
-              ParameterKey=SolrTargetGroupArn,ParameterValue=/infratest/web/private_alb_tg_arn \
-              ParameterKey=ScheduledInstanceType,ParameterValue=/infratest/scheduled/instance_type \
-              ParameterKey=ScheduledAmiImageId,ParameterValue=/infratest/scheduled/amiid \
-              ParameterKey=HookTimeout,ParameterValue=/infratest/web/lifecycle_hook_timeout \
-              ParameterKey=EnvironmentName,ParameterValue=/infratest/web/environment_name \
-              ParameterKey=EFSFileSystem,ParameterValue=/infratest/web/efs_file_system \
-              ParameterKey=AsgDesiredSize,ParameterValue=/infratest/web/asgdesiredsize \
-              ParameterKey=AsgMinSize,ParameterValue=/infratest/web/asgminsize \
-              ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize > ../infratest_stack_update.log 2>&1
-            aws cloudformation wait stack-update-complete --stack-name "infratest-asg-lt"
+            --parameters ParameterKey=WebTargetGroupArn,ParameterValue=/beta/web/public_alb_tg_arn \
+              ParameterKey=WebInstanceType,ParameterValue=/beta/web/instance_type \
+              ParameterKey=WebHealthCheckGracePeriod,ParameterValue=/beta/web/albgraceperiod \
+              ParameterKey=WebAmiImageId,ParameterValue=/beta/web/amiid \
+              ParameterKey=SolrTargetGroupArn,ParameterValue=/beta/web/private_alb_tg_arn \
+              ParameterKey=ScheduledInstanceType,ParameterValue=/beta/scheduled/instance_type \
+              ParameterKey=ScheduledAmiImageId,ParameterValue=/beta/scheduled/amiid \
+              ParameterKey=HookTimeout,ParameterValue=/beta/web/lifecycle_hook_timeout \
+              ParameterKey=EnvironmentName,ParameterValue=/beta/web/environment_name \
+              ParameterKey=EFSFileSystem,ParameterValue=/beta/web/efs_file_system \
+              ParameterKey=AsgDesiredSize,ParameterValue=/beta/web/asgdesiredsize \
+              ParameterKey=AsgMinSize,ParameterValue=/beta/web/asgminsize \
+              ParameterKey=AsgMaxSize,ParameterValue=/beta/web/asgmaxsize > ../beta_stack_update.log 2>&1
+            aws cloudformation wait stack-update-complete --stack-name "beta-asg-lt"
           working_directory: ~/project/deploy
           no_output_timeout: 30m
 
       - store_artifacts:
-          path: infratest_stack_update.log
+          path: beta_stack_update.log
 
-  prod-mock-deploy:
+  prod-deploy:
     docker:
       - image: circleci/python
 
@@ -392,8 +392,8 @@ jobs:
           name: Check current stack update status
           command: |
             source ~/project/deploy/assume_role.sh
-            until aws cloudformation describe-stacks --stack-name "infratest-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
-          no_output_timeout: 15m
+            until aws cloudformation describe-stacks --stack-name "prod-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
+          no_output_timeout: 20m
 
       - run:
           name: Check AMI copy completion
@@ -425,34 +425,34 @@ jobs:
                 "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
                 "Name=name,Values=opendata-scheduled*" \
               --query "Images[0].ImageId" | sed 's/"//g')
-            aws ssm put-parameter --name /infratest/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $web_ami_id
-            aws ssm put-parameter --name /infratest/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $scheduled_ami_id
+            aws ssm put-parameter --name /prod/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $web_ami_id
+            aws ssm put-parameter --name /prod/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $scheduled_ami_id
 
       - run:
           name: Update Cloudformation stack
           command: |
             source ~/project/deploy/assume_role.sh
             aws cloudformation update-stack \
-            --stack-name "infratest-asg-lt" \
+            --stack-name "prod-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
-            --parameters ParameterKey=WebTargetGroupArn,ParameterValue=/infratest/web/public_alb_tg_arn \
-              ParameterKey=WebInstanceType,ParameterValue=/infratest/web/instance_type \
-              ParameterKey=WebHealthCheckGracePeriod,ParameterValue=/infratest/web/albgraceperiod \
-              ParameterKey=WebAmiImageId,ParameterValue=/infratest/web/amiid \
-              ParameterKey=SolrTargetGroupArn,ParameterValue=/infratest/web/private_alb_tg_arn \
-              ParameterKey=ScheduledInstanceType,ParameterValue=/infratest/scheduled/instance_type \
-              ParameterKey=ScheduledAmiImageId,ParameterValue=/infratest/scheduled/amiid \
-              ParameterKey=HookTimeout,ParameterValue=/infratest/web/lifecycle_hook_timeout \
-              ParameterKey=EnvironmentName,ParameterValue=/infratest/web/environment_name \
-              ParameterKey=EFSFileSystem,ParameterValue=/infratest/web/efs_file_system \
-              ParameterKey=AsgDesiredSize,ParameterValue=/infratest/web/asgdesiredsize \
-              ParameterKey=AsgMinSize,ParameterValue=/infratest/web/asgminsize \
-              ParameterKey=AsgMaxSize,ParameterValue=/infratest/web/asgmaxsize > ../infratest_stack_update.log 2>&1
-            aws cloudformation wait stack-update-complete --stack-name "infratest-asg-lt"
+            --parameters ParameterKey=WebTargetGroupArn,ParameterValue=/prod/web/public_alb_tg_arn \
+              ParameterKey=WebInstanceType,ParameterValue=/prod/web/instance_type \
+              ParameterKey=WebHealthCheckGracePeriod,ParameterValue=/prod/web/albgraceperiod \
+              ParameterKey=WebAmiImageId,ParameterValue=/prod/web/amiid \
+              ParameterKey=SolrTargetGroupArn,ParameterValue=/prod/web/private_alb_tg_arn \
+              ParameterKey=ScheduledInstanceType,ParameterValue=/prod/scheduled/instance_type \
+              ParameterKey=ScheduledAmiImageId,ParameterValue=/prod/scheduled/amiid \
+              ParameterKey=HookTimeout,ParameterValue=/prod/web/lifecycle_hook_timeout \
+              ParameterKey=EnvironmentName,ParameterValue=/prod/web/environment_name \
+              ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
+              ParameterKey=AsgDesiredSize,ParameterValue=/prod/web/asgdesiredsize \
+              ParameterKey=AsgMinSize,ParameterValue=/prod/web/asgminsize \
+              ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize > ../prod_stack_update.log 2>&1
+            aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
           working_directory: ~/project/deploy
 
       - store_artifacts:
-          path: infratest_stack_update.log
+          path: prod_stack_update.log
 
 workflows:
   version: 2
@@ -477,28 +477,28 @@ workflows:
       - copy-web-ami:
           requires:
             - packer-web
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
       - copy-scheduled-ami:
           requires:
             - packer-scheduled
             - packer-web
-          # filters:
-          #   branches:
-          #     only: master
-      - infratest-deploy:
+          filters:
+            branches:
+              only: master
+      - beta-deploy:
           requires:
             - copy-web-ami
             - copy-scheduled-ami
-          # filters:
-          #   branches:
-          #     only: master
-  prod_mock_deploy:
+          filters:
+            branches:
+              only: master
+  prod_deploy:
     jobs:
-      - prod-mock-deploy:
+      - prod-deploy:
           filters:
             tags:
-              only: /^mock[0-9]+\.[0-9]+\.[0-9]+$/
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
               ignore: /.*/
