@@ -381,20 +381,20 @@ jobs:
   # prod-deploy:
   #   docker:
   #     - image: circleci/python
-
+  #
   #   steps:
-
+  #
   #     - checkout
-
+  #
   #     - run: sudo pip install boto awscli
-
+  #
   #     - run:
   #         name: Check current stack update status
   #         command: |
   #           source ~/project/deploy/assume_role.sh
   #           until aws cloudformation describe-stacks --stack-name "prod-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
   #         no_output_timeout: 15m
-
+  #
   #     - run:
   #         name: Check AMI copy completion
   #         command: |
@@ -410,7 +410,7 @@ jobs:
   #             "Name=name,Values=opendata-scheduled*" \
   #           --query 'Images[0].State' |grep -q "\"available\""; do sleep 5 ; done
   #         no_output_timeout: 30m
-
+  #
   #     - run:
   #         name: Update AMI id parameter in parameter store
   #         command: |
@@ -419,15 +419,15 @@ jobs:
   #             --filters \
   #               "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
   #               "Name=name,Values=opendata-web*" \
-  #             --query "Images[0].ImageId")
+  #             --query "Images[0].ImageId" | sed 's/"//g')
   #           export scheduled_ami_id=$(aws ec2 describe-images \
   #             --filters \
   #               "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
   #               "Name=name,Values=opendata-scheduled*" \
-  #             --query "Images[0].ImageId")
+  #             --query "Images[0].ImageId" | sed 's/"//g')
   #           aws ssm put-parameter --name /prod/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $web_ami_id
   #           aws ssm put-parameter --name /prod/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $scheduled_ami_id
-
+  #
   #     - run:
   #         name: Update Cloudformation stack
   #         command: |
@@ -445,10 +445,14 @@ jobs:
   #             ParameterKey=HookTimeout,ParameterValue=/prod/web/lifecycle_hook_timeout \
   #             ParameterKey=EnvironmentName,ParameterValue=/prod/web/environment_name \
   #             ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
+  #             ParameterKey=AsgDesiredSize,ParameterValue=/infratest/web/asgdesiredsize \
   #             ParameterKey=AsgMinSize,ParameterValue=/prod/web/asgminsize \
-  #             ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize
+  #             ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize > ../prod_stack_update.log 2>&1
   #           aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
   #         working_directory: ~/project/deploy
+  #
+  #     - store_artifacts:
+  #         path: prod_stack_update.log
 
 workflows:
   version: 2
