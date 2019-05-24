@@ -450,6 +450,7 @@ jobs:
               ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize > ../prod_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
           working_directory: ~/project/deploy
+          no_output_timeout: 30m
 
       - store_artifacts:
           path: prod_stack_update.log
