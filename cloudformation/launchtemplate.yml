@@ -54,8 +54,8 @@ Resources:
               VolumeType: gp2
               VolumeSize: 20
               DeleteOnTermination: true
-        IamInstanceProfile: 
-          Arn: 
+        IamInstanceProfile:
+          Arn:
             Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instanceprofile"
         ImageId: !Ref WebAmiImageId
@@ -76,9 +76,6 @@ Resources:
             mount -a -t nfs4
             mkdir -p /srv/ytp/files /mnt/ytp_files
             mount /srv/ytp/files
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
             ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor
@@ -100,8 +97,8 @@ Resources:
               VolumeType: gp2
               VolumeSize: 20
               DeleteOnTermination: true
-        IamInstanceProfile: 
-          Arn: 
+        IamInstanceProfile:
+          Arn:
             Fn::ImportValue:
               !Sub "avoindata-${EnvironmentName}-instanceprofile"
         ImageId: !Ref ScheduledAmiImageId
@@ -139,7 +136,7 @@ Resources:
               --lifecycle-action-result CONTINUE \
               --lifecycle-hook-name scheduled-asg-hook \
               --region ${AWS::Region}
-              
+
             /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ScheduledAutoScalingGroup --region ${AWS::Region}
 
   ScheduledAutoScalingGroup:
@@ -165,14 +162,14 @@ Resources:
             !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
       MaxSize: 1
       MinSize: 1
-      VPCZoneIdentifier: 
+      VPCZoneIdentifier:
         - !ImportValue vpc-SubnetsPrivate
       Tags:
       - Key: Name
         Value: !Sub avoindata-${EnvironmentName}-scheduled-autoscaling-group
         PropagateAtLaunch: true
 
-  WebAutoScalingGroup: 
+  WebAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     UpdatePolicy:
       AutoScalingReplacingUpdate:
@@ -193,7 +190,7 @@ Resources:
       MaxSize: !Ref AsgMaxSize
       MinSize: !Ref AsgMinSize
       DesiredCapacity: !Ref AsgDesiredSize
-      VPCZoneIdentifier: 
+      VPCZoneIdentifier:
         - !ImportValue vpc-SubnetsPrivate
       Tags:
       - Key: Name
