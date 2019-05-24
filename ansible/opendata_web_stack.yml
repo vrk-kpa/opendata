@@ -34,5 +34,3 @@
         RedisNodeType: "/{{ deployment_environment_id }}/redis/node_type"
         RedisVersion: "/{{ deployment_environment_id }}/redis/version"
         Vpc: "/{{ deployment_environment_id }}/web/vpc"
-        WhitelistedIpAddressHEL: "/{{ deployment_environment_id }}/web/white_listed_ip_address_hel"
-        WhitelistedIpAddressTRE: "/{{ deployment_environment_id }}/web/white_listed_ip_address_tre"
