@@ -340,21 +340,21 @@ jobs:
       - run:
           name: Check current stack update status
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             until aws cloudformation describe-stacks --stack-name "beta-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 15m
 
       - run:
           name: Update AMI ids in parameter store
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/web_image_ami_copy) && \
             aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/amicopy/scheduled_image_ami_copy)
 
       - run:
           name: Update stack
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             aws cloudformation update-stack \
             --stack-name "beta-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
@@ -391,14 +391,14 @@ jobs:
       - run:
           name: Check current stack update status
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             until aws cloudformation describe-stacks --stack-name "prod-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 20m
 
       - run:
           name: Check AMI copy completion
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             until aws ec2 describe-images \
             --filters \
               "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
@@ -414,7 +414,7 @@ jobs:
       - run:
           name: Update AMI id parameter in parameter store
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             export web_ami_id=$(aws ec2 describe-images \
               --filters \
                 "Name=tag:Commit,Values=${CIRCLE_SHA1}" \
@@ -431,7 +431,7 @@ jobs:
       - run:
           name: Update Cloudformation stack
           command: |
-            source ~/project/deploy/assume_role.sh
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             aws cloudformation update-stack \
             --stack-name "prod-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
