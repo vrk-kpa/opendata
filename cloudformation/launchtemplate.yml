@@ -82,7 +82,7 @@ Resources:
             aws s3 cp s3://avoindata-secrets/${EnvironmentName}/credentials.json /root/avoindata-secrets/${EnvironmentName}/credentials.json
             chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
-            ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor
+            flock -x /mnt/ansible.lock -c 'ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor'
 
             until [ "$state" == "\"healthy\"" ]; do state=$(aws --region ${AWS::Region} elbv2 describe-target-health \
               --target-group-arn ${WebTargetGroupArn} \
