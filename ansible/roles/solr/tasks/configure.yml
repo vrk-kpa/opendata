@@ -37,7 +37,7 @@
     dest: "{{ solr_home }}/data/{{ item[0] }}/conf/{{ item[1] }}"
     mode: "0644"
     owner: "{{ solr_user }}"
-    group: "{{ solr_group}}"
+    group: "{{ solr_group }}"
   with_nested:
     - "{{ solr_cores }}"
     - "{{ solr_core_config_files }}"
