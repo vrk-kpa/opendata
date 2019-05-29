@@ -1,7 +1,6 @@
 'use strict';
-
 document.addEventListener('readystatechange', function () {
-  if (document.readyState === 'interactive') {
+  if (document.readyState === 'complete') {
     addClickListeners();
   }
 })

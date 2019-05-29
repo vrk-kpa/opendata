@@ -1,12 +1,12 @@
 include_home_segment: true
 home_segment_title: Home
-home_segment_keep: 0
+home_segment_keep: false
 include_title_segment: true
 language_path_prefix_as_segment: false
 use_menu_title_as_fallback: false
 remove_repeated_segments: true
 absolute_paths: false
-hide_single_home_item: false
+hide_single_home_item: true
 _core:
   default_config_hash: ALaJtTMWaPkrzRKrWM1z4u7BslSR_0tTzlGXfeZPhDQ
 langcode: en

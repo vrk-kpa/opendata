@@ -188,7 +188,7 @@
       "label": "Visibility",
       "form_snippet": "private.html",
       "display_snippet": null,
-      "validators": "boolean_validator set_private_if_not_admin"
+      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin"
     }
   ]
 }
