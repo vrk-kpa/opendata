@@ -1,99 +1,59 @@
 ---
-- name: Ensure jetty9 systemd drop-in directory
+
+- name: List cores
+  uri:
+    url: http://{{ solr_host }}:{{ solr_port }}/solr/admin/cores
+    return_content: true
+  register: solr_cores_current
+  check_mode: false
+
+- name: Ensure Solr conf directories exist
   file:
-    path: "/etc/systemd/system/jetty9.service.d"
-    state: "directory"
-    owner: root
-    group: root
-
-- name: Create solr drop-in systemd configuration for jetty9
-  template:
-    src: jetty9.service-solr.conf.j2
-    dest: /etc/systemd/system/jetty9.service.d/solr.conf
-    mode: 0644
-    owner: root
-    group: root
-  notify:
-    - Reload systemd units
-    - Restart jetty
-
-- name: Create solr configuration file
-  template:
-    src: solr.xml.j2
-    dest: /etc/solr/solr.xml
-    mode: 0644
-    owner: root
-    group: root
-  notify: Restart jetty
-
-- name: Create solr-jetty configuration file
-  template:
-    src: solr-jetty.xml.j2
-    dest: /etc/solr/solr-jetty.xml
-    mode: 0644
-    owner: root
-    group: root
-  notify: Restart jetty
-
-- name: Copy Solr schema for default core
-  template:
-    src: schema.xml.j2
-    dest: /etc/solr/conf/schema.xml
-    mode: "0644"
-    owner: root
-    group: root
-  notify: Restart jetty
-
-- name: Copy Solr schema for additional cores
-  template:
-    src: schema.xml.j2
-    dest: "{{ item.instance_dir }}/conf/schema.xml"
-    mode: "0644"
-    owner: root
-    group: root
+    path: "{{ solr_home }}/data/{{ item }}/conf"
+    state: directory
+    owner: "{{ solr_user }}"
+    group: "{{ solr_user }}"
+    recurse: true
+  when: "item not in solr_cores_current.content"
   with_items: "{{ solr_cores }}"
-  notify: Restart jetty
 
-- name: Setup Jetty8
+- name: Ensure core configuration directories exist
+  command: "cp -r {{ solr_install_path }}/example/files/conf/ {{ solr_home }}/data/{{ item }}/"
+  when: "item not in solr_cores_current.content"
+  with_items: "{{ solr_cores }}"
+  become: true
+  become_user: "{{ solr_user }}"
+
+- name: Create cores
+  command: "{{ solr_install_path }}/bin/solr create -c {{ item }} -p {{ solr_port }}"
+  when: "item not in solr_cores_current.content"
+  with_items: "{{ solr_cores }}"
+  become: true
+  become_user: "{{ solr_user }}"
+
+- name: Copy CKAN Solr schema and config
   template:
-    src: "jetty.j2"
-    dest: "/etc/default/jetty8"
+    src: "{{ item[1] }}.j2"
+    dest: "{{ solr_home }}/data/{{ item[0] }}/conf/{{ item[1] }}"
     mode: "0644"
-    owner: root
-    group: root
-  register: jetty_setup
-  notify: Restart jetty
-  when:
-    - ansible_distribution ==  "Ubuntu"
-    - ansible_distribution_major_version == "16"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group}}"
+  with_nested:
+    - "{{ solr_cores }}"
+    - "{{ solr_core_config_files }}"
+  become: true
+  become_user: solr
+  notify:
+    - Restart solr
 
-- name: Configure Jetty9
-  lineinfile:
-    dest: "/etc/jetty9/start.ini"
-    regexp: "^#?jetty\\.port.+$"
-    line: "jetty.port={{ solr_port }}"
-    state: "present"
-  notify: Restart jetty
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_major_version == "18"
-
-# Workaround for Ubuntu 18.04 where jetty9 does not observe solr by default:
-# https://github.com/ckan/ckan/issues/4311
-- name: Symlink solr-jetty.xml to webapps
+- name: Remove old schema
   file:
-    src: /etc/solr/solr-jetty.xml
-    dest: /var/lib/jetty9/webapps/solr.xml
-    state: link
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_major_version == "18"
-
-- name: Ensure Jetty is running
-  service:
-    name: "{{ solr_jetty_service }}"
-    state: started
-    enabled: true
+    path: /var/solr/data/{{ item }}/conf/managed-schema
+    state: absent
+  with_items:
+    - "{{ solr_cores }}"
+  notify:
+    - Restart solr
 
 - name: Force all notified handlers to run at this point
   meta: flush_handlers

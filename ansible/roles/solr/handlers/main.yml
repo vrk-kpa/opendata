@@ -1,11 +1,6 @@
 ---
 # handlers file for solr
-
-- name: Reload systemd units
-  systemd:
-    daemon-reload: true
-
-- name: Restart jetty
+- name: Restart solr
   service:
-    name: "{{ solr_jetty_service }}"
+    name: "{{ solr_service_name }}"
     state: restarted
