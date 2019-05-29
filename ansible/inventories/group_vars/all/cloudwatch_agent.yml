@@ -99,3 +99,5 @@ cloudwatch_agent_procstat_metrics_config:
   - pattern: "php-fpm"
     measurement:
       - cpu_usage
+
+cloudwatch_agent_enabled: false
