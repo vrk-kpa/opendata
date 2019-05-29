@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-20 11:38+0000\n"
+"POT-Creation-Date: 2019-05-29 11:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -948,6 +948,10 @@ msgstr ""
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
+msgstr ""
+
+#: ckanext/ytp/translations.py:158
+msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
 #: ckanext/ytp/validators.py:173
