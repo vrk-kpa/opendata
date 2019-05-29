@@ -20,14 +20,14 @@ from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl import dictization_functions
 from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
-from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
+from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
-
+from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
 from webhelpers.html import escape
 from webhelpers.html.builder import literal
@@ -45,7 +45,8 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
-    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year
+    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
+    get_label_for_producer
 from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
 
@@ -276,6 +277,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IRoutes #
 
     def before_map(self, m):
+        health_controller = 'ckanext.ytp.health:HealthController'
+        m.connect('/health', action='check', controller=health_controller)
         """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
@@ -589,7 +592,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_lang_prefix': get_lang_prefix,
                 'call_toolkit_function': call_toolkit_function,
                 'get_translated': get_translated,
-                'dataset_display_name': dataset_display_name}
+                'dataset_display_name': dataset_display_name,
+                'get_label_for_producer': get_label_for_producer
+                }
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -669,7 +674,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
             'create_tags': validators.create_tags,
             'create_fluent_tags': validators.create_fluent_tags,
-            'set_private_if_not_admin': validators.set_private_if_not_admin,
+            'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'list_to_string': validators.list_to_string,
             'convert_to_list': validators.convert_to_list,
             'tag_list_output': validators.tag_list_output,
@@ -680,7 +685,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'override_field': validators.override_field,
             'override_field_with_default_translation': validators.override_field_with_default_translation,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
-            'from_date_is_before_until_date': validators.from_date_is_before_until_date
+            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
+            'check_deprecation': validators.check_deprecation
         }
 
 
@@ -1342,17 +1348,29 @@ def helper_is_pseudo(user):
 
 def helper_linked_user(user, maxlength=0, avatar=20):
     """ Return user as HTML item """
-    if not isinstance(user, model.User):
-        user_name = unicode(user)
-        user = model.User.get(user_name)
+    if isinstance(user, dict):
+        user_id = user['id']
+        user_name = user['name']
+        user_displayname = user['display_name']
+    elif isinstance(user, model.User):
+        user_id = user.id
+        user_name = user.name
+        user_displayname = user.display_name
+    else:
+        user = model.User.get(unicode(user))
         if not user:
             return user_name
-    if user:
-        name = user.name if model.User.VALID_NAME.match(user.name) else user.id
-        displayname = user.display_name
-        if maxlength and len(user.display_name) > maxlength:
-            displayname = displayname[:maxlength] + '...'
-        return link_to(displayname, helpers.url_for(controller='user', action='read', id=name), class_='')
+        else:
+            user_id = user.id
+            user_name = user.name
+            user_displayname = user.display_name
+
+    if not model.User.VALID_NAME.match(user_name):
+        user_name = user_id
+
+    if maxlength and len(user_displayname) > maxlength:
+        user_displayname = user_displayname[:maxlength] + '...'
+    return link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
 
 
 def helper_organizations_for_select():
@@ -1399,3 +1417,36 @@ class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
     def get_auth_functions(self):
         return {'group_create': self.admin_only_for_categories,
                 'group_update': self.admin_only_for_categories}
+
+
+class YtpIPermissionLabelsPlugin(
+        plugins.SingletonPlugin, DefaultPermissionLabels):
+    '''
+    Permission labels for controlling permissions of different user roles
+    '''
+    plugins.implements(plugins.IPermissionLabels)
+
+    def get_dataset_labels(self, dataset_obj):
+        '''
+        Showcases get showcase-admin label so that showcase admins have
+        rights for that showcase
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_dataset_labels(dataset_obj)
+
+        if dataset_obj.type == "showcase":
+            labels.append(u'showcase-admin')
+
+        return labels
+
+    def get_user_dataset_labels(self, user_obj):
+        '''
+        Showcase admin users get a showcase-admin label
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
+
+        if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
+            labels.append(u'showcase-admin')
+
+        return labels

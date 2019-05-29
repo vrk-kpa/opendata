@@ -1,17 +1,19 @@
 from ckan.common import _
 import ckan.authz as authz
 import ckan.plugins.toolkit as toolkit
-import collections
-
 import ckan.model as model
 import ckan.logic.validators as validators
 import ckan.lib.navl.dictization_functions as df
+from ckan.logic import get_action
+from ckanext.showcase.model import ShowcaseAdmin
+
 import re
 import json
-from ckan.logic import get_action
 import plugin
-
 import logging
+import collections
+from tools import check_package_deprecation, package_deprecation_offset
+
 
 try:
     from ckanext.scheming.validation import (
@@ -65,8 +67,12 @@ def tag_string_or_tags_required(key, data, errors, context):
             raise df.StopOnError
 
 
-def set_private_if_not_admin(private):
-    return True if not authz.is_sysadmin(c.user) else private
+def set_private_if_not_admin_or_showcase_admin(private):
+    userobj = model.User.get(c.user)
+    if userobj and not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
+        return True
+    else:
+        return private
 
 
 def convert_to_list(value):
@@ -435,11 +441,22 @@ def extra_validators_multiple_choice(field, schema):
         for extra_validator in extra_validators:
             if extra_validator.get('value') in changed_features:
                 context['field'] = extra_validator.get('value')
-                toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
+                toolkit.get_validator(extra_validator.get('validator'))(key, data, errors, context)
 
     return validator
 
 
-def admin_only_feature(data, key, errors, context):
+def admin_only_feature(key, data, errors, context):
     if not authz.is_sysadmin(context['user']):
         errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
+
+
+def check_deprecation(key, data, errors, context):
+    # just in case there was an error before our validator,
+    # bail out here because our errors won't be useful
+    if errors[key]:
+        return
+
+    deprecation_offset = package_deprecation_offset()
+    deprecation = check_package_deprecation(data.get(('valid_till',)), deprecation_offset)
+    data[key] = deprecation

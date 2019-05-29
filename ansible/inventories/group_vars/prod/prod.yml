@@ -7,6 +7,8 @@ hostname_language: fi
 secondary_hostname: www.opendata.fi
 secondary_hostname_language: en
 smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+smtp_user: "{{ secret_smtp_user }}"
+smtp_password: "{{ secret_smtp_password }}"
 email_domain: "avoindata.fi"
 
 deployment_environment_id: prod

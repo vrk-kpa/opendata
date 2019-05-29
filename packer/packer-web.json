@@ -20,7 +20,7 @@
     },
     "instance_type": "t3.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "opendata-{{ user `branch` }}-{{timestamp}}",
+    "ami_name": "opendata-web-{{ user `branch` }}-{{timestamp}}",
     "ami_users": [
       "{{ user `aws_production_account_id` }}"
     ],
@@ -46,30 +46,38 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": [
-        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
-      ]
+        "inline": [
+          "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+        ]
     },
     {
       "type": "shell",
-      "inline": ["sudo apt-get install -y python"]
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install -y python python-pip nfs-common",
+        "sudo pip install --upgrade pip",
+        "sudo pip install setuptools --upgrade",
+        "sudo pip install awscli ansible markupsafe",
+        "sudo git clone --recursive https://github.com/yhteentoimivuuspalvelut/ytp.git /root/ytp",
+        "sudo git -C /root/ytp checkout {{ user `commit` }}"
+      ]
     },
     {
       "type": "ansible",
-      "playbook_file": "single-server.yml",
+      "playbook_file": "web-server.yml",
       "inventory_directory": "inventories",
       "groups": ["packer"],
       "user": "operator",
       "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
       "extra_arguments": [
-        "--skip-tags", "configure,dependency_role"
+        "--skip-tags", "configure,dependency_role,supervisor,cron"
       ]
     }
   ],
   "post-processors": [
     [
       {
-        "output": "manifest.json",
+        "output": "manifest-web.json",
         "strip_path": true,
         "type": "manifest",
         "custom_data": {
