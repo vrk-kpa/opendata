@@ -2,6 +2,8 @@ describe('Showcase tests', function() {
 
   beforeEach(function () {
     cy.reset_db();
+    // TODO: Showcase tests should use the showcase-admin role. This is currently not possible, because
+    // there is a problem with assigning test-publisher with showcase-admin rights. 
     cy.login_post_request('admin', 'administrator')
     cy.visit('/');
     // We're forcing the click since drupal toolbar obscures the link
