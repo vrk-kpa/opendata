@@ -67,12 +67,26 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
   });  
 })
 
+Cypress.Commands.add('create_new_organization', (organization_name, organization_form_data) => {
+  // Default values for organization form
+  if (!organization_form_data) {
+    organization_form_data = {
+      "#field-title_translated-fi": organization_name
+    }
+  }
+  cy.visit("/data/fi/organization");
+  cy.get('a[href="/data/fi/organization/new"]').click();
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.fill_form_fields(organization_form_data);
+  cy.get('button[name="save"]').click();
+  cy.url().should('include', `/data/fi/organization/${organization_name}`);
+})
 
 // Creates a new dataset filling both dataset and resource forms
-Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data) => {
+Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
   
   // Default values for dataset and resource forms
-  if (dataset_form_data === undefined) {
+  if (!dataset_form_data) {
     dataset_form_data = {
       "#field-title_translated-fi": dataset_name,
       '#field-notes_translated-fi': 'Dataset test description',
@@ -81,29 +95,40 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
       '#field-maintainer_email': 'test.maintainer@example.com'
     }
   }
-  if (resource_form_data === undefined) {
+  if (!resource_form_data) {
     resource_form_data = {
       "#field-name_translated-fi": 'test data'
     }
   }
 
   //Dataset form
+  cy.get('#second-navbar a[href="/data/fi/dataset"]').click(); 
   cy.get('a[href="/data/fi/dataset/new"]').click(); 
   cy.get('.slug-preview button').contains('Muokkaa').click();
   cy.get('#field-name').type(dataset_name);
   cy.fill_form_fields(dataset_form_data);
+  
+  // The selector field is hidden so force is required.
+  // The visible UI element for selecting the organization is not as easy to use with cypress
+  if (parent_organization) {
+    cy.get("#field-organizations").select(parent_organization, {force: true});
+  }
+
+  // Make dataset public instead of private
+  cy.get("#field-private").select("False");
+
   cy.get('button[name=save]').click();
 
   //Resource form, filled with just the name
   cy.fill_form_fields(resource_form_data);
   cy.get('button[name=save]').contains('Valmis').click(); 
-  cy.url().should('include', `/data/fi/dataset/${dataset_name}`);
+  cy.url().should('include', `/data/fi/dataset/${dataset_name.replace(" ", "-")}`);
 })
 
 // Edits an existing dataset
 Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
 
-  if (dataset_form_data === undefined) {
+  if (!dataset_form_data) {
     dataset_form_data = {
       "#field-title_translated-fi": 'edit',
     }
@@ -115,14 +140,12 @@ Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
 })
 
 // Deletes a dataset and verifies that it is not found in the search anymore
-// It expects a random_id string as a parameter, which is used to verify that
-// the dataset is deleted. This random_id should also be part of the dataset_name
-Cypress.Commands.add('delete_dataset', (dataset_name, random_id) => {
+Cypress.Commands.add('delete_dataset', (dataset_name) => {
   cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
   cy.get('.form-actions').contains('Poista').click();
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
-  cy.get('.search-input .search').type(random_id + '{enter}');
+  cy.get('.search-input .search').type(dataset_name + '{enter}');
   cy.get('.dataset-list').should('not.exist');
   cy.contains("ei löytynyt tietoaineistoja");
 })
@@ -132,7 +155,7 @@ Cypress.Commands.add('delete_dataset', (dataset_name, random_id) => {
 Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) => {
   
   // Default values for showcase
-  if (showcase_form_data === undefined) {
+  if (!showcase_form_data) {
     showcase_form_data = {
       "#field-title": showcase_name,
       '#field-notes_translated-fi': 'Dataset test description',
@@ -142,6 +165,7 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
   }
 
   // Showcase form
+  cy.get('#second-navbar a[href="/data/fi/showcase"]').click(); 
   cy.get('a[href="/data/fi/showcase/new"]').click(); 
   cy.get('.slug-preview button').contains('Muokkaa').click();
   cy.get('#field-name').type(showcase_name);
@@ -153,10 +177,31 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
   cy.url().should('include', `/data/fi/showcase/${showcase_name}`);
 })
 
+// Creates a new private (hidden) showcase using the publicly available form
+// Expects to be at the showcase page in the beginning and returns there when finished
+Cypress.Commands.add('create_new_showcase_using_public_form', (showcase_name, showcase_form_data) => {
+  
+  // Default values for showcase
+  if (!showcase_form_data) {
+    showcase_form_data = {
+      "#field-title": showcase_name,
+      '#field-notes_translated-fi': 'Showcase test description',
+      '#notifier': 'test author',
+      '#notifier_email': 'test@example.com'
+    }
+  }
+
+  // Showcase form
+  cy.get('a[href="/data/fi/submit-showcase"]').click(); 
+  cy.fill_form_fields(showcase_form_data);
+  cy.get('button[name=save]').click();
+  cy.get('nav a[href="/data/fi/showcase"]').click();
+})
+
 // Edits an existing showcase
 Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 
-  if (showcase_form_data === undefined) {
+  if (!showcase_form_data) {
     showcase_form_data = {
       "#field-title": 'edit',
     }
@@ -168,14 +213,12 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 })
 
 // Deletes a showcase and verifies that it is not found in the search anymore
-// It expects a random_id string as a parameter, which is used to verify that
-// the showcase is deleted. This random_id should also be part of the showcase_name
-Cypress.Commands.add('delete_showcase', (showcase_name, random_id) => {
+Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
   cy.get('.form-actions').contains('Poista').click();
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
-  cy.get('.search-input .search').type(random_id + '{enter}');
+  cy.get('.search-input .search').type(showcase_name + '{enter}');
   cy.get('.showcase-list').should('not.exist');
   cy.contains("ei löytynyt tietoaineistoja");
 })
