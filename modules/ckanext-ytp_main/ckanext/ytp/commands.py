@@ -7,7 +7,7 @@ import polib
 import os
 import re
 import glob
-from tools import check_package_deprecation, package_deprecation_offset
+from tools import check_package_deprecation
 from logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
@@ -324,7 +324,6 @@ def update_package_deprecation(ctx, config, dryrun):
     # deprecation emails will be sent to items inside deprecated_now array
     deprecated_now = []
     package_patches = []
-    deprecation_offset = package_deprecation_offset()
 
     # Get only packages with a valid_till field and some value in the valid_till field
     for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
@@ -335,7 +334,7 @@ def update_package_deprecation(ctx, config, dryrun):
         # This does not take into account if the package is currently valid eg. valid_from.
         if valid_till is not None:
             current_deprecation = old_package_dict.get('deprecated')
-            deprecation = check_package_deprecation(valid_till, deprecation_offset)
+            deprecation = check_package_deprecation(valid_till)
             if current_deprecation != deprecation:
                 patch = {'id': old_package_dict['id'], 'deprecated': deprecation}
                 package_patches.append(patch)
