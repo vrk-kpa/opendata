@@ -84,10 +84,9 @@ def get_organization_harvest_test_source():
     return "file://%s" % os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/organization_harvest.json')
 
 
-# Packages are deprecated if their valid_till date has passed,
-# this can be adjusted with the offset option
+# Packages are deprecated if their valid_till date has passed
 # By default packages are not deprecated
-def check_package_deprecation(valid_till, today_offset):
+def check_package_deprecation(valid_till):
     time_now = datetime.now().strftime("%Y-%m-%d")
     if not valid_till:
         return False
