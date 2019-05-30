@@ -271,12 +271,17 @@ def package_generator(query, page_size):
     context = {'ignore_auth': True}
     package_search = get_action('package_search')
 
+    # Loop through all items. Each page has {page_size} items.
+    # Stop iteration when all items have been looped.
     for index in itertools.count(start=0, step=page_size):
         data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
-        packages = package_search(context, data_dict).get('results', [])
+        data = package_search(context, data_dict)
+        packages = data.get('results', [])
         for package in packages:
             yield package
-        else:
+
+        # Stop iteration all query results have been looped through
+        if data["count"] < (index + page_size):
             return
 
 
@@ -321,14 +326,13 @@ def update_package_deprecation(ctx, config, dryrun):
     package_patches = []
     deprecation_offset = package_deprecation_offset()
 
-    # Get only packages with a valid_till field and some value in it
-    # NOTE: This might cause problems if there are more than 1000 datasets with a valid till date
+    # Get only packages with a valid_till field and some value in the valid_till field
     for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
         valid_till = old_package_dict.get('valid_till')
 
         # For packages that have a valid_till date set depracated field to true or false
-        # NOTE: deprecation means that a package has been valid but is now old and not valid anymore.
-        # NOTE: This does not take into account if the package is currently valid eg. valid_from.
+        # deprecation means that a package has been valid but is now old and not valid anymore.
+        # This does not take into account if the package is currently valid eg. valid_from.
         if valid_till is not None:
             current_deprecation = old_package_dict.get('deprecated')
             deprecation = check_package_deprecation(valid_till, deprecation_offset)
