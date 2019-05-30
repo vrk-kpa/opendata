@@ -316,20 +316,26 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 @click.pass_context
 def update_package_deprecation(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
-    # after loop contains list of ID's of just deprecated packages
+    # deprecation emails will be sent to items inside deprecated_now array
     deprecated_now = []
     package_patches = []
     deprecation_offset = package_deprecation_offset()
 
-    for old_package_dict in package_generator('*:*', 1000):
+    # Get only packages with a valid_till field and some value in it
+    # NOTE: This might cause problems if there are more than 1000 datasets with a valid till date
+    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
         valid_till = old_package_dict.get('valid_till')
+
+        # For packages that have a valid_till date set depracated field to true or false
+        # NOTE: deprecation means that a package has been valid but is now old and not valid anymore.
+        # NOTE: This does not take into account if the package is currently valid eg. valid_from.
         if valid_till is not None:
             current_deprecation = old_package_dict.get('deprecated')
             deprecation = check_package_deprecation(valid_till, deprecation_offset)
             if current_deprecation != deprecation:
                 patch = {'id': old_package_dict['id'], 'deprecated': deprecation}
                 package_patches.append(patch)
-                # Initially deprecation value will be undefined, so send email only when actually deprecated
+                # Send email only when actually deprecated. Initial deprecation is undefined when adding this feature
                 if current_deprecation is False and deprecation is True:
                     deprecated_now.append(old_package_dict['id'])
 

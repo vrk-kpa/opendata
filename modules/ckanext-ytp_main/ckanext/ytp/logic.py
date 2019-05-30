@@ -2,7 +2,7 @@ from ckan import logic
 from ckan.common import _, c
 from ckan.logic import auth
 from ckan.model import Package
-from ckan.lib.mailer import mail_recipient
+from ckan.lib.mailer import mail_recipient, MailerException
 
 import logging
 import sqlalchemy
@@ -104,4 +104,7 @@ def send_deprecation_email_user(maintainer_email, packages, maintainer, valid_ti
     log.info('send deprecation email user')
     subject = deprecation_email_user.subject.format(valid_till=valid_till)
     body = deprecation_email_user.messageBody(maintainer, packages)
-    mail_recipient(maintainer, maintainer_email, subject, body)
+    try:
+        mail_recipient(maintainer, maintainer_email, subject, body)
+    except MailerException as e:
+        log.error(e)

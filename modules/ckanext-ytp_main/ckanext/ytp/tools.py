@@ -90,6 +90,9 @@ def package_deprecation_offset():
     return thirty_days_ago.strftime("%Y-%m-%d")
 
 
+# Packages are deprecated if their valid_till date has passed,
+# this can be adjusted with the offset option
+# By default packages are not deprecated
 def check_package_deprecation(valid_till, today_offset):
     if not valid_till:
         return False
