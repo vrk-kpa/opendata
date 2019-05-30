@@ -27,7 +27,7 @@ ckan_postgres:
 
 ckan_email_domain: "{{ email_domain }}"
 ckan_admin_email: "{{ secret_admin_email }}"
-ckan_admin: "{{ admin }}"
+ckan_admin: "{{ secret_admin }}"
 ckan_beaker_session_secret: "{{ secret_beaker_session_secret }}"
 ckan_app_instance_uuid: "{{ secret_app_instance_uuid }}"
 ckan_ytp_users: "{{ secret_ytp_users }}"
@@ -41,3 +41,6 @@ ckan_admins:
   - "test-editor"
 
 ckan_show_postit_demo: false
+
+ckan_redis_host: "{{ lookup('aws_ssm', '/infratest/redis/endpoint', region='eu-west-1') }}"
+ckan_solr_host: "{{ lookup('aws_ssm', '/infratest/web/private_alb_address', region='eu-west-1') }}"

@@ -33,7 +33,7 @@ Parameters:
     Default: ypt-buildtesters
 
   BuildTestUserName:
-    Description: Name of buildtest IAM user 
+    Description: Name of buildtest IAM user
     Type: 'AWS::SSM::Parameter::Value<String>'
     Default: /build/buildtestusername
 
@@ -190,6 +190,31 @@ Resources:
                   - "sts:AssumeRole"
                 Resource:
                   - !Sub 'arn:aws:iam::${ProductionAccountId}:role/CopyAmiLambdaExecutionRole'
+
+  InvokeDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: InvokeDeploymentRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS:
+                !Sub 'arn:aws:iam::${AWS::AccountId}:user/${BuildTestUserName}'
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: "AssumeInvokeDeploymentRole"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "sts:AssumeRole"
+                Resource:
+                  - !Sub 'arn:aws:iam::${ProductionAccountId}:role/DeploymentRole'
+
 
   SecretBucketGetRole:
     Type: AWS::IAM::Role
