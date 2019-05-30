@@ -64,6 +64,8 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
+  ClamAvLambdaArn:
+    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -131,6 +133,10 @@ Resources:
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
       AccessControl: PublicRead
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !Ref ClamAvLambdaArn
       VersioningConfiguration:
         Status: Enabled
       CorsConfiguration:
