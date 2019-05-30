@@ -21,7 +21,7 @@ Example:
   {% endblock %}
   <div class="item-content item-content-slide-up">
   {% block title %}
-    <h3 class="media-heading">{{ h.get_translated(group, 'title') or group.title }}</h3>
+    <h3 class="media-heading">{{ (h.get_translated(group, 'title') or group.title)}}</h3>
   {% endblock %}
   {% block description %}
     {% set description =  h.render_markdown(h.get_translated(group, 'description')) %}

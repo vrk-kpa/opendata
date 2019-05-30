@@ -553,6 +553,8 @@ aside.tertiary {
   padding-bottom: 10px;
   border-top: 0;
   border-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
 
   .showcase.media-item {
     width: 250px;
@@ -576,6 +578,7 @@ aside.tertiary {
       object-fit: cover;
       border-top-left-radius: 2px;
       border-top-right-radius: 1px;
+      margin: 0 0 5px 0;
     }
 
     .item-content {
@@ -628,6 +631,12 @@ aside.tertiary {
 
   .opendata-category-icon {
     color: @mediagrid-category-icon-color;
+  }
+
+  .media-item {
+    .media-image {
+      margin: 0 40px 15px 40px;
+    }
   }
 }
 

@@ -131,7 +131,7 @@ ckan_show_postit_demo: true
 # solr settings
 ckan_solr_host: "127.0.0.1"
 ckan_solr_port: "8983"
-ckan_solr_path: solr
+ckan_solr_path: solr/ckan
 
 ckan_max_resource_size: 5000
 
