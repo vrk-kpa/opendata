@@ -19,6 +19,8 @@
       "most_recent": true
     },
     "instance_type": "t3.medium",
+    "shutdown_behavior": "terminate",
+    "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",    
     "ssh_username": "ubuntu",
     "ami_name": "opendata-scheduled-{{ user `branch` }}-{{timestamp}}",
     "ami_users": [
