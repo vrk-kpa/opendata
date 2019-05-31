@@ -42,3 +42,5 @@ def copy_image(event, context):
 
     print("Image copied. Original image id: {}, Copied image id: {}. Image name: {}".format(
         image_id, copied_image["ImageId"], image_name))
+    
+    return copied_image["ImageId"]
