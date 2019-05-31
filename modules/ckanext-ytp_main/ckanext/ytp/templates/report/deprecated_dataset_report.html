@@ -1,0 +1,39 @@
+<hr class="page-break">
+<table class="table table-condensed tablesorter" id="report-table" class="avoid-page-break">
+  <thead>
+    <tr>
+      <th>{{ _("Dataset") }}</th>
+      <th>{{ _("Organization") }}</th>
+      <th>{{ _("Maintainer") }}</th>
+      <th>{{ _("Created") }}</th>
+      <th>{{ _("Deprecated") }}</th>
+      <th>{{ _("Visits") }}</th>
+      <th>{{ _("Downloads") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in table %}
+        <tr>
+            <td>
+                <p>
+                    {{ row.title_translated }}
+                </p>
+                {{ row.id }}
+            </td>
+            <td>
+                <p>
+                    {{ row.organization.title }}{{ row.organization.homepage }}
+                </p>
+            </td>
+            <td>
+                {{ row.maintainer.name }}
+                {{ row.maintainer.email }}
+            </td>
+            <td>{{ row.metadata_created }}</td>
+            <td>{{ row.valid_till }}</td>
+            <td>{{ row.visits }}</td>
+            <td>{{ row.downloads }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>

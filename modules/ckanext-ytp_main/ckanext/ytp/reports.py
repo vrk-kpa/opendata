@@ -1,4 +1,5 @@
 from ckan.logic import get_action
+from ckanext.googleanalytics.model import PackageStats
 import itertools
 from datetime import timedelta, datetime
 import logging
@@ -99,7 +100,62 @@ administrative_branch_summary_report_info = {
 }
 
 
-def package_generator(query, page_size, context):
+def deprecated_datasets_report():
+    # Get packages that are deprecated
+    # TODO: Maybe filter out private datasets?
+    all_deprecated = package_generator('deprecated:true', 1000)
+
+    # Function to loop packages through
+    # Get package visit and download data
+    # Resolve package structure to match table structure
+    def handle_package(pkg):
+        # FIXME: Against CKAN best practices to access model directly, should be done through actions
+        # https://docs.ckan.org/en/ckan-2.7.0/contributing/architecture.html#always-go-through-the-action-functions
+        package_stats = PackageStats.get_all_visits(pkg['package_id'])
+
+        # TODO: Check if fields have values before assigning
+        return {
+            'title_translated': pkg["title_translated"],
+            'id': pkg["id"],
+            'organization': {
+                'title': pkg["organization"]["title"],
+                'homepage': pkg["organization"]["homepage"],
+                'id': pkg["organization"]["id"]
+            },
+            'maintainer': {
+                "name": pkg["maintainer"],
+                "email": pkg["maintainer_email"],
+            },
+            'metadata_created': pkg["metadata_created"],
+            'valid_till': pkg["valid_till"],
+            'visits': package_stats["visits"],
+            'downloads': package_stats["downloads"]
+        }
+
+    # Loop through all packages and run them through resolver
+    map_iterator = map(handle_package, all_deprecated)
+    packages = list(map_iterator)
+
+    # Filter package output to table:
+    # - all deprecated datasets for csv export
+    # - limit dataset amount in table (sort by deprecation date, newest deprecation first)
+    return {
+        'table': packages,
+    }
+
+
+deprecated_datasets_report_info = {
+    'name': 'deprecated-datasets-report',
+    'title': 'Deprecated datasets',
+    'description': 'Datasets that have deprecated',
+    'option_defaults': None,
+    'option_combinations': None,
+    'generate': deprecated_datasets_report,
+    'template': 'report/deprecated_dataset_report.html'
+}
+
+
+def package_generator(query, page_size, context={}):
     package_search = get_action('package_search')
 
     for index in itertools.count(start=0, step=page_size):
@@ -107,6 +163,7 @@ def package_generator(query, page_size, context):
         packages = package_search(context, data_dict).get('results', [])
         for package in packages:
             yield package
+        # FIXME: I think is broken, loops only first page and then returns.
         else:
             return
 
