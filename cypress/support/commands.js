@@ -218,9 +218,10 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get('.form-actions').contains('Poista').click();
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
+  cy.visit('/data/showcase');
   cy.get('.search-input .search').type(showcase_name + '{enter}');
   cy.get('.showcase-list').should('not.exist');
-  cy.contains("ei löytynyt tietoaineistoja");
+  cy.contains("Sovelluksia ei löytynyt");
 })
 
 Cypress.Commands.add('reset_db', () => {
