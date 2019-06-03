@@ -130,11 +130,11 @@ jobs:
 
       - run:
           name: Save ami id to file
-          command: cat ~/workspace/manifest-web.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/workspace/ami_id
+          command: cat manifest-web.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/workspace/ami_id
           working_directory: ~/project/ansible
 
       - store_artifacts:
-          path: packer_build.log
+          path: ~/logs
 
       - store_artifacts:
           path: ~/workspace/ami_id
@@ -289,7 +289,7 @@ jobs:
 
       - run:
           name: Save ami id to file
-          command: cat ~/workspace/manifest-scheduled.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/workspace/ami_id
+          command: manifest-scheduled.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/workspace/ami_id
           working_directory: ~/project/ansible
 
       - store_artifacts:
