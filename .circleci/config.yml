@@ -198,6 +198,8 @@ jobs:
     steps:
       - checkout
       - run: git submodule update --init --recursive
+      - run: sudo pip install boto awscli
+      - run: sudo pip install ansible
 
       - restore_cache:
           keys:
@@ -239,13 +241,10 @@ jobs:
           name: Run cypress tests
           command: $(npm bin)/cypress run --record --key $CYPRESS_KEY
 
-
-        # If there is a syntax error or some other issue in the actual build test
-        # playbook the cleanup part might not get executed. Therefore additional
-        # cleanup task to ensure that created instances will be terminated.
+        # Cleanup task to ensure that created instances will be terminated.
       - run:
           name: Additional cleanup for EC2 instances
-          command: "ansible-playbook ansible/circleci_cleanup.yml"
+          command: "ansible-playbook ansible/circleci_cleanup.yml  --extra-vars 'instaces_ids_file_path=~/project/instance_ids'"
           working_directory: ~/project/
           when: always
 
@@ -300,12 +299,6 @@ jobs:
           root: ~/project
           paths:
             - ami_id
-
-      - run:
-          name: Additional cleanup for EC2 instances
-          command: "ansible-playbook ansible/circleci_cleanup.yml"
-          working_directory: ~/project/
-          when: always
 
   stylelint:
     docker:
