@@ -101,7 +101,8 @@ jobs:
       - checkout
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
-
+      - run: sudo pip install ansible
+      
       - run: |
           mkdir -p /tmp/logs
           mkdir -p /tmp/workspace
@@ -153,6 +154,7 @@ jobs:
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install boto awscli
+      - run: sudo pip install ansible
 
       - run:
           name: Copy private key for ec2 usage
