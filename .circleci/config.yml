@@ -184,9 +184,9 @@ jobs:
     docker:
       - image: circleci/python
 
-      steps:
-        - checkout
-        - run: git submodule update --init --recursive
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
 
       - restore_cache:
           keys:
