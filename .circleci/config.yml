@@ -179,6 +179,12 @@ jobs:
           no_output_timeout: 60m
           working_directory: ~/project/ansible
 
+      - persist_to_workspace:
+          name: public ip
+          root: /tmp/workspace
+          paths:
+            - /tmp/instance_public_ip
+
       - store_artifacts:
           path: /tmp/logs
 
@@ -227,8 +233,9 @@ jobs:
             echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
             echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
 
-
-      - run: $(npm bin)/cypress run --record --key $CYPRESS_KEY
+      - run:
+          name: Run cypress tests
+          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY
 
 
         # If there is a syntax error or some other issue in the actual build test
