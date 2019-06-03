@@ -20,7 +20,7 @@
     },
     "instance_type": "t3.medium",
     "shutdown_behavior": "terminate",
-    "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",    
+    "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",
     "ssh_username": "ubuntu",
     "ami_name": "opendata-scheduled-{{ user `branch` }}-{{timestamp}}",
     "ami_users": [
@@ -79,7 +79,7 @@
   "post-processors": [
     [
       {
-        "output": "manifest-scheduled.json",
+        "output": "/tmp/workspace/manifest-scheduled.json",
         "strip_path": true,
         "type": "manifest",
         "custom_data": {

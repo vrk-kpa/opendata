@@ -79,7 +79,7 @@
   "post-processors": [
     [
       {
-        "output": "manifest-web.json",
+        "output": "/tmp/workspace/manifest-web.json",
         "strip_path": true,
         "type": "manifest",
         "custom_data": {
