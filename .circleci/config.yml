@@ -183,7 +183,7 @@ jobs:
           name: public ip
           root: /tmp/workspace
           paths:
-            - /tmp/instance_public_ip
+            - ../instance_public_ip
 
       - store_artifacts:
           path: /tmp/logs
