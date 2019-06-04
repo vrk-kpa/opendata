@@ -2,10 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
-  RegistryAddress:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  EnvironmentName:
-    Type: 'AWS::SSM::Parameter::Value<String>'
   SlackPath:
     Type: 'AWS::SSM::Parameter::Value<String>'
   SlackUser:
@@ -28,6 +24,7 @@ Resources:
         Variables:
           VPC_ID: !ImportValue vpc-VPC
           SNS_TOPIC_ARN: !Ref SNSTopic
+
       Runtime: python3.7
       Policies:
         - Version: "2012-10-17"
@@ -63,20 +60,36 @@ Resources:
           Type: SNS
           Properties:
             Topic: !Ref SNSTopic
-              
+
   SNSTopic:
     Type: AWS::SNS::Topic
     Properties:
       DisplayName: clamav-slack-sns
 
-  PermissionForS3:
+  PermissionForInfratestS3:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref NewFileHandler
       Action: lambda:InvokeFunction
       Principal: s3.amazonaws.com
-      SourceArn: !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
-  
+      SourceArn: !Sub "arn:aws:s3:::avoindata-infratest-datasets"
+
+  PermissionBetaS3:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref NewFileHandler
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub "arn:aws:s3:::avoindata-beta-datasets"
+
+  PermissionProd:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref NewFileHandler
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub "arn:aws:s3:::avoindata-prod-datasets"
+
   ClamAvCluster:
     Type: AWS::ECS::Cluster
     Properties:
@@ -109,7 +122,7 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Name: clamav-scanner
-          Image: !Sub "${RegistryAddress}:latest"
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/clamav-scanner:latest
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -122,7 +135,7 @@ Resources:
       Family: clamav-scanner
       Memory: 4096
       NetworkMode: awsvpc
-      RequiresCompatibilities: 
+      RequiresCompatibilities:
         - FARGATE
       TaskRoleArn: !Ref VirusScannerRole
 
@@ -150,14 +163,19 @@ Resources:
                   - s3:HeadBucket
                   - s3:ListObjects
                   - s3:PutObjectTagging
-                Resource: 
-                  - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
-                  - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets/*"
+                Resource:
+                  - !Sub "arn:aws:s3:::avoindata-infratest-datasets"
+                  - !Sub "arn:aws:s3:::avoindata-infratest-datasets/*"
+                  - !Sub "arn:aws:s3:::avoindata-beta-datasets"
+                  - !Sub "arn:aws:s3:::avoindata-beta-datasets/*"
+                  - !Sub "arn:aws:s3:::avoindata-prod-datasets"
+                  - !Sub "arn:aws:s3:::avoindata-prod-datasets/*"
               - Effect: Allow
                 Action:
                   - sns:Publish
                 Resource:
                   - !Ref SNSTopic
+
   VirusScannerLambdaArn:
     Type: AWS::SSM::Parameter
     Properties:
