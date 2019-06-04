@@ -96,3 +96,14 @@ Resources:
                 - !Sub arn:aws:ec2:${AWS::Region}::image/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
+              - Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                Resource:
+                  - !ImportValue avoindata-clamav-ecr-arn
