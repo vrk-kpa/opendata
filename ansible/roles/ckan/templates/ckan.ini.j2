@@ -21,7 +21,8 @@ cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
 beaker.session.secret = {{ ckan_beaker_session_secret }}
-beaker.session.secure = True
+# Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
+#beaker.session.secure = True
 beaker.session.httponly = True
 
 app_instance_uuid = {{ ckan_app_instance_uuid }}
