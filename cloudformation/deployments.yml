@@ -107,8 +107,7 @@ Resources:
                   - ecr:InitiateLayerUpload
                   - ecr:UploadLayerPart
                   - ecr:CompleteLayerUpload
-                Resource:
-                  - !ImportValue avoindata-clamav-ecr-arn
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - ecr:GetAuthorizationToken
