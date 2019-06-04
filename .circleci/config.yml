@@ -244,9 +244,12 @@ jobs:
         # Cleanup task to ensure that created instances will be terminated.
       - run:
           name: Additional cleanup for EC2 instances
-          command: "ansible-playbook ansible/circleci_cleanup.yml  --extra-vars 'instaces_ids_file_path=~/project/instance_ids'"
+          command: "ansible-playbook ansible/circleci_cleanup.yml  --extra-vars 'instance_ids_file_path=~/project/instance_ids' >> ~/logs/ec2_cleanup.log 2>&1"
           working_directory: ~/project/
           when: always
+
+      - store_artifacts:
+          path: ~/logs
 
   packer-scheduled:
     docker:
