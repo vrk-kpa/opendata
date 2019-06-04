@@ -87,7 +87,7 @@ class ClamS3Scanner:
                 f'Downloading {self.object_key} from {self.s3_bucket} failed: \n{e}')
             raise e
         except clamd.ClamdError as e:
-            logger.error(f'Clamd scan failed: {e}')
+            logger.error(f'Clamd scan failed: \n{e}')
             raise e
 
     def sns_publish(self, infection_name):
