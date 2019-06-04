@@ -396,7 +396,7 @@ jobs:
       - run:
           name: Build lambdas
           command: |
-            sam build --use-container -s ~/project/clamav/src
+            sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
 
   clamav-deploy:
@@ -429,7 +429,7 @@ jobs:
           name: Build lambdas
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
-            sam build --use-container -s ~/project/clamav/src
+            sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
       
       - run:
