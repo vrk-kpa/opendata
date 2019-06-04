@@ -107,3 +107,7 @@ Resources:
                   - ecr:CompleteLayerUpload
                 Resource:
                   - !ImportValue avoindata-clamav-ecr-arn
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                Resource: "*"
