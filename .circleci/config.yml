@@ -537,38 +537,38 @@ workflows:
       - clamav-deploy:
           requires:
             - clamav-build
-      - packer-web:
-          requires:
-            - flake8
-            - code-sniffer
-            - ansible-lint
-            - stylelint
-      - packer-scheduled:
-          requires:
-            - flake8
-            - code-sniffer
-            - ansible-lint
-            - stylelint
-      - copy-web-ami:
-          requires:
-            - packer-web
-          filters:
-            branches:
-              only: master
-      - copy-scheduled-ami:
-          requires:
-            - packer-scheduled
-            - packer-web
-          filters:
-            branches:
-              only: master
-      - beta-deploy:
-          requires:
-            - copy-web-ami
-            - copy-scheduled-ami
-          filters:
-            branches:
-              only: master
+      # - packer-web:
+      #     requires:
+      #       - flake8
+      #       - code-sniffer
+      #       - ansible-lint
+      #       - stylelint
+      # - packer-scheduled:
+      #     requires:
+      #       - flake8
+      #       - code-sniffer
+      #       - ansible-lint
+      #       - stylelint
+      # - copy-web-ami:
+      #     requires:
+      #       - packer-web
+      #     filters:
+      #       branches:
+      #         only: master
+      # - copy-scheduled-ami:
+      #     requires:
+      #       - packer-scheduled
+      #       - packer-web
+      #     filters:
+      #       branches:
+      #         only: master
+      # - beta-deploy:
+      #     requires:
+      #       - copy-web-ami
+      #       - copy-scheduled-ami
+      #     filters:
+      #       branches:
+      #         only: master
   # prod_deploy:
   #   jobs:
   #     - prod-deploy:
