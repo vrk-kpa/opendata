@@ -397,6 +397,7 @@ jobs:
           name: Build lambdas
           command: |
             sam build --use-container -s ~/project/clamav/src
+          working_directory: ~/project/clamav
 
   clamav-deploy:
     docker:
@@ -429,6 +430,7 @@ jobs:
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             sam build --use-container -s ~/project/clamav/src
+          working_directory: ~/project/clamav
       
       - run:
           name: Package SAM template
@@ -436,6 +438,7 @@ jobs:
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             sam package --output-template-file packaged.yaml \
             --s3-bucket avoindata-clamav-scan
+          working_directory: ~/project/clamav
 
       - run:
           name: Deploy SAM template
@@ -447,6 +450,7 @@ jobs:
               SlackPath=/clamav/slack_path \
               SlackChannel=/clamav/slack_channel \
               SlackUser=/clamav/slack_user
+          working_directory: ~/project/clamav
 
   prod-deploy:
     docker:
