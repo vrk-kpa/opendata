@@ -410,13 +410,6 @@ jobs:
       - run: sudo pip install boto awscli aws-sam-cli
 
       - run:
-          name: Check current stack update status
-          command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
-            until aws cloudformation describe-stacks --stack-name "clamav-scanner" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
-          no_output_timeout: 10m
-
-      - run:
           name: Build, tag and deploy ClamAV container
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
