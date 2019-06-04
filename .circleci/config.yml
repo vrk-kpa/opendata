@@ -414,8 +414,8 @@ jobs:
           name: Update AMI ids in parameter store
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
-            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/workspace/web_image_ami_copy) && \
-            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/workspace/scheduled_image_ami_copy)
+            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/web_image_ami_copy) && \
+            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_image_ami_copy)
 
       - run:
           name: Update stack
