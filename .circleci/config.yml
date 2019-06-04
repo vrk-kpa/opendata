@@ -533,6 +533,7 @@ workflows:
       - code-sniffer
       - ansible-lint
       - stylelint
+      - clamav-build
       - clamav-deploy:
           requires:
             - clamav-build
