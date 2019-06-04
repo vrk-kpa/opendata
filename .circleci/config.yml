@@ -378,6 +378,76 @@ jobs:
       - store_artifacts:
           path: beta_stack_update.log
 
+  clamav-build:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: sudo pip install boto awscli aws-sam-cli
+
+      - run:
+          name: Build and tag ClamAV container
+          command: |
+            docker build -t clamav-scanner:latest ~/project/clamav/clamav-docker
+      
+      - run:
+          name: Build lambdas
+          command: |
+            sam build --use-container -s ~/project/clamav/src
+
+  clamav-deploy:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: sudo pip install boto awscli aws-sam-cli
+
+      - run:
+          name: Check current stack update status
+          command: |
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            until aws cloudformation describe-stacks --stack-name "clamav-scanner" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
+          no_output_timeout: 10m
+
+      - run:
+          name: Build, tag and deploy ClamAV container
+          command: |
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            docker build -t clamav-scanner:latest ~/project/clamav/clamav-docker &&\
+            aws ecr get-login --no-include-email --region eu-west-1 &&\
+            docker tag clamav-scanner:latest ${PRODUCTION_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/clamav-scanner:latest &&\
+            docker push $_
+      
+      - run:
+          name: Build lambdas
+          command: |
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            sam build --use-container -s ~/project/clamav/src
+      
+      - run:
+          name: Package SAM template
+          command: |
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            sam package --output-template-file packaged.yaml \
+            --s3-bucket avoindata-clamav-scan
+
+      - run:
+          name: Deploy SAM template
+          command: |
+            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            aws cloudformation deploy --template-file packaged.yaml \
+            --stack-name clamav-scan \
+            --parameter-overrides \
+              SlackPath=/clamav/slack_path \
+              SlackChannel=/clamav/slack_channel \
+              SlackUser=/clamav/slack_user
+
   prod-deploy:
     docker:
       - image: circleci/python
@@ -463,6 +533,9 @@ workflows:
       - code-sniffer
       - ansible-lint
       - stylelint
+      - clamav-deploy:
+          requires:
+            - clamav-build
       - packer-web:
           requires:
             - flake8
