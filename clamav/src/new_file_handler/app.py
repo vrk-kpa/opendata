@@ -7,11 +7,9 @@ import re
 def lambda_handler(event, context):
     s3_bucket_name = event['Records'][0]['s3']['bucket']['name']
     s3_object_key = event['Records'][0]['s3']['object']['key']
-    print(event)
-    print(s3_bucket_name)
-    print(s3_object_key)
 
     vpc_id = os.getenv('VPC_ID')
+    sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
     vpc = boto3.resource('ec2').Vpc(vpc_id)
     private_subnet_filter = [{'Values': ['private'], 'Name': 'tag:Reach'}]
     private_subnets = vpc.subnets.filter(Filters=private_subnet_filter)
@@ -42,6 +40,10 @@ def lambda_handler(event, context):
                         {
                             'name': 'OBJECT_KEY',
                             'value': s3_object_key
+                        },
+                        {
+                            'name': 'SNS_TOPIC_ARN',
+                            'value': sns_topic_arn
                         }
                     ]
                 }

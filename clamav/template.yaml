@@ -6,6 +6,12 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
   EnvironmentName:
     Type: 'AWS::SSM::Parameter::Value<String>'
+  SlackPath:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  SlackUser:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  SlackChannel:
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Globals:
   Function:
@@ -21,6 +27,7 @@ Resources:
       Environment:
         Variables:
           VPC_ID: !ImportValue vpc-VPC
+          SNS_TOPIC_ARN: !Ref SNSTopic
       Runtime: python3.7
       Policies:
         - Version: "2012-10-17"
@@ -40,7 +47,28 @@ Resources:
               Action:
                 - ec2:DescribeSubnets
               Resource: "*"
+  SnsNotificationsHandler:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: sns_notifications_handler/
+      Handler: app.lambda_handler
+      Environment:
+        Variables:
+          SLACK_CHANNEL: !Ref SlackChannel
+          SLACK_USER: !Ref SlackUser
+          SLACK_PATH: !Ref SlackPath
+      Runtime: python3.7
+      Events:
+        SNSNotification:
+          Type: SNS
+          Properties:
+            Topic: !Ref SNSTopic
               
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: clamav-slack-sns
+
   PermissionForS3:
     Type: AWS::Lambda::Permission
     Properties:
@@ -125,6 +153,11 @@ Resources:
                 Resource: 
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets"
                   - !Sub "arn:aws:s3:::avoindata-${EnvironmentName}-datasets/*"
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource:
+                  - !Ref SNSTopic
   VirusScannerLambdaArn:
     Type: AWS::SSM::Parameter
     Properties:
