@@ -340,7 +340,7 @@ jobs:
       - run:
           name: Copy AMI to production account
           command: |
-            ./copy_ami.sh ~/project/manifest-web.json | tail -1 | cut -d'"' -f2 > ~/project/web_image_ami_copy
+            ./copy_ami.sh ~/project/ansible/manifest-web.json | tail -1 | cut -d'"' -f2 > ~/project/web_image_ami_copy
           no_output_timeout: 10m
           working_directory: ~/project/amicopy
 
@@ -367,7 +367,7 @@ jobs:
       - run:
           name: Copy AMI to production account
           command: |
-            ./copy_ami.sh ~/project/manifest-scheduled.json | tail -1 | cut -d'"' -f2 > ~/project/scheduled_image_ami_copy
+            ./copy_ami.sh ~/project/ansible/manifest-scheduled.json | tail -1 | cut -d'"' -f2 > ~/project/scheduled_image_ami_copy
           no_output_timeout: 10m
           working_directory: ~/project/amicopy
 
