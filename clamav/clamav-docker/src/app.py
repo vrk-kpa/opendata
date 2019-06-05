@@ -8,6 +8,7 @@ logging.basicConfig(format='%(name)-12s: %(levelname)-8s %(message)s',
 
 logger = logging.getLogger(__name__)
 
+
 def main():
     s3_bucket = os.getenv('BUCKET_NAME')
     object_key = os.getenv('OBJECT_KEY')

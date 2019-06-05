@@ -1,10 +1,8 @@
-from sys import stdout
 from botocore.exceptions import ClientError
 import boto3
 import clamd
 import json
 import logging
-import os
 import subprocess
 import time
 
@@ -16,10 +14,11 @@ def clamd_check(decorated):
         while not args[0].clamd_up:
             try:
                 args[0].clamd_client.ping()
-            except:
+            except Exception:
                 time.sleep(5)
         return decorated(*args)
     return wrapper
+
 
 class ClamS3Scanner:
     clamd_up = False
@@ -64,7 +63,7 @@ class ClamS3Scanner:
                 self.clamd_client.ping()
                 logger.info('Clamd is up')
                 self.clamd_up = True
-            except:
+            except Exception:
                 if clamd_retry_count == 12:
                     raise Exception(
                         f'Clamd failed to respond within {clamd_max_retry_count} retries')
