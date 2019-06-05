@@ -443,7 +443,6 @@ jobs:
               SlackPath=/clamav/slack_path \
               SlackChannel=/clamav/slack_channel \
               SlackUser=/clamav/slack_user \
-            --capabilities CAPABILITY_IAM
           working_directory: ~/project/clamav
 
   prod-deploy:
