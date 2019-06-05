@@ -116,4 +116,6 @@ Resources:
                 Action:
                   - s3:ListBucket
                   - s3:*Object
-                Resource: "arn:aws:s3:::avoindata-clamav-scan"
+                Resource: 
+                  - "arn:aws:s3:::avoindata-clamav-scan"
+                  - "arn:aws:s3:::avoindata-clamav-scan/*"
