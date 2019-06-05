@@ -1039,8 +1039,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
         map.connect('/organization/new',
-                    action='new',
-                    controller='organization')
+                    controller=organization_controller,
+                    action='new')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',
@@ -1053,6 +1053,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     controller=organization_controller,
                     action='embed',
                     ckan_icon='group')
+
         return map
 
     # IValidators

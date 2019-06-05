@@ -12,7 +12,7 @@ import json
 import plugin
 import logging
 import collections
-from tools import check_package_deprecation, package_deprecation_offset
+from tools import check_package_deprecation
 
 
 try:
@@ -457,6 +457,5 @@ def check_deprecation(key, data, errors, context):
     if errors[key]:
         return
 
-    deprecation_offset = package_deprecation_offset()
-    deprecation = check_package_deprecation(data.get(('valid_till',)), deprecation_offset)
+    deprecation = check_package_deprecation(data.get(('valid_till',)))
     data[key] = deprecation

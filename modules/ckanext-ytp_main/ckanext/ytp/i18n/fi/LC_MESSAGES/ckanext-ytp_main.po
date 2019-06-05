@@ -1002,6 +1002,10 @@ msgstr ""
 "Organisaatiot, joilla ei ole tietoaineistoja näkyvät listauksessa ainoastaan"
 " hakutoimintoa käyttämällä."
 
+#: ckanext/ytp/translations.py:158
+msgid "Organization cannot be deleted while it still has datasets"
+msgstr "Organisaatiota ei voida poistaa koska sillä on tietoaineistoja"
+
 #: ckanext/ytp/validators.py:173
 msgid "expecting list of strings"
 msgstr ""

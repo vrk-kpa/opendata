@@ -7,7 +7,7 @@ import polib
 import os
 import re
 import glob
-from tools import check_package_deprecation, package_deprecation_offset
+from tools import check_package_deprecation
 from logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
@@ -270,12 +270,17 @@ def apply_group_assigns(group_packages_map):
 def package_generator(query, page_size, context={'ignore_auth': True}):
     package_search = get_action('package_search')
 
+    # Loop through all items. Each page has {page_size} items.
+    # Stop iteration when all items have been looped.
     for index in itertools.count(start=0, step=page_size):
         data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
-        packages = package_search(context, data_dict).get('results', [])
+        data = package_search(context, data_dict)
+        packages = data.get('results', [])
         for package in packages:
             yield package
-        else:
+
+        # Stop iteration all query results have been looped through
+        if data["count"] < (index + page_size):
             return
 
 
@@ -315,20 +320,24 @@ def batch_edit(ctx, config, search_string, dryrun, group):
 @click.pass_context
 def update_package_deprecation(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
-    # after loop contains list of ID's of just deprecated packages
+    # deprecation emails will be sent to items inside deprecated_now array
     deprecated_now = []
     package_patches = []
-    deprecation_offset = package_deprecation_offset()
 
-    for old_package_dict in package_generator('*:*', 1000):
+    # Get only packages with a valid_till field and some value in the valid_till field
+    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
         valid_till = old_package_dict.get('valid_till')
+
+        # For packages that have a valid_till date set depracated field to true or false
+        # deprecation means that a package has been valid but is now old and not valid anymore.
+        # This does not take into account if the package is currently valid eg. valid_from.
         if valid_till is not None:
             current_deprecation = old_package_dict.get('deprecated')
-            deprecation = check_package_deprecation(valid_till, deprecation_offset)
+            deprecation = check_package_deprecation(valid_till)
             if current_deprecation != deprecation:
                 patch = {'id': old_package_dict['id'], 'deprecated': deprecation}
                 package_patches.append(patch)
-                # Initially deprecation value will be undefined, so send email only when actually deprecated
+                # Send email only when actually deprecated. Initial deprecation is undefined when adding this feature
                 if current_deprecation is False and deprecation is True:
                     deprecated_now.append(old_package_dict['id'])
 
