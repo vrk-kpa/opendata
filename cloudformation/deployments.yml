@@ -34,11 +34,13 @@ Resources:
                 Action:
                   - ssm:PutParameter
                   - ssm:GetParameter
+                  - ssm:GetParameters
                 Resource:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/web/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/scheduled/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/web/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/clamav*
               - Effect: Allow
                 Action:
                   - ssm:GetParameters
@@ -50,12 +52,13 @@ Resources:
                   - cloudformation:CreateStack
                   - cloudformation:DescribeStacks
                   - cloudformation:UpdateStack
-                  - cloudformation:*Changeset
+                  - cloudformation:*ChangeSet
                   - cloudformation:ListChangeSets
                 Resource:
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scan/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31
               - Effect: Allow
                 Action: ec2:CreateLaunchTemplateVersion
                 Resource:
