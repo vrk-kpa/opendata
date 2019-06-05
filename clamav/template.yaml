@@ -179,6 +179,6 @@ Resources:
   VirusScannerLambdaArn:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub /${EnvironmentName}/clamav/lambdaarn
+      Name: /clamav/lambdaarn
       Type: "String"
       Value: !GetAtt NewFileHandler.Arn
