@@ -54,6 +54,7 @@ ckan_extensions_with_translations:
   - ckanext-report
   - ckanext-googleanalytics
   - ckanext-organizationapproval
+  - ckanext-scheming
 
 # enable google analytics can either be false, or dict of id account type
 ckan_google_analytics: false
@@ -135,7 +136,7 @@ ckan_show_postit_demo: true
 # solr settings
 ckan_solr_host: "127.0.0.1"
 ckan_solr_port: "8983"
-ckan_solr_path: solr
+ckan_solr_path: solr/ckan
 
 ckan_max_resource_size: 5000
 
@@ -217,6 +218,7 @@ ckan_patches:
   - optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
+  - group_admin_protection # https://github.com/ckan/ckan/pull/4821
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
