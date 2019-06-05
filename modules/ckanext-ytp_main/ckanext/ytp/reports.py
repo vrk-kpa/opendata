@@ -109,28 +109,31 @@ def deprecated_datasets_report():
     # Get package visit and download data
     # Resolve package structure to match table structure
     def handle_package(pkg):
-        # FIXME: Against CKAN best practices to access model directly, should be done through actions
-        # https://docs.ckan.org/en/ckan-2.7.0/contributing/architecture.html#always-go-through-the-action-functions
-        package_stats = PackageStats.get_all_visits(pkg['package_id'])
-
-        # TODO: Check if fields have values before assigning
-        return {
-            'title_translated': pkg["title_translated"],
+        resolved_dict = {
+            'title': pkg["title"],
             'id': pkg["id"],
-            'organization': {
-                'title': pkg["organization"]["title"],
-                'homepage': pkg["organization"]["homepage"],
-                'id': pkg["organization"]["id"]
-            },
-            'maintainer': {
-                "name": pkg["maintainer"],
-                "email": pkg["maintainer_email"],
-            },
+            'maintainer_name': pkg["maintainer"],
+            "maintainer_email": pkg["maintainer_email"],
             'metadata_created': pkg["metadata_created"],
             'valid_till': pkg["valid_till"],
-            'visits': package_stats["visits"],
-            'downloads': package_stats["downloads"]
         }
+
+        if pkg.get('organization'):
+            resolved_dict['organization_title'] = pkg["organization"].get("title")
+            resolved_dict['organization_homepage'] = pkg["organization"].get("homepage", None)
+            resolved_dict['organization_id'] = pkg["organization"].get("id")
+
+        # FIXME: Against CKAN best practices to access model directly, should be done through actions
+        # https://docs.ckan.org/en/ckan-2.7.0/contributing/architecture.html#always-go-through-the-action-functions
+        package_stats = PackageStats.get_total_visits(limit=1, package_id=pkg['id'])
+        if package_stats:
+            resolved_dict['visits'] = package_stats[0].get("visits", 0)
+            resolved_dict['downloads'] = package_stats[0].get("downloads", 0)
+        else:
+            resolved_dict['visits'] = 0
+            resolved_dict['downloads'] = 0
+
+        return resolved_dict
 
     # Loop through all packages and run them through resolver
     map_iterator = map(handle_package, all_deprecated)

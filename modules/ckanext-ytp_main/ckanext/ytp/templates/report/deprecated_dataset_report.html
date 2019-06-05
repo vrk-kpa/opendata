@@ -1,5 +1,5 @@
 <hr class="page-break">
-<table class="table table-condensed tablesorter" id="report-table" class="avoid-page-break">
+<table class="table table-condensed table-bordered table-striped" id="report-table">
   <thead>
     <tr>
       <th>{{ _("Dataset") }}</th>
@@ -15,22 +15,24 @@
     {% for row in table %}
         <tr>
             <td>
-                <p>
-                    {{ row.title_translated }}
-                </p>
-                {{ row.id }}
+              <a href="{{h.url_for(controller='package', action='read', id=row.id)}}">
+                {{ row.title }}
+              </a>
             </td>
             <td>
-                <p>
-                    {{ row.organization.title }}{{ row.organization.homepage }}
-                </p>
+              <a href="{{ h.url_for(controller='organization', action='read', id=row.organization_id )}}">
+                {{ row.organization_title }}
+              </a>
+              {% if row.organization_homepage %}
+                <a href="{{ row.organization_homepage }}" class="ml-2"><i class="fas fa-globe"></i></a>
+              {% endif %}
             </td>
             <td>
-                {{ row.maintainer.name }}
-                {{ row.maintainer.email }}
+              {{ row.maintainer_name }}
+              <a href="mailto:{{ row.maintainer_email }}" class="ml-2"><i class="fas fa-envelope"></i></a>
             </td>
-            <td>{{ row.metadata_created }}</td>
-            <td>{{ row.valid_till }}</td>
+            <td>{{ h.render_datetime(row.metadata_created) }}</td>
+            <td>{{ h.render_datetime(row.valid_till) }}</td>
             <td>{{ row.visits }}</td>
             <td>{{ row.downloads }}</td>
         </tr>
