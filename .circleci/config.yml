@@ -593,6 +593,9 @@ workflows:
       - clamav-deploy:
           requires:
             - clamav-build
+          filters:
+            branches:
+              only: master
       - packer-web:
           requires:
             - flake8
