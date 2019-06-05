@@ -53,6 +53,7 @@ Resources:
                   - cloudformation:UpdateStack
                   - cloudformation:*ChangeSet
                   - cloudformation:ListChangeSets
+                  - cloudformation:GetTemplateSummary
                 Resource:
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
