@@ -112,3 +112,8 @@ Resources:
                 Action:
                   - ecr:GetAuthorizationToken
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:*Object
+                Resource: "arn:aws:s3:::avoindata-clamav-scan"
