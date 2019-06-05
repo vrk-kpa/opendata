@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for row in table %}
+    {% for row in data['top'] %}
         <tr>
             <td>
               <a href="{{h.url_for(controller='package', action='read', id=row.id)}}">

@@ -144,6 +144,7 @@ def deprecated_datasets_report():
     # - limit dataset amount in table (sort by deprecation date, newest deprecation first)
     return {
         'table': packages,
+        'top': packages[:20]
     }
 
 
