@@ -15,7 +15,7 @@
             {% set flash_messages = h.flash.pop_messages() | list %}
             <div class="flash-messages">
               {% for message in flash_messages %}
-                <div class="alert fade in {{ message.category }}">
+                <div class="m-0 alert fade in {{ message.category }}">
                   {{ h.literal(message) }}
                 </div>
               {% endfor %}
