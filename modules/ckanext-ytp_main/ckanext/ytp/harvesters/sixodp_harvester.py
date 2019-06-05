@@ -492,8 +492,9 @@ class SixodpHarvester(HarvesterBase):
             package_dict = json.loads(harvest_object.content)
 
             if package_dict.get('delete', False):
+                log.info('Deleting package %s' % package_dict['id'])
                 get_action('package_delete')(base_context.copy(), {'id': package_dict['id']})
-                return
+                return True
 
             if package_dict.get('type') == 'harvest':
                 log.warn('Remote dataset is a harvest source, ignoring...')
