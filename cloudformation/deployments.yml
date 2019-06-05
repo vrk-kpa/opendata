@@ -49,7 +49,6 @@ Resources:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
               - Effect: Allow
                 Action:
-                  - cloudformation:CreateStack
                   - cloudformation:DescribeStacks
                   - cloudformation:UpdateStack
                   - cloudformation:*ChangeSet
