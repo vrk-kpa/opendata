@@ -51,6 +51,14 @@ Resources:
                 Action: iam:GetRole
                 Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/clamav-scan-*
               - Effect: Allow
+                Action: 
+                  - lambda:UpdateFunctionCode
+                  - lambda:ListTags
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                  - lambda:GetFunctionConfiguration
+                Resource: "*"
+              - Effect: Allow
                 Action:
                   - cloudformation:DescribeStacks
                   - cloudformation:UpdateStack
