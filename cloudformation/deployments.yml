@@ -46,17 +46,16 @@ Resources:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/*
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
               - Effect: Allow
-                Action: cloudformation:DescribeStacks
+                Action:
+                  - cloudformation:CreateStack
+                  - cloudformation:DescribeStacks
+                  - cloudformation:UpdateStack
+                  - cloudformation:*Changeset
+                  - cloudformation:ListChangeSets
                 Resource:
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scanner/*
-              - Effect: Allow
-                Action: cloudformation:UpdateStack
-                Resource:
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scanner/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scan/*
               - Effect: Allow
                 Action: ec2:CreateLaunchTemplateVersion
                 Resource:
@@ -116,6 +115,6 @@ Resources:
                 Action:
                   - s3:ListBucket
                   - s3:*Object
-                Resource: 
+                Resource:
                   - "arn:aws:s3:::avoindata-clamav-scan"
                   - "arn:aws:s3:::avoindata-clamav-scan/*"
