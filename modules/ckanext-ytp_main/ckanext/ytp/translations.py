@@ -149,6 +149,8 @@ def _translations():
     _('Openness (Five Stars)')
     _('Datasets graded on Tim Berners-Lee\'s Five Stars of Openness - openly licensed, '
       'openly accessible, structured, open format, URIs for entities, linked.')
+    _('Deprecated datasets')
+    _('Datasets that have deprecated')
 
     # Hierarchy
     _('The dataset amount of the organization is shown beside the organization name.')

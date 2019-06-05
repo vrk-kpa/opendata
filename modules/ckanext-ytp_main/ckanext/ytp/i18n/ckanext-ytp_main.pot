@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-06-05 10:40+0000\n"
+"POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -942,11 +942,19 @@ msgid ""
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:154
+#: ckanext/ytp/translations.py:152
+msgid "Deprecated datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:153
+msgid "Datasets that have deprecated"
+msgstr ""
+
+#: ckanext/ytp/translations.py:156
 msgid "The dataset amount of the organization is shown beside the organization name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:155
+#: ckanext/ytp/translations.py:157
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
