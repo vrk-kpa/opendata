@@ -1,5 +1,6 @@
 from ckan.logic import get_action
 from ckanext.googleanalytics.model import PackageStats
+from commands import package_generator
 import itertools
 from datetime import timedelta, datetime
 import logging
@@ -102,8 +103,7 @@ administrative_branch_summary_report_info = {
 
 def deprecated_datasets_report():
     # Get packages that are deprecated
-    # TODO: Maybe filter out private datasets?
-    all_deprecated = package_generator('deprecated:true', 1000)
+    all_deprecated = package_generator('deprecated:true AND private:false', 1000, {})
 
     # Function to loop packages through
     # Get package visit and download data
@@ -156,19 +156,6 @@ deprecated_datasets_report_info = {
     'generate': deprecated_datasets_report,
     'template': 'report/deprecated_dataset_report.html'
 }
-
-
-def package_generator(query, page_size, context={}):
-    package_search = get_action('package_search')
-
-    for index in itertools.count(start=0, step=page_size):
-        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
-        packages = package_search(context, data_dict).get('results', [])
-        for package in packages:
-            yield package
-        # FIXME: I think is broken, loops only first page and then returns.
-        else:
-            return
 
 
 def age(dataset):

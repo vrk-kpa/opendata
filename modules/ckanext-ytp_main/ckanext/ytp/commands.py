@@ -267,8 +267,7 @@ def apply_group_assigns(group_packages_map):
                     print e
 
 
-def package_generator(query, page_size):
-    context = {'ignore_auth': True}
+def package_generator(query, page_size, context={'ignore_auth': True}):
     package_search = get_action('package_search')
 
     for index in itertools.count(start=0, step=page_size):
