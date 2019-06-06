@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-20 11:38+0000\n"
+"POT-Creation-Date: 2019-05-29 11:41+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -990,6 +990,10 @@ msgid ""
 msgstr ""
 "Organisaatiot, joilla ei ole tietoaineistoja näkyvät listauksessa ainoastaan"
 " hakutoimintoa käyttämällä."
+
+#: ckanext/ytp/translations.py:158
+msgid "Organization cannot be deleted while it still has datasets"
+msgstr "Organisaatiota ei voida poistaa koska sillä on tietoaineistoja"
 
 #: ckanext/ytp/validators.py:173
 msgid "expecting list of strings"

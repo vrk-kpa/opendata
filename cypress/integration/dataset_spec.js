@@ -42,8 +42,6 @@ describe('Dataset tests', function() {
 
 
     cy.fill_form_fields(resource_form_data);
-    cy.server();
-    cy.route('/data/fi/dataset/*').as('datasetPage');
 
     cy.get('#field-image-upload').then(function(subject){
       cy.fixture("FL_insurance_sample.csv", 'base64')
@@ -54,6 +52,7 @@ describe('Dataset tests', function() {
           const dataTranfer = new DataTransfer();
           dataTranfer.items.add(testFile);
           el.files = dataTranfer.files;
+          cy.wrap(subject).trigger('change', { force: true });
         })
     });
 
