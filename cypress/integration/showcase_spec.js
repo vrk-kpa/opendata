@@ -2,10 +2,25 @@ describe('Showcase tests', function() {
 
   beforeEach(function () {
     cy.reset_db();
-    // TODO: Showcase tests should use the showcase-admin role. This is currently not possible, because
-    // there is a problem with assigning test-publisher with showcase-admin rights. 
-    cy.login_post_request('admin', 'administrator')
+    
+    // Login with test-publisher and visit ckan to create the user
+    cy.login_post_request('test-publisher', 'test-publisher');
+    cy.visit('/data/fi/dataset');
+    cy.logout();
+
+    // Set showcase-admin rights for test-publisher
+    cy.login_post_request('admin', 'administrator');
     cy.visit('/');
+    cy.visit('/data/ckan-admin');
+    cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
+    cy.get('#s2id_username').click();
+    cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
+    cy.get('button[name=submit]').click();
+    cy.logout();
+
+    // Login with test-publisher
+    cy.login_post_request('test-publisher', 'test-publisher');
+
     // We're forcing the click since drupal toolbar obscures the link
     // and due to cypress-io/cypress#2302 the auto-scrolling does not work
     cy.get('nav a[href="/data/fi/showcase"]').click({force: true});
