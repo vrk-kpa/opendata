@@ -8,6 +8,8 @@
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -426,7 +428,7 @@ msgstr "Licens"
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:34
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
-msgstr "Taggar"
+msgstr "Nyckelord"
 
 #: ckanext/ytp/plugin.py:523
 msgid "Other"
@@ -839,7 +841,7 @@ msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
 
 #: ckanext/ytp/translations.py:114
 msgid "Apps"
-msgstr "Apps"
+msgstr "Applikationer"
 
 #: ckanext/ytp/translations.py:117
 msgid "Add to group"
@@ -987,10 +989,6 @@ msgstr ""
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
-msgstr ""
-
-#: ckanext/ytp/translations.py:158
-msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
 #: ckanext/ytp/validators.py:173
@@ -1268,7 +1266,7 @@ msgstr "Stäng utan att spara"
 
 #: ckanext/ytp/templates/organization/index.html:15
 msgid "Search organizations..."
-msgstr ""
+msgstr "Sök efter organisationer..."
 
 #: ckanext/ytp/templates/organization/index.html:18
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
@@ -2544,11 +2542,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/facet_list.html:80
 msgid "Show More"
-msgstr ""
+msgstr "Visa fler"
 
 #: ckanext/ytp/templates/snippets/facet_list.html:83
 msgid "Show Less"
-msgstr ""
+msgstr "Visa färre"
 
 #: ckanext/ytp/templates/snippets/facet_list.html:87
 msgid "There are no {facet_type} that match this search"

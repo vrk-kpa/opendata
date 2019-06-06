@@ -1,0 +1,128 @@
+# Translations template for ckanext-ytp-comments.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ytp-comments
+# project.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ytp\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-11-09 15:34+0200\n"
+"PO-Revision-Date: 2018-03-14 11:03+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/avoindata/ytp/language/en_GB/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: en_GB\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/ytp/comments/email_template.py:7
+msgid "New comment in dataset '{dataset}'"
+msgstr ""
+
+#: ckanext/ytp/comments/email_template.py:9
+msgid ""
+"User {user} ({email}) has left a comment in dataset ({dataset}):\n"
+"\n"
+"--\n"
+"Subject:\n"
+"{comment_subject}\n"
+"\n"
+"Message:\n"
+"{comment}\n"
+"--\n"
+"\n"
+"{link}\n"
+"\n"
+"Best regards\n"
+"\n"
+"Avoindata.fi support\n"
+"valtori@avoindata.fi\n"
+msgstr ""
+
+#: ckanext/ytp/comments/logic/auth/create.py:15
+#: ckanext/ytp/comments/logic/auth/update.py:17
+msgid "You must be logged in to add a comment"
+msgstr ""
+
+#: ckanext/ytp/comments/logic/auth/create.py:27
+msgid "You must be logged in to subscribe to comment notifications"
+msgstr ""
+
+#: ckanext/ytp/comments/logic/auth/delete.py:25
+#: ckanext/ytp/comments/logic/auth/update.py:23
+msgid "Comment does not exist"
+msgstr ""
+
+#: ckanext/ytp/comments/logic/auth/delete.py:28
+#: ckanext/ytp/comments/logic/auth/update.py:26
+msgid "User is not the author of the comment"
+msgstr ""
+
+#: ckanext/ytp/comments/logic/auth/delete.py:40
+msgid "You must be logged in to unsubscribe from comment notifications"
+msgstr ""
+
+#: ckanext/ytp/comments/public/javascript/notifications.js:9
+#: ckanext/ytp/comments/templates/organization/read.html:19
+#: ckanext/ytp/comments/templates/package/comment_list.html:100
+msgid "Subscribe to comments"
+msgstr ""
+
+#: ckanext/ytp/comments/public/javascript/notifications.js:10
+#: ckanext/ytp/comments/templates/organization/read.html:15
+#: ckanext/ytp/comments/templates/package/comment_list.html:98
+msgid "Unsubscribe from comments"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:10
+#: ckanext/ytp/comments/templates/package/comment_list.html:86
+msgid "Subject"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:12
+#: ckanext/ytp/comments/templates/package/comment_list.html:89
+msgid "Comment"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:17
+#: ckanext/ytp/comments/templates/package/comment_list.html:93
+msgid "Save"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:18
+#: ckanext/ytp/comments/templates/package/comment_list.html:94
+msgid "Clear"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:37
+#: ckanext/ytp/comments/templates/package/comment_list.html:49
+msgid "This comment was deleted."
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:42
+msgid "Modified"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:54
+msgid "Delete"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:58
+msgid "Edit"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:62
+msgid "Reply"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:76
+msgid "Comments"
+msgstr ""
+
+#: ckanext/ytp/comments/templates/package/comment_list.html:107
+msgid "Login to comment."
+msgstr ""

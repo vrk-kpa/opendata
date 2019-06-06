@@ -4,13 +4,15 @@
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2019-03-25 06:39+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
-"Last-Translator: Teemu Leivo <teemu.leivo@gofore.com>, 2019\n"
+"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +66,7 @@ msgid "Closed"
 msgstr ""
 
 msgid "yes"
-msgstr ""
+msgstr "kyllä"
 
 msgid "Send email"
 msgstr ""
@@ -412,7 +414,7 @@ msgid "Download"
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 msgid "Cancel"
 msgstr ""
@@ -739,7 +741,7 @@ msgid "Site slogan"
 msgstr ""
 
 msgid "Good"
-msgstr ""
+msgstr "Hyvä"
 
 msgid "Node types"
 msgstr ""
@@ -772,7 +774,7 @@ msgid "PostgreSQL"
 msgstr ""
 
 msgid "Contact"
-msgstr "Ole yhteydessä"
+msgstr "Ota yhteyttä"
 
 msgid "Off"
 msgstr ""
@@ -1058,7 +1060,7 @@ msgid "blocked"
 msgstr ""
 
 msgid "active"
-msgstr ""
+msgstr "aktiivinen"
 
 msgid "N/A"
 msgstr ""
@@ -2349,7 +2351,7 @@ msgid "published"
 msgstr ""
 
 msgid "The changes have been saved."
-msgstr ""
+msgstr "Muutokset tallennettiin."
 
 msgid "Undo"
 msgstr ""
@@ -2729,7 +2731,7 @@ msgid "Revision"
 msgstr ""
 
 msgid "The specified passwords do not match."
-msgstr ""
+msgstr "Salasanat eivät täsmää."
 
 msgid "Session"
 msgstr ""
@@ -2990,7 +2992,7 @@ msgid "Timezone"
 msgstr ""
 
 msgid "Password strength:"
-msgstr ""
+msgstr "Salasanan vahvuus:"
 
 msgid "Passwords match:"
 msgstr ""
@@ -4424,7 +4426,7 @@ msgid "Display type"
 msgstr ""
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Vahvista salasana"
 
 msgid "button"
 msgstr ""
@@ -5115,7 +5117,7 @@ msgid ""
 msgstr ""
 
 msgid "This login can be used only once."
-msgstr ""
+msgstr "Tätä kirjautumista voi käyttää vain kerran."
 
 msgid "Add comment link"
 msgstr ""
@@ -6271,7 +6273,7 @@ msgid "Placeholder"
 msgstr ""
 
 msgid "Language settings"
-msgstr ""
+msgstr "Kieliasetukset"
 
 msgid "Attempting to re-run cron while it is already running."
 msgstr ""
@@ -6672,7 +6674,7 @@ msgid "Paragraph two."
 msgstr ""
 
 msgid "Strong"
-msgstr ""
+msgstr "Vahva"
 
 msgid "Emphasized"
 msgstr ""
@@ -7598,7 +7600,7 @@ msgid ""
 msgstr ""
 
 msgid "Enter the password that accompanies your username."
-msgstr ""
+msgstr "Syötä salasanasi. "
 
 msgid "Delete content"
 msgstr ""
@@ -9772,6 +9774,8 @@ msgid ""
 "Select the desired local time and time zone. Dates and times throughout this"
 " site will be displayed using this time zone."
 msgstr ""
+"Valitse haluamasi aikavyöhyke. Sivusto näyttää päivämäärät ja kellonajat "
+"valitsemasi aikavyöhykkeen mukaan."
 
 msgid "The directory %directory does not exist and could not be created."
 msgstr ""
@@ -10118,6 +10122,9 @@ msgid ""
 "%expiration_date.</p><p>Click on this button to log in to the site and "
 "change your password.</p>"
 msgstr ""
+"<p>Tämä on kertakäyttöinen kirjautuminen käyttäjälle %user_name ja vanhenee "
+"%expiration_date.</p><p>Paina alla olevaa painiketta kirjautuaksesi sisään "
+"ja vaihtaaksesi salasanasi.</p>"
 
 msgid ""
 "You have tried to use a one-time login link that has either been used or is "
@@ -10225,10 +10232,10 @@ msgid "Make it different from your username"
 msgstr ""
 
 msgid "Weak"
-msgstr ""
+msgstr "Heikko"
 
 msgid "Fair"
-msgstr ""
+msgstr "Keskiverto"
 
 msgid "Blocked user: %name %email."
 msgstr ""
@@ -10471,6 +10478,7 @@ msgid ""
 "Your current password is missing or incorrect; it's required to change the "
 "%name."
 msgstr ""
+"Nykyinen salasanasi puuttuu tai on virheellinen; sinun täytyy vaihtaa %name."
 
 msgid "Terminology"
 msgstr ""
@@ -15293,6 +15301,9 @@ msgid ""
 "<p>This is a one-time login for %user_name.</p><p>Click on this button to "
 "log in to the site and change your password.</p>"
 msgstr ""
+"<p>Tämä on kertakäyttöinen kirjautuminen käyttäjälle %user_name.</p><p>Paina"
+" alla olevaa painiketta kirjautuaksesi sisään ja vaihtaaksesi "
+"salasanasi.</p>"
 
 msgid "Provides access to the user data service."
 msgstr ""
@@ -18221,7 +18232,7 @@ msgid ""
 msgstr ""
 
 msgid "Further instructions have been sent to your email address."
-msgstr "Seuraavat ohjeet on lähetetty sähköpostiisi."
+msgstr "Ohjeet salasanan palauttamiseen on lähetetty sähköpostiisi."
 
 msgid "When the user has the following roles"
 msgstr ""
@@ -18557,13 +18568,13 @@ msgid "Make this the default form"
 msgstr ""
 
 msgid "Send yourself a copy"
-msgstr ""
+msgstr "Lähetä kopio itsellesi"
 
 msgid "Content translation field settings"
 msgstr ""
 
 msgid "Allowed types: @extensions."
-msgstr ""
+msgstr "Sallitut tiedostomuodot: @extensions."
 
 msgid "Back to content editing"
 msgstr ""
@@ -19405,10 +19416,10 @@ msgid "Post updating @module"
 msgstr ""
 
 msgid "Date (e.g. @format)"
-msgstr ""
+msgstr "Päivämäärä (esim. @format)"
 
 msgid "Time (e.g. @format)"
-msgstr ""
+msgstr "Kellonaika (esim. @format)"
 
 msgid "0 seconds"
 msgstr ""
@@ -20466,6 +20477,10 @@ msgid ""
 "administrators are still able to contact you even if you choose to disable "
 "this feature."
 msgstr ""
+"Salli yhteydenotot muilta käyttäjiltä. Yhteydenottolomake pitää "
+"sähköpostiosoitteesi salassa. Huomioi, että tietyt käyttäjät, kuten sivuston"
+" järjestelmänvalvojat voivat ottaa sinuun yhteyttä vaikka poistaisit tämän "
+"ominaisuuden käytöstä. "
 
 msgid "%sender-name (@sender-from) sent %recipient-name an email."
 msgstr ""
@@ -20485,6 +20500,10 @@ msgid ""
 "wish to receive a new password or wish to receive certain news or "
 "notifications by email."
 msgstr ""
+"Syötä sähköpostiosoitteesi. Kaikki palvelua koskevat viestit lähetetään "
+"tähän osoitteeseen. Sähköpostiosoite ei ole julkinen, ja sitä käytetään vain"
+" jos haluat palauttaa salasanasi tai saada uutisia tai ilmoituksia "
+"sähköpostitse."
 
 msgid "This account's preferred language for emails and site presentation."
 msgstr ""
@@ -21205,10 +21224,13 @@ msgid ""
 "href=\":request_new_url\" title=\"Send password reset instructions via "
 "email.\">Reset your password</a>."
 msgstr ""
+"Vaaditaan jos haluat muuttaa %mail tai %pass. <a href=\":request_new_url\" "
+"title=\"Send password reset instructions via email.\">Palauta "
+"salasanasi</a>."
 
 msgid ""
 "Password reset instructions will be sent to your registered email address."
-msgstr "Salasanan asetusohjeet lähetetään tilisi sähköpostiosoitteeseen."
+msgstr "Salasanan palautusohjeet lähetetään tilisi sähköpostiosoitteeseen."
 
 msgid ""
 "This link is provided by the Views module. The path can be changed by "
@@ -24872,7 +24894,7 @@ msgid "IP Address"
 msgstr ""
 
 msgid "Email address"
-msgstr "Sähköpostiosoite"
+msgstr "Sähköpostiosoitteesi"
 
 msgid "Home page"
 msgstr ""
@@ -24995,7 +25017,7 @@ msgid "Address"
 msgstr "Osoite"
 
 msgid "Where the event is located"
-msgstr ""
+msgstr "Tapahtuman sijainti"
 
 msgid "End time"
 msgstr "Päättymisaika"
@@ -25040,7 +25062,7 @@ msgid "Guide search view"
 msgstr ""
 
 msgid "No matching results"
-msgstr ""
+msgstr "Hakuasi vastaavia tuloksia ei löytynyt. "
 
 msgid "Finalizing configuration synchronization."
 msgstr ""
@@ -25350,7 +25372,7 @@ msgid "More popular datasets"
 msgstr "Lisää suosittuja tietoaineistoja"
 
 msgid "Most recent applications"
-msgstr "Tuoreimmat käyttösovellukset"
+msgstr "Uusimmat käyttösovellukset"
 
 msgid "Show all applications"
 msgstr "Näytä kaikki käyttösovellukset"

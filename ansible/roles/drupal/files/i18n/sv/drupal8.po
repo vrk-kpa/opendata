@@ -2,13 +2,15 @@
 # 
 # Translators:
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2019-03-25 06:39+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
-"Last-Translator: Teemu Leivo <teemu.leivo@gofore.com>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -281,7 +283,7 @@ msgid "Monday"
 msgstr "måndag"
 
 msgid "Tags"
-msgstr ""
+msgstr "Nyckelord"
 
 msgid "File"
 msgstr ""
@@ -25180,7 +25182,7 @@ msgid "Service provided by Population Register Centre"
 msgstr ""
 
 msgid "Follow us"
-msgstr ""
+msgstr "Följ oss"
 
 msgid "format"
 msgstr ""
@@ -25203,7 +25205,7 @@ msgstr ""
 
 msgctxt "x organizations"
 msgid "Organizations"
-msgstr ""
+msgstr "Organisationer"
 
 msgctxt "x applications"
 msgid "Applications"
@@ -25216,7 +25218,7 @@ msgid "Applications"
 msgstr ""
 
 msgid "Organizations"
-msgstr ""
+msgstr "Organisationer"
 
 msgid "<i class=\"fas\">&#xf002;</i>"
 msgstr ""

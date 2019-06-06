@@ -7,6 +7,8 @@
 # Translators:
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,25 +45,25 @@ msgstr ""
 #: ckanext/ytp/auth.py:71 ckanext/ytp/auth.py:76
 #, python-format
 msgid "User %s not authorized to create public organizations"
-msgstr ""
+msgstr "User %s not authorized to create public organisations"
 
 #: ckanext/ytp/auth.py:89
 msgid "Only registered users can create organizations"
-msgstr ""
+msgstr "Only registered users can create organisations"
 
 #: ckanext/ytp/auth.py:104 ckanext/ytp/validators.py:405
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
-msgstr ""
+msgstr "User %s is not administrator in the selected parent organisation"
 
 #: ckanext/ytp/auth.py:113
 #, python-format
 msgid "User %s not authorized to create organizations"
-msgstr ""
+msgstr "User %s not authorized to create organisations"
 
 #: ckanext/ytp/auth.py:133
 msgid "Cannot modify dataset because of organization policy"
-msgstr ""
+msgstr "Cannot modify dataset because of organisation policy"
 
 #: ckanext/ytp/auth.py:141 ckanext/ytp/controller.py:636
 #: ckanext/ytp/controller.py:681
@@ -211,7 +213,7 @@ msgstr ""
 #: ckanext/ytp/controller.py:447
 #: ckanext/ytp/templates/package/snippets/related_item.html:29
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisation"
 
 #: ckanext/ytp/controller.py:589
 #, python-format
@@ -297,7 +299,7 @@ msgstr ""
 #: ckanext/ytp/templates/user/dashboard_organizations.html:12
 #: ckanext/ytp/templates/user/dashboard_organizations.html:27
 msgid "My Organizations"
-msgstr ""
+msgstr "My Organisations"
 
 #: ckanext/ytp/menu.py:80
 msgid "Edit Your Profile"
@@ -333,7 +335,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/base.html:8
 #: ckanext/ytp/templates/user/dashboard_organizations.html:8
 msgid "Organizations"
-msgstr ""
+msgstr "Organisations"
 
 #: ckanext/ytp/menu.py:154
 msgid "Postit"
@@ -392,7 +394,7 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:36
 msgid "Organization"
-msgstr ""
+msgstr "Organisation"
 
 #: ckanext/ytp/plugin.py:448 ckanext/ytp/plugin.py:464
 #: ckanext/ytp/translations.py:35
@@ -559,6 +561,9 @@ msgid ""
 "title but instead add multiple time-specific resources to the dataset in the"
 " next stage."
 msgstr ""
+"A short and descriptive title for the dataset. Do not utilise dates in the "
+"title but instead add multiple time-specific resources to the dataset in the"
+" next stage."
 
 #: ckanext/ytp/translations.py:43
 msgid "A short and descriptive name for the resource."
@@ -624,10 +629,12 @@ msgid ""
 "Private datasets will only be seen by the logged in users of the dataset's "
 "organization. Public datasets will be listed publicly through the search."
 msgstr ""
+"Private datasets will only be seen by the logged in users of the dataset's "
+"organisation. Public datasets will be listed publicly through the search."
 
 #: ckanext/ytp/translations.py:59
 msgid "The organization which owns the dataset."
-msgstr ""
+msgstr "The organisation which owns the dataset."
 
 #: ckanext/ytp/translations.py:60
 msgid "A moment in time after which the data is relevant."
@@ -724,7 +731,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:86
 msgid "public_administration_organization"
-msgstr "public administration organization"
+msgstr "public administration organisation"
 
 #: ckanext/ytp/translations.py:87
 msgid "personal_datasets"
@@ -971,16 +978,16 @@ msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
 msgstr ""
+"The amount of datasets by each organisation is shown next to the "
+"organisation’s name."
 
 #: ckanext/ytp/translations.py:157
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
 msgstr ""
-
-#: ckanext/ytp/translations.py:158
-msgid "Organization cannot be deleted while it still has datasets"
-msgstr ""
+"Organisations with no datasets are shown in this list only when using the "
+"search functionality"
 
 #: ckanext/ytp/validators.py:173
 msgid "expecting list of strings"
@@ -1253,7 +1260,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:15
 msgid "Search organizations..."
-msgstr ""
+msgstr "Search organisations..."
 
 #: ckanext/ytp/templates/organization/index.html:18
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
@@ -1274,16 +1281,16 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/new_organization_form.html:17
 msgid "Update Organization"
-msgstr ""
+msgstr "Update Organisation"
 
 #: ckanext/ytp/templates/organization/new_organization_form.html:19
 msgid "Create Organization"
-msgstr ""
+msgstr "Create Organisation"
 
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
-msgstr ""
+msgstr "Organisation does not exist"
 
 #: ckanext/ytp/templates/organization/read_base.html:5
 msgid "Members"
@@ -1311,31 +1318,39 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
 msgid "What are Organizations?"
-msgstr ""
+msgstr "What are Organisations?"
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
 msgid ""
 " CKAN Organizations are used to create, manage and publish collections of "
 "datasets. "
 msgstr ""
+" CKAN Organisations are used to create, manage and publish collections of "
+"datasets. "
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:13
 msgid ""
 " Users can have different roles within an Organization, depending on their "
 "level of authorisation to create, edit and publish. "
 msgstr ""
+" Users can have different roles within an Organisation, depending on their "
+"level of authorisation, to create, edit and publish. "
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:18
 msgid ""
 " Some of the organizations listed here are automatically created. To create "
 "a public administration organization, please contact avoindata@vrk.fi. "
 msgstr ""
+" Some of the organisations listed here are automatically created. To create "
+"a public administration organisation, please contact avoindata@vrk.fi. "
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:23
 msgid ""
 " The number next to each organization depicts the total amount of datasets "
 "per organization and includes suborganizations. "
 msgstr ""
+" The number next to each organisation depicts the total amount of datasets "
+"per organisation, including suborganisations. "
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:16
 msgid "Name"
@@ -1343,7 +1358,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:16
 msgid "My Organization"
-msgstr ""
+msgstr "My Organisation"
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:24
 msgid "my-organization"
@@ -1357,7 +1372,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:26
 msgid "A little information about my organization..."
-msgstr ""
+msgstr "A little information about my organisation..."
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:35
 #: ckanext/ytp/templates/package/snippets/additional_info.html:56
@@ -1378,7 +1393,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:55
 msgid "Only Admin of the parent organization can control the hierarchy."
-msgstr ""
+msgstr "Only Admin of the parent organisation can control the hierarchy."
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:59
 msgid "None - top level"
@@ -1386,7 +1401,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:71
 msgid "Public administration organization"
-msgstr ""
+msgstr "Public administration organisation"
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:78
 msgid "Yes"
@@ -1502,6 +1517,8 @@ msgid ""
 "Are you sure you want to delete this Organization? This will delete all the "
 "public and private datasets belonging to this organization."
 msgstr ""
+"Are you sure you want to delete this Organisation? This will delete all the "
+"public and private datasets belonging to this organisation."
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
 msgid "My membership requests"
@@ -1509,7 +1526,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
-msgstr ""
+msgstr "Add Organisation"
 
 #: ckanext/ytp/templates/package/group_list.html:8
 msgid "Add category to dataset"
@@ -1920,7 +1937,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:132
 msgid "Select an organization..."
-msgstr ""
+msgstr "Select an organisation..."
 
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:149
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:2
@@ -2331,11 +2348,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:26
 msgid "No organization"
-msgstr ""
+msgstr "No organisation"
 
 #: ckanext/ytp/templates/scheming/organization/about.html:13
 msgid "Organization hierarchy"
-msgstr ""
+msgstr "Organisation hierarchy"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
 msgid "Showcases"
@@ -2354,16 +2371,20 @@ msgid ""
 " Inform us about an application, web page or visualization that you'be "
 "created with the form below and we will add it to application gallery. "
 msgstr ""
+" Inform us about an application, web page or visualisation that you'be "
+"created with the form below and we will add it to application gallery. "
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:46
 msgid "Name or organization of the author"
-msgstr ""
+msgstr "Name or organisation of the author"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:57
 msgid ""
 " Can be a person's name or the name of the organization which has developed "
 "the showcase. "
 msgstr ""
+" Can be a person's name or the name of the organisation which has developed "
+"the showcase. "
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:65
 msgid "Application website"
@@ -2516,7 +2537,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/organization.html:41
 msgid "There is no description for this organization"
-msgstr ""
+msgstr "There is no description for this organisation"
 
 #: ckanext/ytp/templates/snippets/search_form.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3
@@ -2597,22 +2618,22 @@ msgstr "No categories found"
 #: ckanext/ytp/templates/snippets/search_result_text.html:30
 msgid "{number} organization found for \"{query}\""
 msgid_plural "{number} organizations found for \"{query}\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} organisation found for \"{query}\""
+msgstr[1] "{number} organisations found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:31
 msgid "No organizations found for \"{query}\""
-msgstr ""
+msgstr "No organisations found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} organisation found"
+msgstr[1] "{number} organisations found"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:33
 msgid "No organizations found"
-msgstr ""
+msgstr "No organisations found"
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"
@@ -2628,7 +2649,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard_organizations.html:36
 msgid "You are not a member of any organizations."
-msgstr ""
+msgstr "You are not a member of any organisations."
 
 #: ckanext/ytp/templates/user/dashboard_organizations.html:38
 #: ckanext/ytp/templates/user/read.html:16
