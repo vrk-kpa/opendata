@@ -8,15 +8,17 @@
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-29 11:41+0000\n"
+"POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -397,6 +399,7 @@ msgstr "Innehållstyp"
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:36
 msgid "Organization"
@@ -425,7 +428,7 @@ msgstr "Licens"
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:34
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:91
 msgid "Tags"
-msgstr "Taggar"
+msgstr "Nyckelord"
 
 #: ckanext/ytp/plugin.py:523
 msgid "Other"
@@ -440,11 +443,11 @@ msgstr "Tilläggsinformation"
 msgid "Group title already exists in database"
 msgstr "Titeln för kategorien finns redan i databasen"
 
-#: ckanext/ytp/plugin.py:1136
+#: ckanext/ytp/plugin.py:1139
 msgid "Service charge must be supplied"
 msgstr "Tjänstens avgiftsbelagdhet måste anges"
 
-#: ckanext/ytp/plugin.py:1146
+#: ckanext/ytp/plugin.py:1149
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
@@ -453,7 +456,7 @@ msgstr ""
 "Om tjänsten är avgiftsbelagd, måste du ange prisinformationen på webben "
 "eller en beskrivning om priserna eller båda"
 
-#: ckanext/ytp/plugin.py:1159
+#: ckanext/ytp/plugin.py:1162
 msgid "At least one of the main target groups must to be selected"
 msgstr "Åtminstone en målkategori från huvudnivån måste väljas"
 
@@ -521,6 +524,7 @@ msgstr "Intern"
 #: ckanext/ytp/templates/package/snippets/additional_info.html:70
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:222
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:236
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
 msgid "Created"
 msgstr "Skapad"
@@ -837,7 +841,7 @@ msgstr "Dataseten kommas åt på http://www.syke.fi/avointieto"
 
 #: ckanext/ytp/translations.py:114
 msgid "Apps"
-msgstr "Apps"
+msgstr "Applikationer"
 
 #: ckanext/ytp/translations.py:117
 msgid "Add to group"
@@ -848,7 +852,7 @@ msgstr "Lägg till kategorin"
 msgid "There are no groups associated with this dataset"
 msgstr "Det finns inga kategorier kopplade till detta dataset"
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:45
+#: ckanext/ytp/templates/group/snippets/group_item.html:47
 #: ckanext/ytp/translations.py:119
 msgid "Remove dataset from this group"
 msgstr "Ta bort dataset från denna kategori"
@@ -967,20 +971,24 @@ msgid ""
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:154
+#: ckanext/ytp/translations.py:152
+msgid "Deprecated datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:153
+msgid "Datasets that have deprecated"
+msgstr ""
+
+#: ckanext/ytp/translations.py:156
 msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:155
+#: ckanext/ytp/translations.py:157
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
-msgstr ""
-
-#: ckanext/ytp/translations.py:158
-msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
 #: ckanext/ytp/validators.py:173
@@ -1121,7 +1129,7 @@ msgstr ""
 msgid "View {name}"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:45
+#: ckanext/ytp/templates/group/snippets/group_item.html:47
 #: ckanext/ytp/templates/snippets/search_form.html:87
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
@@ -1258,7 +1266,7 @@ msgstr "Stäng utan att spara"
 
 #: ckanext/ytp/templates/organization/index.html:15
 msgid "Search organizations..."
-msgstr ""
+msgstr "Sök efter organisationer..."
 
 #: ckanext/ytp/templates/organization/index.html:18
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
@@ -1698,6 +1706,7 @@ msgstr "År"
 
 #: ckanext/ytp/templates/package/resource_read.html:260
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr "Nedladdningar"
 
@@ -1794,6 +1803,7 @@ msgstr "Skapare"
 #: ckanext/ytp/templates/package/snippets/package_metadata_fields.html:30
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:25
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:28
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:7
 msgid "Maintainer"
 msgstr "Förvaltare"
 
@@ -1842,6 +1852,7 @@ msgid "All time visits:"
 msgstr "Sidvisningar totalt:"
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr "Sidvisningar"
 
@@ -1850,6 +1861,7 @@ msgid "Change log"
 msgstr "Versionshistorik"
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:219
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
 msgid "Dataset"
 msgstr ""
 
@@ -2354,6 +2366,10 @@ msgid ""
 "href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
 
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
+msgid "Deprecated"
+msgstr ""
+
 #: ckanext/ytp/templates/report/index.html:3
 #: ckanext/ytp/templates/report/index.html:6
 msgid "Reports"
@@ -2526,11 +2542,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/facet_list.html:80
 msgid "Show More"
-msgstr ""
+msgstr "Visa fler"
 
 #: ckanext/ytp/templates/snippets/facet_list.html:83
 msgid "Show Less"
-msgstr ""
+msgstr "Visa färre"
 
 #: ckanext/ytp/templates/snippets/facet_list.html:87
 msgid "There are no {facet_type} that match this search"

@@ -16,8 +16,8 @@ The ytp-develop.py script is provided to help with linking the modules. This scr
 
 Examples:
 
-    sudo /src/scripts/ytp-develop.py ckanext-ytp-main # replace ckanext-ytp-main project
-    sudo /src/scripts/ytp-develop.py ckanext-ytp-main ytp-assets-common # replace both ckanext-ytp-main and ytp-assets-common projects 
+    sudo /src/scripts/ytp-develop.py ckanext-ytp_main # replace ckanext-ytp_main project
+    sudo /src/scripts/ytp-develop.py ckanext-ytp_main ytp-assets-common # replace both ckanext-ytp_main and ytp-assets-common projects 
 
 ### Notes
 
