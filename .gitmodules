@@ -56,3 +56,6 @@
 [submodule "modules/ckanext-datarequests"]
 	path = modules/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git
+[submodule "modules/ckanext-organizationapproval"]
+	path = modules/ckanext-organizationapproval
+	url = https://github.com/vrk-kpa/ckanext-organizationapproval.git
