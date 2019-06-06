@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-29 11:41+0000\n"
+"POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -378,6 +378,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/package/snippets/package_basic_fields.html:127
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:36
 msgid "Organization"
@@ -420,17 +421,17 @@ msgstr ""
 msgid "Group title already exists in database"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1136
+#: ckanext/ytp/plugin.py:1139
 msgid "Service charge must be supplied"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1146
+#: ckanext/ytp/plugin.py:1149
 msgid ""
 "If there is a service charge, you must supply either the pricing information "
 "web address for this service or a description of the service pricing or both"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1159
+#: ckanext/ytp/plugin.py:1162
 msgid "At least one of the main target groups must to be selected"
 msgstr ""
 
@@ -498,6 +499,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/additional_info.html:70
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:222
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:236
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
 msgid "Created"
 msgstr ""
@@ -823,7 +825,7 @@ msgstr ""
 msgid "There are no groups associated with this dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:45
+#: ckanext/ytp/templates/group/snippets/group_item.html:47
 #: ckanext/ytp/translations.py:119
 msgid "Remove dataset from this group"
 msgstr ""
@@ -940,11 +942,19 @@ msgid ""
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:154
+#: ckanext/ytp/translations.py:152
+msgid "Deprecated datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:153
+msgid "Datasets that have deprecated"
+msgstr ""
+
+#: ckanext/ytp/translations.py:156
 msgid "The dataset amount of the organization is shown beside the organization name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:155
+#: ckanext/ytp/translations.py:157
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
@@ -1090,7 +1100,7 @@ msgstr ""
 msgid "View {name}"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:45
+#: ckanext/ytp/templates/group/snippets/group_item.html:47
 #: ckanext/ytp/templates/snippets/search_form.html:87
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
@@ -1653,6 +1663,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:260
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
 
@@ -1745,6 +1756,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/package_metadata_fields.html:30
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:25
 #: ckanext/ytp/templates/package/snippets/ytp_additional_info.html:28
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:7
 msgid "Maintainer"
 msgstr ""
 
@@ -1793,6 +1805,7 @@ msgid "All time visits:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr ""
 
@@ -1801,6 +1814,7 @@ msgid "Change log"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:219
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
 msgid "Dataset"
 msgstr ""
 
@@ -2282,6 +2296,10 @@ msgid ""
 "data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 "
 "for evaluating open data. More information on the metric is available at <a "
 "href=\"http://5stardata.info\">http://5stardata.info</a>."
+msgstr ""
+
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
+msgid "Deprecated"
 msgstr ""
 
 #: ckanext/ytp/templates/report/index.html:3
