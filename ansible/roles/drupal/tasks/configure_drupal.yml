@@ -246,6 +246,7 @@
     - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
     - { src: system.performance.yml.j2, dest: system.performance.yml }
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
+    - { src: locale.settings.yml.j2, dest: locale.settings.yml }
 
 - name: Import drupal settings
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"
@@ -262,12 +263,13 @@
     - skip_ansible_lint
 
 - name: Update drupal translations
-  shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
+  shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item.src }}/drupal8.po --langcode {{ item.dest }}"
   args:
     chdir: "{{ drupal_root }}"
   with_items:
-    - "fi"
-    - "sv"
+    - { src: "fi", dest: "fi" }
+    - { src: "sv", dest: "sv" }
+    - { src: "en_GB", dest: "en" }
   tags:
     - skip_ansible_lint
 
