@@ -80,7 +80,7 @@ describe('Showcase tests', function() {
     cy.get("testisovellus").should('not.exist'); // The showcase should not be visible on the list
   })
 
-  it('Add dataset to showcase', function() {
+  it('Add dataset to showcase and edit showcase with dataset', function() {
     cy.visit('/data/organization');
 
     // Organization
@@ -110,5 +110,7 @@ describe('Showcase tests', function() {
     cy.get('button[name="bulk_action.showcase_add"]').click()
     //Remove button should exist after adding the dataset
     cy.get('button[name="bulk_action.showcase_remove"')
+    cy.get(`a[href="/data/fi/showcase/${showcase_name}"]`).first().click();
+    cy.edit_showcase(showcase_name);
   })
 })

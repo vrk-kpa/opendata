@@ -52,7 +52,7 @@ Cypress.Commands.add('login', (username, password) => {
 Cypress.Commands.add('logout', () => {
   cy.visit('/user/logout');
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
-  cy.getCookies().should('have.length', 0);
+  cy.getCookies().should('have.length', 0); //TODO: Check why the cookie length is 1 sometimes
 })
   
 
@@ -206,7 +206,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
       "#field-title": 'edit',
     }
   }
-  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
+  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).first().click();
   cy.fill_form_fields(showcase_form_data)
   cy.get('button[name=save]').click();
   cy.get('.page-heading').contains(showcase_name+'edit');
