@@ -54,6 +54,7 @@ class ClamS3Scanner:
                 logger.warn('A newer version of ClamAV is available')
             else:
                 logger.error(f'ClamAV database update failed: \n{e.output}')
+                raise(e)
 
     def start_clam_daemon(self):
         clamd_max_retry_count = 12
