@@ -49,8 +49,11 @@ class ClamS3Scanner:
                 raise Exception(
                     f'Unable to ensure that ClamAV database is up to date: \n{freshclam_process_output}')
         except subprocess.CalledProcessError as e:
-            logger.error(f'ClamAV database update failed: \n{e.output}')
-            raise e
+            error_message = e.output.decode('utf-8')
+            if 'OUTDATED' in error_message and (error_message.count('is up to date') >= 3 or 'ClamAV database updated' in error_message):
+                logger.warn('A newer version of ClamAV is available')
+            else:
+                logger.error(f'ClamAV database update failed: \n{e.output}')
 
     def start_clam_daemon(self):
         clamd_max_retry_count = 12
