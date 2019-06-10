@@ -1039,8 +1039,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
         map.connect('/organization/new',
-                    action='new',
-                    controller='organization')
+                    controller=organization_controller,
+                    action='new')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',
@@ -1053,6 +1053,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     controller=organization_controller,
                     action='embed',
                     ckan_icon='group')
+
         return map
 
     # IValidators
@@ -1103,7 +1104,10 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def register_reports(self):
         import reports
-        return [reports.administrative_branch_summary_report_info]
+        return [
+            reports.administrative_branch_summary_report_info,
+            reports.deprecated_datasets_report_info
+        ]
 
     def update_config(self, config):
         from ckan.plugins import toolkit

@@ -20,6 +20,7 @@ import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
+from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from plugin import create_vocabulary
 
@@ -565,6 +566,27 @@ class YtpDatasetController(PackageController):
 
 
 class YtpOrganizationController(OrganizationController):
+    # NOTE: should this be in organizationapproval plugin?
+    def _save_new(self, context, group_type=None):
+        try:
+            data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
+            data_dict['type'] = group_type or 'group'
+            context['message'] = data_dict.get('log_message', '')
+            data_dict['users'] = [{'name': c.user, 'capacity': 'admin'}]
+            # Set approval status to pending
+            data_dict['approval_status'] = 'pending'
+            group = self._action('group_create')(context, data_dict)
+            send_new_organization_email_to_admin()
+            # Redirect to the appropriate _read route for the type of group
+            h.redirect_to(group['type'] + '_read', id=group['name'])
+        except (NotFound, NotAuthorized) as e:
+            abort(404, _('Group not found'))
+        except DataError:
+            abort(400, _(u'Integrity Error'))
+        except ValidationError as e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.new(data_dict, errors, error_summary)
 
     def members(self, id):
         group_type = self._ensure_controller_matches_group_type(id)
@@ -696,7 +718,6 @@ class YtpOrganizationController(OrganizationController):
             g = model.Session.query(model.Group).filter(model.Group.name == id).first()
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html', group_type=group_type)
-
         return OrganizationController.read(self, id, limit)
 
     def embed(self, id, limit=5):

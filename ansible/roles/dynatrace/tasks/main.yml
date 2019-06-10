@@ -5,6 +5,7 @@
   stat:
     path: /opt/dynatrace/oneagent/agent/lib64/liboneagentos.so
   register: dynatrace_agent_installed
+  tags: configure
 
 - name: Download and install Dynatrace OneAgent
   block:
@@ -23,13 +24,5 @@
   when:
     - not dynatrace_agent_installed.stat.exists
     - dynatrace_oneagent_installer_script_url is not none
-    - dynatrace_install_oneagent
-
-- name: Uninstall Dynatrace OneAgent
-  shell: "sh /opt/dynatrace/oneagent/agent/uninstall.sh"
-  become: true
-  tags:
-    - skip_ansible_lint
-  when:
-    - dynatrace_agent_installed.stat.exists
-    - not dynatrace_install_oneagent
+    - dynatrace_install_oneagent | bool
+  tags: configure

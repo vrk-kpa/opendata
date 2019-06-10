@@ -117,15 +117,33 @@ a.tag {
 }
 
 // Buttons
-//
-.btn-primary,
-.btn-info {
+.btn-primary {
   background-color: @btn-dark-bg;
   border-color: @btn-dark-bg;
 
   &:hover {
     background-color: darken(@btn-dark-bg, 10%);
     border-color: darken(@btn-dark-bg, 10%);
+  }
+}
+
+.btn-info {
+  background-color: @opendata-brand-info;
+  border-color: @opendata-brand-info;
+
+  &:hover {
+    background-color: darken(@opendata-brand-info, 10%);
+    border-color: darken(@opendata-brand-info, 10%);
+  }
+}
+
+.btn-warning {
+  background-color: @opendata-brand-warning;
+  border-color: @opendata-brand-warning;
+
+  &:hover {
+    background-color: darken(@opendata-brand-warning, 10%);
+    border-color: darken(@opendata-brand-warning, 10%);
   }
 }
 
@@ -142,28 +160,28 @@ a.tag {
 }
 
 .btn-success {
-  background-color: @btn-dark-bg;
-  border-color: @btn-dark-bg;
+  background-color: @opendata-brand-success;
+  border-color: @opendata-brand-success;
 
   &.disabled,
   &.disabled:focus,
   &.disabled:hover {
-    background-color: tint(@btn-dark-bg, 50%);
-    border-color: tint(@btn-dark-bg, 50%);
+    background-color: tint(@opendata-brand-success, 50%);
+    border-color: tint(@opendata-brand-success, 50%);
   }
 
   &:hover,
   &:focus,
   &:active {
-    background-color: @btn-dark-bg;
-    border-color: @btn-dark-bg;
+    background-color: @opendata-brand-success;
+    border-color: @opendata-brand-success;
   }
 
   &:focus:hover,
   &:active:hover,
   &:active:focus {
-    background-color: darken(@btn-dark-bg, 10%);
-    border-color: darken(@btn-dark-bg, 10%);
+    background-color: darken(@opendata-brand-success, 10%);
+    border-color: darken(@opendata-brand-success, 10%);
   }
 }
 
@@ -553,6 +571,9 @@ aside.tertiary {
   padding-bottom: 10px;
   border-top: 0;
   border-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 
   .showcase.media-item {
     width: 250px;
@@ -576,6 +597,7 @@ aside.tertiary {
       object-fit: cover;
       border-top-left-radius: 2px;
       border-top-right-radius: 1px;
+      margin: 0 0 5px 0;
     }
 
     .item-content {
@@ -628,6 +650,13 @@ aside.tertiary {
 
   .opendata-category-icon {
     color: @mediagrid-category-icon-color;
+  }
+
+  .media-item {
+    .media-image {
+      margin: 0 auto 15px auto;
+      width: 50px;
+    }
   }
 }
 

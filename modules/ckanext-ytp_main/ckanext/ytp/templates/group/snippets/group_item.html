@@ -21,7 +21,7 @@ Example:
   {% endblock %}
   <div class="item-content item-content-slide-up">
   {% block title %}
-    <h3 class="media-heading">{{ h.get_translated(group, 'title') or group.title }}</h3>
+    <h3 class="media-heading">{{ (h.get_translated(group, 'title') or group.title)}}</h3>
   {% endblock %}
   {% block description %}
     {% set description =  h.render_markdown(h.get_translated(group, 'description')) %}
@@ -42,7 +42,10 @@ Example:
   </a>
   {% endblock %}
   {% if group.user_member %}
-    <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
+    <!-- NOTE: if we don't check package update here, anyone can delete a category from any dataset -->
+    {% if h.check_access('package_update',{'id':c.pkg_dict.id}) %}
+      <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
+    {% endif %}
   {% endif %}
   </div>
   {% endblock %}
