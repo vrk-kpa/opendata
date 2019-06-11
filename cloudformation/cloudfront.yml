@@ -113,6 +113,7 @@ Resources:
               WhitelistedNames:
               - 'SESS*'
               - 'SSESS*'
+              - 'ckan'
             Headers:
             - 'CloudFront-Forwarded-Proto'
             - 'Host'
