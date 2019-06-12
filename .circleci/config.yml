@@ -447,7 +447,7 @@ jobs:
           name: Build and tag ClamAV container
           command: |
             docker build -t clamav-scanner:latest ~/project/clamav/clamav-docker
-      
+
       - run:
           name: Build lambdas
           command: |
@@ -472,14 +472,15 @@ jobs:
             $(aws ecr get-login --no-include-email --region eu-west-1) &&\
             docker tag clamav-scanner:latest ${AWS_PRODUCTION_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/clamav-scanner:latest &&\
             docker push $_
-      
+          no_output_timeout: 20m
+
       - run:
           name: Build lambdas
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
-      
+
       - run:
           name: Package SAM template
           command: |
