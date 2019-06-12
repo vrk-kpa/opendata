@@ -29,7 +29,7 @@
     - role: common
       tags: common
     - role: dynatrace
-      tags: dynatrace      
+      tags: dynatrace
     - role: postgres
       tags: postgres
     - role: opendata_frontend
