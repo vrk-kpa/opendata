@@ -79,7 +79,12 @@ Parameters:
   HostedZoneIdAlternate:
     Description: "[Optional] Zone ID for the DNS record"
     Type: 'AWS::SSM::Parameter::Value<String>'
-
+  DNSDomainName:
+    Description: "Domain name"
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  AlternateDNSDomainName:
+    Description: "Alternate Domain name"
+    Type: 'AWS::SSM::Parameter::Value<String>'
 Conditions:
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
   CloudfrontLogging: !Equals [!Ref LogEnabled, "true"]
@@ -149,7 +154,7 @@ Resources:
   DomainName:
     Type: AWS::Route53::RecordSet
     Properties:
-      Name: !Sub ${DNSHostName}.avoindata.fi.
+      Name: !Sub ${DNSHostName}.${DNSDomainName}.
       Type: A
       HostedZoneId: !Ref HostedZoneId
       AliasTarget:
@@ -160,7 +165,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Condition: CreateAlternateDomainRecord
     Properties:
-      Name: !Sub ${DNSHostName}.opendata.fi.
+      Name: !Sub ${DNSHostName}.${AlternateDNSDomainName}.
       Type: A
       HostedZoneId: !Ref HostedZoneIdAlternate
       AliasTarget:
