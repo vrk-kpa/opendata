@@ -7,11 +7,11 @@
 # Translators:
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
-# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
-# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-06-05 12:13+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -157,7 +157,7 @@ msgstr "Ei oikeuksia muokata tätä aineistolinkkiä "
 
 #: ckanext/ytp/controller.py:333
 msgid "Resource not found"
-msgstr "Resurssia ei löytynyt"
+msgstr "Aineistolinkkiä ei löytynyt"
 
 #: ckanext/ytp/controller.py:379
 msgid "Related item not found"
@@ -269,7 +269,7 @@ msgstr "Päivämäärän muoto väärä"
 
 #: ckanext/ytp/helpers.py:84 ckanext/ytp/plugin.py:539
 msgid "Unnamed resource"
-msgstr "Nimetön resurssi"
+msgstr "Nimetön aineistolinkki"
 
 #: ckanext/ytp/logic.py:39
 msgid "Cannot change username"
@@ -382,7 +382,7 @@ msgstr "Tietoaineisto"
 
 #: ckanext/ytp/plugin.py:445
 msgid "Popular tags"
-msgstr ""
+msgstr "Suositut avainsanat"
 
 #: ckanext/ytp/plugin.py:446 ckanext/ytp/plugin.py:463
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:51
@@ -569,12 +569,12 @@ msgid ""
 " next stage."
 msgstr ""
 "Lyhyt ja kuvaava otsikko tietoaineistolle. Älä rajaa sisältöä ajallisesti "
-"tietoaineiston otsikossa, vaan lisää ajoitettuja resursseja seuraavassa "
-"vaiheessa."
+"tietoaineiston otsikossa, vaan lisää ajoitettuja aineistolinkkejä "
+"seuraavassa vaiheessa."
 
 #: ckanext/ytp/translations.py:43
 msgid "A short and descriptive name for the resource."
-msgstr "Lyhyt ja kuvaava otsikko resurssille"
+msgstr "Lyhyt ja kuvaava otsikko aineistolinkille"
 
 #: ckanext/ytp/translations.py:44
 msgid ""
@@ -586,7 +586,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:45
 msgid "File format of the selected resource."
-msgstr "Resurssin tiedostoformaatti"
+msgstr "Aineistolinkin tiedostoformaatti"
 
 #: ckanext/ytp/translations.py:46
 msgid ""
@@ -602,7 +602,7 @@ msgstr ""
 msgid ""
 "Coordinates which describe the area which the added resource is associated "
 "with."
-msgstr "Koordinaatit, jotka kuvaavat resurssin kattamaa maa-aluetta"
+msgstr "Koordinaatit, jotka kuvaavat aineistolinkin kattamaa maa-aluetta"
 
 #: ckanext/ytp/translations.py:49
 msgid "The origin of the dataset."
@@ -965,8 +965,8 @@ msgstr "Rikkinäiset linkit"
 msgid ""
 "Dataset resource URLs that are found to result in errors when resolved."
 msgstr ""
-"Tietoaineistojen resurssien viittaamat URLit, joiden avaaminen aiheuttaa "
-"virheen."
+"Tietoaineistojen aineistolinkkien viittaamat URLit, joiden avaaminen "
+"aiheuttaa virheen."
 
 #: ckanext/ytp/translations.py:149
 msgid "Openness (Five Stars)"
@@ -1003,6 +1003,10 @@ msgid ""
 msgstr ""
 "Organisaatiot, joilla ei ole tietoaineistoja näkyvät listauksessa ainoastaan"
 " hakutoimintoa käyttämällä."
+
+#: ckanext/ytp/translations.py:158
+msgid "Organization cannot be deleted while it still has datasets"
+msgstr "Organisaatiota ei voida poistaa koska sillä on tietoaineistoja"
 
 #: ckanext/ytp/validators.py:173
 msgid "expecting list of strings"
@@ -1369,8 +1373,8 @@ msgid ""
 " The number next to each organization depicts the total amount of datasets "
 "per organization and includes suborganizations. "
 msgstr ""
-"Numero organisaation vieressä kuvaa tietoaineistojen määrääorganisaatiosta "
-"ja sen alaorganisaatioista."
+"Numero organisaation nimen vieressä kuvaa tietoaineistojen määrää "
+"organisaatiosta ja sen alaorganisaatioista."
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:16
 msgid "Name"
@@ -1594,7 +1598,7 @@ msgstr "DataStore"
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:7
 msgid "Views"
-msgstr ""
+msgstr "Näkymät"
 
 #: ckanext/ytp/templates/package/resource_read.html:39
 msgid "View"
@@ -1630,7 +1634,7 @@ msgstr "Lähde: <a href=\"%(url)s\">%(dataset)s</a>"
 
 #: ckanext/ytp/templates/package/resource_read.html:125
 msgid "There are no views created for this resource yet."
-msgstr "Resurssille ei ole lisätty näkymiä"
+msgstr "Aineistolinkille ei ole lisätty näkymiä"
 
 #: ckanext/ytp/templates/package/resource_read.html:129
 msgid "Not seeing the views you were expecting?"
@@ -2116,7 +2120,7 @@ msgstr "Päivitä aineistolinkki"
 
 #: ckanext/ytp/templates/package/snippets/resource_item.html:22
 msgid "No description for this resource"
-msgstr "Ei kuvausta tälle resurssille"
+msgstr "Ei kuvausta tälle aineistolinkille"
 
 #: ckanext/ytp/templates/package/snippets/resource_item.html:32
 msgid "Explore"
@@ -2145,7 +2149,7 @@ msgstr "Upota"
 
 #: ckanext/ytp/templates/package/snippets/resource_view.html:24
 msgid "This resource view is not available at the moment."
-msgstr "Resurssinäkymä ei ole tällä hetkellä saatavilla"
+msgstr "Aineistolinkkinäkymä ei ole tällä hetkellä saatavilla"
 
 #: ckanext/ytp/templates/package/snippets/resource_view.html:33
 msgid "Download resource"
@@ -2157,7 +2161,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/resource_view.html:66
 msgid "Embed resource view"
-msgstr "Upota resurssinäkymä"
+msgstr "Upota aineistolinkkinäkymä"
 
 #: ckanext/ytp/templates/package/snippets/resource_view.html:69
 msgid ""
