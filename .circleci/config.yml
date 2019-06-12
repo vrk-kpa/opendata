@@ -300,6 +300,12 @@ jobs:
       - store_artifacts:
           path: ~/project/scheduled_ami_id
 
+      - persist_to_workspace:
+          name: scheduled_ami_id
+          root: ~/project
+          paths:
+            - scheduled_ami_id
+
   stylelint:
     docker:
       - image: circleci/node
