@@ -167,7 +167,7 @@ Resources:
             - s3:DeleteObjectTagging
             - s3:GetObjectTagging
             - s3:PutObjectTagging
-            Resource: arn:aws:s3:::avoindata-infratest-datasets/*
+            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
 
   EFSFileSystem:
     Type: AWS::EFS::FileSystem
