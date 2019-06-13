@@ -1,0 +1,45 @@
+{% import 'macros/form.html' as form %}
+
+<!-- TODO: customize style to look like YTP checkbox style -->
+<style>
+fieldset.checkboxes label {
+    font-weight: normal;
+    display: block;
+}
+fieldset.checkboxes label:after {
+    content: none;
+}
+fieldset.checkboxes label input {
+    width: auto;
+    top: 0;
+}
+</style>
+
+{%- call form.input_block(
+    label=h.scheming_language_text(field.label),
+    classes=['control-medium'],
+    error=errors[field.field_name],
+    is_required=h.scheming_field_required(field)) -%}
+  {%- set choices = [] -%}
+  {%- for c in h.scheming_field_choices(field) -%}
+    {%- do choices.append(
+      (c.value, h.scheming_language_text(c.label))) -%}
+  {%- endfor -%}
+  {%- if field.get('sorted_choices') -%}
+    {%- set choices = choices|sort(case_sensitive=false, attribute=1) -%}
+  {%- endif -%}
+  <fieldset class="checkboxes">
+      {%- for val, label in choices -%}
+      <label for="field-{{ field.field_name }}-{{ val }}">
+          <input id="field-{{ field.field_name }}-{{ val }}"
+                    type="checkbox"
+                    name="{{ field.field_name }}"
+                    value="{{ val }}"
+                    {{"checked " if val in data[field.field_name] }} />
+                {{ label }}
+            </label>
+        {%- endfor -%}
+    </fieldset>
+    {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
+{%- endcall -%}
+

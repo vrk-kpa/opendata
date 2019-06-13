@@ -67,6 +67,23 @@
       "required": true
     },
     {
+      "field_name": "categories",
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox.html",
+      "choices": [
+        {
+          "value": "bactrian",
+          "label": "Bactrian Camel"
+        },
+        {
+          "value": "Ok",
+          "label": "Okidoki"
+        }
+      ],
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!"
+    },
+    {
       "field_name": "international_benchmarks",
       "label": "International benchmarks",
       "form_placeholder":"eg. Maps",
