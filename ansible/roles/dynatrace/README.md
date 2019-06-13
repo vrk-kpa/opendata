@@ -16,8 +16,8 @@ Role Variables
 Url for dynatrace installer
 
 
-#### `secrets_file_path` (optional)
-Sets log access to either enabled or disabled based on the state of this (0/1), default 0
+#### `dynatrace_app_log_content_access` (optional)
+Sets log access to either enabled or disabled based on the state of this (0/1), default 1
 
 
 #### `dynatrace_install_oneagent` (optional)
