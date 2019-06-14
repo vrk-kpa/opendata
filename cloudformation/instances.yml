@@ -168,7 +168,7 @@ Resources:
                   - autoscaling:CompleteLifecycleAction
                 Resource: "*"
               - Effect: Allow
-                Action: 
+                Action:
                   - elasticloadbalancing:DescribeTargetHealth
                 Resource: "*"
               - Effect: Allow
@@ -185,7 +185,7 @@ Resources:
                   - ds:DescribeDirectories
                 Resource: "*"
               - Effect: Allow
-                Action: 
+                Action:
                   - ec2:DescribeTags
                 Resource: "*"
               - Effect: Allow
@@ -261,7 +261,7 @@ Resources:
       NumCacheNodes: 1
       Port: 6379
       PreferredMaintenanceWindow: !Ref RedisMaintenanceWindow
-      VpcSecurityGroupIds: 
+      VpcSecurityGroupIds:
         - !Ref SolrRedisSecurityGroup
       Tags:
         - Key: Name
@@ -382,7 +382,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /
+      HealthCheckPath: /solr/
       HealthCheckPort: '8983'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
