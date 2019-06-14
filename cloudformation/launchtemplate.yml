@@ -79,11 +79,6 @@ Resources:
             mount -a -t nfs4
             mkdir -p /srv/ytp/files /mnt/ytp_files
             mount /srv/ytp/files
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/credentials.json /root/avoindata-secrets/${EnvironmentName}/credentials.json
-            chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
             flock -x /mnt/ansible.lock -c 'ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor'
 

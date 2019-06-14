@@ -989,6 +989,10 @@ msgstr ""
 "Organisations with no datasets are shown in this list only when using the "
 "search functionality"
 
+#: ckanext/ytp/translations.py:158
+msgid "Organization cannot be deleted while it still has datasets"
+msgstr ""
+
 #: ckanext/ytp/validators.py:173
 msgid "expecting list of strings"
 msgstr ""
