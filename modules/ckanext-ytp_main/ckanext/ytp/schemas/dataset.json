@@ -264,11 +264,11 @@
       "choices": [
         {
           "value": false,
-          "label": "False"
+          "label": "No"
         },
         {
           "value": true,
-          "label": "True"
+          "label": "Yes"
         }
       ],
       "form_snippet": null,

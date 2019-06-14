@@ -289,8 +289,22 @@ jobs:
           paths:
             - ansible/manifest-scheduled.json
 
+      - run:
+          name: Save ami id to file
+          command: cat manifest-scheduled.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/project/scheduled_ami_id
+          working_directory: ~/project/ansible
+
       - store_artifacts:
           path: ~/logs
+
+      - store_artifacts:
+          path: ~/project/scheduled_ami_id
+
+      - persist_to_workspace:
+          name: scheduled_ami_id
+          root: ~/project
+          paths:
+            - scheduled_ami_id
 
   stylelint:
     docker:
@@ -395,21 +409,21 @@ jobs:
       - run:
           name: Check current stack update status
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
             until aws cloudformation describe-stacks --stack-name "beta-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 15m
 
       - run:
           name: Update AMI ids in parameter store
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
-            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/web_image_ami_copy) && \
-            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_image_ami_copy)
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
+            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/web_ami_id) && \
+            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_ami_id)
 
       - run:
           name: Update stack
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
             aws cloudformation update-stack \
             --stack-name "beta-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
@@ -473,6 +487,7 @@ jobs:
             docker tag clamav-scanner:latest ${AWS_PRODUCTION_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/clamav-scanner:latest &&\
             docker push $_
           no_output_timeout: 20m
+
 
       - run:
           name: Build lambdas
@@ -618,6 +633,7 @@ workflows:
       - copy-web-ami:
           requires:
             - cypress-web
+            - packer-scheduled
           filters:
             branches:
               only: master
@@ -630,8 +646,8 @@ workflows:
               only: master
       - beta-deploy:
           requires:
-            - copy-web-ami
-            - copy-scheduled-ami
+            - cypress-web
+            - packer-scheduled
           filters:
             branches:
               only: master
