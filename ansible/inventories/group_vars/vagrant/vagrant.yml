@@ -8,6 +8,6 @@ secondary_hostname: vagrant.opendata.fi
 secondary_hostname_language: en
 smtp_server_domain: "localhost"
 
-secrets_file_path: does_not_exist
+secrets_file: does_not_exist
 deployment_environment_id: vagrant
 disqus_name: "localhost-avoindata-fi"
