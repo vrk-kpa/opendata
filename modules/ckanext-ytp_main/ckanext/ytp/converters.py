@@ -1,12 +1,14 @@
 import json
 import datetime
 import urlparse
-
+import logging
 from ckan.lib.navl.dictization_functions import Invalid, Missing
 from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 from itertools import count
+
+log = logging.getLogger(__name__)
 
 
 def to_list_json(value, context):
@@ -143,3 +145,21 @@ def simple_date_validate(value, context):
         return value
     except ValueError:
         raise Invalid(_('Date format incorrect'))
+
+
+def convert_to_groups(key, data, errors, context):
+    from ckan import model
+    log.info('group ids exist')
+    log.info(data[key])
+    groups_with_details = []
+    # FIXME: sometimes there is only one id and it's not array
+    for id in data[key]:
+        # try:
+        #     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+        #     validators.group_id_or_name_exists(id, context)
+        # except Exception as e:
+        #     log.error(e)
+        #     return False
+        groups_with_details.append({"name": id})
+    log.info('groups: %s', groups_with_details)
+    data[key] = groups_with_details

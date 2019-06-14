@@ -212,7 +212,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
 
 
 def calculate_dataset_stars(dataset_id):
-    from ckan.logic import get_action, NotFound
+    from ckan.logic import NotFound
     from ckan import model
 
     if not is_plugin_enabled('qa'):
@@ -457,3 +457,31 @@ def get_label_for_producer(producer_type):
         "society-trust": "Society - Trust",
         "person": "Person"
     }.get(producer_type, '')
+
+
+def scheming_category_list(args):
+    from ckan.logic import NotFound
+    from ckan import model
+
+    try:
+        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+        group_ids = get_action('group_list')(context, {})
+    except NotFound:
+        log.info('NOT FOUND!')
+        return None
+    else:
+        category_list = []
+        for group in group_ids:
+            try:
+                context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+                group_details = get_action('group_show')(context, {'id': group})
+            except Exception as e:
+                log.error(e)
+                return None
+
+            category_list.append({
+                "value": group,
+                "label": group_details.get('title')
+            })
+
+    return category_list

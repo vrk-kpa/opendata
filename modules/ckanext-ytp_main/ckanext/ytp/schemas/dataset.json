@@ -67,21 +67,13 @@
       "required": true
     },
     {
-      "field_name": "categories",
+      "field_name": "groups",
       "label": "Categories",
       "preset": "multiple_checkbox",
       "form_snippet": "ytp_multiple_checkbox.html",
-      "choices": [
-        {
-          "value": "bactrian",
-          "label": "Bactrian Camel"
-        },
-        {
-          "value": "Ok",
-          "label": "Okidoki"
-        }
-      ],
-      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!"
+      "choices_helper": "scheming_category_list",
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
+      "validators": "convert_to_groups"
     },
     {
       "field_name": "international_benchmarks",
