@@ -382,8 +382,16 @@ class SixodpHarvester(HarvesterBase):
                 object_ids.append(obj.id)
 
             for deleted_id in deleted_ids:
+
+                # Original harvest object needs to be updated
                 log.debug('Creating deleting HarvestObject for %s', deleted_id)
-                obj = HarvestObject(guid=deleted_id, job=harvest_job, content='{"id":"%s", "delete":true}' % deleted_id)
+                obj = model.Session.query(HarvestObject)\
+                    .filter(
+                    HarvestObject.current == True  # noqa
+                )\
+                    .filter(HarvestObject.guid == deleted_id).one()
+                obj.job = harvest_job
+                obj.content = '{"id":"%s", "delete":true}' % deleted_id
                 obj.save()
                 object_ids.append(obj.id)
 
@@ -494,6 +502,9 @@ class SixodpHarvester(HarvesterBase):
             if package_dict.get('delete', False):
                 log.info('Deleting package %s' % package_dict['id'])
                 get_action('package_delete')(base_context.copy(), {'id': package_dict['id']})
+
+                # Mark current to false, to mark it as deleted
+                harvest_object.current = False
                 return True
 
             if package_dict.get('type') == 'harvest':
