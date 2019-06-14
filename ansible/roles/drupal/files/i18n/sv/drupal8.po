@@ -358,7 +358,7 @@ msgid "Status"
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 msgid "List"
 msgstr ""
@@ -418,7 +418,7 @@ msgid "Cancel"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 msgid "Taxonomy"
 msgstr ""
@@ -772,7 +772,7 @@ msgid "PostgreSQL"
 msgstr ""
 
 msgid "Contact"
-msgstr ""
+msgstr "Kontakta oss"
 
 msgid "Off"
 msgstr ""
@@ -1714,7 +1714,7 @@ msgid "Sort by"
 msgstr ""
 
 msgid "Log in"
-msgstr ""
+msgstr "Logga in"
 
 msgid "Uninstall"
 msgstr ""
@@ -3050,7 +3050,7 @@ msgid "Output format"
 msgstr ""
 
 msgid "Reset password"
-msgstr ""
+msgstr "Glömt ditt lösenord?"
 
 msgid "URI"
 msgstr ""
@@ -4422,7 +4422,7 @@ msgid "Display type"
 msgstr ""
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekräfta lösenord"
 
 msgid "button"
 msgstr ""
@@ -18184,7 +18184,7 @@ msgid "Request Path"
 msgstr ""
 
 msgid "Username or email address"
-msgstr ""
+msgstr "Ditt användarnamn eller din e-postadress"
 
 msgid "Email addresses to notify when updates are available"
 msgstr ""
@@ -25089,16 +25089,16 @@ msgid "No popular data sets found"
 msgstr ""
 
 msgid "News and articles"
-msgstr ""
+msgstr "Aktuellt"
 
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 msgid "Finnish open data portal"
 msgstr ""
 
 msgid "No articles found."
-msgstr ""
+msgstr "Inga artiklar hittades."
 
 msgid "1 block is available in the modified list."
 msgid_plural "@count blocks are available in the modified list."
@@ -25248,7 +25248,7 @@ msgid "Popular"
 msgstr ""
 
 msgid "Open data categories"
-msgstr ""
+msgstr "Öppna data kategorier"
 
 msgid "Utilize data sets"
 msgstr ""
@@ -25327,7 +25327,7 @@ msgid "All Events"
 msgstr ""
 
 msgid "Register new account"
-msgstr ""
+msgstr "Registrera ett nytt konto"
 
 msgid "New release(s) available for @site_name"
 msgstr ""
