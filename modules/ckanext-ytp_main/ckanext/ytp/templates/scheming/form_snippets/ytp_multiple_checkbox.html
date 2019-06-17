@@ -2,10 +2,6 @@
 
 <!-- TODO: customize style to look like YTP checkbox style -->
 <style>
-fieldset.checkboxes label {
-    font-weight: normal;
-    display: block;
-}
 fieldset.checkboxes label:after {
     content: none;
 }
@@ -30,12 +26,13 @@ fieldset.checkboxes label input {
   {%- endif -%}
   <fieldset class="checkboxes">
       {%- for val, label in choices -%}
-      <label for="field-{{ field.field_name }}-{{ val }}">
+      <label class="ytp-checkbox" for="field-{{ field.field_name }}-{{ val }}">
           <input id="field-{{ field.field_name }}-{{ val }}"
                     type="checkbox"
                     name="{{ field.field_name }}"
                     value="{{ val }}"
-                    {{"checked " if val in data[field.field_name] }} />
+                    {{ "checked" if h.check_group_selected(val, data['groups']) }} />
+                    <span class="custom-checkbox"></span>
                 {{ label }}
             </label>
         {%- endfor -%}

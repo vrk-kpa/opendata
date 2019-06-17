@@ -462,6 +462,7 @@ def get_label_for_producer(producer_type):
 def scheming_category_list(args):
     from ckan.logic import NotFound
     from ckan import model
+    # FIXME: sometimes this might return 0 categories if in development
 
     try:
         context = {'model': model, 'session': model.Session, 'ignore_auth': True}
@@ -485,3 +486,12 @@ def scheming_category_list(args):
             })
 
     return category_list
+
+
+def check_group_selected(val, data):
+    if 'name' in data:
+        if filter(lambda x: x.name == val,  data):
+            log.info('VALUE FOUND!: %s', val)
+            return True
+        log.info('Val not found: %s', val)
+    return False

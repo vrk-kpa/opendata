@@ -151,15 +151,19 @@ def convert_to_groups(key, data, errors, context):
     from ckan import model
     log.info('group ids exist')
     log.info(data[key])
+    # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
     groups_with_details = []
-    # FIXME: sometimes there is only one id and it's not array
-    for id in data[key]:
-        # try:
-        #     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-        #     validators.group_id_or_name_exists(id, context)
-        # except Exception as e:
-        #     log.error(e)
-        #     return False
-        groups_with_details.append({"name": id})
-    log.info('groups: %s', groups_with_details)
-    data[key] = groups_with_details
+    if data[key]:
+        if isinstance(data[key], basestring):
+            data[key] = [{"name": data[key]}]
+        else:
+            if isinstance(data[key],  list):
+                for id in data[key]:
+                    groups_with_details.append({"name": id})
+                data[key] = groups_with_details
+    log.info('groups: %s', data[key])
+
+
+def output_groups(key, data, errors, context):
+    log.info('OUTPUT GROUPS!')
+    log.info(data[key])
