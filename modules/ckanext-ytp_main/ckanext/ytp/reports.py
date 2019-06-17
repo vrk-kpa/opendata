@@ -1,5 +1,6 @@
 from ckan.logic import get_action
-import itertools
+from ckanext.googleanalytics.model import PackageStats
+from commands import package_generator
 from datetime import timedelta, datetime
 import logging
 
@@ -99,16 +100,62 @@ administrative_branch_summary_report_info = {
 }
 
 
-def package_generator(query, page_size, context):
-    package_search = get_action('package_search')
+def deprecated_datasets_report():
+    # Get packages that are deprecated
+    all_deprecated = package_generator('deprecated:true AND private:false', 1000, {})
 
-    for index in itertools.count(start=0, step=page_size):
-        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
-        packages = package_search(context, data_dict).get('results', [])
-        for package in packages:
-            yield package
+    # Function to loop packages through
+    # Get package visit and download data
+    # Resolve package structure to match table structure
+    def handle_package(pkg):
+        resolved_dict = {
+            'title': pkg["title"],
+            'id': pkg["id"],
+            'maintainer_name': pkg["maintainer"],
+            "maintainer_email": pkg["maintainer_email"],
+            'metadata_created': pkg["metadata_created"],
+            'valid_till': pkg["valid_till"],
+        }
+
+        if pkg.get('organization'):
+            resolved_dict['organization_title'] = pkg["organization"].get("title")
+            resolved_dict['organization_homepage'] = pkg["organization"].get("homepage", None)
+            resolved_dict['organization_id'] = pkg["organization"].get("id")
+
+        # FIXME: Against CKAN best practices to access model directly, should be done through actions
+        # https://docs.ckan.org/en/ckan-2.7.0/contributing/architecture.html#always-go-through-the-action-functions
+        package_stats = PackageStats.get_total_visits(limit=1, package_id=pkg['id'])
+        if package_stats:
+            resolved_dict['visits'] = package_stats[0].get("visits", 0)
+            resolved_dict['downloads'] = package_stats[0].get("downloads", 0)
         else:
-            return
+            resolved_dict['visits'] = 0
+            resolved_dict['downloads'] = 0
+
+        return resolved_dict
+
+    # Loop through all packages and run them through resolver
+    map_iterator = map(handle_package, all_deprecated)
+    packages = list(map_iterator)
+
+    # Filter package output to table:
+    # - all deprecated datasets for csv export
+    # - limit dataset amount in table (sort by deprecation date, newest deprecation first)
+    return {
+        'table': packages,
+        'top': sorted(packages, key=lambda k: k['valid_till'], reverse=True)[:20]
+    }
+
+
+deprecated_datasets_report_info = {
+    'name': 'deprecated-datasets-report',
+    'title': 'Deprecated datasets',
+    'description': 'Datasets that have deprecated',
+    'option_defaults': None,
+    'option_combinations': None,
+    'generate': deprecated_datasets_report,
+    'template': 'report/deprecated_dataset_report.html'
+}
 
 
 def age(dataset):

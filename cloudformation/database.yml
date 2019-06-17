@@ -64,6 +64,10 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
+  ClamAvLambdaArn:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  ClamAvRoleArn:
+    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -131,6 +135,10 @@ Resources:
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
       AccessControl: PublicRead
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !Ref ClamAvLambdaArn
       VersioningConfiguration:
         Status: Enabled
       CorsConfiguration:
@@ -151,6 +159,15 @@ Resources:
             Effect: Allow
             Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
             Principal: "*"
+          - Effect: Allow
+            Principal:
+              AWS: !Ref ClamAvRoleArn
+            Action:
+            - s3:DeleteObject
+            - s3:DeleteObjectTagging
+            - s3:GetObjectTagging
+            - s3:PutObjectTagging
+            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
 
   EFSFileSystem:
     Type: AWS::EFS::FileSystem

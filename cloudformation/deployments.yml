@@ -34,11 +34,13 @@ Resources:
                 Action:
                   - ssm:PutParameter
                   - ssm:GetParameter
+                  - ssm:GetParameters
                 Resource:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/web/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/scheduled/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/web/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/clamav*
               - Effect: Allow
                 Action:
                   - ssm:GetParameters
@@ -46,15 +48,28 @@ Resources:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/*
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
               - Effect: Allow
-                Action: cloudformation:DescribeStacks
-                Resource:
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
+                Action: iam:GetRole
+                Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/clamav-scan-*
               - Effect: Allow
-                Action: cloudformation:UpdateStack
+                Action: 
+                  - lambda:UpdateFunctionCode
+                  - lambda:ListTags
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                  - lambda:GetFunctionConfiguration
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:UpdateStack
+                  - cloudformation:*ChangeSet
+                  - cloudformation:ListChangeSets
+                  - cloudformation:GetTemplateSummary
                 Resource:
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scan/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31
               - Effect: Allow
                 Action: ec2:CreateLaunchTemplateVersion
                 Resource:
@@ -96,3 +111,24 @@ Resources:
                 - !Sub arn:aws:ec2:${AWS::Region}::image/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
+              - Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:*Object
+                Resource:
+                  - "arn:aws:s3:::avoindata-clamav-scan"
+                  - "arn:aws:s3:::avoindata-clamav-scan/*"
