@@ -52,7 +52,12 @@ Cypress.Commands.add('login', (username, password) => {
 Cypress.Commands.add('logout', () => {
   cy.visit('/user/logout');
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
-  cy.getCookies().should('have.length', 0); //TODO: Check why the cookie length is 1 sometimes
+  // Check that authentication cookie doesn't exist anymore
+  cy.getCookies().each((cookie) => {
+    if(cookie.name){
+      expect(cookie).to.have.property('name').to.not.match(/^SESS/);
+    }
+  })
 })
   
 
