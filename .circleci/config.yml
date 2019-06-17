@@ -434,6 +434,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/beta/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/beta/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/beta/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/beta/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/beta/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/beta/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/beta/web/efs_file_system \
@@ -582,6 +583,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/prod/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/prod/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/prod/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/prod/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/prod/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/prod/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
