@@ -35,6 +35,9 @@ Parameters:
   WebHealthCheckGracePeriod:
     Description: Grace period in seconds for web ASG ELB health check
     Type: 'AWS::SSM::Parameter::Value<String>'
+  ScheduledHealthCheckGracePeriod:
+    Description: Grace period in seconds for scheduled ASG ELB health check
+    Type: 'AWS::SSM::Parameter::Value<String>'
   WebTargetGroupArn:
     Description: Target group ARN of web instances
     Type: 'AWS::SSM::Parameter::Value<String>'
@@ -150,6 +153,8 @@ Resources:
         Count: 1
         Timeout: PT20M
     Properties:
+      HealthCheckGracePeriod: !Ref ScheduledHealthCheckGracePeriod
+      HealthCheckType: ELB
       LaunchTemplate:
         LaunchTemplateId: !Ref ScheduledInstanceLaunchTemplate
         Version: !GetAtt ScheduledInstanceLaunchTemplate.LatestVersionNumber
