@@ -5,8 +5,6 @@ dependencies:
     - system.menu.footer-fi
   module:
     - system
-  theme:
-    - avoindata
 id: footer_fi
 theme: avoindata
 region: footer_content
