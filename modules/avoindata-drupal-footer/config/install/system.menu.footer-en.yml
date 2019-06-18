@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: footer-en
+label: 'Footer links (en)'
+description: 'Footer links (en)'
+locked: true
