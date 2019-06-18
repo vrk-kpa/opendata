@@ -198,7 +198,7 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                   - logs:DescribeLogStreams
-                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:${EnvironmentName}-web"
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:${EnvironmentName}*"
               - Effect: Allow
                 Action:
                   - s3:GetEncryptionConfiguration
