@@ -11,6 +11,8 @@ describe('Showcase tests', function() {
     // Set showcase-admin rights for test-publisher
     cy.login_post_request('admin', 'administrator');
     cy.visit('/');
+    // It's necessary to visit dataset page before ckan-admin so that the ckan user is created
+    cy.visit('/data/fi/dataset'); 
     cy.visit('/data/ckan-admin');
     cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
     cy.get('#s2id_username').click();
