@@ -125,7 +125,7 @@
       register: apt_required_packages_result
       retries: 5
       until: apt_required_packages_result is success
-      tags: always
+    tags: always
 
   - name: Install python packages
     pip:
