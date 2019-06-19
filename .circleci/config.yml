@@ -434,6 +434,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/beta/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/beta/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/beta/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/beta/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/beta/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/beta/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/beta/web/efs_file_system \
@@ -486,6 +487,8 @@ jobs:
             $(aws ecr get-login --no-include-email --region eu-west-1) &&\
             docker tag clamav-scanner:latest ${AWS_PRODUCTION_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/clamav-scanner:latest &&\
             docker push $_
+          no_output_timeout: 20m
+
 
       - run:
           name: Build lambdas
@@ -582,6 +585,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/prod/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/prod/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/prod/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/prod/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/prod/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/prod/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
@@ -649,11 +653,11 @@ workflows:
           filters:
             branches:
               only: master
-  # prod_deploy:
-  #   jobs:
-  #     - prod-deploy:
-  #         filters:
-  #           tags:
-  #             only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  #           branches:
-  #             ignore: /.*/
+  prod_deploy:
+    jobs:
+      - prod-deploy:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/

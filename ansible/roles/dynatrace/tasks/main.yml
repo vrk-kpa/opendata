@@ -16,7 +16,7 @@
       no_log: true
 
     - name: Install Dynatrace OneAgent
-      shell: "sh /tmp/dynatrace-oneagent.sh APP_LOG_CONTENT_ACCESS={{ dynatrace_app_log_content_access }}"
+      shell: "sh /tmp/dynatrace-oneagent.sh APP_LOG_CONTENT_ACCESS={{ dynatrace_app_log_content_access }} HOST_GROUP={{ dynatrace_host_group }}"
       become: true
       tags:
         - skip_ansible_lint
