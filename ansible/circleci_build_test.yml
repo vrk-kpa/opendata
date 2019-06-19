@@ -122,9 +122,9 @@
         - nfs-common
         - rsync
       update_cache: yes
-      register: apt_required_packages_result
-      retries: 5
-      until: apt_required_packages_result is success
+    register: apt_required_packages_result
+    retries: 5
+    until: apt_required_packages_result is success
     tags: always
 
   - name: Install python packages
