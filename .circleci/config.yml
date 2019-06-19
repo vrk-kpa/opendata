@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   flake8:
     docker:
@@ -600,7 +600,6 @@ jobs:
           path: ~/logs
 
 workflows:
-  version: 2
   lint_build_test:
     jobs:
       - flake8
