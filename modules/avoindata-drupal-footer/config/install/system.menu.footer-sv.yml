@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: footer-sv
+label: 'Footer links (sv)'
+description: 'Footer links (sv)'
+locked: true
