@@ -220,6 +220,7 @@ ckan_patches:
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
   - group_admin_protection # https://github.com/ckan/ckan/pull/4821
   - remove_gravatar
+  - resource-reorder-translations # https://github.com/ckan/ckan/pull/4838
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
