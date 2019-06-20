@@ -445,6 +445,33 @@ jobs:
           working_directory: ~/project/deploy
           no_output_timeout: 30m
 
+      - run:
+          name: Notify Dynatrace
+          command: |
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/events?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "eventType": "CUSTOM_DEPLOYMENT",
+                "attachRules": {
+                    "tagRule": {
+                        "meTypes": [
+                            "SERVICE",
+                            "APPLICATION",
+                            "HOST"
+                        ],
+                        "tags": "beta"
+                    }
+                },
+                "deploymentName": "CircleCI deployment",
+                "deploymentVersion": "'"$CIRCLE_SHA1"'",
+                "ciBackLink": "'"https://circleci.com/gh/vrk-kpa/opendata/$CIRCLE_BUILD_NUM"'",
+                "source": "CircleCI",
+                "customProperties": {
+                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'"
+                }
+            }' > ~/logs/dynatrace_notification.log 2>&1
+
       - store_artifacts:
           path: ~/logs
 
