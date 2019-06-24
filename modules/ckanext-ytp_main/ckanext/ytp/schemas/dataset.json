@@ -67,7 +67,7 @@
       "required": true
     },
     {
-      "field_name": "groups",
+      "field_name": "categories",
       "label": "Categories",
       "preset": "multiple_checkbox",
       "form_snippet": "ytp_multiple_checkbox.html",

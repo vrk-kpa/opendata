@@ -155,13 +155,13 @@ def convert_to_groups(key, data, errors, context):
     groups_with_details = []
     if data[key]:
         if isinstance(data[key], basestring):
-            data[key] = [{"name": data[key]}]
+            data['groups'] = [{"name": data[key]}]
         else:
             if isinstance(data[key],  list):
                 for id in data[key]:
                     groups_with_details.append({"name": id})
-                data[key] = groups_with_details
-    log.info('groups: %s', data[key])
+                data['groups'] = groups_with_details
+    log.info('groups: %s', data['groups'])
 
 
 def output_groups(key, data, errors, context):
