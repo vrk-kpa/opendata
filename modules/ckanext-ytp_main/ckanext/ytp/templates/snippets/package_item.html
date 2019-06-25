@@ -21,7 +21,7 @@ Example:
 <li class="{{ item_class or 'dataset-item' }}">
   {% block package_item_content %}
     <div class="dataset-content">
-      {% if package.organization.producer_type %}
+      {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
           <span class="producer-type" data-producer-type="{{package.organization.producer_type}}">{{ _(h.get_label_for_producer(package.organization.producer_type))}}</span>
       {% endif %}
       <h3 class="dataset-heading">
