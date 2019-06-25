@@ -7,10 +7,10 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
   WebAmiImageId:
     Description: AMI image ID to use for web instance launch template
-    Type: 'AWS::SSM::Parameter::Value<String>'
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
   ScheduledAmiImageId:
     Description: AMI image ID to use for web instance launch template
-    Type: 'AWS::SSM::Parameter::Value<String>'
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
   ScheduledInstanceType:
     Description: EC2 instance type for the application servers
     Type: 'AWS::SSM::Parameter::Value<String>'
@@ -81,12 +81,19 @@ Resources:
             mount /srv/ytp/files
             cd /root/ytp/ansible
             flock -x /mnt/ansible.lock -c 'ansible-playbook -i inventories/${EnvironmentName} web-server.yml --tags configure --skip-tags cron,supervisor'
-
+            until [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost/data/health)" == "200" ]]; do sleep 10; done
+            aws autoscaling complete-lifecycle-action \
+              --auto-scaling-group-name $(aws autoscaling describe-auto-scaling-instances \
+                --instance-ids $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+                --region ${AWS::Region} --query 'AutoScalingInstances[0].AutoScalingGroupName') \
+              --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+              --lifecycle-action-result CONTINUE \
+              --lifecycle-hook-name web-asg-hook \
+              --region ${AWS::Region}
             until [ "$state" == "\"healthy\"" ]; do state=$(aws --region ${AWS::Region} elbv2 describe-target-health \
               --target-group-arn ${WebTargetGroupArn} \
               --targets Id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
               --query 'TargetHealthDescriptions[0].TargetHealth.State'); sleep 10; done
-
             /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource WebAutoScalingGroup --region ${AWS::Region}
 
   ScheduledInstanceLaunchTemplate:
@@ -121,11 +128,6 @@ Resources:
             mount -a -t nfs4
             mkdir -p /srv/ytp/files /mnt/ytp_files
             mount /srv/ytp/files
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-            aws s3 cp s3://avoindata-secrets/${EnvironmentName}/credentials.json /root/avoindata-secrets/${EnvironmentName}/credentials.json
-            chmod -R go-rwx /root/avoindata-secrets/*
             cd /root/ytp/ansible
             ansible-playbook -i inventories/${EnvironmentName} scheduled-server.yml --tags configure,cron,supervisor
             . /usr/lib/ckan/default/bin/activate
@@ -159,14 +161,14 @@ Resources:
         LaunchTemplateId: !Ref ScheduledInstanceLaunchTemplate
         Version: !GetAtt ScheduledInstanceLaunchTemplate.LatestVersionNumber
       LifecycleHookSpecificationList:
-        - HeartbeatTimeout: 600
+        - HeartbeatTimeout: !Ref HookTimeout
           LifecycleTransition: "autoscaling:EC2_INSTANCE_LAUNCHING"
           LifecycleHookName: scheduled-asg-hook
       TargetGroupARNs:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
-      MaxSize: 1
-      MinSize: 1
+      MaxSize: "1"
+      MinSize: "1"
       VPCZoneIdentifier:
         - !ImportValue vpc-SubnetsPrivate
       Tags:
@@ -181,7 +183,7 @@ Resources:
         WillReplace: true
     CreationPolicy:
       ResourceSignal:
-        Count: 1
+        Count: !Ref AsgDesiredSize
         Timeout: PT20M
     Properties:
       HealthCheckGracePeriod: !Ref WebHealthCheckGracePeriod
@@ -189,6 +191,10 @@ Resources:
       LaunchTemplate:
         LaunchTemplateId: !Ref WebInstanceLaunchTemplate
         Version: !GetAtt WebInstanceLaunchTemplate.LatestVersionNumber
+      LifecycleHookSpecificationList:
+        - HeartbeatTimeout: !Ref HookTimeout
+          LifecycleTransition: "autoscaling:EC2_INSTANCE_LAUNCHING"
+          LifecycleHookName: web-asg-hook
       TargetGroupARNs:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-publicalbtargetgrouparn"
