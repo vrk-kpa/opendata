@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-06-13 07:27+0000\n"
+"POT-Creation-Date: 2019-06-25 12:24+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -253,13 +253,13 @@ msgstr ""
 msgid "Profile updated"
 msgstr ""
 
-#: ckanext/ytp/converters.py:41
+#: ckanext/ytp/converters.py:43
 msgid ""
 "Incorrect web address format detected. Web address must start with http://, "
 "https:// or www."
 msgstr ""
 
-#: ckanext/ytp/converters.py:135 ckanext/ytp/converters.py:145
+#: ckanext/ytp/converters.py:137 ckanext/ytp/converters.py:147
 msgid "Date format incorrect"
 msgstr ""
 
@@ -430,22 +430,22 @@ msgstr ""
 msgid "Additional Info"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:951
+#: ckanext/ytp/plugin.py:956
 msgid "Group title already exists in database"
 msgstr "Category title already exists in database"
 
-#: ckanext/ytp/plugin.py:1140
+#: ckanext/ytp/plugin.py:1145
 msgid "Service charge must be supplied"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1150
+#: ckanext/ytp/plugin.py:1155
 msgid ""
 "If there is a service charge, you must supply either the pricing information"
 " web address for this service or a description of the service pricing or "
 "both"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:1163
+#: ckanext/ytp/plugin.py:1168
 msgid "At least one of the main target groups must to be selected"
 msgstr "At least one of the main target categories must to be selected"
 
@@ -455,7 +455,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:9
 msgid "Valid till"
-msgstr ""
+msgstr "Valid until"
 
 #: ckanext/ytp/translations.py:10
 msgid "Title en"
@@ -846,7 +846,7 @@ msgstr "Add to category"
 msgid "There are no groups associated with this dataset"
 msgstr "There are no categories associated with this dataset"
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:47
+#: ckanext/ytp/templates/group/snippets/group_item.html:56
 #: ckanext/ytp/translations.py:119
 msgid "Remove dataset from this group"
 msgstr "Remove dataset from this category"
@@ -973,7 +973,54 @@ msgstr ""
 msgid "Datasets that have deprecated"
 msgstr ""
 
+#: ckanext/ytp/translations.py:154
+msgid ""
+"Google analytics showing most audience locations (bot traffic is filtered "
+"out)"
+msgstr "Audience locations by country (bot traffic is filtered out)"
+
+#: ckanext/ytp/translations.py:155
+msgid "Least popular datasets"
+msgstr ""
+
 #: ckanext/ytp/translations.py:156
+msgid "Google analytics showing top datasets with least views"
+msgstr "Datasets with least views"
+
+#: ckanext/ytp/translations.py:157
+msgid "Most popular datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:158
+msgid "Google analytics showing top datasets with most views"
+msgstr "Datasets with most views"
+
+#: ckanext/ytp/translations.py:159
+msgid "Most popular organizations"
+msgstr "Most popular organisations"
+
+#: ckanext/ytp/translations.py:160
+msgid ""
+"Google analytics showing most popular organizations by visited datasets"
+msgstr "Most popular organisations by dataset views"
+
+#: ckanext/ytp/translations.py:161
+msgid "Most popular resources"
+msgstr ""
+
+#: ckanext/ytp/translations.py:162
+msgid "Google analytics showing most downloaded resources"
+msgstr "Most downloaded resources"
+
+#: ckanext/ytp/translations.py:163
+msgid "Most popular search terms"
+msgstr ""
+
+#: ckanext/ytp/translations.py:164
+msgid "Google analytics showing most popular search terms"
+msgstr "Most popular search terms"
+
+#: ckanext/ytp/translations.py:167
 msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
@@ -981,7 +1028,7 @@ msgstr ""
 "The amount of datasets by each organisation is shown next to the "
 "organisation’s name."
 
-#: ckanext/ytp/translations.py:157
+#: ckanext/ytp/translations.py:168
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
@@ -989,7 +1036,7 @@ msgstr ""
 "Organisations with no datasets are shown in this list only when using the "
 "search functionality"
 
-#: ckanext/ytp/translations.py:160
+#: ckanext/ytp/translations.py:171
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
@@ -1076,17 +1123,6 @@ msgstr ""
 msgid "Unsubscribe from comments"
 msgstr ""
 
-#: ckanext/ytp/public/javascript/translations.js:14
-msgid "Reorder resources"
-msgstr ""
-
-#: ckanext/ytp/public/javascript/translations.js:15
-msgid ""
-"You can rearrange the resources by dragging them using the arrow icon. Drag "
-"the resource to the right and place it to the desired location on the list. "
-"When you are done, click the \"Save order\" -button."
-msgstr ""
-
 #: ckanext/ytp/templates/page.html:13
 #: ckanext/ytp/templates/snippets/search_form.html:60
 msgid "Hide search filters"
@@ -1127,22 +1163,22 @@ msgstr ""
 msgid "Add Member"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:34
+#: ckanext/ytp/templates/group/snippets/group_item.html:30
+#: ckanext/ytp/templates/group/snippets/group_item.html:32
+msgid "View {name}"
+msgstr ""
+
+#: ckanext/ytp/templates/group/snippets/group_item.html:45
 msgid "{num} Dataset"
 msgid_plural "{num} Datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:36
+#: ckanext/ytp/templates/group/snippets/group_item.html:49
 msgid "0 Datasets"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/group_item.html:40
-#: ckanext/ytp/templates/group/snippets/group_item.html:41
-msgid "View {name}"
-msgstr ""
-
-#: ckanext/ytp/templates/group/snippets/group_item.html:47
+#: ckanext/ytp/templates/group/snippets/group_item.html:56
 #: ckanext/ytp/templates/snippets/search_form.html:87
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
@@ -1296,11 +1332,11 @@ msgstr ""
 msgid "Membership Requests"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/new_organization_form.html:17
+#: ckanext/ytp/templates/organization/new_organization_form.html:18
 msgid "Update Organization"
 msgstr "Update Organisation"
 
-#: ckanext/ytp/templates/organization/new_organization_form.html:19
+#: ckanext/ytp/templates/organization/new_organization_form.html:20
 msgid "Create Organization"
 msgstr "Create Organisation"
 
@@ -1406,7 +1442,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:51
 msgid "Parent"
-msgstr ""
+msgstr "Parent organisation"
 
 #: ckanext/ytp/templates/organization/snippets/organization_form.html:55
 msgid "Only Admin of the parent organization can control the hierarchy."
@@ -2381,15 +2417,15 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid "New application"
-msgstr ""
+msgstr "New showcase"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:20
 msgid ""
 " Inform us about an application, web page or visualization that you'be "
 "created with the form below and we will add it to application gallery. "
 msgstr ""
-" Inform us about an application, web page or visualisation that you'be "
-"created with the form below and we will add it to application gallery. "
+" Inform us about an application, web page or visualisation that you have "
+"created with the form below and we will add it to showcase gallery. "
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:46
 msgid "Name or organization of the author"
@@ -2405,7 +2441,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:65
 msgid "Application website"
-msgstr ""
+msgstr "Showcase website"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:76
 msgid " The original source url or a website dedicated for the showcase "
