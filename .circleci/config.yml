@@ -398,6 +398,14 @@ jobs:
 
       - checkout
 
+      - run:
+          name: Skip deployment if commit is not latest in master
+          command: |
+            if [ $(git rev-parse @) != $(git rev-parse origin) ]; then
+              echo "Commit is not latest in master, skipping deployment"
+              circleci-agent step halt
+            fi
+
       - run: sudo pip install boto awscli
 
       - run: |
