@@ -421,6 +421,39 @@ jobs:
             aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_ami_id)
 
       - run:
+          name: Start maintenance break in Dynatrace
+          command: |
+              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" \
+                -d '{
+                  "id": "'"$CIRCLE_BUILD_NUM"'",
+                  "type": "Planned",
+                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                  "suppressAlerts": true,
+                  "suppressProblems": true,
+                  "scope": {
+                      "matches": [
+                      {
+                        "type": "APPLICATION",
+                        "tags": [
+                          {
+                            "context": "CONTEXTLESS",
+                            "key": "beta"
+                          }
+                        ]
+                      }
+                    ]
+                   },
+                "schedule": {
+                  "type": "Once",
+                  "timezoneId": "UTC",
+                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+                }
+              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+
+      - run:
           name: Update stack
           command: |
             source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
@@ -456,9 +489,7 @@ jobs:
                 "attachRules": {
                     "tagRule": {
                         "meTypes": [
-                            "SERVICE",
-                            "APPLICATION",
-                            "HOST"
+                            "APPLICATION"
                         ],
                         "tags": "beta"
                     }
@@ -468,9 +499,18 @@ jobs:
                 "ciBackLink": "'"https://circleci.com/gh/vrk-kpa/opendata/$CIRCLE_BUILD_NUM"'",
                 "source": "CircleCI",
                 "customProperties": {
-                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'"
+                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'",
+                    "Release": "'"$CIRCLE_TAG"'"
                 }
             }' > ~/logs/dynatrace_notification.log 2>&1
+
+      - run:
+          name: End maintenance break in Dynatrace
+          command: |
+              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+          when: always
 
       - store_artifacts:
           path: ~/logs
@@ -599,6 +639,39 @@ jobs:
             aws ssm put-parameter --name /prod/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $scheduled_ami_id
 
       - run:
+          name: Start maintenance break in Dynatrace
+          command: |
+              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" \
+                -d '{
+                  "id": "'"$CIRCLE_BUILD_NUM"'",
+                  "type": "Planned",
+                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                  "suppressAlerts": true,
+                  "suppressProblems": true,
+                  "scope": {
+                      "matches": [
+                      {
+                        "type": "APPLICATION",
+                        "tags": [
+                          {
+                            "context": "CONTEXTLESS",
+                            "key": "prod"
+                          }
+                        ]
+                      }
+                    ]
+                   },
+                "schedule": {
+                  "type": "Once",
+                  "timezoneId": "UTC",
+                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+                }
+              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+
+      - run:
           name: Update Cloudformation stack
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
@@ -622,6 +695,41 @@ jobs:
             aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
           working_directory: ~/project/deploy
           no_output_timeout: 30m
+
+      - run:
+          name: Notify Dynatrace
+          command: |
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/events?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "eventType": "CUSTOM_DEPLOYMENT",
+                "attachRules": {
+                    "tagRule": {
+                        "meTypes": [
+                            "APPLICATION"
+                        ],
+                        "tags": "prod"
+                    }
+                },
+                "deploymentName": "CircleCI deployment",
+                "deploymentVersion": "'"$CIRCLE_SHA1"'",
+                "ciBackLink": "'"https://circleci.com/gh/vrk-kpa/opendata/$CIRCLE_BUILD_NUM"'",
+                "source": "CircleCI",
+                "customProperties": {
+                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'",
+                    "Release": "'"$CIRCLE_TAG"'"
+                }
+            }' > ~/logs/dynatrace_notification.log 2>&1
+
+
+      - run:
+          name: End maintenance break in Dynatrace
+          command: |
+              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+          when: always
 
       - store_artifacts:
           path: ~/logs
