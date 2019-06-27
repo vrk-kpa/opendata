@@ -22,9 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ytp.vm.synced_folder ".", "/vagrant", type:"virtualbox", :mount_options => ["dmode=755","fmode=644"]
     end
 
-    # update dist as workaround to libssl1.1:amd64 package dependencies being broken in bento-ubuntu-18.04 
-    ytp.vm.provision "shell", inline: "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y -q -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' upgrade dist"
-
     ytp.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/single-server.yml"
       ansible.verbose = "v"
