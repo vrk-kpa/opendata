@@ -25,7 +25,7 @@ cloudwatch_agent_logs_config:
     timestamp_format: '%Y-%m-%d %H:%M:%S'
     multi_line_start_pattern: '{timestamp_format}'
 
-  - file_path: '/var/log/ckan/ckan.log.*'
+  - file_path: '/var/log/ckan/ckan.log*'
     log_group_name: ckan
     log_stream_name: "{{ deployment_environment_id }}_{local_hostname}"
     timestamp_format: '%Y-%m-%d %H:%M:%S'
