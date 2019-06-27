@@ -221,6 +221,7 @@ ckan_patches:
   - group_admin_protection # https://github.com/ckan/ckan/pull/4821
   - remove_gravatar
   - resource-reorder-translations # https://github.com/ckan/ckan/pull/4838
+  - update_psycopg2_2.8.2 # https://github.com/ckan/ckan/pull/4841
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
