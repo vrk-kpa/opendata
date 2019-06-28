@@ -1176,6 +1176,10 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     # TODO: We should use named routes instead
     _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
+                 (['/dashboard',
+                  '/%(language)s/dashboard'],
+                  menu.UserMenu,
+                  menu.MyDashboardMenu),
                  (['/dashboard/organizations',
                   '/%(language)s/dashboard/organizations'],
                   menu.UserMenu,
