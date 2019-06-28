@@ -517,7 +517,7 @@ jobs:
           command: |
               curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
@@ -736,7 +736,7 @@ jobs:
           command: |
               curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
