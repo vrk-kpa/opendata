@@ -1,3 +1,5 @@
+orbs:
+  slack: circleci/slack@3.2.0
 version: 2.1
 jobs:
   flake8:
@@ -92,6 +94,13 @@ jobs:
           name: Run ansible-lint for single-server.yml
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
+
+      - slack/status:
+          #fail_only: true
+          #only_for_branches: master
+          webhook: $SLACK_WEB_HOOK
+          include_visit_job_action: true
+          include_job_number_field: true
 
   packer-web:
     docker:
