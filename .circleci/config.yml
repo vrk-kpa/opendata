@@ -59,9 +59,7 @@ jobs:
             . venv/bin/activate
             flake8 modules --count --max-line-length=127 --statistics
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   code-sniffer:
     docker:
@@ -106,10 +104,7 @@ jobs:
           paths:
             - vendor
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
-
+      - slack_notification
 
   ansible-lint:
     docker:
@@ -125,10 +120,7 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
-
+      - slack_notification
 
   packer-web:
     docker:
@@ -181,9 +173,7 @@ jobs:
           paths:
             - web_ami_id
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   ansible-web:
     docker:
@@ -232,9 +222,7 @@ jobs:
       - store_artifacts:
           path: ~/logs
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   cypress-web:
     docker:
@@ -296,9 +284,7 @@ jobs:
       - store_artifacts:
           path: ~/logs
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   packer-scheduled:
     docker:
@@ -355,9 +341,7 @@ jobs:
           paths:
             - scheduled_ami_id
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   stylelint:
     docker:
@@ -389,9 +373,7 @@ jobs:
           command: $(npm bin)/stylelint "src/less"
           working_directory: ~/project/modules/ytp-assets-common
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   copy-web-ami:
     docker:
@@ -420,9 +402,7 @@ jobs:
           paths:
             - web_image_ami_copy
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   copy-scheduled-ami:
     docker:
@@ -451,9 +431,7 @@ jobs:
           paths:
             - scheduled_image_ami_copy
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   beta-deploy:
     docker:
@@ -612,9 +590,7 @@ jobs:
             sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
 
-      - slack_notification:
-          branches: "AV-911_circleci_slack_notifications"
-          fail_only: false
+      - slack_notification
 
   clamav-deploy:
     docker:
