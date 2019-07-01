@@ -37,7 +37,7 @@ import auth
 import menu
 
 from converters import to_list_json, from_json_list, is_url, \
-     convert_to_tags_string, string_join, date_validator, simple_date_validate, convert_to_groups, output_groups
+     convert_to_tags_string, string_join, date_validator, simple_date_validate, save_to_groups, output_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -46,7 +46,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
-    get_label_for_producer, scheming_category_list, check_group_selected
+    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected
 from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
     add_translation_modify_schema, add_languages_modify
 
@@ -300,6 +300,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
         # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
                   controller=controller)
         return m
@@ -593,9 +594,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'call_toolkit_function': call_toolkit_function,
                 'get_translated': get_translated,
                 'dataset_display_name': dataset_display_name,
+                'group_title_by_id': group_title_by_id,
                 'get_label_for_producer': get_label_for_producer,
                 'scheming_category_list': scheming_category_list,
-                'check_group_selected': check_group_selected
+                'check_group_selected': check_group_selected,
+                'group_list_with_selected': group_list_with_selected,
                 }
 
     def get_auth_functions(self):
@@ -674,7 +677,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
             # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
-            'convert_to_groups': convert_to_groups,
+            'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,
             'create_tags': validators.create_tags,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,

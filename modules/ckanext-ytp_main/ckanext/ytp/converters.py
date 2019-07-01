@@ -6,6 +6,7 @@ from ckan.lib.navl.dictization_functions import Invalid, Missing
 from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
+from ckan.logic import get_action
 from itertools import count
 
 log = logging.getLogger(__name__)
@@ -147,21 +148,23 @@ def simple_date_validate(value, context):
         raise Invalid(_('Date format incorrect'))
 
 
-def convert_to_groups(key, data, errors, context):
+def save_to_groups(key, data, errors, context):
     from ckan import model
-    log.info('group ids exist')
-    log.info(data[key])
+    log.info(data)
     # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
     groups_with_details = []
+    # Add selected items as groups to dataset
     if data[key]:
         if isinstance(data[key], basestring):
             data['groups'] = [{"name": data[key]}]
         else:
-            if isinstance(data[key],  list):
-                for id in data[key]:
-                    groups_with_details.append({"name": id})
+            if isinstance(data[key], list):
+                for identifier in data[key]:
+                    groups_with_details.append({"name": identifier})
                 data['groups'] = groups_with_details
-    log.info('groups: %s', data['groups'])
+
+    # customized_groups = {"id": , "groups": groups_with_details}
+    # get_action('package_patch')(context, customized_groups)
 
 
 def output_groups(key, data, errors, context):
