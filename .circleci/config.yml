@@ -12,7 +12,7 @@ commands:
         default: "master"
       fail_only:
         type: boolean
-        default: false
+        default: true
     steps:
       - slack/status:
           fail_only: << parameters.fail_only >>
