@@ -376,7 +376,7 @@ class YtpDatasetController(PackageController):
             try:
                 log.info(category_list)
                 get_action('package_patch')(context, {"id": id, "groups": category_list})
-                h.redirect_to(controller=self, action='groups', id=id)
+                h.redirect_to('dataset_groups', id=id)
             except (NotFound, NotAuthorized):
                 return base.abort(404, _(u'Dataset not found'))
 

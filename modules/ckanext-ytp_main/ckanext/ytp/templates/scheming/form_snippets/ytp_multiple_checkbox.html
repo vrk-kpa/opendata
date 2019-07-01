@@ -21,9 +21,6 @@ fieldset.checkboxes label input {
     {%- do choices.append(
       (c.value, h.scheming_language_text(c.label))) -%}
   {%- endfor -%}
-  {%- if field.get('sorted_choices') -%}
-    {%- set choices = choices|sort(case_sensitive=false, attribute=1) -%}
-  {%- endif -%}
   <fieldset class="checkboxes">
       {%- for val, label in choices -%}
       <label class="ytp-checkbox" for="field-{{ field.field_name }}-{{ val }}">
@@ -31,7 +28,7 @@ fieldset.checkboxes label input {
                     type="checkbox"
                     name="{{ field.field_name }}"
                     value="{{ val }}"
-                    {{ "checked" if h.check_group_selected(val, data['groups']) }} />
+                    {% if h.check_group_selected(val, data.groups) %}checked{% endif %} />
                     <span class="custom-checkbox"></span>
                 {{ label }}
             </label>

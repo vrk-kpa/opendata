@@ -73,7 +73,7 @@
       "form_snippet": "ytp_multiple_checkbox.html",
       "choices_helper": "scheming_category_list",
       "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
-      "validators": "save_to_groups",
+      "validators": "ignore_missing save_to_groups",
       "output_validators": ""
     },
     {

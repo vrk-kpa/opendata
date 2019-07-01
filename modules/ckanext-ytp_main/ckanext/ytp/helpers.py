@@ -496,9 +496,10 @@ def scheming_category_list(args):
 
 
 def check_group_selected(val, data):
-    if 'name' in data:
-        if filter(lambda x: x.name == val,  data):
-            return True
+    log.info(data)
+    log.info(val)
+    if filter(lambda x: x['name'] == val, data):
+        return True
     return False
 
 
