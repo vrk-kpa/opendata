@@ -48,32 +48,47 @@ def parse_datetime(datetime_string):
 
 
 def group_map():
+    '''Returns a list of functions that map a list of sixodp category names
+    into a list of opendata category names based on a set of rules.'''
+
     def _evaluate(predicate, values):
+        '''Evaluates a predicate for a set of values.
+
+        The predicate can be a string or a function. Strings are handled as "belongs to" primitives.
+        Functions should return True or False for the given set of values.'''
         if isinstance(predicate, str):
             return predicate in values
         else:
             return predicate(values)
 
     def _and(*predicates):
+        '''Returns a predicate that returns true if all given predicates evaluate to true
+        for a given set of values.'''
         def f(values):
             return all(_evaluate(p, values) for p in predicates)
         return f
 
     def _or(*predicates):
+        '''Returns a predicate that returns true if any of the given predicates evaluate to true
+        for a given set of values.'''
         def f(values):
             return any(_evaluate(p, values) for p in predicates)
         return f
 
     def _not(predicate):
+        '''Returns a predicate that inverts the function of the given predicate.'''
         def f(values):
             return not _evaluate(predicate, values)
         return f
 
     def _mapping(predicate, results):
+        '''Returns a function. The function returns the given set of results if the given predicate evaluates
+        to True for a given set of values, otherwise an empty list.'''
         def f(values):
             return results if _evaluate(predicate, values) else []
         return f
 
+    # Create a list of functions that map sixodp groups to opendata groups based on different criteria
     return [_mapping(_or('kartat', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
             _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
             _mapping(_or('opetus-ja-koulutus', 'kulttuuri-ja-vapaa-aika'), ['koulutus-kulttuuri-ja-urheilu']),
@@ -87,6 +102,8 @@ def group_map():
 
 
 def evaluate_group_map(group_map, values):
+    '''Evaluates all mappings in group_map for the given sixodp groups and
+    returns a set of opendata groups they map into'''
     return set(group for mapping in group_map for group in mapping(values))
 
 
