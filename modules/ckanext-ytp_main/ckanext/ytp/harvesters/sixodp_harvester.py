@@ -31,6 +31,7 @@ DATETIME_FORMATS = [
     '%d/%m/%Y',
 ]
 
+
 def parse_datetime(datetime_string):
     if not datetime_string:
         return None
