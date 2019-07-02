@@ -31,22 +31,6 @@ DATETIME_FORMATS = [
     '%d/%m/%Y',
 ]
 
-GROUP_MAP = {
-    'asuminen': ['asuminen'],
-    'hallinto-ja-paatoksenteko': ['hallinto-ja-paatoksenteko'],
-    'kartat': ['kartat'],
-    'kulttuuri-ja-vapaa-aika': ['kulttuuri-ja-vapaa-aika'],
-    'liikenne-ja-matkailu': ['liikenne-ja-matkailu'],
-    'opetus-ja-koulutus': ['opetus-ja-koulutus'],
-    'rakennettu-ymparisto': ['rakennettu-ymparisto'],
-    'talous-ja-verotus': ['talous-ja-verotus'],
-    'terveys-ja-sosiaalipalvelut': ['terveys-ja-sosiaalipalvelut'],
-    'tyo-ja-elinkeinot': ['tyo-ja-elinkeinot'],
-    'vaesto': ['vaesto'],
-    'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
-}
-
-
 def parse_datetime(datetime_string):
     if not datetime_string:
         return None
@@ -62,21 +46,57 @@ def parse_datetime(datetime_string):
     return None
 
 
-def sixodp_to_opendata_preprocess(package_dict):
-    groups = []
-
-    for group in package_dict.get('groups', []):
-        mapped_groups = GROUP_MAP.get(group.get('name'))
-
-        if mapped_groups is not None:
-            for mapped_group in mapped_groups:
-                log.info("Mapping Group %s => %s", group, mapped_group)
-                groups.append({'name': mapped_group})
+def group_map():
+    def _evaluate(predicate, values):
+        if isinstance(predicate, str):
+            return predicate in values
         else:
-            log.info("Not mapping Group %s", group)
-            groups.append(group)
+            return predicate(values)
 
-    package_dict['groups'] = groups
+    def _and(*predicates):
+        def f(values):
+            return all(_evaluate(p, values) for p in predicates)
+        return f
+
+    def _or(*predicates):
+        def f(values):
+            return any(_evaluate(p, values) for p in predicates)
+        return f
+
+    def _not(predicate):
+        def f(values):
+            return not _evaluate(predicate, values)
+        return f
+
+    def _mapping(predicate, results):
+        def f(values):
+            return results if _evaluate(predicate, values) else []
+        return f
+
+    return [_mapping(_or('kartat', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
+            _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
+            _mapping(_or('opetus-ja-koulutus', 'kulttuuri-ja-vapaa-aika'), ['koulutus-kulttuuri-ja-urheilu']),
+            _mapping('liikenne-ja-matkailu', ['liikenne']),
+            _mapping('talous-ja-verotus', ['talous-ja-rahoitus']),
+            _mapping('terveys-ja-sosiaalipalvelut', ['terveys']),
+            _mapping('tyo-ja-elinkeinot', ['vaesto-ja-yhteiskunta', 'talous-ja-rahoitus']),
+            _mapping(_and('asuminen', _not('kartat'), _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
+            _mapping('vaesto', ['vaesto-ja-yhteiskunta']),
+            _mapping('ymparisto-ja-luonto', ['ymparisto-ja-luonto'])]
+
+
+def evaluate_group_map(group_map, values):
+    return set(group for mapping in group_map for group in mapping(values))
+
+
+GROUP_MAP = group_map()
+
+
+def sixodp_to_opendata_preprocess(package_dict):
+    sixodp_groups = [g.get('name') for g in package_dict.get('groups', [])]
+    groups = evaluate_group_map(GROUP_MAP, sixodp_groups)
+    log.info('Mapping groups %s => %s', sixodp_groups, groups)
+    package_dict['groups'] = list({'name': g} for g in groups)
 
 
 def sixodp_to_opendata_postprocess(package_dict):
