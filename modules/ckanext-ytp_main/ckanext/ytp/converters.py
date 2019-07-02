@@ -149,22 +149,21 @@ def simple_date_validate(value, context):
 
 
 def save_to_groups(key, data, errors, context):
-    from ckan import model
-    log.info(data)
     # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
-    groups_with_details = []
     # Add selected items as groups to dataset
+    log.info('save to groups')
     if data[key]:
         if isinstance(data[key], basestring):
-            data['groups'] = [{"name": data[key]}]
+            group_patch = [{"name": data[key]}]
         else:
             if isinstance(data[key], list):
+                groups_with_details = []
                 for identifier in data[key]:
                     groups_with_details.append({"name": identifier})
-                data['groups'] = groups_with_details
-
-    # customized_groups = {"id": , "groups": groups_with_details}
-    # get_action('package_patch')(context, customized_groups)
+                group_patch = groups_with_details
+        # get_action('package_patch')(context, {"id": data[('id',)], 'groups': group_patch})
+    data['groups'] = group_patch
+    return data
 
 
 def output_groups(key, data, errors, context):
