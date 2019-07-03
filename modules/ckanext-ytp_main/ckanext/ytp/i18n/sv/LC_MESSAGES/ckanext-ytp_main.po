@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-06-27 10:58+0000\n"
+"POT-Creation-Date: 2019-07-03 09:42+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -188,7 +188,7 @@ msgstr "Relaterade objektet redigerades"
 msgid "Integrity Error"
 msgstr "Integritetsfel"
 
-#: ckanext/ytp/controller.py:442 ckanext/ytp/templates/package/search.html:86
+#: ckanext/ytp/controller.py:442 ckanext/ytp/templates/package/search.html:88
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr "API"
@@ -410,7 +410,7 @@ msgstr "Organisation"
 msgid "Formats"
 msgstr "Filtyp"
 
-#: ckanext/ytp/plugin.py:450 ckanext/ytp/templates/package/search.html:64
+#: ckanext/ytp/plugin.py:450 ckanext/ytp/templates/package/search.html:66
 #: ckanext/ytp/templates/package/snippets/additional_info.html:14
 msgid "Source"
 msgstr "Källa"
@@ -1766,21 +1766,29 @@ msgstr "Namn i nedstigande ordning"
 msgid "Last Modified"
 msgstr "Senast redigerad"
 
+#: ckanext/ytp/templates/package/search.html:64
+msgid "Date Created Ascending"
+msgstr ""
+
 #: ckanext/ytp/templates/package/search.html:65
+msgid "Date Created Descending"
+msgstr ""
+
+#: ckanext/ytp/templates/package/search.html:67
 #: ckanext/ytp/templates/snippets/package_item.html:35
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Popularitet"
 
-#: ckanext/ytp/templates/package/search.html:87
+#: ckanext/ytp/templates/package/search.html:89
 msgid "API Docs"
 msgstr "API dokumentation"
 
-#: ckanext/ytp/templates/package/search.html:89
+#: ckanext/ytp/templates/package/search.html:91
 msgid "full {format} dump"
 msgstr "full {format} dump"
 
-#: ckanext/ytp/templates/package/search.html:90
+#: ckanext/ytp/templates/package/search.html:92
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
@@ -1789,7 +1797,7 @@ msgstr ""
 "Du har också tillgång till detta register genom %(api_link)s (se "
 "%(api_doc_link)s) eller ladda ned %(dump_link)s."
 
-#: ckanext/ytp/templates/package/search.html:94
+#: ckanext/ytp/templates/package/search.html:96
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "

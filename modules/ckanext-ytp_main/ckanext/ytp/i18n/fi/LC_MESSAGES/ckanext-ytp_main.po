@@ -8,19 +8,19 @@
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
-# Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-06-27 10:58+0000\n"
+"POT-Creation-Date: 2019-07-03 09:42+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Aaron Hakala <aaron.hakala@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -184,7 +184,7 @@ msgstr "Tähän liittyvä kohde päivitettiin onnistuneesti"
 msgid "Integrity Error"
 msgstr "Eheysvirhe"
 
-#: ckanext/ytp/controller.py:442 ckanext/ytp/templates/package/search.html:86
+#: ckanext/ytp/controller.py:442 ckanext/ytp/templates/package/search.html:88
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr "API"
@@ -406,7 +406,7 @@ msgstr "Organisaatio"
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/plugin.py:450 ckanext/ytp/templates/package/search.html:64
+#: ckanext/ytp/plugin.py:450 ckanext/ytp/templates/package/search.html:66
 #: ckanext/ytp/templates/package/snippets/additional_info.html:14
 msgid "Source"
 msgstr "Lähde"
@@ -1782,21 +1782,29 @@ msgstr "Nimen mukaan laskevasti"
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
+#: ckanext/ytp/templates/package/search.html:64
+msgid "Date Created Ascending"
+msgstr "Luomispäivän mukaan nousevasti"
+
 #: ckanext/ytp/templates/package/search.html:65
+msgid "Date Created Descending"
+msgstr "Luomispäivän mukaan laskevasti"
+
+#: ckanext/ytp/templates/package/search.html:67
 #: ckanext/ytp/templates/snippets/package_item.html:35
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Suosittu"
 
-#: ckanext/ytp/templates/package/search.html:87
+#: ckanext/ytp/templates/package/search.html:89
 msgid "API Docs"
 msgstr "API-dokumentaatio"
 
-#: ckanext/ytp/templates/package/search.html:89
+#: ckanext/ytp/templates/package/search.html:91
 msgid "full {format} dump"
 msgstr "täysi {format} dumppi"
 
-#: ckanext/ytp/templates/package/search.html:90
+#: ckanext/ytp/templates/package/search.html:92
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
@@ -1805,7 +1813,7 @@ msgstr ""
 " Voit käyttää rekisteriä myös %(api_link)s avulla (katso myös "
 "%(api_doc_link)s) tai ladata tiedostoina %(dump_link)s. "
 
-#: ckanext/ytp/templates/package/search.html:94
+#: ckanext/ytp/templates/package/search.html:96
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
