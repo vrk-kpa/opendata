@@ -44,6 +44,12 @@ Parameters:
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
+  LogEnabled:
+    Description: 'Enable ELB access logging'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogExpirationDays:
+    Description: 'Days before removing ELB logs'
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Conditions:
   NumberOfSubnets1:
@@ -59,6 +65,7 @@ Conditions:
   NumberOfSubnets6:
       !Equals [ 6, !Ref NumberOfSubnets ]
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
+  ELBLogging: !Equals [!Ref LogEnabled, "true"]
 
 Resources:
   WebInstanceSecurityGroup:
@@ -308,6 +315,11 @@ Resources:
   PublicALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
+      LoadBalancerAttributes:
+      - Key: 'access_logs.s3.enabled'
+        Value: !If [ELBLogging, 'true', 'false']
+      - !If [ELBLogging, {Key: 'access_logs.s3.prefix', Value: !Ref 'AWS::StackName'}, !Ref 'AWS::NoValue']
+      - !If [ELBLogging, {Key: 'access_logs.s3.bucket', Value: !Ref 'LogBucket'}, !Ref 'AWS::NoValue']
       IpAddressType: ipv4
       Name: !Sub avoindata-${EnvironmentName}-web-lb
       Scheme: internet-facing
@@ -338,6 +350,58 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-web-lb
+
+  LogBucket:
+    Type: AWS::S3::Bucket
+    Condition: ELBLogging
+    Properties:
+      BucketName: !Sub avoindata-${EnvironmentName}-elb-logs
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: !Ref LogExpirationDays
+            Status: Enabled
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  LogBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: ELBLogging
+    Properties:
+      Bucket: !Ref LogBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:PutObject
+            Effect: Allow
+            Resource: !Sub ${LogBucket.Arn}/${AWS::StackName}/AWSLogs/${AWS::AccountId}/*
+            Principal:
+              AWS: # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+              - '127311923021' # us-east-1
+              - '033677994240' # us-east-2
+              - '027434742980' # us-west-1
+              - '797873946194' # us-west-2
+              - '985666609251' # ca-central-1
+              - '054676820928' # eu-central-1
+              - '156460612806' # eu-west-1
+              - '652711504416' # eu-west-2
+              - '009996457667' # eu-west-3
+              - '897822967062' # eu-north-1
+              - '582318560864' # ap-northeast-1
+              - '600734575887' # ap-northeast-2
+              - '383597477331' # ap-northeast-3
+              - '114774131450' # ap-southeast-1
+              - '783225319266' # ap-southeast-2
+              - '718504428378' # ap-south-1
+              - '507241528517' # sa-east-1
 
   PrivateALBSolrListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
