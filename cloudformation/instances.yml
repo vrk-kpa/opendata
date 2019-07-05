@@ -314,6 +314,7 @@ Resources:
 
   PublicALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    DependsOn: LogBucket
     Properties:
       LoadBalancerAttributes:
       - Key: 'access_logs.s3.enabled'
@@ -353,7 +354,6 @@ Resources:
 
   LogBucket:
     Type: AWS::S3::Bucket
-    Condition: ELBLogging
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-elb-logs
       BucketEncryption:
@@ -374,7 +374,6 @@ Resources:
 
   LogBucketPolicy:
     Type: AWS::S3::BucketPolicy
-    Condition: ELBLogging
     Properties:
       Bucket: !Ref LogBucket
       PolicyDocument:
