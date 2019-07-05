@@ -378,7 +378,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-http
-      UnhealthyThresholdCount: 2
+      UnhealthyThresholdCount: 5
       VpcId: !Ref Vpc
 
   PrivateALBTargetGroup:
