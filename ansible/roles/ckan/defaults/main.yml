@@ -248,4 +248,4 @@ ckan_log_files:
 ckan_sentry_integration_enabled: true
 ckan_sentry_dsn: ''
 ckan_sentry_pip_packages:
-  - sentry-sdk[flask]==0.9.5
+  - sentry-sdk[flask]==0.10.0
