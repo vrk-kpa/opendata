@@ -1,0 +1,101 @@
+// Enable JavaScript's strict mode. Strict mode catches some common
+// programming errors and throws exceptions, prevents some unsafe actions from
+// being taken, and disables some confusing and bad JavaScript features.
+'use strict';
+
+ckan.module('ytp-multiselect', function($) {
+  return {
+    initialize: function() {
+      console.log("I've been initialized for element: ", this.el);
+      $.proxyAll(this, /_on/);
+      $.proxyAll(this, /_make/);
+      $.proxy(this, /checkboxes/);
+
+      // Add dropdown toggle event to main button
+      this.el
+        .find('.ytp-multiselect-toggle')
+        .on('click', () => this._onToggleMultiSelect(this.el));
+
+      this.el
+        .find(`input[id*=${this.options.label}-checkbox-]`)
+        .on('click', this._onToggleItem);
+    },
+
+    _onToggleMultiSelect: function(el) {
+      el.toggleClass('expanded');
+    },
+
+    _onToggleItem: function(e) {
+      const value = e.target.dataset.optionValue;
+
+      // Add custom item functionality if allowAll is active
+      // Such as checking all checkboxes when the 'all' checkbox is selected
+      if (this.options.allowAll) {
+        // Handle clicking the all button
+        if (value === 'all') {
+          const elements = this.checkboxes();
+          if (e.target.checked) {
+            this.setAllCheckboxes(true, elements);
+          } else {
+            this.setAllCheckboxes(false, elements);
+          }
+        }
+
+        if (this.isAllSelected()) {
+          this.checkboxes('all')[0].checked = true;
+        } else {
+          this.checkboxes('all')[0].checked = false;
+        }
+      }
+
+      this.setStatusText(this.el, this._makeStatusText());
+    },
+
+    // Sets the checked value to all elements at the same time
+    setAllCheckboxes: function(value, elements) {
+      for (let element of elements) {
+        element.checked = value;
+      }
+    },
+
+    setStatusText: function(elem, text) {
+        elem.find('.multiselect-status').html(text)
+    },
+
+    _makeStatusText: function() {
+      const checkboxes = this.checkboxes();
+      const selectedItems = []
+      for (let checkbox of checkboxes) {
+        if (checkbox.checked) selectedItems.push(checkbox);
+      }
+
+      if (this.isAllSelected()) {
+        return 'All'
+      }
+
+      if (selectedItems.length === 1) {
+        return selectedItems[0].dataset.optionLabel
+      }
+
+      return `${selectedItems.length} valittu`
+    },
+
+    // Returns array of checkboxes with specific label value combo
+    checkboxes: function(value = '') {
+      return this.el.find(`input[id*=${this.options.label}-checkbox-${value}]`);
+    },
+
+    // Returns true if all checkboxes are selected
+    // Doesn't include the 'all' checkbox
+    isAllSelected: function() {
+      const checkboxes = this.checkboxes();
+      let checked = true;
+      for (let checkbox of checkboxes) {
+        if (!checkbox.checked && checkbox.dataset.optionValue !== 'all') {
+          checked = false;
+        }
+      }
+      return checked;
+    },
+  };
+});

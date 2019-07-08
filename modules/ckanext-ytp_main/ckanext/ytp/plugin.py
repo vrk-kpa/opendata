@@ -302,6 +302,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
                   controller=controller)
+        # TODO: move to seperate plugin
+        m.connect('/advanced_search', action='search', controller='ckanext.ytp.controller:YtpAdvancedSearchController')
         return m
 
     # IConfigurer #

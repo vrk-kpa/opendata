@@ -1,0 +1,74 @@
+{% extends "page.html" %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block primary_content %}
+  <div class="row">
+    <h1 class="pull-left">{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
+    {% snippet 'organization/snippets/organization_primary_actions.html' %}
+  </div>
+  <div class="row">
+    {% block advanced_search_form %}
+      <div class="search-container control-group p-4">
+        <form class="advanced-search-form" method="get">
+            <div class="d-flex">
+                <!-- TODO: separate into different file -->
+                <div class="flex-1 mr-5">
+                  <label class="ytp-input-label" for="advanced-search-keywords">Hakusanat</label>
+                  <input id="advanced-search-keywords" type="text" class="search-form ytp-input-element ytp-search-bar" placeholder="Kirjoita mitä olet etsimässä">
+                </div>
+                <!-- TODO: separate into different file -->
+                <div>
+                    <label for="" class="ytp-input-label">Haun kohdistuminen</label>
+                    <fieldset>
+                        <label class="ytp-radio-label" for="radio-target-all">
+                            <input id="radio-target-all" type="radio" name="target" value="all">
+                            Kaikki
+                        </label>
+                        <label class="ytp-radio-label" for="radio-target-title">
+                            <input id="radio-target-title" type="radio" name="target" value="title">
+                            Vain otsikko
+                        </label>
+                        <label class="ytp-radio-label" for="radio-target-description">
+                            <input id="radio-target-description" type="radio" name="target" value="description">
+                            Vain kuvaus
+                        </label>
+                    </fieldset>
+                </div>
+            </div>
+          <div>
+            <div>
+              <h2>Ominaisuudet</h2>
+            </div>
+            <div class="d-flex">
+                {% snippet 'advanced_search/snippets/multiselect.html', label="Kategoria", options=options, allow_select_all=true %}
+                {% snippet 'advanced_search/snippets/multiselect.html', label="Julkaisja", options=options, allow_select_all=true %}
+                {% snippet 'advanced_search/snippets/multiselect.html', label="Lisenssi", options=options, allow_select_all=true %}
+                {% snippet 'advanced_search/snippets/multiselect.html', label="Formatti", options=options, allow_select_all=true %}
+            </div>
+          </div>
+          <div>
+            <button type="submit">
+                <span>{{ _('Search') }}</span>
+            </button>
+            <button type="clear">
+                <span>{{ _('Clear search terms') }}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    {% endblock %}
+  </div>
+
+  {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
+  {% block advanced_result_list %}
+    <ul class="result-list">
+        <li class="result-item">Item 1</li>
+        <li class="result-item">Item 2</li>
+        <li class="result-item">Item 3</li>
+        <li class="result-item">Item 4</li>
+        <li class="result-item">Item 5</li>
+    </ul>
+  {% endblock %}
+{% endblock %}
