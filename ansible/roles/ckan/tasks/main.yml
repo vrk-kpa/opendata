@@ -127,6 +127,12 @@
       - pyasn1
     virtualenv: "{{ ckan_virtual_environment }}"
 
+- name: Install Sentry requirements
+  pip:
+    name: "{{ ckan_sentry_pip_packages }}"
+    virtualenv: "{{ ckan_virtual_environment }}"
+  when: ckan_sentry_integration_enabled|bool
+
 - name: Copy CKAN configuration files
   copy:
     src: who.ini
@@ -165,4 +171,6 @@
 - import_tasks: translations.yml
 
 - import_tasks: configure.yml
-  tags: configure
+  tags:
+    - configure
+    - configure_ckan
