@@ -314,7 +314,7 @@ Resources:
 
   PublicALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    DependsOn: LogBucket
+    DependsOn: LogBucketPolicy
     Properties:
       LoadBalancerAttributes:
       - Key: 'access_logs.s3.enabled'
