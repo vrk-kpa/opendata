@@ -1,4 +1,3 @@
-import ast
 import json
 import logging
 import pylons
@@ -18,8 +17,7 @@ from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl import dictization_functions
-from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
+from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
@@ -30,14 +28,12 @@ from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
 from webhelpers.html import escape
-from webhelpers.html.builder import literal
 from webhelpers.html.tags import link_to
 
 import auth
 import menu
 
-from converters import to_list_json, from_json_list, is_url, \
-     convert_to_tags_string, string_join, date_validator, simple_date_validate
+from converters import convert_to_tags_string
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -47,9 +43,8 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer
-from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
-    add_translation_modify_schema, add_languages_modify
 
+from tools import create_system_context, get_original_method
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
