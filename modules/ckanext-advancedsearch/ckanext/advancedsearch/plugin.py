@@ -11,7 +11,7 @@ class AdvancedsearchPlugin(plugins.SingletonPlugin):
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_public_directory(config, 'public')
-        toolkit.add_resource('public/javascript/', 'advancedsearch_js')
+        toolkit.add_resource('fanstatic', 'advancedsearch')
 
     def before_map(self, m):
         m.connect(

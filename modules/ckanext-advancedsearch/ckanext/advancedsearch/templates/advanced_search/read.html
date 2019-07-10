@@ -1,5 +1,10 @@
 {% extends "page.html" %}
 
+{% block styles %}
+    {{ super() }}
+    {% resource 'advancedsearch/styles/index.css' %}
+{% endblock %}
+
 {% block page_primary_action %}
 {% endblock %}
 
