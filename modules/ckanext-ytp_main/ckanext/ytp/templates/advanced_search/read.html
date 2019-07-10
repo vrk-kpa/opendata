@@ -11,35 +11,45 @@
     {% block advanced_search_form %}
       <div class="search-container control-group p-4">
         <form class="advanced-search-form" method="get">
-            <div class="d-flex mb-4">
-                <div class="flex-1 mr-5">
+            <div class="row">
+                <div class="mb-3 col-sm-8">
                     {% snippet 'advanced_search/snippets/search-bar.html', label="Hakusanat", placeholder="Kirjoita mitä olet etsimässä" %}
                 </div>
-                {% snippet 'advanced_search/snippets/radio-select.html', label="Haun kohdistuminen" %}
+                <div class="mb-3 col-sm-4">
+                    {% snippet 'advanced_search/snippets/radio-select.html', label="Haun kohdistuminen" %}
+                </div>
             </div>
           <div>
             <div>
               <h2>Ominaisuudet</h2>
             </div>
-            <div class="d-flex">
-                {% snippet 'advanced_search/snippets/multiselect.html', label="Kategoria", options=options, allow_select_all=true %}
-                {% snippet 'advanced_search/snippets/multiselect.html', label="Julkaisja", options=options, allow_select_all=true %}
-                {% snippet 'advanced_search/snippets/multiselect.html', label="Lisenssi", options=options, allow_select_all=true %}
-                {% snippet 'advanced_search/snippets/multiselect.html', label="Formatti", options=options, allow_select_all=true %}
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/snippets/multiselect.html', label="Kategoria", options=options, allow_select_all=true %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/snippets/multiselect.html', label="Julkaisja", options=options, allow_select_all=true %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/snippets/multiselect.html', label="Lisenssi", options=options, allow_select_all=true %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/snippets/multiselect.html', label="Formatti", options=options, allow_select_all=true %}
+                </div>
             </div>
           </div>
-          <div class="d-flex mb-4">
+          <div class="d-flex flex-wrap mb-4">
               <!-- TODO: Separate into different module -->
               <div class="mr-4">
                   <h2>Julkaisu päivä</h2>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     {% snippet 'advanced_search/snippets/datepicker.html', label="Julkaistu ennen"  %}
                     {% snippet 'advanced_search/snippets/datepicker.html', label="Julkaistu jälkeen"  %}
                   </div>
               </div>
               <div>
                   <h2>Päivitys päivä</h2>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     {% snippet 'advanced_search/snippets/datepicker.html', label="Päivitetty ennen"  %}
                     {% snippet 'advanced_search/snippets/datepicker.html', label="Päivitetty jälkeen"  %}
                 </div>
