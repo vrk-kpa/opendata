@@ -6,7 +6,6 @@
 ckan.module('ytp-multiselect', function($) {
   return {
     initialize: function() {
-      console.log("I've been initialized for element: ", this.el);
       $.proxyAll(this, /_on/);
       $.proxyAll(this, /_make/);
       $.proxy(this, /checkboxes/);

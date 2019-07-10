@@ -1,0 +1,24 @@
+{% resource 'ytp_dataset_js/ytp-datepicker.js' %}
+
+<style>
+    .ytp-input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .ytp-input-with-icon i {
+        position: absolute;
+        right: 10px;
+    }
+</style>
+
+<div class="ytp-datepicker" data-module="ytp-datepicker">
+    <label class="ytp-input-label">
+        {{label}}
+    </label>
+    <div class="ytp-input-with-icon">
+        <input class="ytp-input-element" type="text" data-datepicker data-date-format="YYYY-MM-DD" placeholder="Valitse">
+        <i class="far fa-calendar-alt color-highlight-base"></i>
+    </div>
+</div>

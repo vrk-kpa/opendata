@@ -1,0 +1,15 @@
+<div>
+    {% if label %}
+        <label class="ytp-input-label" for="advanced-search-keywords">{{label}}</label>
+    {% endif %}
+    <!-- TODO: Add search icon -->
+    <div class="ytp-input-with-icon">
+        <input
+            id="advanced-search-keywords"
+            type="text"
+            class="ytp-input-element ytp-search-bar"
+            placeholder="{{placeholder}}"
+        >
+        <i class="far fa-search"></i>
+    </div>
+</div>

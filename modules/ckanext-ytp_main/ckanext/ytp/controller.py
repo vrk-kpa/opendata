@@ -918,6 +918,6 @@ class YtpAdvancedSearchController(base.BaseController):
             {"value": "4", "label": u"Kansainvaliset asiat"},
             {"value": "5", "label": u"Koulutus"},
             {"value": "6", "label": u"Liikenne"},
-            {"value": "6", "label": u"Paras kategoria"},
-            {"value": "6", "label": u"Speciaali"},
+            {"value": "7", "label": u"Paras kategoria"},
+            {"value": "8", "label": u"Speciaali"},
         ]})

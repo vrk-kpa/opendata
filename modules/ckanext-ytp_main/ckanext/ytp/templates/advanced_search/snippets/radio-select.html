@@ -1,0 +1,9 @@
+<div>
+    <!-- TODO: make options come from parent -->
+    <label for="radio-target-fieldset" class="ytp-input-label">{{label}}</label>
+    <fieldset id="radio-target-fieldset">
+        {% snippet 'advanced_search/snippets/single-radio.html', name="target", option={"value": "all", "label": _('All')}, isChecked=true %}
+        {% snippet 'advanced_search/snippets/single-radio.html', name="target", option={"value": "title", "label": _('Vain otsikko')} %}
+        {% snippet 'advanced_search/snippets/single-radio.html', name="target", option={"value": "description", "label": _('Vain kuvaus')} %}
+    </fieldset>
+</div>
