@@ -1,0 +1,26 @@
+{% extends "page.html" %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block primary_content %}
+  <div class="row">
+    <h1 class="pull-left">{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
+  </div>
+  <div class="row">
+    {% block advanced_search_form %}
+      {% snippet 'advanced_search/search_form.html', input_fields=input_fields %}
+    {% endblock %}
+  </div>
+
+  {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
+  {% block advanced_result_list %}
+    <ul class="result-list">
+        <li class="result-item">Item 1</li>
+        <li class="result-item">Item 2</li>
+        <li class="result-item">Item 3</li>
+        <li class="result-item">Item 4</li>
+        <li class="result-item">Item 5</li>
+    </ul>
+  {% endblock %}
+{% endblock %}

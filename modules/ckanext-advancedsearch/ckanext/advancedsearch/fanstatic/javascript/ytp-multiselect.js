@@ -15,8 +15,10 @@ ckan.module('ytp-multiselect', function($) {
         .find('.ytp-multiselect-toggle')
         .on('click', () => this._onToggleMultiSelect(this.el));
 
+      // Find all inputs with id's starting with {name}-checkbox
+      // and add a click event to them
       this.el
-        .find(`input[id*=${this.options.label}-checkbox-]`)
+        .find(`input[id*=${this.options.name}-checkbox-]`)
         .on('click', this._onToggleItem);
     },
 
@@ -73,15 +75,15 @@ ckan.module('ytp-multiselect', function($) {
       }
 
       if (selectedItems.length === 1) {
-        return selectedItems[0].dataset.optionLabel
+        return selectedItems[0].dataset.optionName
       }
 
       return `${selectedItems.length} valittu`
     },
 
-    // Returns array of checkboxes with specific label value combo
+    // Returns array of checkboxes with specific name value combo
     checkboxes: function(value = '') {
-      return this.el.find(`input[id*=${this.options.label}-checkbox-${value}]`);
+      return this.el.find(`input[id*=${this.options.name}-checkbox-${value}]`);
     },
 
     // Returns true if all checkboxes are selected

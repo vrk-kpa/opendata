@@ -1,0 +1,48 @@
+<div class="search-container control-group p-4">
+    <form class="advanced-search-form" method="get">
+        <div class="row">
+            <div class="mb-3 col-sm-8">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.search_term %}
+            </div>
+            <div class="mb-3 col-sm-4">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.search_target %}
+            </div>
+        </div>
+        <div>
+        <div>
+            <h2>Ominaisuudet</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.category %}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.publisher %}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.licence %}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {% snippet 'advanced_search/display_field.html', field=input_fields.format %}
+            </div>
+        </div>
+        </div>
+        <div class="d-flex flex-wrap mb-4 row">
+            <!-- This margin is actually off by 1px, compared to the row margin, but it is not visible -->
+            <div class="mx-3">
+            {% snippet 'advanced_search/display_field.html', field=input_fields.released %}
+            </div>
+            <div class="mx-3">
+            {% snippet 'advanced_search/display_field.html', field=input_fields.updated %}
+            </div>
+        </div>
+        <div>
+        <button type="submit" class="suomi-button suomi-button-primary mr-3">
+            Hae
+        </button>
+        <button name="clear" class="suomi-button suomi-button-secondary">
+            Tyhjennä rajaukset
+        </button>
+        </div>
+    </form>
+</div>

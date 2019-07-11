@@ -1,0 +1,9 @@
+{% set label = field.label %}
+
+<div>
+    <h2>{{ label }}</h2>
+    <div class="d-flex flex-wrap">
+        {% snippet 'advanced_search/display_snippets/datepicker.html', label=field.display_options.label.start, name=field.field_name + "-start" %}
+        {% snippet 'advanced_search/display_snippets/datepicker.html', label=field.display_options.label.end, name=field.field_name + "-end" %}
+    </div>
+</div>

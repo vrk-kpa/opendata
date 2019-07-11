@@ -1,0 +1,14 @@
+{% set name = field.field_name %}
+{% set options = field.options %}
+{% set label = field.label %}
+
+<div>
+    <label for="radio-target-fieldset" class="ytp-input-label">{{label}}</label>
+    <fieldset id="radio-target-fieldset">
+        <!-- Print all radio buttons and make the first option selected -->
+        {% for option in options %}
+            {% set checked = (loop.index == 1) %}
+            {% snippet 'advanced_search/snippets/single-radio.html', name=name, option=option, isChecked=checked %}
+        {% endfor %}
+    </fieldset>
+</div>

@@ -7,7 +7,6 @@ ckan.module('ytp-datepicker', function($) {
   return {
     initialize: function() {
         this.el.find('[data-datepicker]').each(function() {
-            console.log('init')
             $(this).datetimepicker({
                 format: 'YYYY-MM-DD'
             });
