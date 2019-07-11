@@ -162,6 +162,7 @@ Resources:
                   - s3:GetObjectTagging
                   - s3:HeadBucket
                   - s3:ListObjects
+                  - s3:PutObject
                   - s3:PutObjectTagging
                 Resource:
                   - !Sub "arn:aws:s3:::avoindata-infratest-datasets"
