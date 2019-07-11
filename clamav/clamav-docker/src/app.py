@@ -20,7 +20,7 @@ def main():
     object_key = os.getenv('OBJECT_KEY')
     sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
     s3 = boto3.client('s3')
-    set_object_tags(s3, s3_bucket, object_key, updated=datetime.datetime.utcnow().isoformat() )
+    set_object_tags(s3, s3_bucket, object_key, updated=datetime.datetime.utcnow().isoformat())
     sns = boto3.client('sns')
     processed_file = tempfile.NamedTemporaryFile(delete=False)
 
@@ -41,21 +41,23 @@ def main():
     if infections:
         infection_name = ','.join(infections)
         logger.info(f'{object_key} is infected with {infection_name}')
-        set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=datetime.datetime.utcnow().isoformat(), sha256=target_file_hash)
+        now = datetime.datetime.utcnow().isoformat()
+        set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=now, sha256=target_file_hash)
         replace_object_with_empty_file(s3, s3_bucket, object_key)
-        set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=datetime.datetime.utcnow().isoformat(), sha256=target_file_hash)
+        set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=now, sha256=target_file_hash)
         sns_publish(sns, sns_topic_arn,  s3_bucket, object_key, infection_name)
     else:
         logger.info(f'{object_key} is clean')
-        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=datetime.datetime.utcnow().isoformat(), sha256=target_file_hash)
+        now = datetime.datetime.utcnow().isoformat()
+        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash)
 
 
 def get_sha256(filename):
     sha256_hash = hashlib.sha256()
     try:
-        with open(filename,"rb") as f:
+        with open(filename, "rb") as f:
             # Read and update hash string value in blocks of 4K
-            for byte_block in iter(lambda: f.read(4096),b""):
+            for byte_block in iter(lambda: f.read(4096), b""):
                 sha256_hash.update(byte_block)
                 logger.info(f'Calculated sha256: {sha256_hash.hexdigest()}')
             return (sha256_hash.hexdigest())
@@ -63,27 +65,35 @@ def get_sha256(filename):
         logger.error(f'Opening file {filename}: \n{e}')
         raise e
 
+
 def set_object_tags(client, bucket, key, **new_tags):
 
-    response = client.put_object_tagging(
-        Bucket=bucket,
-        Key=key,
-        Tagging={
-            'TagSet': [{'Key': str(k), 'Value': str(v)} for k, v in new_tags.items()]
-        }
-    )
+    try:
+        client.put_object_tagging(
+            Bucket=bucket,
+            Key=key,
+            Tagging={
+                'TagSet': [{'Key': str(k), 'Value': str(v)} for k, v in new_tags.items()]
+            }
+        )
+    except Exception as e:
+        logger.error(
+            f'Tagging object {key} failed: \n{e}')
+        raise e
+
 
 def replace_object_with_empty_file(client, bucket, key):
 
     try:
         logger.info(
             f'Replacing object {key} in {bucket} with empty file')
-        client.put_object(Bucket=bucket, Key=key,Body=b'' )
+        client.put_object(Bucket=bucket, Key=key, Body=b'')
         logger.info(f'Object {key} replaced')
     except Exception as e:
         logger.error(
-            f'Replacing object failed for {object_key}: \n{e}')
+            f'Replacing object failed for {key}: \n{e}')
         raise e
+
 
 def sns_publish(sns_client, sns_topic_arn,  bucket, key, infection_name):
     message = {
@@ -101,6 +111,7 @@ def sns_publish(sns_client, sns_topic_arn,  bucket, key, infection_name):
         logger.info('Message published to SNS')
     except ClientError as e:
         logger.error(f'Message publishing failed: \n{e}')
+
 
 if __name__ == '__main__':
     main()

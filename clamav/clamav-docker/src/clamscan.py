@@ -5,6 +5,7 @@ import time
 
 logger = logging.getLogger(__name__)
 
+
 def clamd_check(decorated):
     def wrapper(*args):
         while not args[0].clamd_up:
@@ -37,10 +38,14 @@ class ClamScanner:
                 logger.info('ClamAV database is up to date')
             else:
                 raise Exception(
-                    f'Unable to ensure that ClamAV database is up to date: \n{freshclam_process_output}')
+                    f'Unable to ensure that ClamAV database is up to date: \n'
+                    f'{freshclam_process_output}')
         except subprocess.CalledProcessError as e:
             error_message = e.output.decode('utf-8')
-            if 'OUTDATED' in error_message and (error_message.count('is up to date') >= 3 or 'ClamAV database updated' in error_message):
+            outdated = 'OUTDATED' in error_message
+            components_up_to_date = error_message.count('is up to date') >= 3
+            database_updated = 'ClamAV database updated' in error_message
+            if outdated and components_up_to_date or database_updated:
                 logger.warn('A newer version of ClamAV is available')
             else:
                 logger.error(f'ClamAV database update failed: \n{e.output}')
