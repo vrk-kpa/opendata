@@ -686,7 +686,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'override_field_with_default_translation': validators.override_field_with_default_translation,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
-            'check_deprecation': validators.check_deprecation
+            'check_deprecation': validators.check_deprecation,
+            'admin_only_field': validators.admin_only_field
         }
 
 
