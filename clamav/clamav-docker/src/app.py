@@ -49,7 +49,7 @@ def main():
     else:
         logger.info(f'{object_key} is clean')
         now = datetime.datetime.utcnow().isoformat()
-        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash, test='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash)
 
 
 def get_sha256(filename):
