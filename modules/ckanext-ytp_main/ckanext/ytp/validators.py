@@ -474,6 +474,9 @@ def admin_only_field(field, schema):
         data_dict = flatten_dict(get_action('package_show')(context, {'id': context['package'].id}))
 
         if not authz.is_sysadmin(context['user']):
-            data[key] = data_dict[key]
+            if key in data_dict:
+                data[key] = data_dict[key]
+            else:
+                del data[key]
 
     return validator
