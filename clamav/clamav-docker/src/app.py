@@ -49,7 +49,7 @@ def main():
     else:
         logger.info(f'{object_key} is clean')
         now = datetime.datetime.utcnow().isoformat()
-        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash)
+        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash, test='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 
 
 def get_sha256(filename):
@@ -73,7 +73,7 @@ def set_object_tags(client, bucket, key, **new_tags):
             Bucket=bucket,
             Key=key,
             Tagging={
-                'TagSet': [{'Key': str(k), 'Value': str(v)} for k, v in new_tags.items()]
+                'TagSet': [{'Key': str(k)[:128], 'Value': str(v)[:256]} for k, v in new_tags.items()]
             }
         )
     except Exception as e:
@@ -87,6 +87,8 @@ def replace_object_with_empty_file(client, bucket, key):
     try:
         logger.info(
             f'Replacing object {key} in {bucket} with empty file')
+        # Delete is not needed but if S3 versioning is used it adds delete marker for clarity
+        client.delete_object(Bucket=bucket, Key=key)
         client.put_object(Bucket=bucket, Key=key, Body=b'')
         logger.info(f'Object {key} replaced')
     except Exception as e:
