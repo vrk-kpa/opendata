@@ -5,10 +5,6 @@ import ckan.logic as logic
 from urlparse import urlparse
 import os
 
-import logging
-
-log = logging.getLogger(__name__)
-
 
 class ResourceStatusPlugin(p.SingletonPlugin, DefaultTranslation):
     p.implements(p.IActions, inherit=True)
@@ -21,8 +17,6 @@ class ResourceStatusPlugin(p.SingletonPlugin, DefaultTranslation):
 def resource_status(context=None, data_dict=None):
     resource = logic.get_action('resource_show')(context, data_dict)
 
-    from pprint import pformat
-    log.warn(pformat(resource))
     if resource['url_type'] != 'upload':
         return {'finished': True}
 
