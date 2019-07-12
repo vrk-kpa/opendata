@@ -459,3 +459,24 @@ def check_deprecation(key, data, errors, context):
 
     deprecation = check_package_deprecation(data.get(('valid_till',)))
     data[key] = deprecation
+
+
+@scheming_validator
+def admin_only_field(field, schema):
+    from ckan.lib.navl.dictization_functions import flatten_dict
+    from ckan.logic import get_action
+
+    def validator(key, data, errors, context):
+
+        if 'package' not in context:
+            return
+
+        data_dict = flatten_dict(get_action('package_show')(context, {'id': context['package'].id}))
+
+        if not authz.is_sysadmin(context['user']):
+            if key in data_dict:
+                data[key] = data_dict[key]
+            else:
+                del data[key]
+
+    return validator

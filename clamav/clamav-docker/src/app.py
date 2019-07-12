@@ -59,7 +59,7 @@ def get_sha256(filename):
             # Read and update hash string value in blocks of 4K
             for byte_block in iter(lambda: f.read(4096), b""):
                 sha256_hash.update(byte_block)
-                logger.info(f'Calculated sha256: {sha256_hash.hexdigest()}')
+            logger.info(f'Calculated sha256: {sha256_hash.hexdigest()}')
             return (sha256_hash.hexdigest())
     except OSError as e:
         logger.error(f'Opening file {filename}: \n{e}')
