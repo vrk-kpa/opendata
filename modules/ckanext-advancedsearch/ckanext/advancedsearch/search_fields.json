@@ -1,0 +1,80 @@
+{
+  "input_fields": {
+    "search_term": {
+      "field_name": "search_term",
+      "label": "Hakusanat",
+      "display_snippet": "search-bar.html",
+      "display_options": {
+        "placeholder": "Kirjoita mitä olet etsimässä"
+      }
+    },
+    "search_target": {
+      "field_name": "search_target",
+      "label": "Haun kohdistuminen",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "title", "label": "Vain otsikko" },
+        { "value": "description", "label": "Vain kuvaus" }
+      ],
+      "display_snippet": "radio-select.html"
+    },
+    "category": {
+      "field_name": "category",
+      "label": "Kategoria",
+      "options_helper": "category_options",
+      "display_snippet": "multiselect.html",
+      "display_options": {
+        "allow_select_all": true
+      }
+    },
+    "publisher": {
+      "field_name": "publisher",
+      "label": "Julkaisija",
+      "options_helper": "publisher_options",
+      "display_snippet": "multiselect.html",
+      "display_options": {
+        "allow_select_all": true
+      }
+    },
+    "license": {
+      "field_name": "license",
+      "label": "Lisenssi",
+      "options_helper": "license_options",
+      "display_snippet": "multiselect.html",
+      "display_options": {
+        "allow_select_all": true
+      }
+    },
+    "format": {
+      "field_name": "format",
+      "label": "Formaatti",
+      "options_helper": "format_options",
+      "display_snippet": "multiselect.html",
+      "display_options": {
+        "allow_select_all": false
+      }
+    },
+    "released": {
+      "field_name": "released",
+      "label": "Julkaisu päivä",
+      "display_snippet": "datepicker-range.html",
+      "display_options": {
+        "label": {
+          "start": "Julkaistu ennen",
+          "end": "Julkaistu jälkeen"
+        }
+      }
+    },
+    "updated": {
+      "field_name": "updated",
+      "label": "Paivitys päivä",
+      "display_snippet": "datepicker-range.html",
+      "display_options": {
+        "label": {
+          "start": "Päivitetty ennen",
+          "end": "Päivitetty jaälkeen"
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {% set label = field.label %}
 {% set name = field.field_name %}
-{% set options = field.options %}
+{% set options = h.field_options(field) %}
 {% set allow_select_all = field.display_options.allow_select_all %}
 
 {% resource 'advancedsearch/javascript/ytp-multiselect.js' %}

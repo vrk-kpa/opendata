@@ -75,7 +75,7 @@ ckan.module('ytp-multiselect', function($) {
       }
 
       if (selectedItems.length === 1) {
-        return selectedItems[0].dataset.optionName
+        return selectedItems[0].dataset.optionLabel
       }
 
       return `${selectedItems.length} valittu`

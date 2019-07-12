@@ -1,15 +1,15 @@
 {% extends "page.html" %}
 
+{%- set schema = h.advancedsearch_schema() -%}
+
 {% block page_primary_action %}
 {% endblock %}
 
 {% block primary_content %}
-  <div class="row">
-    <h1 class="pull-left">{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
-  </div>
-  <div class="row">
+  <h1>{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
+  <div>
     {% block advanced_search_form %}
-      {% snippet 'advanced_search/search_form.html', input_fields=input_fields %}
+      {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
     {% endblock %}
   </div>
 
