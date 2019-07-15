@@ -473,7 +473,7 @@ def admin_only_field(field, schema):
 
         data_dict = flatten_dict(get_action('package_show')(context, {'id': context['package'].id}))
 
-        if not authz.is_sysadmin(context['user']):
+        if not authz.is_authorized('sysadmin', context).get('success'):
             if key in data_dict:
                 data[key] = data_dict[key]
             else:

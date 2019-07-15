@@ -30,6 +30,7 @@ def resource_status(context=None, data_dict=None):
         status_updated = status.updated()
         sha256 = status.sha256()
         malware = status.malware()
+        finished = all(x not in (None, '') for x in (sha256, malware))
 
         patch = {}
         if sha256 is not None:
@@ -37,7 +38,7 @@ def resource_status(context=None, data_dict=None):
         if malware is not None:
             patch['malware_check'] = malware
         if status_updated is not None:
-            patch['status_updated'] = malware
+            patch['status_updated'] = status_updated
         if patch:
             patch['id'] = resource['id']
             patch_context = {'ignore_auth': True}
