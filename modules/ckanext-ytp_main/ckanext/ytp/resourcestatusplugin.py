@@ -76,7 +76,7 @@ class CloudResourceStatus(ResourceStatus):
         super(CloudResourceStatus, self).__init__(resource)
         aws_bucket_name = config.get('ckanext.cloudstorage.container_name')
         resource_id = resource.get('id')
-        filename = os.path.basename(urlparse(resource.get('url').path))
+        filename = os.path.basename(urlparse(resource.get('url')).path)
         object_key = 'resources/%s/%s' % (resource_id, filename)
 
         s3 = boto3.client('s3')
