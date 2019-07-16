@@ -28,6 +28,8 @@
   roles:
     - role: common
       tags: common
+    - role: dynatrace
+      tags: dynatrace
     - role: postgres
       tags: postgres
     - role: opendata_frontend
@@ -46,8 +48,6 @@
       tags: drupal
     - role: datapusher
       tags: datapusher
-    - role: dynatrace
-      tags: dynatrace
 
   post_tasks:
     - name: Remove maintenance mode

@@ -31,21 +31,6 @@ DATETIME_FORMATS = [
     '%d/%m/%Y',
 ]
 
-GROUP_MAP = {
-    'asuminen': ['asuminen'],
-    'hallinto-ja-paatoksenteko': ['hallinto-ja-paatoksenteko'],
-    'kartat': ['kartat'],
-    'kulttuuri-ja-vapaa-aika': ['kulttuuri-ja-vapaa-aika'],
-    'liikenne-ja-matkailu': ['liikenne-ja-matkailu'],
-    'opetus-ja-koulutus': ['opetus-ja-koulutus'],
-    'rakennettu-ymparisto': ['rakennettu-ymparisto'],
-    'talous-ja-verotus': ['talous-ja-verotus'],
-    'terveys-ja-sosiaalipalvelut': ['terveys-ja-sosiaalipalvelut'],
-    'tyo-ja-elinkeinot': ['tyo-ja-elinkeinot'],
-    'vaesto': ['vaesto'],
-    'ymparisto-ja-luonto': ['ymparisto-ja-luonto']
-}
-
 
 def parse_datetime(datetime_string):
     if not datetime_string:
@@ -62,21 +47,74 @@ def parse_datetime(datetime_string):
     return None
 
 
-def sixodp_to_opendata_preprocess(package_dict):
-    groups = []
+def group_map():
+    '''Returns a list of functions that map a list of sixodp category names
+    into a list of opendata category names based on a set of rules.'''
 
-    for group in package_dict.get('groups', []):
-        mapped_groups = GROUP_MAP.get(group.get('name'))
+    def _evaluate(predicate, values):
+        '''Evaluates a predicate for a set of values.
 
-        if mapped_groups is not None:
-            for mapped_group in mapped_groups:
-                log.info("Mapping Group %s => %s", group, mapped_group)
-                groups.append({'name': mapped_group})
+        The predicate can be a string or a function. Strings are handled as "belongs to" primitives.
+        Functions should return True or False for the given set of values.'''
+        if isinstance(predicate, str):
+            return predicate in values
         else:
-            log.info("Not mapping Group %s", group)
-            groups.append(group)
+            return predicate(values)
 
-    package_dict['groups'] = groups
+    def _and(*predicates):
+        '''Returns a predicate that returns true if all given predicates evaluate to true
+        for a given set of values.'''
+        def f(values):
+            return all(_evaluate(p, values) for p in predicates)
+        return f
+
+    def _or(*predicates):
+        '''Returns a predicate that returns true if any of the given predicates evaluate to true
+        for a given set of values.'''
+        def f(values):
+            return any(_evaluate(p, values) for p in predicates)
+        return f
+
+    def _not(predicate):
+        '''Returns a predicate that inverts the function of the given predicate.'''
+        def f(values):
+            return not _evaluate(predicate, values)
+        return f
+
+    def _mapping(predicate, results):
+        '''Returns a function. The function returns the given set of results if the given predicate evaluates
+        to True for a given set of values, otherwise an empty list.'''
+        def f(values):
+            return results if _evaluate(predicate, values) else []
+        return f
+
+    # Create a list of functions that map sixodp groups to opendata groups based on different criteria
+    return [_mapping(_or('kartat', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
+            _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
+            _mapping(_or('opetus-ja-koulutus', 'kulttuuri-ja-vapaa-aika'), ['koulutus-kulttuuri-ja-urheilu']),
+            _mapping('liikenne-ja-matkailu', ['liikenne']),
+            _mapping('talous-ja-verotus', ['talous-ja-rahoitus']),
+            _mapping('terveys-ja-sosiaalipalvelut', ['terveys']),
+            _mapping('tyo-ja-elinkeinot', ['vaesto-ja-yhteiskunta', 'talous-ja-rahoitus']),
+            _mapping(_and('asuminen', _not('kartat'), _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
+            _mapping('vaesto', ['vaesto-ja-yhteiskunta']),
+            _mapping('ymparisto-ja-luonto', ['ymparisto-ja-luonto'])]
+
+
+def evaluate_group_map(group_map, values):
+    '''Evaluates all mappings in group_map for the given sixodp groups and
+    returns a set of opendata groups they map into'''
+    return set(group for mapping in group_map for group in mapping(values))
+
+
+GROUP_MAP = group_map()
+
+
+def sixodp_to_opendata_preprocess(package_dict):
+    sixodp_groups = [g.get('name') for g in package_dict.get('groups', [])]
+    groups = evaluate_group_map(GROUP_MAP, sixodp_groups)
+    log.info('Mapping groups %s => %s', sixodp_groups, groups)
+    package_dict['groups'] = list({'name': g} for g in groups)
 
 
 def sixodp_to_opendata_postprocess(package_dict):
@@ -382,8 +420,16 @@ class SixodpHarvester(HarvesterBase):
                 object_ids.append(obj.id)
 
             for deleted_id in deleted_ids:
+
+                # Original harvest object needs to be updated
                 log.debug('Creating deleting HarvestObject for %s', deleted_id)
-                obj = HarvestObject(guid=deleted_id, job=harvest_job, content='{"id":"%s", "delete":true}' % deleted_id)
+                obj = model.Session.query(HarvestObject)\
+                    .filter(
+                    HarvestObject.current == True  # noqa
+                )\
+                    .filter(HarvestObject.guid == deleted_id).one()
+                obj.job = harvest_job
+                obj.content = '{"id":"%s", "delete":true}' % deleted_id
                 obj.save()
                 object_ids.append(obj.id)
 
@@ -494,6 +540,9 @@ class SixodpHarvester(HarvesterBase):
             if package_dict.get('delete', False):
                 log.info('Deleting package %s' % package_dict['id'])
                 get_action('package_delete')(base_context.copy(), {'id': package_dict['id']})
+
+                # Mark current to false, to mark it as deleted
+                harvest_object.current = False
                 return True
 
             if package_dict.get('type') == 'harvest':

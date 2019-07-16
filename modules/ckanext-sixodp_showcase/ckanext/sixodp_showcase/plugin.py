@@ -146,13 +146,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'get_showcases_by_author': helpers.get_showcases_by_author
         }
 
-    def _add_to_pkg_dict(self, context, pkg_dict):
-        '''
-        Add key/values to pkg_dict and return it.
-        '''
-
-        if pkg_dict['type'] != 'showcase':
-            return pkg_dict
+    def _add_image_urls(self, pkg_dict):
 
         # Add a image urls for the Showcase image to the pkg dict so template
         # has access to it.
@@ -167,6 +161,16 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                     h.url_for_static('uploads/{0}/{1}'.format('showcase',
                                                               pkg_dict.get(image)),
                                      qualified=True)
+
+    def _add_to_pkg_dict(self, context, pkg_dict):
+        '''
+        Add key/values to pkg_dict and return it.
+        '''
+
+        if pkg_dict['type'] != 'showcase':
+            return pkg_dict
+
+        self._add_image_urls(pkg_dict)
 
         # Add dataset count
         pkg_dict[u'num_datasets'] = len(
@@ -207,3 +211,10 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                     data_dict['vocab_%s_%s' % (prop_key, lang)] = list(lang_values)
 
         return data_dict
+
+    def after_search(self, search_results, search_params):
+
+        for result in search_results['results']:
+            self._add_image_urls(result)
+
+        return search_results

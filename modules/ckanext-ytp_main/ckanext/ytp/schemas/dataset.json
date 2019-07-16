@@ -264,11 +264,11 @@
       "choices": [
         {
           "value": false,
-          "label": "False"
+          "label": "No"
         },
         {
           "value": true,
-          "label": "True"
+          "label": "Yes"
         }
       ],
       "form_snippet": null,
@@ -408,6 +408,21 @@
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
       "preset": "date_opendata"
+    },
+    {
+      "field_name": "status_updated",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "sha256",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "malware_check",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
     }
   ]
 }

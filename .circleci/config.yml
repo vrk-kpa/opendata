@@ -1,4 +1,27 @@
-version: 2
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.2.0
+
+commands:
+  slack_notification:
+    description: "Send job status notification to Slack"
+    parameters:
+      branches:
+        type: string
+        default: "master"
+      fail_only:
+        type: boolean
+        default: true
+    steps:
+      - slack/status:
+          fail_only: << parameters.fail_only >>
+          only_for_branches: << parameters.branches >>
+          webhook: $SLACK_WEB_HOOK
+          include_visit_job_action: true
+          include_job_number_field: true
+
+
 jobs:
   flake8:
     docker:
@@ -35,6 +58,8 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 modules --count --max-line-length=127 --statistics
+
+      - slack_notification
 
   code-sniffer:
     docker:
@@ -79,6 +104,8 @@ jobs:
           paths:
             - vendor
 
+      - slack_notification
+
   ansible-lint:
     docker:
       - image: circleci/python
@@ -92,6 +119,8 @@ jobs:
           name: Run ansible-lint for single-server.yml
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
+
+      - slack_notification
 
   packer-web:
     docker:
@@ -144,6 +173,8 @@ jobs:
           paths:
             - web_ami_id
 
+      - slack_notification
+
   ansible-web:
     docker:
       - image: circleci/python
@@ -190,6 +221,8 @@ jobs:
 
       - store_artifacts:
           path: ~/logs
+
+      - slack_notification
 
   cypress-web:
     docker:
@@ -251,6 +284,8 @@ jobs:
       - store_artifacts:
           path: ~/logs
 
+      - slack_notification
+
   packer-scheduled:
     docker:
       - image: circleci/python
@@ -289,8 +324,24 @@ jobs:
           paths:
             - ansible/manifest-scheduled.json
 
+      - run:
+          name: Save ami id to file
+          command: cat manifest-scheduled.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > ~/project/scheduled_ami_id
+          working_directory: ~/project/ansible
+
       - store_artifacts:
           path: ~/logs
+
+      - store_artifacts:
+          path: ~/project/scheduled_ami_id
+
+      - persist_to_workspace:
+          name: scheduled_ami_id
+          root: ~/project
+          paths:
+            - scheduled_ami_id
+
+      - slack_notification
 
   stylelint:
     docker:
@@ -322,6 +373,8 @@ jobs:
           command: $(npm bin)/stylelint "src/less"
           working_directory: ~/project/modules/ytp-assets-common
 
+      - slack_notification
+
   copy-web-ami:
     docker:
       - image: circleci/python
@@ -348,6 +401,8 @@ jobs:
           root: ~/project
           paths:
             - web_image_ami_copy
+
+      - slack_notification
 
   copy-scheduled-ami:
     docker:
@@ -376,6 +431,8 @@ jobs:
           paths:
             - scheduled_image_ami_copy
 
+      - slack_notification
+
   beta-deploy:
     docker:
       - image: circleci/python
@@ -383,6 +440,14 @@ jobs:
     steps:
 
       - checkout
+
+      - run:
+          name: Skip deployment if commit is not latest in master
+          command: |
+            if [ $(git rev-parse @) != $(git rev-parse origin) ]; then
+              echo "Commit is not latest in master, skipping deployment"
+              circleci-agent step halt
+            fi
 
       - run: sudo pip install boto awscli
 
@@ -395,21 +460,54 @@ jobs:
       - run:
           name: Check current stack update status
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
             until aws cloudformation describe-stacks --stack-name "beta-asg-lt" --query 'Stacks[0].StackStatus' | egrep -q 'COMPLETE"$'; do sleep 5 ; done
           no_output_timeout: 15m
 
       - run:
           name: Update AMI ids in parameter store
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
-            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/web_image_ami_copy) && \
-            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_image_ami_copy)
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
+            aws ssm put-parameter --name /beta/web/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/web_ami_id) && \
+            aws ssm put-parameter --name /beta/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $(cat ~/project/scheduled_ami_id)
+
+      - run:
+          name: Start maintenance break in Dynatrace
+          command: |
+              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" \
+                -d '{
+                  "id": "'"$CIRCLE_BUILD_NUM"'",
+                  "type": "Planned",
+                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                  "suppressAlerts": true,
+                  "suppressProblems": true,
+                  "scope": {
+                      "matches": [
+                      {
+                        "type": "APPLICATION",
+                        "tags": [
+                          {
+                            "context": "CONTEXTLESS",
+                            "key": "beta"
+                          }
+                        ]
+                      }
+                    ]
+                   },
+                "schedule": {
+                  "type": "Once",
+                  "timezoneId": "UTC",
+                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+                }
+              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
 
       - run:
           name: Update stack
           command: |
-            source ~/project/deploy/assume_role.sh > /dev/null 2>&1
+            source ~/project/deploy/assume_dev_deploy_role.sh > /dev/null 2>&1
             aws cloudformation update-stack \
             --stack-name "beta-asg-lt" \
             --template-body file://../cloudformation/launchtemplate.yml \
@@ -420,6 +518,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/beta/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/beta/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/beta/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/beta/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/beta/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/beta/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/beta/web/efs_file_system \
@@ -430,8 +529,45 @@ jobs:
           working_directory: ~/project/deploy
           no_output_timeout: 30m
 
+      - run:
+          name: Notify Dynatrace
+          command: |
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/events?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "eventType": "CUSTOM_DEPLOYMENT",
+                "attachRules": {
+                    "tagRule": {
+                        "meTypes": [
+                            "APPLICATION"
+                        ],
+                        "tags": "beta"
+                    }
+                },
+                "deploymentName": "CircleCI deployment",
+                "deploymentVersion": "'"$CIRCLE_SHA1"'",
+                "ciBackLink": "'"https://circleci.com/gh/vrk-kpa/opendata/$CIRCLE_BUILD_NUM"'",
+                "source": "CircleCI",
+                "customProperties": {
+                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'",
+                    "Release": "'"$CIRCLE_TAG"'"
+                }
+            }' > ~/logs/dynatrace_notification.log 2>&1
+
+      - run:
+          name: End maintenance break in Dynatrace
+          command: |
+              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+          when: always
+
       - store_artifacts:
           path: ~/logs
+
+      - slack_notification:
+          fail_only: false
 
   clamav-build:
     docker:
@@ -447,12 +583,14 @@ jobs:
           name: Build and tag ClamAV container
           command: |
             docker build -t clamav-scanner:latest ~/project/clamav/clamav-docker
-      
+
       - run:
           name: Build lambdas
           command: |
             sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
+
+      - slack_notification
 
   clamav-deploy:
     docker:
@@ -472,14 +610,16 @@ jobs:
             $(aws ecr get-login --no-include-email --region eu-west-1) &&\
             docker tag clamav-scanner:latest ${AWS_PRODUCTION_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/clamav-scanner:latest &&\
             docker push $_
-      
+          no_output_timeout: 20m
+
+
       - run:
           name: Build lambdas
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
             sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
-      
+
       - run:
           name: Package SAM template
           command: |
@@ -500,6 +640,8 @@ jobs:
               SlackUser=/clamav/slack_user \
             --capabilities CAPABILITY_IAM
           working_directory: ~/project/clamav
+
+      - slack_notification
 
   prod-deploy:
     docker:
@@ -555,6 +697,39 @@ jobs:
             aws ssm put-parameter --name /prod/scheduled/amiid --type String --overwrite --allowed-pattern "^ami-[a-z0-9]{17}$" --value $scheduled_ami_id
 
       - run:
+          name: Start maintenance break in Dynatrace
+          command: |
+              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" \
+                -d '{
+                  "id": "'"$CIRCLE_BUILD_NUM"'",
+                  "type": "Planned",
+                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                  "suppressAlerts": true,
+                  "suppressProblems": true,
+                  "scope": {
+                      "matches": [
+                      {
+                        "type": "APPLICATION",
+                        "tags": [
+                          {
+                            "context": "CONTEXTLESS",
+                            "key": "prod"
+                          }
+                        ]
+                      }
+                    ]
+                   },
+                "schedule": {
+                  "type": "Once",
+                  "timezoneId": "UTC",
+                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+                }
+              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+
+      - run:
           name: Update Cloudformation stack
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
@@ -568,6 +743,7 @@ jobs:
               ParameterKey=SolrTargetGroupArn,ParameterValue=/prod/web/private_alb_tg_arn \
               ParameterKey=ScheduledInstanceType,ParameterValue=/prod/scheduled/instance_type \
               ParameterKey=ScheduledAmiImageId,ParameterValue=/prod/scheduled/amiid \
+              ParameterKey=ScheduledHealthCheckGracePeriod,ParameterValue=/prod/scheduled/albgraceperiod \
               ParameterKey=HookTimeout,ParameterValue=/prod/web/lifecycle_hook_timeout \
               ParameterKey=EnvironmentName,ParameterValue=/prod/web/environment_name \
               ParameterKey=EFSFileSystem,ParameterValue=/prod/web/efs_file_system \
@@ -578,11 +754,48 @@ jobs:
           working_directory: ~/project/deploy
           no_output_timeout: 30m
 
+      - run:
+          name: Notify Dynatrace
+          command: |
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/events?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "eventType": "CUSTOM_DEPLOYMENT",
+                "attachRules": {
+                    "tagRule": {
+                        "meTypes": [
+                            "APPLICATION"
+                        ],
+                        "tags": "prod"
+                    }
+                },
+                "deploymentName": "CircleCI deployment",
+                "deploymentVersion": "'"$CIRCLE_SHA1"'",
+                "ciBackLink": "'"https://circleci.com/gh/vrk-kpa/opendata/$CIRCLE_BUILD_NUM"'",
+                "source": "CircleCI",
+                "customProperties": {
+                    "CircleCI Build Number": "'"$CIRCLE_BUILD_NUM"'",
+                    "Release": "'"$CIRCLE_TAG"'"
+                }
+            }' > ~/logs/dynatrace_notification.log 2>&1
+
+
+      - run:
+          name: End maintenance break in Dynatrace
+          command: |
+              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+          when: always
+
       - store_artifacts:
           path: ~/logs
 
+      - slack_notification:
+          fail_only: false
+
 workflows:
-  version: 2
   lint_build_test:
     jobs:
       - flake8
@@ -617,6 +830,7 @@ workflows:
       - copy-web-ami:
           requires:
             - cypress-web
+            - packer-scheduled
           filters:
             branches:
               only: master
@@ -629,16 +843,16 @@ workflows:
               only: master
       - beta-deploy:
           requires:
-            - copy-web-ami
-            - copy-scheduled-ami
+            - cypress-web
+            - packer-scheduled
           filters:
             branches:
               only: master
-  # prod_deploy:
-  #   jobs:
-  #     - prod-deploy:
-  #         filters:
-  #           tags:
-  #             only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  #           branches:
-  #             ignore: /.*/
+  prod_deploy:
+    jobs:
+      - prod-deploy:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/

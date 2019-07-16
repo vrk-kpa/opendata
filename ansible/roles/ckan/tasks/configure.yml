@@ -1,4 +1,22 @@
 ---
+
+- name: Create temporary patch file for Sentry
+  template:
+    src: sentry.patch.j2
+    dest: /tmp/sentry.patch
+    owner: root
+    group: root
+    mode: 0400
+  when: ckan_sentry_integration_enabled|bool
+
+- name: Apply Sentry CKAN patches
+  patch:
+    src: /tmp/sentry.patch
+    basedir: "{{ ckan_source_path }}"
+    strip: 1
+    remote_src: true
+  when: ckan_sentry_integration_enabled|bool
+
 - name: Copy credentials token
   copy:
     src: "{{ ckan_google_credentials }}"

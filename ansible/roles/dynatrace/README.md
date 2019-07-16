@@ -16,12 +16,15 @@ Role Variables
 Url for dynatrace installer
 
 
-#### `secrets_file_path` (optional)
-Sets log access to either enabled or disabled based on the state of this (0/1), default 0
+#### `dynatrace_app_log_content_access` (optional)
+Sets log access to either enabled or disabled based on the state of this (0/1), default 1
 
 
 #### `dynatrace_install_oneagent` (optional)
 Boolean value for (un)installation of Dynatrace OneAgent, default true.
+
+#### `dynatrace_host_group` (optional)
+The name of a group you want to assign the host to. The host group string can only contain alphanumeric characters, hyphens, underscores, and periods. It must not start with dt. and the maximum length is 100 characters.
 
 
 Dependencies
