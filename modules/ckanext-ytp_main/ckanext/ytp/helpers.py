@@ -475,7 +475,6 @@ def scheming_category_list(args):
         context = {'model': model, 'session': model.Session, 'ignore_auth': True}
         group_ids = get_action('group_list')(context, {})
     except NotFound:
-        log.info('NOT FOUND!')
         return None
     else:
         category_list = []
@@ -496,8 +495,6 @@ def scheming_category_list(args):
 
 
 def check_group_selected(val, data):
-    log.info(data)
-    log.info(val)
     if filter(lambda x: x['name'] == val, data):
         return True
     return False

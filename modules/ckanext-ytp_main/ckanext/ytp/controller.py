@@ -374,7 +374,6 @@ class YtpDatasetController(PackageController):
                 if key == 'categories':
                     category_list.append({'name': val})
             try:
-                log.info(category_list)
                 get_action('package_patch')(context, {"id": id, "groups": category_list})
                 h.redirect_to('dataset_groups', id=id)
             except (NotFound, NotAuthorized):
@@ -405,7 +404,6 @@ class YtpDatasetController(PackageController):
         c.pkg_dict = pkg_dict
         c.group_dropdown = group_dropdown
 
-        log.info('inside my group controller')
         return base.render(
             u'package/group_list.html', {
                 u'dataset_type': dataset_type,

@@ -37,7 +37,7 @@ import auth
 import menu
 
 from converters import to_list_json, from_json_list, is_url, \
-     convert_to_tags_string, string_join, date_validator, simple_date_validate, save_to_groups, output_groups
+     convert_to_tags_string, string_join, date_validator, simple_date_validate, save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -317,80 +317,80 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # IDatasetForm
 
-    # def _modify_package_schema(self, schema):
-    #     ignore_missing = toolkit.get_validator('ignore_missing')
-    #     convert_to_extras = toolkit.get_converter('convert_to_extras')
-    #     not_empty = toolkit.get_validator('not_empty')
-    #     schema = add_translation_modify_schema(schema)
+    def _modify_package_schema(self, schema):
+        ignore_missing = toolkit.get_validator('ignore_missing')
+        convert_to_extras = toolkit.get_converter('convert_to_extras')
+        not_empty = toolkit.get_validator('not_empty')
+        schema = add_translation_modify_schema(schema)
 
-    #     schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
-    #     schema.update({'collection_type': [not_empty, unicode, convert_to_extras]})
-    #     schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
-    #     schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
-    #     schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
-    #     schema.update({'content_type': [not_empty, convert_to_tags_string('content_type')]})
+        schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'collection_type': [not_empty, unicode, convert_to_extras]})
+        schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
+        schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
+        schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
+        schema.update({'content_type': [not_empty, convert_to_tags_string('content_type')]})
 
-    #     schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
-    #     schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
+        schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
+        schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
 
-    #     schema.update({'owner': [set_empty_if_missing, unicode, convert_to_extras]})
-    #     schema.update({'maintainer': [set_empty_if_missing, unicode]})
-    #     schema.update({'maintainer_email': [set_empty_if_missing, unicode]})
+        schema.update({'owner': [set_empty_if_missing, unicode, convert_to_extras]})
+        schema.update({'maintainer': [set_empty_if_missing, unicode]})
+        schema.update({'maintainer_email': [set_empty_if_missing, unicode]})
 
-    #     res_schema = schema.get('resources')
-    #     res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
-    #                        'temporal_coverage_to': [ignore_missing, simple_date_validate]})
-    #     schema.update({'resources': res_schema})
-    #     schema = add_languages_modify(schema, self._localized_fields)
+        res_schema = schema.get('resources')
+        res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
+                           'temporal_coverage_to': [ignore_missing, simple_date_validate]})
+        schema.update({'resources': res_schema})
+        schema = add_languages_modify(schema, self._localized_fields)
 
-    #     if not self.auto_author or c.userobj.sysadmin:
-    #         schema.update({'author': [set_empty_if_missing, unicode]})
-    #         schema.update({'author_email': [set_empty_if_missing, unicode]})
-    #     else:
-    #         schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
-    #         schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
+        if not self.auto_author or c.userobj.sysadmin:
+            schema.update({'author': [set_empty_if_missing, unicode]})
+            schema.update({'author_email': [set_empty_if_missing, unicode]})
+        else:
+            schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
+            schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
 
-    #     # Override CKAN schema
-    #     schema.update({'title': [not_empty, unicode]})
-    #     schema.update({'notes': [not_empty, unicode]})
-    #     schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
+        # Override CKAN schema
+        schema.update({'title': [not_empty, unicode]})
+        schema.update({'notes': [not_empty, unicode]})
+        schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
 
-    #     tag_string_convert = toolkit.get_validator('tag_string_convert')
-    #     schema.update({'tag_string': [not_empty_or('tags'), tag_string_convert]})
+        tag_string_convert = toolkit.get_validator('tag_string_convert')
+        schema.update({'tag_string': [not_empty_or('tags'), tag_string_convert]})
 
-    #     return schema
+        return schema
 
-    # def create_package_schema(self):
-    #     schema = super(YTPDatasetForm, self).create_package_schema()
-    #     return self._modify_package_schema(schema)
+    def create_package_schema(self):
+        schema = super(YTPDatasetForm, self).create_package_schema()
+        return self._modify_package_schema(schema)
 
-    # def update_package_schema(self):
-    #     schema = super(YTPDatasetForm, self).update_package_schema()
-    #     return self._modify_package_schema(schema)
+    def update_package_schema(self):
+        schema = super(YTPDatasetForm, self).update_package_schema()
+        return self._modify_package_schema(schema)
 
-    # def show_package_schema(self):
-    #     schema = super(YTPDatasetForm, self).show_package_schema()
+    def show_package_schema(self):
+        schema = super(YTPDatasetForm, self).show_package_schema()
 
-    #     ignore_missing = toolkit.get_validator('ignore_missing')
-    #     convert_from_extras = toolkit.get_converter('convert_from_extras')
+        ignore_missing = toolkit.get_validator('ignore_missing')
+        convert_from_extras = toolkit.get_converter('convert_from_extras')
 
-    #     schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
+        schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
 
-    #     schema.update({'copyright_notice': [convert_from_extras, ignore_missing]})
-    #     schema.update({'collection_type': [convert_from_extras, ignore_missing]})
-    #     schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
-    #     schema.update({'valid_from': [convert_from_extras, ignore_missing]})
-    #     schema.update({'valid_till': [convert_from_extras, ignore_missing]})
-    #     schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
-    #     schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
-    #     schema.update({'content_type': [toolkit.get_converter('convert_from_tags')
-    #                                     ('content_type'), string_join, ignore_missing]})
-    #     schema.update({'owner': [convert_from_extras, ignore_missing]})
+        schema.update({'copyright_notice': [convert_from_extras, ignore_missing]})
+        schema.update({'collection_type': [convert_from_extras, ignore_missing]})
+        schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
+        schema.update({'valid_from': [convert_from_extras, ignore_missing]})
+        schema.update({'valid_till': [convert_from_extras, ignore_missing]})
+        schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
+        schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
+        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')
+                                        ('content_type'), string_join, ignore_missing]})
+        schema.update({'owner': [convert_from_extras, ignore_missing]})
 
-    #     schema = add_translation_show_schema(schema)
-    #     schema = add_languages_show(schema, self._localized_fields)
+        schema = add_translation_show_schema(schema)
+        schema = add_languages_show(schema, self._localized_fields)
 
-    #     return schema
+        return schema
 
     def package_types(self):
         return []
@@ -693,8 +693,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
-            'upper_if_exists': validators.upper_if_exists,
-            'output_groups': output_groups
+            'upper_if_exists': validators.upper_if_exists
         }
 
 

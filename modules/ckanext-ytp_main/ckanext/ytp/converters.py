@@ -148,6 +148,7 @@ def simple_date_validate(value, context):
         raise Invalid(_('Date format incorrect'))
 
 
+# NOTE: Currently not used, doesn't work like this with ckan scheming
 def save_to_groups(key, data, errors, context):
     # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
     # Add selected items as groups to dataset
@@ -164,8 +165,3 @@ def save_to_groups(key, data, errors, context):
         # get_action('package_patch')(context, {"id": data[('id',)], 'groups': group_patch})
     data['groups'] = group_patch
     return data
-
-
-def output_groups(key, data, errors, context):
-    log.info('OUTPUT GROUPS!')
-    log.info(data[key])
