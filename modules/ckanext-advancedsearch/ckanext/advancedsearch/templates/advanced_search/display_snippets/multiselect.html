@@ -12,8 +12,9 @@
     data-module-name="{{name}}"
     data-module-allow-all="{% if allow_select_all %}true{% else %}false{% endif %}"
 >
-    <label for="advanced-search-dropdown-toggle-{{name}}" class="ytp-input-label">{{label}}</label>
-    <!-- TODO: This can sometimes be an input and not a button -->
+    <label for="advanced-search-dropdown-toggle-{{name}}" class="ytp-input-label">
+        {{_(label)}}
+    </label>
     <button
         for="advanced-search-dropdown-toggle-{{name}}"
         class="ytp-multiselect-toggle ytp-input-element"

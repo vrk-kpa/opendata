@@ -3,7 +3,7 @@
 {% set label = field.label %}
 
 <div>
-    <label for="radio-target-fieldset" class="ytp-input-label">{{label}}</label>
+    <label for="radio-target-fieldset" class="ytp-input-label">{{_(label)}}</label>
     <fieldset id="radio-target-fieldset">
         <!-- Print all radio buttons and make the first option selected -->
         {% for option in options %}

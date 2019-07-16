@@ -5,6 +5,14 @@
 {% block page_primary_action %}
 {% endblock %}
 
+{% block breadcrumb_content %}
+    <li class="active">
+        <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" title="{{ _('Advanced search') }}">
+            {{_('Advanced search')}}
+        </a>
+    </li>
+{% endblock %}
+
 {% block primary_content %}
   <h1>{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
   <div>
@@ -15,12 +23,16 @@
 
   {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
   {% block advanced_result_list %}
-    <ul class="result-list">
-        <li class="result-item">Item 1</li>
-        <li class="result-item">Item 2</li>
-        <li class="result-item">Item 3</li>
-        <li class="result-item">Item 4</li>
-        <li class="result-item">Item 5</li>
-    </ul>
+    <div>
+        <!-- TODO: This is just a placeholder, needs actual implementations -->
+        <h2>{{_('Search results')}} ({% if count %}{{count}}{% else %}5{% endif %})</h2>
+        <ul class="result-list">
+            <li class="result-item">Item 1</li>
+            <li class="result-item">Item 2</li>
+            <li class="result-item">Item 3</li>
+            <li class="result-item">Item 4</li>
+            <li class="result-item">Item 5</li>
+        </ul>
+    </div>
   {% endblock %}
 {% endblock %}
