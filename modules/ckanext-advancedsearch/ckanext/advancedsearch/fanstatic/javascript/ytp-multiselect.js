@@ -17,9 +17,12 @@ ckan.module('ytp-multiselect', function($) {
 
       // Find all inputs with id's starting with {name}-checkbox
       // and add a click event to them
-      this.el
-        .find(`input[id*=${this.options.name}-checkbox-]`)
-        .on('click', this._onToggleItem);
+      // Use normal javasript dom events so they can be triggered with event propagation
+      this.el[0]
+        .querySelectorAll(`[id*=advanced-search-dropdown-${this.options.name}]`)
+        .forEach((value, index, arr) => {
+            value.onchange = e => this._onToggleItem(e)
+        })
     },
 
     _onToggleMultiSelect: function(el) {

@@ -1,3 +1,5 @@
+{% resource 'advancedsearch/javascript/clear-all-fields.js' %}
+
 <div class="search-container control-group p-4">
     <form class="advanced-search-form" method="get">
         <div class="row">
@@ -40,7 +42,7 @@
         <button type="submit" class="suomi-button suomi-button-primary mr-3">
             {{_('Search')}}
         </button>
-        <button name="clear" class="suomi-button suomi-button-secondary">
+        <button name="clear" class="suomi-button suomi-button-secondary" data-module="clear-all-fields">
             {{_('Clear fields')}}
         </button>
         </div>
