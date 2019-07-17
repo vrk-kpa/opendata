@@ -384,7 +384,7 @@ class YtpDatasetController(PackageController):
         except (NotFound, NotAuthorized):
             return base.abort(404, _(u'Dataset not found'))
 
-        dataset_type = pkg_dict[u'type'] or package_type
+        dataset_type = pkg_dict[u'type']
         context[u'is_member'] = True
         users_groups = get_action(u'group_list_authz')(context, {u'id': id})
 

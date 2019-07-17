@@ -6,7 +6,6 @@ from ckan.lib.navl.dictization_functions import Invalid, Missing
 from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
-from ckan.logic import get_action
 from itertools import count
 
 log = logging.getLogger(__name__)

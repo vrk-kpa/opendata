@@ -693,7 +693,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
-            'upper_if_exists': validators.upper_if_exists
+            'upper_if_exists': validators.upper_if_exists,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
             'check_deprecation': validators.check_deprecation,
