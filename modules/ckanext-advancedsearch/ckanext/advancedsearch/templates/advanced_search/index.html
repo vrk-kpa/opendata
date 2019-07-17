@@ -2,8 +2,15 @@
 
 {%- set schema = h.advancedsearch_schema() -%}
 
+{% block meta %}
+    {{ super() }}
+    <meta name="robots" content="noindex, follow" />
+{% endblock %}
+
 {% block page_primary_action %}
 {% endblock %}
+
+{% block subtitle %}{{ _("Advanced search") }}{% endblock %}
 
 {% block breadcrumb_content %}
     <li class="active">
@@ -21,18 +28,17 @@
     {% endblock %}
   </div>
 
-  {# Show a hierarchical tree of organizations if no search parameters are given. Otherwise show a flat list of results. #}
   {% block advanced_result_list %}
     <div>
-        <!-- TODO: This is just a placeholder, needs actual implementations -->
-        <h2>{{_('Search results')}} ({% if count %}{{count}}{% else %}5{% endif %})</h2>
-        <ul class="result-list">
-            <li class="result-item">Item 1</li>
-            <li class="result-item">Item 2</li>
-            <li class="result-item">Item 3</li>
-            <li class="result-item">Item 4</li>
-            <li class="result-item">Item 5</li>
-        </ul>
+        <h2>{{_('Search results')}} ({{ c.page.item_count }})</h2>
+        <div class="mt-4">
+            {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
+        </div>
+        <div>
+            {% block page_pagination %}
+                {{ c.page.pager(q=c.q) }}
+            {% endblock %}
+        </div>
     </div>
   {% endblock %}
 {% endblock %}
