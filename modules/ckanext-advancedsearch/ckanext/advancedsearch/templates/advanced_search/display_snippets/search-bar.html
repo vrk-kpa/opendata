@@ -1,15 +1,16 @@
 {% set label = field.label %}
+{% set field_name = field.field_name %}
 {% set placeholder = field.display_options.placeholder %}
 
 <div>
     {% if label %}
         <label class="ytp-input-label" for="advanced-search-keywords">{{_(label)}}</label>
     {% endif %}
-    <!-- TODO: Add search icon -->
     <div class="ytp-input-with-icon">
         <input
             id="advanced-search-keywords"
             type="text"
+            name="{{field_name}}"
             class="ytp-input-element ytp-search-bar"
             placeholder="{{_(placeholder)}}"
         >
