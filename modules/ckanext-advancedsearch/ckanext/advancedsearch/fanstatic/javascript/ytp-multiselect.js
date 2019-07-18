@@ -74,7 +74,7 @@ ckan.module('ytp-multiselect', function($) {
       }
 
       if (this.isAllSelected()) {
-        return 'All'
+        return this.options.allTranslation
       }
 
       if (selectedItems.length === 1) {
