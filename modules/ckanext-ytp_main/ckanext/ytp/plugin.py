@@ -694,9 +694,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
             'upper_if_exists': validators.upper_if_exists,
-            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
-            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
-            'check_deprecation': validators.check_deprecation,
             'admin_only_field': validators.admin_only_field
         }
 
