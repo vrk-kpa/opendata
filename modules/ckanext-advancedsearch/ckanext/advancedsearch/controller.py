@@ -1,9 +1,9 @@
 import logging
+import math
 
 import ckan.lib.base as base
 from helpers import advancedsearch_schema, query_helper
 from ckan.common import c, request
-from ckan.lib import helpers as h
 from ckan.lib.base import render
 from ckan.logic import get_action
 
@@ -21,8 +21,11 @@ class YtpAdvancedSearchController(base.BaseController):
             'user': c.user
         }
 
-        # TODO: get the page from the url
-        page = 1
+        # FIXME: the page comes as a get parameter and all the query params come as POST params
+        # Results in onyl one working at a time.
+        page = int(request.params.get('page', 1))
+        # NOTE: this is for testing the pagination
+        # TODO: Change to actual limit
         limit = 2
         search_query_filters = []
         q = ''
@@ -57,18 +60,23 @@ class YtpAdvancedSearchController(base.BaseController):
 
         query = get_action('package_search')(context, data_dict)
 
-        def make_pager_url(q=None, page=None):
-            ctrlr = 'ckanext.advancedsearch.controller:YtpAdvancedSearchController'
-            url = h.url_for(controller=ctrlr, action='search')
-            return url + u'?page=' + str(page)
+        c.advanced_search = {
+            "item_count": query['count'],
+            "total_pages": int(math.ceil(float(query['count']) / float(limit))),
+            "collection": list(query['results']),
+            # Can this cause security issues? Returning POST request params back to the client
+            "last_query": params_to_dict(request.POST),
+        }
+        c.advanced_search['last_query']['page'] = page
 
-        c.page = h.Page(
-            collection=query['results'],
-            page=page,
-            url=make_pager_url,
-            item_count=query['count'],
-            items_per_page=limit
-        )
-
-        c.page.items = query['results']
         return render('advanced_search/index.html')
+
+
+def params_to_dict(params):
+    new_dict = {}
+    for i in params:
+        key = i
+        if not hasattr(new_dict, key):
+            value = params.getall(i)
+            new_dict.setdefault(key, value)
+    return new_dict

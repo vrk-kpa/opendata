@@ -81,7 +81,7 @@ ckan.module('ytp-multiselect', function($) {
         return selectedItems[0].dataset.optionLabel
       }
 
-      return `${selectedItems.length} valittu`
+      return `${selectedItems.length} ${this.options.selectTranslation}`
     },
 
     // Returns array of checkboxes with specific name value combo

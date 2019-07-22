@@ -2,6 +2,11 @@
 {% set name = field.field_name %}
 {% set options = h.field_options(field) %}
 {% set allow_select_all = field.display_options.allow_select_all %}
+{% set prev_selected = h.value_or_blank(prev_query, name) %}
+
+{% if prev_selected %}
+    {% set stats_prev = h.selected_indexes_checkboxes(options, prev_selected) %}
+{% endif %}
 
 {% resource 'advancedsearch/javascript/ytp-multiselect.js' %}
 
@@ -12,6 +17,7 @@
     data-module-name="{{name}}"
     data-module-allow-all="{% if allow_select_all %}true{% else %}false{% endif %}"
     data-module-all-translation="{{_('All')}}"
+    data-module-select-translation="{{_('selected')}}"
 >
     <label for="advanced-search-dropdown-toggle-{{name}}" class="ytp-input-label">
         {{_(label)}}
@@ -21,19 +27,45 @@
         class="ytp-multiselect-toggle ytp-input-element"
         type="button"
         aria-expanded="false"
-    >
-        <span class="multiselect-status">{{_('All')}}</span>
+    >  
+        {% if prev_selected %}
+            {% if stats_prev %}
+                {% if not stats_prev.all_selected %}
+                    {% set status %}
+                        {{stats_prev.indexes|length}} {{_('selected')}}
+                    {% endset %}
+                {% else %}
+                    {% set status = _('All') %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% set status %}
+                0 {{_('selected')}}
+            {% endset %}
+        {% endif %}
+        <span class="multiselect-status">{{status}}</span>
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         <i class="fa fa-caret-up" aria-hidden="true"></i>
     </button>
     <fieldset id="advanced-search-dropdown-{{name}}">
         <div class="choicelist" id="{{name}}-choicelist">
+            <!-- Get selection from previous query and apply it to the current inputs -->
             {% if allow_select_all %}
-                {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option={"value": "all", "label": _('All')}, isChecked=true %}
+                {% if prev_selected %}
+                    {% set checked = stats_prev.all_selected %}
+                {% else %}
+                    {% set checked = false %}
+                {% endif %}
+                {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option={"value": "all", "label": _('All')}, isChecked=checked %}
             {% endif %}
             {% if options %}
                 {% for option in options %}
-                    {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option=option, isChecked=true %}
+                    {% if prev_selected %}
+                        {% set checked = (loop.index in stats_prev.indexes) %}
+                    {% else %}
+                        {% set checked = false %}
+                    {% endif %}
+                    {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option=option, isChecked=checked %}
                 {% endfor %}
             {% endif %}
         </div>

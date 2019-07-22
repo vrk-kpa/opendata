@@ -22,10 +22,41 @@ def field_options(field):
         return options_fn(field)
 
 
+# twig helper to get the value based on a dynamic key
+def value_or_blank(item, key):
+    if item:
+        return item[key] if key in item else ''
+    return ''
+
+
+# finds the index of previously selected radio
+# twig loop indexes start from 1
+def selected_indexes_checkboxes(options, prev_selected):
+    indexes = []
+    loop_index = 1
+    all_selected = True
+    for option in options:
+        if option['value'] in prev_selected:
+            indexes.append(loop_index)
+        else:
+            all_selected = False
+        loop_index = loop_index + 1
+    return {'indexes': indexes, 'all_selected': all_selected}
+
+
+def selected_index_radio(options, prev_selected):
+    index = 1
+    for option in options:
+        if option['value'] == prev_selected:
+            return index
+        index = index + 1
+    return 1
+
+
 def query_helper(field):
     """
     :param field: scheming field definition
-    :returns: options iterable or None if not found.
+    :returns: query helper function result or None if not found.
     """
     if 'query_helper' in field:
         from ckantoolkit import h
@@ -36,7 +67,7 @@ def query_helper(field):
             return getattr(h, name)(*args)
         else:
             return getattr(h, query_helper)()
-        
+
 
 def advancedsearch_schema():
     """
@@ -164,6 +195,7 @@ def advanced_daterange_query(custom_key=None):
         if key + '-after' in all_params:
             after = all_params.getone(key + '-after')
 
+        # exit early
         if not before and not after:
             return
 
