@@ -13,8 +13,8 @@
           "label": "Search target",
           "options": [
             { "value": "all", "label": "All" },
-            { "value": "title_translated", "label": "Only title" },
-            { "value": "notes_translated", "label": "Only description" }
+            { "value": "title", "label": "Only title" },
+            { "value": "notes", "label": "Only description" }
           ]
         }
       }

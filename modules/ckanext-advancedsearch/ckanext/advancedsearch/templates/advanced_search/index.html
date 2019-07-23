@@ -37,16 +37,18 @@
         <div class="mt-4">
             {{ h.snippet('snippets/package_list.html', packages=c.advanced_search.collection) }}
         </div>
-        <div>
-            {{
-                h.snippet(
-                    'advanced_search/snippets/post_pagination.html',
-                    page=c.advanced_search.last_query.page,
-                    total_pages=c.advanced_search.total_pages,
-                    prev_query=c.advanced_search.last_query,
-                )
-            }}
-        </div>
+        {% if c.advanced_search.item_count > 0 %}
+            <div>
+                {{
+                    h.snippet(
+                        'advanced_search/snippets/post_pagination.html',
+                        page=c.advanced_search.last_query.page,
+                        total_pages=c.advanced_search.total_pages,
+                        prev_query=c.advanced_search.last_query,
+                    )
+                }}
+            </div>
+        {% endif %}
     </div>
   {% endblock %}
 {% endblock %}
