@@ -1,4 +1,5 @@
 from ckan.logic import get_action
+from ckan import model
 
 # TODO: Should not be cross dependant to ckanext.ytp
 # This is specific to ytp
@@ -82,8 +83,6 @@ def advancedsearch_schema():
 # OPTIONS
 # NOTE: these are a bit ytp specific, these could be defined where the search_fields are
 def advanced_category_options(field=None):
-    from ckan import model
-
     context = {'model': model, 'session': model.Session}
     groups = get_action('group_list')(context, {})
 
@@ -96,9 +95,7 @@ def advanced_category_options(field=None):
 
 
 def advanced_publisher_options(field=None):
-    from ckan import model
     import ckan.plugins as p
-
     context = {'model': model, 'session': model.Session}
     publishers = p.toolkit.get_action('get_organizations')(context, {})
 
@@ -106,7 +103,6 @@ def advanced_publisher_options(field=None):
 
 
 def advanced_license_options(field=None):
-    from ckan import model
     context = {'model': model, 'session': model.Session}
 
     licenses = get_action('license_list')(context)
@@ -115,7 +111,6 @@ def advanced_license_options(field=None):
 
 
 def advanced_format_options(field=None):
-    from ckan import model
     context = {'model': model, 'session': model.Session}
 
     formats = get_action('get_formats')(context)
