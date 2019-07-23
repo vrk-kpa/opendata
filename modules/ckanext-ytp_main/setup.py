@@ -39,6 +39,7 @@ setup(
         ytp_report=ckanext.ytp.plugin:YtpReportPlugin
         ytp_restrict_category_creation_and_updating=ckanext.ytp.plugin:YtpRestrictCategoryCreationAndUpdatingPlugin
         ytp_ipermission_labels=ckanext.ytp.plugin:YtpIPermissionLabelsPlugin
+        ytp_resourcestatus=ckanext.ytp.resourcestatusplugin:ResourceStatusPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.celery_import:task_imports

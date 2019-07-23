@@ -47,3 +47,6 @@ ckan_show_postit_demo: true
 
 ckan_redis_host: "{{ lookup('aws_ssm', '/beta/redis/endpoint', region='eu-west-1') }}"
 ckan_solr_host: "{{ lookup('aws_ssm', '/beta/web/private_alb_address', region='eu-west-1') }}"
+
+ckan_deployment_environment_id: 'beta'
+ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
