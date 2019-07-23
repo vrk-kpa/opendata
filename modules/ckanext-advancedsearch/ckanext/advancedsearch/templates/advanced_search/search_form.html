@@ -1,41 +1,37 @@
 {% resource 'advancedsearch/javascript/clear-all-fields.js' %}
+{%- set prev_query = c.advanced_search.last_query -%}
 
 <div class="search-container control-group p-4">
-    <form class="advanced-search-form" method="get">
+    <form class="advanced-search-form" method="post">
         <div class="row">
-            <div class="mb-3 col-sm-8">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.search_term %}
-            </div>
-            <div class="mb-3 col-sm-4">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.search_target %}
-            </div>
+            {% snippet 'advanced_search/display_field.html', field=input_fields.search_query, prev_query=prev_query %}
         </div>
         <div>
-        <div>
-            <h2>{{_('Features')}}</h2>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-3">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.category %}
+            <div>
+                <h2>{{_('Features')}}</h2>
             </div>
-            <div class="col-sm-6 col-md-3">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.publisher %}
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/display_field.html', field=input_fields.category, prev_query=prev_query %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/display_field.html', field=input_fields.publisher, prev_query=prev_query %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/display_field.html', field=input_fields.license, prev_query=prev_query %}
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    {% snippet 'advanced_search/display_field.html', field=input_fields.format, prev_query=prev_query %}
+                </div>
             </div>
-            <div class="col-sm-6 col-md-3">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.license %}
-            </div>
-            <div class="col-sm-6 col-md-3">
-                {% snippet 'advanced_search/display_field.html', field=input_fields.format %}
-            </div>
-        </div>
         </div>
         <div class="d-flex flex-wrap mb-4 row">
             <!-- This margin is actually off by 1px, compared to the row margin, but it is not visible -->
             <div class="mx-3">
-            {% snippet 'advanced_search/display_field.html', field=input_fields.released %}
+                {% snippet 'advanced_search/display_field.html', field=input_fields.released, prev_query=prev_query %}
             </div>
             <div class="mx-3">
-            {% snippet 'advanced_search/display_field.html', field=input_fields.updated %}
+                {% snippet 'advanced_search/display_field.html', field=input_fields.updated, prev_query=prev_query %}
             </div>
         </div>
         <div>

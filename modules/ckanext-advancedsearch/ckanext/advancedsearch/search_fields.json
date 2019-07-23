@@ -1,27 +1,29 @@
 {
+  "main_query_field": "search_query",
   "input_fields": {
-    "search_term": {
-      "field_name": "search_term",
+    "search_query": {
+      "field_name": "search_query",
       "label": "Search terms",
-      "display_snippet": "search-bar.html",
+      "display_snippet": "search-and-target.html",
+      "query_helper": "advanced_search_and_target_query(search_query,search_target)",
       "display_options": {
-        "placeholder": "Type what are you searching for"
+        "placeholder": "Type what are you searching for",
+        "target": {
+          "field_name": "search_target",
+          "label": "Search target",
+          "options": [
+            { "value": "all", "label": "All" },
+            { "value": "title_translated", "label": "Only title" },
+            { "value": "notes_translated", "label": "Only description" }
+          ]
+        }
       }
-    },
-    "search_target": {
-      "field_name": "search_target",
-      "label": "Search target",
-      "options": [
-        { "value": "all", "label": "All" },
-        { "value": "title", "label": "Only title" },
-        { "value": "description", "label": "Only description" }
-      ],
-      "display_snippet": "radio-select.html"
     },
     "category": {
       "field_name": "category",
       "label": "Category",
       "options_helper": "advanced_category_options",
+      "query_helper": "advanced_multiselect_query(groups)",
       "display_snippet": "multiselect.html",
       "display_options": {
         "allow_select_all": true
@@ -31,6 +33,7 @@
       "field_name": "publisher",
       "label": "Publisher",
       "options_helper": "advanced_publisher_options",
+      "query_helper": "advanced_multiselect_query(organization)",
       "display_snippet": "multiselect.html",
       "display_options": {
         "allow_select_all": true
@@ -40,6 +43,7 @@
       "field_name": "license",
       "label": "License",
       "options_helper": "advanced_license_options",
+      "query_helper": "advanced_multiselect_query(license_id)",
       "display_snippet": "multiselect.html",
       "display_options": {
         "allow_select_all": true
@@ -49,30 +53,33 @@
       "field_name": "format",
       "label": "Format",
       "options_helper": "advanced_format_options",
+      "query_helper": "advanced_multiselect_query(res_format)",
       "display_snippet": "multiselect.html",
       "display_options": {
-        "allow_select_all": false
+        "allow_select_all": true
       }
     },
     "released": {
       "field_name": "released",
       "label": "Date released",
+      "query_helper": "advanced_daterange_query(metadata_created)",
       "display_snippet": "datepicker-range.html",
       "display_options": {
         "label": {
-          "start": "Released before",
-          "end": "Released after"
+          "before": "Released before",
+          "after": "Released after"
         }
       }
     },
     "updated": {
       "field_name": "updated",
       "label": "Date updated",
+      "query_helper": "advanced_daterange_query(metadata_modified)",
       "display_snippet": "datepicker-range.html",
       "display_options": {
         "label": {
-          "start": "Updated before",
-          "end": "Updated after"
+          "before": "Updated before",
+          "after": "Updated after"
         }
       }
     }

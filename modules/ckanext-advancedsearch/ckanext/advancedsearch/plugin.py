@@ -39,7 +39,6 @@ class AdvancedsearchPlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('fanstatic', 'advancedsearch')
 
-        log.info(config.get('advancedsearch.schema', ""))
         self._schema = _load_schema(config.get('advancedsearch.schema', ""))
 
     # IActions
@@ -58,6 +57,13 @@ class AdvancedsearchPlugin(plugins.SingletonPlugin):
             'advanced_publisher_options': helpers.advanced_publisher_options,
             'advanced_license_options': helpers.advanced_license_options,
             'advanced_format_options': helpers.advanced_format_options,
+            'advanced_multiselect_query': helpers.advanced_multiselect_query,
+            'advanced_search_and_target_query': helpers.advanced_search_and_target_query,
+            'advanced_daterange_query': helpers.advanced_daterange_query,
+            'query_helper': helpers.query_helper,
+            'value_or_blank': helpers.value_or_blank,
+            'selected_index_radio': helpers.selected_index_radio,
+            'selected_indexes_checkboxes': helpers.selected_indexes_checkboxes,
         }
 
     # IRoutes

@@ -279,11 +279,7 @@ fieldset.checkboxes {
     text-shadow: 0 1px 1px rgba(@suomi-brandBase, 0.5);
 
     &:hover {
-      background:
-        linear-gradient(
-          @suomi-highlightLight4,
-          @suomi-highlightBase
-        );
+      background: linear-gradient(@suomi-highlightLight4, @suomi-highlightBase);
     }
 
     &:active {
@@ -313,5 +309,38 @@ fieldset.checkboxes {
       border: 1px solid @suomi-depthLight13;
       color: @suomi-depthBase;
     }
+  }
+}
+
+.pagination > li {
+  display: inline-block;
+
+  &.active {
+    button {
+      color: @suomi-whiteBase;
+      background-color: @suomi-highlightBase;
+      border-color: @suomi-highlightBase;
+    }
+  }
+
+  button {
+    color: @suomi-highlightBase;
+    cursor: pointer;
+    background-color: transparent;
+    border-color: transparent;
+    border-style: none;
+    padding: 6px 12px;
+
+    &:hover {
+      background-color: @suomi-depthLight26;
+    }
+  }
+
+  &:last-of-type button {
+    border-radius: 0 3px 3px 0;
+  }
+
+  &:first-of-type button {
+    border-radius: 3px 0 0 3px;
   }
 }
