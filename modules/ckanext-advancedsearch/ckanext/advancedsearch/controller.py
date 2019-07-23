@@ -25,9 +25,8 @@ class YtpAdvancedSearchController(base.BaseController):
         # On possible page navigations use the page parameter to move to the next page
         # NOTE: this works also with a GET request but the POST filters will not be submitted so all datasets will be returned
         page = int(request.params.get('page', 1))
-        # NOTE: this is for testing the pagination
-        # TODO: Change to actual limit
-        limit = 2
+        # Limit amount of results returned
+        limit = 20
         search_query_filters = []
         q = ''
         main_query_field = schema['main_query_field']
