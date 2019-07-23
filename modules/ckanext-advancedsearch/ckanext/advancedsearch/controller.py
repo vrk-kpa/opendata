@@ -21,8 +21,9 @@ class YtpAdvancedSearchController(base.BaseController):
             'user': c.user
         }
 
-        # FIXME: the page comes as a get parameter and all the query params come as POST params
-        # Results in onyl one working at a time.
+        # On initial page load there is no page parameter so display the first page
+        # On possible page navigations use the page parameter to move to the next page
+        # NOTE: this works also with a GET request but the POST filters will not be submitted so all datasets will be returned
         page = int(request.params.get('page', 1))
         # NOTE: this is for testing the pagination
         # TODO: Change to actual limit
@@ -32,8 +33,11 @@ class YtpAdvancedSearchController(base.BaseController):
         main_query_field = schema['main_query_field']
 
         if request.method == 'POST':
+            # Use the field labelled as the main_query to build the value for q
+            # TODO: Handle no main_query_field provided
             main_query_helper = query_helper(schema['input_fields'].get(main_query_field))
             q = main_query_helper(main_query_field, request.POST, schema['input_fields'], context)
+
             # Iterate through all fields in schema except the main_query_field
             # and process every field with the provided query_helper
             for key, val in schema['input_fields'].iteritems():
@@ -56,15 +60,18 @@ class YtpAdvancedSearchController(base.BaseController):
         }
 
         if search_query_filters:
+            # Outputs: (filter:value) AND (another_filter:another_value)
             data_dict['fq'] = '(' + ') AND ('.join(search_query_filters) + ')'
 
         query = get_action('package_search')(context, data_dict)
 
         c.advanced_search = {
             "item_count": query['count'],
+            # Round values up to get total amount of pages
             "total_pages": int(math.ceil(float(query['count']) / float(limit))),
-            "collection": list(query['results']),
-            # Can this cause security issues? Returning POST request params back to the client
+            "collection": query['results'],
+            # Return query parameters to the UI so that it can populate the fields with the previous query values
+            # NOTE: Can this cause security issues? Returning POST request params back to the client
             "last_query": params_to_dict(request.POST),
         }
         c.advanced_search['last_query']['page'] = page

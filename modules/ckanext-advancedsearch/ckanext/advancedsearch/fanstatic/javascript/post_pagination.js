@@ -5,12 +5,15 @@ ckan.module('post-pagination', function($) {
     initialize: function() {
         $.proxy(this, 'handlePaginationClick');
         // Get the actual dom element and not the JQuery version for event propagation
+        // Event is attached to parent container.
+        // The click events on children propagate and trigger the event on the parent.
         document
             .querySelector('.pagination')
             .addEventListener('click', (e) => this.handlePaginationClick(e), true)
     },
     handlePaginationClick: function(e) {
         if (!e.target.value) {
+            // Throw error for sentry.io tracking
             throw new Error('POST Pagination value empty')
         }
         this.post(this.options.prevQuery, e.target.value)
@@ -21,7 +24,7 @@ ckan.module('post-pagination', function($) {
 
         params.page = page_num
 
-        const newNormalField = (key, value) => {
+        const newField = (key, value) => {
             const hiddenField = document.createElement('input');
             hiddenField.type = 'hidden';
             hiddenField.name = key;
@@ -30,22 +33,15 @@ ckan.module('post-pagination', function($) {
             form.appendChild(hiddenField);
         }
 
-        const newCheckBoxField = (key, values) => {
-            for (let value of values) {
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = key;
-                hiddenField.value = value;
-                form.appendChild(hiddenField)
-            }
-        }
-
         for (const key in params) {
             if (params.hasOwnProperty(key)) {
                 if (params[key].length > 1) {
-                    newCheckBoxField(key, params[key])
+                    // Checkbox fields contain multiple values for a single key
+                    for (let value of params[key]) {
+                        newField(key, value)
+                    }
                 } else {
-                    newNormalField(key, params[key])
+                    newField(key, params[key])
                 }
             }
         }
