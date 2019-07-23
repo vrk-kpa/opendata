@@ -44,7 +44,6 @@ class AdvancedsearchPlugin(plugins.SingletonPlugin):
     # IActions
     def get_actions(self):
         return {
-            'get_organizations': action.get_organizations,
             'get_formats': action.get_formats,
         }
 

@@ -84,22 +84,17 @@ def advancedsearch_schema():
 # NOTE: these are a bit ytp specific, these could be defined where the search_fields are
 def advanced_category_options(field=None):
     context = {'model': model, 'session': model.Session}
-    groups = get_action('group_list')(context, {})
+    groups = get_action('group_list')(context, {"all_fields": True, "include_extras": True})
 
-    options = []
-    for group in groups:
-        group_details = get_action('group_show')(context, {"id": group})
-        options.append({"value": group_details['display_name'], "label": get_translated(group_details, 'title')})
-
-    return options
+    return make_options(groups, has_translated=True)
 
 
 def advanced_publisher_options(field=None):
     import ckan.plugins as p
     context = {'model': model, 'session': model.Session}
-    publishers = p.toolkit.get_action('get_organizations')(context, {})
+    publishers = p.toolkit.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
 
-    return make_options(publishers)
+    return make_options(publishers, has_translated=True)
 
 
 def advanced_license_options(field=None):
