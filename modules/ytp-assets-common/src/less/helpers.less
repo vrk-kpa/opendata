@@ -3,6 +3,10 @@
   .flex-display(flex);
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .justify-content {
   &-start {
     justify-content: flex-start;
@@ -122,7 +126,7 @@
 
 .make-margins-and-paddings(@size: 4, @index: 1, @increment: 2) when (@size <= 128) {
   .make-margins-and-paddings(@size * @increment, @index + 1);
-  @size-px: ~"@{size}px";
+  @size-px: ~'@{size}px';
 
   .make-margin-padding-css(@index, @size-px);
 }
@@ -132,3 +136,7 @@
 .make-margin-padding-css(0, 0);
 
 .make-margins-and-paddings();
+
+.color-highlight-base {
+  color: @suomi-highlightBase;
+}
