@@ -488,13 +488,14 @@ def send_harvester_status_emails(ctx, config, dryrun):
     status = get_action('harvester_status')({}, {})
 
     errored_runs = any(item.get('status') != 'ok' for item in status.values())
-    old_runs = any(_elapsed_since(item.get('last_run')).days > 2 for item in status.values())
+    last_runs = (item.get('last_run') for item in status.values())
+    old_runs = any(_elapsed_since(last_run).days > 2 for last_run in last_runs if last_run is not None)
 
     if not (errored_runs or old_runs):
         print 'Nothing to report'
         return
 
-    email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', []))
+    email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', ''))
 
     if email_notification_recipients:
         site_title = t.config.get('ckan.site_title', '')
