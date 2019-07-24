@@ -47,3 +47,5 @@ ckan_solr_host: "{{ lookup('aws_ssm', '/prod/web/private_alb_address', region='e
 
 ckan_deployment_environment_id: 'prod'
 ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
+
+ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"
