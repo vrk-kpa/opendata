@@ -5,9 +5,6 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<String>'
     Default: /build/accountid
     Description: 'ID of the account that should invoke the deployment'
-  BetaEnvironmentName:
-    Description: Name of the deployment target environment for beta deployments (infratest, beta, prod)
-    Type: 'AWS::SSM::Parameter::Value<String>'
   ProdEnvironmentName:
     Description: Name of the deployment target environment for production deployments (infratest, beta, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
@@ -36,8 +33,6 @@ Resources:
                   - ssm:GetParameter
                   - ssm:GetParameters
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/web/amiid
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/scheduled/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/web/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/scheduled/amiid
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/clamav*
@@ -45,13 +40,12 @@ Resources:
                 Action:
                   - ssm:GetParameters
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/*
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
               - Effect: Allow
                 Action: iam:GetRole
                 Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/clamav-scan-*
               - Effect: Allow
-                Action: 
+                Action:
                   - lambda:UpdateFunctionCode
                   - lambda:ListTags
                   - lambda:TagResource
@@ -66,7 +60,6 @@ Resources:
                   - cloudformation:ListChangeSets
                   - cloudformation:GetTemplateSummary
                 Resource:
-                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${BetaEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scan/*
                   - !Sub arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31

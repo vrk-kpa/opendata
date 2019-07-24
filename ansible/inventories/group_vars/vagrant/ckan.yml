@@ -49,3 +49,6 @@ ckan_wsgi_config_files:
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"
   - "{{ ckan_log_path }}/ckan_test.log"
+
+ckan_deployment_environment_id: 'vagrant'
+ckan_sentry_integration_enabled: false

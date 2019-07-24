@@ -1,0 +1,30 @@
+diff --git a/ckan/config/middleware/flask_app.py b/ckan/config/middleware/flask_app.py
+index 0d4982680..ebfdbb103 100644
+--- a/ckan/config/middleware/flask_app.py
++++ b/ckan/config/middleware/flask_app.py
+@@ -39,6 +39,14 @@ from ckan.views import (identify_user,
+ import logging
+ log = logging.getLogger(__name__)
+
++import sentry_sdk
++from sentry_sdk.integrations.flask import FlaskIntegration
++
++sentry_sdk.init(
++    dsn="{{ ckan_sentry_dsn }}",
++    integrations=[FlaskIntegration()],
++    environment="{{ ckan_deployment_environment_id }}"
++)
+
+ class CKANBabel(Babel):
+     def __init__(self, *pargs, **kwargs):
+@@ -171,6 +179,10 @@ def make_flask_stack(conf, **app_conf):
+     def hello_world_post():
+         return 'Hello World, this was posted to Flask'
+
++    @app.route('/debug-sentry')
++    def trigger_error():
++        division_by_zero = 1 / 0
++
+     # Auto-register all blueprints defined in the `views` folder
+     _register_core_blueprints(app)
+     _register_error_handler(app)

@@ -37,3 +37,16 @@ index 4d45a9859..8fc8e4e83 100644
  python-magic==0.4.15
  pysolr==3.6.0
  Pylons==0.9.7
+diff --git a/requirements.txt b/requirements.txt
+index 066c867e1..f8e59882d 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -30,7 +30,7 @@ PasteDeploy==1.5.2        # via pastescript, pylons
+ PasteScript==2.0.2        # via pylons
+ pbr==1.10.0               # via sqlalchemy-migrate
+ polib==1.0.7
+-psycopg2==2.7.3.2
++psycopg2==2.8.2
+ Pygments==2.2.0           # via weberror
+ Pylons==0.9.7
+ pysolr==3.6.0
