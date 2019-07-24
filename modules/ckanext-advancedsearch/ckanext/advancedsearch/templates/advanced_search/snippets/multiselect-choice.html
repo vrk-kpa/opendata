@@ -1,0 +1,18 @@
+<label class="ytp-checkbox choice m-0" for="{{name}}-checkbox-{{option.value}}">
+    <input
+        class="m-0 sr-only"
+        type="checkbox"
+        name="{{name}}"
+        value="{{option.value}}"
+        id="{{name}}-checkbox-{{option.value}}"
+        data-option-value="{{option.value}}"
+        data-option-label="{{option.label}}"
+        {% if onclick %}onclick="{{onclick}}"{% endif %}
+        {% if isChecked %}checked{% endif %}
+    >
+    <span class="custom-checkbox">
+    </span>
+    <span class="m-0 ml-2">
+        {{option.label}}
+    </span>
+</label>
