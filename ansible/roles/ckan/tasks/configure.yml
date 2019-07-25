@@ -44,6 +44,14 @@
   with_items: "{{ ckan_config_files }}"
   notify: Restart Apache
 
+- name: Setup beaker session cleanup script
+  template:
+    src: "beaker_session_cleanup.sh.j2"
+    dest: "/usr/local/sbin/beaker_session_cleanup.sh"
+    mode: "0500"
+    owner: root
+    group: "root"
+
 - name: Setup Apache WSGI script
   template:
     src: "apache.wsgi.j2"

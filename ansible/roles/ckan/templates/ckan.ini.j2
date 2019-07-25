@@ -24,6 +24,8 @@ beaker.session.secret = {{ ckan_beaker_session_secret }}
 # Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
 #beaker.session.secure = True
 beaker.session.httponly = True
+beaker.session.type = ext:database
+beaker.session.url = postgres://{{ item.db_ckan_username }}:{{ item.db_ckan_password }}@{{ item.db_server }}/{{ item.db_ckan_database }}
 
 app_instance_uuid = {{ ckan_app_instance_uuid }}
 
