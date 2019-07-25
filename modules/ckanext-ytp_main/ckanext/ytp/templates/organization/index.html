@@ -4,9 +4,11 @@
 {% endblock %}
 
 {% block primary_content_inner %}
-  <div class="row">
-    <h1 class="pull-left">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
-    {% snippet 'organization/snippets/organization_primary_actions.html' %}
+  <div class="row mb-2">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <h1 class="pull-left mb-0">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
+          {% snippet 'organization/snippets/organization_primary_actions.html' %}
+      </div>
   </div>
   <div class="row">
     {% block organizations_search_form %}
