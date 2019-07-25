@@ -52,6 +52,7 @@ body {
   box-shadow: none;
   margin: 0 auto;
   max-width: 1140px;
+  padding: 0 25px;
 }
 
 .container-fluid .wrapper {
@@ -852,8 +853,14 @@ li.organization {
   padding: 0;
 }
 
-#content > .wrapper > .primary:first-child > .module > .module-content {
-  padding-left: 0;
+#content > .wrapper > .primary {
+  &:first-child > .module > .module-content {
+    padding-left: 0;
+  }
+
+  &:last-child > .module > .module-content {
+    padding-right: 0;
+  }
 }
 
 //Plus icon (fa-plus-circle)
