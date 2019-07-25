@@ -101,3 +101,10 @@
     minute: "00"
     hour: "10"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails --config={{ ckan_ini }}"
+
+- name: Remove old beaker sessions from beaker_cache table
+  cron:
+    name: "Remove old beaker sessions"
+    minute: "0"
+    hour: "3"
+    job: "/usr/local/sbin/beaker_session_cleanup.sh > /dev/null 2>&1"
