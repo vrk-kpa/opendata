@@ -1,8 +1,13 @@
+# -*- coding: utf8 -*-
+
 from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action
 from ckan import model
 from ckanext.ytp.translations import facet_translations
 from ckan.logic import ValidationError
+import ckan.plugins.toolkit as t
+import ckan.lib.mailer as mailer
+from datetime import datetime
 import polib
 import os
 import re
@@ -464,3 +469,84 @@ def add_to_groups(ctx, config, dryrun):
     else:
         for d in data_dicts:
             get_action('group_member_create')(context, d)
+
+
+opendata_harvest_group = paster_click_group(
+    summary=u'Harvester related commands.'
+)
+
+
+@opendata_harvest_group.command(
+    u'send-status-emails',
+    help='Sends harvester status emails to configured recipients'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def send_harvester_status_emails(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    status = get_action('harvester_status')({}, {})
+
+    errored_runs = any(item.get('status') != 'ok' for item in status.values())
+    last_runs = (item.get('last_run') for item in status.values())
+    old_runs = any(_elapsed_since(last_run).days > 2 for last_run in last_runs if last_run is not None)
+
+    if not (errored_runs or old_runs):
+        print 'Nothing to report'
+        return
+
+    email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', ''))
+
+    if email_notification_recipients:
+        site_title = t.config.get('ckan.site_title', '')
+        today = datetime.now().date().isoformat()
+        status_template = '%%(title)-%ds | %%(last_run)s: %%(status)s' % max(len(title) for title in status)
+
+        msg = '%(site_title)s - Harvester summary %(today)s\n\n%(status)s' % {
+                'site_title': site_title,
+                'today': today,
+                'status': '\n'.join(status_template % {
+                    'title': title,
+                    'last_run': _pretty_time(values.get('last_run')),
+                    'status': values.get('status')
+                    } for title, values in status.items())
+                }
+
+        for recipient in email_notification_recipients:
+            email = {'recipient_name': recipient,
+                     'recipient_email': recipient,
+                     'subject': '%s - Harvester summary %s' % (site_title, today),
+                     'body': msg}
+
+            if dryrun:
+                print 'to: %s' % recipient
+            else:
+                try:
+                    mailer.mail_recipient(**email)
+                except mailer.MailerException as e:
+                    print 'Sending harvester summary to %s failed: %s' % (recipient, e)
+
+        if dryrun:
+            print msg
+
+
+def _elapsed_since(t):
+    if t is None:
+        return t
+    if isinstance(t, str):
+        t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    return datetime.now() - t
+
+
+def _pretty_time(t):
+    delta = _elapsed_since(t)
+    if delta.days == 0:
+        return 'today'
+    if delta.days == 1:
+        return 'yesterday'
+    elif delta.days < 30:
+        return '%d days ago' % delta.days
+    elif delta.days < 365:
+        return '%d months ago' % int(delta.days / 30)
+    else:
+        return '%d years ago' % int(delta.days / 365)
