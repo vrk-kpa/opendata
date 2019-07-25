@@ -14,7 +14,11 @@ def harvester_status(context=None, data_dict=None):
     sources = logic.get_action('harvest_source_list')(context, {'return_last_job_status': True})
 
     def last_job_status(source):
-        j = source.get('last_job_status', {})
+        j = source.get('last_job_status')
+
+        if j is None:
+            return {'status': 'not run', 'last_run': None}
+
         errors = j.get('stats', {}).get('errored')
         if errors is None:
             status = 'unknown'
