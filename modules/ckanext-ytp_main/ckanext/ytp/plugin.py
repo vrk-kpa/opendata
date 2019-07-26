@@ -1175,34 +1175,123 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     logos = {}
 
     # TODO: We should use named routes instead
-    _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
-                 (['/dashboard',
-                  '/%(language)s/dashboard'],
-                  menu.UserMenu,
-                  menu.MyDashboardMenu),
-                 (['/dashboard/organizations',
-                  '/%(language)s/dashboard/organizations'],
-                  menu.UserMenu,
-                  menu.MyOrganizationMenu),
-                 (['/dashboard/datasets', '/%(language)s/dashboard/datasets'], menu.UserMenu, menu.MyDatasetsMenu),
-                 (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
-                 (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
-                  menu.UserMenu, menu.MyPersonalDataMenu),
-                 (['/user/activity/%(username)s',
-                  '/%(language)s/user/activity/%(username)s'],
-                  menu.UserMenu,
-                  menu.MyInformationMenu),
-                 (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
-                 (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
-                 (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
-                  menu.PublishMenu, menu.PublishDataMenu),
-                 (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',
-                   '/dataset/new?collection_type=Interoperability+Tools'],
-                  menu.PublishMenu, menu.PublishToolsMenu),
-                 (['/%(language)s/service/new', '/service/new'],
-                  menu.PublishMenu, menu.PublishServiceMenu),
-                 (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.PostitNewMenu),
-                 (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.PostitNewMenu)]
+    _menu_map = [
+                    (
+                        [
+                            '/user/%(username)s',
+                            '/%(language)s/user/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyInformationMenu
+                    ),
+                    (
+                        [
+                            '/dashboard',
+                            '/dashboard/',
+                            '/%(language)s/dashboard/'
+                        ],
+                        menu.UserMenu,
+                        menu.MyDashboardMenu
+                    ),
+                    (
+                        [
+                            '/dashboard/organizations',
+                            '/%(language)s/dashboard/organizations'
+                        ],
+                        menu.UserMenu,
+                        menu.MyOrganizationMenu,
+                    ),
+                    (
+                        [
+                            '/dashboard/datasets',
+                            '/%(language)s/dashboard/datasets'
+                        ],
+                        menu.UserMenu,
+                        menu.MyDatasetsMenu
+                    ),
+                    (
+                        [
+                            '/user/delete-me',
+                            '/%(language)s/user/delete-me'
+                        ],
+                        menu.UserMenu,
+                        menu.MyCancelMenu
+                    ),
+                    (
+                        [
+                            '/user/edit',
+                            '/%(language)s/user/edit',
+                            '/user/edit/%(username)s',
+                            '/%(language)s/user/edit/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyPersonalDataMenu,
+                    ),
+                    (
+                        [
+                            '/user/activity/%(username)s',
+                            '/%(language)s/user/activity/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyInformationMenu
+                    ),
+                    (
+                        [
+                            '/user',
+                            '/%(language)s/user'
+                        ],
+                        menu.ProducersMenu,
+                        menu.ListUsersMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/organization',
+                            '/organization'
+                        ],
+                        menu.EmptyMenu,
+                        menu.OrganizationMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/dataset/new?collection_type=Open+Data',
+                            '/dataset/new?collection_type=Open+Data'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishDataMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/dataset/new?collection_type=Interoperability+Tools',
+                            '/dataset/new?collection_type=Interoperability+Tools'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishToolsMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/service/new',
+                            '/service/new'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishServiceMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/postit/return',
+                            '/postit/return'
+                        ],
+                        menu.ProducersMenu,
+                        menu.PostitNewMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/postit/new',
+                            '/postit/new'
+                        ],
+                        menu.ProducersMenu,
+                        menu.PostitNewMenu
+                    )
+                ]
 
     # IRoutes #
 
@@ -1244,7 +1333,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def _get_menu_tree(self, current_url, language):
         parsed_url = urlparse.urlparse(current_url)
-        for patterns, handler, selected in self._manu_map:
+        for patterns, handler, selected in self._menu_map:
             for pattern in patterns:
                 if type(pattern) in types.StringTypes:
                     values = {'language': language}

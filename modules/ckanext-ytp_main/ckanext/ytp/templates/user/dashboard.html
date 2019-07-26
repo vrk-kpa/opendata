@@ -27,7 +27,7 @@
             <small>{{ _("Activity from items that I'm following") }}</small>
           </h2>
           {% block activity_stream %}
-            {{ c.dashboard_activity_stream }}
+            {{dashboard_activity_stream|safe}}
           {% endblock %}
         </div>
       {% endblock %}
