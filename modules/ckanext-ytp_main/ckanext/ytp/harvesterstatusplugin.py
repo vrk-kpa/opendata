@@ -31,8 +31,6 @@ def harvester_status(context=None, data_dict=None):
         else:
             status = 'pending'
 
-        status = 'running' if finished is None else 'finished'
-
         return {'status': status,
                 'errors': errors,
                 'started': created,
