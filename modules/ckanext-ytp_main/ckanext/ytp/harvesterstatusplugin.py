@@ -17,21 +17,39 @@ def harvester_status(context=None, data_dict=None):
         j = source.get('last_job_status')
 
         if j is None:
-            return {'status': 'not run', 'last_run': None}
+            return {'status': 'not run', 'last_run': None, 'job_id': None}
 
-        errors = j.get('stats', {}).get('errored')
-        if errors is None:
-            status = 'unknown'
-        elif errors == 0:
-            status = 'ok'
+        created = j.get('created')
+        started = j.get('gather_started')
+        finished = j.get('finished')
+        errors = j.get('stats', {}).get('errored', 0)
+
+        if finished is not None:
+            status = 'finished'
+        elif started is not None:
+            status = 'running'
         else:
-            status = 'error'
+            status = 'pending'
 
-        return {
-            'last_run': j.get('finished'),
-            'status': status
-            }
+        status = 'running' if finished is None else 'finished'
 
-    status = {s.get('title', 'untitled'): last_job_status(s) for s in sources}
+        return {'status': status,
+                'errors': errors,
+                'started': created,
+                'finished': finished,
+                'job_id': j.get('id')}
+
+    def include_source(source):
+        # Only include periodically run harvesters unless otherwise requested
+        if source.get('frequency') == 'MANUAL' and not data_dict.get('include_manual'):
+            return False
+
+        # Don't include never run harvesters unless otherwise requested
+        if source.get('last_job_status') is None and not data_dict.get('include_never_run'):
+            return False
+
+        return True
+
+    status = {s.get('title', 'untitled'): last_job_status(s) for s in sources if include_source(s)}
 
     return status
