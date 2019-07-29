@@ -169,7 +169,10 @@ location /data {
 
     location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
         proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1$2$3?$args;
-
+        # Do not cache api requests
+        proxy_no_cache 1;
+        # Even if cached, do not use cache
+        proxy_cache_bypass 1;
         # Do not show nginx's 404 error page for the API
         proxy_intercept_errors off;
     }
