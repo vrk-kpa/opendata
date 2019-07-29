@@ -15,6 +15,10 @@ server {
 server {
     listen {{ item.port }};
     server_name {{ item.base_hostname }};
-    return 301 $scheme://{{ item.server_name }}$request_uri;
+    {% if nginx_development_environment -%}
+    return 301 http://{{ item.server_name }}$request_uri;
+    {% else -%}
+    return 301 https://{{ item.server_name }}$request_uri;
+    {% endif %}
 }
 {% endif %}
