@@ -1,2 +1,3 @@
 nginx_domain: "{{ base_hostname }}"
 nginx_secondary_domain: "{{ secondary_base_hostname }}"
+nginx_redirect_protocol: https
