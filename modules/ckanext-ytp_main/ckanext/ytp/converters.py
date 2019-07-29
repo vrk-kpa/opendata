@@ -2,7 +2,7 @@ import json
 import datetime
 import urlparse
 import logging
-from ckan.lib.navl.dictization_functions import Invalid, Missing
+from ckan.lib.navl.dictization_functions import Invalid, Missing, missing, flatten_list, StopOnError
 from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
@@ -147,20 +147,35 @@ def simple_date_validate(value, context):
         raise Invalid(_('Date format incorrect'))
 
 
-# NOTE: Currently not used, doesn't work like this with ckan scheming
 def save_to_groups(key, data, errors, context):
     # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
     # Add selected items as groups to dataset
     log.info('save to groups')
-    if data[key]:
+    value = data[key]
+
+    if value and value is not missing:
+
         if isinstance(data[key], basestring):
-            group_patch = [{"name": data[key]}]
+            group_patch = flatten_list([{"name": data[key]}])
+            group_key = ('groups',) + group_patch.keys()[0]
+            group_value = group_patch.values()[0]
+            data[group_key] = group_value
         else:
             if isinstance(data[key], list):
                 groups_with_details = []
                 for identifier in data[key]:
                     groups_with_details.append({"name": identifier})
-                group_patch = groups_with_details
-        # get_action('package_patch')(context, {"id": data[('id',)], 'groups': group_patch})
-    data['groups'] = group_patch
+                group_patch = flatten_list(groups_with_details)
+
+                for k, v in group_patch.items():
+                    group_key = ('groups',) + k
+                    data[group_key] = v
+
+    else:
+
+        # Delete categories key if it is missing
+        # TODO: Should delete existing groups from dataset
+        data.pop(key, None)
+        raise StopOnError
+
     return data
