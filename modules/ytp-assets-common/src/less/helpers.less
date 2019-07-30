@@ -3,6 +3,10 @@
   .flex-display(flex);
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .justify-content {
   &-start {
     justify-content: flex-start;
@@ -57,72 +61,73 @@
 
 // This function creates bootstrap 4 like padding and margin classes
 // https://getbootstrap.com/docs/4.3/utilities/spacing/
+// Important to allow overriding more specific css rules
 
 .make-margin-padding-css(@index, @size-px) {
   .p-@{index} {
-    padding: @size-px;
+    padding: @size-px !important;
   }
 
   .pt-@{index} {
-    padding-top: @size-px;
+    padding-top: @size-px !important;
   }
 
   .pr-@{index} {
-    padding-right: @size-px;
+    padding-right: @size-px !important;
   }
 
   .pb-@{index} {
-    padding-bottom: @size-px;
+    padding-bottom: @size-px !important;
   }
 
   .pl-@{index} {
-    padding-left: @size-px;
+    padding-left: @size-px !important;
   }
 
   .px-@{index} {
-    padding-left: @size-px;
-    padding-right: @size-px;
+    padding-left: @size-px !important;
+    padding-right: @size-px !important;
   }
 
   .py-@{index} {
-    padding-top: @size-px;
-    padding-bottom: @size-px;
+    padding-top: @size-px !important;
+    padding-bottom: @size-px !important;
   }
 
   .m-@{index} {
-    margin: @size-px;
+    margin: @size-px !important;
   }
 
   .mt-@{index} {
-    margin-top: @size-px;
+    margin-top: @size-px !important;
   }
 
   .mr-@{index} {
-    margin-right: @size-px;
+    margin-right: @size-px !important;
   }
 
   .mb-@{index} {
-    margin-bottom: @size-px;
+    margin-bottom: @size-px !important;
   }
 
   .ml-@{index} {
-    margin-left: @size-px;
+    margin-left: @size-px !important;
   }
 
   .mx-@{index} {
-    margin-left: @size-px;
-    margin-right: @size-px;
+    margin-left: @size-px !important;
+    margin-right: @size-px !important;
   }
 
   .my-@{index} {
-    margin-top: @size-px;
-    margin-bottom: @size-px;
+    margin-top: @size-px !important;
+    margin-bottom: @size-px !important;
   }
 }
 
 .make-margins-and-paddings(@size: 4, @index: 1, @increment: 2) when (@size <= 128) {
   .make-margins-and-paddings(@size * @increment, @index + 1);
-  @size-px: ~"@{size}px";
+  @size-px: ~'@{size}px';
 
   .make-margin-padding-css(@index, @size-px);
 }
@@ -132,3 +137,8 @@
 .make-margin-padding-css(0, 0);
 
 .make-margins-and-paddings();
+
+// NOTE: with classes like this it's difficult to support hover and focus states
+.color-highlight-base {
+  color: @suomi-highlightBase;
+}
