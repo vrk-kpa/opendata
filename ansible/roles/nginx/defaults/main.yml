@@ -14,5 +14,3 @@ nginx_service_state: started
 
 nginx_domain: ""
 nginx_secondary_domain: ""
-
-nginx_redirect_protocol: http
