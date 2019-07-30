@@ -11,7 +11,10 @@ fieldset.checkboxes label input {
     top: 0;
 }
 </style>
-
+{% if tmpl_context.action == 'edit' %}
+  <label class="control-label" for="field-{{ field.field_name }}">{{ h.scheming_language_text(field.label) }}</label>
+  Categories can be edited from <a href="{{ h.url_for('dataset_groups', id=data['name']) }}">here</a>
+{% else %}
 {%- call form.input_block(
     label=h.scheming_language_text(field.label),
     classes=['control-medium'],
@@ -37,4 +40,5 @@ fieldset.checkboxes label input {
     </fieldset>
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
 {%- endcall -%}
+{% endif %}
 

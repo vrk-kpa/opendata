@@ -369,12 +369,14 @@ class YtpDatasetController(PackageController):
         }
 
         if request.method == "POST":
+            group_list = []
             category_list = []
             for key, val in request.params.iteritems():
                 if key == 'categories':
-                    category_list.append({'name': val})
+                    group_list.append({'name': val})
+                    category_list.append(val)
             try:
-                get_action('package_patch')(context, {"id": id, "groups": category_list})
+                get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
                 h.redirect_to('dataset_groups', id=id)
             except (NotFound, NotAuthorized):
                 return base.abort(404, _(u'Dataset not found'))

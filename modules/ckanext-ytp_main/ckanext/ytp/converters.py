@@ -155,15 +155,16 @@ def save_to_groups(key, data, errors, context):
 
     if value and value is not missing:
 
-        if isinstance(data[key], basestring):
-            group_patch = flatten_list([{"name": data[key]}])
+        if isinstance(value, basestring):
+            group_patch = flatten_list([{"name": value}])
             group_key = ('groups',) + group_patch.keys()[0]
             group_value = group_patch.values()[0]
             data[group_key] = group_value
         else:
-            if isinstance(data[key], list):
+            if isinstance(value, list):
+                data[key] = json.dumps(value)
                 groups_with_details = []
-                for identifier in data[key]:
+                for identifier in value:
                     groups_with_details.append({"name": identifier})
                 group_patch = flatten_list(groups_with_details)
 
@@ -178,4 +179,4 @@ def save_to_groups(key, data, errors, context):
         data.pop(key, None)
         raise StopOnError
 
-    return data
+    return data[key]
