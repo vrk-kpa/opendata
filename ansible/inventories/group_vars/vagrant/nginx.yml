@@ -1,4 +1,6 @@
 ---
+nginx_domain: "avoindata.fi"
+
 nginx_development_environment: true
 
 nginx_sites:
