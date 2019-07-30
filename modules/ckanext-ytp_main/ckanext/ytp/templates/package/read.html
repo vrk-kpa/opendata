@@ -4,12 +4,12 @@
     <div class="dataset-header-row d-flex mt-4 align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
-        {% block page_heading %}
-          {% if pkg.private %}
-            <i class="fa fa-xs fa-lock icon-private" title="{{ _('Private') }}"></i>
-          {% endif %}
-          {{ h.get_translated(pkg, 'title') or pkg.name }}
-        {% endblock %}
+          {% block page_heading %}
+            {% if pkg.private %}
+              <i class="fa fa-xs fa-lock icon-private" title="{{ _('Private') }}"></i>
+            {% endif %}
+            {{ h.get_translated(pkg, 'title') or pkg.name }}
+          {% endblock %}
         </h1>
       </div>
       <div class="content_action">

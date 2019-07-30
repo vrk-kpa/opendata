@@ -141,7 +141,7 @@ Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
   cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
   cy.fill_form_fields(dataset_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.dataset-title-column').contains(dataset_name+'edit');
+  cy.get('.dataset-title').contains(dataset_name+'edit');
 })
 
 // Deletes a dataset and verifies that it is not found in the search anymore
