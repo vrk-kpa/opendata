@@ -1,4 +1,8 @@
 // helper classes to use in html
+
+// -------
+// FLEXBOX
+// -------
 .d-flex {
   .flex-display(flex);
 }
@@ -27,6 +31,10 @@
   &-between {
     justify-content: space-between;
   }
+
+  &-evenly {
+    justify-content: space-evenly;
+  }
 }
 
 .align-items {
@@ -51,6 +59,54 @@
   }
 }
 
+.align-content {
+  &-start {
+    align-self: flex-start;
+  }
+
+  &-end {
+    align-self: flex-end;
+  }
+
+  &-center {
+    align-self: center;
+  }
+
+  &-between {
+    align-self: space-between;
+  }
+
+  &-around {
+    align-self: space-around;
+  }
+
+  &-stretch {
+    align-self: stretch;
+  }
+}
+
+.align-self {
+  &-start {
+    align-self: flex-start;
+  }
+
+  &-end {
+    align-self: flex-end;
+  }
+
+  &-center {
+    align-self: center;
+  }
+
+  &-baseline {
+    align-self: baseline;
+  }
+
+  &-stretch {
+    align-self: stretch;
+  }
+}
+
 .flex-1 {
   .flex(1 1 0) !important;
 }
@@ -59,9 +115,11 @@
   .flex(2 2 0) !important;
 }
 
+// --------------------
+// MARGINS AND PADDINGS
+// --------------------
 // This function creates bootstrap 4 like padding and margin classes
 // https://getbootstrap.com/docs/4.3/utilities/spacing/
-
 .make-margin-padding-css(@index, @size-px) {
   .p-@{index} {
     padding: @size-px;
@@ -137,7 +195,261 @@
 
 .make-margins-and-paddings();
 
-// NOTE: with classes like this it's difficult to support hover and focus states
-.color-highlight-base {
-  color: @suomi-highlightBase;
+// ------
+// COLORS
+// ------
+// NOTE: These do not support element states such as focus, hover or active
+.color {
+  &-black-base {
+    color: @suomi-blackBase;
+  }
+
+  &-black-light25 {
+    color: @suomi-blackLight25;
+  }
+
+  &-brand-base {
+    color: @suomi-brandBase;
+  }
+
+  &-highlight {
+    &-base {
+      color: @suomi-highlightBase;
+    }
+
+    &-light {
+      &53 {
+        color: @suomi-highlightLight53;
+      }
+
+      &50 {
+        color: @suomi-highlightLight50;
+      }
+
+      &45 {
+        color: @suomi-highlightLight45;
+      }
+
+      &4 {
+        color: @suomi-highlightLight4;
+      }
+    }
+
+    &-dark9 {
+      color: @suomi-highlightDark9;
+    }
+  }
+
+  &-accent {
+    &-base {
+      color: @suomi-accentBase;
+    }
+
+    &-secondary {
+      color: @suomi-accentSecondary;
+
+      &-light40 {
+        color: @suomi-accentSecondaryLight40;
+      }
+    }
+
+    &-tertiery {
+      color: @suomi-accentTertiary;
+
+      &-dark9 {
+        color: @suomi-accentTertiaryDark9;
+      }
+    }
+  }
+
+  &-depth {
+    &-base {
+      color: @suomi-depthBase;
+    }
+
+    &-light {
+      &30 {
+        color: @suomi-depthLight30;
+      }
+
+      &26 {
+        color: @suomi-depthLight26;
+      }
+
+      &13 {
+        color: @suomi-depthLight13;
+      }
+    }
+
+    &-dark27 {
+      color: @suomi-depthDark27;
+    }
+
+    &-secondary {
+      color: @suomi-depthSecondary;
+
+      &-dark3 {
+        color: @suomi-depthSecondaryDark3;
+      }
+    }
+  }
+
+  &-success {
+    &-base {
+      color: @suomi-successBase;
+    }
+
+    &-light-transparent50 {
+      color: @suomi-successLightTransparent50;
+    }
+  }
+
+  &-warning {
+    &-base {
+      color: @suomi-warningBase;
+    }
+
+    &-light47 {
+      color: @suomi-warningLight47;
+    }
+  }
+
+  &-alert-base {
+    color: @suomi-alertBase;
+  }
+
+  &-white-base {
+    color: @suomi-whiteBase;
+  }
+}
+
+.bg {
+  &-black-base {
+    background-color: @suomi-blackBase;
+  }
+
+  &-black-light25 {
+    background-color: @suomi-blackLight25;
+  }
+
+  &-brand-base {
+    background-color: @suomi-brandBase;
+  }
+
+  &-highlight {
+    &-base {
+      background-color: @suomi-highlightBase;
+    }
+
+    &-light {
+      &53 {
+        background-color: @suomi-highlightLight53;
+      }
+
+      &50 {
+        background-color: @suomi-highlightLight50;
+      }
+
+      &45 {
+        background-color: @suomi-highlightLight45;
+      }
+
+      &4 {
+        background-color: @suomi-highlightLight4;
+      }
+    }
+
+    &-dark9 {
+      background-color: @suomi-highlightDark9;
+    }
+  }
+
+  &-accent {
+    &-base {
+      background-color: @suomi-accentBase;
+    }
+
+    &-secondary {
+      background-color: @suomi-accentSecondary;
+
+      &-light40 {
+        background-color: @suomi-accentSecondaryLight40;
+      }
+    }
+
+    &-tertiery {
+      background-color: @suomi-accentTertiary;
+
+      &-dark9 {
+        background-color: @suomi-accentTertiaryDark9;
+      }
+    }
+  }
+
+  &-depth {
+    &-base {
+      background-color: @suomi-depthBase;
+    }
+
+    &-light {
+      &30 {
+        background-color: @suomi-depthLight30;
+      }
+
+      &26 {
+        background-color: @suomi-depthLight26;
+      }
+
+      &13 {
+        background-color: @suomi-depthLight13;
+      }
+    }
+
+    &-dark27 {
+      background-color: @suomi-depthDark27;
+    }
+
+    &-secondary {
+      background-color: @suomi-depthSecondary;
+
+      &-dark3 {
+        background-color: @suomi-depthSecondaryDark3;
+      }
+    }
+  }
+
+  &-success {
+    &-base {
+      background-color: @suomi-successBase;
+    }
+
+    &-light-transparent50 {
+      background-color: @suomi-successLightTransparent50;
+    }
+  }
+
+  &-warning {
+    &-base {
+      background-color: @suomi-warningBase;
+    }
+
+    &-light47 {
+      background-color: @suomi-warningLight47;
+    }
+  }
+
+  &-alert-base {
+    background-color: @suomi-alertBase;
+  }
+
+  &-white-base {
+    background-color: @suomi-whiteBase;
+  }
+}
+
+// -----
+// OTHER
+// -----
+.avoid-page-break {
+  page-break-inside: avoid;
 }

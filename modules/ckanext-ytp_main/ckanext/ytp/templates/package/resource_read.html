@@ -24,7 +24,7 @@
   {% block resource %}
     <section class="module module-resource">
       <div class="module-content">
-        <div class="row">
+        <div class="">
           <div class="actions">
             {% block resource_actions %}
               <ul>
@@ -152,75 +152,74 @@
     {% if res %}
       <section class="module">
         <div class="module-content">
-          <h2>{{ _('Extra information') }}</h2>
-
-          <dl class="dl-horizontal">
-
-            <dt>{{ _('Last updated') }}</dt>
-            <dd>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</dd>
-
-            <dt>{{ _('Created') }}</dt>
-            <dd>{{ h.render_datetime(res.created) or _('unknown') }}</dd>
-
-            <dt>{{ _('Format') }}</dt>
-            <dd>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</dd>
-
-            <dt>{{ _('License') }}</dt>
-            <dd>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</dd>
-            {% set extra_dict = h.format_extras(res) %}
-
-            {% if extra_dict.temporal_granularity %}
-              <dt>{{ _('Temporal Granularity')}}</dt>
-              <dd>{{ h.extra_translation(res, 'temporal_granularity') }}</dd>
-            {% endif %}
-
-            {% if extra_dict.update_frequency %}
-              <dt>{{ _('Update Frequency') }}</dt>
-              <dd>{{ h.extra_translation(res, 'update_frequency') }}</dd>
-            {% endif %}
-
-            {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
-              <dt>{{ _('Temporal Coverage') }}</dt>
-              <dd>
-                {% if extra_dict.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_from)) }}{% endif %} -
-                {% if extra_dict.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_to))}}{% endif %}
-              </dd>
-            {% endif %}
-          </dl>
-
-
-          {% set extra_dict = h.clean_extras_resources(extra_dict) %}
-          <div class="row">
-            <h3 class="collapsible
-            collapsed technical-extra-information-collapsible-heading" data-toggle="collapse" data-target="#extra-extra">
-              {{_('Technical extra information')}} <i class="fas fa-arrow-down"></i> 
-            </h3>
-          </div>
-          {%- set exclude_fields = [
-            'name',
-            'description',
-            'description_translated',
-            'temporal_granularity',
-            'update_frequency',
-            'description_translated',
-            'url',
-            'format',
-          ] -%}
-          <dl id="extra-extra" class="collapse dl-horizontal">
-            {%- for field in schema.resource_fields -%}
-              {%- if field.field_name not in exclude_fields and field.display_snippet is not none
-              and field.field_name in res and field[field.field_name] != "" -%}
-                <dt scope="row">
-                  {{- h.scheming_language_text(field.label) -}}
-                </dt>
+          <h2 class="mt-0">{{ _('Extra information') }}</h2>
+          <div class="p-3 mt-3 bg-depth-light30">
+            <dl class="dl-horizontal mt-3">
+  
+              <dt>{{ _('Last updated') }}</dt>
+              <dd>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</dd>
+  
+              <dt>{{ _('Created') }}</dt>
+              <dd>{{ h.render_datetime(res.created) or _('unknown') }}</dd>
+  
+              <dt>{{ _('Format') }}</dt>
+              <dd>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</dd>
+  
+              <dt>{{ _('License') }}</dt>
+              <dd>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</dd>
+              {% set extra_dict = h.format_extras(res) %}
+  
+              {% if extra_dict.temporal_granularity %}
+                <dt>{{ _('Temporal Granularity')}}</dt>
+                <dd>{{ h.extra_translation(res, 'temporal_granularity') }}</dd>
+              {% endif %}
+  
+              {% if extra_dict.update_frequency %}
+                <dt>{{ _('Update Frequency') }}</dt>
+                <dd>{{ h.extra_translation(res, 'update_frequency') }}</dd>
+              {% endif %}
+  
+              {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
+                <dt>{{ _('Temporal Coverage') }}</dt>
                 <dd>
-                  {%- snippet 'scheming/snippets/display_field.html',
-                  field=field, data=res, entity_type='dataset',
-                  object_type=dataset_type -%}
+                  {% if extra_dict.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_from)) }}{% endif %} -
+                  {% if extra_dict.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_to))}}{% endif %}
                 </dd>
-              {%- endif -%}
-            {%- endfor -%}
-          </dl>
+              {% endif %}
+            </dl>
+          </div>
+
+          <h3>{{_('Technical extra information')}}</h3>
+          {% set extra_dict = h.clean_extras_resources(extra_dict) %}
+          <div class="p-3 mt-3 bg-depth-light30">
+            {%- set exclude_fields = [
+              'name',
+              'description',
+              'description_translated',
+              'temporal_granularity',
+              'update_frequency',
+              'description_translated',
+              'url',
+              'format',
+            ] -%}
+            <div>
+              <dl class="dl-horizontal mt-2">
+                {%- for field in schema.resource_fields -%}
+                  {%- if field.field_name not in exclude_fields and field.display_snippet is not none
+                  and field.field_name in res and field[field.field_name] != "" -%}
+                    <dt scope="row">
+                      {{- h.scheming_language_text(field.label) -}}
+                    </dt>
+                    <dd>
+                      {%- snippet 'scheming/snippets/display_field.html',
+                      field=field, data=res, entity_type='dataset',
+                      object_type=dataset_type -%}
+                    </dd>
+                  {%- endif -%}
+                {%- endfor -%}
+              </dl>
+            </div>
+          </div>
         </div>
       </section>
     {% endif %}
@@ -234,7 +233,9 @@
   {% endblock %}
   <section class="module module-narrow">
     <h2 class="module-heading">Lisenssi </h2>
-    {% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}
+    <div class="ml-3">
+      {% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}
+    </div>
   </section>
   
   <h3>{{ _('Stats') }}</h3>

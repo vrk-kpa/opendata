@@ -1,0 +1,42 @@
+@import '../variables.less';
+
+// Header
+.page-header {
+  .clearfix;
+
+  border: 0;
+  background-color: transparent;
+
+  .nav-tabs {
+    border: 0;
+    font-size: 16px;
+
+    li {
+      a {
+        color: #000;
+        font-weight: 400;
+        border: 0;
+      }
+
+      border-bottom: 4px solid @inactive-tab-color;
+
+      &:hover {
+        border-bottom: 4px solid darken(@inactive-tab-color, 20%);
+      }
+    }
+
+    li.active {
+      a {
+        color: #000;
+        font-weight: 600;
+        border: 0;
+      }
+
+      border-bottom: 5px solid @active-tab-color;
+    }
+
+    &:hover {
+      border: 0;
+    }
+  }
+}
