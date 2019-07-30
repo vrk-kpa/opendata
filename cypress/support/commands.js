@@ -235,3 +235,19 @@ Cypress.Commands.add('reset_db', () => {
       cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
     }
 });
+
+Cypress.Commands.add('create_category', function (category_name) {
+
+
+  cy.visit('/data/group');
+  cy.get('a[href="/data/group/new"]').contains("Lisää").click();
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.get("input[name='name']").type(category_name);
+  cy.get('#field-title_translated-fi').type(category_name);
+  cy.get('#field-title_translated-sv').type(category_name);
+  cy.get('#field-title_translated-en').type(category_name);
+
+  cy.get('button[name="save"]').click();
+
+});
+
