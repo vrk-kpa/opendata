@@ -120,7 +120,7 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   }
 
   // Make dataset public instead of private
-  cy.get("#field-private").select("False");
+  cy.get("#field-private").select("False").should('have.value', 'False');
 
   cy.get('button[name=save]').click();
 

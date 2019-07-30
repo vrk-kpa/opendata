@@ -745,7 +745,7 @@ class YtpOrganizationController(OrganizationController):
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html')
 
-        page = OrganizationController._get_page_number(self, request.params)
+        page = h.get_page_number(request.params) or 1
 
         group_dict = {'id': id}
         group_dict['include_datasets'] = False
