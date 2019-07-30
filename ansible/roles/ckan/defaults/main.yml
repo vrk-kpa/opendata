@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.8.2"
+ckan_version: "2.8.3"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
@@ -208,7 +208,6 @@ AWS:
 ckan_patches:
   - enable_multiple_image_uploads
   - remove-ckan-fontawesome
-  - fix-flask-root-path  # CKAN issue #4452
   - enforce-url-decoding  # CKAN issue #4619
   - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
   - add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
@@ -222,8 +221,6 @@ ckan_patches:
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
   - group_admin_protection # https://github.com/ckan/ckan/pull/4821
   - remove_gravatar
-  - resource-reorder-translations # https://github.com/ckan/ckan/pull/4838
-  - update_psycopg2_2.8.2 # https://github.com/ckan/ckan/pull/4841
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
