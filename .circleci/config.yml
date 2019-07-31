@@ -17,7 +17,8 @@ commands:
       - run:
           name:  Get commit message to environment variable
           command: |
-            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n $CIRCLE_SHA1)' >> $BASH_ENV
+            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1)' >> $BASH_ENV
+          working_directory: ~/project/
       - slack/status:
           fail_only: << parameters.fail_only >>
           only_for_branches: << parameters.branches >>
