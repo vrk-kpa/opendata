@@ -127,7 +127,9 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
-      - slack_notification
+      - slack_notification:
+          fail_only: false
+          branches: AV-911_circleci_slack_notifications
 
   packer-web:
     docker:
