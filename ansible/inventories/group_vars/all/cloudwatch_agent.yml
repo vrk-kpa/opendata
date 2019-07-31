@@ -92,6 +92,11 @@ cloudwatch_agent_logs_config:
     log_stream_name: "{{ deployment_environment_id }}_{local_hostname}_{instance_id}"
     timestamp_format: '%Y/%m/%d %H:%M:%S %z'
 
+  - file_path: /var/solr/logs/solr.log
+    log_group_name: solr
+    log_stream_name: "{{ deployment_environment_id }}_{local_hostname}_{instance_id}"
+    timestamp_format: '%Y-%m-%d %H:%M:%S'
+
 cloudwatch_agent_procstat_metrics_config:
   - pattern: "ckan_default"
     measurement:
