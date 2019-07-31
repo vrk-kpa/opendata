@@ -17,7 +17,7 @@ commands:
       - run:
           name:  Get commit message to environment variable
           command: |
-            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1 | cut -d' ' -f2-)' >> $BASH_ENV
+            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1 | cut -d " "" -f2-)' >> $BASH_ENV
           working_directory: ~/project/
       - slack/status:
           fail_only: << parameters.fail_only >>
@@ -127,9 +127,7 @@ jobs:
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
 
-      - slack_notification:
-          fail_only: false
-          branches: AV-911_circleci_slack_notifications
+      - slack_notification
 
   packer-web:
     docker:
@@ -810,58 +808,58 @@ workflows:
       - flake8
       - code-sniffer
       - ansible-lint
-  #     - stylelint
-  #     - clamav-build
-  #     - clamav-deploy:
-  #         requires:
-  #           - clamav-build
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - packer-web:
-  #         requires:
-  #           - flake8
-  #           - code-sniffer
-  #           - ansible-lint
-  #           - stylelint
-  #     - ansible-web:
-  #         requires:
-  #           - packer-web
-  #     - cypress-web:
-  #         requires:
-  #           - ansible-web
-  #     - packer-scheduled:
-  #         requires:
-  #           - flake8
-  #           - code-sniffer
-  #           - ansible-lint
-  #           - stylelint
-  #     - copy-web-ami:
-  #         requires:
-  #           - cypress-web
-  #           - packer-scheduled
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - copy-scheduled-ami:
-  #         requires:
-  #           - packer-scheduled
-  #           - cypress-web
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - beta-deploy:
-  #         requires:
-  #           - cypress-web
-  #           - packer-scheduled
-  #         filters:
-  #           branches:
-  #             only: master
-  # prod_deploy:
-  #   jobs:
-  #     - prod-deploy:
-  #         filters:
-  #           tags:
-  #             only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  #           branches:
-  #             ignore: /.*/
+      - stylelint
+      - clamav-build
+      - clamav-deploy:
+          requires:
+            - clamav-build
+          filters:
+            branches:
+              only: master
+      - packer-web:
+          requires:
+            - flake8
+            - code-sniffer
+            - ansible-lint
+            - stylelint
+      - ansible-web:
+          requires:
+            - packer-web
+      - cypress-web:
+          requires:
+            - ansible-web
+      - packer-scheduled:
+          requires:
+            - flake8
+            - code-sniffer
+            - ansible-lint
+            - stylelint
+      - copy-web-ami:
+          requires:
+            - cypress-web
+            - packer-scheduled
+          filters:
+            branches:
+              only: master
+      - copy-scheduled-ami:
+          requires:
+            - packer-scheduled
+            - cypress-web
+          filters:
+            branches:
+              only: master
+      - beta-deploy:
+          requires:
+            - cypress-web
+            - packer-scheduled
+          filters:
+            branches:
+              only: master
+  prod_deploy:
+    jobs:
+      - prod-deploy:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
