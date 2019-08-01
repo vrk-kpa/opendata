@@ -146,17 +146,7 @@ ckan_max_resource_size: 5000
 ckan_ini: /etc/ckan/default/production.ini
 ckan_who_ini: /etc/ckan/default/who.ini
 
-# ckan user settings
-ckan_ytp_users:
-  - username: 'test-editor'
-    password: 'test-editor'
-    email: 'editor@localhost'
-  - username: 'test-publisher'
-    password: 'test-publisher'
-    email: 'publisher@localhost'
-  - username: 'test-user'
-    password: 'test-user'
-    email: 'user@localhost'
+
 ckan_admin: {'username': 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
 ckan_admins:
   - "{{ ckan_admin.username }}"

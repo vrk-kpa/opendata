@@ -33,7 +33,7 @@ from webhelpers.html.tags import link_to
 import auth
 import menu
 
-from converters import convert_to_tags_string
+from converters import convert_to_tags_string, save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -42,7 +42,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
-    get_label_for_producer
+    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected
 
 from tools import create_system_context, get_original_method
 
@@ -252,6 +252,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
         # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
                   controller=controller)
         return m
@@ -403,7 +404,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'call_toolkit_function': call_toolkit_function,
                 'get_translated': get_translated,
                 'dataset_display_name': dataset_display_name,
-                'get_label_for_producer': get_label_for_producer
+                'group_title_by_id': group_title_by_id,
+                'get_label_for_producer': get_label_for_producer,
+                'scheming_category_list': scheming_category_list,
+                'check_group_selected': check_group_selected,
+                'group_list_with_selected': group_list_with_selected,
                 }
 
     def get_auth_functions(self):
@@ -478,24 +483,26 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IValidators
     def get_validators(self):
         return {
-            'lower_if_exists': validators.lower_if_exists,
-            'upper_if_exists': validators.upper_if_exists,
-            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
-            'create_tags': validators.create_tags,
-            'create_fluent_tags': validators.create_fluent_tags,
-            'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
-            'list_to_string': validators.list_to_string,
-            'convert_to_list': validators.convert_to_list,
-            'tag_list_output': validators.tag_list_output,
-            'repeating_text': validators.repeating_text,
-            'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required,
-            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
-            'override_field': validators.override_field,
-            'override_field_with_default_translation': validators.override_field_with_default_translation,
-            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
-            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
             'check_deprecation': validators.check_deprecation,
+            'convert_to_list': validators.convert_to_list,
+            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
+            'save_to_groups': save_to_groups,
+            'create_fluent_tags': validators.create_fluent_tags,
+            'create_tags': validators.create_tags,
+            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
+            'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
+            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
+            'list_to_string': validators.list_to_string,
+            'lower_if_exists': validators.lower_if_exists,
+            'only_default_lang_required': validators.only_default_lang_required,
+            'override_field_with_default_translation': validators.override_field_with_default_translation,
+            'override_field': validators.override_field,
+            'repeating_text_output': validators.repeating_text_output,
+            'repeating_text': validators.repeating_text,
+            'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
+            'tag_list_output': validators.tag_list_output,
+            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
+            'upper_if_exists': validators.upper_if_exists,
             'admin_only_field': validators.admin_only_field
         }
 
