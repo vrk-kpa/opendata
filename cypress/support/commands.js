@@ -61,15 +61,35 @@ Cypress.Commands.add('logout', () => {
 })
   
 
-// This function only fills the fields according to given parameters. 
-// Other actions, such as editing URL and clicking buttons are handled by
-// other more specififc functions, because of the small differences between
-// forms. 
+/** 
+ * @description
+ * This function only fills the fields according to given parameters. 
+ * Other actions, such as editing URL and clicking buttons are handled by
+ * other more specififc functions, because of the small differences between
+ * forms.
+ * 
+ * @param {object[]} form_data - The data to populate the form with
+*/
 Cypress.Commands.add('fill_form_fields', (form_data) => {
-  Object.keys(form_data).forEach(function(field_selector){
-    var field_value = form_data[field_selector];
-    cy.get(field_selector).type(field_value);
-  });  
+    Object.keys(form_data).forEach(function(field_selector){
+        const field_value = form_data[field_selector];
+        const field = cy.get(field_selector)
+        if (field_value && typeof field_value === 'object') {
+            const options = { force: field_value.force ? field_value.force : false };
+            switch(field_value.type) {
+                case 'select':
+                    field.select(field_value.value, options)
+                    break;
+                case 'check':
+                    field.check(options)
+                    break;
+                default:
+                    field.type(field_value.value, options)
+            }
+        } else {
+            field.type(field_value);
+        }
+    });
 })
 
 Cypress.Commands.add('create_new_organization', (organization_name, organization_form_data) => {

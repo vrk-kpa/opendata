@@ -86,7 +86,7 @@ def advanced_category_options(field=None):
     context = {'model': model, 'session': model.Session}
     groups = get_action('group_list')(context, {"all_fields": True, "include_extras": True})
 
-    return make_options(groups, has_translated=True)
+    return make_options(groups, value="name", has_translated=True)
 
 
 def advanced_publisher_options(field=None):
