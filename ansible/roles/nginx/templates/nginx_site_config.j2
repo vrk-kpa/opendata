@@ -5,6 +5,11 @@ map $http_cookie $no_cache {
     ~SESS 1;
 }
 
+map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
+    default "http";
+    "~https" "https";
+}
+
 server {
     listen {{ item.port }};
     server_name {{ item.server_name }};
@@ -15,6 +20,6 @@ server {
 server {
     listen {{ item.port }};
     server_name {{ item.base_hostname }};
-    return 301 $scheme://{{ item.server_name }}$request_uri;
+    return 301 $real_scheme://{{ item.server_name }}$request_uri;
 }
 {% endif %}
