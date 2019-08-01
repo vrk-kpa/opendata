@@ -1,0 +1,15 @@
+<label
+    class="ytp-radio-label"
+    for="radio-{{name}}-{{option.value}}"
+>
+    <input
+        class="sr-only"
+        id="radio-{{name}}-{{option.value}}"
+        type="radio"
+        name="{{name}}"
+        value="{{option.value}}"
+        {% if isChecked %}checked{% endif %}
+    >
+    <span class="custom-radio"></span>
+    <span class="ml-2">{{_(option.label)}}</span>
+</label>

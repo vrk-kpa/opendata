@@ -14,12 +14,19 @@ commands:
         type: boolean
         default: true
     steps:
+      - run:
+          name:  Get commit message to environment variable
+          command: |
+            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1 | cut -d " " -f2-)' >> $BASH_ENV
+          working_directory: ~/project/
       - slack/status:
           fail_only: << parameters.fail_only >>
           only_for_branches: << parameters.branches >>
           webhook: $SLACK_WEB_HOOK
           include_visit_job_action: true
           include_job_number_field: true
+          failure_message: ':red_circle: A $CIRCLE_JOB job triggered by $CIRCLE_USERNAME has failed! ($GIT_COMMIT_MESSAGE)'
+          success_message: ':tada: A $CIRCLE_JOB job  triggered by $CIRCLE_USERNAME has succeeded! ($GIT_COMMIT_MESSAGE)'
 
 
 jobs:
