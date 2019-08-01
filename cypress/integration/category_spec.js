@@ -15,7 +15,7 @@ describe('Category tests', function () {
     cy.logout();
 
     cy.login_post_request('test-user', 'test-user')
-    const dataset_name = 'test_dataset_with_category';
+    const dataset_name = 'category_test';
     const dataset_form_data = {
       "#field-title_translated-fi": dataset_name,
       '#field-notes_translated-fi': 'Dataset test description',
