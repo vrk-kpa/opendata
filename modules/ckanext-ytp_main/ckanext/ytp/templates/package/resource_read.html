@@ -24,7 +24,7 @@
   {% block resource %}
     <section class="module module-resource">
       <div class="module-content">
-        <div class="">
+        <div>
           <div class="actions">
             {% block resource_actions %}
               <ul>
@@ -190,7 +190,6 @@
           </div>
 
           <h3>{{_('Technical extra information')}}</h3>
-          {% set extra_dict = h.clean_extras_resources(extra_dict) %}
           <div class="p-3 mt-3 bg-depth-light30">
             {%- set exclude_fields = [
               'name',
