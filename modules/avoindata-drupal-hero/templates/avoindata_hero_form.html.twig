@@ -8,126 +8,125 @@
 #}
 {{ attach_library('avoindata_hero/avoindata_hero') }}
 <div class="avoindata-hero">
-  {{ form.form_build_id }}
-  {{ form.form_token }}
-  {{ form.form_id }}
-  <div class="avoindata-hero-search-container">
-    <div class="row">
-      <div class="col-md-12 d-flex align-item-center flex-wrap">
-        <h1>
-          <img class="avoindata-hero-logo mr-2" src="/resources/images/logo/opendata.svg"/>
-          {% trans %}
-          Avoindata.fi
-          {% endtrans %}
-        </h1>
-        <h2>
-          {% trans %}
-          All Finnish open data from one place.
-          {% endtrans %}
-        </h2>
-      </div>
-    </div>
-    <div class="row avoindata-hero-boxes">
-      <div class="col-md-4">
-        <div class="avoindata-hero-box">
-          <a href="/data/{{ form.language }}/dataset">
-            <h2 id="avoindata-datasets-count">{{ form.datasetcount | default("0") }}</h2>
-            <p>
-              {% trans with {'context': 'x datasets'} %}
-              Datasets
-              {% endtrans %}
-            </p>
-          </a>
+    {{ form.form_build_id }}
+    {{ form.form_token }}
+    {{ form.form_id }}
+    <div class="avoindata-hero-search-container">
+        <div>
+            <div class="d-inline-block mr-4">
+                <h1>
+                    <img class="avoindata-hero-logo mr-2" src="/resources/images/logo/opendata.svg"/>
+                    {% trans %}
+                    Avoindata.fi
+                    {% endtrans %}
+                </h1>
+            </div>
+            <div class="d-inline-block">
+                <h2>
+                    {% trans %}
+                        All Finnish open data from one place.
+                    {% endtrans %}
+                </h2>
+            </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="avoindata-hero-box">
-          <a href="/data/{{ form.language }}/organization">
-            <h2 id="avoindata-organizations-count">{{ form.organizationcount | default("0") }}</h2>
-            <p>
-              {% trans with {'context': 'x organizations'} %}
-              Organizations
-              {% endtrans %}
-            </p>
-          </a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="avoindata-hero-box">
-          <a href="/data/{{ form.language }}/showcase">
-            <h2 id="avoindata-applications-count">{{ form.applicationcount | default("0") }}</h2>
-              <p>
+        <!-- TODO: Add api endpoints when they are available and change justify "evenly" to "between" -->
+        <div class="d-flex flex-wrap justify-content-evenly mt-2">
+            {% set dataset_text %}
+                {% trans with {'context': 'x datasets'} %}
+                Datasets
+                {% endtrans %}
+            {% endset %}
+            {% set organization_text %}
+                {% trans with {'context': 'x organizations'} %}
+                Organizations
+                {% endtrans %}
+            {% endset %}
+            {% set showcase_text %}
                 {% trans with {'context': 'x applications'} %}
                 Applications
                 {% endtrans %}
-              </p>
-          </a>
+            {% endset %}
+
+            {% set dataset = {'url': 'dataset', 'count': form.datasetcount | default("0"), 'text': dataset_text} %}
+            {% set organization = {'url': 'organization', 'count': form.organizationcount | default("0"), 'text': organization_text} %}
+            {% set showcase = {'url': 'showcase', 'count': form.applicationcount | default("0"), 'text': showcase_text} %}
+
+            {% set counts = [dataset, organization, showcase] %}
+
+            {% for count in counts %}
+                <div class="text-center">
+                    <h2>{{ count.count }}</h2>
+                    <h4>
+                        <strong>{{ count.text }}</strong>
+                    </h4>
+                    <a href="/data/{{ form.language }}/{{ count.url }}">
+                        {% trans %}
+                        Show all
+                        {% endtrans %}
+                        →
+                    </a>
+                </div>
+            {% endfor %}
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="avoindata-hero-input-col">
-        <div class="input-group avoindata-hero-input-group">
-          <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle btn-hero-dropdown" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">{% trans %}Datasets{% endtrans %}<span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="#" data-value="1">
-                  {% trans %}
-                  Datasets
-                  {% endtrans %}
-                </a>
-              </li>
-              <li>
-                <a href="#" data-value="2">
-                  {% trans %}
-                  Applications
-                  {% endtrans %}
-                </a>
-              </li>
-              <li>
-                <a href="#" data-value="3">
-                  {% trans %}
-                  Organizations
-                  {% endtrans %}
-                </a>
-              </li>
-            </ul>
-          </div>
-          {{ form.search }}
-          {{ form.searchfilter }}
-          <div class="input-group-btn avoindata-hero-actions">
-            {{ form.actions }}
-          </div>
+        <div class="bg-highlight-base d-flex p-3 mt-4">
+            <div class="position-relative">
+                <button id="type-dropdown" type="button" class="suomi-button suomi-button-custom mr-2" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-3">
+                        {% trans %}
+                            Datasets
+                        {% endtrans %}
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-value="1">
+                            {% trans %}
+                            Datasets
+                            {% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-value="2">
+                            {% trans %}
+                            Applications
+                            {% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-value="3">
+                            {% trans %}
+                            Organizations
+                            {% endtrans %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex-1">
+                <div class="ytp-input-with-icon">
+                    {% set placeholder %}
+                        {%- trans -%}
+                        Type what are you searching for
+                        {%- endtrans -%}
+                    {% endset %}
+                    <input
+                        id="edit-search"
+                        name="search"
+                        type="text"
+                        class="ytp-input-element color-depth-dark27"
+                        placeholder="{{ placeholder }}"
+                    >
+                    <i class="fa fa-2x fa-search color-depth-base mr-2"></i>
+                </div>
+                <button type="submit" class="sr-only">
+                    {% trans %}
+                    Submit
+                    {% endtrans %}
+                </button>
+            </div>
         </div>
-        
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 d-flex justify-content-between">
-            <ul class="list-inline">
-                <li>
-                    <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
-                        {% trans %}
-                        Recent
-                        {% endtrans %}
-                    </a>
-                </li>
-                <li>
-                    <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
-                        {% trans %}
-                        Popular
-                        {% endtrans %}
-                    </a>
-                </li>
-                <li>
-                    <a href="/data/{{ form.language }}/showcase">
-                        {% trans %}
-                        Applications
-                        {% endtrans %}
-                    </a>
-                </li>
-            </ul>
+        {{ form.searchfilter }}
+        <div class="d-flex mt-3 justify-content-end">
             <a href="/data/{{ form.language }}/advanced_search">
                 {% trans %}
                     Use advanced search
@@ -135,5 +134,4 @@
             </a>
         </div>
     </div>
-  </div>
 </div>

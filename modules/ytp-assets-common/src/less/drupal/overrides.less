@@ -135,7 +135,7 @@ p:last-child,
   position: relative;
   color: @popularTextColor;
 
-  &::after {
+  &::before {
     content: "";
     display: block;
     position: absolute;
@@ -169,6 +169,8 @@ p:last-child,
     float: none;
     display: block;
     margin: 0 auto;
+    // NOTE: Without this you can't click the content inside.
+    position: relative;
   }
 
   .avoindata-hero-logo {
@@ -182,43 +184,6 @@ p:last-child,
     h2 {
       margin: 0;
       font-size: 1.9em;
-    }
-  }
-
-  .avoindata-hero-boxes {
-    margin-bottom: 20px;
-  }
-
-  .avoindata-hero-box {
-    border-bottom: 6px solid rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: transparent;
-    background-image:
-      -webkit-radial-gradient(
-        circle farthest-corner at 50% 50%,
-        rgba(0, 0, 0, 0.14) -1%,
-        rgba(0, 0, 0, 0.39) 0%,
-        rgba(0, 0, 0, 0.24) 100%,
-        transparent
-      );
-    background-image:
-      radial-gradient(
-        circle farthest-corner at 50% 50%,
-        rgba(0, 0, 0, 0.14) -1%,
-        rgba(0, 0, 0, 0.39) 0%,
-        rgba(0, 0, 0, 0.24) 100%,
-        transparent
-      );
-    opacity: 1;
-    color: #fff;
-    text-align: center;
-
-    h2 {
-      font-size: 40px;
-      font-weight: 500;
-      margin-top: 15px;
     }
   }
 
