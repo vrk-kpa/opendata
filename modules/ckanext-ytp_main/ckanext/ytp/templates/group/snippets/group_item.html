@@ -14,43 +14,44 @@ Example:
 {% set type = group.type or 'group' %}
 {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
 {% block item %}
-<li class="media-item">
-  {% block item_inner %}
-  {% block image %}
-    <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image img-responsive">
-  {% endblock %}
-  <div class="item-content item-content-slide-up">
-  {% block title %}
-    <h3 class="media-heading">{{ (h.get_translated(group, 'title') or group.title)}}</h3>
-  {% endblock %}
-  {% block description %}
-    {% set description =  h.render_markdown(h.get_translated(group, 'description')) %}
-    {% if description %}
-      <p>{{ description|truncate(80) }}</p>
-    {% endif %}
-  {% endblock %}
-  {% block datasets %}
-    {% if group.package_count %}
-      <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}</strong>
-    {% elif group.package_count == 0 %}
-      <span class="count">{{ _('0 Datasets') }}</span>
-    {% endif %}
-  {% endblock %}
-  {% block link %}
-  <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view">
-    <span>{{ _('View {name}').format(name=group.display_name) }}</span>
-  </a>
-  {% endblock %}
-  {% if group.user_member %}
-    <!-- NOTE: if we don't check package update here, anyone can delete a category from any dataset -->
-    {% if h.check_access('package_update',{'id':c.pkg_dict.id}) %}
-      <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
-    {% endif %}
-  {% endif %}
-  </div>
-  {% endblock %}
-</li>
+<div class="media-wrapper">
+  <li class="media-item">
+    {% block item_inner %}
+    {% block image %}
+      <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image img-responsive">
+    {% endblock %}
+    <div class="item-content item-content-slide-up">
+      {% block title %}
+        <h3 class="media-heading">
+          {{ (h.get_translated(group, 'title') or h.group_title_by_id(group.id) or group.title )}}
+        </h3>
+      {% endblock %}
+      {% block link %}
+        <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view">
+          <span>
+            {{ _('View {name}').format(name=group.display_name) }}
+          </span>
+        </a>
+      {% endblock %}
+      {% block description %}
+        {% set description = h.get_translated(group, 'description') %}
+        {% if description %}
+            {{ h.render_markdown(description | truncate(80)) }}
+        {% endif %}
+      {% endblock %}
+      {% block datasets %}
+        {% if group.package_count %}
+          <strong class="count">
+            {{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}
+          </strong>
+        {% elif group.package_count == 0 %}
+          <span class="count">
+            {{ _('0 Datasets') }}
+          </span>
+        {% endif %}
+      {% endblock %}
+    </div>
+    {% endblock %}
+  </li>
+</div>
 {% endblock %}
-{% if position is divisibleby 3 %}
-  <li class="clearfix js-hide"></li>
-{% endif %}

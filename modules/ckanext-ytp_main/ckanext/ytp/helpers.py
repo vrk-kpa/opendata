@@ -67,6 +67,13 @@ def dataset_display_name(package_or_package_dict):
         return package_or_package_dict.title or package_or_package_dict.name
 
 
+def group_title_by_id(group_id):
+    from ckan import model
+    context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+    group_details = get_action('group_show')(context, {"id": group_id})
+    return get_translated(group_details, 'title')
+
+
 # Copied from core ckan to call overridden get_translated
 def resource_display_name(resource_dict):
     # TODO: (?) support resource objects as well
@@ -212,7 +219,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
 
 
 def calculate_dataset_stars(dataset_id):
-    from ckan.logic import get_action, NotFound
+    from ckan.logic import NotFound
     from ckan import model
 
     if not is_plugin_enabled('qa'):
@@ -457,3 +464,64 @@ def get_label_for_producer(producer_type):
         "society-trust": "Society - Trust",
         "person": "Person"
     }.get(producer_type, '')
+
+
+def scheming_category_list(args):
+    from ckan.logic import NotFound
+    from ckan import model
+    # FIXME: sometimes this might return 0 categories if in development
+
+    try:
+        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+        group_ids = get_action('group_list')(context, {})
+    except NotFound:
+        return None
+    else:
+        category_list = []
+        for group in group_ids:
+            try:
+                context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+                group_details = get_action('group_show')(context, {'id': group})
+            except Exception as e:
+                log.error(e)
+                return None
+
+            category_list.append({
+                "value": group,
+                "label": group_details.get('title')
+            })
+
+    return category_list
+
+
+def check_group_selected(val, data):
+    if filter(lambda x: x['name'] == val, data):
+        return True
+    return False
+
+
+# Get a list of groups and add a selected field which is
+# true if they are selected in the dataset
+def group_list_with_selected(package_groups):
+    from ckan import model
+    if not isinstance(package_groups, list):
+        package_groups = []
+
+    # Get list of groups in avoindata
+    context = {'model': model, 'session': model.Session, 'ignore_auth': True}
+    all_groups = get_action('group_list')(
+        context,
+        {"all_fields": True, "include_extras": True},
+    )
+    # Check which groups are selected
+    groups_with_selected = []
+    for group in all_groups:
+        selected = False
+        for package_group in package_groups:
+            if package_group['id'] == group['id']:
+                selected = True
+                break
+        group.update({"selected": selected})
+        groups_with_selected.append(group)
+
+    return groups_with_selected
