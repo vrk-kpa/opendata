@@ -1,8 +1,147 @@
-@import 'variables';
+// Form specific overrides
+@common-path: '../..';
+@common-less: '@{common-path}/less';
+
+@import '@{common-less}/variables.less';
+@import '@{common-less}/mixins/mixins.less';
 
 @input-border-radius: 2px;
 @input-border-color: @suomi-depthLight13;
 @input-border-width: 1px;
+
+// ------------------------
+// OVERRIDES AND OLD STYLES
+// ------------------------
+.form-control {
+  border: 1px solid @opendata-ckan-unhighlight;
+  font-size: 14px;
+}
+
+.form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-horizontal .control-label {
+  width: auto;
+  text-align: left;
+  padding: inherit;
+  margin-bottom: 5px;
+}
+
+.control-label .group-label {
+  margin-bottom: 10px;
+}
+
+.form-horizontal .controls {
+  margin-left: 0;
+  padding: inherit;
+}
+
+.form-actions {
+  overflow: inherit;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+label.control-label,
+label.group-label {
+  // Remove ":" from group label and control label
+  &::after {
+    content: none;
+  }
+}
+
+// Form remove button overrides. No more rounded edges.
+.btn-remove-url {
+  top: 0 !important;
+  right: 0 !important;
+  padding: 5px 15px !important;
+  border-radius: 0 4px 4px 0 !important;
+  height: 100% !important;
+}
+
+// Translation and other "group" fields
+.form-group-fluent .form-group {
+  .flex-display(flex);
+
+  .control-label {
+    min-width: 40px;
+  }
+
+  .controls {
+    .flex-grow(2);
+  }
+}
+
+.opendata-search-form {
+  margin-top: 12px;
+  margin-bottom: 20px;
+
+  .search-wrapper {
+    .flex-display(flex);
+    .flex-direction(row);
+    .flex-flow(nowrap);
+
+    max-width: 100%;
+    min-height: 62px;
+    height: 0;
+
+    input {
+      height: 62px;
+      padding: 8px 12px;
+      margin-top: 0;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #333;
+      border-radius: 4px;
+      vertical-align: middle;
+      background-color: #fff;
+      border: 1px solid @opendata-ckan-unhighlight;
+
+      &:focus {
+        border-color: #3898ec;
+        outline: 0;
+      }
+    }
+
+    button {
+      margin-top: 0;
+      height: 62px;
+
+      @media (max-width: 450px) {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .search-input {
+      margin-top: 10px;
+      margin-right: 10px;
+      .flex-order(0);
+      .flex(1 0 auto);
+    }
+
+    .search-submit {
+      margin-top: 10px;
+      .flex-order(1);
+      .flex(0 0 auto);
+    }
+  }
+}
+
+.search-form {
+  padding-bottom: 0;
+
+  .search-input {
+    &.search-giant {
+      button {
+        margin-top: -14px;
+      }
+    }
+  }
+}
 
 .field-assistive-text {
   font-style: italic;
@@ -14,14 +153,22 @@ fieldset.checkboxes {
   flex-wrap: wrap;
 }
 
+// --------------
+// SUOMI.FI FORMS
+// --------------
+
 .ytp-checkbox {
   display: flex;
   align-items: center;
   font-size: 18px;
   max-width: max-content;
   font-weight: normal;
+  margin-right: 50px;
+  margin-bottom: 30px;
 
   [type='checkbox'] {
+    display: none;
+
     & + .custom-checkbox {
       border: @input-border-width solid @input-border-color;
       display: inline-flex;
@@ -256,104 +403,5 @@ fieldset.checkboxes {
     right: 10px;
     font-size: 18px;
     pointer-events: none;
-  }
-}
-
-.suomi-button {
-  height: 38px;
-  padding: 0 20px;
-  font-size: 12px;
-  border-radius: 2px;
-  letter-spacing: 1px;
-
-  &:focus {
-    box-shadow: 0 0 10px @suomi-accentBase;
-    outline: none;
-  }
-
-  &.suomi-button-primary {
-    background: linear-gradient(@suomi-highlightBase, @suomi-highlightDark9);
-    border: none;
-    color: @suomi-whiteBase;
-    text-shadow: 0 1px 1px rgba(@suomi-brandBase, 0.5);
-
-    &:hover {
-      background: linear-gradient(@suomi-highlightLight4, @suomi-highlightBase);
-    }
-
-    &:active {
-      background: @suomi-highlightDark9;
-    }
-
-    &:disabled {
-      background: linear-gradient(@suomi-depthLight13, @suomi-depthBase);
-    }
-  }
-
-  &.suomi-button-secondary {
-    background: @suomi-whiteBase;
-    border: 1px solid @suomi-highlightBase;
-    color: @suomi-highlightBase;
-
-    &:hover {
-      background: linear-gradient(@suomi-depthLight26, @suomi-whiteBase);
-    }
-
-    &:active {
-      background: @suomi-depthLight26;
-    }
-
-    &:disabled {
-      background: @suomi-depthLight30;
-      border: 1px solid @suomi-depthLight13;
-      color: @suomi-depthBase;
-    }
-  }
-}
-
-.pagination > li {
-  display: inline-block;
-
-  &.active {
-    button {
-      color: @suomi-whiteBase;
-      background-color: @suomi-highlightBase;
-      border-color: @suomi-highlightBase;
-
-      &:hover {
-        background-color: @suomi-highlightLight4;
-      }
-
-      &:focus {
-        background-color: @suomi-highlightBase;
-        box-shadow: 0 0 10px @suomi-accentBase;
-      }
-    }
-  }
-
-  button {
-    color: @suomi-highlightBase;
-    cursor: pointer;
-    background-color: transparent;
-    border-color: transparent;
-    border-style: none;
-    padding: 6px 12px;
-
-    &:hover,
-    &:focus {
-      background-color: @suomi-depthLight26;
-    }
-  }
-
-  &:last-of-type button {
-    border-radius: 0 3px 3px 0;
-  }
-
-  &:first-of-type button {
-    border-radius: 3px 0 0 3px;
-  }
-
-  &:only-child button {
-    border-radius: 3px;
   }
 }

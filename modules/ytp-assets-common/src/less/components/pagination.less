@@ -1,0 +1,53 @@
+@import '../variables.less';
+
+.pagination > li {
+  display: inline-block;
+
+  &.active {
+    button {
+      color: @suomi-whiteBase;
+      background-color: @suomi-highlightBase;
+      border-color: @suomi-highlightBase;
+
+      &:hover {
+        background-color: @suomi-highlightLight4;
+      }
+
+      &:focus {
+        background-color: @suomi-highlightBase;
+        box-shadow: 0 0 10px @suomi-accentBase;
+      }
+    }
+  }
+
+  a,
+  span {
+    border: 0;
+  }
+
+  button {
+    color: @suomi-highlightBase;
+    cursor: pointer;
+    background-color: transparent;
+    border-color: transparent;
+    border-style: none;
+    padding: 6px 12px;
+
+    &:hover,
+    &:focus {
+      background-color: @suomi-depthLight26;
+    }
+  }
+
+  &:last-of-type button {
+    border-radius: 0 3px 3px 0;
+  }
+
+  &:first-of-type button {
+    border-radius: 3px 0 0 3px;
+  }
+
+  &:only-child button {
+    border-radius: 3px;
+  }
+}
