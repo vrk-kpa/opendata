@@ -9,3 +9,9 @@ _('Confirm');
 _('Cancel');
 _('Subscribe to comments');
 _('Unsubscribe from comments');
+
+// Reorder resources
+_('Reorder resources');
+_('You can rearrange the resources by dragging them using the arrow icon. Drag the resource ' +
+  'to the right and place it to the desired location on the list. ' +
+  'When you are done, click the "Save order" -button.');

@@ -15,6 +15,8 @@
   roles:
     - role: common
       tags: common
+    - role: dynatrace
+      tags: dynatrace
     - role: postgres
       tags: postgres
     - role: solr
@@ -25,8 +27,6 @@
       tags: ckan
     - role: datapusher
       tags: datapusher
-    - role: dynatrace
-      tags: dynatrace
 
   post_tasks:
     - import_role:

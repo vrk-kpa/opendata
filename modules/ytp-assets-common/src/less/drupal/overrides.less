@@ -33,10 +33,12 @@
 
 // Avoindata common variables
 @import "@{common-less}/variables";
-@import "@{common-less}/helpers";
+@import "@{common-less}/utility";
 
-// Avoindata navbars
+// Avoindata components
 @import "@{common-less}/navbars";
+// TODO: This could only import the needed styles for drupal and not all
+@import "@{common-less}/components/all";
 
 // Guide styles
 @import "guide.less";
@@ -274,6 +276,18 @@ p:last-child,
       .avoindata-category-image-wrapper {
         padding: 10px;
         transition: transform 0.5s;
+
+        .avoindata-category-dataset-count {
+          position: absolute;
+          padding: 2px 8px;
+          margin-left: 52px;
+          margin-top: -0.5em;
+          background-color: #f7f7f8;
+          border-radius: 1em;
+          font-size: smaller;
+          font-weight: bold;
+          color: #626b6f;
+        }
 
         &:hover {
           transform: scale(1.1);
@@ -1310,4 +1324,10 @@ p:last-child,
 
 .vertical-dropdown-menu {
   float: none; // Overrides float: left in upstream
+}
+
+.user-form {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 25px;
 }

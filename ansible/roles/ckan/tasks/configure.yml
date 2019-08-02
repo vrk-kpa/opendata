@@ -1,4 +1,22 @@
 ---
+
+- name: Create temporary patch file for Sentry
+  template:
+    src: sentry.patch.j2
+    dest: /tmp/sentry.patch
+    owner: root
+    group: root
+    mode: 0400
+  when: ckan_sentry_integration_enabled|bool
+
+- name: Apply Sentry CKAN patches
+  patch:
+    src: /tmp/sentry.patch
+    basedir: "{{ ckan_source_path }}"
+    strip: 1
+    remote_src: true
+  when: ckan_sentry_integration_enabled|bool
+
 - name: Copy credentials token
   copy:
     src: "{{ ckan_google_credentials }}"
@@ -25,6 +43,14 @@
     group: "{{ ckan_www_group }}"
   with_items: "{{ ckan_config_files }}"
   notify: Restart Apache
+
+- name: Setup beaker session cleanup script
+  template:
+    src: "beaker_session_cleanup.sh.j2"
+    dest: "/usr/local/sbin/beaker_session_cleanup.sh"
+    mode: "0500"
+    owner: root
+    group: "root"
 
 - name: Setup Apache WSGI script
   template:

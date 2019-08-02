@@ -1,0 +1,17 @@
+{% set name = field.field_name %}
+{% set options = field.options %}
+{% set label = field.label %}
+
+<div>
+    <label for="radio-target-fieldset" class="ytp-input-label">{{_(label)}}</label>
+    <fieldset id="radio-target-fieldset">
+        <!-- Print all radio buttons and make the first or previous option selected -->
+        {% set prev_selected = h.value_or_blank(prev_query, name)[0] %}
+        {% set selected_index = h.selected_index_radio(options, prev_selected) %}
+
+        {% for option in options %}
+            {% set checked = (loop.index == selected_index) %}
+            {% snippet 'advanced_search/snippets/single-radio.html', name=name, option=option, isChecked=checked %}
+        {% endfor %}
+    </fieldset>
+</div>

@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: footer-fi
+label: 'Footer links (fi)'
+description: 'Footer links (fi)'
+locked: true

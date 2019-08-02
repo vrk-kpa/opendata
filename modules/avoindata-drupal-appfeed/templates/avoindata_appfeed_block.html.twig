@@ -22,8 +22,11 @@
             <div class="application-item-logo col-sm-3 col-xs-12">
               <a href="/data/{{ language }}/showcase/{{ app['name'] }}">
                 {% if app['icon']|length %}
-                  <img class="application-item-img" src="/data/uploads/showcase/{{ app['icon'] }}" alt="">
+                    {% set app_icon = app['icon_display_url'] %}
+                {% else %}
+                    {% set app_icon = '/data/images/showcase_placeholder.png' %}
                 {% endif %}
+                <img class="application-item-img" src="{{ app_icon }}" alt="">
               </a>
             </div>
             <div class="application-item-content col-sm-9 col-xs-12">

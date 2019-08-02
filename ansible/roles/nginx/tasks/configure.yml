@@ -1,3 +1,4 @@
+---
 - name: Copy base Nginx configuration
   template:
     src: "nginx.conf.j2"

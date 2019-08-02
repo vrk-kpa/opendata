@@ -161,12 +161,6 @@
     - core.entity_form_display.node.page.default
     - core.entity_view_display.node.page.default
     - pathauto.settings
-    - user.role.administrator
-    - user.role.anonymous
-    - user.role.authenticated
-    - user.role.ckan_admin
-    - user.role.editor
-    - user.role.publisher
     - captcha.captcha_point.contact_message_feedback_form
     - core.base_field_override.node.article.promote
   tags:
@@ -247,6 +241,12 @@
     - { src: system.performance.yml.j2, dest: system.performance.yml }
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
     - { src: locale.settings.yml.j2, dest: locale.settings.yml }
+    - { src: user.role.administrator.yml.j2, dest: user.role.administrator.yml }
+    - { src: user.role.anonymous.yml.j2, dest: user.role.anonymous.yml }
+    - { src: user.role.authenticated.yml.j2, dest: user.role.authenticated.yml }
+    - { src: user.role.ckan_admin.yml.j2, dest: user.role.ckan_admin.yml }
+    - { src: user.role.editor.yml.j2, dest: user.role.editor.yml }
+    - { src: user.role.publisher.yml.j2, dest: user.role.publisher.yml }
 
 - name: Import drupal settings
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"

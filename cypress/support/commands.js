@@ -52,7 +52,12 @@ Cypress.Commands.add('login', (username, password) => {
 Cypress.Commands.add('logout', () => {
   cy.visit('/user/logout');
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
-  cy.getCookies().should('have.length', 0);
+  // Check that authentication cookie doesn't exist anymore
+  cy.getCookies().each((cookie) => {
+    if(cookie.name){
+      expect(cookie).to.have.property('name').to.not.match(/^SESS/);
+    }
+  })
 })
   
 
@@ -115,7 +120,7 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   }
 
   // Make dataset public instead of private
-  cy.get("#field-private").select("False");
+  cy.get("#field-private").select("False").should('have.value', 'False');
 
   cy.get('button[name=save]').click();
 
@@ -136,7 +141,7 @@ Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
   cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
   cy.fill_form_fields(dataset_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.dataset-title-column').contains(dataset_name+'edit');
+  cy.get('.dataset-title').contains(dataset_name+'edit');
 })
 
 // Deletes a dataset and verifies that it is not found in the search anymore
@@ -206,7 +211,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
       "#field-title": 'edit',
     }
   }
-  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
+  cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).first().click();
   cy.fill_form_fields(showcase_form_data)
   cy.get('button[name=save]').click();
   cy.get('.page-heading').contains(showcase_name+'edit');
@@ -230,3 +235,19 @@ Cypress.Commands.add('reset_db', () => {
       cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
     }
 });
+
+Cypress.Commands.add('create_category', function (category_name) {
+
+
+  cy.visit('/data/group');
+  cy.get('a[href="/data/group/new"]').contains("Lisää").click();
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.get("input[name='name']").type(category_name);
+  cy.get('#field-title_translated-fi').type(category_name);
+  cy.get('#field-title_translated-sv').type(category_name);
+  cy.get('#field-title_translated-en').type(category_name);
+
+  cy.get('button[name="save"]').click();
+
+});
+

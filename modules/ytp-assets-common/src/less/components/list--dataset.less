@@ -1,0 +1,51 @@
+@import "../variables.less";
+
+.dataset-list {
+  padding: 0;
+}
+
+.dataset-item {
+  position: relative;
+
+  .dataset-content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #6e6e6e;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .dataset-heading {
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+
+    a {
+      color: @opendata-ckan-list-item-header;
+      font-weight: 400;
+      font-size: 18px;
+
+      &:hover,
+      &:active {
+        color: @opendata-ckan-list-item-header;
+      }
+    }
+  }
+
+  .dataset-item-notes {
+    min-height: 60px;
+  }
+
+  .dataset-item-organization {
+    color: @opendata-ckan-unhighlight;
+
+    a,
+    a:hover,
+    a:active {
+      color: @opendata-ckan-unhighlight;
+    }
+  }
+}

@@ -21,43 +21,65 @@ Example:
 <li class="{{ item_class or 'dataset-item' }}">
   {% block package_item_content %}
     <div class="dataset-content">
-      {% if package.organization.producer_type %}
-          <span class="producer-type" data-producer-type="{{package.organization.producer_type}}">{{ _(h.get_label_for_producer(package.organization.producer_type))}}</span>
+      {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
+        <span
+          class="producer-type"
+          data-producer-type="{{ package.organization.producer_type }}"
+        >
+          {{ _(h.get_label_for_producer(package.organization.producer_type)) }}
+        </span>
       {% endif %}
+
       <h3 class="dataset-heading">
         {% if package.private %}
-        <i class="fa fa-lock icon-private" title="{{ _('Private') }}"></i>
+          <i class="fa fa-lock icon-private" title="{{ _('Private') }}"></i>
         {% endif %}
         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
         {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
       </h3>
+
       {% if banner %}
         <span class="banner">{{ _('Popular') }}</span>
       {% endif %}
       {% if notes %}
-        <div class="dataset-item-notes">{{ notes|urlize }}</div>
+        <p class="dataset-item-notes pb-2 pr-4">
+          {{ notes | urlize }}
+        </p>
       {% endif %}
-      <div class="dataset-item-meta">
-        {% if package.get('state', '').startswith('draft') %}
-          <span class="collection-type draft label label-info">{{ _('Draft') }}</span>
-        {% elif package.get('state', '').startswith('deleted') %}
-          <span class="collection-type deleted label label-important">{{ _('Deleted') }}</span>
-        {% endif %}
-        {%- if package.get('resources') -%}
-          {% set formats = h.unique_formats(package.get('resources')) %}
+
+      <div class="d-flex justify-content-between flex-wrap">
+        <div>
+          {% if package.get('state', '').startswith('draft') %}
+            <span class="collection-type draft label label-info">
+              {{_('Draft')}}
+            </span>
+          {% elif package.get('state', '').startswith('deleted') %}
+            <span class="collection-type deleted label label-important">
+              {{_('Deleted')}}
+            </span>
+          {% endif %}
+
+          <span class="organization byline-dataset dataset-item-organization">
+            {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
+            {% if package.organization -%}
+              <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name')}}">
+                {{ package.organization.get('title') }}
+              </a>
+            {%- endif -%}
+          </span>
+        </div>
+
+        <div class="d-flex">
+          {%- if package.get('resources') -%}
+            {% set formats = h.unique_formats(package.get('resources')) %}
             {%- for format in formats -%}
-              <span class="format pull-right file-tag format--{{format|lower}}">{{_(format)}}</span>
+              <span class="format file-tag format--{{ format | lower }}">
+                {{ _(format) }}
+              </span>
             {%- endfor -%}
-        {%- endif -%}
-        <span class="organization byline-dataset organization-line">
-          {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
-          {% if package.organization -%}
-            <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name') }}">
-            {{ package.organization.get('title') }}</a>
           {%- endif -%}
-        </span>
+        </div>
       </div>
     </div>
   {% endblock %}
-
 </li>
