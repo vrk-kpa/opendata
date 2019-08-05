@@ -14,7 +14,7 @@
       <label for="field-add_group">{{_('Dataset categories')}}</label>
       <fieldset class="checkboxes" id="field-add_group">
         {% for group in h.group_list_with_selected(c.pkg_dict.groups) %}
-          <label class="ytp-checkbox" for="field-{{ group.name }}">
+          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ group.name }}">
             <input id="field-{{ group.name }}" type="checkbox" name="categories" value="{{group.name}}" {% if group.selected %} checked {% endif %}>
             <span class="custom-checkbox"></span>
             {{ h.get_translated(group, 'title') }}
