@@ -67,6 +67,16 @@
       "required": true
     },
     {
+      "field_name": "categories",
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox.html",
+      "choices_helper": "scheming_category_list",
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
+      "validators": "save_to_groups",
+      "display_snippet": null
+    },
+    {
       "field_name": "international_benchmarks",
       "label": "International benchmarks",
       "form_placeholder":"eg. Maps",

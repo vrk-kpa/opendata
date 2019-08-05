@@ -48,7 +48,6 @@ ckan_admins:
   - "{{ admin.username }}"
   - "test-editor"
 
-ckan_ytp_users: "{{ ytp_users }}"
 
 ckan_google_analytics: "{{ google_analytics }}"
 
