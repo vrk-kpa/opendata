@@ -4,29 +4,19 @@ describe('Advanced search tests', () => {
 
         // Admin things
         cy.login_post_request('admin', 'administrator');
-        // TODO: adding a group could be a custom action
-        cy.visit('/data/group/new')
-        fill_and_submit({
-            '#field-name': {value: 'siisti kategoria', force: true},
-            '#field-title_translated-fi': 'siisti kategoria',
-            '#field-title_translated-sv': 'kuularna kategorja',
-            '#field-title_translated-en': 'cool category',
-        })
-        cy.url().should('include', '/data/group/siisti-kategoria')
-        cy.visit('/data/group/new')
-        fill_and_submit({
-            '#field-name': {value: 'toinen kategoria', force: true},
-            '#field-title_translated-fi': 'toinen kategoria',
-            '#field-title_translated-sv': 'otra kategorja',
-            '#field-title_translated-en': 'other category',
-        })
-        cy.url().should('include', '/data/group/toinen-kategoria')
+
+        const category_name_1 = 'siisti kategoria';
+        const category_name_2 = 'toinen kategoria';
+
+        cy.create_category(category_name_1);
+        cy.create_category(category_name_2);
+
         cy.logout();
 
         // User things
         cy.login_post_request('test-user', 'test-user');
-        cy.visit('/');
-        cy.get('nav a[href="/data/fi/dataset"]').click();
+
+        // Create datasets
         const datasets = [
             {
                 name: 'first dataset',
@@ -85,13 +75,17 @@ describe('Advanced search tests', () => {
             cy.create_new_dataset(dataset.name, dataset.data, dataset.resource_data);
         }
 
+        // Add first dataset to group 'siisti kategoria'
         cy.visit(`/data/fi/dataset/groups/${datasets[0].name.replace(' ', '-')}`)
+        cy.get('#field-siisti-kategoria').check({force: true})
         cy.get('button[type=submit]').click()
 
+        // Navigate to advanced search
         cy.visit('/data/fi/advanced_search')
     });
 
     beforeEach(() => {
+        // Clear search fields, but not search results
         cy.get('button[name=clear]').click()
     })
 
