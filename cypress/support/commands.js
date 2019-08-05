@@ -65,10 +65,21 @@ Cypress.Commands.add('logout', () => {
  * @description
  * This function only fills the fields according to given parameters. 
  * Other actions, such as editing URL and clicking buttons are handled by
- * other more specififc functions, because of the small differences between
+ * other more specific functions, because of the small differences between
  * forms.
  * 
- * @param {object[]} form_data - The data to populate the form with
+ * @typedef FormFillOptions
+ * @type {Object}
+ * @property {string} [value] - The field value
+ * @property {'select' | 'check'} [type] - The type of method to use to populate field, default to type
+ * @property {boolean} [force] - Adds option force to field
+ * 
+ * @typedef {{[k: string]: string | FormFillOptions}} FormFillValues
+ * 
+ * @param {FormFillValues[]} form_data
+ * The data to populate the form with
+ * Keys are used as selectors to select the right field
+ * Values are either string or object
 */
 Cypress.Commands.add('fill_form_fields', (form_data) => {
     Object.keys(form_data).forEach(function(field_selector){

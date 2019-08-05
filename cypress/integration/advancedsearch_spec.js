@@ -85,8 +85,9 @@ describe('Advanced search tests', () => {
     });
 
     beforeEach(() => {
-        // Clear search fields, but not search results
-        cy.get('button[name=clear]').click()
+        // Use visit to clear search fields
+        // the timeout after visiting the url should be enough to let all the javascript load
+        cy.visit('/data/fi/advanced_search')
     })
 
     const fill_and_submit = (data) => {
