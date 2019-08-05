@@ -155,6 +155,9 @@ describe('Advanced search tests', () => {
     })
 
     describe('Use multiple select to filter query', () => {
+        beforeEach(() => {
+            cy.wait(3000)
+        })
         it('Open multiple select', () => {
             cy.get('#category-choicelist').should('not.be.visible')
             cy.get('button[for=advanced-search-dropdown-toggle-category]').click();
