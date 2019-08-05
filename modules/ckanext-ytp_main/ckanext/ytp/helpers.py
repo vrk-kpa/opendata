@@ -527,10 +527,10 @@ def group_list_with_selected(package_groups):
 
     return groups_with_selected
 
+
 def get_last_harvested_date(organization_name):
 
-
-    organization = get_action('organization_show')({},{'id': organization_name})
+    organization = get_action('organization_show')({}, {'id': organization_name})
 
     # if added by harvester to organization
     if not organization.get('last_harvested'):
@@ -542,7 +542,7 @@ def get_last_harvested_date(organization_name):
 
         related_harvest_objects = [source for source in harvest_sources if source.get('owner_org') == organization_name]
         related_harvest_jobs = list(itertools.chain.from_iterable(
-            [get_action('harvest_job_list')({}, {'source_id': source['id'], 'status': "Finished" })
+            [get_action('harvest_job_list')({}, {'source_id': source['id'], 'status': "Finished"})
              for source in related_harvest_objects]))
 
         finished_dates = [{"source": get_action('harvest_source_show')({}, {'id': source['source_id']}),
@@ -554,4 +554,4 @@ def get_last_harvested_date(organization_name):
         else:
             return
 
-    return {"source":{'title':organization.get("last_harvested_harvester")}, "date": organization.get('last_harvested')}
+    return {"source": {'title': organization.get("last_harvested_harvester")}, "date": organization.get('last_harvested')}
