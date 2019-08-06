@@ -1059,6 +1059,7 @@ class YtpIPermissionLabelsPlugin(
 
         return labels
 
+
 class OpenDataGroupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.interfaces.IActions)
 

@@ -520,7 +520,7 @@ def group_list_with_selected(package_groups):
     })
 
     user_group_ids = set(group[u'id'] for group in group_authz)
-    all_groups = [ group for group in all_groups if group[u'id'] in user_group_ids]
+    all_groups = [group for group in all_groups if group[u'id'] in user_group_ids]
 
     # Check which groups are selected
     groups_with_selected = []
