@@ -1070,8 +1070,6 @@ class OpenDataGroupPlugin(plugins.SingletonPlugin):
 
     @chained_action
     def _group_create(self, original_action, context, data_dict):
-        log.info("in group_create")
-
         auth_context = {'ignore_auth': True}
         users = get_action('user_list')(auth_context, {})
 
