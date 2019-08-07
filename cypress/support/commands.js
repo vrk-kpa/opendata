@@ -182,9 +182,8 @@ Cypress.Commands.add('delete_dataset', (dataset_name) => {
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(dataset_name + '{enter}');
-  cy.get('.dataset-list').should('not.exist');
-  cy.contains("ei löytynyt tietoaineistoja");
-})
+  cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).should('not.exist');
+});
 
 
 // Creates a new showcase filling both showcase and resource forms
