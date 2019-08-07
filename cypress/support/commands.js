@@ -61,15 +61,46 @@ Cypress.Commands.add('logout', () => {
 })
   
 
-// This function only fills the fields according to given parameters. 
-// Other actions, such as editing URL and clicking buttons are handled by
-// other more specififc functions, because of the small differences between
-// forms. 
+/** 
+ * @description
+ * This function only fills the fields according to given parameters. 
+ * Other actions, such as editing URL and clicking buttons are handled by
+ * other more specific functions, because of the small differences between
+ * forms.
+ * 
+ * @typedef FormFillOptions
+ * @type {Object}
+ * @property {string} [value] - The field value
+ * @property {'select' | 'check'} [type] - The type of method to use to populate field, default to type
+ * @property {boolean} [force] - Adds option force to field
+ * 
+ * @typedef {{[k: string]: string | FormFillOptions}} FormFillValues
+ * 
+ * @param {FormFillValues[]} form_data
+ * The data to populate the form with
+ * Keys are used as selectors to select the right field
+ * Values are either string or object
+*/
 Cypress.Commands.add('fill_form_fields', (form_data) => {
-  Object.keys(form_data).forEach(function(field_selector){
-    var field_value = form_data[field_selector];
-    cy.get(field_selector).type(field_value);
-  });  
+    Object.keys(form_data).forEach(function(field_selector){
+        const field_value = form_data[field_selector];
+        const field = cy.get(field_selector)
+        if (field_value && typeof field_value === 'object') {
+            const options = { force: field_value.force ? field_value.force : false };
+            switch(field_value.type) {
+                case 'select':
+                    field.select(field_value.value, options)
+                    break;
+                case 'check':
+                    field.check(options)
+                    break;
+                default:
+                    field.type(field_value.value, options)
+            }
+        } else {
+            field.type(field_value);
+        }
+    });
 })
 
 Cypress.Commands.add('create_new_organization', (organization_name, organization_form_data) => {
@@ -151,9 +182,10 @@ Cypress.Commands.add('delete_dataset', (dataset_name) => {
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(dataset_name + '{enter}');
-  cy.get('.dataset-list').should('not.exist');
-  cy.contains("ei löytynyt tietoaineistoja");
-})
+  cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).should('not.exist');
+  cy.visit(`/data/fi/dataset/${dataset_name}`);
+  cy.get('.deleted').should('exist');
+});
 
 
 // Creates a new showcase filling both showcase and resource forms
