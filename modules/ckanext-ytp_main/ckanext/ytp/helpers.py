@@ -478,6 +478,15 @@ def scheming_category_list(args):
         return None
     else:
         category_list = []
+
+        # filter groups to those user is allowed to edit
+        group_authz = get_action('group_list_authz')({
+            'model': model, 'session': model.Session, 'user': c.user
+        }, {})
+
+        user_group_ids = set(group[u'name'] for group in group_authz)
+        group_ids = [group for group in group_ids if group in user_group_ids]
+
         for group in group_ids:
             try:
                 context = {'model': model, 'session': model.Session, 'ignore_auth': True}
@@ -513,6 +522,15 @@ def group_list_with_selected(package_groups):
         context,
         {"all_fields": True, "include_extras": True},
     )
+
+    # filter groups to those user is allowed to edit
+    group_authz = get_action('group_list_authz')({
+        'model': model, 'session': model.Session, 'user': c.user
+    }, {})
+
+    user_group_ids = set(group[u'id'] for group in group_authz)
+    all_groups = [group for group in all_groups if group[u'id'] in user_group_ids]
+
     # Check which groups are selected
     groups_with_selected = []
     for group in all_groups:

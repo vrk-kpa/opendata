@@ -1,0 +1,105 @@
+From d8577247f9b40e957d46ecec019b92e7e0b3bf30 Mon Sep 17 00:00:00 2001
+From: Alice Butcher <alycejenni@gmail.com>
+Date: Wed, 17 Oct 2018 20:52:29 +0100
+Subject: [PATCH 1/2] Allow chaining off core actions
+
+Attempt to find an action from another plugin to override first, but failing that, override from the core actions.
+---
+ ckan/logic/__init__.py                        |  6 ++++--
+ .../datastore/tests/test_chained_action.py    | 21 ++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/ckan/logic/__init__.py b/ckan/logic/__init__.py
+index a885728927..815a86b314 100644
+--- a/ckan/logic/__init__.py
++++ b/ckan/logic/__init__.py
+@@ -430,11 +430,13 @@ def get_action(action):
+                 auth_function.auth_audit_exempt = True
+                 fetched_actions[name] = auth_function
+     for name, func_list in chained_actions.iteritems():
+-        if name not in fetched_actions:
++        if name not in fetched_actions and name not in _actions:
++            # nothing to override from plugins or core
+             raise NotFound('The action %r is not found for chained action' % (
+                 name))
+         for func in reversed(func_list):
+-            prev_func = fetched_actions[name]
++            # try other plugins first, fall back to core
++            prev_func = fetched_actions.get(name, _actions.get(name))
+             fetched_actions[name] = functools.partial(func, prev_func)
+
+     # Use the updated ones in preference to the originals.
+diff --git a/ckanext/datastore/tests/test_chained_action.py b/ckanext/datastore/tests/test_chained_action.py
+index 640b825bdd..8875435831 100644
+--- a/ckanext/datastore/tests/test_chained_action.py
++++ b/ckanext/datastore/tests/test_chained_action.py
+@@ -4,12 +4,18 @@
+ import ckan.plugins as p
+ import ckan.tests.helpers as helpers
+ import ckan.tests.factories as factories
++from ckan.logic.action.get import package_list as core_package_list
+
+ from ckanext.datastore.tests.helpers import DatastoreFunctionalTestBase
+
+ assert_equals = nose.tools.assert_equals
+ assert_raises = nose.tools.assert_raises
+
++package_list_message = u'The content of this message is largely irrelevant'
++
++class TestActionException(Exception):
++    pass
++
+
+ @p.toolkit.chained_action
+ def datastore_delete(up_func, context, data_dict):
+@@ -22,11 +28,19 @@ def datastore_delete(up_func, context, data_dict):
+     return result
+
+
++@p.toolkit.chained_action
++def package_list(next_func, context, data_dict):
++    # check it's received the core function as the first arg
++    assert_equals(next_func, core_package_list)
++    raise TestActionException(package_list_message)
++
++
+ class ExampleDataStoreDeletedWithCountPlugin(p.SingletonPlugin):
+     p.implements(p.IActions)
+
+     def get_actions(self):
+-        return ({u'datastore_delete': datastore_delete})
++        return ({u'datastore_delete': datastore_delete,
++                 u'package_list': package_list})
+
+
+ class TestChainedAction(DatastoreFunctionalTestBase):
+@@ -67,3 +81,8 @@ def _create_datastore_resource(self, records):
+         helpers.call_action(u'datastore_create', **data)
+
+         return resource
++
++    def test_chain_core_action(self):
++        with assert_raises(TestActionException) as raise_context:
++            helpers.call_action(u'package_list', {})
++        assert_equals(raise_context.exception.message, package_list_message)
+
+From ddbbeb00dc8d8d64809138c79f487d0ef4dd48e4 Mon Sep 17 00:00:00 2001
+From: Alice Butcher <alycejenni@gmail.com>
+Date: Thu, 18 Oct 2018 07:35:08 +0100
+Subject: [PATCH 2/2] pep8 fix
+
+---
+ ckanext/datastore/tests/test_chained_action.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ckanext/datastore/tests/test_chained_action.py b/ckanext/datastore/tests/test_chained_action.py
+index 8875435831..0085fd51a8 100644
+--- a/ckanext/datastore/tests/test_chained_action.py
++++ b/ckanext/datastore/tests/test_chained_action.py
+@@ -13,6 +13,7 @@
+
+ package_list_message = u'The content of this message is largely irrelevant'
+
++
+ class TestActionException(Exception):
+     pass
