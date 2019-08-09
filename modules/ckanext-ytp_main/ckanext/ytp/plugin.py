@@ -798,7 +798,8 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         import reports
         return [
             reports.administrative_branch_summary_report_info,
-            reports.deprecated_datasets_report_info
+            reports.deprecated_datasets_report_info,
+            reports.harvester_report_info
         ]
 
     def update_config(self, config):
