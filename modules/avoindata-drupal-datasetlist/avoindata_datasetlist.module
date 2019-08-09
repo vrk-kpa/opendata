@@ -55,7 +55,7 @@ function create_dataset_table_rows($dataset_list, $date_type) {
           : $dataset['title_translated']['fi']
       );
       $owner = '';
-      if ( array_key_exists('owner', $dataset)){
+      if (array_key_exists('owner', $dataset)) {
         $owner = $dataset['owner'];
       }
 
