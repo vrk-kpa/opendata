@@ -27,7 +27,17 @@ describe("Organization tests", function() {
     //Delete
     cy.get(`a[href='/data/fi/organization/edit/${organization_name}']`).click(); // Url shouldn't have changed
     cy.get('.form-actions').contains('Poista').click();
-    cy.get('.modal-dialog').find('.btn').contains('Vahvista').click();
+    cy.get('body').then($body =>{
+      if ($body.find('.modal-dialog').length > 0 ){
+        cy.get('.modal-dialog').find('.btn').contains('Vahvista').click()
+      }
+      else {
+        // Delete UI was rendered on its own page
+        cy.get('body').find('.btn').contains('Vahvista').click();
+      }
+    })
+
+
     cy.get('input[data-organization-filter]').type(organization_name);
     cy.get('.organization-tree').find('.organization-list-item:visible').should('have.length', 0);
   })
