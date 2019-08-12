@@ -744,6 +744,13 @@ class SixodpHarvester(HarvesterBase):
             result = self._create_or_update_package(
                 package_dict, harvest_object, package_dict_form='package_show')
 
+            if result:
+                log.info("Updating organization %s last_harvested date and harvester name %s",
+                         package_dict['owner_org'], harvest_object.job.source.title)
+                last_harvested_dict = {'id': package_dict['owner_org'], 'last_harvested': datetime.datetime.now(),
+                                       "last_harvested_harvester": harvest_object.job.source.title}
+                get_action('organization_patch')(base_context.copy(), last_harvested_dict)
+
             return result
         except ValidationError, e:
             log.error("ValidationError: %s" % e)
