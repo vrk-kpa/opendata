@@ -107,33 +107,37 @@ def _membeship_request_list_dictize(obj_list, context):
     result_list = []
     objs_with_group_id = (g for g in obj_list if g.group_id is not None)
     for obj in objs_with_group_id:
+        log.info(obj)
         member_dict = {}
-        organization = model.Session.query(model.Group).get(obj.group_id)
-        # Fetch the newest member_request associated to this membership (sort
-        # by last modified field)
-        member_request = model.Session.query(MemberRequest).filter(
-            MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
-        # Filter out those with cancel state as there is no need to show them to the end user
-        # Show however those with 'rejected' state as user may want to know about them
-        # HUOM! If a user creates itself a organization has already a
-        # membership but doesnt have a member_request
-        member_dict['organization_name'] = organization.name
-        member_dict['organization_id'] = obj.group_id
-        member_dict['role'] = 'admin'
-        member_dict['state'] = 'active'
-        # We use the member_request state since there is also rejected and
-        # cancel
-        if member_request is not None and member_request.status != 'cancel':
-            member_dict['state'] = member_request.status
-            member_dict['role'] = member_request.role
-            member_dict['request_date'] = member_request.request_date.strftime(
-                "%d - %b - %Y")
-            if member_request.handling_date:
-                member_dict['handling_date'] = member_request.handling_date.strftime(
+        organization = model.Session.query(model.Group)\
+            .filter(model.Group.is_organization == True)\
+            .filter(model.Group.id == obj.group_id).first()
+        if organization:
+            # Fetch the newest member_request associated to this membership (sort
+            # by last modified field)
+            member_request = model.Session.query(MemberRequest).filter(
+                MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
+            # Filter out those with cancel state as there is no need to show them to the end user
+            # Show however those with 'rejected' state as user may want to know about them
+            # HUOM! If a user creates itself a organization has already a
+            # membership but doesnt have a member_request
+            member_dict['organization_name'] = organization.name
+            member_dict['organization_id'] = obj.group_id
+            member_dict['role'] = 'admin'
+            member_dict['state'] = 'active'
+            # We use the member_request state since there is also rejected and
+            # cancel
+            if member_request is not None and member_request.status != 'cancel':
+                member_dict['state'] = member_request.status
+                member_dict['role'] = member_request.role
+                member_dict['request_date'] = member_request.request_date.strftime(
                     "%d - %b - %Y")
-                member_dict['handled_by'] = member_request.handled_by
-        if member_request is None or member_request.status != 'cancel':
-            result_list.append(member_dict)
+                if member_request.handling_date:
+                    member_dict['handling_date'] = member_request.handling_date.strftime(
+                        "%d - %b - %Y")
+                    member_dict['handled_by'] = member_request.handled_by
+            if member_request is None or member_request.status != 'cancel':
+                result_list.append(member_dict)
     return result_list
 
 
