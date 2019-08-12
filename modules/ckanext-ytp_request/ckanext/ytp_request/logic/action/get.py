@@ -124,7 +124,6 @@ def _membeship_request_list_dictize(obj_list, context):
         # We use the member_request state since there is also rejected and
         # cancel
         if member_request is not None and member_request.status != 'cancel':
-            #member_dict['state'] = member_request.status
             member_dict['role'] = member_request.role
             member_dict['request_date'] = member_request.request_date.strftime(
                 "%d - %b - %Y")
