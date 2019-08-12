@@ -110,7 +110,9 @@ def _membeship_request_list_dictize(obj_list, context):
         log.info(obj)
         member_dict = {}
         organization = model.Session.query(model.Group)\
-            .filter(model.Group.is_organization == True)\
+            .filter(
+                model.Group.is_organization == True # noqa E712
+            )\
             .filter(model.Group.id == obj.group_id).first()
         if organization:
             # Fetch the newest member_request associated to this membership (sort
