@@ -207,6 +207,7 @@ def openness_score_avg(context, datasets):
 def tuple_sum(*xs):
     return tuple(sum(x) for x in zip(*xs))
 
+
 def harvester_report():
 
     harvest_sources = get_action('harvest_source_list')({}, {})
@@ -216,6 +217,7 @@ def harvester_report():
     return {
         'sources': sources
     }
+
 
 harvester_report_info = {
     'name': 'harvester-status',
