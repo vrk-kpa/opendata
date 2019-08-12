@@ -87,6 +87,8 @@ def _translations():
     _('personal_datasets')
     _('State administration')
     _('Region')
+    _('Open Data')
+    _('Interoperability Tools')
     _('Public service')
     _('Cities')
     _('Education - Research')
@@ -172,4 +174,4 @@ def _translations():
 
 
 def facet_translations():
-    return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
+    return ["Open Data", "Interoperability Tools", "External", "Internal"]

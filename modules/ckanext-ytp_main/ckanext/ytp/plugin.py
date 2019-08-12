@@ -42,7 +42,8 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
-    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected
+    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
+    get_last_harvested_date
 
 from tools import create_system_context, get_original_method
 
@@ -724,6 +725,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
     def update_config(self, config):
@@ -778,6 +780,12 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             'admin_only_feature': validators.admin_only_feature
         }
 
+    # ITemplateHelpers
+    def get_helpers(self):
+        return {
+            "get_last_harvested_date": get_last_harvested_date
+        }
+
 
 class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(IReport)
@@ -790,7 +798,8 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         import reports
         return [
             reports.administrative_branch_summary_report_info,
-            reports.deprecated_datasets_report_info
+            reports.deprecated_datasets_report_info,
+            reports.harvester_report_info
         ]
 
     def update_config(self, config):

@@ -54,10 +54,15 @@ function create_dataset_table_rows($dataset_list, $date_type) {
           ? $dataset['title_translated'][$currentLang]
           : $dataset['title_translated']['fi']
       );
+      $owner = '';
+      if (array_key_exists('owner', $dataset)) {
+        $owner = $dataset['owner'];
+      }
+
       $resultHTML .= <<<EOT
       <tr>
         <td><a href="/data/fi/dataset/{$dataset['name']}"> {$translated_title} </a></td>
-        <td>{$dataset['owner']}</td>
+        <td>{$owner}</td>
         <td>{$created_date}</td>
       </tr>
 EOT;
