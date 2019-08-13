@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-05 09:54+0000\n"
+"POT-Creation-Date: 2019-08-12 11:40+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -91,6 +91,7 @@ msgstr "Muokkaa tai lisää kieliversioita"
 
 #: ckanext/ytp/controller.py:93 ckanext/ytp/templates/group/member_new.html:47
 #: ckanext/ytp/templates/organization/admin_list.html:53
+#: ckanext/ytp/templates/organization/bulk_process.html:29
 #: ckanext/ytp/templates/organization/member_new.html:49
 #: ckanext/ytp/templates/organization/members.html:43
 #: ckanext/ytp/templates/organization/user_list.html:53
@@ -248,7 +249,7 @@ msgstr ""
 
 #: ckanext/ytp/controller.py:954
 msgid "Profile updated"
-msgstr ""
+msgstr "Profiili päivitettiin"
 
 #: ckanext/ytp/converters.py:43
 msgid ""
@@ -832,6 +833,7 @@ msgid "Search groups..."
 msgstr "Etsi kategorioita..."
 
 #: ckanext/ytp/templates/group/index.html:4
+#: ckanext/ytp/templates/group/read_base.html:4
 #: ckanext/ytp/templates/package/group_list.html:3
 #: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:126
 msgid "Groups"
@@ -1055,6 +1057,24 @@ msgstr "Loppupäivä on ennen alkupäivää"
 msgid "Only sysadmin can change feature: %s"
 msgstr "Vain järjestelmän ylläpitäjät voivat muuttaa ominaisuutta: %s"
 
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:69
+msgid "Please Confirm Action"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:73
+msgid "Are you sure you want to perform this action?"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:75
+#: ckanext/ytp/public/javascript/translations.js:8
+msgid "Confirm"
+msgstr "Vahvista"
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:76
+#: ckanext/ytp/public/javascript/translations.js:9
+msgid "Cancel"
+msgstr "Peruuta"
+
 #: ckanext/ytp/public/javascript/translations.js:4
 msgid "or"
 msgstr "tai"
@@ -1070,14 +1090,6 @@ msgstr "Lisää verkko-osoite"
 #: ckanext/ytp/public/javascript/translations.js:7
 msgid "This field is required"
 msgstr "Pakollinen kenttä"
-
-#: ckanext/ytp/public/javascript/translations.js:8
-msgid "Confirm"
-msgstr "Vahvista"
-
-#: ckanext/ytp/public/javascript/translations.js:9
-msgid "Cancel"
-msgstr "Peruuta"
 
 #: ckanext/ytp/public/javascript/translations.js:10
 msgid "Subscribe to comments"
@@ -1158,8 +1170,9 @@ msgid "0 Datasets"
 msgstr "0 tietoaineistoa"
 
 #: ckanext/ytp/templates/group/snippets/info.html:16
+#: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:58
+#: ckanext/ytp/templates/snippets/package_item.html:48
 msgid "Deleted"
 msgstr "Poistettu"
 
@@ -1220,6 +1233,7 @@ msgid "Are you sure you want to delete this User?"
 msgstr "Haluatko varmasti poistaa tämän käyttäjän?"
 
 #: ckanext/ytp/templates/organization/admin_list.html:50
+#: ckanext/ytp/templates/organization/bulk_process.html:47
 #: ckanext/ytp/templates/organization/members.html:40
 #: ckanext/ytp/templates/organization/user_list.html:50
 #: ckanext/ytp/templates/package/resource_edit.html:11
@@ -1227,6 +1241,37 @@ msgstr "Haluatko varmasti poistaa tämän käyttäjän?"
 #: ckanext/ytp/templates/package/snippets/resource_item.html:68
 msgid "Edit"
 msgstr "Muokkaa"
+
+#: ckanext/ytp/templates/organization/bulk_process.html:18
+msgid "Make public"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:22
+msgid "Make private"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:25
+msgid "Are you sure you want to delete these datasets?"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:52
+#: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
+#: ckanext/ytp/templates/snippets/package_item.html:44
+msgid "Draft"
+msgstr "Vedos"
+
+#: ckanext/ytp/templates/organization/bulk_process.html:57
+#: ckanext/ytp/templates/package/read.html:9
+#: ckanext/ytp/templates/scheming/form_snippets/private.html:5
+#: ckanext/ytp/templates/snippets/package_item.html:26
+#: ckanext/ytp/templates/user/read_base.html:38
+#: ckanext/ytp/templates/user/read_base.html:52
+msgid "Private"
+msgstr "Yksityinen"
+
+#: ckanext/ytp/templates/organization/bulk_process.html:70
+msgid "This organization has no datasets associated to it"
+msgstr ""
 
 #: ckanext/ytp/templates/organization/edit_base.html:5
 #: ckanext/ytp/templates/package/edit_base.html:4
@@ -1347,14 +1392,6 @@ msgstr "Haluatko varmasti poistaa tietoaineiston?"
 #: ckanext/ytp/templates/package/new_resource.html:11
 msgid "Add data"
 msgstr "Lisää dataa"
-
-#: ckanext/ytp/templates/package/read.html:9
-#: ckanext/ytp/templates/scheming/form_snippets/private.html:5
-#: ckanext/ytp/templates/snippets/package_item.html:35
-#: ckanext/ytp/templates/user/read_base.html:38
-#: ckanext/ytp/templates/user/read_base.html:52
-msgid "Private"
-msgstr "Yksityinen"
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
 msgid "Edit resource"
@@ -1540,7 +1577,7 @@ msgid "Date Created Descending"
 msgstr "Luomispäivän mukaan laskevasti"
 
 #: ckanext/ytp/templates/package/search.html:69
-#: ckanext/ytp/templates/snippets/package_item.html:42
+#: ckanext/ytp/templates/snippets/package_item.html:33
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Suosittu"
@@ -1849,11 +1886,6 @@ msgstr ""
 "<p class=\"empty\">Tietoaineistosta ei voi lähettää palautetta, koska "
 "aineistolla ei ole ylläpitäjää.</p>"
 
-#: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:54
-msgid "Draft"
-msgstr "Vedos"
-
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
 msgstr "Kielet"
@@ -1899,6 +1931,34 @@ msgstr ""
 msgid "Deprecated"
 msgstr "Vanhentunut"
 
+#: ckanext/ytp/templates/report/harvester_report.html:5
+msgid "Harvester"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:6
+msgid "Last run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:7
+msgid "Next scheduled run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:8
+msgid "Overall statistics"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:9
+msgid "Times harvested"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Added"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Errors"
+msgstr ""
+
 #: ckanext/ytp/templates/report/index.html:3
 #: ckanext/ytp/templates/report/index.html:6
 msgid "Reports"
@@ -1907,6 +1967,16 @@ msgstr ""
 #: ckanext/ytp/templates/report/index.html:23
 msgid "View Report"
 msgstr ""
+
+#: ckanext/ytp/templates/report/index.html:33
+msgid ""
+" SLA report of the service is available in <a "
+"href=\"https://synthetics.newrelic.com/report/b9EHg\" "
+"target=\"_blank\">here</a>. "
+msgstr ""
+"Palvelun SLA raportti saatavissa <a "
+"href=\"https://synthetics.newrelic.com/report/b9EHg\" "
+"target=\"_blank\">täältä</a>."
 
 #: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:26
 msgid "No organization"
@@ -2109,7 +2179,7 @@ msgstr "Tällä organisaatiolla ei ole kuvausta"
 
 #: ckanext/ytp/templates/snippets/organization.html:68
 msgid "Last Harvested"
-msgstr "Viimeksi harvestoitu"
+msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3
@@ -2118,7 +2188,7 @@ msgstr "Etsi tietoaineistoja..."
 
 #: ckanext/ytp/templates/snippets/search_form.html:40
 msgid " Use advanced search "
-msgstr ""
+msgstr "Laajennettu haku"
 
 #: ckanext/ytp/templates/snippets/search_form.html:58
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
