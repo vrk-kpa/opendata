@@ -112,12 +112,12 @@ def _membeship_request_list_dictize(obj_list, context):
             .filter(
                 model.Group.is_organization == True # noqa E712
             )\
-            .filter(model.Group.id == obj.group_id).first()
+            .filter(model.Group.id == obj.group_id).one()
         if organization:
             # Fetch the newest member_request associated to this membership (sort
             # by last modified field)
             member_request = model.Session.query(MemberRequest).filter(
-                MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).one()
+                MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
             # Filter out those with cancel state as there is no need to show them to the end user
             # Show however those with 'rejected' state as user may want to know about them
             # HUOM! If a user creates itself a organization has already a
