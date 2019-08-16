@@ -81,6 +81,7 @@ def _translations():
     _('Temporal coverage from')
     _('Temporal coverage to')
     _('Showcase name')
+    _('Categories')
 
     # Values
     _('public_administration_organization')
