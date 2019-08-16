@@ -112,7 +112,7 @@ def _membeship_request_list_dictize(obj_list, context):
             .filter(
                 model.Group.is_organization == True # noqa E712
             )\
-            .filter(model.Group.id == obj.group_id).one()
+            .filter(model.Group.id == obj.group_id).one_or_none()
         if organization:
             # Fetch the newest member_request associated to this membership (sort
             # by last modified field)
