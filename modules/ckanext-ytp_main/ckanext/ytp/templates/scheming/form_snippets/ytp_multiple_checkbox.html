@@ -11,8 +11,11 @@ fieldset.checkboxes label input {
 }
 </style>
 {% if tmpl_context.action == 'edit' %}
+  {% set category_url = h.url_for('dataset_groups', id=data['name']) %}
   <label class="control-label" for="field-{{ field.field_name }}">{{ h.scheming_language_text(field.label) }}</label>
-  Categories can be edited from <a href="{{ h.url_for('dataset_groups', id=data['name']) }}">here</a>
+  {% trans %}
+    Categories can be edited from <a href="{{ category_url }}">here</a>
+  {% endtrans %}
 {% else %}
     {%- call form.input_block(
         label=h.scheming_language_text(field.label),
