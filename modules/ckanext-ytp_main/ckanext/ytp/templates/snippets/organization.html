@@ -61,6 +61,15 @@ Example:
         {% endblock %}
       {% endif %}
       {% endblock %}
+
+      {% set last_harvested = h.get_last_harvested_date(organization.name) %}
+      {% if last_harvested %}
+        <div class="harvesting-information">
+          {{_('Last Harvested') }}: {{ h.render_datetime(last_harvested.date, with_hours=True)}}
+          {% set url = h.url_for('harvest_read', id=last_harvested.source.title or last_harvested.source.name) %}
+          {{ h.link_to(h.truncate(last_harvested.source.title or last_harvested.source.name), url) }}
+        </div>
+      {% endif %}
     </section>
   </div>
   {% endblock %}

@@ -87,6 +87,8 @@ def _translations():
     _('personal_datasets')
     _('State administration')
     _('Region')
+    _('Open Data')
+    _('Interoperability Tools')
     _('Public service')
     _('Cities')
     _('Education - Research')
@@ -151,6 +153,17 @@ def _translations():
       'openly accessible, structured, open format, URIs for entities, linked.')
     _('Deprecated datasets')
     _('Datasets that have deprecated')
+    _('Google analytics showing most audience locations (bot traffic is filtered out)')
+    _('Least popular datasets')
+    _('Google analytics showing top datasets with least views')
+    _('Most popular datasets')
+    _('Google analytics showing top datasets with most views')
+    _('Most popular organizations')
+    _('Google analytics showing most popular organizations by visited datasets')
+    _('Most popular resources')
+    _('Google analytics showing most downloaded resources')
+    _('Most popular search terms')
+    _('Google analytics showing most popular search terms')
 
     # Hierarchy
     _('The dataset amount of the organization is shown beside the organization name.')
@@ -161,4 +174,4 @@ def _translations():
 
 
 def facet_translations():
-    return ["Open Data", "Interoperability Tools", "Public Service", "External", "Internal"]
+    return ["Open Data", "Interoperability Tools", "External", "Internal"]

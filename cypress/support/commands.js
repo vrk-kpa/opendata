@@ -61,15 +61,46 @@ Cypress.Commands.add('logout', () => {
 })
   
 
-// This function only fills the fields according to given parameters. 
-// Other actions, such as editing URL and clicking buttons are handled by
-// other more specififc functions, because of the small differences between
-// forms. 
+/** 
+ * @description
+ * This function only fills the fields according to given parameters. 
+ * Other actions, such as editing URL and clicking buttons are handled by
+ * other more specific functions, because of the small differences between
+ * forms.
+ * 
+ * @typedef FormFillOptions
+ * @type {Object}
+ * @property {string} [value] - The field value
+ * @property {'select' | 'check'} [type] - The type of method to use to populate field, default to type
+ * @property {boolean} [force] - Adds option force to field
+ * 
+ * @typedef {{[k: string]: string | FormFillOptions}} FormFillValues
+ * 
+ * @param {FormFillValues[]} form_data
+ * The data to populate the form with
+ * Keys are used as selectors to select the right field
+ * Values are either string or object
+*/
 Cypress.Commands.add('fill_form_fields', (form_data) => {
-  Object.keys(form_data).forEach(function(field_selector){
-    var field_value = form_data[field_selector];
-    cy.get(field_selector).type(field_value);
-  });  
+    Object.keys(form_data).forEach(function(field_selector){
+        const field_value = form_data[field_selector];
+        const field = cy.get(field_selector)
+        if (field_value && typeof field_value === 'object') {
+            const options = { force: field_value.force ? field_value.force : false };
+            switch(field_value.type) {
+                case 'select':
+                    field.select(field_value.value, options)
+                    break;
+                case 'check':
+                    field.check(options)
+                    break;
+                default:
+                    field.type(field_value.value, options)
+            }
+        } else {
+            field.type(field_value);
+        }
+    });
 })
 
 Cypress.Commands.add('create_new_organization', (organization_name, organization_form_data) => {
@@ -120,7 +151,7 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   }
 
   // Make dataset public instead of private
-  cy.get("#field-private").select("False");
+  cy.get("#field-private").select("False").should('have.value', 'False');
 
   cy.get('button[name=save]').click();
 
@@ -141,7 +172,7 @@ Cypress.Commands.add('edit_dataset', (dataset_name, dataset_form_data) => {
   cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
   cy.fill_form_fields(dataset_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.dataset-title-column').contains(dataset_name+'edit');
+  cy.get('.dataset-title').contains(dataset_name+'edit');
 })
 
 // Deletes a dataset and verifies that it is not found in the search anymore
@@ -151,9 +182,10 @@ Cypress.Commands.add('delete_dataset', (dataset_name) => {
   cy.contains('Haluatko varmasti poistaa tietoaineiston');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(dataset_name + '{enter}');
-  cy.get('.dataset-list').should('not.exist');
-  cy.contains("ei löytynyt tietoaineistoja");
-})
+  cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).should('not.exist');
+  cy.visit(`/data/fi/dataset/${dataset_name}`);
+  cy.get('.deleted').should('exist');
+});
 
 
 // Creates a new showcase filling both showcase and resource forms
@@ -235,3 +267,19 @@ Cypress.Commands.add('reset_db', () => {
       cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
     }
 });
+
+Cypress.Commands.add('create_category', function (category_name) {
+
+
+  cy.visit('/data/group');
+  cy.get('a[href="/data/group/new"]').contains("Lisää").click();
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.get("input[name='name']").type(category_name);
+  cy.get('#field-title_translated-fi').type(category_name);
+  cy.get('#field-title_translated-sv').type(category_name);
+  cy.get('#field-title_translated-en').type(category_name);
+
+  cy.get('button[name="save"]').click();
+
+});
+

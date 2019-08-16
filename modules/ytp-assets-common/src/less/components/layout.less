@@ -1,0 +1,88 @@
+@import '../variables';
+
+// ------------------
+// Main layout styles
+// ------------------
+
+body {
+  .flex-display(flex);
+  .flex-direction(column);
+
+  min-height: 100vh;
+}
+
+[role='main'] {
+  background: transparent;
+  padding-top: 0;
+}
+
+.page_wrapper {
+  max-width: none;
+}
+
+#content {
+  width: inherit;
+  padding: 0;
+}
+
+#content > .wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0 auto;
+  max-width: 1140px;
+  padding: 0 25px;
+}
+
+.container-fluid .wrapper {
+  @media (max-width: @screen-sm-min) {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
+.wrapper {
+  @media (min-width: @screen-sm-min) {
+    &::before {
+      border-right: transparent;
+    }
+  }
+}
+
+// Report grid
+@media (min-width: 768px) {
+  .dataset > .row.equal {
+    .flex-display(flex);
+    .flex-wrap(wrap);
+  }
+}
+
+.context-info .module-content {
+  padding: 0;
+}
+
+#content > .wrapper > .primary {
+  &:first-child > .module > .module-content {
+    padding-left: 0;
+  }
+
+  &:last-child > .module > .module-content {
+    padding-right: 0;
+  }
+}
+
+// Blue bar that divides elements
+.spacer {
+  width: 7%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 6px solid @sidebar-block-color-header;
+}
+
+// Streches content to be 100% of view width, even though it would be inside a wrapping container
+// NOTE: works only for centered content
+.fullwidth-container {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}

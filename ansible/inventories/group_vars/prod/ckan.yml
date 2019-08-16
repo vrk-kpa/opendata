@@ -32,7 +32,6 @@ ckan_beaker_session_secret: "{{ secret_beaker_session_secret }}"
 ckan_app_instance_uuid: "{{ secret_app_instance_uuid }}"
 ckan_google_analytics: "{{ secret_google_analytics }}"
 ckan_google_credentials: "{{ secret_google_credentials }}"
-ckan_ytp_users: "{{ secret_ytp_users }}"
 ckan_error_email: "{{ secret_error_email }}"
 
 ckan_recaptcha_public_key: "{{ secret_recaptcha_public_key }}"
@@ -47,3 +46,5 @@ ckan_solr_host: "{{ lookup('aws_ssm', '/prod/web/private_alb_address', region='e
 
 ckan_deployment_environment_id: 'prod'
 ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
+
+ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"

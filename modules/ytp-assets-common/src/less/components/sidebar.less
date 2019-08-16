@@ -1,0 +1,80 @@
+@import '../variables.less';
+
+.tertiary .control-order-by label {
+  font-weight: 700;
+}
+
+.secondary,
+aside.tertiary {
+  padding-left: 0;
+
+  .module,
+  .opendata-card {
+    padding: 4px 22px 15px 0;
+    border-top: 6px solid @sidebar-block-color-header;
+    border-radius: 2px;
+    background-color: @sidebar-block-color-background;
+    color: @sidebar-block-color-text;
+    margin-bottom: 15px;
+    overflow: hidden;
+
+    .module-content {
+      padding-left: 15px;
+
+      .nav > li > a {
+        margin-left: -15px;
+        padding: 10px 15px;
+        color: @sidebar-block-color-text;
+        border-left: 8px solid @sidebar-block-color-background;
+
+        &:hover {
+          border-left: 8px solid @sidebar-block-color-header;
+        }
+      }
+    }
+
+    .module-heading {
+      .flex-display(flex);
+
+      margin-top: 10px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      margin-left: 15px;
+      padding-right: 0;
+      padding-bottom: 8px;
+      padding-left: 0;
+      padding-top: 0;
+      .align-items(center);
+
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      border-top: none;
+      background-color: transparent;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: bold;
+    }
+
+    .module-footer {
+      border: none;
+    }
+
+    nav > ul > li.nav-item.active {
+      font-weight: 700;
+    }
+  }
+}
+
+.module-narrow > .btn,
+.module-narrow > a {
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.module-narrow {
+  .list-unstyled {
+    padding-left: 0;
+  }
+}

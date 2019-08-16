@@ -1,0 +1,22 @@
+@import '../variables.less';
+
+.toolbar {
+  background-color: @breadcrumb-color-background;
+
+  .breadcrumb {
+    max-width: 1140px;
+    margin: 0 auto;
+    float: none;
+    padding: 0 15px;
+
+    li {
+      font-size: 14px;
+      line-height: 20px;
+      padding: 10px 0;
+    }
+
+    li::after {
+      content: "";
+    }
+  }
+}
