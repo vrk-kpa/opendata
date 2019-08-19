@@ -169,7 +169,6 @@ def _translations():
     _('Harvester statuses')
     _('No jobs yet')
 
-
     # Hierarchy
     _('The dataset amount of the organization is shown beside the organization name.')
     _('Organizations with no datasets are shown in this list only when using the search functionality')
