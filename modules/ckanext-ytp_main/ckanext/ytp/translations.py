@@ -165,6 +165,9 @@ def _translations():
     _('Google analytics showing most downloaded resources')
     _('Most popular search terms')
     _('Google analytics showing most popular search terms')
+    _('Harvester status')
+    _('Harvester statuses')
+    _('No jobs yet')
 
     # Hierarchy
     _('The dataset amount of the organization is shown beside the organization name.')

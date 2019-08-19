@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-16 06:31+0000\n"
+"POT-Creation-Date: 2019-08-19 11:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -958,17 +958,29 @@ msgstr ""
 msgid "Google analytics showing most popular search terms"
 msgstr ""
 
+#: ckanext/ytp/translations.py:168
+msgid "Harvester status"
+msgstr ""
+
+#: ckanext/ytp/translations.py:169
+msgid "Harvester statuses"
+msgstr ""
+
 #: ckanext/ytp/translations.py:170
+msgid "No jobs yet"
+msgstr ""
+
+#: ckanext/ytp/translations.py:174
 msgid "The dataset amount of the organization is shown beside the organization name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:171
+#: ckanext/ytp/translations.py:175
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/translations.py:174
+#: ckanext/ytp/translations.py:178
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
@@ -1074,7 +1086,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
-#: ckanext/ytp/templates/snippets/search_form.html:80
+#: ckanext/ytp/templates/snippets/search_form.html:82
 msgid "Hide search filters"
 msgstr ""
 
@@ -1870,6 +1882,10 @@ msgstr ""
 msgid "Times harvested"
 msgstr ""
 
+#: ckanext/ytp/templates/report/harvester_report.html:28
+msgid "Not yet scheduled"
+msgstr ""
+
 #: ckanext/ytp/templates/report/harvester_report.html:31
 msgid "Added"
 msgstr ""
@@ -2105,34 +2121,30 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:40
-msgid " Use advanced search "
-msgstr ""
-
-#: ckanext/ytp/templates/snippets/search_form.html:58
+#: ckanext/ytp/templates/snippets/search_form.html:60
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:67
+#: ckanext/ytp/templates/snippets/search_form.html:69
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:74
+#: ckanext/ytp/templates/snippets/search_form.html:76
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:98
+#: ckanext/ytp/templates/snippets/search_form.html:100
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:110
+#: ckanext/ytp/templates/snippets/search_form.html:112
 msgid " Please try another search or change search facets. "
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:118
+#: ckanext/ytp/templates/snippets/search_form.html:120
 msgid " <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
 

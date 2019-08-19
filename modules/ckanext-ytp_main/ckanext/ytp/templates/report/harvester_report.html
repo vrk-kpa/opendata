@@ -19,13 +19,13 @@
     </td>
     <td>
       {% if row.status.last_harvest_request %}
-        {{ row.status.last_harvest_request }}
+        {{ h.render_datetime(row.status.last_harvest_request, with_hours=True) }}
       {% else %}
-        {{ row.status.msg }}
+        {{ _(row.status.msg) }}
       {% endif %}
     </td>
     <td>
-      {{ row.status.next_harvest }}
+      {{ h.render_datetime(row.next_run, with_hours=True) or _('Not yet scheduled') }}
     </td>
     <td>
       {{_('Added') }}: {{ row.status.overall_statistics.added }}, {{ _('Errors')}}: {{ row.status.overall_statistics.errors }}
