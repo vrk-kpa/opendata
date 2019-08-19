@@ -9,8 +9,8 @@
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # 
 #, fuzzy
@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-05 09:54+0000\n"
+"POT-Creation-Date: 2019-08-19 11:36+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -248,7 +248,7 @@ msgstr ""
 
 #: ckanext/ytp/controller.py:954
 msgid "Profile updated"
-msgstr ""
+msgstr "Profiili päivitettiin"
 
 #: ckanext/ytp/converters.py:43
 msgid ""
@@ -946,56 +946,69 @@ msgstr "Tietoaineistot jotka ovat vanhentuneet"
 msgid ""
 "Google analytics showing most audience locations (bot traffic is filtered "
 "out)"
-msgstr ""
+msgstr "Vierailijoiden sijainnit maittain (ei sisällä bottiliikennettä)"
 
 #: ckanext/ytp/translations.py:157
 msgid "Least popular datasets"
-msgstr ""
+msgstr "Vähiten katsotut tietoaineistot"
 
 #: ckanext/ytp/translations.py:158
 msgid "Google analytics showing top datasets with least views"
-msgstr ""
+msgstr "Vähiten katsotut tietoaineistot"
 
 #: ckanext/ytp/translations.py:159
 msgid "Most popular datasets"
-msgstr ""
+msgstr "Eniten katsotut tietoaineistot"
 
 #: ckanext/ytp/translations.py:160
 msgid "Google analytics showing top datasets with most views"
-msgstr ""
+msgstr "Eniten katsotut tietoaineistot"
 
 #: ckanext/ytp/translations.py:161
 msgid "Most popular organizations"
-msgstr ""
+msgstr "Suosituimmat tuottajat"
 
 #: ckanext/ytp/translations.py:162
 msgid ""
 "Google analytics showing most popular organizations by visited datasets"
 msgstr ""
+"Suosituimmat organisaatiot tietoaineistojen katsomiskertojen perusteella"
 
 #: ckanext/ytp/translations.py:163
 msgid "Most popular resources"
-msgstr ""
+msgstr "Suosituimmat aineistolinkit"
 
 #: ckanext/ytp/translations.py:164
 msgid "Google analytics showing most downloaded resources"
-msgstr ""
+msgstr "Ladatuimmat aineistolinkit"
 
 #: ckanext/ytp/translations.py:165
 msgid "Most popular search terms"
-msgstr ""
+msgstr "Suosituimmat hakusanat"
 
 #: ckanext/ytp/translations.py:166
 msgid "Google analytics showing most popular search terms"
-msgstr ""
+msgstr "Suosituimmat hakusanat"
+
+#: ckanext/ytp/translations.py:167
+msgid "Harvester status"
+msgstr "Harvesterien tila"
+
+#: ckanext/ytp/translations.py:168
+msgid "Harvester statuses"
+msgstr "Harvesterien tilat"
 
 #: ckanext/ytp/translations.py:169
+msgid "No jobs yet"
+msgstr "Ei harvestointi ajoja vielä."
+
+#: ckanext/ytp/translations.py:173
 msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
 msgstr "Tietoaineistojen lukumäärä esitetään organisaation nimen vieressä."
 
-#: ckanext/ytp/translations.py:170
+#: ckanext/ytp/translations.py:174
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
@@ -1003,7 +1016,7 @@ msgstr ""
 "Organisaatiot, joilla ei ole tietoaineistoja näkyvät listauksessa ainoastaan"
 " hakutoimintoa käyttämällä."
 
-#: ckanext/ytp/translations.py:173
+#: ckanext/ytp/translations.py:177
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr "Organisaatiota ei voida poistaa, koska sillä on tietoaineistoja"
 
@@ -1899,6 +1912,38 @@ msgstr ""
 msgid "Deprecated"
 msgstr "Vanhentunut"
 
+#: ckanext/ytp/templates/report/harvester_report.html:5
+msgid "Harvester"
+msgstr "Harvesteri"
+
+#: ckanext/ytp/templates/report/harvester_report.html:6
+msgid "Last run"
+msgstr "Viimeksi ajettu"
+
+#: ckanext/ytp/templates/report/harvester_report.html:7
+msgid "Next scheduled run"
+msgstr "Seuraava ajoitettu ajo"
+
+#: ckanext/ytp/templates/report/harvester_report.html:8
+msgid "Overall statistics"
+msgstr "Kokonaistilastot"
+
+#: ckanext/ytp/templates/report/harvester_report.html:9
+msgid "Times harvested"
+msgstr "Harvestointikerrat"
+
+#: ckanext/ytp/templates/report/harvester_report.html:28
+msgid "Not yet scheduled"
+msgstr "Ei vielä ajoitettu"
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Added"
+msgstr "Lisätty"
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Errors"
+msgstr "Virheitä"
+
 #: ckanext/ytp/templates/report/index.html:3
 #: ckanext/ytp/templates/report/index.html:6
 msgid "Reports"
@@ -2109,7 +2154,7 @@ msgstr "Tällä organisaatiolla ei ole kuvausta"
 
 #: ckanext/ytp/templates/snippets/organization.html:68
 msgid "Last Harvested"
-msgstr "Viimeksi harvestoitu"
+msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3

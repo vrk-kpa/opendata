@@ -212,7 +212,7 @@ def harvester_report():
 
     harvest_sources = get_action('harvest_source_list')({}, {})
 
-    sources = [{"id": source['id'], "title": source['title'], "status": source['status']} for source in harvest_sources]
+    sources = [{"id": source['id'], "title": source['title'], "status": source['status'], "next_run": source['next_run']} for source in harvest_sources]
 
     return {
         'sources': sources

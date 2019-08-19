@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-05 09:54+0000\n"
+"POT-Creation-Date: 2019-08-19 11:36+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -974,7 +974,19 @@ msgstr ""
 msgid "Google analytics showing most popular search terms"
 msgstr ""
 
+#: ckanext/ytp/translations.py:167
+msgid "Harvester status"
+msgstr ""
+
+#: ckanext/ytp/translations.py:168
+msgid "Harvester statuses"
+msgstr ""
+
 #: ckanext/ytp/translations.py:169
+msgid "No jobs yet"
+msgstr ""
+
+#: ckanext/ytp/translations.py:173
 msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
@@ -982,7 +994,7 @@ msgstr ""
 "The amount of datasets by each organisation is shown next to the "
 "organisation’s name."
 
-#: ckanext/ytp/translations.py:170
+#: ckanext/ytp/translations.py:174
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
@@ -990,7 +1002,7 @@ msgstr ""
 "Organisations with no datasets are shown in this list only when using the "
 "search functionality"
 
-#: ckanext/ytp/translations.py:173
+#: ckanext/ytp/translations.py:177
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
@@ -1851,6 +1863,38 @@ msgstr ""
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
 msgid "Deprecated"
 msgstr "Outdated"
+
+#: ckanext/ytp/templates/report/harvester_report.html:5
+msgid "Harvester"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:6
+msgid "Last run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:7
+msgid "Next scheduled run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:8
+msgid "Overall statistics"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:9
+msgid "Times harvested"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:28
+msgid "Not yet scheduled"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Added"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Errors"
+msgstr ""
 
 #: ckanext/ytp/templates/report/index.html:3
 #: ckanext/ytp/templates/report/index.html:6
