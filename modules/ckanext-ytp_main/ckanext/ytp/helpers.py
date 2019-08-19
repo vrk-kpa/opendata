@@ -574,5 +574,6 @@ def get_last_harvested_date(organization_name):
 
     return {"source": {'title': organization.get("last_harvested_harvester")}, "date": organization.get('last_harvested')}
 
+
 def get_resource_sha256(resource_id):
     return get_action('resource_status')({}, {'id': resource_id}).get('sha256') or _('-')
