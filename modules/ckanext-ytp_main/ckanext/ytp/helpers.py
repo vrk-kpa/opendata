@@ -576,5 +576,5 @@ def get_last_harvested_date(organization_name):
 
 
 def get_resource_sha256(resource_id):
-    context = { 'model': model, 'session': model.Session, 'user': c.user }
-    return get_action('resource_status')(context {'id': resource_id}).get('sha256') or _('-')
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    return get_action('resource_status')(context, {'id': resource_id}).get('sha256') or _('-')
