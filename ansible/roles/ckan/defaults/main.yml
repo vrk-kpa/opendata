@@ -212,6 +212,7 @@ ckan_patches:
   - group_admin_protection # https://github.com/ckan/ckan/pull/4821
   - remove_gravatar
   - add_chaining_of_core_actions # https://github.com/ckan/ckan/pull/4509
+  - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
