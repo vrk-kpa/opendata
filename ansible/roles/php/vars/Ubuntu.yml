@@ -2,3 +2,4 @@
 php_fpm_package: php7.2-fpm
 php_fpm_service: php7.2-fpm.service
 php_fpm_config_file: /etc/php/7.2/fpm/pool.d/www.conf
+php_fpm_ini_file: /etc/php/7.2/fpm/php.ini

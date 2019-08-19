@@ -35,6 +35,7 @@
         {% set disableable_sorting = [(_('Name Ascending'), 'name asc'), (_('Name Descending'), 'name desc')] %}
     {% endif %}
 
+  {#
     <div class="mt-2 d-flex justify-content-end">
         <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" class="btn-avoindata-header">
             {% trans %}
@@ -42,6 +43,7 @@
             {% endtrans %}
         </a>
     </div>
+  #}
     <div class="d-flex flex-wrap justify-content-between mt-3">
         {% block search_title %}
             {% if not no_title %}

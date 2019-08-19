@@ -22,7 +22,7 @@ from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, Defaul
 from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
-from ckan.plugins.toolkit import config
+from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.showcase.model import ShowcaseAdmin
@@ -1067,3 +1067,24 @@ class YtpIPermissionLabelsPlugin(
             labels.append(u'showcase-admin')
 
         return labels
+
+
+class OpenDataGroupPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.interfaces.IActions)
+
+    def get_actions(self):
+        return {
+            "group_create": self._group_create
+        }
+
+    @chained_action
+    def _group_create(self, original_action, context, data_dict):
+        auth_context = {'ignore_auth': True}
+        users = get_action('user_list')(auth_context, {})
+
+        data_dicts = []
+        for user in users:
+            data_dicts.append({'name': user['name'], 'capacity': 'editor'})
+
+        data_dict['users'] = data_dicts
+        return original_action(context, data_dict)

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-19 11:36+0000\n"
+"POT-Creation-Date: 2019-08-19 11:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,6 +80,7 @@ msgstr ""
 
 #: ckanext/ytp/controller.py:93 ckanext/ytp/templates/group/member_new.html:47
 #: ckanext/ytp/templates/organization/admin_list.html:53
+#: ckanext/ytp/templates/organization/bulk_process.html:29
 #: ckanext/ytp/templates/organization/member_new.html:49
 #: ckanext/ytp/templates/organization/members.html:43
 #: ckanext/ytp/templates/organization/user_list.html:53
@@ -659,322 +660,327 @@ msgstr ""
 msgid "Showcase name"
 msgstr ""
 
-#: ckanext/ytp/translations.py:86
-msgid "public_administration_organization"
+#: ckanext/ytp/translations.py:84
+msgid "Categories"
 msgstr ""
 
 #: ckanext/ytp/translations.py:87
-msgid "personal_datasets"
+msgid "public_administration_organization"
 msgstr ""
 
 #: ckanext/ytp/translations.py:88
-msgid "State administration"
+msgid "personal_datasets"
 msgstr ""
 
 #: ckanext/ytp/translations.py:89
-msgid "Region"
+msgid "State administration"
 msgstr ""
 
 #: ckanext/ytp/translations.py:90
-msgid "Open Data"
+msgid "Region"
 msgstr ""
 
 #: ckanext/ytp/translations.py:91
-msgid "Interoperability Tools"
+msgid "Open Data"
 msgstr ""
 
 #: ckanext/ytp/translations.py:92
-msgid "Public service"
+msgid "Interoperability Tools"
 msgstr ""
 
 #: ckanext/ytp/translations.py:93
-msgid "Cities"
+msgid "Public service"
 msgstr ""
 
 #: ckanext/ytp/translations.py:94
-msgid "Education - Research"
+msgid "Cities"
 msgstr ""
 
 #: ckanext/ytp/translations.py:95
-msgid "Enterprise"
+msgid "Education - Research"
 msgstr ""
 
 #: ckanext/ytp/translations.py:96
-msgid "Person"
+msgid "Enterprise"
 msgstr ""
 
 #: ckanext/ytp/translations.py:97
-msgid "Society - Trust"
+msgid "Person"
 msgstr ""
 
 #: ckanext/ytp/translations.py:98
-msgid "active"
+msgid "Society - Trust"
 msgstr ""
 
 #: ckanext/ytp/translations.py:99
-msgid "deleted"
+msgid "active"
 msgstr ""
 
 #: ckanext/ytp/translations.py:100
-msgid "draft"
+msgid "deleted"
 msgstr ""
 
 #: ckanext/ytp/translations.py:101
-msgid "Current version"
+msgid "draft"
 msgstr ""
 
 #: ckanext/ytp/translations.py:102
-msgid "Archived version"
+msgid "Current version"
 msgstr ""
 
 #: ckanext/ytp/translations.py:103
+msgid "Archived version"
+msgstr ""
+
+#: ckanext/ytp/translations.py:104
 msgid "Draft version"
 msgstr ""
 
-#: ckanext/ytp/translations.py:106
+#: ckanext/ytp/translations.py:107
 msgid "Log in"
 msgstr ""
 
-#: ckanext/ytp/translations.py:107
+#: ckanext/ytp/translations.py:108
 msgid "Log out"
 msgstr ""
 
-#: ckanext/ytp/translations.py:108
+#: ckanext/ytp/translations.py:109
 msgid "Publish Datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:109
+#: ckanext/ytp/translations.py:110
 msgid "News"
 msgstr ""
 
-#: ckanext/ytp/translations.py:110
+#: ckanext/ytp/translations.py:111
 msgid "About us"
 msgstr ""
 
-#: ckanext/ytp/translations.py:111
+#: ckanext/ytp/translations.py:112
 msgid "Files"
 msgstr ""
 
-#: ckanext/ytp/translations.py:112
+#: ckanext/ytp/translations.py:113
 msgid "Guide to Open Data"
 msgstr ""
 
-#: ckanext/ytp/translations.py:113
+#: ckanext/ytp/translations.py:114
 msgid "User Info"
 msgstr ""
 
-#: ckanext/ytp/translations.py:114
+#: ckanext/ytp/translations.py:115
 msgid "Training"
 msgstr ""
 
-#: ckanext/ytp/translations.py:115
+#: ckanext/ytp/translations.py:116
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr ""
 
-#: ckanext/ytp/translations.py:116
+#: ckanext/ytp/translations.py:117
 msgid "Apps"
 msgstr ""
 
-#: ckanext/ytp/translations.py:119
+#: ckanext/ytp/translations.py:120
 msgid "Add to group"
 msgstr ""
 
-#: ckanext/ytp/templates/package/group_list.html:8 ckanext/ytp/translations.py:120
+#: ckanext/ytp/templates/package/group_list.html:8 ckanext/ytp/translations.py:121
 msgid "There are no groups associated with this dataset"
 msgstr ""
 
-#: ckanext/ytp/translations.py:121
+#: ckanext/ytp/translations.py:122
 msgid "Remove dataset from this group"
 msgstr ""
 
-#: ckanext/ytp/templates/package/group_list.html:29 ckanext/ytp/translations.py:122
+#: ckanext/ytp/templates/package/group_list.html:29 ckanext/ytp/translations.py:123
 msgid "Associate this group with this dataset"
 msgstr ""
 
-#: ckanext/ytp/translations.py:123
+#: ckanext/ytp/translations.py:124
 msgid "Add Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:124
+#: ckanext/ytp/translations.py:125
 msgid "There are currently no groups for this site"
 msgstr ""
 
-#: ckanext/ytp/translations.py:125
+#: ckanext/ytp/translations.py:126
 msgid "Search groups..."
 msgstr ""
 
 #: ckanext/ytp/templates/group/index.html:4
+#: ckanext/ytp/templates/group/read_base.html:4
 #: ckanext/ytp/templates/package/group_list.html:3
-#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:126
+#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:127
 msgid "Groups"
 msgstr ""
 
-#: ckanext/ytp/translations.py:127
+#: ckanext/ytp/translations.py:128
 msgid "A little information about my group..."
 msgstr ""
 
-#: ckanext/ytp/translations.py:128
+#: ckanext/ytp/translations.py:129
 msgid "Create a Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:129
+#: ckanext/ytp/translations.py:130
 msgid "Create Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:130
+#: ckanext/ytp/translations.py:131
 msgid "My Group"
 msgstr ""
 
-#: ckanext/ytp/translations.py:133
+#: ckanext/ytp/translations.py:134
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:134
+#: ckanext/ytp/translations.py:135
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:135
+#: ckanext/ytp/translations.py:136
 msgid "Oikeusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:136
+#: ckanext/ytp/translations.py:137
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:137
+#: ckanext/ytp/translations.py:138
 msgid "Puolustusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:138
+#: ckanext/ytp/translations.py:139
 msgid "Sisäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:139
+#: ckanext/ytp/translations.py:140
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:140
+#: ckanext/ytp/translations.py:141
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:141
+#: ckanext/ytp/translations.py:142
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:142
+#: ckanext/ytp/translations.py:143
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:143
+#: ckanext/ytp/translations.py:144
 msgid "Ympäristöministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:144
+#: ckanext/ytp/translations.py:145
 msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:147
+#: ckanext/ytp/translations.py:148
 msgid "Administrative Branch Summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:148
+#: ckanext/ytp/translations.py:149
 msgid "Dataset statistics by administrative branch summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:149
+#: ckanext/ytp/translations.py:150
 msgid "Broken links"
 msgstr ""
 
-#: ckanext/ytp/translations.py:150
+#: ckanext/ytp/translations.py:151
 msgid "Dataset resource URLs that are found to result in errors when resolved."
 msgstr ""
 
-#: ckanext/ytp/translations.py:151
+#: ckanext/ytp/translations.py:152
 msgid "Openness (Five Stars)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:152
+#: ckanext/ytp/translations.py:153
 msgid ""
 "Datasets graded on Tim Berners-Lee's Five Stars of Openness - openly "
 "licensed, openly accessible, structured, open format, URIs for entities, "
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:154
+#: ckanext/ytp/translations.py:155
 msgid "Deprecated datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:155
+#: ckanext/ytp/translations.py:156
 msgid "Datasets that have deprecated"
 msgstr ""
 
-#: ckanext/ytp/translations.py:156
+#: ckanext/ytp/translations.py:157
 msgid "Google analytics showing most audience locations (bot traffic is filtered out)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:157
+#: ckanext/ytp/translations.py:158
 msgid "Least popular datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:158
+#: ckanext/ytp/translations.py:159
 msgid "Google analytics showing top datasets with least views"
 msgstr ""
 
-#: ckanext/ytp/translations.py:159
+#: ckanext/ytp/translations.py:160
 msgid "Most popular datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:160
+#: ckanext/ytp/translations.py:161
 msgid "Google analytics showing top datasets with most views"
 msgstr ""
 
-#: ckanext/ytp/translations.py:161
+#: ckanext/ytp/translations.py:162
 msgid "Most popular organizations"
 msgstr ""
 
-#: ckanext/ytp/translations.py:162
+#: ckanext/ytp/translations.py:163
 msgid "Google analytics showing most popular organizations by visited datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:163
+#: ckanext/ytp/translations.py:164
 msgid "Most popular resources"
 msgstr ""
 
-#: ckanext/ytp/translations.py:164
+#: ckanext/ytp/translations.py:165
 msgid "Google analytics showing most downloaded resources"
 msgstr ""
 
-#: ckanext/ytp/translations.py:165
+#: ckanext/ytp/translations.py:166
 msgid "Most popular search terms"
 msgstr ""
 
-#: ckanext/ytp/translations.py:166
+#: ckanext/ytp/translations.py:167
 msgid "Google analytics showing most popular search terms"
 msgstr ""
 
-#: ckanext/ytp/translations.py:167
+#: ckanext/ytp/translations.py:168
 msgid "Harvester status"
 msgstr ""
 
-#: ckanext/ytp/translations.py:168
+#: ckanext/ytp/translations.py:169
 msgid "Harvester statuses"
 msgstr ""
 
-#: ckanext/ytp/translations.py:169
+#: ckanext/ytp/translations.py:170
 msgid "No jobs yet"
 msgstr ""
 
-#: ckanext/ytp/translations.py:173
+#: ckanext/ytp/translations.py:174
 msgid "The dataset amount of the organization is shown beside the organization name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:174
+#: ckanext/ytp/translations.py:175
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/translations.py:177
+#: ckanext/ytp/translations.py:178
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
@@ -1026,6 +1032,24 @@ msgstr ""
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
 
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:69
+msgid "Please Confirm Action"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:73
+msgid "Are you sure you want to perform this action?"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:75
+#: ckanext/ytp/public/javascript/translations.js:8
+msgid "Confirm"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/bulk-confirm-action.js:76
+#: ckanext/ytp/public/javascript/translations.js:9
+msgid "Cancel"
+msgstr ""
+
 #: ckanext/ytp/public/javascript/translations.js:4
 msgid "or"
 msgstr ""
@@ -1040,14 +1064,6 @@ msgstr ""
 
 #: ckanext/ytp/public/javascript/translations.js:7
 msgid "This field is required"
-msgstr ""
-
-#: ckanext/ytp/public/javascript/translations.js:8
-msgid "Confirm"
-msgstr ""
-
-#: ckanext/ytp/public/javascript/translations.js:9
-msgid "Cancel"
 msgstr ""
 
 #: ckanext/ytp/public/javascript/translations.js:10
@@ -1070,7 +1086,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
-#: ckanext/ytp/templates/snippets/search_form.html:80
+#: ckanext/ytp/templates/snippets/search_form.html:82
 msgid "Hide search filters"
 msgstr ""
 
@@ -1126,8 +1142,9 @@ msgid "0 Datasets"
 msgstr ""
 
 #: ckanext/ytp/templates/group/snippets/info.html:16
+#: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:58
+#: ckanext/ytp/templates/snippets/package_item.html:48
 msgid "Deleted"
 msgstr ""
 
@@ -1188,12 +1205,44 @@ msgid "Are you sure you want to delete this User?"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/admin_list.html:50
+#: ckanext/ytp/templates/organization/bulk_process.html:47
 #: ckanext/ytp/templates/organization/members.html:40
 #: ckanext/ytp/templates/organization/user_list.html:50
 #: ckanext/ytp/templates/package/resource_edit.html:11
 #: ckanext/ytp/templates/package/snippets/related_item.html:62
 #: ckanext/ytp/templates/package/snippets/resource_item.html:68
 msgid "Edit"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:18
+msgid "Make public"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:22
+msgid "Make private"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:25
+msgid "Are you sure you want to delete these datasets?"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:52
+#: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
+#: ckanext/ytp/templates/snippets/package_item.html:44
+msgid "Draft"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:57
+#: ckanext/ytp/templates/package/read.html:9
+#: ckanext/ytp/templates/scheming/form_snippets/private.html:5
+#: ckanext/ytp/templates/snippets/package_item.html:26
+#: ckanext/ytp/templates/user/read_base.html:38
+#: ckanext/ytp/templates/user/read_base.html:52
+msgid "Private"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/bulk_process.html:70
+msgid "This organization has no datasets associated to it"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/edit_base.html:5
@@ -1306,14 +1355,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/new_resource.html:11
 msgid "Add data"
-msgstr ""
-
-#: ckanext/ytp/templates/package/read.html:9
-#: ckanext/ytp/templates/scheming/form_snippets/private.html:5
-#: ckanext/ytp/templates/snippets/package_item.html:35
-#: ckanext/ytp/templates/user/read_base.html:38
-#: ckanext/ytp/templates/user/read_base.html:52
-msgid "Private"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
@@ -1500,7 +1541,7 @@ msgid "Date Created Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:69
-#: ckanext/ytp/templates/snippets/package_item.html:42
+#: ckanext/ytp/templates/snippets/package_item.html:33
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr ""
@@ -1781,11 +1822,6 @@ msgid ""
 " is no valid maintainer.</p> "
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:54
-msgid "Draft"
-msgstr ""
-
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
 msgstr ""
@@ -1867,6 +1903,13 @@ msgstr ""
 msgid "View Report"
 msgstr ""
 
+#: ckanext/ytp/templates/report/index.html:33
+msgid ""
+" SLA report of the service is available in <a "
+"href=\"https://synthetics.newrelic.com/report/b9EHg\" "
+"target=\"_blank\">here</a>. "
+msgstr ""
+
 #: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:26
 msgid "No organization"
 msgstr ""
@@ -1877,6 +1920,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:5
 msgid "Public"
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/form_snippets/ytp_multiple_checkbox.html:16
+#, python-format
+msgid " Categories can be edited from <a href=\"%(category_url)s\">here</a> "
 msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/about.html:13
@@ -2073,34 +2121,30 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:40
-msgid " Use advanced search "
-msgstr ""
-
-#: ckanext/ytp/templates/snippets/search_form.html:58
+#: ckanext/ytp/templates/snippets/search_form.html:60
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:67
+#: ckanext/ytp/templates/snippets/search_form.html:69
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:74
+#: ckanext/ytp/templates/snippets/search_form.html:76
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:98
+#: ckanext/ytp/templates/snippets/search_form.html:100
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:110
+#: ckanext/ytp/templates/snippets/search_form.html:112
 msgid " Please try another search or change search facets. "
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:118
+#: ckanext/ytp/templates/snippets/search_form.html:120
 msgid " <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
 
