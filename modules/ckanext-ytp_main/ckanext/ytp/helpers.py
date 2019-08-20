@@ -7,6 +7,7 @@ import itertools
 from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
+from ckan import model
 from ckan.plugins import toolkit
 from ckanext.scheming.helpers import lang
 from pylons import config
@@ -69,7 +70,6 @@ def dataset_display_name(package_or_package_dict):
 
 
 def group_title_by_id(group_id):
-    from ckan import model
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
     group_details = get_action('group_show')(context, {"id": group_id})
     return get_translated(group_details, 'title')
@@ -221,7 +221,6 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
 
 def calculate_dataset_stars(dataset_id):
     from ckan.logic import NotFound
-    from ckan import model
 
     if not is_plugin_enabled('qa'):
         return (0, '', '')
@@ -253,8 +252,6 @@ def calculate_metadata_stars(dataset_id):
             - English or Swedish translations for both title and description: 5 points
 
     """
-
-    from ckan import model
 
     score = 0.0
 
@@ -469,7 +466,6 @@ def get_label_for_producer(producer_type):
 
 def scheming_category_list(args):
     from ckan.logic import NotFound
-    from ckan import model
     # FIXME: sometimes this might return 0 categories if in development
 
     try:
@@ -513,7 +509,6 @@ def check_group_selected(val, data):
 # Get a list of groups and add a selected field which is
 # true if they are selected in the dataset
 def group_list_with_selected(package_groups):
-    from ckan import model
     if not isinstance(package_groups, list):
         package_groups = []
 
@@ -573,3 +568,8 @@ def get_last_harvested_date(organization_name):
             return
 
     return {"source": {'title': organization.get("last_harvested_harvester")}, "date": organization.get('last_harvested')}
+
+
+def get_resource_sha256(resource_id):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    return get_action('resource_status')(context, {'id': resource_id}).get('sha256') or _('-')
