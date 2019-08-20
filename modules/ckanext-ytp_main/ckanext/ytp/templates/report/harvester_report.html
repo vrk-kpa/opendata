@@ -1,0 +1,39 @@
+<hr class="page-break">
+<table class="table table-condensed table-bordered table-striped" id="report-table">
+  <thead>
+  <tr>
+    <th>{{ _("Harvester") }}</th>
+    <th>{{ _("Last run")}}</th>
+    <th>{{ _("Next scheduled run") }}</th>
+    <th>{{ _("Overall statistics")}}</th>
+    <th>{{ _("Times harvested") }}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for row in data['sources'] %}
+  <tr>
+    <td>
+      <a href="{{ h.url_for(controller='package', action='read', id=row.id) }}">
+        {{ row.title }}
+      </a>
+    </td>
+    <td>
+      {% if row.status.last_harvest_request %}
+        {{ h.render_datetime(row.status.last_harvest_request, with_hours=True) }}
+      {% else %}
+        {{ _(row.status.msg) }}
+      {% endif %}
+    </td>
+    <td>
+      {{ h.render_datetime(row.next_run, with_hours=True) or _('Not yet scheduled') }}
+    </td>
+    <td>
+      {{_('Added') }}: {{ row.status.overall_statistics.added }}, {{ _('Errors')}}: {{ row.status.overall_statistics.errors }}
+    </td>
+    <td>
+      {{ row.status.job_count }}
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

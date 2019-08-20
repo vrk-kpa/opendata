@@ -33,7 +33,7 @@ ckan.module('clear-all-fields', function($) {
                 elem.value = ""
                 break;
             case 'checkbox':
-                elem.checked = true
+                elem.checked = false
                 // The onchange event can be attached to the parent element
                 // Event propagation "bubbles" triggers the event in the parent
                 elem.dispatchEvent(new Event('change', { bubbles: true }))

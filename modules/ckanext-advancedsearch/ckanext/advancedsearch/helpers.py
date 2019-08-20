@@ -86,7 +86,7 @@ def advanced_category_options(field=None):
     context = {'model': model, 'session': model.Session}
     groups = get_action('group_list')(context, {"all_fields": True, "include_extras": True})
 
-    return make_options(groups, has_translated=True)
+    return make_options(groups, value="name", has_translated=True)
 
 
 def advanced_publisher_options(field=None):
@@ -156,8 +156,12 @@ def advanced_multiselect_query(custom_key=None):
 
 def advanced_search_and_target_query(keywords_field, target_field):
     def query_helper(key, all_params, schema, context):
-        phrase = all_params.getone(keywords_field)
-        target = all_params.getone(target_field)
+        phrase = None
+        target = 'all'
+        if keywords_field in all_params:
+            phrase = all_params.getone(keywords_field)
+        if target_field in all_params:
+            target = all_params.getone(target_field)
 
         # Exit early
         if not phrase:
@@ -165,11 +169,10 @@ def advanced_search_and_target_query(keywords_field, target_field):
 
         # phrase = hello there
         # query = target:*hello*there*
-        schema_target = target
         if target == 'all':
             q = '*' + '*'.join(phrase.split()) + '*'
         else:
-            q = schema_target + ':*' + '*'.join(phrase.split()) + '*'
+            q = target + ':*' + '*'.join(phrase.split()) + '*'
 
         return q
     return query_helper

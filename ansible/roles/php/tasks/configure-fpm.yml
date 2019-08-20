@@ -2,7 +2,7 @@
 
 - name: Set PHP pathinfo
   ini_file:
-    dest: /etc/php/7.0/fpm/php.ini
+    dest: "{{ php_fpm_ini_file }}"
     section: PHP
     option: cgi.fix_pathinfo
     value: "0"
