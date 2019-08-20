@@ -200,6 +200,9 @@
               'description_translated',
               'url',
               'format',
+              'status_updated',
+              'malware',
+              'sha256'
             ] -%}
             <div>
               <dl class="dl-horizontal mt-2">
@@ -216,6 +219,12 @@
                     </dd>
                   {%- endif -%}
                 {%- endfor -%}
+                <dt scope="row">
+                  SHA256
+                </dt>
+                <dd>
+                {{ h.get_resource_sha256(res.id) }}
+                </dd>
               </dl>
             </div>
           </div>

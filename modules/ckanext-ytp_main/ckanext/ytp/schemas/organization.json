@@ -127,6 +127,19 @@
       "form_attrs": {
         "class": "form-control"
       }
+    },
+    {
+      "field_name": "last_harvested",
+      "label": "Last harvested",
+      "preset": "date_opendata",
+      "form_snippet": null,
+      "display_snippet": null
+    },
+    {
+      "field_name": "last_harvested_harvester",
+      "label": "Last harvested harvester",
+      "form_snippet": null,
+      "display_snippet": null
     }
   ]
 }
