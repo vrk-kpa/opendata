@@ -48,7 +48,7 @@ class HeroForm extends FormBase {
 
     $form['#theme'] = ['avoindata_hero'];
 
-    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
     return $form;
   }
 
