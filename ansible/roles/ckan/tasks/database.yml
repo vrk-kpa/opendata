@@ -145,3 +145,12 @@
     chdir='{{ ckan_virtual_environment }}'
   tags:
     - skip_ansible_lint
+
+- name: Initialize rating database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-rating rating init
+    --config='{{ ckan_ini }}'
+    chdir='{{ ckan_virtual_environment }}'
+  tags:
+    - skip_ansible_lint
