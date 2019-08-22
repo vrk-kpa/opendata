@@ -113,6 +113,11 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
+    {% block rating %}
+      {{ layout.moduleBoxHead(_('Rating')) }}
+        {% snippet "rating/snippets/rating.html", package=pkg %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
 
     {% block package_feedback %}
         {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
