@@ -1,0 +1,33 @@
+{#
+Renders a complete block of rating snippets
+
+package  - The package for which the rating is displayed
+
+    {% snippet "rating/snippets/rating.html", package=pkg %}
+#}
+
+{% if h.show_rating_in_type(package.type) %}
+    <div class="rating">
+      {% block general_rating %}
+        <div class="rating-container">
+          {% snippet "rating/snippets/stars_inactive.html", package=package %}
+        </div>
+      {% endblock %}
+        {% block user_rating %}
+          {% if h.check_access('check_access_user')  %}
+            <h4 class="heading">{{ _('Your rating') }}</h4>
+            <div class="rating-container">
+              {%- snippet "rating/snippets/stars.html", package=package -%}
+              {% block user_rating_br %}<br>{% endblock %}
+              <span class="rating-details">
+                    {%- snippet "rating/snippets/rating_description.html", rating=h.get_user_rating(package.id) -%}
+                  </span>
+            </div>
+          {% else %}
+            <div class="login-rating-details">
+              <a href="{{ h.url_for('login') }}">{{ _('Login') }}</a> {{ _('to leave a rating') }}
+            </div>
+          {% endif %}
+        {% endblock %}
+    </div>
+{% endif %}
