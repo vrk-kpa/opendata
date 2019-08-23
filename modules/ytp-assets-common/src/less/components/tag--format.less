@@ -1,0 +1,64 @@
+@import "../variables.less";
+
+.file-tag {
+  margin-left: 4px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: @opendata-ckan-unhighlight;
+  background-color: @opendata-ckan-unhighlight-background;
+
+  &.format {
+    &--json,
+    &--xml,
+    &--html {
+      background-color: @opendata-brand-success; // green
+      color: @btn-dark-text-color;
+    }
+
+    &--pc-axis,
+    &--pxweb {
+      background-color: @opendata-brand-warning; // light-orange
+      color: @btn-dark-text-color;
+    }
+
+    // excel related
+    &--xlsx,
+    &--xls,
+    &--csv {
+      background-color: @opendata-brand-danger; // light-red
+      color: @btn-dark-text-color;
+    }
+
+    // images
+    &--png,
+    &--jpeg,
+    &--jpg,
+    &--tiff,
+    &--pdf {
+      background-color: @opendata-brand-info; // light-blue
+      color: @btn-dark-text-color;
+    }
+
+    // geo or shape or map related
+    &--shp,
+    &--wms,
+    &--wfs,
+    &--tab,
+    &--geotiff,
+    &--kml,
+    &--gml,
+    &--geojson,
+    &--ecw {
+      background-color: @opendata-ckan-list-item-header; // dark-blue
+      color: @btn-dark-text-color;
+    }
+
+    // 3D program files
+    &--dwg,
+    &--obj,
+    &--skp {
+      background-color: @opendata-brand-priority; // dark-red
+      color: @btn-dark-text-color;
+    }
+  }
+}

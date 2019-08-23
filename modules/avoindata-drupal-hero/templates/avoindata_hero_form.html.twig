@@ -108,31 +108,38 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-5">
-          <ul class="list-inline">
-              <li>
-                <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
-                  {% trans %}
-                  Recent
-                  {% endtrans %}
-                </a>
-              </li>
-              <li>
-                <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
-                  {% trans %}
-                  Popular
-                  {% endtrans %}
-                </a>
-              </li>
-              <li>
-                <a href="/data/{{ form.language }}/showcase">
-                  {% trans %}
-                  Applications
-                  {% endtrans %}
-                </a>
-              </li>
-          </ul>
-      </div>
+      <div class="col-md-12 d-flex justify-content-between">
+            <ul class="list-inline">
+                <li>
+                    <a href="/data/{{ form.language }}/dataset?sort=metadata_modified+desc">
+                        {% trans %}
+                        Recent
+                        {% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="/data/{{ form.language }}/dataset?sort=views_recent+desc">
+                        {% trans %}
+                        Popular
+                        {% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="/data/{{ form.language }}/showcase">
+                        {% trans %}
+                        Applications
+                        {% endtrans %}
+                    </a>
+                </li>
+            </ul>
+        {#
+            <a href="/data/{{ form.language }}/advanced_search">
+                {% trans %}
+                    Use advanced search
+                {% endtrans %}
+            </a>
+            #}
+        </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,18 @@
+@import '../variables.less';
+
+//Plus icon (fa-plus-circle)
+.nav-facet .nav-item > a:hover::after {
+  background-image: none;
+  content: "\f055";
+  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  color: @suomi-highlightBase;
+  font-weight: @font-weight-heavier;
+}
+
+//Cross icon (fa-times-circle)
+.nav-facet .nav-item.active > a::after {
+  background-image: none;
+  content: "\f057";
+  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  color: @suomi-blackBase;
+}

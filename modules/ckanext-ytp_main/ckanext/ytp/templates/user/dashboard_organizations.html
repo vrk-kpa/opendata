@@ -8,10 +8,6 @@
   <li class="active"><a href="#">{{ _('Organizations') }}</a></li>
 {% endblock %}
 
-{% block page_header %}
-    <h1 class="content-heading content-heading-my-organizations">{% trans %}My Organizations{% endtrans %}</h1>
-{% endblock %}
-
 {% block page_primary_action %}
   {% set orgs =  h.organizations_available() %}
   {% if orgs | count != 0 %}
@@ -24,7 +20,7 @@
 {% endblock %}
 
 {% block primary_content_inner %}
-  <h2 class="hide-heading">{{ _('My Organizations') }}</h2>
+  <h1 class="content-heading">{% trans %}My Organizations{% endtrans %}</h1>
 
   {% set organizations = h.organizations_available('manage_group') %}
   {% if organizations %}

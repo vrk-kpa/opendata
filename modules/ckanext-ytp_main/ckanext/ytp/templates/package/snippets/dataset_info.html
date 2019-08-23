@@ -32,7 +32,7 @@
 
     {% block info_tags %}
         {{ layout.moduleBoxHead(_('Tags')) }}
-            {% snippet 'package/snippets/tags.html', tags=pkg.keywords, field='keywords' %}
+            {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
@@ -113,6 +113,11 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
+    {% block rating %}
+      {{ layout.moduleBoxHead(_('Rating')) }}
+        {% snippet "rating/snippets/rating.html", package=pkg %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
 
     {% block package_feedback %}
         {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}

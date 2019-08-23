@@ -1,4 +1,34 @@
 version: 2.1
+
+orbs:
+  slack: circleci/slack@3.2.0
+
+commands:
+  slack_notification:
+    description: "Send job status notification to Slack"
+    parameters:
+      branches:
+        type: string
+        default: "master"
+      fail_only:
+        type: boolean
+        default: true
+    steps:
+      - run:
+          name:  Get commit message to environment variable
+          command: |
+            echo 'export GIT_COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1 | cut -d " " -f2-)' >> $BASH_ENV
+          working_directory: ~/project/
+      - slack/status:
+          fail_only: << parameters.fail_only >>
+          only_for_branches: << parameters.branches >>
+          webhook: $SLACK_WEB_HOOK
+          include_visit_job_action: true
+          include_job_number_field: true
+          failure_message: ':red_circle: A $CIRCLE_JOB job triggered by $CIRCLE_USERNAME has failed! ($GIT_COMMIT_MESSAGE)'
+          success_message: ':tada: A $CIRCLE_JOB job  triggered by $CIRCLE_USERNAME has succeeded! ($GIT_COMMIT_MESSAGE)'
+
+
 jobs:
   flake8:
     docker:
@@ -35,6 +65,8 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 modules --count --max-line-length=127 --statistics
+
+      - slack_notification
 
   code-sniffer:
     docker:
@@ -79,6 +111,8 @@ jobs:
           paths:
             - vendor
 
+      - slack_notification
+
   ansible-lint:
     docker:
       - image: circleci/python
@@ -92,6 +126,8 @@ jobs:
           name: Run ansible-lint for single-server.yml
           command: ansible-lint single-server.yml
           working_directory: ~/project/ansible/
+
+      - slack_notification
 
   packer-web:
     docker:
@@ -144,6 +180,8 @@ jobs:
           paths:
             - web_ami_id
 
+      - slack_notification
+
   ansible-web:
     docker:
       - image: circleci/python
@@ -190,6 +228,8 @@ jobs:
 
       - store_artifacts:
           path: ~/logs
+
+      - slack_notification
 
   cypress-web:
     docker:
@@ -251,6 +291,8 @@ jobs:
       - store_artifacts:
           path: ~/logs
 
+      - slack_notification
+
   packer-scheduled:
     docker:
       - image: circleci/python
@@ -306,6 +348,8 @@ jobs:
           paths:
             - scheduled_ami_id
 
+      - slack_notification
+
   stylelint:
     docker:
       - image: circleci/node
@@ -336,6 +380,8 @@ jobs:
           command: $(npm bin)/stylelint "src/less"
           working_directory: ~/project/modules/ytp-assets-common
 
+      - slack_notification
+
   copy-web-ami:
     docker:
       - image: circleci/python
@@ -363,6 +409,8 @@ jobs:
           paths:
             - web_image_ami_copy
 
+      - slack_notification
+
   copy-scheduled-ami:
     docker:
       - image: circleci/python
@@ -389,6 +437,8 @@ jobs:
           root: ~/project
           paths:
             - scheduled_image_ami_copy
+
+      - slack_notification
 
   beta-deploy:
     docker:
@@ -517,11 +567,14 @@ jobs:
           command: |
               curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
           path: ~/logs
+
+      - slack_notification:
+          fail_only: false
 
   clamav-build:
     docker:
@@ -543,6 +596,8 @@ jobs:
           command: |
             sam build -s ~/project/clamav/src
           working_directory: ~/project/clamav
+
+      - slack_notification
 
   clamav-deploy:
     docker:
@@ -592,6 +647,8 @@ jobs:
               SlackUser=/clamav/slack_user \
             --capabilities CAPABILITY_IAM
           working_directory: ~/project/clamav
+
+      - slack_notification
 
   prod-deploy:
     docker:
@@ -736,11 +793,14 @@ jobs:
           command: |
               curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -H "accept: application/json"' > ~/logs/dynatrace_maintenance_end.log 2>&1
+                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
           path: ~/logs
+
+      - slack_notification:
+          fail_only: false
 
 workflows:
   lint_build_test:

@@ -67,6 +67,16 @@
       "required": true
     },
     {
+      "field_name": "categories",
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox.html",
+      "choices_helper": "scheming_category_list",
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
+      "validators": "save_to_groups",
+      "display_snippet": null
+    },
+    {
       "field_name": "international_benchmarks",
       "label": "International benchmarks",
       "form_placeholder":"eg. Maps",
@@ -408,6 +418,21 @@
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
       "preset": "date_opendata"
+    },
+    {
+      "field_name": "status_updated",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "sha256",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "malware_check",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{#
+Renders a block of rating info without a possibility to submit a rating
+
+package  - The package for which the rating is displayed
+
+    {% snippet "rating/snippets/rating_inactive.html", package=pkg %}
+#}
+
+{% if h.show_rating_in_type(package.type) %}
+  <div class="rating">
+    {% block general_rating %}
+      <div class="rating-container">
+        {% snippet "rating/snippets/stars_inactive.html", package=package %}
+      </div>
+    {% endblock %}
+  </div>
+{% endif %}

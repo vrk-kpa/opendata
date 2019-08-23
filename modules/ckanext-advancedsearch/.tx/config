@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-advancedsearch]
+file_filter = ckanext/advancedsearch/i18n/<lang>/LC_MESSAGES/ckanext-advancedsearch.po
+source_file = ckanext/advancedsearch/i18n/ckanext-advancedsearch.pot
+source_lang = en
+type = PO
+

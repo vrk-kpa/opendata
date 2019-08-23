@@ -1,0 +1,66 @@
+.navbar-header .navbar-toggle {
+  margin-right: 25px;
+}
+
+// Override "sidebar" arrow
+@media (min-width: @screen-sm-min) {
+  .nav-item.active > a::before,
+  .nav-aside li.active a::before {
+    content: none;
+  }
+}
+
+.nav-aside > li,
+.nav-simple > li {
+  a {
+    color: @facet-link-text-color;
+    text-decoration: none;
+    margin: 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    border-left: 8px solid @sidebar-block-color-header;
+  }
+
+  width: 95%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 7px;
+  padding-right: 0;
+  border-style: none none none solid;
+  border-left-width: 8px;
+  border-left-color: transparent;
+  font-size: 13px;
+
+  &.active {
+    a {
+      background-color: transparent;
+      color: @facet-link-text-color;
+
+      &:hover {
+        background-color: transparent;
+        color: @facet-link-text-color;
+      }
+    }
+
+    color: #219ad3;
+    background-color: transparent;
+  }
+}
+
+//In the resources view, the current resource is active and
+//it shouldn't be blue
+.resources .nav-simple > li.active {
+  color: @facet-link-text-color;
+}
+
+.module-narrow .nav-aside li a,
+.module-narrow .nav-item > a {
+  padding: 0;
+}

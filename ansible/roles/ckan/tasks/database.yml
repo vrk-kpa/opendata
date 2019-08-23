@@ -37,7 +37,6 @@
     "--config={{ ckan_ini }}" chdir={{ ckan_virtual_environment }}
   ignore_errors: true
   with_flattened:
-    - "{{ ckan_ytp_users }}"
     - "{{ ckan_admin }}"
   when: item.username not in ckan_current_users.stdout
   tags:
@@ -142,6 +141,15 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/paster
     --plugin=ckanext-cloudstorage cloudstorage initdb
+    --config='{{ ckan_ini }}'
+    chdir='{{ ckan_virtual_environment }}'
+  tags:
+    - skip_ansible_lint
+
+- name: Initialize rating database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-rating rating init
     --config='{{ ckan_ini }}'
     chdir='{{ ckan_virtual_environment }}'
   tags:
