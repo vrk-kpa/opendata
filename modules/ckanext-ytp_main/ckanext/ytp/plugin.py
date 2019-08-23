@@ -832,6 +832,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                         [
                             '/dashboard',
                             '/dashboard/',
+                            '/%(language)s/dashboard',
                             '/%(language)s/dashboard/'
                         ],
                         menu.UserMenu,

@@ -61,7 +61,7 @@ class MyDashboardMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        return helpers.url_for('dashboard')
+        return helpers.url_for('dashboard.index')
 
 
 class MyDatasetsMenu(MenuItem):
