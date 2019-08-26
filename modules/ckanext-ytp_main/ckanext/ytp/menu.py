@@ -54,6 +54,16 @@ class RootMenuItem(MenuItem):
         return data['children']
 
 
+class MyDashboardMenu(MenuItem):
+    def __init__(self):
+        super(MyDashboardMenu, self).__init__()
+        self.title = _("News feed")
+        self.requires_login = True
+
+    def link(self):
+        return helpers.url_for('dashboard.index')
+
+
 class MyDatasetsMenu(MenuItem):
     def __init__(self):
         super(MyDatasetsMenu, self).__init__()
@@ -89,7 +99,7 @@ class MyInformationMenu(MenuItem):
         super(MyInformationMenu, self).__init__()
         self.title = _("My Profile")
         if children:
-            self.children = [MyPersonalDataMenu(), MyOrganizationMenu(), MyDatasetsMenu()]
+            self.children = [MyPersonalDataMenu(), MyDashboardMenu(), MyOrganizationMenu(), MyDatasetsMenu()]
         self.requires_login = True
 
     def link(self):

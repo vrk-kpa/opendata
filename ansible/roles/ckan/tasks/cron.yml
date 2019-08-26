@@ -116,3 +116,10 @@
     minute: "0"
     hour: "3"
     job: "/usr/local/sbin/beaker_session_cleanup.sh > /dev/null 2>&1"
+
+- name: Send notification email as cron job
+  cron:
+    name: "Send notification email"
+    minute: "0"
+    hour: "10"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckan post -c {{ ckan_ini }} /api/action/send_email_notifications > /dev/null"

@@ -19,7 +19,7 @@
       {% endif %}
       {% block primary_content_inner %}
         <div data-module="dashboard">
-          {% snippet 'user/snippets/followee_dropdown.html', context=c.dashboard_activity_stream_context, followees=c.followee_list %}
+          {% snippet 'user/snippets/followee_dropdown.html', context=dashboard_activity_stream_context, followees=followee_list %}
           <h2 class="page-heading">
             {% block page_heading %}
               {{ _('News feed') }}
@@ -27,7 +27,7 @@
             <small>{{ _("Activity from items that I'm following") }}</small>
           </h2>
           {% block activity_stream %}
-            {{ c.dashboard_activity_stream }}
+            {{dashboard_activity_stream|safe}}
           {% endblock %}
         </div>
       {% endblock %}
