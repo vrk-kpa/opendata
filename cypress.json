@@ -4,5 +4,6 @@
   "env": {
     "resetDB": true,
     "cloudStorageEnabled": false
-  }
+  },
+  "ignoreTestFiles": "advancedsearch_spec.js"
 }

@@ -1,8 +1,8 @@
-@common-path: "../..";
-@common-less: "@{common-path}/less";
+@common-path: '../..';
+@common-less: '@{common-path}/less';
 
-@import "@{common-less}/variables.less";
-@import "@{common-less}/mixins/mixins.less";
+@import '@{common-less}/variables.less';
+@import '@{common-less}/mixins/mixins.less';
 
 // Report
 
@@ -169,5 +169,29 @@
 
   .report-sub-row {
     font-size: smaller;
+  }
+}
+
+.table-singleline {
+  table-layout: fixed;
+  max-width: 1900px;
+  margin: 0 auto;
+
+  tbody {
+    tr {
+      white-space: nowrap;
+
+      &:hover {
+        white-space: normal;
+
+        td {
+          background: @suomi-highlightLight50;
+        }
+      }
+
+      td {
+        overflow: hidden;
+      }
+    }
   }
 }

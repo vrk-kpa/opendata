@@ -28,7 +28,12 @@ Example:
             {% block follow_button %}
               {% if not hide_follow_button %}
                 <div class="follow_button">
-                  {{ h.follow_button('dataset', pkg.name) }}
+                  {% set follow_button = h.follow_button('dataset', pkg.name) %}
+                  {% if follow_button != "" %}
+                  {{ follow_button }}
+                  {% else %}
+                  {% snippet "reminder/snippets/subscription_form.html", package=pkg %}
+                  {% endif %}
                 </div>
               {% endif %}
             {% endblock %}

@@ -88,6 +88,8 @@ ckan.feeds.author_link =
 
 ckan.cors.origin_allow_all = True
 
+ckan.activity_streams_email_notifications = True
+
 email_to = {{ ckan_error_email }}
 error_email_from = {{ ckan_error_email_from }}
 
@@ -147,8 +149,10 @@ ckanext.ytp.default_organization_name = yksityishenkilo
 ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 ckanext.ytp.harvester_status_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
 
+ckanext.dcat.rdf.profiles = avoindata_dcat_ap
+
 # The email links for reminders will be prefixed with this site url
-ckanext.reminder.site_url = https://www.avoindata.fi
+ckanext.reminder.site_url = {{ ckan_site_protocol }}://{{ item.hostname }}/data
 
 # This configuration can be overwritten in the admin configuration UI
 # Default address for sending the reminders

@@ -3,9 +3,11 @@ import logging
 import json
 import urllib2
 import datetime
+import itertools
 from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
+from ckan import model
 from ckan.plugins import toolkit
 from ckanext.scheming.helpers import lang
 from pylons import config
@@ -68,7 +70,6 @@ def dataset_display_name(package_or_package_dict):
 
 
 def group_title_by_id(group_id):
-    from ckan import model
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
     group_details = get_action('group_show')(context, {"id": group_id})
     return get_translated(group_details, 'title')
@@ -220,7 +221,6 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
 
 def calculate_dataset_stars(dataset_id):
     from ckan.logic import NotFound
-    from ckan import model
 
     if not is_plugin_enabled('qa'):
         return (0, '', '')
@@ -252,8 +252,6 @@ def calculate_metadata_stars(dataset_id):
             - English or Swedish translations for both title and description: 5 points
 
     """
-
-    from ckan import model
 
     score = 0.0
 
@@ -468,7 +466,6 @@ def get_label_for_producer(producer_type):
 
 def scheming_category_list(args):
     from ckan.logic import NotFound
-    from ckan import model
     # FIXME: sometimes this might return 0 categories if in development
 
     try:
@@ -478,6 +475,15 @@ def scheming_category_list(args):
         return None
     else:
         category_list = []
+
+        # filter groups to those user is allowed to edit
+        group_authz = get_action('group_list_authz')({
+            'model': model, 'session': model.Session, 'user': c.user
+        }, {})
+
+        user_group_ids = set(group[u'name'] for group in group_authz)
+        group_ids = [group for group in group_ids if group in user_group_ids]
+
         for group in group_ids:
             try:
                 context = {'model': model, 'session': model.Session, 'ignore_auth': True}
@@ -503,7 +509,6 @@ def check_group_selected(val, data):
 # Get a list of groups and add a selected field which is
 # true if they are selected in the dataset
 def group_list_with_selected(package_groups):
-    from ckan import model
     if not isinstance(package_groups, list):
         package_groups = []
 
@@ -513,6 +518,15 @@ def group_list_with_selected(package_groups):
         context,
         {"all_fields": True, "include_extras": True},
     )
+
+    # filter groups to those user is allowed to edit
+    group_authz = get_action('group_list_authz')({
+        'model': model, 'session': model.Session, 'user': c.user
+    }, {})
+
+    user_group_ids = set(group[u'id'] for group in group_authz)
+    all_groups = [group for group in all_groups if group[u'id'] in user_group_ids]
+
     # Check which groups are selected
     groups_with_selected = []
     for group in all_groups:
@@ -525,3 +539,37 @@ def group_list_with_selected(package_groups):
         groups_with_selected.append(group)
 
     return groups_with_selected
+
+
+def get_last_harvested_date(organization_name):
+
+    organization = get_action('organization_show')({}, {'id': organization_name})
+
+    # if added by harvester to organization
+    if not organization.get('last_harvested'):
+        data_dict = {
+            'fq': "dataset_type:harvest"
+        }
+
+        harvest_sources = get_action('package_search')({}, data_dict)['results']
+
+        related_harvest_objects = [source for source in harvest_sources if source.get('owner_org') == organization_name]
+        related_harvest_jobs = list(itertools.chain.from_iterable(
+            [get_action('harvest_job_list')({}, {'source_id': source['id'], 'status': "Finished"})
+             for source in related_harvest_objects]))
+
+        finished_dates = [{"source": get_action('harvest_source_show')({}, {'id': source['source_id']}),
+                           "date": datetime.datetime.strptime(source['finished'], "%Y-%m-%d %H:%M:%S.%f")}
+                          for source in related_harvest_jobs if source.get('finished')]
+
+        if finished_dates:
+            return max(finished_dates, key=lambda item: item['date'])
+        else:
+            return
+
+    return {"source": {'title': organization.get("last_harvested_harvester")}, "date": organization.get('last_harvested')}
+
+
+def get_resource_sha256(resource_id):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    return get_action('resource_status')(context, {'id': resource_id}).get('sha256') or _('-')

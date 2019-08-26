@@ -41,6 +41,7 @@ setup(
         ytp_ipermission_labels=ckanext.ytp.plugin:YtpIPermissionLabelsPlugin
         ytp_resourcestatus=ckanext.ytp.resourcestatusplugin:ResourceStatusPlugin
         ytp_harvesterstatus=ckanext.ytp.harvesterstatusplugin:HarvesterStatusPlugin
+        opendata_group=ckanext.ytp.plugin:OpenDataGroupPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.celery_import:task_imports
@@ -51,5 +52,8 @@ setup(
         ytp-organization = ckanext.ytp.commands:ytp_org_group
         opendata-group = ckanext.ytp.commands:opendata_group
         opendata-harvest = ckanext.ytp.commands:opendata_harvest_group
+
+        [ckan.rdf.profiles]
+        avoindata_dcat_ap=ckanext.ytp.dcat:AvoindataDCATAPProfile
     ''',
 )

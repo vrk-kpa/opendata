@@ -163,6 +163,7 @@
     - pathauto.settings
     - captcha.captcha_point.contact_message_feedback_form
     - core.base_field_override.node.article.promote
+    - editor.editor.full_html
   tags:
     - skip_ansible_lint
 
@@ -256,7 +257,7 @@
     - skip_ansible_lint
 
 - name: Clear caches
-  shell: ./vendor/bin/drupal cr
+  shell: ./vendor/bin/drush cr
   args:
     chdir: "{{ drupal_root }}"
   tags:
