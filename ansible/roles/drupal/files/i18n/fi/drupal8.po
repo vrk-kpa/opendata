@@ -2,17 +2,17 @@
 # 
 # Translators:
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
-# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2019-03-25 06:39+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
-"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgid "Forms"
 msgstr ""
 
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 msgid "Pages"
 msgstr ""
@@ -165,7 +165,7 @@ msgid "Monthly"
 msgstr ""
 
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 msgid "Display settings"
 msgstr ""
@@ -213,7 +213,7 @@ msgid "Depth"
 msgstr ""
 
 msgid "none"
-msgstr ""
+msgstr "ei mitään"
 
 msgid "Category"
 msgstr ""
@@ -228,13 +228,13 @@ msgid "edit"
 msgstr ""
 
 msgid "Go to previous page"
-msgstr ""
+msgstr "Edellinen sivu"
 
 msgid "Go to parent page"
 msgstr ""
 
 msgid "Go to next page"
-msgstr ""
+msgstr "Seuraava sivu"
 
 msgid "Book"
 msgstr ""
@@ -813,7 +813,7 @@ msgid "Attachment"
 msgstr ""
 
 msgid "Active"
-msgstr ""
+msgstr "Aktiivinen"
 
 msgid "Date format"
 msgstr ""
@@ -1321,7 +1321,7 @@ msgid "Day"
 msgstr ""
 
 msgid "Table"
-msgstr ""
+msgstr "Taulukko"
 
 msgid "Mon"
 msgstr ""
@@ -2501,7 +2501,7 @@ msgid "Posts"
 msgstr ""
 
 msgid "Map"
-msgstr ""
+msgstr "Kartta"
 
 msgid "Node settings"
 msgstr ""
@@ -3079,10 +3079,10 @@ msgid "Show blocks"
 msgstr ""
 
 msgid "Go to first page"
-msgstr ""
+msgstr "Ensimmäinen sivu"
 
 msgid "Go to last page"
-msgstr ""
+msgstr "Viimeinen sivu"
 
 msgid "Enter the terms you wish to search for."
 msgstr ""
@@ -3291,7 +3291,7 @@ msgid "More information"
 msgstr ""
 
 msgid "Grid"
-msgstr ""
+msgstr "Taulukko"
 
 msgid "Redo"
 msgstr ""
@@ -4420,7 +4420,7 @@ msgid "Do not use a relationship"
 msgstr ""
 
 msgid "Password field is required."
-msgstr ""
+msgstr "Salasana-kenttä on pakollinen"
 
 msgid "Display type"
 msgstr ""
@@ -4690,7 +4690,7 @@ msgid "Comma"
 msgstr ""
 
 msgid "Show All"
-msgstr ""
+msgstr "Näytä kaikki"
 
 msgid "Uses"
 msgstr ""
@@ -9402,7 +9402,7 @@ msgid "Use search"
 msgstr ""
 
 msgid "Use advanced search"
-msgstr ""
+msgstr "Käytä laajennettua hakua"
 
 msgid "Choose a set of shortcuts to use"
 msgstr ""
@@ -20508,8 +20508,8 @@ msgid ""
 "notifications by email."
 msgstr ""
 "Syötä sähköpostiosoitteesi. Kaikki palvelua koskevat viestit lähetetään "
-"tähän osoitteeseen. Sähköpostiosoite ei ole julkinen, ja sitä käytetään vain"
-" jos haluat palauttaa salasanasi tai saada uutisia tai ilmoituksia "
+"tähän osoitteeseen. Sähköpostiosoite ei ole julkinen. Sitä käytetään vain, "
+"jos haluat palauttaa salasanasi tai saada uutisia ja ilmoituksia "
 "sähköpostitse."
 
 msgid "This account's preferred language for emails and site presentation."
@@ -24737,7 +24737,7 @@ msgid "Menu links"
 msgstr ""
 
 msgid "Current page"
-msgstr ""
+msgstr "Nykyinen sivu"
 
 msgid "URL"
 msgstr ""
@@ -25046,7 +25046,7 @@ msgid "Event"
 msgstr "Tapahtuma"
 
 msgid "Event submission received."
-msgstr ""
+msgstr "Lomakkeen lähetys onnistui."
 
 msgid "Address"
 msgstr "Osoite"
@@ -25091,7 +25091,7 @@ msgid "publisher"
 msgstr ""
 
 msgid "Guide search"
-msgstr "Hae oppaasta"
+msgstr "Etsi oppaasta"
 
 msgid "Guide search view"
 msgstr ""
@@ -25220,7 +25220,7 @@ msgid "Bootstrap Theme"
 msgstr ""
 
 msgid "Search datasets..."
-msgstr "Etsi tietoaineistoista..."
+msgstr "Etsi tietoaineistoja..."
 
 msgid "Etusivu"
 msgstr ""
@@ -25265,12 +25265,11 @@ msgid ""
 "Central Open Data distribution platform for datasets released by finnish "
 "individuals, companies and public organizations."
 msgstr ""
-"Keskitetty avoimen datan jakelualusta suomalaisten yksityishenkilöiden, "
-"yritysten sekä julkisen hallinnon organisaatioiden avoimille "
-"tietoaineistoille."
+"Kaikki Suomen avoin data yhdestä paikasta.\n"
+"Avoindata.fi on kaikille tarkoitettu palvelu avoimen datan julkaisemiseen ja hyödyntämiseen."
 
 msgid "Service provided by Population Register Centre"
-msgstr "Palvelusta vastaa Väestörekisterikeskus"
+msgstr "Palvelusta vastaa Väestörekisterikeskus."
 
 msgid "Follow us"
 msgstr "Seuraa meitä"

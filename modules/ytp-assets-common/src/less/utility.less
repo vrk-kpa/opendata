@@ -1,14 +1,72 @@
-// helper classes to use in html
+@import 'variables';
 
 // -------
 // FLEXBOX
 // -------
+
+/**
+@function .make-display-classes
+@description
+creates bootstrap like display classes
+https://getbootstrap.com/docs/4.0/utilities/display/#notation
+
+@output
+example:
 .d-flex {
-  .flex-display(flex);
+    display: flex;
 }
+@media (max-width: 765px) {
+    .d-flex-xs {
+        display: flex;
+    }
+}
+*/
+
+@display-properties: none,
+  inline,
+  inline-block,
+  block,
+  table,
+  table-cell,
+  table-row,
+  flex,
+  inline-flex;
+
+.make-display-mq(@property, @i: length(@breakpoints)) when (@i > 0) {
+  .make-display-mq(@property, @i - 1);
+  @pair: extract(@breakpoints, @i);
+  @key: extract(@pair, 1);
+  @value: extract(@pair, 2);
+
+  @media (max-width: @value) {
+    &-@{key} {
+      display: @property;
+    }
+  }
+}
+
+.make-display-class(@property) {
+  .d-@{property} {
+    display: @property;
+    .make-display-mq(@property);
+  }
+}
+
+.make-display-classes(@i: length(@display-properties)) when (@i > 0) {
+  .make-display-classes(@i - 1);
+  @property: extract(@display-properties, @i);
+
+  .make-display-class(@property);
+}
+// Call the functions and generate classes
+.make-display-classes();
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
 }
 
 .justify-content {
@@ -452,4 +510,12 @@
 // -----
 .avoid-page-break {
   page-break-inside: avoid;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.position-relative {
+  position: relative;
 }

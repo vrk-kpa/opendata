@@ -1,5 +1,9 @@
 @import (reference) '../../node_modules/bootstrap/less/variables';
 
+// NOTE: these should be used with @media (max-width: @breakpoints.xs)
+// not min-width.
+@breakpoints: xs @screen-xs-max, sm @screen-sm-max, md @screen-md-max, lg 10000px;
+
 // Common color palette. These are the only colors that should be used!
 @opendata-brand-primary:    #219ad3; // Primary navigation/interaction/focus color
 @opendata-brand-decorative: #2a8bb8; // Decorative secondary color
@@ -48,7 +52,7 @@
 @background-hilight: lighten(#D3CDC5, 16%);
 @background-body-color: #fff;
 @background-hilight: #f5f5f5;
-@background-hero-image: url('/resources/images/avoindata_hero.jpg');
+@background-hero-image: url('/resources/images/logo/opendata.svg');
 
 // Bootstrap: Grid
 @grid-gutter-width: 50px;
