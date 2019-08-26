@@ -154,3 +154,12 @@
     chdir='{{ ckan_virtual_environment }}'
   tags:
     - skip_ansible_lint
+
+- name: Initialize subscription database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-reminder reminder init
+    --config='{{ ckan_ini }}'
+    chdir='{{ ckan_virtual_environment }}'
+  tags:
+    - skip_ansible_lint

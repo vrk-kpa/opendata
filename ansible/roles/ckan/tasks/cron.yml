@@ -88,6 +88,14 @@
     hour: "10"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify-expiry --config={{ ckan_ini }}"
 
+- name: Send notification about updated datasets as a cron job
+  cron:
+    name: "Send notification of updated datasets"
+    minute: "0"
+    hour: "10"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify --config={{ ckan_ini }}"
+
+
 - name: Send dataset deprecation emails as a cron job
   cron:
     name: "Send deprecation emails"
