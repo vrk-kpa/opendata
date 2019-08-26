@@ -257,7 +257,7 @@
     - skip_ansible_lint
 
 - name: Clear caches
-  shell: ./vendor/bin/drush cr
+  shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal_root }}"
   tags:
