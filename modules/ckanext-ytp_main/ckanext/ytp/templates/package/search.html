@@ -25,25 +25,15 @@
             </h1>
             {% if h.check_access('package_create') %}
               <div>
-                <!-- Begin Add Dataset split button -->
-                {% resource 'ytp_common_js/ytp_form.js' %}
                 <div class="btn-group d-flex align-items-center flex-wrap">
                   {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
                   {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
-                  <button class="suomi-button suomi-button-secondary ml-2" data-toggle="dropdown">
-                    <span class="fas fa-plus"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a href="{{ h.url_for(controller='package', action='new', collection_type='Open Data', group=c.preselected_group or "") }}">{{ _('Add open data') }}</a>
-                    </li>
-                    <li>
-                      <a href="{{ h.url_for(controller='package', action='new', collection_type='Interoperability Tools', group=c.preselected_group or "") }}">{{ _('Add interoperability tools')}}</a>
-                    </li>
-                  </ul>
                 </div>
-                <!-- End Add Dataset split button -->
+              </div>
+            {% elif c.user %}
+              <div class="alert alert-info">
+                <p> {{ _('The Opendata.fi service does not have an organization where you can upload a data set.') }} </p>
+                <p>{{ _('Ask your employer\'s open data administrator to add your user account in your organization. If your employer\'s organization has not been created yet on Opendata.fi, ask the service administration to create it before you can continue. Alternatively, you can also ask the data to be published as a private individual.') }}</p>
               </div>
             {% endif %}
           </div>
