@@ -307,7 +307,7 @@ msgstr "Minun tietoaineistoni"
 #: ckanext/ytp/menu.py:80
 #: ckanext/ytp/templates/user/dashboard_organizations.html:23
 msgid "My Organizations"
-msgstr "Minun organisaationi"
+msgstr "Minun tuottajani"
 
 #: ckanext/ytp/menu.py:90
 msgid "Edit Your Profile"
@@ -342,7 +342,7 @@ msgstr "Käyttäjät"
 #: ckanext/ytp/templates/package/base.html:8
 #: ckanext/ytp/templates/user/dashboard_organizations.html:8
 msgid "Organizations"
-msgstr "Organisaatiot"
+msgstr "Tuottajat"
 
 #: ckanext/ytp/menu.py:164
 msgid "Postit"
@@ -389,7 +389,7 @@ msgstr "Sisältötyyppi"
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:36
 msgid "Organization"
-msgstr "Organisaatio"
+msgstr "Tuottaja"
 
 #: ckanext/ytp/plugin.py:303 ckanext/ytp/plugin.py:316
 #: ckanext/ytp/translations.py:35
@@ -1317,7 +1317,7 @@ msgstr "Sulje tallentamatta"
 
 #: ckanext/ytp/templates/organization/index.html:17
 msgid "Search organizations..."
-msgstr "Etsi organisaatioita..."
+msgstr "Etsi tuottajia..."
 
 #: ckanext/ytp/templates/organization/index.html:20
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
@@ -1406,7 +1406,7 @@ msgstr "Omat jäsenhakemukset"
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
-msgstr "Lisää organisaatio"
+msgstr "Lisää tuottaja"
 
 #: ckanext/ytp/templates/package/group_list.html:14
 msgid "Dataset categories"
@@ -2067,7 +2067,7 @@ msgstr "Kategorioita voi muokata <a href=\"%(category_url)s\">täältä</a>"
 
 #: ckanext/ytp/templates/scheming/organization/about.html:13
 msgid "Organization hierarchy"
-msgstr "Organisaatiohierarkia"
+msgstr "Tuottajahierarkia"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
 msgid "Showcases"
@@ -2360,11 +2360,11 @@ msgstr "Haulla \"{query}\" ei löytynyt organisaatiota"
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] "Löytyi {number} organisaatio"
-msgstr[1] "Löytyi {number} organisaatiota"
+msgstr[1] "Löytyi {number} tuottajaa"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "No organizations found"
-msgstr "Organisaatioita ei löytynyt"
+msgstr "Tuottajia ei löytynyt"
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"

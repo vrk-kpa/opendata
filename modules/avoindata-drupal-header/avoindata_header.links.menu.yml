@@ -15,8 +15,8 @@ avoindata_header.datasets_fi:
   weight: 2
 
 avoindata_header.organizations_fi:
-  title: 'Organisaatiot'
-  description: 'Organisaatiot'
+  title: 'Tuottajat'
+  description: 'Tuottajat'
   parent: main-fi
   menu_name: main-fi
   url: 'internal:/data/fi/organization'
@@ -72,8 +72,8 @@ avoindata_header.datasets_en:
   weight: 2
 
 avoindata_header.organizations_en:
-  title: 'Organizations'
-  description: 'Organizations'
+  title: 'Publishers'
+  description: 'Publishers'
   parent: main-en
   menu_name: main-en
   url: 'internal:/data/en/organization'
