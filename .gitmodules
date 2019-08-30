@@ -62,3 +62,6 @@
 [submodule "modules/ckanext-rating"]
 	path = modules/ckanext-rating
 	url = https://github.com/6aika/ckanext-rating
+[submodule "modules/ckanext-forcetranslation"]
+	path = modules/ckanext-forcetranslation
+	url = https://github.com/vrk-kpa/ckanext-forcetranslation
