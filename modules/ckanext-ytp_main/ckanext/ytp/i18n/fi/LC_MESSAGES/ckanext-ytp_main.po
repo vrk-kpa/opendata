@@ -2360,7 +2360,7 @@ msgstr "Haulla \"{query}\" ei löytynyt organisaatiota"
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] "Löytyi {number} organisaatio"
-msgstr[1] "Löytyi {number} tuottajaa"
+msgstr[1] "{number} tuottajaa"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "No organizations found"

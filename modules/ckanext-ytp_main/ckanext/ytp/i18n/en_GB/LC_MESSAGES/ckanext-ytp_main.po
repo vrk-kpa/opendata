@@ -2303,7 +2303,7 @@ msgstr "No publishers found for \"{query}\""
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] "{number} organisation found"
-msgstr[1] "{number} publishers found"
+msgstr[1] "{number} publishers"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "No organizations found"
