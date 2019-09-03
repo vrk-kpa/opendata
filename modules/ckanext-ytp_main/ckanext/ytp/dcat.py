@@ -4,6 +4,14 @@ from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
 
+namespaces = {
+    'dct': DCT,
+    'dcat': DCAT,
+    'vcard': VCARD,
+    'foaf': FOAF,
+    'skos': SKOS,
+}
+
 
 class AvoindataDCATAPProfile(RDFProfile):
     '''
@@ -23,6 +31,8 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         g = self.g
 
+        for prefix, namespace in namespaces.iteritems():
+            g.bind(prefix, namespace)
         g.add((dataset_ref, RDF.type, DCAT.Dataset))
 
         # dct:title
