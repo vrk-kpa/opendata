@@ -40,3 +40,13 @@ If you need to make adjustments to the provisioning configuration, you can eithe
 ### Access to service
 
 After the provisioning of the server is ready, access the service at [http://vagrant.avoindata.fi/](http://vagrant.avoindata.fi/). Environment for integration tests is available at [http://vagrant.avoindata.fi:9000/](http://vagrant.avoindata.fi:9000/).
+
+### Testing
+
+To run tests locally, install cypress by running:
+  
+  npm install
+
+Cypress UI can be opened by running:
+
+  npm run cypress:open
