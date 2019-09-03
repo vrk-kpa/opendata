@@ -9,8 +9,8 @@
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
 # 
 #, fuzzy
@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-27 06:12+0000\n"
+"POT-Creation-Date: 2019-09-03 09:35+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -1365,44 +1365,36 @@ msgid "Show admins only"
 msgstr "Näytä vain ylläpitäjät"
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
-msgid "What are Organizations?"
-msgstr "Mitä organisaatiot ovat?"
+msgid "What are Publishers?"
+msgstr "Mitä tuottajat ovat?"
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
 msgid ""
-" CKAN Organizations are used to create, manage and publish collections of "
-"datasets. "
+" A publisher is an organisation that has opened their data for public use. "
 msgstr ""
-"CKAN organisaatioita käytetään tietoaineistojen ja aineistokokoelmien "
-"luomiseen, hallinnointiin ja julkaisemiseen."
+"Tuottaja on organisaatio, joka on avannut dataansa julkiseen käyttöön."
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:13
+#: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" Users can have different roles within an Organization, depending on their "
-"level of authorisation to create, edit and publish. "
+" A publisher can be a public administration organisation or a private sector"
+" company, but also an association, an individual or anything in between. "
 msgstr ""
-"Käyttäjillä voi olla organisaatioissa eri rooleja ja eritasoisia "
-"käyttöoikeuksia tietoaineistojen luomiseen, muokkaamiseen ja julkaisemiseen."
+"Tuottaja voi olla paitsi julkisen hallinnon organisaatio tai yksityinen "
+"yritys, myös esimerkiksi yhdistys tai yksityishenkilö."
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:18
+#: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-" Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact avoindata@vrk.fi. "
+" Organisations that have added data to opendata.fi are listed on this page. "
+"The number next to the publisher’s name indicates the amount of datasets "
+"belonging to that publisher and its suborganisations. "
 msgstr ""
-"Osa listatuista organisaatioista on automaattisesti luotu. Jos haluat luoda "
-"julkishallinnon organisaation, ota yhteyttä avoindata@vrk.fi."
-
-#: ckanext/ytp/templates/organization/snippets/helper.html:23
-msgid ""
-" The number next to each organization depicts the total amount of datasets "
-"per organization and includes suborganizations. "
-msgstr ""
-"Numero organisaation nimen vieressä kuvaa tietoaineistojen määrää "
-"organisaatiosta ja sen alaorganisaatioista."
+"Tältä sivulta löydät kaikki palveluumme dataa lisänneet tuottajat. Tuottajan"
+" nimen vieressä näkyvä numero kertoo kullekin tuottajalle ja sen "
+"mahdollisille alaorganisaatioille kuuluvien tietoaineistojen määrän."
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
 msgid "My membership requests"
-msgstr "Omat jäsenhakemukset"
+msgstr "Omat jäsenyyteni"
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"

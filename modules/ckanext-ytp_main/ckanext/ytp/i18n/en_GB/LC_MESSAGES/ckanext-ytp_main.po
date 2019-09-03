@@ -6,18 +6,18 @@
 # 
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-27 06:12+0000\n"
+"POT-Creation-Date: 2019-09-03 09:35+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1350,44 +1350,30 @@ msgid "Show admins only"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
-msgid "What are Organizations?"
-msgstr "What are Organisations?"
+msgid "What are Publishers?"
+msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
 msgid ""
-" CKAN Organizations are used to create, manage and publish collections of "
-"datasets. "
+" A publisher is an organisation that has opened their data for public use. "
 msgstr ""
-" CKAN Organisations are used to create, manage and publish collections of "
-"datasets. "
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:13
+#: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" Users can have different roles within an Organization, depending on their "
-"level of authorisation to create, edit and publish. "
+" A publisher can be a public administration organisation or a private sector"
+" company, but also an association, an individual or anything in between. "
 msgstr ""
-" Users can have different roles within an Organisation, depending on their "
-"level of authorisation, to create, edit and publish. "
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:18
+#: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-" Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact avoindata@vrk.fi. "
+" Organisations that have added data to opendata.fi are listed on this page. "
+"The number next to the publisher’s name indicates the amount of datasets "
+"belonging to that publisher and its suborganisations. "
 msgstr ""
-" Some of the organisations listed here are automatically created. To create "
-"a public administration organisation, please contact avoindata@vrk.fi. "
-
-#: ckanext/ytp/templates/organization/snippets/helper.html:23
-msgid ""
-" The number next to each organization depicts the total amount of datasets "
-"per organization and includes suborganizations. "
-msgstr ""
-" The number next to each organisation depicts the total amount of datasets "
-"per organisation, including suborganisations. "
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
 msgid "My membership requests"
-msgstr ""
+msgstr "My own memberships"
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
