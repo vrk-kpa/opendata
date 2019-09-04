@@ -11,7 +11,6 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormStateInterface;
 
-
 /**
  * Implements hook_preprocess_region().
  */
@@ -53,8 +52,11 @@ function avoindata_form_user_login_form_alter(&$form, FormStateInterface $form_s
   ];
 }
 
+/**
+ * Implements hook_preprocess_links__language_block().
+ */
 function avoindata_preprocess_links__language_block(&$variables) {
-  $variables['language'] =  \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
   foreach ($variables['links'] as $key => $value) {
     $variables['links'][$key]['link']['#title'] .= ' (' . strtoupper($key) . ')';
   }
