@@ -106,6 +106,38 @@ End of dropdown CSS
   padding: 0;
 }
 
+#block-avoindata-login {
+  flex: auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15px;
+
+  .header-login-link {
+    background: #2a6ebb;
+    line-height: 20px;
+    padding: 9px 19px;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .header-register-link {
+    line-height: 20px;
+    padding: 9px 19px;
+  }
+
+  .header-profile-link {
+    line-height: 20px;
+    padding: 9px 19px;
+  }
+
+  .header-logout-link {
+    line-height: 20px;
+    padding: 9px 19px;
+  }
+}
+
 #block-avoindata-language-switcher {
   ul {
     margin: 0;
@@ -134,7 +166,6 @@ End of dropdown CSS
     position: relative;
     display: flex;
     align-items: center;
-    margin-right: 15px;
 
     .dropdown-button {
       background: none;
@@ -216,14 +247,6 @@ End of dropdown CSS
       }
     }
   }
-}
-
-// Drupal issue #736066, the switcher is sometimes wrapped in a div
-.language-switcher-language-url,
-.region-top-bar > div {
-  flex: auto;
-  display: flex;
-  justify-content: flex-end;
 }
 
 // First (upper) navbar
