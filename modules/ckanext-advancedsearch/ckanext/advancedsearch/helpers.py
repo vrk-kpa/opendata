@@ -100,7 +100,9 @@ def advanced_publisher_options(field=None):
         .filter(model.GroupExtra.key == u'title_translated')\
         .all()
 
-    publishers = [{'id': gid, 'title': title, 'title_translated': json.loads(title_translated)} for gid, title, title_translated in data]
+    publishers = [
+            {'id': gid, 'title': title, 'title_translated': json.loads(title_translated)}
+            for gid, title, title_translated in data]
     return make_options(publishers, has_translated=True)
 
 
