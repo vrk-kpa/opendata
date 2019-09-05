@@ -34,6 +34,7 @@
 // Avoindata common variables
 @import "@{common-less}/variables";
 @import "@{common-less}/utility";
+@import "@{common-less}/common";
 
 // Avoindata components
 @import "@{common-less}/navbars";
@@ -223,11 +224,15 @@ p:last-child,
 
 // Avoindata Categories
 .avoindata-categories {
-  background-color: @opendata-brand-gray;
+  background-color: @background-body-color;
   padding-right: 50px;
   padding-left: 50px;
   padding-top: 10px;
   padding-bottom: 25px;
+
+  .avoindata-categories-header-row {
+    text-align: center;
+  }
 
   .avoindata-categories-container {
     max-width: @opendata-container-max-width;
@@ -243,7 +248,7 @@ p:last-child,
 
     .avoindata-category-box {
       height: 12em;
-      width: 12em;
+      width: 10em;
       text-align: center;
       justify-content: center;
       padding-top: 10px;
@@ -251,6 +256,8 @@ p:last-child,
 
       a {
         color: black;
+        font-size: 16px;
+        font-weight: 600;
       }
 
       .avoindata-category-image-wrapper {
@@ -264,7 +271,7 @@ p:last-child,
           margin-top: -0.5em;
           background-color: #f7f7f8;
           border-radius: 1em;
-          font-size: smaller;
+          font-size: 14px;
           font-weight: bold;
           color: #626b6f;
         }
