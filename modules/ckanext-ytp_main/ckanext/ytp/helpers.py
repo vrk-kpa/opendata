@@ -555,7 +555,7 @@ def get_last_harvested_date(organization_name):
 
         related_harvest_objects = [source for source in harvest_sources if source.get('owner_org') == organization_name]
         related_harvest_jobs = list(itertools.chain.from_iterable(
-            [get_action('harvest_job_list')({}, {'source_id': source['id'], 'status': "Finished"})
+            [get_action('harvest_job_list')({'ignore_auth': True}, {'source_id': source['id'], 'status': "Finished"})
              for source in related_harvest_objects]))
 
         finished_dates = [{"source": get_action('harvest_source_show')({}, {'id': source['source_id']}),

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-27 06:12+0000\n"
+"POT-Creation-Date: 2019-09-03 09:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1320,31 +1320,24 @@ msgid "Show admins only"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
-msgid "What are Organizations?"
+msgid "What are Publishers?"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
-msgid ""
-" CKAN Organizations are used to create, manage and publish collections of "
-"datasets. "
+msgid " A publisher is an organisation that has opened their data for public use. "
 msgstr ""
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:13
+#: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" Users can have different roles within an Organization, depending on their "
-"level of authorisation to create, edit and publish. "
+" A publisher can be a public administration organisation or a private sector "
+"company, but also an association, an individual or anything in between. "
 msgstr ""
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:18
+#: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-" Some of the organizations listed here are automatically created. To create a"
-" public administration organization, please contact avoindata@vrk.fi. "
-msgstr ""
-
-#: ckanext/ytp/templates/organization/snippets/helper.html:23
-msgid ""
-" The number next to each organization depicts the total amount of datasets "
-"per organization and includes suborganizations. "
+" Organisations that have added data to opendata.fi are listed on this page. "
+"The number next to the publisher’s name indicates the amount of datasets "
+"belonging to that publisher and its suborganisations. "
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
