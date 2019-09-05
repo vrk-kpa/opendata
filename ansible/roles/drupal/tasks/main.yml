@@ -43,12 +43,12 @@
     - "{{ drupal_root }}/config"
     - "{{ drupal_root }}/config/sync"
 
-#- name: Update Drupal dependencies
-#  become: true
-#  become_user: "{{ drupal_user }}"
-#  composer:
-#    command: update
-#    working_dir: "{{ drupal_root }}"
+- name: Update Drupal dependencies
+  become: true
+  become_user: "{{ drupal_user }}"
+  composer:
+    command: update
+    working_dir: "{{ drupal_root }}"
 
 
 - name: Ensure drupal public files directory exists
