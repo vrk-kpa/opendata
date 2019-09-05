@@ -5,19 +5,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 # 
 # Translators:
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-27 06:12+0000\n"
+"POT-Creation-Date: 2019-09-03 09:35+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -302,7 +302,7 @@ msgstr ""
 #: ckanext/ytp/menu.py:80
 #: ckanext/ytp/templates/user/dashboard_organizations.html:23
 msgid "My Organizations"
-msgstr "My Organisations"
+msgstr "My Publishers"
 
 #: ckanext/ytp/menu.py:90
 msgid "Edit Your Profile"
@@ -337,7 +337,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/base.html:8
 #: ckanext/ytp/templates/user/dashboard_organizations.html:8
 msgid "Organizations"
-msgstr "Organisations"
+msgstr "Publishers"
 
 #: ckanext/ytp/menu.py:164
 msgid "Postit"
@@ -384,7 +384,7 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/organization.html:21
 #: ckanext/ytp/translations.py:36
 msgid "Organization"
-msgstr "Organisation"
+msgstr "Publisher"
 
 #: ckanext/ytp/plugin.py:303 ckanext/ytp/plugin.py:316
 #: ckanext/ytp/translations.py:35
@@ -1302,7 +1302,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:17
 msgid "Search organizations..."
-msgstr "Search organisations..."
+msgstr "Search publishers..."
 
 #: ckanext/ytp/templates/organization/index.html:20
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
@@ -1350,48 +1350,34 @@ msgid "Show admins only"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
-msgid "What are Organizations?"
-msgstr "What are Organisations?"
+msgid "What are Publishers?"
+msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
 msgid ""
-" CKAN Organizations are used to create, manage and publish collections of "
-"datasets. "
+" A publisher is an organisation that has opened their data for public use. "
 msgstr ""
-" CKAN Organisations are used to create, manage and publish collections of "
-"datasets. "
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:13
+#: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" Users can have different roles within an Organization, depending on their "
-"level of authorisation to create, edit and publish. "
+" A publisher can be a public administration organisation or a private sector"
+" company, but also an association, an individual or anything in between. "
 msgstr ""
-" Users can have different roles within an Organisation, depending on their "
-"level of authorisation, to create, edit and publish. "
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:18
+#: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-" Some of the organizations listed here are automatically created. To create "
-"a public administration organization, please contact avoindata@vrk.fi. "
+" Organisations that have added data to opendata.fi are listed on this page. "
+"The number next to the publisher’s name indicates the amount of datasets "
+"belonging to that publisher and its suborganisations. "
 msgstr ""
-" Some of the organisations listed here are automatically created. To create "
-"a public administration organisation, please contact avoindata@vrk.fi. "
-
-#: ckanext/ytp/templates/organization/snippets/helper.html:23
-msgid ""
-" The number next to each organization depicts the total amount of datasets "
-"per organization and includes suborganizations. "
-msgstr ""
-" The number next to each organisation depicts the total amount of datasets "
-"per organisation, including suborganisations. "
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
 msgid "My membership requests"
-msgstr ""
+msgstr "My own memberships"
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
-msgstr "Add Organisation"
+msgstr "Add Publisher"
 
 #: ckanext/ytp/templates/package/group_list.html:14
 msgid "Dataset categories"
@@ -2010,7 +1996,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/about.html:13
 msgid "Organization hierarchy"
-msgstr "Organisation hierarchy"
+msgstr "Publisher hierarchy"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
 msgid "Showcases"
@@ -2293,21 +2279,21 @@ msgstr "No categories found"
 msgid "{number} organization found for \"{query}\""
 msgid_plural "{number} organizations found for \"{query}\""
 msgstr[0] "{number} organisation found for \"{query}\""
-msgstr[1] "{number} organisations found for \"{query}\""
+msgstr[1] "{number} publishers found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:30
 msgid "No organizations found for \"{query}\""
-msgstr "No organisations found for \"{query}\""
+msgstr "No publishers found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:31
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] "{number} organisation found"
-msgstr[1] "{number} organisations found"
+msgstr[1] "{number} publishers"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "No organizations found"
-msgstr "No organisations found"
+msgstr "No publishers found"
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"
