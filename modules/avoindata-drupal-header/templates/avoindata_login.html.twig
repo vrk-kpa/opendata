@@ -13,12 +13,10 @@
 {%  else %}
   <div class="header-profile-link">
     <a href="{{ url('avoindata_header.ckanprofile') }}">
-      <span>{% trans %}Profile{% endtrans %}</span>
-    </a>
-  </div>
-  <div class="header-logout-link">
-    <a href="{{ url('user.logout') }}">
-      <span>{% trans %}Logout{% endtrans %}</span>
+      <span>{{ user.account.name}}</span>
+      <a href="{{ url('user.logout') }}">
+        <span>{% trans %}Logout{% endtrans %}</span>
+      </a>
     </a>
   </div>
 {% endif %}
