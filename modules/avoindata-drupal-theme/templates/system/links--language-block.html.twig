@@ -34,29 +34,20 @@
  * @see template_preprocess_links()
  */
 #}
-{% if links -%}
-    {%- if heading -%}
-      {%- if heading.level -%}
-        <{{ heading.level }}{{ heading.attributes }}>{{ heading.text }}</{{ heading.level }}>
-      {%- else -%}
-        <h2{{ heading.attributes }}>{{ heading.text }}</h2>
-      {%- endif -%}
-    {%- endif -%}
-    {%- if attributes.hasClass('inline') -%}
-      <ul class="nav navbar-nav" {{ attributes.addClass('list-inline') }}>
-    {%- else -%}
-      <ul class="nav navbar-nav" {{ attributes }}>
-    {%- endif -%}
-      {%- for key, item in links -%}
-        <li{{ item.attributes.addClass(key|clean_class) }}>
-        {%- if item.link -%}
-          {{ item.link }}
-        {%- elseif item.text_attributes -%}
-          <span{{ item.text_attributes }}>{{ item.text }}</span>
-        {%- else -%}
-          {{ item.text }}
-        {%- endif -%}
-        </li>
-      {%- endfor -%}
-    </ul>
-{%- endif %}
+<div class="dropdown-wrapper">
+  <button class="dropdown-button" onclick="toggleLanguageDropdown()">
+    {{  language }}
+    <i class="far fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content">
+    <div class="languages">
+      {% if links -%}
+        {%- for key, item in links -%}
+          <div>
+            {{ item.link }}
+          </div>
+        {%- endfor -%}
+      {%- endif %}
+    </div>
+  </div>
+</div>

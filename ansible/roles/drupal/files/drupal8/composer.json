@@ -46,7 +46,8 @@
         "webmozart/path-util": "^2.3",
         "drupal/redirect": "^1.2",
         "drupal/ape": "^1.4",
-        "drupal/honeypot": "^1.29"
+        "drupal/honeypot": "^1.29",
+        "behat/mink-selenium2-driver": "dev-master as 1.3.x-dev"
     },
     "require-dev": {
         "webflo/drupal-core-require-dev": "^8.6.0"

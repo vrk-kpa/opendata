@@ -92,6 +92,7 @@ End of dropdown CSS
   margin-left: auto;
   padding-right: 15px;
   padding-left: 15px;
+  height: 67px;
 }
 
 @media only screen and (max-width: 500px) {
@@ -105,35 +106,146 @@ End of dropdown CSS
   padding: 0;
 }
 
-#block-avoindata-language-switcher ul {
-  margin: 0;
-  //To make the space between search icon similar to space
-  //between language icons
-  margin-right: 15px;
-  display: flex;
-
-  .language-link {
-    border: 1px solid transparent;
-    margin-top: 9px;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #222;
-  }
-
-  //Hovering language selection draws a box around it
-  .language-link:hover {
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.98);
-    border-radius: 2px;
-  }
-}
-
-// Drupal issue #736066, the switcher is sometimes wrapped in a div
-.language-switcher-language-url,
-.region-top-bar > div {
+#block-avoindata-login {
   flex: auto;
   display: flex;
   justify-content: flex-end;
+  margin-right: 15px;
+
+  .header-login-link {
+    background: #2a6ebb;
+    line-height: 20px;
+    padding: 9px 19px;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .header-register-link {
+    line-height: 20px;
+    padding: 9px 19px;
+  }
+
+  .header-profile-link {
+    line-height: 20px;
+    padding: 9px 19px;
+
+    a {
+      display: block;
+    }
+  }
+}
+
+#block-avoindata-language-switcher {
+  ul {
+    margin: 0;
+    //To make the space between search icon similar to space
+    //between language icons
+    margin-right: 15px;
+    display: flex;
+
+    .language-link {
+      border: 1px solid transparent;
+      margin-top: 9px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    //Hovering language selection draws a box around it
+    .language-link:hover {
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0.98);
+      border-radius: 2px;
+    }
+  }
+
+  .dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .dropdown-button {
+      background: none;
+      border: 1px solid #a5acb0;
+      color: #282828;
+      font-size: 14px;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      line-height: 28px;
+      width: 44px;
+      padding: 0;
+
+      &.dropdown-open {
+        border-color: #ea7125;
+        color: #ea7125;
+
+        i {
+          transform: rotate(180deg);
+          color: #ea7125;
+        }
+      }
+    }
+
+    .dropdown-content {
+      display: none;
+      background: #fff;
+      border: 1px solid #a5acb0;
+      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+      right: 0;
+      top: 58px;
+      position: absolute;
+      z-index: 1000;
+
+      .languages {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .language-link {
+        font-size: 16px;
+        line-height: 26px;
+        padding-left: 20px;
+        padding-right: 20px;
+        white-space: nowrap;
+        text-decoration: none;
+        display: block;
+        color: #333;
+
+        &.is-active,
+        &:focus,
+        &:hover {
+          border-left: 6px solid #2a6ebb;
+          padding-left: 14px;
+        }
+      }
+
+      &::before,
+      &::after {
+        bottom: 100%;
+        right: 20px;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      &::before {
+        border-bottom-color: #a5acb0;
+        border-width: 8px;
+        margin-right: -8px;
+      }
+
+      &.dropdown-open {
+        display: block;
+      }
+    }
+  }
 }
 
 // First (upper) navbar
