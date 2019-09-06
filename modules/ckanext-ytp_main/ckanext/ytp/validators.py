@@ -481,6 +481,7 @@ def admin_only_field(field, schema):
 
     return validator
 
+
 @scheming_validator
 def use_url_for_name_if_left_empty(field, schema):
     def validator(key, data, errors, context):
