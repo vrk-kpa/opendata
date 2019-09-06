@@ -265,6 +265,7 @@ ckan_patches:
   - remove_gravatar
   - add_chaining_of_core_actions # https://github.com/ckan/ckan/pull/4509
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
+  - add_group_extra_resource_db_indices
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
