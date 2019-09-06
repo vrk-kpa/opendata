@@ -60,7 +60,23 @@
                 {% else %}
                     {% set checked = false %}
                 {% endif %}
-                {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option={"value": "all", "label": _('All')}, isChecked=checked %}
+                <label class="ytp-checkbox choice m-0" for="{{name}}-checkbox-all">
+                    <input
+                        class="m-0 sr-only"
+                        type="checkbox"
+                        name="{{name}}"
+                        value="all"
+                        id="{{name}}-checkbox-all"
+                        data-option-value="all"
+                        data-option-label="{{ _('All') }}"
+                        {% if checked %}checked{% endif %}
+                    >
+                    <span class="custom-checkbox">
+                    </span>
+                    <span class="m-0 ml-2">
+                        {{ _('All') }}
+                    </span>
+                </label>
             {% endif %}
             {% if options %}
                 {% for option in options %}
@@ -69,7 +85,23 @@
                     {% else %}
                         {% set checked = false %}
                     {% endif %}
-                    {% snippet 'advanced_search/snippets/multiselect-choice.html', name=name, option=option, isChecked=checked %}
+                    <label class="ytp-checkbox choice m-0" for="{{name}}-checkbox-{{option.value}}">
+                        <input
+                            class="m-0 sr-only"
+                            type="checkbox"
+                            name="{{name}}"
+                            value="{{option.value}}"
+                            id="{{name}}-checkbox-{{option.value}}"
+                            data-option-value="{{option.value}}"
+                            data-option-label="{{option.label}}"
+                            {% if checked %}checked{% endif %}
+                        >
+                        <span class="custom-checkbox">
+                        </span>
+                        <span class="m-0 ml-2">
+                            {{option.label}}
+                        </span>
+                    </label>
                 {% endfor %}
             {% endif %}
         </div>

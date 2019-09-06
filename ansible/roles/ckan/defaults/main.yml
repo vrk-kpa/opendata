@@ -53,6 +53,7 @@ ckan_plugin_order:
   - ytp_harvesterstatus
   - opendata_group
   - rating
+  - advancedsearch
   - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
 
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
