@@ -395,11 +395,16 @@
     },
     {
       "field_name": "temporal_granularity",
-      "form_attrs": {
-        "class": "form-control"
-      },
       "label": "Temporal granularity",
-      "preset": "fluent_text"
+      "form_placeholder":"eg. 2 weeks",
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(temporal_granularity)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=temporal_granularity"
+      },
+      "description": "A string which describes the precision of the entered time series."
     },
     {
       "field_name": "update_frequency",

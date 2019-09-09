@@ -132,16 +132,25 @@ def sixodp_to_opendata_postprocess(package_dict):
         time_series_start = resource.get('time_series_start')
         if time_series_start:
             try:
-                isodate(time_series_start, {})
+                resource['temporal_coverage_from'] = isodate(time_series_start, {})
             except Invalid:
+                pass
+            finally:
                 resource.pop('time_series_start')
 
         time_series_end = resource.get('time_series_end')
         if time_series_end:
             try:
-                isodate(time_series_end, {})
+                resource['temporal_coverage_to'] = isodate(time_series_start, {})
             except Invalid:
+                pass
+            finally:
                 resource.pop('time_series_end')
+
+        time_series_precision = resource.get('time_series_precision')
+        if time_series_precision:
+            resource['temporal_granularity'] = time_series_precision
+            resource.pop('time_series_precision')
 
 
 def sixodp_organization_to_opendata_organization(organization_dict):
