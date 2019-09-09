@@ -209,6 +209,36 @@ def migrate(ctx, config, dryrun):
 
 
 @ytp_dataset_group.command(
+    u'migrate_temporal_granularity',
+    help=u'Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_temporal_granularity(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    resource_patches = []
+
+    for old_package_dict in package_generator('*:*', 1000):
+        for resource in old_package_dict.get('resources', []):
+            temporal_granularity = resource.get('temporal_granularity')
+            if temporal_granularity and len(temporal_granularity) > 0:
+                changes = False
+                for k, v in temporal_granularity.items():
+                    if isinstance(v, basestring) and len(v) > 0:
+                        temporal_granularity[k] = [v]
+                        changes = True
+                if changes:
+                    resource_patches.append(resource)
+    if dryrun:
+        print '\n'.join('%s' % p for p in resource_patches)
+    else:
+        # No package patches so empty parameter is passed
+        apply_patches([], resource_patches)
+
+
+@ytp_dataset_group.command(
     u'migrate_high_value_datasets',
     help=u'Migrates high value datasets to international benchmarks'
 )
