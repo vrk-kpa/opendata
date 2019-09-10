@@ -116,14 +116,14 @@ describe('Dataset tests', function() {
       '#s2id_autogen2': '2 viikkoa',
       '#s2id_autogen3': '2 viikkoa',
       '#s2id_autogen4': '2 viikkoa',
-      '#field-temporal_granularity-fi': 'test',
-      '#field-temporal_granularity-en': 'test',
-      '#field-temporal_granularity-sv': 'test',
+      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test',
       '#field-update_frequency-fi': 'test',
       '#field-update_frequency-en': 'test',
       '#field-update_frequency-sv': 'test',
       '#field-temporal_coverage_to': '2019-02-02',
-      '#field-temporal_coverage_from': '2018-02-02' 
+      '#field-temporal_coverage_from': '2018-02-02'
     };
     cy.create_new_dataset(dataset_name, dataset_form_data, resource_form_data);
   })
