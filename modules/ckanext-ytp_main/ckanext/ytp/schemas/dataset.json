@@ -301,11 +301,12 @@
     {
       "field_name": "url",
       "label": "URL",
-      "preset": "resource_url_upload",
+      "preset": "resource_url_upload_ex",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A file or url which describes the location of the desired resource file."
+      "description": "A file or url which describes the location of the desired resource file.",
+      "required": true
     },
     {
       "field_name": "file_size",

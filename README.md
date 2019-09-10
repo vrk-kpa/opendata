@@ -13,7 +13,7 @@ This source repository contains:
 
 - Configuration management scripts ([Ansible](http://www.ansible.com))
 - Tools for local development ([Vagrant](http://www.vagrantup.com))
-- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata)) 
+- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata))
 - Source code as subtree modules under the _modules_ directory
 
 ### Getting started
