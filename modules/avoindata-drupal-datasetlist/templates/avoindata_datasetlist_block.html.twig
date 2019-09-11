@@ -8,6 +8,15 @@
 #}
 <div class="avoindata-datasetlist">
   <div class="avoindata-datasetlist-container">
+    <div class="row avoindata-datasetlist-header-row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h3>
+          {% trans %}
+            Datasets
+          {% endtrans %}
+        </h3>
+      </div>
+    </div>
     <div class="row avoindata-datasetlist-nav">
       <div class="col-xs-12">
         <ul class="nav nav-pills">
@@ -39,26 +48,9 @@
     <div class="tab-content row avoindata-datasetlist-table">
 
       <div id="avoindata-datasetlist-recent" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
-        <table class="table">
-          <tr>
-            <th>
-              {% trans %}
-              Name
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Owner
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Date modified
-              {% endtrans %}
-            </th>
-          </tr>
+        <div class="avoindata-datasetlist-wrapper">
           {{ recentdatasets }}
-        </table>
+        </div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
             <i class="fas fa-arrow-right"></i>
@@ -70,26 +62,9 @@
       </div>
 
       <div id="avoindata-datasetlist-new" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
-        <table class="table">
-          <tr>
-            <th>
-              {% trans %}
-              Name
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Owner
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Release date
-              {% endtrans %}
-            </th>
-          </tr>
+        <div class="avoindata-datasetlist-wrapper">
           {{ newdatasets }}
-        </table>
+        </div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_created+desc">
             <i class="fas fa-arrow-right"></i>
@@ -101,26 +76,9 @@
       </div>
 
       <div id="avoindata-datasetlist-popular" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
-        <table class="table">
-          <tr>
-            <th>
-              {% trans %}
-              Name
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Owner
-              {% endtrans %}
-            </th>
-            <th>
-              {% trans %}
-              Release date
-              {% endtrans %}
-            </th>
-          </tr>
+        <div class="avoindata-datasetlist-wrapper">
           {{ populardatasets }}
-        </table>
+        </div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=views_recent+desc">
             <i class="fas fa-arrow-right"></i>
