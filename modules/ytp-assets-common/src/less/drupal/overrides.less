@@ -610,6 +610,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   line-height: 18px;
+  background-color: #f7f7f8;
 
   .avoindata-appfeed-container {
     max-width: @opendata-container-max-width;
@@ -617,80 +618,93 @@ p:last-child,
     display: block;
     margin: 0 auto;
 
-    .avoindata-appfeed-appcontainer {
-      padding-left: 0;
-      margin-bottom: 20px;
+    .avoindata-appfeed-header-row {
+      text-align: center;
+      margin-bottom: 70px;
+    }
 
-      a {
-        color: #000;
-      }
+    a {
+      color: #000;
+    }
 
-      .avoindata-appfeed-appcontainer-applist {
+    .avoindata-appfeed-applist-wrapper {
+      display: flex;
+    }
+
+    .avoindata-appfeed-appcontainer-applist {
+      .avoindata-appfeed-link {
+        margin-top: 25px;
+        height: 18px;
+
         .avoindata-appfeed-link-bullet {
           margin-right: 5px;
           color: #db5800;
         }
+      }
+      .avoindata-appfeed-application-box {
+        padding-right: 0;
+        padding-bottom: 15px;
+        flex: 1;
+        display: inline-block;
+        height: 330px;
+        background-color: #FFF;
+        border: #ced2d5 1px solid;
 
-        .avoindata-appfeed-application-box {
-          padding-top: 15px;
+        .application-item-logo {
+          margin-right: 0;
           padding-right: 0;
-          margin-left: 0;
-          padding-bottom: 15px;
-          border-top: 1px solid rgba(0, 0, 0, 0.33);
-          border-bottom: 1px none rgba(0, 0, 0, 0.35);
+          padding-left: 0;
 
-          .application-item-logo {
-            margin-right: 0;
-            padding-right: 0;
-            padding-left: 0;
-
-            .application-item-img {
-              height: 120px;
-              width: 120px;
-              object-fit: cover;
-              border-radius: 3px;
-              margin-top: 10px;
-              margin-bottom: 10px;
-            }
-          }
-
-          .application-item-content {
-            padding-left: 0;
-
-            .appitem-header {
-              font-size: 18px;
-              line-height: 24px;
-            }
-
-            .appitem-metainfo {
-              font-size: 12px;
-              font-style: normal;
-              text-transform: uppercase;
-
-              .appitem-fa-icon {
-                color: @sidebar-block-color-header;
-              }
-            }
-
-            .appitem-content {
-              font-size: 14px;
-              line-height: 16px;
-              display: block;
-              display: -webkit-box;
-              height: 64px;
-              -webkit-line-clamp: 4;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+          .application-item-img {
+            height: 120px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 3px;
           }
         }
+
+        .appitem-header {
+          font-size: 24px;
+          text-align: center;
+          line-height: 24px;
+        }
+
+        .appitem-metainfo {
+          font-size: 12px;
+          font-style: normal;
+          text-transform: uppercase;
+          text-align: center;
+
+          .appitem-fa-icon {
+            color: @sidebar-block-color-header;
+          }
+        }
+
+        .appitem-content {
+          font-size: 16px;
+          margin: 20px;
+          line-height: 16px;
+          display: block;
+          display: -webkit-box;
+          height: 100px;
+          -webkit-line-clamp: 6;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
       }
     }
+  }
 
-    .avoindata-appfeed-twittercontainer {
-      margin-top: 12px;
-    }
+  .avoindata-appfeed-twittercontainer {
+    margin-top: 12px;
+  }
+}
+
+.avoindata-appfeed-application-box {
+  & + & {
+    margin-left: 32px;
   }
 }
 

@@ -17,17 +17,12 @@
         </h3>
       </div>
     </div>
-    <div class="avoindata-appfeed-appcontainer col-lg-7 col-md-7 col-sm-12">
-      <div class="avoindata-appfeed-appcontainer-header">
-        <h3>
-          {% trans %}
-          Most recent applications
-          {% endtrans %}
-        </h3> 
-      </div>
-      <div class="avoindata-appfeed-appcontainer-applist">
+    <div class="avoindata-appfeed-appcontainer-applist">
+      <div class="avoindata-appfeed-applist-wrapper row">
         {{  applications  }}
-        <a href="/data/{{ language }}/showcase">
+      </div>
+      <div class="avoindata-appfeed-link">
+        <a class="pull-right" href="/data/{{ language }}/showcase">
           <span class="avoindata-appfeed-link-bullet">
           >
           </span>
