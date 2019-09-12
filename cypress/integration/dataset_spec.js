@@ -109,9 +109,9 @@ describe('Dataset tests', function() {
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
       '#field-position_info': '56.7 43.5',
-      '#field-temporal_granularity-fi': 'test',
-      '#field-temporal_granularity-en': 'test',
-      '#field-temporal_granularity-sv': 'test',
+      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test',
       '#field-temporal_coverage_to': '2019-02-02',
       '#field-temporal_coverage_from': '2018-02-02'
     };
