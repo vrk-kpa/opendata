@@ -33,9 +33,11 @@ describe('Category tests', function () {
     cy.get('button[name=save]').click();
 
     const resource_form_data = {
-      "#field-name_translated-fi": 'test data'
+      "#field-name_translated-fi": 'test data',
+      '#field-image-url': 'http://example.com'
     };
 
+    cy.contains('a', 'Linkki').click();
     cy.fill_form_fields(resource_form_data);
     cy.get('button[name=save]').contains('Valmis').click();
 

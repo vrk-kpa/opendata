@@ -80,6 +80,7 @@
       "preset_name": "resource_url_upload_ex",
       "values": {
         "validators": "not_empty unicode remove_whitespace",
+        "form_snippet": "upload_ex.html",
         "form_placeholder": "http://example.com/my-data.csv",
         "upload_field": "upload",
         "upload_clear": "clear_upload",
@@ -99,7 +100,7 @@
         "form_snippet": "fluent_text_ex.html",
         "display_snippet": "fluent_text.html",
         "error_snippet": "fluent_text.html",
-        "validators": "fluent_text",
+        "validators": "fluent_text use_url_for_name_if_left_empty",
         "output_validators": "fluent_core_translated_output"
       }
     },
