@@ -54,6 +54,8 @@ ansible/vars/private
 *.sublime-project
 *.sublime-workspace
 
+.vscode
+
 token.dat
 
 # Ansible related

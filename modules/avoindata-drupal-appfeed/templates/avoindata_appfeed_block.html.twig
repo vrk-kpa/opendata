@@ -8,17 +8,21 @@
 #}
 <div class="avoindata-appfeed">
   <div class="avoindata-appfeed-container">
-    <div class="avoindata-appfeed-appcontainer col-lg-7 col-md-7 col-sm-12">
-      <div class="avoindata-appfeed-appcontainer-header">
+    <div class="row avoindata-appfeed-header-row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <h3>
           {% trans %}
-          Most recent applications
+            Applications
           {% endtrans %}
-        </h3> 
+        </h3>
       </div>
-      <div class="avoindata-appfeed-appcontainer-applist">
+    </div>
+    <div class="avoindata-appfeed-appcontainer-applist">
+      <div class="avoindata-appfeed-applist-wrapper row">
         {{  applications  }}
-        <a href="/data/{{ language }}/showcase">
+      </div>
+      <div class="avoindata-appfeed-link">
+        <a class="pull-right" href="/data/{{ language }}/showcase">
           <span class="avoindata-appfeed-link-bullet">
           >
           </span>
@@ -27,15 +31,6 @@
           {% endtrans %}
         </a>
       </div>
-    </div>
-    <div class="avoindata-appfeed-twittercontainer col-lg-5 col-md-5 col-sm-12">
-      {% if language == 'fi' %}
-        <a class="twitter-timeline" data-lang="fi" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweetit käyttäjältä avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-      {% elseif language == 'sv' %}
-        <a class="twitter-timeline" data-lang="sv" data-height="605" data-dnt="true" csp=on  href="https://twitter.com/avoindatafi">Tweets av avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-      {% elseif language == 'en' %}
-        <a class="twitter-timeline" data-lang="en" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets by avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-      {% endif %}
     </div>
   </div>
 </div>

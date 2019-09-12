@@ -41,7 +41,8 @@ def resource_status(context=None, data_dict=None):
             patch['status_updated'] = status_updated
         if patch:
             patch['id'] = resource['id']
-            patch_context = {'ignore_auth': True}
+            site_user = logic.get_action('get_site_user')({'ignore_auth': True}, {})
+            patch_context = {'ignore_auth': True, 'user': site_user['name']}
             logic.get_action('resource_patch')(patch_context, patch)
 
     return {'finished': finished,

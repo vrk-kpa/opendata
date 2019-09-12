@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-22 07:07+0000\n"
+"POT-Creation-Date: 2019-09-03 09:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,11 +164,11 @@ msgid "Related item was successfully updated"
 msgstr ""
 
 #: ckanext/ytp/controller.py:478 ckanext/ytp/controller.py:641
-#: ckanext/ytp/controller.py:961
+#: ckanext/ytp/controller.py:962
 msgid "Integrity Error"
 msgstr ""
 
-#: ckanext/ytp/controller.py:498 ckanext/ytp/templates/package/search.html:90
+#: ckanext/ytp/controller.py:498 ckanext/ytp/templates/package/search.html:80
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr ""
@@ -213,30 +213,30 @@ msgstr ""
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:864
+#: ckanext/ytp/controller.py:865
 msgid "No user specified"
 msgstr ""
 
-#: ckanext/ytp/controller.py:870
+#: ckanext/ytp/controller.py:871
 msgid "Unauthorized to edit a user."
 msgstr ""
 
-#: ckanext/ytp/controller.py:889 ckanext/ytp/controller.py:957
+#: ckanext/ytp/controller.py:890 ckanext/ytp/controller.py:958
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:891 ckanext/ytp/controller.py:959
+#: ckanext/ytp/controller.py:892 ckanext/ytp/controller.py:960
 #: ckanext/ytp/logic.py:36
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:897
+#: ckanext/ytp/controller.py:898
 #, python-format
 msgid "User %s not authorized to edit %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:954
+#: ckanext/ytp/controller.py:955
 msgid "Profile updated"
 msgstr ""
 
@@ -283,32 +283,36 @@ msgstr ""
 msgid "Have to be logged in to list admins"
 msgstr ""
 
-#: ckanext/ytp/menu.py:60 ckanext/ytp/templates/package/search.html:31
+#: ckanext/ytp/menu.py:60 ckanext/ytp/templates/user/dashboard.html:25
+msgid "News feed"
+msgstr ""
+
+#: ckanext/ytp/menu.py:70 ckanext/ytp/templates/package/search.html:29
 msgid "My Datasets"
 msgstr ""
 
-#: ckanext/ytp/menu.py:70
+#: ckanext/ytp/menu.py:80
 #: ckanext/ytp/templates/user/dashboard_organizations.html:23
 msgid "My Organizations"
 msgstr ""
 
-#: ckanext/ytp/menu.py:80
+#: ckanext/ytp/menu.py:90
 msgid "Edit Your Profile"
 msgstr ""
 
-#: ckanext/ytp/menu.py:90
+#: ckanext/ytp/menu.py:100
 msgid "My Profile"
 msgstr ""
 
-#: ckanext/ytp/menu.py:102
+#: ckanext/ytp/menu.py:112
 msgid "Account Settings"
 msgstr ""
 
-#: ckanext/ytp/menu.py:119
+#: ckanext/ytp/menu.py:129
 msgid "Delete Account"
 msgstr ""
 
-#: ckanext/ytp/menu.py:135 ckanext/ytp/templates/organization/admin_list.html:4
+#: ckanext/ytp/menu.py:145 ckanext/ytp/templates/organization/admin_list.html:4
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:17
 #: ckanext/ytp/templates/organization/user_list.html:4
 #: ckanext/ytp/templates/user/dashboard_datasets.html:4
@@ -316,7 +320,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/menu.py:145 ckanext/ytp/templates/organization/admin_list.html:31
+#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/index.html:9
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
 #: ckanext/ytp/templates/organization/user_list.html:31
@@ -325,23 +329,23 @@ msgstr ""
 msgid "Organizations"
 msgstr ""
 
-#: ckanext/ytp/menu.py:154
+#: ckanext/ytp/menu.py:164
 msgid "Postit"
 msgstr ""
 
-#: ckanext/ytp/menu.py:191
+#: ckanext/ytp/menu.py:201
 msgid "Publish Public Service"
 msgstr ""
 
-#: ckanext/ytp/menu.py:199
+#: ckanext/ytp/menu.py:209
 msgid "Publish Interoperability Tools"
 msgstr ""
 
-#: ckanext/ytp/menu.py:204
+#: ckanext/ytp/menu.py:214
 msgid "Publish Open Data"
 msgstr ""
 
-#: ckanext/ytp/menu.py:209
+#: ckanext/ytp/menu.py:219
 msgid "Publish Data"
 msgstr ""
 
@@ -377,7 +381,7 @@ msgstr ""
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:305 ckanext/ytp/templates/package/search.html:68
+#: ckanext/ytp/plugin.py:305 ckanext/ytp/templates/package/search.html:58
 #: ckanext/ytp/templates/package/snippets/additional_info.html:15
 msgid "Source"
 msgstr ""
@@ -460,8 +464,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:162
 #: ckanext/ytp/templates/package/snippets/additional_info.html:71
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:222
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:236
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:227
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:241
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
 msgid "Created"
@@ -1316,31 +1320,24 @@ msgid "Show admins only"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:4
-msgid "What are Organizations?"
+msgid "What are Publishers?"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
-msgid ""
-" CKAN Organizations are used to create, manage and publish collections of "
-"datasets. "
+msgid " A publisher is an organisation that has opened their data for public use. "
 msgstr ""
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:13
+#: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" Users can have different roles within an Organization, depending on their "
-"level of authorisation to create, edit and publish. "
+" A publisher can be a public administration organisation or a private sector "
+"company, but also an association, an individual or anything in between. "
 msgstr ""
 
-#: ckanext/ytp/templates/organization/snippets/helper.html:18
+#: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-" Some of the organizations listed here are automatically created. To create a"
-" public administration organization, please contact avoindata@vrk.fi. "
-msgstr ""
-
-#: ckanext/ytp/templates/organization/snippets/helper.html:23
-msgid ""
-" The number next to each organization depicts the total amount of datasets "
-"per organization and includes suborganizations. "
+" Organisations that have added data to opendata.fi are listed on this page. "
+"The number next to the publisher’s name indicates the amount of datasets "
+"belonging to that publisher and its suborganisations. "
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:10
@@ -1484,27 +1481,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:249
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:158
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:163
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:250
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:159
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:164
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:253
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:166
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:171
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
@@ -1513,71 +1510,78 @@ msgstr ""
 msgid " Datasets "
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:32
+#: ckanext/ytp/templates/package/search.html:30
 #: ckanext/ytp/templates/user/dashboard_datasets.html:14
 msgid "Add Dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:39
-msgid "Add open data"
+#: ckanext/ytp/templates/package/search.html:35
+msgid ""
+"The Opendata.fi service does not have an organization where you can upload a "
+"data set."
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:42
-msgid "Add interoperability tools"
+#: ckanext/ytp/templates/package/search.html:36
+msgid ""
+"Ask your employer's open data administrator to add your user account in your "
+"organization. If your employer's organization has not been created yet on "
+"Opendata.fi, ask the service administration to create it before you can "
+"continue. Alternatively, you can also ask the data to be published as a "
+"private individual."
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:62
+#: ckanext/ytp/templates/package/search.html:52
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:63
+#: ckanext/ytp/templates/package/search.html:53
 #: ckanext/ytp/templates/snippets/search_form.html:35
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:64
+#: ckanext/ytp/templates/package/search.html:54
 #: ckanext/ytp/templates/snippets/search_form.html:35
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:65
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:221
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:233
+#: ckanext/ytp/templates/package/search.html:55
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:226
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:238
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:66
+#: ckanext/ytp/templates/package/search.html:56
 msgid "Date Created Ascending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:67
+#: ckanext/ytp/templates/package/search.html:57
 msgid "Date Created Descending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:69
+#: ckanext/ytp/templates/package/search.html:59
 #: ckanext/ytp/templates/snippets/package_item.html:33
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:91
+#: ckanext/ytp/templates/package/search.html:81
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:93
+#: ckanext/ytp/templates/package/search.html:83
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:94
+#: ckanext/ytp/templates/package/search.html:84
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:98
+#: ckanext/ytp/templates/package/search.html:88
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
@@ -1625,19 +1629,23 @@ msgstr ""
 msgid "License Not Specified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:123
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:117
+msgid "Rating"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:128
 msgid "Dataset Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:126
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:131
 msgid "Resource Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:138
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:143
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:146
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:151
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -1645,33 +1653,33 @@ msgid ""
 "resource downloads, comments and translations into consideration."
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:169
 msgid "Downloads during year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:165
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:170
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:182
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:218
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:223
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:219
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:224
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
 msgid "Dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:229
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:234
 msgid "Resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:241
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:246
 msgid "Show change log"
 msgstr ""
 
@@ -1840,6 +1848,18 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
+msgstr ""
+
+#: ckanext/ytp/templates/rating/snippets/rating.html:18
+msgid "Your rating"
+msgstr ""
+
+#: ckanext/ytp/templates/rating/snippets/rating.html:28
+msgid "Login"
+msgstr ""
+
+#: ckanext/ytp/templates/rating/snippets/rating.html:28
+msgid "to leave a rating"
 msgstr ""
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:45
@@ -2240,10 +2260,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"
-msgstr ""
-
-#: ckanext/ytp/templates/user/dashboard.html:25
-msgid "News feed"
 msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:27

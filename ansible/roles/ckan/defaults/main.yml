@@ -5,8 +5,58 @@ ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
 
-ckan_plugins: harvest ckan_harvester hri_harvester dcat structured_data dcat_rdf_harvester dcat_json_harvester dcat_json_interface spatial_metadata spatial_query csw_harvester drupal8 ytp_organizations ytp_request hierarchy_display ytp_theme report ytp_report ytp_drupal ytp_tasks ytp_dataset ytp_spatial ytp_user datastore sixodp_showcase sixodp_showcasesubmit datapusher recline_grid_view recline_graph_view recline_map_view text_view image_view pdf_view geo_view geojson_view sixodp_harvester disqus reminder ytp_restrict_category_creation_and_updating archiver qa ytp_ipermission_labels organizationapproval ytp_resourcestatus ytp_harvesterstatus opendata_group rating
+ckan_plugin_order:
+  - harvest
+  - ckan_harvester
+  - hri_harvester
+  - dcat
+  - structured_data
+  - dcat_rdf_harvester
+  - dcat_json_harvester
+  - dcat_json_interface
+  - spatial_metadata
+  - spatial_query
+  - csw_harvester
+  - drupal8
+  - ytp_organizations
+  - ytp_request
+  - hierarchy_display
+  - ytp_theme
+  - report
+  - ytp_report
+  - ytp_drupal
+  - ytp_tasks
+  - ytp_dataset
+  - ytp_spatial
+  - ytp_user
+  - datastore
+  - sixodp_showcase
+  - sixodp_showcasesubmit
+  - datapusher
+  - recline_grid_view
+  - recline_graph_view
+  - recline_map_view
+  - text_view
+  - image_view
+  - pdf_view
+  - geo_view
+  - geojson_view
+  - sixodp_harvester
+  - disqus
+  - reminder
+  - ytp_restrict_category_creation_and_updating
+  - archiver
+  - qa
+  - ytp_ipermission_labels
+  - organizationapproval
+  - ytp_resourcestatus
+  - ytp_harvesterstatus
+  - opendata_group
+  - rating
+  - advancedsearch
+  - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
 
+ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
 ckan_aws_plugins: cloudstorage
 
 # path to use for all installed components
@@ -47,6 +97,7 @@ ckan_extensions:
   - ckanext-organizationapproval
   - ckanext-advancedsearch
   - ckanext-rating
+  - ckanext-forcetranslation
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -214,6 +265,8 @@ ckan_patches:
   - remove_gravatar
   - add_chaining_of_core_actions # https://github.com/ckan/ckan/pull/4509
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
+  - implement_is_required_for_image_upload
+  - add_group_extra_resource_db_indices
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini

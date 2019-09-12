@@ -505,7 +505,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
             'upper_if_exists': validators.upper_if_exists,
-            'admin_only_field': validators.admin_only_field
+            'admin_only_field': validators.admin_only_field,
+            'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty
         }
 
 

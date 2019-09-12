@@ -107,6 +107,7 @@ describe('Dataset tests', function() {
       '#field-name_translated-fi': 'test data',
       '#field-name_translated-en': 'test data',
       '#field-name_translated-sv': 'test data',
+      '#field-image-url': 'http://example.com',
       '#field-description_translated-fi': 'test kuvaus',
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
@@ -123,7 +124,7 @@ describe('Dataset tests', function() {
       '#field-update_frequency-en': 'test',
       '#field-update_frequency-sv': 'test',
       '#field-temporal_coverage_to': '2019-02-02',
-      '#field-temporal_coverage_from': '2018-02-02' 
+      '#field-temporal_coverage_from': '2018-02-02'
     };
     cy.create_new_dataset(dataset_name, dataset_form_data, resource_form_data);
   })

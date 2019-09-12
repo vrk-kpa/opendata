@@ -40,6 +40,7 @@ describe('Advanced search tests', () => {
                 resource_data: {
                     '#field-name_translated-fi': 'test data',
                     '#field-description_translated-fi': 'test kuvaus',
+                    '#field-image-url': 'http://example.com',
                     '#field-format': {
                         value: 'CSV',
                         force: true
@@ -64,6 +65,7 @@ describe('Advanced search tests', () => {
                 resource_data: {
                     '#field-name_translated-fi': 'some test data',
                     '#field-description_translated-fi': 'description for data',
+                    '#field-image-url': 'http://example.com',
                     '#field-format': {
                         value: 'XML',
                         force: true
@@ -121,14 +123,14 @@ describe('Advanced search tests', () => {
             cy.get('.dataset-list').children().should('have.length', 1)
             cy.get('.dataset-heading').contains('first dataset')
         });
-    
+
         it('Searching with query "second"', () => {
             fill_and_submit({
                 '#advanced-search-keywords': 'second'
             })
             cy.get('.dataset-list').children().should('have.length', 1)
         });
-    
+
         it('Search with what both have in common', () => {
             fill_and_submit({
                 '#advanced-search-keywords': 'dataset'

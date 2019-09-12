@@ -1,10 +1,11 @@
-from ckan.logic import get_action
+from ckan.plugins.toolkit import get_action, check_access, c
 from ckan import model
 
 # TODO: Should not be cross dependant to ckanext.ytp
 # This is specific to ytp
 from ckanext.ytp.helpers import get_translated
 
+import json
 import logging
 
 log = logging.getLogger(__name__)
@@ -90,10 +91,18 @@ def advanced_category_options(field=None):
 
 
 def advanced_publisher_options(field=None):
-    import ckan.plugins as p
-    context = {'model': model, 'session': model.Session}
-    publishers = p.toolkit.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
+    check_access('organization_list', {'user': c.user, 'model': model, 'session': model.Session})
+    data = model.Session.query(model.Group.name, model.Group.title, model.GroupExtra.value) \
+        .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id) \
+        .filter(model.Group.state == u'active') \
+        .filter(model.Group.is_organization.is_(True)) \
+        .filter(model.GroupExtra.state == u'active')\
+        .filter(model.GroupExtra.key == u'title_translated')\
+        .all()
 
+    publishers = [
+            {'id': gid, 'title': title, 'title_translated': json.loads(title_translated)}
+            for gid, title, title_translated in data]
     return make_options(publishers, has_translated=True)
 
 
