@@ -89,6 +89,7 @@ def _translations():
     _('public_administration_organization')
     _('personal_datasets')
     _('State administration')
+    _('Country')
     _('Region')
     _('Open Data')
     _('Interoperability Tools')
