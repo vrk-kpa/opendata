@@ -141,7 +141,7 @@
       "preset_name": "vocabulary_with_autocomplete",
       "values": {
         "validators": "not_empty convert_to_list create_tags(example_vocab)",
-        "output_validators": "fluent_tags_output",
+        "output_validators": "convert_to_json_compatible_str_if_str fluent_tags_output",
         "form_attrs": {
           "data-module": "autocomplete",
           "data-module-tags": "",
@@ -156,7 +156,7 @@
       "preset_name": "fluent_vocabulary_with_autocomplete",
       "values":{
         "validators": "only_default_lang_required fluent_tags create_fluent_tags(example_vocab)",
-        "output_validators": "fluent_tags_output",
+        "output_validators": "convert_to_json_compatible_str_if_str fluent_tags_output",
         "form_attrs": {
           "data-module": "autocomplete",
           "data-module-tags": "",
