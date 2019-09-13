@@ -497,7 +497,7 @@ def use_url_for_name_if_left_empty(field, schema):
 def convert_to_json_compatible_str_if_str(value):
     if isinstance(value, basestring):
         if value == "":
-            value = json.dumps({})
+            return json.dumps({})
         try:
             json.loads(value)
         except ValueError:
