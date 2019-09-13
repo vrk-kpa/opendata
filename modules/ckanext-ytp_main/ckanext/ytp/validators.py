@@ -492,3 +492,15 @@ def use_url_for_name_if_left_empty(field, schema):
             resource_names_translated['fi'] = resource_url
             data[key] = json.dumps(resource_names_translated)
     return validator
+
+def convert_to_json_compatible_str_if_str(value):
+    log.info("Converting value %s", value)
+    if isinstance(value, basestring):
+        try:
+            json.loads(value)
+        except ValueError:
+            if value == "":
+                value = json.dumps({})
+            else:
+                value = json.dumps({'fi': value})
+        return value

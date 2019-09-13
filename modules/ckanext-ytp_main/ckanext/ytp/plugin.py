@@ -506,7 +506,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
             'upper_if_exists': validators.upper_if_exists,
             'admin_only_field': validators.admin_only_field,
-            'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty
+            'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
+            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str
         }
 
 
