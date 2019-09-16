@@ -14,6 +14,8 @@ parser.add_option("-i", "--import", dest="import_filename",
                   help="import data from FILE", metavar="FILE")
 parser.add_option("-a", "--apikey", dest="apikey",
                   help="Use CKAN API key in requests")
+parser.add_option("--ignore-errors", dest="ignore_errors", action="store_true",
+                  help="Process entire CSV despite errors")
 
 (opts, args) = parser.parse_args()
 if len(args) != 1:
@@ -39,6 +41,8 @@ def json_post(url, data={}, headers={}):
     response = requests.post(url, headers=headers, json=data)
     if response.status_code == 200:
         return response.json()
+    elif opts.ignore_errors:
+        sys.stderr.write("\nGot error from API: %s\n" % response.text)
     else:
         raise Exception("Got error from API: %s", response.text)
 
