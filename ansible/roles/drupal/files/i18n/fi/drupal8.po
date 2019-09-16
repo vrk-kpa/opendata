@@ -2667,7 +2667,7 @@ msgid "Workflow"
 msgstr ""
 
 msgid "Modified"
-msgstr ""
+msgstr "Muokattu"
 
 msgid "Show"
 msgstr ""

@@ -165,6 +165,7 @@
     - core.base_field_override.node.article.promote
     - editor.editor.full_html
     - block.block.avoindata_collapsiblesearch
+    - block.block.avoindata_infobox
   tags:
     - skip_ansible_lint
 

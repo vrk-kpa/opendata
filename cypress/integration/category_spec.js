@@ -44,8 +44,5 @@ describe('Category tests', function () {
     cy.get('a[href="/data/fi/dataset/groups/' + dataset_name + '"]').click();
 
     cy.get('a[href="/data/fi/group/' + category_name_1 + '"]').should('exist');
-
-    cy.delete_dataset(dataset_name);
-
   })
 });
