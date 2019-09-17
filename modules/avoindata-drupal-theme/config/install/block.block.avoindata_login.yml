@@ -1,0 +1,19 @@
+langcode: fi
+status: true
+dependencies:
+  module:
+    - avoindata_header
+  theme:
+    - avoindata
+id: avoindata_login
+theme: avoindata
+region: top_bar
+weight: 2
+provider: null
+plugin: avoindata_login
+settings:
+  id: avoindata_login
+  label: 'Avoindata login'
+  provider: avoindata_login
+  label_display: '0'
+visibility: {  }

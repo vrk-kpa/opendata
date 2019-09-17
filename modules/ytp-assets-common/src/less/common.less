@@ -1,7 +1,4 @@
-@import "variables.less";
-
-body {
-}
+@import 'variables';
 
 h1,
 h2,
@@ -13,8 +10,14 @@ h6 {
   text-rendering: optimizelegibility;
 }
 
+h3 {
+  font-size: 40px;
+  font-weight: 300;
+}
+
 a {
   color: @link-color;
+
   &:hover,
   &:focus {
     color: @link-color-focus;
@@ -33,15 +36,25 @@ textarea {
 @-webkit-viewport {
   width: device-width;
 }
+
 @-moz-viewport {
   width: device-width;
 }
+
 @-ms-viewport {
   width: device-width;
 }
+
 @-o-viewport {
   width: device-width;
 }
+
 @viewport {
   width: device-width;
+}
+
+::selection {
+  background: @suomi-brandBase;
+  color: @suomi-whiteBase;
+  text-shadow: none;
 }

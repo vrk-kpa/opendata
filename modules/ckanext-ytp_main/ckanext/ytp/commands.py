@@ -1,12 +1,19 @@
+# -*- coding: utf8 -*-
+
 from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action
 from ckan import model
+from ckanext.ytp.translations import facet_translations
+from ckan.logic import ValidationError
+import ckan.plugins.toolkit as t
+import ckan.lib.mailer as mailer
+from datetime import datetime
 import polib
 import os
 import re
 import glob
-from ckanext.ytp.translations import facet_translations
-from ckan.logic import ValidationError
+from tools import check_package_deprecation
+from logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
 
@@ -202,6 +209,39 @@ def migrate(ctx, config, dryrun):
 
 
 @ytp_dataset_group.command(
+    u'migrate_temporal_granularity',
+    help=u'Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_temporal_granularity(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    resource_patches = []
+
+    for old_package_dict in package_generator('*:*', 1000):
+        for resource in old_package_dict.get('resources', []):
+            temporal_granularity = resource.get('temporal_granularity')
+            if temporal_granularity and len(temporal_granularity) > 0:
+                changes = False
+                for k, v in temporal_granularity.items():
+                    if isinstance(v, basestring) and len(v) > 0:
+                        temporal_granularity[k] = [v]
+                        changes = True
+                    elif isinstance(v, basestring) and len(v) is 0:
+                        temporal_granularity.pop(k)
+                        changes = True
+                if changes:
+                    resource_patches.append(resource)
+    if dryrun:
+        print '\n'.join('%s' % p for p in resource_patches)
+    else:
+        # No package patches so empty parameter is passed
+        apply_patches([], resource_patches)
+
+
+@ytp_dataset_group.command(
     u'migrate_high_value_datasets',
     help=u'Migrates high value datasets to international benchmarks'
 )
@@ -265,16 +305,20 @@ def apply_group_assigns(group_packages_map):
                     print e
 
 
-def package_generator(query, page_size):
-    context = {'ignore_auth': True}
+def package_generator(query, page_size, context={'ignore_auth': True}):
     package_search = get_action('package_search')
 
+    # Loop through all items. Each page has {page_size} items.
+    # Stop iteration when all items have been looped.
     for index in itertools.count(start=0, step=page_size):
         data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
-        packages = package_search(context, data_dict).get('results', [])
+        data = package_search(context, data_dict)
+        packages = data.get('results', [])
         for package in packages:
             yield package
-        else:
+
+        # Stop iteration all query results have been looped through
+        if data["count"] < (index + page_size):
             return
 
 
@@ -303,6 +347,44 @@ def batch_edit(ctx, config, search_string, dryrun, group):
     else:
         if group:
             apply_group_assigns(group_assigns)
+
+
+@ytp_dataset_group.command(
+    u'update_package_deprecation',
+    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def update_package_deprecation(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    # deprecation emails will be sent to items inside deprecated_now array
+    deprecated_now = []
+    package_patches = []
+
+    # Get only packages with a valid_till field and some value in the valid_till field
+    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
+        valid_till = old_package_dict.get('valid_till')
+
+        # For packages that have a valid_till date set depracated field to true or false
+        # deprecation means that a package has been valid but is now old and not valid anymore.
+        # This does not take into account if the package is currently valid eg. valid_from.
+        if valid_till is not None:
+            current_deprecation = old_package_dict.get('deprecated')
+            deprecation = check_package_deprecation(valid_till)
+            if current_deprecation != deprecation:
+                patch = {'id': old_package_dict['id'], 'deprecated': deprecation}
+                package_patches.append(patch)
+                # Send email only when actually deprecated. Initial deprecation is undefined when adding this feature
+                if current_deprecation is False and deprecation is True:
+                    deprecated_now.append(old_package_dict['id'])
+
+    if dryrun:
+        print '\n'.join(('%s | %s' % (p, p['id'] in deprecated_now)) for p in package_patches)
+    else:
+        # No resources patches so empty parameter is passed
+        apply_patches(package_patches, [])
+        send_package_deprecation_emails(deprecated_now)
 
 
 ytp_org_group = paster_click_group(
@@ -420,3 +502,111 @@ def add_to_groups(ctx, config, dryrun):
     else:
         for d in data_dicts:
             get_action('group_member_create')(context, d)
+
+
+opendata_harvest_group = paster_click_group(
+    summary=u'Harvester related commands.'
+)
+
+
+@opendata_harvest_group.command(
+    u'send-status-emails',
+    help='Sends harvester status emails to configured recipients'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.option(u'--force', is_flag=True)
+@click.option(u'--all-harvesters', is_flag=True)
+@click.pass_context
+def send_harvester_status_emails(ctx, config, dryrun, force, all_harvesters):
+    load_config(config or ctx.obj['config'])
+
+    email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', ''))
+
+    if not email_notification_recipients and not dryrun:
+        print 'No recipients configured'
+        return
+
+    status_opts = {} if not all_harvesters else {'include_manual': True, 'include_never_run': True}
+    status = get_action('harvester_status')({}, status_opts)
+
+    errored_runs = any(item.get('errors') != 0 for item in status.values())
+    running = (item.get('started') for item in status.values() if item.get('status') == 'running')
+    stuck_runs = any(_elapsed_since(started).days > 1 for started in running)
+
+    if not (errored_runs or stuck_runs) and not force:
+        print 'Nothing to report'
+        return
+
+    if len(status) == 0:
+        print 'No harvesters matching criteria found'
+        return
+
+    site_title = t.config.get('ckan.site_title', '')
+    today = datetime.now().date().isoformat()
+
+    status_templates = {
+            'running': '%%(title)-%ds | Running since %%(time)s with %%(errors)d errors',
+            'finished': '%%(title)-%ds | Finished %%(time)s with %%(errors)d errors',
+            'pending': '%%(title)-%ds | Pending since %%(time)s'}
+    unknown_status_template = '%%(title)-%ds | Unknown status: %%(status)s'
+    max_title_length = max(len(title) for title in status)
+
+    def status_string(title, values):
+        template = status_templates.get(values.get('status'), unknown_status_template)
+        status = values.get('status')
+        time_field = 'finished' if status == 'finished' else 'started'
+        return template % max_title_length % {
+                'title': title,
+                'time': _pretty_time(values.get(time_field)),
+                'status': status,
+                'errors': values.get('errors')
+                }
+
+    msg = '%(site_title)s - Harvester summary %(today)s\n\n%(status)s' % {
+            'site_title': site_title,
+            'today': today,
+            'status': '\n'.join(status_string(title, values) for title, values in status.items())
+            }
+
+    for recipient in email_notification_recipients:
+        email = {'recipient_name': recipient,
+                 'recipient_email': recipient,
+                 'subject': '%s - Harvester summary %s' % (site_title, today),
+                 'body': msg}
+
+        if dryrun:
+            print 'to: %s' % recipient
+        else:
+            try:
+                mailer.mail_recipient(**email)
+            except mailer.MailerException as e:
+                print 'Sending harvester summary to %s failed: %s' % (recipient, e)
+
+    if dryrun:
+        print msg
+
+
+def _elapsed_since(t):
+    if t is None:
+        return t
+    if isinstance(t, str):
+        t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    return datetime.now() - t
+
+
+def _pretty_time(t):
+    if t is None:
+        return 'unknown'
+
+    delta = _elapsed_since(t)
+    if delta.days == 0:
+        return 'today'
+    if delta.days == 1:
+        return 'yesterday'
+    elif delta.days < 30:
+        return '%d days ago' % delta.days
+    elif delta.days < 365:
+        return '%d months ago' % int(delta.days / 30)
+    else:
+        return '%d years ago' % int(delta.days / 365)

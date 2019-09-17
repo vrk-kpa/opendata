@@ -1,0 +1,54 @@
+{% extends "page.html" %}
+
+{%- set schema = h.advancedsearch_schema() -%}
+
+{% block meta %}
+    {{ super() }}
+    <meta name="robots" content="noindex, follow" />
+{% endblock %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block subtitle %}{{ _("Advanced search") }}{% endblock %}
+
+{% block breadcrumb_content %}
+    <li class="active">
+        <a 
+            href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}"
+            title="{{ _('Advanced search') }}"
+        >
+                {{_('Advanced search')}}
+        </a>
+    </li>
+{% endblock %}
+
+{% block primary_content %}
+  <h1>{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
+  <div>
+    {% block advanced_search_form %}
+      {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
+    {% endblock %}
+  </div>
+
+  {% block advanced_result_list %}
+    <div>
+        <h2>{{_('Search results')}} ({{ c.advanced_search.item_count }})</h2>
+        <div class="mt-4">
+            {{ h.snippet('snippets/package_list.html', packages=c.advanced_search.collection) }}
+        </div>
+        {% if c.advanced_search.item_count > 0 %}
+            <div>
+                {{
+                    h.snippet(
+                        'advanced_search/snippets/post_pagination.html',
+                        page=c.advanced_search.last_query.page,
+                        total_pages=c.advanced_search.total_pages,
+                        prev_query=c.advanced_search.last_query,
+                    )
+                }}
+            </div>
+        {% endif %}
+    </div>
+  {% endblock %}
+{% endblock %}

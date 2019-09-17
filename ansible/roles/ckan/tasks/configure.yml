@@ -1,4 +1,22 @@
 ---
+
+- name: Create temporary patch file for Sentry
+  template:
+    src: sentry.patch.j2
+    dest: /tmp/sentry.patch
+    owner: root
+    group: root
+    mode: 0400
+  when: ckan_sentry_integration_enabled|bool
+
+- name: Apply Sentry CKAN patches
+  patch:
+    src: /tmp/sentry.patch
+    basedir: "{{ ckan_source_path }}"
+    strip: 1
+    remote_src: true
+  when: ckan_sentry_integration_enabled|bool
+
 - name: Copy credentials token
   copy:
     src: "{{ ckan_google_credentials }}"
@@ -26,6 +44,14 @@
   with_items: "{{ ckan_config_files }}"
   notify: Restart Apache
 
+- name: Setup beaker session cleanup script
+  template:
+    src: "beaker_session_cleanup.sh.j2"
+    dest: "/usr/local/sbin/beaker_session_cleanup.sh"
+    mode: "0500"
+    owner: root
+    group: "root"
+
 - name: Setup Apache WSGI script
   template:
     src: "apache.wsgi.j2"
@@ -41,6 +67,7 @@
   command: supervisorctl stop all
   tags:
     - skip_ansible_lint
+    - supervisor
 
 - name: re-minify CKAN javascript files
   shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
@@ -88,6 +115,8 @@
   register: supervisor_configuration
   notify:
     - Restart supervisor services
+  tags:
+    - supervisor
 
 - name: Ensure supervisor services
   supervisorctl:
@@ -95,5 +124,18 @@
     state: present
   with_flattened:
     - "{{ ckan_supervisor_services }}"
+  tags:
+    - supervisor
+
+- name: Start supervisor services
+  supervisorctl:
+    name: "{{ item }}"
+    state: started
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"
+  tags:
+    - supervisor
 
 - include: cron.yml
+  tags:
+    - cron

@@ -5,16 +5,15 @@ Displays a test for results of a search.
 query        - The text that was searched for
 count        - The number of results for the search
 type         - Search result type (dataset, group, organization)
-from         - Place from where this snippet is called (needed for RSS url customization)
 Example:
 
-  {% snippet 'snippets/search_result_text.html', query=query, count=count, type='dataset', from='organization' %}
+  {% snippet 'snippets/search_result_text.html', query=query, count=count, type='dataset' %}
 }
 }
 
 #}
 
-{% if type == 'dataset' %}
+{% if type == 'dataset' or type == 'showcase_dataset' %}
   {% set text_query = ungettext('{number} dataset found for "{query}"', '{number} datasets found for "{query}"', count) %}
   {% set text_query_none = _('No datasets found for "{query}"') %}
   {% set text_no_query = ungettext('{number} dataset found', '{number} datasets found', count) %}
@@ -33,13 +32,6 @@ Example:
   {% set text_no_query_none = _('No organizations found') %}
 {%- endif -%}
 
-{% if c.search_url_params %}
-{%set rss_url = '/data/feeds/custom.atom?'+c.search_url_params %}
-{%- elif from == 'organization' and c.group_dict.name -%}
-{%set rss_url = '/data/feeds/organization/'+c.group_dict.name + '.atom' %}
-{%- elif from == 'dataset' -%}
-{%set rss_url = '/data/feeds/dataset.atom' %}
-{%- endif -%}
 {% if query %}
   {%- if count -%}
     {{ text_query.format(number=h.localised_number(count), query=query) }}
@@ -52,9 +44,4 @@ Example:
   {%- else -%}
     {{ text_no_query_none }}
   {%- endif -%}
-{%- endif -%}
-{% if type == 'dataset' %}
-<span>
-  <a class="icon-rss-sign icon-large" href="{{ rss_url }}" target="_blank"></a>
-</span>
 {%- endif -%}

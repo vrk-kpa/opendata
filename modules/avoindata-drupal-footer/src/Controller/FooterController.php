@@ -26,8 +26,10 @@ class FooterController extends ControllerBase {
       '#theme' => 'avoindata_footer',
     ];
 
+    $response = new Response(\Drupal::service('renderer')->renderRoot($build));
+    $response->setCache(['public' => TRUE, 'max_age' => 3600]);
     // Only render this part, not the whole page.
-    return new Response(\Drupal::service('renderer')->renderRoot($build));
+    return $response;
   }
 
 }

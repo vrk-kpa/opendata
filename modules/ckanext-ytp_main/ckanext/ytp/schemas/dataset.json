@@ -67,6 +67,16 @@
       "required": true
     },
     {
+      "field_name": "categories",
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox.html",
+      "choices_helper": "scheming_category_list",
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
+      "validators": "save_to_groups",
+      "display_snippet": null
+    },
+    {
       "field_name": "international_benchmarks",
       "label": "International benchmarks",
       "form_placeholder":"eg. Maps",
@@ -127,14 +137,6 @@
       "description": "The organization which owns the dataset."
     },
     {
-      "field_name": "owner",
-      "label": "Owner",
-      "form_placeholder": "Joe Bloggs",
-      "form_attrs": {
-        "class": "form-control"
-      }
-    },
-    {
       "field_name": "license_id",
       "label": "License",
       "preset": "sixodp_licence",
@@ -187,40 +189,6 @@
       "form_snippet": "repeating.html",
       "description": "Links to additional information concerning the dataset."
     },
-
-    {
-      "field_name": "url",
-      "label": "Source",
-      "form_placeholder": "http://example.com/dataset.json",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "foaf:homepage",
-      "display_snippet": "link.html",
-      "description": "The origin of the dataset."
-    },
-
-    {
-      "field_name": "author",
-      "label": "Author",
-      "form_placeholder": "Joe Bloggs",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "dc:creator"
-    },
-    {
-      "field_name": "author_email",
-      "label": "Author email",
-      "form_placeholder": "joe@example.com",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "dc:creator",
-      "display_snippet": "email.html",
-      "validators": "email_validator",
-      "display_email_name_field": "author"
-    },
     {
       "field_name": "update_frequency",
       "label": "Update frequency",
@@ -256,6 +224,24 @@
       "label": "Valid till",
       "preset": "date_opendata",
       "min_date_field": "valid_from"
+    },
+    {
+      "field_name": "deprecated",
+      "label": "Deprecated",
+      "preset": "select",
+      "choices": [
+        {
+          "value": false,
+          "label": "No"
+        },
+        {
+          "value": true,
+          "label": "Yes"
+        }
+      ],
+      "form_snippet": null,
+      "validators": "check_deprecation boolean_validator",
+      "output_validators": "boolean_validator"
     }
   ],
   "resource_fields": [
@@ -273,11 +259,12 @@
     {
       "field_name": "url",
       "label": "URL",
-      "preset": "resource_url_upload",
+      "preset": "resource_url_upload_ex",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A file or url which describes the location of the desired resource file."
+      "description": "A file or url which describes the location of the desired resource file.",
+      "required": true
     },
     {
       "field_name": "file_size",
@@ -333,53 +320,17 @@
       "description": "Coordinates which describe the area which the added resource is associated with."
     },
     {
-      "field_name": "time_series_start",
-      "label": "Time series start",
-      "form_attrs": {
-        "data-datetimepicker": ""
-      },
-      "preset": "date_opendata",
-      "display_snippet": "date.html",
-      "description": "A moment in time after which the data is relevant."
-    },
-    {
-      "field_name": "time_series_end",
-      "label": "Time series end",
-      "form_attrs": {
-        "data-datetimepicker": ""
-      },
-      "preset": "date_opendata",
-      "display_snippet": "date.html",
-      "description": "A moment in time after which the data is no longer relevant."
-    },
-    {
-      "field_name": "time_series_precision",
-      "label": "Time series precision",
+      "field_name": "temporal_granularity",
+      "label": "Temporal granularity",
       "form_placeholder":"eg. 2 weeks",
       "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(time_series_precision)",
+      "validators": "fluent_tags create_fluent_tags(temporal_granularity)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=time_series_precision"
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=temporal_granularity"
       },
       "description": "A string which describes the precision of the entered time series."
-    },
-    {
-      "field_name": "temporal_granularity",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "label": "Temporal granularity",
-      "preset": "fluent_text"
-    },
-    {
-      "field_name": "update_frequency",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "label": "Update frequency",
-      "preset": "fluent_text"
     },
     {
       "field_name": "temporal_coverage_to",
@@ -390,6 +341,21 @@
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
       "preset": "date_opendata"
+    },
+    {
+      "field_name": "status_updated",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "sha256",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "malware_check",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing admin_only_field"
     }
   ]
 }

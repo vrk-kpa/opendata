@@ -1,0 +1,109 @@
+{% set label = field.label %}
+{% set name = field.field_name %}
+{% set options = h.field_options(field) %}
+{% set allow_select_all = field.display_options.allow_select_all %}
+{% set prev_selected = h.value_or_blank(prev_query, name) %}
+
+{% if prev_selected %}
+    {% set stats_prev = h.selected_indexes_checkboxes(options, prev_selected) %}
+{% endif %}
+
+{% resource 'advancedsearch/javascript/ytp-multiselect.js' %}
+
+
+<div
+    class="ytp-multiselect ytp-multiselect-{{name}} mb-3"
+    data-module="ytp-multiselect"
+    data-module-name="{{name}}"
+    data-module-allow-all="{% if allow_select_all %}true{% else %}false{% endif %}"
+    data-module-all-translation="{{_('All')}}"
+    data-module-select-translation="{{_('selected')}}"
+>
+    <label for="advanced-search-dropdown-toggle-{{name}}" class="ytp-input-label">
+        {{_(label)}}
+    </label>
+    <button
+        for="advanced-search-dropdown-toggle-{{name}}"
+        class="ytp-multiselect-toggle ytp-input-element"
+        type="button"
+        aria-expanded="false"
+    >  
+        {% if prev_selected %}
+            {% if stats_prev %}
+                {% if not stats_prev.all_selected %}
+                    {% set status %}
+                        {{stats_prev.indexes|length}} {{_('selected')}}
+                    {% endset %}
+                {% else %}
+                    {% set status = _('All') %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% set status %}
+                0 {{_('selected')}}
+            {% endset %}
+        {% endif %}
+        <!--
+            TODO: This could be made more accessible for screenreader users
+            by moving the focus and by providing better indicators of what happens when buttons are clicked
+        -->
+        <span class="multiselect-status">{{status}}</span>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        <i class="fa fa-caret-up" aria-hidden="true"></i>
+    </button>
+    <fieldset id="advanced-search-dropdown-{{name}}">
+        <div class="choicelist" id="{{name}}-choicelist">
+            <!-- Get selection from previous query and apply it to the current inputs -->
+            {% if allow_select_all %}
+                {% if prev_selected %}
+                    {% set checked = stats_prev.all_selected %}
+                {% else %}
+                    {% set checked = false %}
+                {% endif %}
+                <label class="ytp-checkbox choice m-0" for="{{name}}-checkbox-all">
+                    <input
+                        class="m-0 sr-only"
+                        type="checkbox"
+                        name="{{name}}"
+                        value="all"
+                        id="{{name}}-checkbox-all"
+                        data-option-value="all"
+                        data-option-label="{{ _('All') }}"
+                        {% if checked %}checked{% endif %}
+                    >
+                    <span class="custom-checkbox">
+                    </span>
+                    <span class="m-0 ml-2">
+                        {{ _('All') }}
+                    </span>
+                </label>
+            {% endif %}
+            {% if options %}
+                {% for option in options %}
+                    {% if prev_selected %}
+                        {% set checked = (loop.index in stats_prev.indexes) %}
+                    {% else %}
+                        {% set checked = false %}
+                    {% endif %}
+                    <label class="ytp-checkbox choice m-0" for="{{name}}-checkbox-{{option.value}}">
+                        <input
+                            class="m-0 sr-only"
+                            type="checkbox"
+                            name="{{name}}"
+                            value="{{option.value}}"
+                            id="{{name}}-checkbox-{{option.value}}"
+                            data-option-value="{{option.value}}"
+                            data-option-label="{{option.label}}"
+                            {% if checked %}checked{% endif %}
+                        >
+                        <span class="custom-checkbox">
+                        </span>
+                        <span class="m-0 ml-2">
+                            {{option.label}}
+                        </span>
+                    </label>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </fieldset>
+</div>

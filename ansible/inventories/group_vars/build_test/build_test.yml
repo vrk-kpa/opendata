@@ -10,7 +10,7 @@ smtp_server_domain: "localhost"
 admin_email: "no-reply@localhost"
 
 vagrant: false
-secrets_file_path: does_not_exist
+secrets_file: does_not_exist
 deployment_environment_id: build_test
 disqus_name: ""
 database_host: "127.0.0.1"
@@ -19,12 +19,11 @@ database_ip_range: "127.0.0.1/8"
 
 postgres_installed_locally: true
 
-ckan_profiling_enabled: False
-ckan_smtp_use_tls: False
-ckan_smtp_port: 1025
-ckan_site_protocol: "http"
-ckan_disqus_name: "{{ disqus_name }}"
-ckan_enable_cloudstorage: false
-ckan_postgres_installed_locally: true
-
 nginx_development_environment: true
+
+AWS:
+  enabled: false
+  region: S3_EU_WEST
+  use_iam_role: true
+  ckan_s3_bucket: avoindata-buildtest-datasets
+  smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"

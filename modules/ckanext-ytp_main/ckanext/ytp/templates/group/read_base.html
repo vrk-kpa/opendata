@@ -1,0 +1,8 @@
+{% ckan_extends %}
+
+{% block breadcrumb_content %}
+    <li>{% link_for _('Groups'), named_route=group_type+'_index' %}</li>
+    <li class="active">
+        {% link_for h.get_translated(c.group_dict, 'title')|truncate(35), named_route=group_type+'_read', id=c.group_dict.name %}
+    </li>
+{% endblock %}

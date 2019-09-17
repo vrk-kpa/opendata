@@ -1,4 +1,3 @@
-import ast
 import json
 import logging
 import pylons
@@ -18,26 +17,23 @@ from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl import dictization_functions
-from ckan.lib.navl.dictization_functions import Missing, StopOnError, missing, flatten_dict, unflatten, Invalid
-from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation
+from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
+from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action
 from ckan.model import Session
 from ckan.plugins import toolkit
-from ckan.plugins.toolkit import config
+from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
-
+from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
 from webhelpers.html import escape
-from webhelpers.html.builder import literal
 from webhelpers.html.tags import link_to
 
 import auth
 import menu
 
-from converters import to_list_json, from_json_list, is_url, \
-     convert_to_tags_string, string_join, date_validator, simple_date_validate
+from converters import convert_to_tags_string, save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -45,10 +41,11 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
-    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year
-from tools import create_system_context, get_original_method, add_translation_show_schema, add_languages_show, \
-    add_translation_modify_schema, add_languages_modify
+    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
+    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
+    get_last_harvested_date, get_resource_sha256
 
+from tools import create_system_context, get_original_method
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -154,7 +151,6 @@ def _format_extras(extras):
 
 
 def _dict_formatter(key, value):
-
     value_formatter = _key_functions.get(key)
     if value_formatter:
         return value_formatter(key, value)
@@ -176,44 +172,6 @@ def _parse_extras(key, extras):
         value = extra.get('value')
         extras_dict.update(_dict_formatter(key, value))
     return extras_dict
-
-
-def set_empty_if_missing(value, context):
-    return value if value else u""
-
-
-def set_to_user_name(value, context):
-    return context['auth_user_obj'].display_name
-
-
-def set_to_user_email(value, context):
-    return context['auth_user_obj'].email
-
-
-def not_value(text_value):
-    def callback(key, data, errors, context):
-        value = data.get(key)
-        if value == text_value:
-            errors[key].append(_('Missing value'))
-            raise StopOnError
-    return callback
-
-
-def not_empty_or(item):
-    def callback(key, data, errors, context):
-        value = data.get(key)
-        if value == "":
-            # tag_string is converted to tags, so we need check if value is given as empty
-            errors[key].append(_('Missing value'))
-            raise StopOnError
-        elif not value or value is missing:
-            value = data.get((item, 0, u'name'), None)
-            if not value or value is missing:
-                errors[key].append(_('Missing value'))
-            else:
-                data.pop(key, None)
-            raise StopOnError
-    return callback
 
 
 _key_functions = {u'extras': _parse_extras}
@@ -245,10 +203,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITranslation)
 
-    _collection_mapping = {None: ("package/ytp/new_select.html", 'package/new_package_form.html'),
-                           OPEN_DATA: ('package/new.html', 'package/new_package_form.html'),
-                           INTEROPERABILITY_TOOLS: ('package/new.html', 'package/new_package_form.html')}
-
     _localized_fields = ['title', 'notes', 'copyright_notice']
 
     _key_exclude = ['resources', 'organization', 'copyright_notice', 'license_url', 'name',
@@ -276,6 +230,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IRoutes #
 
     def before_map(self, m):
+        health_controller = 'ckanext.ytp.health:HealthController'
+        m.connect('/health', action='check', controller=health_controller)
         """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
@@ -297,6 +253,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
                   action='edit_related', controller=controller)
         # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
+        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
         m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
                   controller=controller)
         return m
@@ -312,81 +269,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm
-
-    def _modify_package_schema(self, schema):
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        convert_to_extras = toolkit.get_converter('convert_to_extras')
-        not_empty = toolkit.get_validator('not_empty')
-        schema = add_translation_modify_schema(schema)
-
-        schema.update({'copyright_notice': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'collection_type': [not_empty, unicode, convert_to_extras]})
-        schema.update({'extra_information': [ignore_missing, is_url, to_list_json, convert_to_extras]})
-        schema.update({'valid_from': [ignore_missing, date_validator, convert_to_extras]})
-        schema.update({'valid_till': [ignore_missing, date_validator, convert_to_extras]})
-        schema.update({'content_type': [not_empty, convert_to_tags_string('content_type')]})
-
-        schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
-        schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
-
-        schema.update({'owner': [set_empty_if_missing, unicode, convert_to_extras]})
-        schema.update({'maintainer': [set_empty_if_missing, unicode]})
-        schema.update({'maintainer_email': [set_empty_if_missing, unicode]})
-
-        res_schema = schema.get('resources')
-        res_schema.update({'temporal_coverage_from': [ignore_missing, simple_date_validate],
-                           'temporal_coverage_to': [ignore_missing, simple_date_validate]})
-        schema.update({'resources': res_schema})
-        schema = add_languages_modify(schema, self._localized_fields)
-
-        if not self.auto_author or c.userobj.sysadmin:
-            schema.update({'author': [set_empty_if_missing, unicode]})
-            schema.update({'author_email': [set_empty_if_missing, unicode]})
-        else:
-            schema.update({'author': [set_to_user_name, ignore_missing, unicode]})
-            schema.update({'author_email': [set_to_user_email, ignore_missing, unicode]})
-
-        # Override CKAN schema
-        schema.update({'title': [not_empty, unicode]})
-        schema.update({'notes': [not_empty, unicode]})
-        schema.update({'license_id': [not_empty, not_value('notspecified'), unicode]})
-
-        tag_string_convert = toolkit.get_validator('tag_string_convert')
-        schema.update({'tag_string': [not_empty_or('tags'), tag_string_convert]})
-
-        return schema
-
-    def create_package_schema(self):
-        schema = super(YTPDatasetForm, self).create_package_schema()
-        return self._modify_package_schema(schema)
-
-    def update_package_schema(self):
-        schema = super(YTPDatasetForm, self).update_package_schema()
-        return self._modify_package_schema(schema)
-
-    def show_package_schema(self):
-        schema = super(YTPDatasetForm, self).show_package_schema()
-
-        ignore_missing = toolkit.get_validator('ignore_missing')
-        convert_from_extras = toolkit.get_converter('convert_from_extras')
-
-        schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
-
-        schema.update({'copyright_notice': [convert_from_extras, ignore_missing]})
-        schema.update({'collection_type': [convert_from_extras, ignore_missing]})
-        schema.update({'extra_information': [convert_from_extras, from_json_list, ignore_missing]})
-        schema.update({'valid_from': [convert_from_extras, ignore_missing]})
-        schema.update({'valid_till': [convert_from_extras, ignore_missing]})
-        schema.update({'temporal_granularity': [convert_from_extras, ignore_missing]})
-        schema.update({'update_frequency': [convert_from_extras, ignore_missing]})
-        schema.update({'content_type': [toolkit.get_converter('convert_from_tags')
-                                        ('content_type'), string_join, ignore_missing]})
-        schema.update({'owner': [convert_from_extras, ignore_missing]})
-
-        schema = add_translation_show_schema(schema)
-        schema = add_languages_show(schema, self._localized_fields)
-
-        return schema
 
     def package_types(self):
         return []
@@ -405,32 +287,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             collection_type = c.pkg_dict['collection_type']
         return collection_type
 
-    def _get_from_mapping(self, index):
-        # Get the collection type so that we know which template to show
-        collection_type = self._get_collection_type()
-
-        template = self._collection_mapping.get(collection_type, None)
-        if not template:
-            c.unknown_collection = True
-            return self._collection_mapping.get(None)[index]
-        return template[index]
-
     def new_template(self):
-        return self._get_from_mapping(0)
-
-    def package_form(self):
-        return self._get_from_mapping(1)
-
-    def setup_template_variables(self, context, data_dict):
-        c.preselected_group = request.params.get('group', None)
-        try:
-            super(YTPDatasetForm, self).setup_template_variables(context, data_dict)
-        except Exception as e:
-            if 'file:///srv/ytp/files/ckan/license.json' in e.message:
-                log.info(e)
-                pass
-            else:
-                raise
+        return 'package/new.html'
 
     # IFacets #
 
@@ -440,16 +298,13 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
         facets_dict.update({'collection_type': _('Collection Type')})
         facets_dict['vocab_keywords_' + lang] = _('Popular tags')
-        facets_dict.update({'vocab_content_type': _('Content Type')})
+        facets_dict.update({'vocab_content_type_' + lang: _('Content Type')})
         facets_dict.update({'organization': _('Organization')})
         facets_dict.update({'res_format': _('Formats')})
         # BFW: source is not part of the schema. created artificially at before_index function
         facets_dict.update({'source': _('Source')})
         facets_dict.update({'license_id': _('License')})
         # add more dataset facets here
-        return facets_dict
-
-    def group_facets(self, facets_dict, group_type, package_type):
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
@@ -466,24 +321,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def format_extras(self, extras):
         return _format_extras(extras)
-
-    def _clean_extras(self, extras):
-        extra_dict = {}
-        for key in extras:
-            if key not in self._key_exclude:
-                value = get_translated(extras, key)
-                if value:
-                    extra_dict.update({_prettify(key): value})
-        return extra_dict
-
-    def _clean_extras_resources(self, extras):
-        extra_dict = {}
-        for key in extras:
-            if key not in self._key_exclude_resources:
-                value = get_translated(extras, key)
-                if value:
-                    extra_dict.update({_prettify(key): value})
-        return extra_dict
 
     def _unique_formats(self, resources):
         formats = set()
@@ -514,22 +351,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             url = helpers.url_for(controller='user', action='read', id=name)
             return {'name': name, 'display_name': display_name, 'url': url}
 
-    def _dataset_licenses(self):
-        licenses_list = [(u'Creative Commons CCZero 1.0', u'cc-zero-1.0'),
-                         (u'Creative Commons Attribution 4.0 ', u'cc-by-4.0'),
-                         (_('Other'), u'other')]
-
-        return licenses_list
-
-    def _locales_offered(self):
-        return config.get('ckan.locales_offered', '').split()
-
-    def _is_list(self, value):
-        return isinstance(value, list)
-
-    def _get_package(self, package):
-        return toolkit.get_action('package_show')({'model': model}, {'id': package})
-
     def _resource_display_name(self, resource_dict):
         """ taken from helpers.resource_display_name """
         value = resource_display_name(resource_dict)
@@ -548,17 +369,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def get_helpers(self):
         return {'current_user': self._current_user,
-                'dataset_licenses': self._dataset_licenses,
                 'get_user': self._get_user,
                 'unique_formats': self._unique_formats,
-                'locales_offered': self._locales_offered,
-                'is_list': self._is_list,
                 'format_extras': self.format_extras,
                 'extra_translation': extra_translation,
                 'service_database_enabled': service_database_enabled,
-                'clean_extras': self._clean_extras,
-                'clean_extras_resources': self._clean_extras_resources,
-                'get_package': self._get_package,
                 'resource_display_name': self._resource_display_name,
                 'auto_author_set': self._auto_author_set,
                 'get_json_value': get_json_value,
@@ -589,7 +404,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_lang_prefix': get_lang_prefix,
                 'call_toolkit_function': call_toolkit_function,
                 'get_translated': get_translated,
-                'dataset_display_name': dataset_display_name}
+                'dataset_display_name': dataset_display_name,
+                'group_title_by_id': group_title_by_id,
+                'get_label_for_producer': get_label_for_producer,
+                'scheming_category_list': scheming_category_list,
+                'check_group_selected': check_group_selected,
+                'group_list_with_selected': group_list_with_selected,
+                'get_resource_sha256': get_resource_sha256,
+                }
 
     def get_auth_functions(self):
         return {'related_update': auth.related_update,
@@ -606,7 +428,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                     resource['url_type'] = None
 
     def before_index(self, pkg_dict):
-
         if 'tags' in pkg_dict:
             tags = pkg_dict['tags']
             if tags:
@@ -639,7 +460,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
         # Map keywords to vocab_keywords_{lang}
-        translated_vocabs = ['keywords']
+        translated_vocabs = ['keywords', 'content_type']
         languages = ['fi', 'sv', 'en']
         for prop_key in translated_vocabs:
             prop_json = pkg_dict.get(prop_key)
@@ -664,23 +485,29 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IValidators
     def get_validators(self):
         return {
-            'lower_if_exists': validators.lower_if_exists,
-            'upper_if_exists': validators.upper_if_exists,
-            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
-            'create_tags': validators.create_tags,
-            'create_fluent_tags': validators.create_fluent_tags,
-            'set_private_if_not_admin': validators.set_private_if_not_admin,
-            'list_to_string': validators.list_to_string,
+            'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
-            'tag_list_output': validators.tag_list_output,
-            'repeating_text': validators.repeating_text,
-            'repeating_text_output': validators.repeating_text_output,
-            'only_default_lang_required': validators.only_default_lang_required,
-            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
-            'override_field': validators.override_field,
-            'override_field_with_default_translation': validators.override_field_with_default_translation,
+            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
+            'save_to_groups': save_to_groups,
+            'create_fluent_tags': validators.create_fluent_tags,
+            'create_tags': validators.create_tags,
+            'from_date_is_before_until_date': validators.from_date_is_before_until_date,
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
-            'from_date_is_before_until_date': validators.from_date_is_before_until_date
+            'keep_old_value_if_missing': validators.keep_old_value_if_missing,
+            'list_to_string': validators.list_to_string,
+            'lower_if_exists': validators.lower_if_exists,
+            'only_default_lang_required': validators.only_default_lang_required,
+            'override_field_with_default_translation': validators.override_field_with_default_translation,
+            'override_field': validators.override_field,
+            'repeating_text_output': validators.repeating_text_output,
+            'repeating_text': validators.repeating_text,
+            'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
+            'tag_list_output': validators.tag_list_output,
+            'tag_string_or_tags_required': validators.tag_string_or_tags_required,
+            'upper_if_exists': validators.upper_if_exists,
+            'admin_only_field': validators.admin_only_field,
+            'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
+            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str
         }
 
 
@@ -851,15 +678,6 @@ def _configure(config=None):
     _default_organization_title = _get_variable(config, "default_organization_title")
 
 
-def _user_has_organization(username):
-    user = model.User.get(username)
-    if not user:
-        raise NotFound("Failed to find user")
-    query = model.Session.query(model.Member).filter(model.Member.table_name ==
-                                                     'user').filter(model.Member.table_id == user.id)
-    return query.count() > 0
-
-
 def _create_default_organization(context, organization_name, organization_title):
     default_locale = config.get('ckan.locale_default', 'fi')
     values = {'name': organization_name,
@@ -904,13 +722,13 @@ def action_organization_show(context, data_dict):
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, YtpMainTranslation):
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IConfigurable)
-    plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
     def update_config(self, config):
@@ -924,99 +742,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def configure(self, config):
         _configure(config)
-
-    def group_title_validator(self, key, data, errors, context):
-        """ Validator to prevent duplicate title.
-            See ckan.logic.schema
-        """
-        contect_model = context['model']
-        session = context['session']
-        group = context.get('group')
-
-        query = session.query(contect_model.Group.title).filter_by(title=data[key])
-        if group:
-            group_id = group.id
-        else:
-            group_id = data.get(key[:-1] + ('id',))
-        if group_id and group_id is not dictization_functions.missing:
-            query = query.filter(contect_model.Group.id != group_id)
-        result = query.first()
-        if result:
-            errors[key].append(_('Group title already exists in database'))
-
-    # From ckanext-hierarchy
-    def setup_template_variables(self, context, data_dict):
-        from pylons import tmpl_context
-        model = context['model']
-        group_id = data_dict.get('id')
-
-        if group_id:
-            group = model.Group.get(group_id)
-            tmpl_context.allowable_parent_groups = \
-                group.groups_allowed_to_be_its_parent(type='organization')
-        else:
-            tmpl_context.allowable_parent_groups = model.Group.all(group_type='organization')
-
-    def _get_dropdown_menu_contents(self, vocabulary_names):
-        """ Gets vocabularies by name and mangles them to match data structure required by form.select """
-
-        try:
-            user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
-            context = {'user': user['name']}
-            menu_items = []
-
-            for vocabulary_name in vocabulary_names:
-                vocabulary = toolkit.get_action('vocabulary_show')(context, {'id': vocabulary_name})
-                tags = vocabulary.get('tags')
-
-                for tag in sorted(tags):
-                    menu_items.append({'value': tag['name'], 'text': tag['display_name']})
-            return menu_items
-        except NotAuthorized:
-            return []
-
-    def _get_authorized_parents(self):
-        """ Returns a list of organizations under which the current user can put child organizations.
-
-        The user is required to be an admin in the parent. If the user is a sysadmin,
-        then the user will see all allowable parent organizations. """
-
-        if not c.userobj.sysadmin:
-            # If the user is not a sysadmin, then show only those parent organizations in which the user is an admin
-            admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
-                .filter(model.Member.table_name == 'user') \
-                .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == c.userobj.id)
-
-            admin_groups = []
-            for admin_org in admin_in_orgs:
-                if any(admin_org.group.name == non_looping_org.name for non_looping_org in c.allowable_parent_groups):
-                    admin_groups.append(admin_org.group)
-        else:
-            # If the user is a sysadmin, then show all allowable parent organizations
-            admin_groups = []
-            for group in c.allowable_parent_groups:
-                admin_groups.append(group)
-
-        return admin_groups
-
-    def _get_parent_organization_display_name(self, organization_id):
-        group = [group for group in c.allowable_parent_groups if group.id == organization_id]
-        if group:
-            return group[0].title if group[0].title else group[0].id
-        return "not_found"
-
-    def _is_organization_in_authorized_parents(self, organization_id, parents):
-        group = [group for group in parents if group.name == organization_id]
-        if group:
-            return True
-        return False
-
-    def get_helpers(self):
-        return {'get_dropdown_menu_contents': self._get_dropdown_menu_contents,
-                'get_authorized_parents': self._get_authorized_parents,
-                'get_parent_organization_display_name': self._get_parent_organization_display_name,
-                'is_organization_in_authorized_parents': self._is_organization_in_authorized_parents
-                }
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create}
@@ -1033,8 +758,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             m.connect('/admin_list', action='admin_list', ckan_icon='user')
 
         map.connect('/organization/new',
-                    action='new',
-                    controller='organization')
+                    controller=organization_controller,
+                    action='new')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',
@@ -1047,6 +772,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     controller=organization_controller,
                     action='embed',
                     ckan_icon='group')
+
         return map
 
     # IValidators
@@ -1057,35 +783,11 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
             'admin_only_feature': validators.admin_only_feature
         }
 
-
-def convert_to_list(key, data):
-    if isinstance(key, basestring):
-        key = [key]
-    return key
-
-
-def convert_from_db_to_form_list(key, data):
-    key = unicode(key)
-    key = ast.literal_eval(key)
-    for i, value in enumerate(key):
-        key[i] = unicode(value)
-
-    return key
-
-
-def from_json_to_object(key, data):
-    if not key:
-        return key
-    key = ast.literal_eval(key)
-    if isinstance(key, list):
-        for i, value in enumerate(key):
-            try:
-                parsed = json.loads(value)
-                key[i] = parsed
-            except TypeError:
-                pass
-
-    return key
+    # ITemplateHelpers
+    def get_helpers(self):
+        return {
+            "get_last_harvested_date": get_last_harvested_date
+        }
 
 
 class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -1097,61 +799,15 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def register_reports(self):
         import reports
-        return [reports.administrative_branch_summary_report_info]
+        return [
+            reports.administrative_branch_summary_report_info,
+            reports.deprecated_datasets_report_info,
+            reports.harvester_report_info
+        ]
 
     def update_config(self, config):
         from ckan.plugins import toolkit
         toolkit.add_template_directory(config, 'templates')
-
-
-def set_to_value(preset_value):
-    def method(value, context):
-        return preset_value
-    return method
-
-
-def static_value(preset_value):
-    def method(value, context):
-        return preset_value
-    return method
-
-
-def service_charge_validator(key, data, errors, context):
-    """Validates the fields related to service charge.
-
-    If the service has a charge, then the user must also supply either the pricing information URL
-    or a description of the service pricing or both."""
-
-    # Get the value for the service charge radio field
-    service_charge_value = data.get(key)
-
-    if service_charge_value is missing or service_charge_value is None or service_charge_value == '':
-        # At least one of the service charge values must be selected
-        raise Invalid(_('Service charge must be supplied'))
-    elif service_charge_value == 'yes':
-        # Check if the service has a charge
-        # Get the pricing information url and service price description values from the data (the key is a tuple)
-        pricing_url_value = data.get(('pricing_information_url',))
-        service_price_value = data.get(('service_price_description',))
-
-        if ((pricing_url_value is missing or pricing_url_value is None or pricing_url_value == '') and
-                (service_price_value is missing or service_price_value is None or service_price_value == '')):
-            # If both the pricing information url and the service price description fields are empty, show an error message
-            raise Invalid(_('If there is a service charge, you must supply either the pricing information '
-                            'web address for this service or a description of ' +
-                            'the service pricing or both'))
-    return service_charge_value
-
-
-def target_groups_validator(key, data, errors, context):
-    """Validates the target groups field.
-
-    At least one of the main target groups needs to be selected."""
-
-    target_groups_value = data.get(key)
-    if target_groups_value is missing or target_groups_value is None or target_groups_value == '':
-        raise Invalid(_('At least one of the main target groups must to be selected'))
-    return target_groups_value
 
 
 class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -1165,30 +821,124 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     logos = {}
 
     # TODO: We should use named routes instead
-    _manu_map = [(['/user/%(username)s', '/%(language)s/user/%(username)s'], menu.UserMenu, menu.MyInformationMenu),
-                 (['/dashboard/organizations',
-                  '/%(language)s/dashboard/organizations'],
-                  menu.UserMenu,
-                  menu.MyOrganizationMenu),
-                 (['/dashboard/datasets', '/%(language)s/dashboard/datasets'], menu.UserMenu, menu.MyDatasetsMenu),
-                 (['/user/delete-me', '/%(language)s/user/delete-me'], menu.UserMenu, menu.MyCancelMenu),
-                 (['/user/edit', '/%(language)s/user/edit', '/user/edit/%(username)s', '/%(language)s/user/edit/%(username)s'],
-                  menu.UserMenu, menu.MyPersonalDataMenu),
-                 (['/user/activity/%(username)s',
-                  '/%(language)s/user/activity/%(username)s'],
-                  menu.UserMenu,
-                  menu.MyInformationMenu),
-                 (['/user', '/%(language)s/user'], menu.ProducersMenu, menu.ListUsersMenu),
-                 (['/%(language)s/organization', '/organization'], menu.EmptyMenu, menu.OrganizationMenu),
-                 (['/%(language)s/dataset/new?collection_type=Open+Data', '/dataset/new?collection_type=Open+Data'],
-                  menu.PublishMenu, menu.PublishDataMenu),
-                 (['/%(language)s/dataset/new?collection_type=Interoperability+Tools',
-                   '/dataset/new?collection_type=Interoperability+Tools'],
-                  menu.PublishMenu, menu.PublishToolsMenu),
-                 (['/%(language)s/service/new', '/service/new'],
-                  menu.PublishMenu, menu.PublishServiceMenu),
-                 (['/%(language)s/postit/return', '/postit/return'], menu.ProducersMenu, menu.PostitNewMenu),
-                 (['/%(language)s/postit/new', '/postit/new'], menu.ProducersMenu, menu.PostitNewMenu)]
+    _menu_map = [
+                    (
+                        [
+                            '/user/%(username)s',
+                            '/%(language)s/user/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyInformationMenu
+                    ),
+                    (
+                        [
+                            '/dashboard',
+                            '/dashboard/',
+                            '/%(language)s/dashboard',
+                            '/%(language)s/dashboard/'
+                        ],
+                        menu.UserMenu,
+                        menu.MyDashboardMenu
+                    ),
+                    (
+                        [
+                            '/dashboard/organizations',
+                            '/%(language)s/dashboard/organizations'
+                        ],
+                        menu.UserMenu,
+                        menu.MyOrganizationMenu,
+                    ),
+                    (
+                        [
+                            '/dashboard/datasets',
+                            '/%(language)s/dashboard/datasets'
+                        ],
+                        menu.UserMenu,
+                        menu.MyDatasetsMenu
+                    ),
+                    (
+                        [
+                            '/user/delete-me',
+                            '/%(language)s/user/delete-me'
+                        ],
+                        menu.UserMenu,
+                        menu.MyCancelMenu
+                    ),
+                    (
+                        [
+                            '/user/edit',
+                            '/%(language)s/user/edit',
+                            '/user/edit/%(username)s',
+                            '/%(language)s/user/edit/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyPersonalDataMenu,
+                    ),
+                    (
+                        [
+                            '/user/activity/%(username)s',
+                            '/%(language)s/user/activity/%(username)s'
+                        ],
+                        menu.UserMenu,
+                        menu.MyInformationMenu
+                    ),
+                    (
+                        [
+                            '/user',
+                            '/%(language)s/user'
+                        ],
+                        menu.ProducersMenu,
+                        menu.ListUsersMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/organization',
+                            '/organization'
+                        ],
+                        menu.EmptyMenu,
+                        menu.OrganizationMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/dataset/new?collection_type=Open+Data',
+                            '/dataset/new?collection_type=Open+Data'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishDataMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/dataset/new?collection_type=Interoperability+Tools',
+                            '/dataset/new?collection_type=Interoperability+Tools'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishToolsMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/service/new',
+                            '/service/new'
+                        ],
+                        menu.PublishMenu,
+                        menu.PublishServiceMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/postit/return',
+                            '/postit/return'
+                        ],
+                        menu.ProducersMenu,
+                        menu.PostitNewMenu
+                    ),
+                    (
+                        [
+                            '/%(language)s/postit/new',
+                            '/postit/new'
+                        ],
+                        menu.ProducersMenu,
+                        menu.PostitNewMenu
+                    )
+                ]
 
     # IRoutes #
 
@@ -1230,7 +980,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def _get_menu_tree(self, current_url, language):
         parsed_url = urlparse.urlparse(current_url)
-        for patterns, handler, selected in self._manu_map:
+        for patterns, handler, selected in self._menu_map:
             for pattern in patterns:
                 if type(pattern) in types.StringTypes:
                     values = {'language': language}
@@ -1266,23 +1016,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             return {'tree': tree}
         else:
             return {}
-
-    def _site_logo(self, hostname, default=None):
-
-        if "avoindata" in hostname:
-            hostname = "avoindata"
-        elif "opendata" in hostname:
-            hostname = "opendata"
-
-        lang = helpers.lang() if helpers.lang() else "default"
-        dict_key = hostname + "_" + lang
-
-        logo = self.logos.get(dict_key, self.logos.get('default', None))
-
-        if logo:
-            return literal('<img src="%s" class="site-logo" />' % helpers.url_for_static("/images/logo/%s" % logo))
-        else:
-            return self._short_domain(hostname, default)
 
     def _drupal_snippet(self, path):
         lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
@@ -1332,33 +1065,34 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def get_helpers(self):
         return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
-                'site_logo': self._site_logo, 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
-
-
-def helper_is_pseudo(user):
-    """ Check if user is pseudo user """
-    return user in [model.PSEUDO_USER__LOGGED_IN, model.PSEUDO_USER__VISITOR]
+                'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
 def helper_linked_user(user, maxlength=0, avatar=20):
     """ Return user as HTML item """
-    if not isinstance(user, model.User):
-        user_name = unicode(user)
-        user = model.User.get(user_name)
+    if isinstance(user, dict):
+        user_id = user['id']
+        user_name = user['name']
+        user_displayname = user['display_name']
+    elif isinstance(user, model.User):
+        user_id = user.id
+        user_name = user.name
+        user_displayname = user.display_name
+    else:
+        user = model.User.get(unicode(user))
         if not user:
             return user_name
-    if user:
-        name = user.name if model.User.VALID_NAME.match(user.name) else user.id
-        displayname = user.display_name
-        if maxlength and len(user.display_name) > maxlength:
-            displayname = displayname[:maxlength] + '...'
-        return link_to(displayname, helpers.url_for(controller='user', action='read', id=name), class_='')
+        else:
+            user_id = user.id
+            user_name = user.name
+            user_displayname = user.display_name
 
+    if not model.User.VALID_NAME.match(user_name):
+        user_name = user_id
 
-def helper_organizations_for_select():
-    organizations = [{'value': organization['id'],
-                      'text': organization['display_name']} for organization in helpers.organizations_available()]
-    return [{'value': '', 'text': ''}] + organizations
+    if maxlength and len(user_displayname) > maxlength:
+        user_displayname = user_displayname[:maxlength] + '...'
+    return link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
 
 
 class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -1380,9 +1114,7 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         pass
 
     def get_helpers(self):
-        return {'linked_user': helper_linked_user,
-                'organizations_for_select': helper_organizations_for_select,
-                'is_pseudo': helper_is_pseudo}
+        return {'linked_user': helper_linked_user}
 
     def get_auth_functions(self):
         return {'user_update': plugin_logic.auth_user_update,
@@ -1399,3 +1131,57 @@ class YtpRestrictCategoryCreationAndUpdatingPlugin(plugins.SingletonPlugin):
     def get_auth_functions(self):
         return {'group_create': self.admin_only_for_categories,
                 'group_update': self.admin_only_for_categories}
+
+
+class YtpIPermissionLabelsPlugin(
+        plugins.SingletonPlugin, DefaultPermissionLabels):
+    '''
+    Permission labels for controlling permissions of different user roles
+    '''
+    plugins.implements(plugins.IPermissionLabels)
+
+    def get_dataset_labels(self, dataset_obj):
+        '''
+        Showcases get showcase-admin label so that showcase admins have
+        rights for that showcase
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_dataset_labels(dataset_obj)
+
+        if dataset_obj.type == "showcase":
+            labels.append(u'showcase-admin')
+
+        return labels
+
+    def get_user_dataset_labels(self, user_obj):
+        '''
+        Showcase admin users get a showcase-admin label
+        '''
+        # Default labels
+        labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
+
+        if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
+            labels.append(u'showcase-admin')
+
+        return labels
+
+
+class OpenDataGroupPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.interfaces.IActions)
+
+    def get_actions(self):
+        return {
+            "group_create": self._group_create
+        }
+
+    @chained_action
+    def _group_create(self, original_action, context, data_dict):
+        auth_context = {'ignore_auth': True}
+        users = get_action('user_list')(auth_context, {})
+
+        data_dicts = []
+        for user in users:
+            data_dicts.append({'name': user['name'], 'capacity': 'editor'})
+
+        data_dict['users'] = data_dicts
+        return original_action(context, data_dict)

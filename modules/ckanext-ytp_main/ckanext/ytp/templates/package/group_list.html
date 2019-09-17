@@ -1,0 +1,32 @@
+{% ckan_extends %}
+{% block primary_content_inner %}
+  <h2 class="hide-heading">{{ _('Groups') }}</h2>
+
+  {% if c.pkg_dict.groups %}
+    {% snippet 'group/snippets/group_list.html', groups=c.pkg_dict.groups %}
+  {% else %}
+    <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+  {% endif %}
+
+  {% if h.check_access('package_update', {'id': c.pkg_dict.id}) %}
+    <form method="post">
+      <hr>
+      <label for="field-add_group">{{_('Dataset categories')}}</label>
+      <fieldset class="checkboxes" id="field-add_group">
+        {% for group in h.group_list_with_selected(c.pkg_dict.groups) %}
+          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ group.name }}">
+            <input id="field-{{ group.name }}" type="checkbox" name="categories" value="{{group.name}}" {% if group.selected %} checked {% endif %}>
+            <span class="custom-checkbox"></span>
+            {{ h.get_translated(group, 'title') }}
+          </label>
+        {% endfor %}
+      </fieldset>
+
+      <p class="italic">
+        {{ _('Categories to which the dataset is mainly related to. Choose one category or multiple accurate categories.') }}
+      </p>
+      <hr>
+      <button type="submit" class="btn btn-primary px-3 pull-right" title="{{ _('Associate this group with this dataset') }}">{{ _('Save') }}</button>
+    </form>
+  {% endif %}
+{% endblock %}

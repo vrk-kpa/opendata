@@ -22,6 +22,7 @@
       {% for category in categories %}
         <div class="avoindata-category-box">
           <div class="avoindata-category-image-wrapper">
+            <span class="avoindata-category-dataset-count">{{ category['package_count'] }}</span>
             <a href="../data/{{ language }}/group/{{ category['name'] }}">
               <img class="avoindata-category-img" src={{ category['image_display_url'] }} alt={{ category['title'] }}>
             </a>

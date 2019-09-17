@@ -32,7 +32,7 @@
 
     {% block info_tags %}
         {{ layout.moduleBoxHead(_('Tags')) }}
-            {% snippet 'sixodp_showcase/snippets/tags.html', tags=pkg.keywords %}
+            {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
@@ -49,10 +49,7 @@
                 
                 {%- if con_list -%}
                     {{ layout.moduleBoxHead(_('Content Type')) }}
-                        {%- for content in con_list -%}
-                            <a href="/data/{{ h.lang() }}/dataset?content_type={{content | lower }}">{{_(content) | lower}}</a>
-                            {%- if not loop.last %} <br /> {% endif -%}
-                        {%- endfor -%}
+                      {% snippet 'package/snippets/tags.html', tags=pkg.content_type, field='content_type' %}
                     {{ layout.moduleBoxFoot() }}
                 {%- endif -%}
             {%- endif -%}
@@ -116,6 +113,11 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
+    {% block rating %}
+      {{ layout.moduleBoxHead(_('Rating')) }}
+        {% snippet "rating/snippets/rating.html", package=pkg %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
 
     {% block package_feedback %}
         {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}

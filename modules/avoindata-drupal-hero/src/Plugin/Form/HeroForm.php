@@ -34,21 +34,9 @@ class HeroForm extends FormBase {
       '#attributes' => ['class' => ['input-hero-search-filter', 'hidden']],
     ];
 
-    $form['search'] = [
-      '#type' => 'textfield',
-      '#attributes' => ['class' => ['input-hero-search']],
-    ];
-
-    $form['actions']['submit'] = [
-      '#type' => 'submit',
-      // Unicode used to avoid "Theme Button Iconization for search keyword.
-      '#value' => $this->t('<i class="fas">&#xf002;</i>'),
-      '#attributes' => ['class' => ['btn-hero-search']],
-    ];
-
     $form['#theme'] = ['avoindata_hero'];
 
-    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
     return $form;
   }
 

@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  DevAccountId:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/accountid
+    Description: 'ID of the account that should invoke the deployment'
+  ProdEnvironmentName:
+    Description: Name of the deployment target environment for production deployments (infratest, beta, prod)
+    Type: 'AWS::SSM::Parameter::Value<String>'
+
+Resources:
+  DeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              AWS:
+                !Sub 'arn:aws:iam::${DevAccountId}:role/InvokeDeploymentRole'
+      RoleName: DeploymentRole
+      Policies:
+        - PolicyName: DeploymentPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ssm:PutParameter
+                  - ssm:GetParameter
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/web/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/scheduled/amiid
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/clamav*
+              - Effect: Allow
+                Action:
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProdEnvironmentName}/*
+              - Effect: Allow
+                Action: iam:GetRole
+                Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/clamav-scan-*
+              - Effect: Allow
+                Action:
+                  - lambda:UpdateFunctionCode
+                  - lambda:ListTags
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                  - lambda:GetFunctionConfiguration
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:UpdateStack
+                  - cloudformation:*ChangeSet
+                  - cloudformation:ListChangeSets
+                  - cloudformation:GetTemplateSummary
+                Resource:
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProdEnvironmentName}-asg-lt/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/clamav-scan/*
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31
+              - Effect: Allow
+                Action: ec2:CreateLaunchTemplateVersion
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+              - Effect: Allow
+                Action:
+                - iam:PassRole
+                Resource: "*"
+                Condition:
+                  StringLike:
+                    iam:PassedToService: ec2.amazonaws.com*
+              - Effect: Allow
+                Action:
+                  - autoscaling:*
+                Resource:
+                  - "*"
+              - Effect: Allow
+                Action: ec2:DeleteLaunchTemplate
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+              - Effect: Allow
+                Action:
+                  - ec2:CreateLaunchTemplate
+                  - ec2:DescribeLaunchTemplates
+                  - ec2:DescribeLaunchTemplateVersions
+                  - ec2:DescribeInstances
+                  - ec2:DescribeImages
+                Resource: "*"
+              - Effect: Allow
+                Action: ec2:RunInstances
+                Resource:
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:volume/*
+                - !Sub arn:aws:ec2:${AWS::Region}::snapshot/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:key-pair/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:placement-group/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:security-group/*
+                - !Sub arn:aws:ec2:${AWS::Region}::image/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
+                - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
+              - Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:*Object
+                Resource:
+                  - "arn:aws:s3:::avoindata-clamav-scan"
+                  - "arn:aws:s3:::avoindata-clamav-scan/*"

@@ -32,7 +32,15 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
     ],
     'avoindata_header' => [
       'template' => 'avoindata_header',
-      'variables' => [],
+      'variables' => [
+        'language' => NULL,
+      ],
+    ],
+    'avoindata_login' => [
+      'template' => 'avoindata_login',
+      'variables' => [
+        'language' => NULL,
+      ],
     ],
   ];
 }

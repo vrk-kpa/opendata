@@ -1,0 +1,29 @@
+From 75906743ac1d64e4d10a4231ccde1b039d1274e7 Mon Sep 17 00:00:00 2001
+From: Jinil Lee <usingsky@gmail.com>
+Date: Wed, 5 Jun 2019 21:43:20 +0900
+Subject: [PATCH] Fix UnicodeDecodeError on abort fucntion
+
+---
+ ckan/lib/base.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/ckan/lib/base.py b/ckan/lib/base.py
+index 1831b699ea..4201ae44d3 100644
+--- a/ckan/lib/base.py
++++ b/ckan/lib/base.py
+@@ -64,11 +64,13 @@ def abort(status_code=None, detail='', headers=None, comment=None):
+
+     if detail and status_code != 503:
+         h.flash_error(detail)
++
++    if is_flask_request():
++        flask_abort(status_code, detail)
++
+     # #1267 Convert detail to plain text, since WebOb 0.9.7.1 (which comes
+     # with Lucid) causes an exception when unicode is received.
+     detail = detail.encode('utf8')
+-    if is_flask_request():
+-        flask_abort(status_code, detail)
+
+     return _abort(status_code=status_code,
+                   detail=detail,

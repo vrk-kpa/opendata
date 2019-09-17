@@ -5,15 +5,6 @@ Parameters:
   EnvironmentName:
     Description: Name of the environment (infratest, dev, alpha, beta, www, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
-  DNSHostName:
-    Description: Host name for DNS record (e.g. infratest, dev, www)
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  InstanceType:
-    Description: EC2 instance type for the application servers
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  PrivateSubnets:
-    Description: The subnets for EC2 instances
-    Type: AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>
   DatabaseSecurityGroup:
     Description: Security group of the RDS database
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::SecurityGroup::Id>'
@@ -29,25 +20,36 @@ Parameters:
   HostedZoneIdAlternate:
     Description: "[Optional] Zone ID for the DNS record"
     Type: 'AWS::SSM::Parameter::Value<String>'
-  WhitelistedIpAddressTRE:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  WhitelistedIpAddressHEL:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  GitBranch:
-    Description: Git branch to checkout
-    Type: 'AWS::SSM::Parameter::Value<String>'
   NumberOfSubnets:
     Description: Number of subnets. This must match your selections in the list of load balancer subnets below.
     Type: 'AWS::SSM::Parameter::Value<String>'
   PublicALBSubnets:
     Description: The subnets to attach to the load balancer
     Type: AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>
+  PrivateALBSubnets:
+    Description: The subnets to attach to the load balancer
+    Type: AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>
   PublicALBCertificate:
     Description: 'The AWS Certification Manager certificate ARN for the ALB certificate'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisNodeType:
+    Description: 'Node type for Elasticache Redis cluster nodes'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisVersion:
+    Description: 'Version of Redis to run'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  RedisMaintenanceWindow:
+    Description: 'Maintenance window for Redis'
     Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
+  LogEnabled:
+    Description: 'Enable ELB access logging'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  LogExpirationDays:
+    Description: 'Days before removing ELB logs'
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Conditions:
   NumberOfSubnets1:
@@ -63,111 +65,35 @@ Conditions:
   NumberOfSubnets6:
       !Equals [ 6, !Ref NumberOfSubnets ]
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
+  ELBLogging: !Equals [!Ref LogEnabled, "true"]
 
 Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
+  WebInstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
     Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: ami-09f0b8b3e41191524 # Canonical, Ubuntu, 16.04 LTS, amd64 xenial image build on 2018-11-14
-      KeyName: ytp-seeding-key
-      IamInstanceProfile: !Ref InstanceProfile
-      SecurityGroupIds:
-        - !Ref InstanceSecurityGroup
-      BlockDeviceMappings:
-        - DeviceName: /dev/sda1
-          Ebs:
-            VolumeType: gp2
-            VolumeSize: 20
-            DeleteOnTermination: true
-      Tags:
-        - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}
-      SubnetId: !Select [ 0, !Ref PrivateSubnets ]
-      UserData: !Base64
-        "Fn::Sub": |
-          #!/bin/bash
+      GroupDescription: Allow HTTP
+      SecurityGroupIngress:
+        - FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref PublicALBSecurityGroup
+      VpcId: !Ref Vpc
 
-          export HOME=/root
-          export DEBIAN_FRONTEND=noninteractive
-
-          apt-get update
-          apt-get -y dist-upgrade
-          apt-get -y install libssl-dev libffi-dev python-dev python-pip git nfs-common
-          pip install setuptools --upgrade
-          pip install awscli ansible markupsafe
-
-          echo '${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,x-systemd.after=network-online.target,nofail 0 0' >>/etc/fstab
-          echo '/mnt/ytp_files /srv/ytp/files none defaults,bind,nofail,x-systemd.after=mnt.mount 0 0' >>/etc/fstab
-          mount -a -t nfs4
-          mkdir -p /srv/ytp/files /mnt/ytp_files
-          mount /srv/ytp/files
-
-          cd /root
-          git clone -b ${GitBranch} https://github.com/yhteentoimivuuspalvelut/ytp.git
-
-          cd /root/ytp/cloudformation/bootstrap
-          ansible-playbook -i localhost, deploy.yml
-
-          cd /root/ytp
-          git submodule update --init --recursive
-
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/secrets.yml /root/avoindata-secrets/${EnvironmentName}/secrets.yml
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/.npmrc /root/avoindata-secrets/${EnvironmentName}/.npmrc
-          aws s3 cp s3://avoindata-secrets/${EnvironmentName}/token.dat /root/avoindata-secrets/${EnvironmentName}/token.dat
-
-          chmod -R go-rwx /root/avoindata-secrets/*
-
-          cd /root/ytp/ansible
-          ansible-playbook -i inventories/${EnvironmentName} single-server.yml
-
-          echo "Bootstrap done."
+  ScheduledInstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow Solr
+      SecurityGroupIngress:
+        - FromPort: 8983
+          ToPort: 8983
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
+      VpcId: !Ref Vpc
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow SSH and HTTP
-      SecurityGroupIngress:
-        - FromPort: 22
-          ToPort: 22
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 22
-          ToPort: 22
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          SourceSecurityGroupId: !Ref PublicALBSecurityGroup
-        - FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          SourceSecurityGroupId: !Ref PublicALBSecurityGroup
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
-        - FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
-        - FromPort: 8983
-          ToPort: 8983
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressTRE
-        - FromPort: 8983
-          ToPort: 8983
-          IpProtocol: tcp
-          CidrIp: !Ref WhitelistedIpAddressHEL
+      GroupDescription: Common instance security group
       VpcId: !Ref Vpc
 
   DatabaseIngressRule:
@@ -178,7 +104,6 @@ Resources:
       ToPort: 5432
       GroupId: !Ref DatabaseSecurityGroup
       SourceSecurityGroupId: !Ref InstanceSecurityGroup
-
 
   EFSIngressRule:
     Type: AWS::EC2::SecurityGroupIngress
@@ -246,6 +171,15 @@ Resources:
                 Resource: "*"
               - Effect: Allow
                 Action:
+                  - autoscaling:Describe*
+                  - autoscaling:CompleteLifecycleAction
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - elasticloadbalancing:DescribeTargetHealth
+                Resource: "*"
+              - Effect: Allow
+                Action:
                   - cloudwatch:PutMetricData
                 Resource: "*"
               - Effect: Allow
@@ -258,7 +192,7 @@ Resources:
                   - ds:DescribeDirectories
                 Resource: "*"
               - Effect: Allow
-                Action: 
+                Action:
                   - ec2:DescribeTags
                 Resource: "*"
               - Effect: Allow
@@ -270,8 +204,11 @@ Resources:
                 Action:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:${EnvironmentName}*"
+              - Effect: Allow
+                Action:
                   - logs:DescribeLogStreams
-                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:${EnvironmentName}-web"
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:*"
               - Effect: Allow
                 Action:
                   - s3:GetEncryptionConfiguration
@@ -285,6 +222,10 @@ Resources:
                   - arn:aws:s3:::amazon-ssm-eu-west-1/*
                   - arn:aws:s3:::amazon-ssm-packages-eu-west-1/*
                   - arn:aws:s3:::eu-west-1-birdwatcher-prod/*
+              - Effect: Allow
+                Action:
+                  - autoscaling:CompleteLifecycleAction
+                Resource: !Sub "arn:aws:autoscaling:${AWS::Region}:${AWS::AccountId}:autoScalingGroup:*:autoScalingGroupName/*"
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -292,11 +233,96 @@ Resources:
       Roles:
         - !Ref InstanceRole
 
-  PublicALB:
+  RedisSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      CacheSubnetGroupName: !Sub avoindata-${EnvironmentName}-redis-subnet-group
+      Description: Redis subnet group
+      SubnetIds:
+        !If
+          [ NumberOfSubnets1,
+          [ !Select [ 0, !Ref PrivateALBSubnets ] ],
+          !If
+            [ NumberOfSubnets2,
+            [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ] ],
+            !If
+              [ NumberOfSubnets3,
+              [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ] ],
+              !If
+                [ NumberOfSubnets4,
+                [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ] ],
+                !If
+                  [ NumberOfSubnets5,
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ] ],
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ], !Select [ 5, !Ref PrivateALBSubnets ] ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+
+  Redis:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      CacheNodeType: !Ref RedisNodeType
+      CacheSubnetGroupName: !Ref RedisSubnetGroup
+      Engine: redis
+      EngineVersion: !Ref RedisVersion
+      NumCacheNodes: 1
+      Port: 6379
+      PreferredMaintenanceWindow: !Ref RedisMaintenanceWindow
+      VpcSecurityGroupIds:
+        - !Ref SolrRedisSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "avoindata-${EnvironmentName}-redis"
+
+  PrivateALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       IpAddressType: ipv4
-      Name: !Sub avoindata-${EnvironmentName}-lb
+      Name: !Sub avoindata-${EnvironmentName}-solr-lb
+      Scheme: internal
+      SecurityGroups:
+        - !Ref SolrRedisSecurityGroup
+        - !Ref InstanceSecurityGroup
+      Subnets:
+        !If
+          [ NumberOfSubnets1,
+          [ !Select [ 0, !Ref PrivateALBSubnets ] ],
+          !If
+            [ NumberOfSubnets2,
+            [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ] ],
+            !If
+              [ NumberOfSubnets3,
+              [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ] ],
+              !If
+                [ NumberOfSubnets4,
+                [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ] ],
+                !If
+                  [ NumberOfSubnets5,
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ] ],
+                  [ !Select [ 0, !Ref PrivateALBSubnets ], !Select [ 1, !Ref PrivateALBSubnets ], !Select [ 2, !Ref PrivateALBSubnets ], !Select [ 3, !Ref PrivateALBSubnets ], !Select [ 4, !Ref PrivateALBSubnets ], !Select [ 5, !Ref PrivateALBSubnets ] ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+      Tags:
+        - Key: Name
+          Value: !Sub avoindata-${EnvironmentName}-solr-lb
+
+  PublicALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    DependsOn: LogBucketPolicy
+    Properties:
+      LoadBalancerAttributes:
+      - Key: 'access_logs.s3.enabled'
+        Value: !If [ELBLogging, 'true', 'false']
+      - !If [ELBLogging, {Key: 'access_logs.s3.prefix', Value: !Ref 'AWS::StackName'}, !Ref 'AWS::NoValue']
+      - !If [ELBLogging, {Key: 'access_logs.s3.bucket', Value: !Ref 'LogBucket'}, !Ref 'AWS::NoValue']
+      IpAddressType: ipv4
+      Name: !Sub avoindata-${EnvironmentName}-web-lb
       Scheme: internet-facing
       SecurityGroups:
         - !Ref PublicALBSecurityGroup
@@ -324,7 +350,67 @@ Resources:
           ]
       Tags:
         - Key: Name
-          Value: !Sub avoindata-${EnvironmentName}-lb
+          Value: !Sub avoindata-${EnvironmentName}-web-lb
+
+  LogBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub avoindata-${EnvironmentName}-elb-logs
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: !Ref LogExpirationDays
+            Status: Enabled
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  LogBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref LogBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:PutObject
+            Effect: Allow
+            Resource: !Sub ${LogBucket.Arn}/${AWS::StackName}/AWSLogs/${AWS::AccountId}/*
+            Principal:
+              AWS: # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+              - '127311923021' # us-east-1
+              - '033677994240' # us-east-2
+              - '027434742980' # us-west-1
+              - '797873946194' # us-west-2
+              - '985666609251' # ca-central-1
+              - '054676820928' # eu-central-1
+              - '156460612806' # eu-west-1
+              - '652711504416' # eu-west-2
+              - '009996457667' # eu-west-3
+              - '897822967062' # eu-north-1
+              - '582318560864' # ap-northeast-1
+              - '600734575887' # ap-northeast-2
+              - '383597477331' # ap-northeast-3
+              - '114774131450' # ap-southeast-1
+              - '783225319266' # ap-southeast-2
+              - '718504428378' # ap-south-1
+              - '507241528517' # sa-east-1
+
+  PrivateALBSolrListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref PrivateALBTargetGroup
+      LoadBalancerArn: !Ref PrivateALB
+      Port: 8983
+      Protocol: HTTP
 
   PublicALBListenerSslCertificate:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -342,22 +428,39 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /
+      HealthCheckPath: /data/health
       HealthCheckPort: '80'
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
+      HealthCheckTimeoutSeconds: 10
       HealthyThresholdCount: 5
       Matcher:
-        HttpCode: '301'
+        HttpCode: '200'
       Name: !Sub avoindata-${EnvironmentName}-tg-http
       Port: 80
       Protocol: HTTP
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-http
-      Targets:
-        - Id: !Ref EC2Instance
-      UnhealthyThresholdCount: 2
+      UnhealthyThresholdCount: 5
+      VpcId: !Ref Vpc
+
+  PrivateALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /solr/
+      HealthCheckPort: '8983'
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 5
+      Matcher:
+        HttpCode: '200'
+      Port: 8983
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-solr
+      UnhealthyThresholdCount: 5
       VpcId: !Ref Vpc
 
   PublicALBSecurityGroup:
@@ -371,6 +474,21 @@ Resources:
           CidrIp: 0.0.0.0/0
       VpcId: !Ref Vpc
 
+  SolrRedisSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow Solr and Redis access from instances
+      SecurityGroupIngress:
+        - FromPort: 8983
+          ToPort: 8983
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
+        - FromPort: 6379
+          ToPort: 6379
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
+      VpcId: !Ref Vpc
+
   PublicALBDNSNameParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -378,17 +496,78 @@ Resources:
       Type: "String"
       Value: !GetAtt PublicALB.DNSName
 
-  PublicALBARN:
+  PrivateALBDNSNameParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub /${EnvironmentName}/web/public_alb_arn
+      Name: !Sub /${EnvironmentName}/web/private_alb_address
       Type: "String"
-      Value: !Ref PublicALB
+      Value: !GetAtt PrivateALB.DNSName
+
+  PrivateALBTargetGroupARN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/private_alb_tg_arn
+      Type: "String"
+      Value: !Ref PrivateALBTargetGroup
+
+  PrivateALBName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/private_alb_name
+      Type: "String"
+      Value: !GetAtt PrivateALB.LoadBalancerName
+
+  RedisDNSNameParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/redis/endpoint
+      Type: "String"
+      Value: !GetAtt Redis.RedisEndpoint.Address
+
+  PublicALBTargetGroupARN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/public_alb_tg_arn
+      Type: "String"
+      Value: !Ref PublicALBTargetGroupHTTP
+
+  PublicALBName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${EnvironmentName}/web/web_alb_name
+      Type: "String"
+      Value: !GetAtt PublicALB.LoadBalancerName
 
 Outputs:
-  InstanceId:
-    Value: !Ref EC2Instance
-  AZ:
-    Value: !GetAtt EC2Instance.AvailabilityZone
   PublicALBDNSName:
     Value: !GetAtt PublicALB.DNSName
+  InstanceProfileArn:
+    Description: Instance profile ARN
+    Value: !GetAtt InstanceProfile.Arn
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-instanceprofile
+  InstanceSecurityGroup:
+    Description: ID of instance security group for all instances
+    Value: !Ref InstanceSecurityGroup
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-instancesecuritygroupid
+  WebInstanceSecurityGroup:
+    Description: ID of web instance security group
+    Value: !Ref WebInstanceSecurityGroup
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-web-instancesecuritygroupid
+  ScheduledInstanceSecurityGroup:
+    Description: ID of scheduled instance security group
+    Value: !Ref SolrRedisSecurityGroup
+    Export:
+      Name: !Sub "avoindata-${EnvironmentName}-scheduled-instancesecuritygroupid"
+  PublicALBTargetGroupArn:
+    Description: ARN of target group for public ALB
+    Value: !Ref PublicALBTargetGroupHTTP
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-publicalbtargetgrouparn
+  PrivateALBTargetGroupArn:
+    Description: ARN of target group for private ALB (solr)
+    Value: !Ref PrivateALBTargetGroup
+    Export:
+      Name: !Sub avoindata-${EnvironmentName}-solralbtargetgrouparn

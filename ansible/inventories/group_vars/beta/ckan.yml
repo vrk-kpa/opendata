@@ -1,20 +1,20 @@
 ---
-ckan_postgres_admin_user: "{{ postgres_conf.admin_user }}"
-ckan_postgres_admin_password: "{{ postgres_conf.admin_password }}"
+ckan_postgres_admin_user: "{{ secret_postgres_conf.admin_user }}"
+ckan_postgres_admin_password: "{{ secret_postgres_conf.admin_password }}"
 ckan_profiling_enabled: true
 ckan_postgres:
   users:
     ckan:
       username: ckan_default
-      password: "{{ secret.database_ckan_password }}"
+      password: "{{ secret_database_ckan_password }}"
     ckan_datastore:
       username: datastore_default
-      password: "{{ secret.database_ckan_datastore_password }}"
+      password: "{{ secret_database_ckan_datastore_password }}"
     drupal8:
       username: drupal8
-      password: "{{ secret.database_drupal8_password }}"
+      password: "{{ secret_database_drupal8_password }}"
   server:
-    host: "{{ postgres_conf.host }}"
+    host: "{{ postgres_host }}"
   databases:
     ckan:
       name: ckan_default
@@ -27,9 +27,27 @@ ckan_postgres:
       owner: drupal8
 
 ckan_email_domain: "{{ email_domain }}"
-ckan_admin_email: "{{ admin_email }}"
-ckan_admin: "{{ admin }}"
-ckan_beaker_session_secret: "{{ beaker_session_secret }}"
-ckan_app_instance_uuid: "{{ app_instance_uuid }}"
-ckan_google_analytics: "{{ google_analytics }}"
-ckan_google_credentials: "{{ google_credentials }}"
+ckan_admin_email: "{{ secret_admin_email }}"
+ckan_admin: "{{ secret_admin }}"
+ckan_beaker_session_secret: "{{ secret_beaker_session_secret }}"
+ckan_app_instance_uuid: "{{ secret_app_instance_uuid }}"
+ckan_google_analytics: "{{ secret_google_analytics }}"
+ckan_google_credentials: "{{ secret_google_credentials }}"
+ckan_error_email: "{{ secret_error_email }}"
+
+ckan_recaptcha_public_key: "{{ secret_recaptcha_public_key }}"
+ckan_recaptcha_private_key: "{{ secret_recaptcha_private_key }}"
+
+ckan_admins:
+  - "{{ secret_admin.username }}"
+  - "test-editor"
+
+ckan_show_postit_demo: true
+
+ckan_redis_host: "{{ lookup('aws_ssm', '/beta/redis/endpoint', region='eu-west-1') }}"
+ckan_solr_host: "{{ lookup('aws_ssm', '/beta/web/private_alb_address', region='eu-west-1') }}"
+
+ckan_deployment_environment_id: 'beta'
+ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
+
+ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"

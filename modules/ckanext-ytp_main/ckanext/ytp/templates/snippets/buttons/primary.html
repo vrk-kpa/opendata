@@ -1,0 +1,8 @@
+<button
+    {% if type %}
+    type="{{type}}"
+    {% endif %}
+    class="suomi-button suomi-button-primary {{extra_classes if extra_classes}}"
+>
+    {{content|safe if content}}
+</button>

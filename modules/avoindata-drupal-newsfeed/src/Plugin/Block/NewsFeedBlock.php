@@ -29,7 +29,7 @@ class NewsFeedBlock extends BlockBase {
       ->condition('type', 'avoindata_article')
       ->condition('langcode', $lang)
       ->sort('created', 'DESC')
-      ->range(0, 5)
+      ->range(0, 3)
       ->execute();
     $articleNodes = \Drupal::entityTypeManager()
       ->getStorage('node')
@@ -40,7 +40,7 @@ class NewsFeedBlock extends BlockBase {
       ->condition('langcode', $lang)
       ->condition('field_start_date', $formattedcurrentDateTime, '>=')
       ->sort('field_start_date', 'ASC')
-      ->range(0, 5)
+      ->range(0, 3)
       ->execute();
     $eventNodes = \Drupal::entityTypeManager()
       ->getStorage('node')

@@ -1,4 +1,8 @@
-@import (reference) "../../node_modules/bootstrap/less/variables.less";
+@import (reference) '../../node_modules/bootstrap/less/variables';
+
+// NOTE: these should be used with @media (max-width: @breakpoints.xs)
+// not min-width.
+@breakpoints: xs @screen-xs-max, sm @screen-sm-max, md @screen-md-max, lg 10000px;
 
 // Common color palette. These are the only colors that should be used!
 @opendata-brand-primary:    #219ad3; // Primary navigation/interaction/focus color
@@ -18,7 +22,7 @@
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
 
-@font-family-sans-serif: 'Open Sans', sans-serif;
+@font-family-sans-serif: 'Source Sans Pro', sans-serif;
 @font-family-icon: 'Fontawesome webfont', sans-serif;
 
 @font-weight-light: 300;
@@ -48,7 +52,7 @@
 @background-hilight: lighten(#D3CDC5, 16%);
 @background-body-color: #fff;
 @background-hilight: #f5f5f5;
-@background-hero-image: url('/resources/images/avoindata_hero.jpg');
+@background-hero-image: url('/resources/images/logo/opendata.svg');
 
 // Bootstrap: Grid
 @grid-gutter-width: 50px;
@@ -109,7 +113,6 @@
 
 @body-color-background: #fff;
 
-
 // Footer colors
 @footer-background: @opendata-brand-dark;
 @footer-text-color:      #fff;
@@ -122,12 +125,12 @@
 @select-background: #fff;
 
 // Rest of the variables
-@navbar-background: #011734;
+@navbar-background: #021734;
 @navbar-color: #123f52;
 @navbar-inverse-link-color: @opendata-brand-decorative;
 @navbar-color-background: @opendata-brand-primary;
 @navbar-color-text: #ffffff;
-@navbar-color-links: hsla(0, 0%, 100%, .65);
+@navbar-color-links: #fff;
 @navbar-height: 50px;
 @navbar-responsive-toggle-background: #000;
 
@@ -160,7 +163,7 @@
 @grid-float-breakpoint: @screen-sm-min;
 
 @button-border-radius: 8px;
-@border-radius-large: 0px;
+@border-radius-large: 0;
 
 // Media grid
 @mediagrid-header-text-color: @opendata-brand-dark;
@@ -185,10 +188,52 @@
 @menu-hover-border-color: #002e90;
 
 @dataset-count-text-color: #C6C6C6;
-@organization-count-header-color: #C6C6C6; 
+@organization-count-header-color: #C6C6C6;
 
 @facet-link-text-color: #020202;
 
 // Search view
 @search-view-bg-hero-bg-color: #004f74;
 @search-view-link-color: #000;
+
+// ---------------
+// SUOMI.FI COLORS
+// ---------------
+@suomi-blackBase: #282828;
+// NOTE: This name is madeup, suomi.fi color pallet didn't have a name for it
+@suomi-blackLight25: #949494;
+
+@suomi-brandBase: #003479;
+
+@suomi-highlightBase: #2a6ebb;
+@suomi-highlightLight53: #f7fafd;
+@suomi-highlightLight50: #eaf2fa;
+@suomi-highlightLight45: #d5e4f6;
+@suomi-highlightLight4: #2e78cc;
+@suomi-highlightDark9: #225896;
+
+@suomi-accentBase: #e97025;
+
+@suomi-accentSecondary: #34b5e5;
+@suomi-accentSecondaryLight40: #e8f7fc;
+
+@suomi-accentTertiary: #9f60b5;
+@suomi-accentTertiaryDark9: #87499d;
+
+@suomi-depthBase: #a5acb1;
+@suomi-depthLight30: #f7f7f8;
+@suomi-depthLight26: #edeeef;
+@suomi-depthLight13: #c8cdd0;
+@suomi-depthDark27: #5f686d;
+
+@suomi-depthSecondary: #f0f6ff;
+@suomi-depthSecondaryDark3: #e0edff;
+
+@suomi-successBase: #09aa84;
+@suomi-successLightTransparent50: rgba(9, 170, 132, 0.5);
+
+@suomi-warningBase: #faaf00;
+@suomi-warningLight47: #faebeb;
+
+@suomi-alertBase: #c33932;
+@suomi-whiteBase: #ffffff;

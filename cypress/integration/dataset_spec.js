@@ -52,10 +52,16 @@ describe('Dataset tests', function() {
           const dataTranfer = new DataTransfer();
           dataTranfer.items.add(testFile);
           el.files = dataTranfer.files;
+          cy.wrap(subject).trigger('change', { force: true });
         })
     });
 
     cy.get('button[name=save]').contains('Valmis').click();
+
+    // if cloudstorage is enabled, we wait for window.location to change, can't use dataset name as redirection is done with id
+    if (Cypress.env('cloudStorageEnabled')){
+      cy.location('pathname', {timeout: 20000}).should('include', '/data/dataset/');
+    }
 
     cy.get('a').contains(resource_name).click();
 
@@ -83,7 +89,6 @@ describe('Dataset tests', function() {
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'example@example.com',
       '#field-maintainer_website': 'www.example.com',
-      '#field-owner': 'Test',
       '#field-copyright_notice_translated-fi': 'lisenssi test',
       '#field-copyright_notice_translated-en': 'lisenssi test',
       '#field-copyright_notice_translated-sv': 'lisenssi test',
@@ -91,8 +96,6 @@ describe('Dataset tests', function() {
       '#s2id_autogen7': 'test',
       '#s2id_autogen8': 'test',
       '#field-external_urls': 'www.example.com',
-      '#field-author': 'test',
-      '#field-author_email': 'test@example.com',
       '#field-valid_from': '2019-02-04',
       '#field-valid_till': '2020-02-04'
     };
@@ -101,23 +104,16 @@ describe('Dataset tests', function() {
       '#field-name_translated-fi': 'test data',
       '#field-name_translated-en': 'test data',
       '#field-name_translated-sv': 'test data',
+      '#field-image-url': 'http://example.com',
       '#field-description_translated-fi': 'test kuvaus',
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
       '#field-position_info': '56.7 43.5',
-      '#field-time_series_start': '2019-02-04',
-      '#field-time_series_end': '2020-02-04',
-      '#s2id_autogen2': '2 viikkoa',
-      '#s2id_autogen3': '2 viikkoa',
-      '#s2id_autogen4': '2 viikkoa',
-      '#field-temporal_granularity-fi': 'test',
-      '#field-temporal_granularity-en': 'test',
-      '#field-temporal_granularity-sv': 'test',
-      '#field-update_frequency-fi': 'test',
-      '#field-update_frequency-en': 'test',
-      '#field-update_frequency-sv': 'test',
+      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test',
       '#field-temporal_coverage_to': '2019-02-02',
-      '#field-temporal_coverage_from': '2018-02-02' 
+      '#field-temporal_coverage_from': '2018-02-02'
     };
     cy.create_new_dataset(dataset_name, dataset_form_data, resource_form_data);
   })

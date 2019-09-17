@@ -1,13 +1,14 @@
 // This is almost an exact duplication of the bootstrap.less file provided
 // by the Bootstrap Framework itself. The only difference from that file and
 // this one are the first two @import statements for the original framework's
-// variables and this theme's overrides of those variables. This is necessary
+// variables and this themes overrides of those variables. This is necessary
 // due to the fact that the Less pre-compiler language does not have the
 // concept of "default" variables.
 //
 // @see https://www.drupal.org/node/2775481
 
 @bootstrap-path: "../../../../node_modules/bootstrap/less/";
+
 @import "@{bootstrap-path}variables.less";
 @import "variable-overrides.less";
 
@@ -24,7 +25,6 @@
 @import "@{bootstrap-path}type.less";
 @import "@{bootstrap-path}code.less";
 @import "@{bootstrap-path}grid.less";
-
 @import "@{bootstrap-path}tables.less";
 @import "@{bootstrap-path}forms.less";
 @import "@{bootstrap-path}buttons.less";

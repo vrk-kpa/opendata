@@ -1,0 +1,172 @@
+@import '../variables';
+
+.suomi-button {
+  height: 38px;
+  padding: 0 20px;
+  font-size: 12px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    box-shadow: 0 0 10px @suomi-accentBase;
+    outline: none;
+  }
+
+  &.suomi-button-primary {
+    background: linear-gradient(@suomi-highlightBase, @suomi-highlightDark9);
+    border: none;
+    color: @suomi-whiteBase;
+    text-shadow: 0 1px 1px rgba(@suomi-brandBase, 0.5);
+
+    &:hover {
+      background: linear-gradient(@suomi-highlightLight4, @suomi-highlightBase);
+    }
+
+    &:active {
+      background: @suomi-highlightDark9;
+    }
+
+    &:disabled {
+      background: linear-gradient(@suomi-depthLight13, @suomi-depthBase);
+    }
+  }
+
+  &.suomi-button-secondary {
+    background: @suomi-whiteBase;
+    border: 1px solid @suomi-highlightBase;
+    color: @suomi-highlightBase;
+
+    &:hover {
+      background: linear-gradient(@suomi-depthLight26, @suomi-whiteBase);
+    }
+
+    &:active {
+      background: @suomi-depthLight26;
+    }
+
+    &:disabled {
+      background: @suomi-depthLight30;
+      border: 1px solid @suomi-depthLight13;
+      color: @suomi-depthBase;
+    }
+  }
+
+  // Used on frontpage search
+  // Used on top of blue background
+  // NOTE: this is not an actual suomi.fi button
+  &.suomi-button-custom {
+    background: @suomi-accentSecondary;
+    border: none;
+    color: @suomi-whiteBase;
+
+    &:hover {
+      background: @suomi-highlightLight4;
+    }
+
+    &:active {
+      background: @suomi-highlightDark9;
+    }
+
+    // NOTE: atm no disabled class, due to it never being disabled where it is used
+  }
+}
+
+// OLD STYLES
+.btn-primary {
+  background-color: @btn-dark-bg;
+  border-color: @btn-dark-bg;
+
+  &:hover {
+    background-color: darken(@btn-dark-bg, 10%);
+    border-color: darken(@btn-dark-bg, 10%);
+  }
+}
+
+.btn-info {
+  background-color: @opendata-brand-info;
+  border-color: @opendata-brand-info;
+
+  &:hover {
+    background-color: darken(@opendata-brand-info, 10%);
+    border-color: darken(@opendata-brand-info, 10%);
+  }
+}
+
+.btn-warning {
+  background-color: @opendata-brand-warning;
+  border-color: @opendata-brand-warning;
+
+  &:hover {
+    background-color: darken(@opendata-brand-warning, 10%);
+    border-color: darken(@opendata-brand-warning, 10%);
+  }
+}
+
+// Disable box shadow when the button is activated
+.btn-avoindata-header,
+.btn-avoindata-header:active,
+.btn-avoindata-header:hover,
+.btn-avoindata-header:focus {
+  color: @opendata-ckan-list-item-header;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-success {
+  background-color: @opendata-brand-success;
+  border-color: @opendata-brand-success;
+
+  &.disabled,
+  &.disabled:focus,
+  &.disabled:hover {
+    background-color: tint(@opendata-brand-success, 50%);
+    border-color: tint(@opendata-brand-success, 50%);
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: @opendata-brand-success;
+    border-color: @opendata-brand-success;
+  }
+
+  &:focus:hover,
+  &:active:hover,
+  &:active:focus {
+    background-color: darken(@opendata-brand-success, 10%);
+    border-color: darken(@opendata-brand-success, 10%);
+  }
+}
+
+.btn-opendata {
+  height: 40px;
+  padding-right: 19px;
+  padding-left: 19px;
+  border-radius: 3px;
+  background-color: @btn-dark-bg;
+  color: @btn-dark-text-color;
+}
+
+.form-actions .btn-danger {
+  margin-right: 5px;
+  align-self: flex-start;
+  margin-top: -34px;
+}
+
+.page_primary_action .btn-primary {
+  background-color: white;
+  color: @btn-dark-bg;
+  border-color: transparent;
+  font-size: 17px;
+
+  &:hover {
+    background-color: white;
+    color: @btn-dark-bg;
+    border-color: transparent;
+    font-size: 17px;
+  }
+}

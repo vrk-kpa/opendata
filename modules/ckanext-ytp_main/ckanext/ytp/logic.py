@@ -1,7 +1,8 @@
 from ckan import logic
-from ckan.common import _
-from ckan.common import c
+from ckan.common import _, c
 from ckan.logic import auth
+from ckan.model import Package
+from ckan.lib.mailer import mail_recipient, MailerException
 
 import logging
 import sqlalchemy
@@ -70,3 +71,40 @@ def auth_admin_list(context, data_dict):
     if not c.user:
         return {'success': False, 'msg': _('Have to be logged in to list admins')}
     return {'success': True}
+
+
+def send_package_deprecation_emails(packages):
+    grouped_by_maintainer = {}
+    for package in packages:
+        fullPackage = Package.get(package)
+        maintainer_email = fullPackage.maintainer_email
+
+        packageInfoForEmail = {
+            "title": fullPackage.title,
+            "id": fullPackage.id,
+            "valid_till": fullPackage.extras.get("valid_till"),
+        }
+
+        if maintainer_email not in grouped_by_maintainer:
+            grouped_by_maintainer[maintainer_email] = {"maintainer": fullPackage.maintainer, "packages": [packageInfoForEmail]}
+        else:
+            grouped_by_maintainer[maintainer_email]["packages"].append(packageInfoForEmail)
+
+    for maintainer_email, details in grouped_by_maintainer.iteritems():
+        send_deprecation_email_user(
+            maintainer_email,
+            details["packages"],
+            details["maintainer"],
+            details["packages"][0]["valid_till"]
+        )
+
+
+def send_deprecation_email_user(maintainer_email, packages, maintainer, valid_till):
+    from email_templates import deprecation_email_user
+    log.info('send deprecation email user')
+    subject = deprecation_email_user.subject.format(valid_till=valid_till)
+    body = deprecation_email_user.messageBody(maintainer, packages)
+    try:
+        mail_recipient(maintainer, maintainer_email, subject, body)
+    except MailerException as e:
+        log.error(e)

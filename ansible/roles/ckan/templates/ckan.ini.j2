@@ -3,6 +3,7 @@
 debug = {{ item.debug_enabled }}
 # smtp settings that need to be configured in default section for WebError middleware
 smtp_username = {{ ckan_smtp_username }}
+smtp_password = {{ ckan_smtp_password }}
 smtp_use_tls = {{ ckan_smtp_use_tls }}
 
 
@@ -20,8 +21,11 @@ cache_dir = /tmp/%(ckan.site_id)s/
 
 beaker.session.key = ckan
 beaker.session.secret = {{ ckan_beaker_session_secret }}
-beaker.session.secure = True
+# Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
+#beaker.session.secure = True
 beaker.session.httponly = True
+beaker.session.type = ext:database
+beaker.session.url = postgres://{{ item.db_ckan_username }}:{{ item.db_ckan_password }}@{{ item.db_server }}/{{ item.db_ckan_database }}
 
 app_instance_uuid = {{ ckan_app_instance_uuid }}
 
@@ -41,7 +45,6 @@ ckan.datastore.write_url = postgresql://{{ item.db_ckan_username }}:{{ item.db_c
 ckan.datastore.read_url = postgresql://{{ item.db_ckan_datastore_username }}:{{ item.db_ckan_datastore_password }}@{{ item.db_server }}/{{ item.db_ckan_datastore_database }}
 
 ckan.redis.url = redis://{{ ckan_redis_host }}:{{ ckan_redis_port }}/{{ item.redis_db }}
-
 
 ckan.auth.anon_create_dataset = false
 ckan.auth.create_unowned_dataset = false
@@ -65,6 +68,7 @@ scheming.presets = ckanext.ytp.schemas:presets.json
                    ckanext.fluent:presets.json
 scheming.group_schemas = ckanext.ytp.schemas:group.json
 scheming.organization_schemas = ckanext.ytp.schemas:organization.json
+advancedsearch.schema = ckanext.advancedsearch:search_fields.json
 
 ckan.site_title = Avoindata.fi
 ckan.site_logo =
@@ -83,6 +87,8 @@ ckan.feeds.author_name =
 ckan.feeds.author_link =
 
 ckan.cors.origin_allow_all = True
+
+ckan.activity_streams_email_notifications = True
 
 email_to = {{ ckan_error_email }}
 error_email_from = {{ ckan_error_email_from }}
@@ -105,6 +111,8 @@ ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ ckan_redis_host }}
 ckan.harvest.mq.port = {{ ckan_redis_port }}
 ckan.harvest.mq.redis_db = {{ item.redis_db }}
+
+ckanext.organizationapproval.admin_email = {{ ckan_admin_email }}
 
 ckanext-archiver.archive_dir = {{ ckan_resource_cache_path }}
 ckanext-archiver.max_content_length = 50000000
@@ -139,9 +147,16 @@ target_group_options_url = file://{{ ckan_files_path }}/target_groups.json
 
 ckanext.ytp.default_organization_name = yksityishenkilo
 ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
+ckanext.ytp.harvester_status_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
+
+ckanext.forcetranslation.module = ckanext.ytp
+ckanext.forcetranslation.path = i18n
+ckanext.forcetranslation.domain = ckanext-ytp_main
+
+ckanext.dcat.rdf.profiles = avoindata_dcat_ap
 
 # The email links for reminders will be prefixed with this site url
-ckanext.reminder.site_url = https://www.avoindata.fi
+ckanext.reminder.site_url = {{ ckan_site_protocol }}://{{ item.hostname }}/data
 
 # This configuration can be overwritten in the admin configuration UI
 # Default address for sending the reminders

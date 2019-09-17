@@ -44,7 +44,7 @@ function create_dataset_table_rows($dataset_list, $date_type) {
   $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
   $resultHTML = '';
-  $field_for_date = ($date_type ? $date_type : 'metadata_created');
+  $field_for_date = ($date_type ? $date_type : 'metadata_modified');
 
   if (count($dataset_list) > 0) {
     foreach ($dataset_list as $dataset) {
@@ -54,12 +54,21 @@ function create_dataset_table_rows($dataset_list, $date_type) {
           ? $dataset['title_translated'][$currentLang]
           : $dataset['title_translated']['fi']
       );
+
+      $translated_description = substr((
+        $dataset['notes_translated'][$currentLang]
+        ? $dataset['notes_translated'][$currentLang]
+        : $dataset['notes_translated']['fi']
+      ), 0, 300);
+
+      $translated_label = strtoupper(t('Modified'));
+
       $resultHTML .= <<<EOT
-      <tr>
-        <td><a href="/data/fi/dataset/{$dataset['name']}"> {$translated_title} </a></td>
-        <td>{$dataset['owner']}</td>
-        <td>{$created_date}</td>
-      </tr>
+      <div class="avoindata-datasetlist-single-dataset">
+        <h4><a href="/data/fi/dataset/{$dataset['name']}">{$translated_title}</a></h4>
+        <div class="avoindata-datasetlist-creation-date">{$translated_label} {$created_date}</div>
+        <div class="avoindata-datasetlist-dataset-description">{$translated_description}</div>
+      </div>
 EOT;
     }
   }
@@ -73,7 +82,7 @@ function avoindata_recent_datasets() {
   $client = \Drupal::httpClient();
   try {
     $recentDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=5'
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
     );
     $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
     $recentDatasets = $recentDatasetsResult['result']['results'];
@@ -95,7 +104,7 @@ function avoindata_new_datasets() {
   $client = \Drupal::httpClient();
   try {
     $newDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=5'
+      'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
     );
     $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
     $newDatasets = $newDatasetsResult['result']['results'];
@@ -105,7 +114,7 @@ function avoindata_new_datasets() {
   }
 
   return [
-    '#markup' => create_dataset_table_rows($newDatasets),
+    '#markup' => create_dataset_table_rows($newDatasets, NULL),
     '#cache' => ['max-age' => 0],
   ];
 }
@@ -117,7 +126,7 @@ function avoindata_popular_datasets() {
   $client = \Drupal::httpClient();
   try {
     $popularDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=5'
+      'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
     );
     $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
     $popularDatasets = $popularDatasetsResult['result']['results'];
@@ -127,7 +136,7 @@ function avoindata_popular_datasets() {
   }
 
   return [
-    '#markup' => create_dataset_table_rows($popularDatasets),
+    '#markup' => create_dataset_table_rows($popularDatasets, NULL),
     '#cache' => ['max-age' => 0],
   ];
 }

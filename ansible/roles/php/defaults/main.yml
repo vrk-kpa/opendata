@@ -14,3 +14,8 @@ php_required_packages:
   - php-xml  # installs "dom"
   - php-mbstring
   - php-curl
+
+php_max_children: 5
+php_start_servers: 2
+php_min_spare_servers: 1
+php_max_spare_servers: 3

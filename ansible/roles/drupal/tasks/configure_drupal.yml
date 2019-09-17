@@ -128,6 +128,7 @@
     - metatag
     - metatag_open_graph
     - ape
+    - honeypot
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
@@ -160,13 +161,11 @@
     - core.entity_form_display.node.page.default
     - core.entity_view_display.node.page.default
     - pathauto.settings
-    - user.role.administrator
-    - user.role.anonymous
-    - user.role.authenticated
-    - user.role.ckan_admin
-    - user.role.editor
-    - user.role.publisher
     - captcha.captcha_point.contact_message_feedback_form
+    - core.base_field_override.node.article.promote
+    - editor.editor.full_html
+    - block.block.avoindata_collapsiblesearch
+    - block.block.avoindata_infobox
   tags:
     - skip_ansible_lint
 
@@ -244,6 +243,16 @@
     - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
     - { src: system.performance.yml.j2, dest: system.performance.yml }
     - { src: ape.settings.yml.j2, dest: ape.settings.yml }
+    - { src: locale.settings.yml.j2, dest: locale.settings.yml }
+    - { src: user.role.administrator.yml.j2, dest: user.role.administrator.yml }
+    - { src: user.role.anonymous.yml.j2, dest: user.role.anonymous.yml }
+    - { src: user.role.authenticated.yml.j2, dest: user.role.authenticated.yml }
+    - { src: user.role.ckan_admin.yml.j2, dest: user.role.ckan_admin.yml }
+    - { src: user.role.editor.yml.j2, dest: user.role.editor.yml }
+    - { src: user.role.publisher.yml.j2, dest: user.role.publisher.yml }
+    - { src: language.entity.en.yml.j2, dest: language.entity.en.yml }
+    - { src: language.entity.fi.yml.j2, dest: language.entity.fi.yml }
+    - { src: language.entity.sv.yml.j2, dest: language.entity.sv.yml }
 
 - name: Import drupal settings
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"
@@ -260,12 +269,13 @@
     - skip_ansible_lint
 
 - name: Update drupal translations
-  shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item }}/drupal8.po --langcode {{ item }}"
+  shell: "{{ drupal_drush_path }} language:import:translations {{ playbook_dir }}/roles/drupal/files/i18n/{{ item.src }}/drupal8.po --langcode {{ item.dest }}"
   args:
     chdir: "{{ drupal_root }}"
   with_items:
-    - "fi"
-    - "sv"
+    - { src: "fi", dest: "fi" }
+    - { src: "sv", dest: "sv" }
+    - { src: "en_GB", dest: "en" }
   tags:
     - skip_ansible_lint
 

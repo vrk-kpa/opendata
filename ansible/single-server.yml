@@ -28,6 +28,8 @@
   roles:
     - role: common
       tags: common
+    - role: dynatrace
+      tags: dynatrace
     - role: postgres
       tags: postgres
     - role: opendata_frontend
@@ -59,5 +61,5 @@
 
     - import_role:
         name: cloudwatch_agent
-      when: AWS.enabled
+      when: cloudwatch_agent_enabled
       tags: cloudwatch_agent_role

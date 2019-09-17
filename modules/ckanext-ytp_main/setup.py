@@ -38,6 +38,10 @@ setup(
         ytp_spatial=ckanext.ytp.plugin:YTPSpatialHarvester
         ytp_report=ckanext.ytp.plugin:YtpReportPlugin
         ytp_restrict_category_creation_and_updating=ckanext.ytp.plugin:YtpRestrictCategoryCreationAndUpdatingPlugin
+        ytp_ipermission_labels=ckanext.ytp.plugin:YtpIPermissionLabelsPlugin
+        ytp_resourcestatus=ckanext.ytp.resourcestatusplugin:ResourceStatusPlugin
+        ytp_harvesterstatus=ckanext.ytp.harvesterstatusplugin:HarvesterStatusPlugin
+        opendata_group=ckanext.ytp.plugin:OpenDataGroupPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.celery_import:task_imports
@@ -47,5 +51,9 @@ setup(
         ytp-dataset = ckanext.ytp.commands:ytp_dataset_group
         ytp-organization = ckanext.ytp.commands:ytp_org_group
         opendata-group = ckanext.ytp.commands:opendata_group
+        opendata-harvest = ckanext.ytp.commands:opendata_harvest_group
+
+        [ckan.rdf.profiles]
+        avoindata_dcat_ap=ckanext.ytp.dcat:AvoindataDCATAPProfile
     ''',
 )

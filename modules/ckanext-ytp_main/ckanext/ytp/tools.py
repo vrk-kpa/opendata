@@ -5,6 +5,7 @@ from ckan.plugins import toolkit
 from ckanext.ytp.converters import to_list_json, from_json_list
 from ckan.lib import helpers
 import os
+from datetime import datetime
 
 
 def create_system_context():
@@ -81,3 +82,15 @@ def get_organization_test_source():
 
 def get_organization_harvest_test_source():
     return "file://%s" % os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/organization_harvest.json')
+
+
+# Packages are deprecated if their valid_till date has passed
+# By default packages are not deprecated
+def check_package_deprecation(valid_till):
+    time_now = datetime.now().strftime("%Y-%m-%d")
+    if not valid_till:
+        return False
+    # NOTE: comparing strings, but date format is: Y-m-d. So it should be correct always.
+    elif valid_till < time_now:
+        return True
+    return False

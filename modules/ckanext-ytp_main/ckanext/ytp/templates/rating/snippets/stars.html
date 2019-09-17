@@ -1,0 +1,29 @@
+{#
+Renders a set of stars, which can be clicked to submit a rating
+
+stars  - The number of stars to be displayed.
+package  - The package for which the rating belongs to
+
+    {% snippet "rating/snippets/stars.html", package=pkg %}
+
+#}
+
+
+{% resource "rating_js/rating.js" %}
+
+{% set action = 'submit_package_rating' %}
+{% if package.type == 'showcase' %}
+  {% set action = 'submit_showcase_rating' %}
+{% endif %}
+
+{% set stars = h.get_user_rating(package.id) %}
+<span class="star-rating{% if stars == 0 %} no-stars{% endif %}">
+  <span class="star-rating-stars">
+    {%- for index in range(stars|int) -%}
+      <a class="fas fa-star rating-star" id="star-{{index}}" href="{{ h.url_for(controller='ckanext.rating.controller:RatingController', action=action, package=package.name, rating=index+1) }}"></a>
+    {%- endfor -%}
+    {%- for index in range(stars|int, 5) -%}
+      <a class="far fa-star rating-star" href="{{ h.url_for(controller='ckanext.rating.controller:RatingController', action=action, package=package.name, rating=index+1) }}"></a>
+    {%- endfor -%}
+  </span>
+</span>

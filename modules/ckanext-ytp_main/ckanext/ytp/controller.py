@@ -20,6 +20,7 @@ import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
+from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from plugin import create_vocabulary
 
@@ -357,6 +358,62 @@ class YtpDatasetController(PackageController):
     def edit_related(self, id, related_id):
         return self._edit_or_new(id, related_id, True)
 
+    def groups(self, id):
+        context = {
+            u'model': model,
+            u'session': model.Session,
+            u'user': g.user,
+            u'for_view': True,
+            u'auth_user_obj': g.userobj,
+            u'use_cache': False
+        }
+
+        if request.method == "POST":
+            group_list = []
+            category_list = []
+            for key, val in request.params.iteritems():
+                if key == 'categories':
+                    group_list.append({'name': val})
+                    category_list.append(val)
+            try:
+                get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
+                h.redirect_to('dataset_groups', id=id)
+            except (NotFound, NotAuthorized):
+                return base.abort(404, _(u'Dataset not found'))
+
+        try:
+            pkg_dict = get_action(u'package_show')(context, {u'id': id})
+        except (NotFound, NotAuthorized):
+            return base.abort(404, _(u'Dataset not found'))
+
+        dataset_type = pkg_dict[u'type']
+        context[u'is_member'] = True
+        users_groups = get_action(u'group_list_authz')(context, {u'id': id})
+
+        pkg_group_ids = set(
+            group[u'id'] for group in pkg_dict.get(u'groups', [])
+        )
+
+        user_group_ids = set(group[u'id'] for group in users_groups)
+
+        group_dropdown = [[group[u'id'], group[u'display_name']]
+                          for group in users_groups
+                          if group[u'id'] not in pkg_group_ids]
+
+        for group in pkg_dict.get(u'groups', []):
+            group[u'user_member'] = (group[u'id'] in user_group_ids)
+
+        c.pkg_dict = pkg_dict
+        c.group_dropdown = group_dropdown
+
+        return base.render(
+            u'package/group_list.html', {
+                u'dataset_type': dataset_type,
+                u'pkg_dict': pkg_dict,
+                u'group_dropdown': group_dropdown
+            }
+        )
+
     def _edit_or_new(self, id, related_id, is_edit):
         """
         Edit and New were too similar and so I've put the code together
@@ -565,6 +622,27 @@ class YtpDatasetController(PackageController):
 
 
 class YtpOrganizationController(OrganizationController):
+    # NOTE: should this be in organizationapproval plugin?
+    def _save_new(self, context, group_type=None):
+        try:
+            data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
+            data_dict['type'] = group_type or 'group'
+            context['message'] = data_dict.get('log_message', '')
+            data_dict['users'] = [{'name': c.user, 'capacity': 'admin'}]
+            # Set approval status to pending
+            data_dict['approval_status'] = 'pending'
+            group = self._action('group_create')(context, data_dict)
+            send_new_organization_email_to_admin()
+            # Redirect to the appropriate _read route for the type of group
+            h.redirect_to(group['type'] + '_read', id=group['name'])
+        except (NotFound, NotAuthorized) as e:
+            abort(404, _('Group not found'))
+        except DataError:
+            abort(400, _(u'Integrity Error'))
+        except ValidationError as e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.new(data_dict, errors, error_summary)
 
     def members(self, id):
         group_type = self._ensure_controller_matches_group_type(id)
@@ -579,21 +657,12 @@ class YtpOrganizationController(OrganizationController):
                 context, {'id': id, 'object_type': 'user'}
             )
             data_dict['include_datasets'] = False
-            c.group_dict = self._action('group_show')(context, {'id': id})
 
             check_access('organization_update', context, {'id': id})
             context['keep_email'] = True
             context['auth_user_obj'] = c.userobj
-            context['return_minimal'] = True
-
-            members = []
-            for user_id, name, role in c.members:
-                user_dict = {'id': user_id}
-                data = get_action('user_show')(context, user_dict)
-                if data['state'] != 'deleted':
-                    members.append((user_id, data['name'], role, data['email']))
-
-            c.members = members
+            c.group_dict = self._action('group_show')(context, {'id': id, 'include_users': True})
+            c.members = c.group_dict['users']
         except NotAuthorized:
             abort(403, _('User %r not authorized to edit members of %s') % (c.user, id))
         except NotFound:
@@ -705,7 +774,6 @@ class YtpOrganizationController(OrganizationController):
             g = model.Session.query(model.Group).filter(model.Group.name == id).first()
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html', group_type=group_type)
-
         return OrganizationController.read(self, id, limit)
 
     def embed(self, id, limit=5):
@@ -733,7 +801,7 @@ class YtpOrganizationController(OrganizationController):
             if g is None or g.state != 'active':
                 return self._render_template('group/organization_not_found.html')
 
-        page = OrganizationController._get_page_number(self, request.params)
+        page = h.get_page_number(request.params) or 1
 
         group_dict = {'id': id}
         group_dict['include_datasets'] = False
@@ -779,6 +847,7 @@ class YtpThemeController(base.BaseController):
             return abort(404)
 
 
+# NOTE: Pretty sure this is not used anywhere.
 class YtpUserController(UserController):
 
     # Modify original CKAN Edit user controller

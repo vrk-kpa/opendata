@@ -1,17 +1,19 @@
 from ckan.common import _
 import ckan.authz as authz
 import ckan.plugins.toolkit as toolkit
-import collections
-
 import ckan.model as model
 import ckan.logic.validators as validators
 import ckan.lib.navl.dictization_functions as df
+from ckan.logic import get_action
+from ckanext.showcase.model import ShowcaseAdmin
+
 import re
 import json
-from ckan.logic import get_action
 import plugin
-
 import logging
+import collections
+from tools import check_package_deprecation
+
 
 try:
     from ckanext.scheming.validation import (
@@ -65,8 +67,12 @@ def tag_string_or_tags_required(key, data, errors, context):
             raise df.StopOnError
 
 
-def set_private_if_not_admin(private):
-    return True if not authz.is_sysadmin(c.user) else private
+def set_private_if_not_admin_or_showcase_admin(private):
+    userobj = model.User.get(c.user)
+    if userobj and not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
+        return True
+    else:
+        return private
 
 
 def convert_to_list(value):
@@ -435,11 +441,65 @@ def extra_validators_multiple_choice(field, schema):
         for extra_validator in extra_validators:
             if extra_validator.get('value') in changed_features:
                 context['field'] = extra_validator.get('value')
-                toolkit.get_validator(extra_validator.get('validator'))(data, key, errors, context)
+                toolkit.get_validator(extra_validator.get('validator'))(key, data, errors, context)
 
     return validator
 
 
-def admin_only_feature(data, key, errors, context):
+def admin_only_feature(key, data, errors, context):
     if not authz.is_sysadmin(context['user']):
         errors[key].append(_('Only sysadmin can change feature: %s') % context['field'])
+
+
+def check_deprecation(key, data, errors, context):
+    # just in case there was an error before our validator,
+    # bail out here because our errors won't be useful
+    if errors[key]:
+        return
+
+    deprecation = check_package_deprecation(data.get(('valid_till',)))
+    data[key] = deprecation
+
+
+@scheming_validator
+def admin_only_field(field, schema):
+    from ckan.lib.navl.dictization_functions import flatten_dict
+    from ckan.logic import get_action
+
+    def validator(key, data, errors, context):
+
+        if 'package' not in context:
+            return
+
+        data_dict = flatten_dict(get_action('package_show')(context, {'id': context['package'].id}))
+
+        if not authz.is_authorized('sysadmin', context).get('success'):
+            if key in data_dict:
+                data[key] = data_dict[key]
+            else:
+                del data[key]
+
+    return validator
+
+
+@scheming_validator
+def use_url_for_name_if_left_empty(field, schema):
+    def validator(key, data, errors, context):
+        resource_names_translated = json.loads(data.get(key, ''))
+        resource_url = data.get(key[:-1] + ('url',), '')
+
+        if resource_names_translated['fi'] == '' and resource_url != '':
+            resource_names_translated['fi'] = resource_url
+            data[key] = json.dumps(resource_names_translated)
+    return validator
+
+
+def convert_to_json_compatible_str_if_str(value):
+    if isinstance(value, basestring):
+        if value == "":
+            return json.dumps({})
+        try:
+            json.loads(value)
+        except ValueError:
+            value = json.dumps({'fi': value})
+        return value
