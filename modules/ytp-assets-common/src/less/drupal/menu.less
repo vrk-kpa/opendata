@@ -1,0 +1,123 @@
+// Restricted to guide page menu at least for now but likely will be expanded to cover other pages as well later
+#guide-menu-column {
+  .menu-header {
+    margin-left: 14px;
+    border-bottom: 1px solid rgb(238, 245, 255);
+  }
+
+  .menu-heading {
+    display: inline-block;
+    margin-left: 16px;
+    margin-top: 10px;
+    height: 24px;
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-family: "Source Sans Pro SemiBold";
+    font-weight: 600;
+    line-height: 24px;
+    border-bottom: none;
+  }
+
+  .menu-logo {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+
+  .opendata-card {
+    border-top: none;
+    background-color: @menu-bg-color;
+    padding-top: 0;
+  }
+
+  //Copied from the webflow implementation and earlier hover implementations
+  .opendata-card .opendata-card-content {
+    .collapse {
+      //Otherwise, the menu would not
+      //show on small displays
+      display: block;
+    }
+
+    .dropdown-menu {
+      // This makes the element to adjust its size according
+      // to the size of the children
+      position: relative;
+      box-shadow: none;
+      border: none;
+      margin: 0;
+    }
+
+    .link-content {
+      display: block;
+      padding: 10px 15px 10px 6px;
+      border-bottom: 1px solid rgb(238, 245, 255);
+    }
+
+    .dropdown-menu .link-content {
+      padding-left: 21px;
+    }
+
+    .nav li a {
+      color: @menu-text-color;
+      font-family: "Source Sans Pro";
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 20px;
+      padding: 0 0 0 14px;
+    }
+
+    .nav > li > a {
+      text-transform: uppercase;
+      font-size: 18px;
+      line-height: 27px;
+    }
+
+    li.active > a > .link-content {
+      color: @menu-text-highlight-color;
+      font-family: "Source Sans Pro SemiBold";
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+    }
+    .nav li.open {
+      border-left: 5px solid @menu-hover-border-color;
+    }
+
+    .nav li.open a {
+      padding: 0 0 0 9px;
+    }
+    .nav li.open > a {
+      font-family: "Source Sans Pro SemiBold";
+      font-weight: 600;
+    }
+
+    .nav li.open > ul {
+      padding: 0;
+    }
+
+    .open > a {
+      background-color: @menu-bg-color;
+    }
+
+    a.active {
+      background-color: @menu-highlight-bg-color;
+    }
+
+    .nav li > a:hover {
+      background-color: @menu-highlight-bg-color;
+      color: @menu-text-highlight-color;
+    }
+
+    .dropdown-menu li > a {
+      margin: 0;
+    }
+
+    .dropdown-menu > li > a {
+      padding-left: 30px;
+    }
+
+    li > a:focus {
+      background-color: transparent;
+    }
+  }
+}

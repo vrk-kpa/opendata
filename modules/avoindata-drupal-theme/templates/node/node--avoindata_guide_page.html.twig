@@ -9,6 +9,9 @@
 <div class="container-fluid">
     <div class="avoindata-guide-container avoindata-card-container">
         <div class="row">
+            <div id="guide-menu-column" class="secondary col-12 col-md-4">
+                {{ drupal_region('guide_menu') }}
+            </div>
             <div class="secondary col-12 col-md-8">
                 <div class="row guide-header-container">
                     <h2 id="guide-header">
@@ -25,9 +28,6 @@
                 <div class="row">
                     {{ content.field_guide_comments|field_value }}
                 </div>
-            </div>
-            <div id="guide-menu-column" class="secondary col-12 col-md-4">
-                {{ drupal_region('guide_menu') }}
             </div>
         </div>
     </div>
