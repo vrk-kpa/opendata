@@ -295,7 +295,8 @@ gulp.task("watch_drupal_styles", () => {
   var watcher = gulp.watch(
     ["./src/less/**/*.less", "./src/less/*.less", "../avoindata-drupal-theme/less"],
     gulp.series(
-      "drupal"
+      "drupal",
+      "lint"
     )
   );
 
