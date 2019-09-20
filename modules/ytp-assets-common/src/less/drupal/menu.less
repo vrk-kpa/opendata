@@ -12,7 +12,7 @@
     height: 24px;
     color: rgb(40, 40, 40);
     font-size: 18px;
-    font-family: "Source Sans Pro SemiBold";
+    font-family: @font-family-sans-serif-semibold;
     font-weight: 600;
     line-height: 24px;
     border-bottom: none;
@@ -59,7 +59,7 @@
 
     .nav li a {
       color: @menu-text-color;
-      font-family: "Source Sans Pro";
+      font-family: @font-family-sans-serif;
       font-size: 16px;
       font-weight: normal;
       line-height: 20px;
@@ -74,11 +74,12 @@
 
     li.active > a > .link-content {
       color: @menu-text-highlight-color;
-      font-family: "Source Sans Pro SemiBold";
+      font-family: @font-family-sans-serif-semibold;
       font-size: 16px;
       font-weight: 600;
       line-height: 24px;
     }
+
     .nav li.open {
       border-left: 5px solid @menu-hover-border-color;
     }
@@ -86,8 +87,9 @@
     .nav li.open a {
       padding: 0 0 0 9px;
     }
+
     .nav li.open > a {
-      font-family: "Source Sans Pro SemiBold";
+      font-family: @font-family-sans-serif-semibold;
       font-weight: 600;
     }
 
