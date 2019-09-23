@@ -280,3 +280,32 @@ class Sixodp_ShowcaseController(ShowcaseController):
             return "sixodp_showcase/package_form.html"
         else:
             return super(Sixodp_ShowcaseController, self)._package_form(package_type)
+
+    def delete(self, id):
+        if 'cancel' in request.params:
+            tk.redirect_to(
+                controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController',
+                action='edit', id=id)
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user or c.author, 'auth_user_obj': c.userobj}
+
+        try:
+            check_access('ckanext_showcase_delete', context, {'id': id})
+        except NotAuthorized:
+            abort(401, _('Unauthorized to delete showcase'))
+
+        try:
+            if request.method == 'POST':
+                get_action('ckanext_showcase_delete')(context, {'id': id})
+                h.flash_notice(_('Showcase has been deleted.'))
+                tk.redirect_to(
+                    controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController',
+                    action='search')
+            c.pkg_dict = get_action('package_show')(context, {'id': id})
+        except NotAuthorized:
+            abort(401, _('Unauthorized to delete showcase'))
+        except NotFound:
+            abort(404, _('Showcase not found'))
+        return render('showcase/confirm_delete.html',
+                      extra_vars={'dataset_type': 'showcase'})
