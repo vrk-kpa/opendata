@@ -37,6 +37,18 @@ class HeroForm extends FormBase {
     $form['#theme'] = ['avoindata_hero'];
 
     $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+    $form['search'] = [
+      '#type' => 'textfield',
+      '#default_value' => '',
+    ];
+
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
+      '#button_type' => 'primary',
+    ];
+
     return $form;
   }
 

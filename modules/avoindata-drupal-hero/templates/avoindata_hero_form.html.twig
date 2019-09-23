@@ -116,13 +116,17 @@
                         class="ytp-input-element color-depth-dark27"
                         placeholder="{{ placeholder }}"
                     >
-                    <i class="fa fa-2x fa-search color-depth-base mr-2"></i>
-                </div>
-                <button type="submit" class="sr-only">
-                    {% trans %}
-                    Submit
+
+                  <button type="submit">
+                    <span>
+                      {% trans %}
+                      Submit
                     {% endtrans %}
-                </button>
+                    </span>
+                    <i class="fa fa-2x fa-search color-depth-base"></i>
+                  </button>
+                </div>
+
             </div>
         </div>
         {{ form.searchfilter }}
