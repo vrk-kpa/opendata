@@ -6,7 +6,7 @@
  * @ingroup themeable
  */
 #}
-<div class="container-fluid">
+<div id="guide-page" class="container-fluid">
     <div class="avoindata-guide-container avoindata-card-container">
         <div class="row">
             <div id="guide-menu-column" class="secondary col-12 col-md-4">
@@ -21,7 +21,6 @@
                 <div class="row guide-image">
                     {{ content.field_page_image|field_value }}
                 </div>
-                <div class="spacer"></div>
                 <div class="row guide-content">
                     {{ content.field_content|field_value }}
                 </div>

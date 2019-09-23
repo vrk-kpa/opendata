@@ -1,7 +1,11 @@
+.avoindata-guide-container .secondary {
+  padding-top: 15px;
+}
+
 #guide-search-form {
   margin-top: 12px;
-  padding-right: 0;
-  padding-left: 0;
+  padding-left: 14px;
+  padding-right: 22px;
 }
 
 #guide-search-field {
@@ -30,12 +34,39 @@
   text-decoration: none;
 }
 
+#guide-page {
+  background-color: #fafafa;
+}
+
+#guide-page > .avoindata-guide-container {
+  background-color: #fff;
+  border: 1px solid #ced2d5;
+  padding-top: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 #guide-header {
-  margin: 0;
-  color: rgb(40, 40, 40);
+  margin: 0 0 24px 0;
+  color: @new-layout-primary-text-color;
   font-family: @font-family-sans-serif-light;
   font-size: 40px;
   font-weight: 300;
   line-height: 48px;
-  margin-bottom: 12px;
+}
+
+.guide-content {
+  color: @new-layout-primary-text-color;
+  font-family: @font-family-sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 27px;
+}
+
+.guide-content p {
+  margin-bottom: 27px;
+}
+
+.guide-content p:last-child {
+  margin-bottom: 17px;
 }

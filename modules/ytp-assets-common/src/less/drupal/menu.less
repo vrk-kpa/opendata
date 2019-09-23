@@ -1,5 +1,7 @@
 // Restricted to guide page menu at least for now but likely will be expanded to cover other pages as well later
 #guide-menu-column {
+  padding-top: 10px;
+
   .menu-header {
     margin-left: 14px;
     border-bottom: 1px solid rgb(238, 245, 255);
@@ -7,10 +9,9 @@
 
   .menu-heading {
     display: inline-block;
-    margin-left: 16px;
-    margin-top: 10px;
+    margin: auto 0 auto 16px;
     height: 24px;
-    color: rgb(40, 40, 40);
+    color: @new-layout-primary-text-color;
     font-size: 18px;
     font-family: @font-family-sans-serif-semibold;
     font-weight: 600;
@@ -21,17 +22,19 @@
   .menu-logo {
     width: 32px;
     height: 32px;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
   }
 
   .opendata-card {
     border-top: none;
-    background-color: @menu-bg-color;
+    background-color: @new-layout-bg-color;
     padding-top: 0;
   }
 
   //Copied from the webflow implementation and earlier hover implementations
   .opendata-card .opendata-card-content {
+    margin-top: 0;
+
     .collapse {
       //Otherwise, the menu would not
       //show on small displays
@@ -58,7 +61,7 @@
     }
 
     .nav li a {
-      color: @menu-text-color;
+      color: @new-layout-secondary-text-color;
       font-family: @font-family-sans-serif;
       font-size: 16px;
       font-weight: normal;
@@ -73,7 +76,7 @@
     }
 
     li.active > a > .link-content {
-      color: @menu-text-highlight-color;
+      color: @new-layout-secondary-text-color-dark;
       font-family: @font-family-sans-serif-semibold;
       font-size: 16px;
       font-weight: 600;
@@ -98,16 +101,16 @@
     }
 
     .open > a {
-      background-color: @menu-bg-color;
+      background-color: @new-layout-bg-color;
     }
 
     a.active {
-      background-color: @menu-highlight-bg-color;
+      background-color: @new-layout-highlight-bg-color;
     }
 
     .nav li > a:hover {
-      background-color: @menu-highlight-bg-color;
-      color: @menu-text-highlight-color;
+      background-color: @new-layout-highlight-bg-color;
+      color: @new-layout-secondary-text-color-dark;
     }
 
     .dropdown-menu li > a {
