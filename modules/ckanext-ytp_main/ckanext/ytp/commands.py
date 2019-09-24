@@ -220,7 +220,6 @@ def migrate_temporal_granularity(ctx, config, dryrun):
 
     package_patches = []
 
-
     for old_package_dict in package_generator('*:*', 1000):
         resource_patches = []
         changes = False
