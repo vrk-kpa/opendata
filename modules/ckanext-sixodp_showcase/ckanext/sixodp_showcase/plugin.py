@@ -64,12 +64,12 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                       highlight_actions='index search')
             m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
                       action='manage_showcase_admins', ckan_icon='picture'),
+            m.connect('ckanext_showcase_delete', '/showcase/delete/{id}',
+                      action='delete')
 
         with SubMapper(map, controller='ckanext.showcase.controller:ShowcaseController') as m:
             m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
                       ckan_icon='picture')
-            m.connect('ckanext_showcase_delete', '/showcase/delete/{id}',
-                      action='delete')
             m.connect('ckanext_showcase_manage_datasets',
                       '/showcase/manage_datasets/{id}',
                       action="manage_datasets", ckan_icon="sitemap")
