@@ -488,7 +488,7 @@ def use_url_for_name_if_left_empty(field, schema):
         resource_names_translated = json.loads(data.get(key, ''))
         resource_url = data.get(key[:-1] + ('url',), '')
 
-        if resource_names_translated['fi'] == '' and resource_url != '':
+        if resource_names_translated.get('fi', '') == '' and resource_url != '':
             resource_names_translated['fi'] = resource_url
             data[key] = json.dumps(resource_names_translated)
     return validator
