@@ -255,7 +255,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
   cy.get('.form-actions').contains('Poista').click();
-  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.contains('Haluatko varmasti poistaa sovelluksen');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.visit('/data/showcase');
   cy.get('.search-input .search').type(showcase_name + '{enter}');
