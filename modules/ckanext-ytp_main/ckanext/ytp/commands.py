@@ -218,13 +218,14 @@ def migrate(ctx, config, dryrun):
 def migrate_temporal_granularity(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
 
-    resource_patches = []
+    package_patches = []
 
     for old_package_dict in package_generator('*:*', 1000):
+        resource_patches = []
+        changes = False
         for resource in old_package_dict.get('resources', []):
             temporal_granularity = resource.get('temporal_granularity')
             if temporal_granularity and len(temporal_granularity) > 0:
-                changes = False
                 for k, v in temporal_granularity.items():
                     if isinstance(v, basestring) and len(v) > 0:
                         temporal_granularity[k] = [v]
@@ -232,13 +233,17 @@ def migrate_temporal_granularity(ctx, config, dryrun):
                     elif isinstance(v, basestring) and len(v) is 0:
                         temporal_granularity.pop(k)
                         changes = True
-                if changes:
-                    resource_patches.append(resource)
+                resource_patches.append(resource)
+        if changes:
+            # Resources need to patched all at once, so they are moved to package patch
+            patch = {'id': old_package_dict['id'], 'resources': resource_patches}
+            package_patches.append(patch)
+
     if dryrun:
-        print '\n'.join('%s' % p for p in resource_patches)
+        print '\n'.join('%s' % p for p in package_patches)
     else:
-        # No package patches so empty parameter is passed
-        apply_patches([], resource_patches)
+        # No resource patches so empty parameter is passed
+        apply_patches(package_patches, [])
 
 
 @ytp_dataset_group.command(
