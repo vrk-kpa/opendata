@@ -451,7 +451,7 @@ Resources:
       HealthCheckPath: /solr/
       HealthCheckPort: '8983'
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
+      HealthCheckTimeoutSeconds: 10
       HealthyThresholdCount: 5
       Matcher:
         HttpCode: '200'
@@ -460,7 +460,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-solr
-      UnhealthyThresholdCount: 5
+      UnhealthyThresholdCount: 30
       VpcId: !Ref Vpc
 
   PublicALBSecurityGroup:
