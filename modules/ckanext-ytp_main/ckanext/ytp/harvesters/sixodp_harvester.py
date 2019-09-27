@@ -636,7 +636,10 @@ class SixodpHarvester(HarvesterBase):
                     try:
                         data_dict = {'id': remote_org}
                         org = get_action('organization_show')(base_context.copy(), data_dict)
-                        validated_org = org['id']
+                        if org['state'] == 'deleted':
+                            log.info("Organization %s is deleted, not assigning it.", remote_org)
+                        else:
+                            validated_org = org['id']
                     except NotFound, e:
                         log.info('Organization %s is not available', remote_org)
                         if remote_orgs == 'create':
