@@ -745,7 +745,8 @@ class SixodpHarvester(HarvesterBase):
                             package_plugin, base_context, package_dict, schema, 'package_update')
 
                 except NotFound:
-
+                    # Generate name to catch duplicate names
+                    package_dict['name'] = self._gen_new_name(package_dict['name'])
                     schema = package_plugin.create_package_schema()
                     data, errors = lib_plugins.plugin_validate(
                         package_plugin, base_context, package_dict, schema, 'package_create')
