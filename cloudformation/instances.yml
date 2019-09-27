@@ -447,12 +447,12 @@ Resources:
   PrivateALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 30
+      HealthCheckIntervalSeconds: 60
       HealthCheckPath: /solr/
       HealthCheckPort: '8983'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 10
-      HealthyThresholdCount: 5
+      HealthyThresholdCount: 3
       Matcher:
         HttpCode: '200'
       Port: 8983
@@ -460,7 +460,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-solr
-      UnhealthyThresholdCount: 30
+      UnhealthyThresholdCount: 10
       VpcId: !Ref Vpc
 
   PublicALBSecurityGroup:
