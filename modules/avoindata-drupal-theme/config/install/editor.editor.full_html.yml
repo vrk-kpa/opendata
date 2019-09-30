@@ -48,6 +48,10 @@ settings:
             - Styles
             - ShowBlocks
             - Source
+        -
+          name: 'Avoindata elements'
+          items:
+            - avoindata_expander
   plugins:
     stylescombo:
       styles: 'table.table.table-responsive|Responsive table'
