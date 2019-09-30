@@ -52,6 +52,7 @@ settings:
           name: 'Avoindata elements'
           items:
             - avoindata_expander
+            - avoindata_note
   plugins:
     stylescombo:
       styles: 'table.table.table-responsive|Responsive table'
