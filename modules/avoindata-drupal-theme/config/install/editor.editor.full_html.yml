@@ -53,6 +53,7 @@ settings:
           items:
             - avoindata_expander
             - avoindata_note
+            - avoindata_hint
   plugins:
     stylescombo:
       styles: 'table.table.table-responsive|Responsive table'

@@ -54,7 +54,7 @@
   cursor: pointer;
 }
 
-.avoindata-header-image {
+.avoindata-note-header-image {
   height: 24px;
   width: 24px;
   margin-left: 20px;
@@ -92,6 +92,30 @@
 }
 
 .avoindata-expander-content p:last-of-type,
-.avoindata-note-content p:last-of-type {
+.avoindata-note-content p:last-of-type,
+.avoindata-hint-content p:last-of-type {
   margin-bottom: 0;
+}
+
+.avoindata-hint {
+  margin: 40px 0;
+}
+
+.avoindata-hint-image {
+  display: inline-block;
+  vertical-align: top;
+  height: 24px;
+  width: 24px;
+  margin-left: 20px;
+}
+
+.avoindata-hint-content {
+  width: calc(100% - 45px);
+  display: inline-block;
+  color: @new-layout-primary-text-color;
+  font-family: @font-family-sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 27px;
+  padding: 0 20px 15px 15px;
 }
