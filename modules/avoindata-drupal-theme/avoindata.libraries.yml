@@ -20,3 +20,7 @@ bootstrap-scripts:
 avoindata-custom-elements:
   js:
     '/resources/scripts/avoindata_custom_elements.js': {preprocess: false, type: external}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once

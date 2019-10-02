@@ -22,7 +22,7 @@
 
       editor.widgets.add( 'avoindata_expander', {
         template:
-          '<div class="avoindata-expander" onclick="toggleAvoindataExpander(this)">' +
+          '<div class="avoindata-expander">' +
             '<div class="avoindata-expander-header">' +
               '<h2 class="avoindata-expander-title">Title</h2>' +
               '<span class="icon-wrapper pull-right"><i class="fas fa-angle-down"></i></span>' +
