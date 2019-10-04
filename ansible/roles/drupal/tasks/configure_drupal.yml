@@ -176,6 +176,13 @@
     dest: "{{ drupal_root }}/web/themes/avoindata"
     force: true
 
+- name: Symlink custom ckeditor plugin styles
+  file:
+    state: link
+    src: "{{ drupal_server_path }}/avoindata-drupal-ckeditor-plugins/"
+    dest: "{{ drupal_root }}/web/modules/avoindata-ckeditor-plugins/css"
+    force: true
+
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
   synchronize:
