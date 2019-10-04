@@ -59,6 +59,7 @@ drupal_custom_modules:
   - { src_name: avoindata-drupal-events, module_name: avoindata-events, machine_name: avoindata_events }
   - { src_name: avoindata-drupal-guide, module_name: avoindata-guide, machine_name: avoindata_guide }
   - { src_name: avoindata-drupal-user, module_name: avoindata-user, machine_name: avoindata_user }
+  - { src_name: avoindata-drupal-ckeditor-plugins, module_name: avoindata-ckeditor-plugins, machine_name: avoindata_ckeditor_plugins }
 
 drupal_language_modules:
   - config_translation
