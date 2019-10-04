@@ -179,7 +179,7 @@
 - name: Symlink custom ckeditor plugin styles
   file:
     state: link
-    src: "{{ drupal_server_path }}/avoindata-drupal-ckeditor-plugins/"
+    src: "{{ drupal_server_path }}/avoindata-drupal-ckeditor-plugins/css"
     dest: "{{ drupal_root }}/web/modules/avoindata-ckeditor-plugins/css"
     force: true
 
