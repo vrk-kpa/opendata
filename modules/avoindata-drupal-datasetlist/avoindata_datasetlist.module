@@ -55,17 +55,17 @@ function create_dataset_table_rows($dataset_list, $date_type) {
           : $dataset['title_translated']['fi']
       );
 
-      $translated_description = substr((
+      $translated_description = (
         $dataset['notes_translated'][$currentLang]
         ? $dataset['notes_translated'][$currentLang]
         : $dataset['notes_translated']['fi']
-      ), 0, 300);
+      );
 
       $translated_label = strtoupper(t('Modified'));
 
       $resultHTML .= <<<EOT
       <div class="avoindata-datasetlist-single-dataset">
-        <h4><a href="/data/fi/dataset/{$dataset['name']}">{$translated_title}</a></h4>
+        <h3><a href="/data/fi/dataset/{$dataset['name']}">{$translated_title}</a></h3>
         <div class="avoindata-datasetlist-creation-date">{$translated_label} {$created_date}</div>
         <div class="avoindata-datasetlist-dataset-description">{$translated_description}</div>
       </div>

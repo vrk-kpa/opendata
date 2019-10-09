@@ -10,11 +10,11 @@
   <div class="avoindata-datasetlist-container">
     <div class="row avoindata-datasetlist-header-row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3>
+        <h1>
           {% trans %}
             Datasets
           {% endtrans %}
-        </h3>
+        </h1>
       </div>
     </div>
     <div class="row avoindata-datasetlist-nav">
@@ -51,6 +51,7 @@
         <div class="avoindata-datasetlist-wrapper">
           {{ recentdatasets }}
         </div>
+        <div class="row avoindata-datasetlist-bottom-wrapper"></div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
             {% trans %}More recently modified datasets{% endtrans %} <i class="far fa-long-arrow-right"></i>
@@ -62,6 +63,7 @@
         <div class="avoindata-datasetlist-wrapper">
           {{ newdatasets }}
         </div>
+        <div class="row avoindata-datasetlist-bottom-wrapper"></div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_created+desc">
             {% trans %}More new data sets{% endtrans %} <i class="far fa-long-arrow-right"></i>
@@ -73,6 +75,7 @@
         <div class="avoindata-datasetlist-wrapper">
           {{ populardatasets }}
         </div>
+        <div class="row avoindata-datasetlist-bottom-wrapper"></div>
         <div class="row avoindata-datasetlist-links">
           <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=views_recent+desc">
             {% trans %}More popular datasets{% endtrans %} <i class="far fa-long-arrow-right"></i>

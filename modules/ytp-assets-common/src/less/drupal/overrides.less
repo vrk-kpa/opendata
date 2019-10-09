@@ -482,7 +482,7 @@ p:last-child,
       margin-bottom: 5px;
       margin-left: 0;
       margin-right: 0;
-      padding-top: 60px;
+      padding-top: 40px;
       background-color: #fff;
       overflow: auto;
 
@@ -512,11 +512,13 @@ p:last-child,
 
     .avoindata-datasetlist-wrapper {
       display: flex;
+      position: relative;
 
       .avoindata-datasetlist-single-dataset {
         display: inline-block;
         flex: 1;
-        height: 360px;
+        height: 355px;
+        overflow: hidden;
 
         .avoindata-datasetlist-creation-date {
           font-size: 16px;
@@ -524,11 +526,19 @@ p:last-child,
         }
 
         .avoindata-datasetlist-dataset-description {
-          font-size: 18px;
+          font-size: 16px;
           overflow: hidden;
           max-height: 240px;
         }
       }
+    }
+
+    .avoindata-datasetlist-bottom-wrapper {
+      height: 100px;
+      width: 100%;
+      position: absolute;
+      background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, white 100%);
+      top: 255px;
     }
   }
 
@@ -691,6 +701,7 @@ p:last-child,
         height: 330px;
         background-color: #fff;
         border: #ced2d5 1px solid;
+        overflow: hidden;
 
         .application-item-logo {
           margin-right: 0;
