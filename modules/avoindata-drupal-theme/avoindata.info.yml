@@ -28,3 +28,4 @@ libraries:
   - 'avoindata/bootstrap-scripts'
   - 'avoindata/fonts'
   - 'avoindata/avoindata-custom-elements'
+  - 'avoindata/webfonts'
