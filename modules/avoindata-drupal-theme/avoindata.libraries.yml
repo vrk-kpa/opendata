@@ -24,3 +24,8 @@ avoindata-custom-elements:
     - core/drupal
     - core/jquery
     - core/jquery.once
+webfonts:
+  css:
+    header: true
+    base:
+      '/resources/styles/fonts.css': {preprocess: false}
