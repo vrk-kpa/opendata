@@ -182,6 +182,7 @@
     src: "{{ drupal_server_path }}/avoindata-drupal-ckeditor-plugins/css"
     dest: "{{ drupal_root }}/web/modules/avoindata-ckeditor-plugins/css"
     force: true
+  when: drupal_deployment_environment_id != "vagrant"
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
