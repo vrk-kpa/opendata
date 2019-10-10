@@ -68,6 +68,7 @@ function create_dataset_table_rows($dataset_list, $date_type) {
         <h3><a href="/data/fi/dataset/{$dataset['name']}">{$translated_title}</a></h3>
         <div class="avoindata-datasetlist-creation-date">{$translated_label} {$created_date}</div>
         <div class="avoindata-datasetlist-dataset-description">{$translated_description}</div>
+        <div class="avoindata-datasetlist-bottom-wrapper"></div>
       </div>
 EOT;
     }
