@@ -482,7 +482,7 @@ p:last-child,
       margin-bottom: 5px;
       margin-left: 0;
       margin-right: 0;
-      padding-top: 60px;
+      padding-top: 40px;
       background-color: #fff;
       overflow: auto;
 
@@ -513,10 +513,16 @@ p:last-child,
     .avoindata-datasetlist-wrapper {
       display: flex;
 
+      @media (max-width: 786px) {
+        flex-direction: column;
+      }
+
       .avoindata-datasetlist-single-dataset {
         display: inline-block;
         flex: 1;
-        height: 360px;
+        height: 355px;
+        overflow: hidden;
+        position: relative;
 
         .avoindata-datasetlist-creation-date {
           font-size: 16px;
@@ -524,9 +530,17 @@ p:last-child,
         }
 
         .avoindata-datasetlist-dataset-description {
-          font-size: 18px;
+          font-size: 16px;
           overflow: hidden;
           max-height: 240px;
+        }
+
+        .avoindata-datasetlist-bottom-wrapper {
+          height: 100px;
+          width: 100%;
+          position: absolute;
+          background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, white 100%);
+          bottom: 0;
         }
       }
     }
@@ -540,6 +554,10 @@ p:last-child,
 .avoindata-datasetlist-single-dataset {
   & + & {
     padding-left: 40px;
+
+    @media (max-width: 768px) {
+      padding-left: 0;
+    }
   }
 }
 
@@ -571,7 +589,6 @@ p:last-child,
       margin: 0 auto;
       background-color: #fff;
       border-radius: 2px;
-      height: 750px;
 
       .avoindata-newsfeed-column {
         padding-right: 53px;
@@ -665,6 +682,10 @@ p:last-child,
 
     .avoindata-appfeed-applist-wrapper {
       display: flex;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
     }
 
     .avoindata-appfeed-appcontainer-applist {
@@ -691,6 +712,7 @@ p:last-child,
         height: 330px;
         background-color: #fff;
         border: #ced2d5 1px solid;
+        overflow: hidden;
 
         .application-item-logo {
           margin-right: 0;
@@ -742,6 +764,11 @@ p:last-child,
 .avoindata-appfeed-application-box {
   & + & {
     margin-left: 32px;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      margin-top: 10px;
+    }
   }
 }
 
