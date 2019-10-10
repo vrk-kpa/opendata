@@ -636,7 +636,10 @@ class SixodpHarvester(HarvesterBase):
                     try:
                         data_dict = {'id': remote_org}
                         org = get_action('organization_show')(base_context.copy(), data_dict)
-                        validated_org = org['id']
+                        if org['state'] == 'deleted':
+                            log.info("Organization %s is deleted, not assigning it.", remote_org)
+                        else:
+                            validated_org = org['id']
                     except NotFound, e:
                         log.info('Organization %s is not available', remote_org)
                         if remote_orgs == 'create':
@@ -742,7 +745,8 @@ class SixodpHarvester(HarvesterBase):
                             package_plugin, base_context, package_dict, schema, 'package_update')
 
                 except NotFound:
-
+                    # Generate name to catch duplicate names
+                    package_dict['name'] = self._gen_new_name(package_dict['name'])
                     schema = package_plugin.create_package_schema()
                     data, errors = lib_plugins.plugin_validate(
                         package_plugin, base_context, package_dict, schema, 'package_create')
