@@ -63,7 +63,7 @@ function avoindata_recent_applications() {
     $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
     $app_notes = $app['notes_translated'][$currentLang] ?? "";
 
-    if ( array_key_exists($currentLang, $app['category']) ) {
+    if (array_key_exists($currentLang, $app['category'])) {
       $app_categories = implode(",", $app['category'][$currentLang]);
     }
     else {
