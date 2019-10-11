@@ -91,7 +91,7 @@
   cron:
     name: "Send notification of updated datasets"
     minute: "0"
-    hour: "10"
+    hour: "12"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify --config={{ ckan_ini }}"
 
 
@@ -99,14 +99,14 @@
   cron:
     name: "Send deprecation emails"
     minute: "00"
-    hour: "10"
+    hour: "9"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main ytp-dataset update_package_deprecation --config={{ ckan_ini }}"
 
 - name: Send harvester status report emails as a cron job
   cron:
     name: "Send harvester status report emails"
-    minute: "00"
-    hour: "10"
+    minute: "0"
+    hour: "11"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails --config={{ ckan_ini }}"
 
 - name: Remove old beaker sessions from beaker_cache table
@@ -120,5 +120,5 @@
   cron:
     name: "Send notification email"
     minute: "0"
-    hour: "10"
+    hour: "8"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckan post -c {{ ckan_ini }} /api/action/send_email_notifications > /dev/null"
