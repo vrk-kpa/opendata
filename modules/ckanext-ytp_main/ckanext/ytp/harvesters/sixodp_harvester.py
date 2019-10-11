@@ -81,6 +81,14 @@ def group_map():
             return not _evaluate(predicate, values)
         return f
 
+    def _keyword_search(value):
+        '''Returns a function. The function retuns true if the given value is a substring
+        of any "keyword:"-prefixed value in the given set of values'''
+        def f(values):
+            keywords = (v[len('keyword:'):] for v in values if v.startswith('keyword:'))
+            return any(value in keyword for keyword in keywords)
+        return f
+
     def _mapping(predicate, results):
         '''Returns a function. The function returns the given set of results if the given predicate evaluates
         to True for a given set of values, otherwise an empty list.'''
@@ -91,7 +99,7 @@ def group_map():
     # Create a list of functions that map sixodp groups and keywords to opendata groups based on different criteria
     return [_mapping(_and('asuminen', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
             _mapping(_and('asuminen', _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
-            _mapping('keyword:energia', ['energia']),
+            _mapping(_keyword_search('energia'), ['energia']),
             _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
             _mapping('kartat', ['alueet-ja-kaupungit']),
             _mapping('opetus-ja-koulutus', ['koulutus-ja-urheilu']),
