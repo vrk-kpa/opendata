@@ -84,7 +84,7 @@
   cron:
     name: "Send expiring reminder"
     minute: "0"
-    hour: "10"
+    hour: "13"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify-expiry --config={{ ckan_ini }}"
 
 - name: Send notification about updated datasets as a cron job
