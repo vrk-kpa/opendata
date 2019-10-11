@@ -454,6 +454,7 @@ def call_toolkit_function(fn, args, kwargs):
 def get_label_for_producer(producer_type):
     return {
         "state-administration": "State administration",
+        "country": "Country",
         "region": "Region",
         "public-service": "Public service",
         "cities": "Cities",
