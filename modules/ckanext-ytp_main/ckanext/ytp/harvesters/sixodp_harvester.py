@@ -88,15 +88,19 @@ def group_map():
             return results if _evaluate(predicate, values) else []
         return f
 
-    # Create a list of functions that map sixodp groups to opendata groups based on different criteria
-    return [_mapping(_or('kartat', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
+    # Create a list of functions that map sixodp groups and keywords to opendata groups based on different criteria
+    return [_mapping(_and('asuminen', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
+            _mapping(_and('asuminen', _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
+            _mapping('keyword:energia', ['energia']),
             _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
-            _mapping(_or('opetus-ja-koulutus', 'kulttuuri-ja-vapaa-aika'), ['koulutus-kulttuuri-ja-urheilu']),
+            _mapping('kartat', ['alueet-ja-kaupungit']),
+            _mapping('opetus-ja-koulutus', ['koulutus-ja-urheilu']),
+            _mapping('kulttuuri-ja-vapaa-aika', ['kulttuuri-taide-ja-vapaa-aika']),
             _mapping('liikenne-ja-matkailu', ['liikenne']),
+            _mapping('rakennettu-ymparisto', ['rakennettu-ymparisto-ja-infrastruktuuri']),
             _mapping('talous-ja-verotus', ['talous-ja-rahoitus']),
             _mapping('terveys-ja-sosiaalipalvelut', ['terveys']),
             _mapping('tyo-ja-elinkeinot', ['vaesto-ja-yhteiskunta', 'talous-ja-rahoitus']),
-            _mapping(_and('asuminen', _not('kartat'), _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
             _mapping('vaesto', ['vaesto-ja-yhteiskunta']),
             _mapping('ymparisto-ja-luonto', ['ymparisto-ja-luonto'])]
 
@@ -111,9 +115,12 @@ GROUP_MAP = group_map()
 
 
 def sixodp_to_opendata_preprocess(package_dict):
-    sixodp_groups = [g.get('name') for g in package_dict.get('groups', [])]
-    groups = evaluate_group_map(GROUP_MAP, sixodp_groups)
-    log.info('Mapping groups %s => %s', sixodp_groups, groups)
+    sixodp_groups = set(g.get('name') for g in package_dict.get('groups', []))
+    sixodp_keywords = set('keyword:%s' % keyword for language in package_dict.get('keywords').values() for keyword in language)
+    mapping_values = sixodp_groups.union(sixodp_keywords)
+    groups = evaluate_group_map(GROUP_MAP, mapping_values)
+
+    log.info('Mapping %s => %s', mapping_values, groups)
     package_dict['groups'] = list({'name': g} for g in groups)
 
 
