@@ -7,3 +7,16 @@ common_apt_upgrade: dist
 common_apt_source_url: "http://fi.archive.ubuntu.com"
 
 common_users: []
+
+swapfile_size: "{{ ((ansible_memtotal_mb | int * 2)
+                    if (ansible_memtotal_mb | int <= 2048)
+                    else '512') }}"
+
+swapfile_path: "/swapfile-{{ swapfile_size }}"
+
+swapfile_swappiness: 60
+swapfile_vfs_cache_pressure: 100
+
+swapfile_sysctl:
+  "vm.swappiness": "{{ swapfile_swappiness }}"
+  "vm.vfs_cache_pressure": "{{ swapfile_vfs_cache_pressure }}"
