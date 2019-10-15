@@ -118,7 +118,19 @@ Cypress.Commands.add('create_new_organization', (organization_name, organization
   cy.url().should('include', `/data/fi/organization/${organization_name}`);
 })
 
-// Creates a new dataset filling both dataset and resource forms
+Cypress.Commands.add('approve_organization', (organization_id) => {
+  // Approves a previously created organization
+  cy.request({
+    method: 'POST',
+    url: "/data/fi/ckan-admin/organization_management",
+    form: true,
+    body: {
+      'org_id': organization_id,
+      'approval_status': 'approved'
+    }
+  });
+})
+
 Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
 
   // Default values for dataset and resource forms
@@ -254,7 +266,11 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 // Deletes a showcase and verifies that it is not found in the search anymore
 Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
-  cy.get('.form-actions').contains('Poista').click();
+  cy.get('.form-actions').contains('Poista')
+    .should('have.attr', 'href')
+    .then((href) => {
+         cy.visit(href)
+    });
   cy.contains('Haluatko varmasti poistaa sovelluksen');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.visit('/data/showcase');

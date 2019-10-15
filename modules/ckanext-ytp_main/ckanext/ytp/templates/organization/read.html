@@ -1,0 +1,8 @@
+{% ckan_extends %}
+
+{% block page_primary_action %}
+  {% if c.group_dict.approval_status == 'approved' %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
