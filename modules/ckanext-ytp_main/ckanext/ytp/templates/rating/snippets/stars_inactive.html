@@ -1,0 +1,35 @@
+{#
+Renders a set of stars
+
+stars  - The number of stars to be displayed.
+
+    {% snippet "rating/snippets/stars_inactive.html", package=pkg %}
+
+#}
+
+{% set ratings_count = package.ratings_count%}
+{% set stars = package.rating %}
+{% if stars|int < stars %}
+  {% set half_star = 1 %}
+{% else %}
+  {% set half_star = 0 %}
+{% endif %}
+
+{% block main_star_rating %}
+  <span class="star-rating{% if stars == 0 %} no-stars{% endif %}">
+    <span class="star-rating-stars">
+      {%- for index in range(stars|int) -%}
+        <span class="fas fa-star rating-star"></span>
+      {%- endfor -%}
+      {%- if half_star == 1 -%}
+        <span class="fad fa-star-half-alt icon-star-half-empty rating-star"></span>
+      {%- endif -%}
+      {%- for index in range(stars|int + half_star, 5) -%}
+        <span class="far fa-star rating-star"></span>
+      {%- endfor -%}
+    </span>
+    {% block star_rating_description %}
+      <span class="rating-description">({{ ratings_count }})</span>
+    {% endblock %}
+  </span>
+{% endblock %}

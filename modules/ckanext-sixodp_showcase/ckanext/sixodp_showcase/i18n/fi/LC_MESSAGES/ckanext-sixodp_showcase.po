@@ -5,20 +5,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 # 
 # Translators:
-# Zharktas <jari-pekka.voutilainen@gofore.com>, 2018
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-15 10:45+0000\n"
+"POT-Creation-Date: 2019-09-23 11:01+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/controller.py:60
 #: ckanext/sixodp_showcase/controller.py:62
+#: ckanext/sixodp_showcase/controller.py:309
 msgid "Showcase not found"
 msgstr "Sovellusta ei löytynyt"
 
@@ -65,6 +66,15 @@ msgstr "Virheellinen haku: {error_message}"
 #: ckanext/sixodp_showcase/controller.py:267
 msgid "Parameter \"{parameter_name}\" is not an integer"
 msgstr "Parametri \"{parameter_name}\" ei ole kokonaisluku"
+
+#: ckanext/sixodp_showcase/controller.py:296
+#: ckanext/sixodp_showcase/controller.py:307
+msgid "Unauthorized to delete showcase"
+msgstr "Ei oikeuksia poistaa sovellusta"
+
+#: ckanext/sixodp_showcase/controller.py:301
+msgid "Showcase has been deleted."
+msgstr "Sovelus on poistettu."
 
 #: ckanext/sixodp_showcase/plugin.py:101
 msgid "Category"
@@ -194,6 +204,7 @@ msgstr ""
 "Haluatko varmasti poistaa käyttäjän {name} sovellusten ylläpitäjän oikeudet?"
 
 #: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:15
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:14
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -273,6 +284,15 @@ msgstr "Liitä sovellukseen"
 #: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:21
 msgid "There are no showcases that feature this dataset"
 msgstr "Tietoaineisto ei liity yhteenkään sovellukseen"
+
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:3
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:15
+msgid "Confirm Delete"
+msgstr "Vahvista poisto"
+
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:11
+msgid "Are you sure you want to delete showcase - {showcase_name}?"
+msgstr "Haluatko varmasti poistaa sovelluksen - {showcase_name}?"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:14
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:18
@@ -443,10 +463,12 @@ msgid "joe@example.com"
 msgstr "joe@example.com"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:58
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:11
 msgid "Are you sure you want to delete this showcase?"
 msgstr "Haluatko varmasti poistaa tämän sovelluksen?"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:59
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:11
 msgid "Delete"
 msgstr "Poista"
 
@@ -549,7 +571,7 @@ msgstr "Poista tietoaineisto tästä sovelluksesta"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:9
 msgid "Submit"
-msgstr ""
+msgstr "Lähetä"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:29
 msgid "Newest first"

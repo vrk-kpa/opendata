@@ -25,10 +25,12 @@ var paths = {
     ckan: "src/less/ckan",
     drupal: "src/less/drupal/style.less",
     drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
+    drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     font: "src/font/**/*",
     fonts: "src/fonts/**/*",
+    fontsCss: "src/less/fonts.less",
     scripts: "src/scripts/**/*",
     bootstrap_styles: "node_modules/bootstrap/less",
     bootstrap_scripts: "node_modules/bootstrap/js/*",
@@ -98,6 +100,37 @@ gulp.task("drupal", (done) => {
     concat("style.css"),
     sourcemaps.write("./maps"),
     gulp.dest("../avoindata-drupal-theme/css"),
+  ], done)
+});
+
+// // Compiles Less files in Drupal theme directory
+// // Output destination is also in Drupal theme directory
+gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
+  pump([
+    gulp.src(paths.src.drupal_ckeditor_plugins),
+    sourcemaps.init(),
+    less({paths: [paths.src.drupal_ckeditor_plugins]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template({ timestamp: timestamp }),
+    cleancss({ keepBreaks: false }),
+    concat("style.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest("../avoindata-drupal-ckeditor-plugins/css"),
+  ], done)
+});
+
+// Separate fonts to their own css to optimize their loading
+gulp.task("fontsCss", (done) => {
+  pump([
+    gulp.src(paths.src.fontsCss),
+    sourcemaps.init(),
+    less({paths: [paths.src.fontsCss]}),
+    prefixer({browsers: ['last 2 versions']}),
+    template({ timestamp: timestamp }),
+    cleancss({ keepBreaks: false }),
+    concat("fonts.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest(paths.dist + "/styles"),
   ], done)
 });
 
@@ -252,8 +285,10 @@ gulp.task(
       "static_pages",
       "ckan",
       "drupal",
+      "drupal_copy_custom_element_styles_to_plugin",
       "fonts",
       "font",
+      "fontsCss",
       "scripts")
   )
 );
@@ -280,7 +315,8 @@ gulp.task("watch_styles", () => {
       "vendor",
       "static_pages",
       "ckan",
-      "drupal"
+      "drupal",
+      "fontsCss"
     )
   );
 
@@ -295,7 +331,10 @@ gulp.task("watch_drupal_styles", () => {
   var watcher = gulp.watch(
     ["./src/less/**/*.less", "./src/less/*.less", "../avoindata-drupal-theme/less"],
     gulp.series(
-      "drupal"
+      "drupal",
+      "drupal_copy_custom_element_styles_to_plugin",
+      "fontsCss",
+      "lint"
     )
   );
 

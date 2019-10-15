@@ -1,13 +1,14 @@
 # -*- coding: utf8 -*-
 
 from ckan.lib.cli import CkanCommand
-from ckan.logic import get_action
+from ckan.logic import get_action, ValidationError
 from ckan import model
 from ckanext.ytp.translations import facet_translations
-from ckan.logic import ValidationError
 import ckan.plugins.toolkit as t
 import ckan.lib.mailer as mailer
+import ckan.lib.plugins as lib_plugins
 from datetime import datetime
+from pprint import pformat
 import polib
 import os
 import re
@@ -209,6 +210,44 @@ def migrate(ctx, config, dryrun):
 
 
 @ytp_dataset_group.command(
+    u'migrate_temporal_granularity',
+    help=u'Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_temporal_granularity(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    package_patches = []
+
+    for old_package_dict in package_generator('*:*', 1000):
+        resource_patches = []
+        changes = False
+        for resource in old_package_dict.get('resources', []):
+            temporal_granularity = resource.get('temporal_granularity')
+            if temporal_granularity and len(temporal_granularity) > 0:
+                for k, v in temporal_granularity.items():
+                    if isinstance(v, basestring) and len(v) > 0:
+                        temporal_granularity[k] = [v]
+                        changes = True
+                    elif isinstance(v, basestring) and len(v) is 0:
+                        temporal_granularity.pop(k)
+                        changes = True
+                resource_patches.append(resource)
+        if changes:
+            # Resources need to patched all at once, so they are moved to package patch
+            patch = {'id': old_package_dict['id'], 'resources': resource_patches}
+            package_patches.append(patch)
+
+    if dryrun:
+        print '\n'.join('%s' % p for p in package_patches)
+    else:
+        # No resource patches so empty parameter is passed
+        apply_patches(package_patches, [])
+
+
+@ytp_dataset_group.command(
     u'migrate_high_value_datasets',
     help=u'Migrates high value datasets to international benchmarks'
 )
@@ -352,6 +391,50 @@ def update_package_deprecation(ctx, config, dryrun):
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
         send_package_deprecation_emails(deprecated_now)
+
+
+@ytp_dataset_group.command(
+    u'validate',
+    help=u'Validate datasets'
+)
+@click_config_option
+@click.option(u'--verbose', is_flag=True)
+@click.pass_context
+def validate(ctx, config, verbose):
+    load_config(config or ctx.obj['config'])
+
+    no_errors = True
+
+    for package_dict in package_generator('*:*', 1000):
+        if verbose:
+            print "Validating %s" % package_dict['name']
+
+        if 'type' not in package_dict:
+            package_plugin = lib_plugins.lookup_package_plugin()
+            try:
+                # use first type as default if user didn't provide type
+                package_type = package_plugin.package_types()[0]
+            except (AttributeError, IndexError):
+                package_type = 'dataset'
+                # in case a 'dataset' plugin was registered w/o fallback
+                package_plugin = lib_plugins.lookup_package_plugin(package_type)
+            package_dict['type'] = package_type
+        else:
+            package_plugin = lib_plugins.lookup_package_plugin(package_dict['type'])
+
+        schema = package_plugin.update_package_schema()
+        context = {'ignore_auth': True}
+        data, errors = lib_plugins.plugin_validate(
+            package_plugin, context, package_dict, schema, 'package_update')
+
+        if errors:
+            no_errors = False
+            print package_dict['name']
+            print pformat(errors)
+            print
+
+    if no_errors:
+        print 'All datasets are valid!'
 
 
 ytp_org_group = paster_click_group(

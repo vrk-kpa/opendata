@@ -24,9 +24,6 @@
                 <span><a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
                 {{ h.extra_translation(pkg.organization, 'title') }}</a></span><br />
             {% endif %}
-            {% if h.current_user() and pkg.get('creator_user_id') %}
-                <span>{{ h.linked_user(pkg.get('creator_user_id'), 0, 10 ) }}</span>
-            {% endif %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
@@ -113,6 +110,11 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
+    {% block rating %}
+      {{ layout.moduleBoxHead(_('Rating')) }}
+        {% snippet "rating/snippets/rating.html", package=pkg %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
 
     {% block package_feedback %}
         {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}

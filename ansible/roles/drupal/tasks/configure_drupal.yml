@@ -164,6 +164,8 @@
     - captcha.captcha_point.contact_message_feedback_form
     - core.base_field_override.node.article.promote
     - editor.editor.full_html
+    - block.block.avoindata_collapsiblesearch
+    - block.block.avoindata_infobox
   tags:
     - skip_ansible_lint
 
@@ -173,6 +175,14 @@
     src: "{{ drupal_server_path }}/avoindata-drupal-theme/"
     dest: "{{ drupal_root }}/web/themes/avoindata"
     force: true
+
+- name: Symlink custom ckeditor plugin styles
+  file:
+    state: link
+    src: "{{ drupal_server_path }}/avoindata-drupal-ckeditor-plugins/css"
+    dest: "{{ drupal_root }}/web/modules/avoindata-ckeditor-plugins/css"
+    force: true
+  when: drupal_deployment_environment_id != "vagrant"
 
 # Not symlinked because nested symlinks don't work on windows
 - name: Synchronize fonts
@@ -248,6 +258,9 @@
     - { src: user.role.ckan_admin.yml.j2, dest: user.role.ckan_admin.yml }
     - { src: user.role.editor.yml.j2, dest: user.role.editor.yml }
     - { src: user.role.publisher.yml.j2, dest: user.role.publisher.yml }
+    - { src: language.entity.en.yml.j2, dest: language.entity.en.yml }
+    - { src: language.entity.fi.yml.j2, dest: language.entity.fi.yml }
+    - { src: language.entity.sv.yml.j2, dest: language.entity.sv.yml }
 
 - name: Import drupal settings
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"
@@ -257,7 +270,7 @@
     - skip_ansible_lint
 
 - name: Clear caches
-  shell: ./vendor/bin/drush cr
+  shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal_root }}"
   tags:

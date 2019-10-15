@@ -14,9 +14,9 @@ function addClickListeners() {
 
 function dropdownToggle() {
   const allowedFilters = ['1', '2', '3'];
-  const dropdown = document.querySelector('.btn-hero-dropdown');
+  const dropdown = document.querySelector('#type-dropdown');
   const selectedValue = this.getAttribute('data-value');
-  dropdown.innerHTML = this.textContent + ' <span class="caret"></span>';
+  dropdown.querySelector('span').innerHTML = this.textContent;
   dropdown.setAttribute('data-value', selectedValue);
   
   if(allowedFilters.indexOf(selectedValue > -1)) {

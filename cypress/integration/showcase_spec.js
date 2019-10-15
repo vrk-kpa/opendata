@@ -88,6 +88,14 @@ describe('Showcase tests', function() {
     // Organization
     const organization_name = 'testi_organisaatio';
     cy.create_new_organization(organization_name);
+    cy.logout();
+    cy.login_post_request('admin', 'administrator');
+    cy.visit('/');
+    cy.approve_organization(organization_name);
+    cy.logout();
+    cy.login_post_request('test-publisher', 'test-publisher');
+    
+    cy.visit(`/data/fi/organization/${organization_name}`)
 
     // Dataset linked to organization
     const dataset_form_data = {

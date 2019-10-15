@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Implements hook_help().
@@ -29,5 +30,83 @@ function avoindata_appfeed_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'avoindata_appfeed_block',
     ],
+  ];
+}
+
+/**
+ * Return HTML of app list.
+ */
+function avoindata_recent_applications() {
+  $client = \Drupal::httpClient();
+
+  try {
+    $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?fq=dataset_type:showcase&sort=metadata_modified%20desc&rows=3');
+    $recentApplicationsResult = Json::decode($recentApplicationsResponse->getBody());
+    $recentApplications = $recentApplicationsResult['result']['results'];
+  }
+  catch (\Exception $e) {
+    $recentApplications = [];
+  }
+
+  $resultHTML = '';
+  $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+  foreach ($recentApplications as $app) {
+
+    if (strlen($app['icon']) != 0) {
+      $app_icon = $app['icon_display_url'];
+    }
+    else {
+      $app_icon = '/data/images/showcase_placeholder.png';
+    }
+
+    $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
+    $app_notes = $app['notes_translated'][$currentLang] ?? "";
+
+    if (array_key_exists($currentLang, $app['category'])) {
+      $app_categories = implode(",", $app['category'][$currentLang]);
+    }
+    else {
+      $app_categories = "";
+    }
+
+    $resultHTML .= <<<EOT
+    <div class="avoindata-appfeed-application-box">
+            <div class="application-item-logo">
+              <a href="/data/{$currentLang}/showcase/{$app['name']}">
+                <img class="application-item-img" src="{$app_icon}" alt="">
+              </a>
+            </div>
+            <div class="application-item-content>
+              <h5 class="appitem-header">
+                <a href="/data/{$currentLang}/showcase/{$app['name']}">
+                  {$app['title']}
+                </a>
+              </h5>
+              <p class="appitem-metainfo">
+                <i class="far fa-clock appitem-fa-icon"></i>
+                <a href="/data/{$currentLang}/showcase/{$app['name']}">
+                  {$app_date}
+                </a>
+                <i class="fas fa-folder appitem-fa-icon"></i>
+                <a href="/data/{$currentLang}/showcase/{$app['name']}">
+                  {$app_categories}
+                </a>
+              </p>
+              <div class="appitem-content">
+                <a href="/data/{$currentLang}/showcase/{$app['name']}">
+                  <p>
+                    {$app_notes}
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
+EOT;
+  }
+
+  return [
+    '#markup' => $resultHTML,
+    '#cache' => ['max-age' => 0],
   ];
 }

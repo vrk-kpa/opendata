@@ -27,3 +27,5 @@ libraries:
   - 'avoindata/global-styling'
   - 'avoindata/bootstrap-scripts'
   - 'avoindata/fonts'
+  - 'avoindata/avoindata-custom-elements'
+  - 'avoindata/webfonts'

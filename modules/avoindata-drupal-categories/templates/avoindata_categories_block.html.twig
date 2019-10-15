@@ -11,30 +11,15 @@
   <div class="avoindata-categories-container">
     <div class="row avoindata-categories-header-row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3>
+        <h1>
           {% trans %}
           Open data categories
           {% endtrans %}
-        </h3>
+        </h1>
       </div>
     </div>
     <div class="avoindata-categories-items">
-      {% for category in categories %}
-        <div class="avoindata-category-box">
-          <div class="avoindata-category-image-wrapper">
-            <span class="avoindata-category-dataset-count">{{ category['package_count'] }}</span>
-            <a href="../data/{{ language }}/group/{{ category['name'] }}">
-              <img class="avoindata-category-img" src={{ category['image_display_url'] }} alt={{ category['title'] }}>
-            </a>
-          </div>
-          <div class="avoindata-category-text-wrapper">
-            <a href="../data/{{ language }}/group/{{ category['name'] }}">
-              {{ (category['title_translated'][language][:55] ~ (category['title_translated'][language]|length > 55 ? '…'))
-                | default(category['title'][:55] ~ (category['title']|length > 55 ? '…')) }}
-            </a>
-          </div>
-        </div>
-      {% endfor %}
+      {{ categories}}
     </div>
   </div>
 </div>

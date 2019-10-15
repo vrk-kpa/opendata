@@ -10,6 +10,10 @@ ckan.module('ytp-multiselect', function($) {
       $.proxyAll(this, /_make/);
       $.proxy(this, /checkboxes/);
 
+      document.addEventListener('focusin', (e) => {
+        this.el.removeClass('expanded');
+      });
+
       // Add dropdown toggle event to main button
       this.el
         .find('.ytp-multiselect-toggle')

@@ -1,43 +1,20 @@
-# Local installation (Linux)
+# Local installation
 
 ## Requirements
 
-- Ubuntu x86_64 (tested with 14.04, 13.10 and 13.04)
+- Virtualbox (tested with 6.0)
+- Vagrant (tested with 2.2.4)
 
 ## Source
 
 Fetch source codes
 
-    git clone https://github.com/yhteentoimivuuspalvelut/ytp.git
-    cd ytp
+    git clone https://github.com/vrk-kpa/opendata.git
+    cd opendata
+    
+Fetch submodules
 
-## Vagrant
-
-We use [Vagrant](http://www.vagrantup.com) to provide isolated and reproducible development environment for the project.
-
-### Install Virtualbox
-
-    sudo apt-get install virtualbox
-
-**Alternatively** install from Oracle Debian repository [https://www.virtualbox.org/wiki/Linux_Downloads](https://www.virtualbox.org/wiki/Linux_Downloads)
-
-    # Add one of the following lines according to your distribution to your /etc/apt/sources.list:
-    # deb http://download.virtualbox.org/virtualbox/debian saucy contrib
-    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-    sudo apt-get update
-    sudo apt-get install virtualbox-4.3
-
-### Install Vagrant from package
-
-Download Vagrant latest 64-bit version for Ubuntu from [vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
-
-    sudo dpkg -i vagrant_1.7.2_x86_64.deb
-
-## Ansible
-
-We use [Ansible](http://www.ansible.com) configuration management to automate provisioning. Ansible 2.2+ is required.
-
-- Ansible is installed to virtualbox during vagrant initialization
+    git submodule update --init --recursive
 
 ### Run Vagrant and start Ansible installation
 
@@ -58,12 +35,18 @@ Vagrant command uses the Vagrantfile which contains all the virtual machine conf
 If you need to make adjustments to the provisioning configuration, you can either edit the Ansible settings in the Vagrant file, or simply run Ansible without Vagrant:
 
     # cd into the main ytp directory (cd /vagrant inside vagrant)
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v --ask-sudo-pass --ask-pass ansible/single-server.yml --skip-tags=has-hostname,non-local
-
-If you are using ssh keys the following may suffice:
-
-    ansible-playbook --inventory-file=vagrant/vagrant-ansible-inventory --user=$USER -v ansible/single-server.yml --skip-tags=has-hostname,non-local
+    ansible-playbook --inventory-file=ansible/inventories/vagrant -v ansible/single-server.yml
 
 ### Access to service
 
-After the provisioning of the server is ready, access the service at [http://10.10.10.10/](http://10.10.10.10/).
+After the provisioning of the server is ready, access the service at [http://vagrant.avoindata.fi/](http://vagrant.avoindata.fi/). Environment for integration tests is available at [http://vagrant.avoindata.fi:9000/](http://vagrant.avoindata.fi:9000/).
+
+### Testing
+
+To run tests locally, install cypress by running:
+  
+  npm install
+
+Cypress UI can be opened by running:
+
+  npm run cypress:open

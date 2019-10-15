@@ -6,6 +6,8 @@
   font-size: 12px;
   border-radius: 2px;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
 
   &:focus {
     box-shadow: 0 0 10px @suomi-accentBase;
@@ -49,6 +51,25 @@
       border: 1px solid @suomi-depthLight13;
       color: @suomi-depthBase;
     }
+  }
+
+  // Used on frontpage search
+  // Used on top of blue background
+  // NOTE: this is not an actual suomi.fi button
+  &.suomi-button-custom {
+    background: @suomi-accentSecondary;
+    border: none;
+    color: @suomi-whiteBase;
+
+    &:hover {
+      background: @suomi-highlightLight4;
+    }
+
+    &:active {
+      background: @suomi-highlightDark9;
+    }
+
+    // NOTE: atm no disabled class, due to it never being disabled where it is used
   }
 }
 

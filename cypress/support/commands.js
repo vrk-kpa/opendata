@@ -24,7 +24,7 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login_post_request', (username, password) => { 
+Cypress.Commands.add('login_post_request', (username, password) => {
   cy.request({
       method: 'POST',
       url: '/user/login',
@@ -59,23 +59,23 @@ Cypress.Commands.add('logout', () => {
     }
   })
 })
-  
 
-/** 
+
+/**
  * @description
- * This function only fills the fields according to given parameters. 
+ * This function only fills the fields according to given parameters.
  * Other actions, such as editing URL and clicking buttons are handled by
  * other more specific functions, because of the small differences between
  * forms.
- * 
+ *
  * @typedef FormFillOptions
  * @type {Object}
  * @property {string} [value] - The field value
  * @property {'select' | 'check'} [type] - The type of method to use to populate field, default to type
  * @property {boolean} [force] - Adds option force to field
- * 
+ *
  * @typedef {{[k: string]: string | FormFillOptions}} FormFillValues
- * 
+ *
  * @param {FormFillValues[]} form_data
  * The data to populate the form with
  * Keys are used as selectors to select the right field
@@ -118,9 +118,21 @@ Cypress.Commands.add('create_new_organization', (organization_name, organization
   cy.url().should('include', `/data/fi/organization/${organization_name}`);
 })
 
-// Creates a new dataset filling both dataset and resource forms
+Cypress.Commands.add('approve_organization', (organization_id) => {
+  // Approves a previously created organization
+  cy.request({
+    method: 'POST',
+    url: "/data/fi/ckan-admin/organization_management",
+    form: true,
+    body: {
+      'org_id': organization_id,
+      'approval_status': 'approved'
+    }
+  });
+})
+
 Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
-  
+
   // Default values for dataset and resource forms
   if (!dataset_form_data) {
     dataset_form_data = {
@@ -133,17 +145,18 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   }
   if (!resource_form_data) {
     resource_form_data = {
-      "#field-name_translated-fi": 'test data'
+      "#field-name_translated-fi": 'test data',
+      '#field-image-url': 'http://example.com'
     }
   }
 
   //Dataset form
-  cy.get('#second-navbar a[href="/data/fi/dataset"]').click(); 
-  cy.get('a[href="/data/fi/dataset/new"]').click(); 
+  cy.get('#second-navbar a[href="/data/fi/dataset"]').click();
+  cy.get('a[href="/data/fi/dataset/new"]').click();
   cy.get('.slug-preview button').contains('Muokkaa').click();
   cy.get('#field-name').type(dataset_name);
   cy.fill_form_fields(dataset_form_data);
-  
+
   // The selector field is hidden so force is required.
   // The visible UI element for selecting the organization is not as easy to use with cypress
   if (parent_organization) {
@@ -156,8 +169,9 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   cy.get('button[name=save]').click();
 
   //Resource form, filled with just the name
+  cy.contains('a', 'Linkki').click()
   cy.fill_form_fields(resource_form_data);
-  cy.get('button[name=save]').contains('Valmis').click(); 
+  cy.get('button[name=save]').contains('Valmis').click();
   cy.url().should('include', `/data/fi/dataset/${dataset_name.replace(" ", "-")}`);
 })
 
@@ -190,7 +204,7 @@ Cypress.Commands.add('delete_dataset', (dataset_name) => {
 
 // Creates a new showcase filling both showcase and resource forms
 Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) => {
-  
+
   // Default values for showcase
   if (!showcase_form_data) {
     showcase_form_data = {
@@ -202,22 +216,22 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
   }
 
   // Showcase form
-  cy.get('#second-navbar a[href="/data/fi/showcase"]').click(); 
-  cy.get('a[href="/data/fi/showcase/new"]').click(); 
+  cy.get('#second-navbar a[href="/data/fi/showcase"]').click();
+  cy.get('a[href="/data/fi/showcase/new"]').click();
   cy.get('.slug-preview button').contains('Muokkaa').click();
   cy.get('#field-name').type(showcase_name);
   cy.fill_form_fields(showcase_form_data);
   cy.get('button[name=save]').click();
 
   // Datasets form
-  cy.get(`article a[href="/data/fi/showcase/${showcase_name}"]`).click(); 
+  cy.get(`article a[href="/data/fi/showcase/${showcase_name}"]`).click();
   cy.url().should('include', `/data/fi/showcase/${showcase_name}`);
 })
 
 // Creates a new private (hidden) showcase using the publicly available form
 // Expects to be at the showcase page in the beginning and returns there when finished
 Cypress.Commands.add('create_new_showcase_using_public_form', (showcase_name, showcase_form_data) => {
-  
+
   // Default values for showcase
   if (!showcase_form_data) {
     showcase_form_data = {
@@ -229,7 +243,7 @@ Cypress.Commands.add('create_new_showcase_using_public_form', (showcase_name, sh
   }
 
   // Showcase form
-  cy.get('a[href="/data/fi/submit-showcase"]').click(); 
+  cy.get('a[href="/data/fi/submit-showcase"]').click();
   cy.fill_form_fields(showcase_form_data);
   cy.get('button[name=save]').click();
   cy.get('nav a[href="/data/fi/showcase"]').click();
@@ -252,8 +266,12 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 // Deletes a showcase and verifies that it is not found in the search anymore
 Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).click();
-  cy.get('.form-actions').contains('Poista').click();
-  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.get('.form-actions').contains('Poista')
+    .should('have.attr', 'href')
+    .then((href) => {
+         cy.visit(href)
+    });
+  cy.contains('Haluatko varmasti poistaa sovelluksen');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.visit('/data/showcase');
   cy.get('.search-input .search').type(showcase_name + '{enter}');
@@ -282,4 +300,3 @@ Cypress.Commands.add('create_category', function (category_name) {
   cy.get('button[name="save"]').click();
 
 });
-

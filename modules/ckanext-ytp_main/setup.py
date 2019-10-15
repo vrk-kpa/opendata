@@ -52,5 +52,8 @@ setup(
         ytp-organization = ckanext.ytp.commands:ytp_org_group
         opendata-group = ckanext.ytp.commands:opendata_group
         opendata-harvest = ckanext.ytp.commands:opendata_harvest_group
+
+        [ckan.rdf.profiles]
+        avoindata_dcat_ap=ckanext.ytp.dcat:AvoindataDCATAPProfile
     ''',
 )

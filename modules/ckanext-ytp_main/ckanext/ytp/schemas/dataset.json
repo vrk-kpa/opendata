@@ -137,14 +137,6 @@
       "description": "The organization which owns the dataset."
     },
     {
-      "field_name": "owner",
-      "label": "Owner",
-      "form_placeholder": "Joe Bloggs",
-      "form_attrs": {
-        "class": "form-control"
-      }
-    },
-    {
       "field_name": "license_id",
       "label": "License",
       "preset": "sixodp_licence",
@@ -160,20 +152,6 @@
       "label": "Copyright notice",
       "display_snippet": null,
       "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
-    },
-    {
-      "field_name": "content_type",
-      "label": "Content type",
-      "form_placeholder":"eg. Maps",
-      "form_languages": ["fi", "en", "sv"],
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(content_type)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=content_type"
-      },
-      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
     },
     {
       "field_name": "geographical_coverage",
@@ -196,40 +174,6 @@
       "display_snippet": "repeating_link.html",
       "form_snippet": "repeating.html",
       "description": "Links to additional information concerning the dataset."
-    },
-
-    {
-      "field_name": "url",
-      "label": "Source",
-      "form_placeholder": "http://example.com/dataset.json",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "foaf:homepage",
-      "display_snippet": "link.html",
-      "description": "The origin of the dataset."
-    },
-
-    {
-      "field_name": "author",
-      "label": "Author",
-      "form_placeholder": "Joe Bloggs",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "dc:creator"
-    },
-    {
-      "field_name": "author_email",
-      "label": "Author email",
-      "form_placeholder": "joe@example.com",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "dc:creator",
-      "display_snippet": "email.html",
-      "validators": "email_validator",
-      "display_email_name_field": "author"
     },
     {
       "field_name": "update_frequency",
@@ -301,11 +245,12 @@
     {
       "field_name": "url",
       "label": "URL",
-      "preset": "resource_url_upload",
+      "preset": "resource_url_upload_ex",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A file or url which describes the location of the desired resource file."
+      "description": "A file or url which describes the location of the desired resource file.",
+      "required": true
     },
     {
       "field_name": "file_size",
@@ -361,53 +306,17 @@
       "description": "Coordinates which describe the area which the added resource is associated with."
     },
     {
-      "field_name": "time_series_start",
-      "label": "Time series start",
-      "form_attrs": {
-        "data-datetimepicker": ""
-      },
-      "preset": "date_opendata",
-      "display_snippet": "date.html",
-      "description": "A moment in time after which the data is relevant."
-    },
-    {
-      "field_name": "time_series_end",
-      "label": "Time series end",
-      "form_attrs": {
-        "data-datetimepicker": ""
-      },
-      "preset": "date_opendata",
-      "display_snippet": "date.html",
-      "description": "A moment in time after which the data is no longer relevant."
-    },
-    {
-      "field_name": "time_series_precision",
-      "label": "Time series precision",
+      "field_name": "temporal_granularity",
+      "label": "Temporal granularity",
       "form_placeholder":"eg. 2 weeks",
       "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(time_series_precision)",
+      "validators": "fluent_tags create_fluent_tags(temporal_granularity)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=time_series_precision"
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=temporal_granularity"
       },
       "description": "A string which describes the precision of the entered time series."
-    },
-    {
-      "field_name": "temporal_granularity",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "label": "Temporal granularity",
-      "preset": "fluent_text"
-    },
-    {
-      "field_name": "update_frequency",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "label": "Update frequency",
-      "preset": "fluent_text"
     },
     {
       "field_name": "temporal_coverage_to",

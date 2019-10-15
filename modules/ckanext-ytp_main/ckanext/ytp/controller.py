@@ -847,6 +847,7 @@ class YtpThemeController(base.BaseController):
             return abort(404)
 
 
+# NOTE: Pretty sure this is not used anywhere.
 class YtpUserController(UserController):
 
     # Modify original CKAN Edit user controller

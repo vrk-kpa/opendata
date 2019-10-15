@@ -21,9 +21,6 @@
 @common-path: "../../../src/";
 @common-less: "@{common-path}/less";
 
-// Open Sans
-@import "@{common-less}/fonts.less";
-
 // FontAwesome
 @import "@{common-path}/vendor/@fortawesome/fontawesome/less/fontawesome";
 @import "@{common-path}/vendor/@fortawesome/fontawesome/less/solid.less";
@@ -34,14 +31,21 @@
 // Avoindata common variables
 @import "@{common-less}/variables";
 @import "@{common-less}/utility";
+@import "@{common-less}/common";
 
 // Avoindata components
 @import "@{common-less}/navbars";
 // TODO: This could only import the needed styles for drupal and not all
 @import "@{common-less}/components/all";
 
+// New layout menu styles
+@import "menu.less";
+
 // Guide styles
 @import "guide.less";
+
+// Avoindata custom element styles (ckeditor plugins)
+@import "custom-elements.less";
 
 body,
 html {
@@ -126,19 +130,35 @@ p:last-child,
 
 // Drupal Hero Module
 .avoindata-hero {
-  background-image: @background-hero-image;
+  // TODO: use suomi.fi colors
+  background-color: #255a98;
   padding-top: 60px;
   padding-bottom: 60px;
   padding-right: 50px;
   padding-left: 50px;
-  background-size: cover;
-  background-repeat: no-repeat;
+  position: relative;
   color: @popularTextColor;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: @background-hero-image;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    background-size: auto 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
   h1 {
     font-size: 2.8em;
     font-weight: 600;
     margin-bottom: 0.4em;
+    width: 300px;
   }
 
   p {
@@ -154,6 +174,8 @@ p:last-child,
     float: none;
     display: block;
     margin: 0 auto;
+    // NOTE: Without this you can't click the content inside.
+    position: relative;
   }
 
   .avoindata-hero-logo {
@@ -167,43 +189,6 @@ p:last-child,
     h2 {
       margin: 0;
       font-size: 1.9em;
-    }
-  }
-
-  .avoindata-hero-boxes {
-    margin-bottom: 20px;
-  }
-
-  .avoindata-hero-box {
-    border-bottom: 6px solid rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: transparent;
-    background-image:
-      -webkit-radial-gradient(
-        circle farthest-corner at 50% 50%,
-        rgba(0, 0, 0, 0.14) -1%,
-        rgba(0, 0, 0, 0.39) 0%,
-        rgba(0, 0, 0, 0.24) 100%,
-        transparent
-      );
-    background-image:
-      radial-gradient(
-        circle farthest-corner at 50% 50%,
-        rgba(0, 0, 0, 0.14) -1%,
-        rgba(0, 0, 0, 0.39) 0%,
-        rgba(0, 0, 0, 0.24) 100%,
-        transparent
-      );
-    opacity: 1;
-    color: #fff;
-    text-align: center;
-
-    h2 {
-      font-size: 40px;
-      font-weight: 500;
-      margin-top: 15px;
     }
   }
 
@@ -243,11 +228,15 @@ p:last-child,
 
 // Avoindata Categories
 .avoindata-categories {
-  background-color: @opendata-brand-gray;
+  background-color: @background-body-color;
   padding-right: 50px;
   padding-left: 50px;
   padding-top: 10px;
   padding-bottom: 25px;
+
+  .avoindata-categories-header-row {
+    text-align: center;
+  }
 
   .avoindata-categories-container {
     max-width: @opendata-container-max-width;
@@ -262,8 +251,8 @@ p:last-child,
     }
 
     .avoindata-category-box {
-      height: 12em;
-      width: 12em;
+      height: 13em;
+      width: 10em;
       text-align: center;
       justify-content: center;
       padding-top: 10px;
@@ -271,6 +260,8 @@ p:last-child,
 
       a {
         color: black;
+        font-size: 16px;
+        font-weight: 600;
       }
 
       .avoindata-category-image-wrapper {
@@ -284,7 +275,7 @@ p:last-child,
           margin-top: -0.5em;
           background-color: #f7f7f8;
           border-radius: 1em;
-          font-size: smaller;
+          font-size: 14px;
           font-weight: bold;
           color: #626b6f;
         }
@@ -440,12 +431,17 @@ p:last-child,
   padding-left: 50px;
   padding-top: 10px;
   padding-bottom: 25px;
+  background-color: #f7f7f8;
 
   .avoindata-datasetlist-container {
     max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
+
+    .avoindata-datasetlist-header-row {
+      text-align: center;
+    }
 
     .avoindata-datasetlist-nav {
       ul {
@@ -482,12 +478,12 @@ p:last-child,
     }
 
     .avoindata-datasetlist-table {
-      margin-top: 20px;
+      margin-top: 0;
       margin-bottom: 5px;
       margin-left: 0;
       margin-right: 0;
-      padding-top: 10px;
-      background-color: #f5f5f5;
+      padding-top: 40px;
+      background-color: #fff;
       overflow: auto;
 
       table {
@@ -507,6 +503,60 @@ p:last-child,
       margin-bottom: 10px;
       margin-left: 25px;
       margin-right: 25px;
+
+      a {
+        color: #2a6ebb;
+        font-size: 16px;
+      }
+    }
+
+    .avoindata-datasetlist-wrapper {
+      display: flex;
+
+      @media (max-width: 786px) {
+        flex-direction: column;
+      }
+
+      .avoindata-datasetlist-single-dataset {
+        display: inline-block;
+        flex: 1;
+        height: 355px;
+        overflow: hidden;
+        position: relative;
+
+        .avoindata-datasetlist-creation-date {
+          font-size: 16px;
+          margin: 10px 0;
+        }
+
+        .avoindata-datasetlist-dataset-description {
+          font-size: 16px;
+          overflow: hidden;
+          max-height: 240px;
+        }
+
+        .avoindata-datasetlist-bottom-wrapper {
+          height: 150px;
+          width: 100%;
+          position: absolute;
+          background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, white 75%);
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  h4 {
+    font-size: 28px;
+  }
+}
+
+.avoindata-datasetlist-single-dataset {
+  & + & {
+    padding-left: 40px;
+
+    @media (max-width: 768px) {
+      padding-left: 0;
     }
   }
 }
@@ -519,65 +569,90 @@ p:last-child,
   padding-bottom: 25px;
   line-height: 18px;
   margin-bottom: 50px;
+  background-color: #f7f7f8;
 
-  .avoindata-newsfeed-block {
+  .avoindata-newsfeed-container {
     max-width: @opendata-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
-    background-color: #f5f5f5;
-    border-top: 6px solid @sidebar-block-color-header;
-    border-radius: 2px;
 
-    .avoindata-newsfeed-column {
-      padding-right: 53px;
-      padding-left: 29px;
-      padding-top: 23px;
-      padding-bottom: 23px;
-    }
-
-    h4 {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .avoindata-newsfeed-icon {
-      color: @sidebar-block-color-header;
-    }
-
-    .avoindata-feeditem {
-      margin-bottom: 22px;
-      font-style: normal;
-      min-height: 60px;
-
-      a {
-        color: #000;
-      }
-
-      .feeditem-heading {
-        font-weight: 700;
-      }
-
-      .feeditem-date {
-        text-transform: uppercase;
-      }
-    }
-
-    .avoindata-newsfeed-button {
-      background-color: #2a9bc7;
-      color: #fff;
-      height: 40px;
-      padding-right: 19px;
-      padding-left: 19px;
-      border-radius: 3px;
+    .avoindata-newsfeed-header-row {
       text-align: center;
-      width: 170px;
+      margin-bottom: 70px;
+    }
 
-      &:hover {
-        background-color: darken(#2a9bc7, 20%);
+    .avoindata-newsfeed-block {
+      max-width: @opendata-container-max-width;
+      float: none;
+      display: block;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 2px;
+
+      .avoindata-newsfeed-column {
+        padding-right: 53px;
+        padding-left: 29px;
+        padding-top: 23px;
+        padding-bottom: 23px;
+        height: 350px;
+      }
+
+      h4 {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .avoindata-newsfeed-icon {
+        color: @sidebar-block-color-header;
+      }
+
+      .avoindata-feeditem {
+        margin-bottom: 22px;
+        font-style: normal;
+        min-height: 60px;
+
+        a {
+          color: #2a6ebb;
+        }
+
+        .feeditem-heading {
+          font-weight: 700;
+        }
+
+        .feeditem-date {
+          text-transform: uppercase;
+        }
+      }
+
+      .avoindata-newsfeed-button {
+        background-color: #2a9bc7;
+        color: #fff;
+        height: 40px;
+        padding-right: 19px;
+        padding-left: 19px;
+        border-radius: 3px;
+        text-align: center;
+        width: 170px;
+
+        &:hover {
+          background-color: darken(#2a9bc7, 20%);
+        }
+      }
+
+      .avoindata-newsfeed-twittercontainer {
+        margin-top: 12px;
+        border-left: 1px solid #ced2d5;
+        height: 700px;
       }
     }
+  }
+}
+
+.avoindata-newsfeed-column {
+  & + & {
+    border-top: 1px solid #979797;
   }
 }
 
@@ -588,6 +663,7 @@ p:last-child,
   padding-top: 10px;
   padding-bottom: 25px;
   line-height: 18px;
+  background-color: #fff;
 
   .avoindata-appfeed-container {
     max-width: @opendata-container-max-width;
@@ -595,79 +671,103 @@ p:last-child,
     display: block;
     margin: 0 auto;
 
-    .avoindata-appfeed-appcontainer {
-      padding-left: 0;
-      margin-bottom: 20px;
+    .avoindata-appfeed-header-row {
+      text-align: center;
+      margin-bottom: 70px;
+    }
 
-      a {
-        color: #000;
+    a {
+      color: #000;
+    }
+
+    .avoindata-appfeed-applist-wrapper {
+      display: flex;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
       }
+    }
 
-      .avoindata-appfeed-appcontainer-applist {
+    .avoindata-appfeed-appcontainer-applist {
+      .avoindata-appfeed-link {
+        margin-top: 25px;
+        height: 18px;
+
+        a {
+          color: #2a6ebb;
+          font-size: 16px;
+        }
+
         .avoindata-appfeed-link-bullet {
           margin-right: 5px;
           color: #db5800;
         }
+      }
 
-        .avoindata-appfeed-application-box {
-          padding-top: 15px;
+      .avoindata-appfeed-application-box {
+        padding-right: 0;
+        padding-bottom: 15px;
+        flex: 1;
+        display: inline-block;
+        height: 330px;
+        background-color: #fff;
+        border: #ced2d5 1px solid;
+        overflow: hidden;
+
+        .application-item-logo {
+          margin-right: 0;
           padding-right: 0;
-          margin-left: 0;
-          padding-bottom: 15px;
-          border-top: 1px solid rgba(0, 0, 0, 0.33);
-          border-bottom: 1px none rgba(0, 0, 0, 0.35);
+          padding-left: 0;
 
-          .application-item-logo {
-            margin-right: 0;
-            padding-right: 0;
-            padding-left: 0;
-
-            .application-item-img {
-              height: 120px;
-              width: 120px;
-              object-fit: cover;
-              border-radius: 3px;
-              margin-top: 10px;
-              margin-bottom: 10px;
-            }
+          .application-item-img {
+            height: 120px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 3px;
           }
+        }
 
-          .application-item-content {
-            padding-left: 0;
+        .appitem-header {
+          font-size: 24px;
+          text-align: center;
+          line-height: 24px;
+        }
 
-            .appitem-header {
-              font-size: 18px;
-              line-height: 24px;
-            }
+        .appitem-metainfo {
+          font-size: 12px;
+          font-style: normal;
+          text-transform: uppercase;
+          text-align: center;
 
-            .appitem-metainfo {
-              font-size: 12px;
-              font-style: normal;
-              text-transform: uppercase;
-
-              .appitem-fa-icon {
-                color: @sidebar-block-color-header;
-              }
-            }
-
-            .appitem-content {
-              font-size: 14px;
-              line-height: 16px;
-              display: block;
-              display: -webkit-box;
-              height: 64px;
-              -webkit-line-clamp: 4;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+          .appitem-fa-icon {
+            color: @sidebar-block-color-header;
           }
+        }
+
+        .appitem-content {
+          font-size: 16px;
+          margin: 20px;
+          line-height: 16px;
+          display: block;
+          display: -webkit-box;
+          height: 100px;
+          -webkit-line-clamp: 6;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
+  }
+}
 
-    .avoindata-appfeed-twittercontainer {
-      margin-top: 12px;
+.avoindata-appfeed-application-box {
+  & + & {
+    margin-left: 32px;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      margin-top: 10px;
     }
   }
 }
