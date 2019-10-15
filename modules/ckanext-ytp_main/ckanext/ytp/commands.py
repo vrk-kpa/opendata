@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 from ckan.lib.cli import CkanCommand
-from ckan.logic import get_action, NotFound, ValidationError
+from ckan.logic import get_action, ValidationError
 from ckan import model
 from ckanext.ytp.translations import facet_translations
 import ckan.plugins.toolkit as t
