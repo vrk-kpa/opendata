@@ -6,7 +6,6 @@ ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizat
 # order matters, when templates call super()
 
 ckan_plugin_order:
-  - harvest
   - ckan_harvester
   - hri_harvester
   - dcat
@@ -22,6 +21,7 @@ ckan_plugin_order:
   - ytp_request
   - hierarchy_display
   - ytp_theme
+  - harvest
   - report
   - ytp_report
   - ytp_drupal
