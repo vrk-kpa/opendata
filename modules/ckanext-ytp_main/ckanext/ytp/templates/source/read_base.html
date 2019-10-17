@@ -1,0 +1,9 @@
+{% ckan_extends %}
+
+{% block content_action %}
+    <div class="content_action">
+        {% if authorized_user %}
+            {{ self.admin_link() }}
+        {% endif %}
+    </div>
+{% endblock %}
