@@ -53,6 +53,14 @@
         {% endif %}
     {% endblock %}
 
+    {% block showcase_info %}
+        {{ layout.moduleBoxHead(_('Showcases')) }}
+            {% if pkg.organization %}
+                <span><a href="/data/{{ h.lang() }}/dataset/showcases/{{ pkg.get('name') }}">
+                    {% trans %}Applications utilizing this dataset{% endtrans %}</a></span><br />
+            {% endif %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
     {% block material_link %}
         {% set extra_dict = h.format_extras(pkg) %}
         {% if extra_dict.guid %}

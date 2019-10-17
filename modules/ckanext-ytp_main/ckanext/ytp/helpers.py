@@ -574,3 +574,8 @@ def get_last_harvested_date(organization_name):
 def get_resource_sha256(resource_id):
     context = {'model': model, 'session': model.Session, 'user': c.user}
     return get_action('resource_status')(context, {'id': resource_id}).get('sha256') or _('-')
+
+
+def get_package_showcase_list(package_id):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    return get_action('ckanext_package_showcase_list')(context, {'package_id': package_id})
