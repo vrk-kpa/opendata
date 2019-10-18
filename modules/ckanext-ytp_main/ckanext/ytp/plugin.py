@@ -190,6 +190,12 @@ def action_package_show(context, data_dict):
     return result
 
 
+@logic.side_effect_free
+def action_package_search(context, data_dict):
+    data_dict['sort'] = data_dict.get('sort') or 'metadata_created desc'
+    return get_original_method('ckan.logic.action.get', 'package_search')(context, data_dict)
+
+
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -480,7 +486,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # IActions #
     def get_actions(self):
-        return {'package_show': action_package_show}
+        return {'package_show': action_package_show, 'package_search': action_package_search}
 
     # IValidators
     def get_validators(self):
