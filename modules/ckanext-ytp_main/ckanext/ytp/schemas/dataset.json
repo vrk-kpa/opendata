@@ -102,7 +102,7 @@
     {
       "field_name": "maintainer_email",
       "label": "Maintainer email",
-      "form_placeholder": "joe@example.com",
+      "form_placeholder": "eg. joe@example.com",
       "form_attrs": {
         "class": "form-control"
       },
