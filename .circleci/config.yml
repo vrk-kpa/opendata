@@ -578,7 +578,7 @@ jobs:
 
   clamav-build:
     docker:
-      - image: circleci/python
+      - image: circleci/python:3.7
     steps:
       - checkout
 
@@ -601,7 +601,7 @@ jobs:
 
   clamav-deploy:
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python
     steps:
       - checkout
 
