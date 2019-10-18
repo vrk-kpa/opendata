@@ -578,13 +578,13 @@ jobs:
 
   clamav-build:
     docker:
-      - image: circleci/python
+      - image: circleci/python:3.7
     steps:
       - checkout
 
       - setup_remote_docker
 
-      - run: sudo pip install boto awscli aws-sam-cli
+      - run: sudo pip install boto awscli aws-sam-cli pip==19.2.3
 
       - run:
           name: Build and tag ClamAV container
