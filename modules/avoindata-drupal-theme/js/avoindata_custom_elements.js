@@ -8,9 +8,8 @@
         $(this).on('click', toggleAvoindataExpander);
 
         // Add 'expand all' link above the first expander if there's more than one expander
-        if (index === 0 && $('avoindata-expander').length < 1) {
-          var localizedLabel = Drupal.t("Expand all");
-          $('<div class="clearfix"><a id="open-all-avoindata-expanders-link" class="pull-right">' + localizedLabel + '</a></div>').insertBefore(this);
+        if (index === 0 && $('.avoindata-expander').length > 1) {
+          $('<div class="clearfix"><a id="open-all-avoindata-expanders-link" class="pull-right">' + Drupal.t("Expand all") + '</a></div>').insertBefore(this);
           $('#open-all-avoindata-expanders-link').on('click', openAllAvoindataExpanders);
         }
 
