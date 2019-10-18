@@ -22,6 +22,7 @@ avoindata-custom-elements:
     'js/avoindata_custom_elements.js': {}
   dependencies:
     - core/jquery
+    - core/jquery.once
     - core/drupal
 webfonts:
   css:
