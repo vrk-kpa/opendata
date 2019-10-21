@@ -1,11 +1,10 @@
 
-## Yhteentoimivuuspalvelut / Avoindata.fi [![CircleCI][circleci-image]][circleci-url] [![Cypress Dashboard](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/ssb2ut/runs)
+## Avoindata.fi [![CircleCI][circleci-image]][circleci-url] [![Cypress Dashboard](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/ssb2ut/runs)
 
-Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines three related subservices:
+Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finnish). This service combines two related subservices:
 
 - [Avoindata.fi](https://www.avoindata.fi/), a search engine and metadata catalog for Finnish open data
 - A catalog of interoperability tools and guidelines
-- A prototype for a catalog of Finnish public services.
 
 The service is publicly available at [Avoindata.fi](https://www.avoindata.fi/). Free registration is required for features such as commenting and publishing of datasets. A developer sandbox is also available at [beta.avoindata.fi](http://beta.avoindata.fi) or [beta.opendata.fi](http://beta.opendata.fi).
 
@@ -14,7 +13,7 @@ This source repository contains:
 - Configuration management scripts ([Ansible](http://www.ansible.com))
 - Tools for local development ([Vagrant](http://www.vagrantup.com))
 - Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata))
-- Source code as subtree modules under the _modules_ directory
+- Source code as submodules under the _modules_ directory
 
 ### Getting started
 
@@ -28,16 +27,24 @@ Please refer to the [documentation directory](doc) and [API documentation](https
 
 ### Contact
 
-Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues) or join the discussion at [avoindata.net](http://avoindata.net/questions/suomen-avoimen-datan-portaalin-rakentaminen).
+Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues).
 
 ### Copying and License
 
-This material is copyright (c) 2013-2018 Population Register Centre, Finland.
+This material is copyright (c) 2013-2019 Population Register Centre, Finland.
 
 CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
 
 All other content in this repository is licensed under MIT License unless otherwise specified.
+
+### External services used during development
+
+Some of the external services used.
+
+![Browserstack](/doc/images/Browserstack-logo.svg)
+
+Browserstack is used to test the service with different browsers and devices.
 
 [circleci-url]: https://circleci.com/gh/vrk-kpa/opendata
 [circleci-image]: https://circleci.com/gh/vrk-kpa/opendata.svg?style=svg
