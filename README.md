@@ -42,7 +42,7 @@ All other content in this repository is licensed under MIT License unless otherw
 
 Some of the external services used.
 
-![Browserstack](/doc/images/Browserstack-logo.svg)
+<img src="/doc/images/Browserstack-logo.svg" width=200>
 
 Browserstack is used to test the service with different browsers and devices.
 
