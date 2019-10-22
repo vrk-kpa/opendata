@@ -39,8 +39,21 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
     'avoindata_login' => [
       'template' => 'avoindata_login',
       'variables' => [
+        'avoindata_drupal_username' => NULL,
         'language' => NULL,
       ],
     ],
+  ];
+}
+
+/**
+ * Gets username from Drupal lazily around the cache
+ */
+function get_avoindata_drupal_username() {
+  $drupal_username_markup = \Drupal::currentUser()->getAccountName();
+
+  return [
+    '#markup' => $drupal_username_markup,
+    '#cache' => ['max-age' => 0],
   ];
 }
