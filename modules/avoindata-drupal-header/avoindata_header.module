@@ -47,7 +47,7 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Gets username from Drupal lazily around the cache
+ * Gets username from Drupal lazily around the cache.
  */
 function get_avoindata_drupal_username() {
   $drupal_username_markup = \Drupal::currentUser()->getAccountName();
