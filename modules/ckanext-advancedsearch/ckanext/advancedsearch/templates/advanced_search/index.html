@@ -1,54 +1,72 @@
 {% extends "page.html" %}
 
+{% resource 'advancedsearch/javascript/clear-all-fields.js' %}
 {%- set schema = h.advancedsearch_schema() -%}
 
 {% block meta %}
+  {{ super() }}
+  <meta name="robots" content="noindex, follow"/>
+{% endblock %}
+
+{% block content %}
+  <form class="advanced-search-form" method="post">
     {{ super() }}
-    <meta name="robots" content="noindex, follow" />
+  </form>
 {% endblock %}
 
-{% block page_primary_action %}
-{% endblock %}
+{% block page_primary_action %}{% endblock %}
 
-{% block subtitle %}{{ _("Advanced search") }}{% endblock %}
+{% block subtitle %}
+  {{ _("Advanced search") }}
+{% endblock %}
 
 {% block breadcrumb_content %}
-    <li class="active">
-        <a 
-            href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}"
-            title="{{ _('Advanced search') }}"
-        >
-                {{_('Advanced search')}}
-        </a>
-    </li>
+  <li class="active">
+    <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" title="{{ _('Advanced search') }}">
+      {{_('Advanced search')}}
+    </a>
+  </li>
 {% endblock %}
 
-{% block primary_content %}
-  <h1>{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
-  <div>
-    {% block advanced_search_form %}
-      {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
-    {% endblock %}
-  </div>
+{% block wrapper_class %}
+  advanced-search-wrapper
+{% endblock %}
 
-  {% block advanced_result_list %}
-    <div>
-        <h2>{{_('Search results')}} ({{ c.advanced_search.item_count }})</h2>
-        <div class="mt-4">
-            {{ h.snippet('snippets/package_list.html', packages=c.advanced_search.collection) }}
+{% block pre_primary %}
+  <h1 id="advanced-search-title">
+    {% block page_heading %}
+      {{ _('Advanced search') }}
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block secondary %}
+  {% block secondary_content %}
+    {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
+  {% endblock %}
+{% endblock %}
+
+{% block primary %}
+  {% block primary_content %}
+    <div class="primary col-sm-8">
+      <div class="clearfix">
+        {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=prev_query %}
+      </div>
+      <div id="search-results">
+        <div id="search-results-header">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
+        </div>
+        <div id="search-results-content">
+          {{ h.snippet('snippets/package_list.html', packages=c.advanced_search.collection) }}
         </div>
         {% if c.advanced_search.item_count > 0 %}
-            <div>
-                {{
-                    h.snippet(
-                        'advanced_search/snippets/post_pagination.html',
-                        page=c.advanced_search.last_query.page,
-                        total_pages=c.advanced_search.total_pages,
-                        prev_query=c.advanced_search.last_query,
-                    )
-                }}
-            </div>
+          <div>
+            {{h.snippet('advanced_search/snippets/post_pagination.html',
+            page=c.advanced_search.last_query.page,
+            total_pages=c.advanced_search.total_pages,
+            prev_query=c.advanced_search.last_query)}}
+          </div>
         {% endif %}
+      </div>
     </div>
   {% endblock %}
 {% endblock %}
