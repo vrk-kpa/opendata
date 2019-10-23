@@ -27,6 +27,7 @@ ckan_plugin_order:
   - ytp_drupal
   - ytp_tasks
   - ytp_dataset
+  - apis
   - ytp_spatial
   - ytp_user
   - datastore
@@ -98,6 +99,7 @@ ckan_extensions:
   - ckanext-advancedsearch
   - ckanext-rating
   - ckanext-forcetranslation
+  - ckanext-apis
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
