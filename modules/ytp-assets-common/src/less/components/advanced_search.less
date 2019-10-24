@@ -79,3 +79,39 @@
   pointer-events: none;
   margin-left: -30px;
 }
+
+#advanced-search-pagination {
+  border-top: none;
+
+  .pagination > li {
+    border: 1px solid rgb(201, 205, 207);
+
+    &.active {
+      border: none;
+
+      button {
+        border-top: 1px solid @suomi-highlightBase;
+        border-bottom: 1px solid @suomi-highlightBase;
+      }
+    }
+  }
+
+  i.disabled {
+    color: rgb(201, 205, 207);
+  }
+
+  .pagination > li:nth-child(even) {
+    border-left: none;
+    border-right: none;
+  }
+
+  .pagination > li:first-of-type:not(.active) {
+    border-radius: 3px 0 0 3px;
+    border-left: 1px solid rgb(201, 205, 207);
+  }
+
+  .pagination > li:last-of-type:not(.active) {
+    border-radius: 0 3px 3px 0;
+    border-right: 1px solid rgb(201, 205, 207);
+  }
+}
