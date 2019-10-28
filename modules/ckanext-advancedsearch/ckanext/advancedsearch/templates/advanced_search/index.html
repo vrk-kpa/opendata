@@ -1,6 +1,5 @@
 {% extends "page.html" %}
 
-{% resource 'advancedsearch/javascript/clear-all-fields.js' %}
 {%- set schema = h.advancedsearch_schema() -%}
 
 {% block meta %}
@@ -13,6 +12,8 @@
 {% endblock %}
 
 {%- block content %}
+{% resource 'advancedsearch/javascript/clear-filter.js' %}
+
 {% block maintag %}
   <div role="main">
   {% endblock %}
@@ -68,9 +69,28 @@
           {% block primary %}
             {% block primary_content %}
               <div class="primary col-sm-8">
+                {%- set filters = c.advanced_search.filters -%}
+                {% if filters|length > 0 %}
+                  <div class="filter-bar clearfix">
+                    <span id="filter-bar-title">{{_('Filters')}}:</span>
+                    {% for key in filters %}
+                      {% if loop.index > 1 %}
+                        <span class="avoindata-filter-group-and">{{_('AND')}}</span>
+                      {% endif %}
+                      <span class="avoindata-filter-group-title">{{_(key)}}</span>
+                        {% for value in filters[key] %}
+                          {% if loop.index > 1 %}
+                            <span class="avoindata-filter-group-or">{{_('OR')}}</span>
+                          {% endif %}
+                          <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value}}">{{_(value)}}<i class="fal fa-times" ></i></span>
+                        {% endfor %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
                 <div class="clearfix">
-                  {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=prev_query %}
+                  {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
                 </div>
+
                 <div id="search-results">
                   <div id="search-results-header">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
                   </div>
