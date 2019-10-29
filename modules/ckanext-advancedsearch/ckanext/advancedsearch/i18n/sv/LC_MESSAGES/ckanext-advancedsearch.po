@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-16 08:39+0000\n"
+"POT-Creation-Date: 2019-10-29 07:39+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -31,8 +31,10 @@ msgstr ""
 msgid "Search target"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:24
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:31
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:19
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:38
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:71
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:77
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -85,28 +87,73 @@ msgstr ""
 msgid "Updated after"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:10
+#: ckanext/advancedsearch/translations.py:24
+msgid "Search datasets"
+msgstr ""
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
-#: ckanext/advancedsearch/templates/advanced_search/index.html:17
+#: ckanext/advancedsearch/templates/advanced_search/index.html:42
+#: ckanext/advancedsearch/templates/advanced_search/index.html:43
+#: ckanext/advancedsearch/templates/advanced_search/index.html:58
 msgid "Advanced search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:28
-msgid "Search results"
+#: ckanext/advancedsearch/templates/advanced_search/index.html:75
+msgid "Filters"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:13
+#: ckanext/advancedsearch/templates/advanced_search/index.html:78
+msgid "AND"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:83
+msgid "OR"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:95
+msgid "Found {count} datasets"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:4
+msgid "Filter search"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
 msgid "Features"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:41
-msgid "Search"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:44
-msgid "Clear fields"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
 msgid "Choose"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:20
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:35
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
+msgid "selected"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:12
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:18
+msgid "Previous page"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:27
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:36
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:58
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:70
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:84
+msgid "Page number:"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:51
+msgid "Current page number:"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:83
+msgid "Last page"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:92
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
+msgid "Next page"
 msgstr ""

@@ -21,4 +21,4 @@ def _translations():
     _("Date updated")
     _("Updated before")
     _("Updated after")
-    _("Filter search")
+    _("Search datasets")
