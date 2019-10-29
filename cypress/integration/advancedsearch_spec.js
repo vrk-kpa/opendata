@@ -103,18 +103,6 @@ describe('Advanced search tests', () => {
         })
     })
 
-    describe('Test clearing fields', () => {
-        it('Fill query and clear', () => {
-            cy.get('#advanced-search-keywords').should('be.empty')
-            cy.fill_form_fields({
-                '#advanced-search-keywords': 'ok'
-            })
-            cy.get('#advanced-search-keywords').should('have.value', 'ok')
-            cy.get('button[name=clear]').click()
-            cy.get('#advanced-search-keywords').should('be.empty')
-        })
-    })
-
     describe('Test querying by string and target', () => {
         it('Searching with query "first"', () => {
             fill_and_submit({
