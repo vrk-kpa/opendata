@@ -133,15 +133,6 @@ describe('Advanced search tests', () => {
             cy.get('.dataset-list').children().should('have.length', 1)
             cy.get('.dataset-heading').contains('second dataset')
         })
-
-        it('Target description and search for unicorns', () => {
-            fill_and_submit({
-                '#advanced-search-keywords': 'unicorns',
-                '#radio-search_target-notes': {type: 'check', force: true}
-            })
-            cy.get('.dataset-list').children().should('have.length', 1)
-            cy.get('.dataset-heading').contains('second dataset')
-        })
     })
 
     describe('Use multiple select to filter query', () => {
