@@ -30,6 +30,14 @@
       $('.icon-wrapper i', this).removeClass('fa-angle-up').addClass('fa-angle-down');
       $(this).addClass('open');
     }
+    if (!$('.avoindata-expander').hasClass('open')) {
+      $('#toggle-all-avoindata-expanders-link').data('expanded', true);
+      toggleAllAvoindataExpanders();
+    }
+    if ($('.avoindata-expander').length > 0 && $('.avoindata-expander:not(.open)').length === 0) {
+      $('#toggle-all-avoindata-expanders-link').data('expanded', false);
+      toggleAllAvoindataExpanders();
+    }
   }
 
   function toggleAllAvoindataExpanders() {
