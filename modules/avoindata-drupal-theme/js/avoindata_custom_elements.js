@@ -28,13 +28,15 @@
   }
 
   function toggleAllAvoindataExpanders() {
-    $('.avoindata-expander-content').collapse('toggle');
-    $('.avoindata-expander').toggleClass('open');
     if ($('#toggle-all-avoindata-expanders-link').data('expanded')) {
+      $('.avoindata-expander-content').collapse('hide');
+      $('.avoindata-expander').removeClass('open');
       $('.avoindata-expander .icon-wrapper > i').addClass('fa-angle-down').removeClass('fa-angle-up');
       $('#toggle-all-avoindata-expanders-link').data('expanded', false);
       $('#toggle-all-avoindata-expanders-link').text(openText);
     } else {
+      $('.avoindata-expander-content').collapse('show');
+      $('.avoindata-expander').addClass('open');
       $('.avoindata-expander .icon-wrapper > i').removeClass('fa-angle-down').addClass('fa-angle-up');
       $('#toggle-all-avoindata-expanders-link').data('expanded', true);
       $('#toggle-all-avoindata-expanders-link').text(closeText);
