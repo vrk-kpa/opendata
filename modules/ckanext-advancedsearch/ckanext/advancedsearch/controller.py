@@ -1,5 +1,6 @@
 import logging
 import math
+import json
 
 import ckan.lib.base as base
 from helpers import advancedsearch_schema, query_helper
@@ -64,6 +65,16 @@ class YtpAdvancedSearchController(base.BaseController):
 
         query = get_action('package_search')(context, data_dict)
 
+        json_query = json.dumps({k: v for k, v in params_to_dict(request.POST).items() if k != 'page'
+                                 and type(v) is list and len(v[0]) > 0})
+
+        filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target'
+                   and k != 'search_query' and k != 'page' and type(v) is list and len(v[0]) > 0}
+
+        for key, value in filters.iteritems():
+            if u'all' in value:
+                filters[key] = [u'all']
+
         c.advanced_search = {
             "item_count": query['count'],
             # Round values up to get total amount of pages
@@ -72,6 +83,8 @@ class YtpAdvancedSearchController(base.BaseController):
             # Return query parameters to the UI so that it can populate the fields with the previous query values
             # NOTE: Can this cause security issues? Returning POST request params back to the client
             "last_query": params_to_dict(request.POST),
+            "json_query": json_query,
+            "filters": filters
         }
         c.advanced_search['last_query']['page'] = page
 

@@ -3,7 +3,7 @@
 {% set placeholder = field.display_options.placeholder %}
 
 <div>
-    <!-- Popoulate input with prev query value -->
+    <!-- Populate input with prev query value -->
     {% set value_or_blank = h.value_or_blank(prev_query, field_name) %}
     {% if value_or_blank %}
         {% set value_or_blank = value_or_blank[0] %}
@@ -21,6 +21,6 @@
             class="ytp-input-element ytp-search-bar"
             placeholder="{{_(placeholder)}}"
         >
-        <i class="far fa-search"></i>
+        <button type="submit" value="search"><i class="far fa-search"></i></button>
     </div>
 </div>

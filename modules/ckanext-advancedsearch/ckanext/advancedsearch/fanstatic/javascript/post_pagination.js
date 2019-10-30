@@ -16,7 +16,10 @@ ckan.module('post-pagination', function($) {
             // Throw error for sentry.io tracking
             throw new Error('POST Pagination value empty')
         }
+        e.preventDefault();
+        e.stopPropagation();
         this.post(this.options.prevQuery, e.target.value)
+
     },
     post: function(params, page_num) {
         const form = document.createElement('form');
@@ -35,7 +38,7 @@ ckan.module('post-pagination', function($) {
 
         for (const key in params) {
             if (params.hasOwnProperty(key)) {
-                if (params[key].length > 1) {
+                if (Array.isArray(params[key]) && params[key].length > 1) {
                     // Checkbox fields contain multiple values for a single key
                     for (let value of params[key]) {
                         newField(key, value)
@@ -45,7 +48,7 @@ ckan.module('post-pagination', function($) {
                 }
             }
         }
-    
+
         document.body.appendChild(form);
         form.submit();
     }
