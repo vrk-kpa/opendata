@@ -21,10 +21,15 @@
   };
 
   function toggleAvoindataExpander() {
-    $('.avoindata-expander-content', this).collapse('toggle');
-    const iconEl = $('.icon-wrapper i', this);
-    iconEl.hasClass('fa-angle-down') ? iconEl.removeClass('fa-angle-down').addClass('fa-angle-up') : iconEl.removeClass('fa-angle-up').addClass('fa-angle-down')
-    $(this).toggleClass('open');
+    if ($(this).hasClass('open')) {
+      $('.avoindata-expander-content', this).collapse('hide');
+      $('.icon-wrapper i', this).removeClass('fa-angle-down').addClass('fa-angle-up');
+      $(this).removeClass('open');
+    } else {
+      $('.avoindata-expander-content', this).collapse('show');
+      $('.icon-wrapper i', this).removeClass('fa-angle-up').addClass('fa-angle-down');
+      $(this).addClass('open');
+    }
   }
 
   function toggleAllAvoindataExpanders() {
