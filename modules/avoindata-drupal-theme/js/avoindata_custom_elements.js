@@ -21,20 +21,35 @@
   };
 
   function toggleAvoindataExpander() {
-    $('.avoindata-expander-content', this.parentElement).collapse('toggle');
-    const iconEl = $('.icon-wrapper i', this.parentElement);
-    iconEl.hasClass('fa-angle-down') ? iconEl.removeClass('fa-angle-down').addClass('fa-angle-up') : iconEl.removeClass('fa-angle-up').addClass('fa-angle-down')
-    $(this.parentElement).toggleClass('open');
+    if ($(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
+      $('.avoindata-expander-content', this.parentElement).collapse('hide');
+      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
+      $(this.parentElement).removeClass('open');
+    } else if (!$(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
+      $('.avoindata-expander-content', this.parentElement).collapse('show');
+      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
+      $(this.parentElement).addClass('open');
+    }
+    if (!$('.avoindata-expander').hasClass('open')) {
+      $('#toggle-all-avoindata-expanders-link').data('expanded', true);
+      toggleAllAvoindataExpanders();
+    }
+    if ($('.avoindata-expander').length > 0 && $('.avoindata-expander:not(.open)').length === 0) {
+      $('#toggle-all-avoindata-expanders-link').data('expanded', false);
+      toggleAllAvoindataExpanders();
+    }
   }
 
   function toggleAllAvoindataExpanders() {
-    $('.avoindata-expander-content').collapse('toggle');
-    $('.avoindata-expander').toggleClass('open');
     if ($('#toggle-all-avoindata-expanders-link').data('expanded')) {
+      $('.avoindata-expander-content').collapse('hide');
+      $('.avoindata-expander').removeClass('open');
       $('.avoindata-expander .icon-wrapper > i').addClass('fa-angle-down').removeClass('fa-angle-up');
       $('#toggle-all-avoindata-expanders-link').data('expanded', false);
       $('#toggle-all-avoindata-expanders-link').text(openText);
     } else {
+      $('.avoindata-expander-content').collapse('show');
+      $('.avoindata-expander').addClass('open');
       $('.avoindata-expander .icon-wrapper > i').removeClass('fa-angle-down').addClass('fa-angle-up');
       $('#toggle-all-avoindata-expanders-link').data('expanded', true);
       $('#toggle-all-avoindata-expanders-link').text(closeText);
