@@ -129,6 +129,7 @@
     - metatag_open_graph
     - ape
     - honeypot
+    - registration_validation
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
@@ -239,6 +240,7 @@
     - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
     - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
+    - { src: registration_validation.settings.yml.j2, dest: registration_validation.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
     - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
