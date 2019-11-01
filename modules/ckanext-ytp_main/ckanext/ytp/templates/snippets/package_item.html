@@ -14,7 +14,7 @@ Example:
 
 #}
 {% set truncate = truncate or 400 %}
-{% set truncate_title = truncate_title or 80 %}
+{% set truncate_title = truncate_title or 120 %}
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
 {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
 
@@ -28,6 +28,16 @@ Example:
                 {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             </h3>
+
+            <div class="organization byline-dataset dataset-item-organization">
+                {% if package.organization -%}
+                    <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name')}}">
+                        {{ package.organization.get('title') }}
+                    </a>
+                    &nbsp;/&nbsp;
+                {%- endif -%}
+                {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
+            </div>
 
             {% if banner %}
                 <span class="banner">{{ _('Popular') }}</span>
@@ -48,16 +58,8 @@ Example:
                         {{_('Deleted')}}
                     </span>
                 {% endif %}
-
-                <span class="organization byline-dataset dataset-item-organization">
-                    {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
-                    {% if package.organization -%}
-                        <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name')}}">
-                            {{ package.organization.get('title') }}
-                        </a>
-                    {%- endif -%}
-                </span>
             </div>
+
             <div class="d-flex justify-content-between flex-wrap mt-2">
                 {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
                     <span

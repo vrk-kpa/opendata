@@ -3,52 +3,114 @@
 {%- set schema = h.advancedsearch_schema() -%}
 
 {% block meta %}
-    {{ super() }}
-    <meta name="robots" content="noindex, follow" />
+  {{ super() }}
+  <meta name="robots" content="noindex, follow"/>
 {% endblock %}
 
-{% block page_primary_action %}
+{% block subtitle %}
+  {{ _("Advanced search") }}
 {% endblock %}
 
-{% block subtitle %}{{ _("Advanced search") }}{% endblock %}
+{%- block content %}
+{% resource 'advancedsearch/javascript/clear-filter.js' %}
 
-{% block breadcrumb_content %}
-    <li class="active">
-        <a 
-            href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}"
-            title="{{ _('Advanced search') }}"
-        >
-                {{_('Advanced search')}}
-        </a>
-    </li>
-{% endblock %}
+{% block maintag %}
+  <div role="main">
+  {% endblock %}
+  <div id="content" class="container">
+    {% block main_content %}
+    {% block flash %}
+      <div class="flash-messages">
+        {% block flash_inner %}
+          {% for message in h.flash.pop_messages() | list %}
+            <div class="alert alert-warning fade in {{ message.category }}">
+              {{ h.literal(message) }}
+            </div>
+          {% endfor %}
+        {% endblock %}
+      </div>
+    {% endblock %}
 
-{% block primary_content %}
-  <h1>{% block page_heading %}{{ _('Advanced search') }}{% endblock %}</h1>
-  <div>
-    {% block advanced_search_form %}
-      {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
+    {% block toolbar %}
+      <div class="toolbar">
+        {% block breadcrumb %}
+          {% if self.breadcrumb_content() | trim %}
+            <ol class="breadcrumb">
+              {% snippet 'snippets/home_breadcrumb_item.html' %}
+              {% block breadcrumb_content %}
+                <li class="active">
+                  <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" title="{{ _('Advanced search') }}">
+                    {{_('Advanced search')}}
+                  </a>
+                </li>
+              {% endblock %}
+            </ol>
+          {% endif %}
+        {% endblock %}
+      </div>
+    {% endblock %}
+
+    <div class="row wrapper{% block wrapper_class %} advanced-search-wrapper {% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
+
+        {% block pre_primary %}
+          <h1 id="advanced-search-title">
+            {% block page_heading %}
+              {{ _('Advanced search') }}
+            {% endblock %}
+          </h1>
+        {% endblock %}
+        <form class="advanced-search-form" method="post">
+          {% block secondary %}
+            {% block secondary_content %}
+              {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
+            {% endblock %}
+          {% endblock %}
+
+          {% block primary %}
+            {% block primary_content %}
+              <div class="primary col-sm-8">
+                {%- set filters = c.advanced_search.filters -%}
+                {% if filters|length > 0 %}
+                  <div class="filter-bar clearfix">
+                    <span id="filter-bar-title">{{_('Filters')}}:</span>
+                    {% for key in filters %}
+                      {% if loop.index > 1 %}
+                        <span class="avoindata-filter-group-and">{{_('AND')}}</span>
+                      {% endif %}
+                      <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span>
+                        {% for value in filters[key] %}
+                          {% if loop.index > 1 %}
+                            <span class="avoindata-filter-group-or">{{_('OR')}}</span>
+                          {% endif %}
+                          <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value}}">{{_(value)}}<i class="fal fa-times" ></i></span>
+                        {% endfor %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                <div class="clearfix">
+                  {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
+                </div>
+
+                <div id="search-results">
+                  <div id="search-results-header">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
+                  </div>
+                  <div id="search-results-content">
+                    {% snippet 'snippets/package_list.html', packages=c.advanced_search.collection %}
+                  </div>
+                </div>
+                {% if c.advanced_search.item_count > 0 %}
+                  <div>
+                    {% snippet 'advanced_search/snippets/post_pagination.html',
+                      page=c.advanced_search.last_query.page,
+                      total_pages=c.advanced_search.total_pages,
+                      prev_query=c.advanced_search.last_query %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endblock %}
+          {% endblock %}
+        </form>
+      </div>
     {% endblock %}
   </div>
-
-  {% block advanced_result_list %}
-    <div>
-        <h2>{{_('Search results')}} ({{ c.advanced_search.item_count }})</h2>
-        <div class="mt-4">
-            {{ h.snippet('snippets/package_list.html', packages=c.advanced_search.collection) }}
-        </div>
-        {% if c.advanced_search.item_count > 0 %}
-            <div>
-                {{
-                    h.snippet(
-                        'advanced_search/snippets/post_pagination.html',
-                        page=c.advanced_search.last_query.page,
-                        total_pages=c.advanced_search.total_pages,
-                        prev_query=c.advanced_search.last_query,
-                    )
-                }}
-            </div>
-        {% endif %}
-    </div>
-  {% endblock %}
-{% endblock %}
+</div>{% endblock -%}

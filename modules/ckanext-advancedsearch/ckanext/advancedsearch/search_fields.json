@@ -3,20 +3,10 @@
   "input_fields": {
     "search_query": {
       "field_name": "search_query",
-      "label": "Search terms",
-      "display_snippet": "search-and-target.html",
+      "display_snippet": "search-box.html",
       "query_helper": "advanced_search_and_target_query(search_query,search_target)",
       "display_options": {
-        "placeholder": "Type what are you searching for",
-        "target": {
-          "field_name": "search_target",
-          "label": "Search target",
-          "options": [
-            { "value": "all", "label": "All" },
-            { "value": "title", "label": "Only title" },
-            { "value": "notes", "label": "Only description" }
-          ]
-        }
+        "placeholder": "Search datasets"
       }
     },
     "category": {

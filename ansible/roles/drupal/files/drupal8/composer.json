@@ -37,6 +37,7 @@
         "drupal/twig_tweak": "^2.0",
         "drupal/pathauto": "^1.2",
         "drupal/recaptcha": "^2.3",
+        "drupal/registration_validation": "^1.2",
         "drupal/easy_breadcrumb": "^1.8",
         "drupal/twig_field_value":"^1.1",
         "drupal/metatag": "^1.7",

@@ -65,3 +65,6 @@
 [submodule "modules/ckanext-forcetranslation"]
 	path = modules/ckanext-forcetranslation
 	url = https://github.com/vrk-kpa/ckanext-forcetranslation
+[submodule "modules/ckanext-apis"]
+	path = modules/ckanext-apis
+	url = https://github.com/vrk-kpa/ckanext-apis.git
