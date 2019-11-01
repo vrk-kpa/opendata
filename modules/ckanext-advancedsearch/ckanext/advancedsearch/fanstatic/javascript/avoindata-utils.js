@@ -16,7 +16,7 @@ ckan.module('avoindata-utils', function($) {
         $(e.target.dataset.target).collapse('hide');
         $('span', e.target).text(this._("Show more options"));
         $('i', e.target).addClass('fa-angle-down').removeClass('fa-angle-up');
-      } else if (e.currentTarget.dataset.expanded === "true" && e.currentTarget.dataset.target && !$(e.target.dataset.target).hasClass('collapsing')) {
+      } else if (e.currentTarget.dataset.expanded === "true" && e.currentTarget.dataset.target && !$(e.currentTarget.dataset.target).hasClass('collapsing')) {
         e.currentTarget.dataset.expanded = "false";
         $(e.currentTarget.dataset.target).collapse('hide');
         $('span', e.currentTarget).text(this._("Show more options"));
@@ -26,7 +26,7 @@ ckan.module('avoindata-utils', function($) {
         $(e.target.dataset.target).collapse('show');
         $('span', e.target).text(this._("Show less options"));
         $('i', e.target).removeClass('fa-angle-down').addClass('fa-angle-up');
-      } else if (e.currentTarget.dataset.expanded === "false" && e.currentTarget.dataset.target && !$(e.target.dataset.target).hasClass('collapsing')) {
+      } else if (e.currentTarget.dataset.expanded === "false" && e.currentTarget.dataset.target && !$(e.currentTarget.dataset.target).hasClass('collapsing')) {
         e.currentTarget.dataset.expanded = "true";
         $(e.currentTarget.dataset.target).collapse('show');
         $('span', e.currentTarget).text(this._("Show less options"));
