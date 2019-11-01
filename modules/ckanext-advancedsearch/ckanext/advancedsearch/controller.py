@@ -68,8 +68,9 @@ class YtpAdvancedSearchController(base.BaseController):
         json_query = json.dumps({k: v for k, v in params_to_dict(request.POST).items() if k != 'page'
                                  and type(v) is list and len(v[0]) > 0})
 
-        filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target'
-                   and k != 'search_query' and k != 'page' and type(v) is list and len(v[0]) > 0}
+        filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target' and k != 'search_query'
+                   and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
+                   and k != 'updated-after' and type(v) is list and len(v[0]) > 0}
 
         for key, value in filters.iteritems():
             if u'all' in value:
