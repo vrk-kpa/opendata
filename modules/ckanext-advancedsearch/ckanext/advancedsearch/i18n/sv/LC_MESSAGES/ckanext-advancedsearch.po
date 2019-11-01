@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-29 07:39+0000\n"
+"POT-Creation-Date: 2019-11-01 13:05+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -91,6 +91,19 @@ msgstr ""
 msgid "Search datasets"
 msgstr ""
 
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:17
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:22
+#: ckanext/advancedsearch/translations.py:25
+msgid "Show more options"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:27
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:32
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:18
+#: ckanext/advancedsearch/translations.py:26
+msgid "Show less options"
+msgstr ""
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
 #: ckanext/advancedsearch/templates/advanced_search/index.html:42
 #: ckanext/advancedsearch/templates/advanced_search/index.html:43
@@ -103,23 +116,19 @@ msgid "Filters"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:78
-msgid "AND"
+msgid "and"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:83
-msgid "OR"
+msgid "or"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:95
 msgid "Found {count} datasets"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:4
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:6
 msgid "Filter search"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
-msgid "Features"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
