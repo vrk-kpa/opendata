@@ -61,6 +61,7 @@ def _translations():
     _('A moment in time after which the data is no longer relevant.')
     _('A string which describes the precision of the entered time series.')
     _('eg. 2 weeks')
+    _('eg. joe@example.com')
 
     _('Copyright notice')
     _('Geographical coverage')
