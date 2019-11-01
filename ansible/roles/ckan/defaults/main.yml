@@ -17,6 +17,7 @@ ckan_plugin_order:
   - spatial_query
   - csw_harvester
   - drupal8
+  - datarequests
   - ytp_organizations
   - ytp_request
   - hierarchy_display
@@ -27,6 +28,7 @@ ckan_plugin_order:
   - ytp_drupal
   - ytp_tasks
   - ytp_dataset
+  - apis
   - ytp_spatial
   - ytp_user
   - datastore
@@ -98,6 +100,7 @@ ckan_extensions:
   - ckanext-advancedsearch
   - ckanext-rating
   - ckanext-forcetranslation
+  - ckanext-apis
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -267,6 +270,7 @@ ckan_patches:
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
   - implement_is_required_for_image_upload
   - add_group_extra_resource_db_indices
+  - side_effect_free-chained_action # https://github.com/ckan/ckan/issues/4597
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini

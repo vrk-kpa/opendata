@@ -7,17 +7,17 @@
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-18 06:12+0000\n"
+"POT-Creation-Date: 2019-11-01 10:09+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -964,7 +964,7 @@ msgstr "Datasets that have expired"
 msgid ""
 "Google analytics showing most audience locations (bot traffic is filtered "
 "out)"
-msgstr ""
+msgstr "Audience locations by country (bot traffic is filtered out)"
 
 #: ckanext/ytp/translations.py:162
 msgid "Least popular datasets"
@@ -972,7 +972,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:163
 msgid "Google analytics showing top datasets with least views"
-msgstr ""
+msgstr "Datasets with least views"
 
 #: ckanext/ytp/translations.py:164
 msgid "Most popular datasets"
@@ -980,7 +980,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:165
 msgid "Google analytics showing top datasets with most views"
-msgstr ""
+msgstr "Datasets with most views"
 
 #: ckanext/ytp/translations.py:166
 msgid "Most popular organizations"
@@ -989,7 +989,7 @@ msgstr ""
 #: ckanext/ytp/translations.py:167
 msgid ""
 "Google analytics showing most popular organizations by visited datasets"
-msgstr ""
+msgstr "Most popular organisations by dataset views"
 
 #: ckanext/ytp/translations.py:168
 msgid "Most popular resources"
@@ -997,7 +997,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:169
 msgid "Google analytics showing most downloaded resources"
-msgstr ""
+msgstr "Most downloaded resources"
 
 #: ckanext/ytp/translations.py:170
 msgid "Most popular search terms"
@@ -1005,7 +1005,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:171
 msgid "Google analytics showing most popular search terms"
-msgstr ""
+msgstr "Most popular search terms"
 
 #: ckanext/ytp/translations.py:172
 msgid "Harvester status"
@@ -1205,7 +1205,7 @@ msgstr ""
 #: ckanext/ytp/templates/group/snippets/info.html:16
 #: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:48
+#: ckanext/ytp/templates/snippets/package_item.html:58
 msgid "Deleted"
 msgstr ""
 
@@ -1297,7 +1297,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/bulk_process.html:52
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:44
+#: ckanext/ytp/templates/snippets/package_item.html:54
 msgid "Draft"
 msgstr ""
 
@@ -1611,7 +1611,7 @@ msgid "Date Created Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/snippets/package_item.html:33
+#: ckanext/ytp/templates/snippets/package_item.html:43
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr ""
@@ -1874,11 +1874,16 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resources_list2.html:17
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:18
+#, python-format
+msgid " This dataset has no data, <a href=\"%(url)s\">why not add some?</a> "
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:23
 #, python-format
 msgid ""
-" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
-"add some?</a> "
+" This dataset has no data. <a href=\"mailto:%(maintainer_email)s\">Ask the "
+"dataset's maintainer to add data.</a> "
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:4

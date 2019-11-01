@@ -1,4 +1,3 @@
-
 @import "../../../src/less/variables";
 
 .avoindata-expander {
@@ -6,13 +5,16 @@
   border-radius: 2px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
   margin: 3px;
-  cursor: pointer;
   transition: margin 700ms;
 }
 
 .avoindata-expander.open {
   background: rgb(246, 249, 252);
   margin: 15px 3px;
+}
+
+.avoindata-expander-header {
+  cursor: pointer;
 }
 
 .avoindata-expander-title {
@@ -48,7 +50,7 @@
   color: @new-layout-secondary-text-color;
 }
 
-#open-all-avoindata-expanders-link {
+#toggle-all-avoindata-expanders-link {
   text-decoration: none;
   color: @new-layout-secondary-text-color;
   cursor: pointer;

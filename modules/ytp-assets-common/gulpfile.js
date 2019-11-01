@@ -316,7 +316,9 @@ gulp.task("watch_styles", () => {
       "static_pages",
       "ckan",
       "drupal",
-      "fontsCss"
+      "drupal_copy_custom_element_styles_to_plugin",
+      "fontsCss",
+      "lint"
     )
   );
 

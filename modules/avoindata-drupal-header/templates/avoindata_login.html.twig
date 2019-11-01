@@ -13,7 +13,7 @@
 {%  else %}
   <div class="header-profile-link">
     <a href="{{ url('avoindata_header.ckanprofile') }}">
-      <span>{{ user.account.name}}</span>
+      <span>{{avoindata_drupal_username}}</span>
       <a href="{{ url('user.logout') }}">
         <span>{% trans %}Logout{% endtrans %}</span>
       </a>
