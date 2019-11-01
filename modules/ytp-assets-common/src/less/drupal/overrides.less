@@ -434,6 +434,7 @@ p:last-child,
   background-color: #f7f7f8;
 
   .avoindata-datasetlist-container {
+    background-color: #fff;
     max-width: @opendata-container-max-width;
     float: none;
     display: block;
@@ -483,7 +484,6 @@ p:last-child,
       margin-left: 0;
       margin-right: 0;
       padding-top: 40px;
-      background-color: #fff;
       overflow: auto;
 
       table {
@@ -539,9 +539,48 @@ p:last-child,
           height: 150px;
           width: 100%;
           position: absolute;
-          background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, white 75%);
+          background-image: linear-gradient(
+            rgba(255, 255, 255, 0) 0%,
+            white 75%
+          );
           bottom: 0;
         }
+      }
+    }
+
+    hr.avoindata-expander {
+      margin: 0 25px;
+      border-top: 1px solid rgb(206, 210, 213);
+    }
+
+    .avoindata-datasetlist-offer-data {
+      .login-link {
+        width: 120px;
+        height: 40px;
+        margin: 44px 50px 16px auto;
+        background: #2a6ebb;
+        line-height: 20px;
+        padding: 9px 19px;
+
+        a {
+          color: #fff;
+        }
+      }
+
+      .register-link {
+        line-height: 20px;
+        font-family: @font-family-sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        margin-right: 50px;
+        margin-left: auto;
+      }
+
+      p {
+        font-family: @font-family-sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+        color: @new-layout-primary-text-color;
       }
     }
   }
@@ -1144,7 +1183,11 @@ p:last-child,
           right: 0;
           width: 70%;
           height: 20px;
-          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 1) 50%
+          );
         }
       }
     }
