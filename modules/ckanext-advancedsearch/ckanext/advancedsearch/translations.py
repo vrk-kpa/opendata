@@ -22,3 +22,5 @@ def _translations():
     _("Updated before")
     _("Updated after")
     _("Search datasets")
+    _("Show more options")
+    _("Show less options")
