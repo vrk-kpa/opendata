@@ -6,6 +6,8 @@
 ckan.module("ytp-multiselect", function($) {
   return {
     initialize: function() {
+      let changes = false;
+
       $.proxyAll(this, /_on/);
       $.proxyAll(this, /_make/);
       $.proxy(this, /checkboxes/);
@@ -24,6 +26,9 @@ ckan.module("ytp-multiselect", function($) {
         // Otherwise
         // collapse all expanded multiselect dropdowns
         $(".ytp-multiselect.expanded").removeClass("expanded");
+        if (changes) {
+          $(".advanced-search-form").submit();
+        }
       });
 
       // Add dropdown toggle event to main button
@@ -37,7 +42,10 @@ ckan.module("ytp-multiselect", function($) {
       this.el[0]
         .querySelectorAll(`[id*=advanced-search-dropdown-${this.options.name}]`)
         .forEach((value, index, arr) => {
-          value.onchange = e => this._onToggleItem(e);
+          value.onchange = (e) => {
+            this._onToggleItem(e);
+            changes = true;
+          }
         });
     },
 
