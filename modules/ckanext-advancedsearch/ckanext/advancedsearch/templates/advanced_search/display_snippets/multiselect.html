@@ -40,14 +40,15 @@
             {% endif %}
         {% else %}
             {% set status %}
-                0 {{_('selected')}}
+                {{_('Not selected')}}
             {% endset %}
+            {% set class = 'placeholder' %}
         {% endif %}
         <!--
             TODO: This could be made more accessible for screenreader users
             by moving the focus and by providing better indicators of what happens when buttons are clicked
         -->
-        <span class="multiselect-status">{{status}}</span>
+        <span class="multiselect-status {{class}}">{{status}}</span>
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         <i class="fa fa-caret-up" aria-hidden="true"></i>
     </button>

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-01 13:05+0000\n"
+"POT-Creation-Date: 2019-11-04 13:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,8 +32,8 @@ msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:19
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:38
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:71
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:77
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:72
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:78
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -103,6 +103,12 @@ msgstr ""
 msgid "Show less options"
 msgstr ""
 
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
+#: ckanext/advancedsearch/translations.py:27
+msgid "Not selected"
+msgstr ""
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
 #: ckanext/advancedsearch/templates/advanced_search/index.html:42
 #: ckanext/advancedsearch/templates/advanced_search/index.html:43
@@ -130,13 +136,8 @@ msgstr ""
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-msgid "Choose"
-msgstr ""
-
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:20
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:35
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
 msgid "selected"
 msgstr ""
 

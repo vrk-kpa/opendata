@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-01 13:05+0000\n"
+"POT-Creation-Date: 2019-11-04 13:13+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -39,8 +39,8 @@ msgstr "Haun kohdistuminen"
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:19
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:38
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:71
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:77
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:72
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:78
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr "Kaikki"
@@ -110,6 +110,12 @@ msgstr "Näytä lisää hakuehtoja"
 msgid "Show less options"
 msgstr "Näytä vähemmän hakuehtoja"
 
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
+#: ckanext/advancedsearch/translations.py:27
+msgid "Not selected"
+msgstr "Ei valittu"
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
 #: ckanext/advancedsearch/templates/advanced_search/index.html:42
 #: ckanext/advancedsearch/templates/advanced_search/index.html:43
@@ -137,13 +143,8 @@ msgstr "Löytyi {count} tietoaineistoa"
 msgid "Filter search"
 msgstr "Rajaa hakua"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-msgid "Choose"
-msgstr "Valitse"
-
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:20
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:35
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
 msgid "selected"
 msgstr "valittu"
 

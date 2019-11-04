@@ -24,3 +24,4 @@ def _translations():
     _("Search datasets")
     _("Show more options")
     _("Show less options")
+    _("Not selected")
