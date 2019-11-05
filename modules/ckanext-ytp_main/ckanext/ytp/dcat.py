@@ -1,6 +1,6 @@
 from rdflib import URIRef, BNode, Literal
-from rdflib.namespace import RDF
-from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS
+from rdflib.namespace import RDF, XSD
+from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
 
@@ -10,6 +10,8 @@ namespaces = {
     'vcard': VCARD,
     'foaf': FOAF,
     'skos': SKOS,
+    'adms': ADMS,
+    'xsd': XSD
 }
 
 
@@ -21,6 +23,14 @@ class AvoindataDCATAPProfile(RDFProfile):
         Mandatory: dct:title, dct:description
         Recommended:  dcat:contactPoint, dcat:distribution, dcat:keyword
                       dct:publisher, dcat:theme
+        Optional: dcat:landingPage, dct:spatial, dct:accuralPeriodicity, dct:type,
+                  dct:identifier, dct:temporal, dct:issued
+
+    Supported distribution fields:
+        Mandatory: dct:accessUrl
+        Recommended: dct:description
+        Optional: dct:title, dct:downloadUrl, adms:status, dct:license, dct:format,
+                  dcat:byteSize
     '''
 
     #
@@ -65,19 +75,50 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((distribution, RDF.type, DCAT.Distribution))
             g.add((dataset_ref, DCAT.distribution, distribution))
 
+            # dct:title
             titles = (t for t in set(resource_dict.get('name_translated').values()) if t)
             for title in titles:
                 g.add((distribution, DCT.title, Literal(title)))
 
+            # dct:description
             descriptions = (d for d in set(resource_dict.get('description_translated').values()) if d)
             for description in descriptions:
                 g.add((distribution, DCT.description, Literal(description)))
 
+            # dcat:accessUrl
             g.add((distribution, DCAT.accessUrl, URIRef(resource_uri(resource_dict))))
 
+            # dcat:downloadUrl
             resource_url = resource_dict.get('url')
             if resource_url:
                 g.add((distribution, DCAT.downloadUrl, URIRef(resource_url)))
+
+            # adms:status
+            maturity = resource_dict.get('maturity')
+
+            if maturity:
+                status = Literal(maturity)
+                g.add((distribution, ADMS.status, status))
+
+            # dct:license
+            license_url = dataset_dict.get('license_url')
+
+            if license_url:
+                license_ref = URIRef(license_url)
+                g.add((distribution, DCT.license, license_ref))
+
+            # dct:format
+            file_format = resource_dict.get('format')
+
+            if file_format:
+                media_type = Literal(file_format)
+                g.add((distribution, DCT['format'], media_type))
+
+            # dcat:byteSize
+            file_size = resource_dict.get('file_size')
+
+            if file_size:
+                g.add((distribution, DCAT.byteSize, Literal(file_size)))
 
         # dcat:keyword
         keywords = set(
@@ -115,3 +156,56 @@ class AvoindataDCATAPProfile(RDFProfile):
             group_titles = (t for t in group_dict.get('title_translated', {}).values() if t)
             for title in group_titles:
                 g.add((theme, SKOS.prefLabel, Literal(title)))
+
+        # dcat:landingPage
+        external_urls = (u for u in dataset_dict.get('external_urls', []) if u)
+
+        for external_url in external_urls:
+            document = URIRef(external_url)
+            g.add((document, RDF.type, FOAF.Document))
+            g.add((dataset_ref, DCAT.landingPage, document))
+
+        # dct:spatial
+        geographical_coverages = set(g for g in dataset_dict.get('geographical_coverage', []) if g)
+
+        for geographical_coverage in geographical_coverages:
+            location = BNode()
+            g.add((dataset_ref, DCT.spatial, location))
+            g.add((location, RDF.type, DCT.Location))
+            g.add((location, DCAT.centroid, Literal(geographical_coverage)))
+
+        # dct:accuralPeriodicity
+        update_frequencies = set(u for lang in dataset_dict.get('update_frequency', {}).values() for u in lang if u)
+
+        for update_frequency in update_frequencies:
+            g.add((dataset_ref, DCT.accrualPeriodicity, Literal(update_frequency)))
+
+        # dct:type
+        content_types = set(t for lang in dataset_dict.get('content_type', {}).values() for t in lang if t)
+
+        for content_type in content_types:
+            concept = Literal(content_type)
+            g.add((dataset_ref, DCT.type, concept))
+
+        # dct:identifier
+        g.add((dataset_ref, DCT.identifier, Literal(dataset_dict.get('id'))))
+
+        # dct:temporal
+        valid_from = dataset_dict.get('valid_from')
+        valid_till = dataset_dict.get('valid_till')
+
+        if valid_from or valid_till:
+            period = BNode()
+            g.add((dataset_ref, DCT.temporal, period))
+            g.add((period, RDF.type, DCT.PeriodOfTime))
+            if valid_from:
+                g.add((period, DCAT.startDate, Literal(valid_from)))
+            if valid_till:
+                g.add((period, DCAT.endDate, Literal(valid_till)))
+
+        # dct:issued
+        date_released = dataset_dict.get('metadata_created')
+
+        if date_released:
+            issued_date = Literal(date_released)
+            g.add((dataset_ref, DCT.issued, issued_date))
