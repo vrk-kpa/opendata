@@ -204,9 +204,8 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((period, DCAT.endDate, Literal(valid_till)))
 
         # dct:issued
-        date_released = dataset_dict.get('date_released')
+        date_released = dataset_dict.get('metadata_created')
 
         if date_released:
             issued_date = Literal(date_released)
             g.add((dataset_ref, DCT.issued, issued_date))
-            g.add((issued_date, RDF.type, XSD.DateTime))
