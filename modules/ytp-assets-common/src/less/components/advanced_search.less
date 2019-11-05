@@ -162,18 +162,21 @@
   font-family: @font-family-sans-serif-semibold;
   font-size: 16px;
   font-weight: 600;
+  line-height: 28px;
   color: @new-layout-primary-text-color;
 }
 
 #filter-bar-title {
   display: inline-block;
   margin-right: 10px;
+  vertical-align: text-bottom;
 }
 
 .avoindata-filter-group-title {
   color: @new-layout-nonimportant-text-color;
   margin-left: 4px;
   margin-right: 4px;
+  vertical-align: super;
 }
 
 .avoindata-filter-group-and {
@@ -181,9 +184,9 @@
   font-family: @font-family-sans-serif;
   font-weight: normal;
   display: inline-block;
-  margin-left: 6px;
-  margin-right: 0;
-  margin-bottom: auto;
+  margin-right: 10px;
+  margin-left: -10px;
+  vertical-align: super;
 }
 
 .avoindata-filter-group-or {
@@ -192,28 +195,46 @@
   font-weight: normal;
   display: inline-block;
   margin: auto 4px;
+  vertical-align: super;
 }
 
 .avoindata-pill {
   font-family: @font-family-sans-serif-semibold;
   font-size: 16px;
   font-weight: 600;
+  line-height: 28px;
   background-color: #235a9a;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   cursor: pointer;
   border-radius: 14px;
+  height: 28px;
+  max-width: 290px;
+  vertical-align: middle;
+  text-align: center;
+
+  i {
+    opacity: 0.8;
+    font-size: 12px;
+    padding-left: 8px;
+    padding-right: 2px;
+    cursor: pointer;
+  }
 }
 
-.avoindata-pill i {
-  opacity: 0.8;
-  font-size: 12px;
-  padding-left: 8px;
-  padding-right: 2px;
-  cursor: pointer;
+.avoindata-pill.badge {
+    padding: 0 10px;
 }
 
 .placeholder,
 .ytp-input-element::placeholder {
   color: #949494;
   font-style: italic;
+}
+
+.avoindata-vertical-divider {
+  display: inline-block;
+  border: 1px solid rgb(148, 148, 148);
+  height: 28px;
+  width: 1px;
+  margin: 0 20px;
 }
