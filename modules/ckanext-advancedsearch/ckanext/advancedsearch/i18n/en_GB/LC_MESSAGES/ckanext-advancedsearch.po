@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-04 13:13+0000\n"
+"POT-Creation-Date: 2019-11-05 09:49+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -103,7 +103,7 @@ msgstr ""
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:27
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:32
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:18
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:21
 #: ckanext/advancedsearch/translations.py:26
 msgid "Show less options"
 msgstr ""
@@ -117,24 +117,64 @@ msgstr ""
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
 #: ckanext/advancedsearch/templates/advanced_search/index.html:42
 #: ckanext/advancedsearch/templates/advanced_search/index.html:43
-#: ckanext/advancedsearch/templates/advanced_search/index.html:58
+#: ckanext/advancedsearch/templates/advanced_search/index.html:57
 msgid "Advanced search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:75
+#: ckanext/advancedsearch/templates/advanced_search/index.html:74
 msgid "Filters"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:78
+#: ckanext/advancedsearch/templates/advanced_search/index.html:77
 msgid "and"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:83
+#: ckanext/advancedsearch/templates/advanced_search/index.html:82
 msgid "or"
 msgstr ""
 
+#: ckanext/advancedsearch/templates/advanced_search/index.html:94
+msgid "Relevance"
+msgstr ""
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:95
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:96
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:97
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:98
+msgid "Date Created Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:99
+msgid "Date Created Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:100
+msgid "Source"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:101
+msgid "Popular"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:105
 msgid "Found {count} datasets"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:108
+msgid "Sorting"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:116
+msgid "Go"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/search_form.html:6

@@ -56,7 +56,8 @@ class YtpAdvancedSearchController(base.BaseController):
             'q': q,
             'rows': limit,
             'start': (page - 1) * limit,
-            'extras': {}
+            'extras': {},
+            'sort': request.POST['sort']
         }
 
         if search_query_filters:
@@ -70,7 +71,7 @@ class YtpAdvancedSearchController(base.BaseController):
 
         filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target' and k != 'search_query'
                    and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
-                   and k != 'updated-after' and type(v) is list and len(v[0]) > 0}
+                   and k != 'updated-after' and k != 'sort' and type(v) is list and len(v[0]) > 0}
 
         for key, value in filters.iteritems():
             if u'all' in value:
@@ -85,8 +86,9 @@ class YtpAdvancedSearchController(base.BaseController):
             # NOTE: Can this cause security issues? Returning POST request params back to the client
             "last_query": params_to_dict(request.POST),
             "json_query": json_query,
-            "filters": filters
-        }
+            "filters": filters,
+            "sort_string": request.POST['sort']
+            }
         c.advanced_search['last_query']['page'] = page
 
         return render('advanced_search/index.html')
