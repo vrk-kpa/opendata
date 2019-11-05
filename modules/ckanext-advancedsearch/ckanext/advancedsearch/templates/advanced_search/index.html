@@ -76,7 +76,7 @@
                       {% if loop.index > 1 %}
                         <span class="avoindata-filter-group-and">{{_('and')}}</span>
                       {% endif %}
-                      <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span>
+                      <!-- <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span> -->
                       {% for value in filters[key] %}
                         {% if loop.index > 1 %}
                           <span class="avoindata-filter-group-or">{{_('or')}}</span>
