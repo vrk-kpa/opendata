@@ -6,9 +6,10 @@
 ckan.module('avoindata-utils', function($) {
   return {
     initialize: function() {
-      $.proxyAll(this, 'toggleCollapse');
-        $('.more-options-link')
-            .on('click', (e) => this.toggleCollapse(e))
+      $.proxy(this, 'toggleCollapse');
+        $('.more-options-link').on('click', (e) => this.toggleCollapse(e));
+      $.proxy(this, 'sendForm');
+        $('.avoindata-order-by').on('change', (e) => this.submitForm());
     },
     toggleCollapse: function(e) {
       if (e.target.dataset.expanded === "true" && e.target.dataset.target && !$(e.target.dataset.target).hasClass('collapsing')) {
@@ -32,6 +33,9 @@ ckan.module('avoindata-utils', function($) {
         $('span', e.currentTarget).text(this._("Show less options"));
         $('i', e.currentTarget).removeClass('fa-angle-down').addClass('fa-angle-up');
       }
+    },
+    submitForm: function(e) {
+      $('.advanced-search-form').submit();
     }
   }
 });
