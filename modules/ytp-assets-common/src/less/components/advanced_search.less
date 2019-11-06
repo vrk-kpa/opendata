@@ -164,6 +164,10 @@
   font-weight: 600;
   line-height: 28px;
   color: @new-layout-primary-text-color;
+
+  span:last-of-type {
+    margin-right: 10px;
+  }
 }
 
 #filter-bar-title {
@@ -222,7 +226,7 @@
 }
 
 .avoindata-pill.badge {
-    padding: 0 10px;
+  padding: 0 10px;
 }
 
 .placeholder,
@@ -237,4 +241,16 @@
   height: 28px;
   width: 1px;
   margin: 0 20px;
+}
+
+#clear-all-link {
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: super;
+  color: @new-layout-secondary-text-color;
+  white-space: nowrap;
+
+  &:hover {
+    color: @new-layout-secondary-text-color;
+  }
 }

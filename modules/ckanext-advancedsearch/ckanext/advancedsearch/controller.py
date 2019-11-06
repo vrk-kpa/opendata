@@ -52,12 +52,14 @@ class YtpAdvancedSearchController(base.BaseController):
                     if res:
                         search_query_filters.append(res)
 
+        sort_string = request.POST.get('sort', 'metadata_created desc')
+
         data_dict = {
             'q': q,
             'rows': limit,
             'start': (page - 1) * limit,
             'extras': {},
-            'sort': request.POST['sort']
+            'sort': sort_string
         }
 
         if search_query_filters:
@@ -87,7 +89,7 @@ class YtpAdvancedSearchController(base.BaseController):
             "last_query": params_to_dict(request.POST),
             "json_query": json_query,
             "filters": filters,
-            "sort_string": request.POST['sort']
+            "sort_string": sort_string
             }
         c.advanced_search['last_query']['page'] = page
 

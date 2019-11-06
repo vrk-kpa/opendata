@@ -8,8 +8,13 @@ ckan.module('avoindata-utils', function($) {
     initialize: function() {
       $.proxy(this, 'toggleCollapse');
         $('.more-options-link').on('click', (e) => this.toggleCollapse(e));
-      $.proxy(this, 'sendForm');
-        $('.avoindata-order-by').on('change', (e) => this.submitForm());
+      $.proxy(this, 'submitForm');
+        $('.avoindata-order-by').on('change', () => this.submitForm());
+      $.proxy(this, 'submitEmptyForm');
+      // Add 'clear all' link after the avoindata-pill if there's more than 4 avoindata-pills
+      if ($('.avoindata-pill').length > 4 && $('#clear-all-link').length == 0) {
+        $('<a id="clear-all-link" >' + this._("Clear all") + '</a>').insertAfter($('.avoindata-pill').last()).on('click', () => this.submitEmptyForm());
+      }
     },
     toggleCollapse: function(e) {
       if (e.target.dataset.expanded === "true" && e.target.dataset.target && !$(e.target.dataset.target).hasClass('collapsing')) {
@@ -34,8 +39,14 @@ ckan.module('avoindata-utils', function($) {
         $('i', e.currentTarget).removeClass('fa-angle-down').addClass('fa-angle-up');
       }
     },
-    submitForm: function(e) {
+    submitForm: function() {
       $('.advanced-search-form').submit();
+    },
+    submitEmptyForm: function() {
+      const form = document.createElement('form');
+      form.method = 'post';
+      document.body.appendChild(form);
+      form.submit();
     }
   }
 });
