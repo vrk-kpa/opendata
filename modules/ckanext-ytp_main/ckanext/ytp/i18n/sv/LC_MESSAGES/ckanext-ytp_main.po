@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-18 06:12+0000\n"
+"POT-Creation-Date: 2019-11-01 10:09+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -1205,7 +1205,7 @@ msgstr ""
 #: ckanext/ytp/templates/group/snippets/info.html:16
 #: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:48
+#: ckanext/ytp/templates/snippets/package_item.html:58
 msgid "Deleted"
 msgstr "Raderad"
 
@@ -1297,7 +1297,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/bulk_process.html:52
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:44
+#: ckanext/ytp/templates/snippets/package_item.html:54
 msgid "Draft"
 msgstr "Utkast"
 
@@ -1611,7 +1611,7 @@ msgid "Date Created Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/snippets/package_item.html:33
+#: ckanext/ytp/templates/snippets/package_item.html:43
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Popularitet"
@@ -1885,14 +1885,17 @@ msgstr ""
 msgid "Resources"
 msgstr "Resurser"
 
-#: ckanext/ytp/templates/package/snippets/resources_list2.html:17
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:18
+#, python-format
+msgid " This dataset has no data, <a href=\"%(url)s\">why not add some?</a> "
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:23
 #, python-format
 msgid ""
-" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
-"add some?</a> "
+" This dataset has no data. <a href=\"mailto:%(maintainer_email)s\">Ask the "
+"dataset's maintainer to add data.</a> "
 msgstr ""
-"<p class=\"empty\">Datasetet innehåller ingen data, <a href=\"%(url)s\">lägg"
-" till något?</a> "
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:4
 msgid "Send feedback about this dataset"
