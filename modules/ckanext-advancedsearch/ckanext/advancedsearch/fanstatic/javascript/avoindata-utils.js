@@ -43,10 +43,13 @@ ckan.module('avoindata-utils', function($) {
       $('.advanced-search-form').submit();
     },
     submitEmptyForm: function() {
-      const form = document.createElement('form');
-      form.method = 'post';
-      document.body.appendChild(form);
-      form.submit();
+      if (confirm(this._("Are you sure you want to clear all filters?"))) {
+        const form = document.createElement('form');
+        form.method = 'post';
+        document.body.appendChild(form);
+        form.submit();
+      }
+
     }
   }
 });

@@ -25,3 +25,4 @@ def _translations():
     _("Show more options")
     _("Show less options")
     _("Not selected")
+    _("Are you sure you want to clear all filters?")

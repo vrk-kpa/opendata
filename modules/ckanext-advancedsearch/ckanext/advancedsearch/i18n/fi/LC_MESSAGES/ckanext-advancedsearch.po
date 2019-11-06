@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-06 10:51+0000\n"
+"POT-Creation-Date: 2019-11-06 13:01+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -116,6 +116,11 @@ msgstr "Näytä vähemmän hakuehtoja"
 msgid "Not selected"
 msgstr "Ei valittu"
 
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:46
+#: ckanext/advancedsearch/translations.py:28
+msgid "Are you sure you want to clear all filters?"
+msgstr "Haluatko varmasti tyhjentää kaikki rajaukset?"
+
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
@@ -178,10 +183,6 @@ msgstr "Löytyi {count} tietoaineistoa"
 #: ckanext/advancedsearch/templates/advanced_search/index.html:109
 msgid "Sorting"
 msgstr "Lajittelu"
-
-#: ckanext/advancedsearch/templates/advanced_search/index.html:117
-msgid "Go"
-msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/search_form.html:6
 msgid "Filter search"
